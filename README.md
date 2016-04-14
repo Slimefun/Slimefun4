@@ -1,3 +1,9 @@
 # Slimefun 4
 Hello and welcome to Slimefun 4's GitHub Page.
 Slimefun 4 is licensed under [Creative Commons Attribution-NonCommercial 3.0 Unported](https://github.com/mrCookieSlime/Slimefun4/blob/master/LICENSE)
+## Contributions
+You are allowed, even encouraged, to contribute to Slimefun 4 by making Pull Requests.
+These Pull Requests can be Fixes, Changes or even Additions, but please keep in mind that
+if you add too much content to Slimefun 4, you should rather make an Addon for it instead.
+
+Check the license for more Info on redistributing and modifying Slimefun 4.
