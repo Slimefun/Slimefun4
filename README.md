@@ -15,9 +15,15 @@ if you add too much content to Slimefun 4, you should rather make an Addon for i
 
 Check the license for more Info on redistributing and modifying Slimefun 4.
 
-## Contributors
+### Contributors
 
 Here is a list of all people who contributed to Slimefun 4 by submitting Code.
 I will keep this list updated myself, please don't edit it yourself.
 
 * mrCookieSlime
+
+## Wiki
+
+Slimefun has a detailed and well-maintained Wiki for new Users, maybe also consider
+applying as Wiki Staff to help grow our Community and help out new Users of this Project.
+https://github.com/mrCookieSlime/Slimefun4/wiki
