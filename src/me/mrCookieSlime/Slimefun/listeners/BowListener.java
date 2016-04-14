@@ -39,8 +39,7 @@ public class BowListener implements Listener {
 			@Override
 			public void run() {
 				if (Variables.arrows.containsKey(e.getEntity().getUniqueId())) Variables.arrows.remove(e.getEntity().getUniqueId());
-				
-				handleGrapplingHook((Arrow) e.getEntity());
+				if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
 			}
 		}, 3L);
 	}
