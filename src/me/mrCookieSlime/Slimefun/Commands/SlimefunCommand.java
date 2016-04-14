@@ -1,0 +1,219 @@
+package me.mrCookieSlime.Slimefun.Commands;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.CommandHelp;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Player.Players;
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
+import me.mrCookieSlime.Slimefun.SlimefunGuide;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.GPS.Elevator;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Research;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Setup.Messages;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+public class SlimefunCommand implements CommandExecutor, Listener {
+	
+	public SlimefunStartup plugin;
+	
+	public static List<String> arguments = new ArrayList<String>();
+	public static List<String> descriptions = new ArrayList<String>();
+	public static List<String> tabs = new ArrayList<String>();
+	
+	public SlimefunCommand(SlimefunStartup plugin) {
+		this.plugin = plugin;
+		
+		arguments.add("/sf help");
+		tabs.add("help");
+		descriptions.add(Messages.local.getTranslation("commands.help").get(0));
+		
+		arguments.add("/sf cheat");
+		tabs.add("cheat");
+		descriptions.add(Messages.local.getTranslation("commands.cheat").get(0));
+		
+		arguments.add("/sf give");
+		tabs.add("give");
+		descriptions.add(Messages.local.getTranslation("commands.give").get(0));
+		
+		arguments.add("/sf research");
+		tabs.add("research");
+		descriptions.add(Messages.local.getTranslation("commands.research.desc").get(0));
+		
+		arguments.add("/sf guide");
+		tabs.add("guide");
+		descriptions.add(Messages.local.getTranslation("commands.guide").get(0));
+		
+		arguments.add("/sf stats");
+		tabs.add("stats");
+		descriptions.add(Messages.local.getTranslation("commands.stats").get(0));
+		
+		arguments.add("/sf timings");
+		tabs.add("timings");
+		descriptions.add(Messages.local.getTranslation("commands.timings").get(0));
+		
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (args.length == 0) {
+			CommandHelp.sendCommandHelp(sender, plugin, arguments, descriptions);
+		}
+		else if (args.length > 0) {
+			if (args[0].equalsIgnoreCase("cheat")) {
+				if (sender instanceof Player) {
+					if (sender.hasPermission("slimefun.cheat.items")) SlimefunGuide.openCheatMenu((Player) sender);
+					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				}
+				else Messages.local.sendTranslation(sender, "messages.only-players", true);
+			}
+			else if (args[0].equalsIgnoreCase("guide")) {
+				if (sender instanceof Player) {
+					((Player) sender).getInventory().addItem(SlimefunGuide.getItem());
+				}
+				else Messages.local.sendTranslation(sender, "messages.only-players", true);
+			}
+			else if (args[0].equalsIgnoreCase("debug_fish")) {
+				if (sender instanceof Player && sender.isOp()) {
+					((Player) sender).getInventory().addItem(SlimefunItems.DEBUG_FISH);
+				}
+				else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+			}
+			else if (args[0].equalsIgnoreCase("stats")) {
+				if (args.length > 1) {
+					if (sender.hasPermission("slimefun.stats.others") || sender instanceof ConsoleCommandSender) {
+						if (Players.isOnline(args[1])) Research.sendStats(sender, Bukkit.getPlayer(args[1]));
+						else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+					}
+					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				}
+				else if (sender instanceof Player) Research.sendStats((Player) sender, (Player) sender);
+				else Messages.local.sendTranslation(sender, "messages.only-players", true);
+			}
+			else if (args[0].equalsIgnoreCase("elevator")) {
+				if (sender instanceof Player && args.length == 4) {
+					double x = Integer.parseInt(args[1]) + 0.5D;
+					double y = Integer.parseInt(args[2]) + 0.4D;
+					double z = Integer.parseInt(args[3]) + 0.5D;
+					
+					if (BlockStorage.getBlockInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])), "floor") != null) {
+						Elevator.ignored.add(((Player) sender).getUniqueId());
+						float yaw = ((Player) sender).getEyeLocation().getYaw() + 180;
+						if (yaw > 180) yaw = -180 + (yaw - 180);
+						((Player) sender).teleport(new Location(((Player) sender).getWorld(), x, y, z, yaw, ((Player) sender).getEyeLocation().getPitch()));
+						try {
+							TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("§r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])), "floor")));
+							TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(" ");
+							
+							title.send(TitleType.TITLE, ((Player) sender));
+							subtitle.send(TitleType.SUBTITLE, ((Player) sender));
+						} catch(Exception x1) {
+							x1.printStackTrace();
+						}
+					}
+				}
+			}
+			else if (args[0].equalsIgnoreCase("timings")) {
+				if (sender.hasPermission("slimefun.command.timings")|| sender instanceof ConsoleCommandSender) {
+					SlimefunStartup.ticker.info(sender);
+				}
+				else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+			}
+			else if (args[0].equalsIgnoreCase("give")) {
+				if (args.length == 3) {
+					if (sender.hasPermission("slimefun.cheat.items") || !(sender instanceof Player)) {
+						if (Players.isOnline(args[1])) {
+							if (Slimefun.listIDs().contains(args[2].toUpperCase())) {
+								if (Players.isOnline(args[1])) {
+									Messages.local.sendTranslation(Bukkit.getPlayer(args[1]), "messages.given-item", true,new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()));
+									Bukkit.getPlayer(args[1]).getInventory().addItem(SlimefunItem.getByName(args[2].toUpperCase()).getItem());
+									Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()));
+								}
+							}
+							else Messages.local.sendTranslation(sender, "messages.not-valid-item", true, new Variable("%item%", args[2]));
+						}
+						else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+					}
+					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				}
+				else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf give <Player> <Slimefun Item>"));
+			}
+			else if (args[0].equalsIgnoreCase("research")) {
+				if (args.length == 3) {
+					if (sender.hasPermission("slimefun.cheat.researches") || !(sender instanceof Player)) {
+						if (Players.isOnline(args[1])) {
+							Player p = Bukkit.getPlayer(args[1]);
+							if (args[2].equalsIgnoreCase("all")) {
+								for (Research res: Research.list()) {
+									if (!res.hasUnlocked(p)) Messages.local.sendTranslation(sender, "messages.give-research", true, new Variable("%player%", p.getName()), new Variable("%research%", res.getName()));
+									res.unlock(p, true);
+								}
+							}
+							else if (args[2].equalsIgnoreCase("reset")) {
+								for (Research res: Research.list()) {
+									res.lock(p);
+								}
+								Messages.local.sendTranslation(p, "commands.research.reset", true, new Variable("%player%", args[1]));
+							}
+							else {
+								Research research = null;
+								for (Research res: Research.list()) {
+									if (res.getName().toUpperCase().replace(" ", "_").equalsIgnoreCase(args[2])) {
+										research = res;
+										break;
+									}
+								}
+								
+								if (research != null) {
+									research.unlock(p, true);
+									Messages.local.sendTranslation(sender, "messages.give-research", true, new Variable("%player%", p.getName()), new Variable("%research%", research.getName()));
+								}
+								else {
+									Messages.local.sendTranslation(sender, "messages.not-valid-research", true, new Variable("%research%", args[2]));
+								}
+							}
+						}
+						else {
+							Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+						}
+					}
+					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				}
+				else {
+					Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf research <Player> <all/reset/Research>"));
+				}
+			}
+			else {
+				CommandHelp.sendCommandHelp(sender, plugin, arguments, descriptions);
+			}
+		}
+		return true;
+	}
+	
+	@EventHandler
+	public void onCommand(PlayerCommandPreprocessEvent e) {
+		if (e.getMessage().equalsIgnoreCase("/help slimefun")) {
+			CommandHelp.sendCommandHelp(e.getPlayer(), plugin, arguments, descriptions);
+			e.setCancelled(true);
+		}
+	}
+}
