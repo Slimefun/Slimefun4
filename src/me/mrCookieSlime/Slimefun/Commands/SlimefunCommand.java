@@ -88,7 +88,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			}
 			else if (args[0].equalsIgnoreCase("guide")) {
 				if (sender instanceof Player) {
-					((Player) sender).getInventory().addItem(SlimefunGuide.getItem());
+					((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book")));
 				}
 				else Messages.local.sendTranslation(sender, "messages.only-players", true);
 			}

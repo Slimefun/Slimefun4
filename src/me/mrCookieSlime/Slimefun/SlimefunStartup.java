@@ -169,7 +169,7 @@ public class SlimefunStartup extends JavaPlugin {
 							Player p = e.getPlayer();
 							if (!getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
 							if (!getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
-							p.getInventory().addItem(SlimefunGuide.getItem());
+							p.getInventory().addItem(SlimefunGuide.getItem(config.getBoolean("guide.default-view-book")));
 						}
 					}
 					
