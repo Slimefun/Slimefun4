@@ -21,6 +21,7 @@ Here is a list of all people who contributed to Slimefun 4 by submitting Code.
 I will keep this list updated myself, please don't edit it yourself.
 
 * mrCookieSlime
+* John000708
 
 ## Wiki
 
