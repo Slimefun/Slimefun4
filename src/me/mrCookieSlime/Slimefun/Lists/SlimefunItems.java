@@ -227,7 +227,7 @@ public class SlimefunItems {
 	public static ItemStack TINY_URANIUM = null;
 	public static ItemStack SMALL_URANIUM = null;
 	public static ItemStack MAGNET = null;
-	public static ItemStack NECROTIC_SKULL = new CustomItem(Material.SKULL_ITEM, "&cNecrotic Skull", 1);
+	public static ItemStack NECROTIC_SKULL = new CustomItem(new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1), "&cNecrotic Skull");
 	public static ItemStack ESSENCE_OF_AFTERLIFE = new CustomItem(Material.SULPHUR, "&4Essence of Afterlife", 0);
 	public static ItemStack ELECTRO_MAGNET = null;
 	public static ItemStack HEATING_COIL = null;

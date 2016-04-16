@@ -1725,7 +1725,7 @@ public class SlimefunSetup {
 		.register(true);
 		
 		new SlimefunItem(Categories.WEAPONS, SlimefunItems.BLADE_OF_VAMPIRES, "BLADE_OF_VAMPIRES", RecipeType.MAGIC_WORKBENCH,
-		new ItemStack[] {null, new CustomItem(Material.SKULL_ITEM, 1), null, null, new CustomItem(Material.SKULL_ITEM, 1), null, null, new CustomItem(Material.BLAZE_ROD, 0), null})
+		new ItemStack[] {null, new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1), null, null, new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1), null, null, new ItemStack(Material.BLAZE_ROD), null})
 		.register(true);
 		
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.DIGITAL_MINER, "DIGITAL_MINER",
