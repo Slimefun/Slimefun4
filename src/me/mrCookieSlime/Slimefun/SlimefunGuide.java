@@ -127,45 +127,77 @@ public class SlimefunGuide {
 			int tier = 0;
 			
 			for (final Category category: Category.list()) {
-				if (tier < category.getTier()) {
-					if (survival) {
-						for (final GuideHandler handler: Slimefun.getGuideHandlers(tier)) {
-							handler.addEntry(texts, tooltips);
-							actions.add(new PlayerRunnable(2) {
+				
+				boolean locked = true;
+				
+				for (SlimefunItem item: category.getItems()) {
+					if (Slimefun.isEnabled(p, item, false)) {
+						locked = false;
+						break;
+					}
+				}
+				
+				if (locked) {
+					// Dont display that Category...
+				}
+				else {
+					if (tier < category.getTier()) {
+						if (survival) {
+							for (final GuideHandler handler: Slimefun.getGuideHandlers(tier)) {
+								handler.addEntry(texts, tooltips);
+								actions.add(new PlayerRunnable(2) {
+									
+									@Override
+									public void run(Player p) {
+										handler.run(p, survival);
+									}
+								});
+							}
+						}
+						tier = category.getTier();
+						if (tier > 1) {
+							for (int i = 0; i < 10; i++) {
+								if (texts.size() % 10 == 0) break;
+								texts.add(" ");
+								tooltips.add(null);
+								actions.add(null);
+							}
+						}
+						texts.add("§8\u21E8 §6Tier " + tier);
+						tooltips.add(null);
+						actions.add(null);
+					}
+					if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p)) {
+						StringBuilder parents = new StringBuilder("§4§lLOCKED\n\n§7In order to unlock this Category,\n§7you need to unlock all Items from\n§7the following Categories first:\n");
+						
+						for (Category parent: ((LockedCategory) category).getParents()) {
+							parents.append("\n§c" + StringUtils.formatItemName(parent.getItem(), false));
+						}
+						
+						texts.add(shorten("§c" , StringUtils.formatItemName(category.getItem(), false)));
+						tooltips.add(parents.toString());
+						actions.add(null);
+					}
+					else if (category instanceof SeasonCategory) {
+						if (((SeasonCategory) category).isUnlocked()) {
+							texts.add(shorten("§a", StringUtils.formatItemName(category.getItem(), false)));
+							tooltips.add("§eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
+							actions.add(new PlayerRunnable(1) {
 								
 								@Override
-								public void run(Player p) {
-									handler.run(p, survival);
+								public void run(final Player p) {
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+										
+										@Override
+										public void run() {
+											openCategory(p, category, survival, 1, experimental);
+										}
+									}, 1L);
 								}
 							});
 						}
 					}
-					tier = category.getTier();
-					if (tier > 1) {
-						for (int i = 0; i < 10; i++) {
-							if (texts.size() % 10 == 0) break;
-							texts.add(" ");
-							tooltips.add(null);
-							actions.add(null);
-						}
-					}
-					texts.add("§8\u21E8 §6Tier " + tier);
-					tooltips.add(null);
-					actions.add(null);
-				}
-				if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p)) {
-					StringBuilder parents = new StringBuilder("§4§lLOCKED\n\n§7In order to unlock this Category,\n§7you need to unlock all Items from\n§7the following Categories first:\n");
-					
-					for (Category parent: ((LockedCategory) category).getParents()) {
-						parents.append("\n§c" + StringUtils.formatItemName(parent.getItem(), false));
-					}
-					
-					texts.add(shorten("§c" , StringUtils.formatItemName(category.getItem(), false)));
-					tooltips.add(parents.toString());
-					actions.add(null);
-				}
-				else if (category instanceof SeasonCategory) {
-					if (((SeasonCategory) category).isUnlocked()) {
+					else {
 						texts.add(shorten("§a", StringUtils.formatItemName(category.getItem(), false)));
 						tooltips.add("§eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
 						actions.add(new PlayerRunnable(1) {
@@ -182,23 +214,6 @@ public class SlimefunGuide {
 							}
 						});
 					}
-				}
-				else {
-					texts.add(shorten("§a", StringUtils.formatItemName(category.getItem(), false)));
-					tooltips.add("§eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
-					actions.add(new PlayerRunnable(1) {
-						
-						@Override
-						public void run(final Player p) {
-							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-								
-								@Override
-								public void run() {
-									openCategory(p, category, survival, 1, experimental);
-								}
-							}, 1L);
-						}
-					});
 				}
 			}
 			
@@ -314,7 +329,19 @@ public class SlimefunGuide {
 				else {
 					final Category category = categories.get(target);
 					
-					if (!(category instanceof LockedCategory)) {
+					boolean locked = true;
+					
+					for (SlimefunItem item: category.getItems()) {
+						if (Slimefun.isEnabled(p, item, false)) {
+							locked = false;
+							break;
+						}
+					}
+					
+					if (locked) {
+						// Dont display that Category...
+					}
+					else if (!(category instanceof LockedCategory)) {
 						if (!(category instanceof SeasonCategory)) {
 							menu.addItem(index, category.getItem());
 							menu.addMenuClickHandler(index, new MenuClickHandler() {
@@ -397,75 +424,77 @@ public class SlimefunGuide {
 			
 			for (final SlimefunItem item: category.getItems()) {
 				if (Slimefun.hasPermission(p, item, false)) {
-					if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
-						texts.add(shorten("§7", StringUtils.formatItemName(item.getItem(), false)));
-						final int cost = SlimefunStartup.getResearchCfg().getInt(item.getResearch().getID() + ".cost");
-						tooltips.add(StringUtils.formatItemName(item.getItem(), false) + "\n§c§lLOCKED\n\n§7Cost: " + (p.getLevel() >= cost ? "§b": "§4") + cost + " Levels\n\n§a> Click to unlock");
-						actions.add(new PlayerRunnable(2) {
-							
-							@Override
-							public void run(final Player p) {
-								boolean canBuy = false;
-								if (p.getGameMode() == GameMode.CREATIVE) canBuy = true;
-								else if (p.getLevel() >= cost) {
-									p.setLevel(p.getLevel() - cost);
-									canBuy = true;
-								}
-								if (canBuy) {
-									Research research = item.getResearch();
-									boolean researched = research == null ? true: research.hasUnlocked(p);
-									
-									if (researched) openCategory(p, category, true, selected_page, experimental);
-									else if (!Research.isResearching(p)){
-										if (p.getGameMode() == GameMode.CREATIVE) {
-											research.unlock(p, true);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-												
-												@Override
-												public void run() {
-													openCategory(p, category, survival, selected_page, experimental);
-												}
-											}, 1L);
-										}
-										else {
-											research.unlock(p, false);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-												
-												@Override
-												public void run() {
-													openCategory(p, category, survival, selected_page, experimental);
-												}
-											}, 103L);
+					if (Slimefun.isEnabled(p, item, false)) {
+						if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
+							texts.add(shorten("§7", StringUtils.formatItemName(item.getItem(), false)));
+							final int cost = SlimefunStartup.getResearchCfg().getInt(item.getResearch().getID() + ".cost");
+							tooltips.add(StringUtils.formatItemName(item.getItem(), false) + "\n§c§lLOCKED\n\n§7Cost: " + (p.getLevel() >= cost ? "§b": "§4") + cost + " Levels\n\n§a> Click to unlock");
+							actions.add(new PlayerRunnable(2) {
+								
+								@Override
+								public void run(final Player p) {
+									boolean canBuy = false;
+									if (p.getGameMode() == GameMode.CREATIVE) canBuy = true;
+									else if (p.getLevel() >= cost) {
+										p.setLevel(p.getLevel() - cost);
+										canBuy = true;
+									}
+									if (canBuy) {
+										Research research = item.getResearch();
+										boolean researched = research == null ? true: research.hasUnlocked(p);
+										
+										if (researched) openCategory(p, category, true, selected_page, experimental);
+										else if (!Research.isResearching(p)){
+											if (p.getGameMode() == GameMode.CREATIVE) {
+												research.unlock(p, true);
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+													
+													@Override
+													public void run() {
+														openCategory(p, category, survival, selected_page, experimental);
+													}
+												}, 1L);
+											}
+											else {
+												research.unlock(p, false);
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+													
+													@Override
+													public void run() {
+														openCategory(p, category, survival, selected_page, experimental);
+													}
+												}, 103L);
+											}
 										}
 									}
+									else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
 								}
-								else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
-							}
-						});
-					}
-					else {
-						texts.add(shorten("§a", StringUtils.formatItemName(item.getItem(), false)));
-						
-						StringBuilder tooltip = new StringBuilder();
-						
-						tooltip.append(StringUtils.formatItemName(item.getItem(), false));
-						
-						if (item.getItem().hasItemMeta() && item.getItem().getItemMeta().hasLore()) {
-							for (String line: item.getItem().getItemMeta().getLore()) {
-								tooltip.append("\n" + line);
-							}
+							});
 						}
-						
-						tooltip.append("\n\n§e§oClick for more Info");
-						
-						tooltips.add(tooltip.toString());
-						actions.add(new PlayerRunnable(2) {
+						else {
+							texts.add(shorten("§a", StringUtils.formatItemName(item.getItem(), false)));
 							
-							@Override
-							public void run(Player p) {
-								displayItem(p, item.getItem(), true, experimental, 0);
+							StringBuilder tooltip = new StringBuilder();
+							
+							tooltip.append(StringUtils.formatItemName(item.getItem(), false));
+							
+							if (item.getItem().hasItemMeta() && item.getItem().getItemMeta().hasLore()) {
+								for (String line: item.getItem().getItemMeta().getLore()) {
+									tooltip.append("\n" + line);
+								}
 							}
-						});
+							
+							tooltip.append("\n\n§e§oClick for more Info");
+							
+							tooltips.add(tooltip.toString());
+							actions.add(new PlayerRunnable(2) {
+								
+								@Override
+								public void run(Player p) {
+									displayItem(p, item.getItem(), true, experimental, 0);
+								}
+							});
+						}
 					}
 				}
 				else {
@@ -591,44 +620,46 @@ public class SlimefunGuide {
 				final SlimefunItem sfitem = category.getItems().get(target);
 				if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
 					if (Slimefun.hasPermission(p, sfitem, false)) {
-						final int cost = SlimefunStartup.getResearchCfg().getInt(sfitem.getResearch().getID() + ".cost");
-						menu.addItem(index, new CustomItem(Material.STAINED_GLASS_PANE, StringUtils.formatItemName(sfitem.getItem(), false), 14, new String[] {"&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + cost + " Level"}));
-						menu.addMenuClickHandler(index, new MenuClickHandler() {
-							
-							@Override
-							public boolean onClick(final Player p, int slot, ItemStack item, ClickAction action) {
-								boolean canBuy = false;
-								if (p.getGameMode() == GameMode.CREATIVE) canBuy = true;
-								else if (p.getLevel() >= cost) {
-									p.setLevel(p.getLevel() - cost);
-									canBuy = true;
-								}
-								if (canBuy) {
-									Research research = sfitem.getResearch();
-									boolean researched = research == null ? true: research.hasUnlocked(p);
-									
-									if (researched) openCategory(p, category, true, selected_page, experimental);
-									else if (!Research.isResearching(p)){
-										if (p.getGameMode() == GameMode.CREATIVE) {
-											research.unlock(p, true);
-											openCategory(p, category, survival, selected_page, experimental);
-										}
-										else {
-											research.unlock(p, false);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-												
-												@Override
-												public void run() {
-													openCategory(p, category, survival, selected_page, experimental);
-												}
-											}, 103L);
+						if (Slimefun.isEnabled(p, sfitem, false)) {
+							final int cost = SlimefunStartup.getResearchCfg().getInt(sfitem.getResearch().getID() + ".cost");
+							menu.addItem(index, new CustomItem(Material.STAINED_GLASS_PANE, StringUtils.formatItemName(sfitem.getItem(), false), 14, new String[] {"&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + cost + " Level"}));
+							menu.addMenuClickHandler(index, new MenuClickHandler() {
+								
+								@Override
+								public boolean onClick(final Player p, int slot, ItemStack item, ClickAction action) {
+									boolean canBuy = false;
+									if (p.getGameMode() == GameMode.CREATIVE) canBuy = true;
+									else if (p.getLevel() >= cost) {
+										p.setLevel(p.getLevel() - cost);
+										canBuy = true;
+									}
+									if (canBuy) {
+										Research research = sfitem.getResearch();
+										boolean researched = research == null ? true: research.hasUnlocked(p);
+										
+										if (researched) openCategory(p, category, true, selected_page, experimental);
+										else if (!Research.isResearching(p)){
+											if (p.getGameMode() == GameMode.CREATIVE) {
+												research.unlock(p, true);
+												openCategory(p, category, survival, selected_page, experimental);
+											}
+											else {
+												research.unlock(p, false);
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+													
+													@Override
+													public void run() {
+														openCategory(p, category, survival, selected_page, experimental);
+													}
+												}, 103L);
+											}
 										}
 									}
+									else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
+									return false;
 								}
-								else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
-								return false;
-							}
-						});
+							});
+						}
 					}
 					else {
 						menu.addItem(index, new CustomItem(Material.STAINED_GLASS_PANE, StringUtils.formatItemName(sfitem.getItem(), false), 14, new String[] {"", "&rYou do not have Permission", "&rto access this Item"}));
