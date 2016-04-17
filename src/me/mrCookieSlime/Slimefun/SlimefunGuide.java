@@ -659,6 +659,7 @@ public class SlimefunGuide {
 									return false;
 								}
 							});
+							index++;
 						}
 					}
 					else {
@@ -670,6 +671,7 @@ public class SlimefunGuide {
 								return false;
 							}
 						});
+						index++;
 					}
 				}
 				else {
@@ -683,8 +685,8 @@ public class SlimefunGuide {
 							return false;
 						}
 					});
+					index++;
 				}
-				index++;
 			}
 			
 			menu.open(p);
