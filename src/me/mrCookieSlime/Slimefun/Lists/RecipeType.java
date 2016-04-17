@@ -66,6 +66,7 @@ public class RecipeType {
 	}
 	
 	public static List<ItemStack> getRecipeInputs(SlimefunItem machine) {
+		if (machine == null) return new ArrayList<ItemStack>();
 		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
 		List<ItemStack> convertable = new ArrayList<ItemStack>();
 		for (int i = 0; i < recipes.size(); i++) {
@@ -75,6 +76,7 @@ public class RecipeType {
 	}
 	
 	public static List<ItemStack[]> getRecipeInputList(SlimefunItem machine) {
+		if (machine == null) return new ArrayList<ItemStack[]>();
 		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
 		List<ItemStack[]> convertable = new ArrayList<ItemStack[]>();
 		for (int i = 0; i < recipes.size(); i++) {
