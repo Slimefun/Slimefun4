@@ -9,8 +9,6 @@ import java.util.Set;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
-import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -94,7 +92,6 @@ public class AutoEnchanter extends AContainer {
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
 				if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
 					Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
-					Set<ItemEnchantment> enchantments2 = new HashSet<ItemEnchantment>();
 					int amount = 0;
 					EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 					for (Map.Entry<Enchantment, Integer> e: meta.getStoredEnchants().entrySet()) {
@@ -103,23 +100,13 @@ public class AutoEnchanter extends AContainer {
 							enchantments.put(e.getKey(), e.getValue());
 						}
 					}
-					if (Slimefun.isEmeraldEnchantsInstalled()) {
-						for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-							if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
-								amount++;
-								enchantments2.add(enchantment);
-							}
-						}
-					}
 					
 					if (amount > 0) {
 						ItemStack newItem = target.clone();
 						for (Map.Entry<Enchantment, Integer> e: enchantments.entrySet()) {
 							newItem.addUnsafeEnchantment(e.getKey(), e.getValue());
 						}
-						for (ItemEnchantment e: enchantments2) {
-							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), e.getLevel());
-						}
+						
 						r = new MachineRecipe(75 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, new ItemStack(Material.BOOK)});
 					}
 					break slots;
