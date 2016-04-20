@@ -5,7 +5,7 @@ Hello and welcome to Slimefun 4's GitHub Page.
 Slimefun 4 is the 4th of the big Updates to the revolutionary and game-changing Plugin [Slimefun](http://dev.bukkit.org/bukkit-plugins/slimefun/)
 
 Slimefun 4 is licensed under 
-[Creative Commons Attribution-NonCommercial 3.0 Unported](https://github.com/mrCookieSlime/Slimefun4/blob/master/LICENSE)
+[Creative Commons Attribution-NonCommercial 3.0 Unported](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
 ## Contributions
 
@@ -20,11 +20,11 @@ Check the license for more Info on redistributing and modifying Slimefun 4.
 Here is a list of all people who contributed to Slimefun 4 by submitting Code.
 I will keep this list updated myself, please don't edit it yourself.
 
-* mrCookieSlime
+* TheBusyBiscuit
 * John000708
 
 ## Wiki
 
 Slimefun has a detailed and well-maintained Wiki for new Users, maybe also consider
 applying as Wiki Staff to help grow our Community and help out new Users of this Project.
-https://github.com/mrCookieSlime/Slimefun4/wiki
+https://github.com/TheBusyBiscuit/Slimefun4/wiki
