@@ -170,7 +170,12 @@ public class Slimefun {
 	}
 	
 	public static void addOfficialWikiPage(String id, String page) {
-		getItemConfig().setDefaultValue(id + ".wiki", "https://github.com/mrCookieSlime/Slimefun4/wiki/" + page);
+		if (getItemConfig().contains(id + ".wiki")) {
+			if (getItemConfig().getString(id + ".wiki").startsWith("https://github.com/TheBusyBiscuit/Slimefun4/wiki/")) {
+				getItemConfig().setValue(id + ".wiki", "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
+			}
+		}
+		else getItemConfig().setValue(id + ".wiki", "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
 	}
 	
 	public static boolean isEmeraldEnchantsInstalled() {
