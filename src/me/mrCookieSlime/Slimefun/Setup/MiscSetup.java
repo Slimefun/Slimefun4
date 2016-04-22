@@ -467,6 +467,35 @@ public class MiscSetup {
 		Slimefun.addOfficialWikiPage("CARBON", "Valuables");
 		Slimefun.addOfficialWikiPage("COMPRESSED_CARBON", "Valuables");
 		Slimefun.addOfficialWikiPage("SILICON", "Valuables");
+
+		Slimefun.addOfficialWikiPage("BUCKET_OF_OIL", "Oil");
+		Slimefun.addOfficialWikiPage("BUCKET_OF_FUEL", "Oil");
+		Slimefun.addOfficialWikiPage("URANIUM", "Radioactive-Materials");
+		Slimefun.addOfficialWikiPage("NEPTUNIUM", "Radioactive-Materials");
+		Slimefun.addOfficialWikiPage("PLUTONIUM", "Radioactive-Materials");
+		Slimefun.addOfficialWikiPage("BOOSTED_URANIUM", "Radioactive-Materials");
+		Slimefun.addOfficialWikiPage("BLISTERING_INGOT", "Radioactive-Materials");
+		Slimefun.addOfficialWikiPage("BLISTERING_INGOT_2", "Radioactive-Materials");
+		Slimefun.addOfficialWikiPage("BLISTERING_INGOT_3", "Radioactive-Materials");
+		
+		// Energy & Electricity
+		Slimefun.addOfficialWikiPage("ENERGY_REGULATOR", "Energy-Regulator");
+		Slimefun.addOfficialWikiPage("CHARGING_BENCH", "Charging-Station");
+		Slimefun.addOfficialWikiPage("SMALL_CAPACITOR", "Energy-Capacitor");
+		Slimefun.addOfficialWikiPage("MEDIUM_CAPACITOR", "Energy-Capacitor");
+		Slimefun.addOfficialWikiPage("BIG_CAPACITOR", "Energy-Capacitor");
+		Slimefun.addOfficialWikiPage("LARGE_CAPACITOR", "Energy-Capacitor");
+		Slimefun.addOfficialWikiPage("CARBONADO_EDGED_CAPACITOR", "Energy-Capacitor");
+		Slimefun.addOfficialWikiPage("ELECTRIC_FURNACE", "Electric-Furnace");
+		Slimefun.addOfficialWikiPage("ELECTRIC_FURNACE_2", "Electric-Furnace");
+		Slimefun.addOfficialWikiPage("ELECTRIC_FURNACE_3", "Electric-Furnace");
+		Slimefun.addOfficialWikiPage("ELECTRIC_GOLD_PAN", "Electric-Gold-Pan");
+		Slimefun.addOfficialWikiPage("ELECTRIC_GOLD_PAN_2", "Electric-Gold-Pan");
+		Slimefun.addOfficialWikiPage("ELECTRIC_GOLD_PAN_3", "Electric-Gold-Pan");
+		Slimefun.addOfficialWikiPage("SOLAR_GENERATOR", "Solar-Generator");
+		Slimefun.addOfficialWikiPage("SOLAR_GENERATOR_2", "Solar-Generator");
+		Slimefun.addOfficialWikiPage("SOLAR_GENERATOR_3", "Solar-Generator");
+		Slimefun.addOfficialWikiPage("SOLAR_GENERATOR_4", "Solar-Generator");
 	}
 
 }
