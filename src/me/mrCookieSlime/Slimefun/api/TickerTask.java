@@ -35,6 +35,8 @@ public class TickerTask implements Runnable {
 
 	public static Map<Location, Long> block_timings = new HashMap<Location, Long>();
 	
+	public static Map<Location, Integer> bugged_blocks = new HashMap<Location, Integer>();
+	
 	@Override
 	public void run() {
 		long timestamp = System.currentTimeMillis();
@@ -50,6 +52,8 @@ public class TickerTask implements Runnable {
 		map_machinetime.clear();
 		block_timings.clear();
 
+		Map<Location, Integer> bugged = new HashMap<Location, Integer>(bugged_blocks);
+		bugged_blocks.clear();
 		
 		Map<Location, Boolean> remove = new HashMap<Location, Boolean>(delete);
 
@@ -97,14 +101,44 @@ public class TickerTask implements Runnable {
 							}
 							tickers.add(item.getTicker());
 						} catch(Exception x) {
-							System.err.println("[Slimefun] Exception caught while ticking a Block:");
-							System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-							System.err.println("[Slimefun] Type: " + item.getName());
-							System.err.println("[Slimefun] " + BlockStorage.getBlockInfoAsJson(l));
-							System.err.println("[Slimefun] ");
-							System.err.println("[Slimefun] IGNORE THIS ERROR UNLESS IT IS SPAMMING");
-							System.err.println("[Slimefun] ");
-							x.printStackTrace();
+							
+							int errors = 0;
+							if (bugged.containsKey(l)) errors = bugged.get(l);
+							errors++;
+							
+							if (errors == 1) {
+								System.err.println("[Slimefun] Exception caught while ticking a Block:");
+								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
+								System.err.println("[Slimefun] Type: " + item.getName());
+								System.err.println("[Slimefun] " + BlockStorage.getBlockInfoAsJson(l));
+								System.err.println("[Slimefun] ");
+								System.err.println("[Slimefun] IGNORE THIS ERROR - Fixing it automatically...");
+								System.err.println("[Slimefun] ");
+								x.printStackTrace();
+								
+								bugged_blocks.put(l, errors);
+							}
+							else if (errors == 2) {
+								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
+								System.err.println("[Slimefun] 2x " + x.getClass().getName());
+								System.err.println("[Slimefun] ");
+								
+								bugged_blocks.put(l, errors);
+							}
+							else if (errors == 3) {
+								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
+								System.err.println("[Slimefun] 3x " + x.getClass().getName());
+								System.err.println("[Slimefun] ");
+								
+								bugged_blocks.put(l, errors);
+							}
+							else if (errors == 4) {
+								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
+								System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+								System.err.println("[Slimefun] ");
+								
+								BlockStorage._integrated_removeBlockInfo(l, true);
+							}
 						}
 					}
 					else skipped++;
