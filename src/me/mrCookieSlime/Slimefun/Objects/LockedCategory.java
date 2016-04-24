@@ -38,7 +38,7 @@ public class LockedCategory extends Category {
 	public boolean hasUnlocked(Player p) {
 		for (Category category: parents) {
 			for (SlimefunItem item: category.getItems()) {
-				if (Slimefun.isEnabled(p, item.getItem(), false)) {
+				if (Slimefun.isEnabled(p, item.getItem(), false) && Slimefun.hasPermission(p, item, false)) {
 					if (item.getResearch() != null) {
 						if (!item.getResearch().hasUnlocked(p)) return false;
 					}
