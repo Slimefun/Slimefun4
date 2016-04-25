@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -12,7 +15,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
@@ -108,27 +113,70 @@ public class TickerTask implements Runnable {
 							errors++;
 							
 							if (errors == 1) {
-								System.err.println("[Slimefun] Exception caught while ticking a Block:");
+								File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
+								if (file.exists()) {
+									file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2) .err");
+									if (file.exists()) {
+										file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3) .err");
+										if (file.exists()) {
+											file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4) .err");
+											if (file.exists()) {
+												file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5) .err");
+												if (file.exists()) {
+													file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6) .err");
+													if (file.exists()) {
+														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7) .err");
+														if (file.exists()) {
+															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8) .err");
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								try {
+									PrintStream stream = new PrintStream(file);
+									stream.println();
+									stream.println("Server Software: " + Bukkit.getName());
+									stream.println("  Build: " + Bukkit.getVersion());
+									stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
+									stream.println();
+									stream.println("Installed Plugins: ");
+									for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
+										if (Bukkit.getPluginManager().isPluginEnabled(p)) {
+											stream.println("  + " + p.getName() + " " + p.getDescription().getVersion());
+										}
+										else {
+											stream.println("  - " + p.getName() + " " + p.getDescription().getVersion());
+										}
+									}
+									stream.println();
+									stream.println("Ticked Block:");
+									stream.println("  World: " + l.getWorld().getName());
+									stream.println("  X: " + l.getBlockX());
+									stream.println("  Y: " + l.getBlockY());
+									stream.println("  Z: " + l.getBlockZ());
+									stream.println();
+									stream.println("Slimefun Data:");
+									stream.println("  ID: " + item.getName());
+									stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
+									stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
+									stream.println();
+									stream.println("Stacktrace:");
+									stream.println();
+									x.printStackTrace(stream);
+									
+									stream.close();
+								} catch (FileNotFoundException e) {
+									e.printStackTrace();
+								}
+								
+								System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
 								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-								System.err.println("[Slimefun] Type: " + item.getName());
-								System.err.println("[Slimefun] " + BlockStorage.getBlockInfoAsJson(l));
-								System.err.println("[Slimefun] ");
-								System.err.println("[Slimefun] IGNORE THIS ERROR - Fixing it automatically...");
-								System.err.println("[Slimefun] ");
-								x.printStackTrace();
-								
-								bugged_blocks.put(l, errors);
-							}
-							else if (errors == 2) {
-								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
-								System.err.println("[Slimefun] 2x " + x.getClass().getName());
-								System.err.println("[Slimefun] ");
-								
-								bugged_blocks.put(l, errors);
-							}
-							else if (errors == 3) {
-								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
-								System.err.println("[Slimefun] 3x " + x.getClass().getName());
+								System.err.println("[Slimefun] Saved as: ");
+								System.err.println("[Slimefun] " + file.getName());
+								System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
 								System.err.println("[Slimefun] ");
 								
 								bugged_blocks.put(l, errors);
@@ -136,6 +184,7 @@ public class TickerTask implements Runnable {
 							else if (errors == 4) {
 								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
 								System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+								System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
 								System.err.println("[Slimefun] ");
 								
 								BlockStorage._integrated_removeBlockInfo(l, true);

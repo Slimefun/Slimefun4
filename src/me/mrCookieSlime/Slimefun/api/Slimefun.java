@@ -171,7 +171,7 @@ public class Slimefun {
 	
 	public static void addOfficialWikiPage(String id, String page) {
 		if (getItemConfig().contains(id + ".wiki")) {
-			if (getItemConfig().getString(id + ".wiki").startsWith("https://github.com/TheBusyBiscuit/Slimefun4/wiki/")) {
+			if (getItemConfig().getString(id + ".wiki").startsWith("https://github.com/mrCookieSlime/Slimefun4/wiki/")) {
 				getItemConfig().setValue(id + ".wiki", "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
 			}
 		}
