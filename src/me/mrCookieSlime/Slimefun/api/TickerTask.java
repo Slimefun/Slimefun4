@@ -115,19 +115,25 @@ public class TickerTask implements Runnable {
 							if (errors == 1) {
 								File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
 								if (file.exists()) {
-									file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2) .err");
+									file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2).err");
 									if (file.exists()) {
-										file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3) .err");
+										file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3).err");
 										if (file.exists()) {
-											file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4) .err");
+											file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4).err");
 											if (file.exists()) {
-												file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5) .err");
+												file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5).err");
 												if (file.exists()) {
-													file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6) .err");
+													file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6).err");
 													if (file.exists()) {
-														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7) .err");
+														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7).err");
 														if (file.exists()) {
-															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8) .err");
+															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8).err");
+															if (file.exists()) {
+																file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(9).err");
+																if (file.exists()) {
+																	file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(10).err");
+																}
+															}
 														}
 													}
 												}
@@ -175,7 +181,7 @@ public class TickerTask implements Runnable {
 								System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
 								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
 								System.err.println("[Slimefun] Saved as: ");
-								System.err.println("[Slimefun] " + file.getName());
+								System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
 								System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
 								System.err.println("[Slimefun] ");
 								
@@ -197,6 +203,9 @@ public class TickerTask implements Runnable {
 									}
 									
 								});
+							}
+							else {
+								bugged_blocks.put(l, errors);
 							}
 						}
 					}
