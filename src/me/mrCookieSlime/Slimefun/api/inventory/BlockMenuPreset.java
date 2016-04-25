@@ -5,14 +5,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
 	
@@ -123,20 +124,15 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		}
 		
 		if (size > -1) menu.addItem(size - 1, null);
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-			
-			@Override
-			public void run() {
-				newInstance(menu, menu.getBlock());
-				for (int slot = 0; slot < 54; slot++) {
-					if (getMenuClickHandler(slot) != null) menu.addMenuClickHandler(slot, getMenuClickHandler(slot));
-				}
-				
-				menu.addMenuOpeningHandler(getMenuOpeningHandler());
-				menu.addMenuCloseHandler(getMenuCloseHandler());
-				menu.registerEvent(event);
-			}
-		});
+
+		newInstance(menu, menu.getLocation());
+		for (int slot = 0; slot < 54; slot++) {
+			if (getMenuClickHandler(slot) != null) menu.addMenuClickHandler(slot, getMenuClickHandler(slot));
+		}
+		
+		menu.addMenuOpeningHandler(getMenuOpeningHandler());
+		menu.addMenuCloseHandler(getMenuCloseHandler());
+		menu.registerEvent(event);
 	}
 	
 	public void clone(UniversalBlockMenu menu) {
@@ -158,6 +154,14 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
 	public String getID() {
 		return id;
+	}
+	
+	public void newInstance(final BlockMenu menu, final Location l) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+			public void run() {
+				newInstance(menu, l.getBlock());
+			}
+		});
 	}
 
 }
