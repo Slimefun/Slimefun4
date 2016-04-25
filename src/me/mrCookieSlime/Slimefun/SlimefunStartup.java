@@ -48,7 +48,6 @@ import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
 import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
 import me.mrCookieSlime.Slimefun.listeners.BlockListener;
 import me.mrCookieSlime.Slimefun.listeners.BowListener;
-import me.mrCookieSlime.Slimefun.listeners.ClearLaggIntegration;
 import me.mrCookieSlime.Slimefun.listeners.CoolerListener;
 import me.mrCookieSlime.Slimefun.listeners.DamageListener;
 import me.mrCookieSlime.Slimefun.listeners.FurnaceListener;
@@ -290,7 +289,7 @@ public class SlimefunStartup extends JavaPlugin {
 			
 			clearlag = getServer().getPluginManager().isPluginEnabled("ClearLag");
 			
-			if (clearlag) new ClearLaggIntegration(this);
+		
 			
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 		}

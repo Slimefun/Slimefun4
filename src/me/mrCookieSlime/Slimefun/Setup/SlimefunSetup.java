@@ -573,12 +573,12 @@ public class SlimefunSetup {
 		
 		new SlimefunArmorPiece(Categories.MAGIC_ARMOR, SlimefunItems.SLIME_LEGGINGS, "SLIME_LEGGINGS", RecipeType.ARMOR_FORGE,
 		new ItemStack[] {new ItemStack(Material.SLIME_BALL), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT)},
-		new PotionEffect[] {new PotionEffect(PotionEffectType.SPEED, 300, 2)})
+		new PotionEffect[] {new PotionEffect(PotionEffectType.SPEED, 300, 1)})
 		.register(true);
 		
 		new SlimefunArmorPiece(Categories.MAGIC_ARMOR, SlimefunItems.SLIME_BOOTS, "SLIME_BOOTS", RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT)},
-		new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)})
+		new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 2)})
 		.register(true);
 		
 		new SlimefunItem(Categories.WEAPONS, SlimefunItems.SWORD_OF_BEHEADING, "SWORD_OF_BEHEADING", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1716,12 +1716,12 @@ public class SlimefunSetup {
 				
 		new SlimefunArmorPiece(Categories.MAGIC_ARMOR, SlimefunItems.SLIME_LEGGINGS_STEEL, "SLIME_STEEL_LEGGINGS", RecipeType.ARMOR_FORGE,
 		new ItemStack[] {new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL)},
-		new PotionEffect[] {new PotionEffect(PotionEffectType.SPEED, 300, 2)})
+		new PotionEffect[] {new PotionEffect(PotionEffectType.SPEED, 300, 1)})
 		.register(true);
 		
 		new SlimefunArmorPiece(Categories.MAGIC_ARMOR, SlimefunItems.SLIME_BOOTS_STEEL, "SLIME_STEEL_BOOTS", RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL)},
-		new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)})
+		new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 2)})
 		.register(true);
 		
 		new SlimefunItem(Categories.WEAPONS, SlimefunItems.BLADE_OF_VAMPIRES, "BLADE_OF_VAMPIRES", RecipeType.MAGIC_WORKBENCH,

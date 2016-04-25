@@ -9,8 +9,7 @@ import java.util.Set;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
-import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -89,7 +88,6 @@ public class AutoDisenchanter extends AContainer {
 		else {
 			MachineRecipe r = null;
 			Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
-			Set<ItemEnchantment> enchantments2 = new HashSet<ItemEnchantment>();
 			slots:
 			for (int slot: getInputSlots()) {
 				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
@@ -101,12 +99,7 @@ public class AutoDisenchanter extends AContainer {
 						enchantments.put(e.getKey(), e.getValue());
 						amount++;
 					}
-					if (Slimefun.isEmeraldEnchantsInstalled()) {
-						for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-							amount++;
-							enchantments2.add(enchantment);
-						}
-					}
+					
 					if (amount > 0) {
 						ItemStack newItem = item.clone();
 						ItemStack book = target.clone();
@@ -119,10 +112,7 @@ public class AutoDisenchanter extends AContainer {
 						}
 						book.setItemMeta(meta);
 						
-						for (ItemEnchantment e: enchantments2) {
-							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, e.getEnchantment(), e.getLevel());
-							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), 0);
-						}
+						
 						r = new MachineRecipe(100 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, book});
 						break slots;
 					}

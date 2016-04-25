@@ -65,6 +65,8 @@ public class Talisman extends SlimefunItem {
 	public int getChance()				{		return this.chance;		}
 
 	public static boolean checkFor(Event e, SlimefunItem talisman) {
+		return false;
+		/*
 		if (talisman != null) {
 			if (talisman instanceof Talisman) {
 				boolean message = ((Talisman) talisman).getSuffix().equalsIgnoreCase("") ? false: true;
@@ -121,7 +123,7 @@ public class Talisman extends SlimefunItem {
 			}
 			else return false;
 		}
-		else return false;
+		else return false; */
 	}
 
 	public ItemStack upgrade() {
