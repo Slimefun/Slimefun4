@@ -148,7 +148,7 @@ public class TickerTask implements Runnable {
 									stream.println("  Build: " + Bukkit.getVersion());
 									stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
 									stream.println();
-									stream.println("Installed Plugins: ");
+									stream.println("Installed Plugins (" + Bukkit.getPluginManager().getPlugins().length + ")");
 									for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
 										if (Bukkit.getPluginManager().isPluginEnabled(p)) {
 											stream.println("  + " + p.getName() + " " + p.getDescription().getVersion());

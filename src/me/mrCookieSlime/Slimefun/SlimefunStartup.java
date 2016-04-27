@@ -13,6 +13,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.CSCoreLibSetup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
 import me.mrCookieSlime.Slimefun.Commands.SlimefunCommand;
@@ -92,6 +93,22 @@ public class SlimefunStartup extends JavaPlugin {
 	public void onEnable() {
 		CSCoreLibLoader loader = new CSCoreLibLoader(this);
 		if (loader.load()) {
+			
+			if (!ReflectionUtils.getVersion().startsWith("v1_9_")) {
+				System.err.println("### Slimefun failed to load!");
+				System.err.println("###");
+				System.err.println("### You are using the wrong Version of Minecraft!!!");
+				System.err.println("###");
+				System.err.println("### You are using Minecraft " + ReflectionUtils.getVersion());
+				System.err.println("### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
+				System.err.println("### Minecraft 1.9.X");
+				System.err.println("###");
+				System.err.println("### Please use an older Version of Slimefun and disable auto-updating");
+				System.err.println("### or consider updating your Server Software.");
+				getServer().getPluginManager().disablePlugin(this);
+				return;
+			}
+			
 			instance = this;
 			System.out.println("[Slimefun] Loading Files...");
 			Files.cleanup();
