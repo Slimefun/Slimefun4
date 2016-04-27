@@ -28,6 +28,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
@@ -223,7 +224,7 @@ public class ItemListener implements Listener {
 					PlayerInventory.consumeItemInHand(p);
 					e.setItem(new ItemStack(Material.APPLE));
 				}
-				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) p.sendMessage(ChatColor.translateAlternateColors('&', Messages.local.getTranslation("messages.fortune-cookie").get(CSCoreLib.randomizer().nextInt(Messages.local.getTranslation("messages.fortune-cookie").size()))));
+				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.local.getTranslation("messages.fortune-cookie").get(CSCoreLib.randomizer().nextInt(Messages.local.getTranslation("messages.fortune-cookie").size()))));
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BEEF_JERKY, true)) p.setSaturation((Integer) Slimefun.getItemValue("BEEF_JERKY", "Saturation"));
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MEDICINE, true)) {
 					if (p.hasPotionEffect(PotionEffectType.POISON)) p.removePotionEffect(PotionEffectType.POISON);
