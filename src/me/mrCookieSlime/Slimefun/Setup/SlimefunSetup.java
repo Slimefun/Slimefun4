@@ -612,11 +612,10 @@ public class SlimefunSetup {
 						else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY"))) drops.add(new ItemStack(Material.CLAY_BALL));
 						else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT"))) drops.add(new ItemStack(Material.FLINT));
 						
-						BlockBreakEvent event = new BlockBreakEvent(e.getClickedBlock(), p);
-						Bukkit.getPluginManager().callEvent(event);
-						if (!event.isCancelled()) {
-							e.getClickedBlock().setType(Material.AIR);
+						
+						if (CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), e.getClickedBlock(), true)) {
 							e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, e.getClickedBlock().getType());
+							e.getClickedBlock().setType(Material.AIR);
 							for (ItemStack drop: drops) {
 								e.getClickedBlock().getWorld().dropItemNaturally(e.getClickedBlock().getLocation(), drop);
 							}
