@@ -85,41 +85,41 @@ public class ItemListener implements Listener {
 					}
 					else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
 						p.sendMessage(" ");
-						p.sendMessage("Â§d" + e.getClickedBlock().getType() + ":" + e.getClickedBlock().getData() + " Â§e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
-						p.sendMessage("Â§dID: " + "Â§e" + BlockStorage.checkID(e.getClickedBlock()));
+						p.sendMessage("§d" + e.getClickedBlock().getType() + ":" + e.getClickedBlock().getData() + " §e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
+						p.sendMessage("§dID: " + "§e" + BlockStorage.checkID(e.getClickedBlock()));
 						if (e.getClickedBlock().getState() instanceof Skull) {
-							p.sendMessage("Â§dSkull: " + "Â§2\u2714");
-							p.sendMessage("  Â§dRotation: Â§e" + ((Skull) e.getClickedBlock().getState()).getRotation().toString());
+							p.sendMessage("§dSkull: " + "§2\u2714");
+							p.sendMessage("  §dRotation: §e" + ((Skull) e.getClickedBlock().getState()).getRotation().toString());
 						}
 						if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
-							p.sendMessage("Â§dInventory: " + "Â§2\u2714");
+							p.sendMessage("§dInventory: " + "§2\u2714");
 						}
 						else {
-							p.sendMessage("Â§dInventory: " + "Â§4\u2718");
+							p.sendMessage("§dInventory: " + "§4\u2718");
 						}
 						if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
-							p.sendMessage("Â§dTicking: " + "Â§2\u2714");
-							p.sendMessage("  Â§dAsync: Â§e" + (BlockStorage.check(e.getClickedBlock()).getTicker().isSynchronized() ? "Â§4\u2718": "Â§2\u2714"));
-							p.sendMessage("  Â§dTimings: Â§e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms");
-							p.sendMessage("  Â§dTotal Timings: Â§e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms");
-							p.sendMessage("  Â§dChunk Timings: Â§e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms");
+							p.sendMessage("§dTicking: " + "§2\u2714");
+							p.sendMessage("  §dAsync: §e" + (BlockStorage.check(e.getClickedBlock()).getTicker().isSynchronized() ? "§4\u2718": "§2\u2714"));
+							p.sendMessage("  §dTimings: §e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms");
+							p.sendMessage("  §dTotal Timings: §e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms");
+							p.sendMessage("  §dChunk Timings: §e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms");
 						}
 						else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
-							p.sendMessage("Â§dTicking: " + "Â§b~ Â§3(Indirect)");
-							p.sendMessage("  Â§dTimings: Â§e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms");
-							p.sendMessage("  Â§dChunk Timings: Â§e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms");
+							p.sendMessage("§dTicking: " + "§b~ §3(Indirect)");
+							p.sendMessage("  §dTimings: §e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms");
+							p.sendMessage("  §dChunk Timings: §e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms");
 						}
 						else {
-							p.sendMessage("Â§dTicking: " + "Â§4\u2718");
+							p.sendMessage("§dTicking: " + "§4\u2718");
 						}
 						if (ChargableBlock.isChargable(e.getClickedBlock())) {
-							p.sendMessage("Â§dChargable: " + "Â§2\u2714");
-							p.sendMessage("  Â§dEnergy: Â§e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock()));
+							p.sendMessage("§dChargable: " + "§2\u2714");
+							p.sendMessage("  §dEnergy: §e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock()));
 						}
 						else {
-							p.sendMessage("Â§dChargable: " + "Â§4\u2718");
+							p.sendMessage("§dChargable: " + "§4\u2718");
 						}
-						p.sendMessage("Â§6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock()));
+						p.sendMessage("§6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock()));
 						p.sendMessage(" ");
 					}
 					break;

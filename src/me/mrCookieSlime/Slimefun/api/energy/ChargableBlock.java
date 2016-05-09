@@ -134,17 +134,28 @@ public class ChargableBlock {
 	}
 	
 	public static int addCharge(Location l, int charge) {
-		int space = getMaxCharge(l) - getCharge(l);
+		int energy = getCharge(l);
+		int space = getMaxCharge(l) - energy;
 		int rest = charge;
-		if (space > 0) {
+		if (space > 0 && charge > 0) {
 			if (space > charge) {
-				setCharge(l, getCharge(l) + charge);
+				setCharge(l, energy + charge);
 				rest = 0;
 			}
 			else {
 				rest = charge - space;
 				setCharge(l, getMaxCharge(l));
 			}
+			if (capacitors.contains(BlockStorage.checkID(l))) {
+				try {
+					updateTexture(l);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		else if (charge < 0 && energy >= -charge) {
+			setCharge(l, energy + charge);
 			if (capacitors.contains(BlockStorage.checkID(l))) {
 				try {
 					updateTexture(l);

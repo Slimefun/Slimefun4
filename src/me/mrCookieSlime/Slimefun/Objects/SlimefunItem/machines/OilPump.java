@@ -101,12 +101,10 @@ public abstract class OilPump extends AContainer {
 				
 				BlockStorage.getInventory(b).replaceExistingItem(22, item);
 				
-				if (ChargableBlock.isChargable(b)) {
-					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-					ChargableBlock.addCharge(b, -getEnergyConsumption());
-					progress.put(b, timeleft - 1);
-				}
-				else progress.put(b, timeleft - 1);
+				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+				ChargableBlock.addCharge(b, -getEnergyConsumption());
+				
+				progress.put(b, timeleft - 1);
 			}
 			else {
 				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
