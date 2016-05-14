@@ -103,7 +103,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 	}
 	
 	public int[] getInputSlots() {
-		return new int[] {10, 11, 19, 20, 28, 29};
+		return new int[] {19, 20};
 	}
 	
 	public int[] getOutputSlots() {
