@@ -22,7 +22,11 @@ public class ArmorStandFactory {
 		try {
 			Object nmsEntity = armorstand.getClass().getMethod("getHandle").invoke(armorstand);
             if (ReflectionUtils.getVersion().startsWith("v1_9_")) {
-            	ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
+            	try {
+            		ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
+            	} catch(IllegalArgumentException x) {
+            		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            	}
             }
             else {
             	Method method = nmsEntity.getClass().getMethod("getNBTTag");
@@ -59,7 +63,11 @@ public class ArmorStandFactory {
 		try {
 			Object nmsEntity = armorstand.getClass().getMethod("getHandle").invoke(armorstand);
             if (ReflectionUtils.getVersion().startsWith("v1_9_")) {
-            	ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
+            	try {
+            		ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
+            	} catch(IllegalArgumentException x) {
+            		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            	}
             }
             else {
             	Method method = nmsEntity.getClass().getMethod("getNBTTag");
@@ -94,7 +102,11 @@ public class ArmorStandFactory {
 		try {
 			Object nmsEntity = armorstand.getClass().getMethod("getHandle").invoke(armorstand);
             if (ReflectionUtils.getVersion().startsWith("v1_9_")) {
-            	ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
+            	try {
+            		ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
+            	} catch(IllegalArgumentException x) {
+            		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            	}
             }
             else {
             	Method method = nmsEntity.getClass().getMethod("getNBTTag");

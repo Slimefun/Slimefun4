@@ -4,10 +4,31 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.WorldLoadEvent;
+import org.bukkit.event.world.WorldUnloadEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
@@ -58,21 +79,6 @@ import me.mrCookieSlime.Slimefun.listeners.ItemListener;
 import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
-
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.world.WorldLoadEvent;
-import org.bukkit.event.world.WorldUnloadEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class SlimefunStartup extends JavaPlugin {
 	
@@ -327,6 +333,27 @@ public class SlimefunStartup extends JavaPlugin {
 			BlockStorage storage = BlockStorage.getStorage(world);
 			if (storage != null) storage.save(true);
 			else System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
+		}
+		
+		File folder = new File("data-storage/Slimefun/block-backups");
+		List<File> backups = Arrays.asList(folder.listFiles());
+		if (backups.size() > 20) {
+			Collections.sort(backups, new Comparator<File>() {
+
+				@Override
+				public int compare(File f1, File f2) {
+					try {
+						return (int) (new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f1.getName().replace(".zip", "")).getTime() - new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f2.getName().replace(".zip", "")).getTime());
+					} catch (ParseException e) {
+						return 0;
+					}
+				}
+			});
+			
+			while (backups.size() > 20) {
+				backups.get(0).delete();
+				backups.remove(0);
+			}
 		}
 		
 		File file = new File("data-storage/Slimefun/block-backups/" + Clock.format(new Date()) + ".zip");

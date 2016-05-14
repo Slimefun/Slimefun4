@@ -315,19 +315,40 @@ public class CargoNet {
 							}
 							else if (storage.hasInventory(target.getLocation())) {
 								BlockMenu menu = BlockStorage.getInventory(target.getLocation());
-								for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
-									ItemStack is = menu.getItemInSlot(slot);
-									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
-										boolean add = true;
-										for (StoredItem item: items) {
-											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
-												add = false;
-												item.add(is.getAmount());
+								if (BlockStorage.checkID(target.getLocation()).startsWith("BARREL_") && BlockStorage.getBlockInfo(target.getLocation(), "storedItems") != null) {
+									int stored = Integer.valueOf(BlockStorage.getBlockInfo(target.getLocation(), "storedItems"));
+									for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+										ItemStack is = menu.getItemInSlot(slot);
+										if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
+											boolean add = true;
+											for (StoredItem item: items) {
+												if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
+													add = false;
+													item.add(is.getAmount() + stored);
+												}
+											}
+											
+											if (add) {
+												items.add(new StoredItem(new CustomItem(is, 1), is.getAmount() + stored));
 											}
 										}
-										
-										if (add) {
-											items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
+									}
+								}
+								else {
+									for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+										ItemStack is = menu.getItemInSlot(slot);
+										if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
+											boolean add = true;
+											for (StoredItem item: items) {
+												if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
+													add = false;
+													item.add(is.getAmount());
+												}
+											}
+											
+											if (add) {
+												items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
+											}
 										}
 									}
 								}
