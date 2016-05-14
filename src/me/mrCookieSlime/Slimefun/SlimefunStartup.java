@@ -350,9 +350,8 @@ public class SlimefunStartup extends JavaPlugin {
 				}
 			});
 			
-			while (backups.size() > 20) {
-				backups.get(0).delete();
-				backups.remove(0);
+			for (int i = backups.size() - 20; i > 0; i--) {
+				backups.get(i).delete();
 			}
 		}
 		
