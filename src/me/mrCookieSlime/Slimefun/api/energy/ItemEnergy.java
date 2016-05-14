@@ -3,12 +3,12 @@ package me.mrCookieSlime.Slimefun.api.energy;
 import java.math.BigDecimal;
 import java.util.List;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-import net.minecraft.server.v1_9_R1.Material;
-
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 
 public class ItemEnergy {
 	
