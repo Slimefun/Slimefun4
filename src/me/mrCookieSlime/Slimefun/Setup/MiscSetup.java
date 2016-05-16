@@ -496,6 +496,8 @@ public class MiscSetup {
 		Slimefun.addOfficialWikiPage("SOLAR_GENERATOR_2", "Solar-Generator");
 		Slimefun.addOfficialWikiPage("SOLAR_GENERATOR_3", "Solar-Generator");
 		Slimefun.addOfficialWikiPage("SOLAR_GENERATOR_4", "Solar-Generator");
+		Slimefun.addOfficialWikiPage("AUTO_ENCHANTER", "Auto-Enchanter");
+		Slimefun.addOfficialWikiPage("AUTO_DISENCHANTER", "Auto-Disenchanter");
 	}
 
 }
