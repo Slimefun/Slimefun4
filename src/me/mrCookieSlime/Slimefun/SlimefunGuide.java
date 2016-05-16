@@ -618,9 +618,9 @@ public class SlimefunGuide {
 				int target = category_index + i;
 				if (target >= category.getItems().size()) break;
 				final SlimefunItem sfitem = category.getItems().get(target);
-				if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
-					if (Slimefun.hasPermission(p, sfitem, false)) {
-						if (Slimefun.isEnabled(p, sfitem, false)) {
+				if (Slimefun.isEnabled(p, sfitem, false)) {
+					if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
+						if (Slimefun.hasPermission(p, sfitem, false)) {
 							final int cost = SlimefunStartup.getResearchCfg().getInt(sfitem.getResearch().getID() + ".cost");
 							menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + cost + " Level"}));
 							menu.addMenuClickHandler(index, new MenuClickHandler() {
@@ -661,31 +661,31 @@ public class SlimefunGuide {
 							});
 							index++;
 						}
+						else {
+							menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"", "&rYou do not have Permission", "&rto access this Item"}));
+							menu.addMenuClickHandler(index, new MenuClickHandler() {
+								
+								@Override
+								public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+									return false;
+								}
+							});
+							index++;
+						}
 					}
 					else {
-						menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"", "&rYou do not have Permission", "&rto access this Item"}));
+						menu.addItem(index, sfitem.getItem());
 						menu.addMenuClickHandler(index, new MenuClickHandler() {
 							
 							@Override
-							public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+							public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
+								if (survival) displayItem(p, item, true, experimental, 0);
+								else p.getInventory().addItem(item);
 								return false;
 							}
 						});
 						index++;
 					}
-				}
-				else {
-					menu.addItem(index, sfitem.getItem());
-					menu.addMenuClickHandler(index, new MenuClickHandler() {
-						
-						@Override
-						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-							if (survival) displayItem(p, item, true, experimental, 0);
-							else p.getInventory().addItem(item);
-							return false;
-						}
-					});
-					index++;
 				}
 			}
 			
