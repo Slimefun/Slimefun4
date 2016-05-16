@@ -319,10 +319,10 @@ public class SlimefunGuide {
 			});
 			
 			int category_index = category_size * (selected_page - 1);
-			for (int i = 0; i < category_size; i++) {
-				int target = category_index + i;
-				if (target >= (categories.size() + handlers.size())) break;
-				else if (target >= categories.size()) {
+			int target = category_index - 1;
+			while (index < category_size && target < (categories.size() + handlers.size())) {
+				target++;
+				if (target >= categories.size()) {
 					if (!survival) break;
 					index = handlers.get(target - categories.size()).next(p, index, menu);
 				}
