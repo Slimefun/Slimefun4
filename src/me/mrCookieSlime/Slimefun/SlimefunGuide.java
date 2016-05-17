@@ -271,7 +271,8 @@ public class SlimefunGuide {
 			List<GuideHandler> handlers = Slimefun.guide_handlers2;
 			
 			int index = 9;
-			final int pages = ((categories.size() + handlers.size()) / category_size) + 1;
+			int pages = 1;
+			
 			for (int i = 0; i < 9; i++) {
 				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
@@ -294,34 +295,16 @@ public class SlimefunGuide {
 				});
 			}
 			
-			menu.addItem(46, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&r\u21E6 Previous Page", "", "&7(" + selected_page + " / " + pages + ")"));
-			menu.addMenuClickHandler(46, new MenuClickHandler() {
-				
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					int next = selected_page - 1;
-					if (next < 1) next = pages;
-					if (next != selected_page) openMainMenu(p, survival, experimental, next);
-					return false;
-				}
-			});
+			int target = (category_size * (selected_page - 1)) - 1;
 			
-			menu.addItem(52, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&rNext Page \u21E8", "", "&7(" + selected_page + " / " + pages + ")"));
-			menu.addMenuClickHandler(52, new MenuClickHandler() {
-				
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					int next = selected_page + 1;
-					if (next > pages) next = 1;
-					if (next != selected_page) openMainMenu(p, survival, experimental, next);
-					return false;
+			while (target < (categories.size() + handlers.size() - 1)) {
+				if (index >= category_size + 9) {
+					pages++;
+					break;
 				}
-			});
-			
-			int category_index = category_size * (selected_page - 1);
-			int target = category_index - 1;
-			while (index < category_size && target < (categories.size() + handlers.size() - 2)) {
+				
 				target++;
+				
 				if (target >= categories.size()) {
 					if (!survival) break;
 					index = handlers.get(target - categories.size()).next(p, index, menu);
@@ -402,6 +385,32 @@ public class SlimefunGuide {
 					}
 				}
 			}
+
+			final int finalPages = pages;
+			
+			menu.addItem(46, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&r\u21E6 Previous Page", "", "&7(" + selected_page + " / " + pages + ")"));
+			menu.addMenuClickHandler(46, new MenuClickHandler() {
+				
+				@Override
+				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+					int next = selected_page - 1;
+					if (next < 1) next = finalPages;
+					if (next != selected_page) openMainMenu(p, survival, experimental, next);
+					return false;
+				}
+			});
+			
+			menu.addItem(52, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&rNext Page \u21E8", "", "&7(" + selected_page + " / " + pages + ")"));
+			menu.addMenuClickHandler(52, new MenuClickHandler() {
+				
+				@Override
+				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+					int next = selected_page + 1;
+					if (next > finalPages) next = 1;
+					if (next != selected_page) openMainMenu(p, survival, experimental, next);
+					return false;
+				}
+			});
 			
 			menu.open(p);
 		}
