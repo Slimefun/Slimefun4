@@ -320,7 +320,7 @@ public class SlimefunGuide {
 			
 			int category_index = category_size * (selected_page - 1);
 			int target = category_index - 1;
-			while (index < category_size && target < (categories.size() + handlers.size())) {
+			while (index < category_size && target < (categories.size() + handlers.size() - 2)) {
 				target++;
 				if (target >= categories.size()) {
 					if (!survival) break;
