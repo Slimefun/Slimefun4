@@ -1353,7 +1353,7 @@ public class SlimefunSetup {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.AUTO_SMELT_PICKAXE, true)) {
 					if (e.getBlock().getType().equals(Material.SKULL)) return true;
 					
-					int j = 0;
+					int j = -1;
 					for (int i = 0; i < e.getBlock().getDrops().size(); i++) {
 						if (((List<ItemStack>) e.getBlock().getDrops()).get(i) != null) {
 							j++;
