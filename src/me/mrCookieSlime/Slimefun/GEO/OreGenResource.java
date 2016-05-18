@@ -13,5 +13,8 @@ public interface OreGenResource {
 	
 	// For the GEO-Scanner
 	public ItemStack getIcon();
+	
+	// Measurement Unit e.g. "Buckets"
+	public String getMeasurementUnit();
 
 }

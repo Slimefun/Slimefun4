@@ -243,6 +243,11 @@ public class SlimefunStartup extends JavaPlugin {
 				public ItemStack getIcon() {
 					return SlimefunItems.BUCKET_OF_OIL.clone();
 				}
+
+				@Override
+				public String getMeasurementUnit() {
+					return "Buckets";
+				}
 			});
 			
 			new ArmorListener(this);

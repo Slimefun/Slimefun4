@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.GEO;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,10 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class OreGenSystem {
 	
 	public static Map<String, OreGenResource> map = new HashMap<String, OreGenResource>();
+	
+	public static Collection<OreGenResource> listResources() {
+		return map.values();
+	}
 	
 	public static void registerResource(OreGenResource resource) {
 		map.put(resource.getName(), resource);
