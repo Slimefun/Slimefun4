@@ -28,6 +28,9 @@ permissions:
   slimefun.command.timings:
     description: Allows you to do /sf timings
     default: op
+  slimefun.command.teleporter:
+    description: Allows you to do /sf teleporter
+    default: op
   slimefun.android.bypass:
     description: Allows you to edit other Players Androids
     default: op

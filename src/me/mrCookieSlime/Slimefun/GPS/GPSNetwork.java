@@ -6,20 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper.ChatHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.GEO.OilFields;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -31,6 +17,22 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuCloseHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper.ChatHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import me.mrCookieSlime.Slimefun.GEO.OilFields;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Setup.Messages;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class GPSNetwork {
 	
@@ -295,6 +297,73 @@ public class GPSNetwork {
 				return false;
 			}
 		});
+		
+		menu.open(p);
+	}
+	
+	private final static int[] teleporter_border = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+	private final static int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
+	
+	@SuppressWarnings("deprecation")
+	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) throws Exception {
+		if (TeleportationSequence.players.contains(p.getUniqueId())) return;
+		
+		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
+		TeleportationSequence.players.add(p.getUniqueId());
+		
+		ChestMenu menu = new ChestMenu("§3Teleporter");
+		
+		menu.addMenuCloseHandler(new MenuCloseHandler() {
+			
+			@Override
+			public void onClose(Player p) {
+				TeleportationSequence.players.remove(p.getUniqueId());
+			}
+		});
+		
+		for (int slot: teleporter_border) {
+			menu.addItem(slot, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
+			new MenuClickHandler() {
+
+				@Override
+				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+					return false;
+				}
+						
+			});
+		}
+		
+		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "§7Waypoint Overview &e(Select a Destination)"));
+		menu.addMenuClickHandler(4, new MenuClickHandler() {
+			
+			@Override
+			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+				return false;
+			}
+		});
+		
+		final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
+		int index = 0;
+		for (final Map.Entry<String, Location> entry: Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
+			if (index >= teleporter_inventory.length) break;
+			int slot = teleporter_inventory[index];
+			
+			final Location l = entry.getValue();
+			ItemStack globe = getPlanet(entry);
+			
+			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "§8\u21E8 §7World: §r" + l.getWorld().getName(), "§8\u21E8 §7X: §r" + l.getX(), "§8\u21E8 §7Y: §r" + l.getY(), "§8\u21E8 §7Z: §r" + l.getZ(), "§8\u21E8 §7Estimated Teleportation Time: §r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "§8\u21E8 §cClick to select"));
+			menu.addMenuClickHandler(slot, new MenuClickHandler() {
+				
+				@Override
+				public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+					p.closeInventory();
+					TeleportationSequence.start(p.getUniqueId(), complexity, source, l, false);
+					return false;
+				}
+			});
+			
+			index++;
+		}
 		
 		menu.open(p);
 	}

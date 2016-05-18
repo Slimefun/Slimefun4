@@ -18,6 +18,7 @@ public class Messages {
 		local.setDefault("commands.research.desc", "Unlock a Research for a Player");
 		local.setDefault("commands.guide", "Gives yourself a Slimefun Guide");
 		local.setDefault("commands.timings", "Lag-Info about your Server");
+		local.setDefault("commands.teleporter", "See other Player's Waypoints");
 		
 		local.setDefault("messages.only-players", "&4This Command is only for Players");
 		local.setDefault("messages.no-permission", "&4You do not have the required Permission to do this");

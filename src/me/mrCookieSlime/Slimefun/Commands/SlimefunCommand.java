@@ -11,6 +11,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
+import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -21,6 +22,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -68,6 +70,10 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		arguments.add("/sf timings");
 		tabs.add("timings");
 		descriptions.add(Messages.local.getTranslation("commands.timings").get(0));
+		
+		arguments.add("/sf teleporter");
+		tabs.add("teleporter");
+		descriptions.add(Messages.local.getTranslation("commands.teleporter").get(0));
 		
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -152,6 +158,23 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 							else Messages.local.sendTranslation(sender, "messages.not-valid-item", true, new Variable("%item%", args[2]));
 						}
 						else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+					}
+					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				}
+				else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf give <Player> <Slimefun Item>"));
+			}
+			else if (args[0].equalsIgnoreCase("teleporter")) {
+				if (args.length == 2) {
+					if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {
+						OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+						if (player.getName() != null) {
+							try {
+								GPSNetwork.openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock(), 999999999);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						else sender.sendMessage("§4Unknown Player: §c" + args[1]);
 					}
 					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 				}
