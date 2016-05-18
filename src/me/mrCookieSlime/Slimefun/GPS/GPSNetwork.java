@@ -29,7 +29,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper.ChatHandler
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.GEO.OilFields;
+import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -287,7 +287,7 @@ public class GPSNetwork {
 		}
 		ChestMenu menu = new ChestMenu("§4Scan Results");
 		
-		int oil = OilFields.getSupplies(chunk, true);
+		int oil = OreGenSystem.getSupplies(OreGenSystem.getResource("Oil"), chunk, true);
 		
 		menu.addItem(0, new CustomItem(SlimefunItems.BUCKET_OF_OIL, "§7Resource: §6Oil", "", "§7Scanned Chunk:", "§8\u21E8 §7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "§7Result: §e" + (oil * 1000) + "mB (" + oil + " Buckets)"),
 		new MenuClickHandler() {

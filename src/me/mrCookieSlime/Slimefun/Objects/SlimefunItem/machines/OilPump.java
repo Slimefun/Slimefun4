@@ -3,10 +3,17 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.GEO.OilFields;
+import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -20,13 +27,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 public abstract class OilPump extends AContainer {
 
@@ -50,7 +50,7 @@ public abstract class OilPump extends AContainer {
 					return false;
 				}
 				
-				if (!OilFields.isScanned(b.getChunk())) {
+				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("Oil"), b.getChunk())) {
 					Messages.local.sendTranslation(p, "gps.geo.scan-required", true);
 					return false;
 				}
@@ -114,7 +114,7 @@ public abstract class OilPump extends AContainer {
 				processing.remove(b);
 			}
 		}
-		else if (OilFields.getSupplies(b.getChunk(), false) > 0) {
+		else if (OreGenSystem.getSupplies(OreGenSystem.getResource("Oil"), b.getChunk(), false) > 0) {
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
@@ -122,7 +122,7 @@ public abstract class OilPump extends AContainer {
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
-					BlockStorage.setChunkInfo(b.getChunk(), "resources_OIL", String.valueOf(OilFields.getSupplies(b.getChunk(), false) - 1));
+					OreGenSystem.setSupplies(OreGenSystem.getResource("Oil"), b.getChunk(), OreGenSystem.getSupplies(OreGenSystem.getResource("Oil"), b.getChunk(), false) - 1);
 					break;
 				}
 			}
