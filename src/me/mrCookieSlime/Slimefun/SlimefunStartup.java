@@ -43,6 +43,7 @@ import me.mrCookieSlime.Slimefun.Commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
@@ -236,6 +237,11 @@ public class SlimefunStartup extends JavaPlugin {
 				@Override
 				public String getName() {
 					return "Oil";
+				}
+
+				@Override
+				public ItemStack getIcon() {
+					return SlimefunItems.BUCKET_OF_OIL.clone();
 				}
 			});
 			
