@@ -328,6 +328,7 @@ public class SlimefunStartup extends JavaPlugin {
 			
 			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
 				try {
+					Class.forName("com.sk89q.worldedit.extent.Extent");
 					new WESlimefunManager();
 					System.out.println("[Slimefun] Successfully hooked into WorldEdit!");
 				} catch(Exception x) {
