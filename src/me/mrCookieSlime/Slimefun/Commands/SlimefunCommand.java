@@ -23,6 +23,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -169,7 +170,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 						OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
 						if (player.getName() != null) {
 							try {
-								GPSNetwork.openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock(), 999999999);
+								GPSNetwork.openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -178,7 +179,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					}
 					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 				}
-				else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf give <Player> <Slimefun Item>"));
+				else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf teleporter <Player>"));
 			}
 			else if (args[0].equalsIgnoreCase("research")) {
 				if (args.length == 3) {
