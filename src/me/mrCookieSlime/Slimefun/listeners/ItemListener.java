@@ -47,6 +47,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class ItemListener implements Listener {
@@ -221,8 +222,10 @@ public class ItemListener implements Listener {
 			ItemStack item = e.getItem();
 			if (Slimefun.hasUnlocked(p, item, true)) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MONSTER_JERKY, true)) {
+					e.setCancelled(true);
 					PlayerInventory.consumeItemInHand(p);
-					e.setItem(new ItemStack(Material.APPLE));
+					PlayerInventory.update(p);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 5, 0));
 				}
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.local.getTranslation("messages.fortune-cookie").get(CSCoreLib.randomizer().nextInt(Messages.local.getTranslation("messages.fortune-cookie").size()))));
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BEEF_JERKY, true)) p.setSaturation((Integer) Slimefun.getItemValue("BEEF_JERKY", "Saturation"));
