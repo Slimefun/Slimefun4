@@ -1634,7 +1634,7 @@ public class SlimefunSetup {
 		.register(true);
 		
 		new SlimefunArmorPiece(Categories.TECH, SlimefunItems.NIGHT_VISION_GOGGLES, "NIGHT_VISION_GOGGLES", RecipeType.ARMOR_FORGE,
-		new ItemStack[] {new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new CustomItem(Material.STAINED_GLASS_PANE, 5), new ItemStack(Material.COAL_BLOCK), new CustomItem(Material.STAINED_GLASS_PANE, 5), new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)},
+		new ItemStack[] {new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5).toItemStack(1), new ItemStack(Material.COAL_BLOCK), new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5).toItemStack(1), new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)},
 		new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 20)})
 		.register(true);
 		
