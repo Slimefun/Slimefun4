@@ -393,7 +393,7 @@ public class CargoNet {
 									List<String> lore = new ArrayList<String>();
 									lore.add("");
 									lore.add("§7Stored Items: §r" + DoubleHandler.getFancyDouble(item.getAmount()));
-									if (stack.getMaxStackSize() > 1) lore.add("§7<Left Click: Request 1 | Right Click: Request " + stack.getMaxStackSize() + ">");
+									if (stack.getMaxStackSize() > 1) lore.add("§7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">");
 									else lore.add("§7<Left Click: Request 1>");
 									lore.add("");
 									if (im.hasLore()) {
@@ -408,7 +408,7 @@ public class CargoNet {
 										
 										@Override
 										public boolean onClick(Player p, int slot, ItemStack is, ClickAction action) {
-											requests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? item.getItem().getMaxStackSize(): 1), ItemTransportFlow.WITHDRAW));
+											requests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
 											return false;
 										}
 									});
