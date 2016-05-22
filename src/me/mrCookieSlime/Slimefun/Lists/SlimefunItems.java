@@ -630,6 +630,10 @@ public class SlimefunItems {
 	
 	public static ItemStack TRASH_CAN = null;
 	
+	public static ItemStack ELYTRA = new ItemStack(Material.ELYTRA);
+	public static ItemStack INFUSED_ELYTRA = new CustomItem(new CustomItem(ELYTRA, "§5Infused Elytra"), new String[] {"MENDING-1"});
+	public static ItemStack SOULBOUND_ELYTRA = new CustomItem(ELYTRA, "§cSoulbound Elytra");
+	
 	// ChestTerminal Addon
 	
 	public static ItemStack CHEST_TERMINAL = null;

@@ -13,6 +13,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -369,7 +370,14 @@ public class BlockStorage {
 		
 		if (destroy) {
 			if (storage.hasInventory(l)) storage.clearInventory(l);
-			if (storage.hasUniversalInventory(l)) storage.getUniversalInventory(l).save();
+			if (storage.hasUniversalInventory(l)) {
+				UniversalBlockMenu menu = storage.getUniversalInventory(l);
+				for (HumanEntity n: menu.toInventory().getViewers()) {
+					n.closeInventory();
+				}
+				
+				storage.getUniversalInventory(l).save();
+			}
 			if (ticking_chunks.containsKey(l.getChunk().toString())) {
 				Set<Block> blocks = ticking_chunks.get(l.getChunk().toString());
 				blocks.remove(l.getBlock());
@@ -499,6 +507,11 @@ public class BlockStorage {
 	}
 	
 	public void clearInventory(Location l) {
+		BlockMenu menu = getInventory(l);
+		for (HumanEntity n: menu.toInventory().getViewers()) {
+			n.closeInventory();
+		}
+		
 		inventories.get(l).delete(l);
 		inventories.remove(l);
 	}
