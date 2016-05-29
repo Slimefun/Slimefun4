@@ -10,5 +10,8 @@ public class SoulboundItem extends SlimefunItem {
 	public SoulboundItem(Category category, ItemStack item, String name, ItemStack[] recipe) {
 		super(category, item, name, RecipeType.MAGIC_WORKBENCH, recipe);
 	}
+	public SoulboundItem(Category category, ItemStack item, String name, RecipeType type, ItemStack[] recipe) {
+		super(category, item, name, type, recipe);
+	}
 
 }

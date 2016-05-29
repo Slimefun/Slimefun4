@@ -631,6 +631,7 @@ public class SlimefunItems {
 	public static ItemStack TRASH_CAN = null;
 	
 	public static ItemStack ELYTRA = new ItemStack(Material.ELYTRA);
+	public static ItemStack ELYTRA_SCALE = new CustomItem(new ItemStack(Material.FEATHER), "§bEyltra Scale");
 	public static ItemStack INFUSED_ELYTRA = new CustomItem(new CustomItem(ELYTRA, "§5Infused Elytra"), new String[] {"MENDING-1"});
 	public static ItemStack SOULBOUND_ELYTRA = new CustomItem(ELYTRA, "§cSoulbound Elytra");
 	

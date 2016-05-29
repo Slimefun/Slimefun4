@@ -224,6 +224,8 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(225, "Ultimate Carbon Press", 32), SlimefunItems.CARBON_PRESS_3);
 	    Slimefun.registerResearch(new Research(226, "Automated Wither Killer", 35), SlimefunItems.WITHER_ASSEMBLER);
 	    Slimefun.registerResearch(new Research(227, "Upgraded Heated Pressure Chamber", 20), SlimefunItems.HEATED_PRESSURE_CHAMBER_2);
+	    Slimefun.registerResearch(new Research(228, "Elytras", 20), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA);
+	    Slimefun.registerResearch(new Research(229, "Special Elytras", 30), SlimefunItems.INFUSED_ELYTRA, SlimefunItems.SOULBOUND_ELYTRA);
 	}
 
 }
