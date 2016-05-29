@@ -191,11 +191,11 @@ public class ItemListener implements Listener {
 			if (e.getClickedBlock() != null && BlockStorage.hasBlockInfo(e.getClickedBlock())) {
 				String id = BlockStorage.checkID(e.getClickedBlock());
 				if (BlockMenuPreset.isInventory(id)) {
-					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, true));
-					else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT, true));
-					else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
-					else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, true));
-					else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_EXPORT_BUS, true));
+					if (p.isSneaking() && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, true));
+					else if (p.isSneaking() && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT, true));
+					else if (p.isSneaking() && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
+					else if (p.isSneaking() && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, true));
+					else if (p.isSneaking() && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_EXPORT_BUS, true));
 					else {
 						e.setCancelled(true);
 						BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
