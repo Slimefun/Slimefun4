@@ -3770,7 +3770,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16 + 500, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), NetworkStatus.OFFLINE);
-				return false;
+				return true;
 			}
 		});
 		
