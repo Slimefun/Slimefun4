@@ -290,7 +290,7 @@ public class ItemListener implements Listener {
 	@EventHandler
     public void onAnvil(InventoryClickEvent e) {
         if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
-        	if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null) {
+        	if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && !SlimefunItem.isDisabled(e.getInventory().getContents()[0])) {
             	e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
