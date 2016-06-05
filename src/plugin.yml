@@ -1,8 +1,8 @@
 name: Slimefun
-version: 4.0.8
-author: mrCookieSlime
+version: 4.0.9
+authors: [mrCookieSlime, John000708]
 description: Slimefun basically turns your entire Server into a FTB modpack without installing a single mod
-website: http://mrcookieslime.github.io/
+website: http://TheBusyBiscuit.github.io/
 
 main: me.mrCookieSlime.Slimefun.SlimefunStartup
 softdepend: [CS-CoreLib, ClearLag, WorldEdit]

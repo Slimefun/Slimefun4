@@ -6,6 +6,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 import org.bukkit.block.Block;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -67,10 +68,20 @@ public class UniversalBlockMenu extends ChestMenu {
 	
 	@Override
 	public void replaceExistingItem(int slot, ItemStack item) {
+		this.replaceExistingItem(slot, item, true);
+	}
+	
+	public void replaceExistingItem(int slot, ItemStack item, boolean event) {
 		final ItemStack previous = getItemInSlot(slot);
 		super.replaceExistingItem(slot, item);
 		
-		if (this.event != null) event.onEvent(slot, previous, item);
+		if (event && this.event != null) this.event.onEvent(slot, previous, item);
+	}
+	
+	public void close() {
+		for (HumanEntity human: toInventory().getViewers()) {
+			human.closeInventory();
+		}
 	}
 	
 }
