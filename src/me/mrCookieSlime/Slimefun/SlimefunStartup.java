@@ -103,14 +103,14 @@ public class SlimefunStartup extends JavaPlugin {
 		CSCoreLibLoader loader = new CSCoreLibLoader(this);
 		if (loader.load()) {
 			
-			if (!ReflectionUtils.getVersion().startsWith("v1_9_")) {
+			if (!ReflectionUtils.getVersion().startsWith("v1_9_") && !ReflectionUtils.getVersion().startsWith("v1_10_")) {
 				System.err.println("### Slimefun failed to load!");
 				System.err.println("###");
 				System.err.println("### You are using the wrong Version of Minecraft!!!");
 				System.err.println("###");
 				System.err.println("### You are using Minecraft " + ReflectionUtils.getVersion());
 				System.err.println("### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
-				System.err.println("### Minecraft 1.9.X");
+				System.err.println("### Minecraft 1.9.X or 1.10.X");
 				System.err.println("###");
 				System.err.println("### Please use an older Version of Slimefun and disable auto-updating");
 				System.err.println("### or consider updating your Server Software.");
@@ -407,50 +407,66 @@ public class SlimefunStartup extends JavaPlugin {
 	public void onDisable() {
 		Bukkit.getScheduler().cancelTasks(this);
 		
-		for (Map.Entry<Block, Block> entry: ticker.move.entrySet()) {
-			BlockStorage._integrated_moveBlockInfo(entry.getKey(), entry.getValue());
-		}
-		ticker.move.clear();
-		
-		for (World world: Bukkit.getWorlds()) {
-			BlockStorage storage = BlockStorage.getStorage(world);
-			if (storage != null) storage.save(true);
-			else System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
-		}
-		
-		File folder = new File("data-storage/Slimefun/block-backups");
-		List<File> backups = Arrays.asList(folder.listFiles());
-		if (backups.size() > 20) {
-			Collections.sort(backups, new Comparator<File>() {
+		try {
+			for (Map.Entry<Block, Block> entry: ticker.move.entrySet()) {
+				BlockStorage._integrated_moveBlockInfo(entry.getKey(), entry.getValue());
+			}
+			ticker.move.clear();
+			
+			for (World world: Bukkit.getWorlds()) {
+				BlockStorage storage = BlockStorage.getStorage(world);
+				if (storage != null) storage.save(true);
+				else System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
+			}
+			
+			File folder = new File("data-storage/Slimefun/block-backups");
+			List<File> backups = Arrays.asList(folder.listFiles());
+			if (backups.size() > 20) {
+				Collections.sort(backups, new Comparator<File>() {
 
-				@Override
-				public int compare(File f1, File f2) {
-					try {
-						return (int) (new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f1.getName().replace(".zip", "")).getTime() - new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f2.getName().replace(".zip", "")).getTime());
-					} catch (ParseException e) {
-						return 0;
+					@Override
+					public int compare(File f1, File f2) {
+						try {
+							return (int) (new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f1.getName().replace(".zip", "")).getTime() - new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f2.getName().replace(".zip", "")).getTime());
+						} catch (ParseException e) {
+							return 0;
+						}
+					}
+				});
+				
+				for (int i = backups.size() - 20; i > 0; i--) {
+					backups.get(i).delete();
+				}
+			}
+			
+			File file = new File("data-storage/Slimefun/block-backups/" + Clock.format(new Date()) + ".zip");
+			byte[] buffer = new byte[1024];
+			
+			if (file.exists()) file.delete();
+			
+			try {
+				file.createNewFile();
+				
+				ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file));
+				
+				for (File f1: new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
+					for (File f: f1.listFiles()) {
+						ZipEntry entry = new ZipEntry("stored-blocks/" + f1.getName() + "/" + f.getName());
+						output.putNextEntry(entry);
+						FileInputStream input = new FileInputStream(f);
+						
+						int length;
+						while ((length = input.read(buffer)) > 0) {
+							output.write(buffer, 0, length);
+						}
+						
+						input.close();
+						output.closeEntry();
 					}
 				}
-			});
-			
-			for (int i = backups.size() - 20; i > 0; i--) {
-				backups.get(i).delete();
-			}
-		}
-		
-		File file = new File("data-storage/Slimefun/block-backups/" + Clock.format(new Date()) + ".zip");
-		byte[] buffer = new byte[1024];
-		
-		if (file.exists()) file.delete();
-		
-		try {
-			file.createNewFile();
-			
-			ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file));
-			
-			for (File f1: new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
-				for (File f: f1.listFiles()) {
-					ZipEntry entry = new ZipEntry("stored-blocks/" + f1.getName() + "/" + f.getName());
+				
+				for (File f: new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
+					ZipEntry entry = new ZipEntry("universal-inventories/" + f.getName());
 					output.putNextEntry(entry);
 					FileInputStream input = new FileInputStream(f);
 					
@@ -462,12 +478,24 @@ public class SlimefunStartup extends JavaPlugin {
 					input.close();
 					output.closeEntry();
 				}
-			}
-			
-			for (File f: new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
-				ZipEntry entry = new ZipEntry("universal-inventories/" + f.getName());
+				
+				for (File f: new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
+					ZipEntry entry = new ZipEntry("stored-inventories/" + f.getName());
+					output.putNextEntry(entry);
+					FileInputStream input = new FileInputStream(f);
+					
+					int length;
+					while ((length = input.read(buffer)) > 0) {
+						output.write(buffer, 0, length);
+					}
+					
+					input.close();
+					output.closeEntry();
+				}
+				
+				ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
 				output.putNextEntry(entry);
-				FileInputStream input = new FileInputStream(f);
+				FileInputStream input = new FileInputStream(new File("data-storage/Slimefun/stored-chunks/chunks.sfc"));
 				
 				int length;
 				while ((length = input.read(buffer)) > 0) {
@@ -476,38 +504,13 @@ public class SlimefunStartup extends JavaPlugin {
 				
 				input.close();
 				output.closeEntry();
-			}
-			
-			for (File f: new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
-				ZipEntry entry = new ZipEntry("stored-inventories/" + f.getName());
-				output.putNextEntry(entry);
-				FileInputStream input = new FileInputStream(f);
 				
-				int length;
-				while ((length = input.read(buffer)) > 0) {
-					output.write(buffer, 0, length);
-				}
-				
-				input.close();
-				output.closeEntry();
+				output.close();
+				System.out.println("[Slimfun] Backed up Blocks to " + file.getName());
+			} catch(IOException e) {
+				e.printStackTrace();
 			}
-			
-			ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
-			output.putNextEntry(entry);
-			FileInputStream input = new FileInputStream(new File("data-storage/Slimefun/stored-chunks/chunks.sfc"));
-			
-			int length;
-			while ((length = input.read(buffer)) > 0) {
-				output.write(buffer, 0, length);
-			}
-			
-			input.close();
-			output.closeEntry();
-			
-			output.close();
-			System.out.println("[Slimfun] Backed up Blocks to " + file.getName());
-		} catch(IOException e) {
-			e.printStackTrace();
+		} catch(Exception x) {
 		}
 		
 		config = null;
