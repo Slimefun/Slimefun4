@@ -22,6 +22,7 @@ I will keep this list updated myself, please don't edit it yourself.
 
 * TheBusyBiscuit
 * John000708
+* st392
 
 ## Wiki
 
