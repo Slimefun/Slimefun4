@@ -79,8 +79,11 @@ public class NuclearReactor extends SlimefunItem {
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
-					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "reactor-mode") == null || BlockStorage.getBlockInfo(b, "reactor-mode").equals("generator")) {
-						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "§7Focus: §eElectricity", "", "§6Your Reactor will focus on Power Generation", "§6If your Energy Network doesn't need Power", "§6it will not produce any either", "", "§7> Click to change the Focus to §eProduction"));
+					if (BlockStorage.getBlockInfo(b, "reactor-mode") == null){
+						BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
+					}
+					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "reactor-mode").equals("generator")) {
+						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "Â§7Focus: Â§eElectricity", "", "Â§6Your Reactor will focus on Power Generation", "Â§6If your Energy Network doesn't need Power", "Â§6it will not produce any either", "", "Â§7> Click to change the Focus to Â§eProduction"));
 						menu.addMenuClickHandler(4, new MenuClickHandler() {
 
 							@Override
@@ -92,7 +95,7 @@ public class NuclearReactor extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "§7Focus: §eProduction", "", "§6Your Reactor will focus on producing goods", "§6If your Energy Network doesn't need Power", "§6it will continue to run and simply will", "§6not generate any Power in the mean time", "", "§7> Click to change the Focus to §ePower Generation"));
+						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "Â§7Focus: Â§eProduction", "", "Â§6Your Reactor will focus on producing goods", "Â§6If your Energy Network doesn't need Power", "Â§6it will continue to run and simply will", "Â§6not generate any Power in the mean time", "", "Â§7> Click to change the Focus to Â§ePower Generation"));
 						menu.addMenuClickHandler(4, new MenuClickHandler() {
 
 							@Override
@@ -208,7 +211,7 @@ public class NuclearReactor extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "§7Fuel Slot", "", "§rThis Slot accepts radioactive Fuel such as:", "§2Uranium §ror §aNeptunium"),
+		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "Â§7Fuel Slot", "", "Â§rThis Slot accepts radioactive Fuel such as:", "Â§2Uranium Â§ror Â§aNeptunium"),
 		new MenuClickHandler() {
 
 			@Override
@@ -218,7 +221,7 @@ public class NuclearReactor extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells", "§4Without any Coolant Cells, your Reactor", "§4will explode"),
+		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "Â§bCoolant Slot", "", "Â§rThis Slot accepts Coolant Cells", "Â§4Without any Coolant Cells, your Reactor", "Â§4will explode"),
 		new MenuClickHandler() {
 
 			@Override
@@ -230,7 +233,7 @@ public class NuclearReactor extends SlimefunItem {
 	}
 	
 	public String getInventoryTitle() {
-		return "§2Nuclear Reactor";
+		return "Â§2Nuclear Reactor";
 	}
 	
 	public void registerDefaultRecipes() {
@@ -418,7 +421,7 @@ public class NuclearReactor extends SlimefunItem {
 		int size = BlockStorage.getInventory(l).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " §4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND, " Â§4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(l).getItemInSlot(slot));
@@ -430,7 +433,7 @@ public class NuclearReactor extends SlimefunItem {
 		int size = BlockStorage.getInventory(l).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " §4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND, " Â§4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: slots) {
 			inv.setItem(slot, BlockStorage.getInventory(l).getItemInSlot(slot));
