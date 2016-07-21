@@ -1605,7 +1605,7 @@ public class SlimefunSetup {
 		.register(true);
 		
 		new SlimefunItem(Categories.PORTABLE, SlimefunItems.VITAMINS, "VITAMINS", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.APPLE), new CustomItem(Material.INK_SACK, 15), new ItemStack(Material.SUGAR), null, null, null, null, null})
+		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.APPLE), new ItemStack(Material.RED_MUSHROOM), new ItemStack(Material.SUGAR), null, null, null, null, null})
 		.register(true, new ItemInteractionHandler() {
 			
 			@Override
