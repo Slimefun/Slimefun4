@@ -103,7 +103,7 @@ public class SlimefunStartup extends JavaPlugin {
 		CSCoreLibLoader loader = new CSCoreLibLoader(this);
 		if (loader.load()) {
 			
-			if (!ReflectionUtils.getVersion().startsWith("v1_9_") && !ReflectionUtils.getVersion().startsWith("v1_10_")) {
+			if (!ReflectionUtils.getVersion().startsWith("v1_9_") && !ReflectionUtils.getVersion().startsWith("v1_10_") && !ReflectionUtils.getVersion().startsWith("PluginBukkitBridge")) {
 				System.err.println("### Slimefun failed to load!");
 				System.err.println("###");
 				System.err.println("### You are using the wrong Version of Minecraft!!!");
