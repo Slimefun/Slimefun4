@@ -945,7 +945,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 	public void openScript(final Player p, final Block b, final String script) throws Exception {
 		ChestMenu menu = new ChestMenu("§eScript Editor");
-		String[] commands = script.split("-");
+		final String[] commands = script.split("-");
 		
 		menu.addItem(0, ScriptPart.START.toItemStack());
 		menu.addMenuClickHandler(0, new MenuClickHandler() {
@@ -987,15 +987,57 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				});
 			}
 			else {
-				menu.addItem(i, ScriptPart.valueOf(commands[i]).toItemStack());
+				ItemStack stack = ScriptPart.valueOf(commands[i]).toItemStack();
+				menu.addItem(i, new CustomItem(stack, stack.getItemMeta().getDisplayName(), "", "§7\u21E8 §eLeft Click §7to edit", "§7\u21E8 §eRight Click §7to delete", "§7\u21E8 §eShift + Right Click §7to duplicate"));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
 					
 					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						try {
-							openScriptComponentEditor(p, b, script, index);
-						} catch (Exception e) {
-							e.printStackTrace();
+					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction action) {
+						if (action.isRightClicked() && action.isShiftClicked()) {
+							if (commands.length == 54) return false;
+							
+							int i = 0;
+							StringBuilder builder = new StringBuilder("START-");
+							for (String command: commands) {
+								if (i > 0) {
+									if (i == index) {
+										builder.append(commands[i] + "-");
+										builder.append(commands[i] + "-");
+									}
+									else if (i < commands.length - 1) builder.append(command + "-");
+								}
+								i++;
+							}
+							builder.append("REPEAT");
+							BlockStorage.addBlockInfo(b, "script", builder.toString());
+							
+							try {
+								openScript(p, b, builder.toString());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						else if (action.isRightClicked()) {
+							int i = 0;
+							StringBuilder builder = new StringBuilder("START-");
+							for (String command: commands) {
+								if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
+								i++;
+							}
+							builder.append("REPEAT");
+							BlockStorage.addBlockInfo(b, "script", builder.toString());
+							try {
+								openScript(p, b, builder.toString());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						else {
+							try {
+								openScriptComponentEditor(p, b, script, index);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 						return false;
 					}
