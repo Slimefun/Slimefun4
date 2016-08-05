@@ -108,7 +108,7 @@ public class BowListener implements Listener {
 	@EventHandler
 	public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
 		if (Variables.arrows.containsKey(e.getDamager().getUniqueId())) Variables.arrows.remove(e.getDamager().getUniqueId());
-		if (e.getDamager() instanceof Arrow && e.getEntity().getType() != EntityType.BAT) handleGrapplingHook((Arrow) e.getDamager());
+		if (e.getDamager() instanceof Arrow) handleGrapplingHook((Arrow) e.getDamager());
 	}
 
 }
