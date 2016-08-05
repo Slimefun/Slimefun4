@@ -1,14 +1,11 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +13,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
+
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.Variables;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BowShootHandler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
 
 public class BowListener implements Listener {
 	
@@ -104,8 +107,16 @@ public class BowListener implements Listener {
 
 	@EventHandler
 	public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
-		if (Variables.arrows.containsKey(e.getDamager().getUniqueId())) Variables.arrows.remove(e.getDamager().getUniqueId());
-		if (e.getDamager() instanceof Arrow) handleGrapplingHook((Arrow) e.getDamager());
+		if (e.getDamager() instanceof Arrow) {
+			if (Variables.arrows.containsKey(e.getDamager().getUniqueId()) && e.getEntity() instanceof LivingEntity) {
+				 for (ItemHandler handler: SlimefunItem.getHandlers("BowShootHandler")) {
+					 if (((BowShootHandler) handler).onHit(e, (LivingEntity) e.getEntity())) break;
+				 }
+				 Variables.arrows.remove(e.getDamager().getUniqueId());
+			}
+			
+			handleGrapplingHook((Arrow) e.getDamager());
+		}
 	}
 
 }
