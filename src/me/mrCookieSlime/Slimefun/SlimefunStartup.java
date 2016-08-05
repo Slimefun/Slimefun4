@@ -115,6 +115,7 @@ public class SlimefunStartup extends JavaPlugin {
 				}
 			}
 			
+			// Looks like you are using an unsupported Minecraft Version
 			if (!compatibleVersion) {
 				System.err.println("### Slimefun failed to load!");
 				System.err.println("###");
@@ -139,18 +140,21 @@ public class SlimefunStartup extends JavaPlugin {
 			utils = new PluginUtils(this);
 			utils.setupConfig();
 			
+			// Loading all extra configs
 			researches = new Config(Files.RESEARCHES);
 			items = new Config(Files.ITEMS);
 			whitelist = new Config(Files.WHITELIST);
 			
+			// Init Config, Updater, Metrics and messages.yml
 			utils.setupUpdater(53485, getFile());
 			utils.setupMetrics();
 			utils.setupLocalization();
-			
 			config = utils.getConfig();
 			Messages.local = utils.getLocalization();
 			Messages.setup();
 
+			// Creating all necessary Folders
+			// TODO: Make a shortcut method such as createDir(path)
 			if (!new File("data-storage/Slimefun/blocks").exists()) new File("data-storage/Slimefun/blocks").mkdirs();
 			if (!new File("data-storage/Slimefun/stored-blocks").exists()) new File("data-storage/Slimefun/stored-blocks").mkdirs();
 			if (!new File("data-storage/Slimefun/stored-inventories").exists()) new File("data-storage/Slimefun/stored-inventories").mkdirs();
@@ -181,6 +185,8 @@ public class SlimefunStartup extends JavaPlugin {
 			BlockStorage.info_delay = config.getInt("URID.info-delay");
 
 			System.out.println("[Slimefun] Loading World Generators...");
+			
+			// Generating Oil as an OreGenResource (its a cool API)
 			OreGenSystem.registerResource(new OreGenResource() {
 
 				@Override
@@ -262,6 +268,7 @@ public class SlimefunStartup extends JavaPlugin {
 				}
 			});
 			
+			// All Slimefun Listeners
 			new ArmorListener(this);
 			new ItemListener(this);
 			new BlockListener(this);
@@ -274,10 +281,13 @@ public class SlimefunStartup extends JavaPlugin {
 			new TeleporterListener(this);
 			new AndroidKillingListener(this);
 			
+			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);
 			if (config.getBoolean("items.backpacks")) new BackpackListener(this);
 			if (config.getBoolean("items.coolers")) new CoolerListener(this);
-			
+
+			// Handle Slimefun Guide being given on Join
+			// TODO: Move it to its own class, was too lazy
 			if (config.getBoolean("options.give-guide-on-first-join")) {
 				getServer().getPluginManager().registerEvents(new Listener() {
 					
@@ -293,7 +303,9 @@ public class SlimefunStartup extends JavaPlugin {
 					
 				}, this);
 			}
-			
+
+			// Load/Unload Worlds in Slimefun
+			// TODO: Move it to its own class, was too lazy
 			getServer().getPluginManager().registerEvents(new Listener() {
 				
 				@EventHandler
@@ -314,6 +326,8 @@ public class SlimefunStartup extends JavaPlugin {
 				
 			}, this);
 			
+			// Clear the Slimefun Guide History upon Player Leaving
+			// TODO: Move it to its own class, was too lazy
 			getServer().getPluginManager().registerEvents(new Listener() {
 				
 				@EventHandler
@@ -323,6 +337,7 @@ public class SlimefunStartup extends JavaPlugin {
 				
 			}, this);
 			
+			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 				@Override
 				public void run() {
@@ -338,6 +353,7 @@ public class SlimefunStartup extends JavaPlugin {
 				}
 			}, 0);
 			
+			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
 			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
 				try {
 					Class.forName("com.sk89q.worldedit.extent.Extent");
@@ -352,6 +368,7 @@ public class SlimefunStartup extends JavaPlugin {
 			getCommand("slimefun").setExecutor(new SlimefunCommand(this));
 			getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter());
 			
+			// Armor Update Task
 			if (config.getBoolean("options.enable-armor-effects")) {
 				getServer().getScheduler().runTaskTimer(this, new Runnable() {
 					
@@ -402,15 +419,18 @@ public class SlimefunStartup extends JavaPlugin {
 			
 			ticker = new TickerTask();
 			
+			// Starting all ASYNC Tasks
 			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
 			getServer().getScheduler().scheduleAsyncRepeatingTask(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 			
+			// Hooray!
 			System.out.println("[Slimefun] Finished!");
 			
 			clearlag = getServer().getPluginManager().isPluginEnabled("ClearLag");
 			
 			if (clearlag) new ClearLaggIntegration(this);
 			
+			// Do not show /sf elevator command in our Log, it could get quite spammy
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 		}
 	}
