@@ -3,15 +3,12 @@ package me.mrCookieSlime.Slimefun.listeners;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Variables;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BowShootHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,10 +35,11 @@ public class BowListener implements Listener {
 			
 			@Override
 			public void run() {
+				if (!e.getEntity().isValid()) return;
 				if (Variables.arrows.containsKey(e.getEntity().getUniqueId())) Variables.arrows.remove(e.getEntity().getUniqueId());
 				if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
 			}
-		}, 3L);
+		}, 4L);
 	}
 	
 	private void handleGrapplingHook(Arrow arrow) {
@@ -52,9 +50,20 @@ public class BowListener implements Listener {
 				if (p.getLocation().distance(arrow.getLocation()) < 3.0D) {
 					if (arrow.getLocation().getY() > p.getLocation().getY()) {
 						p.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
-					    return;
 					}
-					p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
+					else p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
+					for (Entity n: Variables.remove.get(p.getUniqueId())) {
+		    	    	n.remove();
+		    	    }
+		    	    
+		    	    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+						
+						@Override
+						public void run() {
+							Variables.jump.remove(p.getUniqueId());
+							Variables.remove.remove(p.getUniqueId());
+						}
+					}, 20L);
 				}
 				else {
 					Location l = p.getLocation();
@@ -95,23 +104,8 @@ public class BowListener implements Listener {
 
 	@EventHandler
 	public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
-		if (!(e.getDamager() instanceof Arrow)) return;
-
-		handleGrapplingHook((Arrow) e.getDamager());
-		
-		if (Variables.arrows.containsKey(e.getDamager().getUniqueId()) && e.getEntity() instanceof LivingEntity) {
-			for (ItemHandler handler: SlimefunItem.getHandlers("BowShootHandler")) {
-				if (((BowShootHandler) handler).onHit(e, (LivingEntity) e.getEntity())) break;
-			}
-			Variables.arrows.remove(e.getDamager().getUniqueId());
-		}
-		
-		if (Variables.arrows.containsKey(e.getDamager().getUniqueId()) && e.getEntity() instanceof LivingEntity) {
-			for (ItemHandler handler: SlimefunItem.getHandlers("BowShootHandler")) {
-				if (((BowShootHandler) handler).onHit(e, (LivingEntity) e.getEntity())) break;
-			}
-			Variables.arrows.remove(e.getDamager().getUniqueId());
-		}
+		if (Variables.arrows.containsKey(e.getDamager().getUniqueId())) Variables.arrows.remove(e.getDamager().getUniqueId());
+		if (e.getDamager() instanceof Arrow) handleGrapplingHook((Arrow) e.getDamager());
 	}
 
 }
