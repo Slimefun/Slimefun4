@@ -96,6 +96,9 @@ public class SlimefunStartup extends JavaPlugin {
 	public static TickerTask ticker;
 	
 	private boolean clearlag = false;
+
+	// Supported Versions of Minecraft
+	final String[] supported = {"v1_9_", "v1_10_", "PluginBukkitBridge"};
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -103,7 +106,16 @@ public class SlimefunStartup extends JavaPlugin {
 		CSCoreLibLoader loader = new CSCoreLibLoader(this);
 		if (loader.load()) {
 			
-			if (!ReflectionUtils.getVersion().startsWith("v1_9_") && !ReflectionUtils.getVersion().startsWith("v1_10_") && !ReflectionUtils.getVersion().startsWith("PluginBukkitBridge")) {
+			boolean compatibleVersion = false;
+			
+			for (String version: supported) {
+				if (ReflectionUtils.getVersion().startsWith(version)) {
+					compatibleVersion = true;
+					break;
+				}
+			}
+			
+			if (!compatibleVersion) {
 				System.err.println("### Slimefun failed to load!");
 				System.err.println("###");
 				System.err.println("### You are using the wrong Version of Minecraft!!!");
