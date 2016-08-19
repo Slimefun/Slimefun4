@@ -25,14 +25,26 @@ public class ArmorStandFactory {
             	try {
             		ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
             	} catch(IllegalArgumentException x) {
-            		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            		try {
+            			ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            		}catch(IllegalArgumentException x) {
+            		 //error
+            		}
             	}
             }
             else if (ReflectionUtils.getVersion().startsWith("v1_10_")) {
             	try {
             		ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
             	} catch(IllegalArgumentException x) {
-            		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            		try {
+            			ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            	    } catch(IllegalArgumentException x) {
+            	    	try {
+            	    		ReflectionUtils.setFieldValue(nmsEntity, "bB", 2039583);
+            	    	}catch(IllegalArgumentException x) {
+            	    		//error message
+            	    	}
+            	    }
             	}
             }
             else {
@@ -73,7 +85,11 @@ public class ArmorStandFactory {
             	try {
             		ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
             	} catch(IllegalArgumentException x) {
-            		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            		try {
+            			ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            		}catch(IllegalArgumentException x) {
+            			//error
+            		}
             	}
             }
             else {
@@ -112,7 +128,11 @@ public class ArmorStandFactory {
             	try {
             		ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
             	} catch(IllegalArgumentException x) {
-            		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            		try {
+            			ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            		}catch(IllegalArgumentException x) {
+            			//error
+            		}
             	}
             }
             else {
