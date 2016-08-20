@@ -397,10 +397,18 @@ public class SlimefunStartup extends JavaPlugin {
 							
 							for (ItemStack radioactive: SlimefunItem.radioactive) {
 								if (p.getInventory().containsAtLeast(radioactive, 1)) {
-									if (!SlimefunManager.isItemSimiliar(SlimefunItem.getItem("SCUBA_HELMET"), p.getInventory().getHelmet(), true) &&
-										!SlimefunManager.isItemSimiliar(SlimefunItem.getItem("HAZMAT_CHESTPLATE"), p.getInventory().getChestplate(), true) &&
-										!SlimefunManager.isItemSimiliar(SlimefunItem.getItem("HAZMAT_LEGGINGS"), p.getInventory().getLeggings(), true) &&
-										!SlimefunManager.isItemSimiliar(SlimefunItem.getItem("RUBBER_BOOTS"), p.getInventory().getBoots(), true)) {
+									boolean hasFullHazmat = false;
+									if(SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true)){
+										if(SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true)){
+											if(SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true)){
+												if(SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)){
+													hasFullHazmat = true;
+												}
+											}
+										}
+									}
+									
+									if (!hasFullHazmat){
 										p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
 										p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
 										p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
