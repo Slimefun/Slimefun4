@@ -15,9 +15,12 @@ public class UniversalBlockMenu extends ChestMenu {
 	BlockMenuPreset preset;
 	ItemManipulationEvent event;
 	
+	public int changes = 0;
+	
 	public UniversalBlockMenu(BlockMenuPreset preset) {
 		super(preset.getTitle());
 		this.preset = preset;
+		changes = 1;
 		
 		preset.clone(this);
 		
@@ -46,6 +49,7 @@ public class UniversalBlockMenu extends ChestMenu {
 	}
 	
 	public void save() {
+		if (changes == 0) return;
 		// To force CS-CoreLib to build the Inventory
 		this.getContents();
 		
@@ -56,6 +60,8 @@ public class UniversalBlockMenu extends ChestMenu {
 			cfg.setValue(String.valueOf(slot), getItemInSlot(slot));
 		}
 		cfg.save();
+		
+		changes = 0;
 	}
 	
 	public BlockMenuPreset getPreset() {
@@ -76,6 +82,8 @@ public class UniversalBlockMenu extends ChestMenu {
 		super.replaceExistingItem(slot, item);
 		
 		if (event && this.event != null) this.event.onEvent(slot, previous, item);
+		
+		changes++;
 	}
 	
 	public void close() {

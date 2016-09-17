@@ -162,9 +162,38 @@ public class BlockStorage {
 			}
 		}
 	}
+
+	private static int chunk_changes = 0;
+	private int changes = 0;
+	
+	public void computeChanges() {
+		changes = cache_blocks.size() + chunk_changes;
+		
+		Map<Location, BlockMenu> inventories2 = new HashMap<Location, BlockMenu>(inventories);
+		for (Map.Entry<Location, BlockMenu> entry: inventories2.entrySet()) {
+			changes += entry.getValue().changes;
+		}
+		
+		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<String, UniversalBlockMenu>(universal_inventories);
+		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
+			changes += entry.getValue().changes;
+		}
+	}
+	
+	public int getChanges() {
+		return changes;
+	}
 	
 	public void save(boolean remove) {
-		System.out.println("[Slimefun] Saving Blocks for World \"" + world.getName() + "\"");
+		this.save(true, remove);
+	}
+	
+	public void save(boolean computeChanges, boolean remove) {
+		if (computeChanges) computeChanges();
+		
+		if (changes == 0) return;
+		
+		System.out.println("[Slimefun] Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Changes queued)");
 		
 		Map<String, Config> cache = new HashMap<String, Config>(cache_blocks);
 		
@@ -173,7 +202,7 @@ public class BlockStorage {
 			Config cfg = entry.getValue();
 			if (cfg.getKeys().isEmpty()) cfg.getFile().delete();
 			else cfg.save();
-		} 
+		}
 		
 		Map<Location, BlockMenu> inventories2 = new HashMap<Location, BlockMenu>(inventories);
 		
@@ -181,22 +210,29 @@ public class BlockStorage {
 			entry.getValue().save(entry.getKey());
 		}
 		
-		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories.entrySet()) {
+		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<String, UniversalBlockMenu>(universal_inventories);
+		
+		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
 			entry.getValue().save();
 		}
 		
-		File chunks = new File(path_chunks + "chunks.sfc");
-		Config cfg = new Config("data-storage/Slimefun/temp.yml");
-		
-		for (Map.Entry<String, String> entry: map_chunks.entrySet()) {
-			cfg.setValue(entry.getKey(), entry.getValue());
+		if (chunk_changes > 0) {
+			File chunks = new File(path_chunks + "chunks.sfc");
+			Config cfg = new Config("data-storage/Slimefun/temp.yml");
+			
+			for (Map.Entry<String, String> entry: map_chunks.entrySet()) {
+				cfg.setValue(entry.getKey(), entry.getValue());
+			}
+			
+			cfg.save(chunks);
+			
+			if (remove) {
+				worlds.remove(world.getName());
+			}
 		}
 		
-		cfg.save(chunks);
-		
-		if (remove) {
-			worlds.remove(world.getName());
-		}
+		changes = 0;
+		chunk_changes = 0;
 	}
 	
 	public static void store(Block block, ItemStack item) {
@@ -591,6 +627,8 @@ public class BlockStorage {
 		}
 		
 		map_chunks.put(serializeChunk(chunk), json.toJSONString());
+		
+		chunk_changes++;
 	}
 
 	public static String getChunkInfo(Chunk chunk, String key) {

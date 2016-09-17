@@ -16,6 +16,8 @@ public class BlockMenu extends ChestMenu {
 	BlockMenuPreset preset;
 	Location l;
 	
+	public int changes = 0;
+	
 	private ItemManipulationEvent event;
 	
 	private static String serializeLocation(Location l) {
@@ -26,6 +28,7 @@ public class BlockMenu extends ChestMenu {
 		super(preset.getTitle());
 		this.preset = preset;
 		this.l = l;
+		changes = 1;
 		
 		preset.clone(this);
 		
@@ -55,6 +58,7 @@ public class BlockMenu extends ChestMenu {
 	}
 	
 	public void save(Location l) {
+		if (changes == 0) return;
 		// To force CS-CoreLib to build the Inventory
 		this.getContents();
 		
@@ -65,6 +69,8 @@ public class BlockMenu extends ChestMenu {
 			cfg.setValue(String.valueOf(slot), getItemInSlot(slot));
 		}
 		cfg.save();
+		
+		changes = 0;
 	}
 	
 	public void move(Block b) {
@@ -104,6 +110,7 @@ public class BlockMenu extends ChestMenu {
 		super.replaceExistingItem(slot, item);
 		
 		if (event && this.event != null) this.event.onEvent(slot, previous, item);
+		changes++;
 	}
 	
 	public void close() {
