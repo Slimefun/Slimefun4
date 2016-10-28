@@ -647,11 +647,11 @@ public class SlimefunSetup {
 							for (ItemStack converting: inputs.get(i)) {
 								if (converting != null) {
 									for (int j = 0; j < inv.getContents().length; j++) {
-										if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true)) {
+										if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
 											craft = false;
 											break;
 										}
-										else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true)) break;
+										else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) break;
 									}
 								}
 							}
@@ -2992,7 +2992,7 @@ public class SlimefunSetup {
 		new ItemStack[] {null, new ItemStack(Material.ENCHANTMENT_TABLE), null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN)})
 		.register(true);
 		
-		new SlimefunItem(Categories.BIRTHDAY, new CustomItem(new MaterialData(Material.CAKE), "§bBirthday Cake"), "BIRTHDAY_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.BIRTHDAY, new CustomItem(new MaterialData(Material.CAKE), "Â§bBirthday Cake"), "BIRTHDAY_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.TORCH), null, new ItemStack(Material.SUGAR), new ItemStack(Material.CAKE), new ItemStack(Material.SUGAR), null, null, null})
 		.register(true);
 		
@@ -3152,7 +3152,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§bElectric Furnace";
+				return "Â§bElectric Furnace";
 			}
 
 			@Override
@@ -3177,7 +3177,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§bElectric Furnace";
+				return "Â§bElectric Furnace";
 			}
 
 			@Override
@@ -3202,7 +3202,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§bElectric Furnace";
+				return "Â§bElectric Furnace";
 			}
 
 			@Override
@@ -3311,7 +3311,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cElectric Ingot Factory";
+				return "Â§cElectric Ingot Factory";
 			}
 
 			@Override
@@ -3336,7 +3336,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cElectric Ingot Factory";
+				return "Â§cElectric Ingot Factory";
 			}
 
 			@Override
@@ -3361,7 +3361,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cElectric Ingot Factory";
+				return "Â§cElectric Ingot Factory";
 			}
 
 			@Override
@@ -3390,7 +3390,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§bElectric Ore Grinder";
+				return "Â§bElectric Ore Grinder";
 			}
 
 			@Override
@@ -3424,7 +3424,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§bElectric Ore Grinder";
+				return "Â§bElectric Ore Grinder";
 			}
 
 			@Override
@@ -3518,7 +3518,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cCoal Generator";
+				return "Â§cCoal Generator";
 			}
 			
 			@Override
@@ -3580,7 +3580,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§2Bio Reactor";
+				return "Â§2Bio Reactor";
 			}
 			
 			@Override
@@ -3638,8 +3638,8 @@ public class SlimefunSetup {
 					if (e.getClickedBlock() != null && ChargableBlock.isChargable(e.getClickedBlock())) {
 						e.setCancelled(true);
 						p.sendMessage("");
-						p.sendMessage("§bStored Energy: §3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(e.getClickedBlock())) + " J");
-						p.sendMessage("§bCapacity: §3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(e.getClickedBlock())) + " J");
+						p.sendMessage("Â§bStored Energy: Â§3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(e.getClickedBlock())) + " J");
+						p.sendMessage("Â§bCapacity: Â§3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(e.getClickedBlock())) + " J");
 						p.sendMessage("");
 					}
 					return true;
@@ -4299,7 +4299,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§4Lava Generator";
+				return "Â§4Lava Generator";
 			}
 			
 			@Override
@@ -4325,7 +4325,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cCombustion Reactor";
+				return "Â§cCombustion Reactor";
 			}
 			
 			@Override
@@ -4507,7 +4507,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cFood Fabricator";
+				return "Â§cFood Fabricator";
 			}
 
 			@Override
@@ -4532,7 +4532,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cFood Fabricator";
+				return "Â§cFood Fabricator";
 			}
 
 			@Override
@@ -4597,7 +4597,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cFood Composter";
+				return "Â§cFood Composter";
 			}
 
 			@Override
@@ -4622,7 +4622,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cFood Composter";
+				return "Â§cFood Composter";
 			}
 
 			@Override
@@ -4717,7 +4717,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§bFreezer";
+				return "Â§bFreezer";
 			}
 
 			@Override
@@ -4742,7 +4742,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§bFreezer";
+				return "Â§bFreezer";
 			}
 
 			@Override
@@ -4815,11 +4815,11 @@ public class SlimefunSetup {
 				
 				if (BlockStorage.getBlockInfo(e.getClickedBlock(), "visualizer") == null) {
 					BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", "disabled");
-					p.sendMessage("§cCargo Net Visualizer: " + "§4\u2718");
+					p.sendMessage("Â§cCargo Net Visualizer: " + "Â§4\u2718");
 				}
 				else {
 					BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", null);
-					p.sendMessage("§cCargo Net Visualizer: " + "§2\u2714");
+					p.sendMessage("Â§cCargo Net Visualizer: " + "Â§2\u2714");
 				}
 				return true;
 			}
@@ -4850,10 +4850,10 @@ public class SlimefunSetup {
 				if (!item.getName().equals("CARGO_NODE")) return false;
 				
 				if (CargoNet.isConnected(e.getClickedBlock())) {
-					p.sendMessage("§7Connected: " + "§2\u2714");
+					p.sendMessage("Â§7Connected: " + "Â§2\u2714");
 				}
 				else {
-					p.sendMessage("§7Connected: " + "§4\u2718");
+					p.sendMessage("Â§7Connected: " + "Â§4\u2718");
 				}
 				return true;
 			}
@@ -4902,7 +4902,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cCarbon Press";
+				return "Â§cCarbon Press";
 			}
 
 			@Override
@@ -4927,7 +4927,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cCarbon Press";
+				return "Â§cCarbon Press";
 			}
 
 			@Override
@@ -4952,7 +4952,7 @@ public class SlimefunSetup {
 			
 			@Override
 			public String getInventoryTitle() {
-				return "§cCarbon Press";
+				return "Â§cCarbon Press";
 			}
 
 			@Override
