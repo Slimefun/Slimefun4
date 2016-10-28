@@ -55,7 +55,7 @@ public class SlimefunItem {
 	String[] keys;
 	Object[] values;
 	Research research;
-	boolean ghost, replacing;
+	boolean ghost, replacing, disenchantable;
 	Set<ItemHandler> itemhandlers;
 	URID urid;
 	boolean ticking = false;
@@ -93,6 +93,8 @@ public class SlimefunItem {
 		this.values = null;
 		this.ghost = false;
 		this.replacing = false;
+		this.disenchantable = true;
+
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -109,6 +111,7 @@ public class SlimefunItem {
 		this.values = null;
 		this.ghost = false;
 		this.replacing = false;
+		this.disenchantable = true;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -125,6 +128,7 @@ public class SlimefunItem {
 		this.values = values;
 		this.ghost = false;
 		this.replacing = false;
+		this.disenchantable = true;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -141,6 +145,7 @@ public class SlimefunItem {
 		this.values = values;
 		this.ghost = false;
 		this.replacing = false;
+		this.disenchantable = true;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -157,6 +162,7 @@ public class SlimefunItem {
 		this.values = null;
 		this.ghost = ghost;
 		this.replacing = false;
+		this.disenchantable = true;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -173,6 +179,7 @@ public class SlimefunItem {
 			
 			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".enabled", true);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".can-be-used-in-workbenches", this.replacing);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".allow-disenchanting", this.disenchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".required-permission", "");
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
@@ -191,6 +198,7 @@ public class SlimefunItem {
 			else if (SlimefunStartup.getItemCfg().getBoolean(this.name + ".enabled")) {
 				if (!Category.list().contains(category)) category.register();
 				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.name + ".can-be-used-in-workbenches");
+				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.name + ".allow-disenchanting");
 				items.add(this);
 				if (slimefun) vanilla++;
 				map_name.put(this.getName(), this.getURID());
@@ -312,6 +320,10 @@ public class SlimefunItem {
 	
 	public boolean isReplacing() {
 		return replacing;
+	}
+
+	public boolean isDisenchantable() {
+		return disenchantable;
 	}
 	
 	public void setReplacing(boolean replacing) {

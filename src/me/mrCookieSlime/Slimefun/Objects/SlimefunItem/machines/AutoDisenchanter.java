@@ -31,11 +31,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 public class AutoDisenchanter extends AContainer {
-	private boolean allowSlimefunItems;
 
 	public AutoDisenchanter(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		allowSlimefunItems = !SlimefunStartup.getCfg().getBoolean("options.allow-vanilla-disenchanting-only");
 	}
 
 	@Override
@@ -98,7 +96,7 @@ public class AutoDisenchanter extends AContainer {
 			for (int slot: getInputSlots()) {
 				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
-				if(!allowSlimefunItems && SlimefunItem.getByItem(item) != null) return;
+				if(SlimefunItem.getByItem(item) != null && !SlimefunItem.getByItem(item).isDisenchantable()) return;
 				if (item != null && target != null && target.getType() == Material.BOOK) {
 					int amount = 0;
 
