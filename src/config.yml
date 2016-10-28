@@ -1,6 +1,7 @@
 options:
   auto-update: true
   armor-update-interval: 10
+  allow-vanilla-disenchanting-only: false
   give-guide-on-first-join: true
   print-out-loading: false
   enable-armor-effects: true
