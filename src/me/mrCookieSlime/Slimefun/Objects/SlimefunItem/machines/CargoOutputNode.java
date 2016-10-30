@@ -30,7 +30,7 @@ public class CargoOutputNode extends SlimefunItem {
 	public CargoOutputNode(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, name, recipeType, recipe, recipeOutput);
 		
-		new BlockMenuPreset(name, "§6Output Node") {
+		new BlockMenuPreset(name, "Â§6Output Node") {
 			
 			@Override
 			public void init() {
@@ -42,7 +42,7 @@ public class CargoOutputNode extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
 
-					menu.replaceExistingItem(12, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "§bChannel", "", "§e> Click to decrease the Channel ID by 1"));
+					menu.replaceExistingItem(12, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "Â§bChannel", "", "Â§e> Click to decrease the Channel ID by 1"));
 					menu.addMenuClickHandler(12, new MenuClickHandler() {
 
 						@Override
@@ -61,7 +61,7 @@ public class CargoOutputNode extends SlimefunItem {
 					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency"))));
 
 					if (channel == 16) {
-						menu.replaceExistingItem(13, new CustomItem(SlimefunItems.CHEST_TERMINAL, "§bChannel ID: §3" + (channel + 1)));
+						menu.replaceExistingItem(13, new CustomItem(SlimefunItems.CHEST_TERMINAL, "Â§bChannel ID: Â§3" + (channel + 1)));
 						menu.addMenuClickHandler(13, new MenuClickHandler() {
 
 							@Override
@@ -71,7 +71,7 @@ public class CargoOutputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(13, new CustomItem(new MaterialData(Material.WOOL, (byte) channel), "§bChannel ID: §3" + (channel + 1)));
+						menu.replaceExistingItem(13, new CustomItem(new MaterialData(Material.WOOL, (byte) channel), "Â§bChannel ID: Â§3" + (channel + 1)));
 						menu.addMenuClickHandler(13, new MenuClickHandler() {
 
 							@Override
@@ -81,7 +81,7 @@ public class CargoOutputNode extends SlimefunItem {
 						});
 					}
 
-					menu.replaceExistingItem(14, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "§bChannel", "", "§e> Click to increase the Channel ID by 1"));
+					menu.replaceExistingItem(14, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "Â§bChannel", "", "Â§e> Click to increase the Channel ID by 1"));
 					menu.addMenuClickHandler(14, new MenuClickHandler() {
 
 						@Override
@@ -108,7 +108,7 @@ public class CargoOutputNode extends SlimefunItem {
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
-				boolean open = BlockStorage.getBlockInfo(b, "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.cargo.bypass");
+				boolean open = CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b) || p.hasPermission("slimefun.cargo.bypass");
 				if (!open) {
 					Messages.local.sendTranslation(p, "inventory.no-access", true);
 				}
