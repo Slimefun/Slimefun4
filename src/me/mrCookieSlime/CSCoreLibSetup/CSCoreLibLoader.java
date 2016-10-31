@@ -67,7 +67,7 @@ public class CSCoreLibLoader {
 
             final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             final JSONArray array = (JSONArray) JSONValue.parse(reader.readLine());
-            download = new URL((String) ((JSONObject) array.get(array.size() - 1)).get("downloadUrl"));
+            download = traceURL(((String) ((JSONObject) array.get(array.size() - 1)).get("downloadUrl")).replace("https:", "http:"));
             file = new File("plugins/" + (String) ((JSONObject) array.get(array.size() - 1)).get("name") + ".jar");
             
             return true;
@@ -82,6 +82,30 @@ public class CSCoreLibLoader {
             return false;
         }
     }
+	
+	private URL traceURL(String location) throws IOException {
+	    	HttpURLConnection connection = null;
+	    	
+	        while (true) {
+	            URL url = new URL(location);
+	            connection = (HttpURLConnection) url.openConnection();
+
+	            connection.setInstanceFollowRedirects(false);
+	            connection.setConnectTimeout(5000);
+	            connection.addRequestProperty("User-Agent", "Auto Updater (by mrCookieSlime)");
+
+	            switch (connection.getResponseCode()) {
+	                case HttpURLConnection.HTTP_MOVED_PERM:
+	                case HttpURLConnection.HTTP_MOVED_TEMP:
+	                    String loc = connection.getHeaderField("Location");
+	                    location = new URL(new URL(location), loc).toExternalForm();
+	                    continue;
+	            }
+	            break;
+	        }
+	        
+	        return connection.getURL();
+	}
 	
 	private void install() {
 		BufferedInputStream input = null;
