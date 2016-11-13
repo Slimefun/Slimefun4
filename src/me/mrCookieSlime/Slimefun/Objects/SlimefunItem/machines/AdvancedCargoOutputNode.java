@@ -1,5 +1,12 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
@@ -10,17 +17,12 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
+import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 public class AdvancedCargoOutputNode extends SlimefunItem {
 	
@@ -29,7 +31,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 	public AdvancedCargoOutputNode(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, name, recipeType, recipe, recipeOutput);
 		
-		new BlockMenuPreset(name, "§cOutput Node") {
+		new BlockMenuPreset(name, "Â§cOutput Node") {
 			
 			@Override
 			public void init() {
@@ -41,7 +43,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "filter-type") == null || BlockStorage.getBlockInfo(b, "filter-type").equals("whitelist")) {
-						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL), "§7Type: §rWhitelist", "", "§e> Click to change it to Blacklist"));
+						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL), "Â§7Type: Â§rWhitelist", "", "Â§e> Click to change it to Blacklist"));
 						menu.addMenuClickHandler(15, new MenuClickHandler() {
 
 							@Override
@@ -53,7 +55,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL, (byte) 15), "§7Type: §8Blacklist", "", "§e> Click to change it to Whitelist"));
+						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL, (byte) 15), "Â§7Type: Â§8Blacklist", "", "Â§e> Click to change it to Whitelist"));
 						menu.addMenuClickHandler(15, new MenuClickHandler() {
 
 							@Override
@@ -66,7 +68,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "filter-durability") == null || BlockStorage.getBlockInfo(b, "filter-durability").equals("false")) {
-						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.STONE_SWORD, (byte) 20), "§7Include Sub-IDs/Durability: §4\u2718", "", "§e> Click to toggle whether the Durability has to match"));
+						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.STONE_SWORD, (byte) 20), "Â§7Include Sub-IDs/Durability: Â§4\u2718", "", "Â§e> Click to toggle whether the Durability has to match"));
 						menu.addMenuClickHandler(16, new MenuClickHandler() {
 
 							@Override
@@ -78,7 +80,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.GOLD_SWORD, (byte) 20), "§7Include Sub-IDs/Durability: §2\u2714", "", "§e> Click to toggle whether the Durability has to match"));
+						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.GOLD_SWORD, (byte) 20), "Â§7Include Sub-IDs/Durability: Â§2\u2714", "", "Â§e> Click to toggle whether the Durability has to match"));
 						menu.addMenuClickHandler(16, new MenuClickHandler() {
 
 							@Override
@@ -91,7 +93,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "filter-lore") == null || BlockStorage.getBlockInfo(b, "filter-lore").equals("true")) {
-						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "§7Include Lore: §2\u2714", "", "§e> Click to toggle whether the Lore has to match"));
+						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "Â§7Include Lore: Â§2\u2714", "", "Â§e> Click to toggle whether the Lore has to match"));
 						menu.addMenuClickHandler(25, new MenuClickHandler() {
 
 							@Override
@@ -103,7 +105,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "§7Include Lore: §4\u2718", "", "§e> Click to toggle whether the Lore has to match"));
+						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "Â§7Include Lore: Â§4\u2718", "", "Â§e> Click to toggle whether the Lore has to match"));
 						menu.addMenuClickHandler(25, new MenuClickHandler() {
 
 							@Override
@@ -115,7 +117,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 						});
 					}
 
-					menu.replaceExistingItem(41, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "§bChannel", "", "§e> Click to decrease the Channel ID by 1"));
+					menu.replaceExistingItem(41, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "Â§bChannel", "", "Â§e> Click to decrease the Channel ID by 1"));
 					menu.addMenuClickHandler(41, new MenuClickHandler() {
 
 						@Override
@@ -134,7 +136,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency"))));
 
 					if (channel == 16) {
-						menu.replaceExistingItem(42, new CustomItem(SlimefunItems.CHEST_TERMINAL, "§bChannel ID: §3" + (channel + 1)));
+						menu.replaceExistingItem(42, new CustomItem(SlimefunItems.CHEST_TERMINAL, "Â§bChannel ID: Â§3" + (channel + 1)));
 						menu.addMenuClickHandler(42, new MenuClickHandler() {
 
 							@Override
@@ -144,7 +146,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(42, new CustomItem(new MaterialData(Material.WOOL, (byte) channel), "§bChannel ID: §3" + (channel + 1)));
+						menu.replaceExistingItem(42, new CustomItem(new MaterialData(Material.WOOL, (byte) channel), "Â§bChannel ID: Â§3" + (channel + 1)));
 						menu.addMenuClickHandler(42, new MenuClickHandler() {
 
 							@Override
@@ -154,7 +156,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 						});
 					}
 
-					menu.replaceExistingItem(43, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "§bChannel", "", "§e> Click to increase the Channel ID by 1"));
+					menu.replaceExistingItem(43, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "Â§bChannel", "", "Â§e> Click to increase the Channel ID by 1"));
 					menu.addMenuClickHandler(43, new MenuClickHandler() {
 
 						@Override
@@ -181,7 +183,11 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
-				return BlockStorage.getBlockInfo(b, "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.cargo.bypass");
+				boolean open = CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b) || p.hasPermission("slimefun.cargo.bypass");
+				if (!open) {
+					Messages.local.sendTranslation(p, "inventory.no-access", true);
+				}
+				return open;
 			}
 
 			@Override
@@ -226,7 +232,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 			});
 		}
 
-		preset.addItem(2, new CustomItem(new MaterialData(Material.PAPER), "§3Items", "", "§bPut in all Items you want to", "§bblacklist/whitelist"),
+		preset.addItem(2, new CustomItem(new MaterialData(Material.PAPER), "Â§3Items", "", "Â§bPut in all Items you want to", "Â§bblacklist/whitelist"),
 		new MenuClickHandler() {
 
 			@Override
