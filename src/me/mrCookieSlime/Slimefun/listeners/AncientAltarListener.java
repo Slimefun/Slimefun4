@@ -77,7 +77,7 @@ public class AncientAltarListener implements Listener {
 			else if (item.getName().equals("ANCIENT_ALTAR")) {
 				e.setCancelled(true);
 				
-				ItemStack catalyst = e.getPlayer().getInventory().getItemInMainHand();
+				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
 				List<Block> pedestals = Pedestals.getPedestals(b);
 				
 				if (!altars.contains(e.getClickedBlock())) {
@@ -145,7 +145,7 @@ public class AncientAltarListener implements Listener {
 		if (stack != null && !stack.getType().equals(Material.AIR)) {
 			PlayerInventory.consumeItemInHand(p);
 			String nametag = StringUtils.formatItemName(stack, false);
-			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "§5§dALTAR §3Probe - §e" + System.nanoTime()));
+			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "Â§5Â§dALTAR Â§3Probe - Â§e" + System.nanoTime()));
 			entity.setVelocity(new Vector(0, 0.1, 0));
 			entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunStartup.instance, "altar_item"));
 			entity.setCustomNameVisible(true);
@@ -157,7 +157,7 @@ public class AncientAltarListener implements Listener {
 	@EventHandler
 	public void onPickup(PlayerPickupItemEvent e) {
 		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("§5§dALTAR §3Probe - §e")) {
+		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("Â§5Â§dALTAR Â§3Probe - Â§e")) {
 			e.setCancelled(true);
 			e.getItem().remove();
 		}
