@@ -165,7 +165,7 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(168, "Tier 2 Capacitors", 32), SlimefunItems.LARGE_CAPACITOR, SlimefunItems.CARBONADO_EDGED_CAPACITOR);
 	    Slimefun.registerResearch(new Research(169, "Solar Power Plant", 14), SlimefunItems.SOLAR_GENERATOR);
 	    Slimefun.registerResearch(new Research(170, "Powered Furnace", 15), SlimefunItems.ELECTRIC_FURNACE);
-	    Slimefun.registerResearch(new Research(171, "Crushing and Grinding", 20), SlimefunItems.ELECTRIC_ORE_GRINDER);
+	    Slimefun.registerResearch(new Research(171, "Crushing and Grinding", 20), SlimefunItems.ELECTRIC_ORE_GRINDER, SlimefunItems.ELECTRIC_INGOT_PULVERIZER);
 	    Slimefun.registerResearch(new Research(172, "Heated Pressure Chamber", 22), SlimefunItems.HEATED_PRESSURE_CHAMBER);
 	    Slimefun.registerResearch(new Research(173, "Coal Generator", 18), SlimefunItems.COAL_GENERATOR);
 	    Slimefun.registerResearch(new Research(173, "Bio-Reactor", 18), SlimefunItems.BIO_REACTOR);
