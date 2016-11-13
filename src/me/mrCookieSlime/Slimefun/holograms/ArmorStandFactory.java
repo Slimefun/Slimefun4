@@ -32,7 +32,7 @@ public class ArmorStandFactory {
             	try {
             		ReflectionUtils.setFieldValue(nmsEntity, "bB", 2039583);
             	} catch(IllegalArgumentException x) {
-            		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+            		ReflectionUtils.setFieldValue(nmsEntity, "bA", true);
             	}
             }
             else {
