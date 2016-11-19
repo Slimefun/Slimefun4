@@ -512,6 +512,7 @@ public class SlimefunItems {
 
 	public static ItemStack PROGRAMMABLE_ANDROID_2 = null;
 	public static ItemStack PROGRAMMABLE_ANDROID_2_FISHERMAN = null;
+	public static ItemStack PROGRAMMABLE_ANDROID_2_FARMER = null;
 	public static ItemStack PROGRAMMABLE_ANDROID_2_BUTCHER = null;
 
 	public static ItemStack PROGRAMMABLE_ANDROID_3 = null;
@@ -703,6 +704,7 @@ public class SlimefunItems {
 			
 			PROGRAMMABLE_ANDROID_2 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzUwM2NiN2VkODQ1ZTdhNTA3ZjU2OWFmYzY0N2M0N2FjNDgzNzcxNDY1YzlhNjc5YTU0NTk0Yzc2YWZiYSJ9fX0="), "§cAdvanced Programmable Android &7(Normal)", "", "§8\u21E8 §7Function: None", "§8\u21E8 §7Fuel Efficiency: 1.5x");
 			PROGRAMMABLE_ANDROID_2_FISHERMAN = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzQ1ZTg3MzNhNzMxMTQzMzNiOThiMzYwMTc1MTI0MTcyMmY0NzEzZTFhMWE1ZDM2ZmJiMTMyNDkzZjFjNyJ9fX0="), "§cAdvanced Programmable Android &7(Fisherman)", "", "§8\u21E8 §7Function: Fishing", "§8\u21E8 §7Success Rate: 20%", "§8\u21E8 §7Fuel Efficiency: 1.5x");
+			PROGRAMMABLE_ANDROID_2_FARMER = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjlkMzMzNTdlODQxODgyM2JmNzgzZGU5MmRlODAyOTFiNGViZDM5MmFlYzg3MDY2OThlMDY4OTZkNDk4ZjYifX19"), "§cAdvanced Programmable Android &7(Farmer)", "", "§8\u21E8 §7Function: Farming", "§8\u21E8 §7Fuel Efficiency: 1.5x", "§8\u21E8 §7Can harvest Exotic Garden plants");
 			PROGRAMMABLE_ANDROID_2_BUTCHER = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2I0NzJkZjBhZDlhM2JlODhmMmU1ZDVkNDIyZDAyYjExNmQ2NGQ4ZGYxNDc1ZWQzMmU1NDZhZmM4NGIzMSJ9fX0="), "§cAdvanced Programmable Android &7(Butcher)", "", "§8\u21E8 §7Function: Slaughtering", "§8\u21E8 §7Damage: 8", "§8\u21E8 §7Fuel Efficiency: 1.5x");
 
 			PROGRAMMABLE_ANDROID_3 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzUwM2NiN2VkODQ1ZTdhNTA3ZjU2OWFmYzY0N2M0N2FjNDgzNzcxNDY1YzlhNjc5YTU0NTk0Yzc2YWZiYSJ9fX0="), "§eEmpowered Programmable Android &7(Normal)", "", "§8\u21E8 §7Function: None", "§8\u21E8 §7Fuel Efficiency: 3.0x");

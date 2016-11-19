@@ -4081,6 +4081,27 @@ public class SlimefunSetup {
 			
 		}
 		.register(true);
+
+		new ProgrammableAndroid(Categories.ELECTRICITY, SlimefunItems.PROGRAMMABLE_ANDROID_2_FARMER, "PROGRAMMABLE_ANDROID_2_FARMER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {null, SlimefunItems.GPS_TRANSMITTER, null, new ItemStack(Material.DIAMOND_HOE), SlimefunItems.PROGRAMMABLE_ANDROID_2, new ItemStack(Material.DIAMOND_HOE), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
+
+			@Override
+			public AndroidType getAndroidType() {
+				return AndroidType.ADVANCED_FARMER;
+			}
+
+			@Override
+			public float getFuelEfficiency() {
+				return 1.5F;
+			}
+
+			@Override
+			public int getTier() {
+				return 2;
+			}
+
+		}
+		.register(true);
 		
 
 		new ProgrammableAndroid(Categories.ELECTRICITY, SlimefunItems.PROGRAMMABLE_ANDROID_3, "PROGRAMMABLE_ANDROID_3", RecipeType.ENHANCED_CRAFTING_TABLE,
