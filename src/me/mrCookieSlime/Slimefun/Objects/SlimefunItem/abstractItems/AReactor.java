@@ -7,30 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -41,7 +17,30 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
-import org.bukkit.scheduler.BukkitRunnable;
+
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 
 public abstract class AReactor extends SlimefunItem {
 
@@ -84,7 +83,7 @@ public abstract class AReactor extends SlimefunItem {
 						BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 					}
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "reactor-mode").equals("generator")) {
-						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "Â§7Focus: Â§eElectricity", "", "Â§6Your Reactor will focus on Power Generation", "Â§6If your Energy Network doesn't need Power", "Â§6it will not produce any either", "", "Â§7> Click to change the Focus to Â§eProduction"));
+						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "§7Focus: §eElectricity", "", "§6Your Reactor will focus on Power Generation", "§6If your Energy Network doesn't need Power", "§6it will not produce any either", "", "§7> Click to change the Focus to §eProduction"));
 						menu.addMenuClickHandler(4, new MenuClickHandler() {
 
 							@Override
@@ -96,7 +95,7 @@ public abstract class AReactor extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "Â§7Focus: Â§eProduction", "", "Â§6Your Reactor will focus on producing goods", "Â§6If your Energy Network doesn't need Power", "Â§6it will continue to run and simply will", "Â§6not generate any Power in the mean time", "", "Â§7> Click to change the Focus to Â§ePower Generation"));
+						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "§7Focus: §eProduction", "", "§6Your Reactor will focus on producing goods", "§6If your Energy Network doesn't need Power", "§6it will continue to run and simply will", "§6not generate any Power in the mean time", "", "§7> Click to change the Focus to §ePower Generation"));
 						menu.addMenuClickHandler(4, new MenuClickHandler() {
 
 							@Override
@@ -212,7 +211,7 @@ public abstract class AReactor extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "Â§7Fuel Slot", "", "Â§rThis Slot accepts radioactive Fuel such as:", "Â§2Uranium Â§ror Â§aNeptunium"),
+		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "§7Fuel Slot", "", "§rThis Slot accepts radioactive Fuel such as:", "§2Uranium §ror §aNeptunium"),
 		new MenuClickHandler() {
 
 			@Override
@@ -223,9 +222,9 @@ public abstract class AReactor extends SlimefunItem {
 		});
 
 		if (needsCooling()) {
-			preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "Â§bCoolant Slot", "", "Â§rThis Slot accepts Coolant Cells", "Â§4Without any Coolant Cells, your Reactor", "Â§4will explode"));
+			preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells", "§4Without any Coolant Cells, your Reactor", "§4will explode"));
 		} else {
-			preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "Â§bCoolant Slot", "", "Â§rThis Slot accepts Coolant Cells"));
+			preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells"));
 		}
 		preset.addMenuClickHandler(7, new MenuClickHandler() {
 			@Override
@@ -294,19 +293,6 @@ public abstract class AReactor extends SlimefunItem {
 						if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction() || !BlockStorage.getBlockInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
 							
-							boolean coolant = needsCooling() && (processing.get(l).getTicks() - timeleft) % 25 == 0;
-							
-							ItemStack item = getProgressBar().clone();
-							ItemMeta im = item.getItemMeta();
-							im.setDisplayName(" ");
-							List<String> lore = new ArrayList<String>();
-							lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
-							lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
-							lore.add("");
-							lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-							im.setLore(lore);
-							item.setItemMeta(im);
-							
 							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 								
 								@Override
@@ -314,30 +300,49 @@ public abstract class AReactor extends SlimefunItem {
 									if (!l.getBlock().getRelative(cooling[CSCoreLib.randomizer().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 								}
 							});
-
-							BlockStorage.getInventory(l).replaceExistingItem(22, item);
 							
-							if (coolant) {
-								if (port != null) {
-									for (int slot: getCoolantSlots()) {
-										if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), SlimefunItems.REACTOR_COOLANT_CELL, true)) {
-											port.replaceExistingItem(slot, pushItems(l, port.getItemInSlot(slot), getCoolantSlots()));
+							if (needsCooling()) {
+								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
+								
+								ItemStack item = getProgressBar().clone();
+								ItemMeta im = item.getItemMeta();
+								im.setDisplayName(" ");
+								List<String> lore = new ArrayList<String>();
+								lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
+								lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
+								lore.add("");
+								lore.add(MachineHelper.getTimeLeft(timeleft / 2));
+								im.setLore(lore);
+								item.setItemMeta(im);
+								
+								BlockStorage.getInventory(l).replaceExistingItem(22, item);
+								
+								if (coolant) {
+									if (port != null) {
+										for (int slot: getCoolantSlots()) {
+											if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), SlimefunItems.REACTOR_COOLANT_CELL, true)) {
+												port.replaceExistingItem(slot, pushItems(l, port.getItemInSlot(slot), getCoolantSlots()));
+											}
 										}
 									}
-								}
-								
-								boolean explosion = true;
-								for (int slot: getCoolantSlots()) {
-									if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), SlimefunItems.REACTOR_COOLANT_CELL, true)) {
-										BlockStorage.getInventory(l).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(slot), 1));
-										explosion = false;
-										break;
+									
+									boolean explosion = true;
+									for (int slot: getCoolantSlots()) {
+										if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), SlimefunItems.REACTOR_COOLANT_CELL, true)) {
+											BlockStorage.getInventory(l).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(slot), 1));
+											ReactorHologram.update(l, "§b\u2744 §7100%");
+											explosion = false;
+											break;
+										}
+									}
+									
+									if (explosion) {
+										explode.add(l);
+										return 0;
 									}
 								}
-								
-								if (explosion) {
-									explode.add(l);
-									return 0;
+								else {
+									ReactorHologram.update(l, "§b\u2744 §7" + MachineHelper.getPercentage(timeleft, processing.get(l).getTicks()) + "%");
 								}
 							}
 
@@ -405,7 +410,7 @@ public abstract class AReactor extends SlimefunItem {
 				final boolean explosion = explode.contains(l);
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 						@Override
 						public void run() {
 							ReactorHologram.remove(l);
@@ -426,7 +431,7 @@ public abstract class AReactor extends SlimefunItem {
 		int size = BlockStorage.getInventory(l).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " Â§4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND, " §4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(l).getItemInSlot(slot));
@@ -438,7 +443,7 @@ public abstract class AReactor extends SlimefunItem {
 		int size = BlockStorage.getInventory(l).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " Â§4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND, " §4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: slots) {
 			inv.setItem(slot, BlockStorage.getInventory(l).getItemInSlot(slot));

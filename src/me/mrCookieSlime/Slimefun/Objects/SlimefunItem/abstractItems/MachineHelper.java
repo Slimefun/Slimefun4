@@ -69,6 +69,11 @@ public class MachineHelper {
 		return ChatColor.translateAlternateColorCodes('&', progress.toString());
 	}
 
+	public static float getPercentage(int time, int total) {
+		int passed = ((total - time) % 25);
+		return Math.round(((((25 - passed) * 100.0f) / 25) * 100.0f) / 100.0f);
+	}
+
 	public static short getDurability(ItemStack item, int timeleft, int max) {
 		return (short) ((item.getType().getMaxDurability() / max) * timeleft);
 	}

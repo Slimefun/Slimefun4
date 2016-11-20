@@ -1,12 +1,13 @@
 package me.mrCookieSlime.Slimefun.holograms;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
-/**
- * Created by John on 20.11.2016.
- */
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+
+
 public class ReactorHologram {
 
     public static ArmorStand getArmorStand(Location reactor) {
@@ -23,6 +24,17 @@ public class ReactorHologram {
         hologram.setCustomName(null);
         return hologram;
     }
+    
+    public static void update(final Location l, final String name) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+			
+			@Override
+			public void run() {
+				ArmorStand hologram = getArmorStand(l);
+				hologram.setCustomName(name);
+			}
+		});
+	}
 
     public static void remove(Location l) {
         ArmorStand hologram = getArmorStand(l);

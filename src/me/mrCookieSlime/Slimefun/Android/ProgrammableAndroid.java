@@ -821,7 +821,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
             ItemStack drop = ExoticGarden.harvestPlant(block);
             if (drop != null && fits(b, drop)) {
                 pushItems(b, drop);
-                block.setData((byte) 0);
                 block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
             }
         }
