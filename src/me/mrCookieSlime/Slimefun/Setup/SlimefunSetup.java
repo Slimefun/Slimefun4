@@ -4904,8 +4904,8 @@ public class SlimefunSetup {
 					@Override
 					public void run() {
 						for (Entity entity : ReactorHologram.getArmorStand(l).getNearbyEntities(5, 5, 5)) {
-							if (entity instanceof Player) {
-								((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 3));
+							if (entity instanceof LivingEntity) {
+								((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
 							}
 						}
 					}
