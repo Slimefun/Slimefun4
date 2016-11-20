@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.EulerAngle;
 
 public class ArmorStandFactory {
-	
+
 	public static ArmorStand createHidden(Location l) {
 		ArmorStand armorstand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
 		armorstand.setVisible(false);
@@ -24,17 +24,24 @@ public class ArmorStandFactory {
             if (ReflectionUtils.getVersion().startsWith("v1_9_")) {
             	try {
             		ReflectionUtils.setFieldValue(nmsEntity, "bz", 2039583);
-            	} catch(IllegalArgumentException x) {
+            	} catch (IllegalArgumentException x) {
             		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
             	}
             }
             else if (ReflectionUtils.getVersion().startsWith("v1_10_")) {
             	try {
             		ReflectionUtils.setFieldValue(nmsEntity, "bB", 2039583);
-            	} catch(IllegalArgumentException x) {
+            	} catch (IllegalArgumentException x) {
             		ReflectionUtils.setFieldValue(nmsEntity, "bA", true);
             	}
             }
+            else if (ReflectionUtils.getVersion().startsWith("v1_11_")) {
+				try {
+					ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+				} catch (IllegalArgumentException x) {
+					ReflectionUtils.setFieldValue(nmsEntity, "bB", true);
+				}
+			}
             else {
             	Method method = nmsEntity.getClass().getMethod("getNBTTag");
             	Object tag = method.invoke(nmsEntity);
@@ -43,10 +50,10 @@ public class ArmorStandFactory {
                 }
                 method = nmsEntity.getClass().getMethod("c", ReflectionUtils.getClass("NBTTagCompound"));
                 method.invoke(nmsEntity, tag);
-    			
+
                 tag.getClass().getMethod("setBoolean", String.class, boolean.class).invoke(tag, "Invulnerable", true);
                 nmsEntity.getClass().getMethod("f", ReflectionUtils.getClass("NBTTagCompound")).invoke(nmsEntity, tag);
-                
+
                 tag.getClass().getMethod("setInt", String.class, int.class).invoke(tag, "DisabledSlots", 2039583);
                 nmsEntity.getClass().getMethod("a", ReflectionUtils.getClass("NBTTagCompound")).invoke(nmsEntity, tag);
             }
@@ -55,7 +62,7 @@ public class ArmorStandFactory {
         }
 		return armorstand;
 	}
-	
+
 	public static ArmorStand createSmall(Location l, ItemStack item, EulerAngle arm, float yaw) {
 		l.setYaw(yaw);
 		ArmorStand armorstand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
@@ -84,10 +91,10 @@ public class ArmorStandFactory {
                 }
                 method = nmsEntity.getClass().getMethod("c", ReflectionUtils.getClass("NBTTagCompound"));
                 method.invoke(nmsEntity, tag);
-    			
+
                 tag.getClass().getMethod("setBoolean", String.class, boolean.class).invoke(tag, "Invulnerable", true);
                 nmsEntity.getClass().getMethod("f", ReflectionUtils.getClass("NBTTagCompound")).invoke(nmsEntity, tag);
-                
+
                 tag.getClass().getMethod("setInt", String.class, int.class).invoke(tag, "DisabledSlots", 2039583);
                 nmsEntity.getClass().getMethod("a", ReflectionUtils.getClass("NBTTagCompound")).invoke(nmsEntity, tag);
             }
@@ -96,7 +103,7 @@ public class ArmorStandFactory {
         }
 		return armorstand;
 	}
-	
+
 	public static ArmorStand createSmall(Location l, ItemStack head, float yaw) {
 		l.setYaw(yaw);
 		ArmorStand armorstand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
@@ -123,10 +130,10 @@ public class ArmorStandFactory {
                 }
                 method = nmsEntity.getClass().getMethod("c", ReflectionUtils.getClass("NBTTagCompound"));
                 method.invoke(nmsEntity, tag);
-    			
+
                 tag.getClass().getMethod("setBoolean", String.class, boolean.class).invoke(tag, "Invulnerable", true);
                 nmsEntity.getClass().getMethod("f", ReflectionUtils.getClass("NBTTagCompound")).invoke(nmsEntity, tag);
-                
+
                 tag.getClass().getMethod("setInt", String.class, int.class).invoke(tag, "DisabledSlots", 2039583);
                 nmsEntity.getClass().getMethod("a", ReflectionUtils.getClass("NBTTagCompound")).invoke(nmsEntity, tag);
             }

@@ -101,7 +101,7 @@ public class SlimefunStartup extends JavaPlugin {
 	private boolean exoticGarden = false;
 
 	// Supported Versions of Minecraft
-	final String[] supported = {"v1_9_", "v1_10_", "PluginBukkitBridge"};
+	final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "PluginBukkitBridge"};
 
 	@SuppressWarnings("deprecation")
 	@Override
