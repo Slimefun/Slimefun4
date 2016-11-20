@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -122,7 +123,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodComposter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodFabricator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Freezer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HeatedPressureChamber;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.NuclearReactor;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OilPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Refinery;
@@ -4843,8 +4844,44 @@ public class SlimefunSetup {
 		
 		SlimefunItem.setRadioactive(SlimefunItems.BOOSTED_URANIUM);
 
-		new NuclearReactor(Categories.ELECTRICITY, SlimefunItems.NUCLEAR_REACTOR, "NUCLEAR_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.CARBONADO_EDGED_CAPACITOR, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.REINFORCED_PLATE, SlimefunItems.COOLING_UNIT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT})
+		new AReactor(Categories.ELECTRICITY, SlimefunItems.NUCLEAR_REACTOR, "NUCLEAR_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.CARBONADO_EDGED_CAPACITOR, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.REINFORCED_PLATE, SlimefunItems.COOLING_UNIT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT}){
+			@Override
+			public String getInventoryTitle() {
+				return "§2Nuclear Reactor";
+			}
+
+			@Override
+			public void registerDefaultRecipes() {
+				registerFuel(new MachineFuel(1200, SlimefunItems.URANIUM, SlimefunItems.NEPTUNIUM));
+				registerFuel(new MachineFuel(600, SlimefunItems.NEPTUNIUM, SlimefunItems.PLUTONIUM));
+				registerFuel(new MachineFuel(1500, SlimefunItems.BOOSTED_URANIUM, null));
+			}
+
+			@Override
+			public int getEnergyProduction() {
+				return 250;
+			}
+
+			@Override
+			public void extraTick(Location l) {
+
+			}
+
+			@Override
+			public ItemStack getProgressBar() {
+				try {
+					return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNhZDhlZTg0OWVkZjA0ZWQ5YTI2Y2EzMzQxZjYwMzNiZDc2ZGNjNDIzMWVkMWVhNjNiNzU2NTc1MWIyN2FjIn19fQ==");
+				} catch (Exception e) {
+					return new ItemStack(Material.BLAZE_POWDER);
+				}
+			}
+
+			@Override
+			public boolean needsCooling() {
+				return true;
+			}
+		}
 		.registerChargeableBlock(true, 16384);
 		
 		new SlimefunItem(Categories.CARGO, SlimefunItems.CARGO_MOTOR, "CARGO_MOTOR", RecipeType.ENHANCED_CRAFTING_TABLE,

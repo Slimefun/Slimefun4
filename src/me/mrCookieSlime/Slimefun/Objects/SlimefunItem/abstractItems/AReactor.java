@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +14,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -42,7 +43,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
-public class NuclearReactor extends SlimefunItem {
+public abstract class AReactor extends SlimefunItem {
 
 	public static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
 	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
@@ -66,7 +67,7 @@ public class NuclearReactor extends SlimefunItem {
 	private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
 	private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 49, 50};
 
-	public NuclearReactor(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
+	public AReactor(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
 		new BlockMenuPreset(name, getInventoryTitle()) {
@@ -220,31 +221,29 @@ public class NuclearReactor extends SlimefunItem {
 			}
 							
 		});
-		
-		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells", "§4Without any Coolant Cells, your Reactor", "§4will explode"),
-		new MenuClickHandler() {
 
+		if (needsCooling()) {
+			preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells", "§4Without any Coolant Cells, your Reactor", "§4will explode"));
+		} else {
+			preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells"));
+		}
+		preset.addMenuClickHandler(7, new MenuClickHandler() {
 			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+			public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
 				return false;
 			}
-							
 		});
 	}
 	
-	public String getInventoryTitle() {
-		return "§2Nuclear Reactor";
-	}
+	public abstract String getInventoryTitle();
 	
-	public void registerDefaultRecipes() {
-		registerFuel(new MachineFuel(1200, SlimefunItems.URANIUM, SlimefunItems.NEPTUNIUM));
-		registerFuel(new MachineFuel(600, SlimefunItems.NEPTUNIUM, SlimefunItems.PLUTONIUM));
-		registerFuel(new MachineFuel(1500, SlimefunItems.BOOSTED_URANIUM, null));
-	}
+	public abstract void registerDefaultRecipes();
 	
-	public int getEnergyProduction() {
-		return 250;
-	}
+	public abstract int getEnergyProduction();
+
+	public abstract void extraTick(Location l);
+
+	public abstract boolean needsCooling(); //NOTE: Still needs to be surrounded by water!
 
 	public int[] getInputSlots() {
 		return new int[] {19, 28, 37, 25, 34, 43};
@@ -287,6 +286,7 @@ public class NuclearReactor extends SlimefunItem {
 				
 				if (isProcessing(l)) {
 					int timeleft = progress.get(l);
+					extraTick(l);
 					if (timeleft > 0) {
 						if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction()) {
 							ChargableBlock.addCharge(l, getEnergyProduction());
@@ -294,7 +294,7 @@ public class NuclearReactor extends SlimefunItem {
 						if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction() || !BlockStorage.getBlockInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
 							
-							boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
+							boolean coolant = needsCooling() && (processing.get(l).getTicks() - timeleft) % 25 == 0;
 							
 							ItemStack item = getProgressBar().clone();
 							ItemMeta im = item.getItemMeta();
@@ -340,7 +340,7 @@ public class NuclearReactor extends SlimefunItem {
 									return 0;
 								}
 							}
-							
+
 							return ChargableBlock.getCharge(l);
 						}
 						return 0;
@@ -351,7 +351,7 @@ public class NuclearReactor extends SlimefunItem {
 						
 						if (port != null) {
 							for (int slot: getOutputSlots()) {
-								BlockStorage.getInventory(l).replaceExistingItem(slot, ReactorAccessPort.pushItems(port.getLocation(), BlockStorage.getInventory(l).getItemInSlot(slot)));;
+								BlockStorage.getInventory(l).replaceExistingItem(slot, ReactorAccessPort.pushItems(port.getLocation(), BlockStorage.getInventory(l).getItemInSlot(slot)));
 							}
 						}
 						
@@ -465,13 +465,7 @@ public class NuclearReactor extends SlimefunItem {
 		return null;
 	}
 
-	public ItemStack getProgressBar() {
-		try {
-			return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNhZDhlZTg0OWVkZjA0ZWQ5YTI2Y2EzMzQxZjYwMzNiZDc2ZGNjNDIzMWVkMWVhNjNiNzU2NTc1MWIyN2FjIn19fQ==");
-		} catch (Exception e) {
-			return new ItemStack(Material.BLAZE_POWDER);
-		}
-	}
+	public abstract ItemStack getProgressBar();
 
 	public Set<MachineFuel> getFuelTypes() {
 		return this.recipes;
