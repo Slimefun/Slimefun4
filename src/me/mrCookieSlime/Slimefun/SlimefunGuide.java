@@ -29,7 +29,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.NuclearReactor;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.URID.URID;
@@ -1064,16 +1064,16 @@ public class SlimefunGuide {
 					slot++;
 				}
 			}
-			else if (sfItem instanceof NuclearReactor) {
+			else if (sfItem instanceof AReactor) {
 				int slot = 27;
-				for (MachineFuel fuel: ((NuclearReactor) sfItem).getFuelTypes()) {
+				for (MachineFuel fuel: ((AReactor) sfItem).getFuelTypes()) {
 					if (slot > 54) break;
 					ItemStack fItem = fuel.getInput().clone();
 					ItemMeta im = fItem.getItemMeta();
 					List<String> lore = new ArrayList<String>();
 					lore.add("§8\u21E8 §7Lasts " + getTimeLeft(fuel.getTicks() / 2));
-					lore.add("§8\u21E8 §e\u26A1 §7" + (((NuclearReactor) sfItem).getEnergyProduction() * 2) + " J/s");
-					lore.add("§8\u21E8 §e\u26A1 §7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((NuclearReactor) sfItem).getEnergyProduction()) + " J in total");
+					lore.add("§8\u21E8 §e\u26A1 §7" + (((AReactor) sfItem).getEnergyProduction() * 2) + " J/s");
+					lore.add("§8\u21E8 §e\u26A1 §7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AReactor) sfItem).getEnergyProduction()) + " J in total");
 					im.setLore(lore);
 					fItem.setItemMeta(im);
 					menu.addItem(slot, fItem);

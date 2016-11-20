@@ -607,6 +607,7 @@ public class SlimefunItems {
 	public static ItemStack REACTOR_COOLANT_CELL = null;
 
 	public static ItemStack NUCLEAR_REACTOR = null;
+	public static ItemStack NETHERSTAR_REACTOR = null;
 	public static ItemStack REACTOR_ACCESS_PORT = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 9), "§2Reactor Access Port", "", "§rAllows you to interact with a Reactor", "§rvia Cargo Nodes, can also be used", "§ras a Buffer", "", "§8\u21E8 §eMust be placed &a3 Blocks &eabove the Reactor");
 	
 	public static ItemStack FREEZER = null;
@@ -677,7 +678,8 @@ public class SlimefunItems {
 			COMBUSTION_REACTOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&cCombustion Reactor", "", "§6Advanced Generator", "§8\u21E8 §e\u26A1 §7256 J Buffer", "§8\u21E8 §e\u26A1 §724 J/s");
 
 			NUCLEAR_REACTOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&2Nuclear Reactor", "", "§rRequires Cooling!", "§8\u21E8 §bMust be surrounded by Water", "§8\u21E8 §bMust be supplied with Reactor Coolant Cells", "", "§4End-Game Generator", "§8\u21E8 §e\u26A1 §716384 J Buffer", "§8\u21E8 §e\u26A1 §7500 J/s");
-			
+
+			NETHERSTAR_REACTOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&fNether Star Reactor", "", "§fUses the power of Nether Stars", "§fto generate large amounts of energy", "§8\u21E8 §bMust be surrounded by Water", "", "§4End-Game Generator", "§8\u21E8 §732768 J Buffer", "§8\u21E8 §e\u26A1 §7720 J/s", "§8\u21E8 §7Wither Effect around the Reactor");
 			SMALL_CAPACITOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTEzNjFlNTc2YjQ5M2NiZmRmYWUzMjg2NjFjZWRkMWFkZDU1ZmFiNGU1ZWI0MThiOTJjZWJmNjI3NWY4YmI0In19fQ=="), "&aSmall Energy Capacitor", "", "§eBasic Capacitor", "§8\u21E8 §e\u26A1 §7128 J Capacity");
 			MEDIUM_CAPACITOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTEzNjFlNTc2YjQ5M2NiZmRmYWUzMjg2NjFjZWRkMWFkZDU1ZmFiNGU1ZWI0MThiOTJjZWJmNjI3NWY4YmI0In19fQ=="), "&aMedium Energy Capacitor", "", "§6Average Capacitor", "§8\u21E8 §e\u26A1 §7512 J Capacity");
 			BIG_CAPACITOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTEzNjFlNTc2YjQ5M2NiZmRmYWUzMjg2NjFjZWRkMWFkZDU1ZmFiNGU1ZWI0MThiOTJjZWJmNjI3NWY4YmI0In19fQ=="), "&aBig Energy Capacitor", "", "§aMedium Capacitor", "§8\u21E8 §e\u26A1 §71024 J Capacity");
