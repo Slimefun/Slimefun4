@@ -144,6 +144,7 @@ public abstract class AReactor extends SlimefunItem {
 				}
 				progress.remove(b.getLocation());
 				processing.remove(b.getLocation());
+				ReactorHologram.remove(b.getLocation());
 				return true;
 			}
 		});
