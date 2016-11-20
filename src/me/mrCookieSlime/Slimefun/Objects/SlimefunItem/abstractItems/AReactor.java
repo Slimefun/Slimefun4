@@ -22,8 +22,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineHelper;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -32,6 +30,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -42,6 +41,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class AReactor extends SlimefunItem {
 
@@ -192,7 +192,7 @@ public abstract class AReactor extends SlimefunItem {
 		
 		for (int i: border_3) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 13), " "),
-			new MenuClickHandler() {
+			 new MenuClickHandler() {
 
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -285,8 +285,8 @@ public abstract class AReactor extends SlimefunItem {
 				BlockMenu port = getAccessPort(l);
 				
 				if (isProcessing(l)) {
-					int timeleft = progress.get(l);
 					extraTick(l);
+					int timeleft = progress.get(l);
 					if (timeleft > 0) {
 						if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction()) {
 							ChargableBlock.addCharge(l, getEnergyProduction());
@@ -401,11 +401,16 @@ public abstract class AReactor extends SlimefunItem {
 			}
 
 			@Override
-			public boolean explode(Location l) {
+			public boolean explode(final Location l) {
 				final boolean explosion = explode.contains(l);
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
-					
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+						@Override
+						public void run() {
+							ReactorHologram.remove(l);
+						}
+					}, 0);
 					explode.remove(l);
 					processing.remove(l);
 					progress.remove(l);
