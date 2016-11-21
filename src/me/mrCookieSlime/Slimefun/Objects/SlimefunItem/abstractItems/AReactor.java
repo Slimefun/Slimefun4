@@ -46,8 +46,8 @@ public abstract class AReactor extends SlimefunItem {
 
 	public static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
 	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
-	
-	private static final BlockFace[] cooling = 
+
+	private static final BlockFace[] cooling =
     	{
     		BlockFace.NORTH,
     		BlockFace.NORTH_EAST,
@@ -58,19 +58,20 @@ public abstract class AReactor extends SlimefunItem {
     		BlockFace.WEST,
     		BlockFace.NORTH_WEST
     	};
-	
+
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
-	
+
 	private static final int[] border = {0, 1, 2, 3, 5, 6, 7, 8, 12, 13, 14, 21, 23};
 	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
 	private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
 	private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 49, 50};
+    private static final int[] border_4 = {25, 34, 43}; //No coolant border
 
 	public AReactor(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
+
 		new BlockMenuPreset(name, getInventoryTitle()) {
-			
+
 			@Override
 			public void init() {
 				constructMenu(this);
@@ -120,14 +121,14 @@ public abstract class AReactor extends SlimefunItem {
 				return new int[0];
 			}
 		};
-		
+
 		registerBlockHandler(name, new SlimefunBlockHandler() {
-			
+
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
-				
+
 			}
-			
+
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
@@ -148,10 +149,10 @@ public abstract class AReactor extends SlimefunItem {
 				return true;
 			}
 		});
-		
+
 		this.registerDefaultRecipes();
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
@@ -162,10 +163,10 @@ public abstract class AReactor extends SlimefunItem {
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
+
 			});
 		}
-		
+
 		for (int i: border_1) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), " "),
 			new MenuClickHandler() {
@@ -174,22 +175,10 @@ public abstract class AReactor extends SlimefunItem {
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
-			});
-		}
-		
-		for (int i: border_2) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
-			new MenuClickHandler() {
 
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
 			});
 		}
-		
+
 		for (int i: border_3) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 13), " "),
 			 new MenuClickHandler() {
@@ -198,10 +187,10 @@ public abstract class AReactor extends SlimefunItem {
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
+
 			});
 		}
-		
+
 		preset.addItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
 		new MenuClickHandler() {
 
@@ -209,9 +198,9 @@ public abstract class AReactor extends SlimefunItem {
 			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 				return false;
 			}
-							
+
 		});
-		
+
 		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "§7Fuel Slot", "", "§rThis Slot accepts radioactive Fuel such as:", "§2Uranium §ror §aNeptunium"),
 		new MenuClickHandler() {
 
@@ -219,26 +208,44 @@ public abstract class AReactor extends SlimefunItem {
 			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 				return false;
 			}
-							
+
 		});
+
+        for (int i : border_2) {
+			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
+			new MenuClickHandler() {
+
+				@Override
+				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+					return false;
+				}
+
+			});
+		}
 
 		if (needsCooling()) {
 			preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells", "§4Without any Coolant Cells, your Reactor", "§4will explode"));
-		} else {
-			preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells"));
 		}
-		preset.addMenuClickHandler(7, new MenuClickHandler() {
-			@Override
-			public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-				return false;
-			}
-		});
+		else {
+            preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells"));
+
+            for (int i : border_4) {
+                preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "§cNo Coolant Required"),
+                new MenuClickHandler() {
+
+                    @Override
+                    public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                        return false;
+                    }
+                });
+            }
+        }
 	}
-	
+
 	public abstract String getInventoryTitle();
-	
+
 	public abstract void registerDefaultRecipes();
-	
+
 	public abstract int getEnergyProduction();
 
 	public abstract void extraTick(Location l);
@@ -248,42 +255,42 @@ public abstract class AReactor extends SlimefunItem {
 	public int[] getInputSlots() {
 		return new int[] {19, 28, 37, 25, 34, 43};
 	}
-	
+
 	public int[] getFuelSlots() {
 		return new int[] {19, 28, 37};
 	}
-	
+
 	public int[] getCoolantSlots() {
-		return new int[] {25, 34, 43};
+		return needsCooling() ? new int[] {25, 34, 43} : new int[]{};
 	}
-	
+
 	public int[] getOutputSlots() {
 		return new int[] {40};
 	}
-	
+
 	public MachineFuel getProcessing(Location l) {
 		return processing.get(l);
 	}
-	
+
 	public boolean isProcessing(Location l) {
 		return progress.containsKey(l);
 	}
-	
+
 	public void registerFuel(MachineFuel fuel) {
 		this.recipes.add(fuel);
 	}
-	
+
 	@Override
 	public void register(boolean slimefun) {
 		addItemHandler(new EnergyTicker() {
-			
+
 			Set<Location> explode = new HashSet<Location>();
-			
+
 			@SuppressWarnings("deprecation")
 			@Override
 			public double generateEnergy(final Location l, SlimefunItem sf, Config data) {
 				BlockMenu port = getAccessPort(l);
-				
+
 				if (isProcessing(l)) {
 					extraTick(l);
 					int timeleft = progress.get(l);
@@ -293,18 +300,18 @@ public abstract class AReactor extends SlimefunItem {
 						}
 						if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction() || !BlockStorage.getBlockInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
-							
+
 							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-								
+
 								@Override
 								public void run() {
 									if (!l.getBlock().getRelative(cooling[CSCoreLib.randomizer().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 								}
 							});
-							
+
 							if (needsCooling()) {
 								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
-								
+
 								ItemStack item = getProgressBar().clone();
 								ItemMeta im = item.getItemMeta();
 								im.setDisplayName(" ");
@@ -315,9 +322,9 @@ public abstract class AReactor extends SlimefunItem {
 								lore.add(MachineHelper.getTimeLeft(timeleft / 2));
 								im.setLore(lore);
 								item.setItemMeta(im);
-								
+
 								BlockStorage.getInventory(l).replaceExistingItem(22, item);
-								
+
 								if (coolant) {
 									if (port != null) {
 										for (int slot: getCoolantSlots()) {
@@ -326,7 +333,7 @@ public abstract class AReactor extends SlimefunItem {
 											}
 										}
 									}
-									
+
 									boolean explosion = true;
 									for (int slot: getCoolantSlots()) {
 										if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), SlimefunItems.REACTOR_COOLANT_CELL, true)) {
@@ -336,7 +343,7 @@ public abstract class AReactor extends SlimefunItem {
 											break;
 										}
 									}
-									
+
 									if (explosion) {
 										explode.add(l);
 										return 0;
@@ -354,13 +361,13 @@ public abstract class AReactor extends SlimefunItem {
 					else {
 						BlockStorage.getInventory(l).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
 						if (processing.get(l).getOutput() != null) pushItems(l, processing.get(l).getOutput());
-						
+
 						if (port != null) {
 							for (int slot: getOutputSlots()) {
 								BlockStorage.getInventory(l).replaceExistingItem(slot, ReactorAccessPort.pushItems(port.getLocation(), BlockStorage.getInventory(l).getItemInSlot(slot)));
 							}
 						}
-						
+
 						progress.remove(l);
 						processing.remove(l);
 						return 0;
@@ -369,7 +376,7 @@ public abstract class AReactor extends SlimefunItem {
 				else {
 					MachineFuel r = null;
 					Map<Integer, Integer> found = new HashMap<Integer, Integer>();
-					
+
 					if (port != null) {
 						refill:
 							for (int slot: getFuelSlots()) {
@@ -383,7 +390,7 @@ public abstract class AReactor extends SlimefunItem {
 								}
 							}
 					}
-					
+
 					outer:
 					for (MachineFuel recipe: recipes) {
 						for (int slot: getFuelSlots()) {
@@ -394,7 +401,7 @@ public abstract class AReactor extends SlimefunItem {
 							}
 						}
 					}
-					
+
 					if (r != null) {
 						for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
 							BlockStorage.getInventory(l).replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(entry.getKey()), entry.getValue()));
@@ -427,7 +434,7 @@ public abstract class AReactor extends SlimefunItem {
 
 		super.register(slimefun);
 	}
-	
+
 	private Inventory inject(Location l) {
 		int size = BlockStorage.getInventory(l).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
@@ -439,7 +446,7 @@ public abstract class AReactor extends SlimefunItem {
 		}
 		return inv;
 	}
-	
+
 	private Inventory inject(Location l, int[] slots) {
 		int size = BlockStorage.getInventory(l).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
@@ -451,28 +458,28 @@ public abstract class AReactor extends SlimefunItem {
 		}
 		return inv;
 	}
-	
+
 	public void pushItems(Location l, ItemStack item) {
 		Inventory inv = inject(l);
 		inv.addItem(item);
-		
+
 		for (int slot: getOutputSlots()) {
 			BlockStorage.getInventory(l).replaceExistingItem(slot, inv.getItem(slot));
 		}
 	}
-	
+
 	public ItemStack pushItems(Location l, ItemStack item, int[] slots) {
 		Inventory inv = inject(l, slots);
 		Map<Integer, ItemStack> map = inv.addItem(item);
-		
+
 		for (int slot: slots) {
 			BlockStorage.getInventory(l).replaceExistingItem(slot, inv.getItem(slot));
 		}
-		
+
 		for (Map.Entry<Integer, ItemStack> entry: map.entrySet()) {
 			return entry.getValue();
 		}
-		
+
 		return null;
 	}
 
@@ -481,7 +488,7 @@ public abstract class AReactor extends SlimefunItem {
 	public Set<MachineFuel> getFuelTypes() {
 		return this.recipes;
 	}
-	
+
 	public BlockMenu getAccessPort(Location l) {
 		Location portL = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
 		if (BlockStorage.check(portL, "REACTOR_ACCESS_PORT")) return BlockStorage.getInventory(portL);
