@@ -309,21 +309,22 @@ public abstract class AReactor extends SlimefunItem {
 								}
 							});
 
+
+                            ItemStack item = getProgressBar().clone();
+                            ItemMeta im = item.getItemMeta();
+                            im.setDisplayName(" ");
+                            List<String> lore = new ArrayList<String>();
+                            lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
+                            lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
+                            lore.add("");
+                            lore.add(MachineHelper.getTimeLeft(timeleft / 2));
+                            im.setLore(lore);
+                            item.setItemMeta(im);
+
+                            BlockStorage.getInventory(l).replaceExistingItem(22, item);
+
 							if (needsCooling()) {
 								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
-
-								ItemStack item = getProgressBar().clone();
-								ItemMeta im = item.getItemMeta();
-								im.setDisplayName(" ");
-								List<String> lore = new ArrayList<String>();
-								lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
-								lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
-								lore.add("");
-								lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-								im.setLore(lore);
-								item.setItemMeta(im);
-
-								BlockStorage.getInventory(l).replaceExistingItem(22, item);
 
 								if (coolant) {
 									if (port != null) {
