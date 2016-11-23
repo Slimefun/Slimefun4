@@ -31,7 +31,7 @@ public class CargoInputNode extends SlimefunItem {
 	public CargoInputNode(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, name, recipeType, recipe, recipeOutput);
 		
-		new BlockMenuPreset(name, "§3Input Node") {
+		new BlockMenuPreset(name, "&3Input Node") {
 			
 			@Override
 			public void init() {
@@ -43,7 +43,7 @@ public class CargoInputNode extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "filter-type") == null || BlockStorage.getBlockInfo(b, "filter-type").equals("whitelist")) {
-						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL), "§7Type: §rWhitelist", "", "§e> Click to change it to Blacklist"));
+						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL), "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
 						menu.addMenuClickHandler(15, new MenuClickHandler() {
 
 							@Override
@@ -55,7 +55,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL, (byte) 15), "§7Type: §8Blacklist", "", "§e> Click to change it to Whitelist"));
+						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL, (byte) 15), "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
 						menu.addMenuClickHandler(15, new MenuClickHandler() {
 
 							@Override
@@ -68,7 +68,7 @@ public class CargoInputNode extends SlimefunItem {
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "filter-durability") == null || BlockStorage.getBlockInfo(b, "filter-durability").equals("false")) {
-						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.STONE_SWORD, (byte) 20), "§7Include Sub-IDs/Durability: §4\u2718", "", "§e> Click to toggle whether the Durability has to match"));
+						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.STONE_SWORD, (byte) 20), "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
 						menu.addMenuClickHandler(16, new MenuClickHandler() {
 
 							@Override
@@ -80,7 +80,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.GOLD_SWORD, (byte) 20), "§7Include Sub-IDs/Durability: §2\u2714", "", "§e> Click to toggle whether the Durability has to match"));
+						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.GOLD_SWORD, (byte) 20), "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
 						menu.addMenuClickHandler(16, new MenuClickHandler() {
 
 							@Override
@@ -93,7 +93,7 @@ public class CargoInputNode extends SlimefunItem {
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "round-robin") == null || BlockStorage.getBlockInfo(b, "round-robin").equals("false")) {
-						menu.replaceExistingItem(24, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "§7Round-Robin Mode: §4\u2718", "", "§e> Click to enable Round Robin Mode", "§e(Items will be equally distributed on the Channel)"));
+						menu.replaceExistingItem(24, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&7Round-Robin Mode: &4\u2718", "", "&e> Click to enable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
 						menu.addMenuClickHandler(24, new MenuClickHandler() {
 
 							@Override
@@ -105,7 +105,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(24, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "§7Round-Robin Mode: §2\u2714", "", "§e> Click to disable Round Robin Mode", "§e(Items will be equally distributed on the Channel)"));
+						menu.replaceExistingItem(24, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
 						menu.addMenuClickHandler(24, new MenuClickHandler() {
 
 							@Override
@@ -118,7 +118,7 @@ public class CargoInputNode extends SlimefunItem {
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "filter-lore") == null || BlockStorage.getBlockInfo(b, "filter-lore").equals("true")) {
-						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "§7Include Lore: §2\u2714", "", "§e> Click to toggle whether the Lore has to match"));
+						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
 						menu.addMenuClickHandler(25, new MenuClickHandler() {
 
 							@Override
@@ -130,7 +130,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "§7Include Lore: §4\u2718", "", "§e> Click to toggle whether the Lore has to match"));
+						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
 						menu.addMenuClickHandler(25, new MenuClickHandler() {
 
 							@Override
@@ -142,7 +142,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 
-					menu.replaceExistingItem(41, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "§bChannel", "", "§e> Click to decrease the Channel ID by 1"));
+					menu.replaceExistingItem(41, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
 					menu.addMenuClickHandler(41, new MenuClickHandler() {
 
 						@Override
@@ -161,7 +161,7 @@ public class CargoInputNode extends SlimefunItem {
 					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency"))));
 
 					if (channel == 16) {
-						menu.replaceExistingItem(42, new CustomItem(SlimefunItems.CHEST_TERMINAL, "§bChannel ID: §3" + (channel + 1)));
+						menu.replaceExistingItem(42, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(42, new MenuClickHandler() {
 
 							@Override
@@ -171,7 +171,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(42, new CustomItem(new MaterialData(Material.WOOL, (byte) channel), "§bChannel ID: §3" + (channel + 1)));
+						menu.replaceExistingItem(42, new CustomItem(new MaterialData(Material.WOOL, (byte) channel), "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(42, new MenuClickHandler() {
 
 							@Override
@@ -181,7 +181,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 
-					menu.replaceExistingItem(43, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "§bChannel", "", "§e> Click to increase the Channel ID by 1"));
+					menu.replaceExistingItem(43, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&bChannel", "", "&e> Click to increase the Channel ID by 1"));
 					menu.addMenuClickHandler(43, new MenuClickHandler() {
 
 						@Override
@@ -258,7 +258,7 @@ public class CargoInputNode extends SlimefunItem {
 			});
 		}
 
-		preset.addItem(2, new CustomItem(new MaterialData(Material.PAPER), "§3Items", "", "§bPut in all Items you want to", "§bblacklist/whitelist"),
+		preset.addItem(2, new CustomItem(new MaterialData(Material.PAPER), "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"),
 		new MenuClickHandler() {
 
 			@Override

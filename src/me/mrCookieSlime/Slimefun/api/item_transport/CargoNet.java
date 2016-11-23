@@ -58,7 +58,7 @@ public class CargoNet {
 	
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
-	private static final ItemStack terminal_noitem_item = new CustomItem(new MaterialData(Material.BARRIER), "§4No Item cached");
+	private static final ItemStack terminal_noitem_item = new CustomItem(new MaterialData(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = new MenuClickHandler() {
 		
 		@Override
@@ -84,7 +84,7 @@ public class CargoNet {
 		final List<Location> visualizer2 = new ArrayList<Location>();
 		
 		if (scan(b.getLocation(), blocks, visualizer1, visualizer2, Axis.UNKNOWN, input, output, terminals, providers, destinations, imports, exports).isEmpty()) {
-			CargoHologram.update(b, "§7Status: §4§lOFFLINE");
+			CargoHologram.update(b, "&7Status: &4&lOFFLINE");
 		}
 		else {
 			final BlockStorage storage = BlockStorage.getStorage(b.getWorld());
@@ -392,9 +392,9 @@ public class CargoNet {
 									ItemMeta im = stack.getItemMeta();
 									List<String> lore = new ArrayList<String>();
 									lore.add("");
-									lore.add("§7Stored Items: §r" + DoubleHandler.getFancyDouble(item.getAmount()));
-									if (stack.getMaxStackSize() > 1) lore.add("§7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">");
-									else lore.add("§7<Left Click: Request 1>");
+									lore.add("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount()));
+									if (stack.getMaxStackSize() > 1) lore.add("&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">");
+									else lore.add("&7<Left Click: Request 1>");
 									lore.add("");
 									if (im.hasLore()) {
 										for (String line: im.getLore()) {
@@ -427,7 +427,7 @@ public class CargoNet {
 						}
 					}
 
-					CargoHologram.update(b, "§7Status: §a§lONLINE");
+					CargoHologram.update(b, "&7Status: &a&lONLINE");
 				}
 			});
 		}

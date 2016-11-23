@@ -128,7 +128,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 						if (yaw > 180) yaw = -180 + (yaw - 180);
 						((Player) sender).teleport(new Location(((Player) sender).getWorld(), x, y, z, yaw, ((Player) sender).getEyeLocation().getPitch()));
 						try {
-							TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("§r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])), "floor")));
+							TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])), "floor")));
 							TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(" ");
 							
 							title.send(TitleType.TITLE, ((Player) sender));
@@ -175,7 +175,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 								e.printStackTrace();
 							}
 						}
-						else sender.sendMessage("§4Unknown Player: §c" + args[1]);
+						else sender.sendMessage("&4Unknown Player: &c" + args[1]);
 					}
 					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 				}

@@ -338,23 +338,23 @@ public class TickerTask implements Runnable {
 	}
 
 	public void info(CommandSender sender) {
-		sender.sendMessage("§2== §aSlimefun Diagnostic Tool §2==");
-		sender.sendMessage("§6Impact: §e" + time + "ms / 50-750ms");
-		sender.sendMessage("§6Ticked Chunks: §e" + chunks);
-		sender.sendMessage("§6Ticked Machines: §e" + machines);
-		sender.sendMessage("§6Skipped Machines: §e" + skipped);
+		sender.sendMessage("&2== &aSlimefun Diagnostic Tool &2==");
+		sender.sendMessage("&6Impact: &e" + time + "ms / 50-750ms");
+		sender.sendMessage("&6Ticked Chunks: &e" + chunks);
+		sender.sendMessage("&6Ticked Machines: &e" + machines);
+		sender.sendMessage("&6Skipped Machines: &e" + skipped);
 		sender.sendMessage("");
-		sender.sendMessage("§6Ticking Machines:");
+		sender.sendMessage("&6Ticking Machines:");
 		if (sender instanceof Player) {
 			TellRawMessage tellraw = new TellRawMessage();
-			tellraw.addText("   §7§oHover for more Info");
+			tellraw.addText("   &7&oHover for more Info");
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
 			for (String item: map_machine.keySet()) {
-				if (map_machinetime.get(item) > 0) hover.append("\n§c" + item + " - " + map_machine.get(item) + "x §7(" + map_machinetime.get(item) + "ms)");
+				if (map_machinetime.get(item) > 0) hover.append("\n&c" + item + " - " + map_machine.get(item) + "x &7(" + map_machinetime.get(item) + "ms)");
 				else hidden++;
 			}
-			hover.append("\n\n§c+ §4" + hidden + " Hidden");
+			hover.append("\n\n&c+ &4" + hidden + " Hidden");
 			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
 			try {
 				tellraw.send((Player) sender);
@@ -365,25 +365,25 @@ public class TickerTask implements Runnable {
 		else {
 			int hidden = 0;
 			for (String item: map_machine.keySet()) {
-				if (map_machinetime.get(item) > 0) sender.sendMessage("  §e" + item + " - " + map_machine.get(item) + "x §7(" + map_machinetime.get(item) + "ms)");
+				if (map_machinetime.get(item) > 0) sender.sendMessage("  &e" + item + " - " + map_machine.get(item) + "x &7(" + map_machinetime.get(item) + "ms)");
 				else hidden++;
 			}
-			sender.sendMessage("§c+ §4" + hidden + " Hidden");
+			sender.sendMessage("&c+ &4" + hidden + " Hidden");
 		}
 		sender.sendMessage("");
-		sender.sendMessage("§6Ticking Chunks:");
+		sender.sendMessage("&6Ticking Chunks:");
 		if (sender instanceof Player) {
 			TellRawMessage tellraw = new TellRawMessage();
-			tellraw.addText("   §7§oHover for more Info");
+			tellraw.addText("   &7&oHover for more Info");
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
 			for (String c: map_chunktime.keySet()) {
 				if (!skipped_chunks.contains(c)) {
-					if (map_chunktime.get(c) > 0) hover.append("\n§c" + c.replace("CraftChunk", "") + " - " + (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + "x §7(" + map_chunktime.get(c) + "ms)");
+					if (map_chunktime.get(c) > 0) hover.append("\n&c" + c.replace("CraftChunk", "") + " - " + (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + "x &7(" + map_chunktime.get(c) + "ms)");
 					else hidden++;
 				}
 			}
-			hover.append("\n\n§c+ §4" + hidden + " Hidden");
+			hover.append("\n\n&c+ &4" + hidden + " Hidden");
 			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
 			try {
 				tellraw.send((Player) sender);
@@ -396,11 +396,11 @@ public class TickerTask implements Runnable {
 			int hidden = 0;
 			for (String c: map_chunktime.keySet()) {
 				if (!skipped_chunks.contains(c)) {
-					if (map_chunktime.get(c) > 0) sender.sendMessage("  §c" + c.replace("CraftChunk", "") + " - " + (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + "x §7(" + map_chunktime.get(c) + "ms)");
+					if (map_chunktime.get(c) > 0) sender.sendMessage("  &c" + c.replace("CraftChunk", "") + " - " + (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + "x &7(" + map_chunktime.get(c) + "ms)");
 					else hidden++;
 				}
 			}
-			sender.sendMessage("§c+ §4" + hidden + " Hidden");
+			sender.sendMessage("&c+ &4" + hidden + " Hidden");
 		}
 	}
 	

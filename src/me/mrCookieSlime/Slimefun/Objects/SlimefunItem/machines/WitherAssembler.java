@@ -53,7 +53,7 @@ public class WitherAssembler extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "enabled") == null || BlockStorage.getBlockInfo(b, "enabled").equals("false")) {
-						menu.replaceExistingItem(22, new CustomItem(new MaterialData(Material.SULPHUR), "§7Enabled: §4\u2718", "", "§e> Click to enable this Machine"));
+						menu.replaceExistingItem(22, new CustomItem(new MaterialData(Material.SULPHUR), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
 						menu.addMenuClickHandler(22, new MenuClickHandler() {
 
 							@Override
@@ -65,7 +65,7 @@ public class WitherAssembler extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(22, new CustomItem(new MaterialData(Material.REDSTONE), "§7Enabled: §2\u2714", "", "§e> Click to disable this Machine"));
+						menu.replaceExistingItem(22, new CustomItem(new MaterialData(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
 						menu.addMenuClickHandler(22, new MenuClickHandler() {
 
 							@Override
@@ -79,7 +79,7 @@ public class WitherAssembler extends SlimefunItem {
 					
 					double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getBlockInfo(b, "offset"));
 					
-					menu.replaceExistingItem(31, new CustomItem(new MaterialData(Material.PISTON_BASE), "§7Offset: §3" + offset + " Block(s)", "", "§rLeft Click: §7+0.1", "§rRight Click: §7-0.1"));
+					menu.replaceExistingItem(31, new CustomItem(new MaterialData(Material.PISTON_BASE), "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
 					menu.addMenuClickHandler(31, new MenuClickHandler() {
 
 						@Override
@@ -179,7 +179,7 @@ public class WitherAssembler extends SlimefunItem {
 			});
 		}
 		
-		preset.addItem(1, new CustomItem(new MaterialData(Material.SKULL_ITEM, (byte) 1), "§7Wither Skull Slot", "", "§rThis Slot accepts Wither Skeleton Skulls"),
+		preset.addItem(1, new CustomItem(new MaterialData(Material.SKULL_ITEM, (byte) 1), "&7Wither Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"),
 		new MenuClickHandler() {
 
 			@Override
@@ -189,7 +189,7 @@ public class WitherAssembler extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(7, new CustomItem(new MaterialData(Material.SOUL_SAND), "§7Soul Sand Slot", "", "§rThis Slot accepts Soul Sand"),
+		preset.addItem(7, new CustomItem(new MaterialData(Material.SOUL_SAND), "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"),
 		new MenuClickHandler() {
 
 			@Override
@@ -199,7 +199,7 @@ public class WitherAssembler extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(13, new CustomItem(new MaterialData(Material.WATCH), "§7Cooldown: §b30 Seconds", "", "§rThis Machine takes up to half a Minute to operate", "§rso give it some Time!"),
+		preset.addItem(13, new CustomItem(new MaterialData(Material.WATCH), "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"),
 		new MenuClickHandler() {
 
 			@Override
@@ -211,7 +211,7 @@ public class WitherAssembler extends SlimefunItem {
 	}
 	
 	public String getInventoryTitle() {
-		return "§5Wither Assembler";
+		return "&5Wither Assembler";
 	}
 
 	public int[] getInputSlots() {

@@ -29,7 +29,7 @@ public abstract class Refinery extends AContainer {
 
 	@Override
 	public String getInventoryTitle() {
-		return "§cRefinery";
+		return "&cRefinery";
 	}
 
 	@Override

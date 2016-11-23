@@ -12,7 +12,7 @@ import org.bukkit.entity.Entity;
 public class EnergyHologram {
 	
 	public static void update(Block b, double supply, double demand) {
-		update(b, demand > supply ? ("§4§l- §c" + DoubleHandler.getFancyDouble(Math.abs(supply - demand)) + " §7J §e\u26A1"): ("§2§l+ §a" + DoubleHandler.getFancyDouble(supply - demand) + " §7J §e\u26A1"));
+		update(b, demand > supply ? ("&4&l- &c" + DoubleHandler.getFancyDouble(Math.abs(supply - demand)) + " &7J &e\u26A1"): ("&2&l+ &a" + DoubleHandler.getFancyDouble(supply - demand) + " &7J &e\u26A1"));
 	}
 	
 	public static void update(final Block b, final String name) {
