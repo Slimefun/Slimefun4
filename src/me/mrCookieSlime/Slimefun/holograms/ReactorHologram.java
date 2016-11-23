@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.holograms;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -20,7 +21,7 @@ public class ReactorHologram {
         }
 
         ArmorStand hologram = ArmorStandFactory.createHidden(l);
-        hologram.setCustomNameVisible(true);
+        hologram.setCustomNameVisible(false);
         hologram.setCustomName(null);
         return hologram;
     }
@@ -31,7 +32,8 @@ public class ReactorHologram {
 			@Override
 			public void run() {
 				ArmorStand hologram = getArmorStand(l);
-				hologram.setCustomName(name);
+				if (!hologram.isCustomNameVisible()) hologram.setCustomNameVisible(true);
+				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
 			}
 		});
 	}

@@ -4,6 +4,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
@@ -21,7 +22,7 @@ public class EnergyHologram {
 			@Override
 			public void run() {
 				ArmorStand hologram = getArmorStand(b);
-				hologram.setCustomName(name);
+				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
 			}
 		});
 	}
