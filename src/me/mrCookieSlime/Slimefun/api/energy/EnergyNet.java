@@ -86,7 +86,7 @@ public class EnergyNet {
 		double demand = 0.0D;
 		
 		if (scan(b.getLocation(), Axis.UNKNOWN, new HashSet<Location>(), input, storage, output, supply, demand).isEmpty()) {
-			EnergyHologram.update(b, "§4No Energy Network found");
+			EnergyHologram.update(b, "&4No Energy Network found");
 		}
 		else {
 			for (final Location source: input) {

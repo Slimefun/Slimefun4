@@ -14,7 +14,7 @@ public class MachineHelper {
         l -= minutes * 60;
         final int seconds = (int)l;
         timeleft = String.valueOf(timeleft) + seconds + "s";
-        return "§7" + timeleft + " left";
+        return ChatColor.translateAlternateColorCodes('&', "&7" + timeleft + " left");
 	}
 
 	public static String getProgress(int time, int total) {
@@ -67,6 +67,11 @@ public class MachineHelper {
 		
 		progress.append(" - " + percentage + "%");
 		return ChatColor.translateAlternateColorCodes('&', progress.toString());
+	}
+
+	public static float getPercentage(int time, int total) {
+		int passed = ((total - time) % 25);
+		return Math.round(((((25 - passed) * 100.0f) / 25) * 100.0f) / 100.0f);
 	}
 
 	public static short getDurability(ItemStack item, int timeleft, int max) {

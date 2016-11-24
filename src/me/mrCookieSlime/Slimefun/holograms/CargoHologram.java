@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.holograms;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -16,7 +17,7 @@ public class CargoHologram {
 			@Override
 			public void run() {
 				ArmorStand hologram = getArmorStand(b);
-				hologram.setCustomName(name);
+				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
 			}
 		});
 	}

@@ -4,6 +4,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
@@ -12,7 +13,7 @@ import org.bukkit.entity.Entity;
 public class EnergyHologram {
 	
 	public static void update(Block b, double supply, double demand) {
-		update(b, demand > supply ? ("§4§l- §c" + DoubleHandler.getFancyDouble(Math.abs(supply - demand)) + " §7J §e\u26A1"): ("§2§l+ §a" + DoubleHandler.getFancyDouble(supply - demand) + " §7J §e\u26A1"));
+		update(b, demand > supply ? ("&4&l- &c" + DoubleHandler.getFancyDouble(Math.abs(supply - demand)) + " &7J &e\u26A1"): ("&2&l+ &a" + DoubleHandler.getFancyDouble(supply - demand) + " &7J &e\u26A1"));
 	}
 	
 	public static void update(final Block b, final String name) {
@@ -21,7 +22,7 @@ public class EnergyHologram {
 			@Override
 			public void run() {
 				ArmorStand hologram = getArmorStand(b);
-				hologram.setCustomName(name);
+				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
 			}
 		});
 	}

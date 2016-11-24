@@ -30,7 +30,7 @@ public abstract class ElectricGoldPan extends AContainer {
 
 	@Override
 	public String getInventoryTitle() {
-		return "§6Electric Gold Pan";
+		return "&6Electric Gold Pan";
 	}
 
 	@Override

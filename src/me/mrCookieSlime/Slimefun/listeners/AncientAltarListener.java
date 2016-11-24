@@ -28,6 +28,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -36,14 +37,14 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 public class AncientAltarListener implements Listener {
-	
+
 	public AncientAltarListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	List<Block> altars = new ArrayList<Block>();
 	Set<UUID> removed_items = new HashSet<UUID>();
-	
+
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
@@ -59,9 +60,9 @@ public class AncientAltarListener implements Listener {
 				else if (!removed_items.contains(stack.getUniqueId())) {
 					final UUID uuid = stack.getUniqueId();
 					removed_items.add(uuid);
-					
+
 					SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						
+
 						@Override
 						public void run() {
 							removed_items.remove(uuid);
@@ -76,10 +77,10 @@ public class AncientAltarListener implements Listener {
 			}
 			else if (item.getName().equals("ANCIENT_ALTAR")) {
 				e.setCancelled(true);
-				
-				ItemStack catalyst = e.getPlayer().getInventory().getItemInMainHand();
+
+				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
 				List<Block> pedestals = Pedestals.getPedestals(b);
-				
+
 				if (!altars.contains(e.getClickedBlock())) {
 					altars.add(e.getClickedBlock());
 					if (pedestals.size() == 8) {
@@ -89,7 +90,7 @@ public class AncientAltarListener implements Listener {
 								Item stack = findItem(pedestal);
 								if (stack != null) input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
 							}
-							
+
 							ItemStack result = Pedestals.getRecipeOutput(catalyst, input);
 							if (result != null) {
 								List<ItemStack> consumed = new ArrayList<ItemStack>();
@@ -115,7 +116,7 @@ public class AncientAltarListener implements Listener {
 			}
 		}
 	}
-	
+
 	private ItemStack fixItemStack(ItemStack itemStack, String customName) {
 		ItemStack stack = itemStack.clone();
 		if (customName.equals(StringUtils.formatItemName(itemStack.getData().toItemStack(1), false))) {
@@ -145,7 +146,7 @@ public class AncientAltarListener implements Listener {
 		if (stack != null && !stack.getType().equals(Material.AIR)) {
 			PlayerInventory.consumeItemInHand(p);
 			String nametag = StringUtils.formatItemName(stack, false);
-			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "§5§dALTAR §3Probe - §e" + System.nanoTime()));
+			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "&5&dALTAR &3Probe - &e" + System.nanoTime()));
 			entity.setVelocity(new Vector(0, 0.1, 0));
 			entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunStartup.instance, "altar_item"));
 			entity.setCustomNameVisible(true);
@@ -157,9 +158,19 @@ public class AncientAltarListener implements Listener {
 	@EventHandler
 	public void onPickup(PlayerPickupItemEvent e) {
 		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("§5§dALTAR §3Probe - §e")) {
+		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
+			e.setCancelled(true);
+			e.getItem().remove();
+		}
+	}
+
+	@EventHandler
+	public void onMinecartPickup(InventoryPickupItemEvent e) {
+		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
+		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
 			e.setCancelled(true);
 			e.getItem().remove();
 		}
 	}
 }
+

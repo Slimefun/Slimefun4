@@ -149,25 +149,25 @@ public class ToolListener implements Listener {
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
-				e.getPlayer().sendMessage("§4Must be placed onto a Chest or Machine");
+				e.getPlayer().sendMessage("&4Must be placed onto a Chest or Machine");
 				e.setCancelled(true);
 			}
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
-				e.getPlayer().sendMessage("§4Must be placed onto a Chest or Machine");
+				e.getPlayer().sendMessage("&4Must be placed onto a Chest or Machine");
 				e.setCancelled(true);
 			}
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
-				e.getPlayer().sendMessage("§4Must be placed onto a Chest or Machine");
+				e.getPlayer().sendMessage("&4Must be placed onto a Chest or Machine");
 				e.setCancelled(true);
 			}
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
-				e.getPlayer().sendMessage("§4Must be placed onto a Chest or Machine");
+				e.getPlayer().sendMessage("&4Must be placed onto a Chest or Machine");
 				e.setCancelled(true);
 			}
 		}

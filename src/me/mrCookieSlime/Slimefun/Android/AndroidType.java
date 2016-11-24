@@ -5,6 +5,7 @@ public enum AndroidType {
 	NONE,
 	MINER,
 	FARMER,
+	ADVANCED_FARMER,
 	WOODCUTTER,
 	FIGHTER,
 	FISHERMAN,

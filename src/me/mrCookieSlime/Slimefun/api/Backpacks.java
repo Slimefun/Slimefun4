@@ -42,7 +42,7 @@ public class Backpacks {
 			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 				try {
 					id = Integer.parseInt(line.split("#")[1]);
-					uuid = line.split("#")[0].replace("§7ID: ", "");
+					uuid = line.split("#")[0].replace("&7ID: ", "");
 				} catch(NumberFormatException x) {
 				}
 			}
@@ -67,7 +67,7 @@ public class Backpacks {
 			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 				try {
 					id = Integer.parseInt(line.split("#")[1]);
-					uuid = line.split("#")[0].replace("§7ID: ", "");
+					uuid = line.split("#")[0].replace("&7ID: ", "");
 				} catch(NumberFormatException x) {
 				}
 			}
