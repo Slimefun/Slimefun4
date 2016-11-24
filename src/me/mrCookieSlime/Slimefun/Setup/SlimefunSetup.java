@@ -3374,6 +3374,42 @@ public class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 512);
 
+		new AContainer(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_CRUCIBLE, "ELECTRIC_CRUCIBLE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[]{SlimefunItems.LEAD_INGOT, SlimefunItems.CRUCIBLE, SlimefunItems.LEAD_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.BIG_CAPACITOR, SlimefunItems.LEAD_INGOT}) {
+			@Override
+			public String getInventoryTitle() {
+				return "&4Electric Crucible";
+			}
+
+			@Override
+			public ItemStack getProgressBar() {
+				return new ItemStack(Material.BLAZE_POWDER);
+			}
+
+			@Override
+			public void registerDefaultRecipes() {
+				registerRecipe(10, new ItemStack[]{new ItemStack(Material.BUCKET), new ItemStack(Material.COBBLESTONE, 16)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
+				registerRecipe(6, new ItemStack[]{new ItemStack(Material.BUCKET), new ItemStack(Material.HARD_CLAY, 8)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
+				registerRecipe(10, new ItemStack[]{new ItemStack(Material.BUCKET), new ItemStack(Material.LEAVES, 16)}, new ItemStack[]{new ItemStack(Material.WATER_BUCKET)});
+
+			}
+
+			@Override
+			public int getEnergyConsumption() {
+				return 15;
+			}
+
+			@Override
+			public int getSpeed() {
+				return 4;
+			}
+
+			@Override
+			public String getMachineIdentifier() {
+				return "ELECTRIC_CRUCIBLE";
+			}
+		}.registerChargeableBlock(true, 1024);
+
 		new AContainer(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_ORE_GRINDER, "ELECTRIC_ORE_GRINDER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.DIAMOND_PICKAXE), null, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON}) {
 
