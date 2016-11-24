@@ -145,7 +145,7 @@ public class ReactorAccessPort extends SlimefunItem {
 			});
 		}
 		
-		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "§7Fuel Slot", "", "§rThis Slot accepts radioactive Fuel such as:", "§2Uranium §ror §aNeptunium"),
+		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"),
 		new MenuClickHandler() {
 
 			@Override
@@ -155,7 +155,7 @@ public class ReactorAccessPort extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(22, new CustomItem(SlimefunItems.PLUTONIUM, "§7Byproduct Slot", "", "§rThis Slot contains the Reactor's Byproduct", "§rsuch as §aNeptunium §ror §7Plutonium"),
+		preset.addItem(22, new CustomItem(SlimefunItems.PLUTONIUM, "&7Byproduct Slot", "", "&rThis Slot contains the Reactor's Byproduct", "&rsuch as &aNeptunium &ror &7Plutonium"),
 		new MenuClickHandler() {
 
 			@Override
@@ -165,7 +165,7 @@ public class ReactorAccessPort extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells", "§4Without any Coolant Cells, your Reactor", "§4will explode"),
+		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"),
 		new MenuClickHandler() {
 
 			@Override
@@ -175,7 +175,7 @@ public class ReactorAccessPort extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "§bCoolant Slot", "", "§rThis Slot accepts Coolant Cells", "§4Without any Coolant Cells, your Reactor", "§4will explode"),
+		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"),
 		new MenuClickHandler() {
 
 			@Override
@@ -187,7 +187,7 @@ public class ReactorAccessPort extends SlimefunItem {
 	}
 	
 	public String getInventoryTitle() {
-		return "§2Reactor Access Port";
+		return "&2Reactor Access Port";
 	}
 
 	public int[] getInputSlots() {
@@ -210,7 +210,7 @@ public class ReactorAccessPort extends SlimefunItem {
 		int size = BlockStorage.getInventory(l).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " §4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(l).getItemInSlot(slot));

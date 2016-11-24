@@ -63,15 +63,15 @@ public class SlimefunGuide {
 	}
 
 	public static ItemStack getItem(boolean book) {
-		return new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&eSlimefun Guide &7(Right Click)", (book ? "": "§2"), "&rThis is your basic Guide for Slimefun", "&rYou can see all Items added by this Plugin", "&ror its Addons including their Recipes", "&ra bit of information and more");
+		return new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&eSlimefun Guide &7(Right Click)", (book ? "": "&2"), "&rThis is your basic Guide for Slimefun", "&rYou can see all Items added by this Plugin", "&ror its Addons including their Recipes", "&ra bit of information and more");
 	}
 	
 	public static void openSettings(Player p, ItemStack guide) {
 		TellRawMessage page = new TellRawMessage();
-		page.addText("§a§l- Guide Settings -\n\n");
+		page.addText("&a&l- Guide Settings -\n\n");
 		if (SlimefunManager.isItemSimiliar(guide, getItem(true), true)) {
-			page.addText("§7Design: §3Book\n");
-			page.addHoverEvent(HoverAction.SHOW_TEXT, "§e> Click to change your Guide Design to §bInventory");
+			page.addText("&7Design: &3Book\n");
+			page.addHoverEvent(HoverAction.SHOW_TEXT, "&e> Click to change your Guide Design to &bInventory");
 			page.addClickEvent(new PlayerRunnable(3) {
 				
 				@Override
@@ -82,8 +82,8 @@ public class SlimefunGuide {
 			});
 		}
 		else if (SlimefunManager.isItemSimiliar(guide, getItem(false), true)) {
-			page.addText("§7Design: §3Inventory\n");
-			page.addHoverEvent(HoverAction.SHOW_TEXT, "§e> Click to change your Guide Design to §bBook");
+			page.addText("&7Design: &3Inventory\n");
+			page.addHoverEvent(HoverAction.SHOW_TEXT, "&e> Click to change your Guide Design to &bBook");
 			page.addClickEvent(new PlayerRunnable(3) {
 				
 				@Override
@@ -163,25 +163,25 @@ public class SlimefunGuide {
 								actions.add(null);
 							}
 						}
-						texts.add("§8\u21E8 §6Tier " + tier);
+						texts.add("&8\u21E8 &6Tier " + tier);
 						tooltips.add(null);
 						actions.add(null);
 					}
 					if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p)) {
-						StringBuilder parents = new StringBuilder("§4§lLOCKED\n\n§7In order to unlock this Category,\n§7you need to unlock all Items from\n§7the following Categories first:\n");
+						StringBuilder parents = new StringBuilder("&4&lLOCKED\n\n&7In order to unlock this Category,\n&7you need to unlock all Items from\n&7the following Categories first:\n");
 						
 						for (Category parent: ((LockedCategory) category).getParents()) {
-							parents.append("\n§c" + StringUtils.formatItemName(parent.getItem(), false));
+							parents.append("\n&c" + StringUtils.formatItemName(parent.getItem(), false));
 						}
 						
-						texts.add(shorten("§c" , StringUtils.formatItemName(category.getItem(), false)));
+						texts.add(shorten("&c" , StringUtils.formatItemName(category.getItem(), false)));
 						tooltips.add(parents.toString());
 						actions.add(null);
 					}
 					else if (category instanceof SeasonCategory) {
 						if (((SeasonCategory) category).isUnlocked()) {
-							texts.add(shorten("§a", StringUtils.formatItemName(category.getItem(), false)));
-							tooltips.add("§eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
+							texts.add(shorten("&a", StringUtils.formatItemName(category.getItem(), false)));
+							tooltips.add("&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
 							actions.add(new PlayerRunnable(1) {
 								
 								@Override
@@ -198,8 +198,8 @@ public class SlimefunGuide {
 						}
 					}
 					else {
-						texts.add(shorten("§a", StringUtils.formatItemName(category.getItem(), false)));
-						tooltips.add("§eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
+						texts.add(shorten("&a", StringUtils.formatItemName(category.getItem(), false)));
+						tooltips.add("&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
 						actions.add(new PlayerRunnable(1) {
 							
 							@Override
@@ -232,7 +232,7 @@ public class SlimefunGuide {
 			
 			for (int i = 0; i < texts.size(); i = i + 10) {
 				TellRawMessage page = new TellRawMessage();
-				page.addText("§b§l- Slimefun Guide -\n\n");
+				page.addText("&b&l- Slimefun Guide -\n\n");
 				for (int j = i; j < texts.size() && j < i + 10; j++) {
 					page.addText(texts.get(j) + "\n");
 					if (tooltips.get(j) != null) page.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
@@ -240,15 +240,15 @@ public class SlimefunGuide {
 				}
 //				page.addText("\n");
 //				if (i > 0) {
-//					page.addText("§c<- Prev");
-//					page.addHoverEvent(HoverAction.SHOW_TEXT, "§eGo to Page " + (i));
+//					page.addText("&c<- Prev");
+//					page.addHoverEvent(HoverAction.SHOW_TEXT, "&eGo to Page " + (i));
 //					page.addClickEvent(me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.ClickAction.CHANGE_PAGE, String.valueOf(i));
 //					page.addText("    ");
 //				}
 //				if (texts.size() > i * 10) {
 //					page.addText("    ");
-//					page.addText("§cNext ->");
-//					page.addHoverEvent(HoverAction.SHOW_TEXT, "§eGo to Page " + (i + 2));
+//					page.addText("&cNext ->");
+//					page.addHoverEvent(HoverAction.SHOW_TEXT, "&eGo to Page " + (i + 2));
 //					page.addClickEvent(me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.ClickAction.CHANGE_PAGE, String.valueOf(i + 2));
 //				}
 				pages.add(page);
@@ -435,9 +435,9 @@ public class SlimefunGuide {
 				if (Slimefun.hasPermission(p, item, false)) {
 					if (Slimefun.isEnabled(p, item, false)) {
 						if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
-							texts.add(shorten("§7", StringUtils.formatItemName(item.getItem(), false)));
+							texts.add(shorten("&7", StringUtils.formatItemName(item.getItem(), false)));
 							final int cost = SlimefunStartup.getResearchCfg().getInt(item.getResearch().getID() + ".cost");
-							tooltips.add(StringUtils.formatItemName(item.getItem(), false) + "\n§c§lLOCKED\n\n§7Cost: " + (p.getLevel() >= cost ? "§b": "§4") + cost + " Levels\n\n§a> Click to unlock");
+							tooltips.add(StringUtils.formatItemName(item.getItem(), false) + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= cost ? "&b": "&4") + cost + " Levels\n\n&a> Click to unlock");
 							actions.add(new PlayerRunnable(2) {
 								
 								@Override
@@ -481,7 +481,7 @@ public class SlimefunGuide {
 							});
 						}
 						else {
-							texts.add(shorten("§a", StringUtils.formatItemName(item.getItem(), false)));
+							texts.add(shorten("&a", StringUtils.formatItemName(item.getItem(), false)));
 							
 							StringBuilder tooltip = new StringBuilder();
 							
@@ -493,7 +493,7 @@ public class SlimefunGuide {
 								}
 							}
 							
-							tooltip.append("\n\n§e§oClick for more Info");
+							tooltip.append("\n\n&e&oClick for more Info");
 							
 							tooltips.add(tooltip.toString());
 							actions.add(new PlayerRunnable(2) {
@@ -507,23 +507,23 @@ public class SlimefunGuide {
 					}
 				}
 				else {
-					texts.add(shorten("§4", StringUtils.formatItemName(item.getItem(), false)));
-					tooltips.add("§cNo Permission!");
+					texts.add(shorten("&4", StringUtils.formatItemName(item.getItem(), false)));
+					tooltips.add("&cNo Permission!");
 					actions.add(null);
 				}
 			}
 			
 			for (int i = 0; i < texts.size(); i = i + 10) {
 				TellRawMessage page = new TellRawMessage();
-				page.addText("§b§l- Slimefun Guide -\n\n");
+				page.addText("&b&l- Slimefun Guide -\n\n");
 				for (int j = i; j < texts.size() && j < i + 10; j++) {
 					page.addText(texts.get(j) + "\n");
 					if (tooltips.get(j) != null) page.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
 					if (actions.get(j) != null) page.addClickEvent(actions.get(j));
 				}
 				page.addText("\n");
-				page.addText("§6\u21E6 §lBack");
-				page.addHoverEvent(HoverAction.SHOW_TEXT, "§eClick to go back to the Category Overview");
+				page.addText("&6\u21E6 &lBack");
+				page.addHoverEvent(HoverAction.SHOW_TEXT, "&eClick to go back to the Category Overview");
 				page.addClickEvent(new PlayerRunnable(2) {
 					
 					@Override
@@ -766,7 +766,7 @@ public class SlimefunGuide {
 			 Recipe r = recipes.get(page);
 			 
 			 if (recipes.size() > page + 1) {
-				 menu.addItem(1, new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&7Next \u21E8", "", "§e§l! §rThere are multiple recipes for this Item"));
+				 menu.addItem(1, new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&7Next \u21E8", "", "&e&l! &rThere are multiple recipes for this Item"));
 					menu.addMenuClickHandler(1, new MenuClickHandler() {
 						
 						@Override
@@ -826,7 +826,7 @@ public class SlimefunGuide {
 		if (addToHistory) addToHistory(p, sfItem != null ? sfItem.getURID(): URID.nextURID(item, true));
 		
 		if (history.containsKey(p.getUniqueId()) && history.get(p.getUniqueId()).size() > 1) {
-			menu.addItem(0, new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "§rLeft Click: §7Go back to previous Page", "§rShift + left Click: §7Go back to Main Menu"));
+			menu.addItem(0, new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to previous Page", "&rShift + left Click: &7Go back to Main Menu"));
 			menu.addMenuClickHandler(0, new MenuClickHandler() {
 				
 				@Override
@@ -844,7 +844,7 @@ public class SlimefunGuide {
 			});
 		}
 		else {
-			menu.addItem(0, new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "§rLeft Click: §7Go back to Main Menu"));
+			menu.addItem(0, new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to Main Menu"));
 			menu.addMenuClickHandler(0, new MenuClickHandler() {
 				
 				@Override
@@ -888,14 +888,14 @@ public class SlimefunGuide {
 		if (sfItem != null) {
 			if (Slimefun.getItemConfig().contains(sfItem.getName() + ".wiki")) {
 				try {
-					menu.addItem(8, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY2OTJmOTljYzZkNzgyNDIzMDQxMTA1NTM1ODk0ODQyOThiMmU0YTAyMzNiNzY3NTNmODg4ZTIwN2VmNSJ9fX0="), "§rView this Item in our Wiki §7(Slimefun Wiki)", "", "§7\u21E8 Click to open"));
+					menu.addItem(8, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY2OTJmOTljYzZkNzgyNDIzMDQxMTA1NTM1ODk0ODQyOThiMmU0YTAyMzNiNzY3NTNmODg4ZTIwN2VmNSJ9fX0="), "&rView this Item in our Wiki &7(Slimefun Wiki)", "", "&7\u21E8 Click to open"));
 					menu.addMenuClickHandler(8, new MenuClickHandler() {
 						
 						@Override
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
 							p.closeInventory();
 							p.sendMessage("");
-							p.sendMessage("§7§o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".wiki"));
+							p.sendMessage("&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".wiki"));
 							p.sendMessage("");
 							return false;
 						}
@@ -906,14 +906,14 @@ public class SlimefunGuide {
 			}
 			if (Slimefun.getItemConfig().contains(sfItem.getName() + ".youtube")) {
 				try {
-					menu.addItem(7, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzNTNmZDBmODYzMTQzNTM4NzY1ODYwNzViOWJkZjBjNDg0YWFiMDMzMWI4NzJkZjExYmQ1NjRmY2IwMjllZCJ9fX0="), "§rDemonstration Video §7(Youtube)", "", "§7\u21E8 Click to watch"));
+					menu.addItem(7, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzNTNmZDBmODYzMTQzNTM4NzY1ODYwNzViOWJkZjBjNDg0YWFiMDMzMWI4NzJkZjExYmQ1NjRmY2IwMjllZCJ9fX0="), "&rDemonstration Video &7(Youtube)", "", "&7\u21E8 Click to watch"));
 					menu.addMenuClickHandler(7, new MenuClickHandler() {
 						
 						@Override
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
 							p.closeInventory();
 							p.sendMessage("");
-							p.sendMessage("§7§o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".youtube"));
+							p.sendMessage("&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".youtube"));
 							p.sendMessage("");
 							return false;
 						}
@@ -1048,9 +1048,9 @@ public class SlimefunGuide {
 					ItemStack fItem = fuel.getInput().clone();
 					ItemMeta im = fItem.getItemMeta();
 					List<String> lore = new ArrayList<String>();
-					lore.add("§8\u21E8 §7Lasts " + getTimeLeft(fuel.getTicks() / 2));
-					lore.add("§8\u21E8 §e\u26A1 §7" + (((AGenerator) sfItem).getEnergyProduction() * 2) + " J/s");
-					lore.add("§8\u21E8 §e\u26A1 §7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AGenerator) sfItem).getEnergyProduction()) + " J in total");
+					lore.add("&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2));
+					lore.add("&8\u21E8 &e\u26A1 &7" + (((AGenerator) sfItem).getEnergyProduction() * 2) + " J/s");
+					lore.add("&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AGenerator) sfItem).getEnergyProduction()) + " J in total");
 					im.setLore(lore);
 					fItem.setItemMeta(im);
 					menu.addItem(slot, fItem);
@@ -1071,9 +1071,9 @@ public class SlimefunGuide {
 					ItemStack fItem = fuel.getInput().clone();
 					ItemMeta im = fItem.getItemMeta();
 					List<String> lore = new ArrayList<String>();
-					lore.add("§8\u21E8 §7Lasts " + getTimeLeft(fuel.getTicks() / 2));
-					lore.add("§8\u21E8 §e\u26A1 §7" + (((AReactor) sfItem).getEnergyProduction() * 2) + " J/s");
-					lore.add("§8\u21E8 §e\u26A1 §7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AReactor) sfItem).getEnergyProduction()) + " J in total");
+					lore.add("&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2));
+					lore.add("&8\u21E8 &e\u26A1 &7" + (((AReactor) sfItem).getEnergyProduction() * 2) + " J/s");
+					lore.add("&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AReactor) sfItem).getEnergyProduction()) + " J in total");
 					im.setLore(lore);
 					fItem.setItemMeta(im);
 					menu.addItem(slot, fItem);
@@ -1110,7 +1110,7 @@ public class SlimefunGuide {
         l -= minutes * 60;
         final int seconds = (int)l;
         timeleft = String.valueOf(timeleft) + seconds + "s";
-        return "§7" + timeleft;
+        return "&7" + timeleft;
 	}
 
 }

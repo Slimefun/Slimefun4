@@ -49,7 +49,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 	public AutomatedCraftingChamber(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "§6Automated Crafting Chamber") {
+		new BlockMenuPreset(name, "&6Automated Crafting Chamber") {
 			
 			@Override
 			public void init() {
@@ -59,7 +59,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
 				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "enabled") == null || BlockStorage.getBlockInfo(b, "enabled").equals("false")) {
-					menu.replaceExistingItem(6, new CustomItem(new MaterialData(Material.SULPHUR), "§7Enabled: §4\u2718", "", "§e> Click to enable this Machine"));
+					menu.replaceExistingItem(6, new CustomItem(new MaterialData(Material.SULPHUR), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
 					menu.addMenuClickHandler(6, new MenuClickHandler() {
 
 						@Override
@@ -71,7 +71,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 					});
 				}
 				else {
-					menu.replaceExistingItem(6, new CustomItem(new MaterialData(Material.REDSTONE), "§7Enabled: §2\u2714", "", "§e> Click to disable this Machine"));
+					menu.replaceExistingItem(6, new CustomItem(new MaterialData(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
 					menu.addMenuClickHandler(6, new MenuClickHandler() {
 
 						@Override
@@ -181,7 +181,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 			});
 		}
 
-		preset.addItem(2, new CustomItem(new MaterialData(Material.WORKBENCH), "§eRecipe", "", "§bPut in the Recipe you want to craft", "§4Enhanced Crafting Table Recipes ONLY"),
+		preset.addItem(2, new CustomItem(new MaterialData(Material.WORKBENCH), "&eRecipe", "", "&bPut in the Recipe you want to craft", "&4Enhanced Crafting Table Recipes ONLY"),
 		new MenuClickHandler() {
 
 			@Override
@@ -206,7 +206,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " §4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));

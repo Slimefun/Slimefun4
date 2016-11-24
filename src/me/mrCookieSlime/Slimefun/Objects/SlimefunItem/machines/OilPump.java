@@ -72,7 +72,7 @@ public abstract class OilPump extends AContainer {
 
 	@Override
 	public String getInventoryTitle() {
-		return "§4Oil Pump";
+		return "&4Oil Pump";
 	}
 
 	@Override

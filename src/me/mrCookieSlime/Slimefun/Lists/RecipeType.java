@@ -28,7 +28,7 @@ public class RecipeType {
 	public static final RecipeType ORE_WASHER = new RecipeType(new CustomItem(Material.CAULDRON_ITEM, "&6Ore Washer", 0, new String[] {"", "&a&oWash it in an Ore Washer"}), "ORE_WASHER");
 	public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType(new CustomItem(Material.WORKBENCH, "&eEnhanced Crafting Table", 0, new String[] {"", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power..."}), "ENHANCED_CRAFTING_TABLE");
 	public static final RecipeType JUICER = new RecipeType(new CustomItem(Material.GLASS_BOTTLE, "&eJuicer", 0, new String[] {"", "&a&oUsed for Juice Creation"}), "JUICER");
-	public static final RecipeType ANCIENT_ALTAR = new RecipeType(new CustomItem(Material.ENCHANTMENT_TABLE, "&4Ancient Altar", 0, new String[] {"", "&dYou will need to craft this Item", "§dby performing an Ancient Altar Ritual"}));
+	public static final RecipeType ANCIENT_ALTAR = new RecipeType(new CustomItem(Material.ENCHANTMENT_TABLE, "&4Ancient Altar", 0, new String[] {"", "&dYou will need to craft this Item", "&dby performing an Ancient Altar Ritual"}));
 	public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new CustomItem(Material.STAINED_GLASS, "&cHeated Pressure Chamber", 8, new String[] {"", "&a&oCraft this Item in a", "&a&oHeated Pressure Chamber"}), "HEATED_PRESSURE_CHAMBER");
 	
 	public static final RecipeType SHAPED_RECIPE = new RecipeType(new CustomItem(Material.WORKBENCH, "&eShaped Recipe", 0, new String[] {"", "&a&oJust a standard Recipe in the Workbench..."}));

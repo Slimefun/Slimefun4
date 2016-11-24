@@ -41,7 +41,7 @@ public class Projector {
 	public static void openEditor(Player p, final Block projector) {
 		ChestMenu menu = new ChestMenu("Hologram Settings");
 		
-		menu.addItem(0, new CustomItem(new MaterialData(Material.NAME_TAG), "§7Text §e(Click to edit)", "", "§r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(projector, "text"))));
+		menu.addItem(0, new CustomItem(new MaterialData(Material.NAME_TAG), "&7Text &e(Click to edit)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(projector, "text"))));
 		menu.addMenuClickHandler(0, new MenuClickHandler() {
 			
 			@Override
@@ -63,7 +63,7 @@ public class Projector {
 			}
 		});
 		
-		menu.addItem(1, new CustomItem(new MaterialData(Material.WATCH), "§7Offset: §e" + DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getBlockInfo(projector, "offset")) + 1.0D), "", "§rLeft Click: §7+0.1", "§rRight Click: §7-0.1"));
+		menu.addItem(1, new CustomItem(new MaterialData(Material.WATCH), "&7Offset: &e" + DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getBlockInfo(projector, "offset")) + 1.0D), "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
 		menu.addMenuClickHandler(1, new MenuClickHandler() {
 			
 			@Override

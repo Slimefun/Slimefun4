@@ -95,7 +95,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 	}
 	
 	public String getInventoryTitle() {
-		return "§cHeated Pressure Chamber";
+		return "&cHeated Pressure Chamber";
 	}
 	
 	public ItemStack getProgressBar() {

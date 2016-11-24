@@ -78,17 +78,17 @@ public class Messages {
 		local.setDefault("robot.stopped", "&7Your Robot has paused its Script");
 		local.setDefault("inventory.no-access", "&4You are not permitted to access this Block");
 		
-		local.setDefault("machines.ANCIENT_ALTAR.not-enough-pedestals", "&4The Altar is not surrounded by the needed Amount of Pedestals §c(%pedestals% / 8)");
-		local.setDefault("machines.ANCIENT_ALTAR.unknown-catalyst", "&4Unknown Catalyst! §cUse the correct Recipe instead!");
-		local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe", "&4Unknown Recipe! §cUse the correct Recipe instead!");
+		local.setDefault("machines.ANCIENT_ALTAR.not-enough-pedestals", "&4The Altar is not surrounded by the needed Amount of Pedestals &c(%pedestals% / 8)");
+		local.setDefault("machines.ANCIENT_ALTAR.unknown-catalyst", "&4Unknown Catalyst! &cUse the correct Recipe instead!");
+		local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe", "&4Unknown Recipe! &cUse the correct Recipe instead!");
 		local.setDefault("machines.HOLOGRAM_PROJECTOR.enter-text", "&7Please enter your desired Hologram Text in your Chat. &r(Color Codes are supported!)");
 		local.setDefault("machines.ELEVATOR.no-destinations", "&4No Destinations found");
 
 		local.setDefault("android.scripts.already-uploaded", "&4This Script has already been uploaded.");
 		local.setDefault("android.scripts.enter-name", "", "&ePlease type in a Name for your Script", "");
 		local.setDefault("android.scripts.uploaded", "&bUploading...", "&aSuccessfully uploaded your Script!");
-		local.setDefault("android.scripts.rating.own", "§4You cannot rate your own Script!");
-		local.setDefault("android.scripts.rating.already", "§4You have already left a Rating for this Script!");
+		local.setDefault("android.scripts.rating.own", "&4You cannot rate your own Script!");
+		local.setDefault("android.scripts.rating.already", "&4You have already left a Rating for this Script!");
 		
 		local.save();
 	}

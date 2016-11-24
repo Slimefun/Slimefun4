@@ -48,7 +48,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	public CropGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "§bGrowth Accelerator") {
+		new BlockMenuPreset(name, "&bGrowth Accelerator") {
 			
 			@Override
 			public void init() {

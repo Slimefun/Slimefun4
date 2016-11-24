@@ -12,15 +12,15 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 
 public class ItemEnergy {
 	
-//	"§c§o§8\u21E8 §e\u26A1 §70 / 50 J"
+//	"&c&o&8\u21E8 &e\u26A1 &70 / 50 J"
 	
 	public static float getStoredEnergy(ItemStack item) {
 		if (item == null || item.getType() == null || item.getType().equals(Material.AIR)) return 0F;
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
 		
 		for (String line: item.getItemMeta().getLore()) {
-			if (line.startsWith("§c§o§8\u21E8 §e\u26A1 §7") && line.contains(" / ") && line.endsWith(" J")) {
-				return Float.valueOf(line.split(" / ")[0].replace("§c§o§8\u21E8 §e\u26A1 §7", ""));
+			if (line.startsWith("&c&o&8\u21E8 &e\u26A1 &7") && line.contains(" / ") && line.endsWith(" J")) {
+				return Float.valueOf(line.split(" / ")[0].replace("&c&o&8\u21E8 &e\u26A1 &7", ""));
 			}
 		}
 		
@@ -32,7 +32,7 @@ public class ItemEnergy {
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
 		
 		for (String line: item.getItemMeta().getLore()) {
-			if (line.startsWith("§c§o§8\u21E8 §e\u26A1 §7") && line.contains(" / ") && line.endsWith(" J")) {
+			if (line.startsWith("&c&o&8\u21E8 &e\u26A1 &7") && line.contains(" / ") && line.endsWith(" J")) {
 				return Float.valueOf(line.split(" / ")[1].replace(" J", ""));
 			}
 		}
@@ -69,7 +69,7 @@ public class ItemEnergy {
 		int index = -1;
 		for (int i = 0; i < lore.size(); i++) {
 			String line = lore.get(i);
-			if (line.startsWith("§c§o§8\u21E8 §e\u26A1 §7") && line.contains(" / ") && line.endsWith(" J")) {
+			if (line.startsWith("&c&o&8\u21E8 &e\u26A1 &7") && line.contains(" / ") && line.endsWith(" J")) {
 				index = i;
 				break;
 			}
@@ -77,7 +77,7 @@ public class ItemEnergy {
 		
 		BigDecimal decimal = new BigDecimal(stored).setScale(2, BigDecimal.ROUND_HALF_UP);
 		
-		lore.set(index, "§c§o§8\u21E8 §e\u26A1 §7" + decimal.floatValue() + " / " + capacity + " J");
+		lore.set(index, "&c&o&8\u21E8 &e\u26A1 &7" + decimal.floatValue() + " / " + capacity + " J");
 		
 		ItemMeta im = item.getItemMeta();
 		im.setLore(lore);

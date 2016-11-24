@@ -36,7 +36,7 @@ public class XPCollector extends SlimefunItem {
 	public XPCollector(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "§aEXP Collector") {
+		new BlockMenuPreset(name, "&aEXP Collector") {
 			
 			@Override
 			public void init() {
@@ -81,7 +81,7 @@ public class XPCollector extends SlimefunItem {
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " §4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
