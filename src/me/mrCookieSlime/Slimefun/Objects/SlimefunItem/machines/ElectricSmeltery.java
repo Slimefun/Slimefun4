@@ -200,11 +200,6 @@ public abstract class ElectricSmeltery extends AContainer {
 	}
 	
 	@Override
-	public int getSpeed() {
-		return 1;
-	}
-	
-	@Override
 	public String getMachineIdentifier() {
 		return "ELECTRIC_SMELTERY";
 	}

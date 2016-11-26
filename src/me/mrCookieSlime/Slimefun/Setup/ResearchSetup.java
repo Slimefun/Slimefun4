@@ -227,6 +227,8 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(228, "Elytras", 20), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA);
 	    Slimefun.registerResearch(new Research(229, "Special Elytras", 30), SlimefunItems.INFUSED_ELYTRA, SlimefunItems.SOULBOUND_ELYTRA);
 	    Slimefun.registerResearch(new Research(230, "Electrified Crucible", 26), SlimefunItems.ELECTRIFIED_CRUCIBLE);
+	    Slimefun.registerResearch(new Research(231, "Hot Crucibles", 30), SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.ELECTRIFIED_CRUCIBLE_3);
+	    Slimefun.registerResearch(new Research(232, "Advanced Electric Smeltery", 28), SlimefunItems.ELECTRIC_SMELTERY_2);
 	}
 
 }

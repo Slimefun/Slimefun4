@@ -4916,11 +4916,6 @@ public class SlimefunSetup {
 			public boolean needsCooling() {
 				return true;
 			}
-
-			@Override
-			public ItemStack getCoolant() {
-				return SlimefunItems.REACTOR_COOLANT_CELL;
-			}
 		}
 		.registerChargeableBlock(true, 16384);
 
@@ -4963,11 +4958,6 @@ public class SlimefunSetup {
 			@Override
 			public ItemStack getProgressBar() {
 				return new ItemStack(Material.NETHER_STAR);
-			}
-
-			@Override
-			public ItemStack getCoolant() {
-				return null;
 			}
 		}.registerChargeableBlock(true, 32768);
 
