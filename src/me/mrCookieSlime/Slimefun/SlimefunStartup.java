@@ -270,6 +270,36 @@ public class SlimefunStartup extends JavaPlugin {
 				}
 			});
 
+			OreGenSystem.registerResource(new OreGenResource() {
+
+				@Override
+				public int getDefaultSupply(Biome biome) {
+					switch (biome) {
+					case HELL: {
+						return 32;
+					}
+					default: {
+						return 0;
+					}
+					}
+				}
+
+				@Override
+				public String getName() {
+					return "Nether Ice";
+				}
+
+				@Override
+				public ItemStack getIcon() {
+					return SlimefunItems.NETHER_ICE.clone();
+				}
+
+				@Override
+				public String getMeasurementUnit() {
+					return "Blocks";
+				}
+			});
+			
 			// All Slimefun Listeners
 			new ArmorListener(this);
 			new ItemListener(this);

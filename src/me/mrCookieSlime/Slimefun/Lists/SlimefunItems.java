@@ -572,6 +572,11 @@ public class SlimefunItems {
 	
 	public static ItemStack ENERGY_REGULATOR = null;
 	public static ItemStack DEBUG_FISH = new CustomItem(new MaterialData(Material.RAW_FISH), "&3How much is the Fish?", "", "&eRight Click &rany Block to view it's BlockData", "&eLeft Click &rto break a Block", "&eShift + Left Click &rany Block to erase it's BlockData", "&eShift + Right Click &rto place a Placeholder Block");
+
+	
+	// TODO: Setup Items
+	public static ItemStack NETHER_ICE = null;
+	public static ItemStack NETHER_ICE_COOLANT_CELL = null;
 	
 	// Cargo
 	public static ItemStack CARGO_MANAGER = null;

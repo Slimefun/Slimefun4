@@ -4925,11 +4925,6 @@ public class SlimefunSetup {
 				}
 			}
 
-			@Override
-			public boolean needsCooling() {
-				return true;
-			}
-
             @Override
             public ItemStack getCoolant() {
                 return SlimefunItems.REACTOR_COOLANT_CELL;
@@ -4969,14 +4964,9 @@ public class SlimefunSetup {
 				}, 0);
 			}
 
-			@Override
-			public boolean needsCooling() {
-				return false;
-			}
-
             @Override
             public ItemStack getCoolant() {
-                return null;
+                return SlimefunItems.NETHER_ICE_COOLANT_CELL;
             }
 
             @Override
