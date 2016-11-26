@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.holograms.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -60,6 +58,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Variables;
 import me.mrCookieSlime.Slimefun.Android.AndroidType;
@@ -93,6 +92,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.AutonomousMachineHandler;
@@ -119,12 +119,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricFurnace;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricGoldPan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricIngotFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricSmeltery;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectrifiedCrucible;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FluidPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodComposter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodFabricator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Freezer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HeatedPressureChamber;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OilPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Refinery;
@@ -138,6 +138,11 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
+import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
+import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
+import me.mrCookieSlime.Slimefun.holograms.InfusedHopper;
+import me.mrCookieSlime.Slimefun.holograms.Projector;
+import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 
 @SuppressWarnings("deprecation")
@@ -3374,26 +3379,8 @@ public class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 512);
 
-		new AContainer(Categories.ELECTRICITY, SlimefunItems.ELECTRIFIED_CRUCIBLE, "ELECTRIFIED_CRUCIBLE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ElectrifiedCrucible(Categories.ELECTRICITY, SlimefunItems.ELECTRIFIED_CRUCIBLE, "ELECTRIFIED_CRUCIBLE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.CRUCIBLE, SlimefunItems.LEAD_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.LARGE_CAPACITOR, SlimefunItems.LEAD_INGOT}) {
-			
-			@Override
-			public String getInventoryTitle() {
-				return "&4Electrified Crucible";
-			}
-
-			@Override
-			public ItemStack getProgressBar() {
-				return new ItemStack(Material.FLINT_AND_STEEL);
-			}
-
-			@Override
-			public void registerDefaultRecipes() {
-				registerRecipe(10, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(Material.COBBLESTONE, 16)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
-				registerRecipe(8, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(Material.HARD_CLAY, 12)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
-				registerRecipe(10, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(Material.LEAVES, 16)}, new ItemStack[]{new ItemStack(Material.WATER_BUCKET)});
-
-			}
 
 			@Override
 			public int getEnergyConsumption() {
@@ -3405,11 +3392,36 @@ public class SlimefunSetup {
 				return 1;
 			}
 
+		}.registerChargeableBlock(true, 1024);
+
+		new ElectrifiedCrucible(Categories.ELECTRICITY, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, "ELECTRIFIED_CRUCIBLE_2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.ELECTRIFIED_CRUCIBLE, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT}) {
+
 			@Override
-			public String getMachineIdentifier() {
-				return "ELECTRIFIED_CRUCIBLE";
+			public int getEnergyConsumption() {
+				return 40;
 			}
-			
+
+			@Override
+			public int getSpeed() {
+				return 2;
+			}
+
+		}.registerChargeableBlock(true, 1024);
+
+		new ElectrifiedCrucible(Categories.ELECTRICITY, SlimefunItems.ELECTRIFIED_CRUCIBLE_3, "ELECTRIFIED_CRUCIBLE_3", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.STEEL_PLATE, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT}) {
+
+			@Override
+			public int getEnergyConsumption() {
+				return 60;
+			}
+
+			@Override
+			public int getSpeed() {
+				return 4;
+			}
+
 		}.registerChargeableBlock(true, 1024);
 
 		new AContainer(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_ORE_GRINDER, "ELECTRIC_ORE_GRINDER", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -4881,7 +4893,8 @@ public class SlimefunSetup {
 
 		new AReactor(Categories.ELECTRICITY, SlimefunItems.NUCLEAR_REACTOR, "NUCLEAR_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.CARBONADO_EDGED_CAPACITOR, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.REINFORCED_PLATE, SlimefunItems.COOLING_UNIT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT}){
-			@Override
+
+            @Override
 			public String getInventoryTitle() {
 				return "&2Nuclear Reactor";
 			}
@@ -4900,7 +4913,7 @@ public class SlimefunSetup {
 
 			@Override
 			public void extraTick(Location l) {
-				
+
 			}
 
 			@Override
@@ -4916,11 +4929,17 @@ public class SlimefunSetup {
 			public boolean needsCooling() {
 				return true;
 			}
+
+            @Override
+            public ItemStack getCoolant() {
+                return SlimefunItems.REACTOR_COOLANT_CELL;
+            }
 		}
 		.registerChargeableBlock(true, 16384);
 
 		new AReactor(Categories.ELECTRICITY, SlimefunItems.NETHERSTAR_REACTOR, "NETHERSTAR_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[]{SlimefunItems.BOOSTED_URANIUM, SlimefunItems.CARBONADO_EDGED_CAPACITOR, SlimefunItems.BOOSTED_URANIUM, SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.NETHER_STAR), SlimefunItems.REINFORCED_PLATE, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.CORINTHIAN_BRONZE_INGOT}){
+
 			@Override
 			public String getInventoryTitle() {
 				return "&fNether Star Reactor";
@@ -4955,10 +4974,16 @@ public class SlimefunSetup {
 				return false;
 			}
 
-			@Override
+            @Override
+            public ItemStack getCoolant() {
+                return null;
+            }
+
+            @Override
 			public ItemStack getProgressBar() {
 				return new ItemStack(Material.NETHER_STAR);
 			}
+
 		}.registerChargeableBlock(true, 32768);
 
 		new SlimefunItem(Categories.CARGO, SlimefunItems.CARGO_MOTOR, "CARGO_MOTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -5157,7 +5182,31 @@ public class SlimefunSetup {
 				return 10;
 			}
 
+			@Override
+			public int getSpeed() {
+				return 1;
+			}
+
 		}.registerChargeableBlock(true, 512);
+
+		new ElectricSmeltery(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_SMELTERY_2, "ELECTRIC_SMELTERY_2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_SMELTERY, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON}) {
+
+			@Override
+			public void registerDefaultRecipes() {
+			}
+
+			@Override
+			public int getEnergyConsumption() {
+				return 20;
+			}
+
+			@Override
+			public int getSpeed() {
+				return 3;
+			}
+
+		}.registerChargeableBlock(true, 1024);
 
 		new WitherAssembler(Categories.ELECTRICITY, SlimefunItems.WITHER_ASSEMBLER, "WITHER_ASSEMBLER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.NETHER_STAR), SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO_EDGED_CAPACITOR})
