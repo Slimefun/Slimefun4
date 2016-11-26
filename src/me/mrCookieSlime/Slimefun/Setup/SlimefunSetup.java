@@ -3381,7 +3381,7 @@ public class SlimefunSetup {
 
 		new ElectrifiedCrucible(Categories.ELECTRICITY, SlimefunItems.ELECTRIFIED_CRUCIBLE, "ELECTRIFIED_CRUCIBLE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.CRUCIBLE, SlimefunItems.LEAD_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.LARGE_CAPACITOR, SlimefunItems.LEAD_INGOT}) {
-			
+
 			@Override
 			public int getEnergyConsumption() {
 				return 24;
@@ -3391,12 +3391,12 @@ public class SlimefunSetup {
 			public int getSpeed() {
 				return 1;
 			}
-			
+
 		}.registerChargeableBlock(true, 1024);
 
 		new ElectrifiedCrucible(Categories.ELECTRICITY, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, "ELECTRIFIED_CRUCIBLE_2", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.ELECTRIFIED_CRUCIBLE, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT}) {
-			
+
 			@Override
 			public int getEnergyConsumption() {
 				return 40;
@@ -3406,12 +3406,12 @@ public class SlimefunSetup {
 			public int getSpeed() {
 				return 2;
 			}
-			
+
 		}.registerChargeableBlock(true, 1024);
 
 		new ElectrifiedCrucible(Categories.ELECTRICITY, SlimefunItems.ELECTRIFIED_CRUCIBLE_3, "ELECTRIFIED_CRUCIBLE_3", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.STEEL_PLATE, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT}) {
-			
+
 			@Override
 			public int getEnergyConsumption() {
 				return 60;
@@ -3421,7 +3421,7 @@ public class SlimefunSetup {
 			public int getSpeed() {
 				return 4;
 			}
-			
+
 		}.registerChargeableBlock(true, 1024);
 
 		new AContainer(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_ORE_GRINDER, "ELECTRIC_ORE_GRINDER", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -4893,8 +4893,8 @@ public class SlimefunSetup {
 
 		new AReactor(Categories.ELECTRICITY, SlimefunItems.NUCLEAR_REACTOR, "NUCLEAR_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.CARBONADO_EDGED_CAPACITOR, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.REINFORCED_PLATE, SlimefunItems.COOLING_UNIT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT}){
-			
-			@Override
+
+            @Override
 			public String getInventoryTitle() {
 				return "&2Nuclear Reactor";
 			}
@@ -4913,7 +4913,7 @@ public class SlimefunSetup {
 
 			@Override
 			public void extraTick(Location l) {
-				
+
 			}
 
 			@Override
@@ -4929,12 +4929,17 @@ public class SlimefunSetup {
 			public boolean needsCooling() {
 				return true;
 			}
+
+            @Override
+            public ItemStack getCoolant() {
+                return SlimefunItems.REACTOR_COOLANT_CELL;
+            }
 		}
 		.registerChargeableBlock(true, 16384);
 
 		new AReactor(Categories.ELECTRICITY, SlimefunItems.NETHERSTAR_REACTOR, "NETHERSTAR_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[]{SlimefunItems.BOOSTED_URANIUM, SlimefunItems.CARBONADO_EDGED_CAPACITOR, SlimefunItems.BOOSTED_URANIUM, SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.NETHER_STAR), SlimefunItems.REINFORCED_PLATE, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.CORINTHIAN_BRONZE_INGOT}){
-			
+
 			@Override
 			public String getInventoryTitle() {
 				return "&fNether Star Reactor";
@@ -4969,11 +4974,16 @@ public class SlimefunSetup {
 				return false;
 			}
 
-			@Override
+            @Override
+            public ItemStack getCoolant() {
+                return null;
+            }
+
+            @Override
 			public ItemStack getProgressBar() {
 				return new ItemStack(Material.NETHER_STAR);
 			}
-			
+
 		}.registerChargeableBlock(true, 32768);
 
 		new SlimefunItem(Categories.CARGO, SlimefunItems.CARGO_MOTOR, "CARGO_MOTOR", RecipeType.ENHANCED_CRAFTING_TABLE,

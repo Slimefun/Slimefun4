@@ -252,6 +252,8 @@ public abstract class AReactor extends SlimefunItem {
 
 	public abstract boolean needsCooling(); //NOTE: Still needs to be surrounded by water!
 
+	public abstract ItemStack getCoolant();
+
 	public int[] getInputSlots() {
 		return new int[] {19, 28, 37, 25, 34, 43};
 	}
@@ -329,7 +331,7 @@ public abstract class AReactor extends SlimefunItem {
 								if (coolant) {
 									if (port != null) {
 										for (int slot: getCoolantSlots()) {
-											if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), SlimefunItems.REACTOR_COOLANT_CELL, true)) {
+											if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), getCoolant(), true)) {
 												port.replaceExistingItem(slot, pushItems(l, port.getItemInSlot(slot), getCoolantSlots()));
 											}
 										}
@@ -337,7 +339,7 @@ public abstract class AReactor extends SlimefunItem {
 
 									boolean explosion = true;
 									for (int slot: getCoolantSlots()) {
-										if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), SlimefunItems.REACTOR_COOLANT_CELL, true)) {
+										if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), getCoolant(), true)) {
 											BlockStorage.getInventory(l).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(slot), 1));
 											ReactorHologram.update(l, "&b\u2744 &7100%");
 											explosion = false;
