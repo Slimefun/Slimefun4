@@ -6,6 +6,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomPotion;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.Christmas;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -430,49 +431,49 @@ public class SlimefunItems {
 		ItemStack itemB = new ItemStack(Material.FIREWORK_CHARGE);
 		FireworkEffectMeta imB = (FireworkEffectMeta) itemB.getItemMeta();
 		imB.setEffect(FireworkEffect.builder().with(Type.BURST).with(Type.BURST).withColor(Color.BLACK).build());
-		imB.setDisplayName("&8Blank Rune");
+		imB.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&8Blank Rune"));
 		itemB.setItemMeta(imB);
 		BLANK_RUNE = itemB;
 		
 		ItemStack itemA = new ItemStack(Material.FIREWORK_CHARGE);
 		FireworkEffectMeta imA = (FireworkEffectMeta) itemA.getItemMeta();
 		imA.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.AQUA).build());
-		imA.setDisplayName("&7Ancient Rune &8&l[&b&lAir&8&l]");
+		imA.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&b&lAir&8&l]"));
 		itemA.setItemMeta(imA);
 		RUNE_AIR = itemA;
 		
 		ItemStack itemW = new ItemStack(Material.FIREWORK_CHARGE);
 		FireworkEffectMeta imW = (FireworkEffectMeta) itemW.getItemMeta();
 		imW.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.BLUE).build());
-		imW.setDisplayName("&7Ancient Rune &8&l[&1&lWater&8&l]");
+		imW.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&1&lWater&8&l]"));
 		itemW.setItemMeta(imW);
 		RUNE_WATER = itemW;
 		
 		ItemStack itemF = new ItemStack(Material.FIREWORK_CHARGE);
 		FireworkEffectMeta imF = (FireworkEffectMeta) itemF.getItemMeta();
 		imF.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.RED).build());
-		imF.setDisplayName("&7Ancient Rune &8&l[&4&lFire&8&l]");
+		imF.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&4&lFire&8&l]"));
 		itemF.setItemMeta(imF);
 		RUNE_FIRE = itemF;
 		
 		ItemStack itemE = new ItemStack(Material.FIREWORK_CHARGE);
 		FireworkEffectMeta imE = (FireworkEffectMeta) itemE.getItemMeta();
 		imE.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.ORANGE).build());
-		imE.setDisplayName("&7Ancient Rune &8&l[&c&lEarth&8&l]");
+		imE.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&c&lEarth&8&l]"));
 		itemE.setItemMeta(imE);
 		RUNE_EARTH = itemE;
 		
 		ItemStack itemN = new ItemStack(Material.FIREWORK_CHARGE);
 		FireworkEffectMeta imN = (FireworkEffectMeta) itemN.getItemMeta();
 		imN.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
-		imN.setDisplayName("&7Ancient Rune &8&l[&5&lEnder&8&l]");
+		imN.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&5&lEnder&8&l]"));
 		itemN.setItemMeta(imN);
 		RUNE_ENDER = itemN;
 		
 		ItemStack itemR = new ItemStack(Material.FIREWORK_CHARGE);
 		FireworkEffectMeta imR = (FireworkEffectMeta) itemR.getItemMeta();
 		imR.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
-		imR.setDisplayName("&7Ancient Rune &8&l[&d&lRainbow&8&l]");
+		imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
 		itemR.setItemMeta(imR);
 		RUNE_RAINBOW = itemR;
 	}
