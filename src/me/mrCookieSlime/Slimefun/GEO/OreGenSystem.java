@@ -34,21 +34,25 @@ public class OreGenSystem {
 	}
 	
 	private static int getDefault(OreGenResource resource, Biome biome) {
+		if (resource == null) return 0;
 		Config cfg = new Config("plugins/Slimefun/generators/" + resource.getName() + ".cfg");
 		return cfg.getInt(biome.toString());
 	}
 	
 	public static void setSupplies(OreGenResource resource, Chunk chunk, int amount) {
+		if (resource == null) return;
 		BlockStorage.setChunkInfo(chunk, "resources_" + resource.getName().toUpperCase(), String.valueOf(amount));
 	}
 	
-	public static int  generateSupplies(OreGenResource resource, Chunk chunk) {
+	public static int generateSupplies(OreGenResource resource, Chunk chunk) {
+		if (resource == null) return 0;
 		int supplies = getDefault(resource, chunk.getBlock(5, 50, 5).getBiome());
 		BlockStorage.setChunkInfo(chunk, "resources_" + resource.getName().toUpperCase(), String.valueOf(supplies));
 		return supplies;
 	}
 
 	public static int getSupplies(OreGenResource resource, Chunk chunk, boolean generate) {
+		if (resource == null) return 0;
 		if (BlockStorage.hasChunkInfo(chunk, "resources_" + resource.getName().toUpperCase())) {
 			return Integer.parseInt(BlockStorage.getChunkInfo(chunk, "resources_" + resource.getName().toUpperCase()));
 		}
@@ -61,6 +65,7 @@ public class OreGenSystem {
 	}
 	
 	public static boolean wasResourceGenerated(OreGenResource resource, Chunk chunk) {
+		if (resource == null) return false;
 		return BlockStorage.hasChunkInfo(chunk, "resources_" + resource.getName().toUpperCase());
 	}
 
