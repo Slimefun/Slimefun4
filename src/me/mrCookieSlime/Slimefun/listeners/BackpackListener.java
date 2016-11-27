@@ -70,63 +70,6 @@ public class BackpackListener implements Listener {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 			Player p = e.getPlayer();
-			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_BACKPACK_SMALL, false)) {
-				ItemStack stack = SlimefunItems.BACKPACK_SMALL.clone();
-				ItemMeta im = stack.getItemMeta();
-				im.setLore(item.getItemMeta().getLore());
-				stack.setItemMeta(im);
-				p.getInventory().setItemInMainHand(stack);
-				e.setCancelled(true);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_BACKPACK_MEDIUM, false)) {
-				ItemStack stack = SlimefunItems.BACKPACK_MEDIUM.clone();
-				ItemMeta im = stack.getItemMeta();
-				im.setLore(item.getItemMeta().getLore());
-				stack.setItemMeta(im);
-				p.getInventory().setItemInMainHand(stack);
-				e.setCancelled(true);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_BACKPACK_LARGE, false)) {
-				ItemStack stack = SlimefunItems.BACKPACK_LARGE.clone();
-				ItemMeta im = stack.getItemMeta();
-				im.setLore(item.getItemMeta().getLore());
-				stack.setItemMeta(im);
-				p.getInventory().setItemInMainHand(stack);
-				e.setCancelled(true);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_WOVEN_BACKPACK, false)) {
-				ItemStack stack = SlimefunItems.WOVEN_BACKPACK.clone();
-				ItemMeta im = stack.getItemMeta();
-				im.setLore(item.getItemMeta().getLore());
-				stack.setItemMeta(im);
-				p.getInventory().setItemInMainHand(stack);
-				e.setCancelled(true);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_GILDED_BACKPACK, false)) {
-				ItemStack stack = SlimefunItems.GILDED_BACKPACK.clone();
-				ItemMeta im = stack.getItemMeta();
-				im.setLore(item.getItemMeta().getLore());
-				stack.setItemMeta(im);
-				p.getInventory().setItemInMainHand(stack);
-				e.setCancelled(true);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_BOUND_BACKPACK, false)) {
-				ItemStack stack = SlimefunItems.BOUND_BACKPACK.clone();
-				ItemMeta im = stack.getItemMeta();
-				im.setLore(item.getItemMeta().getLore());
-				stack.setItemMeta(im);
-				p.getInventory().setItemInMainHand(stack);
-				e.setCancelled(true);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_COOLER, false)) {
-				ItemStack stack = SlimefunItems.COOLER.clone();
-				ItemMeta im = stack.getItemMeta();
-				im.setLore(item.getItemMeta().getLore());
-				stack.setItemMeta(im);
-				p.getInventory().setItemInMainHand(stack);
-				e.setCancelled(true);
-			}
-			
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_SMALL, false)) {
 				e.setCancelled(true);
 				if (Slimefun.hasUnlocked(p, SlimefunItems.BACKPACK_SMALL, true)) {
