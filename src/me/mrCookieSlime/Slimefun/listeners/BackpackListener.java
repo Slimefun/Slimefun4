@@ -12,6 +12,7 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Backpacks;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -131,7 +132,7 @@ public class BackpackListener implements Listener {
 				if (Slimefun.hasUnlocked(p, SlimefunItems.BACKPACK_SMALL, true)) {
 					if (item.getAmount() == 1) {
 						for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-							if (item.getItemMeta().getLore().get(line).equals("&7ID: <ID>")) {
+							if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 								ItemMeta im = item.getItemMeta();
 								List<String> lore = im.getLore();
 								lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, 9)));
@@ -152,7 +153,7 @@ public class BackpackListener implements Listener {
 				if (Slimefun.hasUnlocked(p, SlimefunItems.BACKPACK_MEDIUM, true)) {
 					if (item.getAmount() == 1) {
 						for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-							if (item.getItemMeta().getLore().get(line).equals("&7ID: <ID>")) {
+							if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 								ItemMeta im = item.getItemMeta();
 								List<String> lore = im.getLore();
 								lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, 18)));
@@ -173,7 +174,7 @@ public class BackpackListener implements Listener {
 				if (Slimefun.hasUnlocked(p, SlimefunItems.BACKPACK_LARGE, true)) {
 					if (item.getAmount() == 1) {
 						for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-							if (item.getItemMeta().getLore().get(line).equals("&7ID: <ID>")) {
+							if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 								ItemMeta im = item.getItemMeta();
 								List<String> lore = im.getLore();
 								lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, 27)));
@@ -194,7 +195,7 @@ public class BackpackListener implements Listener {
 				if (Slimefun.hasUnlocked(p, SlimefunItems.WOVEN_BACKPACK, true)) {
 					if (item.getAmount() == 1) {
 						for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-							if (item.getItemMeta().getLore().get(line).equals("&7ID: <ID>")) {
+							if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 								ItemMeta im = item.getItemMeta();
 								List<String> lore = im.getLore();
 								lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, 36)));
@@ -215,7 +216,7 @@ public class BackpackListener implements Listener {
 				if (Slimefun.hasUnlocked(p, SlimefunItems.GILDED_BACKPACK, true)) {
 					if (item.getAmount() == 1) {
 						for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-							if (item.getItemMeta().getLore().get(line).equals("&7ID: <ID>")) {
+							if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 								ItemMeta im = item.getItemMeta();
 								List<String> lore = im.getLore();
 								lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, 45)));
@@ -236,7 +237,7 @@ public class BackpackListener implements Listener {
 				if (Slimefun.hasUnlocked(p, SlimefunItems.BOUND_BACKPACK, true)) {
 					if (item.getAmount() == 1) {
 						for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-							if (item.getItemMeta().getLore().get(line).equals("&7ID: <ID>")) {
+							if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 								ItemMeta im = item.getItemMeta();
 								List<String> lore = im.getLore();
 								lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, 36)));
@@ -257,7 +258,7 @@ public class BackpackListener implements Listener {
 				if (Slimefun.hasUnlocked(p, SlimefunItems.COOLER, true)) {
 					if (item.getAmount() == 1) {
 						for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-							if (item.getItemMeta().getLore().get(line).equals("&7ID: <ID>")) {
+							if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 								ItemMeta im = item.getItemMeta();
 								List<String> lore = im.getLore();
 								lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, 27)));
