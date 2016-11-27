@@ -224,10 +224,10 @@ public abstract class AReactor extends SlimefunItem {
 		}
 
 		if (needsCooling()) {
-			preset.addItem(7, new CustomItem(new MaterialData(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
+			preset.addItem(7, new CustomItem(this.getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
 		}
 		else {
-            preset.addItem(7, new CustomItem(this.getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
+            preset.addItem(7, new CustomItem(new MaterialData(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
 
             for (int i : border_4) {
                 preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"),

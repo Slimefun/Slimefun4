@@ -8,10 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -338,13 +335,13 @@ public class TickerTask implements Runnable {
 	}
 
 	public void info(CommandSender sender) {
-		sender.sendMessage("&2== &aSlimefun Diagnostic Tool &2==");
-		sender.sendMessage("&6Impact: &e" + time + "ms / 50-750ms");
-		sender.sendMessage("&6Ticked Chunks: &e" + chunks);
-		sender.sendMessage("&6Ticked Machines: &e" + machines);
-		sender.sendMessage("&6Skipped Machines: &e" + skipped);
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2== &aSlimefun Diagnostic Tool &2=="));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Impact: &e" + time + "ms / 50-750ms"));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Chunks: &e" + chunks));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Machines: &e" + machines));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Skipped Machines: &e" + skipped));
 		sender.sendMessage("");
-		sender.sendMessage("&6Ticking Machines:");
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticking Machines:"));
 		if (sender instanceof Player) {
 			TellRawMessage tellraw = new TellRawMessage();
 			tellraw.addText("   &7&oHover for more Info");
@@ -365,13 +362,13 @@ public class TickerTask implements Runnable {
 		else {
 			int hidden = 0;
 			for (String item: map_machine.keySet()) {
-				if (map_machinetime.get(item) > 0) sender.sendMessage("  &e" + item + " - " + map_machine.get(item) + "x &7(" + map_machinetime.get(item) + "ms)");
+				if (map_machinetime.get(item) > 0) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &e" + item + " - " + map_machine.get(item) + "x &7(" + map_machinetime.get(item) + "ms)"));
 				else hidden++;
 			}
-			sender.sendMessage("&c+ &4" + hidden + " Hidden");
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
 		}
 		sender.sendMessage("");
-		sender.sendMessage("&6Ticking Chunks:");
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticking Chunks:"));
 		if (sender instanceof Player) {
 			TellRawMessage tellraw = new TellRawMessage();
 			tellraw.addText("   &7&oHover for more Info");
@@ -400,7 +397,7 @@ public class TickerTask implements Runnable {
 					else hidden++;
 				}
 			}
-			sender.sendMessage("&c+ &4" + hidden + " Hidden");
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
 		}
 	}
 	

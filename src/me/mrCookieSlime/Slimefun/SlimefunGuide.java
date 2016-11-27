@@ -728,7 +728,7 @@ public class SlimefunGuide {
 	
 	@SuppressWarnings("deprecation")
 	public static void displayItem(Player p, final ItemStack item, boolean addToHistory, final boolean experimental, final int page) {
-		if (item == null) return;
+		if (item == null || item.getType() == Material.AIR) return;
 
 		final SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem == null) {
@@ -748,7 +748,7 @@ public class SlimefunGuide {
 				p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F);
 			}
 		});
-		
+
 		if (sfItem != null) {
 			recipe = sfItem.getRecipe();
 			recipeType = sfItem.getRecipeType().toItem();
