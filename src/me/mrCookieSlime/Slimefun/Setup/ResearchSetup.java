@@ -229,6 +229,10 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(230, "Electrified Crucible", 26), SlimefunItems.ELECTRIFIED_CRUCIBLE);
 	    Slimefun.registerResearch(new Research(231, "Hot Crucibles", 30), SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.ELECTRIFIED_CRUCIBLE_3);
 	    Slimefun.registerResearch(new Research(232, "Advanced Electric Smeltery", 28), SlimefunItems.ELECTRIC_SMELTERY_2);
+	    Slimefun.registerResearch(new Research(233, "Advanced Androids - Farmer", 30), SlimefunItems.PROGRAMMABLE_ANDROID_2_FARMER);
+	    Slimefun.registerResearch(new Research(234, "Lava Generator", 38), SlimefunItems.LAVA_GENERATOR);
+	    Slimefun.registerResearch(new Research(235, "Nether Ice Coolant", 45), SlimefunItems.NETHER_ICE, SlimefunItems.ENRICHED_NETHER_ICE, SlimefunItems.NETHER_ICE_COOLANT_CELL, SlimefunItems.NETHER_DRILL);
+		Slimefun.registerResearch(new Research(236, "Nether Star Reactor", 60), SlimefunItems.NETHERSTAR_REACTOR);
 	}
 
 }
