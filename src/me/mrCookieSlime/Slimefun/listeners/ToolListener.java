@@ -85,14 +85,6 @@ public class ToolListener implements Listener {
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.COOLER, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ENDER_BACKPACK, false)) e.setCancelled(true);
-		
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_BACKPACK_SMALL, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_BACKPACK_MEDIUM, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_BACKPACK_LARGE, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_WOVEN_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_GILDED_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_BOUND_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEPRECATED_COOLER, false)) e.setCancelled(true);
 
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.COMPRESSED_CARBON, false)) e.setCancelled(true);

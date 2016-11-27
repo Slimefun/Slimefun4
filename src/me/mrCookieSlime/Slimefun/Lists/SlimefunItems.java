@@ -60,14 +60,6 @@ public class SlimefunItems {
 	public static ItemStack VOIDBAG_BIG = null;
 	public static ItemStack VOIDBAG_LARGE = null;
 	public static ItemStack BOUND_VOIDBAG = null;
-	
-	public static ItemStack DEPRECATED_BACKPACK_SMALL = new CustomItem(Material.CHEST, "&eSmall Backpack", 0, new String[] {"", "&7Size: &e9", "&7ID: <ID>", "", "&7&eRight Click&7 to open"});
-	public static ItemStack DEPRECATED_BACKPACK_MEDIUM = new CustomItem(Material.CHEST, "&eBackpack", 0, new String[] {"", "&7Size: &e18", "&7ID: <ID>", "", "&7&eRight Click&7 to open"});
-	public static ItemStack DEPRECATED_BACKPACK_LARGE = new CustomItem(Material.CHEST, "&eLarge Backpack", 0, new String[] {"", "&7Size: &e27", "&7ID: <ID>", "", "&7&eRight Click&7 to open"});
-	public static ItemStack DEPRECATED_WOVEN_BACKPACK = new CustomItem(Material.CHEST, "&eWoven Backpack", 0, new String[] {"", "&7Size: &e36", "&7ID: <ID>", "", "&7&eRight Click&7 to open"});
-	public static ItemStack DEPRECATED_GILDED_BACKPACK = new CustomItem(Material.CHEST, "&eGilded Backpack", 0, new String[] {"", "&7Size: &e45", "&7ID: <ID>", "", "&7&eRight Click&7 to open"});
-	public static ItemStack DEPRECATED_BOUND_BACKPACK = new CustomItem(Material.ENDER_CHEST, "&cSoulbound Backpack", 0, new String[] {"", "&7Size: &e36", "&7ID: <ID>", "", "&7&eRight Click&7 to open"});
-	public static ItemStack DEPRECATED_COOLER = new CustomItem(Material.CHEST, "&bCooler", 0, new String[] {"&rAllows you to store Juices/Smoothies", "&rand automatically consumes them when you are hungry", "&rand you have this in your Inventory", "", "&7Size: &e27", "&7ID: <ID>", "", "&7&eRight Click&7 to open"});
 
 	/*		 Jetpacks		*/
 	public static ItemStack DURALUMIN_JETPACK = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_CHESTPLATE), "&9Electric Jetpack &7- &eI", "", "&8\u21E8 &7Material: &bDuralumin", "&c&o&8\u21E8 &e\u26A1 &70 / 20 J", "&8\u21E8 &7Thrust: &c0.35", "", "&7Hold &eShift&7 to use"), Color.SILVER);
