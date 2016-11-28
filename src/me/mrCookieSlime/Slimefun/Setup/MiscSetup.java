@@ -37,6 +37,7 @@ public class MiscSetup {
 		SlimefunItem.setRadioactive(SlimefunItems.BLISTERING_INGOT);
 		SlimefunItem.setRadioactive(SlimefunItems.BLISTERING_INGOT_2);
 		SlimefunItem.setRadioactive(SlimefunItems.BLISTERING_INGOT_3);
+		SlimefunItem.setRadioactive(SlimefunItems.NETHER_ICE);
 		SlimefunItem.setRadioactive(SlimefunItems.ENRICHED_NETHER_ICE);
 	}
 	

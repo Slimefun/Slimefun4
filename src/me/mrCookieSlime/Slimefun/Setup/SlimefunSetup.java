@@ -4939,12 +4939,12 @@ public class SlimefunSetup {
 
 			@Override
 			public void registerDefaultRecipes() {
-				registerFuel(new MachineFuel(1200, new ItemStack(Material.NETHER_STAR)));
+				registerFuel(new MachineFuel(1800, new ItemStack(Material.NETHER_STAR)));
 			}
 
 			@Override
 			public int getEnergyProduction() {
-				return 462;
+				return 512;
 			}
 
 			@Override
@@ -5005,11 +5005,11 @@ public class SlimefunSetup {
 
 				if (BlockStorage.getBlockInfo(e.getClickedBlock(), "visualizer") == null) {
 					BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", "disabled");
-					p.sendMessage("&cCargo Net Visualizer: " + "&4\u2718");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
 				}
 				else {
 					BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", null);
-					p.sendMessage("&cCargo Net Visualizer: " + "&2\u2714");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
 				}
 				return true;
 			}
