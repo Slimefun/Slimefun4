@@ -423,12 +423,14 @@ public abstract class AReactor extends SlimefunItem {
 				final boolean explosion = explode.contains(l);
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
+					
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 						@Override
 						public void run() {
 							ReactorHologram.remove(l);
 						}
 					}, 0);
+					
 					explode.remove(l);
 					processing.remove(l);
 					progress.remove(l);
