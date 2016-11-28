@@ -895,7 +895,7 @@ public class SlimefunGuide {
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
 							p.closeInventory();
 							p.sendMessage("");
-							p.sendMessage("&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".wiki"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".wiki")));
 							p.sendMessage("");
 							return false;
 						}
@@ -913,7 +913,7 @@ public class SlimefunGuide {
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
 							p.closeInventory();
 							p.sendMessage("");
-							p.sendMessage("&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".youtube"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".youtube")));
 							p.sendMessage("");
 							return false;
 						}
