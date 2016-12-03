@@ -27,7 +27,7 @@ public class FurnaceListener implements Listener {
 			if (furnace.getFuelEfficiency() > 0) e.setBurnTime(((int) ((1.0 + 0.2 * furnace.getFuelEfficiency()) * e.getBurnTime())));
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onSmelt(FurnaceSmeltEvent e) {
 		if (BlockStorage.check(e.getBlock()) != null && BlockStorage.check(e.getBlock()) instanceof EnhancedFurnace) {
@@ -38,8 +38,8 @@ public class FurnaceListener implements Listener {
 			ItemStack result = f.getInventory().getResult();
 			if (result != null) result = result.clone();
 			f.getInventory().setResult(null);
-			if (result != null) e.setResult(new CustomItem(result, result.getAmount() + amount > result.getMaxStackSize() ? result.getMaxStackSize(): result.getAmount() + amount));
-			else e.setResult(new CustomItem(output, output.getAmount() + amount > output.getType().getMaxStackSize() ? output.getType().getMaxStackSize(): output.getAmount() + amount));
+			if (result != null) f.getInventory().setResult(new CustomItem(result, result.getAmount() + amount > result.getMaxStackSize() ? result.getMaxStackSize(): result.getAmount() + amount));
+			else f.getInventory().setResult(new CustomItem(output, output.getAmount() + amount > output.getType().getMaxStackSize() ? output.getType().getMaxStackSize(): output.getAmount() + amount));
 		}
 	}
 
