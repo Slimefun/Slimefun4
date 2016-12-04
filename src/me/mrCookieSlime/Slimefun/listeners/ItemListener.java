@@ -298,7 +298,7 @@ public class ItemListener implements Listener {
             }
         }
     }
-	
+
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority=EventPriority.LOWEST)
     public void onFurnaceInsert(InventoryClickEvent e) {

@@ -37,8 +37,8 @@ public class Elevator {
 			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
 				p.closeInventory();
 				p.sendMessage("");
-				p.sendMessage("&4&l>> &ePlease enter a Name for this Floor in your Chat!");
-				p.sendMessage("&4&l>> &e(Chat Colors are supported!");
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &ePlease enter a Name for this Floor in your Chat!"));
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &e(Chat Colors are supported!"));
 				p.sendMessage("");
 				
 				MenuHelper.awaitChatInput(p, new ChatHandler() {
@@ -48,8 +48,8 @@ public class Elevator {
 						BlockStorage.addBlockInfo(b, "floor", message.replaceAll("&", "&"));
 						
 						p.sendMessage("");
-						p.sendMessage("&4&l>> &eSuccessfully named this Floor:");
-						p.sendMessage("&4&l>> &r" + ChatColor.translateAlternateColorCodes('&', message));
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &eSuccessfully named this Floor:"));
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &r" + ChatColor.translateAlternateColorCodes('&', message)));
 						p.sendMessage("");
 						
 						openEditor(p, b);

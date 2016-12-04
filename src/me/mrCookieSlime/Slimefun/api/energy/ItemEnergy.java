@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.api.energy;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,40 +20,40 @@ public class ItemEnergy {
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
 		
 		for (String line: item.getItemMeta().getLore()) {
-			if (line.startsWith("&c&o&8\u21E8 &e\u26A1 &7") && line.contains(" / ") && line.endsWith(" J")) {
-				return Float.valueOf(line.split(" / ")[0].replace("&c&o&8\u21E8 &e\u26A1 &7", ""));
+			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
+				return Float.valueOf(line.split(" / ")[0].replace(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7"), ""));
 			}
 		}
-		
+
 		return 0F;
 	}
-	
+
 	public static float getMaxEnergy(ItemStack item) {
 		if (item == null || item.getType() == null || item.getType().equals(Material.AIR)) return 0F;
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
-		
+
 		for (String line: item.getItemMeta().getLore()) {
-			if (line.startsWith("&c&o&8\u21E8 &e\u26A1 &7") && line.contains(" / ") && line.endsWith(" J")) {
+			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
 				return Float.valueOf(line.split(" / ")[1].replace(" J", ""));
 			}
 		}
-		
+
 		return 0F;
 	}
-	
+
 	public static float addStoredEnergy(ItemStack item, float energy) {
 		if (item == null || item.getType() == null || item.getType().equals(Material.AIR)) return 0F;
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
-		
+
 		float rest = 0F;
 		float capacity = getMaxEnergy(item);
-		
+
 		if (capacity == 0F) {
 			return rest;
 		}
-		
+
 		float stored = getStoredEnergy(item);
-		
+
 		if (stored + energy > capacity) {
 			rest = (stored + energy) - capacity;
 			stored = capacity;
@@ -63,21 +64,21 @@ public class ItemEnergy {
 		else {
 			stored = stored + energy;
 		}
-		
+
 		List<String> lore = item.getItemMeta().getLore();
-		
+
 		int index = -1;
 		for (int i = 0; i < lore.size(); i++) {
 			String line = lore.get(i);
-			if (line.startsWith("&c&o&8\u21E8 &e\u26A1 &7") && line.contains(" / ") && line.endsWith(" J")) {
+			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
 				index = i;
 				break;
 			}
 		}
-		
+
 		BigDecimal decimal = new BigDecimal(stored).setScale(2, BigDecimal.ROUND_HALF_UP);
-		
-		lore.set(index, "&c&o&8\u21E8 &e\u26A1 &7" + decimal.floatValue() + " / " + capacity + " J");
+
+		lore.set(index, ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7") + decimal.floatValue() + " / " + capacity + " J");
 		
 		ItemMeta im = item.getItemMeta();
 		im.setLore(lore);
