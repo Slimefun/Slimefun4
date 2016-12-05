@@ -4,12 +4,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.Colors;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Misc.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
@@ -19,14 +27,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCrafting
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.inventory.ItemStack;
-
 public class MiscSetup {
+	
+	private static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<PostSlimefunLoadingHandler>();
 	
 	public static void setupMisc() {
 		if (SlimefunItem.getByName("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
@@ -183,6 +186,11 @@ public class MiscSetup {
 		
 		CommandSender sender = Bukkit.getConsoleSender();
 		ChatColor color = Colors.getRandom();
+		
+		for (PostSlimefunLoadingHandler handler: post_handlers) {
+			handler.run(pre, init, post);
+		}
+		
 		sender.sendMessage(color + "###################### - Slimefun - ######################");
 		sender.sendMessage(color + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
 		sender.sendMessage(color + "( " + SlimefunItem.vanilla + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunItem.vanilla) + " Items from Addons )");

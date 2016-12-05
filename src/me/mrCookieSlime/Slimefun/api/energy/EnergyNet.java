@@ -52,6 +52,13 @@ public class EnergyNet {
 		return getComponent(b.getLocation());
 	}
 	
+	public static NetworkComponent getComponent(String id) {
+		if (machines_input.contains(id)) return NetworkComponent.SOURCE;
+		if (machines_storage.contains(id)) return NetworkComponent.DISTRIBUTOR;
+		if (machines_output.contains(id)) return NetworkComponent.CONSUMER;
+		return NetworkComponent.NONE;
+	}
+	
 	public static NetworkComponent getComponent(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return NetworkComponent.NONE;
 		String id = BlockStorage.checkID(l);
