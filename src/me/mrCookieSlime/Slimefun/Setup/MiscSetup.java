@@ -29,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 
 public class MiscSetup {
 	
-	private static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<PostSlimefunLoadingHandler>();
+	public static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<PostSlimefunLoadingHandler>();
 	
 	public static void setupMisc() {
 		if (SlimefunItem.getByName("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
