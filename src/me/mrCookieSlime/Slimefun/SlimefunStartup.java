@@ -17,7 +17,6 @@ import java.util.zip.ZipOutputStream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,8 +40,9 @@ import me.mrCookieSlime.CSCoreLibSetup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
 import me.mrCookieSlime.Slimefun.Commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.Commands.SlimefunTabCompleter;
-import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
+import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
+import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
@@ -189,116 +189,8 @@ public class SlimefunStartup extends JavaPlugin {
 			System.out.println("[Slimefun] Loading World Generators...");
 
 			// Generating Oil as an OreGenResource (its a cool API)
-			OreGenSystem.registerResource(new OreGenResource() {
-
-				@Override
-				public int getDefaultSupply(Biome biome) {
-					switch (biome) {
-					case COLD_BEACH:
-					case STONE_BEACH:
-					case BEACHES: {
-						return CSCoreLib.randomizer().nextInt(6) + 2;
-					}
-
-					case DESERT:
-					case DESERT_HILLS:
-					case MUTATED_DESERT: {
-						return CSCoreLib.randomizer().nextInt(40) + 19;
-					}
-
-					case EXTREME_HILLS:
-					case MUTATED_EXTREME_HILLS:
-					case SMALLER_EXTREME_HILLS:
-					case RIVER: {
-						return CSCoreLib.randomizer().nextInt(14) + 13;
-					}
-
-					case ICE_MOUNTAINS:
-					case ICE_FLATS:
-					case MUTATED_ICE_FLATS:
-					case FROZEN_OCEAN:
-					case FROZEN_RIVER: {
-						return CSCoreLib.randomizer().nextInt(11) + 3;
-					}
-
-					case SKY:
-					case HELL: {
-						return 0;
-					}
-
-
-					case MESA:
-					case MESA_CLEAR_ROCK:
-					case MESA_ROCK:
-					case MUTATED_MESA:
-					case MUTATED_MESA_CLEAR_ROCK:
-					case MUTATED_MESA_ROCK:
-					case MUSHROOM_ISLAND:
-					case MUSHROOM_ISLAND_SHORE: {
-						return CSCoreLib.randomizer().nextInt(24) + 14;
-					}
-
-					case DEEP_OCEAN:
-					case OCEAN: {
-						return CSCoreLib.randomizer().nextInt(62) + 24;
-					}
-
-					case SWAMPLAND:
-					case MUTATED_SWAMPLAND: {
-						return CSCoreLib.randomizer().nextInt(20) + 4;
-					}
-
-					default: {
-						return CSCoreLib.randomizer().nextInt(10) + 6;
-					}
-					}
-				}
-
-				@Override
-				public String getName() {
-					return "Oil";
-				}
-
-				@Override
-				public ItemStack getIcon() {
-					return SlimefunItems.BUCKET_OF_OIL.clone();
-				}
-
-				@Override
-				public String getMeasurementUnit() {
-					return "Buckets";
-				}
-			});
-
-			OreGenSystem.registerResource(new OreGenResource() {
-
-				@Override
-				public int getDefaultSupply(Biome biome) {
-					switch (biome) {
-					case HELL: {
-						return 32;
-					}
-					default: {
-						return 0;
-					}
-					}
-				}
-
-				@Override
-				public String getName() {
-					return "Nether Ice";
-				}
-
-				@Override
-				public ItemStack getIcon() {
-					return SlimefunItems.NETHER_ICE.clone();
-				}
-
-				@Override
-				public String getMeasurementUnit() {
-					return "Blocks";
-				}
-			});
+			OreGenSystem.registerResource(new OilResource());
+			OreGenSystem.registerResource(new NetherIceResource());
 			
 			// All Slimefun Listeners
 			new ArmorListener(this);
