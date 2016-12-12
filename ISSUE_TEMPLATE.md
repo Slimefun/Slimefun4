@@ -6,8 +6,8 @@ Please upload your FULL SERVER LOG (/logs/latest.log) to http://pastebin.com/ an
 Without this File, we may not be able to help you at all.
 
 ## Evidence / Proof
-Attach as many Screenshots or Videos if possible, 
-anything that helps us understand the Issue better, is gonna get your Issue fixed even faster
+Attach as many Screenshots or Videos if possible.
+Anything that helps us understand the Issue better, is gonna get your Issue fixed even faster.
 
 ## Environment
 Please state what Version of Minecraft, CS-CoreLib and Slimefun you're using.
