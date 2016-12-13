@@ -320,28 +320,24 @@ public class SlimefunStartup extends JavaPlugin {
 							}
 
 							for (ItemStack radioactive: SlimefunItem.radioactive) {
-								if (p.getInventory().containsAtLeast(radioactive, 1)) {
-									boolean hasFullHazmat = false;
-									if(SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true)){
-										if(SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true)){
-											if(SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true)){
-												if(SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)){
-													hasFullHazmat = true;
-												}
-											}
-										}
-									}
+								if (p.getInventory().containsAtLeast(radioactive, 1) || SlimefunManager.isItemSimiliar(p.getInventory().getItemInOffHand(), radioactive, true)) {
+									if (SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
+										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
+										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
+										SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
 
-									if (!hasFullHazmat){
-										p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
-										p.setFireTicks(400);
 										break;
 									}
+
+
+									p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
+									p.setFireTicks(400);
+									break;
 								}
 							}
 						}
