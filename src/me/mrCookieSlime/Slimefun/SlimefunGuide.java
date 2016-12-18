@@ -68,10 +68,10 @@ public class SlimefunGuide {
 	
 	public static void openSettings(Player p, ItemStack guide) {
 		TellRawMessage page = new TellRawMessage();
-		page.addText("&a&l- Guide Settings -\n\n");
+		page.addText(ChatColor.translateAlternateColorCodes('&',"&a&l- Guide Settings -\n\n"));
 		if (SlimefunManager.isItemSimiliar(guide, getItem(true), true)) {
-			page.addText("&7Design: &3Book\n");
-			page.addHoverEvent(HoverAction.SHOW_TEXT, "&e> Click to change your Guide Design to &bInventory");
+			page.addText(ChatColor.translateAlternateColorCodes('&',"&7Design: &3Book\n"));
+			page.addHoverEvent(HoverAction.SHOW_TEXT, ChatColor.translateAlternateColorCodes('&',"&e> Click to change your Guide Design to &bInventory"));
 			page.addClickEvent(new PlayerRunnable(3) {
 				
 				@Override
@@ -82,8 +82,8 @@ public class SlimefunGuide {
 			});
 		}
 		else if (SlimefunManager.isItemSimiliar(guide, getItem(false), true)) {
-			page.addText("&7Design: &3Inventory\n");
-			page.addHoverEvent(HoverAction.SHOW_TEXT, "&e> Click to change your Guide Design to &bBook");
+			page.addText(ChatColor.translateAlternateColorCodes('&',"&7Design: &3Inventory\n"));
+			page.addHoverEvent(HoverAction.SHOW_TEXT, ChatColor.translateAlternateColorCodes('&',"&e> Click to change your Guide Design to &bBook"));
 			page.addClickEvent(new PlayerRunnable(3) {
 				
 				@Override
@@ -163,25 +163,25 @@ public class SlimefunGuide {
 								actions.add(null);
 							}
 						}
-						texts.add("&8\u21E8 &6Tier " + tier);
+						texts.add(ChatColor.translateAlternateColorCodes('&',"&8\u21E8 &6Tier " + tier));
 						tooltips.add(null);
 						actions.add(null);
 					}
 					if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p)) {
-						StringBuilder parents = new StringBuilder("&4&lLOCKED\n\n&7In order to unlock this Category,\n&7you need to unlock all Items from\n&7the following Categories first:\n");
+						StringBuilder parents = new StringBuilder(ChatColor.translateAlternateColorCodes('&',"&4&lLOCKED\n\n&7In order to unlock this Category,\n&7you need to unlock all Items from\n&7the following Categories first:\n"));
 						
 						for (Category parent: ((LockedCategory) category).getParents()) {
-							parents.append("\n&c" + StringUtils.formatItemName(parent.getItem(), false));
+							parents.append(ChatColor.translateAlternateColorCodes('&',"\n&c" + StringUtils.formatItemName(parent.getItem(), false)));
 						}
 						
-						texts.add(shorten("&c" , StringUtils.formatItemName(category.getItem(), false)));
+						texts.add(ChatColor.translateAlternateColorCodes('&',shorten("&c" , StringUtils.formatItemName(category.getItem(), false))));
 						tooltips.add(parents.toString());
 						actions.add(null);
 					}
 					else if (category instanceof SeasonCategory) {
 						if (((SeasonCategory) category).isUnlocked()) {
 							texts.add(shorten("&a", StringUtils.formatItemName(category.getItem(), false)));
-							tooltips.add("&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
+							tooltips.add(ChatColor.translateAlternateColorCodes('&',"&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false)));
 							actions.add(new PlayerRunnable(1) {
 								
 								@Override
@@ -199,7 +199,7 @@ public class SlimefunGuide {
 					}
 					else {
 						texts.add(shorten("&a", StringUtils.formatItemName(category.getItem(), false)));
-						tooltips.add("&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
+						tooltips.add(ChatColor.translateAlternateColorCodes('&',"&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false)));
 						actions.add(new PlayerRunnable(1) {
 							
 							@Override
@@ -232,10 +232,10 @@ public class SlimefunGuide {
 			
 			for (int i = 0; i < texts.size(); i = i + 10) {
 				TellRawMessage page = new TellRawMessage();
-				page.addText("&b&l- Slimefun Guide -\n\n");
+				page.addText(ChatColor.translateAlternateColorCodes('&',"&b&l- Slimefun Guide -\n\n"));
 				for (int j = i; j < texts.size() && j < i + 10; j++) {
-					page.addText(texts.get(j) + "\n");
-					if (tooltips.get(j) != null) page.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
+					page.addText(ChatColor.translateAlternateColorCodes('&',texts.get(j)) + "\n");
+					if (tooltips.get(j) != null) page.addHoverEvent(HoverAction.SHOW_TEXT, ChatColor.translateAlternateColorCodes('&',tooltips.get(j)));
 					if (actions.get(j) != null) page.addClickEvent(actions.get(j));
 				}
 //				page.addText("\n");
