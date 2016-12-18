@@ -27,7 +27,6 @@ I will keep this list updated myself, please don't edit it yourself.
 * BlackBeltPanda
 * Poslovitch
 * alekso56
-* NathanAdhitya
 
 ## Wiki
 
