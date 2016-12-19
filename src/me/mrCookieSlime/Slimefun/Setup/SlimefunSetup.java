@@ -5041,10 +5041,10 @@ public class SlimefunSetup {
 				if (!item.getName().equals("CARGO_NODE")) return false;
 
 				if (CargoNet.isConnected(e.getClickedBlock())) {
-					p.sendMessage("&7Connected: " + "&2\u2714");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Connected: " + "&2\u2714"));
 				}
 				else {
-					p.sendMessage("&7Connected: " + "&4\u2718");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Connected: " + "&4\u2718"));
 				}
 				return true;
 			}
