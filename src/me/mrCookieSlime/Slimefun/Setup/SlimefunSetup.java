@@ -1803,7 +1803,8 @@ public class SlimefunSetup {
 						if (!ores.isEmpty()) {
 							final Material ore = ores.get(0).getBlock().getType();
 							ItemStack drop = new ItemStack(ore);
-							if (ore == Material.IRON_ORE) drop = new CustomItem(SlimefunItems.IRON_DUST, 2);
+							if (ore == Material.COAL_ORE)  drop = new CustomItem(new ItemStack(Material.COAL), 4);
+							else if (ore == Material.IRON_ORE) drop = new CustomItem(SlimefunItems.IRON_DUST, 2);
 							else if (ore == Material.GOLD_ORE)  drop = new CustomItem(SlimefunItems.GOLD_DUST, 2);
 							else if (ore == Material.REDSTONE_ORE)  drop = new CustomItem(new ItemStack(Material.REDSTONE), 8);
 							else if (ore == Material.QUARTZ_ORE)  drop = new CustomItem(new ItemStack(Material.QUARTZ), 4);
