@@ -2867,6 +2867,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FLASK_OF_KNOWLEDGE, true) && p.getLevel() >= 1) {
+					if (e.getClickedBlock() != null && BlockStorage.check(e.getClickedBlock(), "ANCIENT_PEDESTAL")) return true;
 					p.setLevel(p.getLevel() - 1);
 					p.getInventory().addItem(new CustomItem(Material.EXP_BOTTLE, "&aFlask of Knowledge", 0));
 					PlayerInventory.consumeItemInHand(p);
