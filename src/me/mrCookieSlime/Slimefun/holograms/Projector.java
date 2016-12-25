@@ -23,7 +23,7 @@ import org.bukkit.material.MaterialData;
 public class Projector {
 	
 	public static ArmorStand getArmorStand(Block projector) {
-		String nametag = ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(projector, "text"));
+		String nametag = ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(projector, "text").replace("\\", ""));
 		double offset = Double.valueOf(BlockStorage.getBlockInfo(projector, "offset"));
 		Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
 		
