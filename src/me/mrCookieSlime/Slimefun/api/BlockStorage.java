@@ -17,6 +17,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
@@ -289,6 +290,18 @@ public class BlockStorage {
 		Map<String, String> map = new HashMap<String, String>();
 		
 		if (json != null && json.length() > 2) {
+			try {
+				JSONObject obj = (JSONObject) getParser().parse(json);
+				for (Object entry: obj.entrySet()) {
+					map.put(entry.toString(), obj.get(entry).toString());
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (json != null && json.length() > 2) {
 			String[] entries = json.substring(2, json.length() - 2).split("\",\"");
 			
 			for (String entry: entries) {
@@ -296,17 +309,16 @@ public class BlockStorage {
 				map.put(components[0], components[1]);
 			}
 		}
-		
 		return map;
 	}
 
 	private static String getJSONData(Location l) {
 		BlockStorage storage = getStorage(l.getWorld());
-		return JSONObject.escape(storage.storage.get(l));
+		return storage.storage.get(l);
 	}
 	
 	private static String getJSONData(Chunk chunk) {
-		return JSONObject.escape(map_chunks.get(serializeChunk(chunk)));
+		return map_chunks.get(serializeChunk(chunk));
 	}
 
 	public static String getBlockInfo(Block block, String key) {
@@ -352,10 +364,12 @@ public class BlockStorage {
 	@SuppressWarnings("unchecked")
 	public static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
 		_integrated_removeBlockInfo(l, false);
+		
 		JSONObject json = new JSONObject();
 		for (String key: cfg.getKeys()) {
 			json.put(key, cfg.getString(key));
 		}
+		
 		setBlockInfo(l, json.toJSONString(), updateTicker);
 	}
 	
