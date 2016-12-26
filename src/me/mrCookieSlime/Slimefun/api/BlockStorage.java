@@ -302,7 +302,7 @@ public class BlockStorage {
 
 	private static String getJSONData(Location l) {
 		BlockStorage storage = getStorage(l.getWorld());
-		return storage.storage.get(l);
+		return JSONObject.escape(storage.storage.get(l));
 	}
 	
 	private static String getJSONData(Chunk chunk) {
