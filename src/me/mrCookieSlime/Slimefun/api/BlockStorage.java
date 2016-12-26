@@ -291,7 +291,8 @@ public class BlockStorage {
 		
 		if (json != null && json.length() > 2) {
 			try {
-				JSONObject obj = (JSONObject) getParser().parse(json);
+				JSONParser parser = new JSONParser();
+				JSONObject obj = (JSONObject) parser.parse(json);
 				for (Object entry: obj.entrySet()) {
 					map.put(entry.toString(), obj.get(entry).toString());
 				}
