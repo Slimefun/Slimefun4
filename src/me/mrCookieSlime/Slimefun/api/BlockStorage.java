@@ -306,7 +306,7 @@ public class BlockStorage {
 	}
 	
 	private static String getJSONData(Chunk chunk) {
-		return map_chunks.get(serializeChunk(chunk));
+		return JSONObject.escape(map_chunks.get(serializeChunk(chunk)));
 	}
 
 	public static String getBlockInfo(Block block, String key) {
