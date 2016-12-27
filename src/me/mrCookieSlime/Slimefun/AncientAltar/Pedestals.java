@@ -66,12 +66,17 @@ public class Pedestals {
 		for (AltarRecipe recipe : recipes) {
 			if (SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
 				r = recipe;
+				List<ItemStack> input2 = new ArrayList<ItemStack>();
+				input2.addAll(input);
 				recipe:
 				for (ItemStack item : recipe.getInput()) {
 					boolean match = false;
-					for (ItemStack item2 : input) {
+					input:
+					for (ItemStack item2 : input2) {
 						if (SlimefunManager.isItemSimiliar(item2, item, true)) {
 							match = true;
+							input2.remove(item2);
+							break input;
 						}
 					}
 					if (!match) {
