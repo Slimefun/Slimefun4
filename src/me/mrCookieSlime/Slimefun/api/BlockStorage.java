@@ -293,8 +293,10 @@ public class BlockStorage {
 			try {
 				JSONParser parser = new JSONParser();
 				JSONObject obj = (JSONObject) parser.parse(json);
-				for (Object entry: obj.entrySet()) {
-					map.put(entry.toString(), obj.get(entry).toString());
+				for (Object entry: obj.keySet()) {
+					String key = entry.toString();
+					String value = obj.get(entry).toString();
+					map.put(key, value);
 				}
 				
 			} catch (ParseException e) {
