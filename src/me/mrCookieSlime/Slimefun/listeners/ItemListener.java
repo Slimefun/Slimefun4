@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -249,6 +250,9 @@ public class ItemListener implements Listener {
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 			                @Override
 			                public void run() {
+			                	if (p.getInventory().getItemInOffHand().getType() == Material.GLASS_BOTTLE) {
+			                		p.getInventory().setItemInOffHand(InvUtils.decreaseItem(p.getInventory().getItemInOffHand(), 1));
+								}
 			                    p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
 			                }
 			            }, 1L);
