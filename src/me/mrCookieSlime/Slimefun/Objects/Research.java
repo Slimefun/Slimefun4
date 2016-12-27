@@ -30,12 +30,22 @@ public class Research {
 	String name;
 	public List<SlimefunItem> items;
 	int level;
+	Integer[] requiredResearches;
 	
 	public Research(int id, String name, int level) {
 		this.id = id;
 		this.name = name;
 	    this.level = level;
 		this.items = new ArrayList<SlimefunItem>();
+		this.requiredResearches = new Integer[0];
+	}
+	
+	public Research(int id, String name, int level, Integer[] requiredResearches){
+		this.id = id;
+		this.name = name;
+	    this.level = level;
+		this.items = new ArrayList<SlimefunItem>();
+		this.requiredResearches = requiredResearches;
 	}
 	
 	public int getID() {
@@ -48,6 +58,10 @@ public class Research {
 	
 	public int getLevel() {
 		return this.level;
+	}
+	
+	public Integer[] getRequiredResearches(){
+		return this.requiredResearches;
 	}
 	
 	public void setLevel(int level) {
@@ -63,6 +77,21 @@ public class Research {
 	public List<SlimefunItem> getEffectedItems() {
 		return this.items;
 	}
+	
+	public boolean hasUnlockedRequiredResearches(Player p){
+		return hasUnlockedRequiredResearches(p.getUniqueId());
+	}
+	
+	public boolean hasUnlockedRequiredResearches(UUID uuid){
+		if (!enabled) return true;
+		if (!SlimefunStartup.getResearchCfg().getBoolean(this.id + ".enabled")) return true;
+		boolean unlocked = true;
+		for(Integer id : this.requiredResearches){
+			if(!Research.getByID(id).hasUnlocked(uuid)) unlocked = false;
+		}
+		return unlocked;
+	}
+	
 	
 	public boolean hasUnlocked(Player p) {
 		return hasUnlocked(p.getUniqueId());
@@ -161,10 +190,12 @@ public class Research {
 		
 		SlimefunStartup.getResearchCfg().setDefaultValue(this.getID() + ".name", this.getName());
 		SlimefunStartup.getResearchCfg().setDefaultValue(this.getID() + ".cost", this.getLevel());
+		SlimefunStartup.getResearchCfg().setDefaultValue(this.getID() + ".requiredResearches", this.getRequiredResearches());
 		SlimefunStartup.getResearchCfg().setDefaultValue(this.getID() + ".enabled", true);
 		
 		this.name = SlimefunStartup.getResearchCfg().getString(this.getID() + ".name");
 		this.level = SlimefunStartup.getResearchCfg().getInt(this.getID() + ".cost");
+		this.requiredResearches = SlimefunStartup.getResearchCfg().getIntList(this.getID() + ".requiredResearches").toArray(new Integer[0]);
 		
 		list.add(this);
 		if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Research \"" + this.getName() + "\"");
