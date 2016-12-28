@@ -2,15 +2,16 @@ package me.mrCookieSlime.Slimefun.AncientAltar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
-
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class Pedestals {
 
@@ -66,14 +67,24 @@ public class Pedestals {
 		for (AltarRecipe recipe : recipes) {
 			if (SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
 				r = recipe;
+				
+				List<ItemStack> copy = new ArrayList<ItemStack>(input);
+				
 				recipe:
 				for (ItemStack item : recipe.getInput()) {
+					Iterator<ItemStack> iterator = copy.iterator();
 					boolean match = false;
-					for (ItemStack item2 : input) {
-						if (SlimefunManager.isItemSimiliar(item2, item, true)) {
+					
+					items:
+					while (iterator.hasNext()) {
+						ItemStack altar_item = iterator.next();
+						if (SlimefunManager.isItemSimiliar(altar_item, item, true)) {
 							match = true;
+							iterator.remove();
+							break items;
 						}
 					}
+					
 					if (!match) {
 						r = null;
 						break recipe;
