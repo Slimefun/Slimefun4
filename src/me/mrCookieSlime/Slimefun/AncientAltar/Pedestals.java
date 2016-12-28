@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.AncientAltar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -66,12 +67,18 @@ public class Pedestals {
 		for (AltarRecipe recipe : recipes) {
 			if (SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
 				r = recipe;
+				List<ItemStack> input2 = new ArrayList<ItemStack>();
+				input2.addAll(input);
 				recipe:
 				for (ItemStack item : recipe.getInput()) {
 					boolean match = false;
-					for (ItemStack item2 : input) {
+					input:
+					for (Iterator<ItemStack> iter = input2.iterator(); iter.hasNext();) {
+						ItemStack item2 = iter.next();
 						if (SlimefunManager.isItemSimiliar(item2, item, true)) {
 							match = true;
+							input2.remove(item2);
+							break input;
 						}
 					}
 					if (!match) {
