@@ -53,7 +53,7 @@ public class ToolListener implements Listener {
 		ItemStack item = e.getItemInHand();
 		if (item != null && item.getType() == Material.INK_SACK) return;
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		if (sfItem != null && !(sfItem instanceof ExcludedBlock) && !(sfItem instanceof ExcludedGadget)){
+		if (sfItem != null && !(sfItem instanceof ExcludedBlock) && !(sfItem instanceof ExcludedGadget) && !(sfItem.getItem().getType() == Material.DIAMOND_SPADE) && !(sfItem.getItem().getType() == Material.DIAMOND_HOE)){
 			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getName(), true);
 			if (SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
 				SlimefunItem.blockhandler.get(sfItem.getName()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
