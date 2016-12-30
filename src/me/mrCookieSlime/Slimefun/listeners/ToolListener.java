@@ -14,6 +14,8 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedGadget;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedSoulboundTool;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
@@ -53,7 +55,7 @@ public class ToolListener implements Listener {
 		ItemStack item = e.getItemInHand();
 		if (item != null && item.getType() == Material.INK_SACK) return;
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		if (sfItem != null && !(sfItem instanceof ExcludedBlock) && !(sfItem instanceof ExcludedGadget)){
+		if (sfItem != null && !(sfItem instanceof ExcludedBlock) && !(sfItem instanceof ExcludedGadget) && !(sfItem instanceof ExcludedTool) && !(sfItem instanceof ExcludedSoulboundTool)){
 			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getName(), true);
 			if (SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
 				SlimefunItem.blockhandler.get(sfItem.getName()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
