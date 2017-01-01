@@ -3457,7 +3457,7 @@ public class SlimefunSetup {
 
 			@Override
 			public int getSpeed() {
-				return 1;
+				return 4;
 			}
 
 			@Override
