@@ -3451,10 +3451,14 @@ public class SlimefunSetup {
 			}
 
 			@Override
-			public int getEnergyConsumption() { return 15; }
+			public int getEnergyConsumption() {
+				return 30;
+			}
 
 			@Override
-			public int getSpeed() { return 4; }
+			public int getSpeed() {
+				return 4;
+			}
 
 			@Override
 			public String getMachineIdentifier() {
