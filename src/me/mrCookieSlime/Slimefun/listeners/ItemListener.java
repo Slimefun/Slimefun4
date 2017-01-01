@@ -246,11 +246,43 @@ public class ItemListener implements Listener {
 				else if (item.getType() == Material.POTION) {
 					SlimefunItem sfItem = SlimefunItem.getByItem(item);
 					if (sfItem != null && sfItem instanceof Juice) {
+						int mode = 0;
+						
+						if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInMainHand(), true)) {
+							if (p.getInventory().getItemInMainHand().getAmount() == 1) {
+								mode = 0;
+							}
+							else {
+								mode = 2;
+							}
+						}
+						else if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInOffHand(), true)) {
+							if (p.getInventory().getItemInOffHand().getAmount() == 1) {
+								mode = 1;
+							}
+							else {
+								mode = 2;
+							}
+						}
+						
+						final int m = mode;
+						
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+							
+							
 			                @Override
 			                public void run() {
-			                    p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
+			                    if (m == 0) {
+			                    	p.getInventory().setItemInMainHand(null);
+			                    }
+			                    else if (m == 1) {
+			                    	p.getInventory().setItemInOffHand(null);
+			                    }
+			                    else if (m == 2) {
+			                    	p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
+			                    }
 			                }
+			                
 			            }, 1L);
 					}
 				}

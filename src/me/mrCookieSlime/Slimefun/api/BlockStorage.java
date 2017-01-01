@@ -17,6 +17,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
@@ -289,6 +290,21 @@ public class BlockStorage {
 		Map<String, String> map = new HashMap<String, String>();
 		
 		if (json != null && json.length() > 2) {
+			try {
+				JSONParser parser = new JSONParser();
+				JSONObject obj = (JSONObject) parser.parse(json);
+				for (Object entry: obj.keySet()) {
+					String key = entry.toString();
+					String value = obj.get(entry).toString();
+					map.put(key, value);
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (json != null && json.length() > 2) {
 			String[] entries = json.substring(2, json.length() - 2).split("\",\"");
 			
 			for (String entry: entries) {
@@ -296,7 +312,6 @@ public class BlockStorage {
 				map.put(components[0], components[1]);
 			}
 		}
-		
 		return map;
 	}
 
@@ -352,10 +367,12 @@ public class BlockStorage {
 	@SuppressWarnings("unchecked")
 	public static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
 		_integrated_removeBlockInfo(l, false);
+		
 		JSONObject json = new JSONObject();
 		for (String key: cfg.getKeys()) {
 			json.put(key, cfg.getString(key));
 		}
+		
 		setBlockInfo(l, json.toJSONString(), updateTicker);
 	}
 	
