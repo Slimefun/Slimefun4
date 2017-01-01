@@ -3452,7 +3452,7 @@ public class SlimefunSetup {
 
 			@Override
 			public int getEnergyConsumption() {
-				return 30;
+				return 15;
 			}
 
 			@Override
