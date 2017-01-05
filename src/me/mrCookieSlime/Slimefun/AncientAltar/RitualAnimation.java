@@ -266,7 +266,7 @@ public class RitualAnimation implements Runnable {
 		if (item == null) abort();
 		else {
 			particles.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
-			items.add(item.getItemStack());
+			items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
 			pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 5F, 2F);
 			
 			try {
