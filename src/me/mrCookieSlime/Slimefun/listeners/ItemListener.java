@@ -31,6 +31,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Variables;
@@ -86,41 +87,41 @@ public class ItemListener implements Listener {
 					}
 					else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
 						p.sendMessage(" ");
-						p.sendMessage("§d" + e.getClickedBlock().getType() + ":" + e.getClickedBlock().getData() + " §e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
-						p.sendMessage("§dID: " + "§e" + BlockStorage.checkID(e.getClickedBlock()));
+						p.sendMessage("ï¿½d" + e.getClickedBlock().getType() + ":" + e.getClickedBlock().getData() + " ï¿½e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
+						p.sendMessage("ï¿½dID: " + "ï¿½e" + BlockStorage.checkID(e.getClickedBlock()));
 						if (e.getClickedBlock().getState() instanceof Skull) {
-							p.sendMessage("§dSkull: " + "§2\u2714");
-							p.sendMessage("  §dRotation: §e" + ((Skull) e.getClickedBlock().getState()).getRotation().toString());
+							p.sendMessage("ï¿½dSkull: " + "ï¿½2\u2714");
+							p.sendMessage("  ï¿½dRotation: ï¿½e" + ((Skull) e.getClickedBlock().getState()).getRotation().toString());
 						}
 						if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
-							p.sendMessage("§dInventory: " + "§2\u2714");
+							p.sendMessage("ï¿½dInventory: " + "ï¿½2\u2714");
 						}
 						else {
-							p.sendMessage("§dInventory: " + "§4\u2718");
+							p.sendMessage("ï¿½dInventory: " + "ï¿½4\u2718");
 						}
 						if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
-							p.sendMessage("§dTicking: " + "§2\u2714");
-							p.sendMessage("  §dAsync: §e" + (BlockStorage.check(e.getClickedBlock()).getTicker().isSynchronized() ? "§4\u2718": "§2\u2714"));
-							p.sendMessage("  §dTimings: §e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms");
-							p.sendMessage("  §dTotal Timings: §e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms");
-							p.sendMessage("  §dChunk Timings: §e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms");
+							p.sendMessage("ï¿½dTicking: " + "ï¿½2\u2714");
+							p.sendMessage("  ï¿½dAsync: ï¿½e" + (BlockStorage.check(e.getClickedBlock()).getTicker().isSynchronized() ? "ï¿½4\u2718": "ï¿½2\u2714"));
+							p.sendMessage("  ï¿½dTimings: ï¿½e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms");
+							p.sendMessage("  ï¿½dTotal Timings: ï¿½e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms");
+							p.sendMessage("  ï¿½dChunk Timings: ï¿½e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms");
 						}
 						else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
-							p.sendMessage("§dTicking: " + "§b~ §3(Indirect)");
-							p.sendMessage("  §dTimings: §e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms");
-							p.sendMessage("  §dChunk Timings: §e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms");
+							p.sendMessage("ï¿½dTicking: " + "ï¿½b~ ï¿½3(Indirect)");
+							p.sendMessage("  ï¿½dTimings: ï¿½e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms");
+							p.sendMessage("  ï¿½dChunk Timings: ï¿½e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms");
 						}
 						else {
-							p.sendMessage("§dTicking: " + "§4\u2718");
+							p.sendMessage("ï¿½dTicking: " + "ï¿½4\u2718");
 						}
 						if (ChargableBlock.isChargable(e.getClickedBlock())) {
-							p.sendMessage("§dChargable: " + "§2\u2714");
-							p.sendMessage("  §dEnergy: §e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock()));
+							p.sendMessage("ï¿½dChargable: " + "ï¿½2\u2714");
+							p.sendMessage("  ï¿½dEnergy: ï¿½e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock()));
 						}
 						else {
-							p.sendMessage("§dChargable: " + "§4\u2718");
+							p.sendMessage("ï¿½dChargable: " + "ï¿½4\u2718");
 						}
-						p.sendMessage("§6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock()));
+						p.sendMessage("ï¿½6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock()));
 						p.sendMessage(" ");
 					}
 					break;
@@ -227,8 +228,14 @@ public class ItemListener implements Listener {
 			if (Slimefun.hasUnlocked(p, item, true)) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MONSTER_JERKY, true)) {
 					e.setCancelled(true);
-					PlayerInventory.consumeItemInHand(p);
-					PlayerInventory.update(p);
+					//PlayerInventory.consumeItemInHand(p); Does not work offhand
+					//PlayerInventory.update(p);
+					if (SlimefunManager.isItemSimiliar(p.getInventory().getItemInOffHand(), SlimefunItems.MONSTER_JERKY, true)) {
+						p.getInventory().setItemInOffHand(InvUtils.decreaseItem(p.getInventory().getItemInOffHand(), 1));
+					}else{
+						p.getInventory().setItemInMainHand(InvUtils.decreaseItem(p.getInventory().getItemInMainHand(), 1));
+					}
+
 					p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 5, 0));
 				}
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.local.getTranslation("messages.fortune-cookie").get(CSCoreLib.randomizer().nextInt(Messages.local.getTranslation("messages.fortune-cookie").size()))));
