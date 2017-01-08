@@ -116,7 +116,7 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(112, "Ender Talismans", 28));
 	    Slimefun.registerResearch(new Research(115, "Even more Ores", 10), SlimefunItems.NICKEL_INGOT, SlimefunItems.COBALT_INGOT);
 	    Slimefun.registerResearch(new Research(116, "Magnetic Metals", 16), SlimefunItems.MAGNET);
-	    Slimefun.registerResearch(new Research(117, "Infused Magnets", 18), SlimefunItems.INFUSED_MAGNET);
+	    Slimefun.registerResearch(new Research(117, "Infused Magnets", 18, new Integer[]{116}), SlimefunItems.INFUSED_MAGNET);
 	    Slimefun.registerResearch(new Research(118, "Speedy Pickaxe", 14), SlimefunItems.COBALT_PICKAXE);
 	    Slimefun.registerResearch(new Research(119, "Necromancy", 19), SlimefunItems.NECROTIC_SKULL, SlimefunItems.ESSENCE_OF_AFTERLIFE);
 	    Slimefun.registerResearch(new Research(120, "Soulbound Storage", 22), SlimefunItems.BOUND_BACKPACK);
@@ -131,10 +131,10 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(130, "Repairing Spawners", 15), SlimefunItems.REPAIRED_SPAWNER);
 	    Slimefun.registerResearch(new Research(131, "HO HO HO", 1));
 	    Slimefun.registerResearch(new Research(132, "Enhanced Furnace", 7), SlimefunItems.ENHANCED_FURNACE, SlimefunItems.ENHANCED_FURNACE_2);
-	    Slimefun.registerResearch(new Research(133, "Better Furnaces", 18), SlimefunItems.ENHANCED_FURNACE_3, SlimefunItems.ENHANCED_FURNACE_4, SlimefunItems.ENHANCED_FURNACE_5, SlimefunItems.ENHANCED_FURNACE_6, SlimefunItems.ENHANCED_FURNACE_7);
-	    Slimefun.registerResearch(new Research(134, "High Tier Furnace", 29), SlimefunItems.ENHANCED_FURNACE_8, SlimefunItems.ENHANCED_FURNACE_9, SlimefunItems.ENHANCED_FURNACE_10, SlimefunItems.ENHANCED_FURNACE_11);
-	    Slimefun.registerResearch(new Research(135, "Reinforced Furnace", 32), SlimefunItems.REINFORCED_FURNACE);
-	    Slimefun.registerResearch(new Research(136, "Carbonado Edged Furnace", 35), SlimefunItems.CARBONADO_EDGED_FURNACE);
+	    Slimefun.registerResearch(new Research(133, "Better Furnaces", 18, new Integer[]{132}), SlimefunItems.ENHANCED_FURNACE_3, SlimefunItems.ENHANCED_FURNACE_4, SlimefunItems.ENHANCED_FURNACE_5, SlimefunItems.ENHANCED_FURNACE_6, SlimefunItems.ENHANCED_FURNACE_7);
+	    Slimefun.registerResearch(new Research(134, "High Tier Furnace", 29, new Integer[]{133}), SlimefunItems.ENHANCED_FURNACE_8, SlimefunItems.ENHANCED_FURNACE_9, SlimefunItems.ENHANCED_FURNACE_10, SlimefunItems.ENHANCED_FURNACE_11);
+	    Slimefun.registerResearch(new Research(135, "Reinforced Furnace", 32, new Integer[]{134}), SlimefunItems.REINFORCED_FURNACE);
+	    Slimefun.registerResearch(new Research(136, "Carbonado Edged Furnace", 35, new Integer[]{135}), SlimefunItems.CARBONADO_EDGED_FURNACE);
 	    Slimefun.registerResearch(new Research(137, "Heating up", 32), SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.HEATING_COIL);
 	    Slimefun.registerResearch(new Research(138, "Block Placer", 17), SlimefunItems.BLOCK_PLACER);
 	    Slimefun.registerResearch(new Research(139, "Lazy Panning", 29), SlimefunItems.AUTOMATED_PANNING_MACHINE);
@@ -150,7 +150,7 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(152, "Wither-Proof Obsidian", 21), SlimefunItems.WITHER_PROOF_OBSIDIAN);
 	    Slimefun.registerResearch(new Research(154, "Upgraded Solar Cells", 26), SlimefunItems.SOLAR_ARRAY);
 	    Slimefun.registerResearch(new Research(155, "Elemental Runes", 15), SlimefunItems.BLANK_RUNE, SlimefunItems.RUNE_EARTH, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_FIRE);
-	    Slimefun.registerResearch(new Research(156, "Purple Runes", 18), SlimefunItems.RUNE_ENDER, SlimefunItems.RUNE_RAINBOW);
+	    Slimefun.registerResearch(new Research(156, "Purple Runes", 18, new Integer[]{155}), SlimefunItems.RUNE_ENDER, SlimefunItems.RUNE_RAINBOW);
 	    Slimefun.registerResearch(new Research(157, "Infernal Bonemeal", 12), SlimefunItems.INFERNAL_BONEMEAL);
 	    Slimefun.registerResearch(new Research(158, "Rainbow Blocks", 24), SlimefunItems.RAINBOW_CLAY, SlimefunItems.RAINBOW_GLASS, SlimefunItems.RAINBOW_GLASS_PANE, SlimefunItems.RAINBOW_WOOL);
 	    Slimefun.registerResearch(new Research(159, "Infused Hopper", 22), SlimefunItems.INFUSED_HOPPER);
