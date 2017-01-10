@@ -16,6 +16,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -301,7 +302,7 @@ public class SlimefunStartup extends JavaPlugin {
 						for (Player p: Bukkit.getOnlinePlayers()) {
 							for (ItemStack armor: p.getInventory().getArmorContents()) {
 								if (armor != null) {
-									if (Slimefun.hasUnlocked(p, armor, true)) {
+									if (armor.getType() != Material.ELYTRA && Slimefun.hasUnlocked(p, armor, true)) {
 										if (SlimefunItem.getByItem(armor) instanceof SlimefunArmorPiece) {
 											for (PotionEffect effect: ((SlimefunArmorPiece) SlimefunItem.getByItem(armor)).getEffects()) {
 												p.removePotionEffect(effect.getType());
