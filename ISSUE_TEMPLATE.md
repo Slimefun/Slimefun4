@@ -11,3 +11,8 @@ Anything that helps us understand the Issue better, is gonna get your Issue fixe
 
 ## Environment
 Please state what Version of Minecraft, CS-CoreLib and Slimefun you're using.
+
+!! WARNING !!
+DO NOT post any Issue that does not regard Slimefun itself, 
+even Issues regarding Slimefun Addons ARE NOT ALLOWED to be posted this way.
+If you do not fill in the above mentioned criterias, your Issue will be closed WITHOUT WARNING.
