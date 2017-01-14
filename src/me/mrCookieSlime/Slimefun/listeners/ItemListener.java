@@ -31,6 +31,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Variables;
@@ -88,15 +89,21 @@ public class ItemListener implements Listener {
 						p.sendMessage(" ");
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d" + e.getClickedBlock().getType() + ":" + e.getClickedBlock().getData() + " &e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ()));
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dID: " + "&e" + BlockStorage.checkID(e.getClickedBlock())));
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&d" + e.getClickedBlock().getType() + ":" + e.getClickedBlock().getData() + " &e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ()));
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dID: " + "&e" + BlockStorage.checkID(e.getClickedBlock())));
 						if (e.getClickedBlock().getState() instanceof Skull) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dSkull: " + "&2\u2714"));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dRotation: &e" + ((Skull) e.getClickedBlock().getState()).getRotation().toString()));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dSkull: " + "&2\u2714"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"  &dRotation: &e" + ((Skull) e.getClickedBlock().getState()).getRotation().toString()));
 						}
 						if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dInventory: " + "&2\u2714"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dInventory: " + "&2\u2714"));
 						}
 						else {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dInventory: " + "&4\u2718"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dInventory: " + "&4\u2718"));
 						}
 						if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&2\u2714"));
@@ -104,24 +111,38 @@ public class ItemListener implements Listener {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTotal Timings: &e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dTicking: " + "&2\u2714"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"  &dAsync: &e" + (BlockStorage.check(e.getClickedBlock()).getTicker().isSynchronized() ? "&4\u2718": "&2\u2714")));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"  &dTotal Timings: &e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
 						}
 						else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&b~ &3(Indirect)"));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dTicking: " + "&b~ &3(Indirect)"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
 						}
 						else {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&4\u2718"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dTicking: " + "&4\u2718"));
 						}
 						if (ChargableBlock.isChargable(e.getClickedBlock())) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChargable: " + "&2\u2714"));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dEnergy: &e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock())));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dChargable: " + "&2\u2714"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"  &dEnergy: &e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock())));
 						}
 						else {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChargable: " + "&4\u2718"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dChargable: " + "&4\u2718"));
 						}
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock())));
 						p.sendMessage(" ");
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock())));
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&'," "));
 					}
 					break;
 				}
@@ -227,7 +248,12 @@ public class ItemListener implements Listener {
 			if (Slimefun.hasUnlocked(p, item, true)) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MONSTER_JERKY, true)) {
 					e.setCancelled(true);
-					PlayerInventory.consumeItemInHand(p);
+					if (SlimefunManager.isItemSimiliar(p.getInventory().getItemInOffHand(), SlimefunItems.MONSTER_JERKY, true)) {
+						p.getInventory().setItemInOffHand(InvUtils.decreaseItem(p.getInventory().getItemInOffHand(), 1));
+					}
+					else{
+						p.getInventory().setItemInMainHand(InvUtils.decreaseItem(p.getInventory().getItemInMainHand(), 1));
+					}
 					PlayerInventory.update(p);
 					p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 5, 0));
 				}
