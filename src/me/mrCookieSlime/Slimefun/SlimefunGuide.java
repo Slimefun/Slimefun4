@@ -184,6 +184,8 @@ public class SlimefunGuide {
 			}
 		}
 		
+		// TODO List credits
+		
 		for (int i = 0; i < 9; i++) {
 			menu.addItem(36 + i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
 			menu.addMenuClickHandler(36 + i, new MenuClickHandler() {
