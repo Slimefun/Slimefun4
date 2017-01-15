@@ -201,8 +201,6 @@ public class SlimefunGuide {
 			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 			
 			SkullMeta meta = (SkullMeta) skull.getItemMeta();
-			meta.setOwner(contributor.name);
-			
 			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&a" + contributor.name));
 			
 			if (contributor.commits > 0) {
@@ -213,7 +211,8 @@ public class SlimefunGuide {
 			else {
 				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.job)));
 			}
-			
+
+			meta.setOwner(contributor.name);
 			skull.setItemMeta(meta);
 			
 			menu.addItem(index, skull);
@@ -419,7 +418,7 @@ public class SlimefunGuide {
 			int pages = 1;
 			
 			for (int i = 0; i < 9; i++) {
-				if (i != 4) {
+				if (!(i == 4 && survival)) {
 					menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
 					menu.addMenuClickHandler(i, new MenuClickHandler() {
 						
