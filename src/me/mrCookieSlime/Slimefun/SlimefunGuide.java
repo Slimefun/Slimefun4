@@ -1,40 +1,12 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuOpeningHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
-import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SeasonCategory;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.URID.URID;
-import me.mrCookieSlime.Slimefun.api.GuideHandler;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,12 +20,45 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
+
+import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuOpeningHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import me.mrCookieSlime.Slimefun.GitHub.Contributor;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
+import me.mrCookieSlime.Slimefun.Objects.Research;
+import me.mrCookieSlime.Slimefun.Objects.SeasonCategory;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+import me.mrCookieSlime.Slimefun.Setup.Messages;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.URID.URID;
+import me.mrCookieSlime.Slimefun.api.GuideHandler;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class SlimefunGuide {
 	
 	public static Map<UUID, List<URID>> history = new HashMap<UUID, List<URID>>();
 	public static int month = 0;
+	
+	public static List<Contributor> contributors = new ArrayList<Contributor>();
 	
 	static boolean all_recipes = true;
 	private static final int category_size = 36;
@@ -184,7 +189,44 @@ public class SlimefunGuide {
 			}
 		}
 		
-		// TODO List credits
+		int index = 9;
+		
+		double total = 0;
+
+		for (Contributor contributor: contributors) {
+			total += contributor.commits;
+		}
+		
+		for (Contributor contributor: contributors) {
+			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+			
+			SkullMeta meta = (SkullMeta) skull.getItemMeta();
+			meta.setOwner(contributor.name);
+			
+			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&a" + contributor.name));
+			
+			if (contributor.commits > 0) {
+				double percentage = DoubleHandler.fixDouble((contributor.commits * 100.0) / total, 2);
+				
+				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.job), ChatColor.translateAlternateColorCodes('&', "&7Contribution: &r" + percentage + "%")));
+			}
+			else {
+				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.job)));
+			}
+			
+			skull.setItemMeta(meta);
+			
+			menu.addItem(index, skull);
+			menu.addMenuClickHandler(index, new MenuClickHandler() {
+				
+				@Override
+				public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+					return false;
+				}
+			});
+			
+			index++;
+		}
 		
 		for (int i = 0; i < 9; i++) {
 			menu.addItem(36 + i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));

@@ -44,6 +44,8 @@ import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
+import me.mrCookieSlime.Slimefun.GitHub.Contributor;
+import me.mrCookieSlime.Slimefun.GitHub.GitHubConnector;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -166,6 +168,7 @@ public class SlimefunStartup extends JavaPlugin {
 			if (!new File("plugins/Slimefun/scripts").exists()) new File("plugins/Slimefun/scripts").mkdirs();
 			if (!new File("plugins/Slimefun/generators").exists()) new File("plugins/Slimefun/generators").mkdirs();
 			if (!new File("plugins/Slimefun/error-reports").exists()) new File("plugins/Slimefun/error-reports").mkdirs();
+			if (!new File("plugins/Slimefun/cache").exists()) new File("plugins/Slimefun/cache").mkdirs();
 
 			SlimefunManager.plugin = this;
 
@@ -191,6 +194,21 @@ public class SlimefunStartup extends JavaPlugin {
 			// Generating Oil as an OreGenResource (its a cool API)
 			OreGenSystem.registerResource(new OilResource());
 			OreGenSystem.registerResource(new NetherIceResource());
+			
+			// Connecting to GitHub...
+			
+			GitHubConnector github = new GitHubConnector();
+			
+			github.pullFile();
+			
+			if (github.hasData()) {
+				github.parseData();
+			}
+			else {
+				SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 1));
+			}
+			
+			SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
 			
 			// All Slimefun Listeners
 			new ArmorListener(this);
@@ -534,6 +552,7 @@ public class SlimefunStartup extends JavaPlugin {
 		BlockStorage.universal_inventories = null;
 		TickerTask.block_timings = null;
 		OreGenSystem.map = null;
+		SlimefunGuide.contributors = null;
 
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();
