@@ -84,29 +84,29 @@ public class SlimefunGuide {
 			}
 		});
 		
-		for (int i = 0; i < 18; i++) {
-			if (i != 1 && i != 3 && i != 4 && i != 5) {
+
+		menu.addItem(0, new CustomItem(new MaterialData(Material.EMERALD), "&7\u21E6 Back to normal view"));
+		menu.addMenuClickHandler(0, new MenuClickHandler() {
+			
+			@Override
+			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+				if (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true)) {
+					SlimefunGuide.openGuide(p, true);
+				}
+				else if (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(false), true)) {
+					SlimefunGuide.openGuide(p, false);
+				}
+				return false;
+			}
+		});
+		
+		for (int i = 1; i < 18; i++) {
+			if (i != 3 && i != 4 && i != 5) {
 				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
 					
 					@Override
 					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						return false;
-					}
-				});
-			}
-			else {
-				menu.addItem(1, new CustomItem(new MaterialData(Material.EMERALD), "&7\u21E6 Back to normal view"));
-				menu.addMenuClickHandler(1, new MenuClickHandler() {
-					
-					@Override
-					public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-						if (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true)) {
-							SlimefunGuide.openGuide(p, true);
-						}
-						else if (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(false), true)) {
-							SlimefunGuide.openGuide(p, false);
-						}
 						return false;
 					}
 				});
