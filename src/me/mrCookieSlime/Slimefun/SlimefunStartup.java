@@ -213,9 +213,12 @@ public class SlimefunStartup extends JavaPlugin {
 				    	String name = object.get("login").getAsString();
 				    	String job = "&cAuthor";
 				    	int commits = object.get("contributions").getAsInt();
+				    	String profile = object.get("html_url").getAsString();
 				    	
 				    	if (!name.equals("invalid-email-address")) {
-				    		SlimefunGuide.contributors.add(new Contributor(name, job, commits));
+				    		Contributor contributor = new Contributor(name, job, commits);
+				    		contributor.profile = profile;
+				    		SlimefunGuide.contributors.add(contributor);
 				    	}
 				    }
 					SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));

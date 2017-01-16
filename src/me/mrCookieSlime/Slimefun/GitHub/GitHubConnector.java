@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.HashSet;
@@ -38,7 +39,13 @@ public abstract class GitHubConnector {
 		
 		try {
 			URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
-			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			
+			URLConnection connection = website.openConnection();
+            connection.setConnectTimeout(3000);
+            connection.addRequestProperty("User-Agent", "Slimefun 4 GitHub Agent (by TheBusyBiscuit)");
+            connection.setDoOutput(true);
+			
+			ReadableByteChannel rbc = Channels.newChannel(connection.getInputStream());
 			FileOutputStream fos = new FileOutputStream(file);
 			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 			fos.close();

@@ -4,6 +4,7 @@ public class Contributor {
 	
 	public String name;
 	public String job;
+	public String profile;
 	public int commits;
 
 	public Contributor(String name, String job, int commits) {
