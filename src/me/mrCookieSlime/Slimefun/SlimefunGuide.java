@@ -20,7 +20,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
@@ -59,6 +58,8 @@ public class SlimefunGuide {
 	public static int month = 0;
 	
 	public static List<Contributor> contributors = new ArrayList<Contributor>();
+	public static int issues = 0;
+	public static int forks = 0;
 	
 	static boolean all_recipes = true;
 	private static final int category_size = 36;
@@ -83,8 +84,8 @@ public class SlimefunGuide {
 			}
 		});
 		
-		for (int i = 0; i < 9; i++) {
-			if (i != 4) {
+		for (int i = 0; i < 18; i++) {
+			if (i != 1 && i != 3 && i != 4 && i != 5) {
 				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
 					
@@ -95,8 +96,8 @@ public class SlimefunGuide {
 				});
 			}
 			else {
-				menu.addItem(4, new CustomItem(new MaterialData(Material.EMERALD), "&7\u21E6 Back to normal view"));
-				menu.addMenuClickHandler(4, new MenuClickHandler() {
+				menu.addItem(1, new CustomItem(new MaterialData(Material.EMERALD), "&7\u21E6 Back to normal view"));
+				menu.addMenuClickHandler(1, new MenuClickHandler() {
 					
 					@Override
 					public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -112,8 +113,8 @@ public class SlimefunGuide {
 			}
 		}
 		
-		menu.addItem(9, new CustomItem(new MaterialData(SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true) ? Material.BOOK_AND_QUILL: Material.CHEST), "&7Guide Layout: &e" + (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true) ? "Book": "Chest"), "", "&7\u21E8 Click to change to: &b" + (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true) ? "Chest": "Book")));
-		menu.addMenuClickHandler(9, new MenuClickHandler() {
+		menu.addItem(18, new CustomItem(new MaterialData(SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true) ? Material.BOOK_AND_QUILL: Material.CHEST), "&7Guide Layout: &e" + (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true) ? "Book": "Chest"), "", "&7\u21E8 Click to change to: &b" + (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true) ? "Chest": "Book")));
+		menu.addMenuClickHandler(18, new MenuClickHandler() {
 			
 			@Override
 			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -129,8 +130,8 @@ public class SlimefunGuide {
 			}
 		});
 		
-		menu.addItem(10, new CustomItem(new MaterialData(Material.COMPASS), "&7Credits", "", "&7\u21E8 Click to see the people behind this Plugin"));
-		menu.addMenuClickHandler(10, new MenuClickHandler() {
+		menu.addItem(3, new CustomItem(new MaterialData(Material.BOOK_AND_QUILL), "&aCredits", "", "&7\u21E8 Click to see the people behind this Plugin"));
+		menu.addMenuClickHandler(3, new MenuClickHandler() {
 			
 			@Override
 			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -139,9 +140,39 @@ public class SlimefunGuide {
 			}
 		});
 		
+		try {
+			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&eSource Code", "", "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addMenuClickHandler(4, new MenuClickHandler() {
+				
+				@Override
+				public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+					p.closeInventory();
+					p.sendMessage("");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4"));
+					p.sendMessage("");
+					return false;
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		menu.addItem(5, new CustomItem(new MaterialData(Material.REDSTONE), "&4Bug Tracker", "", "&7Unsolved Issues: &a" + issues, "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
+		menu.addMenuClickHandler(5, new MenuClickHandler() {
+			
+			@Override
+			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+				p.closeInventory();
+				p.sendMessage("");
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4/issues"));
+				p.sendMessage("");
+				return false;
+			}
+		});
+		
 		for (int i = 0; i < 9; i++) {
-			menu.addItem(18 + i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
-			menu.addMenuClickHandler(18 + i, new MenuClickHandler() {
+			menu.addItem(27 + i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+			menu.addMenuClickHandler(27 + i, new MenuClickHandler() {
 				
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -200,7 +231,7 @@ public class SlimefunGuide {
 		for (Contributor contributor: contributors) {
 			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 			
-			SkullMeta meta = (SkullMeta) skull.getItemMeta();
+			ItemMeta meta = skull.getItemMeta();
 			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&a" + contributor.name));
 			
 			if (contributor.commits > 0) {
@@ -212,7 +243,6 @@ public class SlimefunGuide {
 				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.job)));
 			}
 
-			meta.setOwner(contributor.name);
 			skull.setItemMeta(meta);
 			
 			menu.addItem(index, skull);

@@ -31,6 +31,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -168,7 +172,7 @@ public class SlimefunStartup extends JavaPlugin {
 			if (!new File("plugins/Slimefun/scripts").exists()) new File("plugins/Slimefun/scripts").mkdirs();
 			if (!new File("plugins/Slimefun/generators").exists()) new File("plugins/Slimefun/generators").mkdirs();
 			if (!new File("plugins/Slimefun/error-reports").exists()) new File("plugins/Slimefun/error-reports").mkdirs();
-			if (!new File("plugins/Slimefun/cache").exists()) new File("plugins/Slimefun/cache").mkdirs();
+			if (!new File("plugins/Slimefun/cache/github").exists()) new File("plugins/Slimefun/cache/github").mkdirs();
 
 			SlimefunManager.plugin = this;
 
@@ -197,18 +201,78 @@ public class SlimefunStartup extends JavaPlugin {
 			
 			// Connecting to GitHub...
 			
-			GitHubConnector github = new GitHubConnector();
+			new GitHubConnector() {
+				
+				@Override
+				public void onSuccess(JsonElement element) {
+					JsonArray array = element.getAsJsonArray();
+				    
+				    for (int i = 0; i < array.size(); i++) {
+				    	JsonObject object = array.get(i).getAsJsonObject();
+				    	
+				    	String name = object.get("login").getAsString();
+				    	String job = "&cAuthor";
+				    	int commits = object.get("contributions").getAsInt();
+				    	
+				    	if (!name.equals("invalid-email-address")) {
+				    		SlimefunGuide.contributors.add(new Contributor(name, job, commits));
+				    	}
+				    }
+					SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				}
+				
+				@Override
+				public void onFailure() {
+					SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
+					SlimefunGuide.contributors.add(new Contributor("John000708", "&cAuthor", 2));
+					SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				}
+				
+				@Override
+				public String getRepository() {
+					return "TheBusyBiscuit/Slimefun4";
+				}
+				
+				@Override
+				public String getFileName() {
+					return "contributors";
+				}
+
+				@Override
+				public String getURLSuffix() {
+					return "/contributors";
+				}
+			};
 			
-			github.pullFile();
+			new GitHubConnector() {
+				
+				@Override
+				public void onSuccess(JsonElement element) {
+					JsonObject object = element.getAsJsonObject();
+					SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
+					SlimefunGuide.forks = object.get("forks").getAsInt();
+				}
+				
+				@Override
+				public void onFailure() {
+				}
+				
+				@Override
+				public String getRepository() {
+					return "TheBusyBiscuit/Slimefun4";
+				}
+				
+				@Override
+				public String getFileName() {
+					return "repo";
+				}
+
+				@Override
+				public String getURLSuffix() {
+					return "";
+				}
+			};
 			
-			if (github.hasData()) {
-				github.parseData();
-			}
-			else {
-				SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 1));
-			}
-			
-			SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
 			
 			// All Slimefun Listeners
 			new ArmorListener(this);
@@ -553,6 +617,7 @@ public class SlimefunStartup extends JavaPlugin {
 		TickerTask.block_timings = null;
 		OreGenSystem.map = null;
 		SlimefunGuide.contributors = null;
+		GitHubConnector.connectors = null;
 
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();

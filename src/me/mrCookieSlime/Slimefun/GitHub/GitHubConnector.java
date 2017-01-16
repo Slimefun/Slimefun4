@@ -8,34 +8,51 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
-
-public class GitHubConnector {
+public abstract class GitHubConnector {
+	
+	public static Set<GitHubConnector> connectors = new HashSet<GitHubConnector>();
 	
 	private File file;
 
 	public GitHubConnector() {
-		this.file = new File("plugins/Slimefun/cache/contributors.json");;
+		this.file = new File("plugins/Slimefun/cache/github/" + this.getFileName() + ".json");
+		
+		this.pullFile();
+		connectors.add(this);
 	}
 	
+	public abstract String getFileName();
+	public abstract String getRepository();
+	public abstract String getURLSuffix();
+	public abstract void onSuccess(JsonElement element);
+	public abstract void onFailure();
+	
 	public void pullFile() {
-		System.out.println("[Slimefun - GitHub] Downloading 'contributors.json' from GitHub...");
+		System.out.println("[Slimefun - GitHub] Downloading '" + this.getFileName() + ".json' from GitHub...");
 		
 		try {
-			URL website = new URL("https://api.github.com/repos/TheBusyBiscuit/Slimefun4/contributors");
+			URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
 			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
 			FileOutputStream fos = new FileOutputStream(file);
 			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 			fos.close();
-			System.out.println("[Slimefun - GitHub] Finished download: 'contributors.json'");
+			System.out.println("[Slimefun - GitHub] Finished download: '" + this.getFileName() + ".json'");
+			this.parseData();
 		} catch (IOException e) {
 			System.err.println("[Slimefun - GitHub] ERROR - Could not connect to GitHub in time.");
+			
+			if (hasData()) {
+				this.parseData();
+			}
+			else {
+				this.onFailure();
+			}
 		}
 	}
 	
@@ -61,22 +78,12 @@ public class GitHubConnector {
 		    reader.close();
 		    
 		    JsonElement element = new JsonParser().parse(full);
-		    JsonArray array = element.getAsJsonArray();
 		    
-		    for (int i = 0; i < array.size(); i++) {
-		    	JsonObject object = array.get(i).getAsJsonObject();
-		    	
-		    	String name = object.get("login").getAsString();
-		    	String job = "&cAuthor";
-		    	int commits = object.get("contributions").getAsInt();
-		    	
-		    	if (!name.equals("invalid-email-address")) {
-		    		SlimefunGuide.contributors.add(new Contributor(name, job, commits));
-		    	}
-		    }
-			
-		} catch (IOException e) {
+		    this.onSuccess(element);
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
+			this.onFailure();
 		}
 	}
 }

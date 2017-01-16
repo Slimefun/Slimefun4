@@ -33,7 +33,6 @@ public class AutoSavingTask implements Runnable {
 				storage.save(false);
 			}
 		}
-		
 	}
 
 }
