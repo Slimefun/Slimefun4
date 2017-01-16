@@ -1,3 +1,9 @@
+!!! BEFORE POSTING !!!
+
+1. Do not adress Issues that don't regard Slimefun, even Issues about Slimefun Addons are not allowed to be posted here.
+2. Make sure to check other Issues before posting yours, we do not want any duplicates!
+3. Your Issue will be CLOSED WITHOUT WARNING if you do not match the above mentioned criteria.
+
 ## Description
 Describe your Issue AS DETAILED AS POSSIBLE.
 
@@ -10,9 +16,5 @@ Attach as many Screenshots or Videos if possible.
 Anything that helps us understand the Issue better, is gonna get your Issue fixed even faster.
 
 ## Environment
-Please state what Version of Minecraft, CS-CoreLib and Slimefun you're using.
-
-!! WARNING !!
-DO NOT post any Issue that does not regard Slimefun itself, 
-even Issues regarding Slimefun Addons ARE NOT ALLOWED to be posted this way.
-If you do not fill in the above mentioned criterias, your Issue will be closed WITHOUT WARNING.
+Please state what Version of Minecraft, CS-CoreLib and Slimefun you're using
+"latest" is not enough, we need the EXACT VERSIONS.
