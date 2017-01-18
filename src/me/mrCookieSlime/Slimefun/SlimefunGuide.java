@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,6 +63,7 @@ public class SlimefunGuide {
 	public static int issues = 0;
 	public static int forks = 0;
 	public static int code_lines = 0;
+	public static Date last_update = new Date();
 	
 	static boolean all_recipes = true;
 	private static final int category_size = 36;
@@ -143,7 +145,7 @@ public class SlimefunGuide {
 		});
 		
 		try {
-			menu.addItem(26, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Lines of Code: &6" + IntegerFormat.formatBigNumber(code_lines), "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addItem(26, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Lines of Code: &6" + IntegerFormat.formatBigNumber(code_lines), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
 			menu.addMenuClickHandler(26, new MenuClickHandler() {
 				
 				@Override

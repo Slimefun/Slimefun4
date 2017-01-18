@@ -50,6 +50,7 @@ import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GitHub.Contributor;
 import me.mrCookieSlime.Slimefun.GitHub.GitHubConnector;
+import me.mrCookieSlime.Slimefun.GitHub.IntegerFormat;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -411,6 +412,7 @@ public class SlimefunStartup extends JavaPlugin {
 					JsonObject object = element.getAsJsonObject();
 					SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
 					SlimefunGuide.forks = object.get("forks").getAsInt();
+					SlimefunGuide.last_update = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
 				}
 				
 				@Override
