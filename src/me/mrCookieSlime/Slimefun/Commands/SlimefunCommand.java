@@ -156,7 +156,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					sender.sendMessage("");
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&oInstalled Addons:"));
 					for (Plugin plugin: Bukkit.getPluginManager().getPlugins()) {
-						if (plugin.getDescription().getSoftDepend().contains("Slimefun")) {
+						if (plugin.getDescription().getDepend().contains("Slimefun") || plugin.getDescription().getSoftDepend().contains("Slimefun")) {
 							if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
 								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
 							}
