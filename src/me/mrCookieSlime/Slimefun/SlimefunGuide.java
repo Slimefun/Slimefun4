@@ -282,7 +282,7 @@ public class SlimefunGuide {
 			URID last = getLastEntry(p, false);
 			if (URID.decode(last) instanceof Category) openCategory(p, (Category) URID.decode(last), true, 1, experimental);
 			else if (URID.decode(last) instanceof SlimefunItem) displayItem(p, ((SlimefunItem) URID.decode(last)).getItem(), false, experimental, 0);
-			else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p, true);
+			else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p, true, experimental);
 			else displayItem(p, (ItemStack) URID.decode(last), false, experimental, 0);
 		}
 	}
@@ -322,7 +322,7 @@ public class SlimefunGuide {
 									
 									@Override
 									public void run(Player p) {
-										handler.run(p, survival);
+										handler.run(p, survival, experimental);
 									}
 								});
 							}
@@ -397,7 +397,7 @@ public class SlimefunGuide {
 						
 						@Override
 						public void run(Player p) {
-							handler.run(p, survival);
+							handler.run(p, survival, experimental);
 						}
 					});
 				}
@@ -1022,7 +1022,7 @@ public class SlimefunGuide {
 						URID last = getLastEntry(p, true);
 						if (URID.decode(last) instanceof Category) openCategory(p, (Category) URID.decode(last), true, 1, experimental);
 						else if (URID.decode(last) instanceof SlimefunItem) displayItem(p, ((SlimefunItem) URID.decode(last)).getItem(), false, experimental, 0);
-						else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p, true);
+						else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p, true, experimental);
 						else displayItem(p, (ItemStack) URID.decode(last), false, experimental, 0);
 					}
 					return false;

@@ -28,12 +28,12 @@ public abstract class GuideHandler {
 
 	public abstract int next(Player p, int index, ChestMenu menu);
 
-	public PlayerRunnable getRunnable(boolean survival) {
+	public PlayerRunnable getRunnable(boolean book) {
 		return this.getRunnable();
 	}
 	
-	public void run(Player p, boolean survival) {
-		this.getRunnable(survival).run(p);
+	public void run(Player p, boolean survival, boolean book) {
+		this.getRunnable(book).run(p);
 		
 		if (survival && this.trackHistory()) {
 			SlimefunGuide.addToHistory(p, getURID());
