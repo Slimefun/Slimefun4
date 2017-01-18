@@ -31,6 +31,9 @@ permissions:
   slimefun.command.teleporter:
     description: Allows you to do /sf teleporter
     default: op
+  slimefun.command.versions:
+    description: Allows you to do /sf versions
+    default: op
   slimefun.android.bypass:
     description: Allows you to edit other Players Androids
     default: op

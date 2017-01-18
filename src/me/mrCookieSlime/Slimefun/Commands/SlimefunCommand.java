@@ -3,6 +3,21 @@ package me.mrCookieSlime.Slimefun.Commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.block.BlockFace;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.plugin.Plugin;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.CommandHelp;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.Players;
@@ -19,20 +34,6 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.block.BlockFace;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
 public class SlimefunCommand implements CommandExecutor, Listener {
 	
 	public SlimefunStartup plugin;
@@ -47,6 +48,10 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		arguments.add("/sf help");
 		tabs.add("help");
 		descriptions.add(Messages.local.getTranslation("commands.help").get(0));
+		
+		arguments.add("/sf versions");
+		tabs.add("versions");
+		descriptions.add(Messages.local.getTranslation("commands.versions").get(0));
 		
 		arguments.add("/sf cheat");
 		tabs.add("cheat");
@@ -83,7 +88,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 0) {
-			CommandHelp.sendCommandHelp(sender, plugin, arguments, descriptions);
+			sendHelp(sender);
 		}
 		else if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("cheat")) {
@@ -142,6 +147,24 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			else if (args[0].equalsIgnoreCase("timings")) {
 				if (sender.hasPermission("slimefun.command.timings")|| sender instanceof ConsoleCommandSender) {
 					SlimefunStartup.ticker.info(sender);
+				}
+				else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+			}
+			else if (args[0].equalsIgnoreCase("versions")) {
+				if (sender.hasPermission("slimefun.command.versions")|| sender instanceof ConsoleCommandSender) {
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + plugin.getDescription().getVersion()));
+					sender.sendMessage("");
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&oInstalled Addons:"));
+					for (Plugin plugin: Bukkit.getPluginManager().getPlugins()) {
+						if (plugin.getDescription().getSoftDepend().contains("Slimefun")) {
+							if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
+							}
+							else {
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c" + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
+							}
+						}
+					}
 				}
 				else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 			}
@@ -227,12 +250,21 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 				}
 			}
 			else {
-				CommandHelp.sendCommandHelp(sender, plugin, arguments, descriptions);
+				sendHelp(sender);
 			}
 		}
 		return true;
 	}
 	
+	private void sendHelp(CommandSender sender) {
+		sender.sendMessage("");
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + plugin.getDescription().getVersion()));
+		sender.sendMessage("");
+		for (int i = 0; i < arguments.size(); i++) {
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3" + arguments.get(i) + " &b") + descriptions.get(i));
+		}
+	}
+
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent e) {
 		if (e.getMessage().equalsIgnoreCase("/help slimefun")) {
