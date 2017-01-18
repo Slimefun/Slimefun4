@@ -31,10 +31,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -48,9 +44,8 @@ import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
-import me.mrCookieSlime.Slimefun.GitHub.Contributor;
 import me.mrCookieSlime.Slimefun.GitHub.GitHubConnector;
-import me.mrCookieSlime.Slimefun.GitHub.IntegerFormat;
+import me.mrCookieSlime.Slimefun.GitHub.GitHubSetup;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -199,6 +194,10 @@ public class SlimefunStartup extends JavaPlugin {
 			// Generating Oil as an OreGenResource (its a cool API)
 			OreGenSystem.registerResource(new OilResource());
 			OreGenSystem.registerResource(new NetherIceResource());
+			
+			// Setting up GitHub Connectors...
+			
+			GitHubSetup.setup();
 			
 			// All Slimefun Listeners
 			new ArmorListener(this);
@@ -359,109 +358,15 @@ public class SlimefunStartup extends JavaPlugin {
 			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
 			getServer().getScheduler().scheduleAsyncRepeatingTask(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 			
-			getServer().getScheduler().scheduleAsyncDelayedTask(this, new GitHubConnector() {
+			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
 				
 				@Override
-				public void onSuccess(JsonElement element) {
-					JsonArray array = element.getAsJsonArray();
-				    
-				    for (int i = 0; i < array.size(); i++) {
-				    	JsonObject object = array.get(i).getAsJsonObject();
-				    	
-				    	String name = object.get("login").getAsString();
-				    	String job = "&cAuthor";
-				    	int commits = object.get("contributions").getAsInt();
-				    	String profile = object.get("html_url").getAsString();
-				    	
-				    	if (!name.equals("invalid-email-address")) {
-				    		Contributor contributor = new Contributor(name, job, commits);
-				    		contributor.profile = profile;
-				    		SlimefunGuide.contributors.add(contributor);
-				    	}
-				    }
-					SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				public void run() {
+					for (GitHubConnector connector: GitHubConnector.connectors) {
+						connector.pullFile();
+					}
 				}
-				
-				@Override
-				public void onFailure() {
-					SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
-					SlimefunGuide.contributors.add(new Contributor("John000708", "&cAuthor", 2));
-					SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
-				}
-				
-				@Override
-				public String getRepository() {
-					return "TheBusyBiscuit/Slimefun4";
-				}
-				
-				@Override
-				public String getFileName() {
-					return "contributors";
-				}
-
-				@Override
-				public String getURLSuffix() {
-					return "/contributors";
-				}
-			});
-			
-			getServer().getScheduler().scheduleAsyncDelayedTask(this, new GitHubConnector() {
-				
-				@Override
-				public void onSuccess(JsonElement element) {
-					JsonObject object = element.getAsJsonObject();
-					SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
-					SlimefunGuide.forks = object.get("forks").getAsInt();
-					SlimefunGuide.last_update = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
-				}
-				
-				@Override
-				public void onFailure() {
-				}
-				
-				@Override
-				public String getRepository() {
-					return "TheBusyBiscuit/Slimefun4";
-				}
-				
-				@Override
-				public String getFileName() {
-					return "repo";
-				}
-
-				@Override
-				public String getURLSuffix() {
-					return "";
-				}
-			});
-			
-			getServer().getScheduler().scheduleAsyncDelayedTask(this, new GitHubConnector() {
-				
-				@Override
-				public void onSuccess(JsonElement element) {
-					JsonObject object = element.getAsJsonObject();
-					SlimefunGuide.code_lines = object.get("Java").getAsInt();
-				}
-				
-				@Override
-				public void onFailure() {
-				}
-				
-				@Override
-				public String getRepository() {
-					return "TheBusyBiscuit/Slimefun4";
-				}
-				
-				@Override
-				public String getFileName() {
-					return "lines_of_code";
-				}
-
-				@Override
-				public String getURLSuffix() {
-					return "/languages";
-				}
-			});
+			}, 0L, 20 * 60 * 20L);
 			
 			// Hooray!
 			System.out.println("[Slimefun] Finished!");

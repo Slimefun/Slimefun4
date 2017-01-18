@@ -15,7 +15,7 @@ import java.util.Set;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-public abstract class GitHubConnector implements Runnable {
+public abstract class GitHubConnector {
 	
 	public static Set<GitHubConnector> connectors = new HashSet<GitHubConnector>();
 	
@@ -90,10 +90,5 @@ public abstract class GitHubConnector implements Runnable {
 			e.printStackTrace();
 			this.onFailure();
 		}
-	}
-
-	@Override
-	public void run() {
-		this.pullFile();
 	}
 }
