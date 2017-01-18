@@ -83,6 +83,20 @@ public class ArmorStandFactory {
             		ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
             	}
             }
+            else if (ReflectionUtils.getVersion().startsWith("v1_10_")) {
+            	try {
+            		ReflectionUtils.setFieldValue(nmsEntity, "bB", 2039583);
+            	} catch (IllegalArgumentException x) {
+            		ReflectionUtils.setFieldValue(nmsEntity, "bA", true);
+            	}
+            }
+            else if (ReflectionUtils.getVersion().startsWith("v1_11_")) {
+				try {
+					ReflectionUtils.setFieldValue(nmsEntity, "bA", 2039583);
+				} catch (IllegalArgumentException x) {
+					ReflectionUtils.setFieldValue(nmsEntity, "bB", true);
+				}
+			}
             else {
             	Method method = nmsEntity.getClass().getMethod("getNBTTag");
             	Object tag = method.invoke(nmsEntity);
