@@ -199,84 +199,6 @@ public class SlimefunStartup extends JavaPlugin {
 			OreGenSystem.registerResource(new OilResource());
 			OreGenSystem.registerResource(new NetherIceResource());
 			
-			// Connecting to GitHub...
-			
-			new GitHubConnector() {
-				
-				@Override
-				public void onSuccess(JsonElement element) {
-					JsonArray array = element.getAsJsonArray();
-				    
-				    for (int i = 0; i < array.size(); i++) {
-				    	JsonObject object = array.get(i).getAsJsonObject();
-				    	
-				    	String name = object.get("login").getAsString();
-				    	String job = "&cAuthor";
-				    	int commits = object.get("contributions").getAsInt();
-				    	String profile = object.get("html_url").getAsString();
-				    	
-				    	if (!name.equals("invalid-email-address")) {
-				    		Contributor contributor = new Contributor(name, job, commits);
-				    		contributor.profile = profile;
-				    		SlimefunGuide.contributors.add(contributor);
-				    	}
-				    }
-					SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
-				}
-				
-				@Override
-				public void onFailure() {
-					SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
-					SlimefunGuide.contributors.add(new Contributor("John000708", "&cAuthor", 2));
-					SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
-				}
-				
-				@Override
-				public String getRepository() {
-					return "TheBusyBiscuit/Slimefun4";
-				}
-				
-				@Override
-				public String getFileName() {
-					return "contributors";
-				}
-
-				@Override
-				public String getURLSuffix() {
-					return "/contributors";
-				}
-			};
-			
-			new GitHubConnector() {
-				
-				@Override
-				public void onSuccess(JsonElement element) {
-					JsonObject object = element.getAsJsonObject();
-					SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
-					SlimefunGuide.forks = object.get("forks").getAsInt();
-				}
-				
-				@Override
-				public void onFailure() {
-				}
-				
-				@Override
-				public String getRepository() {
-					return "TheBusyBiscuit/Slimefun4";
-				}
-				
-				@Override
-				public String getFileName() {
-					return "repo";
-				}
-
-				@Override
-				public String getURLSuffix() {
-					return "";
-				}
-			};
-			
-			
 			// All Slimefun Listeners
 			new ArmorListener(this);
 			new ItemListener(this);
@@ -435,7 +357,110 @@ public class SlimefunStartup extends JavaPlugin {
 			// Starting all ASYNC Tasks
 			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
 			getServer().getScheduler().scheduleAsyncRepeatingTask(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
+			
+			getServer().getScheduler().scheduleAsyncDelayedTask(this, new GitHubConnector() {
+				
+				@Override
+				public void onSuccess(JsonElement element) {
+					JsonArray array = element.getAsJsonArray();
+				    
+				    for (int i = 0; i < array.size(); i++) {
+				    	JsonObject object = array.get(i).getAsJsonObject();
+				    	
+				    	String name = object.get("login").getAsString();
+				    	String job = "&cAuthor";
+				    	int commits = object.get("contributions").getAsInt();
+				    	String profile = object.get("html_url").getAsString();
+				    	
+				    	if (!name.equals("invalid-email-address")) {
+				    		Contributor contributor = new Contributor(name, job, commits);
+				    		contributor.profile = profile;
+				    		SlimefunGuide.contributors.add(contributor);
+				    	}
+				    }
+					SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				}
+				
+				@Override
+				public void onFailure() {
+					SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
+					SlimefunGuide.contributors.add(new Contributor("John000708", "&cAuthor", 2));
+					SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				}
+				
+				@Override
+				public String getRepository() {
+					return "TheBusyBiscuit/Slimefun4";
+				}
+				
+				@Override
+				public String getFileName() {
+					return "contributors";
+				}
 
+				@Override
+				public String getURLSuffix() {
+					return "/contributors";
+				}
+			});
+			
+			getServer().getScheduler().scheduleAsyncDelayedTask(this, new GitHubConnector() {
+				
+				@Override
+				public void onSuccess(JsonElement element) {
+					JsonObject object = element.getAsJsonObject();
+					SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
+					SlimefunGuide.forks = object.get("forks").getAsInt();
+				}
+				
+				@Override
+				public void onFailure() {
+				}
+				
+				@Override
+				public String getRepository() {
+					return "TheBusyBiscuit/Slimefun4";
+				}
+				
+				@Override
+				public String getFileName() {
+					return "repo";
+				}
+
+				@Override
+				public String getURLSuffix() {
+					return "";
+				}
+			});
+			
+			getServer().getScheduler().scheduleAsyncDelayedTask(this, new GitHubConnector() {
+				
+				@Override
+				public void onSuccess(JsonElement element) {
+					JsonObject object = element.getAsJsonObject();
+					SlimefunGuide.code_lines = object.get("Java").getAsInt();
+				}
+				
+				@Override
+				public void onFailure() {
+				}
+				
+				@Override
+				public String getRepository() {
+					return "TheBusyBiscuit/Slimefun4";
+				}
+				
+				@Override
+				public String getFileName() {
+					return "lines_of_code";
+				}
+
+				@Override
+				public String getURLSuffix() {
+					return "/languages";
+				}
+			});
+			
 			// Hooray!
 			System.out.println("[Slimefun] Finished!");
 
