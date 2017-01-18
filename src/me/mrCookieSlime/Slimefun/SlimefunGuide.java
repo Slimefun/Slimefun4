@@ -132,7 +132,7 @@ public class SlimefunGuide {
 			}
 		});
 		
-		menu.addItem(17, new CustomItem(new MaterialData(Material.BOOK_AND_QUILL), "&aCredits", "", "&7Lines of Code: &c" + IntegerFormat.formatBigNumber(code_lines), "&7Contributors: &e" + contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
+		menu.addItem(17, new CustomItem(new MaterialData(Material.BOOK_AND_QUILL), "&aCredits", "", "&7Contributors: &e" + contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
 		menu.addMenuClickHandler(17, new MenuClickHandler() {
 			
 			@Override
@@ -143,7 +143,7 @@ public class SlimefunGuide {
 		});
 		
 		try {
-			menu.addItem(26, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Lines of Code: &c" + IntegerFormat.formatBigNumber(code_lines), "&7Contributors: &e" + contributors.size(), "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addItem(26, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Lines of Code: &6" + IntegerFormat.formatBigNumber(code_lines), "&7Contributors: &e" + contributors.size(), "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
 			menu.addMenuClickHandler(26, new MenuClickHandler() {
 				
 				@Override
