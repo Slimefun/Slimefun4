@@ -104,6 +104,7 @@ public class SlimefunStartup extends JavaPlugin {
 	// Supported Versions of Minecraft
 	final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "PluginBukkitBridge"};
 
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable() {
