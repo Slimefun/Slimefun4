@@ -158,6 +158,8 @@ public class XPCollector extends SlimefunItem {
 			if (n instanceof ExperienceOrb) {
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				
+				if (!n.isValid()) return;
+				
 				int xp = getEXP(b) + ((ExperienceOrb) n).getExperience();
 				
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
