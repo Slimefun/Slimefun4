@@ -158,23 +158,23 @@ public class XPCollector extends SlimefunItem {
 			if (n instanceof ExperienceOrb) {
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				
-				if (!n.isValid()) return;
-				
-				int xp = getEXP(b) + ((ExperienceOrb) n).getExperience();
-				
-				ChargableBlock.addCharge(b, -getEnergyConsumption());
-				n.remove();
-				
-				int withdrawn = 0;
-				for (int level = 0; level < getEXP(b); level = level + 10) {
-					if (fits(b, new CustomItem(Material.EXP_BOTTLE, "&aFlask of Knowledge", 0))) {
-						withdrawn = withdrawn + 10;
-						pushItems(b, new CustomItem(Material.EXP_BOTTLE, "&aFlask of Knowledge", 0));
+				if (n.isValid()) {
+					int xp = getEXP(b) + ((ExperienceOrb) n).getExperience();
+					
+					ChargableBlock.addCharge(b, -getEnergyConsumption());
+					n.remove();
+					
+					int withdrawn = 0;
+					for (int level = 0; level < getEXP(b); level = level + 10) {
+						if (fits(b, new CustomItem(Material.EXP_BOTTLE, "&aFlask of Knowledge", 0))) {
+							withdrawn = withdrawn + 10;
+							pushItems(b, new CustomItem(Material.EXP_BOTTLE, "&aFlask of Knowledge", 0));
+						}
 					}
+					BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));
+					
+					return;
 				}
-				BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));
-				
-				return;
 			}
 		}
 	}
