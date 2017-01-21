@@ -84,6 +84,7 @@ public class Messages {
 		local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe", "&4Unknown Recipe! &cUse the correct Recipe instead!");
 		local.setDefault("machines.HOLOGRAM_PROJECTOR.enter-text", "&7Please enter your desired Hologram Text in your Chat. &r(Color Codes are supported!)");
 		local.setDefault("machines.ELEVATOR.no-destinations", "&4No Destinations found");
+		local.setDefault("machines.CARGO_NODES.must-be-placed", "&4Must be placed onto a Chest or Machine");
 
 		local.setDefault("android.scripts.already-uploaded", "&4This Script has already been uploaded.");
 		local.setDefault("android.scripts.enter-name", "", "&ePlease type in a Name for your Script", "");
