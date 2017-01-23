@@ -56,11 +56,11 @@ public class CargoManager {
 				final ItemStack is = inv.getContents()[slot];
 				if (SlimefunManager.isItemSimiliar(is, template, true, DataType.ALWAYS) && matchesFilter(node, is, -1)) {
 					if (is.getAmount() > template.getAmount()) {
-						inv.setItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
+						inv.setItem(slot, ChestManipulator.trigger(target, slot, is, new CustomItem(is, is.getAmount() - template.getAmount())));
 						return template;
 					}
 					else {
-						inv.setItem(slot, null);
+						inv.setItem(slot, ChestManipulator.trigger(target, slot, is, new CustomItem(is, is.getAmount() - template.getAmount())));
 						return is.clone();
 					}
 				}
@@ -95,7 +95,7 @@ public class CargoManager {
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
 				ItemStack is = inv.getContents()[slot];
 				if (matchesFilter(node, is, index)) {
-					inv.setItem(slot, null);
+					inv.setItem(slot, ChestManipulator.trigger(target, slot, is, null));
 					return new ItemSlot(is.clone(), slot);
 				}
 			}
