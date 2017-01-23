@@ -157,13 +157,15 @@ public class CargoManager {
 		}
 		else if (target.getState() instanceof InventoryHolder) {
 			Inventory inv = ((InventoryHolder) target.getState()).getInventory();
+			
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
 				ItemStack is = inv.getContents()[slot];
 				if (is == null) {
-					inv.setItem(slot, stack.clone());
+					inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
 					return null;
 				}
 				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true, DataType.ALWAYS) && is.getAmount() < is.getType().getMaxStackSize()) {
+					ItemStack prev = is.clone();
 					int amount = is.getAmount() + stack.getAmount();
 					
 					if (amount > is.getType().getMaxStackSize()) {
@@ -175,7 +177,7 @@ public class CargoManager {
 						stack = null;
 					}
 					
-					inv.setItem(slot, is);
+					inv.setItem(slot, ChestManipulator.trigger(target, slot, prev, is));
 					return stack;
 				}
 			}

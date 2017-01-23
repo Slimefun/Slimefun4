@@ -4,6 +4,6 @@ import org.bukkit.inventory.ItemStack;
 
 public interface ItemManipulationEvent {
 	
-	public void onEvent(int slot, ItemStack previous, ItemStack next);
+	public ItemStack onEvent(int slot, ItemStack previous, ItemStack next);
 
 }

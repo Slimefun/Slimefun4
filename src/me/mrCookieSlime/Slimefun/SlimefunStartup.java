@@ -69,6 +69,7 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
+import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
@@ -554,6 +555,7 @@ public class SlimefunStartup extends JavaPlugin {
 		OreGenSystem.map = null;
 		SlimefunGuide.contributors = null;
 		GitHubConnector.connectors = null;
+		ChestManipulator.listeners = null;
 
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();

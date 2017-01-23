@@ -79,9 +79,11 @@ public class UniversalBlockMenu extends ChestMenu {
 	
 	public void replaceExistingItem(int slot, ItemStack item, boolean event) {
 		final ItemStack previous = getItemInSlot(slot);
-		super.replaceExistingItem(slot, item);
 		
-		if (event && this.event != null) this.event.onEvent(slot, previous, item);
+		if (event && this.event != null) {
+			item = this.event.onEvent(slot, previous, item);
+		}
+		super.replaceExistingItem(slot, item);
 		
 		changes++;
 	}
