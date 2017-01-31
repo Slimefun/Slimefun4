@@ -38,6 +38,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.GitHub.Contributor;
 import me.mrCookieSlime.Slimefun.GitHub.IntegerFormat;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -68,15 +69,37 @@ public class SlimefunGuide {
 	static boolean all_recipes = true;
 	private static final int category_size = 36;
 
+	@Deprecated
 	public static ItemStack getItem() {
-		return getItem(true);
+		return getItem(BookDesign.CHEST);
 	}
 
+	public static ItemStack getItem(BookDesign design) {
+		switch (design) {
+		case BOOK: {
+			return new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Book GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+		}
+		case CHEAT_SHEET: {
+			return new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&cSlimefun Guide &4(Cheat Sheet)", "", "&4&lOnly openable by Admins", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+		}
+		case CHEST: {
+			return new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Chest GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+		}
+		default:
+			return null;
+		}
+	}
+
+	@Deprecated
 	public static ItemStack getItem(boolean book) {
+		return getItem(book ? BookDesign.BOOK: BookDesign.CHEST);
+	}
+	
+	public static ItemStack getDeprecatedItem(boolean book) {
 		return new CustomItem(new MaterialData(Material.ENCHANTED_BOOK), "&eSlimefun Guide &7(Right Click)", (book ? "": "&2"), "&rThis is your basic Guide for Slimefun", "&rYou can see all Items added by this Plugin", "&ror its Addons including their Recipes", "&ra bit of information and more");
 	}
 	
-	private static final int[] slots = new int[] {0, 1, 9, 10, 19, 27, 28, 36, 37, 7, 8, 16, 25, 34, 43, 44};
+	private static final int[] slots = new int[] {0, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 	
 	@SuppressWarnings("deprecation")
 	public static void openSettings(Player p, final ItemStack guide) {
@@ -87,22 +110,6 @@ public class SlimefunGuide {
 			@Override
 			public void onOpen(Player p) {
 				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_HARP, 0.7F, 0.7F);
-			}
-		});
-		
-
-		menu.addItem(18, new CustomItem(new MaterialData(Material.EMERALD), "&7\u21E6 Back to normal view"));
-		menu.addMenuClickHandler(18, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				if (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true)) {
-					SlimefunGuide.openGuide(p, true);
-				}
-				else if (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(false), true)) {
-					SlimefunGuide.openGuide(p, false);
-				}
-				return false;
 			}
 		});
 		
@@ -117,25 +124,74 @@ public class SlimefunGuide {
 			});
 		}
 		
-		menu.addItem(2, new CustomItem(new MaterialData(SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true) ? Material.BOOK_AND_QUILL: Material.CHEST), "&7Guide Layout: &e" + (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true) ? "Book": "Chest"), "", "&7\u21E8 Click to change to: &b" + (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true) ? "Chest": "Book")));
-		menu.addMenuClickHandler(2, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				if (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(true), true)) {
-					p.getInventory().setItemInMainHand(getItem(false));
-					openSettings(p, p.getInventory().getItemInMainHand());
-				}
-				else if (SlimefunManager.isItemSimiliar(guide, SlimefunGuide.getItem(false), true)) {
-					p.getInventory().setItemInMainHand(getItem(true));
-					openSettings(p, p.getInventory().getItemInMainHand());
-				}
-				return false;
-			}
-		});
 		
-		menu.addItem(17, new CustomItem(new MaterialData(Material.BOOK_AND_QUILL), "&aCredits", "", "&7Contributors: &e" + contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
-		menu.addMenuClickHandler(17, new MenuClickHandler() {
+		if (SlimefunManager.isItemSimiliar(guide, getItem(BookDesign.CHEST), true)) {
+			if (p.hasPermission("slimefun.cheat.items")) {
+				menu.addItem(19, new CustomItem(new MaterialData(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addMenuClickHandler(19, new MenuClickHandler() {
+					
+					@Override
+					public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+						p.getInventory().setItemInMainHand(getItem(BookDesign.BOOK));
+						openSettings(p, p.getInventory().getItemInMainHand());
+						return false;
+					}
+				});
+			}
+			else {
+				menu.addItem(19, new CustomItem(new MaterialData(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addMenuClickHandler(19, new MenuClickHandler() {
+					
+					@Override
+					public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+						p.getInventory().setItemInMainHand(getItem(BookDesign.BOOK));
+						openSettings(p, p.getInventory().getItemInMainHand());
+						return false;
+					}
+				});
+			}
+		}
+		else if (SlimefunManager.isItemSimiliar(guide, getItem(BookDesign.BOOK), true)) {
+			if (p.hasPermission("slimefun.cheat.items")) {
+				menu.addItem(19, new CustomItem(new MaterialData(Material.CHEST), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addMenuClickHandler(19, new MenuClickHandler() {
+					
+					@Override
+					public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+						p.getInventory().setItemInMainHand(getItem(BookDesign.CHEAT_SHEET));
+						openSettings(p, p.getInventory().getItemInMainHand());
+						return false;
+					}
+				});
+			}
+			else {
+				menu.addItem(19, new CustomItem(new MaterialData(Material.CHEST), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addMenuClickHandler(19, new MenuClickHandler() {
+					
+					@Override
+					public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+						p.getInventory().setItemInMainHand(getItem(BookDesign.CHEST));
+						openSettings(p, p.getInventory().getItemInMainHand());
+						return false;
+					}
+				});
+			}
+		}
+		else if (SlimefunManager.isItemSimiliar(guide, getItem(BookDesign.CHEAT_SHEET), true)) {
+			menu.addItem(19, new CustomItem(new MaterialData(Material.CHEST), "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+			menu.addMenuClickHandler(19, new MenuClickHandler() {
+				
+				@Override
+				public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+					p.getInventory().setItemInMainHand(getItem(BookDesign.CHEST));
+					openSettings(p, p.getInventory().getItemInMainHand());
+					return false;
+				}
+			});
+		}
+		
+		menu.addItem(1, new CustomItem(new MaterialData(Material.BOOK_AND_QUILL), "&aCredits", "", "&7Version: &a" + SlimefunStartup.instance.getDescription().getVersion(), "&7Contributors: &e" + contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
+		menu.addMenuClickHandler(1, new MenuClickHandler() {
 			
 			@Override
 			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -145,8 +201,8 @@ public class SlimefunGuide {
 		});
 		
 		try {
-			menu.addItem(26, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Lines of Code: &6" + IntegerFormat.formatBigNumber(code_lines), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
-			menu.addMenuClickHandler(26, new MenuClickHandler() {
+			menu.addItem(4, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Lines of Code: &6" + IntegerFormat.formatBigNumber(code_lines), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addMenuClickHandler(4, new MenuClickHandler() {
 				
 				@Override
 				public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -161,8 +217,8 @@ public class SlimefunGuide {
 			e.printStackTrace();
 		}
 		
-		menu.addItem(35, new CustomItem(new MaterialData(Material.REDSTONE), "&4Bug Tracker", "", "&7Unsolved Issues: &a" + issues, "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
-		menu.addMenuClickHandler(35, new MenuClickHandler() {
+		menu.addItem(7, new CustomItem(new MaterialData(Material.REDSTONE), "&4Bug Tracker", "", "&7Unsolved Issues: &a" + issues, "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
+		menu.addMenuClickHandler(7, new MenuClickHandler() {
 			
 			@Override
 			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -447,27 +503,14 @@ public class SlimefunGuide {
 			int pages = 1;
 			
 			for (int i = 0; i < 9; i++) {
-				if (!(i == 4 && survival)) {
-					menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
-					menu.addMenuClickHandler(i, new MenuClickHandler() {
-						
-						@Override
-						public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-							return false;
-						}
-					});
-				}
-				else {
-					menu.addItem(4, new CustomItem(new MaterialData(Material.EMERALD), "&aSettings / Info", "", "&7\u21E8 Click to open"));
-					menu.addMenuClickHandler(4, new MenuClickHandler() {
-						
-						@Override
-						public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-							openSettings(p, p.getInventory().getItemInMainHand());
-							return false;
-						}
-					});
-				}
+				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+				menu.addMenuClickHandler(i, new MenuClickHandler() {
+					
+					@Override
+					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+						return false;
+					}
+				});
 			}
 			
 			for (int i = 45; i < 54; i++) {

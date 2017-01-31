@@ -36,6 +36,7 @@ import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Variables;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.MultiTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -144,11 +145,31 @@ public class ItemListener implements Listener {
 		
 		final Player p = e.getPlayer();
 		ItemStack item = e.getItem();
-		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(true), true)) {
+		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, true);
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(false), true)) {
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
+			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
+			else SlimefunGuide.openGuide(p, false);
+		}
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(BookDesign.CHEAT_SHEET), true)) {
+			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
+			else p.chat("/sf cheat");
+		}
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getDeprecatedItem(true), true)) {
+			item = SlimefunGuide.getItem(true);
+			p.getInventory().setItemInMainHand(item);
+			PlayerInventory.update(p);
+			
+			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
+			else SlimefunGuide.openGuide(p, true);
+		}
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getDeprecatedItem(false), true)) {
+			item = SlimefunGuide.getItem(false);
+			p.getInventory().setItemInMainHand(item);
+			PlayerInventory.update(p);
+			
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, false);
 		}
