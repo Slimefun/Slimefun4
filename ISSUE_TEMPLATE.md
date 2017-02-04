@@ -2,7 +2,8 @@
 
 1. Do not adress Issues that don't regard Slimefun, even Issues about Slimefun Addons are not allowed to be posted here.
 2. Make sure to check other Issues before posting yours, we do not want any duplicates!
-3. Your Issue will be CLOSED WITHOUT WARNING if you do not match the above mentioned criteria.
+3. Please don't put Tags like [IMPORTANT] or [BUG], [QUESTION] or anything similiar in your title.
+4. Your Issue will be CLOSED WITHOUT WARNING if you do not match the above mentioned criteria.
 
 ## Description
 Describe your Issue AS DETAILED AS POSSIBLE.
