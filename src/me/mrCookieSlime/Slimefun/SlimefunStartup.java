@@ -384,6 +384,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 			if (clearlag) new ClearLaggIntegration(this);
 
+			SlimefunGuide.creative_research = config.getBoolean("options.allow-free-creative-research");
 			// Do not show /sf elevator command in our Log, it could get quite spammy
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 		}
