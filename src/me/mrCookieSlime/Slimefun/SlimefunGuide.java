@@ -65,8 +65,9 @@ public class SlimefunGuide {
 	public static int forks = 0;
 	public static int code_lines = 0;
 	public static Date last_update = new Date();
-	
+
 	static boolean all_recipes = true;
+	public static boolean creative_research = true;
 	private static final int category_size = 36;
 
 	@Deprecated
@@ -866,7 +867,7 @@ public class SlimefunGuide {
 								@Override
 								public boolean onClick(final Player p, int slot, ItemStack item, ClickAction action) {
 									boolean canBuy = false;
-									if (p.getGameMode() == GameMode.CREATIVE) canBuy = true;
+									if (p.getGameMode() == GameMode.CREATIVE && creative_research) canBuy = true;
 									else if (p.getLevel() >= cost) {
 										p.setLevel(p.getLevel() - cost);
 										canBuy = true;
@@ -878,7 +879,7 @@ public class SlimefunGuide {
 										if (researched) openCategory(p, category, true, selected_page, experimental);
 										else if (!Research.isResearching(p)){
 											if (p.getGameMode() == GameMode.CREATIVE) {
-												research.unlock(p, true);
+												research.unlock(p, creative_research);
 												openCategory(p, category, survival, selected_page, experimental);
 											}
 											else {

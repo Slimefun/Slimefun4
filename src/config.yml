@@ -7,6 +7,7 @@ options:
   prefix: '&a&lSlimefun &7>'
   auto-save-delay-in-minutes: 10
   show-vanilla-recipes-in-guide: true
+  allow-free-creative-research: true
 guide:
   default-view-book: false
 URID:
