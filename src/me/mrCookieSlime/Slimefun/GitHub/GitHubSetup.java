@@ -13,6 +13,7 @@ public class GitHubSetup {
 			
 			@Override
 			public void onSuccess(JsonElement element) {
+				SlimefunGuide.contributors.clear();
 				JsonArray array = element.getAsJsonArray();
 			    
 			    for (int i = 0; i < array.size(); i++) {
@@ -34,6 +35,7 @@ public class GitHubSetup {
 			
 			@Override
 			public void onFailure() {
+				SlimefunGuide.contributors.clear();
 				SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
 				SlimefunGuide.contributors.add(new Contributor("John000708", "&cAuthor", 2));
 				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
