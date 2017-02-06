@@ -29,6 +29,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 public class AutoEnchanter extends AContainer {
+	public static int max_emerald_enchantments = 2;
 
 	public AutoEnchanter(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
@@ -51,7 +52,7 @@ public class AutoEnchanter extends AContainer {
 	public int getEnergyConsumption() {
 		return 9;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void tick(Block b) {
@@ -68,9 +69,9 @@ public class AutoEnchanter extends AContainer {
 				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
 				im.setLore(lore);
 				item.setItemMeta(im);
-				
+
 				BlockStorage.getInventory(b).replaceExistingItem(22, item);
-				
+
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -81,7 +82,7 @@ public class AutoEnchanter extends AContainer {
 			else {
 				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
 				pushItems(b, processing.get(b).getOutput());
-				
+
 				progress.remove(b);
 				processing.remove(b);
 			}
@@ -96,6 +97,7 @@ public class AutoEnchanter extends AContainer {
 					Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
 					Set<ItemEnchantment> enchantments2 = new HashSet<ItemEnchantment>();
 					int amount = 0;
+					int special_amount = 0;
 					EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 					for (Map.Entry<Enchantment, Integer> e: meta.getStoredEnchants().entrySet()) {
 						if (e.getKey().canEnchantItem(target)) {
@@ -107,12 +109,13 @@ public class AutoEnchanter extends AContainer {
 						for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
 							if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
 								amount++;
+								special_amount++;
 								enchantments2.add(enchantment);
 							}
 						}
+                        special_amount+=EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
 					}
-					
-					if (amount > 0) {
+					if (amount > 0 && special_amount <= max_emerald_enchantments) {
 						ItemStack newItem = target.clone();
 						for (Map.Entry<Enchantment, Integer> e: enchantments.entrySet()) {
 							newItem.addUnsafeEnchantment(e.getKey(), e.getValue());
@@ -125,7 +128,7 @@ public class AutoEnchanter extends AContainer {
 					break slots;
 				}
 			}
-			
+
 			if (r != null) {
 				if (!fits(b, r.getOutput())) return;
 				for (int slot: getInputSlots()) {
