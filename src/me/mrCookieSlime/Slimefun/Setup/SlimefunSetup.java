@@ -13,11 +13,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.CreatureSpawner;
-import org.bukkit.block.Dispenser;
+import org.bukkit.block.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Arrow;
@@ -2021,6 +2017,9 @@ public class SlimefunSetup {
 											}
 										}
 										else if (b.getType().equals(Material.SKULL)) {
+											b.breakNaturally();
+										}
+										else if (b.getType().name().endsWith("_SHULKER_BOX")) {
 											b.breakNaturally();
 										}
 										else {
