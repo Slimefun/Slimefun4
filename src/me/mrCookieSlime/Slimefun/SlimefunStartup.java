@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -385,6 +386,9 @@ public class SlimefunStartup extends JavaPlugin {
 			if (clearlag) new ClearLaggIntegration(this);
 
 			SlimefunGuide.creative_research = config.getBoolean("options.allow-free-creative-research");
+
+			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
+
 			// Do not show /sf elevator command in our Log, it could get quite spammy
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 		}

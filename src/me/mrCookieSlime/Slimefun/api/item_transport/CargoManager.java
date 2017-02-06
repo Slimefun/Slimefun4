@@ -185,7 +185,7 @@ public class CargoManager {
 		
 		return stack;
 	}
-
+	//Whitelist or blacklist slots
 	private static int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
 	public static boolean matchesFilter(Block block, ItemStack item, int index) {

@@ -55,7 +55,8 @@ public class CargoNet {
 	public static Set<ItemRequest> requests = new HashSet<ItemRequest>();
 	
 	private static int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
-	
+
+	//Chest Terminal Stuff
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
 	private static final ItemStack terminal_noitem_item = new CustomItem(new MaterialData(Material.BARRIER), "&4No Item cached");
@@ -66,11 +67,20 @@ public class CargoNet {
 			return false;
 		}
 	};
-	
 	public static void tick(final Block b) {
+		/*
+		Input/Output Nodes can be found here after a scan.
+		Input Nodes:
+		Location = The location of the node.
+		Integer = The frequency of the node.
+		Output Nodes:
+		Integer = The frequency of the node.
+		List<Location> = The locations of the corresponding input nodes
+		 */
 		final Map<Location, Integer> input = new HashMap<Location, Integer>();
 		final Map<Integer, List<Location>> output = new HashMap<Integer, List<Location>>();
-		
+
+		//Chest Terminal Stuff
 		final Set<Location> providers = new HashSet<Location>();
 		final Set<Location> terminals = new HashSet<Location>();
 		final Set<Location> imports = new HashSet<Location>();
@@ -103,7 +113,7 @@ public class CargoNet {
 							}
 						}
 					}
-					
+					//Chest Terminal Code
 					if (EXTRA_CHANNELS) {
 						for (Location bus: imports) {
 							BlockMenu menu = BlockStorage.getInventory(bus);
@@ -225,7 +235,7 @@ public class CargoNet {
 							}
 						}
 					}
-					
+					//All operations happen here: Everything gets iterated from the Input Nodes. (Apart from ChestTerminal Buses)
 					for (Map.Entry<Location, Integer> entry: input.entrySet()) {
 						Block inputTarget = getAttachedBlock(entry.getKey().getBlock());
 						ItemStack stack = null;
@@ -289,7 +299,7 @@ public class CargoNet {
 							}
 						}
 					}
-
+					//Chest Terminal Code
 					if (EXTRA_CHANNELS) {
 						List<StoredItem> items = new ArrayList<StoredItem>();
 						for (Location l: providers) {
