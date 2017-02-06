@@ -146,9 +146,9 @@ public class AncientAltarListener implements Listener {
 		if (stack != null && !stack.getType().equals(Material.AIR)) {
 			PlayerInventory.consumeItemInHand(p);
 			String nametag = StringUtils.formatItemName(stack, false);
-			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "&5&dALTAR &3Probe - &e" + System.nanoTime()));
+			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), nametag + System.nanoTime()));
 			entity.setVelocity(new Vector(0, 0.1, 0));
-			entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunStartup.instance, "altar_item"));
+			entity.addScoreboardTag("AltarItem");
 			entity.setCustomNameVisible(true);
 			entity.setCustomName(nametag);
 			p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
@@ -157,20 +157,17 @@ public class AncientAltarListener implements Listener {
 
 	@EventHandler
 	public void onPickup(PlayerPickupItemEvent e) {
-		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
-			e.setCancelled(true);
-			e.getItem().remove();
-		}
+		if (e.getItem().getScoreboardTags().contains("AltarItem")) e.setCancelled(true);
 	}
 
 	@EventHandler
 	public void onMinecartPickup(InventoryPickupItemEvent e) {
-		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
-			e.setCancelled(true);
-			e.getItem().remove();
-		}
+		if (e.getItem().getScoreboardTags().contains("AltarItem")) e.setCancelled(true);
 	}
+	
+	@EventHandler
+    public void onDespawn(ItemDespawnEvent e) {
+	    if (e.getEntity().getScoreboardTags().contains("AltarItem")) e.setCancelled(true);
+    }
 }
 
