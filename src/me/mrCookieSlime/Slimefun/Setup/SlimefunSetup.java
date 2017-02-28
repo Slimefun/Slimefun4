@@ -3704,8 +3704,8 @@ public class SlimefunSetup {
 					if (e.getClickedBlock() != null && ChargableBlock.isChargable(e.getClickedBlock())) {
 						e.setCancelled(true);
 						p.sendMessage("");
-						p.sendMessage("&bStored Energy: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(e.getClickedBlock())) + " J");
-						p.sendMessage("&bCapacity: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(e.getClickedBlock())) + " J");
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bStored Energy: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(e.getClickedBlock())) + " J"));
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bCapacity: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(e.getClickedBlock())) + " J"));
 						p.sendMessage("");
 					}
 					return true;
