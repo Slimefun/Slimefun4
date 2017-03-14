@@ -3,14 +3,15 @@ package me.mrCookieSlime.Slimefun.api.inventory;
 import java.io.File;
 import java.util.Iterator;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 
 public class BlockMenu extends ChestMenu {
 	
@@ -59,7 +60,10 @@ public class BlockMenu extends ChestMenu {
 	}
 	
 	public void save(Location l) {
-		if (changes == 0) return;
+		if (changes == 0) {
+			return;
+		}
+		
 		// To force CS-CoreLib to build the Inventory
 		this.getContents();
 		
@@ -102,6 +106,26 @@ public class BlockMenu extends ChestMenu {
 	}
 	
 	@Override
+	public ChestMenu addItem(int slot, ItemStack item, MenuClickHandler handler) {
+		addMenuClickHandler(slot, handler);
+		return super.addItem(slot, item);
+	}
+	
+	@Override
+	public ChestMenu addMenuClickHandler(int slot, final MenuClickHandler handler) {
+		MenuClickHandler ch = new MenuClickHandler() {
+			
+			@Override
+			public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
+				changes++;
+				return handler.onClick(p, slot, stack, action);
+			}
+		};
+		
+		return super.addMenuClickHandler(slot, ch);
+	}
+	
+	@Override
 	public void replaceExistingItem(int slot, ItemStack item) {
 		this.replaceExistingItem(slot, item, true);
 	}
@@ -124,5 +148,4 @@ public class BlockMenu extends ChestMenu {
 			human.closeInventory();
 		}
 	}
-	
 }
