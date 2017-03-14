@@ -170,6 +170,7 @@ public class SlimefunStartup extends JavaPlugin {
 			if (!new File("data-storage/Slimefun/blocks").exists()) new File("data-storage/Slimefun/blocks").mkdirs();
 			if (!new File("data-storage/Slimefun/stored-blocks").exists()) new File("data-storage/Slimefun/stored-blocks").mkdirs();
 			if (!new File("data-storage/Slimefun/stored-inventories").exists()) new File("data-storage/Slimefun/stored-inventories").mkdirs();
+			if (!new File("data-storage/Slimefun/stored-chunks").exists()) new File("data-storage/Slimefun/stored-chunks").mkdirs();
 			if (!new File("data-storage/Slimefun/universal-inventories").exists()) new File("data-storage/Slimefun/universal-inventories").mkdirs();
 			if (!new File("data-storage/Slimefun/waypoints").exists()) new File("data-storage/Slimefun/waypoints").mkdirs();
 			if (!new File("data-storage/Slimefun/block-backups").exists()) new File("data-storage/Slimefun/block-backups").mkdirs();
