@@ -226,6 +226,7 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("CARGO_INPUT", "Cargo-Nodes");
 		Slimefun.addOfficialWikiPage("CARGO_OUTPUT", "Cargo-Nodes");
 		Slimefun.addOfficialWikiPage("CARGO_OUTPUT_ADVANCED", "Cargo-Nodes");
+		Slimefun.addOfficialWikiPage("TRASH_CAN", "Trash-Can");
 	}
 
 }
