@@ -14,6 +14,7 @@ Try to be professional by making your title as short as possible, we will assign
 4. Do not post your Issue more than once, this is considered spam and does not benefit our community in any way.
 Do not repost your Issue if it was closed either.
 5. Give us all available information right away, it may be a bit of time-wasting for us to keep asking for more Info.
+6. Check whether there are newer versions available than the ones you are using, it might be that your Issue has been fixed already.
 
 Your Issue will be CLOSED WITHOUT WARNING if we think you violated these Rules.
 
