@@ -495,17 +495,19 @@ public class SlimefunStartup extends JavaPlugin {
 					output.closeEntry();
 				}
 
-				ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
-				output.putNextEntry(entry);
-				FileInputStream input = new FileInputStream(new File("data-storage/Slimefun/stored-chunks/chunks.sfc"));
+				if (new File("data-storage/Slimefun/stored-chunks/chunks.sfc").exists()) {
+					ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
+					output.putNextEntry(entry);
+					FileInputStream input = new FileInputStream(new File("data-storage/Slimefun/stored-chunks/chunks.sfc"));
 
-				int length;
-				while ((length = input.read(buffer)) > 0) {
-					output.write(buffer, 0, length);
+					int length;
+					while ((length = input.read(buffer)) > 0) {
+						output.write(buffer, 0, length);
+					}
+
+					input.close();
+					output.closeEntry();
 				}
-
-				input.close();
-				output.closeEntry();
 
 				output.close();
 				System.out.println("[Slimfun] Backed up Blocks to " + file.getName());
