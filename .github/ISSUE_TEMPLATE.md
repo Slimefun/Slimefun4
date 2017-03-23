@@ -11,4 +11,6 @@ Anything that helps us understand the Issue better, is gonna get your Issue fixe
 
 ## Environment
 We need the EXACT VERSIONS of the Software you are using.
-Please run /sf versions on your Server and show us that command's output.
+This includes your Minecraft Version, your CS-CoreLib version and your Slimefun Version.
+If you cannot figure out what versions you are running, then please run /sf versions and
+show us the output of that command.
