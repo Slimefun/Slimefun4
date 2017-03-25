@@ -23,7 +23,7 @@ Rules for posting an Issue on GitHub:
 5. Give us all available information right away, it may be a bit of time-wasting for us to keep asking for more Info. And this includes any Information to reproduce your Issue step-by-step.
 6. Check whether there are newer versions available than the ones you are using, it might be that your Issue has been fixed already.
 7. All text logs must be posted via a link to http://pastebin.com or similiar websites.
-8. Please read the [FAQ Section](#Frequently-Asked-Questions) before posting.
+8. Please read the [FAQ Section](#frequently-asked-questions) before posting.
 
 Your Issue will be CLOSED WITHOUT WARNING if we think you violated these Rules.
 
