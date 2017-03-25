@@ -37,5 +37,5 @@ Guidelines for making a Pull Request on GitHub:
 
 ## Frequently Asked Questions
 
-> Slimefun does not work!?<br>
+### Slimefun does not work!?
 > Install CS-CoreLib...
