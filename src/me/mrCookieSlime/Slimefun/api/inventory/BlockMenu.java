@@ -122,7 +122,12 @@ public class BlockMenu extends ChestMenu {
 	
 	@Override
 	public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
-		return super.addMenuOpeningHandler(new SaveHandler(this, handler));
+		if (handler instanceof SaveHandler) {
+			return super.addMenuOpeningHandler(new SaveHandler(this, ((SaveHandler) handler).handler));
+		}
+		else {
+			return super.addMenuOpeningHandler(new SaveHandler(this, handler));
+		}
 	}
 	
 	public void close() {
