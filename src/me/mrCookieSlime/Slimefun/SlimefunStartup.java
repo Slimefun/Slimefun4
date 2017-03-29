@@ -375,7 +375,7 @@ public class SlimefunStartup extends JavaPlugin {
 						connector.pullFile();
 					}
 				}
-			}, 60L, 20 * 60 * 20L);
+			}, 60L, 20 * 60 * 60 * 24L);
 			
 			// Hooray!
 			System.out.println("[Slimefun] Finished!");
