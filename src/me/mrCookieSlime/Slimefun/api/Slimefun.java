@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -68,7 +69,7 @@ public class Slimefun {
 		}
 		else if (isEnabled(p, item, message) && hasPermission(p, sfItem, message)) {
 			if (sfItem.getResearch() == null) return true;
-			else if (sfItem.getResearch().hasUnlocked(p)) return true;
+			else if (sfItem.getResearch().hasUnlocked(p) || sfItem instanceof VanillaItem) return true;
 			else {
 				if (message) Messages.local.sendTranslation(p, "messages.not-researched", true);
 				return false;
