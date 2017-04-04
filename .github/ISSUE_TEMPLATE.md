@@ -10,5 +10,7 @@ Attach as many Screenshots or Videos if possible.
 Anything that helps us understand the Issue better, is gonna get your Issue fixed even faster.
 
 ## Environment
-State what Version of Minecraft, CS-CoreLib and Slimefun you're using
-"latest" is not enough, we need the EXACT VERSIONS.
+We need the EXACT VERSIONS of the Software you are using.
+This includes your Minecraft Version, your CS-CoreLib version and your Slimefun Version.
+If you cannot figure out what versions you are running, then please run /sf versions and
+show us the output of that command.

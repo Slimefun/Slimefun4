@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 
 public class BlockMenu extends ChestMenu {
 	
@@ -106,26 +105,6 @@ public class BlockMenu extends ChestMenu {
 	}
 	
 	@Override
-	public ChestMenu addItem(int slot, ItemStack item, MenuClickHandler handler) {
-		addMenuClickHandler(slot, handler);
-		return super.addItem(slot, item);
-	}
-	
-	@Override
-	public ChestMenu addMenuClickHandler(int slot, final MenuClickHandler handler) {
-		MenuClickHandler ch = new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-				changes++;
-				return handler.onClick(p, slot, stack, action);
-			}
-		};
-		
-		return super.addMenuClickHandler(slot, ch);
-	}
-	
-	@Override
 	public void replaceExistingItem(int slot, ItemStack item) {
 		this.replaceExistingItem(slot, item, true);
 	}
@@ -141,11 +120,39 @@ public class BlockMenu extends ChestMenu {
 		changes++;
 	}
 	
+	@Override
+	public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
+		if (handler instanceof SaveHandler) {
+			return super.addMenuOpeningHandler(new SaveHandler(this, ((SaveHandler) handler).handler));
+		}
+		else {
+			return super.addMenuOpeningHandler(new SaveHandler(this, handler));
+		}
+	}
+	
 	public void close() {
 		Iterator<HumanEntity> iterator = toInventory().getViewers().iterator();
 		while (iterator.hasNext()) {
 			HumanEntity human = iterator.next();
 			human.closeInventory();
 		}
+	}
+	
+	public class SaveHandler implements MenuOpeningHandler {
+		
+		BlockMenu menu;
+		MenuOpeningHandler handler;
+		
+		public SaveHandler(BlockMenu menu, MenuOpeningHandler handler) {
+			this.handler = handler;
+			this.menu = menu;
+		}
+
+		@Override
+		public void onOpen(Player p) {
+			handler.onOpen(p);
+			menu.changes++;
+		}
+		
 	}
 }

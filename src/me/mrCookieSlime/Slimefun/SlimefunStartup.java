@@ -1,26 +1,9 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
-import net.coreprotect.CoreProtect;
-import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,10 +20,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
-import me.mrCookieSlime.CSCoreLibSetup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
+import me.mrCookieSlime.Slimefun.CSCoreLibSetup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.Commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
@@ -55,6 +37,7 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
@@ -66,6 +49,7 @@ import me.mrCookieSlime.Slimefun.URID.URID;
 import me.mrCookieSlime.Slimefun.WorldEdit.WESlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
@@ -89,6 +73,8 @@ import me.mrCookieSlime.Slimefun.listeners.ItemListener;
 import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI;
 
 public class SlimefunStartup extends JavaPlugin {
 
@@ -375,7 +361,7 @@ public class SlimefunStartup extends JavaPlugin {
 						connector.pullFile();
 					}
 				}
-			}, 60L, 20 * 60 * 20L);
+			}, 80L, 60 * 60 * 20L);
 			
 			// Hooray!
 			System.out.println("[Slimefun] Finished!");
@@ -408,110 +394,23 @@ public class SlimefunStartup extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		Bukkit.getScheduler().cancelTasks(this);
-
+		
+		// Finishes all started movements/removals of block data
+		ticker.HALTED = true;
+		ticker.run();
+		
 		try {
-			for (Map.Entry<Block, Block> entry: ticker.move.entrySet()) {
-				BlockStorage._integrated_moveBlockInfo(entry.getKey(), entry.getValue());
-			}
-			ticker.move.clear();
-
 			for (World world: Bukkit.getWorlds()) {
 				BlockStorage storage = BlockStorage.getStorage(world);
-				if (storage != null) storage.save(true);
-				else System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
-			}
-
-			File folder = new File("data-storage/Slimefun/block-backups");
-			List<File> backups = Arrays.asList(folder.listFiles());
-			if (backups.size() > 20) {
-				Collections.sort(backups, new Comparator<File>() {
-
-					@Override
-					public int compare(File f1, File f2) {
-						try {
-							return (int) (new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f1.getName().replace(".zip", "")).getTime() - new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f2.getName().replace(".zip", "")).getTime());
-						} catch (ParseException e) {
-							return 0;
-						}
-					}
-				});
-
-				for (int i = backups.size() - 20; i > 0; i--) {
-					backups.get(i).delete();
+				if (storage != null) {
+					storage.save(true);
+				}
+				else {
+					System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
 				}
 			}
 
-			File file = new File("data-storage/Slimefun/block-backups/" + Clock.format(new Date()) + ".zip");
-			byte[] buffer = new byte[1024];
-
-			if (file.exists()) file.delete();
-
-			try {
-				file.createNewFile();
-
-				ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file));
-
-				for (File f1: new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
-					for (File f: f1.listFiles()) {
-						ZipEntry entry = new ZipEntry("stored-blocks/" + f1.getName() + "/" + f.getName());
-						output.putNextEntry(entry);
-						FileInputStream input = new FileInputStream(f);
-
-						int length;
-						while ((length = input.read(buffer)) > 0) {
-							output.write(buffer, 0, length);
-						}
-
-						input.close();
-						output.closeEntry();
-					}
-				}
-
-				for (File f: new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
-					ZipEntry entry = new ZipEntry("universal-inventories/" + f.getName());
-					output.putNextEntry(entry);
-					FileInputStream input = new FileInputStream(f);
-
-					int length;
-					while ((length = input.read(buffer)) > 0) {
-						output.write(buffer, 0, length);
-					}
-
-					input.close();
-					output.closeEntry();
-				}
-
-				for (File f: new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
-					ZipEntry entry = new ZipEntry("stored-inventories/" + f.getName());
-					output.putNextEntry(entry);
-					FileInputStream input = new FileInputStream(f);
-
-					int length;
-					while ((length = input.read(buffer)) > 0) {
-						output.write(buffer, 0, length);
-					}
-
-					input.close();
-					output.closeEntry();
-				}
-
-				ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
-				output.putNextEntry(entry);
-				FileInputStream input = new FileInputStream(new File("data-storage/Slimefun/stored-chunks/chunks.sfc"));
-
-				int length;
-				while ((length = input.read(buffer)) > 0) {
-					output.write(buffer, 0, length);
-				}
-
-				input.close();
-				output.closeEntry();
-
-				output.close();
-				System.out.println("[Slimfun] Backed up Blocks to " + file.getName());
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
+			SlimefunBackup.start();
 		} catch(Exception x) {
 		}
 

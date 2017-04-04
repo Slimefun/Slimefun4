@@ -18,9 +18,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.Plugin;
 
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.CommandHelp;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.Players;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
@@ -152,21 +154,34 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			}
 			else if (args[0].equalsIgnoreCase("versions")) {
 				if (sender.hasPermission("slimefun.command.versions")|| sender instanceof ConsoleCommandSender) {
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a" + Bukkit.getName() + " &2" + ReflectionUtils.getVersion()));
+					sender.sendMessage("");
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aCS-CoreLib &2v" + CSCoreLib.getLib().getDescription().getVersion()));
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + plugin.getDescription().getVersion()));
 					sender.sendMessage("");
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&oInstalled Addons:"));
+					
+					List<String> addons = new ArrayList<String>();
+					
 					for (Plugin plugin: Bukkit.getPluginManager().getPlugins()) {
 						if (plugin.getDescription().getDepend().contains("Slimefun") || plugin.getDescription().getSoftDepend().contains("Slimefun")) {
 							if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
+								addons.add(ChatColor.translateAlternateColorCodes('&', " &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
 							}
 							else {
-								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c" + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
+								addons.add(ChatColor.translateAlternateColorCodes('&', " &c" + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
 							}
 						}
 					}
+					
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Installed Addons &8(" + addons.size() + ")"));
+					
+					for (String addon: addons) {
+						sender.sendMessage(addon);
+					}
 				}
-				else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				else {
+					Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				}
 			}
 			else if (args[0].equalsIgnoreCase("give")) {
 				if (args.length == 3) {
