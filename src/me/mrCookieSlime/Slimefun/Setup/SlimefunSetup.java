@@ -225,17 +225,6 @@ public class SlimefunSetup {
 										inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1): null): null);
 									}
 									if (InvUtils.fits(inv2, adding)) {
-										for (int j = 0; j < 9; j++) {
-											if (inv.getContents()[j] != null) {
-												if (inv.getContents()[j].getType() != Material.AIR) {
-													if (inv.getContents()[j].getType().toString().endsWith("_BUCKET")) inv.setItem(j, new ItemStack(Material.BUCKET));
-													else if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-													else inv.setItem(j, null);
-												}
-											}
-										}
-										p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
-										
 										SlimefunItem sfItem = SlimefunItem.getByItem(adding);
 										
 										if (sfItem instanceof SlimefunBackpack) {
@@ -291,6 +280,18 @@ public class SlimefunSetup {
 												}
 											}
 										}
+										
+
+										for (int j = 0; j < 9; j++) {
+											if (inv.getContents()[j] != null) {
+												if (inv.getContents()[j].getType() != Material.AIR) {
+													if (inv.getContents()[j].getType().toString().endsWith("_BUCKET")) inv.setItem(j, new ItemStack(Material.BUCKET));
+													else if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
+													else inv.setItem(j, null);
+												}
+											}
+										}
+										p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
 										
 										inv.addItem(adding);
 									}
