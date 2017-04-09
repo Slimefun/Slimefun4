@@ -2479,12 +2479,12 @@ public class SlimefunSetup {
 		.register(true);
 
 		new JetBoots(SlimefunItems.BILLON_JETBOOTS, "BILLON_JETBOOTS",
-		new ItemStack[] {null, null, SlimefunItems.BILLON_INGOT, null, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BILLON_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
+		new ItemStack[] {null, null, null, SlimefunItems.BILLON_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BILLON_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
 		0.45)
 		.register(true);
 
 		new JetBoots(SlimefunItems.STEEL_JETBOOTS, "STEEL_JETBOOTS",
-		new ItemStack[] {null, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
+		new ItemStack[] {null, null, null, SlimefunItems.STEEL_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
 		0.5)
 		.register(true);
 
