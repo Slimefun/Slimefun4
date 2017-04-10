@@ -261,7 +261,7 @@ public class CargoNet {
 								
 								int c_index = round_robin.get(entry.getKey());
 								
-								if (c_index < outputlist.size() - 1) {
+								if (c_index < outputlist.size()) {
 									for (int i = 0; i < c_index; i++) {
 										final Location temp = outputlist.get(0);
 										outputlist.remove(temp);
