@@ -269,7 +269,7 @@ public class CargoNet {
 									}
 									c_index++;
 								}
-								else c_index = 0;
+								else c_index = 1;
 								
 								round_robin.put(entry.getKey(), c_index);
 							}
