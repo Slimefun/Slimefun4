@@ -513,15 +513,15 @@ public class CargoNet {
 		if (!blocks.contains(l)) {
 			String id = BlockStorage.checkID(l);
 			if (id == null) return true;
-			if (id.equals("CARGO_MANAGER")) return false;
-			if (id.equals("CARGO_NODE")) {
+			else if (id.equals("CARGO_MANAGER")) return false;
+			else if (id.equals("CARGO_NODE")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
 				scan(l, blocks, l1, l2, axis, input, output, terminals, providers, destinations, imports, exports);
 				if (blocks.isEmpty()) return false;
 			}
-			if (id.equals("CARGO_NODE_INPUT")) {
+			else if (id.equals("CARGO_NODE_INPUT")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
@@ -529,25 +529,25 @@ public class CargoNet {
 				if (freq == 16) providers.add(l);
 				else input.put(l, freq);
 			}
-			if (id.equals("CHEST_TERMINAL")) {
+			else if (id.equals("CHEST_TERMINAL")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
 				terminals.add(l);
 			}
-			if (id.equals("CT_IMPORT_BUS")) {
+			else if (id.equals("CT_IMPORT_BUS")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
 				imports.add(l);
 			}
-			if (id.equals("CT_EXPORT_BUS")) {
+			else if (id.equals("CT_EXPORT_BUS")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
 				exports.add(l);
 			}
-			if (id.equals("CARGO_NODE_OUTPUT")) {
+			else if (id.equals("CARGO_NODE_OUTPUT")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
@@ -560,7 +560,7 @@ public class CargoNet {
 					output.put(freq, list);
 				}
 			}
-			if (id.equals("CARGO_NODE_OUTPUT_ADVANCED")) {
+			else if (id.equals("CARGO_NODE_OUTPUT_ADVANCED")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
