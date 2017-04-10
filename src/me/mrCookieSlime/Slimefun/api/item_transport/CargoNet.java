@@ -260,8 +260,8 @@ public class CargoNet {
 								}
 								
 								int c_index = round_robin.get(entry.getKey());
-
-								if (c_index < outputlist.size()) {
+								
+								if (c_index < outputlist.size() - 1) {
 									for (int i = 0; i < c_index; i++) {
 										final Location temp = outputlist.get(0);
 										outputlist.remove(temp);
@@ -645,8 +645,8 @@ public class CargoNet {
 		if (!sources.contains(l)) {
 			String id = BlockStorage.checkID(l);
 			if (id == null) return false;
-			if (id.equals("CARGO_MANAGER")) return true;
-			if (id.equals("CARGO_NODE")) return passiveScan(l, axis, sources);
+			else if (id.equals("CARGO_MANAGER")) return true;
+			else if (id.equals("CARGO_NODE")) return passiveScan(l, axis, sources);
 		}
 		return false;
 	}
