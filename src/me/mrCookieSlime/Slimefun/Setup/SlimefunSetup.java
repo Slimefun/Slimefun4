@@ -2582,7 +2582,7 @@ public class SlimefunSetup {
 						Block b = block.getBlock();
 						b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 						for (ItemStack drop: b.getDrops()) {
-							b.getWorld().dropItemNaturally(b.getLocation(), b.getType().toString().endsWith("_ORE") ? new CustomItem(drop, fortune): drop);
+							b.getWorld().dropItemNaturally(b.getLocation(), (!drop.getType().isBlock()) ? new CustomItem(drop, fortune): drop);
 						}
 						b.setType(Material.AIR);
 					}
