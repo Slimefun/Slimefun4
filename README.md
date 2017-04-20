@@ -17,17 +17,7 @@ Check the license for more Info on redistributing and modifying Slimefun 4.
 
 ### Contributors
 
-Here is a list of all people who contributed to Slimefun 4 by submitting Code.
-I will keep this list updated myself, please don't edit it yourself.
-
-* TheBusyBiscuit
-* John000708
-* st392
-* DeathlyPanda
-* BlackBeltPanda
-* Poslovitch
-* alekso56
-* NathanAdhitya
+[Here is a list of all people who contributed to Slimefun 4 by submitting Code.](https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors)
 
 ## Wiki
 
