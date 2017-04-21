@@ -59,6 +59,7 @@ public class SlimefunItem {
 	Set<ItemHandler> itemhandlers;
 	URID urid;
 	boolean ticking = false;
+	boolean addon = false;
 	BlockTicker ticker;
 	EnergyTicker energy;
 	
@@ -173,6 +174,7 @@ public class SlimefunItem {
 	}
 	
 	public void register(boolean slimefun) {
+		addon = !slimefun;
 		try {
 			if (recipe.length < 9) recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
 			all.add(this);
@@ -251,6 +253,7 @@ public class SlimefunItem {
 			if (sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (sfi instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
+			else if (sfi instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (SlimefunManager.isItemSimiliar(item, sfi.getItem(), true)) return sfi;
 		}
 		return null;
@@ -468,5 +471,9 @@ public class SlimefunItem {
 	
 	public void addWikipage(String page) {
 		Slimefun.addWikiPage(this.getName(), "https://github.com/mrCookieSlime/Slimefun4/wiki/" + page);
+	}
+	
+	public boolean isAddonItem() {
+		return this.addon;
 	}
 }

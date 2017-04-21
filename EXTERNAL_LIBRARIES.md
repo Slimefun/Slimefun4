@@ -7,3 +7,4 @@ This Project was built using the following external Libraries:
 * WorldEdit v6.1.1
 * CS-CoreLib v1.5.2
 * EmeraldEnchants v2.0
+* CoreProtect v2.14.2

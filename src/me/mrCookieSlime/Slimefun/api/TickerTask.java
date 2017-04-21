@@ -23,6 +23,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 
 public class TickerTask implements Runnable {
 	
+	public boolean HALTED = false;
+	
 	public Map<Block, Block> move = new HashMap<Block, Block>();
 	public Map<Location, Boolean> delete = new HashMap<Location, Boolean>();
 	
@@ -42,6 +44,7 @@ public class TickerTask implements Runnable {
 	
 	@Override
 	public void run() {
+		
 		long timestamp = System.currentTimeMillis();
 		
 		skipped = 0;
@@ -65,57 +68,59 @@ public class TickerTask implements Runnable {
 			delete.remove(entry.getKey());
 		}
 		
-		for (final String c: BlockStorage.getTickingChunks()) {
-			long timestamp2 = System.currentTimeMillis();
-			chunks++;
-			
-			blocks:
-			for (final Block b: BlockStorage.getTickingBlocks(c)) {
-				if (b.getChunk().isLoaded()) {
-					final Location l = b.getLocation();
-					final SlimefunItem item = BlockStorage.check(l);
-					if (item != null) {
-						machines++;
-						try {
-							item.getTicker().update();
-							if (item.getTicker().isSynchronized()) {
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-									
-									@Override
-									public void run() {
-										try {
-											long timestamp3 = System.currentTimeMillis();
-											item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
-											
-											map_machinetime.put(item.getName(), (map_machinetime.containsKey(item.getName()) ? map_machinetime.get(item.getName()): 0) + (System.currentTimeMillis() - timestamp3));
-											map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
-											map_machine.put(item.getName(), (map_machine.containsKey(item.getName()) ? map_machine.get(item.getName()): 0) + 1);
-											block_timings.put(l, System.currentTimeMillis() - timestamp3);
-										} catch(Exception x) {
-											int errors = 0;
-											if (bugged.containsKey(l)) errors = bugged.get(l);
-											errors++;
-											
-											if (errors == 1) {
-												File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
-												if (file.exists()) {
-													file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2).err");
+		if (!HALTED) {
+			for (final String c: BlockStorage.getTickingChunks()) {
+				long timestamp2 = System.currentTimeMillis();
+				chunks++;
+				
+				blocks:
+				for (final Block b: BlockStorage.getTickingBlocks(c)) {
+					if (b.getChunk().isLoaded()) {
+						final Location l = b.getLocation();
+						final SlimefunItem item = BlockStorage.check(l);
+						if (item != null) {
+							machines++;
+							try {
+								item.getTicker().update();
+								if (item.getTicker().isSynchronized()) {
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+										
+										@Override
+										public void run() {
+											try {
+												long timestamp3 = System.currentTimeMillis();
+												item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
+												
+												map_machinetime.put(item.getName(), (map_machinetime.containsKey(item.getName()) ? map_machinetime.get(item.getName()): 0) + (System.currentTimeMillis() - timestamp3));
+												map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
+												map_machine.put(item.getName(), (map_machine.containsKey(item.getName()) ? map_machine.get(item.getName()): 0) + 1);
+												block_timings.put(l, System.currentTimeMillis() - timestamp3);
+											} catch(Exception x) {
+												int errors = 0;
+												if (bugged.containsKey(l)) errors = bugged.get(l);
+												errors++;
+												
+												if (errors == 1) {
+													File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
 													if (file.exists()) {
-														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3).err");
+														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2).err");
 														if (file.exists()) {
-															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4).err");
+															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3).err");
 															if (file.exists()) {
-																file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5).err");
+																file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4).err");
 																if (file.exists()) {
-																	file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6).err");
+																	file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5).err");
 																	if (file.exists()) {
-																		file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7).err");
+																		file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6).err");
 																		if (file.exists()) {
-																			file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8).err");
+																			file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7).err");
 																			if (file.exists()) {
-																				file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(9).err");
+																				file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8).err");
 																				if (file.exists()) {
-																					file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(10).err");
+																					file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(9).err");
+																					if (file.exists()) {
+																						file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(10).err");
+																					}
 																				}
 																			}
 																		}
@@ -124,113 +129,113 @@ public class TickerTask implements Runnable {
 															}
 														}
 													}
-												}
-												try {
-													PrintStream stream = new PrintStream(file);
-													stream.println();
-													stream.println("Server Software: " + Bukkit.getName());
-													stream.println("  Build: " + Bukkit.getVersion());
-													stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
-													stream.println();
-													stream.println("Installed Plugins (" + Bukkit.getPluginManager().getPlugins().length + ")");
-													for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
-														if (Bukkit.getPluginManager().isPluginEnabled(p)) {
-															stream.println("  + " + p.getName() + " " + p.getDescription().getVersion());
+													try {
+														PrintStream stream = new PrintStream(file);
+														stream.println();
+														stream.println("Server Software: " + Bukkit.getName());
+														stream.println("  Build: " + Bukkit.getVersion());
+														stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
+														stream.println();
+														stream.println("Installed Plugins (" + Bukkit.getPluginManager().getPlugins().length + ")");
+														for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
+															if (Bukkit.getPluginManager().isPluginEnabled(p)) {
+																stream.println("  + " + p.getName() + " " + p.getDescription().getVersion());
+															}
+															else {
+																stream.println("  - " + p.getName() + " " + p.getDescription().getVersion());
+															}
 														}
-														else {
-															stream.println("  - " + p.getName() + " " + p.getDescription().getVersion());
-														}
+														stream.println();
+														stream.println("Ticked Block:");
+														stream.println("  World: " + l.getWorld().getName());
+														stream.println("  X: " + l.getBlockX());
+														stream.println("  Y: " + l.getBlockY());
+														stream.println("  Z: " + l.getBlockZ());
+														stream.println();
+														stream.println("Slimefun Data:");
+														stream.println("  ID: " + item.getName());
+														stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
+														stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
+														stream.println();
+														stream.println("Stacktrace:");
+														stream.println();
+														x.printStackTrace(stream);
+														
+														stream.close();
+													} catch (FileNotFoundException e) {
+														e.printStackTrace();
 													}
-													stream.println();
-													stream.println("Ticked Block:");
-													stream.println("  World: " + l.getWorld().getName());
-													stream.println("  X: " + l.getBlockX());
-													stream.println("  Y: " + l.getBlockY());
-													stream.println("  Z: " + l.getBlockZ());
-													stream.println();
-													stream.println("Slimefun Data:");
-													stream.println("  ID: " + item.getName());
-													stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
-													stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
-													stream.println();
-													stream.println("Stacktrace:");
-													stream.println();
-													x.printStackTrace(stream);
 													
-													stream.close();
-												} catch (FileNotFoundException e) {
-													e.printStackTrace();
+													System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
+													System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
+													System.err.println("[Slimefun] Saved as: ");
+													System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
+													System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
+													System.err.println("[Slimefun] ");
+													
+													bugged_blocks.put(l, errors);
 												}
-												
-												System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
-												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-												System.err.println("[Slimefun] Saved as: ");
-												System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
-												System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
-												System.err.println("[Slimefun] ");
-												
-												bugged_blocks.put(l, errors);
-											}
-											else if (errors == 4) {
-												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
-												System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
-												System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
-												System.err.println("[Slimefun] ");
-												
-												BlockStorage._integrated_removeBlockInfo(l, true);
-												
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+												else if (errors == 4) {
+													System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
+													System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+													System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
+													System.err.println("[Slimefun] ");
+													
+													BlockStorage._integrated_removeBlockInfo(l, true);
+													
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 
-													@Override
-													public void run() {
-														l.getBlock().setType(Material.AIR);
-													}
-													
-												});
-											}
-											else {
-												bugged_blocks.put(l, errors);
+														@Override
+														public void run() {
+															l.getBlock().setType(Material.AIR);
+														}
+														
+													});
+												}
+												else {
+													bugged_blocks.put(l, errors);
+												}
 											}
 										}
-									}
-								});
-							}
-							else {
-								long timestamp3 = System.currentTimeMillis();
-								item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
+									});
+								}
+								else {
+									long timestamp3 = System.currentTimeMillis();
+									item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
+									
+									map_machinetime.put(item.getName(), (map_machinetime.containsKey(item.getName()) ? map_machinetime.get(item.getName()): 0) + (System.currentTimeMillis() - timestamp3));
+									map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
+									map_machine.put(item.getName(), (map_machine.containsKey(item.getName()) ? map_machine.get(item.getName()): 0) + 1);
+									block_timings.put(l, System.currentTimeMillis() - timestamp3);
+								}
+								tickers.add(item.getTicker());
+							} catch(Exception x) {
 								
-								map_machinetime.put(item.getName(), (map_machinetime.containsKey(item.getName()) ? map_machinetime.get(item.getName()): 0) + (System.currentTimeMillis() - timestamp3));
-								map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
-								map_machine.put(item.getName(), (map_machine.containsKey(item.getName()) ? map_machine.get(item.getName()): 0) + 1);
-								block_timings.put(l, System.currentTimeMillis() - timestamp3);
-							}
-							tickers.add(item.getTicker());
-						} catch(Exception x) {
-							
-							int errors = 0;
-							if (bugged.containsKey(l)) errors = bugged.get(l);
-							errors++;
-							
-							if (errors == 1) {
-								File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
-								if (file.exists()) {
-									file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2).err");
+								int errors = 0;
+								if (bugged.containsKey(l)) errors = bugged.get(l);
+								errors++;
+								
+								if (errors == 1) {
+									File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
 									if (file.exists()) {
-										file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3).err");
+										file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2).err");
 										if (file.exists()) {
-											file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4).err");
+											file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3).err");
 											if (file.exists()) {
-												file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5).err");
+												file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4).err");
 												if (file.exists()) {
-													file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6).err");
+													file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5).err");
 													if (file.exists()) {
-														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7).err");
+														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6).err");
 														if (file.exists()) {
-															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8).err");
+															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7).err");
 															if (file.exists()) {
-																file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(9).err");
+																file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8).err");
 																if (file.exists()) {
-																	file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(10).err");
+																	file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(9).err");
+																	if (file.exists()) {
+																		file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(10).err");
+																	}
 																}
 															}
 														}
@@ -239,86 +244,86 @@ public class TickerTask implements Runnable {
 											}
 										}
 									}
-								}
-								try {
-									PrintStream stream = new PrintStream(file);
-									stream.println();
-									stream.println("Server Software: " + Bukkit.getName());
-									stream.println("  Build: " + Bukkit.getVersion());
-									stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
-									stream.println();
-									stream.println("Installed Plugins (" + Bukkit.getPluginManager().getPlugins().length + ")");
-									for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
-										if (Bukkit.getPluginManager().isPluginEnabled(p)) {
-											stream.println("  + " + p.getName() + " " + p.getDescription().getVersion());
+									try {
+										PrintStream stream = new PrintStream(file);
+										stream.println();
+										stream.println("Server Software: " + Bukkit.getName());
+										stream.println("  Build: " + Bukkit.getVersion());
+										stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
+										stream.println();
+										stream.println("Installed Plugins (" + Bukkit.getPluginManager().getPlugins().length + ")");
+										for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
+											if (Bukkit.getPluginManager().isPluginEnabled(p)) {
+												stream.println("  + " + p.getName() + " " + p.getDescription().getVersion());
+											}
+											else {
+												stream.println("  - " + p.getName() + " " + p.getDescription().getVersion());
+											}
 										}
-										else {
-											stream.println("  - " + p.getName() + " " + p.getDescription().getVersion());
-										}
+										stream.println();
+										stream.println("Ticked Block:");
+										stream.println("  World: " + l.getWorld().getName());
+										stream.println("  X: " + l.getBlockX());
+										stream.println("  Y: " + l.getBlockY());
+										stream.println("  Z: " + l.getBlockZ());
+										stream.println();
+										stream.println("Slimefun Data:");
+										stream.println("  ID: " + item.getName());
+										stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
+										stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
+										stream.println();
+										stream.println("Stacktrace:");
+										stream.println();
+										x.printStackTrace(stream);
+										
+										stream.close();
+									} catch (FileNotFoundException e) {
+										e.printStackTrace();
 									}
-									stream.println();
-									stream.println("Ticked Block:");
-									stream.println("  World: " + l.getWorld().getName());
-									stream.println("  X: " + l.getBlockX());
-									stream.println("  Y: " + l.getBlockY());
-									stream.println("  Z: " + l.getBlockZ());
-									stream.println();
-									stream.println("Slimefun Data:");
-									stream.println("  ID: " + item.getName());
-									stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
-									stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
-									stream.println();
-									stream.println("Stacktrace:");
-									stream.println();
-									x.printStackTrace(stream);
 									
-									stream.close();
-								} catch (FileNotFoundException e) {
-									e.printStackTrace();
+									System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
+									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
+									System.err.println("[Slimefun] Saved as: ");
+									System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
+									System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
+									System.err.println("[Slimefun] ");
+									
+									bugged_blocks.put(l, errors);
 								}
-								
-								System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
-								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-								System.err.println("[Slimefun] Saved as: ");
-								System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
-								System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
-								System.err.println("[Slimefun] ");
-								
-								bugged_blocks.put(l, errors);
-							}
-							else if (errors == 4) {
-								System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
-								System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
-								System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
-								System.err.println("[Slimefun] ");
-								
-								BlockStorage._integrated_removeBlockInfo(l, true);
-								
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+								else if (errors == 4) {
+									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
+									System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+									System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
+									System.err.println("[Slimefun] ");
+									
+									BlockStorage._integrated_removeBlockInfo(l, true);
+									
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 
-									@Override
-									public void run() {
-										l.getBlock().setType(Material.AIR);
-									}
-									
-								});
-							}
-							else {
-								bugged_blocks.put(l, errors);
+										@Override
+										public void run() {
+											l.getBlock().setType(Material.AIR);
+										}
+										
+									});
+								}
+								else {
+									bugged_blocks.put(l, errors);
+								}
 							}
 						}
+						else skipped++;
 					}
-					else skipped++;
+					else {
+						skipped += BlockStorage.getTickingBlocks(c).size();
+						skipped_chunks.add(c);
+						chunks--;
+						break blocks;
+					}
 				}
-				else {
-					skipped += BlockStorage.getTickingBlocks(c).size();
-					skipped_chunks.add(c);
-					chunks--;
-					break blocks;
-				}
+				
+				map_chunktime.put(c, System.currentTimeMillis() - timestamp2);
 			}
-			
-			map_chunktime.put(c, System.currentTimeMillis() - timestamp2);
 		}
 		
 		for (Map.Entry<Block, Block> entry: move.entrySet()) {
@@ -336,6 +341,8 @@ public class TickerTask implements Runnable {
 
 	public void info(CommandSender sender) {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2== &aSlimefun Diagnostic Tool &2=="));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Halted: &e&l" + String.valueOf(HALTED).toUpperCase()));
+		sender.sendMessage("");
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Impact: &e" + time + "ms / 50-750ms"));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Chunks: &e" + chunks));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Machines: &e" + machines));

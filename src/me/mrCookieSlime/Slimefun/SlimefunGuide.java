@@ -861,7 +861,7 @@ public class SlimefunGuide {
 					if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
 						if (Slimefun.hasPermission(p, sfitem, false)) {
 							final int cost = SlimefunStartup.getResearchCfg().getInt(sfitem.getResearch().getID() + ".cost");
-							menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + cost + " Level"}));
+							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + cost + " Level"}));
 							menu.addMenuClickHandler(index, new MenuClickHandler() {
 								
 								@Override

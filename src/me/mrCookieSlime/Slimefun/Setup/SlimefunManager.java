@@ -6,17 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 
 public class SlimefunManager {
 	
@@ -38,7 +39,7 @@ public class SlimefunManager {
 		}
 	}
 	
-	public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean slimefun) {
+	public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean slimefun, boolean vanilla) {
 		String[] components = new String[] {"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
 		Category cat = Categories.ARMOR;
 		List<ItemStack[]> recipes = new ArrayList<ItemStack[]>();
@@ -47,7 +48,11 @@ public class SlimefunManager {
 		recipes.add(new ItemStack[] {baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
 		recipes.add(new ItemStack[] {null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
 		for (int i = 0; i < 4; i++) {
-			new SlimefunItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
+			if (vanilla) {
+				new VanillaItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
+			} else {
+				new SlimefunItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
+			}
 		}
 	}
 	

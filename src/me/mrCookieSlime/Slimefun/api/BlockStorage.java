@@ -303,15 +303,6 @@ public class BlockStorage {
 				e.printStackTrace();
 			}
 		}
-		
-		if (json != null && json.length() > 2) {
-			String[] entries = json.substring(2, json.length() - 2).split("\",\"");
-			
-			for (String entry: entries) {
-				String[] components = entry.split("\":\"");
-				map.put(components[0], components[1]);
-			}
-		}
 		return map;
 	}
 

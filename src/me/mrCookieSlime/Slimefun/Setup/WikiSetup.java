@@ -218,6 +218,15 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("SOLAR_GENERATOR_4", "Solar-Generator");
 		Slimefun.addOfficialWikiPage("AUTO_ENCHANTER", "Auto-Enchanter");
 		Slimefun.addOfficialWikiPage("AUTO_DISENCHANTER", "Auto-Disenchanter");
+		
+		//Cargo Management
+		Slimefun.addOfficialWikiPage("CARGO_MOTOR", "Cargo-Motor");
+		Slimefun.addOfficialWikiPage("CARGO_MANAGER", "Cargo-Manager");
+		Slimefun.addOfficialWikiPage("CARGO_NODE", "Cargo-Nodes");
+		Slimefun.addOfficialWikiPage("CARGO_INPUT", "Cargo-Nodes");
+		Slimefun.addOfficialWikiPage("CARGO_OUTPUT", "Cargo-Nodes");
+		Slimefun.addOfficialWikiPage("CARGO_OUTPUT_ADVANCED", "Cargo-Nodes");
+		Slimefun.addOfficialWikiPage("TRASH_CAN", "Trash-Can");
 	}
 
 }
