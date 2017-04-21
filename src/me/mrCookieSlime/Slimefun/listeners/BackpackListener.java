@@ -84,9 +84,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -105,9 +109,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -126,9 +134,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -147,9 +159,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -168,9 +184,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -189,9 +209,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -210,9 +234,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
