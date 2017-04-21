@@ -62,6 +62,7 @@ public class Messages {
 		local.setDefault("machines.wrong-item", "&eSorry, I could not recognize the Item you right clicked me with. Check the Recipes and see which Items you can use.");
 		local.setDefault("machines.full-inventory", "&eSorry, my Inventory is too full!");
 		local.setDefault("miner.no-ores", "&eSorry, I could not find any Ores nearby!");
+		local.setDefault("backpack.already-open", "&cSorry, this backpack is open somewhere else!");
 		local.setDefault("backpack.no-stack", "&cYou cannot stack Backpacks");
 		local.setDefault("workbench.not-enhanced", "&4You cannot use Slimefun Items in a normal Workbench");
 		local.setDefault("anvil.not-working", "&4You cannot use Slimefun Items in an Anvil");
