@@ -6,7 +6,9 @@ import me.mrCookieSlime.Slimefun.Variables;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundBackpack;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Backpacks;
@@ -18,8 +20,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -37,6 +41,15 @@ public class BackpackListener implements Listener {
 			((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
 			Backpacks.saveBackpack(e.getInventory(), Variables.backpack.get(e.getPlayer().getUniqueId()));
 			Variables.backpack.remove(e.getPlayer().getUniqueId());
+		}
+	}
+	
+	@EventHandler
+	public void onItemDrop(PlayerDropItemEvent e) {
+		ItemStack item = e.getItemDrop().getItemStack();
+		SlimefunItem sfItem = SlimefunItem.getByItem(item);
+		if (Variables.backpack.containsKey(e.getPlayer().getUniqueId())){
+			if (sfItem instanceof SlimefunBackpack || sfItem instanceof SoulboundBackpack) e.setCancelled(true);
 		}
 	}
 	
