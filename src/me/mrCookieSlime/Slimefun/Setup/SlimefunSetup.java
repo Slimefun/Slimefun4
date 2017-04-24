@@ -2297,6 +2297,7 @@ public class SlimefunSetup {
 						for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
 							if (input != null) {
 								if (SlimefunManager.isItemSimiliar(input, convert, true)) {
+									e.setCancelled(true);
 									ItemStack removing = input.clone();
 									removing.setAmount(convert.getAmount());
 									p.getInventory().removeItem(removing);
@@ -2310,7 +2311,7 @@ public class SlimefunSetup {
 												block.setData((byte) 7);
 												block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 											}
-											else if (input.getType() == Material.LEAVES) {
+											else if (input.getType() == Material.LEAVES || input.getType() == Material.HARD_CLAY) {
 												block.setType(Material.WATER);
 												block.setData((byte) 7);
 												block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
@@ -2324,7 +2325,7 @@ public class SlimefunSetup {
 														block.setData((byte) 6);
 														block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 													}
-													else if (input.getType() == Material.LEAVES) {
+													else if (input.getType() == Material.LEAVES || input.getType() == Material.HARD_CLAY) {
 														block.setType(Material.WATER);
 														block.setData((byte) 6);
 														block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
@@ -2338,7 +2339,7 @@ public class SlimefunSetup {
 																block.setData((byte) 5);
 																block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 															}
-															else if (input.getType() == Material.LEAVES) {
+															else if (input.getType() == Material.LEAVES || input.getType() == Material.HARD_CLAY) {
 																block.setType(Material.WATER);
 																block.setData((byte) 5);
 																block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
@@ -2352,7 +2353,7 @@ public class SlimefunSetup {
 																		block.setData((byte) 4);
 																		block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																	}
-																	else if (input.getType() == Material.LEAVES) {
+																	else if (input.getType() == Material.LEAVES || input.getType() == Material.HARD_CLAY) {
 																		block.setType(Material.WATER);
 																		block.setData((byte) 4);
 																		block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
@@ -2367,7 +2368,7 @@ public class SlimefunSetup {
 																				block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																			}
 																			else if (input.getType() == Material.LEAVES) {
-																				block.setType(Material.WATER);
+																				block.setType(Material.WATER || input.getType() == Material.HARD_CLAY);
 																				block.setData((byte) 3);
 																				block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																			}
@@ -2381,7 +2382,7 @@ public class SlimefunSetup {
 																						block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																					}
 																					else if (input.getType() == Material.LEAVES) {
-																						block.setType(Material.WATER);
+																						block.setType(Material.WATER || input.getType() == Material.HARD_CLAY);
 																						block.setData((byte) 2);
 																						block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																					}
@@ -2394,7 +2395,7 @@ public class SlimefunSetup {
 																								block.setData((byte) 1);
 																								block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																							}
-																							else if (input.getType() == Material.LEAVES) {
+																							else if (input.getType() == Material.LEAVES || input.getType() == Material.HARD_CLAY) {
 																								block.setType(Material.WATER);
 																								block.setData((byte) 1);
 																								block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
@@ -2408,7 +2409,7 @@ public class SlimefunSetup {
 																										block.setData((byte) 0);
 																										block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																									}
-																									else if (input.getType() == Material.LEAVES) {
+																									else if (input.getType() == Material.LEAVES || input.getType() == Material.HARD_CLAY) {
 																										block.setType(Material.WATER);
 																										block.setData((byte) 0);
 																										block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
