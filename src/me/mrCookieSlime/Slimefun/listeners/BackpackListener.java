@@ -49,7 +49,7 @@ public class BackpackListener implements Listener {
 		if (Variables.backpack.containsKey(e.getPlayer().getUniqueId())){
 			ItemStack item = e.getItemDrop().getItemStack();
 			SlimefunItem sfItem = SlimefunItem.getByItem(item);
-			if (sfItem instanceof SlimefunBackpack || sfItem instanceof SoulboundBackpack) e.setCancelled(true);
+			if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
 		}
 	}
 	
@@ -62,7 +62,6 @@ public class BackpackListener implements Listener {
 				SlimefunItem sfItem = SlimefunItem.getByItem(hotbarItem);
 				if (hotbarItem != null && hotbarItem.getType().toString().contains("SHULKER_BOX"))  e.setCancelled(true);
 				else if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
-				else if (sfItem instanceof SoulboundBackpack) e.setCancelled(true);
 			}
 			else {
 				SlimefunItem sfItem = SlimefunItem.getByItem(e.getCurrentItem());
@@ -73,7 +72,6 @@ public class BackpackListener implements Listener {
 				}
 				else if (e.getCurrentItem() != null && e.getCurrentItem().getType().toString().contains("SHULKER_BOX")) e.setCancelled(true);
 				else if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
-				else if (sfItem instanceof SoulboundBackpack) e.setCancelled(true);
 				else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_SMALL, false)) e.setCancelled(true);
 				else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_MEDIUM, false)) e.setCancelled(true);
 				else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_BIG, false)) e.setCancelled(true);
