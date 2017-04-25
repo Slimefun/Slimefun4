@@ -2382,7 +2382,7 @@ public class SlimefunSetup {
 																						block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																					}
 																					else if (input.getType() == Material.LEAVES) {
-																						block.setType(Material.WATER || input.getType() == Material.HARD_CLAY);
+																						block.setType(Material.WATER);
 																						block.setData((byte) 2);
 																						block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																					}
