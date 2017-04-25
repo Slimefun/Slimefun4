@@ -2284,7 +2284,7 @@ public class SlimefunSetup {
 
 		new SlimefunGadget(Categories.MACHINES_1, SlimefunItems.CRUCIBLE, "CRUCIBLE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack [] {new ItemStack(Material.HARD_CLAY), null, new ItemStack(Material.HARD_CLAY), new ItemStack(Material.HARD_CLAY), null, new ItemStack(Material.HARD_CLAY), new ItemStack(Material.HARD_CLAY), new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.HARD_CLAY)},
-		new ItemStack [] {new ItemStack(Material.COBBLESTONE, 16), new ItemStack(Material.LAVA_BUCKET), new ItemStack(Material.LEAVES, 16), new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.HARD_CLAY, 12), new ItemStack(Material.WATER_BUCKET)})
+		new ItemStack [] {new ItemStack(Material.COBBLESTONE, 16), new ItemStack(Material.LAVA_BUCKET), new ItemStack(Material.LEAVES, 16), new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.HARD_CLAY, 12), new ItemStack(Material.LAVA_BUCKET)})
 		.register(true, new ItemInteractionHandler() {
 
 			@Override
@@ -2297,6 +2297,7 @@ public class SlimefunSetup {
 						for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
 							if (input != null) {
 								if (SlimefunManager.isItemSimiliar(input, convert, true)) {
+									e.setCancelled(true);
 									ItemStack removing = input.clone();
 									removing.setAmount(convert.getAmount());
 									p.getInventory().removeItem(removing);
@@ -2305,7 +2306,7 @@ public class SlimefunSetup {
 
 										@Override
 										public void run() {
-											if (input.getType() == Material.COBBLESTONE) {
+											if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
 												block.setType(Material.LAVA);
 												block.setData((byte) 7);
 												block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
@@ -2319,7 +2320,7 @@ public class SlimefunSetup {
 
 												@Override
 												public void run() {
-													if (input.getType() == Material.COBBLESTONE) {
+													if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
 														block.setType(Material.LAVA);
 														block.setData((byte) 6);
 														block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
@@ -2333,7 +2334,7 @@ public class SlimefunSetup {
 
 														@Override
 														public void run() {
-															if (input.getType() == Material.COBBLESTONE) {
+															if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
 																block.setType(Material.LAVA);
 																block.setData((byte) 5);
 																block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
@@ -2347,7 +2348,7 @@ public class SlimefunSetup {
 
 																@Override
 																public void run() {
-																	if (input.getType() == Material.COBBLESTONE) {
+																	if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
 																		block.setType(Material.LAVA);
 																		block.setData((byte) 4);
 																		block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
@@ -2361,7 +2362,7 @@ public class SlimefunSetup {
 
 																		@Override
 																		public void run() {
-																			if (input.getType() == Material.COBBLESTONE) {
+																			if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
 																				block.setType(Material.LAVA);
 																				block.setData((byte) 3);
 																				block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
@@ -2375,7 +2376,7 @@ public class SlimefunSetup {
 
 																				@Override
 																				public void run() {
-																					if (input.getType() == Material.COBBLESTONE) {
+																					if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
 																						block.setType(Material.LAVA);
 																						block.setData((byte) 2);
 																						block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
@@ -2389,7 +2390,7 @@ public class SlimefunSetup {
 
 																						@Override
 																						public void run() {
-																							if (input.getType() == Material.COBBLESTONE) {
+																							if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
 																								block.setType(Material.LAVA);
 																								block.setData((byte) 1);
 																								block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
@@ -2403,7 +2404,7 @@ public class SlimefunSetup {
 
 																								@Override
 																								public void run() {
-																									if (input.getType() == Material.COBBLESTONE) {
+																									if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
 																										block.setType(Material.STATIONARY_LAVA);
 																										block.setData((byte) 0);
 																										block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
