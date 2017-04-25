@@ -46,9 +46,9 @@ public class BackpackListener implements Listener {
 	
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
-		ItemStack item = e.getItemDrop().getItemStack();
-		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (Variables.backpack.containsKey(e.getPlayer().getUniqueId())){
+			ItemStack item = e.getItemDrop().getItemStack();
+			SlimefunItem sfItem = SlimefunItem.getByItem(item);
 			if (sfItem instanceof SlimefunBackpack || sfItem instanceof SoulboundBackpack) e.setCancelled(true);
 		}
 	}
