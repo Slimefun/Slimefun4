@@ -49,6 +49,7 @@ public class BackpackListener implements Listener {
 			ItemStack item = e.getItemDrop().getItemStack();
 			SlimefunItem sfItem = SlimefunItem.getByItem(item);
 			if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
+			else if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false)) e.setCancelled(true);
 		}
 	}
 	
@@ -61,6 +62,7 @@ public class BackpackListener implements Listener {
 				SlimefunItem sfItem = SlimefunItem.getByItem(hotbarItem);
 				if (hotbarItem != null && hotbarItem.getType().toString().contains("SHULKER_BOX"))  e.setCancelled(true);
 				else if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
+				else if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false) && !(sfItem instanceof Juice)) e.setCancelled(true);
 			}
 			else {
 				SlimefunItem sfItem = SlimefunItem.getByItem(e.getCurrentItem());
