@@ -70,9 +70,23 @@ public class TalismanListener implements Listener {
 	
 	@EventHandler
 	public void onItemBreak(PlayerItemBreakEvent e) {
-		if (Talisman.checkFor(e, SlimefunItem.getByName("ANVIL_TALISMAN"))) 
-			e.getBrokenItem().setDurability((short)0);
-			e.getPlayer().getInventory().addItem(e.getBrokenItem());
+		if (Talisman.checkFor(e, SlimefunItem.getByName("ANVIL_TALISMAN"))) {
+			ItemStack is = e.getBrokenItem();
+			is.setDurability((short) 0);
+			boolean isEmpty = true;
+			for (ItemStack item : e.getPlayer().getInventory().getContents()) {
+	            		if(item != null) {
+	                		isEmpty = false;
+	                		break;
+	            		}
+	       		}  
+			if (isEmpty == true){
+				e.getPlayer().getInventory().addItem(is);
+			} else {
+				e.getPlayer().getEnderChest().addItem(is);
+				e.getPlayer().sendMessage(ChatColor.DARK_RED + "Your saved item has been sent to your enderchest.");
+			}
+		}
 	}
 	
 	@EventHandler
