@@ -70,9 +70,7 @@ public class TalismanListener implements Listener {
 	
 	@EventHandler
 	public void onItemBreak(PlayerItemBreakEvent e) {
-		if (Talisman.checkFor(e, SlimefunItem.getByName("ANVIL_TALISMAN"))) 
-			e.getBrokenItem().setDurability((short)0);
-			e.getPlayer().getInventory().addItem(e.getBrokenItem());
+		if (Talisman.checkFor(e, SlimefunItem.getByName("ANVIL_TALISMAN"))) e.getBrokenItem().setAmount(1);
 	}
 	
 	@EventHandler
