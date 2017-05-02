@@ -2576,16 +2576,18 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				if (SlimefunManager.isItemSimiliar(e.getPlayer().getItemInHand(), SlimefunItems.PICKAXE_OF_VEIN_MINING, true) && e.getBlock().getType().toString().endsWith("_ORE")) {
-					List<Location> blocks = new ArrayList<Location>();
-					Vein.calculate(e.getBlock().getLocation(), e.getBlock().getLocation(), blocks, 32);
-					for (Location block: blocks) {
-						Block b = block.getBlock();
-						b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-						for (ItemStack drop: b.getDrops()) {
-							b.getWorld().dropItemNaturally(b.getLocation(), (!drop.getType().isBlock()) ? new CustomItem(drop, fortune): drop);
+				if (SlimefunManager.isItemSimiliar(e.getPlayer().getItemInHand(), SlimefunItems.PICKAXE_OF_VEIN_MINING, true)) {
+					if (e.getBlock().getType().toString().endsWith("_ORE")) {
+						List<Location> blocks = new ArrayList<Location>();
+						Vein.calculate(e.getBlock().getLocation(), e.getBlock().getLocation(), blocks, 16);
+						for (Location block: blocks) {
+							Block b = block.getBlock();
+							b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+							for (ItemStack drop: b.getDrops()) {
+								b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop: new CustomItem(drop, fortune));
+							}
+							b.setType(Material.AIR);
 						}
-						b.setType(Material.AIR);
 					}
 					return true;
 				}
@@ -2645,7 +2647,6 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-
 				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("JUICER");
 
 				if (mb.isMultiBlock(machine)) {
@@ -3045,7 +3046,7 @@ public class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.ICE), new ItemStack(Material.ICE), new ItemStack(Material.ICE), SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.ICE), new ItemStack(Material.ICE), new ItemStack(Material.ICE)})
 		.register(true);
 
-		new SlimefunItem(Categories.PORTABLE, SlimefunItems.COOLER, "COOLER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunBackpack(27, Categories.PORTABLE, SlimefunItems.COOLER, "COOLER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.COOLING_UNIT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT})
 		.register(true);
 
