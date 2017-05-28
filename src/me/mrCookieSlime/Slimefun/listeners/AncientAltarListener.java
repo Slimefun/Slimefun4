@@ -47,6 +47,8 @@ public class AncientAltarListener implements Listener {
 
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onInteract(PlayerInteractEvent e) {
+		if (e.isCancelled())
+			return;
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
 		SlimefunItem item = BlockStorage.check(b);

@@ -6,6 +6,7 @@ import me.mrCookieSlime.Slimefun.Variables;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -18,8 +19,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -41,27 +44,39 @@ public class BackpackListener implements Listener {
 	}
 	
 	@EventHandler
+	public void onItemDrop(PlayerDropItemEvent e) {
+		if (Variables.backpack.containsKey(e.getPlayer().getUniqueId())){
+			ItemStack item = e.getItemDrop().getItemStack();
+			SlimefunItem sfItem = SlimefunItem.getByItem(item);
+			if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		if (Variables.backpack.containsKey(e.getWhoClicked().getUniqueId())) {
 			ItemStack item = Variables.backpack.get(e.getWhoClicked().getUniqueId());
-			if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false)) {
-				SlimefunItem sfItem = SlimefunItem.getByItem(e.getCurrentItem());
-				if (e.getCurrentItem() == null);
-				else if (sfItem == null) e.setCancelled(true);
-				else if (!(sfItem instanceof Juice)) e.setCancelled(true);
+			if (e.getClick() == ClickType.NUMBER_KEY) {
+				ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
+				SlimefunItem sfItem = SlimefunItem.getByItem(hotbarItem);
+				if (hotbarItem != null && hotbarItem.getType().toString().contains("SHULKER_BOX"))  e.setCancelled(true);
+				else if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
 			}
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), item, true)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.BACKPACK_SMALL, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.BACKPACK_MEDIUM, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.BACKPACK_LARGE, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.WOVEN_BACKPACK, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.GILDED_BACKPACK, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.BOUND_BACKPACK, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_SMALL, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_MEDIUM, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_BIG, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_LARGE, false)) e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.BOUND_VOIDBAG, false)) e.setCancelled(true);
+			else {
+				SlimefunItem sfItem = SlimefunItem.getByItem(e.getCurrentItem());
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false)) {
+					if (e.getCurrentItem() == null);
+					else if (sfItem == null) e.setCancelled(true);
+					else if (!(sfItem instanceof Juice)) e.setCancelled(true);
+				}
+				else if (e.getCurrentItem() != null && e.getCurrentItem().getType().toString().contains("SHULKER_BOX")) e.setCancelled(true);
+				else if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
+				else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_SMALL, false)) e.setCancelled(true);
+				else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_MEDIUM, false)) e.setCancelled(true);
+				else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_BIG, false)) e.setCancelled(true);
+				else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.VOIDBAG_LARGE, false)) e.setCancelled(true);
+				else if (SlimefunManager.isItemSimiliar(e.getCurrentItem(), SlimefunItems.BOUND_VOIDBAG, false)) e.setCancelled(true);
+			}
 		}
 	}
 	
@@ -84,9 +99,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -105,9 +124,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -126,9 +149,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -147,9 +174,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -168,9 +199,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -189,9 +224,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}
@@ -210,9 +249,13 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						Backpacks.openBackpack(p, item);
-						p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-						Variables.backpack.put(p.getUniqueId(), item);
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
 					}
 					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
 				}

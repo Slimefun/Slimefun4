@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
@@ -13,10 +16,8 @@ import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
-
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class Slimefun {
 	
@@ -62,7 +63,7 @@ public class Slimefun {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem == null) {
 			if (SlimefunItem.isDisabled(item)) {
-				if (message) Messages.local.sendTranslation(p, "messages.disabled-item", true);
+				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.disabled-item", true);
 				return false;
 			}
 			else return true;
@@ -71,7 +72,7 @@ public class Slimefun {
 			if (sfItem.getResearch() == null) return true;
 			else if (sfItem.getResearch().hasUnlocked(p) || sfItem instanceof VanillaItem) return true;
 			else {
-				if (message) Messages.local.sendTranslation(p, "messages.not-researched", true);
+				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.not-researched", true);
 				return false;
 			}
 		}
@@ -83,7 +84,7 @@ public class Slimefun {
 			if (sfItem.getResearch() == null) return true;
 			else if (sfItem.getResearch().hasUnlocked(p)) return true;
 			else {
-				if (message) Messages.local.sendTranslation(p, "messages.not-researched", true);
+				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.not-researched", true);
 				return false;
 			}
 		}
