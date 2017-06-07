@@ -20,7 +20,9 @@ public abstract class CarbonPress extends AContainer {
 	@Override
 	public void registerDefaultRecipes() {
 		registerRecipe(15, new ItemStack[] {new CustomItem(new MaterialData(Material.COAL,  (byte) 1).toItemStack(1), 4)}, new ItemStack[] {new ItemStack(Material.COAL)});
+		registerRecipe(15, new ItemStack[] {new CustomItem(new MaterialData(Material.CHARCOAL,  (byte) 1).toItemStack(1), 4)}, new ItemStack[] {new ItemStack(Material.CHARCOAL)});
 		registerRecipe(20, new ItemStack[] {new CustomItem(new ItemStack(Material.COAL), 8)}, new ItemStack[] {SlimefunItems.CARBON});
+		registerRecipe(20, new ItemStack[] {new CustomItem(new ItemStack(Material.CHARCOAL), 8)}, new ItemStack[] {SlimefunItems.CARBON});
 		registerRecipe(30, new ItemStack[] {new CustomItem(SlimefunItems.CARBON, 4)}, new ItemStack[] {SlimefunItems.COMPRESSED_CARBON});
 		registerRecipe(60, new ItemStack[] {SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND}, new ItemStack[] {SlimefunItems.RAW_CARBONADO});
 		registerRecipe(60, new ItemStack[] {SlimefunItems.CARBON_CHUNK}, new ItemStack[] {SlimefunItems.SYNTHETIC_DIAMOND});
