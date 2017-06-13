@@ -85,7 +85,6 @@ public class SlimefunStartup extends JavaPlugin {
 
 			boolean compatibleVersion = false;
 
-			System.out.println(ReflectionUtils.getVersion());
 			for (String version: supported) {
 				if (ReflectionUtils.getVersion().startsWith(version)) {
 					compatibleVersion = true;
