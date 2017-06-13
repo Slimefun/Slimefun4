@@ -2517,7 +2517,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SEISMIC_AXE, true)) {
-					List<Block> blocks = p.getLineOfSight((HashSet<Byte>) null, 10);
+					List<Block> blocks = p.getLineOfSight((HashSet<Material>) null, 10);
 					for (int i = 0; i < blocks.size(); i++) {
 						Block b = blocks.get(i);
 						Location ground = b.getLocation();

@@ -1,25 +1,8 @@
 package me.mrCookieSlime.Slimefun;
 
-import java.io.File;
-
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.world.WorldLoadEvent;
-import org.bukkit.event.world.WorldUnloadEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
 import me.mrCookieSlime.Slimefun.CSCoreLibSetup.CSCoreLibLoader;
@@ -38,12 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
-import me.mrCookieSlime.Slimefun.Setup.Files;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
-import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
-import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
+import me.mrCookieSlime.Slimefun.Setup.*;
 import me.mrCookieSlime.Slimefun.URID.AutoSavingTask;
 import me.mrCookieSlime.Slimefun.URID.URID;
 import me.mrCookieSlime.Slimefun.WorldEdit.WESlimefunManager;
@@ -57,24 +35,25 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
-import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
-import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
-import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
-import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
-import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
-import me.mrCookieSlime.Slimefun.listeners.BlockListener;
-import me.mrCookieSlime.Slimefun.listeners.BowListener;
-import me.mrCookieSlime.Slimefun.listeners.ClearLaggIntegration;
-import me.mrCookieSlime.Slimefun.listeners.CoolerListener;
-import me.mrCookieSlime.Slimefun.listeners.DamageListener;
-import me.mrCookieSlime.Slimefun.listeners.FurnaceListener;
-import me.mrCookieSlime.Slimefun.listeners.GearListener;
-import me.mrCookieSlime.Slimefun.listeners.ItemListener;
-import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
-import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
-import me.mrCookieSlime.Slimefun.listeners.ToolListener;
+import me.mrCookieSlime.Slimefun.listeners.*;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.WorldLoadEvent;
+import org.bukkit.event.world.WorldUnloadEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.io.File;
 
 public class SlimefunStartup extends JavaPlugin {
 
@@ -95,7 +74,7 @@ public class SlimefunStartup extends JavaPlugin {
 	private boolean coreProtect = false;
 
 	// Supported Versions of Minecraft
-	final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "PluginBukkitBridge"};
+	final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "v1_12_", "PluginBukkitBridge"};
 
 	
 	@SuppressWarnings("deprecation")
@@ -106,6 +85,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 			boolean compatibleVersion = false;
 
+			System.out.println(ReflectionUtils.getVersion());
 			for (String version: supported) {
 				if (ReflectionUtils.getVersion().startsWith(version)) {
 					compatibleVersion = true;
