@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -20,14 +19,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 
 public class Slimefun {
-	
+
 	public static Map<Integer, List<GuideHandler>> guide_handlers = new HashMap<Integer, List<GuideHandler>>();
 	public static List<GuideHandler> guide_handlers2 = new ArrayList<GuideHandler>();
-	
+
 	private static GPSNetwork gps = new GPSNetwork();
 	public static boolean emeraldenchants = false;
 	public static List<Category> current_categories = new ArrayList<Category>();
-	
+
 	public static void registerGuideHandler(GuideHandler handler) {
 		List<GuideHandler> handlers = new ArrayList<GuideHandler>();
 		if (guide_handlers.containsKey(handler.getTier())) handlers = guide_handlers.get(handler.getTier());
@@ -35,19 +34,19 @@ public class Slimefun {
 		guide_handlers.put(handler.getTier(), handlers);
 		guide_handlers2.add(handler);
 	}
-	
+
 	public static GPSNetwork getGPSNetwork() {
 		return gps;
 	}
-	
+
 	public static Object getItemValue(String id, String key) {
 		return SlimefunStartup.getItemCfg().getValue(id + "." + key);
 	}
-	
+
 	public static void setItemVariable(String id, String key, Object value) {
 		SlimefunStartup.getItemCfg().setDefaultValue(id + "." + key, value);
 	}
-	
+
 	public static Config getItemConfig() {
 		return SlimefunStartup.getItemCfg();
 	}
@@ -58,7 +57,7 @@ public class Slimefun {
 		}
 		research.register();
 	}
-	
+
 	public static boolean hasUnlocked(Player p, ItemStack item, boolean message) {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem == null) {
@@ -70,7 +69,7 @@ public class Slimefun {
 		}
 		else if (isEnabled(p, item, message) && hasPermission(p, sfItem, message)) {
 			if (sfItem.getResearch() == null) return true;
-			else if (sfItem.getResearch().hasUnlocked(p) || sfItem instanceof VanillaItem) return true;
+			else if (sfItem.getResearch().hasUnlocked(p)) return true;
 			else {
 				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.not-researched", true);
 				return false;
@@ -78,7 +77,7 @@ public class Slimefun {
 		}
 		else return false;
 	}
-	
+
 	public static boolean hasUnlocked(Player p, SlimefunItem sfItem, boolean message) {
 		if (isEnabled(p, sfItem, message) && hasPermission(p, sfItem, message)) {
 			if (sfItem.getResearch() == null) return true;
@@ -90,7 +89,7 @@ public class Slimefun {
 		}
 		return false;
 	}
-	
+
 	public static boolean hasPermission(Player p, SlimefunItem item, boolean message) {
 		if (item == null) return true;
 		else if (SlimefunStartup.getItemCfg().getString(item.getName() + ".required-permission").equalsIgnoreCase("")) return true;
@@ -100,7 +99,7 @@ public class Slimefun {
 			return false;
 		}
 	}
-	
+
 	public static boolean isEnabled(Player p, ItemStack item, boolean message) {
 		String world = p.getWorld().getName();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
@@ -121,7 +120,7 @@ public class Slimefun {
 		}
 		else return true;
 	}
-	
+
 	public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
 		String world = p.getWorld().getName();
 		if (SlimefunStartup.getWhitelist().contains(world + ".enabled")) {
@@ -143,11 +142,11 @@ public class Slimefun {
 
 	public static List<String> listIDs() {
 		List<String> ids = new ArrayList<String>();
-		
+
 		for (SlimefunItem item: SlimefunItem.list()) {
 			ids.add(item.getName());
 		}
-		
+
 		return ids;
 	}
 
@@ -158,23 +157,23 @@ public class Slimefun {
 		}
 		return items;
 	}
-	
+
 	public static void addDescription(String id, String... description) {
 		getItemConfig().setDefaultValue(id + ".description", Arrays.asList(description));
 	}
-	
+
 	public static void addYoutubeVideo(String id, String link) {
 		getItemConfig().setDefaultValue(id + ".youtube", link);
 	}
-	
+
 	public static void addWikiPage(String id, String link) {
 		getItemConfig().setDefaultValue(id + ".wiki", link);
 	}
-	
+
 	public static void addOfficialWikiPage(String id, String page) {
 		addWikiPage(id, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
 	}
-	
+
 	public static boolean isEmeraldEnchantsInstalled() {
 		return emeraldenchants;
 	}

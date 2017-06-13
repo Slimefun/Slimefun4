@@ -234,8 +234,6 @@ public class CargoNet {
 						ItemStack stack = null;
 						int previousSlot = -1;
 
-						if (!CSCoreLib.getLib().getProtectionManager().canAccessChest(BlockStorage.getBlockInfo(entry.getKey()).getUUID("owner"), inputTarget)) continue;
-
 						boolean roundrobin = BlockStorage.getBlockInfo(entry.getKey(), "round-robin").equals("true");
 						
 						if (inputTarget != null) {
