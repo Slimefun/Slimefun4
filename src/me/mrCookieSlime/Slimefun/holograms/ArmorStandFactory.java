@@ -5,6 +5,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.EulerAngle;
 
+@Deprecated
 public class ArmorStandFactory {
 
 	@Deprecated

@@ -1,13 +1,14 @@
 package me.mrCookieSlime.Slimefun.holograms;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-
-import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 public class CargoHologram {
 	
