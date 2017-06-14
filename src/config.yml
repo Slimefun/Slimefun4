@@ -9,6 +9,7 @@ options:
   show-vanilla-recipes-in-guide: true
   allow-free-creative-research: true
   emerald-enchantment-limit: 2
+  research-fireworks: true
 guide:
   default-view-book: false
 URID:
