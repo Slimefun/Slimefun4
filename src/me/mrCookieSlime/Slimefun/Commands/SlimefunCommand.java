@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.Commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -209,7 +208,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
                                          Bukkit.getPlayer(args[1]).getInventory().addItem(new CustomItem(SlimefunItem.getByName(args[2].toUpperCase()).getItem(), amount));
                                          Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", String.valueOf(amount)));
                                      }
-                                     else Messages.local.sendTranslation(sender, "messages.too-low-amount", true);
+                                     else Messages.local.sendTranslation(sender, "messages.not-valid-amount", true, new Variable("%amount%", String.valueOf(amount)));
                                 } catch (NumberFormatException e){
                                     Messages.local.sendTranslation(sender, "messages.not-valid-amount", true, new Variable("%amount%", args[3]));
                                 }
