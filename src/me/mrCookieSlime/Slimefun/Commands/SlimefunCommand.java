@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,6 +22,7 @@ import org.bukkit.plugin.Plugin;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.CommandHelp;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.Players;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
@@ -184,23 +186,41 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 				}
 			}
 			else if (args[0].equalsIgnoreCase("give")) {
-				if (args.length == 3) {
-					if (sender.hasPermission("slimefun.cheat.items") || !(sender instanceof Player)) {
+			    if (sender.hasPermission("slimefun.cheat.items") || !(sender instanceof Player)) {
+			        if (args.length == 3) {
 						if (Players.isOnline(args[1])) {
 							if (Slimefun.listIDs().contains(args[2].toUpperCase())) {
-								if (Players.isOnline(args[1])) {
-									Messages.local.sendTranslation(Bukkit.getPlayer(args[1]), "messages.given-item", true,new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()));
-									Bukkit.getPlayer(args[1]).getInventory().addItem(SlimefunItem.getByName(args[2].toUpperCase()).getItem());
-									Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()));
-								}
+								Messages.local.sendTranslation(Bukkit.getPlayer(args[1]), "messages.given-item", true, new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", "1"));
+								Bukkit.getPlayer(args[1]).getInventory().addItem(SlimefunItem.getByName(args[2].toUpperCase()).getItem());
+								Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", "1"));
 							}
 							else Messages.local.sendTranslation(sender, "messages.not-valid-item", true, new Variable("%item%", args[2]));
 						}
 						else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
 					}
-					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+			        else if (args.length == 4){
+			            if (Players.isOnline(args[1])) {
+                            if (Slimefun.listIDs().contains(args[2].toUpperCase())) {
+                                 try {
+                                     int amount = Integer.parseInt(args[3]);
+                                     
+                                     if (amount > 0) {
+                                         Messages.local.sendTranslation(Bukkit.getPlayer(args[1]), "messages.given-item", true, new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", String.valueOf(amount)));
+                                         Bukkit.getPlayer(args[1]).getInventory().addItem(new CustomItem(SlimefunItem.getByName(args[2].toUpperCase()).getItem(), amount));
+                                         Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", String.valueOf(amount)));
+                                     }
+                                     else Messages.local.sendTranslation(sender, "messages.too-low-amount", true);
+                                } catch (NumberFormatException e){
+                                    Messages.local.sendTranslation(sender, "messages.not-valid-amount", true, new Variable("%amount%", args[3]));
+                                }
+                            }
+                            else Messages.local.sendTranslation(sender, "messages.not-valid-item", true, new Variable("%item%", args[2]));
+                        }
+                        else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+			        }
+			        else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
 				}
-				else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf give <Player> <Slimefun Item>"));
+				else  Messages.local.sendTranslation(sender, "messages.no-permission", true);
 			}
 			else if (args[0].equalsIgnoreCase("teleporter")) {
 				if (args.length == 2) {
