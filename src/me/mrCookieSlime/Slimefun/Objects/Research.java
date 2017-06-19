@@ -92,7 +92,7 @@ public class Research {
 					cfg.setValue("researches." + research, true);
 					cfg.save();
 					Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
-					if(SlimefunStartup.getCfg().getBoolean("options.research-fireworks")) FireworkShow.launchRandom(p, 1);
+					if(SlimefunStartup.getCfg().getBoolean("options.research-give-fireworks")) FireworkShow.launchRandom(p, 1);
 				}
 				else if (!researching.contains(p.getUniqueId())){
 					researching.add(p.getUniqueId());
@@ -129,7 +129,7 @@ public class Research {
 															cfg.setValue("researches." + research, true);
 															cfg.save();
 															Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
-															if(SlimefunStartup.getCfg().getBoolean("options.research-fireworks")) FireworkShow.launchRandom(p, 1);
+															if(SlimefunStartup.getCfg().getBoolean("options.research-unlock-fireworks")) FireworkShow.launchRandom(p, 1);
 															researching.remove(p.getUniqueId());
 														}
 													}, 20L);
