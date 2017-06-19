@@ -93,8 +93,13 @@ public class AutoEnchanter extends AContainer {
 			slots:
 			for (int slot: getInputSlots()) {
 				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
-				if(SlimefunItem.getByItem(target) != null && !SlimefunItem.getByItem(target).isEnchantable()) return;
+				// Check if enchantable
+				SlimefunItem sfTarget = SlimefunItem.getByItem(target);
+				if(sfTarget != null && !sfTarget.isEnchantable()) return;
+				
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
+				
+				// Enchant
 				if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
 					Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
 					Set<ItemEnchantment> enchantments2 = new HashSet<ItemEnchantment>();
