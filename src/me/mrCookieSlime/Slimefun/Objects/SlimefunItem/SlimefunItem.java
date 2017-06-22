@@ -62,6 +62,7 @@ public class SlimefunItem {
 	boolean addon = false;
 	BlockTicker ticker;
 	EnergyTicker energy;
+	public String hash;
 	
 	int month = -1;
 	
