@@ -92,7 +92,7 @@ public class GitHubSetup {
 			@Override
 			public void onSuccess(JsonElement element) {
 				JsonObject object = element.getAsJsonObject();
-				SlimefunGuide.code_lines = object.get("Java").getAsInt();
+				SlimefunGuide.code_bytes = object.get("Java").getAsInt();
 			}
 			
 			@Override
@@ -106,7 +106,7 @@ public class GitHubSetup {
 			
 			@Override
 			public String getFileName() {
-				return "lines_of_code";
+				return "languages";
 			}
 
 			@Override
