@@ -39,7 +39,7 @@ public class SlimefunItem {
 	
 	public static Map<String, URID> map_name = new HashMap<String, URID>();
 	public static List<ItemStack> radioactive = new ArrayList<ItemStack>();
-	public static int vanilla = 0;
+	public static int slimefun = 0;
 	public static Set<String> tickers = new HashSet<String>();
 	
 	public static List<SlimefunItem> all = new ArrayList<SlimefunItem>();
@@ -60,6 +60,7 @@ public class SlimefunItem {
 	URID urid;
 	boolean ticking = false;
 	boolean addon = false;
+	boolean vanilla = false;
 	BlockTicker ticker;
 	EnergyTicker energy;
 	public String hash;
@@ -97,7 +98,6 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
-
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -182,20 +182,32 @@ public class SlimefunItem {
 	public void register(boolean slimefun) {
 		addon = !slimefun;
 		try {
-			if (recipe.length < 9) recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
-			all.add(this);
+			// Check if this item must be handled by Slimefun or return to its vanilla behavior
+			if(vanilla) SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".ignore-slimefun-modifications", false);
+			if(SlimefunStartup.getItemCfg().getBoolean(this.name + ".ignore-slimefun-modifications")){
+			    all.remove(this);
+			    System.out.println("[Slimefun] Item has been put back to its vanilla behavior: " + this.name);
+			    return;
+			}
 			
+			if (recipe.length < 9) recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
+            all.add(this);
+			
+			// Set and write in Items.yml the default item config values
 			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".enabled", true);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".can-be-used-in-workbenches", this.replacing);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".allow-enchanting", this.enchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".allow-disenchanting", this.disenchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".required-permission", "");
+			
+			// Item custom config values
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
 					SlimefunStartup.getItemCfg().setDefaultValue(this.name + "." + this.keys[i], this.values[i]);
 				}
 			}
 			
+			// Set default whitelist.yml config for this item
 			for (World world: Bukkit.getWorlds()) {
 				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
 				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.name, true);
@@ -210,7 +222,7 @@ public class SlimefunItem {
 				this.enchantable = SlimefunStartup.getItemCfg().getBoolean(this.name + ".allow-enchanting");
 				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.name + ".allow-disenchanting");
 				items.add(this);
-				if (slimefun) vanilla++;
+				if (slimefun) SlimefunItem.slimefun++;
 				map_name.put(this.getName(), this.getURID());
 				this.create();
 				for (ItemHandler handler: itemhandlers) {
@@ -341,8 +353,20 @@ public class SlimefunItem {
 		return disenchantable;
 	}
 	
+	public boolean isGhost() {
+	    return ghost;
+	}
+	
+	public boolean isVanilla() {
+	    return vanilla;
+	}
+	
 	public void setReplacing(boolean replacing) {
 		this.replacing = replacing;
+	}
+	
+	public void setVanilla(boolean vanilla) {
+	    this.vanilla = vanilla;
 	}
 	
 	public void addItemHandler(ItemHandler... handler) {
@@ -361,9 +385,9 @@ public class SlimefunItem {
 		}
 	}
 	
-	public void register(boolean vanilla, ItemHandler... handlers) {
+	public void register(boolean slimefun, ItemHandler... handlers) {
 		addItemHandler(handlers);
-		register(vanilla);
+		register(slimefun);
 	}
 	
 	public void register(ItemHandler... handlers) {
@@ -371,9 +395,9 @@ public class SlimefunItem {
 		register(false);
 	}
 	
-	public void register(boolean vanilla, SlimefunBlockHandler handler) {
+	public void register(boolean slimefun, SlimefunBlockHandler handler) {
 		blockhandler.put(getName(), handler);
-		register(vanilla);
+		register(slimefun);
 	}
 	
 	public void register(SlimefunBlockHandler handler) {

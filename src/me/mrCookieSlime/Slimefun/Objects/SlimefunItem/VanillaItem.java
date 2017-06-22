@@ -9,5 +9,6 @@ public class VanillaItem extends SlimefunItem {
 	
 	public VanillaItem(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
+		setVanilla(true);
 	}
 }
