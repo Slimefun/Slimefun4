@@ -60,7 +60,6 @@ public class SlimefunItem {
 	URID urid;
 	boolean ticking = false;
 	boolean addon = false;
-	boolean vanilla = false;
 	BlockTicker ticker;
 	EnergyTicker energy;
 	public String hash;
@@ -183,7 +182,7 @@ public class SlimefunItem {
 		addon = !slimefun;
 		try {
 			// Check if this item must be handled by Slimefun or return to its vanilla behavior
-			if(vanilla) SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".ignore-slimefun-modifications", false);
+			if(this instanceof VanillaItem) SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".ignore-slimefun-modifications", false);
 			if(SlimefunStartup.getItemCfg().getBoolean(this.name + ".ignore-slimefun-modifications")){
 			    all.remove(this);
 			    System.out.println("[Slimefun] Item has been put back to its vanilla behavior: " + this.name);
@@ -357,16 +356,8 @@ public class SlimefunItem {
 	    return ghost;
 	}
 	
-	public boolean isVanilla() {
-	    return vanilla;
-	}
-	
 	public void setReplacing(boolean replacing) {
 		this.replacing = replacing;
-	}
-	
-	public void setVanilla(boolean vanilla) {
-	    this.vanilla = vanilla;
 	}
 	
 	public void addItemHandler(ItemHandler... handler) {
