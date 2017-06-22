@@ -16,6 +16,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem.State;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 
 public class Slimefun {
@@ -60,9 +61,10 @@ public class Slimefun {
 
 	public static boolean hasUnlocked(Player p, ItemStack item, boolean message) {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
+		State state = SlimefunItem.getState(item);
 		if (sfItem == null) {
 			if (SlimefunItem.isDisabled(item)) {
-				if (message && SlimefunItem.getState(item).equals(State.DISABLED)) Messages.local.sendTranslation(p, "messages.disabled-item", true);
+				if (message && state != State.VANILLA) Messages.local.sendTranslation(p, "messages.disabled-item", true);
 				return false;
 			}
 			else return true;
@@ -71,7 +73,7 @@ public class Slimefun {
 			if (sfItem.getResearch() == null) return true;
 			else if (sfItem.getResearch().hasUnlocked(p)) return true;
 			else {
-				if (message && sfItem.getState().equals(State.DISABLED)) Messages.local.sendTranslation(p, "messages.not-researched", true);
+				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.not-researched", true);
 				return false;
 			}
 		}
@@ -83,7 +85,7 @@ public class Slimefun {
 			if (sfItem.getResearch() == null) return true;
 			else if (sfItem.getResearch().hasUnlocked(p)) return true;
 			else {
-				if (message && sfItem.getState().equals(State.DISABLED)) Messages.local.sendTranslation(p, "messages.not-researched", true);
+				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.not-researched", true);
 				return false;
 			}
 		}
