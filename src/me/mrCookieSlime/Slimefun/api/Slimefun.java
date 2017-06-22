@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem.State;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 
@@ -60,9 +61,10 @@ public class Slimefun {
 
 	public static boolean hasUnlocked(Player p, ItemStack item, boolean message) {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
+		State state = SlimefunItem.getState(item);
 		if (sfItem == null) {
-			if (SlimefunItem.isDisabled(item)) {
-				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.disabled-item", true);
+			if (state != State.ENABLED) {
+				if (message && state != State.VANILLA) Messages.local.sendTranslation(p, "messages.disabled-item", true);
 				return false;
 			}
 			else return true;
