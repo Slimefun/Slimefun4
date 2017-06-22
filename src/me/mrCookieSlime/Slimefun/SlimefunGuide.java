@@ -1266,6 +1266,7 @@ public class SlimefunGuide {
 						
 						@Override
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
+						    displayItem(p, item, true, experimental, 0);
 							return false;
 						}
 					});
