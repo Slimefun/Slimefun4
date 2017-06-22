@@ -63,7 +63,7 @@ public class Slimefun {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		State state = SlimefunItem.getState(item);
 		if (sfItem == null) {
-			if (SlimefunItem.isDisabled(item)) {
+			if (state != State.ENABLED) {
 				if (message && state != State.VANILLA) Messages.local.sendTranslation(p, "messages.disabled-item", true);
 				return false;
 			}
