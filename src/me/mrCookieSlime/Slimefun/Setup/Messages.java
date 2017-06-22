@@ -27,10 +27,10 @@ public class Messages {
 		local.setDefault("messages.not-online", "&4%player% &cis not online!");
 		local.setDefault("messages.not-valid-item", "&4%item% &cis not a valid Item!");
 		local.setDefault("messages.not-valid-amount", "&4%amount% &cis not a valid amount : it must be higher than 0!");
-		local.setDefault("messages.given-item", "&bYou have been given &a%amount% &7\"%item%\"");
-		local.setDefault("messages.give-item", "&bYou have given %player% &a%amount% &7\"%item%\"");
+		local.setDefault("messages.given-item", "&bYou have been given &a%amount% &7\"%item%&7\"");
+		local.setDefault("messages.give-item", "&bYou have given %player% &a%amount% &7\"%item%&7\"");
 		local.setDefault("messages.not-valid-research", "&4%research% &cis not a valid Research!");
-		local.setDefault("messages.give-research", "&bYou have given %player% the Research &7\"%research%\"");
+		local.setDefault("messages.give-research", "&bYou have given %player% the Research &7\"%research%&7\"");
 		local.setDefault("messages.battery.add", "&2+ &7%charge% J &8(%machine%)");
 		local.setDefault("messages.battery.remove", "&4- &7%charge% J &8(%machine%)");
 		local.setDefault("messages.hungry", "&cYou are too hungry to do that!");
