@@ -193,7 +193,7 @@ public class MiscSetup {
 		
 		sender.sendMessage(color + "###################### - Slimefun - ######################");
 		sender.sendMessage(color + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
-		sender.sendMessage(color + "( " + SlimefunItem.vanilla + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunItem.vanilla) + " Items from Addons )");
+		sender.sendMessage(color + "( " + SlimefunItem.slimefun + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunItem.slimefun) + " Items from Addons )");
 		sender.sendMessage(color + "##########################################################");
 		SlimefunStartup.getItemCfg().save();
 		SlimefunStartup.getResearchCfg().save();
