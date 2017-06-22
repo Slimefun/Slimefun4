@@ -230,7 +230,7 @@ public class SlimefunItem {
 				}
 				
 				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.getName() + "\"");
-			} else if (!SlimefunStartup.getItemCfg().getBoolean(this.name + ".enabled")) {
+			} else {
 			    if (this instanceof VanillaItem) this.state = State.VANILLA;
 			    else this.state = State.DISABLED;
 			}
