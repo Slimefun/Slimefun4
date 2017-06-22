@@ -209,7 +209,8 @@ public class SlimefunItem {
 			}
 			
 			if (this.isTicking() && !SlimefunStartup.getCfg().getBoolean("URID.enable-tickers")) {
-				// What is needed here?
+			    this.state = State.DISABLED;
+			    return;
 			}
 			
 			if (SlimefunStartup.getItemCfg().getBoolean(this.name + ".enabled")) {
