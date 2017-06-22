@@ -64,6 +64,14 @@ public class SlimefunItem {
 	EnergyTicker energy;
 	public String hash;
 	
+	State state;
+	
+	public enum State {
+	    ENABLED,
+	    DISABLED,
+	    VANILLA;
+	}
+	
 	int month = -1;
 	
 	public int getMonth() {
@@ -97,7 +105,6 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
-
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -206,6 +213,9 @@ public class SlimefunItem {
 			}
 			else if (SlimefunStartup.getItemCfg().getBoolean(this.name + ".enabled")) {
 				if (!Category.list().contains(category)) category.register();
+				
+				this.state = State.ENABLED;
+				
 				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.name + ".can-be-used-in-workbenches");
 				this.enchantable = SlimefunStartup.getItemCfg().getBoolean(this.name + ".allow-enchanting");
 				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.name + ".allow-disenchanting");
@@ -220,6 +230,9 @@ public class SlimefunItem {
 				}
 				
 				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.getName() + "\"");
+			} else if (!SlimefunStartup.getItemCfg().getBoolean(this.name + ".enabled")) {
+			    if (this instanceof VanillaItem) this.state = State.VANILLA;
+			    else this.state = State.DISABLED;
 			}
 		} catch(Exception x) {
 			System.err.println("[Slimefun] Item Registration failed: " + this.name);
@@ -305,25 +318,30 @@ public class SlimefunItem {
 		}
 	}
 	
+	public static State getState(ItemStack item) {
+	    for (SlimefunItem i: all) {
+            if (i.isItem(item)) {
+                return i.getState();
+            }
+        }
+        return State.DISABLED;
+	}
+	
 	public static boolean isDisabled(ItemStack item) {
-		boolean contains1 = false;
-		boolean contains2 = false;
-		
-		for (SlimefunItem i: all) {
+	    for (SlimefunItem i: all) {
 			if (i.isItem(item)) {
-				contains1 = true;
-				break;
+				return i.isDisabled();
 			}
 		}
-		
-		for (SlimefunItem i: items) {
-			if (i.isItem(item)) {
-				contains2 = true;
-				break;
-			}
-		}
-		
-		return contains1 && !contains2;
+	    return false;
+	}
+	
+	public State getState(){
+	    return state;
+	}
+	
+	public boolean isDisabled(){
+	    return state != State.ENABLED;
 	}
 	
 	public void install() {}
