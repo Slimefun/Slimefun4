@@ -326,7 +326,7 @@ public class SlimefunItem {
                 return i.getState();
             }
         }
-        return State.DISABLED;
+        return State.ENABLED;
 	}
 	
 	public static boolean isDisabled(ItemStack item) {
