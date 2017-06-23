@@ -392,8 +392,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 			if (coreProtect) coreProtectAPI = ((CoreProtect)getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
 
-
-			SlimefunGuide.creative_research = config.getBoolean("options.allow-free-creative-research");
+			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
 
 			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
 
