@@ -32,15 +32,15 @@ import org.bukkit.entity.Player;
  * @since 4.0
  */
 public class Research {
-    /**
-     * Whether researching is enabled or not
-     * @since 4.0
-     */
-    public static boolean enabled;
-    /**
-     * Contains all the registered researches
-     * @since 4.0
-     */
+	/**
+	 * Whether researching is enabled or not
+	 * @since 4.0
+	 */
+	public static boolean enabled;
+	/**
+	 * Contains all the registered researches
+	 * @since 4.0
+	 */
 	public static List<Research> list = new ArrayList<Research>();
 	/**
 	 * Contains all the players (UUIDs) that are currently unlocking a research
@@ -52,12 +52,12 @@ public class Research {
 	 * @since 4.0
 	 */
 	public static boolean creative_research = true;
-	
+
 	private int id;
 	private String name;
 	private List<SlimefunItem> items;
 	private int cost;
-	
+
 	/**
 	 * The constructor for a Research.
 	 * <p>
@@ -70,7 +70,7 @@ public class Research {
 	 * {@link Slimefun#registerResearch(Research, org.bukkit.inventory.ItemStack...)}.
 	 * 
 	 * @param id Unique integer ID for this research, used for {@link #getByID(int)} and to
-	 *         register it in Researches.yml
+	 *           register it in Researches.yml
 	 * @param name Display name of the research
 	 * @param cost Cost in XP levels to unlock the research
 	 * 
@@ -79,10 +79,10 @@ public class Research {
 	public Research(int id, String name, int cost) {
 		this.id = id;
 		this.name = name;
-	    this.cost = cost;
+		this.cost = cost;
 		this.items = new ArrayList<SlimefunItem>();
 	}
-	
+
 	/**
 	 * Gets the ID of the research
 	 * 
@@ -93,7 +93,7 @@ public class Research {
 	public int getID() {
 		return id;
 	}
-	
+
 	/**
 	 * Gets the display name of the research
 	 * 
@@ -104,7 +104,7 @@ public class Research {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Gets the cost in XP levels to unlock the research
 	 * 
@@ -117,7 +117,7 @@ public class Research {
 	public int getLevel() {
 		return cost;
 	}
-	
+
 	/**
 	 * Sets the cost in XP levels to unlock the research
 	 * 
@@ -130,28 +130,28 @@ public class Research {
 	public void setLevel(int level) {
 		this.cost = level;
 	}
-	
+
 	/**
 	 * Gets the cost in XP levels to unlock the research
-     * 
-     * @return The cost in XP levels of the research
+	 * 
+	 * @return The cost in XP levels of the research
 	 * @since 4.1.10
 	 */
 	public int getCost() {
-	    return cost;
+		return cost;
 	}
-	
+
 	/**
 	 * Sets the cost in XP levels to unlock the research
-     * 
-     * @param cost Cost in XP levels
-     * 
+	 * 
+	 * @param cost Cost in XP levels
+	 * 
 	 * @since 4.1.10
 	 */
 	public void setCost(int cost) {
-	    this.cost = cost;
+		this.cost = cost;
 	}
-	
+
 	/**
 	 * Bind the specified Slimefun items to the research
 	 * 
@@ -164,7 +164,7 @@ public class Research {
 			if (item != null) item.bindToResearch(this);
 		}
 	}
-	
+
 	/**
 	 * Gets the list of the Slimefun items bound to the research
 	 * 
@@ -175,7 +175,7 @@ public class Research {
 	public List<SlimefunItem> getEffectedItems() {
 		return items;
 	}
-	
+
 	/**
 	 * Convenience method to check if the player unlocked this research
 	 * 
@@ -188,7 +188,7 @@ public class Research {
 	public boolean hasUnlocked(Player p) {
 		return hasUnlocked(p.getUniqueId());
 	}
-	
+
 	/**
 	 * Checks if the player unlocked this research
 	 * 
@@ -203,7 +203,7 @@ public class Research {
 		if (!SlimefunStartup.getResearchCfg().getBoolean(this.id + ".enabled")) return true;
 		return new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml")).contains("researches." + this.id);
 	}
-	
+
 	/**
 	 * Checks if the player can unlock this research
 	 * 
@@ -213,11 +213,11 @@ public class Research {
 	 * @since 4.1.10
 	 */
 	public boolean canUnlock(Player p) {
-	    if (!enabled) return true;
-	    if (!SlimefunStartup.getResearchCfg().getBoolean(this.id + ".enabled")) return true;
-	    return (p.getGameMode() == GameMode.CREATIVE && Research.creative_research) || p.getLevel() >= this.cost;
+		if (!enabled) return true;
+		if (!SlimefunStartup.getResearchCfg().getBoolean(this.id + ".enabled")) return true;
+		return (p.getGameMode() == GameMode.CREATIVE && creative_research) || p.getLevel() >= this.cost;
 	}
-	
+
 	/**
 	 * Locks the research for the specified player
 	 * 
@@ -231,7 +231,7 @@ public class Research {
 		cfg.save();
 		Messages.local.sendTranslation(p, "commands.research.reset-target", true);
 	}
-	
+
 	/**
 	 * Unlocks the research for the specified player
 	 * 
@@ -257,31 +257,31 @@ public class Research {
 					researching.add(p.getUniqueId());
 					Messages.local.sendTranslation(p, "messages.research.start", true, new Variable("%research%", getName()));
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						
+
 						@Override
 						public void run() {
 							p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
 							Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "23%"));
 							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-								
+
 								@Override
 								public void run() {
 									p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
 									Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "44%"));
 									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-										
+
 										@Override
 										public void run() {
 											p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
 											Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "57%"));
 											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-												
+
 												@Override
 												public void run() {
 													p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
 													Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "92%"));
 													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-														
+
 														@Override
 														public void run() {
 															Config cfg = new Config(new File("data-storage/Slimefun/Players/" + p.getUniqueId() + ".yml"));
@@ -304,7 +304,7 @@ public class Research {
 			}
 		}
 	}
-	
+
 	/**
 	 * Registers the research
 	 * 
@@ -312,7 +312,7 @@ public class Research {
 	 */
 	public void register() {
 		SlimefunStartup.getResearchCfg().setDefaultValue("enable-researching", true);
-		
+
 		if (SlimefunStartup.getResearchCfg().contains(this.getID() + ".enabled") && !SlimefunStartup.getResearchCfg().getBoolean(this.getID() + ".enabled")) {
 			Iterator<SlimefunItem> iterator = items.iterator();
 			while (iterator.hasNext()) {
@@ -322,18 +322,18 @@ public class Research {
 			}
 			return;
 		}
-		
+
 		SlimefunStartup.getResearchCfg().setDefaultValue(this.getID() + ".name", this.getName());
 		SlimefunStartup.getResearchCfg().setDefaultValue(this.getID() + ".cost", this.getCost());
 		SlimefunStartup.getResearchCfg().setDefaultValue(this.getID() + ".enabled", true);
-		
+
 		this.name = SlimefunStartup.getResearchCfg().getString(this.getID() + ".name");
 		this.cost = SlimefunStartup.getResearchCfg().getInt(this.getID() + ".cost");
-		
+
 		list.add(this);
 		if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Research \"" + this.getName() + "\"");
 	}
-	
+
 	/**
 	 * Gets the list of all registered researches
 	 * 
@@ -344,7 +344,7 @@ public class Research {
 	public static List<Research> list() {
 		return list;
 	}
-	
+
 	/**
 	 * Gets if the specified player is currently unlocking a research
 	 * 
@@ -356,7 +356,7 @@ public class Research {
 	public static boolean isResearching(Player p) {
 		return researching.contains(p.getUniqueId());
 	}
-	
+
 	/**
 	 * Sends the research statistics and title of the specified player to the command sender
 	 * 
@@ -382,7 +382,7 @@ public class Research {
 		else if (Float.parseFloat(progress) < 64.0F) progress = "&e" + progress + " &r% ";
 		else if (Float.parseFloat(progress) < 80.0F) progress = "&2" + progress + " &r% ";
 		else progress = "&a" + progress + " &r% ";
-		
+
 		sender.sendMessage("");
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Statistics for Player: &b" + p.getName()));
 		sender.sendMessage("");
@@ -390,7 +390,7 @@ public class Research {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Research Progress: " + progress + "&e(" + researched.size() + " / " + list().size() + ")"));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Total XP Levels spent: &b" + levels));
 	}
-	
+
 	/**
 	 * Gets the title of the specified player
 	 * 
@@ -406,7 +406,7 @@ public class Research {
 		if (index > 0) index--;
 		return SlimefunStartup.getCfg().getStringList("research-ranks").get(index);
 	}
-	
+
 	/**
 	 * Attempts to get the research with the given ID
 	 * 
@@ -421,7 +421,7 @@ public class Research {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets the list of unlocked researches for a player using his UUID
 	 * 
@@ -438,7 +438,7 @@ public class Research {
 		}
 		return researched;
 	}
-	
+
 	/**
 	 * Convenience method to get the list of unlocked researches
 	 * for a player using his UUID (specified as a String)
@@ -452,5 +452,4 @@ public class Research {
 	public static List<Research> getResearches(String uuid) {
 		return getResearches(UUID.fromString(uuid));
 	}
-
 }
