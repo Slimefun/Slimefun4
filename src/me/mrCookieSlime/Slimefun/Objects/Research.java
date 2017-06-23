@@ -13,6 +13,7 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Events.ResearchUnlockEvent;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
+import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import org.bukkit.Bukkit;
@@ -23,32 +24,35 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * Statically handles researches. Represents a research, which is linked to one
- * {@link SlimefunItem} or more and ask for XP levels to unlock this/these item(s).
+ * Statically handles researches. Represents a research, which is bound to one
+ * {@link SlimefunItem} or more and require XP levels to unlock this/these item(s).
  * <p>
  * See {@link #Research(int, String, int)} to create a research.
+ * <p>
+ * See {@link ResearchSetup} for the built-in researches.
  * 
  * @author TheBusyBiscuit
  * @since 4.0
  */
 public class Research {
 	/**
-	 * Whether researching is enabled or not
+	 * Whether researching is enabled or not;
 	 * @since 4.0
 	 */
 	public static boolean enabled;
 	/**
-	 * Contains all the registered researches
+	 * Contains all the registered researches;
 	 * @since 4.0
+	 * @see ResearchSetup
 	 */
 	public static List<Research> list = new ArrayList<Research>();
 	/**
-	 * Contains all the players (UUIDs) that are currently unlocking a research
+	 * Contains all the players (UUIDs) that are currently unlocking a research.
 	 * @since 4.0
 	 */
 	public static List<UUID> researching = new ArrayList<UUID>();
 	/**
-	 * Whether researching in creative is free
+	 * Whether researching in creative is free.
 	 * @since 4.0
 	 */
 	public static boolean creative_research = true;
@@ -84,7 +88,7 @@ public class Research {
 	}
 
 	/**
-	 * Gets the ID of the research
+	 * Gets the ID of the research.
 	 * 
 	 * @return ID of the research
 	 * 
@@ -95,7 +99,7 @@ public class Research {
 	}
 
 	/**
-	 * Gets the display name of the research
+	 * Gets the display name of the research.
 	 * 
 	 * @return The display name of the research
 	 * 
@@ -106,7 +110,7 @@ public class Research {
 	}
 
 	/**
-	 * Gets the cost in XP levels to unlock the research
+	 * Gets the cost in XP levels to unlock the research.
 	 * 
 	 * @return The cost in XP levels of the research
 	 * 
@@ -119,7 +123,7 @@ public class Research {
 	}
 
 	/**
-	 * Sets the cost in XP levels to unlock the research
+	 * Sets the cost in XP levels to unlock the research.
 	 * 
 	 * @param level Cost in XP levels
 	 * 
@@ -132,7 +136,7 @@ public class Research {
 	}
 
 	/**
-	 * Gets the cost in XP levels to unlock the research
+	 * Gets the cost in XP levels to unlock the research.
 	 * 
 	 * @return The cost in XP levels of the research
 	 * @since 4.1.10
@@ -142,7 +146,7 @@ public class Research {
 	}
 
 	/**
-	 * Sets the cost in XP levels to unlock the research
+	 * Sets the cost in XP levels to unlock the research.
 	 * 
 	 * @param cost Cost in XP levels
 	 * 
@@ -153,7 +157,7 @@ public class Research {
 	}
 
 	/**
-	 * Bind the specified Slimefun items to the research
+	 * Bind the specified Slimefun items to the research.
 	 * 
 	 * @param items {@link SlimefunItem} to bind to the research
 	 * 
@@ -166,7 +170,7 @@ public class Research {
 	}
 
 	/**
-	 * Gets the list of the Slimefun items bound to the research
+	 * Gets the list of the Slimefun items bound to the research.
 	 * 
 	 * @return the Slimefun items bound to the research
 	 * 
@@ -177,7 +181,7 @@ public class Research {
 	}
 
 	/**
-	 * Convenience method to check if the player unlocked this research
+	 * Convenience method to check if the player unlocked this research.
 	 * 
 	 * @param p Player to check
 	 * @return true if he unlocked the research, otherwise false
@@ -190,7 +194,7 @@ public class Research {
 	}
 
 	/**
-	 * Checks if the player unlocked this research
+	 * Checks if the player unlocked this research.
 	 * 
 	 * @param uuid UUID of the player to check
 	 * @return true if he unlocked the research, otherwise false
@@ -205,7 +209,7 @@ public class Research {
 	}
 
 	/**
-	 * Checks if the player can unlock this research
+	 * Checks if the player can unlock this research.
 	 * 
 	 * @param p Player to check
 	 * @return true if he can unlock the research, otherwise false
@@ -219,7 +223,7 @@ public class Research {
 	}
 
 	/**
-	 * Locks the research for the specified player
+	 * Locks the research for the specified player.
 	 * 
 	 * @param p Player to lock the research
 	 * 
@@ -233,7 +237,7 @@ public class Research {
 	}
 
 	/**
-	 * Unlocks the research for the specified player
+	 * Unlocks the research for the specified player.
 	 * 
 	 * @param p Player to unlock the research
 	 * @param instant Whether to unlock the research instantly
@@ -306,7 +310,7 @@ public class Research {
 	}
 
 	/**
-	 * Registers the research
+	 * Registers the research.
 	 * 
 	 * @since 4.0
 	 */
@@ -335,18 +339,19 @@ public class Research {
 	}
 
 	/**
-	 * Gets the list of all registered researches
+	 * Gets the list of all registered researches.
 	 * 
 	 * @return The list of registered researches
 	 * 
 	 * @since 4.0
+	 * @see ResearchSetup
 	 */
 	public static List<Research> list() {
 		return list;
 	}
 
 	/**
-	 * Gets if the specified player is currently unlocking a research
+	 * Gets if the specified player is currently unlocking a research.
 	 * 
 	 * @param p Player to check
 	 * @return true if the player is unlocking a research, otherwise false
@@ -358,7 +363,7 @@ public class Research {
 	}
 
 	/**
-	 * Sends the research statistics and title of the specified player to the command sender
+	 * Sends the research statistics and title of the specified player to the command sender.
 	 * 
 	 * @param sender CommandSender to send the statistics
 	 * @param p Player to get the statistics
@@ -392,7 +397,7 @@ public class Research {
 	}
 
 	/**
-	 * Gets the title of the specified player
+	 * Gets the title of the specified player.
 	 * 
 	 * @param p Player to get the rank
 	 * @param researched List of the player's unlocked researches
@@ -408,7 +413,7 @@ public class Research {
 	}
 
 	/**
-	 * Attempts to get the research with the given ID
+	 * Attempts to get the research with the given ID.
 	 * 
 	 * @param id ID of the research to get
 	 * @return Research if found, or null
@@ -423,7 +428,7 @@ public class Research {
 	}
 
 	/**
-	 * Gets the list of unlocked researches for a player using his UUID
+	 * Gets the list of unlocked researches for a player using his UUID.
 	 * 
 	 * @param uuid UUID of the player
 	 * @return the list of unlocked researches for the player
@@ -441,7 +446,7 @@ public class Research {
 
 	/**
 	 * Convenience method to get the list of unlocked researches
-	 * for a player using his UUID (specified as a String)
+	 * for a player using his UUID (specified as a String).
 	 * 
 	 * @param uuid String representing the UUID of the player
 	 * @return the list of unlocked researches for the player
