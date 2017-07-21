@@ -664,7 +664,7 @@ public class SlimefunGuide {
 				if (Slimefun.hasPermission(p, item, false)) {
 					if (Slimefun.isEnabled(p, item, false)) {
 						if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
-						    Research research = item.getResearch();
+						    final Research research = item.getResearch();
 						    
 							texts.add(shorten("&7", StringUtils.formatItemName(item.getItem(), false)));
 							tooltips.add(StringUtils.formatItemName(item.getItem(), false) + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " Levels\n\n&a> Click to unlock");
@@ -853,7 +853,7 @@ public class SlimefunGuide {
 				if (Slimefun.isEnabled(p, sfitem, false)) {
 					if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
 						if (Slimefun.hasPermission(p, sfitem, false)) {
-						    Research research = sfitem.getResearch();
+						    final Research research = sfitem.getResearch();
 							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"}));
 							menu.addMenuClickHandler(index, new MenuClickHandler() {
 								
