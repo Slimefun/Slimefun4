@@ -32,6 +32,10 @@
 		    <id>clearlag-repo</id>
 		    <url>http://minebuilders.me:8080/job/Clearlag/lastSuccessfulBuild/maven-repository/repository/</url>
 		</repository>
+        <repository>
+            <id>robomwm-repo</id>
+            <url>https://dl.bintray.com/robomwm/maven</url>
+        </repository>
     </repositories>
     <build>
     <!--Maintain existing structure (as much as possible)-->
@@ -83,22 +87,16 @@
             <groupId>net.coreprotect</groupId>
             <artifactId>CoreProtect</artifactId>
             <version>2.14.2</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/CoreProtect_2.14.2.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>me.mrcookieslime</groupId>
+            <groupId>me.mrCookieSlime</groupId>
             <artifactId>EmeraldEnchants</artifactId>
             <version>2.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/EmeraldEnchants_v2.0.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>me.mrcookieslime</groupId>
-            <artifactId>ExoticGarden</artifactId>
-            <version>1.6.3</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/ExoticGarden v1.6.3.jar</systemPath>
-        </dependency>
+	        <groupId>com.github.TheBusyBiscuit</groupId>
+	        <artifactId>ExoticGarden</artifactId>
+	        <version>787060c580</version>
+	    </dependency>
     </dependencies>
 </project>
