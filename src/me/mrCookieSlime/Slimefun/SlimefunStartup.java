@@ -512,7 +512,7 @@ public class SlimefunStartup extends JavaPlugin {
 	}
 
 	public static boolean chance(int max, int percentage) {
-		if (max < 1) return 0;
+		if (max < 1) return false;
 		return CSCoreLib.randomizer().nextInt(max) <= percentage;
 	}
 
