@@ -344,7 +344,7 @@ public class SlimefunStartup extends JavaPlugin {
 									}
 
 									// If the item is enabled in the world, then make radioactivity do its job
-									if (getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items." + SlimefunItem.getByItem(radioactive).getName())) {
+									if (Slimefun.isEnabled(p, radioactive, false)) {
 										p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
 										p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
 										p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
