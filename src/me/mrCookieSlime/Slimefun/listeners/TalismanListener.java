@@ -87,7 +87,7 @@ public class TalismanListener implements Listener {
 					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getName() + ".level." + i) && en.canEnchantItem(e.getItem())) enchantments.add(en.getName() + "-" + i);
 				}
 			}
-			String enchant = enchantments.get(SlimefunStartup.randomize(enchantments.size());
+			String enchant = enchantments.get(SlimefunStartup.randomize(enchantments.size()));
 			e.getEnchantsToAdd().put(Enchantment.getByName(enchant.split("-")[0]), Integer.parseInt(enchant.split("-")[1]));
 			
 		}
