@@ -369,7 +369,7 @@ public abstract class AReactor extends SlimefunItem {
 
 						if (port != null) {
 							for (int slot: getOutputSlots()) {
-								BlockStorage.getInventory(l).replaceExistingItem(slot, ReactorAccessPort.pushItems(port.getLocation(), BlockStorage.getInventory(l).getItemInSlot(slot)));
+								if (BlockStorage.getInventory(l).getItemInSlot(slot) != null) BlockStorage.getInventory(l).replaceExistingItem(slot, ReactorAccessPort.pushItems(port.getLocation(), BlockStorage.getInventory(l).getItemInSlot(slot)));
 							}
 						}
 
