@@ -64,12 +64,28 @@ public class SlimefunItem {
 	EnergyTicker energy;
 	public String hash;
 	
-	State state;
-	
+	private State state;
+
+	/**
+	 * Defines whether a SlimefunItem is enabled, disabled or fall-back to its vanilla behavior.
+	 *
+	 * @since 4.1.10
+	 */
 	public enum State {
+		/**
+		 * This SlimefunItem is enabled.
+		 */
 	    ENABLED,
+
+		/**
+		 * This SlimefunItem is disabled and is not a {@link VanillaItem}.
+		 */
 	    DISABLED,
-	    VANILLA;
+
+		/**
+		 * This SlimefunItem is fall-back to its vanilla behavior, because it is disabled and is a {@link VanillaItem}.
+		 */
+	    VANILLA
 	}
 	
 	int month = -1;
