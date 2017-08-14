@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
  * When a VanillaItem gets disabled, its {@link SlimefunItem.State} goes on {@code State.VANILLA} which automatically
  * replace it in the recipes by its vanilla equivalent.
  *
- * @since 4.0
+ * @since 4.1.6
  */
 public class VanillaItem extends SlimefunItem {
 
