@@ -2,8 +2,16 @@ package me.mrCookieSlime.Slimefun.Setup;
 
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * Setups the official Wiki links.
+ *
+ * @since 4.1.2
+ */
 public class WikiSetup {
 
+	/**
+	 * Setups the official Wiki links.
+	 */
 	public static void setup() {
 		
 		// Weapons
