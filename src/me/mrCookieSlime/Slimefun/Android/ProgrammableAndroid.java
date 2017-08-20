@@ -200,7 +200,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				b.setData((byte) 1);
 				Skull skull = (Skull) b.getState();
 				skull.setRotation(BlockFace.NORTH);
-				skull.update();
+				skull.update(true, false);
 			}
 
 			@Override
@@ -297,7 +297,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						BlockFace dir = directions.get(rotIndex);
 						Skull skull = (Skull) b.getState();
 						skull.setRotation(dir);
-						skull.update();
+						skull.update(true, false);
 						BlockStorage.addBlockInfo(b, "rotation", dir.toString());
 						break;
 					}
@@ -307,7 +307,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						BlockFace dir = directions.get(rotIndex);
 						Skull skull = (Skull) b.getState();
 						skull.setRotation(dir);
-						skull.update();
+						skull.update(true, false);
 						BlockStorage.addBlockInfo(b, "rotation", dir.toString());
 						break;
 					}
@@ -690,7 +690,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 			Skull skull = (Skull) block.getState();
 			skull.setRotation(face);
-			skull.update();
+			skull.update(true, false);
 			CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 			b.setType(Material.AIR);
 			BlockStorage.moveBlockInfo(b, block);
@@ -723,7 +723,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 					Skull skull = (Skull) block.getState();
 					skull.setRotation(face);
-					skull.update();
+					skull.update(true, false);
 					CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 					b.setType(Material.AIR);
 					BlockStorage.moveBlockInfo(b, block);
