@@ -2715,6 +2715,7 @@ public class SlimefunSetup {
 					}
 					if (type != null) {
 						((CreatureSpawner) e.getBlock().getState()).setSpawnedType(type);
+						e.getBlock().getState().update(true, false);
 					}
 					return true;
 				}
