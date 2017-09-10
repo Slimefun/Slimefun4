@@ -461,7 +461,11 @@ public class CargoNet {
 	}
 
 	private static int getFrequency(Location l) {
-		return BlockStorage.getBlockInfo(l).getInt("frequency"); // If no frequency is found, will automatically return 0.
+		int freq = 0;
+		try {
+			freq = Integer.parseInt(BlockStorage.getBlockInfo(l).getString("frequency"));
+		} catch (Exception e) {}
+		return freq;
 	}
 	
 	public static Set<Location> scan(Location source, Set<Location> blocks, List<Location> l1, List<Location> l2, Axis exclude, Map<Location, Integer> input, Map<Integer, List<Location>> output, Set<Location> terminals, Set<Location> providers, Set<Location> destinations, Set<Location> imports, Set<Location> exports) {
