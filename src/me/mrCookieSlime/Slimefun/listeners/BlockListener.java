@@ -33,7 +33,7 @@ public class BlockListener implements Listener {
 	
 	@EventHandler
 	public void onPistonExtend(BlockPistonExtendEvent e) {
-		for (Block b: e.getBlocks()) {
+		for (Block b : e.getBlocks()) {
 			if (BlockStorage.hasBlockInfo(b)) {
 				e.setCancelled(true);
 				return;
@@ -41,12 +41,15 @@ public class BlockListener implements Listener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPistonRetract(BlockPistonRetractEvent e) {
-		if (e.isSticky() && BlockStorage.hasBlockInfo(e.getRetractLocation().getBlock())) {
-			e.setCancelled(true);
-			return;
+		if (e.isSticky()) {
+			for (Block b : e.getBlocks()) {
+				if (BlockStorage.hasBlockInfo(b)) {
+					e.setCancelled(true);
+					return;
+				}
+			}
 		}
 	}
 	
