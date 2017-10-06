@@ -4644,7 +4644,11 @@ public class SlimefunSetup {
 
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				ArmorStand hologram = InfusedHopper.getArmorStand(b);
+				if (b.getType() != Material.HOPPER) {
+					// we're no longer a hopper, we were probably destroyed. skipping this tick.
+					return;
+				}
+				ArmorStand hologram = InfusedHopper.getArmorStand(b, true);
 				boolean sound = false;
 				for (Entity n: hologram.getNearbyEntities(3.5D, 3.5D, 3.5D)) {
 					if (n instanceof Item && !n.hasMetadata("no_pickup") && n.getLocation().distance(hologram.getLocation()) > 0.4D) {
@@ -4666,12 +4670,15 @@ public class SlimefunSetup {
 
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
-				InfusedHopper.getArmorStand(b);
+				InfusedHopper.getArmorStand(b, true);
 			}
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				InfusedHopper.getArmorStand(b).remove();
+				final ArmorStand hologram = InfusedHopper.getArmorStand(b, false);
+				if (hologram != null) {
+					hologram.remove();
+				}
 				return true;
 			}
 		});
