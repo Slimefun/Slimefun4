@@ -1,6 +1,8 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -89,7 +91,7 @@ public class UniversalBlockMenu extends ChestMenu {
 	}
 	
 	public void close() {
-		for (HumanEntity human: toInventory().getViewers()) {
+		for(HumanEntity human: new ArrayList<>(toInventory().getViewers())) {
 			human.closeInventory();
 		}
 	}
