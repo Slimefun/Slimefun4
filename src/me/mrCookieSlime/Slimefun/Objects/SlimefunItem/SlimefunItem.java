@@ -46,22 +46,22 @@ public class SlimefunItem {
 	public static Map<String, Set<ItemHandler>> handlers = new HashMap<String, Set<ItemHandler>>();
 	public static Map<String, SlimefunBlockHandler> blockhandler = new HashMap<String, SlimefunBlockHandler>();
 	
-	ItemStack item;
-	Category category;
-	ItemStack recipeOutput;
-	ItemStack[] recipe;
-	RecipeType recipeType;
-	String name;
-	String[] keys;
-	Object[] values;
-	Research research;
-	boolean ghost, replacing, enchantable, disenchantable;
-	Set<ItemHandler> itemhandlers;
-	URID urid;
-	boolean ticking = false;
-	boolean addon = false;
-	BlockTicker ticker;
-	EnergyTicker energy;
+	private ItemStack item;
+	private Category category;
+	private ItemStack recipeOutput;
+	private ItemStack[] recipe;
+	private RecipeType recipeType;
+	private String name;
+	private String[] keys;
+	private Object[] values;
+	private Research research;
+	private boolean ghost, replacing, enchantable, disenchantable;
+	private Set<ItemHandler> itemhandlers;
+	private URID urid;
+	private boolean ticking = false;
+	private boolean addon = false;
+	private BlockTicker ticker;
+	private EnergyTicker energy;
 	public String hash;
 	
 	private State state;
@@ -87,9 +87,9 @@ public class SlimefunItem {
 		 */
 	    VANILLA
 	}
-	
-	int month = -1;
-	
+
+	private int month = -1;
+
 	public int getMonth() {
 		return this.month;
 	}

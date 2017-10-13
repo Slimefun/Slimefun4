@@ -76,7 +76,7 @@ public class SlimefunMachine extends SlimefunItem {
 	
 	public MultiBlock toMultiBlock() {
 		List<Material> mats = new ArrayList<Material>();
-		for (ItemStack i: this.recipe) {
+		for (ItemStack i: this.getRecipe()) {
 			if (i == null) mats.add(null);
 			else if (i.getType() == Material.CAULDRON_ITEM) mats.add(Material.CAULDRON);
 			else if (i.getType() == Material.FLINT_AND_STEEL) mats.add(Material.FIRE);

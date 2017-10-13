@@ -21,8 +21,8 @@ public class MultiTool extends DamagableChargableItem {
 	public void create() {
 		List<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < 50; i++) {
-			if (Slimefun.getItemValue(this.name, "mode." + i + ".enabled") != null) {
-				if ((Boolean) Slimefun.getItemValue(this.name, "mode." + i + ".enabled")) list.add(i);
+			if (Slimefun.getItemValue(this.getName(), "mode." + i + ".enabled") != null) {
+				if ((Boolean) Slimefun.getItemValue(this.getName(), "mode." + i + ".enabled")) list.add(i);
 			}
 		}
 		this.modes = list;
