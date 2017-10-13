@@ -56,6 +56,7 @@ public class SlimefunItem {
 	private Object[] values;
 	private Research research;
 	private boolean ghost, replacing, enchantable, disenchantable;
+	private boolean requirePermissionToUse;
 	private Set<ItemHandler> itemhandlers;
 	private URID urid;
 	private boolean ticking = false;
@@ -140,6 +141,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -158,6 +160,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -176,6 +179,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -194,6 +198,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -212,6 +217,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -232,6 +238,7 @@ public class SlimefunItem {
 			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".required-permission", "");
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".require-permission-to-use", this.requirePermissionToUse);
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
 					SlimefunStartup.getItemCfg().setDefaultValue(this.id + "." + this.keys[i], this.values[i]);
@@ -256,6 +263,7 @@ public class SlimefunItem {
 				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
 				this.enchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-enchanting");
 				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
+				this.requirePermissionToUse = SlimefunStartup.getItemCfg().getBoolean(this.id + ".require-permission-to-use");
 				items.add(this);
 				if (slimefun) vanilla++;
 				map_id.put(this.getID(), this.getURID());
@@ -413,6 +421,16 @@ public class SlimefunItem {
 	
 	public boolean isDisenchantable() {
 		return disenchantable;
+	}
+
+	/**
+	 * doc needed here
+	 * @return
+	 *
+	 * @since 4.1.11
+	 */
+	public boolean requirePermissionToUse() {
+		return requirePermissionToUse;
 	}
 	
 	public void setReplacing(boolean replacing) {

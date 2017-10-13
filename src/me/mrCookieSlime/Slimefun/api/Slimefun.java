@@ -185,7 +185,7 @@ public class Slimefun {
 	public static boolean hasPermission(Player p, SlimefunItem item, boolean message) {
 		if (item == null) return true;
 		else if (SlimefunStartup.getItemCfg().getString(item.getID() + ".required-permission").equalsIgnoreCase("")) return true;
-		else if (p.hasPermission(SlimefunStartup.getItemCfg().getString(item.getID()) + ".required-permission")) return true;
+		else if (item.requirePermissionToUse() && p.hasPermission(SlimefunStartup.getItemCfg().getString(item.getID()) + ".required-permission")) return true;
 		else {
 			if (message) Messages.local.sendTranslation(p, "messages.no-permission", true);
 			return false;
@@ -193,7 +193,7 @@ public class Slimefun {
 	}
 
 	/**
-	 * Checks if this item is enabled in the world of this player.
+	 * Checks if this item is enabled in the world this player is in.
 	 *
 	 * @param  p        the player to get the world he is in, not null
 	 * @param  item     the item to check, not null
@@ -224,7 +224,7 @@ public class Slimefun {
 	}
 
 	/**
-	 * Checks if this item is enabled in the world of this player.
+	 * Checks if this item is enabled in the world this player is in.
 	 *
 	 * @param  p        the player to get the world he is in, not null
 	 * @param  sfItem   the item to check, not null
