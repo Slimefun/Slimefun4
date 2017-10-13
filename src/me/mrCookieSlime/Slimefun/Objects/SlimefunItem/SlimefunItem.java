@@ -56,6 +56,7 @@ public class SlimefunItem {
 	private Object[] values;
 	private Research research;
 	private boolean ghost, replacing, enchantable, disenchantable;
+	private String permission;
 	private boolean requirePermissionToUse;
 	private Set<ItemHandler> itemhandlers;
 	private URID urid;
@@ -141,6 +142,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.permission = "";
 		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
@@ -160,6 +162,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.permission = "";
 		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
@@ -179,6 +182,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.permission = "";
 		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
@@ -198,6 +202,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.permission = "";
 		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
@@ -217,6 +222,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.permission = "";
 		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
@@ -237,7 +243,7 @@ public class SlimefunItem {
 			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.replacing);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".required-permission", "");
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
 			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".require-permission-to-use", this.requirePermissionToUse);
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
@@ -263,6 +269,7 @@ public class SlimefunItem {
 				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
 				this.enchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-enchanting");
 				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
+				this.permission = SlimefunStartup.getItemCfg().getString(this.id + ".required-permission");
 				this.requirePermissionToUse = SlimefunStartup.getItemCfg().getBoolean(this.id + ".require-permission-to-use");
 				items.add(this);
 				if (slimefun) vanilla++;
@@ -421,6 +428,16 @@ public class SlimefunItem {
 	
 	public boolean isDisenchantable() {
 		return disenchantable;
+	}
+
+	/**
+	 * doc needed here
+	 * @return
+	 *
+	 * @since 4.1.11
+	 */
+	public String getPermission() {
+		return permission;
 	}
 
 	/**
