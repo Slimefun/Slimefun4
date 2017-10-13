@@ -31,8 +31,8 @@ public class Talisman extends SlimefunItem {
 	String suffix;
 	int chance;
 
-	public Talisman(ItemStack item, String name, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, PotionEffect... effects) {
-		super(Categories.TALISMANS_1, item, name, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4: 1));
+	public Talisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, PotionEffect... effects) {
+		super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4: 1));
 		this.consumed = consumable;
 		this.cancel = cancelEvent;
 		this.suffix = messageSuffix;
@@ -40,8 +40,8 @@ public class Talisman extends SlimefunItem {
 		this.chance = 100;
 	}
 	
-	public Talisman(ItemStack item, String name, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
-		super(Categories.TALISMANS_1, item, name, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4: 1));
+	public Talisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
+		super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4: 1));
 		this.consumed = consumable;
 		this.cancel = cancelEvent;
 		this.suffix = messageSuffix;
@@ -49,8 +49,8 @@ public class Talisman extends SlimefunItem {
 		this.chance = chance;
 	}
 	
-	public Talisman(ItemStack item, String name, ItemStack[] recipe, String messageSuffix, int chance, PotionEffect... effects) {
-		super(Categories.TALISMANS_1, item, name, RecipeType.MAGIC_WORKBENCH, recipe, item);
+	public Talisman(ItemStack item, String id, ItemStack[] recipe, String messageSuffix, int chance, PotionEffect... effects) {
+		super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, item);
 		this.consumed = true;
 		this.cancel = true;
 		this.suffix = messageSuffix;

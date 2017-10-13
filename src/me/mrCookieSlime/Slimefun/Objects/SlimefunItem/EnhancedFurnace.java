@@ -14,8 +14,8 @@ public class EnhancedFurnace extends SlimefunItem {
 	
 	int speed, efficiency, fortune;
 	
-	public EnhancedFurnace(int speed, int efficiency, int fortune, ItemStack item, String name, ItemStack[] recipe) {
-		super(Categories.MACHINES_1, item, name, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+	public EnhancedFurnace(int speed, int efficiency, int fortune, ItemStack item, String id, ItemStack[] recipe) {
+		super(Categories.MACHINES_1, item, id, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
 		
 		this.speed = speed - 1;
 		this.efficiency = efficiency - 1;

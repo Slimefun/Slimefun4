@@ -13,10 +13,10 @@ import org.bukkit.inventory.ItemStack;
 
 public abstract class Teleporter extends SlimefunItem {
 
-	public Teleporter(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public Teleporter(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, id, recipeType, recipe);
 		
-		SlimefunItem.registerBlockHandler(name, new SlimefunBlockHandler() {
+		SlimefunItem.registerBlockHandler(id, new SlimefunBlockHandler() {
 			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {

@@ -9,8 +9,8 @@ public class JetBoots extends DamagableChargableItem {
 	
 	double speed;
 
-	public JetBoots(ItemStack item, String name, ItemStack[] recipe, double speed) {
-		super(Categories.TECH, item, name, RecipeType.ENHANCED_CRAFTING_TABLE, recipe, "Jet Boots");
+	public JetBoots(ItemStack item, String id, ItemStack[] recipe, double speed) {
+		super(Categories.TECH, item, id, RecipeType.ENHANCED_CRAFTING_TABLE, recipe, "Jet Boots");
 		this.speed = speed;
 	}
 	

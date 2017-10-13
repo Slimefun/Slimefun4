@@ -8,12 +8,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class ReplacingAlloy extends ReplacingItem {
 
-	public ReplacingAlloy(ItemStack item, String name, ItemStack[] recipe) {
-		super(Categories.RESOURCES, item, name, RecipeType.SMELTERY, recipe);
+	public ReplacingAlloy(ItemStack item, String id, ItemStack[] recipe) {
+		super(Categories.RESOURCES, item, id, RecipeType.SMELTERY, recipe);
 	}
 	
-	public ReplacingAlloy(Category category, ItemStack item, String name, ItemStack[] recipe) {
-		super(category, item, name, RecipeType.SMELTERY, recipe);
+	public ReplacingAlloy(Category category, ItemStack item, String id, ItemStack[] recipe) {
+		super(category, item, id, RecipeType.SMELTERY, recipe);
 	}
 
 }

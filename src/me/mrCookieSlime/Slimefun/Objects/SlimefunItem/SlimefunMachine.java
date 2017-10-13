@@ -17,8 +17,8 @@ public class SlimefunMachine extends SlimefunItem {
 	List<ItemStack> shownRecipes;
 	Material trigger;
 
-	public SlimefunMachine(Category category, ItemStack item, String name, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger) {
-		super(category, item, name, RecipeType.MULTIBLOCK, recipe);
+	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger) {
+		super(category, item, id, RecipeType.MULTIBLOCK, recipe);
 		this.recipes = new ArrayList<ItemStack[]>();
 		this.shownRecipes = new ArrayList<ItemStack>();
 		for (ItemStack i: machineRecipes) {
@@ -27,8 +27,8 @@ public class SlimefunMachine extends SlimefunItem {
 		this.trigger = trigger;
 	}
 	
-	public SlimefunMachine(Category category, ItemStack item, String name, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, boolean ghost) {
-		super(category, item, name, RecipeType.MULTIBLOCK, recipe, ghost);
+	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, boolean ghost) {
+		super(category, item, id, RecipeType.MULTIBLOCK, recipe, ghost);
 		this.recipes = new ArrayList<ItemStack[]>();
 		this.shownRecipes = new ArrayList<ItemStack>();
 		for (ItemStack i: machineRecipes) {
@@ -37,8 +37,8 @@ public class SlimefunMachine extends SlimefunItem {
 		this.trigger = trigger;
 	}
 	
-	public SlimefunMachine(Category category, ItemStack item, String name, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, String[] keys, Object[] values) {
-		super(category, item, name, RecipeType.MULTIBLOCK, recipe, keys, values);
+	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, String[] keys, Object[] values) {
+		super(category, item, id, RecipeType.MULTIBLOCK, recipe, keys, values);
 		this.recipes = new ArrayList<ItemStack[]>();
 		this.shownRecipes = new ArrayList<ItemStack>();
 		for (ItemStack i: machineRecipes) {
