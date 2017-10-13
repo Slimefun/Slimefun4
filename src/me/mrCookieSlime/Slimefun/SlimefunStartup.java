@@ -444,7 +444,7 @@ public class SlimefunStartup extends JavaPlugin {
 		Research.researching = null;
 		SlimefunItem.all = null;
 		SlimefunItem.items = null;
-		SlimefunItem.map_name = null;
+		SlimefunItem.map_id = null;
 		SlimefunItem.handlers = null;
 		SlimefunItem.radioactive = null;
 		Variables.damage = null;

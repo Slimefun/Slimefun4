@@ -53,7 +53,7 @@ public class AncientAltarListener implements Listener {
 		Block b = e.getClickedBlock();
 		SlimefunItem item = BlockStorage.check(b);
 		if (item != null) {
-			if (item.getName().equals("ANCIENT_PEDESTAL")) {
+			if (item.getID().equals("ANCIENT_PEDESTAL")) {
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
@@ -77,7 +77,7 @@ public class AncientAltarListener implements Listener {
 					PlayerInventory.update(e.getPlayer());
 				}
 			}
-			else if (item.getName().equals("ANCIENT_ALTAR")) {
+			else if (item.getID().equals("ANCIENT_ALTAR")) {
 				e.setCancelled(true);
 
 				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);

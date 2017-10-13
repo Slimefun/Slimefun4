@@ -37,7 +37,7 @@ public class SlimefunItem {
 	
 	public static List<SlimefunItem> items = new ArrayList<SlimefunItem>();
 	
-	public static Map<String, URID> map_name = new HashMap<String, URID>();
+	public static Map<String, URID> map_id = new HashMap<String, URID>();
 	public static List<ItemStack> radioactive = new ArrayList<ItemStack>();
 	public static int vanilla = 0;
 	public static Set<String> tickers = new HashSet<String>();
@@ -51,7 +51,7 @@ public class SlimefunItem {
 	private ItemStack recipeOutput;
 	private ItemStack[] recipe;
 	private RecipeType recipeType;
-	private String name;
+	private String id;
 	private String[] keys;
 	private Object[] values;
 	private Research research;
@@ -99,7 +99,26 @@ public class SlimefunItem {
 	public ItemStack getCustomOutput()	{		return this.recipeOutput;	}
 	public ItemStack[] getRecipe()		{		return this.recipe;			}
 	public RecipeType getRecipeType()	{		return this.recipeType;		}
-	public String getName()				{		return this.name;			}
+
+	/**
+	 * Returns the identifier of this SlimefunItem.
+	 *
+	 * @return the identifier of this SlimefunItem
+	 *
+	 * @since 4.0
+	 * @deprecated As of 4.1.11, renamed to {@link #getID()} for better name convenience.
+	 */
+	@Deprecated
+	public String getName()				{		return this.id;				}
+
+	/**
+	 * Returns the identifier of this SlimefunItem.
+	 *
+	 * @return the identifier of this SlimefunItem
+	 *
+	 * @since 4.1.11, rename of {@link #getName()}.
+	 */
+	public String getID()				{		return this.id;				}
 	public String[] listKeys()			{		return this.keys;			}
 	public Object[] listValues()		{		return this.values;			}
 	public Research getResearch()		{		return this.research;		}
@@ -108,10 +127,10 @@ public class SlimefunItem {
 		return itemhandlers;
 	}
 	
-	public SlimefunItem(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
+	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		this.item = item;
 		this.category = category;
-		this.name = name;
+		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = null;
@@ -126,10 +145,10 @@ public class SlimefunItem {
 		urid = URID.nextURID(this, false);
 	}
 	
-	public SlimefunItem(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		this.item = item;
 		this.category = category;
-		this.name = name;
+		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = recipeOutput;
@@ -144,10 +163,10 @@ public class SlimefunItem {
 		urid = URID.nextURID(this, false);
 	}
 	
-	public SlimefunItem(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
+	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
 		this.item = item;
 		this.category = category;
-		this.name = name;
+		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = recipeOutput;
@@ -162,10 +181,10 @@ public class SlimefunItem {
 		urid = URID.nextURID(this, false);
 	}
 	
-	public SlimefunItem(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		this.item = item;
 		this.category = category;
-		this.name = name;
+		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = null;
@@ -180,10 +199,10 @@ public class SlimefunItem {
 		urid = URID.nextURID(this, false);
 	}
 	
-	public SlimefunItem(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, boolean ghost) {
+	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean ghost) {
 		this.item = item;
 		this.category = category;
-		this.name = name;
+		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = null;
@@ -208,20 +227,20 @@ public class SlimefunItem {
 			if (recipe.length < 9) recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
 			all.add(this);
 			
-			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".enabled", true);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".can-be-used-in-workbenches", this.replacing);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".allow-enchanting", this.enchantable);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".allow-disenchanting", this.disenchantable);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.name + ".required-permission", "");
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".enabled", true);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.replacing);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".required-permission", "");
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
-					SlimefunStartup.getItemCfg().setDefaultValue(this.name + "." + this.keys[i], this.values[i]);
+					SlimefunStartup.getItemCfg().setDefaultValue(this.id + "." + this.keys[i], this.values[i]);
 				}
 			}
 			
 			for (World world: Bukkit.getWorlds()) {
 				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
-				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.name, true);
+				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.id, true);
 			}
 			
 			if (this.isTicking() && !SlimefunStartup.getCfg().getBoolean("URID.enable-tickers")) {
@@ -229,17 +248,17 @@ public class SlimefunItem {
 			    return;
 			}
 			
-			if (SlimefunStartup.getItemCfg().getBoolean(this.name + ".enabled")) {
+			if (SlimefunStartup.getItemCfg().getBoolean(this.id + ".enabled")) {
 				if (!Category.list().contains(category)) category.register();
 				
 				this.state = State.ENABLED;
 				
-				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.name + ".can-be-used-in-workbenches");
-				this.enchantable = SlimefunStartup.getItemCfg().getBoolean(this.name + ".allow-enchanting");
-				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.name + ".allow-disenchanting");
+				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
+				this.enchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-enchanting");
+				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
 				items.add(this);
 				if (slimefun) vanilla++;
-				map_name.put(this.getName(), this.getURID());
+				map_id.put(this.getID(), this.getURID());
 				this.create();
 				for (ItemHandler handler: itemhandlers) {
 					Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
@@ -247,13 +266,13 @@ public class SlimefunItem {
 					handlers.put(handler.toCodename(), handlerset);
 				}
 				
-				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.getName() + "\"");
+				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.getID() + "\"");
 			} else {
 			    if (this instanceof VanillaItem) this.state = State.VANILLA;
 			    else this.state = State.DISABLED;
 			}
 		} catch(Exception x) {
-			System.err.println("[Slimefun] Item Registration failed: " + this.name);
+			System.err.println("[Slimefun] Item Registration failed: " + this.id);
 		}
 	}
 	
@@ -281,9 +300,30 @@ public class SlimefunItem {
 	public void setRecipeOutput(ItemStack output) {
 		this.recipeOutput = output;
 	}
-	
+
+	/**
+	 * Doc needed here
+	 *
+	 * @param name
+	 * @return
+	 *
+	 * @since 4.0
+	 * @deprecated As of 4.1.11, renamed to {@link #getByID(String)} for better name convenience.
+	 */
+	@Deprecated
 	public static SlimefunItem getByName(String name) {
-		return (SlimefunItem) URID.decode(map_name.get(name));
+		return (SlimefunItem) URID.decode(map_id.get(name));
+	}
+
+	/**
+	 * Doc needed here
+	 * @param id
+	 * @return
+	 *
+	 * @since 4.1.11, rename of {@link #getByName(String)}.
+	 */
+	public static SlimefunItem getByID(String id) {
+		return (SlimefunItem) URID.decode(map_id.get(id));
 	}
 	
 	public static SlimefunItem getByItem(ItemStack item) {
@@ -303,8 +343,7 @@ public class SlimefunItem {
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
-		else if (SlimefunManager.isItemSimiliar(item, this.getItem(), true)) return true;
-		else return false;
+		else return SlimefunManager.isItemSimiliar(item, this.getItem(), true);
 	}
 	
 	public void load() {
@@ -312,9 +351,8 @@ public class SlimefunItem {
 			if (!ghost) this.category.add(this);
 			ItemStack output = this.item.clone();
 			if (getCustomOutput() != null) output = this.recipeOutput.clone();
-			
-			if (this.getRecipeType().toItem().isSimilar(RecipeType.NULL.toItem()));
-			else if (this.getRecipeType().toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
+
+			if (this.getRecipeType().toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
 				try {
 					EntityType entity = EntityType.valueOf(ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(" ", "_"));
 					List<ItemStack> dropping = new ArrayList<ItemStack>();
@@ -327,12 +365,12 @@ public class SlimefunItem {
 			else if (this.getRecipeType().toItem().isSimilar(RecipeType.ANCIENT_ALTAR.toItem())) {
 				new AltarRecipe(Arrays.asList(this.getRecipe()), output);
 			}
-			else if (this.getRecipeType().getMachine() != null && getByName(this.getRecipeType().getMachine().getName()) instanceof SlimefunMachine) {
-				((SlimefunMachine) getByName(this.getRecipeType().getMachine().getName())).addRecipe(recipe, output);
+			else if (this.getRecipeType().getMachine() != null && getByID(this.getRecipeType().getMachine().getID()) instanceof SlimefunMachine) {
+				((SlimefunMachine) getByID(this.getRecipeType().getMachine().getID())).addRecipe(recipe, output);
 			}
 			this.install();
 		} catch(Exception x) {
-			System.err.println("[Slimefun] Item Initialization failed: " + this.name);
+			System.err.println("[Slimefun] Item Initialization failed: " + this.id);
 		}
 	}
 	
@@ -387,12 +425,12 @@ public class SlimefunItem {
 		for (ItemHandler h: handler) {
 			if (h instanceof BlockTicker) {
 				this.ticking = true;
-				tickers.add(getName());
+				tickers.add(getID());
 				this.ticker = (BlockTicker) h;
 			}
 			else if (h instanceof EnergyTicker) {
 				this.energy = (EnergyTicker) h;
-				EnergyNet.registerComponent(getName(), NetworkComponent.SOURCE);
+				EnergyNet.registerComponent(getID(), NetworkComponent.SOURCE);
 			}
 		}
 	}
@@ -408,17 +446,17 @@ public class SlimefunItem {
 	}
 	
 	public void register(boolean vanilla, SlimefunBlockHandler handler) {
-		blockhandler.put(getName(), handler);
+		blockhandler.put(getID(), handler);
 		register(vanilla);
 	}
 	
 	public void register(SlimefunBlockHandler handler) {
-		blockhandler.put(getName(), handler);
+		blockhandler.put(getID(), handler);
 		register(false);
 	}
 	
-	public static Set<ItemHandler> getHandlers(String codename) {
-		if (handlers.containsKey(codename)) return handlers.get(codename);
+	public static Set<ItemHandler> getHandlers(String codeid) {
+		if (handlers.containsKey(codeid)) return handlers.get(codeid);
 		else return new HashSet<ItemHandler>();
 	}
 
@@ -427,12 +465,12 @@ public class SlimefunItem {
 	}
 	
 	public static ItemStack getItem(String id) {
-		SlimefunItem item = getByName(id);
+		SlimefunItem item = getByID(id);
 		return item != null ? item.getItem(): null;
 	}
 	
 	public static void patchExistingItem(String id, ItemStack stack) {
-		SlimefunItem item = getByName(id);
+		SlimefunItem item = getByID(id);
 		if (item != null) {
 			System.out.println("[Slimefun] WARNING - Patching existing Item - " + id);
 			System.out.println("[Slimefun] This might take a while");
@@ -455,29 +493,29 @@ public class SlimefunItem {
 	
 	public void registerChargeableBlock(boolean slimefun, int capacity) {
 		this.register(slimefun);
-		ChargableBlock.registerChargableBlock(name, capacity, true);
-		EnergyNet.registerComponent(name, NetworkComponent.CONSUMER);
+		ChargableBlock.registerChargableBlock(id, capacity, true);
+		EnergyNet.registerComponent(id, NetworkComponent.CONSUMER);
 	}
 	
 	public void registerUnrechargeableBlock(boolean slimefun, int capacity) {
 		this.register(slimefun);
-		ChargableBlock.registerChargableBlock(name, capacity, false);
+		ChargableBlock.registerChargableBlock(id, capacity, false);
 	}
 	
 	public void registerBlockCapacitor(boolean slimefun, int capacity) {
 		this.register(slimefun);
-		ChargableBlock.registerCapacitor(name, capacity);
+		ChargableBlock.registerCapacitor(id, capacity);
 	}
 	
 	public void registerEnergyDistributor(boolean slimefun) {
 		this.register(slimefun);
-		EnergyNet.registerComponent(name, NetworkComponent.DISTRIBUTOR);
+		EnergyNet.registerComponent(id, NetworkComponent.DISTRIBUTOR);
 	}
 	
 	public void registerDistibutingCapacitor(boolean slimefun, final int capacity) {
 		this.register(slimefun);
-		EnergyNet.registerComponent(name, NetworkComponent.DISTRIBUTOR);
-		ChargableBlock.registerCapacitor(name, capacity);
+		EnergyNet.registerComponent(id, NetworkComponent.DISTRIBUTOR);
+		ChargableBlock.registerCapacitor(id, capacity);
 	}
 	
 	protected void setItem(ItemStack stack) {
@@ -518,7 +556,7 @@ public class SlimefunItem {
 	}
 	
 	public void addWikipage(String page) {
-		Slimefun.addWikiPage(this.getName(), "https://github.com/mrCookieSlime/Slimefun4/wiki/" + page);
+		Slimefun.addWikiPage(this.getID(), "https://github.com/mrCookieSlime/Slimefun4/wiki/" + page);
 	}
 	
 	public boolean isAddonItem() {
