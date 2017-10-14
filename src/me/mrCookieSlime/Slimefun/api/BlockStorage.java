@@ -1,8 +1,10 @@
 package me.mrCookieSlime.Slimefun.api;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -415,11 +417,7 @@ public class BlockStorage {
 		if (destroy) {
 			if (storage.hasInventory(l)) storage.clearInventory(l);
 			if (storage.hasUniversalInventory(l)) {
-				UniversalBlockMenu menu = storage.getUniversalInventory(l);
-				for (HumanEntity n: menu.toInventory().getViewers()) {
-					n.closeInventory();
-				}
-				
+				storage.getUniversalInventory(l).close();
 				storage.getUniversalInventory(l).save();
 			}
 			if (ticking_chunks.containsKey(l.getChunk().toString())) {
@@ -552,10 +550,11 @@ public class BlockStorage {
 	
 	public void clearInventory(Location l) {
 		BlockMenu menu = getInventory(l);
-		for (HumanEntity n: menu.toInventory().getViewers()) {
-			n.closeInventory();
+
+		for(HumanEntity human: new ArrayList<>(menu.toInventory().getViewers())) {
+			human.closeInventory();
 		}
-		
+
 		inventories.get(l).delete(l);
 		inventories.remove(l);
 	}
