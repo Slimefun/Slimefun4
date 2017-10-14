@@ -48,16 +48,16 @@ public class SlimefunItem {
 	
 	private ItemStack item;
 	private Category category;
-	private ItemStack recipeOutput;
+	private ItemStack recipeOutput = null;
 	private ItemStack[] recipe;
 	private RecipeType recipeType;
 	private String id;
 	private String[] keys;
 	private Object[] values;
 	private Research research;
-	private boolean ghost, replacing, enchantable, disenchantable;
-	private String permission;
-	private boolean requirePermissionToUse;
+	private boolean ghost = false, replacing = false, enchantable = true, disenchantable = true;
+	private String permission = "";
+	private boolean requirePermissionToUse = false;
 	private Set<ItemHandler> itemhandlers;
 	private URID urid;
 	private boolean ticking = false;
@@ -135,15 +135,10 @@ public class SlimefunItem {
 		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
-		this.recipeOutput = null;
 		this.keys = null;
 		this.values = null;
 		this.ghost = false;
 		this.replacing = false;
-		this.enchantable = true;
-		this.disenchantable = true;
-		this.permission = "";
-		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -158,12 +153,6 @@ public class SlimefunItem {
 		this.recipeOutput = recipeOutput;
 		this.keys = null;
 		this.values = null;
-		this.ghost = false;
-		this.replacing = false;
-		this.enchantable = true;
-		this.disenchantable = true;
-		this.permission = "";
-		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -178,12 +167,6 @@ public class SlimefunItem {
 		this.recipeOutput = recipeOutput;
 		this.keys = keys;
 		this.values = values;
-		this.ghost = false;
-		this.replacing = false;
-		this.enchantable = true;
-		this.disenchantable = true;
-		this.permission = "";
-		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -195,15 +178,8 @@ public class SlimefunItem {
 		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
-		this.recipeOutput = null;
 		this.keys = keys;
 		this.values = values;
-		this.ghost = false;
-		this.replacing = false;
-		this.enchantable = true;
-		this.disenchantable = true;
-		this.permission = "";
-		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
@@ -215,15 +191,9 @@ public class SlimefunItem {
 		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
-		this.recipeOutput = null;
 		this.keys = null;
 		this.values = null;
 		this.ghost = ghost;
-		this.replacing = false;
-		this.enchantable = true;
-		this.disenchantable = true;
-		this.permission = "";
-		this.requirePermissionToUse = false;
 		itemhandlers = new HashSet<ItemHandler>();
 		
 		urid = URID.nextURID(this, false);
