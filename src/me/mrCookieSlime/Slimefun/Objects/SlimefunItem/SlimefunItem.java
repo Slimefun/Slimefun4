@@ -45,28 +45,30 @@ public class SlimefunItem {
 	public static List<SlimefunItem> all = new ArrayList<SlimefunItem>();
 	public static Map<String, Set<ItemHandler>> handlers = new HashMap<String, Set<ItemHandler>>();
 	public static Map<String, SlimefunBlockHandler> blockhandler = new HashMap<String, SlimefunBlockHandler>();
-	
+
+	private String id;
+	private URID urid;
+	private String hash;
+	private State state;
 	private ItemStack item;
 	private Category category;
-	private ItemStack recipeOutput = null;
 	private ItemStack[] recipe;
 	private RecipeType recipeType;
-	private String id;
-	private String[] keys;
-	private Object[] values;
+	private ItemStack recipeOutput = null;
 	private Research research;
-	private boolean ghost = false, replacing = false, enchantable = true, disenchantable = true;
+	private int month = -1;
+	private boolean enchantable = true, disenchantable = true;
+	private boolean hidden = false;
+	private boolean replacing = false;
+	private boolean addon = false;
 	private String permission = "";
 	private boolean requirePermissionToUse = false;
-	private Set<ItemHandler> itemhandlers;
-	private URID urid;
+	private Set<ItemHandler> itemhandlers = new HashSet<ItemHandler>();
 	private boolean ticking = false;
-	private boolean addon = false;
-	private BlockTicker ticker;
-	private EnergyTicker energy;
-	public String hash;
-	
-	private State state;
+	private BlockTicker blockTicker;
+	private EnergyTicker energyTicker;
+	private String[] keys = null;
+	private Object[] values = null;
 
 	/**
 	 * Defines whether a SlimefunItem is enabled, disabled or fall-back to its vanilla behavior.
@@ -89,45 +91,6 @@ public class SlimefunItem {
 		 */
 	    VANILLA
 	}
-
-	private int month = -1;
-
-	public int getMonth() {
-		return this.month;
-	}
-	
-	public ItemStack getItem()			{		return this.item;			}
-	public Category getCategory()		{		return this.category;		}
-	public ItemStack getCustomOutput()	{		return this.recipeOutput;	}
-	public ItemStack[] getRecipe()		{		return this.recipe;			}
-	public RecipeType getRecipeType()	{		return this.recipeType;		}
-
-	/**
-	 * Returns the identifier of this SlimefunItem.
-	 *
-	 * @return the identifier of this SlimefunItem
-	 *
-	 * @since 4.0
-	 * @deprecated As of 4.1.11, renamed to {@link #getID()} for better name convenience.
-	 */
-	@Deprecated
-	public String getName()				{		return this.id;				}
-
-	/**
-	 * Returns the identifier of this SlimefunItem.
-	 *
-	 * @return the identifier of this SlimefunItem
-	 *
-	 * @since 4.1.11, rename of {@link #getName()}.
-	 */
-	public String getID()				{		return this.id;				}
-	public String[] listKeys()			{		return this.keys;			}
-	public Object[] listValues()		{		return this.values;			}
-	public Research getResearch()		{		return this.research;		}
-	
-	public Set<ItemHandler> getHandlers() {
-		return itemhandlers;
-	}
 	
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		this.item = item;
@@ -135,12 +98,7 @@ public class SlimefunItem {
 		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
-		this.keys = null;
-		this.values = null;
-		this.ghost = false;
-		this.replacing = false;
-		itemhandlers = new HashSet<ItemHandler>();
-		
+
 		urid = URID.nextURID(this, false);
 	}
 	
@@ -151,10 +109,7 @@ public class SlimefunItem {
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = recipeOutput;
-		this.keys = null;
-		this.values = null;
-		itemhandlers = new HashSet<ItemHandler>();
-		
+
 		urid = URID.nextURID(this, false);
 	}
 	
@@ -167,8 +122,7 @@ public class SlimefunItem {
 		this.recipeOutput = recipeOutput;
 		this.keys = keys;
 		this.values = values;
-		itemhandlers = new HashSet<ItemHandler>();
-		
+
 		urid = URID.nextURID(this, false);
 	}
 	
@@ -180,25 +134,91 @@ public class SlimefunItem {
 		this.recipe = recipe;
 		this.keys = keys;
 		this.values = values;
-		itemhandlers = new HashSet<ItemHandler>();
-		
+
 		urid = URID.nextURID(this, false);
 	}
 	
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean ghost) {
+	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean hidden) {
 		this.item = item;
 		this.category = category;
 		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
-		this.keys = null;
-		this.values = null;
-		this.ghost = ghost;
-		itemhandlers = new HashSet<ItemHandler>();
-		
+		this.hidden = hidden;
+
 		urid = URID.nextURID(this, false);
 	}
-	
+
+	/**
+	 * Returns the identifier of this SlimefunItem.
+	 *
+	 * @return the identifier of this SlimefunItem
+	 *
+	 * @since 4.0
+	 * @deprecated As of 4.1.11, renamed to {@link #getID()} for better name convenience.
+	 */
+	@Deprecated
+	public String getName()				{		return id;				}
+	/**
+	 * Returns the identifier of this SlimefunItem.
+	 *
+	 * @return the identifier of this SlimefunItem
+	 *
+	 * @since 4.1.11, rename of {@link #getName()}.
+	 */
+	public String getID()				{		return id;				}
+	public URID getURID() 				{		return urid;			}
+	public String getHash()				{		return hash;			}
+	public State getState()				{		return state;			}
+	public ItemStack getItem()			{		return item;			}
+	public Category getCategory()		{		return category;		}
+	public ItemStack[] getRecipe()		{		return recipe;			}
+	public RecipeType getRecipeType()	{		return recipeType;		}
+	/**
+	 * @since 4.0
+	 * @deprecated As of 4.1.11, renamed to {@link #getRecipeOutput()} for better name convenience.
+	 */
+	@Deprecated
+	public ItemStack getCustomOutput()	{		return recipeOutput;	}
+	/**
+	 * @since 4.1.11, rename of {@link #getCustomOutput()}.
+	 */
+	public ItemStack getRecipeOutput()	{		return recipeOutput;	}
+	public Research getResearch()		{		return research;		}
+	public int getMonth()	 			{		return month;			}
+	public boolean isEnchantable() 		{		return enchantable;		}
+	public boolean isDisenchantable() 	{		return disenchantable;	}
+	/**
+	 * @since 4.1.11
+	 */
+	public boolean isHidden() 			{		return hidden;			}
+	public boolean isReplacing() 		{		return replacing;		}
+	public boolean isAddonItem() 		{		return addon;			}
+	/**
+	 * @since 4.1.11
+	 */
+	public String getPermission() 		{		return permission;		}
+	/**
+	 * @since 4.1.11
+	 */
+	public boolean requirePermissionToUse() {	return requirePermissionToUse;	}
+	public Set<ItemHandler> getHandlers() {		return itemhandlers;	}
+	public boolean isTicking() 			{		return ticking;			}
+	/**
+	 * @since 4.0
+	 * @deprecated As of 4.1.11, renamed to {@link #getBlockTicker()} for better name convenience.
+	 */
+	@Deprecated
+	public BlockTicker getTicker()		{		return blockTicker;		}
+	/**
+	 * @since 4.1.11, rename of {@link #getTicker()}.
+	 */
+	public BlockTicker getBlockTicker() {		return blockTicker;		}
+	public EnergyTicker getEnergyTicker() {		return energyTicker;	}
+	public String[] listKeys()			{		return keys;			}
+	public Object[] listValues()		{		return values;			}
+	public boolean isDisabled()			{		return state != State.ENABLED;	}
+
 	public void register() {
 		register(false);
 	}
@@ -209,42 +229,44 @@ public class SlimefunItem {
 			if (recipe.length < 9) recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
 			all.add(this);
 			
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".enabled", true);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.replacing);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".require-permission-to-use", this.requirePermissionToUse);
-			if (this.keys != null && this.values != null) {
-				for (int i = 0; i < this.keys.length; i++) {
-					SlimefunStartup.getItemCfg().setDefaultValue(this.id + "." + this.keys[i], this.values[i]);
+			SlimefunStartup.getItemCfg().setDefaultValue(id + ".enabled", true);
+			SlimefunStartup.getItemCfg().setDefaultValue(id + ".can-be-used-in-workbenches", replacing);
+			SlimefunStartup.getItemCfg().setDefaultValue(id + ".hide-in-recipe-book", hidden);
+			SlimefunStartup.getItemCfg().setDefaultValue(id + ".allow-enchanting", enchantable);
+			SlimefunStartup.getItemCfg().setDefaultValue(id + ".allow-disenchanting", disenchantable);
+			SlimefunStartup.getItemCfg().setDefaultValue(id + ".required-permission", permission);
+			SlimefunStartup.getItemCfg().setDefaultValue(id + ".require-permission-to-use", requirePermissionToUse);
+			if (keys != null && values != null) {
+				for (int i = 0; i < keys.length; i++) {
+					SlimefunStartup.getItemCfg().setDefaultValue(id + "." + keys[i], values[i]);
 				}
 			}
 			
 			for (World world: Bukkit.getWorlds()) {
 				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
-				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.id, true);
+				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + id, true);
 			}
 			
-			if (this.isTicking() && !SlimefunStartup.getCfg().getBoolean("URID.enable-tickers")) {
-			    this.state = State.DISABLED;
+			if (ticking && !SlimefunStartup.getCfg().getBoolean("URID.enable-tickers")) {
+			    state = State.DISABLED;
 			    return;
 			}
 			
-			if (SlimefunStartup.getItemCfg().getBoolean(this.id + ".enabled")) {
+			if (SlimefunStartup.getItemCfg().getBoolean(id + ".enabled")) {
 				if (!Category.list().contains(category)) category.register();
 				
-				this.state = State.ENABLED;
+				state = State.ENABLED;
 				
-				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
-				this.enchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-enchanting");
-				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
-				this.permission = SlimefunStartup.getItemCfg().getString(this.id + ".required-permission");
-				this.requirePermissionToUse = SlimefunStartup.getItemCfg().getBoolean(this.id + ".require-permission-to-use");
+				replacing = SlimefunStartup.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
+				hidden = SlimefunStartup.getItemCfg().getBoolean(id + ".hide-in-recipe-book");
+				enchantable = SlimefunStartup.getItemCfg().getBoolean(id + ".allow-enchanting");
+				disenchantable = SlimefunStartup.getItemCfg().getBoolean(id + ".allow-disenchanting");
+				permission = SlimefunStartup.getItemCfg().getString(id + ".required-permission");
+				requirePermissionToUse = SlimefunStartup.getItemCfg().getBoolean(id + ".require-permission-to-use");
 				items.add(this);
 				if (slimefun) vanilla++;
-				map_id.put(this.getID(), this.getURID());
-				this.create();
+				map_id.put(id, urid);
+				create();
 				for (ItemHandler handler: itemhandlers) {
 					Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
 					handlerset.add(handler);
@@ -253,11 +275,11 @@ public class SlimefunItem {
 				
 				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.getID() + "\"");
 			} else {
-			    if (this instanceof VanillaItem) this.state = State.VANILLA;
-			    else this.state = State.DISABLED;
+			    if (this instanceof VanillaItem) state = State.VANILLA;
+			    else state = State.DISABLED;
 			}
 		} catch(Exception x) {
-			System.err.println("[Slimefun] Item Registration failed: " + this.id);
+			System.err.println("[Slimefun] Item Registration failed: " + id);
 		}
 	}
 	
@@ -269,7 +291,11 @@ public class SlimefunItem {
 		if (r != null) r.getEffectedItems().add(this);
 		this.research = r;
 	}
-	
+
+	public void setHash(String hash) {
+		this.hash = hash;
+	}
+
 	public void setRecipe(ItemStack[] recipe) {
 		this.recipe = recipe;
 	}
@@ -286,12 +312,11 @@ public class SlimefunItem {
 		this.recipeOutput = output;
 	}
 
+	public void setReplacing(boolean replacing) {
+		this.replacing = replacing;
+	}
+
 	/**
-	 * Doc needed here
-	 *
-	 * @param name
-	 * @return
-	 *
 	 * @since 4.0
 	 * @deprecated As of 4.1.11, renamed to {@link #getByID(String)} for better name convenience.
 	 */
@@ -301,10 +326,6 @@ public class SlimefunItem {
 	}
 
 	/**
-	 * Doc needed here
-	 * @param id
-	 * @return
-	 *
 	 * @since 4.1.11, rename of {@link #getByName(String)}.
 	 */
 	public static SlimefunItem getByID(String id) {
@@ -325,19 +346,19 @@ public class SlimefunItem {
 	
 	public boolean isItem(ItemStack item) {
 		if (item == null) return false;
-		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
-		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
-		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
-		else return SlimefunManager.isItemSimiliar(item, this.getItem(), true);
+		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
+		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
+		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
+		else return SlimefunManager.isItemSimiliar(item, this.item, true);
 	}
 	
 	public void load() {
 		try {
-			if (!ghost) this.category.add(this);
-			ItemStack output = this.item.clone();
-			if (getCustomOutput() != null) output = this.recipeOutput.clone();
+			if (!hidden) category.add(this);
+			ItemStack output = item.clone();
+			if (recipeOutput != null) output = recipeOutput.clone();
 
-			if (this.getRecipeType().toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
+			if (recipeType.toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
 				try {
 					EntityType entity = EntityType.valueOf(ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(" ", "_"));
 					List<ItemStack> dropping = new ArrayList<ItemStack>();
@@ -347,15 +368,15 @@ public class SlimefunItem {
 				} catch(Exception x) {
 				}
 			}
-			else if (this.getRecipeType().toItem().isSimilar(RecipeType.ANCIENT_ALTAR.toItem())) {
-				new AltarRecipe(Arrays.asList(this.getRecipe()), output);
+			else if (recipeType.toItem().isSimilar(RecipeType.ANCIENT_ALTAR.toItem())) {
+				new AltarRecipe(Arrays.asList(recipe), output);
 			}
-			else if (this.getRecipeType().getMachine() != null && getByID(this.getRecipeType().getMachine().getID()) instanceof SlimefunMachine) {
-				((SlimefunMachine) getByID(this.getRecipeType().getMachine().getID())).addRecipe(recipe, output);
+			else if (recipeType.getMachine() != null && getByID(recipeType.getMachine().getID()) instanceof SlimefunMachine) {
+				((SlimefunMachine) getByID(recipeType.getMachine().getID())).addRecipe(recipe, output);
 			}
-			this.install();
+			install();
 		} catch(Exception x) {
-			System.err.println("[Slimefun] Item Initialization failed: " + this.id);
+			System.err.println("[Slimefun] Item Initialization failed: " + id);
 		}
 	}
 	
@@ -377,53 +398,9 @@ public class SlimefunItem {
 	    return false;
 	}
 	
-	public State getState(){
-	    return state;
-	}
-	
-	public boolean isDisabled(){
-	    return state != State.ENABLED;
-	}
-	
 	public void install() {}
 	public void create()  {}
-	
-	public boolean isReplacing() {
-		return replacing;
-	}
-	
-	public boolean isEnchantable() {
-	    return enchantable;
-	}
-	
-	public boolean isDisenchantable() {
-		return disenchantable;
-	}
 
-	/**
-	 * doc needed here
-	 * @return
-	 *
-	 * @since 4.1.11
-	 */
-	public String getPermission() {
-		return permission;
-	}
-
-	/**
-	 * doc needed here
-	 * @return
-	 *
-	 * @since 4.1.11
-	 */
-	public boolean requirePermissionToUse() {
-		return requirePermissionToUse;
-	}
-	
-	public void setReplacing(boolean replacing) {
-		this.replacing = replacing;
-	}
-	
 	public void addItemHandler(ItemHandler... handler) {
 		this.itemhandlers.addAll(Arrays.asList(handler));
 		
@@ -431,10 +408,10 @@ public class SlimefunItem {
 			if (h instanceof BlockTicker) {
 				this.ticking = true;
 				tickers.add(getID());
-				this.ticker = (BlockTicker) h;
+				this.blockTicker = (BlockTicker) h;
 			}
 			else if (h instanceof EnergyTicker) {
-				this.energy = (EnergyTicker) h;
+				this.energyTicker = (EnergyTicker) h;
 				EnergyNet.registerComponent(getID(), NetworkComponent.SOURCE);
 			}
 		}
@@ -527,20 +504,8 @@ public class SlimefunItem {
 		this.item = stack;
 	}
 	
-	public URID getURID() {
-		return urid;
-	}
-	
-	public boolean isTicking() {
-		return this.ticking;
-	}
-	
 	public static boolean isTicking(String item) {
 		return tickers.contains(item);
-	}
-	
-	public BlockTicker getTicker() {
-		return this.ticker;
 	}
 	
 	public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
@@ -551,10 +516,6 @@ public class SlimefunItem {
 		addItemHandler(handlers);
 		registerChargeableBlock(vanilla, capacity);
 	}
-
-	public EnergyTicker getEnergyTicker() {
-		return this.energy;
-	}
 	
 	public BlockMenu getBlockMenu(Block b) {
 		return BlockStorage.getInventory(b);
@@ -562,9 +523,5 @@ public class SlimefunItem {
 	
 	public void addWikipage(String page) {
 		Slimefun.addWikiPage(this.getID(), "https://github.com/mrCookieSlime/Slimefun4/wiki/" + page);
-	}
-	
-	public boolean isAddonItem() {
-		return this.addon;
 	}
 }
