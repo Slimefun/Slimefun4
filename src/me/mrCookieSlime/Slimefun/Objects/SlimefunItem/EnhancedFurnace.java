@@ -29,10 +29,11 @@ public class EnhancedFurnace extends SlimefunItem {
 					if (!(b.getState() instanceof Furnace)) {
 						return;
 					}
-					if (((Furnace) b.getState()).getCookTime() > 0) {
-						((Furnace) b.getState()).setCookTime((short) (((Furnace) b.getState()).getCookTime() + getSpeed() * 10));
+                    Furnace state = (Furnace) b.getState();
+					if (state.getCookTime() > 0) {
+						state.setCookTime((short) (((Furnace) b.getState()).getCookTime() + getSpeed() * 10));
 					}
-					b.getState().update();
+					state.update(true, false);
 				} catch(NullPointerException x) {
 				}
 			}
