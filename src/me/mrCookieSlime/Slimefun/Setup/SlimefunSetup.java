@@ -217,7 +217,7 @@ public class SlimefunSetup {
 									}
 								}
 							}
-							
+
 							if (craft) {
 								final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
 								if (Slimefun.hasUnlocked(p, adding, true)) {
@@ -227,10 +227,10 @@ public class SlimefunSetup {
 									}
 									if (InvUtils.fits(inv2, adding)) {
 										SlimefunItem sfItem = SlimefunItem.getByItem(adding);
-										
+
 										if (sfItem instanceof SlimefunBackpack) {
 											ItemStack backpack = null;
-											
+
 											for (int j = 0; j < 9; j++) {
 												if (inv.getContents()[j] != null) {
 													if (inv.getContents()[j].getType() != Material.AIR) {
@@ -243,7 +243,7 @@ public class SlimefunSetup {
 											}
 											String id = "";
 											int size = ((SlimefunBackpack) sfItem).size;
-											
+
 											if (backpack != null) {
 												for (String line: backpack.getItemMeta().getLore()) {
 													if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
@@ -281,7 +281,7 @@ public class SlimefunSetup {
 												}
 											}
 										}
-										
+
 
 										for (int j = 0; j < 9; j++) {
 											if (inv.getContents()[j] != null) {
@@ -293,7 +293,7 @@ public class SlimefunSetup {
 											}
 										}
 										p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
-										
+
 										inv.addItem(adding);
 									}
 									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
@@ -2714,8 +2714,9 @@ public class SlimefunSetup {
 						if (ChatColor.stripColor(line).startsWith("Type: ")) type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(" ", "_").toUpperCase());
 					}
 					if (type != null) {
-						((CreatureSpawner) e.getBlock().getState()).setSpawnedType(type);
-						e.getBlock().getState().update(true, false);
+						CreatureSpawner state = (CreatureSpawner) e.getBlock().getState();
+						state.setSpawnedType(type);
+						state.update(true, false);
 					}
 					return true;
 				}
@@ -2814,12 +2815,12 @@ public class SlimefunSetup {
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.HEATING_COIL, "HEATING_COIL", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT})
 		.register(true);
-		
+
 		@SuppressWarnings("unchecked")
 		final String[] blockPlacerBlacklist = Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks") != null ? ((List<String>) Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks")).toArray(new String[((List<String>) Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks")).size()]): new String[] {"STRUCTURE_BLOCK"};
 
 		new SlimefunItem(Categories.MACHINES_1, SlimefunItems.BLOCK_PLACER, "BLOCK_PLACER", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON_BASE), SlimefunItems.GOLD_4K, new ItemStack(Material.IRON_INGOT), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.IRON_INGOT), SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON_BASE), SlimefunItems.GOLD_4K}, 
+		new ItemStack[] {SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON_BASE), SlimefunItems.GOLD_4K, new ItemStack(Material.IRON_INGOT), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.IRON_INGOT), SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON_BASE), SlimefunItems.GOLD_4K},
 		new String[] {"unplaceable-blocks"}, new Object[] {Arrays.asList("STRUCTURE_BLOCK")})
 		.register(true, new AutonomousMachineHandler() {
 
@@ -2833,7 +2834,7 @@ public class SlimefunSetup {
 								return false;
 							}
 						}
-						
+
 						SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
 						if (sfItem != null) {
 							if (!SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
@@ -5329,7 +5330,7 @@ public class SlimefunSetup {
 		.registerChargeableBlock(true, 4096);
 
 	}
-	
+
 	public static void registerPostHandler(PostSlimefunLoadingHandler handler) {
 		MiscSetup.post_handlers.add(handler);
 	}
