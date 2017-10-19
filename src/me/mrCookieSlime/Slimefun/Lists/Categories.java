@@ -12,6 +12,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
+/**
+ * Built-in categories.
+ * 
+ * @author TheBusyBiscuit
+ * @since 4.0
+ * @see Category
+ */
 public class Categories {
 	
 	public static Category WEAPONS = new Category(new MenuItem(Material.GOLD_SWORD, "&7Weapons", 0, "open"), 1);

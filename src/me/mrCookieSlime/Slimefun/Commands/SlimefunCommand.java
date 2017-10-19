@@ -18,9 +18,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.Plugin;
 
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.CommandHelp;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.Players;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
@@ -152,40 +155,71 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			}
 			else if (args[0].equalsIgnoreCase("versions")) {
 				if (sender.hasPermission("slimefun.command.versions")|| sender instanceof ConsoleCommandSender) {
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a" + Bukkit.getName() + " &2" + ReflectionUtils.getVersion()));
+					sender.sendMessage("");
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aCS-CoreLib &2v" + CSCoreLib.getLib().getDescription().getVersion()));
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + plugin.getDescription().getVersion()));
 					sender.sendMessage("");
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&oInstalled Addons:"));
+					
+					List<String> addons = new ArrayList<String>();
+					
 					for (Plugin plugin: Bukkit.getPluginManager().getPlugins()) {
 						if (plugin.getDescription().getDepend().contains("Slimefun") || plugin.getDescription().getSoftDepend().contains("Slimefun")) {
 							if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
+								addons.add(ChatColor.translateAlternateColorCodes('&', " &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
 							}
 							else {
-								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', " &c" + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
+								addons.add(ChatColor.translateAlternateColorCodes('&', " &c" + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
 							}
 						}
 					}
+					
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Installed Addons &8(" + addons.size() + ")"));
+					
+					for (String addon: addons) {
+						sender.sendMessage(addon);
+					}
 				}
-				else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				else {
+					Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				}
 			}
 			else if (args[0].equalsIgnoreCase("give")) {
-				if (args.length == 3) {
-					if (sender.hasPermission("slimefun.cheat.items") || !(sender instanceof Player)) {
+			    if (sender.hasPermission("slimefun.cheat.items") || !(sender instanceof Player)) {
+			        if (args.length == 3) {
 						if (Players.isOnline(args[1])) {
 							if (Slimefun.listIDs().contains(args[2].toUpperCase())) {
-								if (Players.isOnline(args[1])) {
-									Messages.local.sendTranslation(Bukkit.getPlayer(args[1]), "messages.given-item", true,new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()));
-									Bukkit.getPlayer(args[1]).getInventory().addItem(SlimefunItem.getByName(args[2].toUpperCase()).getItem());
-									Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()));
-								}
+								Messages.local.sendTranslation(Bukkit.getPlayer(args[1]), "messages.given-item", true, new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", "1"));
+								Bukkit.getPlayer(args[1]).getInventory().addItem(SlimefunItem.getByName(args[2].toUpperCase()).getItem());
+								Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", "1"));
 							}
 							else Messages.local.sendTranslation(sender, "messages.not-valid-item", true, new Variable("%item%", args[2]));
 						}
 						else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
 					}
-					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+			        else if (args.length == 4){
+			            if (Players.isOnline(args[1])) {
+                            if (Slimefun.listIDs().contains(args[2].toUpperCase())) {
+                                 try {
+                                     int amount = Integer.parseInt(args[3]);
+                                     
+                                     if (amount > 0) {
+                                         Messages.local.sendTranslation(Bukkit.getPlayer(args[1]), "messages.given-item", true, new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", String.valueOf(amount)));
+                                         Bukkit.getPlayer(args[1]).getInventory().addItem(new CustomItem(SlimefunItem.getByName(args[2].toUpperCase()).getItem(), amount));
+                                         Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByName(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", String.valueOf(amount)));
+                                     }
+                                     else Messages.local.sendTranslation(sender, "messages.not-valid-amount", true, new Variable("%amount%", String.valueOf(amount)));
+                                } catch (NumberFormatException e){
+                                    Messages.local.sendTranslation(sender, "messages.not-valid-amount", true, new Variable("%amount%", args[3]));
+                                }
+                            }
+                            else Messages.local.sendTranslation(sender, "messages.not-valid-item", true, new Variable("%item%", args[2]));
+                        }
+                        else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+			        }
+			        else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
 				}
-				else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf give <Player> <Slimefun Item>"));
+				else  Messages.local.sendTranslation(sender, "messages.no-permission", true);
 			}
 			else if (args[0].equalsIgnoreCase("teleporter")) {
 				if (args.length == 2) {

@@ -1,16 +1,17 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
 import java.io.File;
-import java.util.Iterator;
-
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 public class BlockMenu extends ChestMenu {
 	
@@ -59,7 +60,10 @@ public class BlockMenu extends ChestMenu {
 	}
 	
 	public void save(Location l) {
-		if (changes == 0) return;
+		if (changes == 0) {
+			return;
+		}
+		
 		// To force CS-CoreLib to build the Inventory
 		this.getContents();
 		
@@ -117,12 +121,37 @@ public class BlockMenu extends ChestMenu {
 		changes++;
 	}
 	
+	@Override
+	public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
+		if (handler instanceof SaveHandler) {
+			return super.addMenuOpeningHandler(new SaveHandler(this, ((SaveHandler) handler).handler));
+		}
+		else {
+			return super.addMenuOpeningHandler(new SaveHandler(this, handler));
+		}
+	}
+	
 	public void close() {
-		Iterator<HumanEntity> iterator = toInventory().getViewers().iterator();
-		while (iterator.hasNext()) {
-			HumanEntity human = iterator.next();
+		for(HumanEntity human: new ArrayList<>(toInventory().getViewers())) {
 			human.closeInventory();
 		}
 	}
 	
+	public class SaveHandler implements MenuOpeningHandler {
+		
+		BlockMenu menu;
+		MenuOpeningHandler handler;
+		
+		public SaveHandler(BlockMenu menu, MenuOpeningHandler handler) {
+			this.handler = handler;
+			this.menu = menu;
+		}
+
+		@Override
+		public void onOpen(Player p) {
+			handler.onOpen(p);
+			menu.changes++;
+		}
+		
+	}
 }

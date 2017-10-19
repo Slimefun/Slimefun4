@@ -26,10 +26,11 @@ public class Messages {
 		local.setDefault("messages.usage", "&4Usage: &c%usage%");
 		local.setDefault("messages.not-online", "&4%player% &cis not online!");
 		local.setDefault("messages.not-valid-item", "&4%item% &cis not a valid Item!");
-		local.setDefault("messages.given-item", "&bYou have been given a &7\"%item%\"");
-		local.setDefault("messages.give-item", "&bYou have given %player% a &7\"%item%\"");
+		local.setDefault("messages.not-valid-amount", "&4%amount% &cis not a valid amount : it must be higher than 0!");
+		local.setDefault("messages.given-item", "&bYou have been given &a%amount% &7\"%item%&7\"");
+		local.setDefault("messages.give-item", "&bYou have given %player% &a%amount% &7\"%item%&7\"");
 		local.setDefault("messages.not-valid-research", "&4%research% &cis not a valid Research!");
-		local.setDefault("messages.give-research", "&bYou have given %player% the Research &7\"%research%\"");
+		local.setDefault("messages.give-research", "&bYou have given %player% the Research &7\"%research%&7\"");
 		local.setDefault("messages.battery.add", "&2+ &7%charge% J &8(%machine%)");
 		local.setDefault("messages.battery.remove", "&4- &7%charge% J &8(%machine%)");
 		local.setDefault("messages.hungry", "&cYou are too hungry to do that!");
@@ -62,6 +63,7 @@ public class Messages {
 		local.setDefault("machines.wrong-item", "&eSorry, I could not recognize the Item you right clicked me with. Check the Recipes and see which Items you can use.");
 		local.setDefault("machines.full-inventory", "&eSorry, my Inventory is too full!");
 		local.setDefault("miner.no-ores", "&eSorry, I could not find any Ores nearby!");
+		local.setDefault("backpack.already-open", "&cSorry, this backpack is open somewhere else!");
 		local.setDefault("backpack.no-stack", "&cYou cannot stack Backpacks");
 		local.setDefault("workbench.not-enhanced", "&4You cannot use Slimefun Items in a normal Workbench");
 		local.setDefault("anvil.not-working", "&4You cannot use Slimefun Items in an Anvil");

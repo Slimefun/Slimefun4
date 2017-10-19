@@ -1,26 +1,9 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
-import net.coreprotect.CoreProtect;
-import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,10 +20,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
-import me.mrCookieSlime.CSCoreLibSetup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
+import me.mrCookieSlime.Slimefun.CSCoreLibSetup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.Commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
@@ -49,12 +31,14 @@ import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GitHub.GitHubConnector;
 import me.mrCookieSlime.Slimefun.GitHub.GitHubSetup;
+import me.mrCookieSlime.Slimefun.Hashing.ItemHash;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
@@ -66,6 +50,7 @@ import me.mrCookieSlime.Slimefun.URID.URID;
 import me.mrCookieSlime.Slimefun.WorldEdit.WESlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
@@ -89,6 +74,8 @@ import me.mrCookieSlime.Slimefun.listeners.ItemListener;
 import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI;
 
 public class SlimefunStartup extends JavaPlugin {
 
@@ -109,8 +96,7 @@ public class SlimefunStartup extends JavaPlugin {
 	private boolean coreProtect = false;
 
 	// Supported Versions of Minecraft
-	final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "PluginBukkitBridge"};
-
+	final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "v1_12_"};
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -118,29 +104,40 @@ public class SlimefunStartup extends JavaPlugin {
 		CSCoreLibLoader loader = new CSCoreLibLoader(this);
 		if (loader.load()) {
 
-			boolean compatibleVersion = false;
+			String currentVersion = ReflectionUtils.getVersion();
 
-			for (String version: supported) {
-				if (ReflectionUtils.getVersion().startsWith(version)) {
-					compatibleVersion = true;
-					break;
+			if (currentVersion.startsWith("v")) {
+				boolean compatibleVersion = false;
+				StringBuilder versions = new StringBuilder();
+				
+				int i = 0;
+				for (String version: supported) {
+					if (currentVersion.startsWith(version)) {
+						compatibleVersion = true;
+					}
+					
+					if (i == 0) versions.append(version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
+					else if (i == supported.length - 1) versions.append(" or " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
+					else versions.append(", " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
+					
+					i++;
 				}
-			}
-
-			// Looks like you are using an unsupported Minecraft Version
-			if (!compatibleVersion) {
-				System.err.println("### Slimefun failed to load!");
-				System.err.println("###");
-				System.err.println("### You are using the wrong Version of Minecraft!!!");
-				System.err.println("###");
-				System.err.println("### You are using Minecraft " + ReflectionUtils.getVersion());
-				System.err.println("### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
-				System.err.println("### Minecraft 1.9.X or 1.10.X");
-				System.err.println("###");
-				System.err.println("### Please use an older Version of Slimefun and disable auto-updating");
-				System.err.println("### or consider updating your Server Software.");
-				getServer().getPluginManager().disablePlugin(this);
-				return;
+				
+				// Looks like you are using an unsupported Minecraft Version
+				if (!compatibleVersion) {
+					System.err.println("### Slimefun failed to load!");
+					System.err.println("###");
+					System.err.println("### You are using the wrong Version of Minecraft!!!");
+					System.err.println("###");
+					System.err.println("### You are using Minecraft " + ReflectionUtils.getVersion());
+					System.err.println("### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
+					System.err.println("### Minecraft " + versions.toString());
+					System.err.println("###");
+					System.err.println("### Please use an older Version of Slimefun and disable auto-updating");
+					System.err.println("### or consider updating your Server Software.");
+					getServer().getPluginManager().disablePlugin(this);
+					return;
+				}
 			}
 
 			instance = this;
@@ -170,6 +167,7 @@ public class SlimefunStartup extends JavaPlugin {
 			if (!new File("data-storage/Slimefun/blocks").exists()) new File("data-storage/Slimefun/blocks").mkdirs();
 			if (!new File("data-storage/Slimefun/stored-blocks").exists()) new File("data-storage/Slimefun/stored-blocks").mkdirs();
 			if (!new File("data-storage/Slimefun/stored-inventories").exists()) new File("data-storage/Slimefun/stored-inventories").mkdirs();
+			if (!new File("data-storage/Slimefun/stored-chunks").exists()) new File("data-storage/Slimefun/stored-chunks").mkdirs();
 			if (!new File("data-storage/Slimefun/universal-inventories").exists()) new File("data-storage/Slimefun/universal-inventories").mkdirs();
 			if (!new File("data-storage/Slimefun/waypoints").exists()) new File("data-storage/Slimefun/waypoints").mkdirs();
 			if (!new File("data-storage/Slimefun/block-backups").exists()) new File("data-storage/Slimefun/block-backups").mkdirs();
@@ -336,23 +334,26 @@ public class SlimefunStartup extends JavaPlugin {
 
 							for (ItemStack radioactive: SlimefunItem.radioactive) {
 								if (p.getInventory().containsAtLeast(radioactive, 1) || SlimefunManager.isItemSimiliar(p.getInventory().getItemInOffHand(), radioactive, true)) {
+									// Check if player is wearing the hazmat suit
+									// If so, break the loop
 									if (SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
 										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
 										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
 										SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
-
 										break;
 									}
 
-
-									p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
-									p.setFireTicks(400);
-									break;
+									// If the item is enabled in the world, then make radioactivity do its job
+									if (Slimefun.isEnabled(p, radioactive, false)) {
+										p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
+										p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
+										p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
+										p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
+										p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
+										p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
+										p.setFireTicks(400);
+										break; // Break the loop to save some calculations
+									}
 								}
 							}
 						}
@@ -374,7 +375,7 @@ public class SlimefunStartup extends JavaPlugin {
 						connector.pullFile();
 					}
 				}
-			}, 60L, 20 * 60 * 20L);
+			}, 80L, 60 * 60 * 20L);
 			
 			// Hooray!
 			System.out.println("[Slimefun] Finished!");
@@ -394,8 +395,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 			if (coreProtect) coreProtectAPI = ((CoreProtect)getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
 
-
-			SlimefunGuide.creative_research = config.getBoolean("options.allow-free-creative-research");
+			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
 
 			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
 
@@ -407,113 +407,27 @@ public class SlimefunStartup extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		Bukkit.getScheduler().cancelTasks(this);
-
+		
+		// Finishes all started movements/removals of block data
+		ticker.HALTED = true;
+		ticker.run();
+		
 		try {
-			for (Map.Entry<Block, Block> entry: ticker.move.entrySet()) {
-				BlockStorage._integrated_moveBlockInfo(entry.getKey(), entry.getValue());
-			}
-			ticker.move.clear();
-
 			for (World world: Bukkit.getWorlds()) {
 				BlockStorage storage = BlockStorage.getStorage(world);
-				if (storage != null) storage.save(true);
-				else System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
-			}
-
-			File folder = new File("data-storage/Slimefun/block-backups");
-			List<File> backups = Arrays.asList(folder.listFiles());
-			if (backups.size() > 20) {
-				Collections.sort(backups, new Comparator<File>() {
-
-					@Override
-					public int compare(File f1, File f2) {
-						try {
-							return (int) (new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f1.getName().replace(".zip", "")).getTime() - new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f2.getName().replace(".zip", "")).getTime());
-						} catch (ParseException e) {
-							return 0;
-						}
-					}
-				});
-
-				for (int i = backups.size() - 20; i > 0; i--) {
-					backups.get(i).delete();
+				if (storage != null) {
+					storage.save(true);
+				}
+				else {
+					System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
 				}
 			}
 
-			File file = new File("data-storage/Slimefun/block-backups/" + Clock.format(new Date()) + ".zip");
-			byte[] buffer = new byte[1024];
-
-			if (file.exists()) file.delete();
-
-			try {
-				file.createNewFile();
-
-				ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file));
-
-				for (File f1: new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
-					for (File f: f1.listFiles()) {
-						ZipEntry entry = new ZipEntry("stored-blocks/" + f1.getName() + "/" + f.getName());
-						output.putNextEntry(entry);
-						FileInputStream input = new FileInputStream(f);
-
-						int length;
-						while ((length = input.read(buffer)) > 0) {
-							output.write(buffer, 0, length);
-						}
-
-						input.close();
-						output.closeEntry();
-					}
-				}
-
-				for (File f: new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
-					ZipEntry entry = new ZipEntry("universal-inventories/" + f.getName());
-					output.putNextEntry(entry);
-					FileInputStream input = new FileInputStream(f);
-
-					int length;
-					while ((length = input.read(buffer)) > 0) {
-						output.write(buffer, 0, length);
-					}
-
-					input.close();
-					output.closeEntry();
-				}
-
-				for (File f: new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
-					ZipEntry entry = new ZipEntry("stored-inventories/" + f.getName());
-					output.putNextEntry(entry);
-					FileInputStream input = new FileInputStream(f);
-
-					int length;
-					while ((length = input.read(buffer)) > 0) {
-						output.write(buffer, 0, length);
-					}
-
-					input.close();
-					output.closeEntry();
-				}
-
-				ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
-				output.putNextEntry(entry);
-				FileInputStream input = new FileInputStream(new File("data-storage/Slimefun/stored-chunks/chunks.sfc"));
-
-				int length;
-				while ((length = input.read(buffer)) > 0) {
-					output.write(buffer, 0, length);
-				}
-
-				input.close();
-				output.closeEntry();
-
-				output.close();
-				System.out.println("[Slimfun] Backed up Blocks to " + file.getName());
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
+			SlimefunBackup.start();
 		} catch(Exception x) {
 		}
 
+		// Prevent Memory Leaks
 		config = null;
 		researches = null;
 		items = null;
@@ -571,6 +485,8 @@ public class SlimefunStartup extends JavaPlugin {
 		SlimefunGuide.contributors = null;
 		GitHubConnector.connectors = null;
 		ChestManipulator.listeners = null;
+		ItemHash.digest = null;
+		ItemHash.map = null;
 
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();
@@ -594,10 +510,12 @@ public class SlimefunStartup extends JavaPlugin {
 	}
 
 	public static int randomize(int max) {
+		if (max < 1) return 0;
 		return CSCoreLib.randomizer().nextInt(max);
 	}
 
 	public static boolean chance(int max, int percentage) {
+		if (max < 1) return false;
 		return CSCoreLib.randomizer().nextInt(max) <= percentage;
 	}
 

@@ -3,12 +3,15 @@ options:
   armor-update-interval: 10
   give-guide-on-first-join: true
   print-out-loading: false
+  print-out-github-data-retrieving: false
   enable-armor-effects: true
   prefix: '&a&lSlimefun &7>'
   auto-save-delay-in-minutes: 10
   show-vanilla-recipes-in-guide: true
   allow-free-creative-research: true
   emerald-enchantment-limit: 2
+  research-unlock-fireworks: true
+  research-give-fireworks: true
 guide:
   default-view-book: false
 URID:

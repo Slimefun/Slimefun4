@@ -63,11 +63,10 @@ public class SlimefunGuide {
 	public static List<Contributor> contributors = new ArrayList<Contributor>();
 	public static int issues = 0;
 	public static int forks = 0;
-	public static int code_lines = 0;
+	public static int code_bytes = 0;
 	public static Date last_update = new Date();
 
 	static boolean all_recipes = true;
-	public static boolean creative_research = true;
 	private static final int category_size = 36;
 
 	@Deprecated
@@ -202,7 +201,7 @@ public class SlimefunGuide {
 		});
 		
 		try {
-			menu.addItem(4, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Lines of Code: &6" + IntegerFormat.formatBigNumber(code_lines), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addItem(4, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
 			menu.addMenuClickHandler(4, new MenuClickHandler() {
 				
 				@Override
@@ -665,48 +664,45 @@ public class SlimefunGuide {
 				if (Slimefun.hasPermission(p, item, false)) {
 					if (Slimefun.isEnabled(p, item, false)) {
 						if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
+						    final Research research = item.getResearch();
+						    
 							texts.add(shorten("&7", StringUtils.formatItemName(item.getItem(), false)));
-							final int cost = SlimefunStartup.getResearchCfg().getInt(item.getResearch().getID() + ".cost");
-							tooltips.add(StringUtils.formatItemName(item.getItem(), false) + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= cost ? "&b": "&4") + cost + " Levels\n\n&a> Click to unlock");
+							tooltips.add(StringUtils.formatItemName(item.getItem(), false) + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " Levels\n\n&a> Click to unlock");
 							actions.add(new PlayerRunnable(2) {
 								
 								@Override
 								public void run(final Player p) {
-									boolean canBuy = false;
-									if (p.getGameMode() == GameMode.CREATIVE) canBuy = true;
-									else if (p.getLevel() >= cost) {
-										p.setLevel(p.getLevel() - cost);
-										canBuy = true;
-									}
-									if (canBuy) {
-										Research research = item.getResearch();
-										boolean researched = research == null ? true: research.hasUnlocked(p);
-										
-										if (researched) openCategory(p, category, true, selected_page, experimental);
-										else if (!Research.isResearching(p)){
-											if (p.getGameMode() == GameMode.CREATIVE) {
-												research.unlock(p, true);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-													
-													@Override
-													public void run() {
-														openCategory(p, category, survival, selected_page, experimental);
-													}
-												}, 1L);
-											}
+									if (!Research.isResearching(p)) {
+										if (research.canUnlock(p)) {
+											if (research.hasUnlocked(p))
+												openCategory(p, category, true, selected_page, experimental);
 											else {
-												research.unlock(p, false);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-													
-													@Override
-													public void run() {
-														openCategory(p, category, survival, selected_page, experimental);
-													}
-												}, 103L);
+												if (!(p.getGameMode() == GameMode.CREATIVE && Research.creative_research)) {
+													p.setLevel(p.getLevel() - research.getCost());
+												}
+
+												if (p.getGameMode() == GameMode.CREATIVE) {
+													research.unlock(p, true);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+
+														@Override
+														public void run() {
+															openCategory(p, category, survival, selected_page, experimental);
+														}
+													}, 1L);
+												} else {
+													research.unlock(p, false);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+
+														@Override
+														public void run() {
+															openCategory(p, category, survival, selected_page, experimental);
+														}
+													}, 103L);
+												}
 											}
-										}
+										} else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
 									}
-									else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
 								}
 							});
 						}
@@ -860,41 +856,37 @@ public class SlimefunGuide {
 				if (Slimefun.isEnabled(p, sfitem, false)) {
 					if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
 						if (Slimefun.hasPermission(p, sfitem, false)) {
-							final int cost = SlimefunStartup.getResearchCfg().getInt(sfitem.getResearch().getID() + ".cost");
-							menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + cost + " Level"}));
+						    final Research research = sfitem.getResearch();
+							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"}));
 							menu.addMenuClickHandler(index, new MenuClickHandler() {
 								
 								@Override
 								public boolean onClick(final Player p, int slot, ItemStack item, ClickAction action) {
-									boolean canBuy = false;
-									if (p.getGameMode() == GameMode.CREATIVE && creative_research) canBuy = true;
-									else if (p.getLevel() >= cost) {
-										p.setLevel(p.getLevel() - cost);
-										canBuy = true;
-									}
-									if (canBuy) {
-										Research research = sfitem.getResearch();
-										boolean researched = research == null ? true: research.hasUnlocked(p);
-										
-										if (researched) openCategory(p, category, true, selected_page, experimental);
-										else if (!Research.isResearching(p)){
-											if (p.getGameMode() == GameMode.CREATIVE) {
-												research.unlock(p, creative_research);
-												openCategory(p, category, survival, selected_page, experimental);
-											}
+									if (!Research.isResearching(p)) {
+										if (research.canUnlock(p)) {
+											if (research.hasUnlocked(p))
+												openCategory(p, category, true, selected_page, experimental);
 											else {
-												research.unlock(p, false);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-													
-													@Override
-													public void run() {
-														openCategory(p, category, survival, selected_page, experimental);
-													}
-												}, 103L);
+												if (!(p.getGameMode() == GameMode.CREATIVE && Research.creative_research)) {
+													p.setLevel(p.getLevel() - research.getCost());
+												}
+
+												if (p.getGameMode() == GameMode.CREATIVE) {
+													research.unlock(p, Research.creative_research);
+													openCategory(p, category, survival, selected_page, experimental);
+												} else {
+													research.unlock(p, false);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+
+														@Override
+														public void run() {
+															openCategory(p, category, survival, selected_page, experimental);
+														}
+													}, 103L);
+												}
 											}
-										}
+										} else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
 									}
-									else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
 									return false;
 								}
 							});
@@ -1266,6 +1258,7 @@ public class SlimefunGuide {
 						
 						@Override
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
+						    displayItem(p, item, true, experimental, 0);
 							return false;
 						}
 					});

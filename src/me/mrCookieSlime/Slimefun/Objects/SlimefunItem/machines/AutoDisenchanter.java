@@ -95,7 +95,12 @@ public class AutoDisenchanter extends AContainer {
 			for (int slot: getInputSlots()) {
 				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
-				if(SlimefunItem.getByItem(item) != null && !SlimefunItem.getByItem(item).isDisenchantable()) return;
+				
+				// Check if disenchantable
+				SlimefunItem sfItem = SlimefunItem.getByItem(item);
+				if (sfItem != null && !sfItem.isDisenchantable()) return;
+				
+				// Disenchant
 				if (item != null && target != null && target.getType() == Material.BOOK) {
 					int amount = 0;
 

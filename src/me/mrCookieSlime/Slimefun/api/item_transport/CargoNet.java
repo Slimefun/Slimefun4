@@ -10,6 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
@@ -23,21 +34,9 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
-
 public class CargoNet {
 	
 	public enum Axis {
-		
 		X_POSITIVE,
 		X_NEGATIVE,
 		Y_POSITIVE,
@@ -240,7 +239,7 @@ public class CargoNet {
 						Block inputTarget = getAttachedBlock(entry.getKey().getBlock());
 						ItemStack stack = null;
 						int previousSlot = -1;
-						
+
 						boolean roundrobin = BlockStorage.getBlockInfo(entry.getKey(), "round-robin").equals("true");
 						
 						if (inputTarget != null) {
@@ -250,7 +249,7 @@ public class CargoNet {
 								previousSlot = slot.getSlot();
 							}
 						}
-						
+
 						if (stack != null && output.containsKey(entry.getValue())) {
 							List<Location> outputlist = new ArrayList<Location>(output.get(entry.getValue()));
 							
@@ -260,7 +259,7 @@ public class CargoNet {
 								}
 								
 								int c_index = round_robin.get(entry.getKey());
-
+								
 								if (c_index < outputlist.size()) {
 									for (int i = 0; i < c_index; i++) {
 										final Location temp = outputlist.get(0);
@@ -269,7 +268,7 @@ public class CargoNet {
 									}
 									c_index++;
 								}
-								else c_index = 0;
+								else c_index = 1;
 								
 								round_robin.put(entry.getKey(), c_index);
 							}
@@ -462,7 +461,11 @@ public class CargoNet {
 	}
 
 	private static int getFrequency(Location l) {
-		return Integer.parseInt(BlockStorage.getBlockInfo(l).getString("frequency"));
+		int freq = 0;
+		try {
+			freq = Integer.parseInt(BlockStorage.getBlockInfo(l).getString("frequency"));
+		} catch (Exception e) {}
+		return freq;
 	}
 	
 	public static Set<Location> scan(Location source, Set<Location> blocks, List<Location> l1, List<Location> l2, Axis exclude, Map<Location, Integer> input, Map<Integer, List<Location>> output, Set<Location> terminals, Set<Location> providers, Set<Location> destinations, Set<Location> imports, Set<Location> exports) {
@@ -513,15 +516,15 @@ public class CargoNet {
 		if (!blocks.contains(l)) {
 			String id = BlockStorage.checkID(l);
 			if (id == null) return true;
-			if (id.equals("CARGO_MANAGER")) return false;
-			if (id.equals("CARGO_NODE")) {
+			else if (id.equals("CARGO_MANAGER")) return false;
+			else if (id.equals("CARGO_NODE")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
 				scan(l, blocks, l1, l2, axis, input, output, terminals, providers, destinations, imports, exports);
 				if (blocks.isEmpty()) return false;
 			}
-			if (id.equals("CARGO_NODE_INPUT")) {
+			else if (id.equals("CARGO_NODE_INPUT")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
@@ -529,25 +532,25 @@ public class CargoNet {
 				if (freq == 16) providers.add(l);
 				else input.put(l, freq);
 			}
-			if (id.equals("CHEST_TERMINAL")) {
+			else if (id.equals("CHEST_TERMINAL")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
 				terminals.add(l);
 			}
-			if (id.equals("CT_IMPORT_BUS")) {
+			else if (id.equals("CT_IMPORT_BUS")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
 				imports.add(l);
 			}
-			if (id.equals("CT_EXPORT_BUS")) {
+			else if (id.equals("CT_EXPORT_BUS")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
 				exports.add(l);
 			}
-			if (id.equals("CARGO_NODE_OUTPUT")) {
+			else if (id.equals("CARGO_NODE_OUTPUT")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
@@ -560,7 +563,7 @@ public class CargoNet {
 					output.put(freq, list);
 				}
 			}
-			if (id.equals("CARGO_NODE_OUTPUT_ADVANCED")) {
+			else if (id.equals("CARGO_NODE_OUTPUT_ADVANCED")) {
 				blocks.add(l);
 				l1.add(source);
 				l2.add(l);
@@ -645,8 +648,8 @@ public class CargoNet {
 		if (!sources.contains(l)) {
 			String id = BlockStorage.checkID(l);
 			if (id == null) return false;
-			if (id.equals("CARGO_MANAGER")) return true;
-			if (id.equals("CARGO_NODE")) return passiveScan(l, axis, sources);
+			else if (id.equals("CARGO_MANAGER")) return true;
+			else if (id.equals("CARGO_NODE")) return passiveScan(l, axis, sources);
 		}
 		return false;
 	}
