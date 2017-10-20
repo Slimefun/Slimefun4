@@ -2698,11 +2698,11 @@ public class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.GOLDEN_APPLE), null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.BROKEN_SPAWNER, "BROKEN_SPAWNER", new RecipeType(SlimefunItems.PICKAXE_OF_CONTAINMENT),
+		new SlimefunSpawner(Categories.LUMPS_AND_MAGIC, SlimefunItems.BROKEN_SPAWNER, "BROKEN_SPAWNER", new RecipeType(SlimefunItems.PICKAXE_OF_CONTAINMENT),
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.MOB_SPAWNER), null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.REPAIRED_SPAWNER, "REINFORCED_SPAWNER", RecipeType.ANCIENT_ALTAR,
+		new SlimefunSpawner(Categories.MAGIC, SlimefunItems.REPAIRED_SPAWNER, "REINFORCED_SPAWNER", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXP_BOTTLE, "&aFlask of Knowledge", 0), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXP_BOTTLE, "&aFlask of Knowledge", 0), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXP_BOTTLE, "&aFlask of Knowledge", 0), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXP_BOTTLE, "&aFlask of Knowledge", 0), SlimefunItems.RUNE_ENDER})
 		.register(true, new BlockPlaceHandler() {
 
@@ -2837,7 +2837,7 @@ public class SlimefunSetup {
 
 						SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
 						if (sfItem != null) {
-							if (!SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
+							if (!(sfItem instanceof SlimefunSpawner) && !SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
 								block.setType(e.getItem().getType());
 								block.setData(e.getItem().getData().getData());
 								BlockStorage.store(block, sfItem.getName());
