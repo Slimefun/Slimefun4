@@ -2818,11 +2818,11 @@ public class SlimefunSetup {
 		.register(true);
 
 		@SuppressWarnings("unchecked")
-		final String[] blockPlacerBlacklist = Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks") != null ? ((List<String>) Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks")).toArray(new String[((List<String>) Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks")).size()]): new String[] {"STRUCTURE_BLOCK"};
+		final String[] blockPlacerBlacklist = Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks") != null ? ((List<String>) Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks")).toArray(new String[((List<String>) Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks")).size()]): new String[] {"STRUCTURE_BLOCK", "HOPPER"};
 
 		new SlimefunItem(Categories.MACHINES_1, SlimefunItems.BLOCK_PLACER, "BLOCK_PLACER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON_BASE), SlimefunItems.GOLD_4K, new ItemStack(Material.IRON_INGOT), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.IRON_INGOT), SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON_BASE), SlimefunItems.GOLD_4K},
-		new String[] {"unplaceable-blocks"}, new Object[] {Arrays.asList("STRUCTURE_BLOCK")})
+		new String[] {"unplaceable-blocks"}, new Object[] {Arrays.asList("STRUCTURE_BLOCK", "HOPPER")})
 		.register(true, new AutonomousMachineHandler() {
 
 			@Override
@@ -2837,8 +2837,8 @@ public class SlimefunSetup {
 						}
 
 						SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
-						if (sfItem != null) {
-							if (!(sfItem instanceof SlimefunSpawner) && !SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
+						if (sfItem != null && !sfItem.isUnplaceable()) {
+							if (!SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
 								block.setType(e.getItem().getType());
 								block.setData(e.getItem().getData().getData());
 								BlockStorage.store(block, sfItem.getName());

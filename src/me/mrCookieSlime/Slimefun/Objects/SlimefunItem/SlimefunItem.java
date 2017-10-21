@@ -14,6 +14,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -55,7 +56,7 @@ public class SlimefunItem {
 	String[] keys;
 	Object[] values;
 	Research research;
-	boolean ghost, replacing, enchantable, disenchantable;
+	boolean ghost, replacing, enchantable, disenchantable, unplaceable;
 	Set<ItemHandler> itemhandlers;
 	URID urid;
 	boolean ticking = false;
@@ -121,6 +122,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.unplaceable = false;
 		itemhandlers = new HashSet<ItemHandler>();
 
 		urid = URID.nextURID(this, false);
@@ -139,6 +141,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.unplaceable = false;
 		itemhandlers = new HashSet<ItemHandler>();
 
 		urid = URID.nextURID(this, false);
@@ -157,6 +160,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.unplaceable = false;
 		itemhandlers = new HashSet<ItemHandler>();
 
 		urid = URID.nextURID(this, false);
@@ -175,6 +179,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.unplaceable = false;
 		itemhandlers = new HashSet<ItemHandler>();
 
 		urid = URID.nextURID(this, false);
@@ -193,6 +198,7 @@ public class SlimefunItem {
 		this.replacing = false;
 		this.enchantable = true;
 		this.disenchantable = true;
+		this.unplaceable = false;
 		itemhandlers = new HashSet<ItemHandler>();
 
 		urid = URID.nextURID(this, false);
@@ -304,6 +310,8 @@ public class SlimefunItem {
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
+		else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
+		else if (this instanceof SlimefunSpawner && SlimefunManager.isItemSimiliar(item, this.getItem(), false)) return true;
 		else if (SlimefunManager.isItemSimiliar(item, this.getItem(), true)) return true;
 		else return false;
 	}
@@ -394,6 +402,9 @@ public class SlimefunItem {
 			else if (h instanceof EnergyTicker) {
 				this.energy = (EnergyTicker) h;
 				EnergyNet.registerComponent(getName(), NetworkComponent.SOURCE);
+			}
+			else if (h instanceof BlockPlaceHandler) {
+				this.unplaceable = true;
 			}
 		}
 	}
