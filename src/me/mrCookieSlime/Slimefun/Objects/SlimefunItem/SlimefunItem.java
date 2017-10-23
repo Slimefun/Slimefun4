@@ -386,6 +386,10 @@ public class SlimefunItem {
 		return disenchantable;
 	}
 
+	public boolean isUnplaceable() {
+		return unplaceable;
+	}
+
 	public void setReplacing(boolean replacing) {
 		this.replacing = replacing;
 	}
