@@ -139,24 +139,6 @@ public class ToolListener implements Listener {
 			);
 			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(SlimefunStartup.randomize(gifts.size())));
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, false)) {
-			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
-				Messages.local.sendTranslation(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
-				e.setCancelled(true);
-			}
-		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT, false)) {
-			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
-				Messages.local.sendTranslation(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
-				e.setCancelled(true);
-			}
-		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false)) {
-			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
-				Messages.local.sendTranslation(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
-				e.setCancelled(true);
-			}
-		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
 				Messages.local.sendTranslation(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
