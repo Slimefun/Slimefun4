@@ -6,17 +6,33 @@ import java.util.List;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager.DataType;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 public class CargoManager {
-	
+
+	private static Class inventoryFurnace;
+	private static final String[] release = {"R1", "R2", "R3"};
+
+	static {
+		for(String version : SlimefunStartup.supported)
+		for(String relase : release) {
+			try {
+				inventoryFurnace = Class.forName("org.bukkit.craftbukkit." + version + relase + ".inventory.CraftInventoryFurnace");
+                break;
+			} catch (Exception e) { }
+		}
+	}
+
 	public static ItemStack withdraw(Block node, BlockStorage storage, Block target, ItemStack template) {
 		if (storage.hasUniversalInventory(target)) {
 			UniversalBlockMenu menu = storage.getUniversalInventory(target);
@@ -68,7 +84,7 @@ public class CargoManager {
 		}
 		return null;
 	}
-	
+
 	public static ItemSlot withdraw(Block node, BlockStorage storage, Block target, int index) {
 		if (storage.hasUniversalInventory(target)) {
 			UniversalBlockMenu menu = storage.getUniversalInventory(target);
@@ -93,6 +109,7 @@ public class CargoManager {
 		else if (target.getState() instanceof InventoryHolder) {
 			Inventory inv = ((InventoryHolder) target.getState()).getInventory();
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
+				if(inv.getClass().getName().equalsIgnoreCase(inventoryFurnace.getName()) && slot != 2) continue;
 				ItemStack is = inv.getContents()[slot];
 				if (matchesFilter(node, is, index)) {
 					inv.setItem(slot, ChestManipulator.trigger(target, slot, is, null));
@@ -102,7 +119,7 @@ public class CargoManager {
 		}
 		return null;
 	}
-	
+
 	public static ItemStack insert(Block node, BlockStorage storage, Block target, ItemStack stack, int index) {
 		if (!matchesFilter(node, stack, index)) return stack;
 		if (storage.hasUniversalInventory(target)) {
@@ -115,7 +132,7 @@ public class CargoManager {
 				}
 				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true, DataType.ALWAYS) && is.getAmount() < is.getType().getMaxStackSize()) {
 					int amount = is.getAmount() + stack.getAmount();
-					
+
 					if (amount > is.getType().getMaxStackSize()) {
 						is.setAmount(is.getType().getMaxStackSize());
 						stack.setAmount(amount - is.getType().getMaxStackSize());
@@ -124,7 +141,7 @@ public class CargoManager {
 						is.setAmount(amount);
 						stack = null;
 					}
-					
+
 					menu.replaceExistingItem(slot, is);
 					return stack;
 				}
@@ -140,7 +157,7 @@ public class CargoManager {
 				}
 				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true, DataType.ALWAYS) && is.getAmount() < is.getType().getMaxStackSize()) {
 					int amount = is.getAmount() + stack.getAmount();
-					
+
 					if (amount > is.getType().getMaxStackSize()) {
 						is.setAmount(is.getType().getMaxStackSize());
 						stack.setAmount(amount - is.getType().getMaxStackSize());
@@ -149,7 +166,7 @@ public class CargoManager {
 						is.setAmount(amount);
 						stack = null;
 					}
-					
+
 					menu.replaceExistingItem(slot, is);
 					return stack;
 				}
@@ -157,8 +174,9 @@ public class CargoManager {
 		}
 		else if (target.getState() instanceof InventoryHolder) {
 			Inventory inv = ((InventoryHolder) target.getState()).getInventory();
-			
+
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
+			    if(inv.getType().equals(InventoryType.FURNACE) && slot != getSlotFromFace(node, target)) continue;
 				ItemStack is = inv.getContents()[slot];
 				if (is == null) {
 					inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
@@ -167,7 +185,7 @@ public class CargoManager {
 				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true, DataType.ALWAYS) && is.getAmount() < is.getType().getMaxStackSize()) {
 					ItemStack prev = is.clone();
 					int amount = is.getAmount() + stack.getAmount();
-					
+
 					if (amount > is.getType().getMaxStackSize()) {
 						is.setAmount(is.getType().getMaxStackSize());
 						stack.setAmount(amount - is.getType().getMaxStackSize());
@@ -176,13 +194,13 @@ public class CargoManager {
 						is.setAmount(amount);
 						stack = null;
 					}
-					
+
 					inv.setItem(slot, ChestManipulator.trigger(target, slot, prev, is));
 					return stack;
 				}
 			}
 		}
-		
+
 		return stack;
 	}
 	//Whitelist or blacklist slots
@@ -197,7 +215,7 @@ public class CargoManager {
 		BlockMenu menu = BlockStorage.getInventory(block.getLocation());
 		boolean lore = BlockStorage.getBlockInfo(block, "filter-lore").equals("true");
 		boolean data = BlockStorage.getBlockInfo(block, "filter-durability").equals("true");
-		
+
 		if (BlockStorage.getBlockInfo(block, "filter-type").equals("whitelist")) {
 			List<ItemStack> items = new ArrayList<ItemStack>();
 			for (int slot: slots) {
@@ -208,13 +226,13 @@ public class CargoManager {
 			if (items.isEmpty()) {
 				return false;
 			}
-			
+
 			if (index >= 0) {
 				index++;
 				if (index > (items.size() - 1)) index = 0;
-				
+
 				BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
-				
+
 				return SlimefunManager.isItemSimiliar(item, items.get(index), lore, data ? DataType.ALWAYS: DataType.NEVER);
 			}
 			else {
@@ -234,4 +252,13 @@ public class CargoManager {
 		}
 	}
 
+	private static int getSlotFromFace(Block node, Block target) {
+        BlockFace face = node.getFace(target);
+        int i;
+        if (face == BlockFace.NORTH || face == BlockFace.EAST)
+            i = 0;
+        else
+            i = 1;
+        return i;
+    }
 }
