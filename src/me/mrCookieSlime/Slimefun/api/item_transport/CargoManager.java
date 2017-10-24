@@ -11,6 +11,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -93,6 +95,7 @@ public class CargoManager {
 		else if (target.getState() instanceof InventoryHolder) {
 			Inventory inv = ((InventoryHolder) target.getState()).getInventory();
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
+				if(inv.getType().equals(InventoryType.FURNACE) && slot != 2) continue;
 				ItemStack is = inv.getContents()[slot];
 				if (matchesFilter(node, is, index)) {
 					inv.setItem(slot, ChestManipulator.trigger(target, slot, is, null));
@@ -159,6 +162,7 @@ public class CargoManager {
 			Inventory inv = ((InventoryHolder) target.getState()).getInventory();
 			
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
+				if(inv.getType().equals(InventoryType.FURNACE) && slot != getSlotFromFace(node, target)) continue;
 				ItemStack is = inv.getContents()[slot];
 				if (is == null) {
 					inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
@@ -232,6 +236,16 @@ public class CargoManager {
 			}
 			return true;
 		}
+	}
+
+	private static int getSlotFromFace(Block node, Block target) {
+		BlockFace face = node.getFace(target);
+		int i;
+		if(face.equals(BlockFace.DOWN))
+			i = 0;
+		else
+			i = 1;
+		return i;
 	}
 
 }

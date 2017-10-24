@@ -445,7 +445,10 @@ public class CargoNet {
 
 	@SuppressWarnings("deprecation")
 	private static Block getAttachedBlock(Block block) {
-		if (block.getData() == 2) {
+		if(block.getData() == 1) {
+			return block.getRelative(BlockFace.DOWN);
+		}
+		else if (block.getData() == 2) {
 			return block.getRelative(BlockFace.SOUTH);
 		}
 		else if (block.getData() == 3) {
