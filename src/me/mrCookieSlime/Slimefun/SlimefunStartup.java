@@ -96,7 +96,7 @@ public class SlimefunStartup extends JavaPlugin {
 	private boolean coreProtect = false;
 
 	// Supported Versions of Minecraft
-	final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "v1_12_"};
+	public static final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "v1_12_"};
 	
 	@SuppressWarnings("deprecation")
 	@Override
