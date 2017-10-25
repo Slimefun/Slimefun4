@@ -726,7 +726,7 @@ public class SlimefunSetup {
 							for (ItemStack converting: inputs.get(i)) {
 								if (converting != null) {
 									for (int j = 0; j < inv.getContents().length; j++) {
-										if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
+										if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) {
 											craft = false;
 											break;
 										}
