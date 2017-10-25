@@ -1,7 +1,9 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -42,6 +44,125 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
+
+					if(BlockStorage.hasBlockInfo(b)) {
+						if(Boolean.valueOf(BlockStorage.getBlockInfo(b, "furnace"))) {
+							String slot = BlockStorage.getBlockInfo(b, "furnace-slot");
+							menu.replaceExistingItem(7, new CustomItem(new MaterialData(Material.FURNACE), "§7Choose Slot", "", "§eCurrently: " + slot));
+							menu.addMenuClickHandler(7, new MenuClickHandler() {
+								@Override
+								public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+									int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+									ChestMenu chooseSlotMenu = new ChestMenu("Choose slot for furnace");
+									for (int slot : border) {
+										chooseSlotMenu.addItem(slot, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
+												new MenuClickHandler() {
+
+													@Override
+													public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+														return false;
+													}
+
+												});
+									}
+
+									chooseSlotMenu.addItem(10, new CustomItem(new MaterialData(Material.FURNACE), "All", "", "The result, fuel and smelting are output in cargo network"));
+									chooseSlotMenu.addMenuClickHandler(10, new MenuClickHandler() {
+
+										@Override
+										public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+											BlockStorage.addBlockInfo(b, "furnace-slot", "All");
+											menu.replaceExistingItem(7, new CustomItem(new MaterialData(Material.FURNACE), "Choose Slot", "", "Currently: All"));
+											menu.open(player);
+											return false;
+										}
+									});
+
+									chooseSlotMenu.addItem(11, new CustomItem(new MaterialData(Material.FURNACE), "Fuel/Smelting", "", "The fuel and smelting are output in cargo network"));
+									chooseSlotMenu.addMenuClickHandler(11, new MenuClickHandler() {
+
+										@Override
+										public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+											BlockStorage.addBlockInfo(b, "furnace-slot", "Fuel/Smelting");
+											menu.replaceExistingItem(7, new CustomItem(new MaterialData(Material.FURNACE), "Choose Slot", "", "Currently: Fuel/Smelting"));
+											menu.open(player);
+											return false;
+										}
+									});
+
+									chooseSlotMenu.addItem(12, new CustomItem(new MaterialData(Material.FURNACE), "Result/Fuel", "", "The result and fuel are output in cargo network"));
+									chooseSlotMenu.addMenuClickHandler(12, new MenuClickHandler() {
+
+										@Override
+										public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+											BlockStorage.addBlockInfo(b, "furnace-slot", "Result/Fuel");
+											menu.replaceExistingItem(7, new CustomItem(new MaterialData(Material.FURNACE), "Choose Slot", "", "Currently: Result/Fuel"));
+											menu.open(player);
+											return false;
+										}
+									});
+
+									chooseSlotMenu.addItem(13, new CustomItem(new MaterialData(Material.FURNACE), "Result/Smelting", "", "The result and smelting are output in cargo network"));
+									chooseSlotMenu.addMenuClickHandler(13, new MenuClickHandler() {
+
+
+										@Override
+										public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+											BlockStorage.addBlockInfo(b, "furnace-slot", "Result/Smelting");
+											menu.replaceExistingItem(7, new CustomItem(new MaterialData(Material.FURNACE), "Choose Slot", "", "Currently: Result/Smelting"));
+											menu.open(player);
+											return false;
+										}
+									});
+
+									chooseSlotMenu.addItem(14, new CustomItem(new MaterialData(Material.FURNACE), "Smelting", "", "The smelting are output in cargo network"));
+									chooseSlotMenu.addMenuClickHandler(14, new MenuClickHandler() {
+
+
+										@Override
+										public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+											BlockStorage.addBlockInfo(b, "furnace-slot", "Smelting");
+											menu.replaceExistingItem(7, new CustomItem(new MaterialData(Material.FURNACE), "Choose Slot", "", "Currently: Smelting"));
+											menu.open(player);
+											return false;
+										}
+									});
+
+									chooseSlotMenu.addItem(15, new CustomItem(new MaterialData(Material.FURNACE), "Fuel", "", "The fuel are output in cargo network"));
+									chooseSlotMenu.addMenuClickHandler(15, new MenuClickHandler() {
+
+
+										@Override
+										public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+											BlockStorage.addBlockInfo(b, "furnace-slot", "Fuel");
+											menu.replaceExistingItem(7, new CustomItem(new MaterialData(Material.FURNACE), "Choose Slot", "", "Currently: Fuel"));
+											menu.open(player);
+											return false;
+										}
+									});
+
+									chooseSlotMenu.addItem(16, new CustomItem(new MaterialData(Material.FURNACE), "Result", "", "The result are output in cargo network"));
+									chooseSlotMenu.addMenuClickHandler(16, new MenuClickHandler() {
+
+
+										@Override
+										public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+											BlockStorage.addBlockInfo(b, "furnace-slot", "Result");
+											menu.replaceExistingItem(7, new CustomItem(new MaterialData(Material.FURNACE), "Choose Slot", "", "Currently: Result" ));
+											menu.open(player);
+											return false;
+										}
+									});
+
+
+
+									chooseSlotMenu.open(player);
+									return false;
+								}
+							});
+						}
+					}
+
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "filter-type") == null || BlockStorage.getBlockInfo(b, "filter-type").equals("whitelist")) {
 						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL), "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
 						menu.addMenuClickHandler(15, new MenuClickHandler() {
@@ -206,6 +327,12 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 				BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
 				BlockStorage.addBlockInfo(b, "filter-lore", "true");
 				BlockStorage.addBlockInfo(b, "filter-durability", "false");
+				if(getAttachedBlock(b).getType().equals(Material.FURNACE)) {
+					BlockStorage.addBlockInfo(b, "furnace", "true");
+					BlockStorage.addBlockInfo(b, "furnace-slot", "All");
+				}
+				else
+					BlockStorage.addBlockInfo(b, "furnace", "false");
 			}
 			
 			@Override
@@ -245,5 +372,22 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 	
 	public int[] getInputSlots() {
 		return new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
+	}
+
+	@SuppressWarnings("deprecation")
+	private static Block getAttachedBlock(Block block) {
+		if (block.getData() == 2) {
+			return block.getRelative(BlockFace.SOUTH);
+		}
+		else if (block.getData() == 3) {
+			return block.getRelative(BlockFace.NORTH);
+		}
+		else if (block.getData() == 4) {
+			return block.getRelative(BlockFace.EAST);
+		}
+		else if (block.getData() == 5) {
+			return block.getRelative(BlockFace.WEST);
+		}
+		return null;
 	}
 }
