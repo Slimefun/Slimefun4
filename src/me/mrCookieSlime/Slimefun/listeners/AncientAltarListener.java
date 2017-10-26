@@ -30,7 +30,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -158,16 +157,7 @@ public class AncientAltarListener implements Listener {
 	}
 
 	@EventHandler
-	public void onPickup(PlayerPickupItemEvent e) {
-		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
-			e.setCancelled(true);
-			e.getItem().remove();
-		}
-	}
-
-	@EventHandler
-	public void onMinecartPickup(InventoryPickupItemEvent e) {
+	public void onPickup(InventoryPickupItemEvent e) {
 		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
 		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
 			e.setCancelled(true);

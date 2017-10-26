@@ -85,20 +85,13 @@ public class DamageListener implements Listener {
                                 e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 2));
                             }
                         } else if (e.getEntity() instanceof Skeleton) {
-                            switch (((Skeleton) e.getEntity()).getSkeletonType()) {
-                                case NORMAL: {
-                                    if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON")))
-                                        e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 0));
-                                    break;
-                                }
-                                case WITHER: {
-                                    if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON")))
-                                        e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 1));
-                                    break;
-                                }
-                                default:
-                                    break;
-                            }
+                        	if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON"))) {
+                                e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 0));
+                        	}
+                        } else if (e.getEntity() instanceof WitherSkeleton) {
+                        	if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON"))) {
+                                e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 1));
+                        	}
                         } else if (e.getEntity() instanceof Creeper) {
                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER"))) {
                                 e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 4));
