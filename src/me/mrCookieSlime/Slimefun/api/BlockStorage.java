@@ -97,8 +97,6 @@ public class BlockStorage {
 							try {
 								totalBlocks++;
 								storage.put(deserializeLocation(key), cfg.getString(key));
-								if(file.getName().equals("CARGO_NODE_INPUT_ADVANCED.sfb") || file.getName().equals("CARGO_NODE_OUTPUT_ADVANCED.sfb"))
-									addFurnaceInfo(key);
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
 									Set<Block> blocks = ticking_chunks.containsKey(deserializeLocation(key).getChunk().toString()) ? ticking_chunks.get(deserializeLocation(key).getChunk().toString()): new HashSet<Block>();
 									blocks.add(deserializeLocation(key).getBlock());
@@ -119,6 +117,7 @@ public class BlockStorage {
 				System.out.println("[Slimefun] Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
 				if (totalBlocks > 0) System.out.println("[Slimefun] Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
 			}
+
 		}
 		else f.mkdirs();
 		
@@ -163,6 +162,7 @@ public class BlockStorage {
 				universal_inventories.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
 			}
 		}
+		addNewInfo();
 	}
 
 	private static int chunk_changes = 0;
@@ -666,6 +666,18 @@ public class BlockStorage {
 		return id == null ? false: hasUniversalInventory(id);
 	}
 
+	private void addNewInfo() {
+		File out = new File(path_blocks + world.getName() + "/CARGO_NODE_OUTPUT_ADVANCED.sfb");
+		File in = new File(path_blocks + world.getName() + "/CARGO_NODE_INPUT_ADVANCED.sfb");
+		FileConfiguration outcfg = YamlConfiguration.loadConfiguration(out);
+		FileConfiguration incfg = YamlConfiguration.loadConfiguration(in);
+		for (String key: outcfg.getKeys(false))
+			addFurnaceInfo(key);
+		for(String key : incfg.getKeys(false))
+			addFurnaceInfo(key);
+
+	}
+
 	/**
 	 * to avoid npe
 	 * @param key
@@ -677,7 +689,7 @@ public class BlockStorage {
 				addBlockInfo(deserializeLocation(key), "furnace-slot", "All");
 	}
 	else
-			addBlockInfo(deserializeLocation(key), "furnace", "fase");
+			addBlockInfo(deserializeLocation(key), "furnace", "false");
 	}
 
 	@SuppressWarnings("deprecation")

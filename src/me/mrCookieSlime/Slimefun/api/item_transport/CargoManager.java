@@ -151,8 +151,6 @@ public class CargoManager {
 
             for (int slot = 0; slot < inv.getContents().length; slot++) {
                 if (inv.getType().equals(InventoryType.FURNACE) && id.equals("CARGO_NODE_OUTPUT_ADVANCED")&& !hasrightslot(node, slot)) continue;
-                if(id.equals("CARGO_NODE_OUTPUT_ADVANCED"))
-                System.out.println("slot: " + slot + " " + hasrightslot(node, slot));
                 ItemStack is = inv.getContents()[slot];
                 if (is == null) {
                     inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
