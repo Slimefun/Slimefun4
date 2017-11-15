@@ -92,7 +92,12 @@ public class SlimefunItems {
 	
 	/*		 Food 		*/
 	public static ItemStack FORTUNE_COOKIE = new CustomItem(Material.COOKIE, "&6Fortune Cookie", 0, new String[] {"", "&a&oTells you stuff about your Future :o"});
-	public static ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6Beef Jerky", 0, new String[] {"", "&a&oSaturating"});
+	public static ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6Beef Jerky", 0, new String[] {"", "&a&oTasty..."});
+	public static ItemStack CHICKEN_JERKY = new CustomItem(Material.COOKED_CHICKEN, "&6Chicken Jerky", 0, new String[] {"", "&a&oTasty..."});
+	public static ItemStack PORK_JERKY = new CustomItem(Material.GRILLED_PORK, "&6Pork Jerky", 0, new String[] {"", "&a&oTasty..."});
+	public static ItemStack MUTTON_JERKY = new CustomItem(Material.COOKED_MUTTON, "&6Mutton Jerky", 0, new String[] {"", "&a&oTasty..."});
+	public static ItemStack RABBIT_JERKY = new CustomItem(Material.COOKED_RABBIT, "&6Jerky Rabbit", 0, new String[] {"", "&a&oTasty..."});
+	public static ItemStack FISH_JERKY = new CustomItem(Material.COOKED_FISH, "&6Jerky Fish", 0, new String[] {"", "&a&oTasty..."});
 	public static ItemStack MAGIC_SUGAR = new CustomItem(Material.SUGAR, "&6Magic Sugar", 0, new String[] {"", "&a&oFeel the Power of Hermes!"});
 	public static ItemStack MONSTER_JERKY = new CustomItem(Material.ROTTEN_FLESH, "&6Monster Jerky", 0, new String[] {"", "&a&oNo longer hungry"});
 	public static ItemStack APPLE_JUICE = new CustomPotion("&cApple Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 10, 0));
