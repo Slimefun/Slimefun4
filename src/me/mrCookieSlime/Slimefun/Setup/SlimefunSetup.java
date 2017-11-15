@@ -327,31 +327,7 @@ public class SlimefunSetup {
 		});
 
 		new SlimefunItem(Categories.FOOD, SlimefunItems.BEEF_JERKY, "BEEF_JERKY", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.RAW_BEEF), null, null, null, null, null, null, null})
-		.register(true);
-						
-		new SlimefunItem(Categories.FOOD, SlimefunItems.CHICKEN_JERKY, "CHICKEN_JERKY", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.RAW_CHICKEN), null, null, null, null, null, null, null})
-		.register(true);
-					
-		new SlimefunItem(Categories.FOOD, SlimefunItems.PORK_JERKY, "PORK_JERKY", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.PORK), null, null, null, null, null, null, null})
-		.register(true);
-					
-		new SlimefunItem(Categories.FOOD, SlimefunItems.RABBIT_JERKY, "RABBIT_JERKY", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.RABBIT), null, null, null, null, null, null, null})
-		.register(true);
-					
-		new SlimefunItem(Categories.FOOD, SlimefunItems.MUTTON_JERKY, "MUTTON_JERKY", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.MUTTON), null, null, null, null, null, null, null})
-		.register(true);
-					
-		new SlimefunItem(Categories.FOOD, SlimefunItems.FISH_JERKY, "FISH_JERKY", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.RAW_FISH), null, null, null, null, null, null, null})
-		.register(true);
-					
-		new SlimefunItem(Categories.FOOD, SlimefunItems.MONSTER_JERKY, "MONSTER_JERKY", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.ROTTEN_FLESH), null, null, null, null, null, null, null})
+		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_BEEF), null, null, null, null, null, null, null}, new String[] {"Saturation"}, new Integer[] {20})
 		.register(true);
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.GRIND_STONE, "GRIND_STONE",
