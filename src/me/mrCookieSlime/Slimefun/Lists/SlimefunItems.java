@@ -361,6 +361,7 @@ public class SlimefunItems {
 	public static ItemStack GRIND_STONE = new CustomItem(Material.DISPENSER, "&bGrind Stone", 0, new String[] {"", "&a&oGrinds Items for more Efficiency"});
 	public static ItemStack ARMOR_FORGE = new CustomItem(Material.ANVIL, "&6Armor Forge", 0, new String[] {"", "&a&oGives you the Ability to create powerful Armor"});
 	public static ItemStack SMELTERY = new CustomItem(Material.FURNACE, "&6Smeltery", 0, new String[] {"", "&a&oActs as a high-temperature Furnace for Metals"});
+	public static ItemStack IGNITION_CHAMBER = new CustomItem(new ItemStack(Material.HOPPER), "&4Automatic Ignition Chamber", "&rAre you constantly enraged by the fading fire under the Smelter too?", "&rWe found the solution!", "&rJust easily place this Chamber near the dispencer", "&rof your Smelter, and block under it will be ignited automatically!", "&e&oRequires Flint'n Steels to run");
 	public static ItemStack ORE_CRUSHER = new CustomItem(Material.DISPENSER, "&bOre Crusher", 0, new String[] {"", "&a&oCrushes Ores to double them"});
 	public static ItemStack COMPRESSOR = new CustomItem(Material.PISTON_BASE, "&bCompressor", 0, new String[] {"", "&a&oCompresses Items"});
 	public static ItemStack PRESSURE_CHAMBER = new CustomItem(Material.GLASS, "&bPressure Chamber", 0, new String[] {"", "&a&oCompresses Items even more"});

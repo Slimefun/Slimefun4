@@ -18,6 +18,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -56,6 +57,13 @@ public class ItemListener implements Listener {
 	
 	public ItemListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
+	
+	@EventHandler
+	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
+		if(e.getInitiator().getName().equalsIgnoreCase(SlimefunItems.IGNITION_CHAMBER.getItemMeta().getDisplayName()) && e.getInitiator().getType() == InventoryType.HOPPER) {
+			e.setCancelled(true);
+		}
 	}
 	
 	@SuppressWarnings("deprecation")

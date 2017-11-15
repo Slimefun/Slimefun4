@@ -18,6 +18,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Dispenser;
+import org.bukkit.block.Hopper;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Arrow;
@@ -704,63 +705,101 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.SMELTERY, "SMELTERY",
-		new ItemStack[] {null, new ItemStack(Material.NETHER_FENCE), null, new ItemStack(Material.NETHER_BRICK), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)", 0), new ItemStack(Material.NETHER_BRICK), null, new ItemStack(Material.FLINT_AND_STEEL), null},
-		new ItemStack[] {SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)}, Material.NETHER_FENCE,
-		new String[] {"chance.fireBreak"}, new Integer[] {34})
-		.register(true, new MultiBlockInteractionHandler() {
+				new ItemStack[] {null, new ItemStack(Material.NETHER_FENCE), null, new ItemStack(Material.NETHER_BRICK), new CustomItem(Material.DISPENSER, "Раздатчик (Направлен вверх)", 0), new ItemStack(Material.NETHER_BRICK), null, new ItemStack(Material.FLINT_AND_STEEL), null},
+				new ItemStack[] {SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)}, Material.NETHER_FENCE,
+				new String[] {"chance.fireBreak"}, new Integer[] {34})
+				.register(true, new MultiBlockInteractionHandler() {
 
-			@Override
-			public boolean onInteract(Player p, MultiBlock mb, Block b) {
+					@Override
+					public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("SMELTERY");
+						SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("SMELTERY");
 
-				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-						Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
-						Inventory inv = disp.getInventory();
-						List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
+						if (mb.isMultiBlock(machine)) {
+							if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+								Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
+								Inventory inv = disp.getInventory();
+								List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
 
-						for (int i = 0; i < inputs.size(); i++) {
-							boolean craft = true;
-							for (ItemStack converting: inputs.get(i)) {
-								if (converting != null) {
-									for (int j = 0; j < inv.getContents().length; j++) {
-										if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
-											craft = false;
-											break;
-										}
-										else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) break;
-									}
-								}
-							}
-
-							if (craft) {
-								ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
-								if (Slimefun.hasUnlocked(p, adding, true)) {
-									if (InvUtils.fits(inv, adding)) {
-										for (ItemStack removing: inputs.get(i)) {
-											if (removing != null) inv.removeItem(removing);
-										}
-										inv.addItem(adding);
-										p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
-										p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);;
-										if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
-											BlockBreaker.nullify(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+								for (int i = 0; i < inputs.size(); i++) {
+									boolean craft = true;
+									for (ItemStack converting: inputs.get(i)) {
+										if (converting != null) {
+											for (int j = 0; j < inv.getContents().length; j++) {
+												if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
+													craft = false;
+													break;
+												}
+												else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) break;
+											}
 										}
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+
+									if (craft) {
+										ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+										if (Slimefun.hasUnlocked(p, adding, true)) {
+											if (InvUtils.fits(inv, adding)) {
+												for (ItemStack removing: inputs.get(i)) {
+													if (removing != null) inv.removeItem(removing);
+												}
+												inv.addItem(adding);
+												p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
+												p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+												Block raw_disp = b.getRelative(BlockFace.DOWN);									
+												Hopper resf = null;
+												
+												if(raw_disp.getRelative(BlockFace.EAST).getState().getBlock().getType().name() == "HOPPER") {
+													resf = (Hopper) raw_disp.getRelative(BlockFace.EAST).getState();
+												} else if (raw_disp.getRelative(BlockFace.WEST).getState().getBlock().getType().name() == "HOPPER") {
+													resf = (Hopper) raw_disp.getRelative(BlockFace.WEST).getState();
+												} else if (raw_disp.getRelative(BlockFace.NORTH).getState().getBlock().getType().name() == "HOPPER") {
+													resf = (Hopper) raw_disp.getRelative(BlockFace.NORTH).getState();
+												} else if (raw_disp.getRelative(BlockFace.SOUTH).getState().getBlock().getType().name() == "HOPPER"){
+													resf = (Hopper) raw_disp.getRelative(BlockFace.SOUTH).getState();
+												}
+												boolean isIgniteChamberInstalled = false;
+												
+												if(resf != null) {
+													if(resf.getCustomName().equalsIgnoreCase(SlimefunItems.IGNITION_CHAMBER.getItemMeta().getDisplayName())) isIgniteChamberInstalled = true;
+												}
+												
+												if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
+													if(isIgniteChamberInstalled) {
+														if(resf.getInventory().contains(Material.FLINT_AND_STEEL)) {
+															ItemStack item = resf.getInventory().getItem(resf.getInventory().first(Material.FLINT_AND_STEEL));
+															item.setDurability((short) (item.getDurability() + 1));
+															if(item.getDurability() >= 64) {
+																item.setAmount(0); p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+																item.setAmount(0);
+															}
+															p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
+														} else {
+															Messages.local.sendTranslation(p, "machines.ignition-chamber-no-flint", true);
+															BlockBreaker.nullify(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+														}
+													} else {
+														BlockBreaker.nullify(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+													}
+												}
+											}
+											else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										}
+										return true;
+									}
 								}
-								return true;
+								Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 							}
+							return true;
 						}
-						Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
+						else return false;
 					}
-					return true;
-				}
-				else return false;
-			}
-		});
-
+				});
+		
+		
+		new SlimefunItem(Categories.MACHINES_1, SlimefunItems.IGNITION_CHAMBER, "IGNITION_CHAMBER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.STEEL_PLATE, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.STEEL_PLATE, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_PLATE, SlimefunItems.ELECTRIC_MOTOR, null, new ItemStack(Material.HOPPER), null})
+		.register(true);
+		
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.PRESSURE_CHAMBER, "PRESSURE_CHAMBER",
 		new ItemStack[] {new ItemStack(Material.STEP), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)", 0), new ItemStack(Material.STEP), new ItemStack(Material.PISTON_BASE), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON_BASE), new ItemStack(Material.PISTON_BASE), new ItemStack(Material.CAULDRON_ITEM), new ItemStack(Material.PISTON_BASE)},
 		new ItemStack[] {SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.RAW_CARBONADO, SlimefunItems.CARBONADO},
