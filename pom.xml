@@ -6,11 +6,13 @@
 
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.1.10</version>
+    <version>4.1.11</version>
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
     <repositories>
         <repository>
             <id>paper-repo</id>
@@ -37,6 +39,7 @@
             <url>https://dl.bintray.com/robomwm/maven</url>
         </repository>
     </repositories>
+
     <build>
     <!--Maintain existing structure (as much as possible)-->
         <sourceDirectory>${project.basedir}/src</sourceDirectory>
@@ -47,11 +50,10 @@
             <directory>${project.basedir}/tests/resources</directory>
           </testResource>
         </testResources>
-        <finalName>${project.name}</finalName>
+        <finalName>${project.name}-${project.version}</finalName>
         <resources>
             <resource>
             <!-- Use plugin.yml in the src directory-->
-            <!-- This can also automatically update plugin.yml version from pom, if you use ${project.version} as version number-->
                 <directory>${basedir}/src</directory>
                 <filtering>true</filtering>
                 <includes>
@@ -60,6 +62,7 @@
             </resource>
         </resources>
     </build>
+
     <dependencies>
         <!--Bukkit API-->
         <dependency>
@@ -99,4 +102,5 @@
 	        <version>787060c580</version>
 	    </dependency>
     </dependencies>
+
 </project>
