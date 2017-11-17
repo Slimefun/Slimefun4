@@ -61,6 +61,20 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		blockblacklist.add(Material.BEDROCK);
 		blockblacklist.add(Material.BARRIER);
 		blockblacklist.add(Material.ENDER_PORTAL_FRAME);
+		blockblacklist.add(Material.ANDROID_INTERFACE_FUEL);
+		blockblacklist.add(Material.ANDROID_INTERFACE_ITEMS);
+		blockblacklist.add(SlimefunItems.GOLD_4K);
+		blockblacklist.add(SlimefunItems.GOLD_6K);
+		blockblacklist.add(SlimefunItems.GOLD_8K);
+		blockblacklist.add(SlimefunItems.GOLD_10K);
+		blockblacklist.add(SlimefunItems.GOLD_12K);
+		blockblacklist.add(SlimefunItems.GOLD_14K);
+		blockblacklist.add(SlimefunItems.GOLD_16K);
+		blockblacklist.add(SlimefunItems.GOLD_18K);
+		blockblacklist.add(SlimefunItems.GOLD_20K);
+		blockblacklist.add(SlimefunItems.GOLD_22K);
+		blockblacklist.add(SlimefunItems.GOLD_24K);
+		
 	}
 
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
