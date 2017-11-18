@@ -84,6 +84,10 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		tabs.add("teleporter");
 		descriptions.add(Messages.local.getTranslation("commands.teleporter").get(0));
 		
+		arguments.add("/sf open_guide");
+		tabs.add("open_guide");
+		descriptions.add(Messages.local.getTranslation("commands.open_guide").get(0));
+		
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
@@ -100,6 +104,9 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 				}
 				else Messages.local.sendTranslation(sender, "messages.only-players", true);
+			}
+			else if(args[0].equalsIgnoreCase("open_guide")) {
+				if (sender instanceof Player) SlimefunGuide.openGuide((Player) sender, SlimefunStartup.getCfg().getBoolean("guide.default-view-book"));
 			}
 			else if (args[0].equalsIgnoreCase("guide")) {
 				if (sender instanceof Player) {
