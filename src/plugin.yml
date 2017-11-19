@@ -36,7 +36,7 @@ permissions:
     default: op
   slimefun.command.guide:
     description: Allows you to obtain the Slimefun guide book
-    default: op
+    default: true
   slimefun.command.open_guide:
     description: Allows you to open the SF guide without the book
     default: op
