@@ -749,24 +749,18 @@ public class SlimefunSetup {
 												p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 												Block raw_disp = b.getRelative(BlockFace.DOWN);									
 												Hopper resf = null;
-												boolean isIgnitionChamberInstalled = false;
-												
 												if(BlockStorage.check(raw_disp.getRelative(BlockFace.EAST).getState().getBlock(), "IGNITION_CHAMBER")) {
 													resf = (Hopper) raw_disp.getRelative(BlockFace.EAST).getState();
-													isIgnitionChamberInstalled = true;
 												} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.WEST).getState().getBlock(), "IGNITION_CHAMBER")) {
 													resf = (Hopper) raw_disp.getRelative(BlockFace.WEST).getState();
-													isIgnitionChamberInstalled = true;
 												} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.NORTH).getState().getBlock(), "IGNITION_CHAMBER")) {
 													resf = (Hopper) raw_disp.getRelative(BlockFace.NORTH).getState();
-													isIgnitionChamberInstalled = true;
 												} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.SOUTH).getState().getBlock(), "IGNITION_CHAMBER")){
 													resf = (Hopper) raw_disp.getRelative(BlockFace.SOUTH).getState();
-													isIgnitionChamberInstalled = true;
 												}
 												
 												if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
-													if(isIgnitionChamberInstalled) {
+													if(resf != null) {
 														if(resf.getInventory().contains(Material.FLINT_AND_STEEL)) {
 															ItemStack item = resf.getInventory().getItem(resf.getInventory().first(Material.FLINT_AND_STEEL));
 															item.setDurability((short) (item.getDurability() + 1));
