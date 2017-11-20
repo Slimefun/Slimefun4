@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Hopper;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
@@ -61,7 +62,7 @@ public class ItemListener implements Listener {
 	
 	@EventHandler
 	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
-		if(e.getInitiator().getName().equalsIgnoreCase(SlimefunItems.IGNITION_CHAMBER.getItemMeta().getDisplayName()) && e.getInitiator().getType() == InventoryType.HOPPER) {
+		if(BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
 			e.setCancelled(true);
 		}
 	}
