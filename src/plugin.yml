@@ -34,6 +34,12 @@ permissions:
   slimefun.command.versions:
     description: Allows you to do /sf versions
     default: op
+  slimefun.command.guide:
+    description: Allows you to obtain the Slimefun guide book
+    default: true
+  slimefun.command.open_guide:
+    description: Allows you to open the SF guide without the book
+    default: op
   slimefun.android.bypass:
     description: Allows you to edit other Players Androids
     default: op
