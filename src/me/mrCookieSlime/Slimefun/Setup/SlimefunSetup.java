@@ -748,21 +748,21 @@ public class SlimefunSetup {
 												p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
 												p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 												Block raw_disp = b.getRelative(BlockFace.DOWN);									
-												Hopper resf = null;
+												Hopper chamber = null;
 												if(BlockStorage.check(raw_disp.getRelative(BlockFace.EAST).getState().getBlock(), "IGNITION_CHAMBER")) {
-													resf = (Hopper) raw_disp.getRelative(BlockFace.EAST).getState();
+													chamber = (Hopper) raw_disp.getRelative(BlockFace.EAST).getState();
 												} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.WEST).getState().getBlock(), "IGNITION_CHAMBER")) {
-													resf = (Hopper) raw_disp.getRelative(BlockFace.WEST).getState();
+													chamber = (Hopper) raw_disp.getRelative(BlockFace.WEST).getState();
 												} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.NORTH).getState().getBlock(), "IGNITION_CHAMBER")) {
-													resf = (Hopper) raw_disp.getRelative(BlockFace.NORTH).getState();
+													chamber = (Hopper) raw_disp.getRelative(BlockFace.NORTH).getState();
 												} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.SOUTH).getState().getBlock(), "IGNITION_CHAMBER")){
-													resf = (Hopper) raw_disp.getRelative(BlockFace.SOUTH).getState();
+													chamber = (Hopper) raw_disp.getRelative(BlockFace.SOUTH).getState();
 												}
 												
 												if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
-													if(resf != null) {
-														if(resf.getInventory().contains(Material.FLINT_AND_STEEL)) {
-															ItemStack item = resf.getInventory().getItem(resf.getInventory().first(Material.FLINT_AND_STEEL));
+													if(chamber != null) {
+														if(chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
+															ItemStack item = chamber.getInventory().getItem(chamber.getInventory().first(Material.FLINT_AND_STEEL));
 															item.setDurability((short) (item.getDurability() + 1));
 															if(item.getDurability() >= item.getType().getMaxDurability()) {
 																item.setAmount(0); 
