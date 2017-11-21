@@ -27,6 +27,7 @@ import me.mrCookieSlime.Slimefun.Variables;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunSpawner;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Interfaces.NotPlaceable;
@@ -39,11 +40,11 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class ToolListener implements Listener {
-	
+
 	public ToolListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockRegister(BlockPlaceEvent e) {
 		if (BlockStorage.hasBlockInfo(e.getBlock())) {
@@ -53,7 +54,7 @@ public class ToolListener implements Listener {
 		ItemStack item = e.getItemInHand();
 		if (item != null && item.getType() == Material.INK_SACK) return;
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		if (sfItem != null && !(sfItem instanceof NotPlaceable)){
+		if (sfItem != null && !(sfItem instanceof NotPlaceable) && !(sfItem instanceof SlimefunSpawner)){
 			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getName(), true);
 			if (SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
 				SlimefunItem.blockhandler.get(sfItem.getName()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
@@ -65,18 +66,18 @@ public class ToolListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e) {
 		ItemStack item = e.getItemInHand();
-		
+
 		if (Variables.cancelPlace.contains(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 			Variables.cancelPlace.remove(e.getPlayer().getUniqueId());
 		}
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
-		
+
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_SMALL, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_MEDIUM, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_LARGE, false)) e.setCancelled(true);
@@ -95,7 +96,7 @@ public class ToolListener implements Listener {
 
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.TINY_URANIUM, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
-		
+
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GPS_MARKER_TOOL, true)) {
 			e.setCancelled(true);
@@ -128,9 +129,9 @@ public class ToolListener implements Listener {
 			gifts.add(new SkullItem("Kaelten"));
 			gifts.add(new SkullItem("ahamling27"));
 			gifts.add(new SkullItem("Myrathi"));
-			
+
 			new String(
-			"Good day to whoever is just looking through my code." + 
+			"Good day to whoever is just looking through my code." +
 			"Since it is Christmas, I wanted to add some Christmas flavour to this Plugin." +
 			"So, I hope you don't mind that I implemented some of your Heads >.>" +
 			"Merry Christmas everyone!" +
@@ -163,16 +164,16 @@ public class ToolListener implements Listener {
 				e.setCancelled(true);
 			}
 		}
-		
+
 	}
-	
+
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent e) {
 		boolean allow = true;
 		List<ItemStack> drops = new ArrayList<ItemStack>();
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		int fortune = 1;
-		
+
 		Block block2 = e.getBlock().getRelative(BlockFace.UP);
 		if (StringUtils.equals(block2.getType().toString(), "SAPLING", "WOOD_PLATE", "STONE_PLATE", "IRON_PLATE", "GOLD_PLATE")) {
 			SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
@@ -210,12 +211,12 @@ public class ToolListener implements Listener {
 				if (fortune <= 0) fortune = 1;
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + SlimefunStartup.randomize(5) : 1) * (fortune + 1);
 			}
-			
+
 			for (ItemHandler handler: SlimefunItem.getHandlers("BlockBreakHandler")) {
 				if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 			}
 		}
-		
+
 		if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE")) {
 			if (Talisman.checkFor(e, SlimefunItem.getByName("MINER_TALISMAN"))) {
 				if (drops.isEmpty()) drops = (List<ItemStack>) e.getBlock().getDrops();
@@ -224,7 +225,7 @@ public class ToolListener implements Listener {
 				}
 			}
 		}
-		
+
 		if (!drops.isEmpty()) {
 			e.getBlock().setType(Material.AIR);
 			for (ItemStack drop: drops) {
@@ -234,7 +235,7 @@ public class ToolListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
 	public void onEntityExplode(EntityExplodeEvent e) {
 		Iterator<Block> blocks = e.blockList().iterator();
@@ -255,9 +256,9 @@ public class ToolListener implements Listener {
     			}
     		}
 		}
-	    
+
 	}
-	
+
 	@EventHandler
 	public void onLiquidFlow(BlockFromToEvent e) {
 		Block block = e.getToBlock();
