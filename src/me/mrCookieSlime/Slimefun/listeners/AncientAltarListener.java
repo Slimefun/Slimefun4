@@ -62,7 +62,7 @@ public class AncientAltarListener implements Listener {
 						Messages.local.sendTranslation(e.getPlayer(), "PEDESTAL.obstructed", true);
 						return;
 					}
-					else insertItem(e.getPlayer(), b);
+					insertItem(e.getPlayer(), b);
 				}
 				else if (!removed_items.contains(stack.getUniqueId())) {
 					final UUID uuid = stack.getUniqueId();
