@@ -57,7 +57,12 @@ public class AncientAltarListener implements Listener {
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
-					insertItem(e.getPlayer(), b);
+					if(e.getPlayer().getItemInHand().getType().equals(Material.AIR)) return;
+					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
+						Messages.local.sendTranslation(e.getPlayer(), "PEDESTAL.obstructed", true);
+						return;
+					}
+					else insertItem(e.getPlayer(), b);
 				}
 				else if (!removed_items.contains(stack.getUniqueId())) {
 					final UUID uuid = stack.getUniqueId();
@@ -145,7 +150,7 @@ public class AncientAltarListener implements Listener {
 
 	private void insertItem(Player p, Block b) {
 		final ItemStack stack = p.getInventory().getItemInMainHand();
-		if (stack != null && !stack.getType().equals(Material.AIR)) {
+		if (stack != null) {
 			PlayerInventory.consumeItemInHand(p);
 			String nametag = StringUtils.formatItemName(stack, false);
 			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "&5&dALTAR &3Probe - &e" + System.nanoTime()));
