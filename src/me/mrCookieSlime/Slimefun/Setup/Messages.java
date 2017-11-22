@@ -71,7 +71,8 @@ public class Messages {
 		local.setDefault("commands.research.reset", "&cYou have reset %player%'s Knowledge");
 		local.setDefault("commands.research.reset-target", "&cYour Knowledge has been reset");
 		local.setDefault("machines.in-use", "&cThis Block's Inventory is currently opened by a different Player.");
-		local.setDefault("messages.cant-place" ,"&cYou can't place that block there!");
+		local.setDefault("machines.ignition-chamber-no-flint", "&cIgnition Chamber is missing Flint and Steel.");
+    local.setDefault("messages.cant-place" ,"&cYou can't place that block there!");
 		
 		local.setDefault("gps.waypoint.new", "&ePlease type in a Name for your new Waypoint in the Chat. &7(Color Codes supported!)");
 		local.setDefault("gps.waypoint.added", "&aSuccessfully added a new Waypoint");
@@ -87,7 +88,6 @@ public class Messages {
 		local.setDefault("machines.ANCIENT_ALTAR.unknown-catalyst", "&4Unknown Catalyst! &cUse the correct Recipe instead!");
 		local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe", "&4Unknown Recipe! &cUse the correct Recipe instead!");
 		local.setDefault("machines.HOLOGRAM_PROJECTOR.enter-text", "&7Please enter your desired Hologram Text in your Chat. &r(Color Codes are supported!)");
-		local.setDefault("machines.ANCIENT_PEDESTAL.obstructed", "&4Pedestal is obstructed! &cRemove the block above the pedestal!");
 		local.setDefault("machines.ELEVATOR.no-destinations", "&4No Destinations found");
 		local.setDefault("machines.CARGO_NODES.must-be-placed", "&4Must be placed onto a Chest or Machine");
 
