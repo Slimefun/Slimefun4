@@ -189,7 +189,7 @@ public class AncientAltarListener implements Listener {
 		if(item.getName().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
 			Messages.local.sendTranslation(e.getPlayer(), "messages.cant-place", true);
 			e.setCancelled(true);
-		} else return;
+		}
 	}
 }
 
