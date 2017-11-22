@@ -179,5 +179,17 @@ public class AncientAltarListener implements Listener {
 			e.getItem().remove();
 		}
 	}
+	
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent e) {
+		if(e.isCancelled()) return;
+		Block b = e.getBlockPlaced().getRelative(0, -1, 0);
+		SlimefunItem item = BlockStorage.check(b);
+		if(item == null) return;
+		if(item.getName().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
+			Messages.local.sendTranslation(e.getPlayer(), "messages.cant-place", true);
+			e.setCancelled(true);
+		} else return;
+	}
 }
 
