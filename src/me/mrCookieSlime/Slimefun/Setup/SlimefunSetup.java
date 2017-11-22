@@ -2126,11 +2126,11 @@ public class SlimefunSetup {
 		.register(true);
 
 		@SuppressWarnings("unchecked")
-		final String[] explosiveblacklist = Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "unbreakable-blocks") != null ? ((List<String>) Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "unbreakable-blocks")).toArray(new String[((List<String>) Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "unbreakable-blocks")).size()]): new String[] {"BEDROCK"};
+		final String[] explosiveblacklist = Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "unbreakable-blocks") != null ? ((List<String>) Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "unbreakable-blocks")).toArray(new String[((List<String>) Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "unbreakable-blocks")).size()]): new String[] {"BEDROCK", "BARRIER", "COMMAND", "COMMAND_CHAIN", "COMMAND_REPEATING"};
 
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.EXPLOSIVE_PICKAXE, "EXPLOSIVE_PICKAXE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.TNT), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.TNT), null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null},
-		new String[] {"unbreakable-blocks"}, new Object[] {Arrays.asList("BEDROCK")})
+		new String[] {"unbreakable-blocks"}, new Object[] {Arrays.asList("BEDROCK", "BARRIER", "COMMAND", "COMMAND_CHAIN", "COMMAND_REPEATING")})
 		.register(true, new BlockBreakHandler() {
 
 			@Override
