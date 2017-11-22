@@ -187,7 +187,7 @@ public class AncientAltarListener implements Listener {
 		SlimefunItem item = BlockStorage.check(b);
 		if(item == null) return;
 		if(item.getName().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
-			Messages.local.sendTranslation(e.getPlayer(), "messages.cant-place", true);
+			Messages.local.sendTranslation(e.getPlayer(), "messages.cannot-place", true);
 			e.setCancelled(true);
 		}
 	}
