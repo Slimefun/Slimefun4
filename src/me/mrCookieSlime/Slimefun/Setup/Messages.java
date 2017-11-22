@@ -72,7 +72,7 @@ public class Messages {
 		local.setDefault("commands.research.reset-target", "&cYour Knowledge has been reset");
 		local.setDefault("machines.in-use", "&cThis Block's Inventory is currently opened by a different Player.");
 		local.setDefault("machines.ignition-chamber-no-flint", "&cIgnition Chamber is missing Flint and Steel.");
-    		local.setDefault("messages.cant-place" ,"&cYou can't place that block there!");
+    		local.setDefault("messages.cannot-place" ,"&cYou can't place that block there!");
 		
 		local.setDefault("gps.waypoint.new", "&ePlease type in a Name for your new Waypoint in the Chat. &7(Color Codes supported!)");
 		local.setDefault("gps.waypoint.added", "&aSuccessfully added a new Waypoint");
