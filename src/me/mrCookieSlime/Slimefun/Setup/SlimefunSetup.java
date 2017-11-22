@@ -1337,8 +1337,8 @@ public class SlimefunSetup {
 										removing.setAmount(1);
 										inv.removeItem(removing);
 										inv.addItem(adding);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
 										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
 										if (InvUtils.fits(inv, SlimefunItems.STONE_CHUNK)) inv.addItem(SlimefunItems.STONE_CHUNK);
 									}
 									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
