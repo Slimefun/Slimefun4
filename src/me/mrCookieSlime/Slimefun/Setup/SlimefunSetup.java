@@ -1332,7 +1332,7 @@ public class SlimefunSetup {
 									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.LEAD_DUST;
 									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.SILVER_DUST;
 
-									if (InvUtils.fits(inv, adding)) {
+									if (inv.firstEmpty() != -1) {
 										ItemStack removing = current.clone();
 										removing.setAmount(1);
 										inv.removeItem(removing);
