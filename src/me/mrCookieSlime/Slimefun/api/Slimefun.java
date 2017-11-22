@@ -185,7 +185,7 @@ public class Slimefun {
 	public static boolean hasPermission(Player p, SlimefunItem item, boolean message) {
 		if (item == null) return true;
 		else if (item.getPermission().equalsIgnoreCase("")) return true;
-		else if (item.requirePermissionToUse() && p.hasPermission(item.getPermission())) return true;
+		else if (p.hasPermission(item.getPermission())) return true;
 		else {
 			if (message) Messages.local.sendTranslation(p, "messages.no-permission", true);
 			return false;

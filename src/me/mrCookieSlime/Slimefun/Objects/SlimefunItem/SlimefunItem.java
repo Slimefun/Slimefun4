@@ -62,7 +62,6 @@ public class SlimefunItem {
 	private boolean replacing = false;
 	private boolean addon = false;
 	private String permission = "";
-	private boolean requirePermissionToUse = false;
 	private Set<ItemHandler> itemhandlers = new HashSet<ItemHandler>();
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
@@ -198,10 +197,6 @@ public class SlimefunItem {
 	 * @since 4.1.11
 	 */
 	public String getPermission() 		{		return permission;		}
-	/**
-	 * @since 4.1.11
-	 */
-	public boolean requirePermissionToUse() {	return requirePermissionToUse;	}
 	public Set<ItemHandler> getHandlers() {		return itemhandlers;	}
 	public boolean isTicking() 			{		return ticking;			}
 	/**
@@ -235,7 +230,6 @@ public class SlimefunItem {
 			SlimefunStartup.getItemCfg().setDefaultValue(id + ".allow-enchanting", enchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(id + ".allow-disenchanting", disenchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(id + ".required-permission", permission);
-			SlimefunStartup.getItemCfg().setDefaultValue(id + ".require-permission-to-use", requirePermissionToUse);
 			if (keys != null && values != null) {
 				for (int i = 0; i < keys.length; i++) {
 					SlimefunStartup.getItemCfg().setDefaultValue(id + "." + keys[i], values[i]);
@@ -262,7 +256,6 @@ public class SlimefunItem {
 				enchantable = SlimefunStartup.getItemCfg().getBoolean(id + ".allow-enchanting");
 				disenchantable = SlimefunStartup.getItemCfg().getBoolean(id + ".allow-disenchanting");
 				permission = SlimefunStartup.getItemCfg().getString(id + ".required-permission");
-				requirePermissionToUse = SlimefunStartup.getItemCfg().getBoolean(id + ".require-permission-to-use");
 				items.add(this);
 				if (slimefun) vanilla++;
 				map_id.put(id, urid);
