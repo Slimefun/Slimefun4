@@ -226,7 +226,7 @@ public class SlimefunItem {
 			
 			SlimefunStartup.getItemCfg().setDefaultValue(id + ".enabled", true);
 			SlimefunStartup.getItemCfg().setDefaultValue(id + ".can-be-used-in-workbenches", replacing);
-			SlimefunStartup.getItemCfg().setDefaultValue(id + ".hide-in-recipe-book", hidden);
+			SlimefunStartup.getItemCfg().setDefaultValue(id + ".hide-in-guide", hidden);
 			SlimefunStartup.getItemCfg().setDefaultValue(id + ".allow-enchanting", enchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(id + ".allow-disenchanting", disenchantable);
 			SlimefunStartup.getItemCfg().setDefaultValue(id + ".required-permission", permission);
@@ -252,7 +252,7 @@ public class SlimefunItem {
 				state = State.ENABLED;
 				
 				replacing = SlimefunStartup.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
-				hidden = SlimefunStartup.getItemCfg().getBoolean(id + ".hide-in-recipe-book");
+				hidden = SlimefunStartup.getItemCfg().getBoolean(id + ".hide-in-guide");
 				enchantable = SlimefunStartup.getItemCfg().getBoolean(id + ".allow-enchanting");
 				disenchantable = SlimefunStartup.getItemCfg().getBoolean(id + ".allow-disenchanting");
 				permission = SlimefunStartup.getItemCfg().getString(id + ".required-permission");
