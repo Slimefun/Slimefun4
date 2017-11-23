@@ -249,7 +249,7 @@ public class SlimefunItem {
 			if (SlimefunStartup.getItemCfg().getBoolean(id + ".enabled")) {
 				if (!Category.list().contains(category)) category.register();
 				
-				this.tate = State.ENABLED;
+				this.state = State.ENABLED;
 				
 				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
 				this.hidden = SlimefunStartup.getItemCfg().getBoolean(this.id + ".hide-in-guide");
@@ -258,21 +258,21 @@ public class SlimefunItem {
 				this.permission = SlimefunStartup.getItemCfg().getString(this.id + ".required-permission");
 				items.add(this);
 				if (slimefun) vanilla++;
-				map_id.put(id, urid);
-				create();
+				map_id.put(this.id, this.urid);
+				this.create();
 				for (ItemHandler handler: itemhandlers) {
 					Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
 					handlerset.add(handler);
 					handlers.put(handler.toCodename(), handlerset);
 				}
 				
-				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.getID() + "\"");
+				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.id + "\"");
 			} else {
 			    if (this instanceof VanillaItem) this.state = State.VANILLA;
 			    else this.state = State.DISABLED;
 			}
 		} catch(Exception x) {
-			System.err.println("[Slimefun] Item Registration failed: " + id);
+			System.err.println("[Slimefun] Item Registration failed: " + this.id);
 		}
 	}
 	
