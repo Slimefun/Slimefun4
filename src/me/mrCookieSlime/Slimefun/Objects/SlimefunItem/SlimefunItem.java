@@ -219,43 +219,43 @@ public class SlimefunItem {
 	}
 	
 	public void register(boolean slimefun) {
-		addon = !slimefun;
+		this.addon = !slimefun;
 		try {
-			if (recipe.length < 9) recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
+			if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
 			all.add(this);
 			
-			SlimefunStartup.getItemCfg().setDefaultValue(id + ".enabled", true);
-			SlimefunStartup.getItemCfg().setDefaultValue(id + ".can-be-used-in-workbenches", replacing);
-			SlimefunStartup.getItemCfg().setDefaultValue(id + ".hide-in-guide", hidden);
-			SlimefunStartup.getItemCfg().setDefaultValue(id + ".allow-enchanting", enchantable);
-			SlimefunStartup.getItemCfg().setDefaultValue(id + ".allow-disenchanting", disenchantable);
-			SlimefunStartup.getItemCfg().setDefaultValue(id + ".required-permission", permission);
-			if (keys != null && values != null) {
-				for (int i = 0; i < keys.length; i++) {
-					SlimefunStartup.getItemCfg().setDefaultValue(id + "." + keys[i], values[i]);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".enabled", true);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.replacing);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".hide-in-guide", this.hidden);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
+			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
+			if (this.keys != null && this.values != null) {
+				for (int i = 0; i < this.keys.length; i++) {
+					SlimefunStartup.getItemCfg().setDefaultValue(this.id + "." + this.keys[i], this.values[i]);
 				}
 			}
 			
 			for (World world: Bukkit.getWorlds()) {
 				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
-				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + id, true);
+				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.id, true);
 			}
 			
-			if (ticking && !SlimefunStartup.getCfg().getBoolean("URID.enable-tickers")) {
-			    state = State.DISABLED;
+			if (this.ticking && !SlimefunStartup.getCfg().getBoolean("URID.enable-tickers")) {
+			    this.state = State.DISABLED;
 			    return;
 			}
 			
 			if (SlimefunStartup.getItemCfg().getBoolean(id + ".enabled")) {
 				if (!Category.list().contains(category)) category.register();
 				
-				state = State.ENABLED;
+				this.tate = State.ENABLED;
 				
-				replacing = SlimefunStartup.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
-				hidden = SlimefunStartup.getItemCfg().getBoolean(id + ".hide-in-guide");
-				enchantable = SlimefunStartup.getItemCfg().getBoolean(id + ".allow-enchanting");
-				disenchantable = SlimefunStartup.getItemCfg().getBoolean(id + ".allow-disenchanting");
-				permission = SlimefunStartup.getItemCfg().getString(id + ".required-permission");
+				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
+				this.hidden = SlimefunStartup.getItemCfg().getBoolean(this.id + ".hide-in-guide");
+				this.enchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-enchanting");
+				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
+				this.permission = SlimefunStartup.getItemCfg().getString(this.id + ".required-permission");
 				items.add(this);
 				if (slimefun) vanilla++;
 				map_id.put(id, urid);
@@ -268,8 +268,8 @@ public class SlimefunItem {
 				
 				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.getID() + "\"");
 			} else {
-			    if (this instanceof VanillaItem) state = State.VANILLA;
-			    else state = State.DISABLED;
+			    if (this instanceof VanillaItem) this.state = State.VANILLA;
+			    else this.state = State.DISABLED;
 			}
 		} catch(Exception x) {
 			System.err.println("[Slimefun] Item Registration failed: " + id);
