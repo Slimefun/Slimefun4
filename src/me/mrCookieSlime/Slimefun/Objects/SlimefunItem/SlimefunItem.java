@@ -157,7 +157,7 @@ public class SlimefunItem {
 	 * @deprecated As of 4.1.11, renamed to {@link #getID()} for better name convenience.
 	 */
 	@Deprecated
-	public String getName()				{		return id;				}
+	public String getName()				{		return id;			}
 	/**
 	 * Returns the identifier of this SlimefunItem.
 	 *
@@ -165,53 +165,53 @@ public class SlimefunItem {
 	 *
 	 * @since 4.1.11, rename of {@link #getName()}.
 	 */
-	public String getID()				{		return id;				}
+	public String getID()				{		return id;			}
 	public URID getURID() 				{		return urid;			}
 	public String getHash()				{		return hash;			}
 	public State getState()				{		return state;			}
 	public ItemStack getItem()			{		return item;			}
-	public Category getCategory()		{		return category;		}
-	public ItemStack[] getRecipe()		{		return recipe;			}
-	public RecipeType getRecipeType()	{		return recipeType;		}
+	public Category getCategory()			{		return category;		}
+	public ItemStack[] getRecipe()			{		return recipe;			}
+	public RecipeType getRecipeType()		{		return recipeType;		}
 	/**
 	 * @since 4.0
 	 * @deprecated As of 4.1.11, renamed to {@link #getRecipeOutput()} for better name convenience.
 	 */
 	@Deprecated
-	public ItemStack getCustomOutput()	{		return recipeOutput;	}
+	public ItemStack getCustomOutput()		{		return recipeOutput;		}
 	/**
 	 * @since 4.1.11, rename of {@link #getCustomOutput()}.
 	 */
-	public ItemStack getRecipeOutput()	{		return recipeOutput;	}
-	public Research getResearch()		{		return research;		}
+	public ItemStack getRecipeOutput()		{		return recipeOutput;		}
+	public Research getResearch()			{		return research;		}
 	public int getMonth()	 			{		return month;			}
-	public boolean isEnchantable() 		{		return enchantable;		}
-	public boolean isDisenchantable() 	{		return disenchantable;	}
+	public boolean isEnchantable() 			{		return enchantable;		}
+	public boolean isDisenchantable() 		{		return disenchantable;		}
 	/**
 	 * @since 4.1.11
 	 */
 	public boolean isHidden() 			{		return hidden;			}
-	public boolean isReplacing() 		{		return replacing;		}
-	public boolean isAddonItem() 		{		return addon;			}
+	public boolean isReplacing() 			{		return replacing;		}
+	public boolean isAddonItem() 			{		return addon;			}
 	/**
 	 * @since 4.1.11
 	 */
-	public String getPermission() 		{		return permission;		}
-	public Set<ItemHandler> getHandlers() {		return itemhandlers;	}
+	public String getPermission() 			{		return permission;		}
+	public Set<ItemHandler> getHandlers() 		{		return itemhandlers;		}
 	public boolean isTicking() 			{		return ticking;			}
 	/**
 	 * @since 4.0
 	 * @deprecated As of 4.1.11, renamed to {@link #getBlockTicker()} for better name convenience.
 	 */
 	@Deprecated
-	public BlockTicker getTicker()		{		return blockTicker;		}
+	public BlockTicker getTicker()			{		return blockTicker;		}
 	/**
 	 * @since 4.1.11, rename of {@link #getTicker()}.
 	 */
-	public BlockTicker getBlockTicker() {		return blockTicker;		}
-	public EnergyTicker getEnergyTicker() {		return energyTicker;	}
+	public BlockTicker getBlockTicker()		{		return blockTicker;		}
+	public EnergyTicker getEnergyTicker()		{		return energyTicker;		}
 	public String[] listKeys()			{		return keys;			}
-	public Object[] listValues()		{		return values;			}
+	public Object[] listValues()			{		return values;			}
 	public boolean isDisabled()			{		return state != State.ENABLED;	}
 
 	public void register() {
@@ -375,11 +375,11 @@ public class SlimefunItem {
 	
 	public static State getState(ItemStack item) {
 	    for (SlimefunItem i: all) {
-            if (i.isItem(item)) {
-                return i.getState();
+       		if (i.isItem(item)) {
+             		return i.getState();
+            	}
             }
-        }
-        return State.ENABLED;
+            return State.ENABLED;
 	}
 	
 	public static boolean isDisabled(ItemStack item) {
