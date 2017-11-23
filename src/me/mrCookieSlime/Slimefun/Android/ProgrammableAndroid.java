@@ -61,6 +61,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		blockblacklist.add(Material.BEDROCK);
 		blockblacklist.add(Material.BARRIER);
 		blockblacklist.add(Material.ENDER_PORTAL_FRAME);
+		blockblacklist.add(Material.COMMAND);
+		blockblacklist.add(Material.COMMAND_CHAIN);
+		blockblacklist.add(Material.COMMAND_REPEATING);
 	}
 
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
