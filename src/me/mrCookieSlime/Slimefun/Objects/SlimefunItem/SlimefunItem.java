@@ -515,6 +515,6 @@ public class SlimefunItem {
 	}
 	
 	public void addWikipage(String page) {
-		Slimefun.addWikiPage(this.getID(), "https://github.com/mrCookieSlime/Slimefun4/wiki/" + page);
+		Slimefun.addWikiPage(this.getID(), "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
 	}
 }
