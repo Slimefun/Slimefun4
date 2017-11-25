@@ -1332,13 +1332,13 @@ public class SlimefunSetup {
 									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.LEAD_DUST;
 									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.SILVER_DUST;
 
-									if (InvUtils.fits(inv, adding)) {
+									if (inv.firstEmpty() != -1) {
 										ItemStack removing = current.clone();
 										removing.setAmount(1);
 										inv.removeItem(removing);
 										inv.addItem(adding);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
 										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
 										if (InvUtils.fits(inv, SlimefunItems.STONE_CHUNK)) inv.addItem(SlimefunItems.STONE_CHUNK);
 									}
 									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
