@@ -57,6 +57,11 @@ public class AncientAltarListener implements Listener {
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
+					if(e.getPlayer().getItemInHand().getType().equals(Material.AIR)) return;
+					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
+						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
+						return;
+					}
 					insertItem(e.getPlayer(), b);
 				}
 				else if (!removed_items.contains(stack.getUniqueId())) {
@@ -145,7 +150,7 @@ public class AncientAltarListener implements Listener {
 
 	private void insertItem(Player p, Block b) {
 		final ItemStack stack = p.getInventory().getItemInMainHand();
-		if (stack != null && !stack.getType().equals(Material.AIR)) {
+		if (stack != null) {
 			PlayerInventory.consumeItemInHand(p);
 			String nametag = StringUtils.formatItemName(stack, false);
 			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "&5&dALTAR &3Probe - &e" + System.nanoTime()));
@@ -172,6 +177,17 @@ public class AncientAltarListener implements Listener {
 		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
 			e.setCancelled(true);
 			e.getItem().remove();
+		}
+	}
+	
+	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	public void onBlockPlace(BlockPlaceEvent e) {
+		Block b = e.getBlockPlaced().getRelative(0, -1, 0);
+		SlimefunItem item = BlockStorage.check(b);
+		if(item == null) return;
+		if(item.getName().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
+			Messages.local.sendTranslation(e.getPlayer(), "messages.cannot-place", true);
+			e.setCancelled(true);
 		}
 	}
 }
