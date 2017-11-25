@@ -3,11 +3,9 @@ package me.mrCookieSlime.Slimefun.api;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -136,14 +134,34 @@ public class TickerTask implements Runnable {
 														stream.println("  Build: " + Bukkit.getVersion());
 														stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
 														stream.println();
-														stream.println("Installed Plugins (" + Bukkit.getPluginManager().getPlugins().length + ")");
+														stream.println("Slimefun Environment:");
+														stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
+														stream.println("  Slimefun v" + SlimefunStartup.instance.getDescription().getVersion());
+														stream.println();
+
+														List<String> plugins = new ArrayList<>();
+														List<String> addons = new ArrayList<>();
 														for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
 															if (Bukkit.getPluginManager().isPluginEnabled(p)) {
-																stream.println("  + " + p.getName() + " " + p.getDescription().getVersion());
+																plugins.add("  + " + p.getName() + " " + p.getDescription().getVersion());
+																if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
+																	addons.add("  + " + p.getName() + " " + p.getDescription().getVersion());
 															}
 															else {
-																stream.println("  - " + p.getName() + " " + p.getDescription().getVersion());
+																plugins.add("  - " + p.getName() + " " + p.getDescription().getVersion());
+																if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
+																	addons.add("  - " + p.getName() + " " + p.getDescription().getVersion());
 															}
+														}
+
+														stream.println(" Installed Addons (" + addons.size() + ")");
+														for (String addon : addons) {
+															stream.println(addon);
+														}
+														stream.println();
+														stream.println("Installed Plugins (" + plugins.size() + "):");
+														for (String plugin : plugins) {
+															stream.println(plugin);
 														}
 														stream.println();
 														stream.println("Ticked Block:");
