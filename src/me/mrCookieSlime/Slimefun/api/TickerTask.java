@@ -155,10 +155,14 @@ public class TickerTask implements Runnable {
 														}
 
 														stream.println(" Installed Addons (" + addons.size() + ")");
-														for (String addon : addons) stream.println(addon);
+														for (String addon : addons) {
+															stream.println(addon);
+														}
 														stream.println();
 														stream.println("Installed Plugins (" + plugins.size() + "):");
-														for (String plugin : plugins) stream.println(plugin);
+														for (String plugin : plugins) {
+															stream.println(plugin);
+														}
 														stream.println();
 														stream.println("Ticked Block:");
 														stream.println("  World: " + l.getWorld().getName());
