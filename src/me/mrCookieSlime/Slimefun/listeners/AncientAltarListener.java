@@ -180,9 +180,8 @@ public class AncientAltarListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent e) {
-		if(e.isCancelled()) return;
 		Block b = e.getBlockPlaced().getRelative(0, -1, 0);
 		SlimefunItem item = BlockStorage.check(b);
 		if(item == null) return;
