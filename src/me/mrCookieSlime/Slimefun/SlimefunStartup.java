@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
 
+import me.mrCookieSlime.Slimefun.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -58,22 +59,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
-import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
-import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
-import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
-import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
-import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
-import me.mrCookieSlime.Slimefun.listeners.BlockListener;
-import me.mrCookieSlime.Slimefun.listeners.BowListener;
-import me.mrCookieSlime.Slimefun.listeners.ClearLaggIntegration;
-import me.mrCookieSlime.Slimefun.listeners.CoolerListener;
-import me.mrCookieSlime.Slimefun.listeners.DamageListener;
-import me.mrCookieSlime.Slimefun.listeners.FurnaceListener;
-import me.mrCookieSlime.Slimefun.listeners.GearListener;
-import me.mrCookieSlime.Slimefun.listeners.ItemListener;
-import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
-import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
-import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
@@ -217,6 +202,8 @@ public class SlimefunStartup extends JavaPlugin {
 			new FurnaceListener(this);
 			new TeleporterListener(this);
 			new AndroidKillingListener(this);
+			if (currentVersion.startsWith("v1_12_")) new ItemPickupListener_1_12(this);
+			else new ItemPickupListener(this);
 
 			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);

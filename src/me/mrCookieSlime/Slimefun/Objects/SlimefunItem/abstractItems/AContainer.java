@@ -247,7 +247,7 @@ public abstract class AContainer extends SlimefunItem {
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " &4ALL YOUR PLACEHOLDERS BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
@@ -317,7 +317,7 @@ public abstract class AContainer extends SlimefunItem {
 			}
 			else {
 				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
-				pushItems(b, processing.get(b).getOutput());
+				pushItems(b, processing.get(b).getOutput().clone());
 				
 				progress.remove(b);
 				processing.remove(b);
