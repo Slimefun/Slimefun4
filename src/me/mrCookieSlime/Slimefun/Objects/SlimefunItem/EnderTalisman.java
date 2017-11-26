@@ -16,13 +16,13 @@ public class EnderTalisman extends SlimefunItem {
 	int chance;
 
 	public EnderTalisman(Talisman parent) {
-		super(Categories.TALISMANS_2, parent.upgrade(), "ENDER_" + parent.getName(), RecipeType.MAGIC_WORKBENCH, new ItemStack[] {SlimefunItem.getItem("ENDER_LUMP_3"), null, SlimefunItem.getItem("ENDER_LUMP_3"), null, parent.getItem(), null, SlimefunItem.getItem("ENDER_LUMP_3"), null, SlimefunItem.getItem("ENDER_LUMP_3")}, parent.upgrade());
+		super(Categories.TALISMANS_2, parent.upgrade(), "ENDER_" + parent.getID(), RecipeType.MAGIC_WORKBENCH, new ItemStack[] {SlimefunItem.getItem("ENDER_LUMP_3"), null, SlimefunItem.getItem("ENDER_LUMP_3"), null, parent.getItem(), null, SlimefunItem.getItem("ENDER_LUMP_3"), null, SlimefunItem.getItem("ENDER_LUMP_3")}, parent.upgrade());
 		this.consumed = parent.isConsumable();
 		this.cancel = parent.isEventCancelled();
 		this.suffix = parent.getSuffix();
 		this.effects = parent.getEffects();
 		this.chance = parent.getChance();
-		Slimefun.addHint("ENDER_" + parent.getName(), "&eEnder Talismans have the advantage", "&eof still working while they", "&eare in your Ender Chest");
+		Slimefun.addHint("ENDER_" + parent.getID(), "&eEnder Talismans have the advantage", "&eof still working while they", "&eare in your Ender Chest");
 	}
 	
 	public PotionEffect[] getEffects()	{		return this.effects;	}

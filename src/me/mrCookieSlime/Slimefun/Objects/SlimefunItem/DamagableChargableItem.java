@@ -9,13 +9,13 @@ public class DamagableChargableItem extends SlimefunItem {
 	
 	String chargeType;
 
-	public DamagableChargableItem(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, String chargeType) {
-		super(category, item, name, recipeType, recipe);
+	public DamagableChargableItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String chargeType) {
+		super(category, item, id, recipeType, recipe);
 		this.chargeType = chargeType;
 	}
 	
-	public DamagableChargableItem(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, String chargeType, String[] keys, Object[] values) {
-		super(category, item, name, recipeType, recipe, keys, values);
+	public DamagableChargableItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String chargeType, String[] keys, Object[] values) {
+		super(category, item, id, recipeType, recipe, keys, values);
 		this.chargeType = chargeType;
 	}
 	

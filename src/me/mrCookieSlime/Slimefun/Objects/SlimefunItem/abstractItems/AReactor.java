@@ -67,10 +67,10 @@ public abstract class AReactor extends SlimefunItem {
 	private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 49, 50};
     private static final int[] border_4 = {25, 34, 43}; //No coolant border
 
-	public AReactor(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public AReactor(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, id, recipeType, recipe);
 
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(id, getInventoryTitle()) {
 
 			@Override
 			public void init() {
@@ -122,7 +122,7 @@ public abstract class AReactor extends SlimefunItem {
 			}
 		};
 
-		registerBlockHandler(name, new SlimefunBlockHandler() {
+		registerBlockHandler(id, new SlimefunBlockHandler() {
 
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {

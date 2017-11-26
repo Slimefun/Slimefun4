@@ -9,8 +9,8 @@ public class Jetpack extends DamagableChargableItem {
 	
 	double thrust;
 
-	public Jetpack(ItemStack item, String name, ItemStack[] recipe, double thrust) {
-		super(Categories.TECH, item, name, RecipeType.ENHANCED_CRAFTING_TABLE, recipe, "Jetpack");
+	public Jetpack(ItemStack item, String id, ItemStack[] recipe, double thrust) {
+		super(Categories.TECH, item, id, RecipeType.ENHANCED_CRAFTING_TABLE, recipe, "Jetpack");
 		this.thrust = thrust;
 	}
 	

@@ -8,8 +8,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Interfaces.NotPlaceable;
 
 public class ExcludedTool extends SlimefunItem implements NotPlaceable {
 
-	public ExcludedTool(Category category, ItemStack item, String name,RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public ExcludedTool(Category category, ItemStack item, String id,RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, id, recipeType, recipe);
 	}
 
 }

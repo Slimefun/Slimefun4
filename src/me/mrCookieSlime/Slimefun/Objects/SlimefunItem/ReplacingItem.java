@@ -7,10 +7,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class ReplacingItem extends SlimefunItem {
 
-	public ReplacingItem(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public ReplacingItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, id, recipeType, recipe);
 		
-		this.replacing = true;
+		this.setReplacing(true);
 	}
 
 }
