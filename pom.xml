@@ -34,7 +34,7 @@
 		    <id>clearlag-repo</id>
 		    <url>http://minebuilders.me:8080/job/Clearlag/lastSuccessfulBuild/maven-repository/repository/</url>
 		</repository>
-        <repository>
+		<repository>
             <id>robomwm-repo</id>
             <url>https://dl.bintray.com/robomwm/maven</url>
         </repository>
@@ -50,7 +50,7 @@
             <directory>${project.basedir}/tests/resources</directory>
           </testResource>
         </testResources>
-        <finalName>${project.name}-${project.version}</finalName>
+        <finalName>${project.name} v${project.version}</finalName>
         <resources>
             <resource>
             <!-- Use plugin.yml in the src directory-->
@@ -79,7 +79,7 @@
         <dependency>
 	        <groupId>com.github.TheBusyBiscuit</groupId>
 	        <artifactId>CS-CoreLib</artifactId>
-	        <version>47bb8d9ea8</version>
+	        <version>5b8bb9924c</version>
 	    </dependency>
         <dependency>
 	        <groupId>me.minebuilders</groupId>
@@ -94,12 +94,16 @@
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
             <artifactId>EmeraldEnchants</artifactId>
-            <version>2.0</version>
+	        <version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/EmeraldEnchants v2.0.jar</systemPath>
         </dependency>
         <dependency>
-	        <groupId>com.github.TheBusyBiscuit</groupId>
+	        <groupId>me.mrCookieSlime</groupId>
 	        <artifactId>ExoticGarden</artifactId>
-	        <version>787060c580</version>
+	        <version>1.2.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/ExoticGarden v1.2.0.jar</systemPath>
 	    </dependency>
     </dependencies>
 
