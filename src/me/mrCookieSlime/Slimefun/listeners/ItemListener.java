@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,6 +26,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -283,8 +285,18 @@ public class ItemListener implements Listener {
 				else if (item.getType() == Material.POTION) {
 					SlimefunItem sfItem = SlimefunItem.getByItem(item);
 					if (sfItem != null && sfItem instanceof Juice) {
+						// Fix for 1.11 and 1.12 where Saturation potions are no longer working
+						if (ReflectionUtils.getVersion().startsWith("v1_11_") || ReflectionUtils.getVersion().startsWith("v1_12_")) {
+							for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
+								if (effect.getType().equals(PotionEffectType.SATURATION)) {
+									p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, effect.getDuration(), effect.getAmplifier()));
+									break;
+								}
+							}
+						}
+
+						// Determine from which hand the juice is being drunk, and its amount
 						int mode = 0;
-						
 						if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInMainHand(), true)) {
 							if (p.getInventory().getItemInMainHand().getAmount() == 1) {
 								mode = 0;
@@ -301,11 +313,11 @@ public class ItemListener implements Listener {
 								mode = 2;
 							}
 						}
-						
+
+						// Remove the glass bottle once drunk
 						final int m = mode;
 						
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-							
 							
 			                @Override
 			                public void run() {
