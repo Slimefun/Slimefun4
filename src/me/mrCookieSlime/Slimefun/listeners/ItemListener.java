@@ -62,10 +62,17 @@ public class ItemListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
+	/**
+	 * Listens to InventoryMoveItemEvent to handle IGNITION_CHAMBER.
+	 * @param e InventoryMoveItemEvent
+	 * @since 4.1.11
+	 */
 	@EventHandler
 	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
-		if(BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
-			e.setCancelled(true);
+		if (e.getInitiator().getHolder() instanceof Hopper) {
+			if (BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
+				e.setCancelled(true);
+			}
 		}
 	}
 
