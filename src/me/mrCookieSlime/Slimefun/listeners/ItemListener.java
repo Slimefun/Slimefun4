@@ -286,7 +286,7 @@ public class ItemListener implements Listener {
 					SlimefunItem sfItem = SlimefunItem.getByItem(item);
 					if (sfItem != null && sfItem instanceof Juice) {
 						// Fix for 1.11 and 1.12 where Saturation potions are no longer working
-						if (ReflectionUtils.getVersion().startsWith("v1_9_") || ReflectionUtils.getVersion().startsWith("v1_10_")) {
+						if (!ReflectionUtils.getVersion().startsWith("v1_9_") || !ReflectionUtils.getVersion().startsWith("v1_10_")) {
 							for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
 								if (effect.getType().equals(PotionEffectType.SATURATION)) {
 									p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, effect.getDuration(), effect.getAmplifier()));
