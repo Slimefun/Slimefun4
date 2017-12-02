@@ -2763,7 +2763,7 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHOCOLATE_MILK, "CHOCOLATE_MILK", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.MILK, new CustomItem(Material.INK_SACK, 3), null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHOCOLATE_MILK, 2))
+		new ItemStack[] {SlimefunItems.MILK, new MaterialData(Material.INK_SACK, (byte) 3).toItemStack(1), null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHOCOLATE_MILK, 2))
 		.register(true);
 
 		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.EGG_NOG, "EGG_NOG", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2775,7 +2775,7 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_COOKIE, "CHRISTMAS_COOKIE", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {new ItemStack(Material.COOKIE), new ItemStack(Material.SUGAR), new CustomItem(Material.INK_SACK, 10), null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 16))
+		new ItemStack[] {new ItemStack(Material.COOKIE), new ItemStack(Material.SUGAR), new MaterialData(Material.INK_SACK, (byte) 10).toItemStack(1), null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 16))
 		.register(true);
 
 		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.FRUIT_CAKE, "FRUIT_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
