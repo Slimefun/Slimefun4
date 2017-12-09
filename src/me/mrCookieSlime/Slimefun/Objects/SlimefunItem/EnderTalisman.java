@@ -9,11 +9,11 @@ import org.bukkit.potion.PotionEffect;
 
 public class EnderTalisman extends SlimefunItem {
 	
-	boolean consumed;
-	boolean cancel;
-	PotionEffect[] effects;
-	String suffix;
-	int chance;
+	private boolean consumed;
+	private boolean cancel;
+	private PotionEffect[] effects;
+	private String suffix;
+	private int chance;
 
 	public EnderTalisman(Talisman parent) {
 		super(Categories.TALISMANS_2, parent.upgrade(), "ENDER_" + parent.getID(), RecipeType.MAGIC_WORKBENCH, new ItemStack[] {SlimefunItem.getItem("ENDER_LUMP_3"), null, SlimefunItem.getItem("ENDER_LUMP_3"), null, parent.getItem(), null, SlimefunItem.getItem("ENDER_LUMP_3"), null, SlimefunItem.getItem("ENDER_LUMP_3")}, parent.upgrade());

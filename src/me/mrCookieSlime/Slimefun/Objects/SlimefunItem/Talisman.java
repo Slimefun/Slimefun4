@@ -25,11 +25,11 @@ import org.bukkit.potion.PotionEffect;
 
 public class Talisman extends SlimefunItem {
 	
-	boolean consumed;
-	boolean cancel;
-	PotionEffect[] effects;
-	String suffix;
-	int chance;
+	private boolean consumed;
+	private boolean cancel;
+	private PotionEffect[] effects;
+	private String suffix;
+	private int chance;
 
 	public Talisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, PotionEffect... effects) {
 		super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4: 1));
