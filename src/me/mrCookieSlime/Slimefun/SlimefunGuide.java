@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -278,20 +279,19 @@ public class SlimefunGuide {
 		}
 		
 		for (final Contributor contributor: contributors) {
-			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+			ItemStack skull = new SkullItem("&a" + contributor.getName(), contributor.getName());
 			
 			ItemMeta meta = skull.getItemMeta();
-			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&a" + contributor.getName()));
-			
+
 			if (contributor.getCommits() > 0) {
 				double percentage = DoubleHandler.fixDouble((contributor.getCommits() * 100.0) / total, 2);
 				
-				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.getJob()), ChatColor.translateAlternateColorCodes('&', "&7Contribution: &r" + percentage + "%"), "", ChatColor.translateAlternateColorCodes('&', "&7\u21E8 Click to view my GitHub profile")));
+				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.getJob()), ChatColor.translateAlternateColorCodes('&', "&7Contributions: &r" + contributor.getCommits() + " commits &7(&r" + percentage + "%&7)"), "", ChatColor.translateAlternateColorCodes('&', "&7\u21E8 Click to view my GitHub profile")));
 			}
 			else {
 				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.getJob())));
 			}
-			
+
 			skull.setItemMeta(meta);
 			
 			menu.addItem(index, skull);
