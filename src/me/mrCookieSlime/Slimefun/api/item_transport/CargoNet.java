@@ -532,6 +532,14 @@ public class CargoNet {
 				if (freq == 16) providers.add(l);
 				else input.put(l, freq);
 			}
+			else if(id.equals("CARGO_NODE_INPUT_ADVANCED")) {
+				blocks.add(l);
+				l1.add(source);
+				l2.add(l);
+				int freq = getFrequency(l);
+				if(freq == 16)providers.add(l);
+				else input.put(l, freq);
+			}
 			else if (id.equals("CHEST_TERMINAL")) {
 				blocks.add(l);
 				l1.add(source);

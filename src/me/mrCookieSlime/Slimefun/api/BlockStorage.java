@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
@@ -93,13 +91,12 @@ public class BlockStorage {
 							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
-						
+
 						FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 						for (String key: cfg.getKeys(false)) {
 							try {
 								totalBlocks++;
 								storage.put(deserializeLocation(key), cfg.getString(key));
-								
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
 									Set<Block> blocks = ticking_chunks.containsKey(deserializeLocation(key).getChunk().toString()) ? ticking_chunks.get(deserializeLocation(key).getChunk().toString()): new HashSet<Block>();
 									blocks.add(deserializeLocation(key).getBlock());
@@ -120,6 +117,7 @@ public class BlockStorage {
 				System.out.println("[Slimefun] Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
 				if (totalBlocks > 0) System.out.println("[Slimefun] Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
 			}
+
 		}
 		else f.mkdirs();
 		
@@ -164,6 +162,7 @@ public class BlockStorage {
 				universal_inventories.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
 			}
 		}
+		addNewInfo();
 	}
 
 	private static int chunk_changes = 0;
@@ -665,5 +664,48 @@ public class BlockStorage {
 	public boolean hasUniversalInventory(Location l) {
 		String id = checkID(l);
 		return id == null ? false: hasUniversalInventory(id);
+	}
+
+	private void addNewInfo() {
+		File out = new File(path_blocks + world.getName() + "/CARGO_NODE_OUTPUT_ADVANCED.sfb");
+		File in = new File(path_blocks + world.getName() + "/CARGO_NODE_INPUT_ADVANCED.sfb");
+		FileConfiguration outcfg = YamlConfiguration.loadConfiguration(out);
+		FileConfiguration incfg = YamlConfiguration.loadConfiguration(in);
+		for (String key: outcfg.getKeys(false))
+			addFurnaceInfo(key);
+		for(String key : incfg.getKeys(false))
+			addFurnaceInfo(key);
+
+	}
+
+	/**
+	 * to avoid npe
+	 * @param key
+	 */
+	private void addFurnaceInfo(String key) {
+		if (getAttachedBlock(deserializeLocation(key).getBlock()).getType().equals(Material.FURNACE) || getAttachedBlock(deserializeLocation(key).getBlock()).getType().equals(Material.BURNING_FURNACE)){
+			addBlockInfo(deserializeLocation(key), "furnace", "true");
+			if(getBlockInfo(deserializeLocation(key), "furnace-slot") == null)
+				addBlockInfo(deserializeLocation(key), "furnace-slot", "All");
+	}
+	else
+			addBlockInfo(deserializeLocation(key), "furnace", "false");
+	}
+
+	@SuppressWarnings("deprecation")
+	private static Block getAttachedBlock(Block block) {
+		if (block.getData() == 2) {
+			return block.getRelative(BlockFace.SOUTH);
+		}
+		else if (block.getData() == 3) {
+			return block.getRelative(BlockFace.NORTH);
+		}
+		else if (block.getData() == 4) {
+			return block.getRelative(BlockFace.EAST);
+		}
+		else if (block.getData() == 5) {
+			return block.getRelative(BlockFace.WEST);
+		}
+		return null;
 	}
 }
