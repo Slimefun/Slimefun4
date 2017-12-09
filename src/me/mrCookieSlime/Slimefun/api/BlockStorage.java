@@ -13,6 +13,8 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
@@ -666,4 +668,38 @@ public class BlockStorage {
 		String id = checkID(l);
 		return id == null ? false: hasUniversalInventory(id);
 	}
+
+	private void addNewInfo() {
+		File out = new File(path_blocks + world.getName() + "/CARGO_NODE_OUTPUT_ADVANCED.sfb");
+		File in = new File(path_blocks + world.getName() + "/CARGO_NODE_INPUT_ADVANCED.sfb");
+		FileConfiguration outcfg = YamlConfiguration.loadConfiguration(out);
+		FileConfiguration incfg = YamlConfiguration.loadConfiguration(in);
+		for(String key : outcfg.getKeys(false))
+			addFurnaceInfo(key);
+		for(String key : incfg.getKeys(false))
+			addFurnaceInfo(key);
+	}
+
+	private void addFurnaceInfo(String key) {
+		Block b = deserializeLocation(key).getBlock();
+		if(getAttachedBlock(b).getType().equals(Material.FURNACE) || getAttachedBlock(b).getType().equals(Material.BURNING_FURNACE)) {
+			addBlockInfo(b, "furnace", "true");
+			if(getBlockInfo(b, "furnace-slot") == null)
+				addBlockInfo(b, "furnace-slot", "All");
+		}else
+			addBlockInfo(b, "furnace", "false");
+	}
+
+	@SuppressWarnings("deprecation")
+ 	private static Block getAttachedBlock(Block block) {
+		if (block.getData() == 2)
+			return block.getRelative(BlockFace.SOUTH);
+		else if (block.getData() == 3)
+			return block.getRelative(BlockFace.NORTH);
+		else if (block.getData() == 4)
+			return block.getRelative(BlockFace.EAST);
+		else if (block.getData() == 5)
+			return block.getRelative(BlockFace.WEST);
+		return null;
+			}
 }

@@ -1,19 +1,21 @@
 package me.mrCookieSlime.Slimefun.api.item_transport;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager.DataType;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-
+import org.apache.commons.lang.ArrayUtils;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CargoManager {
 	
@@ -92,7 +94,9 @@ public class CargoManager {
 		}
 		else if (target.getState() instanceof InventoryHolder) {
 			Inventory inv = ((InventoryHolder) target.getState()).getInventory();
+			String id = BlockStorage.checkID(node);
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
+				if(inv.getType().equals(Material.FURNACE) && id.equalsIgnoreCase("CARGO_NODE_INPUT_ADVANCED") && !hasrightslot(node, slot)) continue;
 				ItemStack is = inv.getContents()[slot];
 				if (matchesFilter(node, is, index)) {
 					inv.setItem(slot, ChestManipulator.trigger(target, slot, is, null));
@@ -157,8 +161,10 @@ public class CargoManager {
 		}
 		else if (target.getState() instanceof InventoryHolder) {
 			Inventory inv = ((InventoryHolder) target.getState()).getInventory();
-			
+            String id = BlockStorage.checkID(node);
+
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
+                if (inv.getType().equals(InventoryType.FURNACE) && id.equals("CARGO_NODE_OUTPUT_ADVANCED")&& !hasrightslot(node, slot)) continue;
 				ItemStack is = inv.getContents()[slot];
 				if (is == null) {
 					inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
@@ -232,6 +238,38 @@ public class CargoManager {
 			}
 			return true;
 		}
+	}
+
+	private static boolean hasrightslot(Block node, int slot) {
+		String slotchoosed = BlockStorage.getBlockInfo(node, "furnace-slot");
+		int[] validySlot = new int[3];
+
+		switch (slotchoosed) {
+		    case "All":
+			    validySlot = new int[]{0, 1, 2};
+				break;
+            case "Fuel/Smelting":
+			    validySlot = new int[]{0, 1};
+				break;
+            case "Result/Fuel":
+			    validySlot = new int[]{1, 2};
+				break;
+			case "Result/Smelting":
+			    validySlot = new int[]{0, 2};
+				break;
+            case "Smelting":
+                validySlot = new int[]{0};
+                break;
+            case "Fuel":
+                validySlot = new int[]{1};
+                break;
+            case "Result":
+                validySlot = new int[]{2};
+                break;
+        }
+
+        return ArrayUtils.contains(validySlot, slot);
+
 	}
 
 }

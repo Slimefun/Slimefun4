@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -109,36 +110,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.MultiBlockInteractionHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AdvancedCargoOutputNode;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AnimalGrowthAccelerator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoAnvil;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoBreeder;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoDisenchanter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCraftingChamber;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CarbonPress;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CargoInputNode;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CargoOutputNode;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ChargingBench;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CropGrowthAccelerator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricDustWasher;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricFurnace;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricGoldPan;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricIngotFactory;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricSmeltery;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectrifiedCrucible;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FluidPump;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodComposter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodFabricator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Freezer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HeatedPressureChamber;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.NetherDrill;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OilPump;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Refinery;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.WitherAssembler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
 import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
 import me.mrCookieSlime.Slimefun.api.Backpacks;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -5215,6 +5186,10 @@ public class SlimefunSetup {
 		new CargoInputNode(Categories.CARGO, SlimefunItems.CARGO_INPUT, "CARGO_NODE_INPUT", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.HOPPER), null, SlimefunItems.BILLON_INGOT, SlimefunItems.CARGO_NODE, SlimefunItems.BILLON_INGOT, null, new ItemStack(Material.HOPPER), null}, new CustomItem(SlimefunItems.CARGO_INPUT, 2))
 		.register(true);
+
+		new AdvancedCargoInputNode(Categories.CARGO, SlimefunItems.CARGO_INPUT_ADVANCED, "CARGO_NODE_INPUT_ADVANCED", RecipeType.ENHANCED_CRAFTING_TABLE,
+								new ItemStack[]{null, SlimefunItems.CARGO_MOTOR, null, SlimefunItems.COBALT_INGOT, SlimefunItems.CARGO_INPUT, SlimefunItems.COBALT_INGOT, null, SlimefunItems.CARGO_MOTOR, null}, new CustomItem(SlimefunItems.CARGO_INPUT_ADVANCED))
+								.register(true);
 
 		new CargoOutputNode(Categories.CARGO, SlimefunItems.CARGO_OUTPUT, "CARGO_NODE_OUTPUT", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.HOPPER), null, SlimefunItems.BRASS_INGOT, SlimefunItems.CARGO_NODE, SlimefunItems.BRASS_INGOT, null, new ItemStack(Material.HOPPER), null}, new CustomItem(SlimefunItems.CARGO_OUTPUT, 2))
