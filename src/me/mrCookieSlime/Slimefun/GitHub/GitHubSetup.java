@@ -26,7 +26,7 @@ public class GitHubSetup {
 			    	
 			    	if (!name.equals("invalid-email-address")) {
 			    		Contributor contributor = new Contributor(name, job, commits);
-			    		contributor.profile = profile;
+			    		contributor.setProfile(profile);
 			    		SlimefunGuide.contributors.add(contributor);
 			    	}
 			    }
