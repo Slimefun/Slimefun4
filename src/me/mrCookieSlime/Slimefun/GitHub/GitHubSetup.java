@@ -64,6 +64,7 @@ public class GitHubSetup {
 				JsonObject object = element.getAsJsonObject();
 				SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
 				SlimefunGuide.forks = object.get("forks").getAsInt();
+				SlimefunGuide.stars = object.get("stargazers_count").getAsInt();
 				SlimefunGuide.last_update = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
 			}
 			
