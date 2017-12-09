@@ -37,8 +37,8 @@ public class ItemHash {
 	public static String toString(SlimefunItem item) {
 		StringBuilder builder = new StringBuilder(LENGTH * 2);
 		
-		for (char c: item.hash.toCharArray()) {
-			builder.append('ง');
+		for (char c: item.getHash().toCharArray()) {
+			builder.append('ยง');
 			builder.append(c);
 		}
 		
@@ -47,7 +47,7 @@ public class ItemHash {
 	public static SlimefunItem fromString(String input) {
 		if (input == null || input.length() != LENGTH * 2) return null;
 		
-		String hex = input.replaceAll("ง", "");
+		String hex = input.replaceAll("ยง", "");
 		
 		if (hex.length() != LENGTH || !map.containsKey(hex)) return null;
 		
@@ -55,15 +55,15 @@ public class ItemHash {
 	}
 	
 	public static void register(SlimefunItem item) {
-		String hash = hash(item.getName());
+		String hash = hash(item.getID());
 		
-		if (map.containsKey(hash) && !item.getName().equals(map.get(hash).hash)) {
+		if (map.containsKey(hash) && !item.getID().equals(map.get(hash).getHash())) {
 			System.out.println("FATAL Security ERROR - Slimefun was disabled.");
 			Bukkit.getPluginManager().disablePlugin(SlimefunStartup.instance);
 			throw new IllegalStateException("Hash Collision: " + hash);
 		}
 		
-		item.hash = hash;
+		item.setHash(hash);
 		map.put(hash, item);
 	}
 

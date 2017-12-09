@@ -7,11 +7,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class SoulboundItem extends SlimefunItem {
 
-	public SoulboundItem(Category category, ItemStack item, String name, ItemStack[] recipe) {
-		super(category, item, name, RecipeType.MAGIC_WORKBENCH, recipe);
+	public SoulboundItem(Category category, ItemStack item, String id, ItemStack[] recipe) {
+		super(category, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
 	}
-	public SoulboundItem(Category category, ItemStack item, String name, RecipeType type, ItemStack[] recipe) {
-		super(category, item, name, type, recipe);
+	public SoulboundItem(Category category, ItemStack item, String id, RecipeType type, ItemStack[] recipe) {
+		super(category, item, id, type, recipe);
 	}
 
 }

@@ -274,7 +274,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 		String input = builder.toString();
 		
 		if (recipes.containsKey(input)) {
-			ItemStack output = recipes.get(input);
+			ItemStack output = recipes.get(input).clone();
 			
 			if (fits(b, new ItemStack[] {output})) {
 				pushItems(b, new ItemStack[] {output});

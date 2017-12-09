@@ -7,8 +7,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class SlimefunBow extends SlimefunItem {
 
-	public SlimefunBow(ItemStack item, String name, ItemStack[] recipe) {
-		super(Categories.WEAPONS, item, name, RecipeType.MAGIC_WORKBENCH, recipe);
+	public SlimefunBow(ItemStack item, String id, ItemStack[] recipe) {
+		super(Categories.WEAPONS, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
 	}
 
 }

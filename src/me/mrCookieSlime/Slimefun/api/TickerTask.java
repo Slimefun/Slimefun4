@@ -3,11 +3,9 @@ package me.mrCookieSlime.Slimefun.api;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -91,9 +89,9 @@ public class TickerTask implements Runnable {
 												long timestamp3 = System.currentTimeMillis();
 												item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
 												
-												map_machinetime.put(item.getName(), (map_machinetime.containsKey(item.getName()) ? map_machinetime.get(item.getName()): 0) + (System.currentTimeMillis() - timestamp3));
+												map_machinetime.put(item.getID(), (map_machinetime.containsKey(item.getID()) ? map_machinetime.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
 												map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
-												map_machine.put(item.getName(), (map_machine.containsKey(item.getName()) ? map_machine.get(item.getName()): 0) + 1);
+												map_machine.put(item.getID(), (map_machine.containsKey(item.getID()) ? map_machine.get(item.getID()): 0) + 1);
 												block_timings.put(l, System.currentTimeMillis() - timestamp3);
 											} catch(Exception x) {
 												int errors = 0;
@@ -136,14 +134,34 @@ public class TickerTask implements Runnable {
 														stream.println("  Build: " + Bukkit.getVersion());
 														stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
 														stream.println();
-														stream.println("Installed Plugins (" + Bukkit.getPluginManager().getPlugins().length + ")");
+														stream.println("Slimefun Environment:");
+														stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
+														stream.println("  Slimefun v" + SlimefunStartup.instance.getDescription().getVersion());
+														stream.println();
+
+														List<String> plugins = new ArrayList<>();
+														List<String> addons = new ArrayList<>();
 														for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
 															if (Bukkit.getPluginManager().isPluginEnabled(p)) {
-																stream.println("  + " + p.getName() + " " + p.getDescription().getVersion());
+																plugins.add("  + " + p.getName() + " " + p.getDescription().getVersion());
+																if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
+																	addons.add("  + " + p.getName() + " " + p.getDescription().getVersion());
 															}
 															else {
-																stream.println("  - " + p.getName() + " " + p.getDescription().getVersion());
+																plugins.add("  - " + p.getName() + " " + p.getDescription().getVersion());
+																if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
+																	addons.add("  - " + p.getName() + " " + p.getDescription().getVersion());
 															}
+														}
+
+														stream.println(" Installed Addons (" + addons.size() + ")");
+														for (String addon : addons) {
+															stream.println(addon);
+														}
+														stream.println();
+														stream.println("Installed Plugins (" + plugins.size() + "):");
+														for (String plugin : plugins) {
+															stream.println(plugin);
 														}
 														stream.println();
 														stream.println("Ticked Block:");
@@ -153,7 +171,7 @@ public class TickerTask implements Runnable {
 														stream.println("  Z: " + l.getBlockZ());
 														stream.println();
 														stream.println("Slimefun Data:");
-														stream.println("  ID: " + item.getName());
+														stream.println("  ID: " + item.getID());
 														stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
 														stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
 														stream.println();
@@ -176,7 +194,7 @@ public class TickerTask implements Runnable {
 													bugged_blocks.put(l, errors);
 												}
 												else if (errors == 4) {
-													System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
+													System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
 													System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
 													System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
 													System.err.println("[Slimefun] ");
@@ -203,9 +221,9 @@ public class TickerTask implements Runnable {
 									long timestamp3 = System.currentTimeMillis();
 									item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
 									
-									map_machinetime.put(item.getName(), (map_machinetime.containsKey(item.getName()) ? map_machinetime.get(item.getName()): 0) + (System.currentTimeMillis() - timestamp3));
+									map_machinetime.put(item.getID(), (map_machinetime.containsKey(item.getID()) ? map_machinetime.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
 									map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
-									map_machine.put(item.getName(), (map_machine.containsKey(item.getName()) ? map_machine.get(item.getName()): 0) + 1);
+									map_machine.put(item.getID(), (map_machine.containsKey(item.getID()) ? map_machine.get(item.getID()): 0) + 1);
 									block_timings.put(l, System.currentTimeMillis() - timestamp3);
 								}
 								tickers.add(item.getTicker());
@@ -268,7 +286,7 @@ public class TickerTask implements Runnable {
 										stream.println("  Z: " + l.getBlockZ());
 										stream.println();
 										stream.println("Slimefun Data:");
-										stream.println("  ID: " + item.getName());
+										stream.println("  ID: " + item.getID());
 										stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
 										stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
 										stream.println();
@@ -291,7 +309,7 @@ public class TickerTask implements Runnable {
 									bugged_blocks.put(l, errors);
 								}
 								else if (errors == 4) {
-									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getName() + ")");
+									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
 									System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
 									System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
 									System.err.println("[Slimefun] ");

@@ -249,7 +249,7 @@ public class BlockStorage {
 	public static ItemStack retrieve(Block block) {
 		if (!hasBlockInfo(block)) return null;
 		else {
-			final SlimefunItem item = SlimefunItem.getByName(getBlockInfo(block, "id"));
+			final SlimefunItem item = SlimefunItem.getByID(getBlockInfo(block, "id"));
 			clearBlockInfo(block);
 			if (item == null) return null;
 			else return item.getItem();
@@ -475,7 +475,7 @@ public class BlockStorage {
 		storage.cache_blocks.put(key, cfg);
 		
 		if (updateTicker) {
-			SlimefunItem item = SlimefunItem.getByName(key);
+			SlimefunItem item = SlimefunItem.getByID(key);
 			if (item != null && item.isTicking()) {
 				Chunk chunk = l.getChunk();
 				if (value != null) {
@@ -494,7 +494,7 @@ public class BlockStorage {
 
 	public static SlimefunItem check(Location l) {
 		if (!hasBlockInfo(l)) return null;
-		return SlimefunItem.getByName(getBlockInfo(l, "id"));
+		return SlimefunItem.getByID(getBlockInfo(l, "id"));
 	}
 	
 	public static String checkID(Block block) {

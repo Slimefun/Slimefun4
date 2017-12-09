@@ -33,10 +33,10 @@ public abstract class AFarm extends SlimefunItem {
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 36, 37, 38, 39, 40, 41, 42, 43, 44};
 	private static final int[] border_out = {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 
-	public AFarm(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public AFarm(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, id, recipeType, recipe);
 		
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(id, getInventoryTitle()) {
 			
 			@Override
 			public void init() {
@@ -59,7 +59,7 @@ public abstract class AFarm extends SlimefunItem {
 			}
 		};
 		
-		registerBlockHandler(name, new SlimefunBlockHandler() {
+		registerBlockHandler(id, new SlimefunBlockHandler() {
 			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
@@ -76,10 +76,10 @@ public abstract class AFarm extends SlimefunItem {
 		});
 	}
 
-	public AFarm(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, name, recipeType, recipe, recipeOutput);
+	public AFarm(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+		super(category, item, id, recipeType, recipe, recipeOutput);
 		
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(id, getInventoryTitle()) {
 			
 			@Override
 			public void init() {
@@ -102,7 +102,7 @@ public abstract class AFarm extends SlimefunItem {
 			}
 		};
 		
-		registerBlockHandler(name, new SlimefunBlockHandler() {
+		registerBlockHandler(id, new SlimefunBlockHandler() {
 			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {

@@ -35,10 +35,10 @@ public abstract class ADrill extends AContainer {
 	public abstract int getProcessingTime();
 	public abstract int getSpeed();
 
-	public ADrill(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public ADrill(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, id, recipeType, recipe);
 		
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(id, getInventoryTitle()) {
 			
 			@Override
 			public void init() {

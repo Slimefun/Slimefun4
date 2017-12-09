@@ -28,6 +28,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -53,10 +54,15 @@ public class AncientAltarListener implements Listener {
 		Block b = e.getClickedBlock();
 		SlimefunItem item = BlockStorage.check(b);
 		if (item != null) {
-			if (item.getName().equals("ANCIENT_PEDESTAL")) {
+			if (item.getID().equals("ANCIENT_PEDESTAL")) {
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
+					if(e.getPlayer().getItemInHand().getType().equals(Material.AIR)) return;
+					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
+						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
+						return;
+					}
 					insertItem(e.getPlayer(), b);
 				}
 				else if (!removed_items.contains(stack.getUniqueId())) {
@@ -77,7 +83,7 @@ public class AncientAltarListener implements Listener {
 					PlayerInventory.update(e.getPlayer());
 				}
 			}
-			else if (item.getName().equals("ANCIENT_ALTAR")) {
+			else if (item.getID().equals("ANCIENT_ALTAR")) {
 				e.setCancelled(true);
 
 				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
@@ -145,7 +151,7 @@ public class AncientAltarListener implements Listener {
 
 	private void insertItem(Player p, Block b) {
 		final ItemStack stack = p.getInventory().getItemInMainHand();
-		if (stack != null && !stack.getType().equals(Material.AIR)) {
+		if (stack != null) {
 			PlayerInventory.consumeItemInHand(p);
 			String nametag = StringUtils.formatItemName(stack, false);
 			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "&5&dALTAR &3Probe - &e" + System.nanoTime()));
@@ -156,22 +162,15 @@ public class AncientAltarListener implements Listener {
 			p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
 		}
 	}
-
-	@EventHandler
-	public void onPickup(PlayerPickupItemEvent e) {
-		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
+	
+	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	public void onBlockPlace(BlockPlaceEvent e) {
+		Block b = e.getBlockPlaced().getRelative(0, -1, 0);
+		SlimefunItem item = BlockStorage.check(b);
+		if(item == null) return;
+		if(item.getName().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
+			Messages.local.sendTranslation(e.getPlayer(), "messages.cannot-place", true);
 			e.setCancelled(true);
-			e.getItem().remove();
-		}
-	}
-
-	@EventHandler
-	public void onMinecartPickup(InventoryPickupItemEvent e) {
-		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
-			e.setCancelled(true);
-			e.getItem().remove();
 		}
 	}
 }

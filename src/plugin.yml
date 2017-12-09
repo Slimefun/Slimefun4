@@ -1,5 +1,5 @@
 name: Slimefun
-version: 4.1.11
+version: ${project.version}
 author: The Slimefun 4 Community
 description: Slimefun basically turns your entire Server into a FTB modpack without installing a single mod
 website: http://TheBusyBiscuit.github.io/
@@ -33,6 +33,12 @@ permissions:
     default: op
   slimefun.command.versions:
     description: Allows you to do /sf versions
+    default: op
+  slimefun.command.guide:
+    description: Allows you to obtain the Slimefun guide book
+    default: true
+  slimefun.command.open_guide:
+    description: Allows you to open the SF guide without the book
     default: op
   slimefun.android.bypass:
     description: Allows you to edit other Players Androids
