@@ -23,26 +23,28 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
+/**
+ * @since 4.0
+ */
 public class Talisman extends SlimefunItem {
-	
-	private boolean consumed;
-	private boolean cancel;
-	private PotionEffect[] effects;
+
 	private String suffix;
-	private int chance;
+	private boolean consumable = true;
+	private boolean cancel = true;
+	private PotionEffect[] effects = new PotionEffect[0];
+	private int chance = 100;
 
 	public Talisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, PotionEffect... effects) {
 		super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4: 1));
-		this.consumed = consumable;
+		this.consumable = consumable;
 		this.cancel = cancelEvent;
 		this.suffix = messageSuffix;
 		this.effects = effects;
-		this.chance = 100;
 	}
 	
 	public Talisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
 		super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4: 1));
-		this.consumed = consumable;
+		this.consumable = consumable;
 		this.cancel = cancelEvent;
 		this.suffix = messageSuffix;
 		this.effects = effects;
@@ -51,23 +53,21 @@ public class Talisman extends SlimefunItem {
 	
 	public Talisman(ItemStack item, String id, ItemStack[] recipe, String messageSuffix, int chance, PotionEffect... effects) {
 		super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, item);
-		this.consumed = true;
-		this.cancel = true;
 		this.suffix = messageSuffix;
 		this.effects = effects;
 		this.chance = chance;
 	}
-	
-	public PotionEffect[] getEffects()	{		return this.effects;	}
-	public boolean isConsumable()	 	{		return this.consumed;	}
-	public boolean isEventCancelled() 	{		return this.cancel;		}
+
 	public String getSuffix() 			{		return this.suffix;		}
+	public boolean isConsumable()	 	{		return this.consumable;	}
+	public boolean isEventCancelled() 	{		return this.cancel;		}
+	public PotionEffect[] getEffects()	{		return this.effects;	}
 	public int getChance()				{		return this.chance;		}
 
 	public static boolean checkFor(Event e, SlimefunItem talisman) {
 		if (talisman != null) {
 			if (talisman instanceof Talisman) {
-				boolean message = ((Talisman) talisman).getSuffix().equalsIgnoreCase("") ? false: true;
+				boolean message = !((Talisman) talisman).getSuffix().equalsIgnoreCase("");
 				if (SlimefunStartup.chance(100, ((Talisman) talisman).getChance())) {
 					Player p = null;
 					
