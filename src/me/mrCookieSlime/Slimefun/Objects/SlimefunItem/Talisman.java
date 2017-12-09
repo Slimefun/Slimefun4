@@ -80,7 +80,7 @@ public class Talisman extends SlimefunItem {
 					boolean pass = true;
 					
 					for (PotionEffect effect: ((Talisman) talisman).getEffects()) {
-						if (effect != null) if (p.hasPotionEffect(effect.getType())) pass = false;
+						if (effect != null && p.hasPotionEffect(effect.getType())) pass = false;
 					}
 					
 					if (pass) {
