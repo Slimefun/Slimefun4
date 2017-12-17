@@ -7,6 +7,9 @@ Slimefun 4 is the 4th of the big Updates to the revolutionary and game-changing 
 Slimefun 4 is licensed under 
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
+## Development Builds
+[Build Server](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)
+
 ## Contributions
 
 You are allowed, even encouraged, to contribute to Slimefun 4 by making Pull Requests.
