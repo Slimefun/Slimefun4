@@ -216,15 +216,6 @@ public class ToolListener implements Listener {
 			}
 		}
 		
-		if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE")) {
-			if (Talisman.checkFor(e, SlimefunItem.getByName("MINER_TALISMAN"))) {
-				if (drops.isEmpty()) drops = (List<ItemStack>) e.getBlock().getDrops();
-				for (ItemStack drop: new ArrayList<ItemStack>(drops)) {
-					if (!drop.getType().isBlock()) drops.add(new CustomItem(drop, fortune * 2));
-				}
-			}
-		}
-		
 		if (!drops.isEmpty()) {
 			e.getBlock().setType(Material.AIR);
 			for (ItemStack drop: drops) {
