@@ -62,7 +62,7 @@ public class RecipeType {
 	}
 	
 	public SlimefunItem getMachine() {
-		return SlimefunItem.getByName(machine);
+		return SlimefunItem.getByID(machine);
 	}
 	
 	public static List<ItemStack> getRecipeInputs(SlimefunItem machine) {
