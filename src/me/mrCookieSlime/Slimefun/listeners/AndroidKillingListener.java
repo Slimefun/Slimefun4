@@ -13,8 +13,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -56,10 +54,8 @@ public class AndroidKillingListener implements Listener {
 							items.add(new ItemStack(Material.GOLD_NUGGET, 1 + CSCoreLib.randomizer().nextInt(3)));
 							break;
 						}
-						case SKELETON: {
-							if (((Skeleton) e.getEntity()).getSkeletonType().equals(SkeletonType.WITHER)) {
-								if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1));
-							}
+						case WITHER_SKELETON: {
+							if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1));
 							break;
 						}
 						default:

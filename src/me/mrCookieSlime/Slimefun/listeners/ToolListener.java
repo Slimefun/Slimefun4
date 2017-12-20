@@ -27,7 +27,6 @@ import me.mrCookieSlime.Slimefun.Variables;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockBreakHandler;
@@ -54,9 +53,9 @@ public class ToolListener implements Listener {
 		if (item != null && item.getType() == Material.INK_SACK) return;
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem != null && !(sfItem instanceof NotPlaceable)){
-			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getName(), true);
-			if (SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
-				SlimefunItem.blockhandler.get(sfItem.getName()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
+			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
+			if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
+				SlimefunItem.blockhandler.get(sfItem.getID()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
 			}
 		}
 		else {
@@ -177,8 +176,8 @@ public class ToolListener implements Listener {
 		if (StringUtils.equals(block2.getType().toString(), "SAPLING", "WOOD_PLATE", "STONE_PLATE", "IRON_PLATE", "GOLD_PLATE")) {
 			SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
 			if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-				if (SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
-					allow = SlimefunItem.blockhandler.get(sfItem.getName()).onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
+				if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
+					allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
 				}
 				if (allow) {
 					block2.getWorld().dropItemNaturally(block2.getLocation(), BlockStorage.retrieve(block2));
@@ -193,8 +192,8 @@ public class ToolListener implements Listener {
 
 		SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 		if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-			if (SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
-				allow = SlimefunItem.blockhandler.get(sfItem.getName()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+			if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
+				allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
 			}
 			if (allow) {
 				drops.add(BlockStorage.retrieve(e.getBlock()));
@@ -234,10 +233,10 @@ public class ToolListener implements Listener {
 			SlimefunItem item = BlockStorage.check(block);
     		if (item != null) {
     			blocks.remove();
-    			if (!item.getName().equalsIgnoreCase("HARDENED_GLASS") && !item.getName().equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !item.getName().equalsIgnoreCase("WITHER_PROOF_GLASS") && !item.getName().equalsIgnoreCase("FORCEFIELD_PROJECTOR") && !item.getName().equalsIgnoreCase("FORCEFIELD_RELAY")) {
+    			if (!item.getID().equalsIgnoreCase("HARDENED_GLASS") && !item.getID().equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !item.getID().equalsIgnoreCase("WITHER_PROOF_GLASS") && !item.getID().equalsIgnoreCase("FORCEFIELD_PROJECTOR") && !item.getID().equalsIgnoreCase("FORCEFIELD_RELAY")) {
     				boolean success = true;
-    				if (SlimefunItem.blockhandler.containsKey(item.getName())) {
-    					success = SlimefunItem.blockhandler.get(item.getName()).onBreak(null, block, item, UnregisterReason.EXPLODE);
+    				if (SlimefunItem.blockhandler.containsKey(item.getID())) {
+    					success = SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.EXPLODE);
     				}
     				if (success) {
     					BlockStorage.clearBlockInfo(block);

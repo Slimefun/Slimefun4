@@ -369,8 +369,8 @@ public class ItemListener implements Listener {
 		else if (e.getEntity() instanceof Wither) {
 			SlimefunItem item = BlockStorage.check(e.getBlock());
 			if (item != null) {
-				if (item.getName().equals("WITHER_PROOF_OBSIDIAN")) e.setCancelled(true);
-				if (item.getName().equals("WITHER_PROOF_GLASS")) e.setCancelled(true);
+				if (item.getID().equals("WITHER_PROOF_OBSIDIAN")) e.setCancelled(true);
+				if (item.getID().equals("WITHER_PROOF_GLASS")) e.setCancelled(true);
 			}
 		}
 	}
