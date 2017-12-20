@@ -23,10 +23,10 @@ public class MachineConfig extends Config {
 	}
 	
 	public MachineSettings getSettings(AContainer item) {
-		if (!this.children.containsKey(item.getName())) {
-			this.children.put(item.getName(), new MachineSettings(this, item));
+		if (!this.children.containsKey(item.getID())) {
+			this.children.put(item.getID(), new MachineSettings(this, item));
 		}
 
-		return this.children.get(item.getName());
+		return this.children.get(item.getID());
 	}
 }
