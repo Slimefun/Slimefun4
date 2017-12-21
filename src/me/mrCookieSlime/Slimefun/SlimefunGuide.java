@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -63,6 +64,11 @@ public class SlimefunGuide {
 	public static List<Contributor> contributors = new ArrayList<Contributor>();
 	public static int issues = 0;
 	public static int forks = 0;
+	/**
+	 * Represents the number of stars on the Slimefun4 GitHub repository.
+	 * @since 4.2.0
+	 */
+	public static int stars = 0;
 	public static int code_bytes = 0;
 	public static Date last_update = new Date();
 
@@ -201,7 +207,7 @@ public class SlimefunGuide {
 		});
 		
 		try {
-			menu.addItem(4, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addItem(4, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "&7Stars: &e" + stars, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
 			menu.addMenuClickHandler(4, new MenuClickHandler() {
 				
 				@Override
@@ -274,22 +280,21 @@ public class SlimefunGuide {
 		double total = 0;
 
 		for (Contributor contributor: contributors) {
-			total += contributor.commits;
+			total += contributor.getCommits();
 		}
 		
 		for (final Contributor contributor: contributors) {
-			ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+			ItemStack skull = new SkullItem("&a" + contributor.getName(), contributor.getName());
 			
 			ItemMeta meta = skull.getItemMeta();
-			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&a" + contributor.name));
-			
-			if (contributor.commits > 0) {
-				double percentage = DoubleHandler.fixDouble((contributor.commits * 100.0) / total, 2);
+
+			if (contributor.getCommits() > 0) {
+				double percentage = DoubleHandler.fixDouble((contributor.getCommits() * 100.0) / total, 2);
 				
-				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.job), ChatColor.translateAlternateColorCodes('&', "&7Contribution: &r" + percentage + "%"), "", ChatColor.translateAlternateColorCodes('&', "&7\u21E8 Click to view my GitHub profile")));
+				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.getJob()), ChatColor.translateAlternateColorCodes('&', "&7Contributions: &r" + contributor.getCommits() + " commits &7(&r" + percentage + "%&7)"), "", ChatColor.translateAlternateColorCodes('&', "&7\u21E8 Click to view my GitHub profile")));
 			}
 			else {
-				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.job)));
+				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.getJob())));
 			}
 
 			skull.setItemMeta(meta);
@@ -299,10 +304,10 @@ public class SlimefunGuide {
 				
 				@Override
 				public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-					if (contributor.commits > 0) {
+					if (contributor.getCommits() > 0) {
 						p.closeInventory();
 						p.sendMessage("");
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + contributor.profile));
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + contributor.getProfile()));
 						p.sendMessage("");
 					}
 					return false;
