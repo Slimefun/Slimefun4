@@ -26,7 +26,7 @@ public class GitHubSetup {
 			    	
 			    	if (!name.equals("invalid-email-address")) {
 			    		Contributor contributor = new Contributor(name, job, commits);
-			    		contributor.profile = profile;
+			    		contributor.setProfile(profile);
 			    		SlimefunGuide.contributors.add(contributor);
 			    	}
 			    }
@@ -64,6 +64,7 @@ public class GitHubSetup {
 				JsonObject object = element.getAsJsonObject();
 				SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
 				SlimefunGuide.forks = object.get("forks").getAsInt();
+				SlimefunGuide.stars = object.get("stargazers_count").getAsInt();
 				SlimefunGuide.last_update = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
 			}
 			

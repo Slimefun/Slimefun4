@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryPickupItemEvent;
  *
  * This Listener uses the new {@link EntityPickupItemEvent} due to the deprecation of {@link org.bukkit.event.player.PlayerPickupItemEvent}.
  *
- * @since 4.1.12
+ * @since 4.1.11
  */
 public class ItemPickupListener_1_12 implements Listener {
 

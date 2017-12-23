@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 /**
  * Listens to the ItemPickup events to prevent it if the item has the "no_pickup" metadata or is an ALTAR_PROBE.
  *
- * @since 4.1.12
+ * @since 4.1.11
  */
 public class ItemPickupListener implements Listener {
 

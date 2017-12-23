@@ -15,7 +15,7 @@ public class MachineSettings {
 
 	public MachineSettings(MachineConfig cfg, AContainer machine) {
 		this.cfg = cfg;
-		this.prefix = machine.getName();
+		this.prefix = machine.getID();
 	}
 	
 	public String getString(String path) {

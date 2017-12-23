@@ -1,5 +1,10 @@
 package me.mrCookieSlime.Slimefun.api.item_transport;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager.DataType;
@@ -13,10 +18,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class CargoManager {
 	
 	public static ItemStack withdraw(Block node, BlockStorage storage, Block target, ItemStack template) {
@@ -200,11 +201,13 @@ public class CargoManager {
 		String id = BlockStorage.checkID(block);
 		if (id.equals("CARGO_NODE_OUTPUT")) return true;
 
+		Config blockInfo = BlockStorage.getBlockInfo(block); // Store the returned Config instance to avoid heavy calls
+
 		BlockMenu menu = BlockStorage.getInventory(block.getLocation());
-		boolean lore = BlockStorage.getBlockInfo(block, "filter-lore").equals("true");
-		boolean data = BlockStorage.getBlockInfo(block, "filter-durability").equals("true");
+		boolean lore = blockInfo.getString("filter-lore").equals("true");
+		boolean data = blockInfo.getString("filter-durability").equals("true");
 		
-		if (BlockStorage.getBlockInfo(block, "filter-type").equals("whitelist")) {
+		if (blockInfo.getString("filter-type").equals("whitelist")) {
 			List<ItemStack> items = new ArrayList<ItemStack>();
 			for (int slot: slots) {
 				ItemStack template = menu.getItemInSlot(slot);
