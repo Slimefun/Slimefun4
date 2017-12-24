@@ -34,6 +34,7 @@ Guidelines for making a Pull Request on GitHub:
 1. Try to be reasonable with your additions. No, a Bacon flavoured unicorn that flies on a rainbow while dancing Gangnam Style is NOT a reasonable addition to this Project.
 2. Try to make your values configurable in the config.yml / Items.yml or any additional file. This may not be necessary at every instance but it does give the end-users a way to customize their experience.
 3. If your Pull Request is made in response to an Issue opened on GitHub, comment on that Issue and reference your Pull Request to show that you are proposing a fix for it.
+4. Name your commits appropriately. Standards like "Add files via upload" or "Update Readme.md" are lame. Make sure that the commit message stands for it's changes. (e.g. "Fixed Furnaces duplicating Items")
 
 ## Troubleshooting Guide
 
