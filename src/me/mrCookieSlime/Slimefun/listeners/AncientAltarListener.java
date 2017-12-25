@@ -28,6 +28,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -44,10 +45,8 @@ public class AncientAltarListener implements Listener {
 	List<Block> altars = new ArrayList<Block>();
 	Set<UUID> removed_items = new HashSet<UUID>();
 
-	@EventHandler(priority=EventPriority.HIGH)
+	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {
-		if (e.isCancelled())
-			return;
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
 		SlimefunItem item = BlockStorage.check(b);
@@ -58,7 +57,8 @@ public class AncientAltarListener implements Listener {
 				if (stack == null) {
 					if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
 					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
-						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
+						if(b.getRelative(0, 1, 0).isLiquid()) Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed.liquid", true);
+						else Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed.block", true);
 						return;
 					}
 					insertItem(e.getPlayer(), b);
@@ -171,5 +171,19 @@ public class AncientAltarListener implements Listener {
 			e.setCancelled(true);
 		}
 	}
+	
+	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	public void onBlockBreak(BlockBreakEvent e) {
+		Block b = e.getBlock();
+		SlimefunItem item = BlockStorage.check(b);
+		if(item == null) return;
+		Item stack = findItem(b);
+		if(stack == null) return;
+		if(item.getID().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
+			b.getWorld().dropItem(b.getLocation(), fixItemStack(stack.getItemStack(), stack.getCustomName()));
+			stack.remove();
+		}
+	}
 }
+
 
