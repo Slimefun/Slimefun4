@@ -57,8 +57,7 @@ public class AncientAltarListener implements Listener {
 				if (stack == null) {
 					if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
 					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
-						if(b.getRelative(0, 1, 0).isLiquid()) Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed.liquid", true);
-						else Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed.block", true);
+						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
 						return;
 					}
 					insertItem(e.getPlayer(), b);
