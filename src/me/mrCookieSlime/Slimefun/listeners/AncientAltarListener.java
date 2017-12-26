@@ -30,6 +30,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -176,13 +177,26 @@ public class AncientAltarListener implements Listener {
 		Block b = e.getBlock();
 		SlimefunItem item = BlockStorage.check(b);
 		if(item == null) return;
-		Item stack = findItem(b);
-		if(stack == null) return;
 		if(item.getID().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
+			Item stack = findItem(b);
+			if(stack == null) return;
 			b.getWorld().dropItem(b.getLocation(), fixItemStack(stack.getItemStack(), stack.getCustomName()));
 			stack.remove();
 		}
 	}
+	
+	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	public void onBlockExplode(EntityExplodeEvent e) {
+		for(Block b:e.blockList()) {
+			SlimefunItem item = BlockStorage.check(b);
+			if(item == null) continue;
+			if(item.getID().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
+				Item stack = findItem(b);
+				if(stack == null) return;
+				if(SlimefunStartup.getCfg().getBoolean("options.drop-item-when-ancient-pedestal-explodes"))
+					b.getWorld().dropItem(b.getLocation(), fixItemStack(stack.getItemStack(), stack.getCustomName()));
+				stack.remove();
+			}
+		}
+	}
 }
-
-
