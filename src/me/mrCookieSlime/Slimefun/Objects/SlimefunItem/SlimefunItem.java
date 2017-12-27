@@ -221,6 +221,7 @@ public class SlimefunItem {
 	public void register(boolean slimefun) {
 		this.addon = !slimefun;
 		try {
+			if (map_id.containsKey(this.id)) throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
 			if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
 			all.add(this);
 			
@@ -273,6 +274,7 @@ public class SlimefunItem {
 			}
 		} catch(Exception x) {
 			System.err.println("[Slimefun] Item Registration failed: " + this.id);
+			x.printStackTrace();
 		}
 	}
 	
