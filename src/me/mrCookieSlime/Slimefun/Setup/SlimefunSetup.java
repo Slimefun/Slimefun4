@@ -3115,6 +3115,10 @@ public class SlimefunSetup {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				Item stack = AncientAltarListener.findItem(b);
 				if (stack != null) stack.removeMetadata("item_placed", SlimefunStartup.instance);
+				if(reason == UnregisterReason.PLAYER_BREAK || reason == UnregisterReason.EXPLODE) {
+					b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
+					stack.remove();
+				}
 				return true;
 			}
 		});
