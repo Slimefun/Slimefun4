@@ -44,10 +44,8 @@ public class AncientAltarListener implements Listener {
 	List<Block> altars = new ArrayList<Block>();
 	Set<UUID> removed_items = new HashSet<UUID>();
 
-	@EventHandler(priority=EventPriority.HIGH)
+	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {
-		if (e.isCancelled())
-			return;
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
 		SlimefunItem item = BlockStorage.check(b);
@@ -172,4 +170,3 @@ public class AncientAltarListener implements Listener {
 		}
 	}
 }
-
