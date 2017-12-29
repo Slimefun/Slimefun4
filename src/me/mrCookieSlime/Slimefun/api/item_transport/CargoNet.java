@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -401,9 +402,9 @@ public class CargoNet {
 									ItemMeta im = stack.getItemMeta();
 									List<String> lore = new ArrayList<String>();
 									lore.add("");
-									lore.add("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount()));
-									if (stack.getMaxStackSize() > 1) lore.add("&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">");
-									else lore.add("&7<Left Click: Request 1>");
+									lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
+									if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
+									else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
 									lore.add("");
 									if (im.hasLore()) {
 										for (String line: im.getLore()) {
