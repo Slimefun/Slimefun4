@@ -402,9 +402,9 @@ public class CargoNet {
 									ItemMeta im = stack.getItemMeta();
 									List<String> lore = new ArrayList<String>();
 									lore.add("");
-									lore.add(ChatColor.translateAlternateColorCodes("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
-									if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes("&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
-									else lore.add(ChatColor.translateAlternateColorCodes("&7<Left Click: Request 1>"));
+									lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
+									if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
+									else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
 									lore.add("");
 									if (im.hasLore()) {
 										for (String line: im.getLore()) {
