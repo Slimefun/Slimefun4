@@ -12,7 +12,6 @@ options:
   emerald-enchantment-limit: 2
   research-unlock-fireworks: true
   research-give-fireworks: true
-  drop-item-when-ancient-pedestal-explodes: false
 guide:
   default-view-book: false
 URID:
