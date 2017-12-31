@@ -20,7 +20,7 @@ public class Files {
 			System.err.println("      ");
 			System.err.println("Slimefun Warning:");
 			System.err.println("         ");
-			System.err.println("Slimefun has detected that your Files are etiher");
+			System.err.println("Slimefun has detected that your Files are either");
 			System.err.println("outdated or do not exist. We generated new Files");
 			System.err.println("instead otherwise Slimefun would not work. If you");
 			System.err.println("have used Slimefun before, your Settings are now");
