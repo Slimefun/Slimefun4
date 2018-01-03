@@ -732,11 +732,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
 			try {
-				System.out.println("DEBUG: " + item);
 				if(item != null) {
 					if(fits(b, BlockStorage.retrieve(block))) {
 						pushItems(b, BlockStorage.retrieve(block));
-						System.out.println("DEBUG: IF I'm HERE");
 						if(SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 						
@@ -755,7 +753,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
 					if (fits(b, items)) {
 						pushItems(b, items);
-						System.out.println("DEBUG: ELSE I'm HERE");
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 						block.setType(Material.SKULL);
 						block.setData((byte) 1);
