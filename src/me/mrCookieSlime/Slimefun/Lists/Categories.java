@@ -41,7 +41,7 @@ public class Categories {
 	public static Category TOOLS = new Category(new MenuItem(Material.GOLD_PICKAXE, "&7Tools", 0, "open"), 1);
 	public static SeasonCategory CHRISTMAS = new SeasonCategory(12, 1, new MenuItem(Material.NETHER_STAR, "&aC&ch&ar&ci&as&ct&am&ca&as", 0, ChatColor.translateAlternateColorCodes('&', "&chelp &aSanta")));
 	public static SeasonCategory VALENTINES_DAY = new SeasonCategory(2, 2, new MenuItem(Material.RED_ROSE, "&dValentine's Day", 0, ChatColor.translateAlternateColorCodes('&', "&dcelebrate Love")));
-	public static SeasonCategory EASTER = new SeasonCategory(1, 2, new MenuItem(Material.EGG, "&6Easter", 0, ChatColor.translateAlternateColorCodes('&', "&apaint some Eggs")));
+	public static SeasonCategory EASTER = new SeasonCategory(4, 2, new MenuItem(Material.EGG, "&6Easter", 0, ChatColor.translateAlternateColorCodes('&', "&apaint some Eggs")));
 	public static SeasonCategory BIRTHDAY = new SeasonCategory(10, 1, new MenuItem(Material.FIREWORK, "&a&lmrCookieSlime's Birthday &7(26th October)", 0, ChatColor.translateAlternateColorCodes('&', "&acelebrate with me")));
 	
 	static {
