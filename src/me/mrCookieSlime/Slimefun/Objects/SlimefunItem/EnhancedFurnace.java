@@ -22,20 +22,14 @@ public class EnhancedFurnace extends SlimefunItem {
 		this.fortune = fortune - 1;
 		
 		addItemHandler(new BlockTicker() {
-			
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				try {
-					if (!(b.getState() instanceof Furnace)) {
-						return;
-					}
+				if (b.getState() instanceof Furnace)
 					if (((Furnace) b.getState()).getCookTime() > 0) {
 						Furnace furnace = (Furnace) b.getState();
 						furnace.setCookTime((short) (furnace.getCookTime() + getSpeed() * 10));
 						furnace.update(true, false);
 					}
-				} catch(NullPointerException x) {
-				}
 			}
 
 			@Override
