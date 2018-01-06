@@ -17,7 +17,7 @@ public class ClearLaggIntegration implements Listener {
 	}
 	
 	@EventHandler
-	public void oNEntityRemove(EntityRemoveEvent e) {
+	public void onEntityRemove(EntityRemoveEvent e) {
 		Iterator<Entity> iterator = e.getEntityList().iterator();
 		while (iterator.hasNext()) {
 			Entity n = iterator.next();
