@@ -7,7 +7,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Represents an alloy, obtainable using the {@code SMELTERY}.
+ * Represents an alloy, a {@link SlimefunItem} obtainable using the {@code SMELTERY}.
  * <p>
  * An alloy is generally made up of several minerals.
  * As an example, {@code BRASS_INGOT} is made up of {@code COPPER_DUST}, {@code ZINC_DUST} and {@code COPPER_INGOT}.
@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 public class Alloy extends SlimefunItem {
 
 	/**
-	 * Constructs an Alloy automatically bound to {@code Categories.RESOURCES}.
+	 * Constructs an Alloy bound to {@code Categories.RESOURCES}.
 	 *
 	 * @param  item    the item corresponding to this Alloy
 	 * @param  id      the id of this Alloy

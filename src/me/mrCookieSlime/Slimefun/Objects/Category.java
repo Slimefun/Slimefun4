@@ -15,22 +15,19 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Statically handles categories. Represents a category, which structure
- * multiple {@link SlimefunItem} in the Slimefun Guide.
- * <p>
- * See {@link #Category(ItemStack)} to create a category.
+ * Statically handles categories.
+ * Represents a category, which structure multiple {@link SlimefunItem} in the guide.
  * <p>
  * See {@link Categories} for the built-in categories.
- * 
- * @author TheBusyBiscuit
+ *
  * @since 4.0
- * 
+ *
  * @see LockedCategory
  * @see SeasonCategory
  */
 public class Category {
 	/**
-	 * Contains all the registered Categories.
+	 * List of the registered Categories.
 	 * @since 4.0
 	 * @see Categories
 	 */
@@ -42,24 +39,12 @@ public class Category {
 	private int tier;
 
 	/**
-	 * The basic constructor for a Category.
-	 * <p>
-	 * Create a new category by calling {@link #Category(ItemStack)}.
-	 * <br>
-	 * The display item can be created using {@link ItemStack}, however using CSCoreLib's
-	 * {@link CustomItem} or even {@link MenuItem} is highly recommended.
-	 * <br>
-	 * Instead of {@link #Category(ItemStack, int)}, where the tier is customizable,
-	 * it will here automatically be set to 3.
-	 * <p>
-	 * Major part of category declaration is handled by Slimefun itself.
-	 * <br>
-	 * See {@link #add(SlimefunItem)} and {@link #register()} for more information.
+	 * Constructs a Category with the given display item.
+     * The tier is set to a default value of {@code 3}.
 	 * 
-	 * @param item The display item for this category
+	 * @param item the display item for this category
 	 * 
 	 * @since 4.0
-	 * @see #Category(ItemStack, int)
 	 */
 	public Category(ItemStack item) {
 		this.item = item;
@@ -69,25 +54,14 @@ public class Category {
 	}
 
 	/**
-	 * The constructor for a Category.
-	 * <p>
-	 * Create a new category by calling {@link #Category(ItemStack, int)}.
-	 * <br>
-	 * The display item can be created using {@link ItemStack}, however using CSCoreLib's
-	 * {@link CustomItem} or even {@link MenuItem} is highly recommended.
-	 * <br>
-	 * The tier defines where the category will be displayed in the Slimefun Guide. 
-	 * A lower tier will display the category first.
-	 * <p>
-	 * Major part of category declaration is handled by Slimefun itself.
-	 * <br>
-	 * See {@link #add(SlimefunItem)} and {@link #register()} for more information.
+     * Constructs a Category with the given display item and the provided tier.
+     * </br>
+     * A lower tier results in this category being displayed first.
 	 * 
-	 * @param item The display item for this category
-	 * @param tier The tier of this category
+	 * @param item the display item for this category
+	 * @param tier the tier for this category
 	 * 
 	 * @since 4.0
-	 * @see #Category(ItemStack)
 	 */
 	public Category(ItemStack item, int tier) {
 		this.item = item;
@@ -97,12 +71,9 @@ public class Category {
 	}
 
 	/**
-	 * Registers the category.
+	 * Registers this category.
 	 * <p>
-	 * By default, the category gets automatically registered when a {@link SlimefunItem}
-	 * is bound to it.
-	 * <br>
-	 * See {@link SlimefunItem#register(boolean)} for more details.
+	 * By default, a category is automatically registered when a {@link SlimefunItem} is bound to it.
 	 * 
 	 * @since 4.0
 	 */
@@ -118,9 +89,9 @@ public class Category {
 	}
 
 	/**
-	 * Gets the list of all registered categories.
+	 * Gets the list of the registered categories.
 	 * 
-	 * @return the list of registered categories
+	 * @return the list of the registered categories
 	 * 
 	 * @since 4.0
 	 * @see Categories
@@ -130,27 +101,21 @@ public class Category {
 	}
 
 	/**
-	 * Bounds a {@link SlimefunItem} to the category.
-	 * <p>
-	 * By default, a SlimefunItem gets automatically bound to a Category when it gets
-	 * registered.
-	 * <br>
-	 * See {@link SlimefunItem#register(boolean)} for more information.
+	 * Bounds the provided {@link SlimefunItem} to this category.
 	 * 
-	 * @param item SlimefunItem to bound to this category
+	 * @param item the SlimefunItem to bound to this category
 	 * 
 	 * @since 4.0
-	 * @see #getItems()
 	 */
 	public void add(SlimefunItem item) {
 		items.add(item);
 	}
 
 	/**
-	 * Gets the display item of the category.
+	 * Returns the display item of this category.
 	 * 
-	 * @return the category's display item
-	 * 
+	 * @return the display item of this category
+     *
 	 * @since 4.0
 	 */
 	public ItemStack getItem() {
@@ -158,10 +123,10 @@ public class Category {
 	}
 
 	/**
-	 * Gets the list of all items bound to the category.
+	 * Returns the list of SlimefunItems bound to this category.
 	 * 
-	 * @return the list of all items bound to this category
-	 * 
+	 * @return the list of SlimefunItems bound to this category
+     *
 	 * @since 4.0
 	 */
 	public List<SlimefunItem> getItems() {
@@ -171,7 +136,7 @@ public class Category {
 	/**
 	 * Attempts to get the category with the given display item.
 	 * 
-	 * @param item Display item of the category to get
+	 * @param item the display item of the category to get
 	 * @return Category if found, or null
 	 * 
 	 * @since 4.0
@@ -184,21 +149,20 @@ public class Category {
 	}
 
 	/**
-	 * Gets the URID of the category.
+	 * Returns the {@link URID} of this category.
 	 * 
-	 * @return the category's URID
+	 * @return the URID of this category
 	 * 
 	 * @since 4.0
-	 * @see URID
 	 */
 	public URID getURID() {
 		return urid;
 	}
 
 	/**
-	 * Gets the tier of the category.
+	 * Returns the tier of this category.
 	 * 
-	 * @return the category's tier
+	 * @return the tier of this category
 	 * 
 	 * @since 4.0
 	 */
@@ -207,16 +171,11 @@ public class Category {
 	}
 
 	/**
-	 * /!\ Documentation needed here.
-	 * 
-	 * @author TheBusyBiscuit
 	 * @since 4.0
 	 */
 	class CategorySorter implements Comparator<Category> {
 
 		/**
-		 * /!\ Documentation needed here.
-		 * 
 		 * @since 4.0
 		 */
 		@Override
