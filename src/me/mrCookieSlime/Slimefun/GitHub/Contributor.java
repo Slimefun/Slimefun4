@@ -22,7 +22,7 @@ public class Contributor {
 	 * Returns the name of this contributor.
 	 *
 	 * @return the name of this contributor
-	 * @since 4.2.0
+	 * @since 4.1.13
 	 */
 	public String getName() 	{	return this.name;		}
 
@@ -31,7 +31,7 @@ public class Contributor {
 	 * It can be {@code Author} or {@code Head Artist}.
 	 *
 	 * @return the job of this contributor
-	 * @since 4.2.0
+	 * @since 4.1.13
 	 */
 	public String getJob() 		{	return this.job;		}
 
@@ -39,7 +39,7 @@ public class Contributor {
 	 * Returns the link to the GitHub profile of this contributor.
 	 *
 	 * @return the GitHub profile of this contributor.
-	 * @since 4.2.0
+	 * @since 4.1.13
 	 */
 	public String getProfile() 	{	return this.profile;	}
 
@@ -47,7 +47,7 @@ public class Contributor {
 	 * Returns the number of commits to the Slimefun4's repository of this contributor.
 	 *
 	 * @return the number of commits of this contributor.
-	 * @since 4.2.0
+	 * @since 4.1.13
 	 */
 	public int getCommits() 	{	return this.commits;	}
 
@@ -56,7 +56,7 @@ public class Contributor {
 	 *
 	 * @param profile the link to the GitHub profile of this contributor
 	 *
-	 * @since 4.2.0
+	 * @since 4.1.13
 	 */
 	protected void setProfile(String profile) {
 		this.profile = profile;
