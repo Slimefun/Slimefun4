@@ -180,7 +180,7 @@ public class Category {
 		 */
 		@Override
 		public int compare(Category c1, Category c2) {
-			return c1.getTier() > c2.getTier() ? 1: c1.getTier() == c2.getTier() ? 0: -1;
+		    return Integer.compare(c1.getTier(), c2.getTier());
 		}
 
 	}
