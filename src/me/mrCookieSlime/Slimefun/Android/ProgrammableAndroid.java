@@ -710,7 +710,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
 			if(item != null) {
-				if(fits(b, BlockStorage.retrieve(block))) {
+				if(fits(b, item.getItem())) {
 					pushItems(b, BlockStorage.retrieve(block));
 					if(SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
 					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
@@ -733,7 +733,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
 			try {
 				if(item != null) {
-					if(fits(b, BlockStorage.retrieve(block))) {
+					if(fits(b, item.getItem())) {
 						pushItems(b, BlockStorage.retrieve(block));
 						if(SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
