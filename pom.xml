@@ -6,7 +6,7 @@
 
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.1.12</version>
+    <version>4.1.13</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
