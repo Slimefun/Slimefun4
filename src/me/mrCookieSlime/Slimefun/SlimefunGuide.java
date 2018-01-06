@@ -335,24 +335,24 @@ public class SlimefunGuide {
 		openMainMenu(p, false, false, 1);
 	}
 	
-	public static void openGuide(Player p, boolean experimental) {
+	public static void openGuide(Player p, boolean book) {
 		if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
 		if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
-		if (!history.containsKey(p.getUniqueId())) openMainMenu(p, true, experimental, 1);
+		if (!history.containsKey(p.getUniqueId())) openMainMenu(p, true, book, 1);
 		else {
 			URID last = getLastEntry(p, false);
-			if (URID.decode(last) instanceof Category) openCategory(p, (Category) URID.decode(last), true, 1, experimental);
-			else if (URID.decode(last) instanceof SlimefunItem) displayItem(p, ((SlimefunItem) URID.decode(last)).getItem(), false, experimental, 0);
-			else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p, true, experimental);
-			else displayItem(p, (ItemStack) URID.decode(last), false, experimental, 0);
+			if (URID.decode(last) instanceof Category) openCategory(p, (Category) URID.decode(last), true, 1, book);
+			else if (URID.decode(last) instanceof SlimefunItem) displayItem(p, ((SlimefunItem) URID.decode(last)).getItem(), false, book, 0);
+			else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p, true, book);
+			else displayItem(p, (ItemStack) URID.decode(last), false, book, 0);
 		}
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void openMainMenu(final Player p, final boolean survival, final boolean experimental, final int selected_page) {
+	public static void openMainMenu(final Player p, final boolean survival, final boolean book, final int selected_page) {
 		clearHistory(p.getUniqueId());
 		
-		if (experimental) {
+		if (book) {
 			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
 			List<String> texts = new ArrayList<String>();
 			List<String> tooltips = new ArrayList<String>();
@@ -383,7 +383,7 @@ public class SlimefunGuide {
 									
 									@Override
 									public void run(Player p) {
-										handler.run(p, survival, experimental);
+										handler.run(p, survival, book);
 									}
 								});
 							}
@@ -424,7 +424,7 @@ public class SlimefunGuide {
 										
 										@Override
 										public void run() {
-											openCategory(p, category, survival, 1, experimental);
+											openCategory(p, category, survival, 1, book);
 										}
 									}, 1L);
 								}
@@ -442,7 +442,7 @@ public class SlimefunGuide {
 									
 									@Override
 									public void run() {
-										openCategory(p, category, survival, 1, experimental);
+										openCategory(p, category, survival, 1, book);
 									}
 								}, 1L);
 							}
@@ -458,7 +458,7 @@ public class SlimefunGuide {
 						
 						@Override
 						public void run(Player p) {
-							handler.run(p, survival, experimental);
+							handler.run(p, survival, book);
 						}
 					});
 				}
@@ -565,7 +565,7 @@ public class SlimefunGuide {
 								
 								@Override
 								public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-									openCategory(p, category, survival, 1, experimental);
+									openCategory(p, category, survival, 1, book);
 									return false;
 								}
 							});
@@ -578,7 +578,7 @@ public class SlimefunGuide {
 									
 									@Override
 									public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-										openCategory(p, category, survival, 1, experimental);
+										openCategory(p, category, survival, 1, book);
 										return false;
 									}
 								});
@@ -592,7 +592,7 @@ public class SlimefunGuide {
 							
 							@Override
 							public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-								openCategory(p, category, survival, 1, experimental);
+								openCategory(p, category, survival, 1, book);
 								return false;
 							}
 						});
@@ -629,7 +629,7 @@ public class SlimefunGuide {
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					int next = selected_page - 1;
 					if (next < 1) next = finalPages;
-					if (next != selected_page) openMainMenu(p, survival, experimental, next);
+					if (next != selected_page) openMainMenu(p, survival, book, next);
 					return false;
 				}
 			});
@@ -641,7 +641,7 @@ public class SlimefunGuide {
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					int next = selected_page + 1;
 					if (next > finalPages) next = 1;
-					if (next != selected_page) openMainMenu(p, survival, experimental, next);
+					if (next != selected_page) openMainMenu(p, survival, book, next);
 					return false;
 				}
 			});
@@ -656,10 +656,10 @@ public class SlimefunGuide {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void openCategory(final Player p, final Category category, final boolean survival, final int selected_page, final boolean experimental) {
+	public static void openCategory(final Player p, final Category category, final boolean survival, final int selected_page, final boolean book) {
 		if (category == null) return;
 
-		if (experimental && category.getItems().size() < 250) {
+		if (book && category.getItems().size() < 250) {
 			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
 			List<String> texts = new ArrayList<String>();
 			List<String> tooltips = new ArrayList<String>();
@@ -680,7 +680,7 @@ public class SlimefunGuide {
 									if (!Research.isResearching(p)) {
 										if (research.canUnlock(p)) {
 											if (research.hasUnlocked(p))
-												openCategory(p, category, true, selected_page, experimental);
+												openCategory(p, category, true, selected_page, book);
 											else {
 												if (!(p.getGameMode() == GameMode.CREATIVE && Research.creative_research)) {
 													p.setLevel(p.getLevel() - research.getCost());
@@ -692,7 +692,7 @@ public class SlimefunGuide {
 
 														@Override
 														public void run() {
-															openCategory(p, category, survival, selected_page, experimental);
+															openCategory(p, category, survival, selected_page, book);
 														}
 													}, 1L);
 												} else {
@@ -701,7 +701,7 @@ public class SlimefunGuide {
 
 														@Override
 														public void run() {
-															openCategory(p, category, survival, selected_page, experimental);
+															openCategory(p, category, survival, selected_page, book);
 														}
 													}, 103L);
 												}
@@ -731,7 +731,7 @@ public class SlimefunGuide {
 								
 								@Override
 								public void run(Player p) {
-									displayItem(p, item.getItem(), true, experimental, 0);
+									displayItem(p, item.getItem(), true, book, 0);
 								}
 							});
 						}
@@ -802,7 +802,7 @@ public class SlimefunGuide {
 				
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					openMainMenu(p, survival, experimental, 1);
+					openMainMenu(p, survival, book, 1);
 					return false;
 				}
 			});
@@ -836,7 +836,7 @@ public class SlimefunGuide {
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					int next = selected_page - 1;
 					if (next < 1) next = pages;
-					if (next != selected_page) openCategory(p, category, survival, next, experimental);
+					if (next != selected_page) openCategory(p, category, survival, next, book);
 					return false;
 				}
 			});
@@ -848,7 +848,7 @@ public class SlimefunGuide {
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					int next = selected_page + 1;
 					if (next > pages) next = 1;
-					if (next != selected_page) openCategory(p, category, survival, next, experimental);
+					if (next != selected_page) openCategory(p, category, survival, next, book);
 					return false;
 				}
 			});
@@ -870,7 +870,7 @@ public class SlimefunGuide {
 									if (!Research.isResearching(p)) {
 										if (research.canUnlock(p)) {
 											if (research.hasUnlocked(p))
-												openCategory(p, category, true, selected_page, experimental);
+												openCategory(p, category, true, selected_page, book);
 											else {
 												if (!(p.getGameMode() == GameMode.CREATIVE && Research.creative_research)) {
 													p.setLevel(p.getLevel() - research.getCost());
@@ -878,14 +878,14 @@ public class SlimefunGuide {
 
 												if (p.getGameMode() == GameMode.CREATIVE) {
 													research.unlock(p, Research.creative_research);
-													openCategory(p, category, survival, selected_page, experimental);
+													openCategory(p, category, survival, selected_page, book);
 												} else {
 													research.unlock(p, false);
 													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 
 														@Override
 														public void run() {
-															openCategory(p, category, survival, selected_page, experimental);
+															openCategory(p, category, survival, selected_page, book);
 														}
 													}, 103L);
 												}
@@ -915,7 +915,7 @@ public class SlimefunGuide {
 							
 							@Override
 							public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-								if (survival) displayItem(p, item, true, experimental, 0);
+								if (survival) displayItem(p, item, true, book, 0);
 								else p.getInventory().addItem(item);
 								return false;
 							}
@@ -954,7 +954,7 @@ public class SlimefunGuide {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void displayItem(Player p, final ItemStack item, boolean addToHistory, final boolean experimental, final int page) {
+	public static void displayItem(Player p, final ItemStack item, boolean addToHistory, final boolean book, final int page) {
 		if (item == null || item.getType() == Material.AIR) return;
 
 		final SlimefunItem sfItem = SlimefunItem.getByItem(item);
@@ -998,7 +998,7 @@ public class SlimefunGuide {
 						
 						@Override
 						public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-							displayItem(p, item, false, experimental, page + 1);
+							displayItem(p, item, false, book, page + 1);
 							return false;
 						}
 					});
@@ -1058,13 +1058,13 @@ public class SlimefunGuide {
 				
 				@Override
 				public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-					if (action.isShiftClicked()) openMainMenu(p, true, experimental, 1);
+					if (action.isShiftClicked()) openMainMenu(p, true, book, 1);
 					else {
 						URID last = getLastEntry(p, true);
-						if (URID.decode(last) instanceof Category) openCategory(p, (Category) URID.decode(last), true, 1, experimental);
-						else if (URID.decode(last) instanceof SlimefunItem) displayItem(p, ((SlimefunItem) URID.decode(last)).getItem(), false, experimental, 0);
-						else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p, true, experimental);
-						else displayItem(p, (ItemStack) URID.decode(last), false, experimental, 0);
+						if (URID.decode(last) instanceof Category) openCategory(p, (Category) URID.decode(last), true, 1, book);
+						else if (URID.decode(last) instanceof SlimefunItem) displayItem(p, ((SlimefunItem) URID.decode(last)).getItem(), false, book, 0);
+						else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p, true, book);
+						else displayItem(p, (ItemStack) URID.decode(last), false, book, 0);
 					}
 					return false;
 				}
@@ -1076,7 +1076,7 @@ public class SlimefunGuide {
 				
 				@Override
 				public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-					openMainMenu(p, true, experimental, 1);
+					openMainMenu(p, true, book, 1);
 					return false;
 				}
 			});
@@ -1087,7 +1087,7 @@ public class SlimefunGuide {
 			
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-				displayItem(p, item, true, experimental, 0);
+				displayItem(p, item, true, book, 0);
 				return false;
 			}
 		});
@@ -1097,7 +1097,7 @@ public class SlimefunGuide {
 			
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-				displayItem(p, item, true, experimental, 0);
+				displayItem(p, item, true, book, 0);
 				return false;
 			}
 		});
@@ -1107,7 +1107,7 @@ public class SlimefunGuide {
 			
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-				displayItem(p, item, true, experimental, 0);
+				displayItem(p, item, true, book, 0);
 				return false;
 			}
 		});
@@ -1165,7 +1165,7 @@ public class SlimefunGuide {
 			
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-				displayItem(p, item, true, experimental, 0);
+				displayItem(p, item, true, book, 0);
 				return false;
 			}
 		});
@@ -1175,7 +1175,7 @@ public class SlimefunGuide {
 			
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-				displayItem(p, item, true, experimental, 0);
+				displayItem(p, item, true, book, 0);
 				return false;
 			}
 		});
@@ -1185,7 +1185,7 @@ public class SlimefunGuide {
 			
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-				displayItem(p, item, true, experimental, 0);
+				displayItem(p, item, true, book, 0);
 				return false;
 			}
 		});
@@ -1204,7 +1204,7 @@ public class SlimefunGuide {
 			
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-				displayItem(p, item, true, experimental, 0);
+				displayItem(p, item, true, book, 0);
 				return false;
 			}
 		});
@@ -1214,7 +1214,7 @@ public class SlimefunGuide {
 			
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-				displayItem(p, item, true, experimental, 0);
+				displayItem(p, item, true, book, 0);
 				return false;
 			}
 		});
@@ -1224,7 +1224,7 @@ public class SlimefunGuide {
 			
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-				displayItem(p, item, true, experimental, 0);
+				displayItem(p, item, true, book, 0);
 				return false;
 			}
 		});
@@ -1263,7 +1263,7 @@ public class SlimefunGuide {
 						
 						@Override
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-						    displayItem(p, item, true, experimental, 0);
+						    displayItem(p, item, true, book, 0);
 							return false;
 						}
 					});

@@ -316,17 +316,20 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 					case DIG_FORWARD: {
 						Block block = b.getRelative(BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation")));
-						mine(b, block);
+						SlimefunItem item = BlockStorage.check(block);
+						mine(b, block, item);
 						break;
 					}
 					case DIG_UP: {
 						Block block = b.getRelative(BlockFace.UP);
-						mine(b, block);
+						SlimefunItem item = BlockStorage.check(block);
+						mine(b, block, item);
 						break;
 					}
 					case DIG_DOWN: {
 						Block block = b.getRelative(BlockFace.DOWN);
-						mine(b, block);
+						SlimefunItem item = BlockStorage.check(block);
+						mine(b, block, item);
 						break;
 					}
 					case CATCH_FISH: {
@@ -344,19 +347,22 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					case MOVE_AND_DIG_FORWARD: {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
 						Block block = b.getRelative(face);
-						movedig(b, face, block);
+						SlimefunItem item = BlockStorage.check(block);
+						movedig(b, face, block, item);
 						break;
 					}
 					case MOVE_AND_DIG_UP: {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
 						Block block = b.getRelative(BlockFace.UP);
-						movedig(b, face, block);
+						SlimefunItem item = BlockStorage.check(block);
+						movedig(b, face, block, item);
 						break;
 					}
 					case MOVE_AND_DIG_DOWN: {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
 						Block block = b.getRelative(BlockFace.DOWN);
-						movedig(b, face, block);
+						SlimefunItem item = BlockStorage.check(block);
+						movedig(b, face, block, item);
 						break;
 					}
 					case INTERFACE_ITEMS: {
@@ -700,36 +706,64 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
-	private void mine(Block b, Block block) {
+	private void mine(Block b, Block block, SlimefunItem item) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
-			ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-			if (fits(b, items)) {
-				pushItems(b, items);
-				block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-				block.setType(Material.AIR);
+			if(item != null) {
+				if(fits(b, BlockStorage.retrieve(block))) {
+					pushItems(b, BlockStorage.retrieve(block));
+					if(SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
+					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+					block.setType(Material.AIR);
+				}
+			}else {
+				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
+				if (fits(b, items)) {
+					pushItems(b, items);
+					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+					block.setType(Material.AIR);
+				}
 			}
 		}
 	}
 
 	@SuppressWarnings("deprecation")
-	private void movedig(Block b, BlockFace face, Block block) {
+	private void movedig(Block b, BlockFace face, Block block, SlimefunItem item) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
 			try {
-				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-				if (fits(b, items)) {
-					pushItems(b, items);
-					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-					block.setType(Material.SKULL);
-					block.setData((byte) 1);
-
-					Skull skull = (Skull) block.getState();
-					skull.setRotation(face);
-					skull.update(true, false);
-					CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-					b.setType(Material.AIR);
-					BlockStorage.moveBlockInfo(b, block);
+				if(item != null) {
+					if(fits(b, BlockStorage.retrieve(block))) {
+						pushItems(b, BlockStorage.retrieve(block));
+						if(SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
+						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+						
+						block.setType(Material.SKULL);
+						block.setData((byte) 1);
+	
+						Skull skull = (Skull) block.getState();
+						skull.setRotation(face);
+						skull.update(true, false);
+						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+						b.setType(Material.AIR);
+						BlockStorage.moveBlockInfo(b, block);
+					}
+				}
+				else {
+					ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
+					if (fits(b, items)) {
+						pushItems(b, items);
+						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+						block.setType(Material.SKULL);
+						block.setData((byte) 1);
+	
+						Skull skull = (Skull) block.getState();
+						skull.setRotation(face);
+						skull.update(true, false);
+						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+						b.setType(Material.AIR);
+						BlockStorage.moveBlockInfo(b, block);
+					}
 				}
 			} catch(Exception x) {
 				x.printStackTrace();
