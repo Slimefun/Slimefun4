@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -65,7 +66,7 @@ public class BackpackListener implements Listener {
 			else {
 				SlimefunItem sfItem = SlimefunItem.getByItem(e.getCurrentItem());
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false)) {
-					if (e.getCurrentItem() == null);
+					if (e.getCurrentItem().getType() == Material.AIR);
 					else if (sfItem == null) e.setCancelled(true);
 					else if (!(sfItem instanceof Juice)) e.setCancelled(true);
 				}
