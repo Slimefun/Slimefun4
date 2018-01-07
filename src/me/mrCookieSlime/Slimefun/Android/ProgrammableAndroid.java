@@ -316,20 +316,17 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 					case DIG_FORWARD: {
 						Block block = b.getRelative(BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation")));
-						SlimefunItem item = BlockStorage.check(block);
-						mine(b, block, item);
+						mine(b, block);
 						break;
 					}
 					case DIG_UP: {
 						Block block = b.getRelative(BlockFace.UP);
-						SlimefunItem item = BlockStorage.check(block);
-						mine(b, block, item);
+						mine(b, block);
 						break;
 					}
 					case DIG_DOWN: {
 						Block block = b.getRelative(BlockFace.DOWN);
-						SlimefunItem item = BlockStorage.check(block);
-						mine(b, block, item);
+						mine(b, block);
 						break;
 					}
 					case CATCH_FISH: {
@@ -347,22 +344,19 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					case MOVE_AND_DIG_FORWARD: {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
 						Block block = b.getRelative(face);
-						SlimefunItem item = BlockStorage.check(block);
-						movedig(b, face, block, item);
+						movedig(b, face, block);
 						break;
 					}
 					case MOVE_AND_DIG_UP: {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
 						Block block = b.getRelative(BlockFace.UP);
-						SlimefunItem item = BlockStorage.check(block);
-						movedig(b, face, block, item);
+						movedig(b, face, block);
 						break;
 					}
 					case MOVE_AND_DIG_DOWN: {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
 						Block block = b.getRelative(BlockFace.DOWN);
-						SlimefunItem item = BlockStorage.check(block);
-						movedig(b, face, block, item);
+						movedig(b, face, block);
 						break;
 					}
 					case INTERFACE_ITEMS: {
@@ -706,9 +700,10 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
-	private void mine(Block b, Block block, SlimefunItem item) {
+	private void mine(Block b, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
+			SlimefunItem item = BlockStorage.check(block);
 			if(item != null) {
 				if(fits(b, item.getItem())) {
 					if(SlimefunItem.blockhandler.containsKey(item.getID())) {
@@ -732,10 +727,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void movedig(Block b, BlockFace face, Block block, SlimefunItem item) {
+	private void movedig(Block b, BlockFace face, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
 			try {
+				SlimefunItem item = BlockStorage.check(block);
 				if(item != null) {
 					if(fits(b, item.getItem())) {
 						if(SlimefunItem.blockhandler.containsKey(item.getID())) {
