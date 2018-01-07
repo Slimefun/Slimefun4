@@ -246,6 +246,15 @@ public class BlockStorage {
 		addBlockInfo(block, "id", item, true);
 	}
 	
+	/**
+     * Retrieves the SlimefunItem's ItemStack from the specified Block.
+     * If the specified Block is registered in BlockStorage, its data will be erased from it, regardless of the returned value.
+     *
+     * @param  block  the block to retrieve the ItemStack from
+     * @return the SlimefunItem's ItemStack corresponding to the block if it has one, otherwise null
+     *
+     * @since 4.0
+     */
 	public static ItemStack retrieve(Block block) {
 		if (!hasBlockInfo(block)) return null;
 		else {

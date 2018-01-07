@@ -703,11 +703,25 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private void mine(Block b, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
-			ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-			if (fits(b, items)) {
-				pushItems(b, items);
-				block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-				block.setType(Material.AIR);
+			SlimefunItem item = BlockStorage.check(block);
+			if(item != null) {
+				if(fits(b, item.getItem())) {
+					if(SlimefunItem.blockhandler.containsKey(item.getID())) {
+						if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+							pushItems(b, BlockStorage.retrieve(block));
+							if(SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
+							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+							block.setType(Material.AIR);
+						}
+					}
+				}
+			}else {
+				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
+				if (fits(b, items)) {
+					pushItems(b, items);
+					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+					block.setType(Material.AIR);
+				}
 			}
 		}
 	}
@@ -717,19 +731,43 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
 			try {
-				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-				if (fits(b, items)) {
-					pushItems(b, items);
-					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-					block.setType(Material.SKULL);
-					block.setData((byte) 1);
-
-					Skull skull = (Skull) block.getState();
-					skull.setRotation(face);
-					skull.update(true, false);
-					CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-					b.setType(Material.AIR);
-					BlockStorage.moveBlockInfo(b, block);
+				SlimefunItem item = BlockStorage.check(block);
+				if(item != null) {
+					if(fits(b, item.getItem())) {
+						if(SlimefunItem.blockhandler.containsKey(item.getID())) {
+							if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+								pushItems(b, BlockStorage.retrieve(block));
+								
+								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+								
+								block.setType(Material.SKULL);
+								block.setData((byte) 1);
+			
+								Skull skull = (Skull) block.getState();
+								skull.setRotation(face);
+								skull.update(true, false);
+								CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+								b.setType(Material.AIR);
+								BlockStorage.moveBlockInfo(b, block);
+							}
+						}
+					}
+				}
+				else {
+					ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
+					if (fits(b, items)) {
+						pushItems(b, items);
+						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+						block.setType(Material.SKULL);
+						block.setData((byte) 1);
+	
+						Skull skull = (Skull) block.getState();
+						skull.setRotation(face);
+						skull.update(true, false);
+						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+						b.setType(Material.AIR);
+						BlockStorage.moveBlockInfo(b, block);
+					}
 				}
 			} catch(Exception x) {
 				x.printStackTrace();
