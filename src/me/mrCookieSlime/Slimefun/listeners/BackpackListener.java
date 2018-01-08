@@ -66,8 +66,7 @@ public class BackpackListener implements Listener {
 			else {
 				SlimefunItem sfItem = SlimefunItem.getByItem(e.getCurrentItem());
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false)) {
-					if (e.getCurrentItem().getType() == Material.AIR);
-					else if (sfItem == null) e.setCancelled(true);
+					if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR));
 					else if (!(sfItem instanceof Juice)) e.setCancelled(true);
 				}
 				else if (e.getCurrentItem() != null && e.getCurrentItem().getType().toString().contains("SHULKER_BOX")) e.setCancelled(true);
