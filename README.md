@@ -8,7 +8,11 @@ Slimefun 4 is licensed under
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
 ## Development Builds
-[Build Server](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)
+<p align="center">
+  <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
+    <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
+  </a>
+</p>
 
 ## Contributions
 
