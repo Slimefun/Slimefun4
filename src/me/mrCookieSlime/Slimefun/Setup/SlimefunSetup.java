@@ -193,116 +193,118 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("ENHANCED_CRAFTING_TABLE");
-
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE");
+				
 				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-						Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
-
-						final Inventory inv = disp.getInventory();
-						List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
-
-						for (int i = 0; i < inputs.size(); i++) {
-							boolean craft = true;
-							for (int j = 0; j < inv.getContents().length; j++) {
-								if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
-									if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
-										if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], false)) {
+					if(CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+							Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
+	
+							final Inventory inv = disp.getInventory();
+							List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
+	
+							for (int i = 0; i < inputs.size(); i++) {
+								boolean craft = true;
+								for (int j = 0; j < inv.getContents().length; j++) {
+									if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
+										if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
+											if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], false)) {
+												craft = false;
+												break;
+											}
+										}
+										else {
 											craft = false;
 											break;
 										}
 									}
-									else {
-										craft = false;
-										break;
-									}
 								}
-							}
-							
-							if (craft) {
-								final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
-								if (Slimefun.hasUnlocked(p, adding, true)) {
-									Inventory inv2 = Bukkit.createInventory(null, 9, "test");
-									for (int j = 0; j < inv.getContents().length; j++) {
-										inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1): null): null);
-									}
-									if (InvUtils.fits(inv2, adding)) {
-										SlimefunItem sfItem = SlimefunItem.getByItem(adding);
-										
-										if (sfItem instanceof SlimefunBackpack) {
-											ItemStack backpack = null;
+								
+								if (craft) {
+									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
+									if (Slimefun.hasUnlocked(p, adding, true)) {
+										Inventory inv2 = Bukkit.createInventory(null, 9, "test");
+										for (int j = 0; j < inv.getContents().length; j++) {
+											inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1): null): null);
+										}
+										if (InvUtils.fits(inv2, adding)) {
+											SlimefunItem sfItem = SlimefunItem.getByItem(adding);
 											
-											for (int j = 0; j < 9; j++) {
-												if (inv.getContents()[j] != null) {
-													if (inv.getContents()[j].getType() != Material.AIR) {
-														if (SlimefunItem.getByItem(inv.getContents()[j]) instanceof SlimefunBackpack) {
-															backpack = inv.getContents()[j];
+											if (sfItem instanceof SlimefunBackpack) {
+												ItemStack backpack = null;
+												
+												for (int j = 0; j < 9; j++) {
+													if (inv.getContents()[j] != null) {
+														if (inv.getContents()[j].getType() != Material.AIR) {
+															if (SlimefunItem.getByItem(inv.getContents()[j]) instanceof SlimefunBackpack) {
+																backpack = inv.getContents()[j];
+																break;
+															}
+														}
+													}
+												}
+												String id = "";
+												int size = ((SlimefunBackpack) sfItem).size;
+												
+												if (backpack != null) {
+													for (String line: backpack.getItemMeta().getLore()) {
+														if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
+															id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
+															Config cfg = new Config(new File("data-storage/Slimefun/Players/" + id.split("#")[0] + ".yml"));
+															cfg.setValue("backpacks." + id.split("#")[1] + ".size", size);
+															cfg.save();
+															break;
+														}
+													}
+												}
+	
+												if (id.equals("")) {
+													for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
+														if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+															ItemMeta im = adding.getItemMeta();
+															List<String> lore = im.getLore();
+															lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, size)));
+															im.setLore(lore);
+															adding.setItemMeta(im);
+															break;
+														}
+													}
+												}
+												else {
+													for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
+														if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+															ItemMeta im = adding.getItemMeta();
+															List<String> lore = im.getLore();
+															lore.set(line, lore.get(line).replace("<ID>", id));
+															im.setLore(lore);
+															adding.setItemMeta(im);
 															break;
 														}
 													}
 												}
 											}
-											String id = "";
-											int size = ((SlimefunBackpack) sfItem).size;
 											
-											if (backpack != null) {
-												for (String line: backpack.getItemMeta().getLore()) {
-													if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
-														id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-														Config cfg = new Config(new File("data-storage/Slimefun/Players/" + id.split("#")[0] + ".yml"));
-														cfg.setValue("backpacks." + id.split("#")[1] + ".size", size);
-														cfg.save();
-														break;
+	
+											for (int j = 0; j < 9; j++) {
+												if (inv.getContents()[j] != null) {
+													if (inv.getContents()[j].getType() != Material.AIR) {
+														if (inv.getContents()[j].getType().toString().endsWith("_BUCKET")) inv.setItem(j, new ItemStack(Material.BUCKET));
+														else if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
+														else inv.setItem(j, null);
 													}
 												}
 											}
-
-											if (id.equals("")) {
-												for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
-													if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-														ItemMeta im = adding.getItemMeta();
-														List<String> lore = im.getLore();
-														lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, size)));
-														im.setLore(lore);
-														adding.setItemMeta(im);
-														break;
-													}
-												}
-											}
-											else {
-												for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
-													if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-														ItemMeta im = adding.getItemMeta();
-														List<String> lore = im.getLore();
-														lore.set(line, lore.get(line).replace("<ID>", id));
-														im.setLore(lore);
-														adding.setItemMeta(im);
-														break;
-													}
-												}
-											}
+											p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
+											
+											inv.addItem(adding);
 										}
-										
-
-										for (int j = 0; j < 9; j++) {
-											if (inv.getContents()[j] != null) {
-												if (inv.getContents()[j].getType() != Material.AIR) {
-													if (inv.getContents()[j].getType().toString().endsWith("_BUCKET")) inv.setItem(j, new ItemStack(Material.BUCKET));
-													else if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-													else inv.setItem(j, null);
-												}
-											}
-										}
-										p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
-										
-										inv.addItem(adding);
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+									return true;
 								}
-								return true;
 							}
+							Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 						}
-						Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 					}
 					return true;
 				}
@@ -339,29 +341,31 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("GRIND_STONE");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("GRIND_STONE");
 
 				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-						Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
-						Inventory inv = disp.getInventory();
-						for (ItemStack current: inv.getContents()) {
-							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-								if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-									ItemStack output = RecipeType.getRecipeOutput(machine, convert);
-									if (InvUtils.fits(inv, output)) {
-										ItemStack removing = current.clone();
-										removing.setAmount(1);
-										inv.removeItem(removing);
-										inv.addItem(output);
-										p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+							Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
+							Inventory inv = disp.getInventory();
+							for (ItemStack current: inv.getContents()) {
+								for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+									if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
+										ItemStack output = RecipeType.getRecipeOutput(machine, convert);
+										if (InvUtils.fits(inv, output)) {
+											ItemStack removing = current.clone();
+											removing.setAmount(1);
+											inv.removeItem(removing);
+											inv.addItem(output);
+											p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
+										}
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										return true;
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									return true;
 								}
 							}
+							Messages.local.sendTranslation(p, "machines.unknown-material", true);
 						}
-						Messages.local.sendTranslation(p, "machines.unknown-material", true);
 					}
 					return true;
 				}
@@ -378,60 +382,64 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("ARMOR_FORGE");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ARMOR_FORGE");
 
 				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-						Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
-						final Inventory inv = disp.getInventory();
-						List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
-
-						for (int i = 0; i < inputs.size(); i++) {
-							boolean craft = true;
-							for (int j = 0; j < inv.getContents().length; j++) {
-								if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
-									craft = false;
-									break;
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+							Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
+							final Inventory inv = disp.getInventory();
+							List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
+	
+							for (int i = 0; i < inputs.size(); i++) {
+								boolean craft = true;
+								for (int j = 0; j < inv.getContents().length; j++) {
+									if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
+										craft = false;
+										break;
+									}
 								}
-							}
-
-							if (craft) {
-								final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
-								if (Slimefun.hasUnlocked(p, adding, true)) {
-									if (InvUtils.fits(inv, adding)) {
-										for (ItemStack removing: inputs.get(i)) {
-											if (removing != null) inv.removeItem(removing);
-										}
-										p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
-										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-											@Override
-											public void run() {
-												p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
+	
+								if (craft) {
+									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+									if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+										if (Slimefun.hasUnlocked(p, adding, true)) {
+											if (InvUtils.fits(inv, adding)) {
+												for (ItemStack removing: inputs.get(i)) {
+													if (removing != null) inv.removeItem(removing);
+												}
+												p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
 												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+		
 													@Override
 													public void run() {
 														p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
 														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+		
 															@Override
 															public void run() {
-																p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-																inv.addItem(adding);
+																p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
+																Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+		
+																	@Override
+																	public void run() {
+																		p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+																		inv.addItem(adding);
+																	}
+																}, 20L);
 															}
 														}, 20L);
 													}
 												}, 20L);
 											}
-										}, 20L);
+											else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										}
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+									return true;
 								}
-								return true;
 							}
+							Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 						}
-						Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 					}
 					return true;
 				}
@@ -448,29 +456,31 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("ORE_CRUSHER");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ORE_CRUSHER");
 
 				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-						Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
-						Inventory inv = disp.getInventory();
-						for (ItemStack current: inv.getContents()) {
-							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-								if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-									ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-									if (InvUtils.fits(inv, adding)) {
-										ItemStack removing = current.clone();
-										removing.setAmount(convert.getAmount());
-										inv.removeItem(removing);
-										inv.addItem(adding);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);;
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+							Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
+							Inventory inv = disp.getInventory();
+							for (ItemStack current: inv.getContents()) {
+								for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+									if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
+										ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
+										if (InvUtils.fits(inv, adding)) {
+											ItemStack removing = current.clone();
+											removing.setAmount(convert.getAmount());
+											inv.removeItem(removing);
+											inv.addItem(adding);
+											p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);;
+										}
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										return true;
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									return true;
 								}
 							}
+							Messages.local.sendTranslation(p, "machines.unknown-material", true);
 						}
-						Messages.local.sendTranslation(p, "machines.unknown-material", true);
 					}
 					return true;
 				}
@@ -487,50 +497,52 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("COMPRESSOR");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("COMPRESSOR");
 
 				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-						Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
-						final Inventory inv = disp.getInventory();
-						for (ItemStack current: inv.getContents()) {
-							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-								if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-									final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-									if (InvUtils.fits(inv, adding)) {
-										ItemStack removing = current.clone();
-										removing.setAmount(convert.getAmount());
-										inv.removeItem(removing);
-										p.getWorld().playSound(p.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
-										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-											@Override
-											public void run() {
-												p.getWorld().playSound(p.getLocation(), Sound.BLOCK_PISTON_CONTRACT, 1F, 2F);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-													@Override
-													public void run() {
-														p.getWorld().playSound(p.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1F, 2F);
-														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-															@Override
-															public void run() {
-																p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-																inv.addItem(adding);
-															}
-														}, 20L);
-													}
-												}, 20L);
-											}
-										}, 20L);
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+							Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
+							final Inventory inv = disp.getInventory();
+							for (ItemStack current: inv.getContents()) {
+								for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+									if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
+										final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
+										if (InvUtils.fits(inv, adding)) {
+											ItemStack removing = current.clone();
+											removing.setAmount(convert.getAmount());
+											inv.removeItem(removing);
+											p.getWorld().playSound(p.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+												@Override
+												public void run() {
+													p.getWorld().playSound(p.getLocation(), Sound.BLOCK_PISTON_CONTRACT, 1F, 2F);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+														@Override
+														public void run() {
+															p.getWorld().playSound(p.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1F, 2F);
+															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																@Override
+																public void run() {
+																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+																	inv.addItem(adding);
+																}
+															}, 20L);
+														}
+													}, 20L);
+												}
+											}, 20L);
+										}
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										return true;
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									return true;
 								}
 							}
+							Messages.local.sendTranslation(p, "machines.unknown-material", true);
 						}
-						Messages.local.sendTranslation(p, "machines.unknown-material", true);
 					}
 					return true;
 				}
@@ -715,75 +727,77 @@ public class SlimefunSetup {
 					@Override
 					public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-						SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("SMELTERY");
+						SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("SMELTERY");
 
 						if (mb.isMultiBlock(machine)) {
-							if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-								Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
-								Inventory inv = disp.getInventory();
-								List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
-
-								for (int i = 0; i < inputs.size(); i++) {
-									boolean craft = true;
-									for (ItemStack converting: inputs.get(i)) {
-										if (converting != null) {
-											for (int j = 0; j < inv.getContents().length; j++) {
-												if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
-													craft = false;
-													break;
+							if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+								if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+									Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
+									Inventory inv = disp.getInventory();
+									List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
+	
+									for (int i = 0; i < inputs.size(); i++) {
+										boolean craft = true;
+										for (ItemStack converting: inputs.get(i)) {
+											if (converting != null) {
+												for (int j = 0; j < inv.getContents().length; j++) {
+													if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
+														craft = false;
+														break;
+													}
+													else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) break;
 												}
-												else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) break;
 											}
 										}
-									}
-
-									if (craft) {
-										ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
-										if (Slimefun.hasUnlocked(p, adding, true)) {
-											if (InvUtils.fits(inv, adding)) {
-												for (ItemStack removing: inputs.get(i)) {
-													if (removing != null) inv.removeItem(removing);
-												}
-												inv.addItem(adding);
-												p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
-												p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-												Block raw_disp = b.getRelative(BlockFace.DOWN);									
-												Hopper chamber = null;
-												if(BlockStorage.check(raw_disp.getRelative(BlockFace.EAST).getState().getBlock(), "IGNITION_CHAMBER")) {
-													chamber = (Hopper) raw_disp.getRelative(BlockFace.EAST).getState();
-												} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.WEST).getState().getBlock(), "IGNITION_CHAMBER")) {
-													chamber = (Hopper) raw_disp.getRelative(BlockFace.WEST).getState();
-												} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.NORTH).getState().getBlock(), "IGNITION_CHAMBER")) {
-													chamber = (Hopper) raw_disp.getRelative(BlockFace.NORTH).getState();
-												} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.SOUTH).getState().getBlock(), "IGNITION_CHAMBER")){
-													chamber = (Hopper) raw_disp.getRelative(BlockFace.SOUTH).getState();
-												}
-												
-												if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
-													if(chamber != null) {
-														if(chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
-															ItemStack item = chamber.getInventory().getItem(chamber.getInventory().first(Material.FLINT_AND_STEEL));
-															item.setDurability((short) (item.getDurability() + 1));
-															if(item.getDurability() >= item.getType().getMaxDurability()) {
-																item.setAmount(0); 
-																p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+	
+										if (craft) {
+											ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+											if (Slimefun.hasUnlocked(p, adding, true)) {
+												if (InvUtils.fits(inv, adding)) {
+													for (ItemStack removing: inputs.get(i)) {
+														if (removing != null) inv.removeItem(removing);
+													}
+													inv.addItem(adding);
+													p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
+													p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+													Block raw_disp = b.getRelative(BlockFace.DOWN);									
+													Hopper chamber = null;
+													if(BlockStorage.check(raw_disp.getRelative(BlockFace.EAST).getState().getBlock(), "IGNITION_CHAMBER")) {
+														chamber = (Hopper) raw_disp.getRelative(BlockFace.EAST).getState();
+													} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.WEST).getState().getBlock(), "IGNITION_CHAMBER")) {
+														chamber = (Hopper) raw_disp.getRelative(BlockFace.WEST).getState();
+													} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.NORTH).getState().getBlock(), "IGNITION_CHAMBER")) {
+														chamber = (Hopper) raw_disp.getRelative(BlockFace.NORTH).getState();
+													} else if (BlockStorage.check(raw_disp.getRelative(BlockFace.SOUTH).getState().getBlock(), "IGNITION_CHAMBER")){
+														chamber = (Hopper) raw_disp.getRelative(BlockFace.SOUTH).getState();
+													}
+													
+													if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
+														if(chamber != null) {
+															if(chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
+																ItemStack item = chamber.getInventory().getItem(chamber.getInventory().first(Material.FLINT_AND_STEEL));
+																item.setDurability((short) (item.getDurability() + 1));
+																if(item.getDurability() >= item.getType().getMaxDurability()) {
+																	item.setAmount(0); 
+																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+																}
+																p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
+															} else {
+																Messages.local.sendTranslation(p, "machines.ignition-chamber-no-flint", true);
+																BlockBreaker.nullify(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
 															}
-															p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
 														} else {
-															Messages.local.sendTranslation(p, "machines.ignition-chamber-no-flint", true);
 															BlockBreaker.nullify(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
 														}
-													} else {
-														BlockBreaker.nullify(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
 													}
 												}
+												else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 											}
-											else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+											return true;
 										}
-										return true;
 									}
+									Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 								}
-								Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 							}
 							return true;
 						}
@@ -805,62 +819,64 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("PRESSURE_CHAMBER");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("PRESSURE_CHAMBER");
 
 				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-						Dispenser disp = (Dispenser) b.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getState();
-						final Inventory inv = disp.getInventory();
-						for (ItemStack current: inv.getContents()) {
-							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-								if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-									final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-									if (InvUtils.fits(inv, adding)) {
-										ItemStack removing = current.clone();
-										removing.setAmount(convert.getAmount());
-										inv.removeItem(removing);
-										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
-										p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-										p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-										p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-											@Override
-											public void run() {
-												p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
-												p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-												p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-												p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-													@Override
-													public void run() {
-														p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
-														p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-														p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-														p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-															@Override
-															public void run() {
-																p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-																p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-																p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-																p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-																inv.addItem(adding);
-															}
-														}, 20L);
-													}
-												}, 20L);
-											}
-										}, 20L);
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+							Dispenser disp = (Dispenser) b.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getState();
+							final Inventory inv = disp.getInventory();
+							for (ItemStack current: inv.getContents()) {
+								for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+									if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
+										final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
+										if (InvUtils.fits(inv, adding)) {
+											ItemStack removing = current.clone();
+											removing.setAmount(convert.getAmount());
+											inv.removeItem(removing);
+											p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
+											p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+											p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+											p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+												@Override
+												public void run() {
+													p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
+													p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+													p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+													p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+														@Override
+														public void run() {
+															p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
+															p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+															p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+															p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																@Override
+																public void run() {
+																	p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+																	p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+																	p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+																	inv.addItem(adding);
+																}
+															}, 20L);
+														}
+													}, 20L);
+												}
+											}, 20L);
+										}
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										return true;
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									return true;
 								}
 							}
+							Messages.local.sendTranslation(p, "machines.unknown-material", true);
 						}
-						Messages.local.sendTranslation(p, "machines.unknown-material", true);
 					}
 					return true;
 				}
@@ -1139,83 +1155,85 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("MAGIC_WORKBENCH");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("MAGIC_WORKBENCH");
 
 				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-						Dispenser disp = null;
-
-						if (b.getRelative(1, 0, 0).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(1, 0, 0).getState();
-						else if (b.getRelative(0, 0, 1).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(0, 0, 1).getState();
-						else if (b.getRelative(-1, 0, 0).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(-1, 0, 0).getState();
-						else if (b.getRelative(0, 0, -1).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(0, 0, -1).getState();
-
-						final Inventory inv = disp.getInventory();
-						List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
-
-						for (int i = 0; i < inputs.size(); i++) {
-							boolean craft = true;
-							for (int j = 0; j < inv.getContents().length; j++) {
-								if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
-									craft = false;
-									break;
-								}
-							}
-
-							if (craft) {
-								final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
-								if (Slimefun.hasUnlocked(p, adding, true)) {
-									Inventory inv2 = Bukkit.createInventory(null, 9, "test");
-									for (int j = 0; j < inv.getContents().length; j++) {
-										inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1): null): null);
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+							Dispenser disp = null;
+	
+							if (b.getRelative(1, 0, 0).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(1, 0, 0).getState();
+							else if (b.getRelative(0, 0, 1).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(0, 0, 1).getState();
+							else if (b.getRelative(-1, 0, 0).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(-1, 0, 0).getState();
+							else if (b.getRelative(0, 0, -1).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(0, 0, -1).getState();
+	
+							final Inventory inv = disp.getInventory();
+							List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
+	
+							for (int i = 0; i < inputs.size(); i++) {
+								boolean craft = true;
+								for (int j = 0; j < inv.getContents().length; j++) {
+									if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
+										craft = false;
+										break;
 									}
-									if (InvUtils.fits(inv2, adding)) {
-										for (int j = 0; j < 9; j++) {
-											if (inv.getContents()[j] != null) {
-												if (inv.getContents()[j].getType() != Material.AIR) {
-													if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-													else inv.setItem(j, null);
+								}
+	
+								if (craft) {
+									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+									if (Slimefun.hasUnlocked(p, adding, true)) {
+										Inventory inv2 = Bukkit.createInventory(null, 9, "test");
+										for (int j = 0; j < inv.getContents().length; j++) {
+											inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1): null): null);
+										}
+										if (InvUtils.fits(inv2, adding)) {
+											for (int j = 0; j < 9; j++) {
+												if (inv.getContents()[j] != null) {
+													if (inv.getContents()[j].getType() != Material.AIR) {
+														if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
+														else inv.setItem(j, null);
+													}
 												}
 											}
+											p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
+											p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+											p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
+											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+												@Override
+												public void run() {
+													p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
+													p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+													p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+														@Override
+														public void run() {
+															p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
+															p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+															p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
+															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																@Override
+																public void run() {
+																	p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+																	p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
+																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+																	inv.addItem(adding);
+																}
+															}, 20L);
+														}
+													}, 20L);
+												}
+											}, 20L);
 										}
-										p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
-										p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-										p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
-										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-											@Override
-											public void run() {
-												p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
-												p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-												p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-													@Override
-													public void run() {
-														p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
-														p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-														p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
-														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-															@Override
-															public void run() {
-																p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-																p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
-																p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-																inv.addItem(adding);
-															}
-														}, 20L);
-													}
-												}, 20L);
-											}
-										}, 20L);
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+									return true;
 								}
-								return true;
 							}
+							Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 						}
-						Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 					}
 					return true;
 				}
@@ -1313,66 +1331,68 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("ORE_WASHER");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ORE_WASHER");
 
 				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-						Dispenser disp = (Dispenser) b.getRelative(BlockFace.UP).getState();
-						Inventory inv = disp.getInventory();
-						for (ItemStack current: inv.getContents()) {
-							if (current != null) {
-								if (SlimefunManager.isItemSimiliar(current, SlimefunItems.SIFTED_ORE, true)) {
-									ItemStack adding = SlimefunItems.IRON_DUST;
-									if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.GOLD_DUST;
-									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.ALUMINUM_DUST;
-									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.COPPER_DUST;
-									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.ZINC_DUST;
-									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.TIN_DUST;
-									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.MAGNESIUM_DUST;
-									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.LEAD_DUST;
-									else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.SILVER_DUST;
-
-									if (inv.firstEmpty() != -1) {
-										ItemStack removing = current.clone();
-										removing.setAmount(1);
-										inv.removeItem(removing);
-										inv.addItem(adding);
-										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-										if (InvUtils.fits(inv, SlimefunItems.STONE_CHUNK)) inv.addItem(SlimefunItems.STONE_CHUNK);
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+							Dispenser disp = (Dispenser) b.getRelative(BlockFace.UP).getState();
+							Inventory inv = disp.getInventory();
+							for (ItemStack current: inv.getContents()) {
+								if (current != null) {
+									if (SlimefunManager.isItemSimiliar(current, SlimefunItems.SIFTED_ORE, true)) {
+										ItemStack adding = SlimefunItems.IRON_DUST;
+										if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.GOLD_DUST;
+										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.ALUMINUM_DUST;
+										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.COPPER_DUST;
+										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.ZINC_DUST;
+										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.TIN_DUST;
+										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.MAGNESIUM_DUST;
+										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.LEAD_DUST;
+										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.SILVER_DUST;
+	
+										if (inv.firstEmpty() != -1) {
+											ItemStack removing = current.clone();
+											removing.setAmount(1);
+											inv.removeItem(removing);
+											inv.addItem(adding);
+											p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+											p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
+											if (InvUtils.fits(inv, SlimefunItems.STONE_CHUNK)) inv.addItem(SlimefunItems.STONE_CHUNK);
+										}
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										return true;
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									return true;
-								}
-								else if (SlimefunManager.isItemSimiliar(current, new ItemStack(Material.SAND, 4), false)) {
-									ItemStack adding = SlimefunItems.SALT;
-									if (InvUtils.fits(inv, adding)) {
-										ItemStack removing = current.clone();
-										removing.setAmount(4);
-										inv.removeItem(removing);
-										inv.addItem(adding);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+									else if (SlimefunManager.isItemSimiliar(current, new ItemStack(Material.SAND, 4), false)) {
+										ItemStack adding = SlimefunItems.SALT;
+										if (InvUtils.fits(inv, adding)) {
+											ItemStack removing = current.clone();
+											removing.setAmount(4);
+											inv.removeItem(removing);
+											inv.addItem(adding);
+											p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
+											p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+										}
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										return true;
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									return true;
-								}
-								else if (SlimefunManager.isItemSimiliar(current, SlimefunItems.PULVERIZED_ORE, true)) {
-									ItemStack adding = SlimefunItems.PURE_ORE_CLUSTER;
-									if (InvUtils.fits(inv, adding)) {
-										ItemStack removing = current.clone();
-										removing.setAmount(1);
-										inv.removeItem(removing);
-										inv.addItem(adding);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+									else if (SlimefunManager.isItemSimiliar(current, SlimefunItems.PULVERIZED_ORE, true)) {
+										ItemStack adding = SlimefunItems.PURE_ORE_CLUSTER;
+										if (InvUtils.fits(inv, adding)) {
+											ItemStack removing = current.clone();
+											removing.setAmount(1);
+											inv.removeItem(removing);
+											inv.addItem(adding);
+											p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
+											p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+										}
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										return true;
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									return true;
 								}
 							}
+							Messages.local.sendTranslation(p, "machines.unknown-material", true);
 						}
-						Messages.local.sendTranslation(p, "machines.unknown-material", true);
 					}
 					return true;
 				}
@@ -1524,7 +1544,7 @@ public class SlimefunSetup {
 
 		for (Enchantment e: Enchantment.values()) {
 			for (int i = 1; i <= e.getMaxLevel(); i++) {
-				Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + e.getName() + ".level." + i, true);
+				Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + e.getId() + ".level." + i, true);
 			}
 		}
 
@@ -1802,10 +1822,12 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByName("SAW_MILL"))) {
-					if (Slimefun.hasUnlocked(p, SlimefunItems.SAW_MILL, true)) {
-						if (b.getRelative(BlockFace.UP).getType() == Material.LOG) BlockBreaker.breakBlock(p, b.getRelative(BlockFace.UP), Arrays.asList(new ItemStack[] {new CustomItem(Material.WOOD, b.getRelative(BlockFace.UP).getData() % 4, 8)}), true);
-						else if (b.getRelative(BlockFace.UP).getType() == Material.LOG_2) BlockBreaker.breakBlock(p, b.getRelative(BlockFace.UP), Arrays.asList(new ItemStack[] {new CustomItem(Material.WOOD, (b.getRelative(BlockFace.UP).getData() % 2) + 4, 8)}), true);
+				if (mb.isMultiBlock(SlimefunItem.getByID("SAW_MILL"))) {
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, SlimefunItems.SAW_MILL, true)) {
+							if (b.getRelative(BlockFace.UP).getType() == Material.LOG) BlockBreaker.breakBlock(p, b.getRelative(BlockFace.UP), Arrays.asList(new ItemStack[] {new CustomItem(Material.WOOD, b.getRelative(BlockFace.UP).getData() % 4, 8)}), true);
+							else if (b.getRelative(BlockFace.UP).getType() == Material.LOG_2) BlockBreaker.breakBlock(p, b.getRelative(BlockFace.UP), Arrays.asList(new ItemStack[] {new CustomItem(Material.WOOD, (b.getRelative(BlockFace.UP).getData() % 2) + 4, 8)}), true);
+						}
 					}
 					return true;
 				}
@@ -1847,68 +1869,70 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByName("DIGITAL_MINER"))) {
-					if (Slimefun.hasUnlocked(p, SlimefunItems.DIGITAL_MINER, true)) {
-						Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
-						final Inventory inv = chest.getInventory();
-						List<Location> ores = new ArrayList<Location>();
-						for (int x = b.getX() - 4; x < b.getX() + 4; x++) {
-							for (int z = b.getZ() - 4; z < b.getZ() + 4; z++) {
-								for (int y = b.getY(); y > 0; y--) {
-									if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
-										ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
+				if (mb.isMultiBlock(SlimefunItem.getByID("DIGITAL_MINER"))) {
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, SlimefunItems.DIGITAL_MINER, true)) {
+							Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
+							final Inventory inv = chest.getInventory();
+							List<Location> ores = new ArrayList<Location>();
+							for (int x = b.getX() - 4; x < b.getX() + 4; x++) {
+								for (int z = b.getZ() - 4; z < b.getZ() + 4; z++) {
+									for (int y = b.getY(); y > 0; y--) {
+										if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
+											ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
+										}
 									}
 								}
 							}
-						}
-						if (!ores.isEmpty()) {
-							final Material ore = ores.get(0).getBlock().getType();
-							final ItemStack adding = new ItemStack(ore);
-							ores.get(0).getBlock().setType(Material.AIR);
-							ores.clear();
-							if (InvUtils.fits(inv, adding)) {
-								b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-									@Override
-									public void run() {
-										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-											@Override
-											public void run() {
-												b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-													@Override
-													public void run() {
-														b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-															@Override
-															public void run() {
-																b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-																Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																	@Override
-																	public void run() {
-																		b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-																		p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-																		inv.addItem(adding);
-																	}
-																}, 20L);
-															}
-														}, 20L);
-													}
-												}, 20L);
-											}
-										}, 20L);
-									}
-								}, 20L);
+							if (!ores.isEmpty()) {
+								final Material ore = ores.get(0).getBlock().getType();
+								final ItemStack adding = new ItemStack(ore);
+								ores.get(0).getBlock().setType(Material.AIR);
+								ores.clear();
+								if (InvUtils.fits(inv, adding)) {
+									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+										@Override
+										public void run() {
+											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+												@Override
+												public void run() {
+													b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+														@Override
+														public void run() {
+															b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																@Override
+																public void run() {
+																	b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+																	Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																		@Override
+																		public void run() {
+																			b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+																			p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+																			inv.addItem(adding);
+																		}
+																	}, 20L);
+																}
+															}, 20L);
+														}
+													}, 20L);
+												}
+											}, 20L);
+										}
+									}, 20L);
+								}
+								else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 							}
-							else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+							else Messages.local.sendTranslation(p, "miner.no-ores", true);
 						}
-						else Messages.local.sendTranslation(p, "miner.no-ores", true);
 					}
 					return true;
 				}
@@ -1923,73 +1947,75 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByName("ADVANCED_DIGITAL_MINER"))) {
-					if (Slimefun.hasUnlocked(p, SlimefunItems.ADVANCED_DIGITAL_MINER, true)) {
-						Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
-						final Inventory inv = chest.getInventory();
-						List<Location> ores = new ArrayList<Location>();
-						for (int x = b.getX() - 6; x < b.getX() + 6; x++) {
-							for (int z = b.getZ() - 6; z < b.getZ() + 6; z++) {
-								for (int y = b.getY(); y > 0; y--) {
-									if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
-										ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
+				if (mb.isMultiBlock(SlimefunItem.getByID("ADVANCED_DIGITAL_MINER"))) {
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, SlimefunItems.ADVANCED_DIGITAL_MINER, true)) {
+							Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
+							final Inventory inv = chest.getInventory();
+							List<Location> ores = new ArrayList<Location>();
+							for (int x = b.getX() - 6; x < b.getX() + 6; x++) {
+								for (int z = b.getZ() - 6; z < b.getZ() + 6; z++) {
+									for (int y = b.getY(); y > 0; y--) {
+										if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
+											ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
+										}
 									}
 								}
 							}
-						}
-						if (!ores.isEmpty()) {
-							final Material ore = ores.get(0).getBlock().getType();
-							ItemStack drop = new ItemStack(ore);
-							if (ore == Material.COAL_ORE)  drop = new CustomItem(new ItemStack(Material.COAL), 4);
-							else if (ore == Material.IRON_ORE) drop = new CustomItem(SlimefunItems.IRON_DUST, 2);
-							else if (ore == Material.GOLD_ORE)  drop = new CustomItem(SlimefunItems.GOLD_DUST, 2);
-							else if (ore == Material.REDSTONE_ORE)  drop = new CustomItem(new ItemStack(Material.REDSTONE), 8);
-							else if (ore == Material.QUARTZ_ORE)  drop = new CustomItem(new ItemStack(Material.QUARTZ), 4);
-							else if (ore == Material.LAPIS_ORE)  drop = new CustomItem(new MaterialData(Material.INK_SACK, (byte) 4).toItemStack(1), 12);
-							else {
-								for (ItemStack drops: ores.get(0).getBlock().getDrops()) {
-									if (!drops.getType().isBlock()) drop = new CustomItem(drops, 2);
-								}
-							}
-							final ItemStack adding = drop;
-							ores.get(0).getBlock().setType(Material.AIR);
-							ores.clear();
-							if (InvUtils.fits(inv, adding)) {
-								b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-									@Override
-									public void run() {
-										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-											@Override
-											public void run() {
-												b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-													@Override
-													public void run() {
-														b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-															@Override
-															public void run() {
-																b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-																p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-																inv.addItem(adding);
-															}
-														}, 20L);
-													}
-												}, 20L);
-											}
-										}, 20L);
+							if (!ores.isEmpty()) {
+								final Material ore = ores.get(0).getBlock().getType();
+								ItemStack drop = new ItemStack(ore);
+								if (ore == Material.COAL_ORE)  drop = new CustomItem(new ItemStack(Material.COAL), 4);
+								else if (ore == Material.IRON_ORE) drop = new CustomItem(SlimefunItems.IRON_DUST, 2);
+								else if (ore == Material.GOLD_ORE)  drop = new CustomItem(SlimefunItems.GOLD_DUST, 2);
+								else if (ore == Material.REDSTONE_ORE)  drop = new CustomItem(new ItemStack(Material.REDSTONE), 8);
+								else if (ore == Material.QUARTZ_ORE)  drop = new CustomItem(new ItemStack(Material.QUARTZ), 4);
+								else if (ore == Material.LAPIS_ORE)  drop = new CustomItem(new MaterialData(Material.INK_SACK, (byte) 4).toItemStack(1), 12);
+								else {
+									for (ItemStack drops: ores.get(0).getBlock().getDrops()) {
+										if (!drops.getType().isBlock()) drop = new CustomItem(drops, 2);
 									}
-								}, 20L);
+								}
+								final ItemStack adding = drop;
+								ores.get(0).getBlock().setType(Material.AIR);
+								ores.clear();
+								if (InvUtils.fits(inv, adding)) {
+									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+										@Override
+										public void run() {
+											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+												@Override
+												public void run() {
+													b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+														@Override
+														public void run() {
+															b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																@Override
+																public void run() {
+																	b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+																	inv.addItem(adding);
+																}
+															}, 20L);
+														}
+													}, 20L);
+												}
+											}, 20L);
+										}
+									}, 20L);
+								}
+								else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 							}
-							else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+							else Messages.local.sendTranslation(p, "miner.no-ores", true);
 						}
-						else Messages.local.sendTranslation(p, "miner.no-ores", true);
 					}
 					return true;
 				}
@@ -2010,114 +2036,117 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, final Player p, ItemStack item) {
 				if (e.getClickedBlock() != null) {
 					SlimefunItem machine = BlockStorage.check(e.getClickedBlock());
-					if (machine != null && machine.getName().equals("COMPOSTER")) {
-						final ItemStack input = p.getItemInHand();
-						final Block b = e.getClickedBlock();
-						for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-							if (convert != null && SlimefunManager.isItemSimiliar(input, convert, true)) {
-								ItemStack removing = input.clone();
-								removing.setAmount(convert.getAmount());
-								p.getInventory().removeItem(removing);
-								final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-									@Override
-									public void run() {
-										if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-										else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-											@Override
-											public void run() {
-												if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-												else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-													@Override
-													public void run() {
-														if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-														else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-															@Override
-															public void run() {
-																if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-																else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																	@Override
-																	public void run() {
-																		if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-																		else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																			@Override
-																			public void run() {
-																				if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-																				else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																					@Override
-																					public void run() {
-																						if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-																						else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																							@Override
-																							public void run() {
-																								if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-																								else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																									@Override
-																									public void run() {
-																										if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-																										else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																											@Override
-																											public void run() {
-																												if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-																												else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																													@Override
-																													public void run() {
-																														if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
-																														else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																														p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-																														b.getWorld().dropItemNaturally(b.getRelative(BlockFace.UP).getLocation(), adding);
-																													}
-																												}, 30L);
-																											}
-																										}, 30L);
-																									}
-																								}, 30L);
-																							}
-																						}, 30L);
-																					}
-																				}, 30L);
-																			}
-																		}, 30L);
-																	}
-																}, 30L);
-															}
-														}, 30L);
-													}
-												}, 30L);
-											}
-										}, 30L);
-									}
-								}, 30L);
-								return true;
+					if (machine != null && machine.getID().equals("COMPOSTER")) {
+						if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
+							final ItemStack input = p.getItemInHand();
+							final Block b = e.getClickedBlock();
+							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+								if (convert != null && SlimefunManager.isItemSimiliar(input, convert, true)) {
+									ItemStack removing = input.clone();
+									removing.setAmount(convert.getAmount());
+									p.getInventory().removeItem(removing);
+									final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
+	
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+										@Override
+										public void run() {
+											if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+											else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+												@Override
+												public void run() {
+													if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+													else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+														@Override
+														public void run() {
+															if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+															else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																@Override
+																public void run() {
+																	if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+																	else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+																	Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																		@Override
+																		public void run() {
+																			if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+																			else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+																			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																				@Override
+																				public void run() {
+																					if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+																					else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+																					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																						@Override
+																						public void run() {
+																							if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+																							else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+																							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																								@Override
+																								public void run() {
+																									if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+																									else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+																									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																										@Override
+																										public void run() {
+																											if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+																											else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+																											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																												@Override
+																												public void run() {
+																													if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+																													else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+																													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																														@Override
+																														public void run() {
+																															if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
+																															else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+																															p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+																															b.getWorld().dropItemNaturally(b.getRelative(BlockFace.UP).getLocation(), adding);
+																														}
+																													}, 30L);
+																												}
+																											}, 30L);
+																										}
+																									}, 30L);
+																								}
+																							}, 30L);
+																						}
+																					}, 30L);
+																				}
+																			}, 30L);
+																		}
+																	}, 30L);
+																}
+															}, 30L);
+														}
+													}, 30L);
+												}
+											}, 30L);
+										}
+									}, 30L);
+									return true;
+								}
 							}
+							Messages.local.sendTranslation(p, "machines.wrong-item", true);
+							return true;
 						}
-						Messages.local.sendTranslation(p, "machines.wrong-item", true);
-						return true;
 					}
+					return true;
 				}
-				return false;
+				else return false;
 			}
 		});
 
@@ -2149,8 +2178,8 @@ public class SlimefunSetup {
 										SlimefunItem sfItem = BlockStorage.check(b);
 										boolean allow = true;
 										if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-											if (SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
-												allow = SlimefunItem.blockhandler.get(sfItem.getName()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+											if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
+												allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
 											}
 											if (allow) {
 												drops.add(BlockStorage.retrieve(e.getBlock()));
@@ -2186,64 +2215,67 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByName("AUTOMATED_PANNING_MACHINE"))) {
-					final ItemStack input = p.getItemInHand();
-					ItemStack output = null;
-					if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE"))) output = SlimefunItems.SIFTED_ORE;
-					else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY"))) output = new ItemStack(Material.CLAY_BALL);
-					else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT"))) output = new ItemStack(Material.FLINT);
-					final ItemStack drop = output;
-					if (input != null) {
-						if (input.getType() == Material.GRAVEL) {
-							PlayerInventory.consumeItemInHand(p);
-							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-								@Override
-								public void run() {
-									b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-										@Override
-										public void run() {
-											b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-												@Override
-												public void run() {
-													b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-														@Override
-														public void run() {
-															b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																@Override
-																public void run() {
-																	b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-																	Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																		@Override
-																		public void run() {
-																			b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-																			if (drop != null) b.getWorld().dropItemNaturally(b.getLocation(), drop);
-																			p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-																		}
-																	}, 30L);
-																}
-															}, 30L);
-														}
-													}, 30L);
-												}
-											}, 30L);
-										}
-									}, 30L);
-								}
-							}, 30L);
-							return true;
+				if (mb.isMultiBlock(SlimefunItem.getByID("AUTOMATED_PANNING_MACHINE"))) {
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						final ItemStack input = p.getItemInHand();
+						ItemStack output = null;
+						if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE"))) output = SlimefunItems.SIFTED_ORE;
+						else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY"))) output = new ItemStack(Material.CLAY_BALL);
+						else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT"))) output = new ItemStack(Material.FLINT);
+						final ItemStack drop = output;
+						if (input != null) {
+							if (input.getType() == Material.GRAVEL) {
+								PlayerInventory.consumeItemInHand(p);
+								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+									@Override
+									public void run() {
+										b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
+										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+											@Override
+											public void run() {
+												b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+													@Override
+													public void run() {
+														b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
+														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+															@Override
+															public void run() {
+																b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
+																Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																	@Override
+																	public void run() {
+																		b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
+																		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																			@Override
+																			public void run() {
+																				b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
+																				if (drop != null) b.getWorld().dropItemNaturally(b.getLocation(), drop);
+																				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+																			}
+																		}, 30L);
+																	}
+																}, 30L);
+															}
+														}, 30L);
+													}
+												}, 30L);
+											}
+										}, 30L);
+									}
+								}, 30L);
+								return true;
+							}
 						}
+						Messages.local.sendTranslation(p, "machines.wrong-item", true);
+						return true;
 					}
-					Messages.local.sendTranslation(p, "machines.wrong-item", true);
 					return true;
 				}
 				else return false;
@@ -2326,151 +2358,153 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, final Player p, ItemStack item) {
 				if (e.getClickedBlock() != null) {
 					SlimefunItem machine = BlockStorage.check(e.getClickedBlock());
-					if (machine != null && machine.getName().equals("CRUCIBLE")) {
-						final ItemStack input = p.getItemInHand();
-						final Block block = e.getClickedBlock().getRelative(BlockFace.UP);
-						for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-							if (input != null) {
-								if (SlimefunManager.isItemSimiliar(input, convert, true)) {
-									e.setCancelled(true);
-									ItemStack removing = input.clone();
-									removing.setAmount(convert.getAmount());
-									p.getInventory().removeItem(removing);
-
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-										@Override
-										public void run() {
-											if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
-												block.setType(Material.LAVA);
-												block.setData((byte) 7);
-												block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-											}
-											else if (input.getType() == Material.LEAVES) {
-												block.setType(Material.WATER);
-												block.setData((byte) 7);
-												block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-											}
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-												@Override
-												public void run() {
-													if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
-														block.setType(Material.LAVA);
-														block.setData((byte) 6);
-														block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-													}
-													else if (input.getType() == Material.LEAVES) {
-														block.setType(Material.WATER);
-														block.setData((byte) 6);
-														block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-													}
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-														@Override
-														public void run() {
-															if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
-																block.setType(Material.LAVA);
-																block.setData((byte) 5);
-																block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-															}
-															else if (input.getType() == Material.LEAVES) {
-																block.setType(Material.WATER);
-																block.setData((byte) 5);
-																block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-															}
-															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																@Override
-																public void run() {
-																	if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
-																		block.setType(Material.LAVA);
-																		block.setData((byte) 4);
-																		block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-																	}
-																	else if (input.getType() == Material.LEAVES) {
-																		block.setType(Material.WATER);
-																		block.setData((byte) 4);
-																		block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-																	}
-																	Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																		@Override
-																		public void run() {
-																			if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
-																				block.setType(Material.LAVA);
-																				block.setData((byte) 3);
-																				block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-																			}
-																			else if (input.getType() == Material.LEAVES) {
-																				block.setType(Material.WATER);
-																				block.setData((byte) 3);
-																				block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-																			}
-																			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																				@Override
-																				public void run() {
-																					if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
-																						block.setType(Material.LAVA);
-																						block.setData((byte) 2);
-																						block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-																					}
-																					else if (input.getType() == Material.LEAVES) {
-																						block.setType(Material.WATER);
-																						block.setData((byte) 2);
-																						block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-																					}
-																					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																						@Override
-																						public void run() {
-																							if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
-																								block.setType(Material.LAVA);
-																								block.setData((byte) 1);
-																								block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-																							}
-																							else if (input.getType() == Material.LEAVES) {
-																								block.setType(Material.WATER);
-																								block.setData((byte) 1);
-																								block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-																							}
-																							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
-																								@Override
-																								public void run() {
-																									if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
-																										block.setType(Material.STATIONARY_LAVA);
-																										block.setData((byte) 0);
-																										block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-																									}
-																									else if (input.getType() == Material.LEAVES) {
-																										block.setType(Material.WATER);
-																										block.setData((byte) 0);
-																										block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-																									}
-																								}
-																							}, 50L);
-																						}
-																					}, 50L);
-																				}
-																			}, 50L);
-																		}
-																	}, 50L);
-																}
-															}, 50L);
-														}
-													}, 50L);
+					if (machine != null && machine.getID().equals("CRUCIBLE")) {
+						if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
+							final ItemStack input = p.getItemInHand();
+							final Block block = e.getClickedBlock().getRelative(BlockFace.UP);
+							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+								if (input != null) {
+									if (SlimefunManager.isItemSimiliar(input, convert, true)) {
+										e.setCancelled(true);
+										ItemStack removing = input.clone();
+										removing.setAmount(convert.getAmount());
+										p.getInventory().removeItem(removing);
+	
+										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+											@Override
+											public void run() {
+												if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
+													block.setType(Material.LAVA);
+													block.setData((byte) 7);
+													block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 												}
-											}, 50L);
-										}
-									}, 50L);
-									return true;
+												else if (input.getType() == Material.LEAVES) {
+													block.setType(Material.WATER);
+													block.setData((byte) 7);
+													block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+												}
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+													@Override
+													public void run() {
+														if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
+															block.setType(Material.LAVA);
+															block.setData((byte) 6);
+															block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
+														}
+														else if (input.getType() == Material.LEAVES) {
+															block.setType(Material.WATER);
+															block.setData((byte) 6);
+															block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+														}
+														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+															@Override
+															public void run() {
+																if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
+																	block.setType(Material.LAVA);
+																	block.setData((byte) 5);
+																	block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
+																}
+																else if (input.getType() == Material.LEAVES) {
+																	block.setType(Material.WATER);
+																	block.setData((byte) 5);
+																	block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+																}
+																Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																	@Override
+																	public void run() {
+																		if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
+																			block.setType(Material.LAVA);
+																			block.setData((byte) 4);
+																			block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
+																		}
+																		else if (input.getType() == Material.LEAVES) {
+																			block.setType(Material.WATER);
+																			block.setData((byte) 4);
+																			block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+																		}
+																		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																			@Override
+																			public void run() {
+																				if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
+																					block.setType(Material.LAVA);
+																					block.setData((byte) 3);
+																					block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
+																				}
+																				else if (input.getType() == Material.LEAVES) {
+																					block.setType(Material.WATER);
+																					block.setData((byte) 3);
+																					block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+																				}
+																				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																					@Override
+																					public void run() {
+																						if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
+																							block.setType(Material.LAVA);
+																							block.setData((byte) 2);
+																							block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
+																						}
+																						else if (input.getType() == Material.LEAVES) {
+																							block.setType(Material.WATER);
+																							block.setData((byte) 2);
+																							block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+																						}
+																						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																							@Override
+																							public void run() {
+																								if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
+																									block.setType(Material.LAVA);
+																									block.setData((byte) 1);
+																									block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
+																								}
+																								else if (input.getType() == Material.LEAVES) {
+																									block.setType(Material.WATER);
+																									block.setData((byte) 1);
+																									block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+																								}
+																								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+	
+																									@Override
+																									public void run() {
+																										if (input.getType() == Material.COBBLESTONE || input.getType() == Material.HARD_CLAY) {
+																											block.setType(Material.STATIONARY_LAVA);
+																											block.setData((byte) 0);
+																											block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
+																										}
+																										else if (input.getType() == Material.LEAVES) {
+																											block.setType(Material.WATER);
+																											block.setData((byte) 0);
+																											block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+																										}
+																									}
+																								}, 50L);
+																							}
+																						}, 50L);
+																					}
+																				}, 50L);
+																			}
+																		}, 50L);
+																	}
+																}, 50L);
+															}
+														}, 50L);
+													}
+												}, 50L);
+											}
+										}, 50L);
+										return true;
+									}
 								}
 							}
+							Messages.local.sendTranslation(p, "machines.wrong-item", true);
+							return true;
 						}
-						Messages.local.sendTranslation(p, "machines.wrong-item", true);
-						return true;
 					}
 				}
 				return false;
@@ -2682,33 +2716,35 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("JUICER");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("JUICER");
 
 				if (mb.isMultiBlock(machine)) {
-					if (Slimefun.hasUnlocked(p, SlimefunItems.JUICER, true)) {
-						Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
-						Inventory inv = disp.getInventory();
-						for (ItemStack current: inv.getContents()) {
-							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-								if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-									ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-									if (InvUtils.fits(inv, adding)) {
-										ItemStack removing = current.clone();
-										removing.setAmount(1);
-										inv.removeItem(removing);
-										inv.addItem(adding);
-										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+						if (Slimefun.hasUnlocked(p, SlimefunItems.JUICER, true)) {
+							Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
+							Inventory inv = disp.getInventory();
+							for (ItemStack current: inv.getContents()) {
+								for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+									if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
+										ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
+										if (InvUtils.fits(inv, adding)) {
+											ItemStack removing = current.clone();
+											removing.setAmount(1);
+											inv.removeItem(removing);
+											inv.addItem(adding);
+											p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+											p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+										}
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+										return true;
 									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									return true;
 								}
 							}
+							Messages.local.sendTranslation(p, "machines.unknown-material", true);
 						}
-						Messages.local.sendTranslation(p, "machines.unknown-material", true);
-					}
+					} 
 					return true;
-				}
+				} 
 				else return false;
 			}
 		});
@@ -2860,7 +2896,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBlockDispense(final BlockDispenseEvent e, Block dispenser, final Dispenser d, Block block, Block chest, SlimefunItem machine) {
-				if (machine.getName().equalsIgnoreCase("BLOCK_PLACER")) {
+				if (machine.getID().equalsIgnoreCase("BLOCK_PLACER")) {	
 					e.setCancelled(true);
 					if ((block.getType() == null || block.getType() == Material.AIR) && e.getItem().getType().isBlock()) {
 						for(String blockType : blockPlacerBlacklist) {
@@ -2871,10 +2907,10 @@ public class SlimefunSetup {
 						
 						SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
 						if (sfItem != null) {
-							if (!SlimefunItem.blockhandler.containsKey(sfItem.getName())) {
+							if (!SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 								block.setType(e.getItem().getType());
 								block.setData(e.getItem().getData().getData());
-								BlockStorage.store(block, sfItem.getName());
+								BlockStorage.store(block, sfItem.getID());
 								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
 								if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
 								else {
@@ -3859,11 +3895,13 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(e.getItem(), SlimefunItems.MULTIMETER, true)) {
 					if (e.getClickedBlock() != null && ChargableBlock.isChargable(e.getClickedBlock())) {
-						e.setCancelled(true);
-						p.sendMessage("");
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bStored Energy: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(e.getClickedBlock())) + " J"));
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bCapacity: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(e.getClickedBlock())) + " J"));
-						p.sendMessage("");
+						if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
+							e.setCancelled(true);
+							p.sendMessage("");
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bStored Energy: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(e.getClickedBlock())) + " J"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bCapacity: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(e.getClickedBlock())) + " J"));
+							p.sendMessage("");
+						}
 					}
 					return true;
 				}
@@ -4045,12 +4083,15 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
 				if (e.getClickedBlock() == null) return false;
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getName().equals("GPS_CONTROL_PANEL")) return false;
-				e.setCancelled(true);
-				try {
-					Slimefun.getGPSNetwork().openTransmitterControlPanel(p);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				if (item == null || !item.getID().equals("GPS_CONTROL_PANEL")) return false;
+				
+				if(CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
+					e.setCancelled(true);
+					try {
+						Slimefun.getGPSNetwork().openTransmitterControlPanel(p);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 				return true;
 			}
@@ -4383,10 +4424,12 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(e.getItem(), SlimefunItems.INFERNAL_BONEMEAL, true)) {
 					if (e.getClickedBlock() != null && e.getClickedBlock().getType().equals(Material.NETHER_WARTS)) {
-						if (e.getClickedBlock().getData() < 3) {
-							e.getClickedBlock().setData((byte) (e.getClickedBlock().getData() + 1));
-							e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
-							PlayerInventory.consumeItemInHand(p);
+						if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
+							if (e.getClickedBlock().getData() < 3) {
+								e.getClickedBlock().setData((byte) (e.getClickedBlock().getData() + 1));
+								e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
+								PlayerInventory.consumeItemInHand(p);
+							}
 						}
 					}
 					return true;
@@ -4479,12 +4522,15 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
 				if (e.getClickedBlock() == null) return false;
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getName().equals("GPS_GEO_SCANNER")) return false;
-				e.setCancelled(true);
-				try {
-					Slimefun.getGPSNetwork().scanChunk(p, e.getClickedBlock().getChunk());
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				if (item == null || !item.getID().equals("GPS_GEO_SCANNER")) return false;
+				
+				if(CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
+					e.setCancelled(true);
+					try {
+						Slimefun.getGPSNetwork().scanChunk(p, e.getClickedBlock().getChunk());
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 				return true;
 			}
@@ -4606,7 +4652,9 @@ public class SlimefunSetup {
 
 			@Override
 			public void onInteract(final Player p, final Block b) throws Exception {
-				GPSNetwork.openTeleporterGUI(p, UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), b, Slimefun.getGPSNetwork().getNetworkComplexity(UUID.fromString(BlockStorage.getBlockInfo(b, "owner"))));
+				if(CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
+					GPSNetwork.openTeleporterGUI(p, UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), b, Slimefun.getGPSNetwork().getNetworkComplexity(UUID.fromString(BlockStorage.getBlockInfo(b, "owner"))));
+				}
 			}
 
 		}
@@ -4641,7 +4689,7 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
 				if (e.getClickedBlock() == null) return false;
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getName().equals("HOLOGRAM_PROJECTOR")) return false;
+				if (item == null || !item.getID().equals("HOLOGRAM_PROJECTOR")) return false;
 				e.setCancelled(true);
 
 				if (BlockStorage.getBlockInfo(e.getClickedBlock(), "owner").equals(p.getUniqueId().toString())) {
@@ -4748,7 +4796,7 @@ public class SlimefunSetup {
 				if (e.getClickedBlock() == null) return false;
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
 				if (item == null) return false;
-				if (!item.getName().equals("ELEVATOR_PLATE")) return false;
+				if (!item.getID().equals("ELEVATOR_PLATE")) return false;
 
 				if (BlockStorage.getBlockInfo(e.getClickedBlock(), "owner").equals(p.getUniqueId().toString())) Elevator.openEditor(p, e.getClickedBlock());
 				return true;
@@ -5167,9 +5215,10 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
 				if (e.getClickedBlock() == null) return false;
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getName().equals("CARGO_MANAGER")) return false;
+				if (item == null || !item.getID().equals("CARGO_MANAGER")) return false;
+				
 				e.setCancelled(true);
-
+	
 				if (BlockStorage.getBlockInfo(e.getClickedBlock(), "visualizer") == null) {
 					BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", "disabled");
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
@@ -5203,9 +5252,8 @@ public class SlimefunSetup {
 			public boolean onRightClick(final ItemUseEvent e, Player p, ItemStack stack) {
 				if (e.getClickedBlock() == null) return false;
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null) return false;
-				if (!item.getName().equals("CARGO_NODE")) return false;
-
+				if (item == null || !item.getID().equals("CARGO_NODE")) return false;
+				
 				if (CargoNet.isConnected(e.getClickedBlock())) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Connected: " + "&2\u2714"));
 				}
