@@ -401,42 +401,40 @@ public class SlimefunSetup {
 								}
 	
 								if (craft) {
-									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
-									if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
-										if (Slimefun.hasUnlocked(p, adding, true)) {
-											if (InvUtils.fits(inv, adding)) {
-												for (ItemStack removing: inputs.get(i)) {
-													if (removing != null) inv.removeItem(removing);
-												}
-												p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-		
-													@Override
-													public void run() {
-														p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
-														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-		
-															@Override
-															public void run() {
-																p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
-																Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-		
-																	@Override
-																	public void run() {
-																		p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-																		inv.addItem(adding);
-																	}
-																}, 20L);
-															}
-														}, 20L);
-													}
-												}, 20L);
+								final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+									if (Slimefun.hasUnlocked(p, adding, true)) {
+										if (InvUtils.fits(inv, adding)) {
+											for (ItemStack removing: inputs.get(i)) {
+												if (removing != null) inv.removeItem(removing);
 											}
-											else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+											p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
+											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+		
+												@Override
+												public void run() {
+													p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+		
+														@Override
+														public void run() {
+															p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
+															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+		
+																@Override
+																public void run() {
+																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+																	inv.addItem(adding);
+																}
+															}, 20L);
+														}
+													}, 20L);
+												}
+											}, 20L);
 										}
+										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 									}
-									return true;
 								}
+								return true;
 							}
 							Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 						}
