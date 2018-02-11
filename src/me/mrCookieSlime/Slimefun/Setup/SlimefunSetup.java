@@ -2749,8 +2749,9 @@ public class SlimefunSetup {
 						if (ChatColor.stripColor(line).startsWith("Type: ")) type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(" ", "_").toUpperCase());
 					}
 					if (type != null) {
-						((CreatureSpawner) e.getBlock().getState()).setSpawnedType(type);
-						e.getBlock().getState().update(true, false);
+						CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
+						spawner.setSpawnedType(type);
+						spawner.update(true, false);
 					}
 					return true;
 				}
