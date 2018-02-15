@@ -2783,8 +2783,8 @@ public class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.EGG), new ItemStack(Material.APPLE), new ItemStack(Material.MELON), new ItemStack(Material.SUGAR), null, null, null, null, null}, new CustomItem(SlimefunItems.FRUIT_CAKE, 4))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.APPLE_PIE, "APPLE_PIE", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null}, new CustomItem(SlimefunItems.APPLE_PIE, 2))
+		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_APPLE_PIE, "CHRISTMAS_APPLE_PIE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 2))
 		.register(true);
 
 		new EnhancedFurnace(1, 1, 1, SlimefunItems.ENHANCED_FURNACE, "ENHANCED_FURNACE",
@@ -2909,8 +2909,8 @@ public class SlimefunSetup {
 			}
 		});
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.HOT_CHOCOLATE, "HOT_CHOCOLATE", RecipeType.SMELTERY,
-		new ItemStack[] {SlimefunItems.CHOCOLATE_MILK, null, null, null, null, null, null, null, null}, SlimefunItems.HOT_CHOCOLATE)
+		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, "CHRISTMAS_HOT_CHOCOLATE", RecipeType.SMELTERY,
+		new ItemStack[] {SlimefunItems.CHOCOLATE_MILK, null, null, null, null, null, null, null, null}, SlimefunItems.CHRISTMAS_HOT_CHOCOLATE)
 		.register(true);
 
 		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_CAKE, "CHRISTMAS_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -3051,8 +3051,8 @@ public class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.CARROT_ITEM), new ItemStack(Material.EGG), null, null, null, null, null, null}, new CustomItem(SlimefunItems.CARROT_PIE, 2))
 		.register(true);
 
-		new SlimefunItem(Categories.EASTER, SlimefunItems.APPLE_PIE, "APPLE_PIE", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null}, new CustomItem(SlimefunItems.APPLE_PIE, 2))
+		new SlimefunItem(Categories.EASTER, SlimefunItems.CHRISTMAS_APPLE_PIE, "APPLE_PIE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 2))
 		.register(true);
 
 		new SlimefunItem(Categories.EASTER, SlimefunItems.EASTER_EGG, "EASTER_EGG", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -3069,7 +3069,7 @@ public class SlimefunSetup {
 					List<ItemStack> gifts = new ArrayList<ItemStack>();
 					for (int i = 0; i < 2; i++) {
 						gifts.add(new CustomItem(SlimefunItems.CARROT_PIE, 4));
-						gifts.add(new CustomItem(SlimefunItems.APPLE_PIE, 4));
+						gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
 						gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
 					}
 
