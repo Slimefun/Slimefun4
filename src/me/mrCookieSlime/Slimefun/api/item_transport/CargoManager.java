@@ -202,7 +202,7 @@ public class CargoManager {
 		boolean data = blockInfo.getString("filter-durability").equals("true");
 		
 		if (blockInfo.getString("filter-type").equals("whitelist")) {
-			List<ItemStack> items = new ArrayList<ItemStack>();
+			List<ItemStack> items = new ArrayList<>();
 			for (int slot: slots) {
 				ItemStack template = menu.getItemInSlot(slot);
 				if (template != null) items.add(new CustomItem(template, 1));

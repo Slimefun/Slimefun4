@@ -15,7 +15,7 @@ public class MachineConfig extends Config {
 		super("plugins/Slimefun/machines/" + id + ".yml");
 		
 		this.global = new MachineSettings(this);
-		this.children = new HashMap<String, MachineSettings>();
+		this.children = new HashMap<>();
 	}
 	
 	public MachineSettings getGlobalSettings() {

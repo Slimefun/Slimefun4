@@ -85,7 +85,7 @@ public class TalismanListener implements Listener {
 	@EventHandler
 	public void onEnchant(EnchantItemEvent e) {
 		if (Talisman.checkFor(e, SlimefunItem.getByID("MAGICIAN_TALISMAN"))) {
-			List<String> enchantments = new ArrayList<String>();
+			List<String> enchantments = new ArrayList<>();
 			for (Enchantment en: Enchantment.values()) {
 				for (int i = 1; i <= en.getMaxLevel(); i++) {
 					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getName() + ".level." + i) && en.canEnchantItem(e.getItem())) enchantments.add(en.getName() + "-" + i);
@@ -115,7 +115,7 @@ public class TalismanListener implements Listener {
 	 */
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		List<ItemStack> drops = new ArrayList<ItemStack>();
+		List<ItemStack> drops = new ArrayList<>();
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		int fortune = 1;
 
@@ -129,7 +129,7 @@ public class TalismanListener implements Listener {
 			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE")) {
 				if (Talisman.checkFor(e, SlimefunItem.getByID("MINER_TALISMAN"))) {
 					if (drops.isEmpty()) drops = (List<ItemStack>) e.getBlock().getDrops();
-					for (ItemStack drop : new ArrayList<ItemStack>(drops)) {
+					for (ItemStack drop : new ArrayList<>(drops)) {
 						if (!drop.getType().isBlock()) drops.add(new CustomItem(drop, fortune * 2));
 					}
 				}

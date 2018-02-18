@@ -31,7 +31,7 @@ public class Category {
 	 * @since 4.0
 	 * @see Categories
 	 */
-	public static List<Category> list = new ArrayList<Category>();
+	public static List<Category> list = new ArrayList<>();
 
 	private ItemStack item;
 	private List<SlimefunItem> items;
@@ -48,7 +48,7 @@ public class Category {
 	 */
 	public Category(ItemStack item) {
 		this.item = item;
-		this.items = new ArrayList<SlimefunItem>();
+		this.items = new ArrayList<>();
 		this.urid = URID.nextURID(this, false);
 		this.tier = 3;
 	}
@@ -65,7 +65,7 @@ public class Category {
 	 */
 	public Category(ItemStack item, int tier) {
 		this.item = item;
-		this.items = new ArrayList<SlimefunItem>();
+		this.items = new ArrayList<>();
 		this.urid = URID.nextURID(this, false);
 		this.tier = tier;
 	}

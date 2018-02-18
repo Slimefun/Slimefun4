@@ -41,9 +41,9 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 	
 	public SlimefunStartup plugin;
 	
-	public static List<String> arguments = new ArrayList<String>();
-	public static List<String> descriptions = new ArrayList<String>();
-	public static List<String> tabs = new ArrayList<String>();
+	public static List<String> arguments = new ArrayList<>();
+	public static List<String> descriptions = new ArrayList<>();
+	public static List<String> tabs = new ArrayList<>();
 	
 	public SlimefunCommand(SlimefunStartup plugin) {
 		this.plugin = plugin;
@@ -173,7 +173,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + plugin.getDescription().getVersion()));
 					sender.sendMessage("");
 					
-					List<String> addons = new ArrayList<String>();
+					List<String> addons = new ArrayList<>();
 					
 					for (Plugin plugin: Bukkit.getPluginManager().getPlugins()) {
 						if (plugin.getDescription().getDepend().contains("Slimefun") || plugin.getDescription().getSoftDepend().contains("Slimefun")) {

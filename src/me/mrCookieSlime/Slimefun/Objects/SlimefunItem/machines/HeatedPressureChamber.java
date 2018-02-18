@@ -64,7 +64,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow.equals(ItemTransportFlow.WITHDRAW)) return getOutputSlots();
 				
-				List<Integer> slots = new ArrayList<Integer>();
+				List<Integer> slots = new ArrayList<>();
 				
 				for (int slot: getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), item, true)) {
@@ -143,7 +143,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
-				List<String> lore = new ArrayList<String>();
+				List<String> lore = new ArrayList<>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
 				lore.add("");
 				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
@@ -169,7 +169,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 		}
 		else {
 			MachineRecipe r = null;
-			Map<Integer, Integer> found = new HashMap<Integer, Integer>();
+			Map<Integer, Integer> found = new HashMap<>();
 			outer:
 			for (MachineRecipe recipe: recipes) {
 				for (ItemStack input: recipe.getInput()) {

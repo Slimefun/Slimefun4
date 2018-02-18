@@ -15,10 +15,10 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class Pedestals {
 
-	public static List<AltarRecipe> recipes = new ArrayList<AltarRecipe>();
+	public static List<AltarRecipe> recipes = new ArrayList<>();
 
 	public static List<Block> getPedestals(Block altar) {
-		List<Block> list = new ArrayList<Block>();
+		List<Block> list = new ArrayList<>();
 
 		if (BlockStorage.check(altar.getRelative(3, 0, 0), "ANCIENT_PEDESTAL")) {
 			list.add(altar.getRelative(3, 0, 0));
@@ -68,7 +68,7 @@ public class Pedestals {
 			if (SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
 				r = recipe;
 				
-				List<ItemStack> copy = new ArrayList<ItemStack>(input);
+				List<ItemStack> copy = new ArrayList<>(input);
 				
 				recipe:
 				for (ItemStack item : recipe.getInput()) {

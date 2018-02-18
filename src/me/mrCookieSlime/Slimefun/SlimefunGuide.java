@@ -58,10 +58,10 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class SlimefunGuide {
 	
-	public static Map<UUID, List<URID>> history = new HashMap<UUID, List<URID>>();
+	public static Map<UUID, List<URID>> history = new HashMap<>();
 	public static int month = 0;
 	
-	public static List<Contributor> contributors = new ArrayList<Contributor>();
+	public static List<Contributor> contributors = new ArrayList<>();
 	public static int issues = 0;
 	public static int forks = 0;
 	/**
@@ -353,10 +353,10 @@ public class SlimefunGuide {
 		clearHistory(p.getUniqueId());
 		
 		if (book) {
-			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
-			List<String> texts = new ArrayList<String>();
-			List<String> tooltips = new ArrayList<String>();
-			List<PlayerRunnable> actions = new ArrayList<PlayerRunnable>();
+			List<TellRawMessage> pages = new ArrayList<>();
+			List<String> texts = new ArrayList<>();
+			List<String> tooltips = new ArrayList<>();
+			List<PlayerRunnable> actions = new ArrayList<>();
 			
 			int tier = 0;
 			
@@ -599,7 +599,7 @@ public class SlimefunGuide {
 						index++;
 					}
 					else {
-						List<String> parents = new ArrayList<String>();
+						List<String> parents = new ArrayList<>();
 						parents.add("");
 						parents.add("&rYou need to unlock all Items");
 						parents.add("&rfrom the following Categories first:");
@@ -660,10 +660,10 @@ public class SlimefunGuide {
 		if (category == null) return;
 
 		if (book && category.getItems().size() < 250) {
-			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
-			List<String> texts = new ArrayList<String>();
-			List<String> tooltips = new ArrayList<String>();
-			List<PlayerRunnable> actions = new ArrayList<PlayerRunnable>();
+			List<TellRawMessage> pages = new ArrayList<>();
+			List<String> texts = new ArrayList<>();
+			List<String> tooltips = new ArrayList<>();
+			List<PlayerRunnable> actions = new ArrayList<>();
 			
 			for (final SlimefunItem item: category.getItems()) {
 				if (Slimefun.hasPermission(p, item, false)) {
@@ -934,14 +934,14 @@ public class SlimefunGuide {
 	}
 
 	public static void addToHistory(Player p, URID urid) {
-		List<URID> list = new ArrayList<URID>();
+		List<URID> list = new ArrayList<>();
 		if (history.containsKey(p.getUniqueId())) list = history.get(p.getUniqueId());
 		list.add(urid);
 		history.put(p.getUniqueId(), list);
 	}
 	
 	private static URID getLastEntry(Player p, boolean remove) {
-		List<URID> list = new ArrayList<URID>();
+		List<URID> list = new ArrayList<>();
 		if (history.containsKey(p.getUniqueId())) list = history.get(p.getUniqueId());
 		if (remove && list.size() >= 1) {
 			URID urid = list.get(list.size() - 1);
@@ -982,7 +982,7 @@ public class SlimefunGuide {
 			recipeOutput = sfItem.getCustomOutput() != null ? sfItem.getCustomOutput(): sfItem.getItem();
 		}
 		else {
-			List<Recipe> recipes = new ArrayList<Recipe>();
+			List<Recipe> recipes = new ArrayList<>();
 			Iterator<Recipe> iterator = Bukkit.recipeIterator();
 			while (iterator.hasNext()) {
 				Recipe r = iterator.next();
@@ -1275,7 +1275,7 @@ public class SlimefunGuide {
 					if (slot > 54) break;
 					ItemStack fItem = fuel.getInput().clone();
 					ItemMeta im = fItem.getItemMeta();
-					List<String> lore = new ArrayList<String>();
+					List<String> lore = new ArrayList<>();
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + (((AGenerator) sfItem).getEnergyProduction() * 2) + " J/s"));
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AGenerator) sfItem).getEnergyProduction()) + " J in total"));
@@ -1298,7 +1298,7 @@ public class SlimefunGuide {
 					if (slot > 54) break;
 					ItemStack fItem = fuel.getInput().clone();
 					ItemMeta im = fItem.getItemMeta();
-					List<String> lore = new ArrayList<String>();
+					List<String> lore = new ArrayList<>();
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + (((AReactor) sfItem).getEnergyProduction() * 2) + " J/s"));
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AReactor) sfItem).getEnergyProduction()) + " J in total"));

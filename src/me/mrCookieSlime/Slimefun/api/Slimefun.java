@@ -26,8 +26,8 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
  */
 public class Slimefun {
 
-	public static Map<Integer, List<GuideHandler>> guide_handlers = new HashMap<Integer, List<GuideHandler>>();
-	public static List<GuideHandler> guide_handlers2 = new ArrayList<GuideHandler>();
+	public static Map<Integer, List<GuideHandler>> guide_handlers = new HashMap<>();
+	public static List<GuideHandler> guide_handlers2 = new ArrayList<>();
 
 	/**
 	 * Instance of the GPSNetwork.
@@ -40,10 +40,10 @@ public class Slimefun {
     /**
      * Lists all the registered categories.
      */
-	public static List<Category> current_categories = new ArrayList<Category>();
+	public static List<Category> current_categories = new ArrayList<>();
 
 	public static void registerGuideHandler(GuideHandler handler) {
-		List<GuideHandler> handlers = new ArrayList<GuideHandler>();
+		List<GuideHandler> handlers = new ArrayList<>();
 		if (guide_handlers.containsKey(handler.getTier())) handlers = guide_handlers.get(handler.getTier());
 		handlers.add(handler);
 		guide_handlers.put(handler.getTier(), handlers);
@@ -258,7 +258,7 @@ public class Slimefun {
 	 * @return the list of all the IDs of the enabled items.
 	 */
 	public static List<String> listIDs() {
-		List<String> ids = new ArrayList<String>();
+		List<String> ids = new ArrayList<>();
 		for (SlimefunItem item: SlimefunItem.list()) {
 			ids.add(item.getID());
 		}
@@ -272,7 +272,7 @@ public class Slimefun {
      * @see #current_categories
      */
 	public static List<ItemStack> listCategories() {
-		List<ItemStack> items = new ArrayList<ItemStack>();
+		List<ItemStack> items = new ArrayList<>();
 		for (Category c: Category.list()) {
 			items.add(c.getItem());
 		}
@@ -347,6 +347,6 @@ public class Slimefun {
 	}
 
 	public static List<GuideHandler> getGuideHandlers(int tier) {
-		return guide_handlers.containsKey(tier) ? guide_handlers.get(tier): new ArrayList<GuideHandler>();
+		return guide_handlers.containsKey(tier) ? guide_handlers.get(tier): new ArrayList<>();
 	}
 }

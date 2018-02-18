@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class URID {
 	
-	public static Map<URID, Object> objects = new HashMap<URID, Object>();
-	public static Map<Integer, URID> ids = new HashMap<Integer, URID>();
+	public static Map<URID, Object> objects = new HashMap<>();
+	public static Map<Integer, URID> ids = new HashMap<>();
 	
 	private static int next = 0;
 	private int id;

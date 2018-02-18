@@ -39,7 +39,7 @@ public class AndroidKillingListener implements Listener {
 					@SuppressWarnings("deprecation")
 					@Override
 					public void run() {
-						List<ItemStack> items = new ArrayList<ItemStack>();
+						List<ItemStack> items = new ArrayList<>();
 						for (Entity n: e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
 							if (n instanceof Item && !n.hasMetadata("no_pickup")) {
 								items.add(((Item) n).getItemStack());

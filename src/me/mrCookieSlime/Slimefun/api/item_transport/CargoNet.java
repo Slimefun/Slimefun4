@@ -51,8 +51,8 @@ public class CargoNet {
 	
 	private static final int RANGE = 5;
 	public static List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-	public static Map<Location, Integer> round_robin = new HashMap<Location, Integer>();
-	public static Set<ItemRequest> requests = new HashSet<ItemRequest>();
+	public static Map<Location, Integer> round_robin = new HashMap<>();
+	public static Set<ItemRequest> requests = new HashSet<>();
 	
 	private static int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
@@ -77,21 +77,21 @@ public class CargoNet {
 		Integer = The frequency of the node.
 		List<Location> = The locations of the corresponding input nodes
 		 */
-		final Map<Location, Integer> input = new HashMap<Location, Integer>();
-		final Map<Integer, List<Location>> output = new HashMap<Integer, List<Location>>();
+		final Map<Location, Integer> input = new HashMap<>();
+		final Map<Integer, List<Location>> output = new HashMap<>();
 
 		//Chest Terminal Stuff
-		final Set<Location> providers = new HashSet<Location>();
-		final Set<Location> terminals = new HashSet<Location>();
-		final Set<Location> imports = new HashSet<Location>();
-		final Set<Location> exports = new HashSet<Location>();
-		final Set<Location> destinations = new HashSet<Location>();
+		final Set<Location> providers = new HashSet<>();
+		final Set<Location> terminals = new HashSet<>();
+		final Set<Location> imports = new HashSet<>();
+		final Set<Location> exports = new HashSet<>();
+		final Set<Location> destinations = new HashSet<>();
 		
-		final Set<Location> blocks = new HashSet<Location>();
+		final Set<Location> blocks = new HashSet<>();
 		blocks.add(b.getLocation());
 		
-		final List<Location> visualizer1 = new ArrayList<Location>();
-		final List<Location> visualizer2 = new ArrayList<Location>();
+		final List<Location> visualizer1 = new ArrayList<>();
+		final List<Location> visualizer2 = new ArrayList<>();
 		
 		if (scan(b.getLocation(), blocks, visualizer1, visualizer2, Axis.UNKNOWN, input, output, terminals, providers, destinations, imports, exports).isEmpty()) {
 			CargoHologram.update(b, "&7Status: &4&lOFFLINE");
@@ -142,7 +142,7 @@ public class CargoNet {
 							}
 							
 							if (menu.getItemInSlot(17) == null) {
-								List<ItemStack> items = new ArrayList<ItemStack>();
+								List<ItemStack> items = new ArrayList<>();
 								for (int slot: slots) {
 									ItemStack template = menu.getItemInSlot(slot);
 									if (template != null) items.add(new CustomItem(template, 1));
@@ -252,7 +252,7 @@ public class CargoNet {
 						}
 
 						if (stack != null && output.containsKey(entry.getValue())) {
-							List<Location> outputlist = new ArrayList<Location>(output.get(entry.getValue()));
+							List<Location> outputlist = new ArrayList<>(output.get(entry.getValue()));
 							
 							if (roundrobin) {
 								if (!round_robin.containsKey(entry.getKey())) {
@@ -301,7 +301,7 @@ public class CargoNet {
 					}
 					//Chest Terminal Code
 					if (EXTRA_CHANNELS) {
-						List<StoredItem> items = new ArrayList<StoredItem>();
+						List<StoredItem> items = new ArrayList<>();
 						for (Location l: providers) {
 							Block target = getAttachedBlock(l.getBlock());
 							if (storage.hasUniversalInventory(target)) {
@@ -400,7 +400,7 @@ public class CargoNet {
 									
 									ItemStack stack = item.getItem().clone();
 									ItemMeta im = stack.getItemMeta();
-									List<String> lore = new ArrayList<String>();
+									List<String> lore = new ArrayList<>();
 									lore.add("");
 									lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
 									if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
@@ -474,39 +474,39 @@ public class CargoNet {
 		if (!exclude.equals(Axis.X_POSITIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX() + i + 1, source.getY(), source.getZ());
-				if (!continueScan(source, l, l1, l2, Axis.X_NEGATIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<Location>();
+				if (!continueScan(source, l, l1, l2, Axis.X_NEGATIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<>();
 			}
 		}
 		if (!exclude.equals(Axis.X_NEGATIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX() - i - 1, source.getY(), source.getZ());
-				if (!continueScan(source, l, l1, l2, Axis.X_POSITIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<Location>();
+				if (!continueScan(source, l, l1, l2, Axis.X_POSITIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<>();
 			}
 		}
 		
 		if (!exclude.equals(Axis.Y_POSITIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX(), source.getY() + i + 1, source.getZ());
-				if (!continueScan(source, l, l1, l2, Axis.Y_NEGATIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<Location>();
+				if (!continueScan(source, l, l1, l2, Axis.Y_NEGATIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<>();
 			}
 		}
 		if (!exclude.equals(Axis.Y_NEGATIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX(), source.getY() - i - 1, source.getZ());
-				if (!continueScan(source, l, l1, l2, Axis.Y_POSITIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<Location>();
+				if (!continueScan(source, l, l1, l2, Axis.Y_POSITIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<>();
 			}
 		}
 		
 		if (!exclude.equals(Axis.Z_POSITIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX(), source.getY(), source.getZ() + i + 1);
-				if (!continueScan(source, l, l1, l2, Axis.Z_NEGATIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<Location>();
+				if (!continueScan(source, l, l1, l2, Axis.Z_NEGATIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<>();
 			}
 		}
 		if (!exclude.equals(Axis.Z_NEGATIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX(), source.getY(), source.getZ() - i - 1);
-				if (!continueScan(source, l, l1, l2, Axis.Z_POSITIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<Location>();
+				if (!continueScan(source, l, l1, l2, Axis.Z_POSITIVE, blocks, input, output, terminals, providers, destinations, imports, exports)) return new HashSet<>();
 			}
 		}
 		
@@ -559,7 +559,7 @@ public class CargoNet {
 
 				if (freq == 16) destinations.add(l);
 				else {
-					List<Location> list = output.containsKey(freq) ? output.get(freq): new ArrayList<Location>();
+					List<Location> list = output.containsKey(freq) ? output.get(freq): new ArrayList<>();
 					list.add(l);
 					output.put(freq, list);
 				}
@@ -572,7 +572,7 @@ public class CargoNet {
 
 				if (freq == 16) destinations.add(l);
 				else {
-					List<Location> list = output.containsKey(freq) ? output.get(freq): new ArrayList<Location>();
+					List<Location> list = output.containsKey(freq) ? output.get(freq): new ArrayList<>();
 					list.add(l);
 					output.put(freq, list);
 				}
@@ -582,12 +582,12 @@ public class CargoNet {
 	}
 	
 	public static boolean isConnected(Block b) {
-		return passiveScan(b.getLocation(), Axis.UNKNOWN, new HashSet<Location>());
+		return passiveScan(b.getLocation(), Axis.UNKNOWN, new HashSet<>());
 	}
 	
 	private static boolean passiveScan(Location source, Axis exclude, Set<Location> sources) {
 		sources.add(source);
-		Set<Location> blocks = new HashSet<Location>();
+		Set<Location> blocks = new HashSet<>();
 		
 		blocks.add(source);
 		

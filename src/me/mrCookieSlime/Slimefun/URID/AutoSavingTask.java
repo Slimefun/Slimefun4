@@ -13,7 +13,7 @@ public class AutoSavingTask implements Runnable {
 	
 	@Override
 	public void run() {
-		Set<BlockStorage> worlds = new HashSet<BlockStorage>();
+		Set<BlockStorage> worlds = new HashSet<>();
 		
 		for (World world: Bukkit.getWorlds()) {
 			if (BlockStorage.isWorldRegistered(world.getName())) {

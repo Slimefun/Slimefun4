@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 public class Backpacks {
 	
 	public static String createBackpack(Player p, int size) {
-		List<Integer> ids = new ArrayList<Integer>();
+		List<Integer> ids = new ArrayList<>();
 		Config cfg = new Config(new File("data-storage/Slimefun/Players/" + p.getUniqueId() + ".yml"));
 		for (int i = 0; i < 1000; i++) {
 			if (cfg.contains("backpacks." + i + ".size")) ids.add(i);
