@@ -12,14 +12,14 @@ public class URID {
 	private int id;
 	private boolean dirty;
 	
-	public URID(Object object, boolean dirty) {
+	private URID(Object object, boolean dirty) {
 		this.id = next;
 		next++;
 		objects.put(this, object);
 		ids.put(toInteger(), this);
 	}
 	
-	public int toInteger() {
+	private int toInteger() {
 		return id;
 	}
 	

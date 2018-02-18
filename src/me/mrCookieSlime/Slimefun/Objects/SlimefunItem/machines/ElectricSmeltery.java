@@ -35,8 +35,8 @@ import org.bukkit.material.MaterialData;
 
 public abstract class ElectricSmeltery extends AContainer {
 	
-	public static Map<Block, MachineRecipe> processing = new HashMap<Block, MachineRecipe>();
-	public static Map<Block, Integer> progress = new HashMap<Block, Integer>();
+	private static Map<Block, MachineRecipe> processing = new HashMap<Block, MachineRecipe>();
+	private static Map<Block, Integer> progress = new HashMap<Block, Integer>();
 	
 	protected List<MachineRecipe> recipes = new ArrayList<MachineRecipe>();
 	

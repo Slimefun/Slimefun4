@@ -51,14 +51,14 @@ public class CargoNet {
 	
 	private static final int RANGE = 5;
 	public static List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-	public static Map<Location, Integer> round_robin = new HashMap<Location, Integer>();
-	public static Set<ItemRequest> requests = new HashSet<ItemRequest>();
+	private static Map<Location, Integer> round_robin = new HashMap<Location, Integer>();
+	private static Set<ItemRequest> requests = new HashSet<ItemRequest>();
 	
 	private static int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
 	//Chest Terminal Stuff
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
-	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
+	private static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
 	private static final ItemStack terminal_noitem_item = new CustomItem(new MaterialData(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = new MenuClickHandler() {
 		
@@ -469,7 +469,7 @@ public class CargoNet {
 		return freq;
 	}
 	
-	public static Set<Location> scan(Location source, Set<Location> blocks, List<Location> l1, List<Location> l2, Axis exclude, Map<Location, Integer> input, Map<Integer, List<Location>> output, Set<Location> terminals, Set<Location> providers, Set<Location> destinations, Set<Location> imports, Set<Location> exports) {
+	private static Set<Location> scan(Location source, Set<Location> blocks, List<Location> l1, List<Location> l2, Axis exclude, Map<Location, Integer> input, Map<Integer, List<Location>> output, Set<Location> terminals, Set<Location> providers, Set<Location> destinations, Set<Location> imports, Set<Location> exports) {
 		
 		if (!exclude.equals(Axis.X_POSITIVE)) {
 			for (int i = 0; i <= RANGE; i++) {

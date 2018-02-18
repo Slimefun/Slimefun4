@@ -73,7 +73,7 @@ public class FluidPump extends SlimefunItem{
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void constructMenu(BlockMenuPreset preset) {
+	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
 			new MenuClickHandler() {
@@ -124,19 +124,19 @@ public class FluidPump extends SlimefunItem{
 		}
 	}
 	
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {19, 20};
 	}
 	
-	public int[] getOutputSlots() {
+	private int[] getOutputSlots() {
 		return new int[] {24, 25};
 	}
 
-	public String getInventoryTitle() {
+	private String getInventoryTitle() {
 		return "&9Fluid Pump";
 	}
 	
-	protected void tick(Block b) {
+	private void tick(Block b) {
 		Block fluid = b.getRelative(BlockFace.DOWN);
 		if (fluid.getType().equals(Material.STATIONARY_LAVA)) {
 			for (int slot: getInputSlots()) {
@@ -219,11 +219,11 @@ public class FluidPump extends SlimefunItem{
 		return inv;
 	}
 	
-	protected boolean fits(Block b, ItemStack[] items) {
+	private boolean fits(Block b, ItemStack[] items) {
 		return inject(b).addItem(items).isEmpty();
 	}
 	
-	protected void pushItems(Block b, ItemStack[] items) {
+	private void pushItems(Block b, ItemStack[] items) {
 		Inventory inv = inject(b);
 		inv.addItem(items);
 		

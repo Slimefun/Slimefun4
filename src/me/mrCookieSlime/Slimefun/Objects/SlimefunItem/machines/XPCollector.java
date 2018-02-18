@@ -89,11 +89,11 @@ public class XPCollector extends SlimefunItem {
 		return inv;
 	}
 	
-	protected boolean fits(Block b, ItemStack... items) {
+	private boolean fits(Block b, ItemStack... items) {
 		return inject(b).addItem(items).isEmpty();
 	}
 	
-	protected void pushItems(Block b, ItemStack... items) {
+	private void pushItems(Block b, ItemStack... items) {
 		Inventory inv = inject(b);
 		inv.addItem(items);
 		
@@ -102,12 +102,12 @@ public class XPCollector extends SlimefunItem {
 		}
 	}
 
-	public int[] getOutputSlots() {
+	private int[] getOutputSlots() {
 		return new int[] {12, 13, 14};
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 10), " "),
 			new MenuClickHandler() {
@@ -121,7 +121,7 @@ public class XPCollector extends SlimefunItem {
 		}
 	}
 	
-	public int getEnergyConsumption() {
+	private int getEnergyConsumption() {
 		return 10;
 	}
 	
@@ -151,7 +151,7 @@ public class XPCollector extends SlimefunItem {
 		super.register(slimefun);
 	}
 	
-	protected void tick(Block b) throws Exception {
+	private void tick(Block b) throws Exception {
 		Iterator<Entity> iterator = me.mrCookieSlime.Slimefun.holograms.XPCollector.getArmorStand(b).getNearbyEntities(4D, 4D, 4D).iterator();
 		while (iterator.hasNext()) {
 			Entity n = iterator.next();

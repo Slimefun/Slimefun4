@@ -79,7 +79,7 @@ public class AutoBreeder extends SlimefunItem {
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {
@@ -93,11 +93,11 @@ public class AutoBreeder extends SlimefunItem {
 		}
 	}
 	
-	public int getEnergyConsumption() {
+	private int getEnergyConsumption() {
 		return 60;
 	}
 	
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
 	}
 	
@@ -127,7 +127,7 @@ public class AutoBreeder extends SlimefunItem {
 		super.register(slimefun);
 	}
 	
-	protected void tick(Block b) throws Exception {
+	private void tick(Block b) throws Exception {
 		for (Entity n: me.mrCookieSlime.Slimefun.holograms.AutoBreeder.getArmorStand(b).getNearbyEntities(4D, 2D, 4D)) {
 			if (Animals.isFeedable(n)) {
 				for (int slot: getInputSlots()) {

@@ -12,7 +12,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class EnhancedFurnace extends SlimefunItem {
 	
-	int speed, efficiency, fortune;
+	private int speed;
+    private int efficiency;
+    private int fortune;
 	
 	public EnhancedFurnace(int speed, int efficiency, int fortune, ItemStack item, String id, ItemStack[] recipe) {
 		super(Categories.MACHINES_1, item, id, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
@@ -43,7 +45,7 @@ public class EnhancedFurnace extends SlimefunItem {
 		});
 	}
 	
-	public int getSpeed() {
+	private int getSpeed() {
 		return speed;
 	}
 	

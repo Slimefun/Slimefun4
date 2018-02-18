@@ -7,9 +7,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class AltarRecipe {
 	
-	ItemStack catalyst;
-	List<ItemStack> input;
-	ItemStack output;
+	private ItemStack catalyst;
+	private List<ItemStack> input;
+	private ItemStack output;
 	
 	public AltarRecipe(List<ItemStack> input, ItemStack output) {
 		this.catalyst = input.get(4);

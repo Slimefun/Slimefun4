@@ -79,7 +79,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {
@@ -93,11 +93,11 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 		}
 	}
 	
-	public int getEnergyConsumption() {
+	private int getEnergyConsumption() {
 		return 14;
 	}
 	
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
 	}
 	
@@ -127,7 +127,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 		super.register(slimefun);
 	}
 	
-	protected void tick(Block b) throws Exception {
+	private void tick(Block b) throws Exception {
 		for (Entity n: me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAccelerator.getArmorStand(b).getNearbyEntities(3D, 3D, 3D)) {
 			if (n instanceof Ageable && !((Ageable) n).isAdult()) {
 				for (int slot: getInputSlots()) {

@@ -41,8 +41,8 @@ import org.bukkit.material.MaterialData;
 
 public abstract class AGenerator extends SlimefunItem {
 
-	public static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
-	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
+	private static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
+	private static Map<Location, Integer> progress = new HashMap<Location, Integer>();
 	
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
 	
@@ -218,16 +218,16 @@ public abstract class AGenerator extends SlimefunItem {
 		});
 	}
 	
-	public abstract String getInventoryTitle();
-	public abstract ItemStack getProgressBar();
-	public abstract void registerDefaultRecipes();
+	protected abstract String getInventoryTitle();
+	protected abstract ItemStack getProgressBar();
+	protected abstract void registerDefaultRecipes();
 	public abstract int getEnergyProduction();
 	
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {19, 20};
 	}
 	
-	public int[] getOutputSlots() {
+	private int[] getOutputSlots() {
 		return new int[] {24, 25};
 	}
 	
@@ -235,7 +235,7 @@ public abstract class AGenerator extends SlimefunItem {
 		return processing.get(l);
 	}
 	
-	public boolean isProcessing(Location l) {
+	private boolean isProcessing(Location l) {
 		return progress.containsKey(l);
 	}
 	
@@ -347,7 +347,7 @@ public abstract class AGenerator extends SlimefunItem {
 		return inv;
 	}
 	
-	protected void pushItems(Location l, ItemStack[] items) {
+	private void pushItems(Location l, ItemStack[] items) {
 		Inventory inv = inject(l);
 		inv.addItem(items);
 		

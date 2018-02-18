@@ -49,10 +49,10 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		presets.put(id, this);
 	}
 	
-	public abstract void init();
+	protected abstract void init();
 	public abstract void newInstance(BlockMenu menu, Block b);
 	public abstract boolean canOpen(Block b, Player p);
-	public abstract int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow);
+	protected abstract int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow);
 
 	public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 		return this.getSlotsAccessedByItemTransport(flow);
@@ -112,7 +112,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		return presets.containsKey(id) && presets.get(id).isUniversal();
 	}
 	
-	public boolean isUniversal() {
+	private boolean isUniversal() {
 		return this.universal;
 	}
 
@@ -156,7 +156,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		return id;
 	}
 	
-	public void newInstance(final BlockMenu menu, final Location l) {
+	private void newInstance(final BlockMenu menu, final Location l) {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 			public void run() {
 				newInstance(menu, l.getBlock());

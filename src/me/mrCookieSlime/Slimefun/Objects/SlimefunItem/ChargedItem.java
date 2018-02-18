@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ChargedItem extends SlimefunItem {
 	
-	String chargeType;
+	private String chargeType;
 
 	public ChargedItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String chargeType) {
 		super(category, item, id, recipeType, recipe);

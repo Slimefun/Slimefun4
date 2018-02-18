@@ -19,7 +19,7 @@ import org.bukkit.block.Skull;
 public class ChargableBlock {
 	
 	public static Map<String, Integer> max_charges = new HashMap<String, Integer>();
-	public static Set<String> rechargeable = new HashSet<String>();
+	private static Set<String> rechargeable = new HashSet<String>();
 	public static Set<String> capacitors = new HashSet<String>();
 	
 	public static void registerChargableBlock(String id, int capacity, boolean recharge) {
@@ -61,7 +61,7 @@ public class ChargableBlock {
 		return getDefaultCapacity(b.getLocation());
 	}
 	
-	public static int getDefaultCapacity(Location l) {
+	private static int getDefaultCapacity(Location l) {
 		String id = BlockStorage.checkID(l);
 		return id == null ? 0: max_charges.get(id);
 	}
@@ -83,7 +83,7 @@ public class ChargableBlock {
 		setCharge(b.getLocation(), charge);
 	}
 	
-	public static void setCharge(Location l, int charge) {
+	private static void setCharge(Location l, int charge) {
 		if (charge < 0) charge = 0;
 		else {
 			int capacity = getMaxCharge(l);

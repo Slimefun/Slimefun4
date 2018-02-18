@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class SlimefunGadget extends SlimefunItem {
 	
-	List<ItemStack[]> recipes;
-	List<ItemStack> display_recipes;
+	private List<ItemStack[]> recipes;
+	private List<ItemStack> display_recipes;
 
 	public SlimefunGadget(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack[] machineRecipes) {
 		super(category, item, id, recipeType, recipe);

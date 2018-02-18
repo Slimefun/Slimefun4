@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class MultiTool extends DamagableChargableItem {
 	
-	List<Integer> modes;
+	private List<Integer> modes;
 
 	public MultiTool(ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		super(Categories.TECH, item, id, recipeType, recipe, "Multi Tool", keys, values);

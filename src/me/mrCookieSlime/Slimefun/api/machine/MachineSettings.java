@@ -6,8 +6,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
 public class MachineSettings {
 	
-	MachineConfig cfg;
-	String prefix = "global";
+	private MachineConfig cfg;
+	private String prefix = "global";
 
 	public MachineSettings(MachineConfig cfg) {
 		this.cfg = cfg;

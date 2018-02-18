@@ -190,7 +190,7 @@ public class BlockStorage {
 		this.save(true, remove);
 	}
 	
-	public void save(boolean computeChanges, boolean remove) {
+	private void save(boolean computeChanges, boolean remove) {
 		if (computeChanges) computeChanges();
 		
 		if (changes == 0) return;
@@ -361,12 +361,12 @@ public class BlockStorage {
 		return storage != null && storage.storage.containsKey(l) && getBlockInfo(l, "id") != null;
 	}
 	
-	public static void setBlockInfo(Block block, Config cfg, boolean updateTicker) {
+	private static void setBlockInfo(Block block, Config cfg, boolean updateTicker) {
 		setBlockInfo(block.getLocation(), cfg, updateTicker);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
+	private static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
 		_integrated_removeBlockInfo(l, false);
 		
 		JSONObject json = new JSONObject();
@@ -381,7 +381,7 @@ public class BlockStorage {
 		setBlockInfo(b.getLocation(), json, updateTicker);
 	}
 	
-	public static void setBlockInfo(Location l, String json, boolean updateTicker) {
+	private static void setBlockInfo(Location l, String json, boolean updateTicker) {
 		BlockStorage storage = getStorage(l.getWorld());
 		storage.storage.put(l, json);
 		Map<String, String> parsed = parseJSON(json);
@@ -411,7 +411,7 @@ public class BlockStorage {
 		clearBlockInfo(b.getLocation(), destroy);
 	}
 
-	public static void clearBlockInfo(Location l, boolean destroy) {
+	private static void clearBlockInfo(Location l, boolean destroy) {
 		SlimefunStartup.ticker.delete.put(l, destroy);
 	}
 
@@ -546,17 +546,17 @@ public class BlockStorage {
 		return new HashSet<Block>(ticking_chunks.get(chunk));
 	}
 	
-	public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
+	private BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
 		BlockMenu menu = new BlockMenu(preset, l);
 		inventories.put(l, menu);
 		return menu;
 	}
 	
-	public void loadUniversalInventory(BlockMenuPreset preset) {
+	private void loadUniversalInventory(BlockMenuPreset preset) {
 		universal_inventories.put(preset.getID(), new UniversalBlockMenu(preset));
 	}
 	
-	public void clearInventory(Location l) {
+	private void clearInventory(Location l) {
 		BlockMenu menu = getInventory(l);
 
 		for(HumanEntity human: new ArrayList<>(menu.toInventory().getViewers())) {
@@ -579,7 +579,7 @@ public class BlockStorage {
 		return getUniversalInventory(block.getLocation());
 	}
 
-	public UniversalBlockMenu getUniversalInventory(Location l) {
+	private UniversalBlockMenu getUniversalInventory(Location l) {
 		String id = checkID(l);
 		return id == null ? null: getUniversalInventory(id);
 	}
@@ -603,7 +603,7 @@ public class BlockStorage {
 		return new JSONParser();
 	}
 
-	public static Config getChunkInfo(Chunk chunk) {
+	private static Config getChunkInfo(Chunk chunk) {
 		try {
 			Config cfg = new Config("data-storage/Slimefun/temp.yml");
 			if (!map_chunks.containsKey(serializeChunk(chunk))) return cfg;
@@ -626,7 +626,7 @@ public class BlockStorage {
 		}
 	}
 	
-	public static boolean hasChunkInfo(Chunk chunk) {
+	private static boolean hasChunkInfo(Chunk chunk) {
 		return map_chunks.containsKey(serializeChunk(chunk));
 	}
 	
@@ -670,7 +670,7 @@ public class BlockStorage {
 		return hasUniversalInventory(block.getLocation());
 	}
 
-	public boolean hasUniversalInventory(Location l) {
+	private boolean hasUniversalInventory(Location l) {
 		String id = checkID(l);
 		return id == null ? false: hasUniversalInventory(id);
 	}

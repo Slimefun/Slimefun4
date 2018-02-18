@@ -13,9 +13,9 @@ import org.bukkit.util.Vector;
 
 public class JetpackTask implements Runnable {
 	
-	UUID uuid;
-	double thrust;
-	int id;
+	private UUID uuid;
+	private double thrust;
+	private int id;
 	
 	public JetpackTask(Player p, double thrust) {
 		this.uuid = p.getUniqueId();

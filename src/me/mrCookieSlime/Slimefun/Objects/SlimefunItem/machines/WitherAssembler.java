@@ -210,19 +210,19 @@ public class WitherAssembler extends SlimefunItem {
 		});
 	}
 	
-	public String getInventoryTitle() {
+	private String getInventoryTitle() {
 		return "&5Wither Assembler";
 	}
 
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {19, 28, 25, 34};
 	}
 	
-	public int[] getWitherSkullSlots() {
+	private int[] getWitherSkullSlots() {
 		return new int[] {19, 28};
 	}
 	
-	public int[] getSoulSandSlots() {
+	private int[] getSoulSandSlots() {
 		return new int[] {25, 34};
 	}
 	
@@ -320,7 +320,7 @@ public class WitherAssembler extends SlimefunItem {
 		super.register(slimefun);
 	}
 
-	public int getEnergyConsumption() {
+	private int getEnergyConsumption() {
 		return 4096;
 	}
 }

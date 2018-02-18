@@ -44,7 +44,7 @@ public class OreGenSystem {
 		BlockStorage.setChunkInfo(chunk, "resources_" + resource.getName().toUpperCase(), String.valueOf(amount));
 	}
 	
-	public static int generateSupplies(OreGenResource resource, Chunk chunk) {
+	private static int generateSupplies(OreGenResource resource, Chunk chunk) {
 		if (resource == null) return 0;
 		int supplies = getDefault(resource, chunk.getBlock(5, 50, 5).getBiome());
 		BlockStorage.setChunkInfo(chunk, "resources_" + resource.getName().toUpperCase(), String.valueOf(supplies));

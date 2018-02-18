@@ -50,7 +50,7 @@ public abstract class AutoAnvil extends AContainer {
 		return "AUTO_ANVIL";
 	}
 	
-	public abstract int getRepairFactor();
+	protected abstract int getRepairFactor();
 	
 	@SuppressWarnings("deprecation")
 	@Override

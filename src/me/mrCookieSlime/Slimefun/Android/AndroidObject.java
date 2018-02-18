@@ -4,8 +4,8 @@ import org.bukkit.block.Block;
 
 public class AndroidObject {
 	
-	ProgrammableAndroid android;
-	Block b;
+	private ProgrammableAndroid android;
+	private Block b;
 	
 	public AndroidObject(ProgrammableAndroid android, Block b) {
 		this.android = android;

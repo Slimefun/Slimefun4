@@ -17,17 +17,17 @@ import org.bukkit.inventory.ItemStack;
 
 public class RitualAnimation implements Runnable {
 
-	List<Block> altars;
+	private List<Block> altars;
 	
-	Block altar;
-	Location l;
-	ItemStack output;
-	List<Block> pedestals;
-	List<ItemStack> items;
+	private Block altar;
+	private Location l;
+	private ItemStack output;
+	private List<Block> pedestals;
+	private List<ItemStack> items;
 	
-	List<Location> particles;
+	private List<Location> particles;
 	
-	boolean running;
+	private boolean running;
 	
 	public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
 		this.l = drop;

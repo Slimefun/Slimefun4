@@ -36,15 +36,15 @@ public class RecipeType {
 	public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&eFurnace Recipe", 0, new String[] {"", "&a&oJust smelt it in a regular Furnace"}));
 	public static final RecipeType NULL = new RecipeType(null);
 	
-	ItemStack item;
-	String machine;
+	private ItemStack item;
+	private String machine;
 	
 	public RecipeType(ItemStack item) {
 		this.item = item;
 		this.machine = "";
 	}
 	
-	public RecipeType(ItemStack item, String machine) {
+	private RecipeType(ItemStack item, String machine) {
 		this.item = item;
 		this.machine = machine;
 	}

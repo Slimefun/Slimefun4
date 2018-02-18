@@ -138,7 +138,7 @@ public class CargoOutputNode extends SlimefunItem {
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {

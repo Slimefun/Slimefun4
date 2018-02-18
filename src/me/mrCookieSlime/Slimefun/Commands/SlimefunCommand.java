@@ -39,7 +39,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
 	
-	public SlimefunStartup plugin;
+	private SlimefunStartup plugin;
 	
 	public static List<String> arguments = new ArrayList<String>();
 	public static List<String> descriptions = new ArrayList<String>();

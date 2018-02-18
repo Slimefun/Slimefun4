@@ -131,7 +131,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void constructMenu(BlockMenuPreset preset) {
+	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
 			new MenuClickHandler() {
@@ -192,13 +192,13 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 		});
 	}
 	
-	public abstract int getEnergyConsumption();
+	protected abstract int getEnergyConsumption();
 	
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 	}
 	
-	public int[] getOutputSlots() {
+	private int[] getOutputSlots() {
 		return new int[] {33, 34};
 	}
 	
@@ -214,11 +214,11 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 		return inv;
 	}
 	
-	protected boolean fits(Block b, ItemStack[] items) {
+	private boolean fits(Block b, ItemStack[] items) {
 		return inject(b).addItem(items).isEmpty();
 	}
 	
-	protected void pushItems(Block b, ItemStack[] items) {
+	private void pushItems(Block b, ItemStack[] items) {
 		Inventory inv = inject(b);
 		inv.addItem(items);
 		
@@ -249,7 +249,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 		super.register(slimefun);
 	}
 	
-	protected void tick(Block b) {
+	private void tick(Block b) {
 		if (BlockStorage.getBlockInfo(b, "enabled").equals("false")) return;
 		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 		
