@@ -11,13 +11,13 @@ import org.bukkit.entity.Player;
 
 public abstract class GuideHandler {
 	
-	URID urid;
+	private URID urid;
 	
 	public GuideHandler() {
 		this.urid = URID.nextURID(this, false);
 	}
 	
-	public URID getURID() {
+	private URID getURID() {
 		return this.urid;
 	}
 	
@@ -28,7 +28,7 @@ public abstract class GuideHandler {
 
 	public abstract int next(Player p, int index, ChestMenu menu);
 
-	public PlayerRunnable getRunnable(boolean book) {
+	private PlayerRunnable getRunnable(boolean book) {
 		return this.getRunnable();
 	}
 	

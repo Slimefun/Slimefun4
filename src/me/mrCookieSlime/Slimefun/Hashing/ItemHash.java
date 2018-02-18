@@ -14,7 +14,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 public class ItemHash {
 	
 	public static MessageDigest digest;
-	public static int LENGTH;
+	private static int LENGTH;
 	public static Map<String, SlimefunItem> map = new HashMap<String, SlimefunItem>();
 	
 	static {
@@ -28,7 +28,7 @@ public class ItemHash {
 		}
 	}
 	
-	public static String hash(String input) {
+	private static String hash(String input) {
 		digest.update(input.getBytes());
 		byte[] hash = digest.digest();
 		return new BigInteger(1, hash).toString(16);

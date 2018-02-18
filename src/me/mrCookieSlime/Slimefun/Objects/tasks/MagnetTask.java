@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 
 public class MagnetTask implements Runnable {
 	
-	UUID uuid;
-	int id;
+	private UUID uuid;
+	private int id;
 	
 	public MagnetTask(Player p) {
 		this.uuid = p.getUniqueId();

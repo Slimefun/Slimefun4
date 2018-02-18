@@ -137,7 +137,7 @@ public class GPSNetwork {
 		menu.open(p);
 	}
 	
-	public static ItemStack getPlanet(Map.Entry<String, Location> entry) throws Exception {
+	private static ItemStack getPlanet(Map.Entry<String, Location> entry) throws Exception {
 		Location l = entry.getValue();
 		if (entry.getKey().startsWith("&4Deathpoint")) {
 			return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFlMzg1NWY5NTJjZDRhMDNjMTQ4YTk0NmUzZjgxMmE1OTU1YWQzNWNiY2I1MjYyN2VhNGFjZDQ3ZDMwODEifX19");
@@ -154,7 +154,7 @@ public class GPSNetwork {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void openWaypointControlPanel(Player p) throws Exception {
+	private void openWaypointControlPanel(Player p) throws Exception {
 		ChestMenu menu = new ChestMenu("&9Control Panel");
 		
 		for (int slot: border) {
@@ -234,7 +234,7 @@ public class GPSNetwork {
 		menu.open(p);
 	}
 
-	public Map<String, Location> getWaypoints(UUID uuid) {
+	private Map<String, Location> getWaypoints(UUID uuid) {
 		Map<String, Location> map = new HashMap<String, Location>();
 		Config cfg = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
 		for (String key: cfg.getKeys()) {
@@ -276,7 +276,7 @@ public class GPSNetwork {
 		Messages.local.sendTranslation(p, "gps.waypoint.added", true);
 	}
 
-	public Set<Location> getTransmitters(UUID uuid) {
+	private Set<Location> getTransmitters(UUID uuid) {
 		return transmitters.containsKey(uuid) ? transmitters.get(uuid): new HashSet<Location>();
 	}
 

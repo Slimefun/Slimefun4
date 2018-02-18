@@ -38,7 +38,7 @@ public class TickerTask implements Runnable {
 
 	public static Map<Location, Long> block_timings = new HashMap<Location, Long>();
 	
-	public static Map<Location, Integer> bugged_blocks = new HashMap<Location, Integer>();
+	private static Map<Location, Integer> bugged_blocks = new HashMap<Location, Integer>();
 	
 	@Override
 	public void run() {

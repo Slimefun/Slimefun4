@@ -8,8 +8,8 @@ import org.bukkit.util.Vector;
 
 public class ParachuteTask implements Runnable {
 	
-	UUID uuid;
-	int id;
+	private UUID uuid;
+	private int id;
 	
 	public ParachuteTask(Player p) {
 		this.uuid = p.getUniqueId();

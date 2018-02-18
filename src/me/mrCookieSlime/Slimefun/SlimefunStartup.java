@@ -66,11 +66,11 @@ public class SlimefunStartup extends JavaPlugin {
 
 	public static SlimefunStartup instance;
 
-	static PluginUtils utils;
-	static Config researches;
-	static Config items;
-	static Config whitelist;
-	static Config config;
+	private static PluginUtils utils;
+	private static Config researches;
+	private static Config items;
+	private static Config whitelist;
+	private static Config config;
 
 	public static TickerTask ticker;
 
@@ -81,7 +81,7 @@ public class SlimefunStartup extends JavaPlugin {
 	private boolean coreProtect = false;
 
 	// Supported Versions of Minecraft
-	final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "v1_12_"};
+	private final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "v1_12_"};
 	
 	@SuppressWarnings("deprecation")
 	@Override

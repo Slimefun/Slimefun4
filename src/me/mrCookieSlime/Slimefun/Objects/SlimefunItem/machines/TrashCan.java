@@ -65,11 +65,11 @@ public class TrashCan extends SlimefunItem {
 		}
 	}
 	
-	public String getInventoryTitle() {
+	private String getInventoryTitle() {
 		return "&4Trash Can";
 	}
 
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
 	}
 	

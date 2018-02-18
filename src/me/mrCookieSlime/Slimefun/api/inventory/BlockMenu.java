@@ -14,8 +14,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 public class BlockMenu extends ChestMenu {
 	
-	BlockMenuPreset preset;
-	Location l;
+	private BlockMenuPreset preset;
+	private Location l;
 	
 	public int changes = 0;
 	
@@ -109,7 +109,7 @@ public class BlockMenu extends ChestMenu {
 		this.replaceExistingItem(slot, item, true);
 	}
 	
-	public void replaceExistingItem(int slot, ItemStack item, boolean event) {
+	private void replaceExistingItem(int slot, ItemStack item, boolean event) {
 		final ItemStack previous = getItemInSlot(slot);
 		
 		if (event && this.event != null) {
@@ -136,12 +136,12 @@ public class BlockMenu extends ChestMenu {
 		}
 	}
 	
-	public class SaveHandler implements MenuOpeningHandler {
+	protected class SaveHandler implements MenuOpeningHandler {
 		
 		BlockMenu menu;
 		MenuOpeningHandler handler;
 		
-		public SaveHandler(BlockMenu menu, MenuOpeningHandler handler) {
+		protected SaveHandler(BlockMenu menu, MenuOpeningHandler handler) {
 			this.handler = handler;
 			this.menu = menu;
 		}

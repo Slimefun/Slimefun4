@@ -211,30 +211,30 @@ public abstract class AContainer extends SlimefunItem {
 		}
 	}
 	
-	public abstract String getInventoryTitle();
-	public abstract ItemStack getProgressBar();
+	protected abstract String getInventoryTitle();
+	protected abstract ItemStack getProgressBar();
 	public abstract void registerDefaultRecipes();
-	public abstract int getEnergyConsumption();
-	public abstract int getSpeed();
+	protected abstract int getEnergyConsumption();
+	protected abstract int getSpeed();
 	public abstract String getMachineIdentifier();
 	
-	public int[] getInputSlots() {
+	protected int[] getInputSlots() {
 		return new int[] {19, 20};
 	}
 	
-	public int[] getOutputSlots() {
+	protected int[] getOutputSlots() {
 		return new int[] {24, 25};
 	}
 	
-	public MachineRecipe getProcessing(Block b) {
+	private MachineRecipe getProcessing(Block b) {
 		return processing.get(b);
 	}
 	
-	public boolean isProcessing(Block b) {
+	protected boolean isProcessing(Block b) {
 		return getProcessing(b) != null;
 	}
 	
-	public void registerRecipe(MachineRecipe recipe) {
+	protected void registerRecipe(MachineRecipe recipe) {
 		recipe.setTicks(recipe.getTicks() / getSpeed());
 		this.recipes.add(recipe);
 	}

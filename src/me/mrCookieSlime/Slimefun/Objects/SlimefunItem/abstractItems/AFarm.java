@@ -176,11 +176,11 @@ public abstract class AFarm extends SlimefunItem {
 	public abstract ItemStack harvest(Block b);
 	public abstract int getSize();
 	
-	public int[] getOutputSlots() {
+	private int[] getOutputSlots() {
 		return new int[] {19, 20, 21, 22, 23, 24, 25};
 	}
 	
-	protected void tick(Block b) {
+	private void tick(Block b) {
 		if (ChargableBlock.isChargable(b)) {
 			if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 			int i = getSize() / 2;
@@ -234,11 +234,11 @@ public abstract class AFarm extends SlimefunItem {
 		return inv;
 	}
 	
-	protected boolean fits(Block b, ItemStack[] items) {
+	private boolean fits(Block b, ItemStack[] items) {
 		return inject(b).addItem(items).isEmpty();
 	}
 	
-	protected void pushItems(Block b, ItemStack[] items) {
+	private void pushItems(Block b, ItemStack[] items) {
 		Inventory inv = inject(b);
 		inv.addItem(items);
 		

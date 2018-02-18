@@ -34,7 +34,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 	
-	public static final Map<Material, Integer> crops = new HashMap<Material, Integer>();
+	private static final Map<Material, Integer> crops = new HashMap<Material, Integer>();
 	
 	static {
 		crops.put(Material.CROPS, 7);
@@ -89,7 +89,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void constructMenu(BlockMenuPreset preset) {
+	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {
@@ -103,11 +103,11 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 		}
 	}
 	
-	public abstract int getEnergyConsumption();
-	public abstract int getRadius();
-	public abstract int getSpeed();
+	protected abstract int getEnergyConsumption();
+	protected abstract int getRadius();
+	protected abstract int getSpeed();
 	
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
 	}
 	
@@ -138,7 +138,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void tick(Block b) throws Exception {
+	private void tick(Block b) throws Exception {
 		int work = 0;
 		master:
 		for (int x = -getRadius(); x <= getRadius(); x++) {

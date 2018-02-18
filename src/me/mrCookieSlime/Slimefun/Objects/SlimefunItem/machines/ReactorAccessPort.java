@@ -186,23 +186,23 @@ public class ReactorAccessPort extends SlimefunItem {
 		});
 	}
 	
-	public String getInventoryTitle() {
+	private String getInventoryTitle() {
 		return "&2Reactor Access Port";
 	}
 
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {19, 28, 37, 25, 34, 43};
 	}
 	
-	public int[] getFuelSlots() {
+	private int[] getFuelSlots() {
 		return new int[] {19, 28, 37};
 	}
 	
-	public int[] getCoolantSlots() {
+	private int[] getCoolantSlots() {
 		return new int[] {25, 34, 43};
 	}
 	
-	public static int[] getOutputSlots() {
+	private static int[] getOutputSlots() {
 		return new int[] {40};
 	}
 	

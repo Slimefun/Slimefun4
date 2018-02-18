@@ -94,7 +94,7 @@ public class Research {
 	 * 
 	 * @since 4.0
 	 */
-	public int getID() {
+	private int getID() {
 		return id;
 	}
 
@@ -202,7 +202,7 @@ public class Research {
 	 * @since 4.0
 	 * @see #hasUnlocked(Player)
 	 */
-	public boolean hasUnlocked(UUID uuid) {
+	private boolean hasUnlocked(UUID uuid) {
 		if (!enabled) return true;
 		if (!SlimefunStartup.getResearchCfg().getBoolean(this.id + ".enabled")) return true;
 		return new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml")).contains("researches." + this.id);
@@ -406,7 +406,7 @@ public class Research {
 	 * @since 4.0
 	 * @see #sendStats(CommandSender, Player)
 	 */
-	public static String getTitle(Player p, List<Research> researched) {
+	private static String getTitle(Player p, List<Research> researched) {
 		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0f) / list().size()) * 100.0f) / 100.0f)) / 100.0F) *  SlimefunStartup.getCfg().getStringList("research-ranks").size();
 		if (index > 0) index--;
 		return SlimefunStartup.getCfg().getStringList("research-ranks").get(index);
@@ -436,7 +436,7 @@ public class Research {
 	 * @since 4.0
 	 * @see #getResearches(String)
 	 */
-	public static List<Research> getResearches(UUID uuid) {
+	private static List<Research> getResearches(UUID uuid) {
 		List<Research> researched = new ArrayList<Research>();
 		for (Research r: list()) {
 			if (r.hasUnlocked(uuid)) researched.add(r);

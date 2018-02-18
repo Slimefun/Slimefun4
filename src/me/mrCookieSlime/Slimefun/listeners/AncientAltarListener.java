@@ -41,8 +41,8 @@ public class AncientAltarListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	List<Block> altars = new ArrayList<Block>();
-	Set<UUID> removed_items = new HashSet<UUID>();
+	private List<Block> altars = new ArrayList<Block>();
+	private Set<UUID> removed_items = new HashSet<UUID>();
 
 	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {

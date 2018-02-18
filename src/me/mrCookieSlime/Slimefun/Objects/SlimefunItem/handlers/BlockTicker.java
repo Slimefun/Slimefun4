@@ -18,7 +18,7 @@ public abstract class BlockTicker extends ItemHandler {
 	
 
 	public abstract boolean isSynchronized();
-	public abstract void uniqueTick();
+	protected abstract void uniqueTick();
 	public abstract void tick(Block b, SlimefunItem item, Config data);
 
 	@Override

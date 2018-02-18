@@ -40,7 +40,7 @@ public class SlimefunItem {
 	public static Map<String, URID> map_id = new HashMap<String, URID>();
 	public static List<ItemStack> radioactive = new ArrayList<ItemStack>();
 	public static int vanilla = 0;
-	public static Set<String> tickers = new HashSet<String>();
+	private static Set<String> tickers = new HashSet<String>();
 	
 	public static List<SlimefunItem> all = new ArrayList<SlimefunItem>();
 	public static Map<String, Set<ItemHandler>> handlers = new HashMap<String, Set<ItemHandler>>();
@@ -137,7 +137,7 @@ public class SlimefunItem {
 		urid = URID.nextURID(this, false);
 	}
 	
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean hidden) {
+	protected SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean hidden) {
 		this.item = item;
 		this.category = category;
 		this.id = id;
@@ -168,7 +168,7 @@ public class SlimefunItem {
 	public String getID()				{		return id;			}
 	public URID getURID() 				{		return urid;			}
 	public String getHash()				{		return hash;			}
-	public State getState()				{		return state;			}
+	private State getState()				{		return state;			}
 	public ItemStack getItem()			{		return item;			}
 	public Category getCategory()			{		return category;		}
 	public ItemStack[] getRecipe()			{		return recipe;			}
@@ -212,7 +212,7 @@ public class SlimefunItem {
 	public EnergyTicker getEnergyTicker()		{		return energyTicker;		}
 	public String[] listKeys()			{		return keys;			}
 	public Object[] listValues()			{		return values;			}
-	public boolean isDisabled()			{		return state != State.ENABLED;	}
+	private boolean isDisabled()			{		return state != State.ENABLED;	}
 
 	public void register() {
 		register(false);
@@ -307,7 +307,7 @@ public class SlimefunItem {
 		this.recipeOutput = output;
 	}
 
-	public void setReplacing(boolean replacing) {
+	protected void setReplacing(boolean replacing) {
 		this.replacing = replacing;
 	}
 
@@ -393,10 +393,10 @@ public class SlimefunItem {
 	    return false;
 	}
 	
-	public void install() {}
-	public void create()  {}
+	protected void install() {}
+	protected void create()  {}
 
-	public void addItemHandler(ItemHandler... handler) {
+	protected void addItemHandler(ItemHandler... handler) {
 		this.itemhandlers.addAll(Arrays.asList(handler));
 		
 		for (ItemHandler h: handler) {
@@ -495,7 +495,7 @@ public class SlimefunItem {
 		ChargableBlock.registerCapacitor(id, capacity);
 	}
 	
-	protected void setItem(ItemStack stack) {
+	private void setItem(ItemStack stack) {
 		this.item = stack;
 	}
 	

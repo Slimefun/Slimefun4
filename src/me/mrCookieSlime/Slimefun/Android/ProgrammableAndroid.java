@@ -68,17 +68,17 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
 
-	public String getInventoryTitle() {
+	private String getInventoryTitle() {
 		return "Programmable Android";
 	}
 
-	public int[] getOutputSlots() {
+	private int[] getOutputSlots() {
 		return new int[] {20, 21, 22, 29, 30, 31};
 	}
 
-	public abstract AndroidType getAndroidType();
-	public abstract float getFuelEfficiency();
-	public abstract int getTier();
+	protected abstract AndroidType getAndroidType();
+	protected abstract float getFuelEfficiency();
+	protected abstract int getTier();
 
 	@SuppressWarnings("deprecation")
 	public ProgrammableAndroid(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
@@ -224,7 +224,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	@SuppressWarnings("deprecation")
-	protected void tick(Block b) {
+	private void tick(Block b) {
 		try {
 			if (!(b.getState() instanceof Skull)) {
 				return;
@@ -939,7 +939,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
-	public void openScriptEditor(Player p, final Block b) throws Exception {
+	private void openScriptEditor(Player p, final Block b) throws Exception {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 
 		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"),
@@ -987,7 +987,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		menu.open(p);
 	}
 
-	public void openScript(final Player p, final Block b, final String script) throws Exception {
+	private void openScript(final Player p, final Block b, final String script) throws Exception {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 		final String[] commands = script.split("-");
 
@@ -1315,7 +1315,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	@SuppressWarnings("deprecation")
-	protected void openScriptComponentEditor(Player p, final Block b, final String script, final int index) throws Exception {
+	private void openScriptComponentEditor(Player p, final Block b, final String script, final int index) throws Exception {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 
 		final String[] commands = script.split("-");
@@ -1477,11 +1477,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		return inv;
 	}
 
-	protected boolean fits(Block b, ItemStack... items) {
+	private boolean fits(Block b, ItemStack... items) {
 		return inject(b).addItem(items).isEmpty();
 	}
 
-	protected void pushItems(Block b, ItemStack... items) {
+	private void pushItems(Block b, ItemStack... items) {
 		Inventory inv = inject(b);
 		inv.addItem(items);
 
@@ -1516,11 +1516,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		super.register(slimefun);
 	}
 
-	public void registerFuel(MachineFuel fuel) {
+	private void registerFuel(MachineFuel fuel) {
 		this.recipes.add(fuel);
 	}
 
-	public List<Config> getUploadedScripts() {
+	private List<Config> getUploadedScripts() {
 		List<Config> scripts = new ArrayList<Config>();
 
 		File directory = new File("plugins/Slimefun/scripts/" + this.getAndroidType().toString());
@@ -1544,7 +1544,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		return scripts;
 	}
 
-	public List<ScriptPart> getAccessibleScriptParts() {
+	private List<ScriptPart> getAccessibleScriptParts() {
 		List<ScriptPart> list = new ArrayList<ScriptPart>();
 
 		for (final ScriptPart part: ScriptPart.values()) {

@@ -2,8 +2,8 @@ package me.mrCookieSlime.Slimefun.api.item_transport;
 
 public class ChannelIndex {
 	
-	public int channel;
-	public int index;
+	private int channel;
+	private int index;
 	
 	public ChannelIndex(int channel, int index) {
 		this.channel = channel;

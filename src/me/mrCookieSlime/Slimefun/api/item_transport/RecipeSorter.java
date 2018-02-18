@@ -6,7 +6,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class RecipeSorter implements Comparator<Integer> {
 	
-	BlockMenu menu;
+	private BlockMenu menu;
 	
 	public RecipeSorter(BlockMenu menu) {
 		this.menu = menu;

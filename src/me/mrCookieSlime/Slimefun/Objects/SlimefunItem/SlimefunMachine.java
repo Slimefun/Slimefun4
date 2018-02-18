@@ -13,9 +13,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class SlimefunMachine extends SlimefunItem {
 	
-	List<ItemStack[]> recipes;
-	List<ItemStack> shownRecipes;
-	Material trigger;
+	private List<ItemStack[]> recipes;
+	private List<ItemStack> shownRecipes;
+	private Material trigger;
 
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe);

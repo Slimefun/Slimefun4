@@ -59,7 +59,7 @@ public class EnergyNet {
 		return NetworkComponent.NONE;
 	}
 	
-	public static NetworkComponent getComponent(Location l) {
+	private static NetworkComponent getComponent(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return NetworkComponent.NONE;
 		String id = BlockStorage.checkID(l);
 		if (machines_input.contains(id)) return NetworkComponent.SOURCE;
@@ -184,7 +184,7 @@ public class EnergyNet {
 		}
 	}
 	
-	public static Set<Location> scan(Location source, Axis exclude, Set<Location> sources, Set<Location> input, Set<Location> storage, Set<Location> output, double supply, double demand) {
+	private static Set<Location> scan(Location source, Axis exclude, Set<Location> sources, Set<Location> input, Set<Location> storage, Set<Location> output, double supply, double demand) {
 		sources.add(source);
 		Set<Location> blocks = new HashSet<Location>();
 		

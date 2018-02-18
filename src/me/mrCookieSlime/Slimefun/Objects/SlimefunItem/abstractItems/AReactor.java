@@ -44,8 +44,8 @@ import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 
 public abstract class AReactor extends SlimefunItem {
 
-	public static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
-	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
+	private static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
+	private static Map<Location, Integer> progress = new HashMap<Location, Integer>();
 
 	private static final BlockFace[] cooling =
     	{
@@ -242,17 +242,17 @@ public abstract class AReactor extends SlimefunItem {
         }
 	}
 
-	public abstract String getInventoryTitle();
+	protected abstract String getInventoryTitle();
 
-	public abstract void registerDefaultRecipes();
+	protected abstract void registerDefaultRecipes();
 
 	public abstract int getEnergyProduction();
 
-	public abstract void extraTick(Location l);
+	protected abstract void extraTick(Location l);
 
-	public abstract ItemStack getCoolant();
+	protected abstract ItemStack getCoolant();
 
-	public boolean needsCooling() {
+	private boolean needsCooling() {
 		return getCoolant() != null;
 	}
 
@@ -260,15 +260,15 @@ public abstract class AReactor extends SlimefunItem {
 		return new int[] {19, 28, 37, 25, 34, 43};
 	}
 
-	public int[] getFuelSlots() {
+	private int[] getFuelSlots() {
 		return new int[] {19, 28, 37};
 	}
 
-	public int[] getCoolantSlots() {
+	private int[] getCoolantSlots() {
 		return needsCooling() ? new int[] {25, 34, 43} : new int[]{};
 	}
 
-	public int[] getOutputSlots() {
+	private int[] getOutputSlots() {
 		return new int[] {40};
 	}
 
@@ -276,7 +276,7 @@ public abstract class AReactor extends SlimefunItem {
 		return processing.get(l);
 	}
 
-	public boolean isProcessing(Location l) {
+	private boolean isProcessing(Location l) {
 		return progress.containsKey(l);
 	}
 
@@ -466,7 +466,7 @@ public abstract class AReactor extends SlimefunItem {
 		return inv;
 	}
 
-	public void pushItems(Location l, ItemStack item) {
+	private void pushItems(Location l, ItemStack item) {
 		Inventory inv = inject(l);
 		inv.addItem(item);
 
@@ -475,7 +475,7 @@ public abstract class AReactor extends SlimefunItem {
 		}
 	}
 
-	public ItemStack pushItems(Location l, ItemStack item, int[] slots) {
+	private ItemStack pushItems(Location l, ItemStack item, int[] slots) {
 		Inventory inv = inject(l, slots);
 		Map<Integer, ItemStack> map = inv.addItem(item);
 
@@ -490,13 +490,13 @@ public abstract class AReactor extends SlimefunItem {
 		return null;
 	}
 
-	public abstract ItemStack getProgressBar();
+	protected abstract ItemStack getProgressBar();
 
 	public Set<MachineFuel> getFuelTypes() {
 		return this.recipes;
 	}
 
-	public BlockMenu getAccessPort(Location l) {
+	private BlockMenu getAccessPort(Location l) {
 		Location portL = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
 		if (BlockStorage.check(portL, "REACTOR_ACCESS_PORT")) return BlockStorage.getInventory(portL);
 		return null;

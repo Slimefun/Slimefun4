@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class UniversalBlockMenu extends ChestMenu {
 	
-	BlockMenuPreset preset;
-	ItemManipulationEvent event;
+	private BlockMenuPreset preset;
+	private ItemManipulationEvent event;
 	
 	public int changes = 0;
 	
@@ -78,7 +78,7 @@ public class UniversalBlockMenu extends ChestMenu {
 		this.replaceExistingItem(slot, item, true);
 	}
 	
-	public void replaceExistingItem(int slot, ItemStack item, boolean event) {
+	private void replaceExistingItem(int slot, ItemStack item, boolean event) {
 		final ItemStack previous = getItemInSlot(slot);
 		
 		if (event && this.event != null) {

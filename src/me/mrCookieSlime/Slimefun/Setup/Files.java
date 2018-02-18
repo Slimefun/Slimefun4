@@ -40,7 +40,7 @@ public class Files {
 		}
 	}
 	
-	public static void delete(File folder) {
+	private static void delete(File folder) {
 		File[] files = folder.listFiles();
 		if (files != null) {
 			for (File current: files) {

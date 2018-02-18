@@ -30,12 +30,12 @@ public abstract class ADrill extends AContainer {
 	private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 9, 10, 11, 12, 18, 21, 27, 28, 29, 30, 19, 20 };
 	private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 	
-	public abstract OreGenResource getOreGenResource();
-	public abstract ItemStack[] getOutputItems();
-	public abstract int getProcessingTime();
+	protected abstract OreGenResource getOreGenResource();
+	protected abstract ItemStack[] getOutputItems();
+	protected abstract int getProcessingTime();
 	public abstract int getSpeed();
 
-	public ADrill(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+	protected ADrill(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 		
 		new BlockMenuPreset(id, getInventoryTitle()) {

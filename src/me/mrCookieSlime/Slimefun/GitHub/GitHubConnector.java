@@ -27,11 +27,11 @@ public abstract class GitHubConnector {
 		connectors.add(this);
 	}
 	
-	public abstract String getFileName();
-	public abstract String getRepository();
-	public abstract String getURLSuffix();
-	public abstract void onSuccess(JsonElement element);
-	public abstract void onFailure();
+	protected abstract String getFileName();
+	protected abstract String getRepository();
+	protected abstract String getURLSuffix();
+	protected abstract void onSuccess(JsonElement element);
+	protected abstract void onFailure();
 	
 	public void pullFile() {
 		if (SlimefunStartup.getCfg().getBoolean("options.print-out-github-data-retrieving")) System.out.println("[Slimefun - GitHub] Retrieving '" + this.getFileName() + ".json' from GitHub...");
@@ -61,15 +61,15 @@ public abstract class GitHubConnector {
 		}
 	}
 	
-	public boolean hasData() {
+	private boolean hasData() {
 		return this.getFile().exists();
 	}
 	
-	public File getFile() {
+	private File getFile() {
 		return this.file;
 	}
 
-	public void parseData() {
+	private void parseData() {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(this.getFile()));
 			

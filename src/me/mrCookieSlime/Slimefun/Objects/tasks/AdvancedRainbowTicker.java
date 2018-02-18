@@ -8,8 +8,8 @@ import org.bukkit.block.Block;
 
 public class AdvancedRainbowTicker extends BlockTicker {
 	
-	public int index;
-	public int[] data;
+	private int index;
+	private int[] data;
 
 	public AdvancedRainbowTicker(int... data) {
 		this.data = data;

@@ -240,7 +240,7 @@ public class SlimefunGuide {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void openCredits(Player p, final ItemStack guide) {
+	private static void openCredits(Player p, final ItemStack guide) {
 		final ChestMenu menu = new ChestMenu("Credits");
 		
 		menu.addMenuOpeningHandler(new MenuOpeningHandler() {
@@ -349,7 +349,7 @@ public class SlimefunGuide {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void openMainMenu(final Player p, final boolean survival, final boolean book, final int selected_page) {
+	private static void openMainMenu(final Player p, final boolean survival, final boolean book, final int selected_page) {
 		clearHistory(p.getUniqueId());
 		
 		if (book) {
@@ -650,13 +650,13 @@ public class SlimefunGuide {
 		}
 	}
 
-	public static String shorten(String string, String string2) {
+	private static String shorten(String string, String string2) {
 		if (ChatColor.stripColor(string + string2).length() > 19) return (string + ChatColor.stripColor(string2)).substring(0, 18) + "...";
 		else return (string + ChatColor.stripColor(string2));
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void openCategory(final Player p, final Category category, final boolean survival, final int selected_page, final boolean book) {
+	private static void openCategory(final Player p, final Category category, final boolean survival, final int selected_page, final boolean book) {
 		if (category == null) return;
 
 		if (book && category.getItems().size() < 250) {
@@ -954,7 +954,7 @@ public class SlimefunGuide {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void displayItem(Player p, final ItemStack item, boolean addToHistory, final boolean book, final int page) {
+	private static void displayItem(Player p, final ItemStack item, boolean addToHistory, final boolean book, final int page) {
 		if (item == null || item.getType() == Material.AIR) return;
 
 		final SlimefunItem sfItem = SlimefunItem.getByItem(item);
@@ -1320,7 +1320,7 @@ public class SlimefunGuide {
 		menu.build().open(p);
 	}
 	
-	public static void clearHistory(UUID uuid) {
+	private static void clearHistory(UUID uuid) {
 		if (!history.containsKey(uuid)) return;
 		
 		for (URID urid: history.get(uuid)) {

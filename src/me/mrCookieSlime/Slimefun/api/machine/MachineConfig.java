@@ -8,8 +8,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
 public class MachineConfig extends Config {
 	
-	MachineSettings global;
-	Map<String, MachineSettings> children;
+	private MachineSettings global;
+	private Map<String, MachineSettings> children;
 	
 	public MachineConfig(String id) {
 		super("plugins/Slimefun/machines/" + id + ".yml");

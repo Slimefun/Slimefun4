@@ -114,7 +114,7 @@ public class CargoCraftingNode extends SlimefunItem {
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {
@@ -138,7 +138,7 @@ public class CargoCraftingNode extends SlimefunItem {
 		});
 	}
 	
-	public int[] getInputSlots() {
+	private int[] getInputSlots() {
 		return new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 	}
 }
