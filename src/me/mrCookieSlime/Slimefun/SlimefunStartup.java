@@ -360,12 +360,9 @@ public class SlimefunStartup extends JavaPlugin {
 
 			coreProtect = getServer().getPluginManager().isPluginEnabled("CoreProtect");
 
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new BukkitRunnable() {
-                @Override
-                public void run() {
-                    exoticGarden = getServer().getPluginManager().isPluginEnabled("ExoticGarden"); //Had to do it this way, otherwise it seems disabled.
-                }
-            }, 0);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+				exoticGarden = getServer().getPluginManager().isPluginEnabled("ExoticGarden"); //Had to do it this way, otherwise it seems disabled.
+			}, 0);
 
 			if (clearlag) new ClearLaggIntegration(this);
 
