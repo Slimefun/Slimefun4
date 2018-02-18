@@ -104,7 +104,7 @@ public class ToolListener implements Listener {
 			e.setCancelled(true);
 			PlayerInventory.consumeItemInHand(e.getPlayer());
 			FireworkShow.launchRandom(e.getPlayer(), 3);
-			List<ItemStack> gifts = new ArrayList<ItemStack>();
+			List<ItemStack> gifts = new ArrayList<>();
 			for (int i = 0; i < 2; i++) {
 				gifts.add(new CustomItem(SlimefunItems.HOT_CHOCOLATE, 1));
 				gifts.add(new CustomItem(SlimefunItems.CHOCOLATE_APPLE, 4));
@@ -168,7 +168,7 @@ public class ToolListener implements Listener {
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent e) {
 		boolean allow = true;
-		List<ItemStack> drops = new ArrayList<ItemStack>();
+		List<ItemStack> drops = new ArrayList<>();
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		int fortune = 1;
 		

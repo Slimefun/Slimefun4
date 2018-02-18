@@ -45,12 +45,12 @@ public class Research {
 	 * @since 4.0
 	 * @see ResearchSetup
 	 */
-	public static List<Research> list = new ArrayList<Research>();
+	public static List<Research> list = new ArrayList<>();
 	/**
 	 * Contains all the players (UUIDs) that are currently unlocking a research.
 	 * @since 4.0
 	 */
-	public static List<UUID> researching = new ArrayList<UUID>();
+	public static List<UUID> researching = new ArrayList<>();
 	/**
 	 * Whether researching in creative is free.
 	 * @since 4.0
@@ -84,7 +84,7 @@ public class Research {
 		this.id = id;
 		this.name = name;
 		this.cost = cost;
-		this.items = new ArrayList<SlimefunItem>();
+		this.items = new ArrayList<>();
 	}
 
 	/**
@@ -372,7 +372,7 @@ public class Research {
 	 * @see #getTitle(Player, List)
 	 */
 	public static void sendStats(CommandSender sender, Player p) {
-		List<Research> researched = new ArrayList<Research>();
+		List<Research> researched = new ArrayList<>();
 		int levels = 0;
 		for (Research r: list()) {
 			if (r.hasUnlocked(p)) {
@@ -437,7 +437,7 @@ public class Research {
 	 * @see #getResearches(String)
 	 */
 	public static List<Research> getResearches(UUID uuid) {
-		List<Research> researched = new ArrayList<Research>();
+		List<Research> researched = new ArrayList<>();
 		for (Research r: list()) {
 			if (r.hasUnlocked(uuid)) researched.add(r);
 		}

@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 public class Soul {
 	
 	public static void storeItem(UUID uuid, ItemStack drop) {
-		List<ItemStack> items = new ArrayList<ItemStack>();
+		List<ItemStack> items = new ArrayList<>();
 		if (Variables.soulbound.containsKey(uuid)) items = Variables.soulbound.get(uuid);
 		items.add(drop);
 		Variables.soulbound.put(uuid, items);

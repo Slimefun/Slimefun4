@@ -25,7 +25,7 @@ import org.bukkit.material.MaterialData;
 
 public class Elevator {
 	
-	public static List<UUID> ignored = new ArrayList<UUID>();
+	public static List<UUID> ignored = new ArrayList<>();
 
 	public static void openEditor(Player p, final Block b) {
 		ChestMenu menu = new ChestMenu("Elevator Settings");

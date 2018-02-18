@@ -113,7 +113,7 @@ public class DamageListener implements Listener {
             }
 
             if (Talisman.checkFor(e, SlimefunItem.getByName("HUNTER_TALISMAN")) && !(e.getEntity() instanceof Player)) {
-                List<ItemStack> newDrops = new ArrayList<ItemStack>();
+                List<ItemStack> newDrops = new ArrayList<>();
                 for (ItemStack drop : e.getDrops()) {
                     newDrops.add(drop);
                 }

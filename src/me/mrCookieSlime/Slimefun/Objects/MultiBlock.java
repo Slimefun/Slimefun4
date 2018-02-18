@@ -10,7 +10,7 @@ import org.bukkit.Material;
 
 public class MultiBlock {
 	
-	public static List<MultiBlock> list = new ArrayList<MultiBlock>();
+	public static List<MultiBlock> list = new ArrayList<>();
 	
 	Material[] blocks;
 	Material trigger;

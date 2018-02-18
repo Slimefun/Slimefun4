@@ -18,7 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class TeleportationSequence {
 
-	public static Set<UUID> players = new HashSet<UUID>();
+	public static Set<UUID> players = new HashSet<>();
 	
 	public static void start(UUID uuid, int complexity, Location source, Location destination, boolean resistance) {
 		players.add(uuid);

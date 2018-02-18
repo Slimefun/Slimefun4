@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class OreGenSystem {
 	
-	public static Map<String, OreGenResource> map = new HashMap<String, OreGenResource>();
+	public static Map<String, OreGenResource> map = new HashMap<>();
 	
 	public static Collection<OreGenResource> listResources() {
 		return map.values();

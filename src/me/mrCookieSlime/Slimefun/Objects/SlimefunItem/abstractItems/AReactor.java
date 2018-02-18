@@ -44,8 +44,8 @@ import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 
 public abstract class AReactor extends SlimefunItem {
 
-	public static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
-	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
+	public static Map<Location, MachineFuel> processing = new HashMap<>();
+	public static Map<Location, Integer> progress = new HashMap<>();
 
 	private static final BlockFace[] cooling =
     	{
@@ -59,7 +59,7 @@ public abstract class AReactor extends SlimefunItem {
     		BlockFace.NORTH_WEST
     	};
 
-	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
+	private Set<MachineFuel> recipes = new HashSet<>();
 
 	private static final int[] border = {0, 1, 2, 3, 5, 6, 7, 8, 12, 13, 14, 21, 23};
 	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
@@ -288,7 +288,7 @@ public abstract class AReactor extends SlimefunItem {
 	public void register(boolean slimefun) {
 		addItemHandler(new EnergyTicker() {
 
-			Set<Location> explode = new HashSet<Location>();
+			Set<Location> explode = new HashSet<>();
 
 			@SuppressWarnings("deprecation")
 			@Override
@@ -317,7 +317,7 @@ public abstract class AReactor extends SlimefunItem {
                             ItemStack item = getProgressBar().clone();
                             ItemMeta im = item.getItemMeta();
                             im.setDisplayName(" ");
-                            List<String> lore = new ArrayList<String>();
+                            List<String> lore = new ArrayList<>();
                             lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
                             lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
                             lore.add("");
@@ -380,7 +380,7 @@ public abstract class AReactor extends SlimefunItem {
 				}
 				else {
 					MachineFuel r = null;
-					Map<Integer, Integer> found = new HashMap<Integer, Integer>();
+					Map<Integer, Integer> found = new HashMap<>();
 
 					if (port != null) {
 						refill:

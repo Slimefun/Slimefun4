@@ -55,7 +55,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private static final ItemStack[] fish = new ItemStack[] {new MaterialData(Material.RAW_FISH, (byte) 0).toItemStack(1), new MaterialData(Material.RAW_FISH, (byte) 1).toItemStack(1), new MaterialData(Material.RAW_FISH, (byte) 2).toItemStack(1), new MaterialData(Material.RAW_FISH, (byte) 3).toItemStack(1), new ItemStack(Material.STRING), new ItemStack(Material.BONE), new ItemStack(Material.STICK)};
 
 	private static final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-	private static final List<Material> blockblacklist = new ArrayList<Material>();
+	private static final List<Material> blockblacklist = new ArrayList<>();
 
 	static {
 		blockblacklist.add(Material.BEDROCK);
@@ -66,7 +66,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		blockblacklist.add(Material.COMMAND_REPEATING);
 	}
 
-	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
+	private Set<MachineFuel> recipes = new HashSet<>();
 
 	public String getInventoryTitle() {
 		return "Programmable Android";
@@ -433,7 +433,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
 						Block block = b.getRelative(face);
 						if (block.getType().equals(Material.LOG) || block.getType().equals(Material.LOG_2)) {
-							List<Location> list = new ArrayList<Location>();
+							List<Location> list = new ArrayList<>();
 							list.add(block.getLocation());
 		        			TreeCalculator.getTree(block.getLocation(), block.getLocation(), list);
 		        			if (!list.isEmpty()) {
@@ -1521,7 +1521,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	public List<Config> getUploadedScripts() {
-		List<Config> scripts = new ArrayList<Config>();
+		List<Config> scripts = new ArrayList<>();
 
 		File directory = new File("plugins/Slimefun/scripts/" + this.getAndroidType().toString());
 		if (!directory.exists()) directory.mkdirs();
@@ -1545,7 +1545,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	public List<ScriptPart> getAccessibleScriptParts() {
-		List<ScriptPart> list = new ArrayList<ScriptPart>();
+		List<ScriptPart> list = new ArrayList<>();
 
 		for (final ScriptPart part: ScriptPart.values()) {
 			if (!part.equals(ScriptPart.START) && !part.equals(ScriptPart.REPEAT) && getAndroidType().isType(part.getRequiredType())) {

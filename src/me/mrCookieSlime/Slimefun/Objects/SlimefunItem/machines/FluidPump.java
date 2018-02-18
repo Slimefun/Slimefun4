@@ -38,8 +38,8 @@ import org.bukkit.material.MaterialData;
 
 public class FluidPump extends SlimefunItem{
 	
-	public static Map<Block, MachineRecipe> processing = new HashMap<Block, MachineRecipe>();
-	public static Map<Block, Integer> progress = new HashMap<Block, Integer>();
+	public static Map<Block, MachineRecipe> processing = new HashMap<>();
+	public static Map<Block, Integer> progress = new HashMap<>();
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22};
 	private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
@@ -151,7 +151,7 @@ public class FluidPump extends SlimefunItem{
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					pushItems(b, new ItemStack[] {output});
 					
-					List<Location> list = new ArrayList<Location>();
+					List<Location> list = new ArrayList<>();
 		        	list.add(fluid.getLocation());
 		        	Vein.calculate(fluid.getLocation(), fluid.getLocation(), list, 64);
 		        	list.get(list.size() - 1).getBlock().setType(Material.AIR);

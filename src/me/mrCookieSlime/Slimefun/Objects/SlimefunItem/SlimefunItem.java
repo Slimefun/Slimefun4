@@ -35,16 +35,16 @@ import org.bukkit.inventory.ItemStack;
 
 public class SlimefunItem {
 	
-	public static List<SlimefunItem> items = new ArrayList<SlimefunItem>();
+	public static List<SlimefunItem> items = new ArrayList<>();
 	
-	public static Map<String, URID> map_id = new HashMap<String, URID>();
-	public static List<ItemStack> radioactive = new ArrayList<ItemStack>();
+	public static Map<String, URID> map_id = new HashMap<>();
+	public static List<ItemStack> radioactive = new ArrayList<>();
 	public static int vanilla = 0;
-	public static Set<String> tickers = new HashSet<String>();
+	public static Set<String> tickers = new HashSet<>();
 	
-	public static List<SlimefunItem> all = new ArrayList<SlimefunItem>();
-	public static Map<String, Set<ItemHandler>> handlers = new HashMap<String, Set<ItemHandler>>();
-	public static Map<String, SlimefunBlockHandler> blockhandler = new HashMap<String, SlimefunBlockHandler>();
+	public static List<SlimefunItem> all = new ArrayList<>();
+	public static Map<String, Set<ItemHandler>> handlers = new HashMap<>();
+	public static Map<String, SlimefunBlockHandler> blockhandler = new HashMap<>();
 
 	private String id;
 	private URID urid;
@@ -62,7 +62,7 @@ public class SlimefunItem {
 	private boolean replacing = false;
 	private boolean addon = false;
 	private String permission = "";
-	private Set<ItemHandler> itemhandlers = new HashSet<ItemHandler>();
+	private Set<ItemHandler> itemhandlers = new HashSet<>();
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
@@ -356,7 +356,7 @@ public class SlimefunItem {
 			if (recipeType.toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
 				try {
 					EntityType entity = EntityType.valueOf(ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(" ", "_"));
-					List<ItemStack> dropping = new ArrayList<ItemStack>();
+					List<ItemStack> dropping = new ArrayList<>();
 					if (SlimefunManager.drops.containsKey(entity)) dropping = SlimefunManager.drops.get(entity);
 					dropping.add(output);
 					SlimefunManager.drops.put(entity, dropping);
@@ -434,7 +434,7 @@ public class SlimefunItem {
 	
 	public static Set<ItemHandler> getHandlers(String codeid) {
 		if (handlers.containsKey(codeid)) return handlers.get(codeid);
-		else return new HashSet<ItemHandler>();
+		else return new HashSet<>();
 	}
 
 	public static void setRadioactive(ItemStack item) {

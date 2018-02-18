@@ -125,7 +125,7 @@ public class Talisman extends SlimefunItem {
 	}
 
 	public ItemStack upgrade() {
-		List<String> lore = new ArrayList<String>();
+		List<String> lore = new ArrayList<>();
 		lore.add("&7&oEnder Infused");
 		lore.add("");
 		for (String line: getItem().getItemMeta().getLore()) {

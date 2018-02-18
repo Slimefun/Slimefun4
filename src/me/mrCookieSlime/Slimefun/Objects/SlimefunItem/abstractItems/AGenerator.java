@@ -41,10 +41,10 @@ import org.bukkit.material.MaterialData;
 
 public abstract class AGenerator extends SlimefunItem {
 
-	public static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
-	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
+	public static Map<Location, MachineFuel> processing = new HashMap<>();
+	public static Map<Location, Integer> progress = new HashMap<>();
 	
-	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
+	private Set<MachineFuel> recipes = new HashSet<>();
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
 	private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
@@ -257,7 +257,7 @@ public abstract class AGenerator extends SlimefunItem {
 				        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(l).getTicks()));
 						ItemMeta im = item.getItemMeta();
 						im.setDisplayName(" ");
-						List<String> lore = new ArrayList<String>();
+						List<String> lore = new ArrayList<>();
 						lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
 						lore.add("");
 						lore.add(MachineHelper.getTimeLeft(timeleft / 2));
@@ -299,7 +299,7 @@ public abstract class AGenerator extends SlimefunItem {
 				}
 				else {
 					MachineFuel r = null;
-					Map<Integer, Integer> found = new HashMap<Integer, Integer>();
+					Map<Integer, Integer> found = new HashMap<>();
 					outer:
 					for (MachineFuel recipe: recipes) {
 						for (int slot: getInputSlots()) {

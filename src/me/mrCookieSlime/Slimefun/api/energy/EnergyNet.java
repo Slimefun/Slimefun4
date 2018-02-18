@@ -42,11 +42,11 @@ public class EnergyNet {
 	
 	private static final int RANGE = 6;
 	
-	public static Set<String> machines_input = new HashSet<String>();
-	public static Set<String> machines_storage = new HashSet<String>();
-	public static Set<String> machines_output = new HashSet<String>();
+	public static Set<String> machines_input = new HashSet<>();
+	public static Set<String> machines_storage = new HashSet<>();
+	public static Set<String> machines_output = new HashSet<>();
 	
-	public static Map<String, EnergyFlowListener> listeners = new HashMap<String, EnergyFlowListener>();
+	public static Map<String, EnergyFlowListener> listeners = new HashMap<>();
 	
 	public static NetworkComponent getComponent(Block b) {
 		return getComponent(b.getLocation());
@@ -85,14 +85,14 @@ public class EnergyNet {
 	}
 	
 	public static void tick(Block b) {
-		Set<Location> input = new HashSet<Location>();
-		Set<Location> storage = new HashSet<Location>();
-		Set<Location> output = new HashSet<Location>();
+		Set<Location> input = new HashSet<>();
+		Set<Location> storage = new HashSet<>();
+		Set<Location> output = new HashSet<>();
 		
 		double supply = 0.0D;
 		double demand = 0.0D;
 		
-		if (scan(b.getLocation(), Axis.UNKNOWN, new HashSet<Location>(), input, storage, output, supply, demand).isEmpty()) {
+		if (scan(b.getLocation(), Axis.UNKNOWN, new HashSet<>(), input, storage, output, supply, demand).isEmpty()) {
 			EnergyHologram.update(b, "&4No Energy Network found");
 		}
 		else {
@@ -186,46 +186,46 @@ public class EnergyNet {
 	
 	public static Set<Location> scan(Location source, Axis exclude, Set<Location> sources, Set<Location> input, Set<Location> storage, Set<Location> output, double supply, double demand) {
 		sources.add(source);
-		Set<Location> blocks = new HashSet<Location>();
+		Set<Location> blocks = new HashSet<>();
 		
 		blocks.add(source);
 		
 		if (!exclude.equals(Axis.X_POSITIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX() + i + 1, source.getY(), source.getZ());
-				if (!continueScan(l, Axis.X_NEGATIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
+				if (!continueScan(l, Axis.X_NEGATIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<>();
 			}
 		}
 		if (!exclude.equals(Axis.X_NEGATIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX() - i - 1, source.getY(), source.getZ());
-				if (!continueScan(l, Axis.X_POSITIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
+				if (!continueScan(l, Axis.X_POSITIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<>();
 			}
 		}
 		
 		if (!exclude.equals(Axis.Y_POSITIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX(), source.getY() + i + 1, source.getZ());
-				if (!continueScan(l, Axis.Y_NEGATIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
+				if (!continueScan(l, Axis.Y_NEGATIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<>();
 			}
 		}
 		if (!exclude.equals(Axis.Y_NEGATIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX(), source.getY() - i - 1, source.getZ());
-				if (!continueScan(l, Axis.Y_POSITIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
+				if (!continueScan(l, Axis.Y_POSITIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<>();
 			}
 		}
 		
 		if (!exclude.equals(Axis.Z_POSITIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX(), source.getY(), source.getZ() + i + 1);
-				if (!continueScan(l, Axis.Z_NEGATIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
+				if (!continueScan(l, Axis.Z_NEGATIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<>();
 			}
 		}
 		if (!exclude.equals(Axis.Z_NEGATIVE)) {
 			for (int i = 0; i <= RANGE; i++) {
 				Location l = new Location(source.getWorld(), source.getX(), source.getY(), source.getZ() - i - 1);
-				if (!continueScan(l, Axis.Z_POSITIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
+				if (!continueScan(l, Axis.Z_POSITIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<>();
 			}
 		}
 		

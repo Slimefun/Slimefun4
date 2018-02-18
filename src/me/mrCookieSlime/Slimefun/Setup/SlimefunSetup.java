@@ -681,7 +681,7 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GOLD_PAN, true)) {
 					if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.GRAVEL) {
-						List<ItemStack> drops = new ArrayList<ItemStack>();
+						List<ItemStack> drops = new ArrayList<>();
 						if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE"))) drops.add(SlimefunItems.SIFTED_ORE);
 						else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY"))) drops.add(new ItemStack(Material.CLAY_BALL));
 						else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT"))) drops.add(new ItemStack(Material.FLINT));
@@ -1571,7 +1571,7 @@ public class SlimefunSetup {
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(e.getPlayer().getItemInHand(), SlimefunItems.LUMBER_AXE, true)) {
 					if (e.getBlock().getType() == Material.LOG || e.getBlock().getType() == Material.LOG_2) {
-						List<Location> logs = new ArrayList<Location>();
+						List<Location> logs = new ArrayList<>();
 						TreeCalculator.getTree(e.getBlock().getLocation(), e.getBlock().getLocation(), logs);
 
 						if (logs.contains(e.getBlock())) logs.remove(e.getBlock());
@@ -1851,7 +1851,7 @@ public class SlimefunSetup {
 					if (Slimefun.hasUnlocked(p, SlimefunItems.DIGITAL_MINER, true)) {
 						Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
 						final Inventory inv = chest.getInventory();
-						List<Location> ores = new ArrayList<Location>();
+						List<Location> ores = new ArrayList<>();
 						for (int x = b.getX() - 4; x < b.getX() + 4; x++) {
 							for (int z = b.getZ() - 4; z < b.getZ() + 4; z++) {
 								for (int y = b.getY(); y > 0; y--) {
@@ -1927,7 +1927,7 @@ public class SlimefunSetup {
 					if (Slimefun.hasUnlocked(p, SlimefunItems.ADVANCED_DIGITAL_MINER, true)) {
 						Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
 						final Inventory inv = chest.getInventory();
-						List<Location> ores = new ArrayList<Location>();
+						List<Location> ores = new ArrayList<>();
 						for (int x = b.getX() - 6; x < b.getX() + 6; x++) {
 							for (int z = b.getZ() - 6; z < b.getZ() + 6; z++) {
 								for (int y = b.getY(); y > 0; y--) {
@@ -2613,7 +2613,7 @@ public class SlimefunSetup {
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(e.getPlayer().getItemInHand(), SlimefunItems.PICKAXE_OF_VEIN_MINING, true)) {
 					if (e.getBlock().getType().toString().endsWith("_ORE")) {
-						List<Location> blocks = new ArrayList<Location>();
+						List<Location> blocks = new ArrayList<>();
 						Vein.calculate(e.getBlock().getLocation(), e.getBlock().getLocation(), blocks, 16);
 						for (Location block: blocks) {
 							Block b = block.getBlock();
@@ -3066,7 +3066,7 @@ public class SlimefunSetup {
 					PlayerInventory.consumeItemInHand(e.getPlayer());
 					FireworkShow.launchRandom(e.getPlayer(), 2);
 
-					List<ItemStack> gifts = new ArrayList<ItemStack>();
+					List<ItemStack> gifts = new ArrayList<>();
 					for (int i = 0; i < 2; i++) {
 						gifts.add(new CustomItem(SlimefunItems.CARROT_PIE, 4));
 						gifts.add(new CustomItem(SlimefunItems.APPLE_PIE, 4));

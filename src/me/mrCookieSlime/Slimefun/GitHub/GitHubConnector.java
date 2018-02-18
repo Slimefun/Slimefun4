@@ -18,7 +18,7 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 public abstract class GitHubConnector {
 	
-	public static Set<GitHubConnector> connectors = new HashSet<GitHubConnector>();
+	public static Set<GitHubConnector> connectors = new HashSet<>();
 	
 	private File file;
 

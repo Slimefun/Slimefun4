@@ -36,7 +36,7 @@ public class RitualAnimation implements Runnable {
 		this.output = output;
 		this.pedestals = pedestals;
 		this.items = items;
-		this.particles = new ArrayList<Location>();
+		this.particles = new ArrayList<>();
 		
 		this.running = true;
 	}

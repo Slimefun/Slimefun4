@@ -33,19 +33,19 @@ public class BlockStorage {
 	private static final String path_blocks = "data-storage/Slimefun/stored-blocks/";
 	private static final String path_chunks = "data-storage/Slimefun/stored-chunks/";
 
-	public static Map<String, BlockStorage> worlds = new HashMap<String, BlockStorage>();
-	public static Map<String, Set<Block>> ticking_chunks = new HashMap<String, Set<Block>>();
-	public static Set<String> loaded_tickers = new HashSet<String>();
+	public static Map<String, BlockStorage> worlds = new HashMap<>();
+	public static Map<String, Set<Block>> ticking_chunks = new HashMap<>();
+	public static Set<String> loaded_tickers = new HashSet<>();
 	
 	private World world;
 	
-	private Map<Location, String> storage = new HashMap<Location, String>();
-	private static Map<String, String> map_chunks = new HashMap<String, String>();
+	private Map<Location, String> storage = new HashMap<>();
+	private static Map<String, String> map_chunks = new HashMap<>();
 	
-	private Map<Location, BlockMenu> inventories = new HashMap<Location, BlockMenu>();
-	public static Map<String, UniversalBlockMenu> universal_inventories = new HashMap<String, UniversalBlockMenu>();
+	private Map<Location, BlockMenu> inventories = new HashMap<>();
+	public static Map<String, UniversalBlockMenu> universal_inventories = new HashMap<>();
 	
-	private Map<String, Config> cache_blocks = new HashMap<String, Config>();
+	private Map<String, Config> cache_blocks = new HashMap<>();
 	
 	public static int info_delay;
 	
@@ -100,7 +100,7 @@ public class BlockStorage {
 								storage.put(deserializeLocation(key), cfg.getString(key));
 								
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
-									Set<Block> blocks = ticking_chunks.containsKey(deserializeLocation(key).getChunk().toString()) ? ticking_chunks.get(deserializeLocation(key).getChunk().toString()): new HashSet<Block>();
+									Set<Block> blocks = ticking_chunks.containsKey(deserializeLocation(key).getChunk().toString()) ? ticking_chunks.get(deserializeLocation(key).getChunk().toString()): new HashSet<>();
 									blocks.add(deserializeLocation(key).getBlock());
 									ticking_chunks.put(deserializeLocation(key).getChunk().toString(), blocks);
 									if (!loaded_tickers.contains(deserializeLocation(key).getChunk().toString())) loaded_tickers.add(deserializeLocation(key).getChunk().toString());
@@ -171,12 +171,12 @@ public class BlockStorage {
 	public void computeChanges() {
 		changes = cache_blocks.size() + chunk_changes;
 		
-		Map<Location, BlockMenu> inventories2 = new HashMap<Location, BlockMenu>(inventories);
+		Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
 		for (Map.Entry<Location, BlockMenu> entry: inventories2.entrySet()) {
 			changes += entry.getValue().changes;
 		}
 		
-		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<String, UniversalBlockMenu>(universal_inventories);
+		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<>(universal_inventories);
 		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
 			changes += entry.getValue().changes;
 		}
@@ -197,7 +197,7 @@ public class BlockStorage {
 		
 		System.out.println("[Slimefun] Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Changes queued)");
 		
-		Map<String, Config> cache = new HashMap<String, Config>(cache_blocks);
+		Map<String, Config> cache = new HashMap<>(cache_blocks);
 		
 		for (Map.Entry<String, Config> entry: cache.entrySet()) {
 			cache_blocks.remove(entry.getKey());
@@ -206,13 +206,13 @@ public class BlockStorage {
 			else cfg.save();
 		}
 		
-		Map<Location, BlockMenu> inventories2 = new HashMap<Location, BlockMenu>(inventories);
+		Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
 		
 		for (Map.Entry<Location, BlockMenu> entry: inventories2.entrySet()) {
 			entry.getValue().save(entry.getKey());
 		}
 		
-		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<String, UniversalBlockMenu>(universal_inventories);
+		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<>(universal_inventories);
 		
 		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
 			entry.getValue().save();
@@ -297,7 +297,7 @@ public class BlockStorage {
 	}
 	
 	private static Map<String, String> parseJSON(String json) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<>();
 		
 		if (json != null && json.length() > 2) {
 			try {
@@ -488,7 +488,7 @@ public class BlockStorage {
 			if (item != null && item.isTicking()) {
 				Chunk chunk = l.getChunk();
 				if (value != null) {
-					Set<Block> blocks = ticking_chunks.containsKey(chunk.toString()) ? ticking_chunks.get(chunk.toString()): new HashSet<Block>();
+					Set<Block> blocks = ticking_chunks.containsKey(chunk.toString()) ? ticking_chunks.get(chunk.toString()): new HashSet<>();
 					blocks.add(l.getBlock());
 					ticking_chunks.put(chunk.toString(), blocks);
 					if (!loaded_tickers.contains(chunk.toString())) loaded_tickers.add(chunk.toString());
@@ -535,7 +535,7 @@ public class BlockStorage {
 	}
 	
 	public static Set<String> getTickingChunks() {
-		return new HashSet<String>(loaded_tickers);
+		return new HashSet<>(loaded_tickers);
 	}
 	
 	public static Set<Block> getTickingBlocks(Chunk chunk) {
@@ -543,7 +543,7 @@ public class BlockStorage {
 	}
 	
 	public static Set<Block> getTickingBlocks(String chunk) {
-		return new HashSet<Block>(ticking_chunks.get(chunk));
+		return new HashSet<>(ticking_chunks.get(chunk));
 	}
 	
 	public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
