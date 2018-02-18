@@ -260,49 +260,30 @@ public class Research {
 				else if (!researching.contains(p.getUniqueId())){
 					researching.add(p.getUniqueId());
 					Messages.local.sendTranslation(p, "messages.research.start", true, new Variable("%research%", getName()));
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-						@Override
-						public void run() {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+						p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
+						Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "23%"));
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
 							p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-							Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "23%"));
-							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-								@Override
-								public void run() {
+							Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "44%"));
+							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+								p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
+								Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "57%"));
+								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
 									p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-									Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "44%"));
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-										@Override
-										public void run() {
-											p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-											Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "57%"));
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-												@Override
-												public void run() {
-													p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-													Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "92%"));
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-														@Override
-														public void run() {
-															Config cfg = new Config(new File("data-storage/Slimefun/Players/" + p.getUniqueId() + ".yml"));
-															cfg.setValue("researches." + research, true);
-															cfg.save();
-															Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
-															if(SlimefunStartup.getCfg().getBoolean("options.research-unlock-fireworks")) FireworkShow.launchRandom(p, 1);
-															researching.remove(p.getUniqueId());
-														}
-													}, 20L);
-												}
-											}, 20L);
-										}
+									Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "92%"));
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+										Config cfg = new Config(new File("data-storage/Slimefun/Players/" + p.getUniqueId() + ".yml"));
+										cfg.setValue("researches." + research, true);
+										cfg.save();
+										Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
+										if (SlimefunStartup.getCfg().getBoolean("options.research-unlock-fireworks"))
+											FireworkShow.launchRandom(p, 1);
+										researching.remove(p.getUniqueId());
 									}, 20L);
-								}
+								}, 20L);
 							}, 20L);
-						}
+						}, 20L);
 					}, 20L);
 				}
 			}

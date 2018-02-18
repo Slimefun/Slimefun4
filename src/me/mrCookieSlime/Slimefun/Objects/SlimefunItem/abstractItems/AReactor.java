@@ -85,26 +85,18 @@ public abstract class AReactor extends SlimefunItem {
 					}
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "reactor-mode").equals("generator")) {
 						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
-						menu.addMenuClickHandler(4, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "reactor-mode", "production");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(4, (p, arg1, arg2, arg3) -> {
+							BlockStorage.addBlockInfo(b, "reactor-mode", "production");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					else {
 						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7> Click to change the Focus to &ePower Generation"));
-						menu.addMenuClickHandler(4, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(4, (p, arg1, arg2, arg3) -> {
+							BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 				} catch(Exception x) {
@@ -157,70 +149,28 @@ public abstract class AReactor extends SlimefunItem {
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 
 		for (int i: border_1) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 
 		for (int i: border_3) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 13), " "),
-			 new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 
 		preset.addItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
         for (int i : border_2) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 
 		if (needsCooling()) {
@@ -231,13 +181,7 @@ public abstract class AReactor extends SlimefunItem {
 
             for (int i : border_4) {
                 preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"),
-                new MenuClickHandler() {
-
-                    @Override
-                    public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                        return false;
-                    }
-                });
+						(player, i1, itemStack, clickAction) -> false);
             }
         }
 	}
@@ -305,12 +249,8 @@ public abstract class AReactor extends SlimefunItem {
 						if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction() || !BlockStorage.getBlockInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
 
-							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-								@Override
-								public void run() {
-									if (!l.getBlock().getRelative(cooling[CSCoreLib.randomizer().nextInt(cooling.length)]).isLiquid()) explode.add(l);
-								}
+							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+								if (!l.getBlock().getRelative(cooling[CSCoreLib.randomizer().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 							});
 
 
@@ -424,12 +364,7 @@ public abstract class AReactor extends SlimefunItem {
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
 					
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						@Override
-						public void run() {
-							ReactorHologram.remove(l);
-						}
-					}, 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> ReactorHologram.remove(l), 0);
 					
 					explode.remove(l);
 					processing.remove(l);

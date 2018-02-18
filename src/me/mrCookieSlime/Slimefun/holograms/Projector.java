@@ -43,40 +43,28 @@ public class Projector {
 		ChestMenu menu = new ChestMenu("Hologram Settings");
 		
 		menu.addItem(0, new CustomItem(new MaterialData(Material.NAME_TAG), "&7Text &e(Click to edit)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(projector, "text"))));
-		menu.addMenuClickHandler(0, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				p.closeInventory();
-				Messages.local.sendTranslation(p, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
-				MenuHelper.awaitChatInput(p, new ChatHandler() {
-					
-					@Override
-					public boolean onChat(Player p, String message) {
-						ArmorStand hologram = getArmorStand(projector);
-						hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', message));
-						BlockStorage.addBlockInfo(projector, "text", message);
-						openEditor(p, projector);
-						return false;
-					}
-				});
+		menu.addMenuClickHandler(0, (p13, arg1, arg2, arg3) -> {
+			p13.closeInventory();
+			Messages.local.sendTranslation(p13, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
+			MenuHelper.awaitChatInput(p13, (p12, message) -> {
+				ArmorStand hologram = getArmorStand(projector);
+				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', message));
+				BlockStorage.addBlockInfo(projector, "text", message);
+				openEditor(p12, projector);
 				return false;
-			}
+			});
+			return false;
 		});
 		
 		menu.addItem(1, new CustomItem(new MaterialData(Material.WATCH), "&7Offset: &e" + DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getBlockInfo(projector, "offset")) + 1.0D), "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
-		menu.addMenuClickHandler(1, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				double offset = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getBlockInfo(projector, "offset")) + (arg3.isRightClicked() ? -0.1F: 0.1F));
-				ArmorStand hologram = getArmorStand(projector);
-				Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
-				hologram.teleport(l);
-				BlockStorage.addBlockInfo(projector, "offset", String.valueOf(offset));
-				openEditor(p, projector);
-				return false;
-			}
+		menu.addMenuClickHandler(1, (p1, arg1, arg2, arg3) -> {
+			double offset = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getBlockInfo(projector, "offset")) + (arg3.isRightClicked() ? -0.1F: 0.1F));
+			ArmorStand hologram = getArmorStand(projector);
+			Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
+			hologram.teleport(l);
+			BlockStorage.addBlockInfo(projector, "offset", String.valueOf(offset));
+			openEditor(p1, projector);
+			return false;
 		});
 		
 		menu.open(p);

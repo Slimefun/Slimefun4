@@ -44,62 +44,42 @@ public class CargoOutputNode extends SlimefunItem {
 				try {
 
 					menu.replaceExistingItem(12, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
-					menu.addMenuClickHandler(12, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) - 1;
-							if (channel < 0) {
-								if (CargoNet.EXTRA_CHANNELS) channel = 16;
-								else channel = 15;
-							}
-							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
-							newInstance(menu, b);
-							return false;
+					menu.addMenuClickHandler(12, (p, arg1, arg2, arg3) -> {
+						int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) - 1;
+						if (channel < 0) {
+							if (CargoNet.EXTRA_CHANNELS) channel = 16;
+							else channel = 15;
 						}
+						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
+						newInstance(menu, b);
+						return false;
 					});
 					
 					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency"))));
 
 					if (channel == 16) {
 						menu.replaceExistingItem(13, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&bChannel ID: &3" + (channel + 1)));
-						menu.addMenuClickHandler(13, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								return false;
-							}
-						});
+						menu.addMenuClickHandler(13, (p, arg1, arg2, arg3) -> false);
 					}
 					else {
 						menu.replaceExistingItem(13, new CustomItem(new MaterialData(Material.WOOL, (byte) channel), "&bChannel ID: &3" + (channel + 1)));
-						menu.addMenuClickHandler(13, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								return false;
-							}
-						});
+						menu.addMenuClickHandler(13, (p, arg1, arg2, arg3) -> false);
 					}
 
 					menu.replaceExistingItem(14, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&bChannel", "", "&e> Click to increase the Channel ID by 1"));
-					menu.addMenuClickHandler(14, new MenuClickHandler() {
+					menu.addMenuClickHandler(14, (p, arg1, arg2, arg3) -> {
+						int channel1 = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) + 1;
 
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) + 1;
-
-							if (CargoNet.EXTRA_CHANNELS) {
-								if (channel > 16) channel = 0;
-							}
-							else {
-								if (channel > 15) channel = 0;
-							}
-							
-							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
-							newInstance(menu, b);
-							return false;
+						if (CargoNet.EXTRA_CHANNELS) {
+							if (channel1 > 16) channel1 = 0;
 						}
+						else {
+							if (channel1 > 15) channel1 = 0;
+						}
+
+						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel1));
+						newInstance(menu, b);
+						return false;
 					});
 					
 				} catch (Exception e) {
@@ -141,14 +121,7 @@ public class CargoOutputNode extends SlimefunItem {
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-				
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 	}
 }

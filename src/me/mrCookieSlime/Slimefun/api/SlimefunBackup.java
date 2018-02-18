@@ -22,15 +22,11 @@ public class SlimefunBackup {
 		File folder = new File("data-storage/Slimefun/block-backups");
 		List<File> backups = Arrays.asList(folder.listFiles());
 		if (backups.size() > 20) {
-			Collections.sort(backups, new Comparator<File>() {
-
-				@Override
-				public int compare(File f1, File f2) {
-					try {
-						return (int) (new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f1.getName().replace(".zip", "")).getTime() - new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f2.getName().replace(".zip", "")).getTime());
-					} catch (ParseException e) {
-						return 0;
-					}
+			Collections.sort(backups, (f1, f2) -> {
+				try {
+					return (int) (new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f1.getName().replace(".zip", "")).getTime() - new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(f2.getName().replace(".zip", "")).getTime());
+				} catch (ParseException e) {
+					return 0;
 				}
 			});
 

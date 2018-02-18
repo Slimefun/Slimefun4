@@ -31,34 +31,26 @@ public class Elevator {
 		ChestMenu menu = new ChestMenu("Elevator Settings");
 		
 		menu.addItem(4, new CustomItem(new MaterialData(Material.NAME_TAG), "&7Floor Name &e(Click to edit)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(b, "floor"))));
-		menu.addMenuClickHandler(4, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				p.closeInventory();
-				p.sendMessage("");
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &ePlease enter a Name for this Floor in your Chat!"));
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &e(Chat Colors are supported!"));
-				p.sendMessage("");
-				
-				MenuHelper.awaitChatInput(p, new ChatHandler() {
-					
-					@Override
-					public boolean onChat(Player p, String message) {
-						BlockStorage.addBlockInfo(b, "floor", message.replaceAll("&", "&"));
-						
-						p.sendMessage("");
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &eSuccessfully named this Floor:"));
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &r" + ChatColor.translateAlternateColorCodes('&', message)));
-						p.sendMessage("");
-						
-						openEditor(p, b);
-						
-						return false;
-					}
-				});
+		menu.addMenuClickHandler(4, (p12, arg1, arg2, arg3) -> {
+			p12.closeInventory();
+			p12.sendMessage("");
+			p12.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &ePlease enter a Name for this Floor in your Chat!"));
+			p12.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &e(Chat Colors are supported!"));
+			p12.sendMessage("");
+
+			MenuHelper.awaitChatInput(p12, (p1, message) -> {
+				BlockStorage.addBlockInfo(b, "floor", message.replaceAll("&", "&"));
+
+				p1.sendMessage("");
+				p1.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &eSuccessfully named this Floor:"));
+				p1.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &r" + ChatColor.translateAlternateColorCodes('&', message)));
+				p1.sendMessage("");
+
+				openEditor(p1, b);
+
 				return false;
-			}
+			});
+			return false;
 		});
 		
 		menu.open(p);

@@ -324,22 +324,17 @@ public class ItemListener implements Listener {
 						// Remove the glass bottle once drunk
 						final int m = mode;
 
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-			                @Override
-			                public void run() {
-			                    if (m == 0) {
-			                    	p.getInventory().setItemInMainHand(null);
-			                    }
-			                    else if (m == 1) {
-			                    	p.getInventory().setItemInOffHand(null);
-			                    }
-			                    else if (m == 2) {
-			                    	p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
-			                    }
-			                }
-
-			            }, 1L);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+							if (m == 0) {
+								p.getInventory().setItemInMainHand(null);
+							}
+							else if (m == 1) {
+								p.getInventory().setItemInOffHand(null);
+							}
+							else if (m == 2) {
+								p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
+							}
+						}, 1L);
 					}
 				}
 			}

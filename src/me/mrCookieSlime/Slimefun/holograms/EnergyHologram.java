@@ -18,24 +18,16 @@ public class EnergyHologram {
 	}
 	
 	public static void update(final Block b, final String name) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-			
-			@Override
-			public void run() {
-				ArmorStand hologram = getArmorStand(b);
-				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
-			}
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+			ArmorStand hologram = getArmorStand(b);
+			hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
 		});
 	}	
 	
 	public static void remove(final Block b) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-			
-			@Override
-			public void run() {
-				ArmorStand hologram = getArmorStand(b);
-				hologram.remove();
-			}
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+			ArmorStand hologram = getArmorStand(b);
+			hologram.remove();
 		});
 	}
 	

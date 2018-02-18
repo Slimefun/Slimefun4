@@ -44,203 +44,95 @@ public class RitualAnimation implements Runnable {
 	@Override
 	public void run() {
 		idle();
-		schedule(new Runnable() {
-			
-			@Override
-			public void run() {
+		schedule(() -> {
+			idle();
+			schedule(() -> {
 				idle();
-				schedule(new Runnable() {
-					
-					@Override
-					public void run() {
+				schedule(() -> {
+					idle();
+					schedule(() -> {
 						idle();
-						schedule(new Runnable() {
-							
-							@Override
-							public void run() {
+						checkPedestal(pedestals.get(0));
+						schedule(() -> {
+							idle();
+							schedule(() -> {
 								idle();
-								schedule(new Runnable() {
-									
-									@Override
-									public void run() {
+								schedule(() -> {
+									idle();
+									schedule(() -> {
 										idle();
-										checkPedestal(pedestals.get(0));
-										schedule(new Runnable() {
-											
-											@Override
-											public void run() {
+										checkPedestal(pedestals.get(1));
+										schedule(() -> {
+											idle();
+											schedule(() -> {
 												idle();
-												schedule(new Runnable() {
-													
-													@Override
-													public void run() {
+												schedule(() -> {
+													idle();
+													checkPedestal(pedestals.get(2));
+													schedule(() -> {
 														idle();
-														schedule(new Runnable() {
-															
-															@Override
-															public void run() {
+														schedule(() -> {
+															idle();
+															schedule(() -> {
 																idle();
-																schedule(new Runnable() {
-																	
-																	@Override
-																	public void run() {
+																checkPedestal(pedestals.get(3));
+																schedule(() -> {
+																	idle();
+																	schedule(() -> {
 																		idle();
-																		checkPedestal(pedestals.get(1));
-																		schedule(new Runnable() {
-																			
-																			@Override
-																			public void run() {
+																		schedule(() -> {
+																			idle();
+																			checkPedestal(pedestals.get(4));
+																			schedule(() -> {
 																				idle();
-																				schedule(new Runnable() {
-																					
-																					@Override
-																					public void run() {
+																				schedule(() -> {
+																					idle();
+																					schedule(() -> {
 																						idle();
-																						schedule(new Runnable() {
-																							
-																							@Override
-																							public void run() {
+																						checkPedestal(pedestals.get(5));
+																						schedule(() -> {
+																							idle();
+																							schedule(() -> {
 																								idle();
-																								checkPedestal(pedestals.get(2));
-																								schedule(new Runnable() {
-																									
-																									@Override
-																									public void run() {
+																								schedule(() -> {
+																									idle();
+																									checkPedestal(pedestals.get(6));
+																									schedule(() -> {
 																										idle();
-																										schedule(new Runnable() {
-																											
-																											@Override
-																											public void run() {
+																										schedule(() -> {
+																											idle();
+																											checkPedestal(pedestals.get(7));
+																											schedule(() -> {
 																												idle();
-																												schedule(new Runnable() {
-																													
-																													@Override
-																													public void run() {
-																														idle();
-																														checkPedestal(pedestals.get(3));
-																														schedule(new Runnable() {
-																															
-																															@Override
-																															public void run() {
-																																idle();
-																																schedule(new Runnable() {
-																																	
-																																	@Override
-																																	public void run() {
-																																		idle();
-																																		schedule(new Runnable() {
-																																			
-																																			@Override
-																																			public void run() {
-																																				idle();
-																																				checkPedestal(pedestals.get(4));
-																																				schedule(new Runnable() {
-																																					
-																																					@Override
-																																					public void run() {
-																																						idle();
-																																						schedule(new Runnable() {
-																																							
-																																							@Override
-																																							public void run() {
-																																								idle();
-																																								schedule(new Runnable() {
-																																									
-																																									@Override
-																																									public void run() {
-																																										idle();
-																																										checkPedestal(pedestals.get(5));
-																																										schedule(new Runnable() {
-																																											
-																																											@Override
-																																											public void run() {
-																																												idle();
-																																												schedule(new Runnable() {
-																																													
-																																													@Override
-																																													public void run() {
-																																														idle();
-																																														schedule(new Runnable() {
-																																															
-																																															@Override
-																																															public void run() {
-																																																idle();
-																																																checkPedestal(pedestals.get(6));
-																																																schedule(new Runnable() {
-																																																	
-																																																	@Override
-																																																	public void run() {
-																																																		idle();
-																																																		schedule(new Runnable() {
-																																																			
-																																																			@Override
-																																																			public void run() {
-																																																				idle();
-																																																				checkPedestal(pedestals.get(7));
-																																																				schedule(new Runnable() {
-																																																					
-																																																					@Override
-																																																					public void run() {
-																																																						idle();
-																																																						schedule(new Runnable() {
-																																																							
-																																																							@Override
-																																																							public void run() {
-																																																								idle();
-																																																								finish();
-																																																							}
-																																																						});
-																																																					}
-																																																				});
-																																																			}
-																																																		});
-																																																	}
-																																																});
-																																															}
-																																														});
-																																													}
-																																												});
-																																											}
-																																										});
-																																									}
-																																								});
-																																							}
-																																						});
-																																					}
-																																				});
-																																			}
-																																		});
-																																	}
-																																});
-																															}
-																														});
-																													}
+																												schedule(() -> {
+																													idle();
+																													finish();
 																												});
-																											}
+																											});
 																										});
-																									}
+																									});
 																								});
-																							}
+																							});
 																						});
-																					}
+																					});
 																				});
-																			}
+																			});
 																		});
-																	}
+																	});
 																});
-															}
+															});
 														});
-													}
+													});
 												});
-											}
+											});
 										});
-									}
+									});
 								});
-							}
+							});
 						});
-					}
+					});
 				});
-			}
+			});
 		});
 	}
 	

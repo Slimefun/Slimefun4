@@ -103,13 +103,9 @@ public class EnergyNet {
 				
 				if (item.getEnergyTicker().explode(source)) {
 					BlockStorage.clearBlockInfo(source);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						
-						@Override
-						public void run() {
-							source.getBlock().setType(Material.LAVA);
-							source.getWorld().createExplosion(source, 0F, false);
-						}
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+						source.getBlock().setType(Material.LAVA);
+						source.getWorld().createExplosion(source, 0F, false);
 					});
 				}
 				else {

@@ -75,46 +75,23 @@ public class GPSNetwork {
 		
 		for (int slot: border) {
 			menu.addItem(slot, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7Transmitter Overview &e(Selected)"));
-		menu.addMenuClickHandler(2, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-		});
+		menu.addMenuClickHandler(2, (arg0, arg1, arg2, arg3) -> false);
 		
 		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Network Info", "", "&8\u21E8 &7Status: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&lONLINE": "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + getNetworkComplexity(p.getUniqueId())));
-		menu.addMenuClickHandler(4, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-		});
+		menu.addMenuClickHandler(4, (arg0, arg1, arg2, arg3) -> false);
 		
 		menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &r(Select)"));
-		menu.addMenuClickHandler(6, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				try {
-					openWaypointControlPanel(arg0);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return false;
+		menu.addMenuClickHandler(6, (arg0, arg1, arg2, arg3) -> {
+			try {
+				openWaypointControlPanel(arg0);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			return false;
 		});
 		
 		int index = 0;
@@ -123,13 +100,7 @@ public class GPSNetwork {
 			int slot = inventory[index];
 			
 			menu.addItem(slot, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&bGPS Transmitter", "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &7Signal Strength: &r" + l.getBlockY(), "&8\u21E8 &7Ping: &r" + DoubleHandler.fixDouble(1000D / l.getY()) + "ms"));
-			menu.addMenuClickHandler(slot, new MenuClickHandler() {
-				
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(slot, (arg0, arg1, arg2, arg3) -> false);
 			
 			index++;
 		}
@@ -159,47 +130,24 @@ public class GPSNetwork {
 		
 		for (int slot: border) {
 			menu.addItem(slot, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7Transmitter Overview &r(Select)"));
-		menu.addMenuClickHandler(2, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				try {
-					openTransmitterControlPanel(arg0);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return false;
+		menu.addMenuClickHandler(2, (arg0, arg1, arg2, arg3) -> {
+			try {
+				openTransmitterControlPanel(arg0);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			return false;
 		});
 		
 		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Network Info", "", "&8\u21E8 &7Status: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&lONLINE": "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + getNetworkComplexity(p.getUniqueId())));
-		menu.addMenuClickHandler(4, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-		});
+		menu.addMenuClickHandler(4, (arg0, arg1, arg2, arg3) -> false);
 		
 		menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &e(Selected)"));
-		menu.addMenuClickHandler(6, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-		});
+		menu.addMenuClickHandler(6, (arg0, arg1, arg2, arg3) -> false);
 		
 		int index = 0;
 		for (final Map.Entry<String, Location> entry: getWaypoints(p.getUniqueId()).entrySet()) {
@@ -210,22 +158,18 @@ public class GPSNetwork {
 			ItemStack globe = getPlanet(entry);
 			
 			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &cClick to delete"));
-			menu.addMenuClickHandler(slot, new MenuClickHandler() {
-				
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(" ", "_");
-					Config cfg = new Config("data-storage/Slimefun/waypoints/" + arg0.getUniqueId().toString() + ".yml");
-					cfg.setValue(id, null);
-					cfg.save();
-					arg0.playSound(arg0.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-					try {
-						openWaypointControlPanel(arg0);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					return false;
+			menu.addMenuClickHandler(slot, (arg0, arg1, arg2, arg3) -> {
+				String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(" ", "_");
+				Config cfg = new Config("data-storage/Slimefun/waypoints/" + arg0.getUniqueId().toString() + ".yml");
+				cfg.setValue(id, null);
+				cfg.save();
+				arg0.playSound(arg0.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
+				try {
+					openWaypointControlPanel(arg0);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+				return false;
 			});
 			
 			index++;
@@ -252,13 +196,9 @@ public class GPSNetwork {
 		}
 		Messages.local.sendTranslation(p, "gps.waypoint.new", true);
 		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 0.5F, 1F);
-		MenuHelper.awaitChatInput(p, new ChatHandler() {
-			
-			@Override
-			public boolean onChat(Player p, String message) {
-				addWaypoint(p, message, l);
-				return false;
-			}
+		MenuHelper.awaitChatInput(p, (p1, message) -> {
+			addWaypoint(p1, message, l);
+			return false;
 		});
 	}
 	
@@ -293,13 +233,7 @@ public class GPSNetwork {
 			int supply = OreGenSystem.getSupplies(resource, chunk, true);
 			
 			menu.addItem(index, new CustomItem(resource.getIcon(), "&7Resource: &e" + resource.getName(), "", "&7Scanned Chunk:", "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "&7Result: &e" + supply + " " + resource.getMeasurementUnit()),
-			new MenuClickHandler() {
-				
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 			index++;
 		}
 		
@@ -318,34 +252,15 @@ public class GPSNetwork {
 		
 		ChestMenu menu = new ChestMenu("&3Teleporter");
 		
-		menu.addMenuCloseHandler(new MenuCloseHandler() {
-			
-			@Override
-			public void onClose(Player p) {
-				TeleportationSequence.players.remove(p.getUniqueId());
-			}
-		});
+		menu.addMenuCloseHandler(p12 -> TeleportationSequence.players.remove(p12.getUniqueId()));
 		
 		for (int slot: teleporter_border) {
 			menu.addItem(slot, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &e(Select a Destination)"));
-		menu.addMenuClickHandler(4, new MenuClickHandler() {
-			
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-		});
+		menu.addMenuClickHandler(4, (arg0, arg1, arg2, arg3) -> false);
 		
 		final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
 		int index = 0;
@@ -357,14 +272,10 @@ public class GPSNetwork {
 			ItemStack globe = getPlanet(entry);
 			
 			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick to select"));
-			menu.addMenuClickHandler(slot, new MenuClickHandler() {
-				
-				@Override
-				public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-					p.closeInventory();
-					TeleportationSequence.start(p.getUniqueId(), complexity, source, l, false);
-					return false;
-				}
+			menu.addMenuClickHandler(slot, (p1, arg1, arg2, arg3) -> {
+				p1.closeInventory();
+				TeleportationSequence.start(p1.getUniqueId(), complexity, source, l, false);
+				return false;
 			});
 			
 			index++;
