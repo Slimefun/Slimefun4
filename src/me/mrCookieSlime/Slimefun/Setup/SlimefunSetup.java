@@ -1484,17 +1484,17 @@ public class SlimefunSetup {
 
 		new Talisman(SlimefunItems.TALISMAN_ANVIL, "ANVIL_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.ANVIL), SlimefunItems.TALISMAN, new ItemStack(Material.ANVIL), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-		true, false, "anvil", new PotionEffect[0])
+		true, false, "anvil")
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_MINER, "MINER_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.TALISMAN, SlimefunItems.SIFTED_ORE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-		false, false, "miner", 20, new PotionEffect[0])
+		false, false, "miner", 20)
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_HUNTER, "HUNTER_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.TALISMAN, SlimefunItems.MONSTER_JERKY, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-		false, false, "hunter", 20, new PotionEffect[0])
+		false, false, "hunter", 20)
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_LAVA, "LAVA_TALISMAN",
@@ -1509,7 +1509,7 @@ public class SlimefunSetup {
 
 		new Talisman(SlimefunItems.TALISMAN_ANGEL, "ANGEL_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.FEATHER), SlimefunItems.TALISMAN, new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-		false, true, "angel", 75, new PotionEffect[0])
+		false, true, "angel", 75)
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_FIRE, "FIRE_TALISMAN",
@@ -1519,7 +1519,7 @@ public class SlimefunSetup {
 
 		new Talisman(SlimefunItems.TALISMAN_MAGICIAN, "MAGICIAN_TALISMAN",
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENCHANTMENT_TABLE), SlimefunItems.TALISMAN, new ItemStack(Material.ENCHANTMENT_TABLE), SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3},
-		false, false, "magician", 80, new PotionEffect[0])
+		false, false, "magician", 80)
 		.register(true);
 
 		for (Enchantment e: Enchantment.values()) {
@@ -1555,12 +1555,12 @@ public class SlimefunSetup {
 
 		new Talisman(SlimefunItems.TALISMAN_WHIRLWIND, "WHIRLWIND_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.STAFF_WIND, SlimefunItems.TALISMAN_TRAVELLER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3}
-		, false, true, "whirlwind", 60, new PotionEffect[0])
+		, false, true, "whirlwind", 60)
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_WIZARD, "WIZARD_TALISMAN",
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.TALISMAN_MAGICIAN, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3},
-		false, false, "wizard", 60, new PotionEffect[0])
+		false, false, "wizard", 60)
 		.register(true);
 
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.LUMBER_AXE, "LUMBER_AXE", RecipeType.MAGIC_WORKBENCH,
