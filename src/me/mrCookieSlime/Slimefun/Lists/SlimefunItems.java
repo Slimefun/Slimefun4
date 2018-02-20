@@ -108,8 +108,8 @@ public class SlimefunItems {
 	public static ItemStack APPLE_CIDER = new CustomPotion("&cApple Cider", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
 	public static ItemStack CHRISTMAS_COOKIE = new CustomItem(Material.COOKIE, Christmas.color("Christmas Cookie"), 0);
 	public static ItemStack FRUIT_CAKE = new CustomItem(Material.PUMPKIN_PIE, Christmas.color("Fruit Cake"), 0);
-	public static ItemStack APPLE_PIE = new CustomItem(Material.PUMPKIN_PIE, "&rApple Pie", 0);
-	public static ItemStack HOT_CHOCOLATE = new CustomPotion("&6Hot Chocolate", 8201, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
+	public static ItemStack CHRISTMAS_APPLE_PIE = new CustomItem(Material.PUMPKIN_PIE, "&rApple Pie", 0);
+	public static ItemStack CHRISTMAS_HOT_CHOCOLATE = new CustomPotion("&6Hot Chocolate", 8201, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
 	public static ItemStack CHRISTMAS_CAKE = new CustomItem(Material.PUMPKIN_PIE, Christmas.color("Christmas Cake"), 0);
 	public static ItemStack CARAMEL = new CustomItem(Material.CLAY_BRICK, "&6Caramel", 0);
 	public static ItemStack CARAMEL_APPLE = new CustomItem(Material.APPLE, "&6Caramel Apple", 0);

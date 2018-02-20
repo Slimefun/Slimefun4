@@ -106,7 +106,7 @@ public class ToolListener implements Listener {
 			FireworkShow.launchRandom(e.getPlayer(), 3);
 			List<ItemStack> gifts = new ArrayList<ItemStack>();
 			for (int i = 0; i < 2; i++) {
-				gifts.add(new CustomItem(SlimefunItems.HOT_CHOCOLATE, 1));
+				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
 				gifts.add(new CustomItem(SlimefunItems.CHOCOLATE_APPLE, 4));
 				gifts.add(new CustomItem(SlimefunItems.CARAMEL_APPLE, 4));
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4));
@@ -116,7 +116,7 @@ public class ToolListener implements Listener {
 				gifts.add(new CustomItem(SlimefunItems.MILK, 1));
 				gifts.add(new CustomItem(SlimefunItems.APPLE_CIDER, 1));
 				gifts.add(new CustomItem(SlimefunItems.FRUIT_CAKE, 4));
-				gifts.add(new CustomItem(SlimefunItems.APPLE_PIE, 4));
+				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
 			}
 			gifts.add(new SkullItem("mrCookieSlime"));
 			gifts.add(new SkullItem("timtower"));
