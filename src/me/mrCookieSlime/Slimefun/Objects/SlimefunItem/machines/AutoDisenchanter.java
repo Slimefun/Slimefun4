@@ -116,6 +116,7 @@ public class AutoDisenchanter extends AContainer {
 					}
 					if (amount > 0) {
 						ItemStack newItem = item.clone();
+						newItem.setAmount(1);
 						ItemStack book = target.clone();
 						book.setAmount(1);
 						book.setType(Material.ENCHANTED_BOOK);
