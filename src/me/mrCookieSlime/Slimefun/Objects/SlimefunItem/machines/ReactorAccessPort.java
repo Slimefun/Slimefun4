@@ -99,91 +99,35 @@ public class ReactorAccessPort extends SlimefunItem {
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		for (int i: border_1) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		for (int i: border_2) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		for (int i: border_3) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 13), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 		
 		preset.addItem(22, new CustomItem(SlimefunItems.PLUTONIUM, "&7Byproduct Slot", "", "&rThis Slot contains the Reactor's Byproduct", "&rsuch as &aNeptunium &ror &7Plutonium"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 		
 		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 		
 		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 	}
 	
 	public String getInventoryTitle() {

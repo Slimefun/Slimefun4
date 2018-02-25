@@ -121,47 +121,19 @@ public abstract class ElectricSmeltery extends AContainer {
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		for (int i: border_in) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		for (int i: border_out) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		preset.addItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 		
 		for (int i: getOutputSlots()) {
 			preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {

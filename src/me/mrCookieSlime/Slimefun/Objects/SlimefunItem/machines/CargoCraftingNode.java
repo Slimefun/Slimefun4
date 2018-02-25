@@ -41,38 +41,24 @@ public class CargoCraftingNode extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
 					menu.replaceExistingItem(41, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
-					menu.addMenuClickHandler(41, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) - 1;
-							if (channel < 0) channel = 15;
-							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
-							newInstance(menu, b);
-							return false;
-						}
+					menu.addMenuClickHandler(41, (p, arg1, arg2, arg3) -> {
+						int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) - 1;
+						if (channel < 0) channel = 15;
+						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
+						newInstance(menu, b);
+						return false;
 					});
 
 					menu.replaceExistingItem(42, new CustomItem(new MaterialData(Material.WOOL, (byte) ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency"))))), "&bChannel ID: &3" + (((!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")))) + 1)));
-					menu.addMenuClickHandler(42, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							return false;
-						}
-					});
+					menu.addMenuClickHandler(42, (p, arg1, arg2, arg3) -> false);
 
 					menu.replaceExistingItem(43, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&bChannel", "", "&e> Click to increase the Channel ID by 1"));
-					menu.addMenuClickHandler(43, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) + 1;
-							if (channel > 15) channel = 0;
-							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
-							newInstance(menu, b);
-							return false;
-						}
+					menu.addMenuClickHandler(43, (p, arg1, arg2, arg3) -> {
+						int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) + 1;
+						if (channel > 15) channel = 0;
+						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
+						newInstance(menu, b);
+						return false;
 					});
 					
 				} catch (Exception e) {
@@ -117,25 +103,11 @@ public class CargoCraftingNode extends SlimefunItem {
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-				
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 
 		preset.addItem(2, new CustomItem(new MaterialData(Material.WORKBENCH), "&eRecipe", "", "&bPut in the Recipe you want to craft"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-			
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 	}
 	
 	public int[] getInputSlots() {

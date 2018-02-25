@@ -95,13 +95,7 @@ public class TeleportationSequence {
 					ParticleEffect.PORTAL.display(source, 0.2F, 0.8F, 0.2F, 1, progress * 2);
 					source.getWorld().playSound(source, Sound.UI_BUTTON_CLICK, 1.7F, 0.6F);
 					
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						
-						@Override
-						public void run() {
-							updateProgress(uuid, speed, progress + speed, source, destination, resistance);
-						}
-					}, 10l);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> updateProgress(uuid, speed, progress + speed, source, destination, resistance), 10l);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

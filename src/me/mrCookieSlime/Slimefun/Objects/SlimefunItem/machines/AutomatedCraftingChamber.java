@@ -60,26 +60,18 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "enabled") == null || BlockStorage.getBlockInfo(b, "enabled").equals("false")) {
 					menu.replaceExistingItem(6, new CustomItem(new MaterialData(Material.SULPHUR), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
-					menu.addMenuClickHandler(6, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							BlockStorage.addBlockInfo(b, "enabled", "true");
-							newInstance(menu, b);
-							return false;
-						}
+					menu.addMenuClickHandler(6, (p, arg1, arg2, arg3) -> {
+						BlockStorage.addBlockInfo(b, "enabled", "true");
+						newInstance(menu, b);
+						return false;
 					});
 				}
 				else {
 					menu.replaceExistingItem(6, new CustomItem(new MaterialData(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
-					menu.addMenuClickHandler(6, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							BlockStorage.addBlockInfo(b, "enabled", "false");
-							newInstance(menu, b);
-							return false;
-						}
+					menu.addMenuClickHandler(6, (p, arg1, arg2, arg3) -> {
+						BlockStorage.addBlockInfo(b, "enabled", "false");
+						newInstance(menu, b);
+						return false;
 					});
 				}
 			}
@@ -134,36 +126,15 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		for (int i: border_in) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 11), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		for (int i: border_out) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		for (int i: getOutputSlots()) {
@@ -182,14 +153,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 		}
 
 		preset.addItem(2, new CustomItem(new MaterialData(Material.WORKBENCH), "&eRecipe", "", "&bPut in the Recipe you want to craft", "&4Enhanced Crafting Table Recipes ONLY"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-			
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 	}
 	
 	public abstract int getEnergyConsumption();

@@ -142,42 +142,30 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			public void newInstance(BlockMenu menu, final Block b) {
 				try {
 					menu.replaceExistingItem(15, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTAxYzdiNTcyNjE3ODk3NGIzYjNhMDFiNDJhNTkwZTU0MzY2MDI2ZmQ0MzgwOGYyYTc4NzY0ODg0M2E3ZjVhIn19fQ=="), "&aStart/Continue"));
-					menu.addMenuClickHandler(15, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							Messages.local.sendTranslation(p, "robot.started", true);
-							BlockStorage.addBlockInfo(b, "paused", "false");
-							p.closeInventory();
-							return false;
-						}
+					menu.addMenuClickHandler(15, (p, arg1, arg2, arg3) -> {
+						Messages.local.sendTranslation(p, "robot.started", true);
+						BlockStorage.addBlockInfo(b, "paused", "false");
+						p.closeInventory();
+						return false;
 					});
 
 					menu.replaceExistingItem(17, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&4Pause"));
-					menu.addMenuClickHandler(17, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							BlockStorage.addBlockInfo(b, "paused", "true");
-							Messages.local.sendTranslation(p, "robot.stopped", true);
-							return false;
-						}
+					menu.addMenuClickHandler(17, (p, arg1, arg2, arg3) -> {
+						BlockStorage.addBlockInfo(b, "paused", "true");
+						Messages.local.sendTranslation(p, "robot.stopped", true);
+						return false;
 					});
 
 					menu.replaceExistingItem(16, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&bMemory Core", "", "&8\u21E8 &7Click to open the Script Editor"));
-					menu.addMenuClickHandler(16, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							try {
-								BlockStorage.addBlockInfo(b, "paused", "true");
-								Messages.local.sendTranslation(p, "robot.stopped", true);
-								openScriptEditor(p, b);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							return false;
+					menu.addMenuClickHandler(16, (p, arg1, arg2, arg3) -> {
+						try {
+							BlockStorage.addBlockInfo(b, "paused", "true");
+							Messages.local.sendTranslation(p, "robot.stopped", true);
+							openScriptEditor(p, b);
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
+						return false;
 					});
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -871,25 +859,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private void constructMenu(BlockMenuPreset preset) throws Exception {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		for (int i: border_out) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 
 		for (int i: getOutputSlots()) {
@@ -909,33 +883,15 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 		if (getTier() == 1) {
 			preset.addItem(34, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on solid Fuel", "&re.g. Coal, Wood, etc..."),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-					return false;
-				}
-			});
+					(p, slot, stack, action) -> false);
 		}
 		else if (getTier() == 2){
 			preset.addItem(34, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on liquid Fuel", "&re.g. Lava, Oil, Fuel, etc..."),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-					return false;
-				}
-			});
+					(p, slot, stack, action) -> false);
 		}
 		else {
 			preset.addItem(34, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on radioactive Fuel", "&re.g. Uranium, Neptunium or Boosted Uranium"),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-					return false;
-				}
-			});
+					(p, slot, stack, action) -> false);
 		}
 	}
 
@@ -943,46 +899,34 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 
 		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-				try {
-					openScript(p, b, BlockStorage.getBlockInfo(b, "script"));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return false;
-			}
-		});
+				(p13, slot, stack, action) -> {
+					try {
+						openScript(p13, b, BlockStorage.getBlockInfo(b, "script"));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return false;
+				});
 
 		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-				try {
-					openScript(p, b, "START-TURN_LEFT-REPEAT");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return false;
-			}
-		});
+				(p12, slot, stack, action) -> {
+					try {
+						openScript(p12, b, "START-TURN_LEFT-REPEAT");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return false;
+				});
 
 		menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAxNTg2ZTM5ZjZmZmE2M2I0ZmIzMDFiNjVjYTdkYThhOTJmNzM1M2FhYWI4OWQzODg2NTc5MTI1ZGZiYWY5In19fQ=="), "&6> Download a Script", "", "&eDownload a Script from the Server", "&eYou can edit or simply use it"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-				try {
-					openScriptDownloader(p, b, 1);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return false;
-			}
-		});
+				(p1, slot, stack, action) -> {
+					try {
+						openScriptDownloader(p1, b, 1);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return false;
+				});
 
 		menu.open(p);
 	}
@@ -992,13 +936,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		final String[] commands = script.split("-");
 
 		menu.addItem(0, ScriptPart.START.toItemStack());
-		menu.addMenuClickHandler(0, new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-		});
+		menu.addMenuClickHandler(0, (arg0, arg1, arg2, arg3) -> false);
 
 		for (int i = 1; i < commands.length; i++) {
 			final int index = i;
@@ -1007,84 +945,70 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 				if (additional == 1) {
 					menu.addItem(i, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&7> Add new Command"));
-					menu.addMenuClickHandler(i, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-							try {
-								openScriptComponentEditor(p, b, script, index);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							return false;
+					menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> {
+						try {
+							openScriptComponentEditor(p, b, script, index);
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
+						return false;
 					});
 				}
 
 				menu.addItem(i + additional, ScriptPart.REPEAT.toItemStack());
-				menu.addMenuClickHandler(i + additional, new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						return false;
-					}
-				});
+				menu.addMenuClickHandler(i + additional, (arg0, arg1, arg2, arg3) -> false);
 			}
 			else {
 				ItemStack stack = ScriptPart.valueOf(commands[i]).toItemStack();
 				menu.addItem(i, new CustomItem(stack, stack.getItemMeta().getDisplayName(), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
-				menu.addMenuClickHandler(i, new MenuClickHandler() {
+				menu.addMenuClickHandler(i, (arg0, arg1, arg2, action) -> {
+					if (action.isRightClicked() && action.isShiftClicked()) {
+						if (commands.length == 54) return false;
 
-					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction action) {
-						if (action.isRightClicked() && action.isShiftClicked()) {
-							if (commands.length == 54) return false;
-
-							int i = 0;
-							StringBuilder builder = new StringBuilder("START-");
-							for (String command: commands) {
-								if (i > 0) {
-									if (i == index) {
-										builder.append(commands[i] + "-");
-										builder.append(commands[i] + "-");
-									}
-									else if (i < commands.length - 1) builder.append(command + "-");
+						int i1 = 0;
+						StringBuilder builder = new StringBuilder("START-");
+						for (String command: commands) {
+							if (i1 > 0) {
+								if (i1 == index) {
+									builder.append(commands[i1] + "-");
+									builder.append(commands[i1] + "-");
 								}
-								i++;
+								else if (i1 < commands.length - 1) builder.append(command + "-");
 							}
-							builder.append("REPEAT");
-							BlockStorage.addBlockInfo(b, "script", builder.toString());
+							i1++;
+						}
+						builder.append("REPEAT");
+						BlockStorage.addBlockInfo(b, "script", builder.toString());
 
-							try {
-								openScript(p, b, builder.toString());
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+						try {
+							openScript(p, b, builder.toString());
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-						else if (action.isRightClicked()) {
-							int i = 0;
-							StringBuilder builder = new StringBuilder("START-");
-							for (String command: commands) {
-								if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
-								i++;
-							}
-							builder.append("REPEAT");
-							BlockStorage.addBlockInfo(b, "script", builder.toString());
-							try {
-								openScript(p, b, builder.toString());
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-						else {
-							try {
-								openScriptComponentEditor(p, b, script, index);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-						return false;
 					}
+					else if (action.isRightClicked()) {
+						int i1 = 0;
+						StringBuilder builder = new StringBuilder("START-");
+						for (String command: commands) {
+							if (i1 != index && i1 > 0 && i1 < commands.length - 1) builder.append(command + "-");
+							i1++;
+						}
+						builder.append("REPEAT");
+						BlockStorage.addBlockInfo(b, "script", builder.toString());
+						try {
+							openScript(p, b, builder.toString());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					else {
+						try {
+							openScriptComponentEditor(p, b, script, index);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					return false;
 				});
 			}
 		}
@@ -1096,13 +1020,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private void openScriptDownloader(final Player p, final Block b, final int page) throws Exception {
 		final ChestMenu menu = new ChestMenu("Slimefun Guide");
 
-		menu.addMenuOpeningHandler(new MenuOpeningHandler() {
-
-			@Override
-			public void onOpen(Player p) {
-				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_HAT, 0.7F, 0.7F);
-			}
-		});
+		menu.addMenuOpeningHandler(p14 -> p14.playSound(p14.getLocation(), Sound.BLOCK_NOTE_HAT, 0.7F, 0.7F));
 
 		List<Config> scripts = getUploadedScripts();
 
@@ -1111,100 +1029,78 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 		for (int i = 45; i < 54; i++) {
 			menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
-			menu.addMenuClickHandler(i, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 		}
 
 		menu.addItem(46, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&r\u21E6 Previous Page", "", "&7(" + page + " / " + pages + ")"));
-		menu.addMenuClickHandler(46, new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				int next = page - 1;
-				if (next < 1) next = pages;
-				if (next != page) {
-					try {
-						openScriptDownloader(p, b, next);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+		menu.addMenuClickHandler(46, (arg0, arg1, arg2, arg3) -> {
+			int next = page - 1;
+			if (next < 1) next = pages;
+			if (next != page) {
+				try {
+					openScriptDownloader(p, b, next);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				return false;
 			}
+			return false;
 		});
 
 		menu.addItem(49, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
-		menu.addMenuClickHandler(49, new MenuClickHandler() {
+		menu.addMenuClickHandler(49, (p13, arg1, arg2, arg3) -> {
+			final String code = BlockStorage.getBlockInfo(b, "script");
+			int num = 1;
 
-			@Override
-			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				final String code = BlockStorage.getBlockInfo(b, "script");
-				int num = 1;
-
-				for (Config script: getUploadedScripts()) {
-					if (script.getString("author").equals(p.getUniqueId().toString())) num++;
-					if (script.getString("code").equals(code)) {
-						Messages.local.sendTranslation(p, "android.scripts.already-uploaded", true);
-						return false;
-					}
+			for (Config script: getUploadedScripts()) {
+				if (script.getString("author").equals(p13.getUniqueId().toString())) num++;
+				if (script.getString("code").equals(code)) {
+					Messages.local.sendTranslation(p13, "android.scripts.already-uploaded", true);
+					return false;
 				}
-
-				final int id = num;
-
-				p.closeInventory();
-				Messages.local.sendTranslation(p, "android.scripts.enter-name", true);
-
-				MenuHelper.awaitChatInput(p, new ChatHandler() {
-
-					@Override
-					public boolean onChat(Player p, String message) {
-						Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + "/" + p.getName() + " " + id + ".sfs");
-
-						script.setValue("author", p.getUniqueId().toString());
-						script.setValue("author_name", p.getName());
-						script.setValue("name", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', message)));
-						script.setValue("code", code);
-						script.setValue("downloads", 0);
-						script.setValue("android", getAndroidType().toString());
-						script.setValue("rating.positive", new ArrayList<String>());
-						script.setValue("rating.negative", new ArrayList<String>());
-						script.save();
-
-						try {
-							Messages.local.sendTranslation(p, "android.uploaded", true);
-							openScriptDownloader(p, b, page);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
-						return false;
-					}
-				});
-				return false;
 			}
+
+			final int id = num;
+
+			p13.closeInventory();
+			Messages.local.sendTranslation(p13, "android.scripts.enter-name", true);
+
+			MenuHelper.awaitChatInput(p13, (p12, message) -> {
+				Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + "/" + p12.getName() + " " + id + ".sfs");
+				
+				script.setValue("author", p12.getUniqueId().toString());
+				script.setValue("author_name", p12.getName());
+				script.setValue("name", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', message)));
+				script.setValue("code", code);
+				script.setValue("downloads", 0);
+				script.setValue("android", getAndroidType().toString());
+				script.setValue("rating.positive", new ArrayList<String>());
+				script.setValue("rating.negative", new ArrayList<String>());
+				script.save();
+				
+				try {
+					Messages.local.sendTranslation(p12, "android.uploaded", true);
+					openScriptDownloader(p12, b, page);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				return false;
+			});
+			return false;
 		});
 
 		menu.addItem(52, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&rNext Page \u21E8", "", "&7(" + page + " / " + pages + ")"));
-		menu.addMenuClickHandler(52, new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				int next = page + 1;
-				if (next > pages) next = 1;
-				if (next != page) {
-					try {
-						openScriptDownloader(p, b, next);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+		menu.addMenuClickHandler(52, (arg0, arg1, arg2, arg3) -> {
+			int next = page + 1;
+			if (next > pages) next = 1;
+			if (next != page) {
+				try {
+					openScriptDownloader(p, b, next);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				return false;
 			}
+			return false;
 		});
 
 		int category_index = 45 * (page - 1);
@@ -1224,66 +1120,62 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					menu.addItem(index, new CustomItem(this.getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Downloads: &r" + script.getInt("downloads"), "&7Rating: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7- &4\u2639 " + getScriptRating(script, false), "", "&eLeft Click &rto download this Script", "&4(This will override your current Script)", "&eShift + Left Click &rto leave a positive Rating", "&eShift + Right Click &rto leave a negative Rating"));
 				}
 
-				menu.addMenuClickHandler(index, new MenuClickHandler() {
+				menu.addMenuClickHandler(index, (p1, slot, stack, action) -> {
+					Config script2 = new Config(script.getFile());
 
-					@Override
-					public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-						Config script2 = new Config(script.getFile());
+					if (action.isShiftClicked()) {
+						if (script2.getString("author").equals(p1.getUniqueId().toString())) {
+							Messages.local.sendTranslation(p1, "android.scripts.rating.own", true);
+						}
+						else if (action.isRightClicked()) {
+							if (!script2.getStringList("rating.negative").contains(p1.getUniqueId().toString()) && !script2.getStringList("rating.positive").contains(p1.getUniqueId().toString())) {
+								List<String> list = script2.getStringList("rating.negative");
+								list.add(p1.getUniqueId().toString());
 
-						if (action.isShiftClicked()) {
-							if (script2.getString("author").equals(p.getUniqueId().toString())) {
-								Messages.local.sendTranslation(p, "android.scripts.rating.own", true);
-							}
-							else if (action.isRightClicked()) {
-								if (!script2.getStringList("rating.negative").contains(p.getUniqueId().toString()) && !script2.getStringList("rating.positive").contains(p.getUniqueId().toString())) {
-									List<String> list = script2.getStringList("rating.negative");
-									list.add(p.getUniqueId().toString());
+								script2.setValue("rating.negative", list);
+								script2.save();
 
-									script2.setValue("rating.negative", list);
-									script2.save();
-
-									try {
-										openScriptDownloader(p, b, page);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								}
-								else {
-									Messages.local.sendTranslation(p, "android.scripts.rating.already", true);
+								try {
+									openScriptDownloader(p1, b, page);
+								} catch (Exception e) {
+									e.printStackTrace();
 								}
 							}
 							else {
-								if (!script2.getStringList("rating.negative").contains(p.getUniqueId().toString()) && !script2.getStringList("rating.positive").contains(p.getUniqueId().toString())) {
-									List<String> list = script2.getStringList("rating.positive");
-									list.add(p.getUniqueId().toString());
-
-									script2.setValue("rating.positive", list);
-									script2.save();
-
-									try {
-										openScriptDownloader(p, b, page);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								}
-								else {
-									Messages.local.sendTranslation(p, "android.scripts.rating.already", true);
-								}
+								Messages.local.sendTranslation(p1, "android.scripts.rating.already", true);
 							}
 						}
-						else if (!action.isRightClicked()) {
-							try {
-								script2.setValue("downloads", script2.getInt("downloads") + 1);
+						else {
+							if (!script2.getStringList("rating.negative").contains(p1.getUniqueId().toString()) && !script2.getStringList("rating.positive").contains(p1.getUniqueId().toString())) {
+								List<String> list = script2.getStringList("rating.positive");
+								list.add(p1.getUniqueId().toString());
+
+								script2.setValue("rating.positive", list);
 								script2.save();
 
-								BlockStorage.addBlockInfo(b, "script", script2.getString("code"));
-								openScriptEditor(p, b);
-							} catch (Exception e) {
-								e.printStackTrace();
+								try {
+									openScriptDownloader(p1, b, page);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+							else {
+								Messages.local.sendTranslation(p1, "android.scripts.rating.already", true);
 							}
 						}
-						return false;
 					}
+					else if (!action.isRightClicked()) {
+						try {
+							script2.setValue("downloads", script2.getInt("downloads") + 1);
+							script2.save();
+
+							BlockStorage.addBlockInfo(b, "script", script2.getString("code"));
+							openScriptEditor(p1, b);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					return false;
 				});
 
 				index++;
@@ -1321,143 +1213,72 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		final String[] commands = script.split("-");
 
 		menu.addItem(0, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		menu.addItem(1, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		menu.addItem(2, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		menu.addItem(3, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		menu.addItem(4, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		menu.addItem(5, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		menu.addItem(6, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		menu.addItem(7, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		menu.addItem(8, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 
 		menu.addItem(9, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				int i = 0;
-				StringBuilder builder = new StringBuilder("START-");
-				for (String command: commands) {
-					if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
-					i++;
-				}
-				builder.append("REPEAT");
-				BlockStorage.addBlockInfo(b, "script", builder.toString());
-				try {
-					openScript(p, b, builder.toString());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return false;
-			}
-		});
+				(p12, arg1, arg2, arg3) -> {
+					int i = 0;
+					StringBuilder builder = new StringBuilder("START-");
+					for (String command: commands) {
+						if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
+						i++;
+					}
+					builder.append("REPEAT");
+					BlockStorage.addBlockInfo(b, "script", builder.toString());
+					try {
+						openScript(p12, b, builder.toString());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return false;
+				});
 
 		int i = 10;
 		for (final ScriptPart part: getAccessibleScriptParts()) {
 			menu.addItem(i, part.toItemStack(),
-					new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int i = 0;
-							StringBuilder builder = new StringBuilder("START-");
-							for (String command: commands) {
-								if (i > 0) {
-									if (i == index) builder.append(part.toString() + "-");
-									else if (i < commands.length - 1) builder.append(command + "-");
-								}
-								i++;
+					(p1, arg1, arg2, arg3) -> {
+						int i1 = 0;
+						StringBuilder builder = new StringBuilder("START-");
+						for (String command: commands) {
+							if (i1 > 0) {
+								if (i1 == index) builder.append(part.toString() + "-");
+								else if (i1 < commands.length - 1) builder.append(command + "-");
 							}
-							builder.append("REPEAT");
-							BlockStorage.addBlockInfo(b, "script", builder.toString());
-
-							try {
-								openScript(p, b, builder.toString());
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							return false;
+							i1++;
 						}
+						builder.append("REPEAT");
+						BlockStorage.addBlockInfo(b, "script", builder.toString());
+
+						try {
+							openScript(p1, b, builder.toString());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						return false;
 					});
 					i++;
 		}

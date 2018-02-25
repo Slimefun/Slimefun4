@@ -54,41 +54,29 @@ public class WitherAssembler extends SlimefunItem {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "enabled") == null || BlockStorage.getBlockInfo(b, "enabled").equals("false")) {
 						menu.replaceExistingItem(22, new CustomItem(new MaterialData(Material.SULPHUR), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
-						menu.addMenuClickHandler(22, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "enabled", "true");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(22, (p, arg1, arg2, arg3) -> {
+							BlockStorage.addBlockInfo(b, "enabled", "true");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					else {
 						menu.replaceExistingItem(22, new CustomItem(new MaterialData(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
-						menu.addMenuClickHandler(22, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "enabled", "false");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(22, (p, arg1, arg2, arg3) -> {
+							BlockStorage.addBlockInfo(b, "enabled", "false");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					
 					double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getBlockInfo(b, "offset"));
 					
 					menu.replaceExistingItem(31, new CustomItem(new MaterialData(Material.PISTON_BASE), "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
-					menu.addMenuClickHandler(31, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							double offset = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getBlockInfo(b, "offset")) + (arg3.isRightClicked() ? -0.1F: 0.1F));
-							BlockStorage.addBlockInfo(b, "offset", String.valueOf(offset));
-							newInstance(menu, b);
-							return false;
-						}
+					menu.addMenuClickHandler(31, (p, arg1, arg2, arg3) -> {
+						double offset1 = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getBlockInfo(b, "offset")) + (arg3.isRightClicked() ? -0.1F: 0.1F));
+						BlockStorage.addBlockInfo(b, "offset", String.valueOf(offset1));
+						newInstance(menu, b);
+						return false;
 					});
 				} catch(Exception x) {
 					x.printStackTrace();
@@ -145,69 +133,27 @@ public class WitherAssembler extends SlimefunItem {
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		for (int i: border_1) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		for (int i: border_2) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 12), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+					(arg0, arg1, arg2, arg3) -> false);
 		}
 		
 		preset.addItem(1, new CustomItem(new MaterialData(Material.SKULL_ITEM, (byte) 1), "&7Wither Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 		
 		preset.addItem(7, new CustomItem(new MaterialData(Material.SOUL_SAND), "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 		
 		preset.addItem(13, new CustomItem(new MaterialData(Material.WATCH), "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+				(arg0, arg1, arg2, arg3) -> false);
 	}
 	
 	public String getInventoryTitle() {
@@ -293,13 +239,7 @@ public class WitherAssembler extends SlimefunItem {
 						
 						final double offset = Double.parseDouble(BlockStorage.getBlockInfo(b, "offset"));
 						
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-							
-							@Override
-							public void run() {
-								b.getWorld().spawnEntity(new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D), EntityType.WITHER);
-							}
-						});
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> b.getWorld().spawnEntity(new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D), EntityType.WITHER));
 						
 						return;
 					}

@@ -262,19 +262,16 @@ public class SlimefunStartup extends JavaPlugin {
 			}, this);
 
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
-			getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-				@Override
-				public void run() {
-					Slimefun.emeraldenchants = getServer().getPluginManager().isPluginEnabled("EmeraldEnchants");
-					SlimefunGuide.all_recipes = config.getBoolean("options.show-vanilla-recipes-in-guide");
-					MiscSetup.loadItems();
+			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+				Slimefun.emeraldenchants = getServer().getPluginManager().isPluginEnabled("EmeraldEnchants");
+				SlimefunGuide.all_recipes = config.getBoolean("options.show-vanilla-recipes-in-guide");
+				MiscSetup.loadItems();
 
-					for (World world: Bukkit.getWorlds()) {
-						new BlockStorage(world);
-					}
-
-					if (SlimefunItem.getByName("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
+				for (World world: Bukkit.getWorlds()) {
+					new BlockStorage(world);
 				}
+
+				if (SlimefunItem.getByName("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
 			}, 0);
 
 			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
@@ -294,53 +291,49 @@ public class SlimefunStartup extends JavaPlugin {
 
 			// Armor Update Task
 			if (config.getBoolean("options.enable-armor-effects")) {
-				getServer().getScheduler().runTaskTimer(this, new Runnable() {
-
-					@Override
-					public void run() {
-						for (Player p: Bukkit.getOnlinePlayers()) {
-							for (ItemStack armor: p.getInventory().getArmorContents()) {
-								if (armor != null) {
-									if (Slimefun.hasUnlocked(p, armor, true)) {
-										if (SlimefunItem.getByItem(armor) instanceof SlimefunArmorPiece) {
-											for (PotionEffect effect: ((SlimefunArmorPiece) SlimefunItem.getByItem(armor)).getEffects()) {
-												p.removePotionEffect(effect.getType());
-												p.addPotionEffect(effect);
-											}
+				getServer().getScheduler().runTaskTimer(this, () -> {
+					for (Player p: Bukkit.getOnlinePlayers()) {
+						for (ItemStack armor: p.getInventory().getArmorContents()) {
+							if (armor != null) {
+								if (Slimefun.hasUnlocked(p, armor, true)) {
+									if (SlimefunItem.getByItem(armor) instanceof SlimefunArmorPiece) {
+										for (PotionEffect effect: ((SlimefunArmorPiece) SlimefunItem.getByItem(armor)).getEffects()) {
+											p.removePotionEffect(effect.getType());
+											p.addPotionEffect(effect);
 										}
-										if (SlimefunManager.isItemSimiliar(armor, SlimefunItem.getItem("SOLAR_HELMET"), false)) {
-											if (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) {
-												if (p.getEyeLocation().getBlock().getLightFromSky() == 15) {
-													ItemEnergy.chargeInventory(p, Float.valueOf(String.valueOf(Slimefun.getItemValue("SOLAR_HELMET", "charge-amount"))));
-												}
+									}
+									if (SlimefunManager.isItemSimiliar(armor, SlimefunItem.getItem("SOLAR_HELMET"), false)) {
+										if (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) {
+											if (p.getEyeLocation().getBlock().getLightFromSky() == 15) {
+												ItemEnergy.chargeInventory(p, Float.valueOf(String.valueOf(Slimefun.getItemValue("SOLAR_HELMET", "charge-amount"))));
 											}
 										}
 									}
 								}
 							}
+						}
 
-							for (ItemStack radioactive: SlimefunItem.radioactive) {
-								if (p.getInventory().containsAtLeast(radioactive, 1) || SlimefunManager.isItemSimiliar(p.getInventory().getItemInOffHand(), radioactive, true)) {
-									// Check if player is wearing the hazmat suit
-									// If so, break the loop
-									if (SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
-										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
-										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
-										SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
-										break;
-									}
+						for (ItemStack radioactive: SlimefunItem.radioactive) {
+							if (p.getInventory().containsAtLeast(radioactive, 1) || SlimefunManager.isItemSimiliar(p.getInventory().getItemInOffHand(), radioactive, true)) {
+								// Check if player is wearing the hazmat suit
+								// If so, break the loop
+								if (SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
+									SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
+									SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
+									SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
+									break;
+								}
 
-									// If the item is enabled in the world, then make radioactivity do its job
-									if (Slimefun.isEnabled(p, radioactive, false)) {
-										p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
-										p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
-										p.setFireTicks(400);
-										break; // Break the loop to save some calculations
-									}
+								// If the item is enabled in the world, then make radioactivity do its job
+								if (Slimefun.isEnabled(p, radioactive, false)) {
+									p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
+									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
+									p.setFireTicks(400);
+									break; // Break the loop to save some calculations
 								}
 							}
 						}
@@ -354,13 +347,9 @@ public class SlimefunStartup extends JavaPlugin {
 			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
 			getServer().getScheduler().scheduleAsyncRepeatingTask(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 			
-			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
-				
-				@Override
-				public void run() {
-					for (GitHubConnector connector: GitHubConnector.connectors) {
-						connector.pullFile();
-					}
+			getServer().getScheduler().scheduleAsyncRepeatingTask(this, () -> {
+				for (GitHubConnector connector: GitHubConnector.connectors) {
+					connector.pullFile();
 				}
 			}, 80L, 60 * 60 * 20L);
 			
@@ -371,12 +360,9 @@ public class SlimefunStartup extends JavaPlugin {
 
 			coreProtect = getServer().getPluginManager().isPluginEnabled("CoreProtect");
 
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new BukkitRunnable() {
-                @Override
-                public void run() {
-                    exoticGarden = getServer().getPluginManager().isPluginEnabled("ExoticGarden"); //Had to do it this way, otherwise it seems disabled.
-                }
-            }, 0);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+				exoticGarden = getServer().getPluginManager().isPluginEnabled("ExoticGarden"); //Had to do it this way, otherwise it seems disabled.
+			}, 0);
 
 			if (clearlag) new ClearLaggIntegration(this);
 
