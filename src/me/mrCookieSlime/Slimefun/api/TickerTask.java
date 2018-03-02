@@ -99,33 +99,11 @@ public class TickerTask implements Runnable {
 												errors++;
 												
 												if (errors == 1) {
+													int try_count = 1;
 													File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
-													if (file.exists()) {
-														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2).err");
-														if (file.exists()) {
-															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3).err");
-															if (file.exists()) {
-																file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4).err");
-																if (file.exists()) {
-																	file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5).err");
-																	if (file.exists()) {
-																		file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6).err");
-																		if (file.exists()) {
-																			file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7).err");
-																			if (file.exists()) {
-																				file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8).err");
-																				if (file.exists()) {
-																					file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(9).err");
-																					if (file.exists()) {
-																						file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(10).err");
-																					}
-																				}
-																			}
-																		}
-																	}
-																}
-															}
-														}
+													while (file.exists()) {
+														try_count += 1;
+														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(" + try_count + ").err");
 													}
 													try {
 														PrintStream stream = new PrintStream(file);
