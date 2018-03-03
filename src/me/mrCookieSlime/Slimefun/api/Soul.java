@@ -21,7 +21,9 @@ public class Soul {
 	public static void retrieveItems(Player p) {
 		if (Variables.soulbound.containsKey(p.getUniqueId())) {
 			for (ItemStack item: Variables.soulbound.get(p.getUniqueId())) {
-				p.getInventory().addItem(item);
+				if(!p.getInventory().contains(item)) {
+					p.getInventory().addItem(item);
+				}
 			}
 			Variables.soulbound.remove(p.getUniqueId());
 		}
