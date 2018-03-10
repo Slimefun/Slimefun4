@@ -23,7 +23,7 @@ public class TickerTask implements Runnable {
 	
 	public boolean HALTED = false;
 	
-	public Map<Block, Block> move = new HashMap<Block, Block>();
+	public Map<Location, Location> move = new HashMap<Location, Location>();
 	public Map<Location, Boolean> delete = new HashMap<Location, Boolean>();
 	
 	private Set<BlockTicker> tickers = new HashSet<BlockTicker>();
@@ -72,9 +72,9 @@ public class TickerTask implements Runnable {
 				chunks++;
 				
 				blocks:
-				for (final Block b: BlockStorage.getTickingBlocks(c)) {
-					if (b.getChunk().isLoaded()) {
-						final Location l = b.getLocation();
+				for (final Location l: BlockStorage.getTickingLocations(c)) {
+					if (l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4)) {
+						final Block b = l.getBlock();
 						final SlimefunItem item = BlockStorage.check(l);
 						if (item != null) {
 							machines++;
@@ -311,7 +311,7 @@ public class TickerTask implements Runnable {
 						else skipped++;
 					}
 					else {
-						skipped += BlockStorage.getTickingBlocks(c).size();
+						skipped += BlockStorage.getTickingLocations(c).size();
 						skipped_chunks.add(c);
 						chunks--;
 						break blocks;
@@ -322,8 +322,8 @@ public class TickerTask implements Runnable {
 			}
 		}
 		
-		for (Map.Entry<Block, Block> entry: move.entrySet()) {
-			BlockStorage._integrated_moveBlockInfo(entry.getKey(), entry.getValue());
+		for (Map.Entry<Location, Location> entry: move.entrySet()) {
+			BlockStorage._integrated_moveLocationInfo(entry.getKey(), entry.getValue());
 		}
 		move.clear();
 		

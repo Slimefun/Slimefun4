@@ -76,12 +76,17 @@ public class BlockMenu extends ChestMenu {
 		
 		changes = 0;
 	}
-	
+
+	@Deprecated
 	public void move(Block b) {
+		move(b.getLocation());
+	}
+
+	public void move(Location l) {
 		this.delete(this.l);
-		this.l = b.getLocation();
-		this.preset.newInstance(this, b);
-		this.save(b.getLocation());
+		this.l = l;
+		this.preset.newInstance(this, l);
+		this.save(l);
 	}
 	
 	public Block getBlock() {
