@@ -114,9 +114,6 @@ public class EnergyNet {
 				}
 				else {
 					supply = supply + energy;
-					if (ChargableBlock.isChargable(source)) {
-						supply = DoubleHandler.fixDouble(supply + ChargableBlock.getCharge(source));
-					}
 				}
 				TickerTask.block_timings.put(source, System.currentTimeMillis() - timestamp);
 			}
