@@ -34,7 +34,7 @@ public class BlockStorage {
 	private static final String path_chunks = "data-storage/Slimefun/stored-chunks/";
 
 	public static Map<String, BlockStorage> worlds = new HashMap<String, BlockStorage>();
-	public static Map<String, Set<Block>> ticking_chunks = new HashMap<String, Set<Block>>();
+	public static Map<String, Set<Location>> ticking_chunks = new HashMap<String, Set<Location>>();
 	public static Set<String> loaded_tickers = new HashSet<String>();
 	
 	private World world;
@@ -63,6 +63,10 @@ public class BlockStorage {
 	
 	private static String serializeChunk(Chunk chunk) {
 		return chunk.getWorld().getName() + ";Chunk;" + chunk.getX() + ";" + chunk.getZ();
+	}
+
+	private static String locationToChunkString(Location l) {
+		return l.getWorld().getName() + ";Chunk;" + (l.getBlockX() >> 4) + ";" + (l.getBlockZ() >> 4);
 	}
 	
 	private static Location deserializeLocation(String l) {
@@ -95,15 +99,17 @@ public class BlockStorage {
 						
 						FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 						for (String key: cfg.getKeys(false)) {
+							Location l = deserializeLocation(key);
+							String chunk_string = locationToChunkString(l);
 							try {
 								totalBlocks++;
-								storage.put(deserializeLocation(key), cfg.getString(key));
+								storage.put(l, cfg.getString(key));
 								
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
-									Set<Block> blocks = ticking_chunks.containsKey(deserializeLocation(key).getChunk().toString()) ? ticking_chunks.get(deserializeLocation(key).getChunk().toString()): new HashSet<Block>();
-									blocks.add(deserializeLocation(key).getBlock());
-									ticking_chunks.put(deserializeLocation(key).getChunk().toString(), blocks);
-									if (!loaded_tickers.contains(deserializeLocation(key).getChunk().toString())) loaded_tickers.add(deserializeLocation(key).getChunk().toString());
+									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
+									locations.add(l);
+									ticking_chunks.put(chunk_string, locations);
+									if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
 								}
 							} catch(Exception x) {
 								System.err.println("[Slimefun] Failed to load " + file.getName() + "(ERR: " + key + ")");
@@ -265,11 +271,17 @@ public class BlockStorage {
 		}
 	}
 
+	@Deprecated
 	public static Config getBlockInfo(Block block) {
-		return getBlockInfo(block.getLocation());
+		return getLocationInfo(block.getLocation());
 	}
 
+	@Deprecated
 	public static Config getBlockInfo(Location l) {
+		return getLocationInfo(l);
+	}
+
+	public static Config getLocationInfo(Location l) {
 		try {
 			BlockStorage storage = getStorage(l.getWorld());
 			Config cfg = new Config("data-storage/Slimefun/temp.yml");
@@ -325,11 +337,17 @@ public class BlockStorage {
 		return map_chunks.get(serializeChunk(chunk));
 	}
 
+	@Deprecated
 	public static String getBlockInfo(Block block, String key) {
 		return getBlockInfo(block.getLocation(), key);
 	}
 
+	@Deprecated
 	public static String getBlockInfo(Location l, String key) {
+		return getLocationInfo(l, key);
+	}
+
+	public static String getLocationInfo(Location l, String key) {
 		return parseJSON(getJSONData(l)).get(key);
 	}
 	
@@ -428,52 +446,61 @@ public class BlockStorage {
 				storage.getUniversalInventory(l).close();
 				storage.getUniversalInventory(l).save();
 			}
-			if (ticking_chunks.containsKey(l.getChunk().toString())) {
-				Set<Block> blocks = ticking_chunks.get(l.getChunk().toString());
-				blocks.remove(l.getBlock());
-				if (blocks.isEmpty()) {
-					ticking_chunks.remove(l.getChunk().toString());
-					loaded_tickers.remove(l.getChunk().toString());
+			String chunk_string = locationToChunkString(l);
+			if (ticking_chunks.containsKey(chunk_string)) {
+				Set<Location> locations = ticking_chunks.get(chunk_string);
+				locations.remove(l);
+				if (locations.isEmpty()) {
+					ticking_chunks.remove(chunk_string);
+					loaded_tickers.remove(chunk_string);
 				}
-				else ticking_chunks.put(l.getChunk().toString(), blocks);
+				else ticking_chunks.put(chunk_string, locations);
 			}
 		}
 	}
 
+	@Deprecated
 	public static void moveBlockInfo(Block block, Block newBlock) {
-		SlimefunStartup.ticker.move.put(block, newBlock);
+		moveBlockInfo(block.getLocation(), newBlock.getLocation());
 	}
 
+	public static void moveBlockInfo(Location from, Location to) {
+		SlimefunStartup.ticker.move.put(from, to);
+	}
+
+	@Deprecated
 	public static void _integrated_moveBlockInfo(Block block, Block newBlock) {
-		if (!hasBlockInfo(block)) return;
-		BlockStorage storage = getStorage(block.getWorld());
+		_integrated_moveLocationInfo(block.getLocation(), newBlock.getLocation());
+	}
+
+	public static void _integrated_moveLocationInfo(Location from, Location to) {
+		if (!hasBlockInfo(from)) return;
+		BlockStorage storage = getStorage(from.getWorld());
 		
-		setBlockInfo(newBlock, getBlockInfo(block), true);
-		if (storage.inventories.containsKey(block.getLocation())) {
-			BlockMenu menu = storage.inventories.get(block.getLocation());
-			storage.inventories.put(newBlock.getLocation(), menu);
-			storage.clearInventory(block.getLocation());
-			menu.move(newBlock);
+		setBlockInfo(to, getBlockInfo(from), true);
+		if (storage.inventories.containsKey(from)) {
+			BlockMenu menu = storage.inventories.get(from);
+			storage.inventories.put(to, menu);
+			storage.clearInventory(from);
+			menu.move(to);
 		}
 		
-		refreshCache(storage, block, getBlockInfo(block).getString("id"), null, true);
-		storage.storage.remove(block.getLocation());
-		
-		try {
-			if (ticking_chunks.containsKey(block.getChunk().toString())) {
-				Set<Block> blocks = ticking_chunks.get(block.getChunk().toString());
-				blocks.remove(block);
-				if (blocks.isEmpty()) {
-					ticking_chunks.remove(block.getChunk().toString());
-					loaded_tickers.remove(block.getChunk().toString());
-				}
-				else ticking_chunks.put(block.getChunk().toString(), blocks);
+		refreshCache(storage, from, getBlockInfo(from).getString("id"), null, true);
+		storage.storage.remove(from);
+
+		String chunk_string = locationToChunkString(from);
+		if (ticking_chunks.containsKey(chunk_string)) {
+			Set<Location> locations = ticking_chunks.get(chunk_string);
+			locations.remove(from);
+			if (locations.isEmpty()) {
+				ticking_chunks.remove(chunk_string);
+				loaded_tickers.remove(chunk_string);
 			}
-		}
-		catch(IllegalStateException x) {
+			else ticking_chunks.put(chunk_string, locations);
 		}
 	}
 
+	@Deprecated
 	private static void refreshCache(BlockStorage storage, Block b, String key, String value, boolean updateTicker) {
 		refreshCache(storage, b.getLocation(), key, value, updateTicker);
 	}
@@ -486,12 +513,12 @@ public class BlockStorage {
 		if (updateTicker) {
 			SlimefunItem item = SlimefunItem.getByID(key);
 			if (item != null && item.isTicking()) {
-				Chunk chunk = l.getChunk();
+				String chunk_string = locationToChunkString(l);
 				if (value != null) {
-					Set<Block> blocks = ticking_chunks.containsKey(chunk.toString()) ? ticking_chunks.get(chunk.toString()): new HashSet<Block>();
-					blocks.add(l.getBlock());
-					ticking_chunks.put(chunk.toString(), blocks);
-					if (!loaded_tickers.contains(chunk.toString())) loaded_tickers.add(chunk.toString());
+					Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
+					locations.add(l);
+					ticking_chunks.put(chunk_string, locations);
+					if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
 				}
 			}
 		}
@@ -537,13 +564,27 @@ public class BlockStorage {
 	public static Set<String> getTickingChunks() {
 		return new HashSet<String>(loaded_tickers);
 	}
-	
+
+	@Deprecated
 	public static Set<Block> getTickingBlocks(Chunk chunk) {
 		return getTickingBlocks(chunk.toString());
 	}
 	
+	public static Set<Location> getTickingLocations(Chunk chunk) {
+		return getTickingLocations(chunk.toString());
+	}
+
+	@Deprecated
 	public static Set<Block> getTickingBlocks(String chunk) {
-		return new HashSet<Block>(ticking_chunks.get(chunk));
+		Set<Block> ret = new HashSet<Block>();
+		for(Location l: getTickingLocations(chunk)) {
+			ret.add(l.getBlock());
+		}
+		return ret;
+	}
+
+	public static Set<Location> getTickingLocations(String chunk) {
+		return new HashSet<Location>(ticking_chunks.get(chunk));
 	}
 	
 	public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {

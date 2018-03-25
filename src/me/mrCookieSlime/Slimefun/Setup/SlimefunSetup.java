@@ -3196,11 +3196,7 @@ public class SlimefunSetup {
 
 			@Override
 			public double generateEnergy(Location l, SlimefunItem item, Config data) {
-				try {
-					if (l.getBlock().getLightFromSky() != 15) return 0D;
-				} catch(IllegalStateException x) {
-					return 0D;
-				}
+				if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) return 0D;
 				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) return 2D;
 				return 0D;
 			}
@@ -3217,11 +3213,7 @@ public class SlimefunSetup {
 
 			@Override
 			public double generateEnergy(Location l, SlimefunItem item, Config data) {
-				try {
-					if (l.getBlock().getLightFromSky() != 15) return 0D;
-				} catch(IllegalStateException x) {
-					return 0D;
-				}
+				if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) return 0D;
 				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) return 8;
 				return 0D;
 			}
@@ -3238,11 +3230,7 @@ public class SlimefunSetup {
 
 			@Override
 			public double generateEnergy(Location l, SlimefunItem item, Config data) {
-				try {
-					if (l.getBlock().getLightFromSky() != 15) return 0D;
-				} catch(IllegalStateException x) {
-					return 0D;
-				}
+				if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) return 0D;
 				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) return 32;
 				return 0D;
 			}
@@ -3259,11 +3247,7 @@ public class SlimefunSetup {
 
 			@Override
 			public double generateEnergy(Location l, SlimefunItem item, Config data) {
-				try {
-					if (l.getBlock().getLightFromSky() != 15) return 0D;
-				} catch(IllegalStateException x) {
-					return 0D;
-				}
+				if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) return 0D;
 				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) return 128;
 				return 64D;
 			}
