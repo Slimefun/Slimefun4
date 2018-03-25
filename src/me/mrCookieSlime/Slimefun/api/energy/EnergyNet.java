@@ -5,11 +5,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
+import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 import org.bukkit.Bukkit;
@@ -17,48 +19,33 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class EnergyNet {
-	
-	public enum Axis {
-		
-		X_POSITIVE,
-		X_NEGATIVE,
-		Y_POSITIVE,
-		Y_NEGATIVE,
-		Z_POSITIVE,
-		Z_NEGATIVE,
-		UNKNOWN;
-		
-	}
-	
+public class EnergyNet extends Network {
 	public enum NetworkComponent {
-		
 		SOURCE,
 		DISTRIBUTOR,
 		CONSUMER,
 		NONE;
-		
 	}
-	
+
 	private static final int RANGE = 6;
-	
+
 	public static Set<String> machines_input = new HashSet<String>();
 	public static Set<String> machines_storage = new HashSet<String>();
 	public static Set<String> machines_output = new HashSet<String>();
-	
+
 	public static Map<String, EnergyFlowListener> listeners = new HashMap<String, EnergyFlowListener>();
-	
+
 	public static NetworkComponent getComponent(Block b) {
 		return getComponent(b.getLocation());
 	}
-	
+
 	public static NetworkComponent getComponent(String id) {
 		if (machines_input.contains(id)) return NetworkComponent.SOURCE;
 		if (machines_storage.contains(id)) return NetworkComponent.DISTRIBUTOR;
 		if (machines_output.contains(id)) return NetworkComponent.CONSUMER;
 		return NetworkComponent.NONE;
 	}
-	
+
 	public static NetworkComponent getComponent(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return NetworkComponent.NONE;
 		String id = BlockStorage.checkID(l);
@@ -67,7 +54,7 @@ public class EnergyNet {
 		if (machines_output.contains(id)) return NetworkComponent.CONSUMER;
 		return NetworkComponent.NONE;
 	}
-	
+
 	public static void registerComponent(String id, NetworkComponent component) {
 		switch (component) {
 		case CONSUMER:
@@ -83,16 +70,73 @@ public class EnergyNet {
 			break;
 		}
 	}
-	
-	public static void tick(Block b) {
-		Set<Location> input = new HashSet<Location>();
-		Set<Location> storage = new HashSet<Location>();
-		Set<Location> output = new HashSet<Location>();
-		
+
+	public static EnergyNet getNetworkFromLocation(Location l) {
+		return getNetworkFromLocation(l, EnergyNet.class);
+	}
+
+	public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
+		EnergyNet energy_network = getNetworkFromLocation(l);
+		if(energy_network == null) {
+			energy_network = new EnergyNet(l);
+			registerNetwork(energy_network);
+		}
+		return energy_network;
+	}
+
+	private Set<Location> input = new HashSet<Location>();
+	private Set<Location> storage = new HashSet<Location>();
+	private Set<Location> output = new HashSet<Location>();
+
+	protected EnergyNet(Location l) {
+		super(l);
+	}
+
+	public int getRange() {
+		return RANGE;
+	}
+
+	public Network.Component classifyLocation(Location l) {
+		if(regulator.equals(l)) return Network.Component.REGULATOR;
+		switch(getComponent(l)) {
+			case DISTRIBUTOR:
+				return Network.Component.CONNECTOR;
+			case CONSUMER:
+			case SOURCE:
+				return Network.Component.TERMINUS;
+			default:
+				return null;
+		}
+	}
+
+	public void locationClassificationChange(Location l, Network.Component from, Network.Component to) {
+		if(from == Network.Component.TERMINUS) {
+			input.remove(l);
+			output.remove(l);
+		}
+		switch(getComponent(l)) {
+			case DISTRIBUTOR:
+				if (ChargableBlock.isCapacitor(l)) storage.add(l);
+				break;
+			case CONSUMER:
+				output.add(l);
+				break;
+			case SOURCE:
+				input.add(l);
+				break;
+		}
+	}
+
+	public void tick(Block b) {
+		if(!regulator.equals(b.getLocation())) {
+			EnergyHologram.update(b, "&4Multiple Energy Regulators connected");
+			return;
+		}
+		super.tick();
 		double supply = 0.0D;
 		double demand = 0.0D;
-		
-		if (scan(b.getLocation(), Axis.UNKNOWN, new HashSet<Location>(), input, storage, output, supply, demand).isEmpty()) {
+
+		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
 			EnergyHologram.update(b, "&4No Energy Network found");
 		}
 		else {
@@ -100,11 +144,11 @@ public class EnergyNet {
 				long timestamp = System.currentTimeMillis();
 				SlimefunItem item = BlockStorage.check(source);
 				double energy = item.getEnergyTicker().generateEnergy(source, item, BlockStorage.getBlockInfo(source));
-				
+
 				if (item.getEnergyTicker().explode(source)) {
 					BlockStorage.clearBlockInfo(source);
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						
+
 						@Override
 						public void run() {
 							source.getBlock().setType(Material.LAVA);
@@ -117,13 +161,13 @@ public class EnergyNet {
 				}
 				TickerTask.block_timings.put(source, System.currentTimeMillis() - timestamp);
 			}
-			
+
 			for (Location battery: storage) {
 				supply = supply + ChargableBlock.getCharge(battery);
 			}
 
 			int available = (int) DoubleHandler.fixDouble(supply);
-			
+
 			for (Location destination: output) {
 				int capacity = ChargableBlock.getMaxCharge(destination);
 				int charge = ChargableBlock.getCharge(destination);
@@ -142,11 +186,11 @@ public class EnergyNet {
 					}
 				}
 			}
-			
+
 			for (Location battery: storage) {
 				if (available > 0) {
 					int capacity = ChargableBlock.getMaxCharge(battery);
-					
+
 					if (available > capacity) {
 						ChargableBlock.setUnsafeCharge(battery, capacity, true);
 						available = available - capacity;
@@ -158,12 +202,12 @@ public class EnergyNet {
 				}
 				else ChargableBlock.setUnsafeCharge(battery, 0, true);
 			}
-			
+
 			for (Location source: input) {
 				if (ChargableBlock.isChargable(source)) {
 					if (available > 0) {
 						int capacity = ChargableBlock.getMaxCharge(source);
-						
+
 						if (available > capacity) {
 							ChargableBlock.setUnsafeCharge(source, capacity, false);
 							available = available - capacity;
@@ -180,84 +224,4 @@ public class EnergyNet {
 			EnergyHologram.update(b, supply, demand);
 		}
 	}
-	
-	public static Set<Location> scan(Location source, Axis exclude, Set<Location> sources, Set<Location> input, Set<Location> storage, Set<Location> output, double supply, double demand) {
-		sources.add(source);
-		Set<Location> blocks = new HashSet<Location>();
-		
-		blocks.add(source);
-		
-		if (!exclude.equals(Axis.X_POSITIVE)) {
-			for (int i = 0; i <= RANGE; i++) {
-				Location l = new Location(source.getWorld(), source.getX() + i + 1, source.getY(), source.getZ());
-				if (!continueScan(l, Axis.X_NEGATIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
-			}
-		}
-		if (!exclude.equals(Axis.X_NEGATIVE)) {
-			for (int i = 0; i <= RANGE; i++) {
-				Location l = new Location(source.getWorld(), source.getX() - i - 1, source.getY(), source.getZ());
-				if (!continueScan(l, Axis.X_POSITIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
-			}
-		}
-		
-		if (!exclude.equals(Axis.Y_POSITIVE)) {
-			for (int i = 0; i <= RANGE; i++) {
-				Location l = new Location(source.getWorld(), source.getX(), source.getY() + i + 1, source.getZ());
-				if (!continueScan(l, Axis.Y_NEGATIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
-			}
-		}
-		if (!exclude.equals(Axis.Y_NEGATIVE)) {
-			for (int i = 0; i <= RANGE; i++) {
-				Location l = new Location(source.getWorld(), source.getX(), source.getY() - i - 1, source.getZ());
-				if (!continueScan(l, Axis.Y_POSITIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
-			}
-		}
-		
-		if (!exclude.equals(Axis.Z_POSITIVE)) {
-			for (int i = 0; i <= RANGE; i++) {
-				Location l = new Location(source.getWorld(), source.getX(), source.getY(), source.getZ() + i + 1);
-				if (!continueScan(l, Axis.Z_NEGATIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
-			}
-		}
-		if (!exclude.equals(Axis.Z_NEGATIVE)) {
-			for (int i = 0; i <= RANGE; i++) {
-				Location l = new Location(source.getWorld(), source.getX(), source.getY(), source.getZ() - i - 1);
-				if (!continueScan(l, Axis.Z_POSITIVE, blocks, sources, input, storage, output, supply, demand)) return new HashSet<Location>();
-			}
-		}
-		
-		return blocks;
-	}
-
-	private static boolean continueScan(Location l, Axis axis, Set<Location> blocks, Set<Location> sources, Set<Location> input, Set<Location> storage, Set<Location> output, double supply, double demand) {
-		if (!sources.contains(l)) {
-			if (BlockStorage.check(l, "ENERGY_REGULATOR")) return false;
-			switch (getComponent(l)) {
-			case CONSUMER: {
-				blocks.add(l);
-				output.add(l);
-				break;
-			}
-			case DISTRIBUTOR: {
-				blocks.add(l);
-				if (ChargableBlock.isCapacitor(l)) storage.add(l);
-				Set<Location> nextBlocks = scan(l, axis, sources, input, storage, output, supply, demand);
-				if (nextBlocks.isEmpty()) return false;
-				for (Location sink: nextBlocks) {
-					blocks.add(sink);
-				}
-				break;
-			}
-			case SOURCE: {
-				blocks.add(l);
-				input.add(l);
-				break;
-			}
-			default:
-				break;
-			}
-		}
-		return true;
-	}
-
 }

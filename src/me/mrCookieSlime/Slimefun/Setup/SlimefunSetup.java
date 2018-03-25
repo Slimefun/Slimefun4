@@ -3149,7 +3149,7 @@ public class SlimefunSetup {
 
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				EnergyNet.tick(b);
+				EnergyNet.getNetworkFromLocationOrCreate(b.getLocation()).tick(b);
 			}
 		});
 
@@ -5139,7 +5139,7 @@ public class SlimefunSetup {
 
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				CargoNet.tick(b);
+				CargoNet.getNetworkFromLocationOrCreate(b.getLocation()).tick(b);
 			}
 
 			@Override

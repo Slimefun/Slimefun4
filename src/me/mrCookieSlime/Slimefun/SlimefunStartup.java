@@ -202,6 +202,7 @@ public class SlimefunStartup extends JavaPlugin {
 			new FurnaceListener(this);
 			new TeleporterListener(this);
 			new AndroidKillingListener(this);
+			new NetworkListener(this);
 			if (currentVersion.startsWith("v1_12_")) new ItemPickupListener_1_12(this);
 			else new ItemPickupListener(this);
 
