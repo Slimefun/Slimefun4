@@ -23,6 +23,9 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
@@ -78,6 +81,10 @@ public class SlimefunGuide {
 	@Deprecated
 	public static ItemStack getItem() {
 		return getItem(BookDesign.CHEST);
+	}
+
+	public void inventoryClickEvent(InventoryClickEvent e) {
+		e.setCancelled(true);
 	}
 
 	public static ItemStack getItem(BookDesign design) {
@@ -231,7 +238,7 @@ public class SlimefunGuide {
 				p.closeInventory();
 				p.sendMessage("");
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4/issues"));
-				p.sendMessage("");
+				p.sendMessage("");				
 				return false;
 			}
 		});
