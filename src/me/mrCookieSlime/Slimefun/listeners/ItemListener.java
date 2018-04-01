@@ -378,12 +378,16 @@ public class ItemListener implements Listener {
 	@EventHandler
     public void onAnvil(InventoryClickEvent e) {
         if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
-		if (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.ELYTRA, true)) return;
-
-        	if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && !SlimefunItem.isDisabled(e.getInventory().getContents()[0])) {
-            	e.setCancelled(true);
-                Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-            }
+			if (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.ELYTRA, true)) return;
+			
+			/* SlimefunItems.BROKEN_SPAWNER 
+			 * does SlimefunItem.isDisabled not apply to this item for some reason?
+			 * Let us hope that's the only item with this issue.. Adding a check for the name to this IF statement to workaround. */
+	
+	    	if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && (!SlimefunItem.isDisabled(e.getInventory().getContents()[0])) || (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.BROKEN_SPAWNER, false)) ) {
+	        	e.setCancelled(true);
+	            Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+	        }
         }
     }
 }
