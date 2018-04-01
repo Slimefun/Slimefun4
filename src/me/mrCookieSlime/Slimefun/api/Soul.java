@@ -21,14 +21,9 @@ public class Soul {
 	public static void retrieveItems(Player p) {
 		if (Variables.soulbound.containsKey(p.getUniqueId())) {
 			for (ItemStack item: Variables.soulbound.get(p.getUniqueId())) {
-				if (((!p.getInventory().getHelmet().isSimilar(item)) &&
-				(!p.getInventory().getChestplate().isSimilar(item)) &&
-				(!p.getInventory().getLeggings().isSimilar(item)) &&
-				(!p.getInventory().getBoots().isSimilar(item)) &&
-				(!p.getInventory().getItemInOffHand().isSimilar(item))) &&
-				(!p.getInventory().contains(item))) {
+				if(!p.getInventory().contains(item)) {
 					p.getInventory().addItem(item);
-				}				
+				}
 			}
 			Variables.soulbound.remove(p.getUniqueId());
 		}
