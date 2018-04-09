@@ -1802,7 +1802,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByName("SAW_MILL"))) {
+				if (mb.isMultiBlock(SlimefunItem.getByID("SAW_MILL"))) {
 					if (Slimefun.hasUnlocked(p, SlimefunItems.SAW_MILL, true)) {
 						if (b.getRelative(BlockFace.UP).getType() == Material.LOG) BlockBreaker.breakBlock(p, b.getRelative(BlockFace.UP), Arrays.asList(new ItemStack[] {new CustomItem(Material.WOOD, b.getRelative(BlockFace.UP).getData() % 4, 8)}), true);
 						else if (b.getRelative(BlockFace.UP).getType() == Material.LOG_2) BlockBreaker.breakBlock(p, b.getRelative(BlockFace.UP), Arrays.asList(new ItemStack[] {new CustomItem(Material.WOOD, (b.getRelative(BlockFace.UP).getData() % 2) + 4, 8)}), true);
@@ -1815,6 +1815,16 @@ public class SlimefunSetup {
 
 		new SlimefunMachine(Categories.MACHINES_1, new CustomItem(Material.FIRE, "&4Phantom Item", 0), "SAW_MILL2",
 		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_FENCE), new ItemStack(Material.LOG_2), new ItemStack(Material.IRON_FENCE), new ItemStack(Material.LOG), new ItemStack(Material.WORKBENCH), new ItemStack(Material.LOG)},
+		new ItemStack[] {}, Material.WORKBENCH, true)
+		.register(true);
+
+		new SlimefunMachine(Categories.MACHINES_1, new CustomItem(Material.FIRE, "&4Phantom Item", 0), "SAW_MILL3",
+		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_FENCE), new ItemStack(Material.LOG), new ItemStack(Material.IRON_FENCE), new ItemStack(Material.LOG_2), new ItemStack(Material.WORKBENCH), new ItemStack(Material.LOG_2)},
+		new ItemStack[] {}, Material.WORKBENCH, true)
+		.register(true);
+
+		new SlimefunMachine(Categories.MACHINES_1, new CustomItem(Material.FIRE, "&4Phantom Item", 0), "SAW_MILL4",
+		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_FENCE), new ItemStack(Material.LOG_2), new ItemStack(Material.IRON_FENCE), new ItemStack(Material.LOG_2), new ItemStack(Material.WORKBENCH), new ItemStack(Material.LOG_2)},
 		new ItemStack[] {}, Material.WORKBENCH, true)
 		.register(true);
 
