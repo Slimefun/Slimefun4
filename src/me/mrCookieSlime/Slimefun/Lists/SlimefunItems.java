@@ -99,7 +99,7 @@ public class SlimefunItems {
 	public static ItemStack MELON_JUICE = new CustomPotion("&cMelon Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 10, 0));
 	public static ItemStack CARROT_JUICE = new CustomPotion("&6Carrot Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 10, 0));
 	public static ItemStack PUMPKIN_JUICE = new CustomPotion("&6Pumpkin Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 10, 0));
-	public static ItemStack GOLDE_APPLE_JUICE = new CustomPotion("&bGolden Apple Juice", 8195, new String[0], new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0));
+	public static ItemStack GOLDEN_APPLE_JUICE = new CustomPotion("&bGolden Apple Juice", 8195, new String[0], new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0));
 	
 	/*		Christmas		*/
 	public static ItemStack MILK = new CustomPotion("&6Glass of Milk", 8194, new String[0], new PotionEffect(PotionEffectType.SATURATION, 5, 0));
