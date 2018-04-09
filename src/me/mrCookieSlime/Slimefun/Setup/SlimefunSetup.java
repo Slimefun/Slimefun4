@@ -1157,10 +1157,19 @@ public class SlimefunSetup {
 							boolean craft = true;
 							for (int j = 0; j < inv.getContents().length; j++) {
 								if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
-									craft = false;
-									break;
+									if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
+										if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], false)) {
+											craft = false;
+											break;
+										}
+									}
+									else {
+										craft = false;
+										break;
+									}
 								}
 							}
+
 
 							if (craft) {
 								final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
