@@ -193,7 +193,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("ENHANCED_CRAFTING_TABLE");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE");
 
 				if (mb.isMultiBlock(machine)) {
 					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
@@ -339,7 +339,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("GRIND_STONE");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("GRIND_STONE");
 
 				if (mb.isMultiBlock(machine)) {
 					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
@@ -378,7 +378,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("ARMOR_FORGE");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ARMOR_FORGE");
 
 				if (mb.isMultiBlock(machine)) {
 					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
@@ -448,7 +448,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("ORE_CRUSHER");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ORE_CRUSHER");
 
 				if (mb.isMultiBlock(machine)) {
 					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
@@ -487,7 +487,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("COMPRESSOR");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("COMPRESSOR");
 
 				if (mb.isMultiBlock(machine)) {
 					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
@@ -715,7 +715,7 @@ public class SlimefunSetup {
 					@Override
 					public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-						SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("SMELTERY");
+						SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("SMELTERY");
 
 						if (mb.isMultiBlock(machine)) {
 							if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
@@ -805,7 +805,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("PRESSURE_CHAMBER");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("PRESSURE_CHAMBER");
 
 				if (mb.isMultiBlock(machine)) {
 					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
@@ -1139,7 +1139,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("MAGIC_WORKBENCH");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("MAGIC_WORKBENCH");
 
 				if (mb.isMultiBlock(machine)) {
 					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
@@ -1313,7 +1313,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("ORE_WASHER");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ORE_WASHER");
 
 				if (mb.isMultiBlock(machine)) {
 					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
@@ -1857,7 +1857,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByName("DIGITAL_MINER"))) {
+				if (mb.isMultiBlock(SlimefunItem.getByID("DIGITAL_MINER"))) {
 					if (Slimefun.hasUnlocked(p, SlimefunItems.DIGITAL_MINER, true)) {
 						Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
 						final Inventory inv = chest.getInventory();
@@ -1933,7 +1933,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByName("ADVANCED_DIGITAL_MINER"))) {
+				if (mb.isMultiBlock(SlimefunItem.getByID("ADVANCED_DIGITAL_MINER"))) {
 					if (Slimefun.hasUnlocked(p, SlimefunItems.ADVANCED_DIGITAL_MINER, true)) {
 						Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
 						final Inventory inv = chest.getInventory();
@@ -2196,7 +2196,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByName("AUTOMATED_PANNING_MACHINE"))) {
+				if (mb.isMultiBlock(SlimefunItem.getByID("AUTOMATED_PANNING_MACHINE"))) {
 					final ItemStack input = p.getItemInHand();
 					ItemStack output = null;
 					if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE"))) output = SlimefunItems.SIFTED_ORE;
@@ -2692,7 +2692,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByName("JUICER");
+				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("JUICER");
 
 				if (mb.isMultiBlock(machine)) {
 					if (Slimefun.hasUnlocked(p, SlimefunItems.JUICER, true)) {
