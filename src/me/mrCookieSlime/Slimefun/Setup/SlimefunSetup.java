@@ -1235,7 +1235,7 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_WIND, true)) {
 					if (p.getFoodLevel() >= 2) {
-						if (p.getItemInHand().getType() != Material.SHEARS) {
+						if (p.getItemInHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
 							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 2);
 							Bukkit.getPluginManager().callEvent(event);
 							p.setFoodLevel(event.getFoodLevel());
