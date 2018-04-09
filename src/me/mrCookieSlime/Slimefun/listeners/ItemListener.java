@@ -380,7 +380,7 @@ public class ItemListener implements Listener {
         if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
 		if (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.ELYTRA, true)) return;
 
-        	if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && !SlimefunItem.isDisabled(e.getInventory().getContents()[0])) {
+		if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && (!SlimefunItem.isDisabled(e.getInventory().getContents()[0])) || (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.BROKEN_SPAWNER, false)) ) {
             	e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
