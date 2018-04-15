@@ -100,22 +100,22 @@ public class ToolListener implements Listener {
 			e.setCancelled(true);
 			Slimefun.getGPSNetwork().addWaypoint(e.getPlayer(), e.getBlock().getLocation());
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PRESENT, false)) {
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
 			e.setCancelled(true);
 			PlayerInventory.consumeItemInHand(e.getPlayer());
 			FireworkShow.launchRandom(e.getPlayer(), 3);
 			List<ItemStack> gifts = new ArrayList<ItemStack>();
 			for (int i = 0; i < 2; i++) {
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
-				gifts.add(new CustomItem(SlimefunItems.CHOCOLATE_APPLE, 4));
-				gifts.add(new CustomItem(SlimefunItems.CARAMEL_APPLE, 4));
+				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
+				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4));
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4));
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 8));
-				gifts.add(new CustomItem(SlimefunItems.PRESENT, 1));
-				gifts.add(new CustomItem(SlimefunItems.EGG_NOG, 1));
-				gifts.add(new CustomItem(SlimefunItems.MILK, 1));
-				gifts.add(new CustomItem(SlimefunItems.APPLE_CIDER, 1));
-				gifts.add(new CustomItem(SlimefunItems.FRUIT_CAKE, 4));
+				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_PRESENT, 1));
+				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_EGG_NOG, 1));
+				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_MILK, 1));
+				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1));
+				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
 			}
 			gifts.add(new SkullItem("mrCookieSlime"));
