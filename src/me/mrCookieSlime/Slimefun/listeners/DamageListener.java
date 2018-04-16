@@ -112,7 +112,7 @@ public class DamageListener implements Listener {
                 }
             }
 
-            if (!e.getEntity().getCanPickupItems() && Talisman.checkFor(e, SlimefunItem.getByName("HUNTER_TALISMAN")) && !(e.getEntity() instanceof Player)) {
+            if (!e.getEntity().getCanPickupItems() && Talisman.checkFor(e, SlimefunItem.getByID("HUNTER_TALISMAN")) && !(e.getEntity() instanceof Player)) {
                 List<ItemStack> newDrops = new ArrayList<ItemStack>();
                 for (ItemStack drop : e.getDrops()) {
                     newDrops.add(drop);
