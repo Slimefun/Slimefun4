@@ -216,7 +216,7 @@ public class ItemListener implements Listener {
 						float cost = 0.3F;
 						if (charge >= cost) {
 							p.setItemInHand(ItemEnergy.chargeItem(item, -cost));
-							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByName((String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getName(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
+							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getID(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
 						}
 					}
 					else {
