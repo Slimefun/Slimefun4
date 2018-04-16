@@ -274,7 +274,7 @@ public class SlimefunStartup extends JavaPlugin {
 						new BlockStorage(world);
 					}
 
-					if (SlimefunItem.getByName("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
+					if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
 				}
 			}, 0);
 
