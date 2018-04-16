@@ -31,8 +31,6 @@ public class RecipeType {
 	public static final RecipeType ANCIENT_ALTAR = new RecipeType(new CustomItem(Material.ENCHANTMENT_TABLE, "&4Ancient Altar", 0, new String[] {"", "&dYou will need to craft this Item", "&dby performing an Ancient Altar Ritual"}));
 	public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new CustomItem(Material.STAINED_GLASS, "&cHeated Pressure Chamber", 8, new String[] {"", "&a&oCraft this Item in a", "&a&oHeated Pressure Chamber"}), "HEATED_PRESSURE_CHAMBER");
 	
-	public static final RecipeType KITCHEN = new RecipeType(new CustomItem(Material.CAULDRON_ITEM, "&eKitchen", 0, new String[] {"", "&a&oThis item should be made", "&a&oin the Kitchen"}), "KITCHEN");
-	
 	public static final RecipeType SHAPED_RECIPE = new RecipeType(new CustomItem(Material.WORKBENCH, "&eShaped Recipe", 0, new String[] {"", "&a&oJust a standard Recipe in the Workbench..."}));
 	public static final RecipeType SHAPELESS_RECIPE = new RecipeType(new CustomItem(Material.WORKBENCH, "&eShapeless Recipe", 0, new String[] {"", "&a&oJust a standard Recipe in the Workbench..."}));
 	public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&eFurnace Recipe", 0, new String[] {"", "&a&oJust smelt it in a regular Furnace"}));
