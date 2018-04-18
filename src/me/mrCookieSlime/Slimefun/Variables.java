@@ -23,5 +23,6 @@ public class Variables {
 	public static List<UUID> blocks = new ArrayList<UUID>();
 	public static List<UUID> cancelPlace = new ArrayList<UUID>();
 	public static Map<UUID, ItemStack> arrows = new HashMap<UUID, ItemStack>();
+	public static List<UUID> usingGuide = new ArrayList<UUID>();
 
 }

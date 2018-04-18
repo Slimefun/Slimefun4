@@ -20,6 +20,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -384,6 +385,20 @@ public class ItemListener implements Listener {
             	e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
+        }
+    }
+	
+	@EventHandler
+	public void onClose(InventoryCloseEvent e) {
+		if (Variables.usingGuide.contains(e.getPlayer().getUniqueId())) {
+			Variables.usingGuide.remove(e.getPlayer().getUniqueId());
+		}
+	}
+	
+    @EventHandler
+    public void inventoryClickEvent(final InventoryClickEvent e) {
+        if (Variables.usingGuide.contains(e.getWhoClicked().getUniqueId())) {
+            e.setCancelled(true);
         }
     }
 }

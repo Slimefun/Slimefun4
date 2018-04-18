@@ -236,6 +236,7 @@ public class SlimefunGuide {
 			}
 		});
 		
+		Variables.usingGuide.add(p.getUniqueId());
 		menu.open(p);
 	}
 
@@ -328,6 +329,7 @@ public class SlimefunGuide {
 			});
 		}
 		
+		Variables.usingGuide.add(p.getUniqueId());
 		menu.open(p);
 	}
 
@@ -646,6 +648,7 @@ public class SlimefunGuide {
 				}
 			});
 			
+			Variables.usingGuide.add(p.getUniqueId());
 			menu.open(p);
 		}
 	}
@@ -925,6 +928,7 @@ public class SlimefunGuide {
 				}
 			}
 			
+			Variables.usingGuide.add(p.getUniqueId());
 			menu.open(p);
 		}		
 
@@ -1317,6 +1321,7 @@ public class SlimefunGuide {
 			}
 		}
 		
+		Variables.usingGuide.add(p.getUniqueId());
 		menu.build().open(p);
 	}
 	
