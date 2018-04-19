@@ -24,5 +24,6 @@ public class Variables {
 	public static List<UUID> cancelPlace = new ArrayList<UUID>();
 	public static Map<UUID, ItemStack> arrows = new HashMap<UUID, ItemStack>();
 	public static List<UUID> usingGuide = new ArrayList<UUID>();
+	public static Map<UUID, String> dialogueCooldown = new HashMap<UUID, String>();
 
 }
