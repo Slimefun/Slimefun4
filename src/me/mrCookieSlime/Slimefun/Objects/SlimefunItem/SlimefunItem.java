@@ -334,7 +334,7 @@ public class SlimefunItem {
 			else if (sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (sfi instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (sfi instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
-			else if (SlimefunManager.isItemSimiliar(item, sfi.getItem(), true)) return sfi;
+			else if (SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 		}
 		return null;
 	}
@@ -344,7 +344,7 @@ public class SlimefunItem {
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else return SlimefunManager.isItemSimiliar(item, this.item, true);
+		else return SlimefunManager.isItemSimiliar(item, this.item, false);
 	}
 	
 	public void load() {
