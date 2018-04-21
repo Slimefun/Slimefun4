@@ -4724,7 +4724,7 @@ public class SlimefunSetup {
 			}
 
 			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {				
+			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				Projector.getArmorStand(b).remove();
 				return true;
 			}
