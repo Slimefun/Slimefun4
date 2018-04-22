@@ -28,7 +28,7 @@ public class RitualAnimation implements Runnable {
 	List<Location> particles;
 	
 	boolean running;
-	int stage;	
+	int stage;
 	
 	public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
 		this.l = drop;
@@ -45,11 +45,9 @@ public class RitualAnimation implements Runnable {
 
 	@Override
 	public void run() {
-		AncientAltarListener.altarinuse = true;
 		idle();
 		if(this.stage == 36) {
 			finish();
-			AncientAltarListener.altarinuse = false;
 			return;
 		}
 		if(this.stage > 0 && this.stage % 4 == 0) {
@@ -76,7 +74,6 @@ public class RitualAnimation implements Runnable {
 		Item item = AncientAltarListener.findItem(pedestal);
 		if (item == null) abort();
 		else {
-			AncientAltarListener.altarinuse = true;
 			particles.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
 			items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
 			pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 5F, 2F);
@@ -99,7 +96,6 @@ public class RitualAnimation implements Runnable {
 			l.getWorld().dropItemNaturally(l, stack);
 		}
 		l.getWorld().playSound(l, Sound.BLOCK_NOTE_SNARE, 5F, 1F);
-		AncientAltarListener.altarinuse = false;
 		altars.remove(altar);
 	}
 	
@@ -107,7 +103,6 @@ public class RitualAnimation implements Runnable {
 		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 		l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
 		l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
-		AncientAltarListener.altarinuse = false;
 		altars.remove(altar);
 	}
 
