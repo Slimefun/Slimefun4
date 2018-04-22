@@ -110,7 +110,8 @@ public class AncientAltarListener implements Listener {
 								List<ItemStack> consumed = new ArrayList<ItemStack>();
 								consumed.add(catalyst);
 								PlayerInventory.consumeItemInHand(e.getPlayer());
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);							}
+								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
+							}
 							else {
 								altars.remove(e.getClickedBlock());
 								Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
