@@ -330,12 +330,12 @@ public class SlimefunItem {
 	
 	public static SlimefunItem getByItem(ItemStack item) {
 		if (item == null) return null;
+		if ((SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) || (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false))) return item;
 		for (SlimefunItem sfi: items) {
 			if (sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (sfi instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
-			else if (sfi instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
-			else if ((SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) || (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false))) return sfi;
+			else if (sfi instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;			
 			else if (SlimefunManager.isItemSimiliar(item, sfi.getItem(), true)) return sfi;
 		}
 		return null;
