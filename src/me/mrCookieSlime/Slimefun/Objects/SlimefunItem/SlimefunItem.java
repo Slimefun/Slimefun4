@@ -11,6 +11,7 @@ import java.util.Set;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.AncientAltar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -334,7 +335,8 @@ public class SlimefunItem {
 			else if (sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (sfi instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (sfi instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
-			else if (SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
+			else if ((SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) || (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false))) return sfi;
+			else if (SlimefunManager.isItemSimiliar(item, sfi.getItem(), true)) return sfi;
 		}
 		return null;
 	}
@@ -344,7 +346,8 @@ public class SlimefunItem {
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else return SlimefunManager.isItemSimiliar(item, this.item, false);
+		else if ((SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) || (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false))) return true;
+		else return SlimefunManager.isItemSimiliar(item, this.item, true);
 	}
 	
 	public void load() {
