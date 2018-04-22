@@ -28,7 +28,7 @@ public class RitualAnimation implements Runnable {
 	List<Location> particles;
 	
 	boolean running;
-	int stage;
+	int stage;	
 	
 	public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
 		this.l = drop;
@@ -48,6 +48,7 @@ public class RitualAnimation implements Runnable {
 		idle();
 		if(this.stage == 36) {
 			finish();
+			AncientAltarListener.altarinuse = false;
 			return;
 		}
 		if(this.stage > 0 && this.stage % 4 == 0) {
@@ -72,7 +73,10 @@ public class RitualAnimation implements Runnable {
 	
 	private void checkPedestal(Block pedestal) {
 		Item item = AncientAltarListener.findItem(pedestal);
-		if (item == null) abort();
+		if (item == null) {
+			abort();
+			AncientAltarListener.altarinuse = false;
+		}
 		else {
 			particles.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
 			items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
@@ -95,7 +99,7 @@ public class RitualAnimation implements Runnable {
 		for (ItemStack stack: items) {
 			l.getWorld().dropItemNaturally(l, stack);
 		}
-		l.getWorld().playSound(l, Sound.BLOCK_NOTE_SNARE, 5F, 1F);
+		l.getWorld().playSound(l, Sound.BLOCK_NOTE_SNARE, 5F, 1F);		
 		altars.remove(altar);
 	}
 	
