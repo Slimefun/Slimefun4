@@ -48,7 +48,7 @@ public class AncientAltarListener implements Listener {
 
 	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {
-		if (this.altarinuse) {
+		if (altarinuse) {
 			e.setCancelled(true);
 			return;
 		}
@@ -63,12 +63,12 @@ public class AncientAltarListener implements Listener {
 					if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
 					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
+						altarinuse = false;
 						return;
 					}
 					insertItem(e.getPlayer(), b);
 				}
 				else if (!removed_items.contains(stack.getUniqueId())) {
-					this.altarinuse = true;
 					final UUID uuid = stack.getUniqueId();
 					removed_items.add(uuid);
 
@@ -87,7 +87,7 @@ public class AncientAltarListener implements Listener {
 				}
 			}
 			else if (item.getID().equals("ANCIENT_ALTAR")) {
-				if (this.altarinuse) {
+				if (altarinuse) {
 					e.setCancelled(true);
 					return;
 				}
@@ -107,7 +107,6 @@ public class AncientAltarListener implements Listener {
 							}
 							ItemStack result = Pedestals.getRecipeOutput(catalyst, input);
 							if (result != null) {
-								this.altarinuse = true;
 								List<ItemStack> consumed = new ArrayList<ItemStack>();
 								consumed.add(catalyst);
 								PlayerInventory.consumeItemInHand(e.getPlayer());
@@ -115,16 +114,19 @@ public class AncientAltarListener implements Listener {
 							else {
 								altars.remove(e.getClickedBlock());
 								Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
+								altarinuse = false;
 							}
 						}
 						else {
 							altars.remove(e.getClickedBlock());
 							Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
+							altarinuse = false;
 						}
 					}
 					else {
 						altars.remove(e.getClickedBlock());
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, new Variable("%pedestals%", String.valueOf(pedestals.size())));
+						altarinuse = false;
 					}
 				}
 			}
@@ -144,15 +146,6 @@ public class AncientAltarListener implements Listener {
 			stack.setItemMeta(im);
 		}
 		return stack;
-	}
-
-	public void setNotInUse() {
-		this.altarinuse = false;
-	}
-
-	public boolean setAltarinuse(boolean inuse) {
-		this.altarinuse = inuse;
-		return true;
 	}
 
 	public static Item findItem(Block b) {
