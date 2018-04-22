@@ -37,6 +37,8 @@ import org.bukkit.util.Vector;
 
 public class AncientAltarListener implements Listener {
 
+	public static boolean altarinuse = false;
+
 	public AncientAltarListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -46,6 +48,10 @@ public class AncientAltarListener implements Listener {
 
 	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {
+		if (this.altarinuse) {
+			e.setCancelled(true);
+			return;
+		}
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
 		SlimefunItem item = BlockStorage.check(b);
@@ -62,6 +68,7 @@ public class AncientAltarListener implements Listener {
 					insertItem(e.getPlayer(), b);
 				}
 				else if (!removed_items.contains(stack.getUniqueId())) {
+					this.altarinuse = true;
 					final UUID uuid = stack.getUniqueId();
 					removed_items.add(uuid);
 
@@ -80,6 +87,10 @@ public class AncientAltarListener implements Listener {
 				}
 			}
 			else if (item.getID().equals("ANCIENT_ALTAR")) {
+				if (this.altarinuse) {
+					e.setCancelled(true);
+					return;
+				}
 				e.setCancelled(true);
 
 				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
@@ -94,14 +105,13 @@ public class AncientAltarListener implements Listener {
 								Item stack = findItem(pedestal);
 								if (stack != null) input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
 							}
-
 							ItemStack result = Pedestals.getRecipeOutput(catalyst, input);
 							if (result != null) {
+								this.altarinuse = true;
 								List<ItemStack> consumed = new ArrayList<ItemStack>();
 								consumed.add(catalyst);
 								PlayerInventory.consumeItemInHand(e.getPlayer());
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
-							}
+								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);							}
 							else {
 								altars.remove(e.getClickedBlock());
 								Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
@@ -136,6 +146,15 @@ public class AncientAltarListener implements Listener {
 		return stack;
 	}
 
+	public void setNotInUse() {
+		this.altarinuse = false;
+	}
+
+	public boolean setAltarinuse(boolean inuse) {
+		this.altarinuse = inuse;
+		return true;
+	}
+
 	public static Item findItem(Block b) {
 		for (Entity n: b.getChunk().getEntities()) {
 			if (n instanceof Item) {
@@ -158,7 +177,7 @@ public class AncientAltarListener implements Listener {
 			p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
 		}
 	}
-	
+
 	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Block b = e.getBlockPlaced().getRelative(0, -1, 0);
