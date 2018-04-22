@@ -37,8 +37,6 @@ import org.bukkit.util.Vector;
 
 public class AncientAltarListener implements Listener {
 
-	public static boolean altarinuse = false;
-
 	public AncientAltarListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -48,10 +46,6 @@ public class AncientAltarListener implements Listener {
 
 	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {
-		if (altarinuse) {
-			e.setCancelled(true);
-			return;
-		}
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
 		SlimefunItem item = BlockStorage.check(b);
@@ -63,7 +57,6 @@ public class AncientAltarListener implements Listener {
 					if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
 					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
-						altarinuse = false;
 						return;
 					}
 					insertItem(e.getPlayer(), b);
@@ -87,10 +80,6 @@ public class AncientAltarListener implements Listener {
 				}
 			}
 			else if (item.getID().equals("ANCIENT_ALTAR")) {
-				if (altarinuse) {
-					e.setCancelled(true);
-					return;
-				}
 				e.setCancelled(true);
 
 				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
@@ -105,6 +94,7 @@ public class AncientAltarListener implements Listener {
 								Item stack = findItem(pedestal);
 								if (stack != null) input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
 							}
+
 							ItemStack result = Pedestals.getRecipeOutput(catalyst, input);
 							if (result != null) {
 								List<ItemStack> consumed = new ArrayList<ItemStack>();
@@ -115,19 +105,16 @@ public class AncientAltarListener implements Listener {
 							else {
 								altars.remove(e.getClickedBlock());
 								Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
-								altarinuse = false;
 							}
 						}
 						else {
 							altars.remove(e.getClickedBlock());
 							Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
-							altarinuse = false;
 						}
 					}
 					else {
 						altars.remove(e.getClickedBlock());
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, new Variable("%pedestals%", String.valueOf(pedestals.size())));
-						altarinuse = false;
 					}
 				}
 			}
@@ -171,7 +158,7 @@ public class AncientAltarListener implements Listener {
 			p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
 		}
 	}
-
+	
 	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Block b = e.getBlockPlaced().getRelative(0, -1, 0);
