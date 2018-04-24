@@ -330,6 +330,8 @@ public class SlimefunItem {
 	
 	public static SlimefunItem getByItem(ItemStack item) {
 		if (item == null) return null;		
+		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
+		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REPAIRED_SPAWNER");
 		for (SlimefunItem sfi: items) {
 			if (sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
 			else if (sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) return sfi;
@@ -345,8 +347,7 @@ public class SlimefunItem {
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else if ((SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) || (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false))) return true;
-		else return SlimefunManager.isItemSimiliar(item, this.item, true);
+		else return SlimefunManager.isItemSimiliar(item, this.item, true);		
 	}
 	
 	public void load() {
