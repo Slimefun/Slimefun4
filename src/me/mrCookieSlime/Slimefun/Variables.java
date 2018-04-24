@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
+
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class Variables {
 	
@@ -18,6 +21,7 @@ public class Variables {
 	
 	public static Map<UUID, Integer> enchanting = new HashMap<UUID, Integer>();
 	public static Map<UUID, ItemStack> backpack = new HashMap<UUID, ItemStack>();
+	public static Map<Location, Boolean> altarinuse = new HashMap<Location, Boolean>();
 	
 	public static Map<UUID, List<ItemStack>> soulbound = new HashMap<UUID, List<ItemStack>>();
 	public static List<UUID> blocks = new ArrayList<UUID>();
