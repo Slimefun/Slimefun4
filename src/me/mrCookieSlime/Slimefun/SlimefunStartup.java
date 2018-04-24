@@ -441,6 +441,7 @@ public class SlimefunStartup extends JavaPlugin {
 		SlimefunGuide.history = null;
 		Variables.enchanting = null;
 		Variables.backpack = null;
+		Variables.altarinuse = null;
 		Variables.soulbound = null;
 		Variables.blocks = null;
 		Variables.cancelPlace = null;
