@@ -6,6 +6,7 @@ import java.util.List;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_8.ParticleEffect;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
+import me.mrCookieSlime.Slimefun.Variables;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -13,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class RitualAnimation implements Runnable {
@@ -45,9 +47,13 @@ public class RitualAnimation implements Runnable {
 
 	@Override
 	public void run() {
+		if (!Variables.altarinuse.containsKey(this.altar.getLocation())) {
+			Variables.altarinuse.put(this.altar.getLocation(), true);  // if somehow AncientAltarMethods have completed and removed this already...
+		}		
+
 		idle();
 		if(this.stage == 36) {
-			finish();
+			finish();			
 			return;
 		}
 		if(this.stage > 0 && this.stage % 4 == 0) {
@@ -81,8 +87,8 @@ public class RitualAnimation implements Runnable {
 			try {
 				ParticleEffect.ENCHANTMENT_TABLE.display(pedestal.getLocation().add(0.5, 1.5, 0.5), 0.3F, 0.2F, 0.3F, 0, 16);
 				ParticleEffect.CRIT_MAGIC.display(pedestal.getLocation().add(0.5, 1.5, 0.5), 0.3F, 0.2F, 0.3F, 0, 8);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception err) {
+				err.printStackTrace();
 			}
 			
 			item.remove();
@@ -96,6 +102,7 @@ public class RitualAnimation implements Runnable {
 			l.getWorld().dropItemNaturally(l, stack);
 		}
 		l.getWorld().playSound(l, Sound.BLOCK_NOTE_SNARE, 5F, 1F);
+		if (Variables.altarinuse.containsKey(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever!
 		altars.remove(altar);
 	}
 	
@@ -103,7 +110,7 @@ public class RitualAnimation implements Runnable {
 		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 		l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
 		l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
+		if (Variables.altarinuse.containsKey(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever! 
 		altars.remove(altar);
 	}
-
 }
