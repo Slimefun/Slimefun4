@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
-//import org.bukkit.event.player.PlayerInteractEvent;  // clears a warning if we don't need this.
 import org.bukkit.inventory.ItemStack;
 
 public class RitualAnimation implements Runnable {
@@ -111,7 +110,6 @@ public class RitualAnimation implements Runnable {
 		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 		l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
 		l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
-		if (Variables.altarinuse.contains(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever!
 
 		pedestals.forEach((pblock)->{
 			Variables.altarinuse.remove(pblock.getLocation());
