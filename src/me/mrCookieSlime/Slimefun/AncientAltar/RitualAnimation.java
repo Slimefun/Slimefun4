@@ -47,8 +47,8 @@ public class RitualAnimation implements Runnable {
 
 	@Override
 	public void run() {
-		if (!Variables.altarinuse.containsKey(this.altar.getLocation())) {
-			Variables.altarinuse.put(this.altar.getLocation(), true);  // if somehow spam clicking or using bad altar set up has not placed this.. lets disable it for future attempts.
+		if (!Variables.altarinuse.contains(this.altar.getLocation())) {
+			Variables.altarinuse.add(this.altar.getLocation());  // if somehow spam clicking or using bad altar set up has not placed this.. lets disable it for future attempts.
 			return; // if it's not in here... then this was not a correctly build altar, just kill it.
 			//Variables.altarinuse.put(this.altar.getLocation(), true);  // if somehow AncientAltarMethods have completed and removed this already...
 		}
@@ -104,7 +104,7 @@ public class RitualAnimation implements Runnable {
 			l.getWorld().dropItemNaturally(l, stack);
 		}
 		l.getWorld().playSound(l, Sound.BLOCK_NOTE_SNARE, 5F, 1F);
-		if (Variables.altarinuse.containsKey(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever!
+		if (Variables.altarinuse.contains(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever!
 		altars.remove(altar);
 	}
 
@@ -112,7 +112,7 @@ public class RitualAnimation implements Runnable {
 		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 		l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
 		l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
-		if (Variables.altarinuse.containsKey(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever!
+		if (Variables.altarinuse.contains(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever!
 		altars.remove(altar);
 	}
 }
