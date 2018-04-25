@@ -20,18 +20,18 @@ import org.bukkit.inventory.ItemStack;
 public class RitualAnimation implements Runnable {
 
 	List<Block> altars;
-	
+
 	Block altar;
 	Location l;
 	ItemStack output;
 	List<Block> pedestals;
 	List<ItemStack> items;
-	
+
 	List<Location> particles;
-	
+
 	boolean running;
 	int stage;
-	
+
 	public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
 		this.l = drop;
 		this.altar = altar;
@@ -40,7 +40,7 @@ public class RitualAnimation implements Runnable {
 		this.pedestals = pedestals;
 		this.items = items;
 		this.particles = new ArrayList<Location>();
-		
+
 		this.running = true;
 		this.stage = 0;
 	}
@@ -48,12 +48,14 @@ public class RitualAnimation implements Runnable {
 	@Override
 	public void run() {
 		if (!Variables.altarinuse.containsKey(this.altar.getLocation())) {
-			Variables.altarinuse.put(this.altar.getLocation(), true);  // if somehow AncientAltarMethods have completed and removed this already...
-		}		
+			Variables.altarinuse.put(this.altar.getLocation(), true);  // if somehow spam clicking or using bad altar set up has not placed this.. lets disable it for future attempts.
+			return; // if it's not in here... then this was not a correctly build altar, just kill it.
+			//Variables.altarinuse.put(this.altar.getLocation(), true);  // if somehow AncientAltarMethods have completed and removed this already...
+		}
 
 		idle();
 		if(this.stage == 36) {
-			finish();			
+			finish();
 			return;
 		}
 		if(this.stage > 0 && this.stage % 4 == 0) {
@@ -62,7 +64,7 @@ public class RitualAnimation implements Runnable {
 		this.stage += 1;
 		SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, this, 8);
 	}
-	
+
 	private void idle() {
 		try {
 			ParticleEffect.SPELL_WITCH.display(l, 1.2F, 0F, 1.2F, 0, 16);
@@ -75,7 +77,7 @@ public class RitualAnimation implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void checkPedestal(Block pedestal) {
 		Item item = AncientAltarListener.findItem(pedestal);
 		if (item == null) abort();
@@ -83,14 +85,14 @@ public class RitualAnimation implements Runnable {
 			particles.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
 			items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
 			pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 5F, 2F);
-			
+
 			try {
 				ParticleEffect.ENCHANTMENT_TABLE.display(pedestal.getLocation().add(0.5, 1.5, 0.5), 0.3F, 0.2F, 0.3F, 0, 16);
 				ParticleEffect.CRIT_MAGIC.display(pedestal.getLocation().add(0.5, 1.5, 0.5), 0.3F, 0.2F, 0.3F, 0, 8);
 			} catch (Exception err) {
 				err.printStackTrace();
 			}
-			
+
 			item.remove();
 			pedestal.removeMetadata("item_placed", SlimefunStartup.instance);
 		}
@@ -105,12 +107,12 @@ public class RitualAnimation implements Runnable {
 		if (Variables.altarinuse.containsKey(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever!
 		altars.remove(altar);
 	}
-	
+
 	private void finish() {
 		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 		l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
 		l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
-		if (Variables.altarinuse.containsKey(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever! 
+		if (Variables.altarinuse.containsKey(this.altar.getLocation())) Variables.altarinuse.remove(this.altar.getLocation()); // remove this or will be disabled forever!
 		altars.remove(altar);
 	}
 }
