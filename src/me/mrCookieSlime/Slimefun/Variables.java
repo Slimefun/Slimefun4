@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class Variables {
 	
 	public static Map<UUID, Integer> enchanting = new HashMap<UUID, Integer>();
 	public static Map<UUID, ItemStack> backpack = new HashMap<UUID, ItemStack>();
-	public static Map<Location, Boolean> altarinuse = new HashMap<Location, Boolean>();
+	public static HashSet<Location> altarinuse = new HashSet<Location>();
 	
 	public static Map<UUID, List<ItemStack>> soulbound = new HashMap<UUID, List<ItemStack>>();
 	public static List<UUID> blocks = new ArrayList<UUID>();
