@@ -143,11 +143,6 @@ public class AncientAltarListener implements Listener {
 					else {
 						altars.remove(e.getClickedBlock());
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, new Variable("%pedestals%", String.valueOf(pedestals.size())));
-
-						pedestals.forEach((pblock)->{
-							Variables.altarinuse.remove(pblock.getLocation());
-						});
-						Variables.altarinuse.remove(b.getLocation());  // not a proper altar, so not in use.
 					}
 				}
 			}
