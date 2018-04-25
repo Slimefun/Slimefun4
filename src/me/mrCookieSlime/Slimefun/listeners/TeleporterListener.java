@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
@@ -13,7 +12,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 public class TeleporterListener implements Listener {
 	
@@ -40,8 +38,6 @@ public class TeleporterListener implements Listener {
 				}
 				
 				try {
-					if(Variables.dialogueCooldown.containsKey(e.getPlayer().getUniqueId())) return;
-					else Variables.dialogueCooldown.put(e.getPlayer().getUniqueId(), e.getClickedBlock().getLocation().toString());
 					((Teleporter) teleporter).onInteract(e.getPlayer(), e.getClickedBlock().getRelative(BlockFace.DOWN));
 				} catch (Exception x) {
 					x.printStackTrace();
@@ -58,8 +54,6 @@ public class TeleporterListener implements Listener {
 					}
 					
 					try {
-						if(Variables.dialogueCooldown.containsKey(e.getPlayer().getUniqueId())) return;
-						else Variables.dialogueCooldown.put(e.getPlayer().getUniqueId(), e.getClickedBlock().getLocation().toString());
 						((Teleporter) teleporter).onInteract(e.getPlayer(), e.getClickedBlock().getRelative(BlockFace.DOWN));
 					} catch (Exception x) {
 						x.printStackTrace();
@@ -69,18 +63,8 @@ public class TeleporterListener implements Listener {
 			else e.setCancelled(true);
 		}
 		else if (item.getID().equals("ELEVATOR_PLATE")) {
-			if(Variables.dialogueCooldown.containsKey(e.getPlayer().getUniqueId())) return;
-			else Variables.dialogueCooldown.put(e.getPlayer().getUniqueId(), e.getClickedBlock().getLocation().toString());
 			Elevator.openDialogue(e.getPlayer(), e.getClickedBlock());
 		}
 	}
-	
-	@EventHandler
-	public void onPlayerMove(PlayerMoveEvent e) {
-		if(Variables.dialogueCooldown.containsKey(e.getPlayer().getUniqueId())) {
-			if(!e.getPlayer().getLocation().toString().equals(Variables.dialogueCooldown.get(e.getPlayer().getUniqueId()))) {
-				Variables.dialogueCooldown.remove(e.getPlayer().getUniqueId());
-			}
-		}
-	}
+
 }

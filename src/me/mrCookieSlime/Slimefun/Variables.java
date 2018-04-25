@@ -23,6 +23,10 @@ public class Variables {
 	public static List<UUID> blocks = new ArrayList<UUID>();
 	public static List<UUID> cancelPlace = new ArrayList<UUID>();
 	public static Map<UUID, ItemStack> arrows = new HashMap<UUID, ItemStack>();
+<<<<<<< HEAD
 	public static Map<UUID, String> dialogueCooldown = new HashMap<UUID, String>();
+=======
+	public static List<UUID> usingGuide = new ArrayList<UUID>();
+>>>>>>> parent of f595cb0... Fix for players getting stuck in elevator books/teleporter guis
 
 }
