@@ -1158,6 +1158,7 @@ public class SlimefunSetup {
 				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("MAGIC_WORKBENCH");
 
 				if (mb.isMultiBlock(machine)) {
+
 					if(CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
 						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
 							Dispenser disp = null;
@@ -1174,10 +1175,35 @@ public class SlimefunSetup {
 								boolean craft = true;
 								for (int j = 0; j < inv.getContents().length; j++) {
 									if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
+
+					if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
+						Dispenser disp = null;
+
+						if (b.getRelative(1, 0, 0).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(1, 0, 0).getState();
+						else if (b.getRelative(0, 0, 1).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(0, 0, 1).getState();
+						else if (b.getRelative(-1, 0, 0).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(-1, 0, 0).getState();
+						else if (b.getRelative(0, 0, -1).getType() == Material.DISPENSER) disp = (Dispenser) b.getRelative(0, 0, -1).getState();
+
+						final Inventory inv = disp.getInventory();
+						List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
+
+						for (int i = 0; i < inputs.size(); i++) {
+							boolean craft = true;
+							for (int j = 0; j < inv.getContents().length; j++) {
+								if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
+									if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
+										if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], false)) {
+											craft = false;
+											break;
+										}
+									}
+									else {
+
 										craft = false;
 										break;
 									}
 								}
+
 
 								if (craft) {
 									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
@@ -1193,6 +1219,77 @@ public class SlimefunSetup {
 														if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
 														else inv.setItem(j, null);
 													}
+
+							if (craft) {
+								final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+								if (Slimefun.hasUnlocked(p, adding, true)) {
+									Inventory inv2 = Bukkit.createInventory(null, 9, "test");
+									for (int j = 0; j < inv.getContents().length; j++) {
+										inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1): null): null);
+									}
+									if (InvUtils.fits(inv2, adding)) {
+										SlimefunItem sfItem = SlimefunItem.getByItem(adding);
+
+										if (sfItem instanceof SlimefunBackpack) {
+											ItemStack backpack = null;
+
+											for (int j = 0; j < 9; j++) {
+												if (inv.getContents()[j] != null) {
+													if (inv.getContents()[j].getType() != Material.AIR) {
+														if (SlimefunItem.getByItem(inv.getContents()[j]) instanceof SlimefunBackpack) {
+															backpack = inv.getContents()[j];
+															break;
+														}
+													}
+												}
+											}
+											String id = "";
+											int size = ((SlimefunBackpack) sfItem).size;
+
+											if (backpack != null) {
+												for (String line: backpack.getItemMeta().getLore()) {
+													if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
+														id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
+														Config cfg = new Config(new File("data-storage/Slimefun/Players/" + id.split("#")[0] + ".yml"));
+														cfg.setValue("backpacks." + id.split("#")[1] + ".size", size);
+														cfg.save();
+														break;
+													}
+												}
+											}
+
+											if (id.equals("")) {
+												for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
+													if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+														ItemMeta im = adding.getItemMeta();
+														List<String> lore = im.getLore();
+														lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, size)));
+														im.setLore(lore);
+														adding.setItemMeta(im);
+														break;
+													}
+												}
+											}
+											else {
+												for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
+													if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+														ItemMeta im = adding.getItemMeta();
+														List<String> lore = im.getLore();
+														lore.set(line, lore.get(line).replace("<ID>", id));
+														im.setLore(lore);
+														adding.setItemMeta(im);
+														break;
+													}
+												}
+											}
+										}
+										
+										for (int j = 0; j < 9; j++) {
+											if (inv.getContents()[j] != null) {
+												if (inv.getContents()[j].getType() != Material.AIR) {
+													if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
+													else inv.setItem(j, null);
+
 												}
 											}
 											p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1);
@@ -4661,7 +4758,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				return BlockStorage.getBlockInfo(b, "owner").equals(p.getUniqueId().toString());
+				return true;
 			}
 		});
 
@@ -4697,11 +4794,8 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				if (BlockStorage.getBlockInfo(b, "owner").equals(p.getUniqueId().toString())) {
-					Projector.getArmorStand(b).remove();
-					return true;
-				}
-				else return false;
+				Projector.getArmorStand(b).remove();
+				return true;
 			}
 		});
 
