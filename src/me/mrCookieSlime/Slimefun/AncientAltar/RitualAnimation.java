@@ -98,11 +98,6 @@ public class RitualAnimation implements Runnable {
 		}
 		l.getWorld().playSound(l, Sound.BLOCK_NOTE_SNARE, 5F, 1F);
 
-		pedestals.forEach((pblock)->{
-			Variables.altarinuse.remove(pblock.getLocation());
-		});
-		Variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks upon abort.
-
 		altars.remove(altar);
 	}
 
