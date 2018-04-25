@@ -36,7 +36,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-public class AncientAltarListener implements Listener {	
+public class AncientAltarListener implements Listener {
 
 	public AncientAltarListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -49,22 +49,22 @@ public class AncientAltarListener implements Listener {
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
-		
+
 		SlimefunItem item = BlockStorage.check(b);
-		
+
 		if (item != null) {
 			Block verifyblock = findAncientAltar(b);
 			if (verifyblock != null) {
 				if (Variables.altarinuse.containsKey(verifyblock.getLocation())) {
 					e.setCancelled(true);
-					return;					
+					return;
 				}
 			} else {
 				e.setCancelled(true);
-				return;				
+				return;
 			}
-			
-			if (item.getID().equals("ANCIENT_PEDESTAL")) {				
+
+			if (item.getID().equals("ANCIENT_PEDESTAL")) {
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
@@ -81,9 +81,9 @@ public class AncientAltarListener implements Listener {
 					removed_items.add(uuid);
 
 					SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						
+
 						@Override
-						public void run() {							
+						public void run() {
 							removed_items.remove(uuid);
 						}
 					}, 30L);
@@ -94,21 +94,21 @@ public class AncientAltarListener implements Listener {
 					PlayerInventory.update(e.getPlayer());
 				}
 			}
-			else if (item.getID().equals("ANCIENT_ALTAR")) {				
+			else if (item.getID().equals("ANCIENT_ALTAR")) {
 				if (Variables.altarinuse.containsKey(b.getLocation())) {  // have to check here too in case of out of order clicking or spamming
 					e.setCancelled(true);
 					return;
 				} else {
-					if (Variables.altarinuse.containsKey(b.getLocation())) Variables.altarinuse.put(b.getLocation(), true); // lag before starting scheduled task means this also needs to be added here...
+					if (!(Variables.altarinuse.containsKey(b.getLocation()))) Variables.altarinuse.put(b.getLocation(), true); // lag before starting scheduled task means this also needs to be added here...
 				}
-				e.setCancelled(true);				
+				e.setCancelled(true);
 
 				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
-				List<Block> pedestals = Pedestals.getPedestals(b);			
+				List<Block> pedestals = Pedestals.getPedestals(b);
 
 				if (!altars.contains(e.getClickedBlock())) {
 					altars.add(e.getClickedBlock());
-					if (pedestals.size() == 8) {						
+					if (pedestals.size() == 8) {
 						if (catalyst != null && !catalyst.getType().equals(Material.AIR)) {
 							List<ItemStack> input = new ArrayList<ItemStack>();
 							for (Block pedestal: pedestals) {
@@ -120,8 +120,8 @@ public class AncientAltarListener implements Listener {
 								List<ItemStack> consumed = new ArrayList<ItemStack>();
 								consumed.add(catalyst);
 								PlayerInventory.consumeItemInHand(e.getPlayer());
+								if (!(Variables.altarinuse.containsKey(b.getLocation()))) Variables.altarinuse.put(b.getLocation(), true); // this shouldn't be needed again but for some reason is in some click-spamming situations.
 								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
-								if (Variables.altarinuse.containsKey(b.getLocation())) Variables.altarinuse.put(b.getLocation(), true); // this shouldn't be needed again but for some reason is in some click-spamming situations.
 							}
 							else {
 								altars.remove(e.getClickedBlock());
@@ -144,7 +144,7 @@ public class AncientAltarListener implements Listener {
 			}
 		}
 	}
-	
+
 	public static ItemStack fixItemStack(ItemStack itemStack, String customName) {
 		ItemStack stack = itemStack.clone();
 		if (customName.equals(StringUtils.formatItemName(itemStack.getData().toItemStack(1), false))) {
@@ -159,7 +159,7 @@ public class AncientAltarListener implements Listener {
 		}
 		return stack;
 	}
-	
+
 	public static Item findItem(Block b) {
 		for (Entity n: b.getChunk().getEntities()) {
 			if (n instanceof Item) {
@@ -168,43 +168,49 @@ public class AncientAltarListener implements Listener {
 		}
 		return null;
 	}
-	
+
 	private static Block getRelAltarBlock(Block b, Integer xC, Integer zC) {
 		Block rel = b.getRelative(xC, 0, zC);
 		SlimefunItem item = BlockStorage.check(rel);
 		if (item != null) {
-			if (item.getID().equals("ANCIENT_ALTAR")) return rel;	
+			if (item.getID().equals("ANCIENT_ALTAR")) return rel;
 		}
 		Block nonefound = null;
-		return nonefound;  // if here then relative coordinates did not find an Altar 
+		return nonefound;  // if here then relative coordinates did not find an Altar
 	}
 
-	public static Block findAncientAltar(Block b) {		
-		SlimefunItem item = BlockStorage.check(b);		
+	public static Block findAncientAltar(Block b) {
+		SlimefunItem item = BlockStorage.check(b);
 		if (item != null) {
-		
-			if (item.getID().equals("ANCIENT_ALTAR")) return b;	
+
+			if (item.getID().equals("ANCIENT_ALTAR")) return b;
 			if ((item.getID().equals("ANCIENT_PEDESTAL"))) {
-				
-				// Altar Linear Positions first...
-				if ((getRelAltarBlock(b,3,0) != null)) return getRelAltarBlock(b,3,0);
-				if ((getRelAltarBlock(b,-3,0) != null)) return getRelAltarBlock(b,-3,0);
-				if ((getRelAltarBlock(b,0,3) != null)) return getRelAltarBlock(b,0,3);
-				if ((getRelAltarBlock(b,0,-3) != null)) return getRelAltarBlock(b,0,-3);
-				
+
+				List<Block> foundaltars = new ArrayList<Block>();
+
+				// Altar linear positions
+				if (getRelAltarBlock(b,3,0) != null) foundaltars.add(getRelAltarBlock(b,3,0));
+				if (getRelAltarBlock(b,0,3) != null) foundaltars.add(getRelAltarBlock(b,0,3));
+				if (getRelAltarBlock(b,-3,0) != null) foundaltars.add(getRelAltarBlock(b,-3,0));
+				if (getRelAltarBlock(b,0,-3) != null) foundaltars.add(getRelAltarBlock(b,0,-3));
+
 				// Altar Diagonal Positions:
-				if ((getRelAltarBlock(b,-2,2) != null)) return getRelAltarBlock(b,-2,2);
-				if ((getRelAltarBlock(b,-2,-2) != null)) return getRelAltarBlock(b,-2,-2);
-				if ((getRelAltarBlock(b,2,2) != null)) return getRelAltarBlock(b,2,2);
-				if ((getRelAltarBlock(b,2,-2) != null)) return getRelAltarBlock(b,2,-2);
-				
+				if (getRelAltarBlock(b,-2,2) != null) foundaltars.add(getRelAltarBlock(b,-2,2));
+				if (getRelAltarBlock(b,-2,-2) != null) foundaltars.add(getRelAltarBlock(b,-2,-2));
+				if (getRelAltarBlock(b,2,2) != null) foundaltars.add(getRelAltarBlock(b,2,2));
+				if (getRelAltarBlock(b,2,-2) != null) foundaltars.add(getRelAltarBlock(b,2,-2));
+
+				Block fakealtarsetupfound = null;
+				if (foundaltars.size() > 1) return fakealtarsetupfound;  // effectively disable bypass by placing multiple altar blocks around altar.
+
+				if (foundaltars.size() == 1) return foundaltars.get(0);
 			}
 		}
-		
-		Block noblockfound = null;		 
-		return noblockfound;  // if here, didn't click on an altar block (or wasn't one built properly)		
+
+		Block noblockfound = null;
+		return noblockfound;  // if here, didn't click on an altar block (or wasn't one built properly)
 	}
-	
+
 	private void insertItem(Player p, Block b) {
 		final ItemStack stack = p.getInventory().getItemInMainHand();
 		if (stack != null) {
