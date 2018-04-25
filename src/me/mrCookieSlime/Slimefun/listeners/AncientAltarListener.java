@@ -51,27 +51,27 @@ public class AncientAltarListener implements Listener {
 		Block b = e.getClickedBlock();
 
 		SlimefunItem item = BlockStorage.check(b);
-
+		
 		if (item != null) {
-			Block verifyblock = findAncientAltar(b);
-			if (verifyblock != null) {
-				if (Variables.altarinuse.containsKey(verifyblock.getLocation())) {
+			if (item.getID().equals("ANCIENT_PEDESTAL")) {
+				Block verifyblock = findAncientAltar(b);
+				if (verifyblock != null) {
+					if (Variables.altarinuse.contains(verifyblock.getLocation())) {
+						e.setCancelled(true);
+						return;
+					}
+				} else {
 					e.setCancelled(true);
 					return;
-				}
-			} else {
-				e.setCancelled(true);
-				return;
-			}
-
-			if (item.getID().equals("ANCIENT_PEDESTAL")) {
+				}				
+				
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
 					if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
 					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
-						if (Variables.altarinuse.containsKey(b.getLocation())) Variables.altarinuse.remove(b.getLocation());
+						if (Variables.altarinuse.contains(b.getLocation())) Variables.altarinuse.remove(b.getLocation());
 						return;
 					}
 					insertItem(e.getPlayer(), b);
@@ -95,11 +95,14 @@ public class AncientAltarListener implements Listener {
 				}
 			}
 			else if (item.getID().equals("ANCIENT_ALTAR")) {
-				if (Variables.altarinuse.containsKey(b.getLocation())) {  // have to check here too in case of out of order clicking or spamming
+				if (Variables.altarinuse.contains(b.getLocation())) {
 					e.setCancelled(true);
 					return;
+				} else if (!Variables.altarinuse.contains(b.getLocation())) {
+					Variables.altarinuse.add(b.getLocation());  // make altarinuse simply because that was the last block clicked.
 				} else {
-					if (!(Variables.altarinuse.containsKey(b.getLocation()))) Variables.altarinuse.put(b.getLocation(), true); // lag before starting scheduled task means this also needs to be added here...
+					e.setCancelled(true);
+					return;
 				}
 				e.setCancelled(true);
 
@@ -120,25 +123,25 @@ public class AncientAltarListener implements Listener {
 								List<ItemStack> consumed = new ArrayList<ItemStack>();
 								consumed.add(catalyst);
 								PlayerInventory.consumeItemInHand(e.getPlayer());
-								if (!(Variables.altarinuse.containsKey(b.getLocation()))) Variables.altarinuse.put(b.getLocation(), true); // this shouldn't be needed again but for some reason is in some click-spamming situations.
+								if (!Variables.altarinuse.contains(b.getLocation())) Variables.altarinuse.add(b.getLocation());  // altarinuse already, but in case spam clicking meant it wasn't...
 								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
 							}
 							else {
 								altars.remove(e.getClickedBlock());
 								Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
-								if (Variables.altarinuse.containsKey(b.getLocation())) Variables.altarinuse.remove(b.getLocation());  // bad recipe then not in use
+								if (Variables.altarinuse.contains(b.getLocation())) Variables.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use.
 							}
 						}
 						else {
 							altars.remove(e.getClickedBlock());
 							Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
-							if (Variables.altarinuse.containsKey(b.getLocation())) Variables.altarinuse.remove(b.getLocation()); // bad recipe then not in use
+							if (Variables.altarinuse.contains(b.getLocation())) Variables.altarinuse.remove(b.getLocation());  // unkown catalyst, no longer in use
 						}
 					}
 					else {
 						altars.remove(e.getClickedBlock());
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, new Variable("%pedestals%", String.valueOf(pedestals.size())));
-						if (Variables.altarinuse.containsKey(b.getLocation())) Variables.altarinuse.remove(b.getLocation());  // altar not properly built then not in use
+						if (Variables.altarinuse.contains(b.getLocation())) Variables.altarinuse.remove(b.getLocation());  // not a proper altar, so not in use.
 					}
 				}
 			}
@@ -202,13 +205,12 @@ public class AncientAltarListener implements Listener {
 
 				Block fakealtarsetupfound = null;
 				if (foundaltars.size() > 1) return fakealtarsetupfound;  // effectively disable bypass by placing multiple altar blocks around altar.
-
 				if (foundaltars.size() == 1) return foundaltars.get(0);
 			}
 		}
 
 		Block noblockfound = null;
-		return noblockfound;  // if here, didn't click on an altar block (or wasn't one built properly)
+		return noblockfound;  // should never get here.
 	}
 
 	private void insertItem(Player p, Block b) {
