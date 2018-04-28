@@ -69,8 +69,14 @@ public class XPCollector extends SlimefunItem {
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				me.mrCookieSlime.Slimefun.holograms.XPCollector.getArmorStand(b).remove();
-				for (int slot: getOutputSlots()) {
-					if (BlockStorage.getInventory(b).getItemInSlot(slot) != null) b.getWorld().dropItemNaturally(b.getLocation(), BlockStorage.getInventory(b).getItemInSlot(slot));
+				BlockMenu inv = BlockStorage.getInventory(b);
+				if (inv != null) {
+					for (int slot: getOutputSlots()) {
+						if (inv.getItemInSlot(slot) != null) {
+							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+							inv.replaceExistingItem(slot, null);
+						}
+					}
 				}
 				return true;
 			}
