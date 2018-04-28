@@ -211,14 +211,17 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				boolean allow =  reason.equals(UnregisterReason.PLAYER_BREAK) && (BlockStorage.getBlockInfo(b, "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
 
 				if (allow) {
-					if (BlockStorage.getInventory(b).getItemInSlot(43) != null) {
-						b.getWorld().dropItemNaturally(b.getLocation(), BlockStorage.getInventory(b).getItemInSlot(43));
-						BlockStorage.getInventory(b).replaceExistingItem(43, null);
-					}
-					for (int slot: getOutputSlots()) {
-						if (BlockStorage.getInventory(b).getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), BlockStorage.getInventory(b).getItemInSlot(slot));
-							BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+					BlockMenu inv = BlockStorage.getInventory(b);
+					if (inv != null) {
+						if (inv.getItemInSlot(43) != null) {
+							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(43));
+							inv.replaceExistingItem(43, null);
+						}
+						for (int slot: getOutputSlots()) {
+							if (inv.getItemInSlot(slot) != null) {
+								b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+								inv.replaceExistingItem(slot, null);
+							}
 						}
 					}
 					AndroidStatusHologram.remove(b);
