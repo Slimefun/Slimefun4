@@ -1889,20 +1889,13 @@ public class SlimefunSetup {
 				if (mb.isMultiBlock(SlimefunItem.getByID("SAW_MILL"))) {
 					if(CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), b.getRelative(BlockFace.UP), true)) {
 						if (Slimefun.hasUnlocked(p, SlimefunItems.SAW_MILL, true)) {
-							if (b.getRelative(BlockFace.UP).getType() == Material.LOG) {
+							if (b.getRelative(BlockFace.UP).getType() == Material.LOG || b.getRelative(BlockFace.UP).getType() == Material.LOG_2) {
 								Block log = b.getRelative(BlockFace.UP);
 								if(!BlockStorage.hasBlockInfo(log)) {
-									log.getWorld().dropItemNaturally(log.getLocation(), new CustomItem(Material.WOOD, log.getData() % 4, 8));
+									ItemStack item = log.getType() == Material.LOG ? new CustomItem(Material.WOOD, log.getData() % 4, 8) : new CustomItem(Material.WOOD, (log.getData() % 2) + 4, 8);
+									log.getWorld().dropItemNaturally(log.getLocation(), item);
 									log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 									log.setType(Material.AIR); 
-								}
-							}
-							else if (b.getRelative(BlockFace.UP).getType() == Material.LOG_2) {
-								Block log = b.getRelative(BlockFace.UP);
-								if(!BlockStorage.hasBlockInfo(log)) {
-									log.getWorld().dropItemNaturally(log.getLocation(), new CustomItem(Material.WOOD, (log.getData() % 2) + 4, 8));
-									log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
-									log.setType(Material.AIR);
 								}
 							}
 						}
