@@ -1887,7 +1887,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 				if (mb.isMultiBlock(SlimefunItem.getByID("SAW_MILL"))) {
-					if(CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), b, true)) {
+					if(CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), b.getRelative(BlockFace.UP), true)) {
 						if (Slimefun.hasUnlocked(p, SlimefunItems.SAW_MILL, true)) {
 							if (b.getRelative(BlockFace.UP).getType() == Material.LOG) {
 								Block log = b.getRelative(BlockFace.UP);
