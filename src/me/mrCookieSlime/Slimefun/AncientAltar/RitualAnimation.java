@@ -93,9 +93,9 @@ public class RitualAnimation implements Runnable {
 
 	private void abort() {
 		running = false;
-		//for (ItemStack stack: items) {  // causes dupe when broken?
-		//	l.getWorld().dropItemNaturally(l, stack);
-		//}
+//		for (ItemStack stack: items) {  // causes dupe when broken?
+//			l.getWorld().dropItemNaturally(l, stack);
+//		}
 		l.getWorld().playSound(l, Sound.BLOCK_NOTE_SNARE, 5F, 1F);
 
 		altars.remove(altar);
