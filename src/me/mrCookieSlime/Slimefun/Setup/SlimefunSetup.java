@@ -158,6 +158,8 @@ import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 @SuppressWarnings("deprecation")
 public class SlimefunSetup {
 
+	public static boolean legacy_ore_washer = false;
+
 	public static void setupItems() throws Exception {
 		new SlimefunItem(Categories.WEAPONS, SlimefunItems.GRANDMAS_WALKING_STICK, "GRANDMAS_WALKING_STICK", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.LOG), null, null, new ItemStack(Material.LOG), null, null, new ItemStack(Material.LOG), null})
@@ -1415,7 +1417,7 @@ public class SlimefunSetup {
 										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.LEAD_DUST;
 										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.SILVER_DUST;
 
-										if (inv.firstEmpty() != -1) {
+										if (inv.firstEmpty() != -1 || (legacy_ore_washer && InvUtils.fits(inv, adding))) {
 											ItemStack removing = current.clone();
 											removing.setAmount(1);
 											inv.removeItem(removing);
