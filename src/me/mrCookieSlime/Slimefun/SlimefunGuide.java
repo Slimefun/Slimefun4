@@ -111,7 +111,6 @@ public class SlimefunGuide {
 	public static void openSettings(Player p, final ItemStack guide) {
 		final ChestMenu menu = new ChestMenu("Settings / Info");
 		
-		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(new MenuOpeningHandler() {
 			
 			@Override
@@ -244,7 +243,6 @@ public class SlimefunGuide {
 	public static void openCredits(Player p, final ItemStack guide) {
 		final ChestMenu menu = new ChestMenu("Credits");
 		
-		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(new MenuOpeningHandler() {
 			
 			@Override
@@ -495,7 +493,6 @@ public class SlimefunGuide {
 		else {
 			final ChestMenu menu = new ChestMenu("Slimefun Guide");
 			
-			menu.setEmptySlotsClickable(false);
 			menu.addMenuOpeningHandler(new MenuOpeningHandler() {
 				
 				@Override
@@ -779,7 +776,6 @@ public class SlimefunGuide {
 		else {
 			final ChestMenu menu = new ChestMenu("Slimefun Guide");
 			
-			menu.setEmptySlotsClickable(false);
 			menu.addMenuOpeningHandler(new MenuOpeningHandler() {
 				
 				@Override
@@ -972,7 +968,6 @@ public class SlimefunGuide {
 		
 		ChestMenu menu = new ChestMenu("Slimefun Guide");
 		
-		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(new MenuOpeningHandler() {
 			
 			@Override
