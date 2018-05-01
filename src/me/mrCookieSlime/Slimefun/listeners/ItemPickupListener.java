@@ -1,6 +1,8 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
+
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
@@ -20,7 +22,7 @@ public class ItemPickupListener implements Listener {
     @EventHandler
     public void onPickup(PlayerPickupItemEvent e) {
         if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-        else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
+        else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ChatColor.translateAlternateColorCodes('&', "&5&dALTAR &3Probe - &e"))) {
             e.setCancelled(true);
             e.getItem().remove();
         }
@@ -29,7 +31,7 @@ public class ItemPickupListener implements Listener {
     @EventHandler
     public void onMinecartPickup(InventoryPickupItemEvent e) {
         if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-        else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith("&5&dALTAR &3Probe - &e")) {
+        else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ChatColor.translateAlternateColorCodes('&', "&5&dALTAR &3Probe - &e"))) {
             e.setCancelled(true);
             e.getItem().remove();
         }
