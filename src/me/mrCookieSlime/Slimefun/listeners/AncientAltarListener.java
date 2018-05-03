@@ -16,6 +16,7 @@ import me.mrCookieSlime.Slimefun.AncientAltar.RitualAnimation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.Variables;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -51,6 +52,10 @@ public class AncientAltarListener implements Listener {
 		SlimefunItem item = BlockStorage.check(b);
 		if (item != null) {
 			if (item.getID().equals("ANCIENT_PEDESTAL")) {
+				if (Variables.altarinuse.contains(b.getLocation())) {
+					e.setCancelled(true);
+					return;
+				}				
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
@@ -80,6 +85,11 @@ public class AncientAltarListener implements Listener {
 				}
 			}
 			else if (item.getID().equals("ANCIENT_ALTAR")) {
+				if (Variables.altarinuse.contains(b.getLocation())) {
+					e.setCancelled(true);
+					return;
+				}
+				Variables.altarinuse.add(b.getLocation());  // make altarinuse simply because that was the last block clicked.
 				e.setCancelled(true);
 
 				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
@@ -88,6 +98,9 @@ public class AncientAltarListener implements Listener {
 				if (!altars.contains(e.getClickedBlock())) {
 					altars.add(e.getClickedBlock());
 					if (pedestals.size() == 8) {
+						pedestals.forEach((pblock)->{
+							Variables.altarinuse.add(pblock.getLocation());
+						});
 						if (catalyst != null && !catalyst.getType().equals(Material.AIR)) {
 							List<ItemStack> input = new ArrayList<ItemStack>();
 							for (Block pedestal: pedestals) {
@@ -105,16 +118,25 @@ public class AncientAltarListener implements Listener {
 							else {
 								altars.remove(e.getClickedBlock());
 								Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
+								pedestals.forEach((pblock)->{
+									Variables.altarinuse.remove(pblock.getLocation());
+								});
+								Variables.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use.								
 							}
 						}
 						else {
 							altars.remove(e.getClickedBlock());
 							Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
+							pedestals.forEach((pblock)->{
+								Variables.altarinuse.remove(pblock.getLocation());
+							});
+							Variables.altarinuse.remove(b.getLocation());  // unkown catalyst, no longer in use							
 						}
 					}
 					else {
 						altars.remove(e.getClickedBlock());
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, new Variable("%pedestals%", String.valueOf(pedestals.size())));
+						Variables.altarinuse.remove(b.getLocation());  // not a valid altar so remove from inuse
 					}
 				}
 			}
