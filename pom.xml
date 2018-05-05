@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.1.14</version>
-
+    <version>v4.1.15</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <repositories>
         <repository>
             <id>paper-repo</id>
@@ -27,30 +22,26 @@
             <id>worldedit-worldguard-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-		<repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
             <id>robomwm-repo</id>
             <url>https://dl.bintray.com/robomwm/maven</url>
         </repository>
     </repositories>
-
     <build>
-    <!--Maintain existing structure (as much as possible)-->
         <sourceDirectory>${project.basedir}/src</sourceDirectory>
-        <!--doesn't exist but here if you ever do make such a directory-->
         <testSourceDirectory>${project.basedir}/tests/java</testSourceDirectory>
         <testResources>
-          <testResource>
-            <directory>${project.basedir}/tests/resources</directory>
-          </testResource>
+            <testResource>
+                <directory>${project.basedir}/tests/resources</directory>
+            </testResource>
         </testResources>
         <finalName>${project.name} v${project.version}</finalName>
         <resources>
             <resource>
-            <!-- Use plugin.yml in the src directory-->
                 <directory>${basedir}/src</directory>
                 <filtering>true</filtering>
                 <includes>
@@ -60,9 +51,7 @@
             </resource>
         </resources>
     </build>
-
     <dependencies>
-        <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
@@ -75,17 +64,17 @@
             <version>6.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-	        <groupId>com.github.TheBusyBiscuit</groupId>
-	        <artifactId>CS-CoreLib</artifactId>
-	        <version>v1.5.18</version>
-	    </dependency>
+            <groupId>com.github.TheBusyBiscuit</groupId>
+            <artifactId>CS-CoreLib</artifactId>
+            <version>v1.5.18</version>
+        </dependency>
         <dependency>
-	        <groupId>me.minebuilders</groupId>
-	        <artifactId>clearlag-core</artifactId>
-	        <version>2.9.7</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
-	    </dependency>
+            <groupId>me.minebuilders</groupId>
+            <artifactId>clearlag-core</artifactId>
+            <version>2.9.7</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
+        </dependency>
         <dependency>
             <groupId>net.coreprotect</groupId>
             <artifactId>CoreProtect</artifactId>
@@ -94,17 +83,16 @@
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
             <artifactId>EmeraldEnchants</artifactId>
-	        <version>2.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/EmeraldEnchants v2.0.jar</systemPath>
+            <version>2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/EmeraldEnchants v2.0.jar</systemPath>
         </dependency>
         <dependency>
-	        <groupId>me.mrCookieSlime</groupId>
-	        <artifactId>ExoticGarden</artifactId>
-	        <version>1.2.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/ExoticGarden v1.2.0.jar</systemPath>
-	    </dependency>
+            <groupId>me.mrCookieSlime</groupId>
+            <artifactId>ExoticGarden</artifactId>
+            <version>1.2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ExoticGarden v1.2.0.jar</systemPath>
+        </dependency>
     </dependencies>
-
 </project>
