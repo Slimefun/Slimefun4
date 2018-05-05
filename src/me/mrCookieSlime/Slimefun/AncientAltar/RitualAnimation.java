@@ -1,11 +1,13 @@
 package me.mrCookieSlime.Slimefun.AncientAltar;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_8.ParticleEffect;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
+import me.mrCookieSlime.Slimefun.Variables;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -92,9 +94,9 @@ public class RitualAnimation implements Runnable {
 
 	private void abort() {
 		running = false;
-		for (ItemStack stack: items) {
-			l.getWorld().dropItemNaturally(l, stack);
-		}
+//		for (ItemStack stack: items) {
+//			l.getWorld().dropItemNaturally(l, stack);
+//		}
 		l.getWorld().playSound(l, Sound.BLOCK_NOTE_SNARE, 5F, 1F);
 		altars.remove(altar);
 	}
@@ -103,6 +105,12 @@ public class RitualAnimation implements Runnable {
 		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 		l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
 		l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
+
+		pedestals.forEach((pblock)->{
+			Variables.altarinuse.remove(pblock.getLocation());
+		});
+		Variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks on craft completion.
+		
 		altars.remove(altar);
 	}
 
