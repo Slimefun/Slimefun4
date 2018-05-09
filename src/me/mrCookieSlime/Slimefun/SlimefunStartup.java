@@ -40,6 +40,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricDustWasher;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
@@ -202,6 +203,7 @@ public class SlimefunStartup extends JavaPlugin {
 			new FurnaceListener(this);
 			new TeleporterListener(this);
 			new AndroidKillingListener(this);
+			new NetworkListener(this);
 			if (currentVersion.startsWith("v1_12_")) new ItemPickupListener_1_12(this);
 			else new ItemPickupListener(this);
 
@@ -273,7 +275,7 @@ public class SlimefunStartup extends JavaPlugin {
 						new BlockStorage(world);
 					}
 
-					if (SlimefunItem.getByName("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
+					if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
 				}
 			}, 0);
 
@@ -386,6 +388,9 @@ public class SlimefunStartup extends JavaPlugin {
 
 			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
 
+			SlimefunSetup.legacy_ore_washer = config.getBoolean("options.legacy-ore-washer");
+			ElectricDustWasher.legacy_dust_washer = config.getBoolean("options.legacy-dust-washer");
+
 			// Do not show /sf elevator command in our Log, it could get quite spammy
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 		}
@@ -438,6 +443,7 @@ public class SlimefunStartup extends JavaPlugin {
 		Variables.jump = null;
 		Variables.mode = null;
 		SlimefunGuide.history = null;
+		Variables.altarinuse = null;
 		Variables.enchanting = null;
 		Variables.backpack = null;
 		Variables.soulbound = null;

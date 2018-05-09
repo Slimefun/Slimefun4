@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Hopper;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.FallingBlock;
@@ -24,7 +25,9 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
@@ -216,7 +219,7 @@ public class ItemListener implements Listener {
 						float cost = 0.3F;
 						if (charge >= cost) {
 							p.setItemInHand(ItemEnergy.chargeItem(item, -cost));
-							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByName((String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getName(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
+							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getID(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
 						}
 					}
 					else {
@@ -384,6 +387,14 @@ public class ItemListener implements Listener {
             	e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
+        }
+    }
+	
+	@EventHandler (ignoreCancelled = true)
+    public void onPreBrew(InventoryClickEvent e) {
+        Inventory inventory = e.getInventory();
+        if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand) {
+	        if(e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
         }
     }
 }

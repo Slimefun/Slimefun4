@@ -23,7 +23,7 @@ public class TickerTask implements Runnable {
 	
 	public boolean HALTED = false;
 	
-	public Map<Block, Block> move = new HashMap<Block, Block>();
+	public Map<Location, Location> move = new HashMap<Location, Location>();
 	public Map<Location, Boolean> delete = new HashMap<Location, Boolean>();
 	
 	private Set<BlockTicker> tickers = new HashSet<BlockTicker>();
@@ -72,9 +72,9 @@ public class TickerTask implements Runnable {
 				chunks++;
 				
 				blocks:
-				for (final Block b: BlockStorage.getTickingBlocks(c)) {
-					if (b.getChunk().isLoaded()) {
-						final Location l = b.getLocation();
+				for (final Location l: BlockStorage.getTickingLocations(c)) {
+					if (l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4)) {
+						final Block b = l.getBlock();
 						final SlimefunItem item = BlockStorage.check(l);
 						if (item != null) {
 							machines++;
@@ -99,33 +99,11 @@ public class TickerTask implements Runnable {
 												errors++;
 												
 												if (errors == 1) {
+													int try_count = 1;
 													File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
-													if (file.exists()) {
-														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2).err");
-														if (file.exists()) {
-															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3).err");
-															if (file.exists()) {
-																file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4).err");
-																if (file.exists()) {
-																	file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5).err");
-																	if (file.exists()) {
-																		file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6).err");
-																		if (file.exists()) {
-																			file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7).err");
-																			if (file.exists()) {
-																				file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8).err");
-																				if (file.exists()) {
-																					file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(9).err");
-																					if (file.exists()) {
-																						file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(10).err");
-																					}
-																				}
-																			}
-																		}
-																	}
-																}
-															}
-														}
+													while (file.exists()) {
+														try_count += 1;
+														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(" + try_count + ").err");
 													}
 													try {
 														PrintStream stream = new PrintStream(file);
@@ -333,7 +311,7 @@ public class TickerTask implements Runnable {
 						else skipped++;
 					}
 					else {
-						skipped += BlockStorage.getTickingBlocks(c).size();
+						skipped += BlockStorage.getTickingLocations(c).size();
 						skipped_chunks.add(c);
 						chunks--;
 						break blocks;
@@ -344,8 +322,8 @@ public class TickerTask implements Runnable {
 			}
 		}
 		
-		for (Map.Entry<Block, Block> entry: move.entrySet()) {
-			BlockStorage._integrated_moveBlockInfo(entry.getKey(), entry.getValue());
+		for (Map.Entry<Location, Location> entry: move.entrySet()) {
+			BlockStorage._integrated_moveLocationInfo(entry.getKey(), entry.getValue());
 		}
 		move.clear();
 		

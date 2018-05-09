@@ -10,6 +10,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -52,8 +53,8 @@ public class TeleportationSequence {
 		players.remove(uuid);
 		if (p != null) {
 			try {
-				TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("&4Teleportation cancelled");
-				TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("&40%");
+				TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(ChatColor.translateAlternateColorCodes('&', "&4Teleportation cancelled"));
+				TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(ChatColor.translateAlternateColorCodes('&', "&40%"));
 				
 				title.send(TitleType.TITLE, p);
 				subtitle.send(TitleType.SUBTITLE, p);
@@ -68,8 +69,8 @@ public class TeleportationSequence {
 		if (isValid(p, source)) {
 			try {
 				if (progress > 99) {
-					TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("&3Teleported!");
-					TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("&b100%");
+					TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(ChatColor.translateAlternateColorCodes('&', "&3Teleported!"));
+					TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(ChatColor.translateAlternateColorCodes('&', "&b100%"));
 					
 					title.send(TitleType.TITLE, p);
 					subtitle.send(TitleType.SUBTITLE, p);
@@ -78,7 +79,7 @@ public class TeleportationSequence {
 					
 					if (resistance) {
 						p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
-						p.sendMessage("&b&lYou have been given 30 Seconds of Invulnerability!");
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b&lYou have been given 30 Seconds of Invulnerability!"));
 					}
 					
 					ParticleEffect.PORTAL.display(new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()), 0.2F, 0.8F, 0.2F, 1, progress * 2);
@@ -86,8 +87,8 @@ public class TeleportationSequence {
 					players.remove(uuid);
 				}
 				else {
-					TitleBuilder title = (TitleBuilder) new TitleBuilder(0, 60, 0).addText("&3Teleporting...");
-					TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(0, 60, 0).addText("&b" + progress + "%");
+					TitleBuilder title = (TitleBuilder) new TitleBuilder(0, 60, 0).addText(ChatColor.translateAlternateColorCodes('&', "&3Teleporting..."));
+					TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(0, 60, 0).addText(ChatColor.translateAlternateColorCodes('&', "&b" + progress + "%"));
 					
 					title.send(TitleType.TITLE, p);
 					subtitle.send(TitleType.SUBTITLE, p);

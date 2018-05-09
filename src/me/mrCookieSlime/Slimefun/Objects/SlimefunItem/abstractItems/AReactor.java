@@ -134,13 +134,22 @@ public abstract class AReactor extends SlimefunItem {
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot: getFuelSlots()) {
-						if (inv.getItemInSlot(slot) != null) b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+						if (inv.getItemInSlot(slot) != null) {
+							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+							inv.replaceExistingItem(slot, null);
+						}
 					}
 					for (int slot: getCoolantSlots()) {
-						if (inv.getItemInSlot(slot) != null) b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+						if (inv.getItemInSlot(slot) != null) {
+							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+							inv.replaceExistingItem(slot, null);
+						}
 					}
 					for (int slot: getOutputSlots()) {
-						if (inv.getItemInSlot(slot) != null) b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+						if (inv.getItemInSlot(slot) != null) {
+							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+							inv.replaceExistingItem(slot, null);
+						}
 					}
 				}
 				progress.remove(b.getLocation());
@@ -299,10 +308,11 @@ public abstract class AReactor extends SlimefunItem {
 					extraTick(l);
 					int timeleft = progress.get(l);
 					if (timeleft > 0) {
-						if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction()) {
+						boolean should_charge = ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction();
+						if (should_charge) {
 							ChargableBlock.addCharge(l, getEnergyProduction());
 						}
-						if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction() || !BlockStorage.getBlockInfo(l, "reactor-mode").equals("generator")) {
+						if (should_charge || !BlockStorage.getBlockInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
 
 							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {

@@ -144,7 +144,7 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(145, "XP Storage", 13), SlimefunItems.FLASK_OF_KNOWLEDGE);
 	    Slimefun.registerResearch(new Research(146, "Withstanding Explosions", 15), SlimefunItems.REINFORCED_PLATE, SlimefunItems.HARDENED_GLASS);
 	    Slimefun.registerResearch(new Research(148, "Happy Easter", 1));
-	    Slimefun.registerResearch(new Research(149, "Golden potion", 24), SlimefunItems.GOLDE_APPLE_JUICE);
+	    Slimefun.registerResearch(new Research(149, "Golden potion", 24), SlimefunItems.GOLDEN_APPLE_JUICE);
 	    Slimefun.registerResearch(new Research(150, "Portable Beverages", 24), SlimefunItems.COOLING_UNIT, SlimefunItems.COOLER);
 	    Slimefun.registerResearch(new Research(151, "Ancient Altar", 15), SlimefunItems.ANCIENT_PEDESTAL, SlimefunItems.ANCIENT_ALTAR);
 	    Slimefun.registerResearch(new Research(152, "Wither-Proof Obsidian", 21), SlimefunItems.WITHER_PROOF_OBSIDIAN);
