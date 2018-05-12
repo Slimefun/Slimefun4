@@ -74,7 +74,7 @@ public class Research {
 	 * {@link Slimefun#registerResearch(Research, org.bukkit.inventory.ItemStack...)}.
 	 * 
 	 * @param id Unique integer ID for this research, used for {@link #getByID(int)} and to
-	 *		   register it in Researches.yml
+	 * register it in Researches.yml
 	 * @param name Display name of the research
 	 * @param cost Cost in XP levels to unlock the research
 	 * 

@@ -65,9 +65,9 @@ public class SlimefunGuide {
 	public static int issues = 0;
 	public static int forks = 0;
 	/**
-	* Represents the number of stars on the Slimefun4 GitHub repository.
-	* @since 4.1.13
-	*/
+	 * Represents the number of stars on the Slimefun4 GitHub repository.
+	 * @since 4.1.13
+	 */
 	public static int stars = 0;
 	public static int code_bytes = 0;
 	public static Date last_update = new Date();
