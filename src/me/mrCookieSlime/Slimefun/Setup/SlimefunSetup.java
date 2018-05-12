@@ -165,8 +165,16 @@ public class SlimefunSetup {
 		new ItemStack[] {null, new ItemStack(Material.LOG), null, null, new ItemStack(Material.LOG), null, null, new ItemStack(Material.LOG), null})
 		.register(true);
 
+		new SlimefunItem(Categories.WEAPONS, SlimefunItems.GRANDMAS_WALKING_STICK, "GRANDMAS_WALKING_STICK2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {null, new ItemStack(Material.LOG_2), null, null, new ItemStack(Material.LOG_2), null, null, new ItemStack(Material.LOG_2), null}, true)
+		.register(true);
+
 		new SlimefunItem(Categories.WEAPONS, SlimefunItems.GRANDPAS_WALKING_STICK, "GRANDPAS_WALKING_STICK", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.LEATHER), new ItemStack(Material.LOG), new ItemStack(Material.LEATHER), null, new ItemStack(Material.LOG), null, null, new ItemStack(Material.LOG), null})
+		.register(true);
+
+		new SlimefunItem(Categories.WEAPONS, SlimefunItems.GRANDPAS_WALKING_STICK, "GRANDPAS_WALKING_STICK2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {new ItemStack(Material.LEATHER), new ItemStack(Material.LOG_2), new ItemStack(Material.LEATHER), null, new ItemStack(Material.LOG_2), null, null, new ItemStack(Material.LOG_2), null}, true)
 		.register(true);
 
 		new SlimefunItem(Categories.PORTABLE, SlimefunItems.PORTABLE_CRAFTER, "PORTABLE_CRAFTER", RecipeType.ENHANCED_CRAFTING_TABLE,
