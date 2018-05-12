@@ -9,14 +9,14 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 
 public class MagnetTask implements Runnable {
-	
+
 	UUID uuid;
 	int id;
-	
+
 	public MagnetTask(Player p) {
 		this.uuid = p.getUniqueId();
 	}
-	
+
 	public void setID(int id) {
 		this.id = id;
 	}

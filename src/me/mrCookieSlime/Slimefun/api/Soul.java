@@ -10,14 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Soul {
-	
+
 	public static void storeItem(UUID uuid, ItemStack drop) {
 		List<ItemStack> items = new ArrayList<ItemStack>();
 		if (Variables.soulbound.containsKey(uuid)) items = Variables.soulbound.get(uuid);
 		items.add(drop);
 		Variables.soulbound.put(uuid, items);
 	}
-	
+
 	public static void retrieveItems(Player p) {
 		if (Variables.soulbound.containsKey(p.getUniqueId())) {
 			for (ItemStack item: Variables.soulbound.get(p.getUniqueId())) {
@@ -27,7 +27,7 @@ public class Soul {
 				if (item.equals(p.getInventory().getBoots())) continue;
 				if (item.equals(p.getInventory().getItemInOffHand())) continue;
 
-				if(!p.getInventory().contains(item)) {
+				if (!p.getInventory().contains(item)) {
 					p.getInventory().addItem(item);
 				}
 			}

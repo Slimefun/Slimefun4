@@ -20,14 +20,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 
 public class TickerTask implements Runnable {
-	
+
 	public boolean HALTED = false;
-	
+
 	public Map<Location, Location> move = new HashMap<Location, Location>();
 	public Map<Location, Boolean> delete = new HashMap<Location, Boolean>();
-	
+
 	private Set<BlockTicker> tickers = new HashSet<BlockTicker>();
-	
+
 	private int skipped = 0, chunks = 0, machines = 0;
 	private long time = 0;
 	private Map<String, Integer> map_chunk = new HashMap<String, Integer>();
@@ -37,14 +37,13 @@ public class TickerTask implements Runnable {
 	private Set<String> skipped_chunks = new HashSet<String>();
 
 	public static Map<Location, Long> block_timings = new HashMap<Location, Long>();
-	
+
 	public static Map<Location, Integer> bugged_blocks = new HashMap<Location, Integer>();
-	
+
 	@Override
 	public void run() {
-		
 		long timestamp = System.currentTimeMillis();
-		
+
 		skipped = 0;
 		chunks = 0;
 		machines = 0;
@@ -58,19 +57,19 @@ public class TickerTask implements Runnable {
 
 		final Map<Location, Integer> bugged = new HashMap<Location, Integer>(bugged_blocks);
 		bugged_blocks.clear();
-		
+
 		Map<Location, Boolean> remove = new HashMap<Location, Boolean>(delete);
 
 		for (Map.Entry<Location, Boolean> entry: remove.entrySet()) {
 			BlockStorage._integrated_removeBlockInfo(entry.getKey(), entry.getValue());
 			delete.remove(entry.getKey());
 		}
-		
+
 		if (!HALTED) {
 			for (final String c: BlockStorage.getTickingChunks()) {
 				long timestamp2 = System.currentTimeMillis();
 				chunks++;
-				
+
 				blocks:
 				for (final Location l: BlockStorage.getTickingLocations(c)) {
 					if (l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4)) {
@@ -79,25 +78,24 @@ public class TickerTask implements Runnable {
 						if (item != null) {
 							machines++;
 							try {
-								item.getTicker().update();
-								if (item.getTicker().isSynchronized()) {
+								item.getBlockTicker().update();
+								if (item.getBlockTicker().isSynchronized()) {
 									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-										
 										@Override
 										public void run() {
 											try {
 												long timestamp3 = System.currentTimeMillis();
-												item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
-												
+												item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
+
 												map_machinetime.put(item.getID(), (map_machinetime.containsKey(item.getID()) ? map_machinetime.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
 												map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
 												map_machine.put(item.getID(), (map_machine.containsKey(item.getID()) ? map_machine.get(item.getID()): 0) + 1);
 												block_timings.put(l, System.currentTimeMillis() - timestamp3);
-											} catch(Exception x) {
+											} catch (Exception x) {
 												int errors = 0;
 												if (bugged.containsKey(l)) errors = bugged.get(l);
 												errors++;
-												
+
 												if (errors == 1) {
 													int try_count = 1;
 													File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
@@ -156,19 +154,19 @@ public class TickerTask implements Runnable {
 														stream.println("Stacktrace:");
 														stream.println();
 														x.printStackTrace(stream);
-														
+
 														stream.close();
 													} catch (FileNotFoundException e) {
 														e.printStackTrace();
 													}
-													
+
 													System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
 													System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
 													System.err.println("[Slimefun] Saved as: ");
 													System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
 													System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
 													System.err.println("[Slimefun] ");
-													
+
 													bugged_blocks.put(l, errors);
 												}
 												else if (errors == 4) {
@@ -176,16 +174,14 @@ public class TickerTask implements Runnable {
 													System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
 													System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
 													System.err.println("[Slimefun] ");
-													
-													BlockStorage._integrated_removeBlockInfo(l, true);
-													
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 
+													BlockStorage._integrated_removeBlockInfo(l, true);
+
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 														@Override
 														public void run() {
 															l.getBlock().setType(Material.AIR);
 														}
-														
 													});
 												}
 												else {
@@ -197,20 +193,19 @@ public class TickerTask implements Runnable {
 								}
 								else {
 									long timestamp3 = System.currentTimeMillis();
-									item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
-									
+									item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
+
 									map_machinetime.put(item.getID(), (map_machinetime.containsKey(item.getID()) ? map_machinetime.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
 									map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
 									map_machine.put(item.getID(), (map_machine.containsKey(item.getID()) ? map_machine.get(item.getID()): 0) + 1);
 									block_timings.put(l, System.currentTimeMillis() - timestamp3);
 								}
-								tickers.add(item.getTicker());
-							} catch(Exception x) {
-								
+								tickers.add(item.getBlockTicker());
+							} catch (Exception x) {
 								int errors = 0;
 								if (bugged.containsKey(l)) errors = bugged.get(l);
 								errors++;
-								
+
 								if (errors == 1) {
 									File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
 									if (file.exists()) {
@@ -271,19 +266,19 @@ public class TickerTask implements Runnable {
 										stream.println("Stacktrace:");
 										stream.println();
 										x.printStackTrace(stream);
-										
+
 										stream.close();
 									} catch (FileNotFoundException e) {
 										e.printStackTrace();
 									}
-									
+
 									System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
 									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
 									System.err.println("[Slimefun] Saved as: ");
 									System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
 									System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
 									System.err.println("[Slimefun] ");
-									
+
 									bugged_blocks.put(l, errors);
 								}
 								else if (errors == 4) {
@@ -291,16 +286,14 @@ public class TickerTask implements Runnable {
 									System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
 									System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
 									System.err.println("[Slimefun] ");
-									
-									BlockStorage._integrated_removeBlockInfo(l, true);
-									
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 
+									BlockStorage._integrated_removeBlockInfo(l, true);
+
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 										@Override
 										public void run() {
 											l.getBlock().setType(Material.AIR);
 										}
-										
 									});
 								}
 								else {
@@ -317,21 +310,21 @@ public class TickerTask implements Runnable {
 						break blocks;
 					}
 				}
-				
+
 				map_chunktime.put(c, System.currentTimeMillis() - timestamp2);
 			}
 		}
-		
+
 		for (Map.Entry<Location, Location> entry: move.entrySet()) {
 			BlockStorage._integrated_moveLocationInfo(entry.getKey(), entry.getValue());
 		}
 		move.clear();
-		
+
 		for (BlockTicker ticker: tickers) {
 			ticker.unique = true;
 		}
 		tickers.clear();
-		
+
 		time = System.currentTimeMillis() - timestamp;
 	}
 
@@ -392,7 +385,6 @@ public class TickerTask implements Runnable {
 			}
 		}
 		else {
-
 			int hidden = 0;
 			for (String c: map_chunktime.keySet()) {
 				if (!skipped_chunks.contains(c)) {
@@ -403,15 +395,15 @@ public class TickerTask implements Runnable {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
 		}
 	}
-	
+
 	public long getTimings(Block b) {
 		return block_timings.containsKey(b.getLocation()) ? block_timings.get(b.getLocation()): 0L;
 	}
-	
+
 	public long getTimings(String item) {
 		return map_machinetime.containsKey(item) ? map_machinetime.get(item): 0L;
 	}
-	
+
 	public long getTimings(Chunk c) {
 		return map_chunktime.containsKey(c.toString()) ? map_chunktime.get(c.toString()): 0L;
 	}

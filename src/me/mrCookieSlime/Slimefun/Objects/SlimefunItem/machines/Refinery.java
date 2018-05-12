@@ -39,19 +39,19 @@ public abstract class Refinery extends AContainer {
 
 	@Override
 	public void registerDefaultRecipes() {}
-	
+
 	@Override
 	public String getMachineIdentifier() {
 		return "REFINERY";
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
@@ -60,9 +60,9 @@ public abstract class Refinery extends AContainer {
 				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
 				im.setLore(lore);
 				item.setItemMeta(im);
-				
+
 				BlockStorage.getInventory(b).replaceExistingItem(22, item);
-				
+
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -73,7 +73,7 @@ public abstract class Refinery extends AContainer {
 			else {
 				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
 				pushItems(b, processing.get(b).getOutput());
-				
+
 				progress.remove(b);
 				processing.remove(b);
 			}

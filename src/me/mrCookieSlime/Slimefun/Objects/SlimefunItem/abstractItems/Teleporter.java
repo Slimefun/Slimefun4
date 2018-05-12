@@ -15,21 +15,20 @@ public abstract class Teleporter extends SlimefunItem {
 
 	public Teleporter(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
-		
+
 		SlimefunItem.registerBlockHandler(id, new SlimefunBlockHandler() {
-			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
 				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
 			}
-			
+
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				return true;
 			}
 		});
 	}
-	
+
 	public abstract void onInteract(Player p, Block b) throws Exception;
 
 }

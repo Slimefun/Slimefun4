@@ -39,18 +39,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 public abstract class AutomatedCraftingChamber extends SlimefunItem {
-	
+
 	private static final int[] border = {0, 1, 3, 4, 5, 7, 8, 13, 14, 15, 16, 17, 50, 51, 52, 53};
 	private static final int[] border_in = {9, 10, 11, 12, 13, 18, 22, 27, 31, 36, 40, 45, 46, 47, 48, 49};
 	private static final int[] border_out = {23, 24, 25, 26, 32, 35, 41, 42, 43, 44};
-	
+
 	public static Map<String, ItemStack> recipes = new HashMap<String, ItemStack>();
 
 	public AutomatedCraftingChamber(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
+
 		new BlockMenuPreset(name, "&6Automated Crafting Chamber") {
-			
 			@Override
 			public void init() {
 				constructMenu(this);
@@ -58,10 +57,9 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
-				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "enabled") == null || BlockStorage.getBlockInfo(b, "enabled").equals("false")) {
+				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
 					menu.replaceExistingItem(6, new CustomItem(new MaterialData(Material.SULPHUR), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
 					menu.addMenuClickHandler(6, new MenuClickHandler() {
-
 						@Override
 						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
 							BlockStorage.addBlockInfo(b, "enabled", "true");
@@ -73,7 +71,6 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 				else {
 					menu.replaceExistingItem(6, new CustomItem(new MaterialData(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
 					menu.addMenuClickHandler(6, new MenuClickHandler() {
-
 						@Override
 						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
 							BlockStorage.addBlockInfo(b, "enabled", "false");
@@ -97,7 +94,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 			@Override
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow.equals(ItemTransportFlow.WITHDRAW)) return getOutputSlots();
-				
+
 				List<Integer> slots = new ArrayList<Integer>();
 				for (int slot: getInputSlots()) {
 					if (menu.getItemInSlot(slot) != null) slots.add(slot);
@@ -106,14 +103,13 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 				return ArrayUtils.toPrimitive(slots.toArray(new Integer[slots.size()]));
 			}
 		};
-		
+
 		registerBlockHandler(name, new SlimefunBlockHandler() {
-			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
 				BlockStorage.addBlockInfo(b, "enabled", "false");
 			}
-			
+
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
@@ -135,46 +131,39 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 			}
 		});
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
 		for (int i: border_in) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 11), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
 		for (int i: border_out) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
-		
+
 		for (int i: getOutputSlots()) {
 			preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
-				
 				@Override
 				public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
 					return false;
@@ -189,25 +178,23 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 
 		preset.addItem(2, new CustomItem(new MaterialData(Material.WORKBENCH), "&eRecipe", "", "&bPut in the Recipe you want to craft", "&4Enhanced Crafting Table Recipes ONLY"),
 		new MenuClickHandler() {
-
 			@Override
 			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 				return false;
 			}
-			
 		});
 	}
-	
+
 	public abstract int getEnergyConsumption();
-	
+
 	public int[] getInputSlots() {
 		return new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 	}
-	
+
 	public int[] getOutputSlots() {
 		return new int[] {33, 34};
 	}
-	
+
 	private Inventory inject(Block b) {
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
@@ -219,32 +206,30 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 		}
 		return inv;
 	}
-	
+
 	protected boolean fits(Block b, ItemStack[] items) {
 		return inject(b).addItem(items).isEmpty();
 	}
-	
+
 	protected void pushItems(Block b, ItemStack[] items) {
 		Inventory inv = inject(b);
 		inv.addItem(items);
-		
+
 		for (int slot: getOutputSlots()) {
 			BlockStorage.getInventory(b).replaceExistingItem(slot, inv.getItem(slot));
 		}
 	}
-	
+
 	@Override
 	public void register(boolean slimefun) {
 		addItemHandler(new BlockTicker() {
-			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				AutomatedCraftingChamber.this.tick(b);
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
+			public void uniqueTick() {}
 
 			@Override
 			public boolean isSynchronized() {
@@ -254,34 +239,34 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 
 		super.register(slimefun);
 	}
-	
+
 	protected void tick(Block b) {
-		if (BlockStorage.getBlockInfo(b, "enabled").equals("false")) return;
+		if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
 		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-		
+
 		BlockMenu menu = BlockStorage.getInventory(b);
-		
+
 		StringBuilder builder = new StringBuilder();
 		int i = 0;
 		for (int j = 0; j < 9; j++) {
 			if (i > 0) {
 				builder.append(" </slot> ");
 			}
-			
+
 			ItemStack item = menu.getItemInSlot(getInputSlots()[j]);
-			
+
 			if (item != null && item.getAmount() == 1) return;
-			
+
 			builder.append(CustomItemSerializer.serialize(item, ItemFlag.DATA, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE, ItemFlag.MATERIAL));
-			
+
 			i++;
 		}
-		
+
 		String input = builder.toString();
-		
+
 		if (recipes.containsKey(input)) {
 			ItemStack output = recipes.get(input).clone();
-			
+
 			if (fits(b, new ItemStack[] {output})) {
 				pushItems(b, new ItemStack[] {output});
 				ChargableBlock.addCharge(b, -getEnergyConsumption());

@@ -11,7 +11,6 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
-import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 import org.bukkit.Bukkit;
@@ -20,6 +19,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 public class EnergyNet extends Network {
+
 	public enum NetworkComponent {
 		SOURCE,
 		DISTRIBUTOR,
@@ -77,7 +77,7 @@ public class EnergyNet extends Network {
 
 	public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
 		EnergyNet energy_network = getNetworkFromLocation(l);
-		if(energy_network == null) {
+		if (energy_network == null) {
 			energy_network = new EnergyNet(l);
 			registerNetwork(energy_network);
 		}
@@ -97,7 +97,7 @@ public class EnergyNet extends Network {
 	}
 
 	public Network.Component classifyLocation(Location l) {
-		if(regulator.equals(l)) return Network.Component.REGULATOR;
+		if (regulator.equals(l)) return Network.Component.REGULATOR;
 		switch(getComponent(l)) {
 			case DISTRIBUTOR:
 				return Network.Component.CONNECTOR;
@@ -110,7 +110,7 @@ public class EnergyNet extends Network {
 	}
 
 	public void locationClassificationChange(Location l, Network.Component from, Network.Component to) {
-		if(from == Network.Component.TERMINUS) {
+		if (from == Network.Component.TERMINUS) {
 			input.remove(l);
 			output.remove(l);
 		}
@@ -124,11 +124,13 @@ public class EnergyNet extends Network {
 			case SOURCE:
 				input.add(l);
 				break;
+			default:
+				break;
 		}
 	}
 
 	public void tick(Block b) {
-		if(!regulator.equals(b.getLocation())) {
+		if (!regulator.equals(b.getLocation())) {
 			EnergyHologram.update(b, "&4Multiple Energy Regulators connected");
 			return;
 		}
@@ -143,12 +145,11 @@ public class EnergyNet extends Network {
 			for (final Location source: input) {
 				long timestamp = System.currentTimeMillis();
 				SlimefunItem item = BlockStorage.check(source);
-				double energy = item.getEnergyTicker().generateEnergy(source, item, BlockStorage.getBlockInfo(source));
+				double energy = item.getEnergyTicker().generateEnergy(source, item, BlockStorage.getLocationInfo(source));
 
 				if (item.getEnergyTicker().explode(source)) {
 					BlockStorage.clearBlockInfo(source);
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
 						@Override
 						public void run() {
 							source.getBlock().setType(Material.LAVA);
@@ -224,4 +225,5 @@ public class EnergyNet extends Network {
 			EnergyHologram.update(b, supply, demand);
 		}
 	}
+
 }

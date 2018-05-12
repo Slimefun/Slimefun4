@@ -12,7 +12,7 @@ public abstract class FoodComposter extends AContainer {
 	public FoodComposter(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 	}
-	
+
 	@Override
 	public void registerDefaultRecipes() {
 		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD2}, new ItemStack[] {SlimefunItems.FERTILIZER2});
@@ -23,7 +23,7 @@ public abstract class FoodComposter extends AContainer {
 		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD7}, new ItemStack[] {SlimefunItems.FERTILIZER7});
 		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD8}, new ItemStack[] {SlimefunItems.FERTILIZER8});
 	}
-	
+
 	@Override
 	public String getMachineIdentifier() {
 		return "FOOD_COMPOSTER";

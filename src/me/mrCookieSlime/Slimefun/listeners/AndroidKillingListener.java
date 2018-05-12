@@ -24,18 +24,17 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.MetadataValue;
 
 public class AndroidKillingListener implements Listener {
-	
+
 	public AndroidKillingListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onDeath(final EntityDeathEvent e) {
 		if (e.getEntity().hasMetadata("android_killer")) {
 			for (MetadataValue value: e.getEntity().getMetadata("android_killer")) {
 				final AndroidObject obj = (AndroidObject) value.value();
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-					
 					@SuppressWarnings("deprecation")
 					@Override
 					public void run() {
@@ -46,26 +45,26 @@ public class AndroidKillingListener implements Listener {
 								n.remove();
 							}
 						}
-						
+
 						switch (e.getEntityType()) {
-						case BLAZE: {
-							items.add(new ItemStack(Material.BLAZE_ROD, 1 + CSCoreLib.randomizer().nextInt(2)));
-							break;
-						}
-						case PIG_ZOMBIE: {
-							items.add(new ItemStack(Material.GOLD_NUGGET, 1 + CSCoreLib.randomizer().nextInt(3)));
-							break;
-						}
-						case SKELETON: {
-							if (((Skeleton) e.getEntity()).getSkeletonType().equals(SkeletonType.WITHER)) {
-								if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1));
+							case BLAZE: {
+								items.add(new ItemStack(Material.BLAZE_ROD, 1 + CSCoreLib.randomizer().nextInt(2)));
+								break;
 							}
-							break;
+							case PIG_ZOMBIE: {
+								items.add(new ItemStack(Material.GOLD_NUGGET, 1 + CSCoreLib.randomizer().nextInt(3)));
+								break;
+							}
+							case SKELETON: {
+								if (((Skeleton) e.getEntity()).getSkeletonType().equals(SkeletonType.WITHER)) {
+									if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1));
+								}
+								break;
+							}
+							default:
+								break;
 						}
-						default:
-							break;
-						}
-						
+
 						obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[items.size()]));
 						ExperienceOrb exp = (ExperienceOrb) e.getEntity().getWorld().spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
 						exp.setExperience(1 + CSCoreLib.randomizer().nextInt(6));
@@ -75,4 +74,5 @@ public class AndroidKillingListener implements Listener {
 			}
 		}
 	}
+
 }

@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class Backpacks {
-	
+
 	public static String createBackpack(Player p, int size) {
 		List<Integer> ids = new ArrayList<Integer>();
 		Config cfg = new Config(new File("data-storage/Slimefun/Players/" + p.getUniqueId() + ".yml"));
@@ -23,17 +23,17 @@ public class Backpacks {
 		}
 		int id = ids.isEmpty() ? 0: ids.get(ids.size() - 1) + 1;
 		ids.add(id);
-		
+
 		cfg.setValue("backpacks." + id + ".size", size);
 		cfg.save();
 		return p.getUniqueId() + "#" + id;
 	}
-	
+
 	public static void openBackpack(Player p, ItemStack item) {
 		Inventory inv = getInventory(p, item);
 		if (inv != null) p.openInventory(inv);
 	}
-	
+
 	public static Inventory getInventory(Player p, ItemStack item) {
 		if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) return null;
 		int id = -1;
@@ -43,11 +43,10 @@ public class Backpacks {
 				try {
 					id = Integer.parseInt(line.split("#")[1]);
 					uuid = line.split("#")[0].replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-				} catch(NumberFormatException x) {
-				}
+				} catch (NumberFormatException x) {}
 			}
 		}
-		
+
 		if (id >= 0) {
 			Config cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid + ".yml"));
 			int size = cfg.getInt("backpacks." + id + ".size");
@@ -59,7 +58,7 @@ public class Backpacks {
 		}
 		else return null;
 	}
-	
+
 	public static void saveBackpack(Inventory inv, ItemStack item) {
 		int id = -1;
 		String uuid = "";
@@ -68,11 +67,10 @@ public class Backpacks {
 				try {
 					id = Integer.parseInt(line.split("#")[1]);
 					uuid = line.split("#")[0].replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-				} catch(NumberFormatException x) {
-				}
+				} catch (NumberFormatException x) {}
 			}
 		}
-		
+
 		if (id >= 0) {
 			Config cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid + ".yml"));
 			for (int i = 0; i < inv.getContents().length; i++) {

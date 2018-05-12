@@ -35,122 +35,124 @@ import java.util.List;
 
 public class DamageListener implements Listener {
 
-    public DamageListener(SlimefunStartup plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
+	public DamageListener(SlimefunStartup plugin) {
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
 
-    private SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");
+	private SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");
 
-    @EventHandler
-    public void onDamage(EntityDeathEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {
-                Slimefun.getGPSNetwork().addWaypoint(p, "&4Deathpoint &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
-            }
-            Iterator<ItemStack> drops = e.getDrops().iterator();
-            while (drops.hasNext()) {
-                ItemStack item = drops.next();
-                if (item != null) {
-                    if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) {
-                        Soul.storeItem(e.getEntity().getUniqueId(), item);
-                        drops.remove();
-                    } else if (SlimefunItem.getByItem(removeEnchantments(item)) != null) {
-                        if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) {
-                            Soul.storeItem(e.getEntity().getUniqueId(), item);
-                            drops.remove();
-                        }
-                    }
-                }
-            }
+	@EventHandler
+	public void onDamage(EntityDeathEvent e) {
+		if (e.getEntity() instanceof Player) {
+			Player p = (Player) e.getEntity();
+			if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {
+				Slimefun.getGPSNetwork().addWaypoint(p, "&4Deathpoint &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
+			}
+			Iterator<ItemStack> drops = e.getDrops().iterator();
+			while (drops.hasNext()) {
+				ItemStack item = drops.next();
+				if (item != null) {
+					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) {
+						Soul.storeItem(e.getEntity().getUniqueId(), item);
+						drops.remove();
+					} else if (SlimefunItem.getByItem(removeEnchantments(item)) != null) {
+						if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) {
+							Soul.storeItem(e.getEntity().getUniqueId(), item);
+							drops.remove();
+						}
+					}
+				}
+			}
+		}
 
-        }
-        if (e.getEntity().getKiller() instanceof Player) {
-            Player p = (Player) e.getEntity().getKiller();
-            ItemStack item = p.getInventory().getItemInMainHand();
+		if (e.getEntity().getKiller() instanceof Player) {
+			Player p = (Player) e.getEntity().getKiller();
+			ItemStack item = p.getInventory().getItemInMainHand();
 
-            if (SlimefunManager.drops.containsKey(e.getEntity().getType())) {
-                for (ItemStack drop : SlimefunManager.drops.get(e.getEntity().getType())) {
-                    if (Slimefun.hasUnlocked(p, item, true)) {
-                        e.getDrops().add(drop);
-                    }
-                }
-            }
+			if (SlimefunManager.drops.containsKey(e.getEntity().getType())) {
+				for (ItemStack drop : SlimefunManager.drops.get(e.getEntity().getType())) {
+					if (Slimefun.hasUnlocked(p, item, true)) {
+						e.getDrops().add(drop);
+					}
+				}
+			}
 
-            if (item != null) {
-                if (Slimefun.hasUnlocked(p, item, true)) {
-                    if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("SWORD_OF_BEHEADING"), true)) {
-                        if (e.getEntity() instanceof Zombie) {
-                            if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE"))) {
-                                e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 2));
-                            }
-                        } else if (e.getEntity() instanceof Skeleton) {
-                            switch (((Skeleton) e.getEntity()).getSkeletonType()) {
-                                case NORMAL: {
-                                    if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON")))
-                                        e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 0));
-                                    break;
-                                }
-                                case WITHER: {
-                                    if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON")))
-                                        e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 1));
-                                    break;
-                                }
-                                default:
-                                    break;
-                            }
-                        } else if (e.getEntity() instanceof Creeper) {
-                            if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER"))) {
-                                e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 4));
-                            }
-                        } else if (e.getEntity() instanceof Player) {
-                            if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.PLAYER"))) {
-                                e.getDrops().add(new SkullItem(((Player) e.getEntity()).getName()));
-                            }
-                        }
-                    }
-                }
-            }
+			if (item != null) {
+				if (Slimefun.hasUnlocked(p, item, true)) {
+					if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("SWORD_OF_BEHEADING"), true)) {
+						if (e.getEntity() instanceof Zombie) {
+							if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE"))) {
+								e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 2));
+							}
+						} else if (e.getEntity() instanceof Skeleton) {
+							switch (((Skeleton) e.getEntity()).getSkeletonType()) {
+								case NORMAL: {
+									if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON")))
+										e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 0));
+									break;
+								}
+								case WITHER: {
+									if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON")))
+										e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 1));
+									break;
+								}
+								default:
+									break;
+							}
+						} else if (e.getEntity() instanceof Creeper) {
+							if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER"))) {
+								e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 4));
+							}
+						} else if (e.getEntity() instanceof Player) {
+							if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.PLAYER"))) {
+								e.getDrops().add(new SkullItem(((Player) e.getEntity()).getName()));
+							}
+						}
+					}
+				}
+			}
 
-            if (!e.getEntity().getCanPickupItems() && Talisman.checkFor(e, SlimefunItem.getByID("HUNTER_TALISMAN")) && !(e.getEntity() instanceof Player)) {
-                List<ItemStack> newDrops = new ArrayList<ItemStack>();
-                for (ItemStack drop : e.getDrops()) {
-                    newDrops.add(drop);
-                }
-                for (ItemStack drop : newDrops) {
-                    e.getDrops().add(drop);
-                }
-            }
-        }
-    }
+			if (!e.getEntity().getCanPickupItems() && Talisman.checkFor(e, SlimefunItem.getByID("HUNTER_TALISMAN")) && !(e.getEntity() instanceof Player)) {
+				List<ItemStack> newDrops = new ArrayList<ItemStack>();
+				for (ItemStack drop : e.getDrops()) {
+					newDrops.add(drop);
+				}
+				for (ItemStack drop : newDrops) {
+					e.getDrops().add(drop);
+				}
+			}
+		}
+	}
 
-    @EventHandler
-    public void onArrowHit(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
-            if (Variables.damage.containsKey(e.getEntity().getUniqueId())) {
-                e.setCancelled(true);
-                Variables.damage.remove(e.getEntity().getUniqueId());
-            }
-        }
-    }
+	@EventHandler
+	public void onArrowHit(EntityDamageEvent e) {
+		if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
+			if (Variables.damage.containsKey(e.getEntity().getUniqueId())) {
+				e.setCancelled(true);
+				Variables.damage.remove(e.getEntity().getUniqueId());
+			}
+		}
+	}
 
-    @EventHandler
-    public void onRespawn(PlayerRespawnEvent e) {
-        Soul.retrieveItems(e.getPlayer());
-    }
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent e) {
+		Soul.retrieveItems(e.getPlayer());
+	}
 
-    private ItemStack removeEnchantments(ItemStack itemStack) {
-        ItemStack strippedItem = itemStack.clone();
+	private ItemStack removeEnchantments(ItemStack itemStack) {
+		ItemStack strippedItem = itemStack.clone();
 
-        for (Enchantment enchantment : itemStack.getEnchantments().keySet()) {
-            strippedItem.removeEnchantment(enchantment);
-        }
+		for (Enchantment enchantment : itemStack.getEnchantments().keySet()) {
+			strippedItem.removeEnchantment(enchantment);
+		}
 
-        if (Slimefun.isEmeraldEnchantsInstalled()) {
-            for(ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(itemStack)){
-                EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
-            }
-        }
-        return strippedItem;
-    }
+		if (Slimefun.isEmeraldEnchantsInstalled()) {
+			for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(itemStack)){
+				EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
+			}
+		}
+
+		return strippedItem;
+	}
+
 }

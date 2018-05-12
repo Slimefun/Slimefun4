@@ -30,6 +30,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 public class AutoEnchanter extends AContainer {
+
 	public static int max_emerald_enchantments = 2;
 
 	public AutoEnchanter(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
@@ -61,7 +62,7 @@ public class AutoEnchanter extends AContainer {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
@@ -93,12 +94,13 @@ public class AutoEnchanter extends AContainer {
 			slots:
 			for (int slot: getInputSlots()) {
 				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
+
 				// Check if enchantable
 				SlimefunItem sfTarget = SlimefunItem.getByItem(target);
-				if(sfTarget != null && !sfTarget.isEnchantable()) return;
-				
+				if (sfTarget != null && !sfTarget.isEnchantable()) return;
+
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
-				
+
 				// Enchant
 				if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
 					Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
@@ -120,7 +122,7 @@ public class AutoEnchanter extends AContainer {
 								enchantments2.add(enchantment);
 							}
 						}
-                        special_amount+=EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
+						special_amount+=EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
 					}
 					if (amount > 0 && special_amount <= max_emerald_enchantments) {
 						ItemStack newItem = target.clone();

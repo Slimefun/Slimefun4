@@ -17,11 +17,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 public class GearListener implements Listener {
-	
+
 	public GearListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler
 	public void onToggleSneak(PlayerToggleSneakEvent e) {
 		if (e.isSneaking()) {

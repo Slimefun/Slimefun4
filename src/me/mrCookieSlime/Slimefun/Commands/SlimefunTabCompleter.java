@@ -23,7 +23,7 @@ public class SlimefunTabCompleter implements TabCompleter {
 			}
 			else if (args[0].equalsIgnoreCase("research")) {
 				List<String> researches = new ArrayList<String>();
-				for(Research res: Research.list()) {
+				for (Research res: Research.list()) {
 					researches.add(res.getName().toUpperCase().replace(" ", "_"));
 				}
 				researches.add("all");
@@ -54,6 +54,8 @@ public class SlimefunTabCompleter implements TabCompleter {
 				returnList.add(item);
 			}
 		}
+
 		return returnList;
 	}
+
 }

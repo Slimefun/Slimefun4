@@ -13,7 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class RecipeType {
-	
+
 	public static final RecipeType MULTIBLOCK = new RecipeType(new CustomItem(Material.BRICK, "&bMultiBlock", 0, new String[] {"", "&a&oBuild it in the World"}));
 	public static final RecipeType ARMOR_FORGE = new RecipeType(new CustomItem(Material.ANVIL, "&bArmor Forge", 0, new String[] {"", "&a&oCraft it in an Armor Forge"}), "ARMOR_FORGE");
 	public static final RecipeType GRIND_STONE = new RecipeType(new CustomItem(Material.DISPENSER, "&bGrind Stone", 0, new String[] {"", "&a&oGrind it using the Grind Stone"}), "GRIND_STONE");
@@ -30,68 +30,73 @@ public class RecipeType {
 	public static final RecipeType JUICER = new RecipeType(new CustomItem(Material.GLASS_BOTTLE, "&eJuicer", 0, new String[] {"", "&a&oUsed for Juice Creation"}), "JUICER");
 	public static final RecipeType ANCIENT_ALTAR = new RecipeType(new CustomItem(Material.ENCHANTMENT_TABLE, "&4Ancient Altar", 0, new String[] {"", "&dYou will need to craft this Item", "&dby performing an Ancient Altar Ritual"}));
 	public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new CustomItem(Material.STAINED_GLASS, "&cHeated Pressure Chamber", 8, new String[] {"", "&a&oCraft this Item in a", "&a&oHeated Pressure Chamber"}), "HEATED_PRESSURE_CHAMBER");
-	
+
 	public static final RecipeType SHAPED_RECIPE = new RecipeType(new CustomItem(Material.WORKBENCH, "&eShaped Recipe", 0, new String[] {"", "&a&oJust a standard Recipe in the Workbench..."}));
 	public static final RecipeType SHAPELESS_RECIPE = new RecipeType(new CustomItem(Material.WORKBENCH, "&eShapeless Recipe", 0, new String[] {"", "&a&oJust a standard Recipe in the Workbench..."}));
 	public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&eFurnace Recipe", 0, new String[] {"", "&a&oJust smelt it in a regular Furnace"}));
 	public static final RecipeType NULL = new RecipeType(null);
-	
+
 	ItemStack item;
 	String machine;
-	
+
 	public RecipeType(ItemStack item) {
 		this.item = item;
 		this.machine = "";
 	}
-	
+
 	public RecipeType(ItemStack item, String machine) {
 		this.item = item;
 		this.machine = machine;
 	}
-	
+
 	public RecipeType(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
 		this.machine = machine;
 		SlimefunItem item = getMachine();
 		this.item = item.getItem();
-		
+
 		SlimefunRecipes.registerMachineRecipe(machine, seconds, input, output);
 	}
-	
+
 	public ItemStack toItem() {
 		return this.item;
 	}
-	
+
 	public SlimefunItem getMachine() {
 		return SlimefunItem.getByID(machine);
 	}
-	
+
 	public static List<ItemStack> getRecipeInputs(SlimefunItem machine) {
 		if (machine == null) return new ArrayList<ItemStack>();
+
 		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
 		List<ItemStack> convertable = new ArrayList<ItemStack>();
 		for (int i = 0; i < recipes.size(); i++) {
 			if (i % 2 == 0) convertable.add(recipes.get(i)[0]);
 		}
+
 		return convertable;
 	}
-	
+
 	public static List<ItemStack[]> getRecipeInputList(SlimefunItem machine) {
 		if (machine == null) return new ArrayList<ItemStack[]>();
+
 		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
 		List<ItemStack[]> convertable = new ArrayList<ItemStack[]>();
 		for (int i = 0; i < recipes.size(); i++) {
 			if (i % 2 == 0) convertable.add(recipes.get(i));
 		}
+
 		return convertable;
 	}
-	
+
 	public static ItemStack getRecipeOutput(SlimefunItem machine, ItemStack input) {
 		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
 		return recipes.get(((getRecipeInputs(machine).indexOf(input) * 2) + 1))[0];
 	}
-	
+
 	public static ItemStack getRecipeOutputList(SlimefunItem machine, ItemStack[] input) {
 		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
 		return recipes.get(((getRecipeInputList(machine).indexOf(input) * 2) + 1))[0];
 	}
+
 }

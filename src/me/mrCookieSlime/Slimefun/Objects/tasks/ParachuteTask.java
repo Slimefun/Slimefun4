@@ -7,14 +7,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public class ParachuteTask implements Runnable {
-	
+
 	UUID uuid;
 	int id;
-	
+
 	public ParachuteTask(Player p) {
 		this.uuid = p.getUniqueId();
 	}
-	
+
 	public void setID(int id) {
 		this.id = id;
 	}

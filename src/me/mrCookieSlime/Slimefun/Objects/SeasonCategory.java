@@ -62,4 +62,5 @@ public class SeasonCategory extends Category {
 		Calendar calendar = Calendar.getInstance();
 		return month == calendar.get(Calendar.MONTH);
 	}
+
 }

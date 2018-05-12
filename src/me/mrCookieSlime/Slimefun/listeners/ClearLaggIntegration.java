@@ -11,11 +11,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class ClearLaggIntegration implements Listener {
-	
+
 	public ClearLaggIntegration(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler
 	public void onEntityRemove(EntityRemoveEvent e) {
 		Iterator<Entity> iterator = e.getEntityList().iterator();
@@ -26,4 +26,5 @@ public class ClearLaggIntegration implements Listener {
 			}
 		}
 	}
+
 }

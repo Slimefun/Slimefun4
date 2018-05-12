@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.MenuItem;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.URID.URID;
@@ -40,7 +38,7 @@ public class Category {
 
 	/**
 	 * Constructs a Category with the given display item.
-     * The tier is set to a default value of {@code 3}.
+	 * The tier is set to a default value of {@code 3}.
 	 * 
 	 * @param item the display item for this category
 	 * 
@@ -54,9 +52,9 @@ public class Category {
 	}
 
 	/**
-     * Constructs a Category with the given display item and the provided tier.
-     * </br>
-     * A lower tier results in this category being displayed first.
+	 * Constructs a Category with the given display item and the provided tier.
+	 * </br>
+	 * A lower tier results in this category being displayed first.
 	 * 
 	 * @param item the display item for this category
 	 * @param tier the tier for this category
@@ -115,7 +113,7 @@ public class Category {
 	 * Returns the display item of this category.
 	 * 
 	 * @return the display item of this category
-     *
+	 *
 	 * @since 4.0
 	 */
 	public ItemStack getItem() {
@@ -126,7 +124,7 @@ public class Category {
 	 * Returns the list of SlimefunItems bound to this category.
 	 * 
 	 * @return the list of SlimefunItems bound to this category
-     *
+	 *
 	 * @since 4.0
 	 */
 	public List<SlimefunItem> getItems() {
@@ -180,7 +178,7 @@ public class Category {
 		 */
 		@Override
 		public int compare(Category c1, Category c2) {
-		    return Integer.compare(c1.getTier(), c2.getTier());
+			return Integer.compare(c1.getTier(), c2.getTier());
 		}
 
 	}

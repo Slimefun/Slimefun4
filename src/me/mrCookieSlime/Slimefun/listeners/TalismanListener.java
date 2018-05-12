@@ -33,11 +33,11 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 public class TalismanListener implements Listener {
-	
+
 	public TalismanListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler(priority=EventPriority.MONITOR)
 	public void onDamageGet(EntityDamageEvent e) {
 		if (!e.isCancelled()) {
@@ -71,17 +71,17 @@ public class TalismanListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onItemBreak(PlayerItemBreakEvent e) {
 		if (Talisman.checkFor(e, SlimefunItem.getByID("ANVIL_TALISMAN"))) e.getBrokenItem().setAmount(1);
 	}
-	
+
 	@EventHandler
 	public void onSprint(PlayerToggleSprintEvent e) {
 		if (e.isSprinting()) Talisman.checkFor(e, SlimefunItem.getByID("TRAVELLER_TALISMAN"));
 	}
-	
+
 	@EventHandler
 	public void onEnchant(EnchantItemEvent e) {
 		if (Talisman.checkFor(e, SlimefunItem.getByID("MAGICIAN_TALISMAN"))) {
@@ -93,7 +93,6 @@ public class TalismanListener implements Listener {
 			}
 			String enchant = enchantments.get(SlimefunStartup.randomize(enchantments.size()));
 			e.getEnchantsToAdd().put(Enchantment.getByName(enchant.split("-")[0]), Integer.parseInt(enchant.split("-")[1]));
-			
 		}
 		if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem())) {
 			if (Talisman.checkFor(e, SlimefunItem.getByID("WIZARD_TALISMAN"))) {
@@ -102,7 +101,7 @@ public class TalismanListener implements Listener {
 				for (Enchantment en: enchantments) {
 					if (SlimefunStartup.chance(100, 40)) e.getEnchantsToAdd().put(en, SlimefunStartup.randomize(3) + 1);
 				}
-				
+
 				e.getItem().addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, SlimefunStartup.randomize(3) + 3);
 			}
 		}
@@ -136,4 +135,5 @@ public class TalismanListener implements Listener {
 			}
 		}
 	}
+
 }

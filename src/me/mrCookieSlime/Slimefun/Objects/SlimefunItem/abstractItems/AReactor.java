@@ -48,16 +48,16 @@ public abstract class AReactor extends SlimefunItem {
 	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
 
 	private static final BlockFace[] cooling =
-    	{
-    		BlockFace.NORTH,
-    		BlockFace.NORTH_EAST,
-    		BlockFace.EAST,
-    		BlockFace.SOUTH_EAST,
-    		BlockFace.SOUTH,
-    		BlockFace.SOUTH_WEST,
-    		BlockFace.WEST,
-    		BlockFace.NORTH_WEST
-    	};
+		{
+			BlockFace.NORTH,
+			BlockFace.NORTH_EAST,
+			BlockFace.EAST,
+			BlockFace.SOUTH_EAST,
+			BlockFace.SOUTH,
+			BlockFace.SOUTH_WEST,
+			BlockFace.WEST,
+			BlockFace.NORTH_WEST
+		};
 
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
 
@@ -65,13 +65,12 @@ public abstract class AReactor extends SlimefunItem {
 	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
 	private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
 	private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 49, 50};
-    private static final int[] border_4 = {25, 34, 43}; //No coolant border
+	private static final int[] border_4 = {25, 34, 43}; //No coolant border
 
 	public AReactor(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 
 		new BlockMenuPreset(id, getInventoryTitle()) {
-
 			@Override
 			public void init() {
 				constructMenu(this);
@@ -80,13 +79,12 @@ public abstract class AReactor extends SlimefunItem {
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
-					if (BlockStorage.getBlockInfo(b, "reactor-mode") == null){
+					if (BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode") == null){
 						BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 					}
-					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "reactor-mode").equals("generator")) {
+					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode").equals("generator")) {
 						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
 						menu.addMenuClickHandler(4, new MenuClickHandler() {
-
 							@Override
 							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
 								BlockStorage.addBlockInfo(b, "reactor-mode", "production");
@@ -98,7 +96,6 @@ public abstract class AReactor extends SlimefunItem {
 					else {
 						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7> Click to change the Focus to &ePower Generation"));
 						menu.addMenuClickHandler(4, new MenuClickHandler() {
-
 							@Override
 							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
 								BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
@@ -107,8 +104,7 @@ public abstract class AReactor extends SlimefunItem {
 							}
 						});
 					}
-				} catch(Exception x) {
-				}
+				} catch (Exception x) {}
 			}
 
 			@Override
@@ -123,11 +119,8 @@ public abstract class AReactor extends SlimefunItem {
 		};
 
 		registerBlockHandler(id, new SlimefunBlockHandler() {
-
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-
-			}
+			public void onPlace(Player p, Block b, SlimefunItem item) {}
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
@@ -167,68 +160,56 @@ public abstract class AReactor extends SlimefunItem {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-
 			});
 		}
 
 		for (int i: border_1) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-
 			});
 		}
 
 		for (int i: border_3) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 13), " "),
 			 new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-
 			});
 		}
 
 		preset.addItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
 		new MenuClickHandler() {
-
 			@Override
 			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 				return false;
 			}
-
 		});
 
 		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"),
 		new MenuClickHandler() {
-
 			@Override
 			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 				return false;
 			}
-
 		});
 
-        for (int i : border_2) {
+		for (int i : border_2) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-
 			});
 		}
 
@@ -236,19 +217,18 @@ public abstract class AReactor extends SlimefunItem {
 			preset.addItem(7, new CustomItem(this.getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
 		}
 		else {
-            preset.addItem(7, new CustomItem(new MaterialData(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
+			preset.addItem(7, new CustomItem(new MaterialData(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
 
-            for (int i : border_4) {
-                preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"),
-                new MenuClickHandler() {
-
-                    @Override
-                    public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                        return false;
-                    }
-                });
-            }
-        }
+			for (int i : border_4) {
+				preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"),
+				new MenuClickHandler() {
+					@Override
+					public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+						return false;
+					}
+				});
+			}
+		}
 	}
 
 	public abstract String getInventoryTitle();
@@ -296,7 +276,6 @@ public abstract class AReactor extends SlimefunItem {
 	@Override
 	public void register(boolean slimefun) {
 		addItemHandler(new EnergyTicker() {
-
 			Set<Location> explode = new HashSet<Location>();
 
 			@SuppressWarnings("deprecation")
@@ -318,26 +297,24 @@ public abstract class AReactor extends SlimefunItem {
 							progress.put(l, timeleft - 1);
 
 							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
 								@Override
 								public void run() {
 									if (!l.getBlock().getRelative(cooling[CSCoreLib.randomizer().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 								}
 							});
 
+							ItemStack item = getProgressBar().clone();
+							ItemMeta im = item.getItemMeta();
+							im.setDisplayName(" ");
+							List<String> lore = new ArrayList<String>();
+							lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
+							lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
+							lore.add("");
+							lore.add(MachineHelper.getTimeLeft(timeleft / 2));
+							im.setLore(lore);
+							item.setItemMeta(im);
 
-                            ItemStack item = getProgressBar().clone();
-                            ItemMeta im = item.getItemMeta();
-                            im.setDisplayName(" ");
-                            List<String> lore = new ArrayList<String>();
-                            lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
-                            lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
-                            lore.add("");
-                            lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-                            im.setLore(lore);
-                            item.setItemMeta(im);
-
-                            BlockStorage.getInventory(l).replaceExistingItem(22, item);
+							BlockStorage.getInventory(l).replaceExistingItem(22, item);
 
 							if (needsCooling()) {
 								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
@@ -435,14 +412,14 @@ public abstract class AReactor extends SlimefunItem {
 				final boolean explosion = explode.contains(l);
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
-					
+
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 						@Override
 						public void run() {
 							ReactorHologram.remove(l);
 						}
 					}, 0);
-					
+
 					explode.remove(l);
 					processing.remove(l);
 					progress.remove(l);
@@ -513,4 +490,5 @@ public abstract class AReactor extends SlimefunItem {
 		if (BlockStorage.check(portL, "REACTOR_ACCESS_PORT")) return BlockStorage.getInventory(portL);
 		return null;
 	}
+
 }

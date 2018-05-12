@@ -17,11 +17,11 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 
 public class CoolerListener implements Listener {
-	
+
 	public CoolerListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler
 	public void onStarve(FoodLevelChangeEvent e) {
 		if (e.getFoodLevel() < ((Player) e.getEntity()).getFoodLevel()) {

@@ -7,7 +7,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 import org.bukkit.block.Block;
 
 public class RainbowTicker extends BlockTicker {
-	
+
 	public int meta;
 	public int index;
 	public int[] queue;

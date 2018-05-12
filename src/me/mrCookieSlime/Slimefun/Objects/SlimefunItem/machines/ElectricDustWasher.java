@@ -40,17 +40,17 @@ public abstract class ElectricDustWasher extends AContainer {
 
 	@Override
 	public void registerDefaultRecipes() {}
-	
+
 	public abstract int getSpeed();
 	public static boolean legacy_dust_washer = false;
-	
+
 	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0 && getSpeed() < 10) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
@@ -59,9 +59,9 @@ public abstract class ElectricDustWasher extends AContainer {
 				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
 				im.setLore(lore);
 				item.setItemMeta(im);
-				
+
 				BlockStorage.getInventory(b).replaceExistingItem(22, item);
-				
+
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -75,7 +75,7 @@ public abstract class ElectricDustWasher extends AContainer {
 
 				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
 				pushItems(b, processing.get(b).getOutput());
-				
+
 				progress.remove(b);
 				processing.remove(b);
 			}
@@ -103,7 +103,7 @@ public abstract class ElectricDustWasher extends AContainer {
 					else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.MAGNESIUM_DUST;
 					else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.LEAD_DUST;
 					else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.SILVER_DUST;
-					
+
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {adding});
 					if (legacy_dust_washer && !fits(b, r.getOutput())) return;
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
@@ -122,7 +122,7 @@ public abstract class ElectricDustWasher extends AContainer {
 			}
 		}
 	}
-	
+
 	@Override
 	public String getMachineIdentifier() {
 		return "ELECTRIC_DUST_WASHER";

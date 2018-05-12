@@ -31,22 +31,20 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 public class AutoBreeder extends SlimefunItem {
-	
+
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
 	public AutoBreeder(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
+
 		new BlockMenuPreset(name, "&6Auto Breeder") {
-			
 			@Override
 			public void init() {
 				constructMenu(this);
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
+			public void newInstance(BlockMenu menu, Block b) {}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
@@ -59,14 +57,11 @@ public class AutoBreeder extends SlimefunItem {
 				return new int[0];
 			}
 		};
-		
+
 		registerBlockHandler(name, new SlimefunBlockHandler() {
-			
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				
-			}
-			
+			public void onPlace(Player p, Block b, SlimefunItem item) {}
+
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				me.mrCookieSlime.Slimefun.holograms.AutoBreeder.getArmorStand(b).remove();
@@ -83,34 +78,31 @@ public class AutoBreeder extends SlimefunItem {
 			}
 		});
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
 	}
-	
+
 	public int getEnergyConsumption() {
 		return 60;
 	}
-	
+
 	public int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
 	}
-	
+
 	@Override
 	public void register(boolean slimefun) {
 		addItemHandler(new BlockTicker() {
-			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				try {
@@ -121,8 +113,7 @@ public class AutoBreeder extends SlimefunItem {
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
+			public void uniqueTick() {}
 
 			@Override
 			public boolean isSynchronized() {
@@ -132,7 +123,7 @@ public class AutoBreeder extends SlimefunItem {
 
 		super.register(slimefun);
 	}
-	
+
 	protected void tick(Block b) throws Exception {
 		for (Entity n: me.mrCookieSlime.Slimefun.holograms.AutoBreeder.getArmorStand(b).getNearbyEntities(4D, 2D, 4D)) {
 			if (Animals.isFeedable(n)) {

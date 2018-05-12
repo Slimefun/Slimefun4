@@ -34,35 +34,33 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 public abstract class ElectricSmeltery extends AContainer {
-	
+
 	public static Map<Block, MachineRecipe> processing = new HashMap<Block, MachineRecipe>();
 	public static Map<Block, Integer> progress = new HashMap<Block, Integer>();
-	
+
 	protected List<MachineRecipe> recipes = new ArrayList<MachineRecipe>();
-	
+
 	private static final int[] border = {4, 5, 6, 7, 8, 13, 31, 40, 41, 42, 43, 44};
 	private static final int[] border_in = {0, 1, 2, 3, 9, 12, 18, 21, 27, 30, 36, 37, 38, 39};
 	private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
 	public ElectricSmeltery(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
+
 		new BlockMenuPreset(name, getInventoryTitle()) {
-			
 			@Override
 			public void init() {
 				constructMenu(this);
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
+			public void newInstance(BlockMenu menu, Block b) {}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
 				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
 			}
-			
+
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
 				return new int[0];
@@ -71,15 +69,15 @@ public abstract class ElectricSmeltery extends AContainer {
 			@Override
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow.equals(ItemTransportFlow.WITHDRAW)) return getOutputSlots();
-				
+
 				List<Integer> slots = new ArrayList<Integer>();
-				
+
 				for (int slot: getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), item, true)) {
 						slots.add(slot);
 					}
 				}
-				
+
 				if (slots.isEmpty()) {
 					return getInputSlots();
 				}
@@ -89,14 +87,11 @@ public abstract class ElectricSmeltery extends AContainer {
 				}
 			}
 		};
-		
+
 		registerBlockHandler(name, new SlimefunBlockHandler() {
-			
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				
-			}
-			
+			public void onPlace(Player p, Block b, SlimefunItem item) {}
+
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
@@ -119,59 +114,50 @@ public abstract class ElectricSmeltery extends AContainer {
 				return true;
 			}
 		});
-		
+
 		this.registerDefaultRecipes();
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
 		for (int i: border_in) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
 		for (int i: border_out) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
-		
+
 		preset.addItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
 		new MenuClickHandler() {
-
 			@Override
 			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 				return false;
 			}
-							
 		});
-		
+
 		for (int i: getOutputSlots()) {
 			preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
-				
 				@Override
 				public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
 					return false;
@@ -204,7 +190,7 @@ public abstract class ElectricSmeltery extends AContainer {
 	public int[] getOutputSlots() {
 		return new int[] {24, 25};
 	}
-	
+
 	@Override
 	public String getMachineIdentifier() {
 		return "ELECTRIC_SMELTERY";

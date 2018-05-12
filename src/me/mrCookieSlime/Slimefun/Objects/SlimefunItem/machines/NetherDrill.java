@@ -45,5 +45,5 @@ public abstract class NetherDrill extends ADrill {
 	public String getMachineIdentifier() {
 		return "NETHER_DRILL";
 	}
-	
+
 }

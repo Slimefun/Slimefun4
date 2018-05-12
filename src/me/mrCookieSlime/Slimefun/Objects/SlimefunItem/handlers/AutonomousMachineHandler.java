@@ -12,7 +12,7 @@ public abstract class AutonomousMachineHandler extends ItemHandler {
 	public String toCodename() {
 		return "AutonomousMachineHandler";
 	}
-	
+
 	public abstract boolean onBlockDispense(BlockDispenseEvent e, Block dispenser, Dispenser d, Block block, Block chest, SlimefunItem machine);
 
 }

@@ -6,7 +6,7 @@ package me.mrCookieSlime.Slimefun.GitHub;
  * @since 4.1.6
  */
 public class Contributor {
-	
+
 	private String name;
 	private String job;
 	private String profile;
@@ -61,4 +61,5 @@ public class Contributor {
 	protected void setProfile(String profile) {
 		this.profile = profile;
 	}
+
 }

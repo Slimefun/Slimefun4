@@ -18,10 +18,10 @@ public enum UnregisterReason {
 	 * A player breaks the block.
 	 */
 	PLAYER_BREAK,
-	
+
 	/**
 	 * An android miner breaks the block.
 	 */
 	ANDROID_DIG
-	
+
 }

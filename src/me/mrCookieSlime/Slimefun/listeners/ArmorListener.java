@@ -27,11 +27,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class ArmorListener implements Listener {
-	
+
 	public ArmorListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority=EventPriority.MONITOR)
 	public void onDamage(EntityDamageEvent e) {
@@ -76,11 +76,12 @@ public class ArmorListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onTrample(PlayerInteractEvent e) {
 		if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.SOIL) {
 			if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getBoots(), SlimefunItem.getItem("FARMER_SHOES"), true)) e.setCancelled(true);
 		}
 	}
+
 }

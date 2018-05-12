@@ -50,8 +50,9 @@ public class Pedestals {
 
 	public static ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
 		if (input.size() != 8) return null;
+
 		if (SlimefunManager.isItemSimiliar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
-            if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) return null;
+			if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) return null;
 			final ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
 			ItemMeta im = spawner.getItemMeta();
 			im.setLore(Arrays.asList(catalyst.getItemMeta().getLore().get(0)));
@@ -63,18 +64,18 @@ public class Pedestals {
 	}
 
 	private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> input) {
-        AltarRecipe r = null;
+		AltarRecipe r = null;
 		for (AltarRecipe recipe : recipes) {
 			if (SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
 				r = recipe;
-				
+
 				List<ItemStack> copy = new ArrayList<ItemStack>(input);
-				
+
 				recipe:
 				for (ItemStack item : recipe.getInput()) {
 					Iterator<ItemStack> iterator = copy.iterator();
 					boolean match = false;
-					
+
 					items:
 					while (iterator.hasNext()) {
 						ItemStack altar_item = iterator.next();
@@ -84,7 +85,7 @@ public class Pedestals {
 							break items;
 						}
 					}
-					
+
 					if (!match) {
 						r = null;
 						break recipe;
@@ -94,6 +95,8 @@ public class Pedestals {
 				if (r != null) return r.getOutput();
 			}
 		}
-        return null;
+
+		return null;
 	}
+
 }

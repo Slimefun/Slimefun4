@@ -33,4 +33,5 @@ public class EnderTalisman extends SlimefunItem {
 	public boolean isEventCancelled() 	{		return this.cancel;		}
 	public PotionEffect[] getEffects()	{		return this.effects;	}
 	public int getChance()				{		return this.chance;		}
+
 }

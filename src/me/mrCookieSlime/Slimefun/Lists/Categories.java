@@ -20,7 +20,7 @@ import org.bukkit.Material;
  * @see Category
  */
 public class Categories {
-	
+
 	public static Category WEAPONS = new Category(new MenuItem(Material.GOLD_SWORD, "&7Weapons", 0, "open"), 1);
 	public static Category PORTABLE = null;
 	public static Category FOOD = new Category(new MenuItem(Material.APPLE, "&7Food", 0, "open"), 2);
@@ -43,7 +43,7 @@ public class Categories {
 	public static SeasonCategory VALENTINES_DAY = new SeasonCategory(2, 2, new MenuItem(Material.RED_ROSE, "&dValentine's Day", 0, ChatColor.translateAlternateColorCodes('&', "&dcelebrate Love")));
 	public static SeasonCategory EASTER = new SeasonCategory(4, 2, new MenuItem(Material.EGG, "&6Easter", 0, ChatColor.translateAlternateColorCodes('&', "&apaint some Eggs")));
 	public static SeasonCategory BIRTHDAY = new SeasonCategory(10, 1, new MenuItem(Material.FIREWORK, "&a&lmrCookieSlime's Birthday &7(26th October)", 0, ChatColor.translateAlternateColorCodes('&', "&acelebrate with me")));
-	
+
 	static {
 		try {
 			MISC = new Category(new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTRkYTk3ZjA4MGUzOTViODQyYzRjYzgyYTg0MDgyM2Q0ZGJkOGNhNjg4YTIwNjg1M2U1NzgzZTRiZmRjMDEyIn19fQ=="), "&7Miscellaneous", "", "&a> Click to open"), 2);
@@ -57,4 +57,5 @@ public class Categories {
 			e.printStackTrace();
 		}
 	}
+
 }

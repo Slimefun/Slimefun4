@@ -60,7 +60,7 @@ public class AutoDisenchanter extends AContainer {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
@@ -95,14 +95,14 @@ public class AutoDisenchanter extends AContainer {
 			for (int slot: getInputSlots()) {
 				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
-				
+
 				// Check if disenchantable
 				SlimefunItem sfItem = null;
 				if ((item != null) && (item.getType() != Material.BOOK)) { // stops endless checks of getByItem for empty book stacks.
 					sfItem = SlimefunItem.getByItem(item);
 				}
 				if (sfItem != null && !sfItem.isDisenchantable()) return;
-				
+
 				// Disenchant
 				if (item != null && target != null && target.getType() == Material.BOOK) {
 					int amount = 0;

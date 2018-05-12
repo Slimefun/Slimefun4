@@ -9,33 +9,33 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import org.bukkit.Material;
 
 public class MultiBlock {
-	
+
 	public static List<MultiBlock> list = new ArrayList<MultiBlock>();
-	
+
 	Material[] blocks;
 	Material trigger;
-	
+
 	public MultiBlock(Material[] build, Material trigger) {
 		this.blocks = build;
 		this.trigger = trigger;
 	}
-	
+
 	public Material[] getBuild() {
 		return this.blocks;
 	}
-	
+
 	public Material getTriggerBlock() {
 		return this.trigger;
 	}
-	
+
 	public void register() {
 		list.add(this);
 	}
-	
+
 	public static List<MultiBlock> list() {
 		return list;
 	}
-	
+
 	public boolean isMultiBlock(SlimefunItem machine) {
 		if (machine == null) return false;
 		else if (!(machine instanceof SlimefunMachine)) return false;
@@ -56,7 +56,7 @@ public class MultiBlock {
 		}
 		else return false;
 	}
-	
+
 	public boolean isMultiBlock(MultiBlock mb) {
 		if (mb == null) return false;
 		else if (trigger == mb.getTriggerBlock()) {

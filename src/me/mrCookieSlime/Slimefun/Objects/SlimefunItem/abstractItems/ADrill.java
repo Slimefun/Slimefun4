@@ -26,10 +26,10 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class ADrill extends AContainer {
-	
+
 	private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 9, 10, 11, 12, 18, 21, 27, 28, 29, 30, 19, 20 };
 	private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
-	
+
 	public abstract OreGenResource getOreGenResource();
 	public abstract ItemStack[] getOutputItems();
 	public abstract int getProcessingTime();
@@ -37,9 +37,8 @@ public abstract class ADrill extends AContainer {
 
 	public ADrill(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
-		
+
 		new BlockMenuPreset(id, getInventoryTitle()) {
-			
 			@Override
 			public void init() {
 				this.constructMenu(this);
@@ -50,39 +49,32 @@ public abstract class ADrill extends AContainer {
 				for (int i: border) {
 					preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
 					new MenuClickHandler() {
-
 						@Override
 						public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 							return false;
 						}
-								
 					});
 				}
 				for (int i: border_out) {
 					preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
 					new MenuClickHandler() {
-
 						@Override
 						public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 							return false;
 						}
-								
 					});
 				}
-				
+
 				preset.addItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
 				new MenuClickHandler() {
-
 					@Override
 					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 						return false;
 					}
-									
 				});
-				
+
 				for (int i: getOutputSlots()) {
 					preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
-						
 						@Override
 						public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
 							return false;
@@ -97,15 +89,14 @@ public abstract class ADrill extends AContainer {
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
+			public void newInstance(BlockMenu menu, Block b) {}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
 				if (!(p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true))) {
 					return false;
 				}
-				
+
 				if (!OreGenSystem.wasResourceGenerated(getOreGenResource(), b.getChunk())) {
 					Messages.local.sendTranslation(p, "gps.geo.scan-required", true);
 					return false;
@@ -120,7 +111,7 @@ public abstract class ADrill extends AContainer {
 			}
 		};
 	}
-	
+
 	@Override
 	public int[] getInputSlots() { 
 		return new int[0]; 
@@ -128,14 +119,14 @@ public abstract class ADrill extends AContainer {
 
 	@Override
 	public void registerDefaultRecipes() {}
-	
+
 	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
@@ -144,18 +135,18 @@ public abstract class ADrill extends AContainer {
 				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
 				im.setLore(lore);
 				item.setItemMeta(im);
-				
+
 				BlockStorage.getInventory(b).replaceExistingItem(22, item);
-				
+
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
-				
+
 				progress.put(b, timeleft - 1);
 			}
 			else {
 				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
 				pushItems(b, processing.get(b).getOutput());
-				
+
 				progress.remove(b);
 				processing.remove(b);
 			}
