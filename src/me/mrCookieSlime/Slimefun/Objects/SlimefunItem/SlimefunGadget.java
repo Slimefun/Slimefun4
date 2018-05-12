@@ -9,7 +9,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import org.bukkit.inventory.ItemStack;
 
 public class SlimefunGadget extends SlimefunItem {
-	
+
 	List<ItemStack[]> recipes;
 	List<ItemStack> display_recipes;
 
@@ -22,7 +22,7 @@ public class SlimefunGadget extends SlimefunItem {
 			this.display_recipes.add(i);
 		}
 	}
-	
+
 	public SlimefunGadget(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack[] machineRecipes, String[] keys, Object[] values) {
 		super(category, item, id, recipeType, recipe, keys, values);
 		this.recipes = new ArrayList<ItemStack[]>();
@@ -32,19 +32,20 @@ public class SlimefunGadget extends SlimefunItem {
 			this.display_recipes.add(i);
 		}
 	}
-	
+
 	public List<ItemStack[]> getRecipes() {
 		return this.recipes;
 	}
-	
+
 	public List<ItemStack> getDisplayRecipes() {
 		return this.display_recipes;
 	}
-	
+
 	public void addRecipe(ItemStack input, ItemStack output) {
 		this.recipes.add(new ItemStack[] {input});
 		this.recipes.add(new ItemStack[] {output});
 		this.display_recipes.add(input);
 		this.display_recipes.add(output);
 	}
+
 }

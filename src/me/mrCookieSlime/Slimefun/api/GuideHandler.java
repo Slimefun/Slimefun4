@@ -10,17 +10,17 @@ import me.mrCookieSlime.Slimefun.URID.URID;
 import org.bukkit.entity.Player;
 
 public abstract class GuideHandler {
-	
+
 	URID urid;
-	
+
 	public GuideHandler() {
 		this.urid = URID.nextURID(this, false);
 	}
-	
+
 	public URID getURID() {
 		return this.urid;
 	}
-	
+
 	public abstract void addEntry(List<String> texts, List<String> tooltips);
 	public abstract PlayerRunnable getRunnable();
 	public abstract int getTier();
@@ -31,10 +31,10 @@ public abstract class GuideHandler {
 	public PlayerRunnable getRunnable(boolean book) {
 		return this.getRunnable();
 	}
-	
+
 	public void run(Player p, boolean survival, boolean book) {
 		this.getRunnable(book).run(p);
-		
+
 		if (survival && this.trackHistory()) {
 			SlimefunGuide.addToHistory(p, getURID());
 		}

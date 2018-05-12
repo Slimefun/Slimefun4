@@ -7,18 +7,18 @@ import java.util.HashSet;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.Location;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_8.ParticleEffect;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 public abstract class Network {
+
 	private static List<Network> NETWORK_LIST = new ArrayList<Network>();
+
 	public static<T extends Network> T getNetworkFromLocation(Location l, Class<T> type) {
-		for(Network n: NETWORK_LIST) {
-			if(type.isInstance(n) && n.connectsTo(l)) {
+		for (Network n: NETWORK_LIST) {
+			if (type.isInstance(n) && n.connectsTo(l)) {
 				return type.cast(n);
 			}
 		}
@@ -27,8 +27,8 @@ public abstract class Network {
 
 	public static<T extends Network> List<T> getNetworksFromLocation(Location l, Class<T> type) {
 		List<T> ret = new ArrayList<T>();
-		for(Network n: NETWORK_LIST) {
-			if(type.isInstance(n) && n.connectsTo(l)) {
+		for (Network n: NETWORK_LIST) {
+			if (type.isInstance(n) && n.connectsTo(l)) {
 				ret.add(type.cast(n));
 			}
 		}
@@ -44,7 +44,7 @@ public abstract class Network {
 	}
 
 	public static void handleAllNetworkLocationUpdate(Location l) {
-		for(Network n: getNetworksFromLocation(l, Network.class)) {
+		for (Network n: getNetworksFromLocation(l, Network.class)) {
 			n.handleLocationUpdate(l);
 		}
 	}
@@ -54,7 +54,6 @@ public abstract class Network {
 		REGULATOR,
 		TERMINUS;
 	}
-
 
 	public abstract int getRange();
 	public abstract Component classifyLocation(Location l);
@@ -75,7 +74,7 @@ public abstract class Network {
 	}
 
 	protected void addLocationToNetwork(Location l) {
-		if(connectedLocations.contains(l)) {
+		if (connectedLocations.contains(l)) {
 			return;
 		}
 		connectedLocations.add(l.clone());
@@ -83,7 +82,7 @@ public abstract class Network {
 	}
 
 	public void handleLocationUpdate(Location l) {
-		if(regulator.equals(l)) {
+		if (regulator.equals(l)) {
 			unregisterNetwork(this);
 			return;
 		}
@@ -95,11 +94,11 @@ public abstract class Network {
 	}
 
 	private Component getCurrentClassification(Location l) {
-		if(regulatorNodes.contains(l)) {
+		if (regulatorNodes.contains(l)) {
 			return Component.REGULATOR;
-		} else if(connectorNodes.contains(l)) {
+		} else if (connectorNodes.contains(l)) {
 			return Component.CONNECTOR;
-		} else if(terminusNodes.contains(l)) {
+		} else if (terminusNodes.contains(l)) {
 			return Component.TERMINUS;
 		}
 		return null;
@@ -107,25 +106,25 @@ public abstract class Network {
 
 	private void discoverStep() {
 		int steps = 0;
-		while(nodeQueue.peek() != null) {
+		while (nodeQueue.peek() != null) {
 			Location l = nodeQueue.poll();
 			Component currentAssignment = getCurrentClassification(l);
 			Component classification = classifyLocation(l);
-			if(classification != currentAssignment) {
-				if(currentAssignment == Component.REGULATOR || currentAssignment == Component.CONNECTOR) {
+			if (classification != currentAssignment) {
+				if (currentAssignment == Component.REGULATOR || currentAssignment == Component.CONNECTOR) {
 					// Requires a complete rebuild of the network, so we just throw the current one away.
 					unregisterNetwork(this);
 					return;
-				} else if(currentAssignment == Component.TERMINUS) {
+				} else if (currentAssignment == Component.TERMINUS) {
 					terminusNodes.remove(l);
 				}
-				if(classification == Component.REGULATOR) {
+				if (classification == Component.REGULATOR) {
 					regulatorNodes.add(l);
 					discoverNeighbors(l);
-				} else if(classification == Component.CONNECTOR) {
+				} else if (classification == Component.CONNECTOR) {
 					connectorNodes.add(l);
 					discoverNeighbors(l);
-				} else if(classification == Component.TERMINUS) {
+				} else if (classification == Component.TERMINUS) {
 					terminusNodes.add(l);
 				}
 				locationClassificationChange(l, currentAssignment, classification);
@@ -133,12 +132,12 @@ public abstract class Network {
 			steps += 1;
 			// TODO: Consider making this a configuration option so that it can be increased for servers
 			// that can deal with the load.
-			if(steps == 500) break;
+			if (steps == 500) break;
 		}
 	}
 
 	private void discoverNeighbors(Location l, int xDiff, int yDiff, int zDiff) {
-		for(int i = getRange() + 1; i > 0; i --) {
+		for (int i = getRange() + 1; i > 0; i --) {
 			Location new_location = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
 			addLocationToNetwork(new_location);
 		}
@@ -157,12 +156,10 @@ public abstract class Network {
 		SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 			@Override
 			public void run() {
-				for(Location l: connectedLocations) {
+				for (Location l: connectedLocations) {
 					try {
 						ParticleEffect.REDSTONE.display(l.clone().add(0.5, 0.5, 0.5), 0, 0, 0, 0, 1);
-					} catch(Exception e) {
-
-					}
+					} catch (Exception e) {}
 				}
 			}
 		});
@@ -171,4 +168,5 @@ public abstract class Network {
 	public void tick() {
 		discoverStep();
 	}
+
 }

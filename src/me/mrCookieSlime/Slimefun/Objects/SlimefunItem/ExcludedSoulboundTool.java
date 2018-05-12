@@ -11,7 +11,7 @@ public class ExcludedSoulboundTool extends SoulboundItem implements NotPlaceable
 	public ExcludedSoulboundTool(Category category, ItemStack item, String id, RecipeType type, ItemStack[] recipe) {
 		super(category, item, id, type, recipe);
 	}
-	
+
 	public ExcludedSoulboundTool(Category category, ItemStack item, String id, ItemStack[] recipe) {
 		super(category, item, id, recipe);
 	}

@@ -17,13 +17,12 @@ import java.util.zip.ZipOutputStream;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
 
 public class SlimefunBackup {
-	
+
 	public static void start() {
 		File folder = new File("data-storage/Slimefun/block-backups");
 		List<File> backups = Arrays.asList(folder.listFiles());
 		if (backups.size() > 20) {
 			Collections.sort(backups, new Comparator<File>() {
-
 				@Override
 				public int compare(File f1, File f2) {
 					try {
@@ -111,7 +110,7 @@ public class SlimefunBackup {
 
 			output.close();
 			System.out.println("[Slimefun] Backed up Blocks to " + file.getName());
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

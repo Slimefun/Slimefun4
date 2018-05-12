@@ -122,4 +122,5 @@ public class LockedCategory extends Category {
 		}
 		return true;
 	}
+
 }

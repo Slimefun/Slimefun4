@@ -38,23 +38,21 @@ public abstract class HeatedPressureChamber extends AContainer {
 
 	public HeatedPressureChamber(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
+
 		new BlockMenuPreset(name, getInventoryTitle()) {
-			
 			@Override
 			public void init() {
 				constructMenu(this);
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
+			public void newInstance(BlockMenu menu, Block b) {}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
 				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
 			}
-			
+
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
 				return new int[0];
@@ -63,15 +61,15 @@ public abstract class HeatedPressureChamber extends AContainer {
 			@Override
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow.equals(ItemTransportFlow.WITHDRAW)) return getOutputSlots();
-				
+
 				List<Integer> slots = new ArrayList<Integer>();
-				
+
 				for (int slot: getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), item, true)) {
 						slots.add(slot);
 					}
 				}
-				
+
 				if (slots.isEmpty()) {
 					return getInputSlots();
 				}
@@ -81,10 +79,10 @@ public abstract class HeatedPressureChamber extends AContainer {
 				}
 			}
 		};
-		
+
 		this.registerDefaultRecipes();
 	}
-	
+
 	@Override
 	public void registerDefaultRecipes() {
 		registerRecipe(45, new ItemStack[] {SlimefunItems.BUCKET_OF_OIL}, new ItemStack[] {new CustomItem(SlimefunItems.PLASTIC_SHEET, 8)});
@@ -95,27 +93,26 @@ public abstract class HeatedPressureChamber extends AContainer {
 		registerRecipe(60, new ItemStack[]{SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM}, new ItemStack[]{new CustomItem(SlimefunItems.ENRICHED_NETHER_ICE, 4)});
 		registerRecipe(45, new ItemStack[]{SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[]{new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)});
 	}
-	
+
 	public String getInventoryTitle() {
 		return "&cHeated Pressure Chamber";
 	}
-	
+
 	public ItemStack getProgressBar() {
 		return new ItemStack(Material.FLINT_AND_STEEL);
 	}
-	
+
 	public int[] getInputSlots() {
 		return new int[] {19, 20};
 	}
-	
+
 	public int[] getOutputSlots() {
 		return new int[] {24, 25};
 	}
-	
+
 	@Override
 	public void register(boolean slimefun) {
 		addItemHandler(new BlockTicker() {
-			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				HeatedPressureChamber.this.tick(b);
@@ -133,14 +130,14 @@ public abstract class HeatedPressureChamber extends AContainer {
 
 		super.register(slimefun);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
@@ -149,9 +146,9 @@ public abstract class HeatedPressureChamber extends AContainer {
 				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
 				im.setLore(lore);
 				item.setItemMeta(im);
-				
+
 				BlockStorage.getInventory(b).replaceExistingItem(22, item);
-				
+
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -162,7 +159,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 			else {
 				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
 				pushItems(b, processing.get(b).getOutput());
-				
+
 				progress.remove(b);
 				processing.remove(b);
 			}
@@ -187,7 +184,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 				}
 				else found.clear();
 			}
-			
+
 			if (r != null) {
 				if (!fits(b, r.getOutput())) return;
 				for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
@@ -198,7 +195,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 			}
 		}
 	}
-	
+
 	@Override
 	public String getMachineIdentifier() {
 		return "HEATED_PRESSURE_CHAMBER";

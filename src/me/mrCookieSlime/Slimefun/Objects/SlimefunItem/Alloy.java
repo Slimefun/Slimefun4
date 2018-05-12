@@ -19,8 +19,8 @@ public class Alloy extends SlimefunItem {
 	/**
 	 * Constructs an Alloy bound to {@code Categories.RESOURCES}.
 	 *
-	 * @param  item    the item corresponding to this Alloy
-	 * @param  id      the id of this Alloy
+	 * @param  item	the item corresponding to this Alloy
+	 * @param  id	  the id of this Alloy
 	 * @param  recipe  the recipe to obtain this Alloy in the Smeltery
 	 */
 	public Alloy(ItemStack item, String id, ItemStack[] recipe) {
@@ -31,9 +31,9 @@ public class Alloy extends SlimefunItem {
 	 * Constructs an Alloy with a definable {@link Category}.
 	 *
 	 * @param  category  the category to bind this Alloy to
-	 * @param  item      the item corresponding to this Alloy
-	 * @param  id        the id of this Alloy
-	 * @param  recipe    the recipe to obtain this Alloy in the Smeltery
+	 * @param  item	  the item corresponding to this Alloy
+	 * @param  id		the id of this Alloy
+	 * @param  recipe	the recipe to obtain this Alloy in the Smeltery
 	 */
 	public Alloy(Category category, ItemStack item, String id, ItemStack[] recipe) {
 		super(category, item, id, RecipeType.SMELTERY, recipe);

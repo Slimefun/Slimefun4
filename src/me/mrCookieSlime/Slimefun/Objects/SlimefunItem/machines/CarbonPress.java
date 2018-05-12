@@ -15,7 +15,7 @@ public abstract class CarbonPress extends AContainer {
 	public CarbonPress(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void registerDefaultRecipes() {
@@ -26,12 +26,10 @@ public abstract class CarbonPress extends AContainer {
 		registerRecipe(60, new ItemStack[] {SlimefunItems.CARBON_CHUNK}, new ItemStack[] {SlimefunItems.SYNTHETIC_DIAMOND});
 		registerRecipe(90, new ItemStack[] {SlimefunItems.RAW_CARBONADO}, new ItemStack[] {SlimefunItems.CARBONADO});
 	}
-	
+
 	@Override
 	public String getMachineIdentifier() {
 		return "CARBON_PRESS";
 	}
-	
-	
 
 }

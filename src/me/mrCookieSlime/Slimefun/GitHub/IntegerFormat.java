@@ -7,13 +7,13 @@ import java.util.Date;
 import java.util.Locale;
 
 public class IntegerFormat {
-	
+
 	private static SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public static String formatBigNumber(int i) {
 		return NumberFormat.getNumberInstance(Locale.US).format(i);
 	}
-	
+
 	public static Date parseGitHubDate(String str) {
 		try {
 			return date_format.parse(str.replace("T", " ").replace("Z", ""));
@@ -22,11 +22,11 @@ public class IntegerFormat {
 			return null;
 		}
 	}
-	
+
 	public static String timeDelta(Date date) {
 		long timestamp = date.getTime();
 		int hours = (int) ((System.currentTimeMillis() - timestamp) / (1000 * 60 * 60));
-		
+
 		if (hours == 0) {
 			return "> 1h";
 		}

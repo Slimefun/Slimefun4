@@ -9,27 +9,25 @@ import org.bukkit.entity.Entity;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
-
 public class ReactorHologram {
 
-    public static ArmorStand getArmorStand(Location reactor) {
-        Location l = new Location(reactor.getWorld(), reactor.getX() + 0.5, reactor.getY(), reactor.getZ() + 0.5);
+	public static ArmorStand getArmorStand(Location reactor) {
+		Location l = new Location(reactor.getWorld(), reactor.getX() + 0.5, reactor.getY(), reactor.getZ() + 0.5);
 
-        for (Entity n : l.getChunk().getEntities()) {
-            if (n instanceof ArmorStand) {
-                if (l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
-            }
-        }
+		for (Entity n : l.getChunk().getEntities()) {
+			if (n instanceof ArmorStand) {
+				if (l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
+			}
+		}
 
-        ArmorStand hologram = ArmorStandFactory.createHidden(l);
-        hologram.setCustomNameVisible(false);
-        hologram.setCustomName(null);
-        return hologram;
-    }
-    
-    public static void update(final Location l, final String name) {
+		ArmorStand hologram = ArmorStandFactory.createHidden(l);
+		hologram.setCustomNameVisible(false);
+		hologram.setCustomName(null);
+		return hologram;
+	}
+
+	public static void update(final Location l, final String name) {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-			
 			@Override
 			public void run() {
 				ArmorStand hologram = getArmorStand(l);
@@ -39,8 +37,9 @@ public class ReactorHologram {
 		});
 	}
 
-    public static void remove(Location l) {
-        ArmorStand hologram = getArmorStand(l);
-        hologram.remove();
-    }
+	public static void remove(Location l) {
+		ArmorStand hologram = getArmorStand(l);
+		hologram.remove();
+	}
+
 }

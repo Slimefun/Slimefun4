@@ -8,7 +8,7 @@ import me.mrCookieSlime.Slimefun.Android.ProgrammableAndroid;
 public class ScriptReputationSorter implements Comparator<Config> {
 
 	ProgrammableAndroid android;
-	
+
 	public ScriptReputationSorter(ProgrammableAndroid programmableAndroid) {
 		this.android = programmableAndroid;
 	}

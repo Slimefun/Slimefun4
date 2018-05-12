@@ -16,11 +16,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 
 public class AutonomousToolsListener implements Listener {
-	
+
 	public AutonomousToolsListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockDispensing(final BlockDispenseEvent e) {
@@ -28,18 +28,18 @@ public class AutonomousToolsListener implements Listener {
 		if (dispenser.getType() == Material.DISPENSER) {
 			final Dispenser d = (Dispenser) dispenser.getState();
 			BlockFace face = BlockFace.DOWN;
-			 
-			if( dispenser.getData() == 8) face = BlockFace.DOWN;
-			else if( dispenser.getData() == 9) face = BlockFace.UP;
-			else if( dispenser.getData() == 10) face = BlockFace.NORTH;
-			else if( dispenser.getData() == 11) face = BlockFace.SOUTH;
-			else if( dispenser.getData() == 12) face = BlockFace.WEST;
-			else if( dispenser.getData() == 13) face = BlockFace.EAST;
-			
+
+			if (dispenser.getData() == 8) face = BlockFace.DOWN;
+			else if (dispenser.getData() == 9) face = BlockFace.UP;
+			else if (dispenser.getData() == 10) face = BlockFace.NORTH;
+			else if (dispenser.getData() == 11) face = BlockFace.SOUTH;
+			else if (dispenser.getData() == 12) face = BlockFace.WEST;
+			else if (dispenser.getData() == 13) face = BlockFace.EAST;
+
 			Block block = dispenser.getRelative(face);
 			Block chest = dispenser.getRelative(face.getOppositeFace());
 			SlimefunItem machine = BlockStorage.check(dispenser);
-			
+
 			if (machine != null) {
 				for (ItemHandler handler: SlimefunItem.getHandlers("AutonomousMachineHandler")) {
 					if (((AutonomousMachineHandler) handler).onBlockDispense(e, dispenser, d, block, chest, machine)) break;

@@ -11,16 +11,16 @@ import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 
 public class EnhancedFurnace extends SlimefunItem {
-	
+
 	int speed, efficiency, fortune;
-	
+
 	public EnhancedFurnace(int speed, int efficiency, int fortune, ItemStack item, String id, ItemStack[] recipe) {
 		super(Categories.MACHINES_1, item, id, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
-		
+
 		this.speed = speed - 1;
 		this.efficiency = efficiency - 1;
 		this.fortune = fortune - 1;
-		
+
 		addItemHandler(new BlockTicker() {
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
@@ -42,15 +42,15 @@ public class EnhancedFurnace extends SlimefunItem {
 			}
 		});
 	}
-	
+
 	public int getSpeed() {
 		return speed;
 	}
-	
+
 	public int getFuelEfficiency() {
 		return speed;
 	}
-	
+
 	public int getOutput() {
 		int fortune = this.fortune;
 		fortune = SlimefunStartup.randomize(fortune + 2) - 1;
@@ -58,4 +58,5 @@ public class EnhancedFurnace extends SlimefunItem {
 		fortune++;
 		return fortune;
 	}
+
 }

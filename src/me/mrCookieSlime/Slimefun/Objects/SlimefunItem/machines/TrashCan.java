@@ -20,22 +20,20 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 public class TrashCan extends SlimefunItem {
-	
+
 	private static final int[] border = {0, 1, 2, 3, 5, 4, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
 	public TrashCan(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
+
 		new BlockMenuPreset(name, getInventoryTitle()) {
-			
 			@Override
 			public void init() {
 				constructMenu(this);
 			}
 
 			@Override
-			public void newInstance(final BlockMenu menu, final Block b) {
-			}
+			public void newInstance(final BlockMenu menu, final Block b) {}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
@@ -49,22 +47,20 @@ public class TrashCan extends SlimefunItem {
 			}
 		};
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 14), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
 	}
-	
+
 	public String getInventoryTitle() {
 		return "&4Trash Can";
 	}
@@ -72,15 +68,13 @@ public class TrashCan extends SlimefunItem {
 	public int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
 	}
-	
+
 	@Override
 	public void register(boolean slimefun) {
 		addItemHandler(new BlockTicker() {
-			
 			@Override
-			public void uniqueTick() {
-			}
-			
+			public void uniqueTick() {}
+
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
 				BlockMenu menu = BlockStorage.getInventory(b);
@@ -88,7 +82,7 @@ public class TrashCan extends SlimefunItem {
 					menu.replaceExistingItem(slot, null);
 				}
 			}
-			
+
 			@Override
 			public boolean isSynchronized() {
 				return false;
@@ -97,4 +91,5 @@ public class TrashCan extends SlimefunItem {
 
 		super.register(slimefun);
 	}
+
 }

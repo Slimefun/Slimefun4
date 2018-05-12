@@ -9,36 +9,36 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class MultiBlockInteractEvent extends Event implements Cancellable {
-	
+
 	private static final HandlerList handlers = new HandlerList();
-	
+
 	Player p;
 	MultiBlock mb;
 	Block b;
 	boolean cancelled;
-	
+
 	public HandlerList getHandlers() {
-	    return handlers;
+		return handlers;
 	}
-	 
+
 	public static HandlerList getHandlerList() {
-	    return handlers;
+		return handlers;
 	}
-	
+
 	public MultiBlockInteractEvent(Player p, MultiBlock mb, Block clicked) {
 		this.p = p;
 		this.mb = mb;
 		this.b = clicked;
 	}
-	
+
 	public Player getPlayer() {
 		return this.p;
 	}
-	
+
 	public MultiBlock getMultiBlock() {
 		return this.mb;
 	}
-	
+
 	public Block getClickedBlock() {
 		return this.b;
 	}

@@ -13,7 +13,6 @@ public class WikiSetup {
 	 * Setups the official Wiki links.
 	 */
 	public static void setup() {
-		
 		// Weapons
 		Slimefun.addOfficialWikiPage("GRANDMAS_WALKING_STICK", "Walking-Sticks");
 		Slimefun.addOfficialWikiPage("GRANDPAS_WALKING_STICK", "Walking-Sticks");
@@ -24,7 +23,7 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("SOULBOUND_BOW", "Soulbound-Weapons");
 		Slimefun.addOfficialWikiPage("EXPLOSIVE_BOW", "Special-Bows");
 		Slimefun.addOfficialWikiPage("ICY_BOW", "Special-Bows");
-		
+
 		// Various Items
 		Slimefun.addOfficialWikiPage("PORTABLE_CRAFTER", "Portable-Crafter");
 		Slimefun.addOfficialWikiPage("PORTABLE_DUSTBIN", "Portable-Dustbin");
@@ -41,7 +40,7 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("GILDED_BACKPACK", "Backpacks");
 		Slimefun.addOfficialWikiPage("BOUND_BACKPACK", "Backpacks");
 		Slimefun.addOfficialWikiPage("COOLER", "Cooler");
-		
+
 		// Basic Machines
 		Slimefun.addOfficialWikiPage("ENHANCED_CRAFTING_TABLE", "Enhanced-Crafting-Table");
 		Slimefun.addOfficialWikiPage("GRIND_STONE", "Grind-Stone");
@@ -71,7 +70,7 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("ENHANCED_FURNACE_11", "Enhanced-Furnaces");
 		Slimefun.addOfficialWikiPage("REINFORCED_FURNACE", "Enhanced-Furnaces");
 		Slimefun.addOfficialWikiPage("CARBONADO_EDGED_FURNACE", "Enhanced-Furnaces");
-		
+
 		// Tools
 		Slimefun.addOfficialWikiPage("GOLD_PAN", "Gold-Pan");
 		Slimefun.addOfficialWikiPage("GRAPPLING_HOOK", "Grappling-Hook");
@@ -86,7 +85,7 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("SOULBOUND_AXE", "Soulbound-Tools");
 		Slimefun.addOfficialWikiPage("SOULBOUND_SHOVEL", "Soulbound-Tools");
 		Slimefun.addOfficialWikiPage("SOULBOUND_HOE", "Soulbound-Tools");
-		
+
 		// Food
 		Slimefun.addOfficialWikiPage("FORTUNE_COOKIE", "Fortune-Cookie");
 		Slimefun.addOfficialWikiPage("BEEF_JERKY", "Beef-Jerky");
@@ -97,18 +96,18 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("MELON_JUICE", "Juices");
 		Slimefun.addOfficialWikiPage("PUMPKIN_JUICE", "Juices");
 		Slimefun.addOfficialWikiPage("GOLDEN_APPLE_JUICE", "Juices");
-		
+
 		// Armor
 		Slimefun.addOfficialWikiPage("CHAIN_HELMET", "Chain-Armor");
 		Slimefun.addOfficialWikiPage("CHAIN_CHESTPLATE", "Chain-Armor");
 		Slimefun.addOfficialWikiPage("CHAIN_LEGGINGS", "Chain-Armor");
 		Slimefun.addOfficialWikiPage("CHAIN_BOOTS", "Chain-Armor");
-		
+
 		Slimefun.addOfficialWikiPage("DAMASCUS_STEEL_HELMET", "Damascus-Steel-Armor");
 		Slimefun.addOfficialWikiPage("DAMASCUS_STEEL_CHESTPLATE", "Damascus-Steel-Armor");
 		Slimefun.addOfficialWikiPage("DAMASCUS_STEEL_LEGGINGS", "Damascus-Steel-Armor");
 		Slimefun.addOfficialWikiPage("DAMASCUS_STEEL_BOOTS", "Damascus-Steel-Armor");
-		
+
 		Slimefun.addOfficialWikiPage("GOLD_12K_HELMET", "Gold-Armor");
 		Slimefun.addOfficialWikiPage("GOLD_12K_CHESTPLATE", "Gold-Armor");
 		Slimefun.addOfficialWikiPage("GOLD_12K_LEGGINGS", "Gold-Armor");
@@ -118,7 +117,7 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("REINFORCED_ALLOY_CHESTPLATE", "Reinforced-Armor");
 		Slimefun.addOfficialWikiPage("REINFORCED_ALLOY_LEGGINGS", "Reinforced-Armor");
 		Slimefun.addOfficialWikiPage("REINFORCED_ALLOY_BOOTS", "Reinforced-Armor");
-		
+
 		Slimefun.addOfficialWikiPage("GILDED_IRON_HELMET", "Gilded-Iron-Armor");
 		Slimefun.addOfficialWikiPage("GILDED_IRON_CHESTPLATE", "Gilded-Iron-Armor");
 		Slimefun.addOfficialWikiPage("GILDED_IRON_LEGGINGS", "Gilded-Iron-Armor");
@@ -128,12 +127,12 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("HAZMAT_CHESTPLATE", "Hazmat-Suit");
 		Slimefun.addOfficialWikiPage("HAZMAT_LEGGINGS", "Hazmat-Suit");
 		Slimefun.addOfficialWikiPage("RUBBER_BOOTS", "Hazmat-Suit");
-		
+
 		Slimefun.addOfficialWikiPage("CACTUS_HELMET", "Cactus-Armor");
 		Slimefun.addOfficialWikiPage("CACTUS_CHESTPLATE", "Cactus-Armor");
 		Slimefun.addOfficialWikiPage("CACTUS_LEGGINGS", "Cactus-Armor");
 		Slimefun.addOfficialWikiPage("CACTUS_BOOTS", "Cactus-Armor");
-		
+
 		// Resources
 		Slimefun.addOfficialWikiPage("COPPER_INGOT", "Ingots");
 		Slimefun.addOfficialWikiPage("TIN_INGOT", "Ingots");
@@ -174,7 +173,7 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("NICKEL_INGOT", "Ingots");
 		Slimefun.addOfficialWikiPage("COBALT_INGOT", "Ingots");
 		Slimefun.addOfficialWikiPage("SOLDER_INGOT", "Ingots");
-		
+
 		Slimefun.addOfficialWikiPage("IRON_DUST", "Dusts");
 		Slimefun.addOfficialWikiPage("GOLD_DUST", "Dusts");
 		Slimefun.addOfficialWikiPage("ALUMINUM_DUST", "Dusts");
@@ -205,7 +204,7 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("BLISTERING_INGOT", "Radioactive-Materials");
 		Slimefun.addOfficialWikiPage("BLISTERING_INGOT_2", "Radioactive-Materials");
 		Slimefun.addOfficialWikiPage("BLISTERING_INGOT_3", "Radioactive-Materials");
-		
+
 		// Energy & Electricity
 		Slimefun.addOfficialWikiPage("ENERGY_REGULATOR", "Energy-Regulator");
 		Slimefun.addOfficialWikiPage("CHARGING_BENCH", "Charging-Station");
@@ -226,8 +225,8 @@ public class WikiSetup {
 		Slimefun.addOfficialWikiPage("SOLAR_GENERATOR_4", "Solar-Generator");
 		Slimefun.addOfficialWikiPage("AUTO_ENCHANTER", "Auto-Enchanter");
 		Slimefun.addOfficialWikiPage("AUTO_DISENCHANTER", "Auto-Disenchanter");
-		
-		//Cargo Management
+
+		// Cargo Management
 		Slimefun.addOfficialWikiPage("CARGO_MOTOR", "Cargo-Motor");
 		Slimefun.addOfficialWikiPage("CARGO_MANAGER", "Cargo-Manager");
 		Slimefun.addOfficialWikiPage("CARGO_NODE", "Cargo-Nodes");

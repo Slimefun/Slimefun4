@@ -88,70 +88,69 @@ public class ItemListener implements Listener {
 			e.setCancelled(true);
 			if (p.isOp()) {
 				switch (e.getAction()) {
-				case LEFT_CLICK_BLOCK: {
-					if (p.isSneaking()) {
-						if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
-							BlockStorage.clearBlockInfo(e.getClickedBlock());
+					case LEFT_CLICK_BLOCK: {
+						if (p.isSneaking()) {
+							if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
+								BlockStorage.clearBlockInfo(e.getClickedBlock());
+							}
 						}
+						else e.setCancelled(false);
+						break;
 					}
-					else e.setCancelled(false);
-					break;
-				}
-				case RIGHT_CLICK_BLOCK: {
-					if (p.isSneaking()) {
-						Block b = e.getClickedBlock().getRelative(e.getBlockFace());
-						b.setType(Material.SKULL);
-						try {
-							CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
-						} catch (Exception e1) {
-							e1.printStackTrace();
+					case RIGHT_CLICK_BLOCK: {
+						if (p.isSneaking()) {
+							Block b = e.getClickedBlock().getRelative(e.getBlockFace());
+							b.setType(Material.SKULL);
+							try {
+								CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
 						}
+						else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
+							p.sendMessage(" ");
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d" + e.getClickedBlock().getType() + ":" + e.getClickedBlock().getData() + " &e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ()));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dID: " + "&e" + BlockStorage.checkID(e.getClickedBlock())));
+							if (e.getClickedBlock().getState() instanceof Skull) {
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dSkull: " + "&2\u2714"));
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dRotation: &e" + ((Skull) e.getClickedBlock().getState()).getRotation().toString()));
+							}
+							if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dInventory: " + "&2\u2714"));
+							}
+							else {
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dInventory: " + "&4\u2718"));
+							}
+							if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&2\u2714"));
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dAsync: &e" + (BlockStorage.check(e.getClickedBlock()).getTicker().isSynchronized() ? "&4\u2718": "&2\u2714")));
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTotal Timings: &e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
+							}
+							else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&b~ &3(Indirect)"));
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
+							}
+							else {
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&4\u2718"));
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dTicking: " + "&4\u2718"));
+							}
+							if (ChargableBlock.isChargable(e.getClickedBlock())) {
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChargable: " + "&2\u2714"));
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dEnergy: &e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock())));
+							}
+							else {
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChargable: " + "&4\u2718"));
+							}
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock())));
+							p.sendMessage(" ");
+						}
+						break;
 					}
-					else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
-						p.sendMessage(" ");
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d" + e.getClickedBlock().getType() + ":" + e.getClickedBlock().getData() + " &e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ()));
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dID: " + "&e" + BlockStorage.checkID(e.getClickedBlock())));
-						if (e.getClickedBlock().getState() instanceof Skull) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dSkull: " + "&2\u2714"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dRotation: &e" + ((Skull) e.getClickedBlock().getState()).getRotation().toString()));
-						}
-						if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dInventory: " + "&2\u2714"));
-						}
-						else {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dInventory: " + "&4\u2718"));
-						}
-						if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&2\u2714"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dAsync: &e" + (BlockStorage.check(e.getClickedBlock()).getTicker().isSynchronized() ? "&4\u2718": "&2\u2714")));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTotal Timings: &e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
-						}
-						else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&b~ &3(Indirect)"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
-						}
-						else {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&4\u2718"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dTicking: " + "&4\u2718"));
-						}
-						if (ChargableBlock.isChargable(e.getClickedBlock())) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChargable: " + "&2\u2714"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dEnergy: &e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock())));
-						}
-						else {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChargable: " + "&4\u2718"));
-						}
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock())));
-						p.sendMessage(" ");
-					}
-					break;
-				}
-				default:
-					break;
-
+					default:
+						break;
 				}
 			}
 		}
@@ -328,21 +327,19 @@ public class ItemListener implements Listener {
 						final int m = mode;
 
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-			                @Override
-			                public void run() {
-			                    if (m == 0) {
-			                    	p.getInventory().setItemInMainHand(null);
-			                    }
-			                    else if (m == 1) {
-			                    	p.getInventory().setItemInOffHand(null);
-			                    }
-			                    else if (m == 2) {
-			                    	p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
-			                    }
-			                }
-
-			            }, 1L);
+							@Override
+							public void run() {
+								if (m == 0) {
+									p.getInventory().setItemInMainHand(null);
+								}
+								else if (m == 1) {
+									p.getInventory().setItemInOffHand(null);
+								}
+								else if (m == 2) {
+									p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
+								}
+							}
+						}, 1L);
 					}
 				}
 			}
@@ -351,15 +348,15 @@ public class ItemListener implements Listener {
 	}
 
 	@EventHandler
-    public void onCraft(CraftItemEvent e) {
-        for (ItemStack item: e.getInventory().getContents()) {
-        	if (SlimefunItem.getByItem(item) != null && !(SlimefunItem.getByItem(item).isReplacing())) {
-        		e.setCancelled(true);
-        		Messages.local.sendTranslation((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
-        		break;
-        	}
-        }
-    }
+	public void onCraft(CraftItemEvent e) {
+		for (ItemStack item: e.getInventory().getContents()) {
+			if (SlimefunItem.getByItem(item) != null && !(SlimefunItem.getByItem(item).isReplacing())) {
+				e.setCancelled(true);
+				Messages.local.sendTranslation((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
+				break;
+			}
+		}
+	}
 
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void onEntityChangeBlock(EntityChangeBlockEvent e) {
@@ -379,22 +376,23 @@ public class ItemListener implements Listener {
 	}
 
 	@EventHandler
-    public void onAnvil(InventoryClickEvent e) {
-        if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
-		if (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.ELYTRA, true)) return;
+	public void onAnvil(InventoryClickEvent e) {
+		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
+			if (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.ELYTRA, true)) return;
 
-        	if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && !SlimefunItem.isDisabled(e.getInventory().getContents()[0])) {
-            	e.setCancelled(true);
-                Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-            }
-        }
-    }
-	
+			if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && !SlimefunItem.isDisabled(e.getInventory().getContents()[0])) {
+			   	e.setCancelled(true);
+				   Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+			}
+		}
+	}
+
 	@EventHandler (ignoreCancelled = true)
-    public void onPreBrew(InventoryClickEvent e) {
-        Inventory inventory = e.getInventory();
-        if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand) {
-	        if(e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
-        }
-    }
+	public void onPreBrew(InventoryClickEvent e) {
+		Inventory inventory = e.getInventory();
+		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand) {
+			if (e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
+		}
+	}
+
 }

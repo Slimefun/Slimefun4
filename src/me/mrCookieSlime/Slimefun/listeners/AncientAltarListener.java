@@ -55,12 +55,12 @@ public class AncientAltarListener implements Listener {
 				if (Variables.altarinuse.contains(b.getLocation())) {
 					e.setCancelled(true);
 					return;
-				}				
+				}
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
-					if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
-					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
+					if (e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
+					if (b.getRelative(0, 1, 0).getType() != Material.AIR) {
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
 						return;
 					}
@@ -71,7 +71,6 @@ public class AncientAltarListener implements Listener {
 					removed_items.add(uuid);
 
 					SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
 						@Override
 						public void run() {
 							removed_items.remove(uuid);
@@ -121,7 +120,7 @@ public class AncientAltarListener implements Listener {
 								pedestals.forEach((pblock)->{
 									Variables.altarinuse.remove(pblock.getLocation());
 								});
-								Variables.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use.								
+								Variables.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use
 							}
 						}
 						else {
@@ -130,7 +129,7 @@ public class AncientAltarListener implements Listener {
 							pedestals.forEach((pblock)->{
 								Variables.altarinuse.remove(pblock.getLocation());
 							});
-							Variables.altarinuse.remove(b.getLocation());  // unkown catalyst, no longer in use							
+							Variables.altarinuse.remove(b.getLocation());  // unkown catalyst, no longer in use
 						}
 					}
 					else {
@@ -180,15 +179,16 @@ public class AncientAltarListener implements Listener {
 			p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
 		}
 	}
-	
+
 	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Block b = e.getBlockPlaced().getRelative(0, -1, 0);
 		SlimefunItem item = BlockStorage.check(b);
-		if(item == null) return;
-		if(item.getID().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
+		if (item == null) return;
+		if (item.getID().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
 			Messages.local.sendTranslation(e.getPlayer(), "messages.cannot-place", true);
 			e.setCancelled(true);
 		}
 	}
+
 }

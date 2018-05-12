@@ -12,7 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class SlimefunMachine extends SlimefunItem {
-	
+
 	List<ItemStack[]> recipes;
 	List<ItemStack> shownRecipes;
 	Material trigger;
@@ -26,7 +26,7 @@ public class SlimefunMachine extends SlimefunItem {
 		}
 		this.trigger = trigger;
 	}
-	
+
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, boolean ghost) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe, ghost);
 		this.recipes = new ArrayList<ItemStack[]>();
@@ -36,7 +36,7 @@ public class SlimefunMachine extends SlimefunItem {
 		}
 		this.trigger = trigger;
 	}
-	
+
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, String[] keys, Object[] values) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe, keys, values);
 		this.recipes = new ArrayList<ItemStack[]>();
@@ -46,25 +46,25 @@ public class SlimefunMachine extends SlimefunItem {
 		}
 		this.trigger = trigger;
 	}
-	
+
 	public List<ItemStack[]> getRecipes() {
 		return this.recipes;
 	}
-	
+
 	public List<ItemStack> getDisplayRecipes() {
 		return this.shownRecipes;
 	}
-	
+
 	public void addRecipe(ItemStack[] input, ItemStack output) {
 		this.recipes.add(input);
 		this.recipes.add(new ItemStack[] {output});
 	}
-	
+
 	@Override
 	public void create() {
 		this.toMultiBlock().register();
 	}
-	
+
 	@Override
 	public void install() {
 		for (ItemStack i: this.getDisplayRecipes()) {
@@ -73,7 +73,7 @@ public class SlimefunMachine extends SlimefunItem {
 			else if (!SlimefunItem.isDisabled(i)) this.recipes.add(new ItemStack[] {i});
 		}
 	}
-	
+
 	public MultiBlock toMultiBlock() {
 		List<Material> mats = new ArrayList<Material>();
 		for (ItemStack i: this.getRecipe()) {
@@ -85,7 +85,7 @@ public class SlimefunMachine extends SlimefunItem {
 		Material[] build = mats.toArray(new Material[mats.size()]);
 		return new MultiBlock(build, this.trigger);
 	}
-	
+
 	public Iterator<ItemStack[]> recipeIterator() {
 		return this.recipes.iterator();
 	}

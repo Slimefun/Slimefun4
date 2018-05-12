@@ -40,16 +40,16 @@ public abstract class ElectricGoldPan extends AContainer {
 
 	@Override
 	public void registerDefaultRecipes() {}
-	
+
 	public abstract int getSpeed();
-	
+
 	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0 && getSpeed() < 10) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
@@ -58,9 +58,9 @@ public abstract class ElectricGoldPan extends AContainer {
 				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
 				im.setLore(lore);
 				item.setItemMeta(im);
-				
+
 				BlockStorage.getInventory(b).replaceExistingItem(22, item);
-				
+
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -74,7 +74,7 @@ public abstract class ElectricGoldPan extends AContainer {
 
 				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
 				pushItems(b, processing.get(b).getOutput());
-				
+
 				progress.remove(b);
 				processing.remove(b);
 			}
@@ -85,7 +85,7 @@ public abstract class ElectricGoldPan extends AContainer {
 					ItemStack output = SlimefunItems.SIFTED_ORE;
 					if (CSCoreLib.randomizer().nextInt(100) < 16) output = new ItemStack(Material.FLINT);
 					if (CSCoreLib.randomizer().nextInt(100) < 16) output = new ItemStack(Material.CLAY_BALL);
-					
+
 					MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
 					if (!fits(b, r.getOutput())) return;
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
@@ -96,7 +96,7 @@ public abstract class ElectricGoldPan extends AContainer {
 			}
 		}
 	}
-	
+
 	@Override
 	public String getMachineIdentifier() {
 		return "ELECTRIC_GOLD_PAN";

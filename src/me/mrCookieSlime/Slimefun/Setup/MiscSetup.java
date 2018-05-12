@@ -28,9 +28,9 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 
 public class MiscSetup {
-	
+
 	public static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<PostSlimefunLoadingHandler>();
-	
+
 	public static void setupMisc() {
 		if (SlimefunItem.getByID("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
 			SlimefunItem.getByID("COMMON_TALISMAN").setRecipe(new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2});
@@ -43,9 +43,8 @@ public class MiscSetup {
 		SlimefunItem.setRadioactive(SlimefunItems.NETHER_ICE);
 		SlimefunItem.setRadioactive(SlimefunItems.ENRICHED_NETHER_ICE);
 	}
-	
+
 	public static void loadItems() {
-		
 		Iterator<SlimefunItem> iterator = SlimefunItem.items.iterator();
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
@@ -58,17 +57,17 @@ public class MiscSetup {
 				iterator.remove();
 			}
 		}
-		
+
 		List<SlimefunItem> pre = new ArrayList<SlimefunItem>();
 		List<SlimefunItem> init = new ArrayList<SlimefunItem>();
 		List<SlimefunItem> post = new ArrayList<SlimefunItem>();
-		
+
 		for (SlimefunItem item: SlimefunItem.list()) {
 			if (item instanceof Alloy || item instanceof ReplacingAlloy) pre.add(item);
 			else if (item instanceof SlimefunMachine) init.add(item);
 			else post.add(item);
 		}
-		
+
 		for (SlimefunItem item: pre) {
 			item.load();
 		}
@@ -80,10 +79,10 @@ public class MiscSetup {
 		}
 
 		AutomatedCraftingChamber crafter = (AutomatedCraftingChamber) SlimefunItem.getByID("AUTOMATED_CRAFTING_CHAMBER");
-		
+
 		if (crafter != null) {
 //			Iterator<Recipe> recipes = Bukkit.recipeIterator();
-//			
+//
 //			while (recipes.hasNext()) {
 //				Recipe r = recipes.next();
 //				boolean allow = true;
@@ -91,17 +90,17 @@ public class MiscSetup {
 //					BaseSTBItem item = SensibleToolbox.getItemRegistry().fromItemStack(r.getResult());
 //					allow = item == null;
 //				}
-//				
+//
 //				if (allow) {
 //					if (r instanceof ShapedRecipe) {
-//						
+//
 //					}
 //					else if (r instanceof ShapelessRecipe) {
-//						
+//
 //					}
 //				}
 //			}
-			
+
 			for (ItemStack[] inputs: RecipeType.getRecipeInputList((SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE"))) {
 				StringBuilder builder = new StringBuilder();
 				int i = 0;
@@ -109,17 +108,17 @@ public class MiscSetup {
 					if (i > 0) {
 						builder.append(" </slot> ");
 					}
-					
+
 					builder.append(CustomItemSerializer.serialize(item, ItemFlag.DATA, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE, ItemFlag.MATERIAL));
-					
+
 					i++;
 				}
-				
+
 				AutomatedCraftingChamber.recipes.put(builder.toString(), RecipeType.getRecipeOutputList((SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE"), inputs));
 			}
-			
+
 		}
-		
+
 		SlimefunItem grinder = SlimefunItem.getByID("GRIND_STONE");
 		if (grinder != null) {
 			ItemStack[] input = null;
@@ -171,7 +170,7 @@ public class MiscSetup {
 								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.ZINC_DUST, true)) dust = true;
 							}
 						}
-						
+
 						if (dust && inputs.size() == 1) {
 							// Dust -> Ingot Recipe, we want to exclude those
 						}
@@ -183,14 +182,14 @@ public class MiscSetup {
 				}
 			}
 		}
-		
+
 		CommandSender sender = Bukkit.getConsoleSender();
 		ChatColor color = Colors.getRandom();
-		
+
 		for (PostSlimefunLoadingHandler handler: post_handlers) {
 			handler.run(pre, init, post);
 		}
-		
+
 		sender.sendMessage(color + "###################### - Slimefun - ######################");
 		sender.sendMessage(color + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
 		sender.sendMessage(color + "( " + SlimefunItem.vanilla + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunItem.vanilla) + " Items from Addons )");
@@ -206,17 +205,17 @@ public class MiscSetup {
 		}
 		Slimefun.setItemVariable("ORE_CRUSHER", "double-ores", true);
 	}
-	
+
 	public static void loadDescriptions() {
 		Slimefun.addYoutubeVideo("ANCIENT_ALTAR", "https://youtu.be/mx2Y5DP8uZI");
 		Slimefun.addYoutubeVideo("ANCIENT_PEDESTAL", "https://youtu.be/mx2Y5DP8uZI");
-		
+
 		Slimefun.addYoutubeVideo("BLISTERING_INGOT", "https://youtu.be/mPhKUv4JR_Y");
 		Slimefun.addYoutubeVideo("BLISTERING_INGOT_2", "https://youtu.be/mPhKUv4JR_Y");
 		Slimefun.addYoutubeVideo("BLISTERING_INGOT_3", "https://youtu.be/mPhKUv4JR_Y");
-		
+
 		Slimefun.addYoutubeVideo("INFERNAL_BONEMEAL", "https://youtu.be/gKxWqMlJDXY");
-		
+
 		Slimefun.addYoutubeVideo("RAINBOW_WOOL", "https://youtu.be/csvb0CxofdA");
 		Slimefun.addYoutubeVideo("RAINBOW_GLASS", "https://youtu.be/csvb0CxofdA");
 		Slimefun.addYoutubeVideo("RAINBOW_CLAY", "https://youtu.be/csvb0CxofdA");
@@ -259,7 +258,6 @@ public class MiscSetup {
 		Slimefun.addYoutubeVideo("ORGANIC_FOOD_BEETROOT", "https://youtu.be/qJdFfvTGOmI");
 		Slimefun.addYoutubeVideo("ORGANIC_FOOD_POTATO", "https://youtu.be/qJdFfvTGOmI");
 		Slimefun.addYoutubeVideo("ANIMAL_GROWTH_ACCELERATOR", "https://youtu.be/bV4wEaSxXFw");
-		
 
 		Slimefun.addYoutubeVideo("FOOD_COMPOSTER", "https://youtu.be/LjzUlFKAHCI");
 		Slimefun.addYoutubeVideo("FERTILIZER_WHEAT", "https://youtu.be/LjzUlFKAHCI");
@@ -272,7 +270,7 @@ public class MiscSetup {
 		Slimefun.addYoutubeVideo("CROP_GROWTH_ACCELERATOR", "https://youtu.be/LjzUlFKAHCI");
 
 		Slimefun.addYoutubeVideo("XP_COLLECTOR", "https://youtu.be/fHtJDPeLMlg");
-		
+
 		Slimefun.addYoutubeVideo("ELECTRIC_ORE_GRINDER", "https://youtu.be/A6OuK7sfnaI");
 		Slimefun.addYoutubeVideo("ELECTRIC_GOLD_PAN", "https://youtu.be/A6OuK7sfnaI");
 		Slimefun.addYoutubeVideo("ELECTRIC_DUST_WASHER", "https://youtu.be/A6OuK7sfnaI");
@@ -285,17 +283,17 @@ public class MiscSetup {
 		Slimefun.addYoutubeVideo("CARGO_NODE_OUTPUT", "https://youtu.be/Lt2aGw5lQPI");
 
 		Slimefun.addYoutubeVideo("GPS_CONTROL_PANEL", "https://youtu.be/kOopBkiRzjs");
-		
+
 		Slimefun.addYoutubeVideo("GPS_TRANSMITTER", "https://youtu.be/kOopBkiRzjs");
 		Slimefun.addYoutubeVideo("GPS_TRANSMITTER_2", "https://youtu.be/kOopBkiRzjs");
 		Slimefun.addYoutubeVideo("GPS_TRANSMITTER_3", "https://youtu.be/kOopBkiRzjs");
 		Slimefun.addYoutubeVideo("GPS_TRANSMITTER_4", "https://youtu.be/kOopBkiRzjs");
-		
+
 		Slimefun.addYoutubeVideo("SOLAR_GENERATOR", "https://youtu.be/kOopBkiRzjs");
 		Slimefun.addYoutubeVideo("SOLAR_GENERATOR_2", "https://youtu.be/kOopBkiRzjs");
 		Slimefun.addYoutubeVideo("SOLAR_GENERATOR_3", "https://youtu.be/kOopBkiRzjs");
 		Slimefun.addYoutubeVideo("SOLAR_GENERATOR_4", "https://youtu.be/kOopBkiRzjs");
-		
+
 		WikiSetup.setup();
 	}
 

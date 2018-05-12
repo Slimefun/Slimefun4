@@ -16,7 +16,7 @@ public abstract class ElectricFurnace extends AContainer {
 	public ElectricFurnace(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 	}
-	
+
 	@Override
 	public void registerDefaultRecipes() {
 		Iterator<Recipe> iterator = Bukkit.recipeIterator();
@@ -27,7 +27,7 @@ public abstract class ElectricFurnace extends AContainer {
 			}
 		}
 	}
-	
+
 	@Override
 	public String getMachineIdentifier() {
 		return "ELECTRIC_FURNACE";

@@ -29,23 +29,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 public abstract class AFarm extends SlimefunItem {
-	
+
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 36, 37, 38, 39, 40, 41, 42, 43, 44};
 	private static final int[] border_out = {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 
 	public AFarm(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
-		
+
 		new BlockMenuPreset(id, getInventoryTitle()) {
-			
 			@Override
 			public void init() {
 				constructMenu(this);
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
+			public void newInstance(BlockMenu menu, Block b) {}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
@@ -58,14 +56,11 @@ public abstract class AFarm extends SlimefunItem {
 				return new int[0];
 			}
 		};
-		
+
 		registerBlockHandler(id, new SlimefunBlockHandler() {
-			
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				
-			}
-			
+			public void onPlace(Player p, Block b, SlimefunItem item) {}
+
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
@@ -84,17 +79,15 @@ public abstract class AFarm extends SlimefunItem {
 
 	public AFarm(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, id, recipeType, recipe, recipeOutput);
-		
+
 		new BlockMenuPreset(id, getInventoryTitle()) {
-			
 			@Override
 			public void init() {
 				constructMenu(this);
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
+			public void newInstance(BlockMenu menu, Block b) {}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
@@ -107,14 +100,11 @@ public abstract class AFarm extends SlimefunItem {
 				return new int[0];
 			}
 		};
-		
+
 		registerBlockHandler(id, new SlimefunBlockHandler() {
-			
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				
-			}
-			
+			public void onPlace(Player p, Block b, SlimefunItem item) {}
+
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
@@ -130,45 +120,38 @@ public abstract class AFarm extends SlimefunItem {
 			}
 		});
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
 		for (int i: border_out) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
-		
+
 		preset.addItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
 		new MenuClickHandler() {
-
 			@Override
 			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 				return false;
 			}
-							
 		});
-		
+
 		for (int i: getOutputSlots()) {
 			preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
-				
 				@Override
 				public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
 					return false;
@@ -181,41 +164,40 @@ public abstract class AFarm extends SlimefunItem {
 			});
 		}
 	}
-	
+
 	public abstract String getInventoryTitle();
 	public abstract int getEnergyConsumption();
 	public abstract boolean canHarvest(Block b);
 	public abstract ItemStack harvest(Block b);
 	public abstract int getSize();
-	
+
 	public int[] getOutputSlots() {
 		return new int[] {19, 20, 21, 22, 23, 24, 25};
 	}
-	
+
 	protected void tick(Block b) {
 		if (ChargableBlock.isChargable(b)) {
 			if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 			int i = getSize() / 2;
 			loop:
-	    	for (int x = -i; x <= i; x++) {
-	    		for (int z = -i; z <= i; z++) {
-	        		Block block = new Location(b.getWorld(), b.getX() + x, b.getY() + 2, b.getZ() + z).getBlock();
-	        		if (canHarvest(block)) {
-	        			ItemStack item = harvest(block);
-	        			if (!fits(block, new ItemStack[] {item})) break loop;
-	        			pushItems(b, new ItemStack[] {item});
-	        			ChargableBlock.addCharge(b, -getEnergyConsumption());
-	        			break loop;
-	        		}
-	        	}
-	    	}
+			for (int x = -i; x <= i; x++) {
+				for (int z = -i; z <= i; z++) {
+					Block block = new Location(b.getWorld(), b.getX() + x, b.getY() + 2, b.getZ() + z).getBlock();
+					if (canHarvest(block)) {
+						ItemStack item = harvest(block);
+						if (!fits(block, new ItemStack[] {item})) break loop;
+						pushItems(b, new ItemStack[] {item});
+						ChargableBlock.addCharge(b, -getEnergyConsumption());
+						break loop;
+					}
+				}
+			}
 		}
 	}
-	
+
 	@Override
 	public void register(boolean slimefun) {
 		addItemHandler(new BlockTicker() {
-			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				AFarm.this.tick(b);
@@ -233,7 +215,7 @@ public abstract class AFarm extends SlimefunItem {
 
 		super.register(slimefun);
 	}
-	
+
 	private Inventory inject(Block b) {
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
@@ -245,15 +227,15 @@ public abstract class AFarm extends SlimefunItem {
 		}
 		return inv;
 	}
-	
+
 	protected boolean fits(Block b, ItemStack[] items) {
 		return inject(b).addItem(items).isEmpty();
 	}
-	
+
 	protected void pushItems(Block b, ItemStack[] items) {
 		Inventory inv = inject(b);
 		inv.addItem(items);
-		
+
 		for (int slot: getOutputSlots()) {
 			BlockStorage.getInventory(b).replaceExistingItem(slot, inv.getItem(slot));
 		}

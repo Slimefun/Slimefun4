@@ -31,11 +31,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 public abstract class CropGrowthAccelerator extends SlimefunItem {
-	
+
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-	
+
 	public static final Map<Material, Integer> crops = new HashMap<Material, Integer>();
-	
+
 	static {
 		crops.put(Material.CROPS, 7);
 		crops.put(Material.POTATO, 7);
@@ -47,17 +47,15 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 
 	public CropGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
+
 		new BlockMenuPreset(name, "&bGrowth Accelerator") {
-			
 			@Override
 			public void init() {
 				constructMenu(this);
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
+			public void newInstance(BlockMenu menu, Block b) {}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
@@ -70,14 +68,11 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 				return new int[0];
 			}
 		};
-		
+
 		registerBlockHandler(name, new SlimefunBlockHandler() {
-			
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				
-			}
-			
+			public void onPlace(Player p, Block b, SlimefunItem item) {}
+
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
@@ -93,34 +88,31 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 			}
 		});
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {
-
 				@Override
 				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
 					return false;
 				}
-						
 			});
 		}
 	}
-	
+
 	public abstract int getEnergyConsumption();
 	public abstract int getRadius();
 	public abstract int getSpeed();
-	
+
 	public int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
 	}
-	
+
 	@Override
 	public void register(boolean slimefun) {
 		addItemHandler(new BlockTicker() {
-			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				try {
@@ -142,7 +134,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 
 		super.register(slimefun);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	protected void tick(Block b) throws Exception {
 		int work = 0;
@@ -158,7 +150,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 								if (work > (getSpeed() - 1)) break master;
 								if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
 								ChargableBlock.addCharge(b, -getEnergyConsumption());
-								
+
 								if (block.getType().equals(Material.COCOA)) {
 									block.setData((byte) (block.getData() + 4));
 								}
@@ -175,7 +167,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 				}
 			}
 		}
-		
+
 		if (work > 0) {
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {

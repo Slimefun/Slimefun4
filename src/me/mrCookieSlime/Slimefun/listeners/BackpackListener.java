@@ -29,11 +29,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class BackpackListener implements Listener {
-	
+
 	public BackpackListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler
 	public void onClose(InventoryCloseEvent e) {
 		if (Variables.enchanting.containsKey(e.getPlayer().getUniqueId())) Variables.enchanting.remove(e.getPlayer().getUniqueId());
@@ -43,7 +43,7 @@ public class BackpackListener implements Listener {
 			Variables.backpack.remove(e.getPlayer().getUniqueId());
 		}
 	}
-	
+
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
 		if (Variables.backpack.containsKey(e.getPlayer().getUniqueId())){
@@ -52,7 +52,7 @@ public class BackpackListener implements Listener {
 			if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		if (Variables.backpack.containsKey(e.getWhoClicked().getUniqueId())) {
@@ -79,7 +79,7 @@ public class BackpackListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -99,8 +99,7 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						if(!Variables.backpack.containsValue(item))
-						{
+						if (!Variables.backpack.containsValue(item)) {
 							Backpacks.openBackpack(p, item);
 							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
 							Variables.backpack.put(p.getUniqueId(), item);
@@ -124,8 +123,7 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						if(!Variables.backpack.containsValue(item))
-						{
+						if (!Variables.backpack.containsValue(item)) {
 							Backpacks.openBackpack(p, item);
 							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
 							Variables.backpack.put(p.getUniqueId(), item);
@@ -149,8 +147,7 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						if(!Variables.backpack.containsValue(item))
-						{
+						if (!Variables.backpack.containsValue(item)) {
 							Backpacks.openBackpack(p, item);
 							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
 							Variables.backpack.put(p.getUniqueId(), item);
@@ -174,8 +171,7 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						if(!Variables.backpack.containsValue(item))
-						{
+						if (!Variables.backpack.containsValue(item)) {
 							Backpacks.openBackpack(p, item);
 							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
 							Variables.backpack.put(p.getUniqueId(), item);
@@ -199,7 +195,7 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						if(!Variables.backpack.containsValue(item))
+						if (!Variables.backpack.containsValue(item))
 						{
 							Backpacks.openBackpack(p, item);
 							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
@@ -224,8 +220,7 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						if(!Variables.backpack.containsValue(item))
-						{
+						if (!Variables.backpack.containsValue(item)) {
 							Backpacks.openBackpack(p, item);
 							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
 							Variables.backpack.put(p.getUniqueId(), item);
@@ -249,8 +244,7 @@ public class BackpackListener implements Listener {
 								break;
 							}
 						}
-						if(!Variables.backpack.containsValue(item))
-						{
+						if (!Variables.backpack.containsValue(item)) {
 							Backpacks.openBackpack(p, item);
 							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
 							Variables.backpack.put(p.getUniqueId(), item);

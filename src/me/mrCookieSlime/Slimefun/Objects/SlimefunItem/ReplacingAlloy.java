@@ -11,7 +11,7 @@ public class ReplacingAlloy extends ReplacingItem {
 	public ReplacingAlloy(ItemStack item, String id, ItemStack[] recipe) {
 		super(Categories.RESOURCES, item, id, RecipeType.SMELTERY, recipe);
 	}
-	
+
 	public ReplacingAlloy(Category category, ItemStack item, String id, ItemStack[] recipe) {
 		super(category, item, id, RecipeType.SMELTERY, recipe);
 	}

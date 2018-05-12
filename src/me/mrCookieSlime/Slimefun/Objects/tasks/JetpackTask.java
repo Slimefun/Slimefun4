@@ -12,16 +12,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public class JetpackTask implements Runnable {
-	
+
 	UUID uuid;
 	double thrust;
 	int id;
-	
+
 	public JetpackTask(Player p, double thrust) {
 		this.uuid = p.getUniqueId();
 		this.thrust = thrust;
 	}
-	
+
 	public void setID(int id) {
 		this.id = id;
 	}
@@ -38,14 +38,14 @@ public class JetpackTask implements Runnable {
 			if (charge >= cost) {
 				p.getInventory().setChestplate(ItemEnergy.chargeItem(p.getInventory().getChestplate(), -cost));
 				PlayerInventory.update(p);
-				
+
 				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, (float) 0.25, 1);
 				p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1, 1);
 				p.setFallDistance(0.0f);
 				Vector vector = new Vector(0, 1, 0);
 				vector.multiply(thrust);
 				vector.add(p.getEyeLocation().getDirection().multiply(0.2F));
-				
+
 				p.setVelocity(vector);
 			}
 			else Bukkit.getScheduler().cancelTask(id);

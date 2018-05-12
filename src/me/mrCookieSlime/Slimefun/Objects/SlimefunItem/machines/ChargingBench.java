@@ -20,17 +20,15 @@ public class ChargingBench extends AContainer {
 
 	public ChargingBench(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
+
 		new BlockMenuPreset(name, getInventoryTitle()) {
-			
 			@Override
 			public void init() {
 				constructMenu(this);
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
+			public void newInstance(BlockMenu menu, Block b) {}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
@@ -54,7 +52,7 @@ public class ChargingBench extends AContainer {
 	public ItemStack getProgressBar() {
 		return new ItemStack(Material.GOLD_PICKAXE);
 	}
-	
+
 	@Override
 	public int getEnergyConsumption() {
 		return 10;
@@ -62,15 +60,14 @@ public class ChargingBench extends AContainer {
 
 	@Override
 	public void registerDefaultRecipes() {}
-	
+
 	protected void tick(Block b) {
 		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-		
+
 		for (int slot: getInputSlots()) {
 			ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);
 			if (ItemEnergy.getMaxEnergy(stack) > 0) {
 				if (ItemEnergy.getStoredEnergy(stack) < ItemEnergy.getMaxEnergy(stack)) {
-
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
 					float rest = ItemEnergy.addStoredEnergy(stack, getEnergyConsumption() / 2);
 					if (rest > 0F) {

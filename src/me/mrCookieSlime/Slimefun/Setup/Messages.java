@@ -3,15 +3,15 @@ package me.mrCookieSlime.Slimefun.Setup;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Localization;
 
 public class Messages {
-	
+
 	public static Localization local;
-	
+
 	public static void setup() {
 		local.setPrefix("&aSlimefun &7> ");
 		local.setDefault("messages.not-researched", "&4You do not have enough Knowledge to understand this");
 		local.setDefault("messages.not-enough-xp", "&4You do not have enough XP to unlock this");
 		local.setDefault("messages.unlocked", "&bYou have unlocked &7\"%research%\"");
-		local.setDefault("messages.fortune-cookie", new String[] {"&7Help me, I am trapped in a Fortune Cookie Factory!", "&7You will die tomorrow...     by a Creeper", "&7At some Point in your Life something bad will happen!!!", "&7Next week you will notice that this is not the real World, you are in a kind of \"Matrix\" or lets call it Computer game. Yes you are in a Computer Game", "&7This Cookie will taste good in a few seconds", "&7You will die soon and the last word you will hear is gonna be \"EXTERMINATE!!!\"", "&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it's not worth it."});
+		local.setDefault("messages.fortune-cookie", new String[] {"&7Help me, I am trapped in a Fortune Cookie Factory!", "&7You will die tomorrow...	 by a Creeper", "&7At some Point in your Life something bad will happen!!!", "&7Next week you will notice that this is not the real World, you are in a kind of \"Matrix\" or lets call it Computer game. Yes you are in a Computer Game", "&7This Cookie will taste good in a few seconds", "&7You will die soon and the last word you will hear is gonna be \"EXTERMINATE!!!\"", "&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it's not worth it."});
 		local.setDefault("commands.help", "Displays this Help Screen");
 		local.setDefault("commands.cheat", "Allows you to cheat Items");
 		local.setDefault("commands.give", "Give somebody some Slimefun Items");
@@ -21,7 +21,7 @@ public class Messages {
 		local.setDefault("commands.teleporter", "See other Player's Waypoints");
 		local.setDefault("commands.versions", "Lists all installed Addons");
 		local.setDefault("commands.open_guide", "Opens Slimefun's guide without using the book");
-		
+
 		local.setDefault("messages.only-players", "&4This Command is only for Players");
 		local.setDefault("messages.no-permission", "&4You do not have the required Permission to do this");
 		local.setDefault("messages.usage", "&4Usage: &c%usage%");
@@ -72,18 +72,18 @@ public class Messages {
 		local.setDefault("commands.research.reset-target", "&cYour Knowledge has been reset");
 		local.setDefault("machines.in-use", "&cThis Block's Inventory is currently opened by a different Player.");
 		local.setDefault("machines.ignition-chamber-no-flint", "&cIgnition Chamber is missing Flint and Steel.");
-    		local.setDefault("messages.cannot-place" ,"&cYou cannot place that block there!");
-		
+		local.setDefault("messages.cannot-place" ,"&cYou cannot place that block there!");
+
 		local.setDefault("gps.waypoint.new", "&ePlease type in a Name for your new Waypoint in the Chat. &7(Color Codes supported!)");
 		local.setDefault("gps.waypoint.added", "&aSuccessfully added a new Waypoint");
 		local.setDefault("gps.waypoint.max", "&4You have reached the Maximum Amount of Waypoints");
 		local.setDefault("gps.insufficient-complexity", "&4Insufficient GPS Network Complexity: &c%complexity%", "&4a) You do not have a GPS Network setup yet", "&4b) Your GPS Network is not complex enough");
 		local.setDefault("gps.geo.scan-required", "&4GEO-Scan required! &cScan this Chunk using a GEO-Scanner first!");
-		
+
 		local.setDefault("robot.started", "&7Your Robot resumed running its Script");
 		local.setDefault("robot.stopped", "&7Your Robot has paused its Script");
 		local.setDefault("inventory.no-access", "&4You are not permitted to access this Block");
-		
+
 		local.setDefault("machines.ANCIENT_ALTAR.not-enough-pedestals", "&4The Altar is not surrounded by the needed Amount of Pedestals &c(%pedestals% / 8)");
 		local.setDefault("machines.ANCIENT_ALTAR.unknown-catalyst", "&4Unknown Catalyst! &cUse the correct Recipe instead!");
 		local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe", "&4Unknown Recipe! &cUse the correct Recipe instead!");
@@ -97,7 +97,7 @@ public class Messages {
 		local.setDefault("android.scripts.uploaded", "&bUploading...", "&aSuccessfully uploaded your Script!");
 		local.setDefault("android.scripts.rating.own", "&4You cannot rate your own Script!");
 		local.setDefault("android.scripts.rating.already", "&4You have already left a Rating for this Script!");
-		
+
 		local.save();
 	}
 
