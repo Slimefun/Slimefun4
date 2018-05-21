@@ -403,7 +403,7 @@ public class SlimefunSetup {
 								}
 
 								if (craft) {
-									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
 									if (Slimefun.hasUnlocked(p, adding, true)) {
 										if (InvUtils.fits(inv, adding)) {
 											for (ItemStack removing: inputs.get(i)) {
@@ -752,7 +752,7 @@ public class SlimefunSetup {
 										}
 
 										if (craft) {
-											ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+											ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
 											if (Slimefun.hasUnlocked(p, adding, true)) {
 												if (InvUtils.fits(inv, adding)) {
 													for (ItemStack removing: inputs.get(i)) {
@@ -1196,7 +1196,7 @@ public class SlimefunSetup {
 								}
 
 								if (craft) {
-									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
 									if (Slimefun.hasUnlocked(p, adding, true)) {
 										Inventory inv2 = Bukkit.createInventory(null, 9, "test");
 										for (int j = 0; j < inv.getContents().length; j++) {
