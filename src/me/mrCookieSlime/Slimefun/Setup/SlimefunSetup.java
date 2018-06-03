@@ -50,7 +50,6 @@ import org.bukkit.util.Vector;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Block.BlockBreaker;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.Vein;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
@@ -404,7 +403,7 @@ public class SlimefunSetup {
 								}
 
 								if (craft) {
-									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
 									if (Slimefun.hasUnlocked(p, adding, true)) {
 										if (InvUtils.fits(inv, adding)) {
 											for (ItemStack removing: inputs.get(i)) {
@@ -753,7 +752,7 @@ public class SlimefunSetup {
 										}
 
 										if (craft) {
-											ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+											ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
 											if (Slimefun.hasUnlocked(p, adding, true)) {
 												if (InvUtils.fits(inv, adding)) {
 													for (ItemStack removing: inputs.get(i)) {
@@ -776,7 +775,7 @@ public class SlimefunSetup {
 													
 													if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
 														if(chamber != null) {
-															if(chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
+															if (chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
 																ItemStack item = chamber.getInventory().getItem(chamber.getInventory().first(Material.FLINT_AND_STEEL));
 																item.setDurability((short) (item.getDurability() + 1));
 																if(item.getDurability() >= item.getType().getMaxDurability()) {
@@ -784,12 +783,19 @@ public class SlimefunSetup {
 																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
 																}
 																p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
-															} else {
+															} 
+															else {
 																Messages.local.sendTranslation(p, "machines.ignition-chamber-no-flint", true);
-																BlockBreaker.nullify(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+																
+																Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
+																fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
+																fire.setType(Material.AIR);
 															}
-														} else {
-															BlockBreaker.nullify(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+														} 
+														else {
+															Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
+															fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
+															fire.setType(Material.AIR);
 														}
 													}
 												}
@@ -1190,7 +1196,7 @@ public class SlimefunSetup {
 								}
 
 								if (craft) {
-									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i));
+									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
 									if (Slimefun.hasUnlocked(p, adding, true)) {
 										Inventory inv2 = Bukkit.createInventory(null, 9, "test");
 										for (int j = 0; j < inv.getContents().length; j++) {

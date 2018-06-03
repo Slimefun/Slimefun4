@@ -308,11 +308,13 @@ public abstract class AReactor extends SlimefunItem {
 					extraTick(l);
 					int timeleft = progress.get(l);
 					if (timeleft > 0) {
-						boolean should_charge = ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction();
-						if (should_charge) {
+						int produced = getEnergyProduction();
+						int space = ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l);
+						if (space >= produced) {
 							ChargableBlock.addCharge(l, getEnergyProduction());
+							space -= produced;
 						}
-						if (should_charge || !BlockStorage.getBlockInfo(l, "reactor-mode").equals("generator")) {
+						if (space >= produced || !BlockStorage.getBlockInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
 
 							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
