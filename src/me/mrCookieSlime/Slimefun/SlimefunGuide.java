@@ -984,7 +984,7 @@ public class SlimefunGuide {
 		if (sfItem != null) {
 			recipe = sfItem.getRecipe();
 			recipeType = sfItem.getRecipeType().toItem();
-			recipeOutput = sfItem.getCustomOutput() != null ? sfItem.getCustomOutput(): sfItem.getItem();
+			recipeOutput = sfItem.getRecipeOutput() != null ? sfItem.getRecipeOutput(): sfItem.getItem();
 		}
 		else {
 			List<Recipe> recipes = new ArrayList<Recipe>();
@@ -1118,7 +1118,7 @@ public class SlimefunGuide {
 		});
 		
 		if (sfItem != null) {
-			if (Slimefun.getItemConfig().contains(sfItem.getName() + ".wiki")) {
+			if (Slimefun.getItemConfig().contains(sfItem.getID() + ".wiki")) {
 				try {
 					menu.addItem(8, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY2OTJmOTljYzZkNzgyNDIzMDQxMTA1NTM1ODk0ODQyOThiMmU0YTAyMzNiNzY3NTNmODg4ZTIwN2VmNSJ9fX0="), "&rView this Item in our Wiki &7(Slimefun Wiki)", "", "&7\u21E8 Click to open"));
 					menu.addMenuClickHandler(8, new MenuClickHandler() {
@@ -1127,7 +1127,7 @@ public class SlimefunGuide {
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
 							p.closeInventory();
 							p.sendMessage("");
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".wiki")));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getID() + ".wiki")));
 							p.sendMessage("");
 							return false;
 						}
@@ -1136,7 +1136,7 @@ public class SlimefunGuide {
 					e.printStackTrace();
 				}
 			}
-			if (Slimefun.getItemConfig().contains(sfItem.getName() + ".youtube")) {
+			if (Slimefun.getItemConfig().contains(sfItem.getID() + ".youtube")) {
 				try {
 					menu.addItem(7, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzNTNmZDBmODYzMTQzNTM4NzY1ODYwNzViOWJkZjBjNDg0YWFiMDMzMWI4NzJkZjExYmQ1NjRmY2IwMjllZCJ9fX0="), "&rDemonstration Video &7(Youtube)", "", "&7\u21E8 Click to watch"));
 					menu.addMenuClickHandler(7, new MenuClickHandler() {
@@ -1145,7 +1145,7 @@ public class SlimefunGuide {
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
 							p.closeInventory();
 							p.sendMessage("");
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".youtube")));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getID() + ".youtube")));
 							p.sendMessage("");
 							return false;
 						}

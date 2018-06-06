@@ -131,7 +131,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
-				boolean open = BlockStorage.getBlockInfo(b, "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
+				boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
 				if (!open) {
 					Messages.local.sendTranslation(p, "inventory.no-access", true);
 				}
@@ -208,7 +208,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				boolean allow =  reason.equals(UnregisterReason.PLAYER_BREAK) && (BlockStorage.getBlockInfo(b, "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
+				boolean allow =  reason.equals(UnregisterReason.PLAYER_BREAK) && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
 
 				if (allow) {
 					BlockMenu inv = BlockStorage.getInventory(b);
@@ -238,12 +238,12 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			if (!(b.getState() instanceof Skull)) {
 				return;
 			}
-		} catch(NullPointerException x) {
+		} catch (NullPointerException x) {
 			return;
 		}
 
-		if (BlockStorage.getBlockInfo(b, "paused").equals("false")) {
-			float fuel = Float.parseFloat(BlockStorage.getBlockInfo(b, "fuel"));
+		if (BlockStorage.getLocationInfo(b.getLocation(), "paused").equals("false")) {
+			float fuel = Float.parseFloat(BlockStorage.getLocationInfo(b.getLocation(), "fuel"));
 			if (fuel == 0) {
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(43);
 				if (item != null) {
@@ -260,8 +260,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				}
 			}
 			else {
-				String[] script = BlockStorage.getBlockInfo(b, "script").split("-");
-				int index = Integer.parseInt(BlockStorage.getBlockInfo(b, "index")) + 1;
+				String[] script = BlockStorage.getLocationInfo(b.getLocation(), "script").split("-");
+				int index = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "index")) + 1;
 				if (index >= script.length) index = 0;
 				boolean refresh = true;
 				BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
@@ -271,7 +271,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					switch(part) {
 					case GO_DOWN: {
 						try {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 							Block block = b.getRelative(BlockFace.DOWN);
 							move(b, face, block);
 						} catch (Exception e) {
@@ -281,7 +281,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 					case GO_FORWARD: {
 						try {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 							Block block = b.getRelative(face);
 							move(b, face, block);
 						} catch (Exception e) {
@@ -291,7 +291,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 					case GO_UP: {
 						try {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 							Block block = b.getRelative(BlockFace.UP);
 							move(b, face, block);
 						} catch (Exception e) {
@@ -304,7 +304,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						break;
 					}
 					case TURN_LEFT: {
-						int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"))) - 1;
+						int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) - 1;
 						if (rotIndex < 0) rotIndex = directions.size() - 1;
 						BlockFace dir = directions.get(rotIndex);
 						Skull skull = (Skull) b.getState();
@@ -314,7 +314,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						break;
 					}
 					case TURN_RIGHT: {
-						int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"))) + 1;
+						int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) + 1;
 						if (rotIndex == directions.size()) rotIndex = 0;
 						BlockFace dir = directions.get(rotIndex);
 						Skull skull = (Skull) b.getState();
@@ -324,7 +324,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						break;
 					}
 					case DIG_FORWARD: {
-						Block block = b.getRelative(BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation")));
+						Block block = b.getRelative(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation")));
 						mine(b, block);
 						break;
 					}
@@ -351,25 +351,25 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						break;
 					}
 					case MOVE_AND_DIG_FORWARD: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(face);
 						movedig(b, face, block);
 						break;
 					}
 					case MOVE_AND_DIG_UP: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(BlockFace.UP);
 						movedig(b, face, block);
 						break;
 					}
 					case MOVE_AND_DIG_DOWN: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(BlockFace.DOWN);
 						movedig(b, face, block);
 						break;
 					}
 					case INTERFACE_ITEMS: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(face);
 						if (BlockStorage.check(block, "ANDROID_INTERFACE_ITEMS") && block.getState() instanceof Dispenser) {
 							Dispenser d = (Dispenser) block.getState();
@@ -390,7 +390,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						break;
 					}
 					case INTERFACE_FUEL: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(face);
 						if (BlockStorage.check(block, "ANDROID_INTERFACE_FUEL") && block.getState() instanceof Dispenser) {
 							Dispenser d = (Dispenser) block.getState();
@@ -417,7 +417,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						break;
 					}
 					case FARM_FORWARD: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(face);
 						farm(b, block);
 						break;
@@ -428,7 +428,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						break;
 					}
 					case FARM_EXOTIC_FORWARD: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(face);
 						exoticFarm(b, block);
 						break;
@@ -439,7 +439,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						break;
 					}
 					case CHOP_TREE: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"));
+						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(face);
 						if (block.getType().equals(Material.LOG) || block.getType().equals(Material.LOG_2)) {
 							List<Location> list = new ArrayList<Location>();
@@ -450,7 +450,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		        				Block log = list.get(list.size() - 1).getBlock();
 								Collection<ItemStack> drops = log.getDrops();
 		        				log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
-		        				if (!drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), log)) {
+		        				if (!drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), log)) {
 									ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
 									if (fits(b, items)) {
 										pushItems(b, items);
@@ -474,7 +474,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 						entities:
 						for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
-							switch (BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"))) {
+							switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 							case NORTH: {
 								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
 									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
@@ -527,7 +527,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						entities:
 						for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
 							if (n instanceof Animals) continue;
-							switch (BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"))) {
+							switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 							case NORTH: {
 								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
 									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
@@ -581,7 +581,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						entities:
 						for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
 							if (n instanceof Monster) continue;
-							switch (BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"))) {
+							switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 							case NORTH: {
 								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
 									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
@@ -636,7 +636,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
 							if (n instanceof Monster) continue;
 							if (n instanceof Ageable && !((Ageable) n).isAdult()) continue;
-							switch (BlockFace.valueOf(BlockStorage.getBlockInfo(b, "rotation"))) {
+							switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 							case NORTH: {
 								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
 									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
@@ -705,26 +705,27 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			skull.update(true, false);
 			CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 			b.setType(Material.AIR);
-			BlockStorage.moveBlockInfo(b, block);
+			BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
 		}
 	}
 
 	private void mine(Block b, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
-		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
+		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
 			SlimefunItem item = BlockStorage.check(block);
-			if(item != null) {
-				if(fits(b, item.getItem())) {
-					if(SlimefunItem.blockhandler.containsKey(item.getID())) {
+			if (item != null) {
+				if (fits(b, item.getItem())) {
+					if (SlimefunItem.blockhandler.containsKey(item.getID())) {
 						if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
 							pushItems(b, BlockStorage.retrieve(block));
-							if(SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
+							if (SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
 							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 							block.setType(Material.AIR);
 						}
 					}
 				}
-			}else {
+			}
+			else {
 				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
 				if (fits(b, items)) {
 					pushItems(b, items);
@@ -738,12 +739,12 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	@SuppressWarnings("deprecation")
 	private void movedig(Block b, BlockFace face, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
-		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getBlockInfo(b, "owner")), block)) {
+		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
 			try {
 				SlimefunItem item = BlockStorage.check(block);
-				if(item != null) {
-					if(fits(b, item.getItem())) {
-						if(SlimefunItem.blockhandler.containsKey(item.getID())) {
+				if (item != null) {
+					if (fits(b, item.getItem())) {
+						if (SlimefunItem.blockhandler.containsKey(item.getID())) {
 							if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
 								pushItems(b, BlockStorage.retrieve(block));
 								
@@ -757,7 +758,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								skull.update(true, false);
 								CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 								b.setType(Material.AIR);
-								BlockStorage.moveBlockInfo(b, block);
+								BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
 							}
 						}
 					}
@@ -775,10 +776,10 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						skull.update(true, false);
 						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 						b.setType(Material.AIR);
-						BlockStorage.moveBlockInfo(b, block);
+						BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
 					}
 				}
-			} catch(Exception x) {
+			} catch (Exception x) {
 				x.printStackTrace();
 			}
 		}
@@ -957,7 +958,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			@Override
 			public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
 				try {
-					openScript(p, b, BlockStorage.getBlockInfo(b, "script"));
+					openScript(p, b, BlockStorage.getLocationInfo(b.getLocation(), "script"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -1152,7 +1153,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 			@Override
 			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				final String code = BlockStorage.getBlockInfo(b, "script");
+				final String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
 				int num = 1;
 
 				for (Config script: getUploadedScripts()) {
@@ -1564,4 +1565,5 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 		return list;
 	}
+
 }

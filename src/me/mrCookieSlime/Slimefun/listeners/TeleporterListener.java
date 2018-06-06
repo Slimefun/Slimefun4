@@ -45,7 +45,7 @@ public class TeleporterListener implements Listener {
 			}
 		}
 		else if (item.getID().equals("GPS_ACTIVATION_DEVICE_PERSONAL")) {
-			if (BlockStorage.getBlockInfo(e.getClickedBlock(), "owner").equals(e.getPlayer().getUniqueId().toString())) {
+			if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString())) {
 				SlimefunItem teleporter = BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN));
 				
 				if (teleporter instanceof Teleporter) {

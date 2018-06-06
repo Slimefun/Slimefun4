@@ -73,7 +73,7 @@ public class BlockStorage {
 		try {
 			World w = Bukkit.getWorld(l.split(";")[0]);
 			if (w != null) return new Location(w, Integer.parseInt(l.split(";")[1]), Integer.parseInt(l.split(";")[2]), Integer.parseInt(l.split(";")[3]));
-		} catch(NumberFormatException x) {
+		} catch (NumberFormatException x) {
 		}
 		return null;
 	}
@@ -111,7 +111,7 @@ public class BlockStorage {
 									ticking_chunks.put(chunk_string, locations);
 									if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
 								}
-							} catch(Exception x) {
+							} catch (Exception x) {
 								System.err.println("[Slimefun] Failed to load " + file.getName() + "(ERR: " + key + ")");
 								x.printStackTrace();
 							}
@@ -134,7 +134,7 @@ public class BlockStorage {
 			for (String key: cfg.getKeys(false)) {
 				try {
 					if (world.getName().equals(key.split(";")[0])) map_chunks.put(key, cfg.getString(key));
-				} catch(Exception x) {
+				} catch (Exception x) {
 					System.err.println("[Slimefun] Failed to load " + chunks.getName() + " for World \"" + world.getName() + "\" (ERR: " + key + ")");
 					x.printStackTrace();
 				}
@@ -157,7 +157,7 @@ public class BlockStorage {
 						inventories.put(l, new BlockMenu(preset, l, cfg));
 					}
 				}
-				catch(Exception x) {
+				catch (Exception x) {
 				}
 			}
 		}
@@ -264,7 +264,7 @@ public class BlockStorage {
 	public static ItemStack retrieve(Block block) {
 		if (!hasBlockInfo(block)) return null;
 		else {
-			final SlimefunItem item = SlimefunItem.getByID(getBlockInfo(block, "id"));
+			final SlimefunItem item = SlimefunItem.getByID(getLocationInfo(block.getLocation(), "id"));
 			clearBlockInfo(block);
 			if (item == null) return null;
 			else return item.getItem();
@@ -292,7 +292,7 @@ public class BlockStorage {
 			}
 			
 			return cfg;
-		} catch(Exception x) {
+		} catch (Exception x) {
 			System.err.println(x.getClass().getName());
 			System.err.println("[Slimefun] Failed to parse BlockInfo for Block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
 			try {
@@ -339,7 +339,7 @@ public class BlockStorage {
 
 	@Deprecated
 	public static String getBlockInfo(Block block, String key) {
-		return getBlockInfo(block.getLocation(), key);
+		return getLocationInfo(block.getLocation(), key);
 	}
 
 	@Deprecated
@@ -365,7 +365,7 @@ public class BlockStorage {
 	
 	public static void addBlockInfo(Location l, String key, String value, boolean updateTicker) {
 		Config cfg = new Config("data-storage/Slimefun/temp.yml");
-		if (hasBlockInfo(l)) cfg = getBlockInfo(l);
+		if (hasBlockInfo(l)) cfg = getLocationInfo(l);
 		cfg.setValue(key, value);
 		setBlockInfo(l, cfg, updateTicker);
 	}
@@ -376,7 +376,7 @@ public class BlockStorage {
 	
 	public static boolean hasBlockInfo(Location l) {
 		BlockStorage storage = getStorage(l.getWorld());
-		return storage != null && storage.storage.containsKey(l) && getBlockInfo(l, "id") != null;
+		return storage != null && storage.storage.containsKey(l) && getLocationInfo(l, "id") != null;
 	}
 	
 	public static void setBlockInfo(Block block, Config cfg, boolean updateTicker) {
@@ -436,7 +436,7 @@ public class BlockStorage {
 	public static void _integrated_removeBlockInfo(Location l, boolean destroy) {
 		BlockStorage storage = getStorage(l.getWorld());
 		if (hasBlockInfo(l)) {
-			refreshCache(storage, l, getBlockInfo(l).getString("id"), null, destroy);
+			refreshCache(storage, l, getLocationInfo(l).getString("id"), null, destroy);
 			storage.storage.remove(l);
 		}
 		
@@ -477,7 +477,7 @@ public class BlockStorage {
 		if (!hasBlockInfo(from)) return;
 		BlockStorage storage = getStorage(from.getWorld());
 		
-		setBlockInfo(to, getBlockInfo(from), true);
+		setBlockInfo(to, getLocationInfo(from), true);
 		if (storage.inventories.containsKey(from)) {
 			BlockMenu menu = storage.inventories.get(from);
 			storage.inventories.put(to, menu);
@@ -485,7 +485,7 @@ public class BlockStorage {
 			menu.move(to);
 		}
 		
-		refreshCache(storage, from, getBlockInfo(from).getString("id"), null, true);
+		refreshCache(storage, from, getLocationInfo(from).getString("id"), null, true);
 		storage.storage.remove(from);
 
 		String chunk_string = locationToChunkString(from);
@@ -498,11 +498,6 @@ public class BlockStorage {
 			}
 			else ticking_chunks.put(chunk_string, locations);
 		}
-	}
-
-	@Deprecated
-	private static void refreshCache(BlockStorage storage, Block b, String key, String value, boolean updateTicker) {
-		refreshCache(storage, b.getLocation(), key, value, updateTicker);
 	}
 
 	private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
@@ -530,7 +525,7 @@ public class BlockStorage {
 
 	public static SlimefunItem check(Location l) {
 		if (!hasBlockInfo(l)) return null;
-		return SlimefunItem.getByID(getBlockInfo(l, "id"));
+		return SlimefunItem.getByID(getLocationInfo(l, "id"));
 	}
 	
 	public static String checkID(Block block) {
@@ -543,16 +538,16 @@ public class BlockStorage {
 	
 	public static String checkID(Location l) {
 		if (!hasBlockInfo(l)) return null;
-		return getBlockInfo(l, "id");
+		return getLocationInfo(l, "id");
 	}
 
 	public static boolean check(Location l, String slimefunItem) {
 		if (!hasBlockInfo(l)) return false;
 		try {
-			String id = getBlockInfo(l, "id");
+			String id = getLocationInfo(l, "id");
 			return id != null && id.equalsIgnoreCase(slimefunItem);
 		}
-		catch(NullPointerException x) {
+		catch (NullPointerException x) {
 			return false;
 		}
 	}
@@ -577,7 +572,7 @@ public class BlockStorage {
 	@Deprecated
 	public static Set<Block> getTickingBlocks(String chunk) {
 		Set<Block> ret = new HashSet<Block>();
-		for(Location l: getTickingLocations(chunk)) {
+		for (Location l: getTickingLocations(chunk)) {
 			ret.add(l.getBlock());
 		}
 		return ret;
@@ -600,7 +595,7 @@ public class BlockStorage {
 	public void clearInventory(Location l) {
 		BlockMenu menu = getInventory(l);
 
-		for(HumanEntity human: new ArrayList<>(menu.toInventory().getViewers())) {
+		for (HumanEntity human: new ArrayList<>(menu.toInventory().getViewers())) {
 			human.closeInventory();
 		}
 
@@ -654,7 +649,7 @@ public class BlockStorage {
 			}
 			
 			return cfg;
-		} catch(Exception x) {
+		} catch (Exception x) {
 			System.err.println(x.getClass().getName());
 			System.err.println("[Slimefun] Failed to parse ChunkInfo for Chunk @ " + chunk.getX() + ", " + chunk.getZ());
 			try {

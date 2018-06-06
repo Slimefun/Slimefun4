@@ -71,7 +71,7 @@ public class ChargableBlock {
 	}
 	
 	public static int getCharge(Location l) {
-		String charge = BlockStorage.getBlockInfo(l, "energy-charge");
+		String charge = BlockStorage.getLocationInfo(l, "energy-charge");
 		if (charge != null) return Integer.parseInt(charge);
 		else {
 			BlockStorage.addBlockInfo(l, "energy-charge", "0", false);
@@ -173,7 +173,7 @@ public class ChargableBlock {
 	}
 	
 	public static int getMaxCharge(Location l) {
-		Config cfg = BlockStorage.getBlockInfo(l);
+		Config cfg = BlockStorage.getLocationInfo(l);
 		if (!cfg.contains("id")) {
 			BlockStorage.clearBlockInfo(l);
 			return 0;

@@ -52,7 +52,7 @@ public class WitherAssembler extends SlimefunItem {
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
-					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "enabled") == null || BlockStorage.getBlockInfo(b, "enabled").equals("false")) {
+					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
 						menu.replaceExistingItem(22, new CustomItem(new MaterialData(Material.SULPHUR), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
 						menu.addMenuClickHandler(22, new MenuClickHandler() {
 
@@ -77,14 +77,14 @@ public class WitherAssembler extends SlimefunItem {
 						});
 					}
 					
-					double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getBlockInfo(b, "offset"));
+					double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 					
 					menu.replaceExistingItem(31, new CustomItem(new MaterialData(Material.PISTON_BASE), "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
 					menu.addMenuClickHandler(31, new MenuClickHandler() {
 
 						@Override
 						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							double offset = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getBlockInfo(b, "offset")) + (arg3.isRightClicked() ? -0.1F: 0.1F));
+							double offset = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (arg3.isRightClicked() ? -0.1F: 0.1F));
 							BlockStorage.addBlockInfo(b, "offset", String.valueOf(offset));
 							newInstance(menu, b);
 							return false;
@@ -239,7 +239,7 @@ public class WitherAssembler extends SlimefunItem {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void tick(final Block b, SlimefunItem sf, Config data) {
-				if (BlockStorage.getBlockInfo(b, "enabled").equals("false")) return;
+				if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
 				if (lifetime % 60 == 0) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 					
@@ -297,7 +297,7 @@ public class WitherAssembler extends SlimefunItem {
 						
 						ChargableBlock.addCharge(b, -getEnergyConsumption());
 						
-						final double offset = Double.parseDouble(BlockStorage.getBlockInfo(b, "offset"));
+						final double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 						
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 							
