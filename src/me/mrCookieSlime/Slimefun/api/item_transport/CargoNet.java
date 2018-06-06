@@ -26,7 +26,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_8.ParticleEffect;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager.DataType;

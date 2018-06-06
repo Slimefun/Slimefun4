@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.Location;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_8.ParticleEffect;

@@ -11,7 +11,6 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
-import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 import org.bukkit.Bukkit;
