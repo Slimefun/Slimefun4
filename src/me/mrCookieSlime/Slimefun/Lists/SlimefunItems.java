@@ -288,7 +288,7 @@ public class SlimefunItems {
 	/*		Alloy (Iron + Silicon)		*/
 	public static ItemStack FERROSILICON = new CustomItem(Material.IRON_INGOT, "&bFerrosilicon" , 0);
 	/*		Alloy (Iron + Gold)			*/
-	public static ItemStack GILDED_IRON = new CustomItem(Material.GOLD_INGOT, "&6&lGilded Iron", 0);	
+	public static ItemStack GILDED_IRON = new CustomItem(Material.GOLD_INGOT, "&6&lGilded Iron", 0);
 	/*		Alloy (Redston + Ferrosilicon)	*/
 	public static ItemStack REDSTONE_ALLOY = new CustomItem(Material.CLAY_BRICK, "&cRedstone Alloy Ingot", 0);
 	/*		Alloy (Iron + Copper)		*/

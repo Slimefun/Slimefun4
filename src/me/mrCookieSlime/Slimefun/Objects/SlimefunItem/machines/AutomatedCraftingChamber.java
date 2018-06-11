@@ -58,7 +58,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
-				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "enabled") == null || BlockStorage.getBlockInfo(b, "enabled").equals("false")) {
+				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
 					menu.replaceExistingItem(6, new CustomItem(new MaterialData(Material.SULPHUR), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
 					menu.addMenuClickHandler(6, new MenuClickHandler() {
 
@@ -256,7 +256,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) {
-		if (BlockStorage.getBlockInfo(b, "enabled").equals("false")) return;
+		if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
 		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 		
 		BlockMenu menu = BlockStorage.getInventory(b);

@@ -30,7 +30,7 @@ public class Elevator {
 	public static void openEditor(Player p, final Block b) {
 		ChestMenu menu = new ChestMenu("Elevator Settings");
 		
-		menu.addItem(4, new CustomItem(new MaterialData(Material.NAME_TAG), "&7Floor Name &e(Click to edit)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(b, "floor"))));
+		menu.addItem(4, new CustomItem(new MaterialData(Material.NAME_TAG), "&7Floor Name &e(Click to edit)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(b.getLocation(), "floor"))));
 		menu.addMenuClickHandler(4, new MenuClickHandler() {
 			
 			@Override
@@ -75,7 +75,7 @@ public class Elevator {
 		for (int y = b.getWorld().getMaxHeight(); y > 0; y--) {
 			Block block = b.getWorld().getBlockAt(b.getX(), y, b.getZ());
 			if (BlockStorage.check(block, "ELEVATOR_PLATE")) {
-				String floor = ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(block, "floor"));
+				String floor = ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(block.getLocation(), "floor"));
 				if (block.getY() == b.getY()) {
 					tellraw.addText("&7> " + index + ". &r" + floor + "\n");
 					tellraw.addHoverEvent(HoverAction.SHOW_TEXT, "\n&eThis is the Floor you are currently on:\n&r" + floor + "\n");

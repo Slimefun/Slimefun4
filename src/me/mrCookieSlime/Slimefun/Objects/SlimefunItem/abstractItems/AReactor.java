@@ -48,16 +48,16 @@ public abstract class AReactor extends SlimefunItem {
 	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
 
 	private static final BlockFace[] cooling =
-    	{
-    		BlockFace.NORTH,
-    		BlockFace.NORTH_EAST,
-    		BlockFace.EAST,
-    		BlockFace.SOUTH_EAST,
-    		BlockFace.SOUTH,
-    		BlockFace.SOUTH_WEST,
-    		BlockFace.WEST,
-    		BlockFace.NORTH_WEST
-    	};
+		{
+			BlockFace.NORTH,
+			BlockFace.NORTH_EAST,
+			BlockFace.EAST,
+			BlockFace.SOUTH_EAST,
+			BlockFace.SOUTH,
+			BlockFace.SOUTH_WEST,
+			BlockFace.WEST,
+			BlockFace.NORTH_WEST
+		};
 
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
 
@@ -65,7 +65,7 @@ public abstract class AReactor extends SlimefunItem {
 	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
 	private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
 	private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 49, 50};
-    private static final int[] border_4 = {25, 34, 43}; //No coolant border
+	private static final int[] border_4 = {25, 34, 43}; // No coolant border
 
 	public AReactor(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
@@ -80,10 +80,10 @@ public abstract class AReactor extends SlimefunItem {
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
-					if (BlockStorage.getBlockInfo(b, "reactor-mode") == null){
+					if (BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode") == null){
 						BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 					}
-					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "reactor-mode").equals("generator")) {
+					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode").equals("generator")) {
 						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
 						menu.addMenuClickHandler(4, new MenuClickHandler() {
 
@@ -220,7 +220,7 @@ public abstract class AReactor extends SlimefunItem {
 
 		});
 
-        for (int i : border_2) {
+		for (int i : border_2) {
 			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
 			new MenuClickHandler() {
 
@@ -236,19 +236,19 @@ public abstract class AReactor extends SlimefunItem {
 			preset.addItem(7, new CustomItem(this.getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
 		}
 		else {
-            preset.addItem(7, new CustomItem(new MaterialData(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
+			preset.addItem(7, new CustomItem(new MaterialData(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
 
-            for (int i : border_4) {
-                preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"),
-                new MenuClickHandler() {
+			for (int i : border_4) {
+				preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"),
+				new MenuClickHandler() {
 
-                    @Override
-                    public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                        return false;
-                    }
-                });
-            }
-        }
+					@Override
+					public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+						return false;
+					}
+				});
+			}
+		}
 	}
 
 	public abstract String getInventoryTitle();
@@ -326,18 +326,18 @@ public abstract class AReactor extends SlimefunItem {
 							});
 
 
-                            ItemStack item = getProgressBar().clone();
-                            ItemMeta im = item.getItemMeta();
-                            im.setDisplayName(" ");
-                            List<String> lore = new ArrayList<String>();
-                            lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
-                            lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
-                            lore.add("");
-                            lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-                            im.setLore(lore);
-                            item.setItemMeta(im);
+							ItemStack item = getProgressBar().clone();
+							ItemMeta im = item.getItemMeta();
+							im.setDisplayName(" ");
+							List<String> lore = new ArrayList<String>();
+							lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
+							lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
+							lore.add("");
+							lore.add(MachineHelper.getTimeLeft(timeleft / 2));
+							im.setLore(lore);
+							item.setItemMeta(im);
 
-                            BlockStorage.getInventory(l).replaceExistingItem(22, item);
+							BlockStorage.getInventory(l).replaceExistingItem(22, item);
 
 							if (needsCooling()) {
 								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
