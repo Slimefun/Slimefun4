@@ -230,10 +230,14 @@ public class Research {
 	 * @since 4.0
 	 */
 	public void lock(Player p) {
-		Config cfg = new Config(new File("data-storage/Slimefun/Players/" + p.getUniqueId() + ".yml"));
-		cfg.setValue("researches." + id, null);
-		cfg.save();
-		Messages.local.sendTranslation(p, "commands.research.reset-target", true);
+		ResearchUnlockEvent event = new ResearchUnlockEvent(p, this, true);
+		Bukkit.getPluginManager().callEvent(event);
+		if(!event.isCancelled() {
+			Config cfg = new Config(new File("data-storage/Slimefun/Players/" + p.getUniqueId() + ".yml"));
+			cfg.setValue("researches." + id, null);
+			cfg.save();
+			Messages.local.sendTranslation(p, "commands.research.reset-target", true);
+		}
 	}
 
 	/**
@@ -246,7 +250,7 @@ public class Research {
 	 */
 	public void unlock(final Player p, boolean instant) {
 		if (!hasUnlocked(p)) {
-			ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
+			ResearchUnlockEvent event = new ResearchUnlockEvent(p, this, false);
 			Bukkit.getPluginManager().callEvent(event);
 			if (!event.isCancelled()) {
 				final int research = this.id;
