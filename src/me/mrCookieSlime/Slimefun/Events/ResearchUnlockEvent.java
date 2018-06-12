@@ -13,6 +13,7 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
 	
 	Player p;
 	Research r;
+	boolean l;
 	boolean cancelled;
 	
 	public HandlerList getHandlers() {
@@ -23,9 +24,10 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
 	    return handlers;
 	}
 	
-	public ResearchUnlockEvent(Player p, Research res) {
+	public ResearchUnlockEvent(Player p, Research res, boolean lock) {
 		this.p = p;
 		this.r = res;
+		this.l = lock;
 	}
 	
 	public Player getPlayer() {
@@ -34,6 +36,10 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
 	
 	public Research getResearch() {
 		return this.r;
+	}
+	
+	public boolean isLock() {
+		return this.l;	
 	}
 
 	@Override
