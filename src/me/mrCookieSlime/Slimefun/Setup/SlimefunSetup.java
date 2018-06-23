@@ -1967,7 +1967,14 @@ public class SlimefunSetup {
 				if (mb.isMultiBlock(SlimefunItem.getByID("DIGITAL_MINER"))) {
 					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
 						if (Slimefun.hasUnlocked(p, SlimefunItems.DIGITAL_MINER, true)) {
-							Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
+							Block chestBlock = b.getRelative(BlockFace.UP);
+
+                        				if(!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL") &&
+                                				!((BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))))) {
+                            					return false;
+                        				}
+
+                        				Chest chest = (Chest) chestBlock.getState();
 							final Inventory inv = chest.getInventory();
 							List<Location> ores = new ArrayList<Location>();
 							for (int x = b.getX() - 4; x < b.getX() + 4; x++) {
@@ -2045,7 +2052,14 @@ public class SlimefunSetup {
 				if (mb.isMultiBlock(SlimefunItem.getByID("ADVANCED_DIGITAL_MINER"))) {
 					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
 						if (Slimefun.hasUnlocked(p, SlimefunItems.ADVANCED_DIGITAL_MINER, true)) {
-							Chest chest = (Chest) b.getRelative(BlockFace.UP).getState();
+							Block chestBlock = b.getRelative(BlockFace.UP);
+
+                        				if(!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL") &&
+                                				!((BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))))) {
+                            					return false;
+                        				}
+
+                        				Chest chest = (Chest) chestBlock.getState();
 							final Inventory inv = chest.getInventory();
 							List<Location> ores = new ArrayList<Location>();
 							for (int x = b.getX() - 6; x < b.getX() + 6; x++) {
