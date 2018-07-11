@@ -1969,10 +1969,10 @@ public class SlimefunSetup {
 						if (Slimefun.hasUnlocked(p, SlimefunItems.DIGITAL_MINER, true)) {
 							Block chestBlock = b.getRelative(BlockFace.UP);
 
-                        				if(!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL") &&
-                                				!((BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))))) {
-                            					return false;
-                        				}
+                        				if(!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL")) &&
+								!(BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))) {
+								return false;
+							}
 
                         				Chest chest = (Chest) chestBlock.getState();
 							final Inventory inv = chest.getInventory();
@@ -2054,10 +2054,10 @@ public class SlimefunSetup {
 						if (Slimefun.hasUnlocked(p, SlimefunItems.ADVANCED_DIGITAL_MINER, true)) {
 							Block chestBlock = b.getRelative(BlockFace.UP);
 
-                        				if(!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL") &&
-                                				!((BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))))) {
-                            					return false;
-                        				}
+                        				if(!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL")) &&
+								!(BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))) {
+								return false;
+							}
 
                         				Chest chest = (Chest) chestBlock.getState();
 							final Inventory inv = chest.getInventory();
