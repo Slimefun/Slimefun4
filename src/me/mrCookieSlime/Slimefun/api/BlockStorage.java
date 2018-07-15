@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api;
+ package me.mrCookieSlime.Slimefun.api;
 
 import java.io.File;
 import java.util.ArrayList;

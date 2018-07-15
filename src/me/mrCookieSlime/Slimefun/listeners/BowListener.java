@@ -34,19 +34,15 @@ public class BowListener implements Listener {
 	
 	@EventHandler
 	public void onArrowHit(final ProjectileHitEvent e) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-			
-			@Override
-			public void run() {
-				if (!e.getEntity().isValid()) return;
-				if (Variables.arrows.containsKey(e.getEntity().getUniqueId())) Variables.arrows.remove(e.getEntity().getUniqueId());
-				if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
-			}
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+			if (!e.getEntity().isValid()) return;
+			if (Variables.arrows.containsKey(e.getEntity().getUniqueId())) Variables.arrows.remove(e.getEntity().getUniqueId());
+			if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
 		}, 4L);
 	}
 	
 	private void handleGrapplingHook(Arrow arrow) {
-		if (arrow instanceof Arrow) {
+		if (arrow != null) {
 			if (arrow.getShooter() instanceof Player && Variables.jump.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
 				final Player p = (Player) arrow.getShooter();
 				if (p.getGameMode() != GameMode.CREATIVE && Variables.jump.get(p.getUniqueId())) arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItem.getItem("GRAPPLING_HOOK"));
@@ -59,13 +55,9 @@ public class BowListener implements Listener {
 		    	    	n.remove();
 		    	    }
 		    	    
-		    	    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						
-						@Override
-						public void run() {
-							Variables.jump.remove(p.getUniqueId());
-							Variables.remove.remove(p.getUniqueId());
-						}
+		    	    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+						Variables.jump.remove(p.getUniqueId());
+						Variables.remove.remove(p.getUniqueId());
 					}, 20L);
 				}
 				else {
