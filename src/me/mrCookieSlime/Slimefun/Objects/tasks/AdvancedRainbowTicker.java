@@ -16,10 +16,12 @@ public class AdvancedRainbowTicker extends BlockTicker {
 		index = 0;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void tick(Block b, SlimefunItem item, Config cfg) {
-		b.setData((byte) data[index], false);
+		//TODO
+		/* Removed in 1.13
+		 * b.setData((byte) data[index], false);
+		 */
 	}
 
 	@Override

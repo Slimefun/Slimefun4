@@ -30,6 +30,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
+@SuppressWarnings({ "unused", "deprecation" })
 public abstract class CropGrowthAccelerator extends SlimefunItem {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
@@ -37,11 +38,11 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	public static final Map<Material, Integer> crops = new HashMap<Material, Integer>();
 	
 	static {
-		crops.put(Material.CROPS, 7);
+		crops.put(Material.WHEAT, 7);
 		crops.put(Material.POTATO, 7);
 		crops.put(Material.CARROT, 7);
-		crops.put(Material.NETHER_WARTS, 3);
-		crops.put(Material.BEETROOT_BLOCK, 3);
+		crops.put(Material.NETHER_WART_BLOCK, 3);
+		crops.put(Material.BEETROOTS, 3);
 		crops.put(Material.COCOA, 8);
 	}
 
@@ -94,10 +95,9 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 		});
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -143,7 +143,6 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 		super.register(slimefun);
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected void tick(Block b) throws Exception {
 		int work = 0;
 		master:
@@ -160,10 +159,16 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 								ChargableBlock.addCharge(b, -getEnergyConsumption());
 								
 								if (block.getType().equals(Material.COCOA)) {
-									block.setData((byte) (block.getData() + 4));
+									//TODO
+									/* Removed in 1.13
+									 * block.setData((byte) (block.getData() + 4));
+									 */
 								}
 								else {
-									block.setData((byte) (block.getData() + 1));
+									//TODO
+									/* Removed in 1.13
+									 * block.setData((byte) (block.getData() + 1));
+									 */
 								}
 
 								ParticleEffect.VILLAGER_HAPPY.display(block.getLocation().add(0.5D, 0.5D, 0.5D), 0.1F, 0.1F, 0.1F, 0, 4);

@@ -56,6 +56,7 @@ import me.mrCookieSlime.Slimefun.URID.URID;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+@SuppressWarnings("deprecation")
 public class SlimefunGuide {
 	
 	public static Map<UUID, List<URID>> history = new HashMap<UUID, List<URID>>();
@@ -107,7 +108,6 @@ public class SlimefunGuide {
 	
 	private static final int[] slots = new int[] {0, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 	
-	@SuppressWarnings("deprecation")
 	public static void openSettings(Player p, final ItemStack guide) {
 		final ChestMenu menu = new ChestMenu("Settings / Info");
 		
@@ -116,12 +116,12 @@ public class SlimefunGuide {
 			
 			@Override
 			public void onOpen(Player p) {
-				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_HARP, 0.7F, 0.7F);
+				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F);
 			}
 		});
 		
 		for (int i: slots) {
-			menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 			menu.addMenuClickHandler(i, new MenuClickHandler() {
 				
 				@Override
@@ -197,7 +197,7 @@ public class SlimefunGuide {
 			});
 		}
 		
-		menu.addItem(1, new CustomItem(new MaterialData(Material.BOOK_AND_QUILL), "&aCredits", "", "&7Version: &a" + SlimefunStartup.instance.getDescription().getVersion(), "&7Contributors: &e" + contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
+		menu.addItem(1, new CustomItem(new MaterialData(Material.WRITABLE_BOOK), "&aCredits", "", "&7Version: &a" + SlimefunStartup.instance.getDescription().getVersion(), "&7Contributors: &e" + contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
 		menu.addMenuClickHandler(1, new MenuClickHandler() {
 			
 			@Override
@@ -208,7 +208,7 @@ public class SlimefunGuide {
 		});
 		
 		try {
-			menu.addItem(4, new CustomItem(new MaterialData(Material.REDSTONE_COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "&7Stars: &e" + stars, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addItem(4, new CustomItem(new MaterialData(Material.COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "&7Stars: &e" + stars, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
 			menu.addMenuClickHandler(4, new MenuClickHandler() {
 				
 				@Override
@@ -240,7 +240,6 @@ public class SlimefunGuide {
 		menu.open(p);
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void openCredits(Player p, final ItemStack guide) {
 		final ChestMenu menu = new ChestMenu("Credits");
 		
@@ -249,13 +248,13 @@ public class SlimefunGuide {
 			
 			@Override
 			public void onOpen(Player p) {
-				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_HARP, 0.7F, 0.7F);
+				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F);
 			}
 		});
 		
 		for (int i = 0; i < 9; i++) {
 			if (i != 4) {
-				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
 					
 					@Override
@@ -320,7 +319,7 @@ public class SlimefunGuide {
 		}
 		
 		for (int i = 0; i < 9; i++) {
-			menu.addItem(36 + i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+			menu.addItem(36 + i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 			menu.addMenuClickHandler(36 + i, new MenuClickHandler() {
 				
 				@Override
@@ -350,7 +349,6 @@ public class SlimefunGuide {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static void openMainMenu(final Player p, final boolean survival, final boolean book, final int selected_page) {
 		clearHistory(p.getUniqueId());
 		
@@ -511,7 +509,7 @@ public class SlimefunGuide {
 			int pages = 1;
 			
 			for (int i = 0; i < 9; i++) {
-				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
 					
 					@Override
@@ -522,7 +520,7 @@ public class SlimefunGuide {
 			}
 			
 			for (int i = 45; i < 54; i++) {
-				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
 					
 					@Override
@@ -625,7 +623,7 @@ public class SlimefunGuide {
 
 			final int finalPages = pages;
 			
-			menu.addItem(46, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&r\u21E6 Previous Page", "", "&7(" + selected_page + " / " + pages + ")"));
+			menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 Previous Page", "", "&7(" + selected_page + " / " + pages + ")"));
 			menu.addMenuClickHandler(46, new MenuClickHandler() {
 				
 				@Override
@@ -637,7 +635,7 @@ public class SlimefunGuide {
 				}
 			});
 			
-			menu.addItem(52, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&rNext Page \u21E8", "", "&7(" + selected_page + " / " + pages + ")"));
+			menu.addItem(52, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&rNext Page \u21E8", "", "&7(" + selected_page + " / " + pages + ")"));
 			menu.addMenuClickHandler(52, new MenuClickHandler() {
 				
 				@Override
@@ -658,7 +656,6 @@ public class SlimefunGuide {
 		else return (string + ChatColor.stripColor(string2));
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void openCategory(final Player p, final Category category, final boolean survival, final int selected_page, final boolean book) {
 		if (category == null) return;
 
@@ -791,7 +788,7 @@ public class SlimefunGuide {
 			int index = 9;
 			final int pages = category.getItems().size() / category_size + 1;
 			for (int i = 0; i < 4; i++) {
-				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
 					
 					@Override
@@ -812,7 +809,7 @@ public class SlimefunGuide {
 			});
 			
 			for (int i = 5; i < 9; i++) {
-				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
 					
 					@Override
@@ -823,7 +820,7 @@ public class SlimefunGuide {
 			}
 			
 			for (int i = 45; i < 54; i++) {
-				menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
 					
 					@Override
@@ -833,7 +830,7 @@ public class SlimefunGuide {
 				});
 			}
 			
-			menu.addItem(46, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&r\u21E6 Previous Page", "", "&7(" + selected_page + " / " + pages + ")"));
+			menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 Previous Page", "", "&7(" + selected_page + " / " + pages + ")"));
 			menu.addMenuClickHandler(46, new MenuClickHandler() {
 				
 				@Override
@@ -845,7 +842,7 @@ public class SlimefunGuide {
 				}
 			});
 			
-			menu.addItem(52, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&rNext Page \u21E8", "", "&7(" + selected_page + " / " + pages + ")"));
+			menu.addItem(52, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&rNext Page \u21E8", "", "&7(" + selected_page + " / " + pages + ")"));
 			menu.addMenuClickHandler(52, new MenuClickHandler() {
 				
 				@Override
@@ -957,7 +954,6 @@ public class SlimefunGuide {
 		return list.isEmpty() ? null: list.get(list.size() - 1);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static void displayItem(Player p, final ItemStack item, boolean addToHistory, final boolean book, final int page) {
 		if (item == null || item.getType() == Material.AIR) return;
 
@@ -1238,7 +1234,7 @@ public class SlimefunGuide {
 			
 			if ((sfItem instanceof SlimefunMachine && ((SlimefunMachine) sfItem).getDisplayRecipes().size() > 0) || (sfItem instanceof SlimefunGadget && ((SlimefunGadget) sfItem).getRecipes().size() > 0)) {
 				for (int i = 27; i < 36; i++) {
-					menu.addItem(i, new CustomItem(Material.STAINED_GLASS_PANE, SlimefunItem.getByItem(item) instanceof SlimefunMachine ? "&7\u21E9 Recipes made in this Machine \u21E9": " ", 7));
+					menu.addItem(i, new CustomItem(Material.LEGACY_STAINED_GLASS_PANE, SlimefunItem.getByItem(item) instanceof SlimefunMachine ? "&7\u21E9 Recipes made in this Machine \u21E9": " ", 7));
 					menu.addMenuClickHandler(i, new MenuClickHandler() {
 						
 						@Override

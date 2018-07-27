@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.MetadataValue;
 
+@SuppressWarnings({ "deprecation", "unused" })
 public class AndroidKillingListener implements Listener {
 	
 	public AndroidKillingListener(SlimefunStartup plugin) {
@@ -36,7 +37,6 @@ public class AndroidKillingListener implements Listener {
 				final AndroidObject obj = (AndroidObject) value.value();
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 					
-					@SuppressWarnings("deprecation")
 					@Override
 					public void run() {
 						List<ItemStack> items = new ArrayList<ItemStack>();
@@ -58,7 +58,7 @@ public class AndroidKillingListener implements Listener {
 						}
 						case SKELETON: {
 							if (((Skeleton) e.getEntity()).getSkeletonType().equals(SkeletonType.WITHER)) {
-								if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1));
+								if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
 							}
 							break;
 						}

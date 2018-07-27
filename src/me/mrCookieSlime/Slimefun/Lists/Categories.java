@@ -21,28 +21,28 @@ import org.bukkit.Material;
  */
 public class Categories {
 	
-	public static Category WEAPONS = new Category(new MenuItem(Material.GOLD_SWORD, "&7Weapons", 0, "open"), 1);
+	public static Category WEAPONS = new Category(new MenuItem(Material.GOLDEN_SWORD, "&7Weapons", 0, "open"), 1);
 	public static Category PORTABLE = null;
 	public static Category FOOD = new Category(new MenuItem(Material.APPLE, "&7Food", 0, "open"), 2);
 	public static Category MACHINES_1 = null;
 	public static LockedCategory ELECTRICITY = null;
 	public static LockedCategory GPS = null;
 	public static Category ARMOR = new Category(new MenuItem(Material.IRON_CHESTPLATE, "&7Armor", 0, "open"), 2);
-	public static Category LUMPS_AND_MAGIC = new Category(new MenuItem(Material.FIREBALL, "&7Magical Items", 0, "open"), 2);
+	public static Category LUMPS_AND_MAGIC = new Category(new MenuItem(Material.FIRE_CHARGE, "&7Magical Items", 0, "open"), 2);
 	public static Category MAGIC = new Category(new MenuItem(Material.BLAZE_POWDER, "&7Magical Gadgets", 0, "open"), 3);
 	public static Category MISC = null;
 	public static Category TECH = new Category(new CustomArmor(new MenuItem(Material.LEATHER_CHESTPLATE, "&7Technical Gadgets", 0, "open"), Color.SILVER), 3);
 	public static Category RESOURCES = null;
 	public static Category CARGO = null;
-	public static Category TECH_MISC = new Category(new MenuItem(Material.REDSTONE_COMPARATOR, "&7Technical Components", 0, "open"), 2);
-	public static Category MAGIC_ARMOR = new Category(new MenuItem(Material.GOLD_CHESTPLATE, "&7Magical Armor", 0, "open"), 2);
+	public static Category TECH_MISC = new Category(new MenuItem(Material.COMPARATOR, "&7Technical Components", 0, "open"), 2);
+	public static Category MAGIC_ARMOR = new Category(new MenuItem(Material.GOLDEN_CHESTPLATE, "&7Magical Armor", 0, "open"), 2);
 	public static Category TALISMANS_1 = new Category(new MenuItem(Material.EMERALD, "&7Talismans - &aTier I", 0, "open"), 2);
 	public static LockedCategory TALISMANS_2 = new LockedCategory(new MenuItem(Material.EMERALD, "&7Talismans - &aTier II", 0, "open"), 3, TALISMANS_1);
-	public static Category TOOLS = new Category(new MenuItem(Material.GOLD_PICKAXE, "&7Tools", 0, "open"), 1);
+	public static Category TOOLS = new Category(new MenuItem(Material.GOLDEN_PICKAXE, "&7Tools", 0, "open"), 1);
 	public static SeasonCategory CHRISTMAS = new SeasonCategory(12, 1, new MenuItem(Material.NETHER_STAR, "&aC&ch&ar&ci&as&ct&am&ca&as", 0, ChatColor.translateAlternateColorCodes('&', "&chelp &aSanta")));
-	public static SeasonCategory VALENTINES_DAY = new SeasonCategory(2, 2, new MenuItem(Material.RED_ROSE, "&dValentine's Day", 0, ChatColor.translateAlternateColorCodes('&', "&dcelebrate Love")));
+	public static SeasonCategory VALENTINES_DAY = new SeasonCategory(2, 2, new MenuItem(Material.POPPY, "&dValentine's Day", 0, ChatColor.translateAlternateColorCodes('&', "&dcelebrate Love")));
 	public static SeasonCategory EASTER = new SeasonCategory(4, 2, new MenuItem(Material.EGG, "&6Easter", 0, ChatColor.translateAlternateColorCodes('&', "&apaint some Eggs")));
-	public static SeasonCategory BIRTHDAY = new SeasonCategory(10, 1, new MenuItem(Material.FIREWORK, "&a&lmrCookieSlime's Birthday &7(26th October)", 0, ChatColor.translateAlternateColorCodes('&', "&acelebrate with me")));
+	public static SeasonCategory BIRTHDAY = new SeasonCategory(10, 1, new MenuItem(Material.FIREWORK_ROCKET, "&a&lmrCookieSlime's Birthday &7(26th October)", 0, ChatColor.translateAlternateColorCodes('&', "&acelebrate with me")));
 	
 	static {
 		try {
