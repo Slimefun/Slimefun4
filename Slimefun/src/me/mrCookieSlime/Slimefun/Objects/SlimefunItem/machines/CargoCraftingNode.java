@@ -21,7 +21,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.przemovi.util.WoolColor;
+import me.przemovi.util.ColoredBlock;
 
 @SuppressWarnings("deprecation")
 public class CargoCraftingNode extends SlimefunItem {
@@ -54,8 +54,7 @@ public class CargoCraftingNode extends SlimefunItem {
 						}
 					});
 
-					WoolColor wc = new WoolColor();
-					menu.replaceExistingItem(42, new CustomItem(new ItemStack(wc.getColoredWool(((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")))))), "&bChannel ID: &3" + (((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")))) + 1)));
+					menu.replaceExistingItem(42, new CustomItem(new ItemStack(ColoredBlock.fromBlockType(Material.WHITE_WOOL).getColoredBlock(((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")))))), "&bChannel ID: &3" + (((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")))) + 1)));
 					menu.addMenuClickHandler(42, new MenuClickHandler() {
 
 						@Override

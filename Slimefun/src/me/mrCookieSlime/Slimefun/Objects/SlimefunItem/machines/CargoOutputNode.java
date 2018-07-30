@@ -23,7 +23,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.przemovi.util.WoolColor;
+import me.przemovi.util.ColoredBlock;
 
 @SuppressWarnings("deprecation")
 public class CargoOutputNode extends SlimefunItem {
@@ -73,8 +73,7 @@ public class CargoOutputNode extends SlimefunItem {
 						});
 					}
 					else {
-						WoolColor wc = new WoolColor();
-						menu.replaceExistingItem(13, new CustomItem(new ItemStack(wc.getColoredWool(channel)), "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(13, new CustomItem(new ItemStack(ColoredBlock.fromBlockType(Material.WHITE_WOOL).getColoredBlock(channel)), "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(13, new MenuClickHandler() {
 
 							@Override
