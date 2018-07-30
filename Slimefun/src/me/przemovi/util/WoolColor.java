@@ -112,4 +112,40 @@ public class WoolColor {
 		}
 		return null;
 	}
+	public Material getColoredTerracotta(int i) {
+		if(i == 0) {
+			return Material.WHITE_TERRACOTTA;
+		} else if(i == 1) {
+			return Material.ORANGE_TERRACOTTA;
+		} else if(i == 2) {
+			return Material.MAGENTA_TERRACOTTA;
+		} else if(i == 3) {
+			return Material.LIGHT_BLUE_TERRACOTTA;
+		} else if(i == 4) {
+			return Material.YELLOW_TERRACOTTA;
+		} else if(i == 5) {
+			return Material.LIME_TERRACOTTA;
+		} else if(i == 6) {
+			return Material.PINK_TERRACOTTA;
+		} else if(i == 7) {
+			return Material.GRAY_TERRACOTTA;
+		} else if(i == 8) {
+			return Material.LIGHT_GRAY_TERRACOTTA;
+		} else if(i == 9) {
+			return Material.CYAN_TERRACOTTA;
+		} else if(i == 10) {
+			return Material.PURPLE_TERRACOTTA;
+		} else if(i == 11) {
+			return Material.BLUE_TERRACOTTA;
+		} else if(i == 12) {
+			return Material.BROWN_TERRACOTTA;
+		} else if(i == 13) {
+			return Material.GREEN_TERRACOTTA;
+		} else if(i == 14) {
+			return Material.RED_TERRACOTTA;
+		} else if(i == 15) {
+			return Material.BLACK_TERRACOTTA;
+		}
+		return null;
+	}
 }
