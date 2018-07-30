@@ -33,12 +33,12 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 public class TalismanListener implements Listener {
-	
+
 	public TalismanListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
-	@EventHandler(priority=EventPriority.MONITOR)
+
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onDamageGet(EntityDamageEvent e) {
 		if (!e.isCancelled()) {
 			if (e instanceof EntityDamageByEntityEvent) {
@@ -51,12 +51,18 @@ public class TalismanListener implements Listener {
 			}
 			if (e.getEntity() instanceof Player) {
 				if (!e.isCancelled()) {
-					if (e.getCause() == DamageCause.LAVA) Talisman.checkFor(e, SlimefunItem.getByID("LAVA_TALISMAN"));
-					if (e.getCause() == DamageCause.DROWNING) Talisman.checkFor(e, SlimefunItem.getByID("WATER_TALISMAN"));
-					if (e.getCause() == DamageCause.FALL) Talisman.checkFor(e, SlimefunItem.getByID("ANGEL_TALISMAN"));
-					if (e.getCause() == DamageCause.FIRE) Talisman.checkFor(e, SlimefunItem.getByID("FIRE_TALISMAN"));
-					if (e.getCause() == DamageCause.ENTITY_ATTACK) Talisman.checkFor(e, SlimefunItem.getByID("WARRIOR_TALISMAN"));
-					if (e.getCause() == DamageCause.ENTITY_ATTACK) Talisman.checkFor(e, SlimefunItem.getByID("KNIGHT_TALISMAN"));
+					if (e.getCause() == DamageCause.LAVA)
+						Talisman.checkFor(e, SlimefunItem.getByID("LAVA_TALISMAN"));
+					if (e.getCause() == DamageCause.DROWNING)
+						Talisman.checkFor(e, SlimefunItem.getByID("WATER_TALISMAN"));
+					if (e.getCause() == DamageCause.FALL)
+						Talisman.checkFor(e, SlimefunItem.getByID("ANGEL_TALISMAN"));
+					if (e.getCause() == DamageCause.FIRE)
+						Talisman.checkFor(e, SlimefunItem.getByID("FIRE_TALISMAN"));
+					if (e.getCause() == DamageCause.ENTITY_ATTACK)
+						Talisman.checkFor(e, SlimefunItem.getByID("WARRIOR_TALISMAN"));
+					if (e.getCause() == DamageCause.ENTITY_ATTACK)
+						Talisman.checkFor(e, SlimefunItem.getByID("KNIGHT_TALISMAN"));
 					if (e.getCause() == DamageCause.PROJECTILE) {
 						if (Talisman.checkFor(e, SlimefunItem.getByID("WHIRLWIND_TALISMAN"))) {
 							if (((EntityDamageByEntityEvent) e).getDamager() instanceof Projectile) {
@@ -71,39 +77,44 @@ public class TalismanListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onItemBreak(PlayerItemBreakEvent e) {
-		if (Talisman.checkFor(e, SlimefunItem.getByID("ANVIL_TALISMAN"))) e.getBrokenItem().setAmount(1);
+		if (Talisman.checkFor(e, SlimefunItem.getByID("ANVIL_TALISMAN")))
+			e.getBrokenItem().setAmount(1);
 	}
-	
+
 	@EventHandler
 	public void onSprint(PlayerToggleSprintEvent e) {
-		if (e.isSprinting()) Talisman.checkFor(e, SlimefunItem.getByID("TRAVELLER_TALISMAN"));
+		if (e.isSprinting())
+			Talisman.checkFor(e, SlimefunItem.getByID("TRAVELLER_TALISMAN"));
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onEnchant(EnchantItemEvent e) {
 		if (Talisman.checkFor(e, SlimefunItem.getByID("MAGICIAN_TALISMAN"))) {
 			List<String> enchantments = new ArrayList<String>();
-			for (Enchantment en: Enchantment.values()) {
+			for (Enchantment en : Enchantment.values()) {
 				for (int i = 1; i <= en.getMaxLevel(); i++) {
-					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getName() + ".level." + i) && en.canEnchantItem(e.getItem())) enchantments.add(en.getName() + "-" + i);
+					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getName() + ".level." + i) && en.canEnchantItem(e.getItem()))
+						enchantments.add(en.getName() + "-" + i);
 				}
 			}
 			String enchant = enchantments.get(SlimefunStartup.randomize(enchantments.size()));
 			e.getEnchantsToAdd().put(Enchantment.getByName(enchant.split("-")[0]), Integer.parseInt(enchant.split("-")[1]));
-			
+
 		}
 		if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem())) {
 			if (Talisman.checkFor(e, SlimefunItem.getByID("WIZARD_TALISMAN"))) {
-				if (e.getEnchantsToAdd().containsKey(Enchantment.LOOT_BONUS_BLOCKS)) e.getEnchantsToAdd().remove(Enchantment.LOOT_BONUS_BLOCKS);
+				if (e.getEnchantsToAdd().containsKey(Enchantment.LOOT_BONUS_BLOCKS))
+					e.getEnchantsToAdd().remove(Enchantment.LOOT_BONUS_BLOCKS);
 				Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
-				for (Enchantment en: enchantments) {
-					if (SlimefunStartup.chance(100, 40)) e.getEnchantsToAdd().put(en, SlimefunStartup.randomize(3) + 1);
+				for (Enchantment en : enchantments) {
+					if (SlimefunStartup.chance(100, 40))
+						e.getEnchantsToAdd().put(en, SlimefunStartup.randomize(3) + 1);
 				}
-				
+
 				e.getItem().addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, SlimefunStartup.randomize(3) + 3);
 			}
 		}
@@ -123,15 +134,20 @@ public class TalismanListener implements Listener {
 		if (item != null) {
 			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
 				fortune = SlimefunStartup.randomize(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
-				if (fortune <= 0) fortune = 1;
+				if (fortune <= 0)
+					fortune = 1;
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + SlimefunStartup.randomize(5) : 1) * (fortune + 1);
 			}
 
 			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE")) {
 				if (Talisman.checkFor(e, SlimefunItem.getByID("MINER_TALISMAN"))) {
-					if (drops.isEmpty()) drops = (List<ItemStack>) e.getBlock().getDrops();
+					if (drops.isEmpty()) {
+						drops = (List<ItemStack>) e.getBlock().getDrops();
+					}
 					for (ItemStack drop : new ArrayList<ItemStack>(drops)) {
-						if (!drop.getType().isBlock()) drops.add(new CustomItem(drop, fortune * 2));
+						if (!drop.getType().isBlock()) {
+							drops.add(new CustomItem(drop, fortune * 2));
+						}
 					}
 				}
 			}
