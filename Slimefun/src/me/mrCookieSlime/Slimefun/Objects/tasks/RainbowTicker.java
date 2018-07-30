@@ -7,7 +7,6 @@ import me.przemovi.util.ColoredBlock;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.material.MaterialData;
 
 public class RainbowTicker extends BlockTicker {
 	
