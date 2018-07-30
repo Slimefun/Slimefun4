@@ -31,7 +31,7 @@ public class MagnetTask implements Runnable {
 				if (item instanceof Item) {
 					if (!item.hasMetadata("no_pickup") && ((Item) item).getPickupDelay() <= 0) {
 						item.teleport(Bukkit.getPlayer(uuid).getEyeLocation());
-						Bukkit.getPlayer(uuid).getWorld().playSound(Bukkit.getPlayer(uuid).getEyeLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 5L, 2L);
+						Bukkit.getPlayer(uuid).getWorld().playSound(Bukkit.getPlayer(uuid).getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5L, 2L);
 					}
 				}
 			}

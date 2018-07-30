@@ -20,7 +20,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 public abstract class ElectricDustWasher extends AContainer {
 
@@ -35,7 +34,7 @@ public abstract class ElectricDustWasher extends AContainer {
 
 	@Override
 	public ItemStack getProgressBar() {
-		return new ItemStack(Material.GOLD_SPADE);
+		return new ItemStack(Material.GOLDEN_SHOVEL);
 	}
 
 	@Override
@@ -44,7 +43,6 @@ public abstract class ElectricDustWasher extends AContainer {
 	public abstract int getSpeed();
 	public static boolean legacy_dust_washer = false;
 	
-	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
@@ -73,7 +71,7 @@ public abstract class ElectricDustWasher extends AContainer {
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
 
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
+				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput());
 				
 				progress.remove(b);

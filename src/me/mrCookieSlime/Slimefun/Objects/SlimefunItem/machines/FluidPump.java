@@ -34,7 +34,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 public class FluidPump extends SlimefunItem{
 	
@@ -72,10 +71,9 @@ public class FluidPump extends SlimefunItem{
 		};
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -86,7 +84,7 @@ public class FluidPump extends SlimefunItem{
 			});
 		}
 		for (int i: border_in) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -97,7 +95,7 @@ public class FluidPump extends SlimefunItem{
 			});
 		}
 		for (int i: border_out) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -138,7 +136,7 @@ public class FluidPump extends SlimefunItem{
 	
 	protected void tick(Block b) {
 		Block fluid = b.getRelative(BlockFace.DOWN);
-		if (fluid.getType().equals(Material.STATIONARY_LAVA)) {
+		if (fluid.getType().equals(Material.LAVA)) {
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -160,7 +158,7 @@ public class FluidPump extends SlimefunItem{
 				}
 			}
 		}
-		else if (fluid.getType().equals(Material.STATIONARY_WATER)) {
+		else if (fluid.getType().equals(Material.WATER)) {
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -211,7 +209,7 @@ public class FluidPump extends SlimefunItem{
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));

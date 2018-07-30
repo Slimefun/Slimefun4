@@ -22,10 +22,12 @@ public class RainbowTicker extends BlockTicker {
 		index = 0;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void tick(Block b, SlimefunItem item, Config data) {
-		b.setData((byte) meta, false);
+		//TODO
+		/* Removed in 1.13
+		 * b.setData((byte) meta, false);
+		 */
 	}
 
 	@Override

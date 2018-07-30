@@ -56,7 +56,8 @@ public class SlimefunManager {
 		}
 	}
 	
-	public static List<Material> data_safe = Arrays.asList(Material.WOOL, Material.CARPET, Material.STAINED_CLAY, Material.STAINED_GLASS, Material.STAINED_GLASS_PANE, Material.INK_SACK, Material.STONE, Material.COAL, Material.SKULL_ITEM, Material.RAW_FISH, Material.COOKED_FISH);
+	@SuppressWarnings("deprecation")
+	public static List<Material> data_safe = Arrays.asList(Material.LEGACY_WOOL, Material.LEGACY_CARPET, Material.LEGACY_STAINED_CLAY, Material.LEGACY_STAINED_GLASS, Material.LEGACY_STAINED_GLASS_PANE, Material.LEGACY_INK_SACK, Material.STONE, Material.COAL, Material.PLAYER_HEAD, Material.COD, Material.COOKED_COD);
 	
 	public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore) {
 		return isItemSimiliar(item, SFitem, lore, DataType.IF_COLORED);

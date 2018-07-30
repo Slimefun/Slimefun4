@@ -43,6 +43,7 @@ public class ToolListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockRegister(BlockPlaceEvent e) {
 		if (BlockStorage.hasBlockInfo(e.getBlock())) {
@@ -50,7 +51,7 @@ public class ToolListener implements Listener {
 			return;
 		}
 		ItemStack item = e.getItemInHand();
-		if (item != null && item.getType() == Material.INK_SACK) return;
+		if (item != null && item.getType() == Material.LEGACY_INK_SACK) return;
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem != null && !(sfItem instanceof NotPlaceable)){
 			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);

@@ -93,7 +93,7 @@
     		<dependency>
     			<groupId>org.bukkit</groupId>
     			<artifactId>bukkit</artifactId>
-    			<version>1.12-R0.1-SNAPSHOT</version>
+    			<version>1.13-R0.1-SNAPSHOT</version>
     		</dependency>
     		<dependency>
     			<groupId>com.sk89q.worldedit</groupId>

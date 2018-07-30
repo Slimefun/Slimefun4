@@ -100,7 +100,7 @@ public class ItemListener implements Listener {
 				case RIGHT_CLICK_BLOCK: {
 					if (p.isSneaking()) {
 						Block b = e.getClickedBlock().getRelative(e.getBlockFace());
-						b.setType(Material.SKULL);
+						b.setType(Material.PLAYER_HEAD);
 						try {
 							CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
 						} catch (Exception e1) {

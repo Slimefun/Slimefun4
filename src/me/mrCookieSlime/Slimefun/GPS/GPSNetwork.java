@@ -16,7 +16,6 @@ import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
@@ -69,12 +68,11 @@ public class GPSNetwork {
 		else return transmitters.get(uuid).size();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void openTransmitterControlPanel(Player p) throws Exception {
 		ChestMenu menu = new ChestMenu("&9Control Panel");
 		
 		for (int slot: border) {
-			menu.addItem(slot, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
+			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -153,12 +151,11 @@ public class GPSNetwork {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void openWaypointControlPanel(Player p) throws Exception {
 		ChestMenu menu = new ChestMenu("&9Control Panel");
 		
 		for (int slot: border) {
-			menu.addItem(slot, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
+			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -251,7 +248,7 @@ public class GPSNetwork {
 			return;
 		}
 		Messages.local.sendTranslation(p, "gps.waypoint.new", true);
-		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 0.5F, 1F);
+		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
 		MenuHelper.awaitChatInput(p, new ChatHandler() {
 			
 			@Override
@@ -272,7 +269,7 @@ public class GPSNetwork {
 		cfg.setValue(id, l);
 		cfg.setValue(id + ".name", name);
 		cfg.save();
-		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F);
+		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
 		Messages.local.sendTranslation(p, "gps.waypoint.added", true);
 	}
 
@@ -309,7 +306,6 @@ public class GPSNetwork {
 	private final static int[] teleporter_border = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private final static int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
-	@SuppressWarnings("deprecation")
 	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) throws Exception {
 		if (TeleportationSequence.players.contains(p.getUniqueId())) return;
 		
@@ -327,7 +323,7 @@ public class GPSNetwork {
 		});
 		
 		for (int slot: teleporter_border) {
-			menu.addItem(slot, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
+			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
