@@ -19,6 +19,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.Variables;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -29,6 +30,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -195,4 +197,14 @@ public class AncientAltarListener implements Listener {
 			e.setCancelled(true);
 		}
 	}
+	/*@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	public void onInteract(BlockBreakEvent e) {
+		if(e.getBlock().getType() == Material.DISPENSER) {
+			for(Location b : Variables.altarinuse) {
+				if(e.getBlock().getLocation().equals(b)) {
+					e.setCancelled(true);
+				}
+			}
+		}
+	}*/
 }

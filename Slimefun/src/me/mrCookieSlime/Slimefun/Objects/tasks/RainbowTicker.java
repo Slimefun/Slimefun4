@@ -9,7 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 
 public class RainbowTicker extends BlockTicker {
-	
+
 	public int meta;
 	public int index;
 	public int[] queue;
@@ -30,7 +30,7 @@ public class RainbowTicker extends BlockTicker {
 		if (b.getType().name().contains("PANE")) {
 			if (b.getLocation().getWorld().getBlockAt(b.getLocation().getBlockX() + 1, b.getLocation().getBlockY(), b.getLocation().getBlockZ()) != null) {
 				Block b1 = b.getLocation().getWorld().getBlockAt(b.getLocation().getBlockX() + 1, b.getLocation().getBlockY(), b.getLocation().getBlockZ());
-				if (b1.getType() != null && b1.getType() != Material.AIR && !b1.isLiquid() && !b1.getType().name().contains("PANE")) {
+				if (b1.getType() != null && b1.getType() != Material.AIR && b1.getType() != Material.PLAYER_HEAD && !b1.isLiquid() && !b1.getType().name().contains("PANE")) {
 					BlockData blockdata = b1.getBlockData();
 					b1.setType(Material.AIR);
 					b1.setBlockData(blockdata);
@@ -38,7 +38,7 @@ public class RainbowTicker extends BlockTicker {
 			}
 			if (b.getLocation().getWorld().getBlockAt(b.getLocation().getBlockX() - 1, b.getLocation().getBlockY(), b.getLocation().getBlockZ()) != null) {
 				Block b1 = b.getLocation().getWorld().getBlockAt(b.getLocation().getBlockX() - 1, b.getLocation().getBlockY(), b.getLocation().getBlockZ());
-				if (b1.getType() != null && b1.getType() != Material.AIR && !b1.isLiquid() && !b1.getType().name().contains("PANE")) {
+				if (b1.getType() != null && b1.getType() != Material.AIR && b1.getType() != Material.PLAYER_HEAD && !b1.isLiquid() && !b1.getType().name().contains("PANE")) {
 					BlockData blockdata = b1.getBlockData();
 					b1.setType(Material.AIR);
 					b1.setBlockData(blockdata);
@@ -46,7 +46,7 @@ public class RainbowTicker extends BlockTicker {
 			}
 			if (b.getLocation().getWorld().getBlockAt(b.getLocation().getBlockX(), b.getLocation().getBlockY(), b.getLocation().getBlockZ() + 1) != null) {
 				Block b1 = b.getLocation().getWorld().getBlockAt(b.getLocation().getBlockX(), b.getLocation().getBlockY(), b.getLocation().getBlockZ() + 1);
-				if (b1.getType() != null && b1.getType() != Material.AIR && !b1.isLiquid() && !b1.getType().name().contains("PANE")) {
+				if (b1.getType() != null && b1.getType() != Material.AIR && b1.getType() != Material.PLAYER_HEAD && !b1.isLiquid() && !b1.getType().name().contains("PANE")) {
 					BlockData blockdata = b1.getBlockData();
 					b1.setType(Material.AIR);
 					b1.setBlockData(blockdata);
@@ -54,7 +54,7 @@ public class RainbowTicker extends BlockTicker {
 			}
 			if (b.getLocation().getWorld().getBlockAt(b.getLocation().getBlockX(), b.getLocation().getBlockY(), b.getLocation().getBlockZ() - 1) != null) {
 				Block b1 = b.getLocation().getWorld().getBlockAt(b.getLocation().getBlockX(), b.getLocation().getBlockY(), b.getLocation().getBlockZ() - 1);
-				if (b1.getType() != null && b1.getType() != Material.AIR && !b1.isLiquid() && !b1.getType().name().contains("PANE")) {
+				if (b1.getType() != null && b1.getType() != Material.AIR && b1.getType() != Material.PLAYER_HEAD && !b1.isLiquid() && !b1.getType().name().contains("PANE")) {
 					BlockData blockdata = b1.getBlockData();
 					b1.setType(Material.AIR);
 					b1.setBlockData(blockdata);
@@ -65,7 +65,7 @@ public class RainbowTicker extends BlockTicker {
 
 	@Override
 	public void uniqueTick() {
-		index = ((index == queue.length - 1) ? 0: index + 1);
+		index = ((index == queue.length - 1) ? 0 : index + 1);
 		meta = queue[index];
 	}
 
