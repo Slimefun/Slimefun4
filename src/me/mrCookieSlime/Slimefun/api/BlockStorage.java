@@ -1,6 +1,9 @@
 package me.mrCookieSlime.Slimefun.api;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +32,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 public class BlockStorage {
-
 	private static final String path_blocks = "data-storage/Slimefun/stored-blocks/";
 	private static final String path_chunks = "data-storage/Slimefun/stored-chunks/";
 
@@ -211,8 +213,17 @@ public class BlockStorage {
 		for (Map.Entry<String, Config> entry: cache.entrySet()) {
 			cache_blocks.remove(entry.getKey());
 			Config cfg = entry.getValue();
-			if (cfg.getKeys().isEmpty()) cfg.getFile().delete();
-			else cfg.save();
+			if (cfg.getKeys().isEmpty()) {
+				cfg.getFile().delete();
+			} else {
+				File tmpFile = new File(cfg.getFile().getParentFile(), cfg.getFile().getName() + ".tmp");
+				cfg.save(tmpFile);
+				try {
+					Files.move(tmpFile.toPath(), cfg.getFile().toPath(), StandardCopyOption.ATOMIC_MOVE);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		Map<Location, BlockMenu> inventories2 = new HashMap<Location, BlockMenu>(inventories);
