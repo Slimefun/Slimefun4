@@ -186,7 +186,7 @@ public class XPCollector extends SlimefunItem {
 	}
 
 	private int getEXP(Block b) {
-		Config cfg = BlockStorage.getBlockInfo(b);
+		Config cfg = BlockStorage.getLocationInfo(b.getLocation());
 		if (cfg.contains("stored-exp")) return Integer.parseInt(cfg.getString("stored-exp"));
 		else {
 			BlockStorage.addBlockInfo(b, "stored-exp", "0");

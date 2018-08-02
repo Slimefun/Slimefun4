@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
  *
  * @since 4.1.11
  */
+@SuppressWarnings("deprecation")
 public class ItemPickupListener implements Listener {
 
     public ItemPickupListener(SlimefunStartup plugin) {

@@ -399,25 +399,25 @@ public class SlimefunGuide {
 								actions.add(null);
 							}
 						}
-						texts.add("&8\u21E8 &6Tier " + tier);
+						texts.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &6Tier " + tier));
 						tooltips.add(null);
 						actions.add(null);
 					}
 					if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p)) {
-						StringBuilder parents = new StringBuilder("&4&lLOCKED\n\n&7In order to unlock this Category,\n&7you need to unlock all Items from\n&7the following Categories first:\n");
+						StringBuilder parents = new StringBuilder(ChatColor.translateAlternateColorCodes('&', "&4&lLOCKED\n\n&7In order to unlock this Category,\n&7you need to unlock all Items from\n&7the following Categories first:\n"));
 						
 						for (Category parent: ((LockedCategory) category).getParents()) {
-							parents.append("\n&c" + StringUtils.formatItemName(parent.getItem(), false));
+							parents.append(ChatColor.translateAlternateColorCodes('&', "\n&c" + StringUtils.formatItemName(parent.getItem(), false)));
 						}
 						
-						texts.add(shorten("&c" , StringUtils.formatItemName(category.getItem(), false)));
+						texts.add(ChatColor.translateAlternateColorCodes('&', shorten("&c" , StringUtils.formatItemName(category.getItem(), false))));
 						tooltips.add(parents.toString());
 						actions.add(null);
 					}
 					else if (category instanceof SeasonCategory) {
 						if (((SeasonCategory) category).isUnlocked()) {
-							texts.add(shorten("&a", StringUtils.formatItemName(category.getItem(), false)));
-							tooltips.add("&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
+							texts.add(ChatColor.translateAlternateColorCodes('&', shorten("&a", StringUtils.formatItemName(category.getItem(), false))));
+							tooltips.add(ChatColor.translateAlternateColorCodes('&', "&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false)));
 							actions.add(new PlayerRunnable(1) {
 								
 								@Override
@@ -434,8 +434,8 @@ public class SlimefunGuide {
 						}
 					}
 					else {
-						texts.add(shorten("&a", StringUtils.formatItemName(category.getItem(), false)));
-						tooltips.add("&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false));
+						texts.add(ChatColor.translateAlternateColorCodes('&', shorten("&a", StringUtils.formatItemName(category.getItem(), false))));
+						tooltips.add(ChatColor.translateAlternateColorCodes('&', "&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false)));
 						actions.add(new PlayerRunnable(1) {
 							
 							@Override
@@ -468,7 +468,7 @@ public class SlimefunGuide {
 			
 			for (int i = 0; i < texts.size(); i = i + 10) {
 				TellRawMessage page = new TellRawMessage();
-				page.addText("&b&l- Slimefun Guide -\n\n");
+				page.addText(ChatColor.translateAlternateColorCodes('&', "&b&l- Slimefun Guide -\n\n"));
 				for (int j = i; j < texts.size() && j < i + 10; j++) {
 					page.addText(texts.get(j) + "\n");
 					if (tooltips.get(j) != null) page.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
@@ -476,15 +476,15 @@ public class SlimefunGuide {
 				}
 //				page.addText("\n");
 //				if (i > 0) {
-//					page.addText("&c<- Prev");
-//					page.addHoverEvent(HoverAction.SHOW_TEXT, "&eGo to Page " + (i));
+//					page.addText(ChatColor.translateAlternateColorCodes('&', "&c<- Prev"));
+//					page.addHoverEvent(HoverAction.SHOW_TEXT, ChatColor.translateAlternateColorCodes('&', "&eGo to Page " + (i)));
 //					page.addClickEvent(me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.ClickAction.CHANGE_PAGE, String.valueOf(i));
 //					page.addText("    ");
 //				}
 //				if (texts.size() > i * 10) {
 //					page.addText("    ");
-//					page.addText("&cNext ->");
-//					page.addHoverEvent(HoverAction.SHOW_TEXT, "&eGo to Page " + (i + 2));
+//					page.addText(ChatColor.translateAlternateColorCodes('&', "&cNext ->"));
+//					page.addHoverEvent(HoverAction.SHOW_TEXT, ChatColor.translateAlternateColorCodes('&', "&eGo to Page " + (i + 2)));
 //					page.addClickEvent(me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.ClickAction.CHANGE_PAGE, String.valueOf(i + 2));
 //				}
 				pages.add(page);
@@ -604,8 +604,8 @@ public class SlimefunGuide {
 					else {
 						List<String> parents = new ArrayList<String>();
 						parents.add("");
-						parents.add("&rYou need to unlock all Items");
-						parents.add("&rfrom the following Categories first:");
+						parents.add(ChatColor.translateAlternateColorCodes('&', "&rYou need to unlock all Items"));
+						parents.add(ChatColor.translateAlternateColorCodes('&', "&rfrom the following Categories first:"));
 						parents.add("");
 						for (Category parent: ((LockedCategory) category).getParents()) {
 							parents.add(parent.getItem().getItemMeta().getDisplayName());
@@ -674,8 +674,8 @@ public class SlimefunGuide {
 						if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
 						    final Research research = item.getResearch();
 						    
-							texts.add(shorten("&7", StringUtils.formatItemName(item.getItem(), false)));
-							tooltips.add(StringUtils.formatItemName(item.getItem(), false) + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " Levels\n\n&a> Click to unlock");
+							texts.add(ChatColor.translateAlternateColorCodes('&', shorten("&7", StringUtils.formatItemName(item.getItem(), false))));
+							tooltips.add(ChatColor.translateAlternateColorCodes('&', StringUtils.formatItemName(item.getItem(), false) + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " Levels\n\n&a> Click to unlock"));
 							actions.add(new PlayerRunnable(2) {
 								
 								@Override
@@ -715,7 +715,7 @@ public class SlimefunGuide {
 							});
 						}
 						else {
-							texts.add(shorten("&a", StringUtils.formatItemName(item.getItem(), false)));
+							texts.add(ChatColor.translateAlternateColorCodes('&', shorten("&a", StringUtils.formatItemName(item.getItem(), false))));
 							
 							StringBuilder tooltip = new StringBuilder();
 							
@@ -727,7 +727,7 @@ public class SlimefunGuide {
 								}
 							}
 							
-							tooltip.append("\n\n&e&oClick for more Info");
+							tooltip.append(ChatColor.translateAlternateColorCodes('&', "\n\n&e&oClick for more Info"));
 							
 							tooltips.add(tooltip.toString());
 							actions.add(new PlayerRunnable(2) {
@@ -741,23 +741,23 @@ public class SlimefunGuide {
 					}
 				}
 				else {
-					texts.add(shorten("&4", StringUtils.formatItemName(item.getItem(), false)));
-					tooltips.add("&cNo Permission!");
+					texts.add(ChatColor.translateAlternateColorCodes('&', shorten("&4", StringUtils.formatItemName(item.getItem(), false))));
+					tooltips.add(ChatColor.translateAlternateColorCodes('&', "&cNo Permission!"));
 					actions.add(null);
 				}
 			}
 			
 			for (int i = 0; i < texts.size(); i = i + 10) {
 				TellRawMessage page = new TellRawMessage();
-				page.addText("&b&l- Slimefun Guide -\n\n");
+				page.addText(ChatColor.translateAlternateColorCodes('&', "&b&l- Slimefun Guide -\n\n"));
 				for (int j = i; j < texts.size() && j < i + 10; j++) {
 					page.addText(texts.get(j) + "\n");
 					if (tooltips.get(j) != null) page.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
 					if (actions.get(j) != null) page.addClickEvent(actions.get(j));
 				}
 				page.addText("\n");
-				page.addText("&6\u21E6 &lBack");
-				page.addHoverEvent(HoverAction.SHOW_TEXT, "&eClick to go back to the Category Overview");
+				page.addText(ChatColor.translateAlternateColorCodes('&', "&6\u21E6 &lBack"));
+				page.addHoverEvent(HoverAction.SHOW_TEXT, ChatColor.translateAlternateColorCodes('&', "&eClick to go back to the Category Overview"));
 				page.addClickEvent(new PlayerRunnable(2) {
 					
 					@Override
@@ -984,7 +984,7 @@ public class SlimefunGuide {
 		if (sfItem != null) {
 			recipe = sfItem.getRecipe();
 			recipeType = sfItem.getRecipeType().toItem();
-			recipeOutput = sfItem.getCustomOutput() != null ? sfItem.getCustomOutput(): sfItem.getItem();
+			recipeOutput = sfItem.getRecipeOutput() != null ? sfItem.getRecipeOutput(): sfItem.getItem();
 		}
 		else {
 			List<Recipe> recipes = new ArrayList<Recipe>();
@@ -1118,7 +1118,7 @@ public class SlimefunGuide {
 		});
 		
 		if (sfItem != null) {
-			if (Slimefun.getItemConfig().contains(sfItem.getName() + ".wiki")) {
+			if (Slimefun.getItemConfig().contains(sfItem.getID() + ".wiki")) {
 				try {
 					menu.addItem(8, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY2OTJmOTljYzZkNzgyNDIzMDQxMTA1NTM1ODk0ODQyOThiMmU0YTAyMzNiNzY3NTNmODg4ZTIwN2VmNSJ9fX0="), "&rView this Item in our Wiki &7(Slimefun Wiki)", "", "&7\u21E8 Click to open"));
 					menu.addMenuClickHandler(8, new MenuClickHandler() {
@@ -1127,7 +1127,7 @@ public class SlimefunGuide {
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
 							p.closeInventory();
 							p.sendMessage("");
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".wiki")));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getID() + ".wiki")));
 							p.sendMessage("");
 							return false;
 						}
@@ -1136,7 +1136,7 @@ public class SlimefunGuide {
 					e.printStackTrace();
 				}
 			}
-			if (Slimefun.getItemConfig().contains(sfItem.getName() + ".youtube")) {
+			if (Slimefun.getItemConfig().contains(sfItem.getID() + ".youtube")) {
 				try {
 					menu.addItem(7, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzNTNmZDBmODYzMTQzNTM4NzY1ODYwNzViOWJkZjBjNDg0YWFiMDMzMWI4NzJkZjExYmQ1NjRmY2IwMjllZCJ9fX0="), "&rDemonstration Video &7(Youtube)", "", "&7\u21E8 Click to watch"));
 					menu.addMenuClickHandler(7, new MenuClickHandler() {
@@ -1145,7 +1145,7 @@ public class SlimefunGuide {
 						public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
 							p.closeInventory();
 							p.sendMessage("");
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getName() + ".youtube")));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getID() + ".youtube")));
 							p.sendMessage("");
 							return false;
 						}

@@ -48,7 +48,7 @@ public class CargoOutputNode extends SlimefunItem {
 
 						@Override
 						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) - 1;
+							int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
 							if (channel < 0) {
 								if (CargoNet.EXTRA_CHANNELS) channel = 16;
 								else channel = 15;
@@ -59,7 +59,7 @@ public class CargoOutputNode extends SlimefunItem {
 						}
 					});
 					
-					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency"))));
+					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))));
 
 					if (channel == 16) {
 						menu.replaceExistingItem(13, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&bChannel ID: &3" + (channel + 1)));
@@ -87,7 +87,7 @@ public class CargoOutputNode extends SlimefunItem {
 
 						@Override
 						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) + 1;
+							int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
 
 							if (CargoNet.EXTRA_CHANNELS) {
 								if (channel > 16) channel = 0;

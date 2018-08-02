@@ -45,7 +45,7 @@ public class CargoCraftingNode extends SlimefunItem {
 
 						@Override
 						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) - 1;
+							int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
 							if (channel < 0) channel = 15;
 							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
 							newInstance(menu, b);
@@ -53,7 +53,7 @@ public class CargoCraftingNode extends SlimefunItem {
 						}
 					});
 
-					menu.replaceExistingItem(42, new CustomItem(new MaterialData(Material.WOOL, (byte) ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency"))))), "&bChannel ID: &3" + (((!BlockStorage.hasBlockInfo(b) || BlockStorage.getBlockInfo(b, "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")))) + 1)));
+					menu.replaceExistingItem(42, new CustomItem(new MaterialData(Material.WOOL, (byte) ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))))), "&bChannel ID: &3" + (((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")))) + 1)));
 					menu.addMenuClickHandler(42, new MenuClickHandler() {
 
 						@Override
@@ -67,7 +67,7 @@ public class CargoCraftingNode extends SlimefunItem {
 
 						@Override
 						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getBlockInfo(b, "frequency")) + 1;
+							int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
 							if (channel > 15) channel = 0;
 							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
 							newInstance(menu, b);

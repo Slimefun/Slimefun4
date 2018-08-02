@@ -8,6 +8,8 @@ Slimefun 4 is licensed under
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
 ## Development Builds
+Click on the badge below to go to our "development" build page, where you can download the latest Slimefun versions before they are released to the public. But keep in mind: These builds are still in development and not guaranteed to work or to be stable.
+
 <p align="center">
   <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
     <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
@@ -28,6 +30,6 @@ Check the license for more Info on redistributing and modifying Slimefun 4.
 
 ## Wiki
 
-Slimefun has a detailed and well-maintained Wiki for new Users, maybe also consider
+Slimefun has a (detailed and well-maintained) Wiki for new Users, maybe also consider
 applying as Wiki Staff to help grow our Community and help out new Users of this Project.
 https://github.com/TheBusyBiscuit/Slimefun4/wiki

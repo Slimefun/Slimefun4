@@ -107,14 +107,14 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			}
 			else if (args[0].equalsIgnoreCase("guide")) {
 				if (sender instanceof Player) {
-					if(sender.hasPermission("slimefun.command.guide"))((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book")));
+					if (sender.hasPermission("slimefun.command.guide"))((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book")));
 					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 				}
 				else Messages.local.sendTranslation(sender, "messages.only-players", true);
 			}
-			else if(args[0].equalsIgnoreCase("open_guide")) {
+			else if (args[0].equalsIgnoreCase("open_guide")) {
 				if (sender instanceof Player) { 
-					if(sender.hasPermission("slimefun.command.open_guide")) SlimefunGuide.openGuide((Player) sender, SlimefunStartup.getCfg().getBoolean("guide.default-view-book"));
+					if (sender.hasPermission("slimefun.command.open_guide")) SlimefunGuide.openGuide((Player) sender, SlimefunStartup.getCfg().getBoolean("guide.default-view-book"));
 					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 				}
 				else Messages.local.sendTranslation(sender, "messages.only-players", true);
@@ -142,18 +142,18 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					double y = Integer.parseInt(args[2]) + 0.4D;
 					double z = Integer.parseInt(args[3]) + 0.5D;
 					
-					if (BlockStorage.getBlockInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])), "floor") != null) {
+					if (BlockStorage.getLocationInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])).getLocation(), "floor") != null) {
 						Elevator.ignored.add(((Player) sender).getUniqueId());
 						float yaw = ((Player) sender).getEyeLocation().getYaw() + 180;
 						if (yaw > 180) yaw = -180 + (yaw - 180);
 						((Player) sender).teleport(new Location(((Player) sender).getWorld(), x, y, z, yaw, ((Player) sender).getEyeLocation().getPitch()));
 						try {
-							TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getBlockInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])), "floor")));
+							TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])).getLocation(), "floor")));
 							TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(" ");
 							
 							title.send(TitleType.TITLE, ((Player) sender));
 							subtitle.send(TitleType.SUBTITLE, ((Player) sender));
-						} catch(Exception x1) {
+						} catch (Exception x1) {
 							x1.printStackTrace();
 						}
 					}

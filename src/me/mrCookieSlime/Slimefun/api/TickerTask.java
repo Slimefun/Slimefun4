@@ -79,21 +79,21 @@ public class TickerTask implements Runnable {
 						if (item != null) {
 							machines++;
 							try {
-								item.getTicker().update();
-								if (item.getTicker().isSynchronized()) {
+								item.getBlockTicker().update();
+								if (item.getBlockTicker().isSynchronized()) {
 									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 										
 										@Override
 										public void run() {
 											try {
 												long timestamp3 = System.currentTimeMillis();
-												item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
+												item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
 												
 												map_machinetime.put(item.getID(), (map_machinetime.containsKey(item.getID()) ? map_machinetime.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
 												map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
 												map_machine.put(item.getID(), (map_machine.containsKey(item.getID()) ? map_machine.get(item.getID()): 0) + 1);
 												block_timings.put(l, System.currentTimeMillis() - timestamp3);
-											} catch(Exception x) {
+											} catch (Exception x) {
 												int errors = 0;
 												if (bugged.containsKey(l)) errors = bugged.get(l);
 												errors++;
@@ -197,15 +197,15 @@ public class TickerTask implements Runnable {
 								}
 								else {
 									long timestamp3 = System.currentTimeMillis();
-									item.getTicker().tick(b, item, BlockStorage.getBlockInfo(l));
+									item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
 									
 									map_machinetime.put(item.getID(), (map_machinetime.containsKey(item.getID()) ? map_machinetime.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
 									map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
 									map_machine.put(item.getID(), (map_machine.containsKey(item.getID()) ? map_machine.get(item.getID()): 0) + 1);
 									block_timings.put(l, System.currentTimeMillis() - timestamp3);
 								}
-								tickers.add(item.getTicker());
-							} catch(Exception x) {
+								tickers.add(item.getBlockTicker());
+							} catch (Exception x) {
 								
 								int errors = 0;
 								if (bugged.containsKey(l)) errors = bugged.get(l);

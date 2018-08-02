@@ -39,7 +39,7 @@ public class BlockStorage {
 	
 	private World world;
 	
-	private Map<Location, String> storage = new HashMap<Location, String>();
+	private Map<Location, Config> storage = new HashMap<>();
 	private static Map<String, String> map_chunks = new HashMap<String, String>();
 	
 	private Map<Location, BlockMenu> inventories = new HashMap<Location, BlockMenu>();
@@ -73,7 +73,7 @@ public class BlockStorage {
 		try {
 			World w = Bukkit.getWorld(l.split(";")[0]);
 			if (w != null) return new Location(w, Integer.parseInt(l.split(";")[1]), Integer.parseInt(l.split(";")[2]), Integer.parseInt(l.split(";")[3]));
-		} catch(NumberFormatException x) {
+		} catch (NumberFormatException x) {
 		}
 		return null;
 	}
@@ -103,7 +103,10 @@ public class BlockStorage {
 							String chunk_string = locationToChunkString(l);
 							try {
 								totalBlocks++;
-								storage.put(l, cfg.getString(key));
+								String json = cfg.getString(key);
+								Config blockInfo = parseBlockInfo(l, json);
+								if (blockInfo == null) continue;
+								storage.put(l, blockInfo);
 								
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
 									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
@@ -111,7 +114,7 @@ public class BlockStorage {
 									ticking_chunks.put(chunk_string, locations);
 									if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
 								}
-							} catch(Exception x) {
+							} catch (Exception x) {
 								System.err.println("[Slimefun] Failed to load " + file.getName() + "(ERR: " + key + ")");
 								x.printStackTrace();
 							}
@@ -134,7 +137,7 @@ public class BlockStorage {
 			for (String key: cfg.getKeys(false)) {
 				try {
 					if (world.getName().equals(key.split(";")[0])) map_chunks.put(key, cfg.getString(key));
-				} catch(Exception x) {
+				} catch (Exception x) {
 					System.err.println("[Slimefun] Failed to load " + chunks.getName() + " for World \"" + world.getName() + "\" (ERR: " + key + ")");
 					x.printStackTrace();
 				}
@@ -157,7 +160,7 @@ public class BlockStorage {
 						inventories.put(l, new BlockMenu(preset, l, cfg));
 					}
 				}
-				catch(Exception x) {
+				catch (Exception x) {
 				}
 			}
 		}
@@ -264,7 +267,7 @@ public class BlockStorage {
 	public static ItemStack retrieve(Block block) {
 		if (!hasBlockInfo(block)) return null;
 		else {
-			final SlimefunItem item = SlimefunItem.getByID(getBlockInfo(block, "id"));
+			final SlimefunItem item = SlimefunItem.getByID(getLocationInfo(block.getLocation(), "id"));
 			clearBlockInfo(block);
 			if (item == null) return null;
 			else return item.getItem();
@@ -282,30 +285,9 @@ public class BlockStorage {
 	}
 
 	public static Config getLocationInfo(Location l) {
-		try {
 			BlockStorage storage = getStorage(l.getWorld());
-			Config cfg = new Config("data-storage/Slimefun/temp.yml");
-			if (!storage.storage.containsKey(l)) return cfg;
-			
-			for (Map.Entry<String, String> entry: parseJSON(getJSONData(l)).entrySet()) {
-				cfg.setValue(entry.getKey(), entry.getValue());
-			}
-			
-			return cfg;
-		} catch(Exception x) {
-			System.err.println(x.getClass().getName());
-			System.err.println("[Slimefun] Failed to parse BlockInfo for Block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
-			try {
-				System.err.println(getJSONData(l));
-			} catch (Exception x2) {
-				System.err.println("No Metadata found!");
-			}
-			System.err.println("[Slimefun] ");
-			System.err.println("[Slimefun] IGNORE THIS ERROR UNLESS IT IS SPAMMING");
-			System.err.println("[Slimefun] ");
-			x.printStackTrace();
-			return new Config("data-storage/Slimefun/temp.yml");
-		}
+			Config cfg = storage.storage.get(l);
+			return cfg == null ? new BlockInfoConfig() : cfg;
 	}
 	
 	private static Map<String, String> parseJSON(String json) {
@@ -328,18 +310,36 @@ public class BlockStorage {
 		return map;
 	}
 
-	private static String getJSONData(Location l) {
-		BlockStorage storage = getStorage(l.getWorld());
-		return storage.storage.get(l);
+	private static BlockInfoConfig parseBlockInfo(Location l, String json){
+		try {
+			return new BlockInfoConfig(parseJSON(json));
+		} catch(Exception x) {
+			System.err.println(x.getClass().getName());
+			System.err.println("[Slimefun] Failed to parse BlockInfo for Block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+			System.err.println(json);
+			System.err.println("[Slimefun] ");
+			System.err.println("[Slimefun] IGNORE THIS ERROR UNLESS IT IS SPAMMING");
+			System.err.println("[Slimefun] ");
+			x.printStackTrace();
+			return null;
+		}
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	private static String serializeBlockInfo(Config cfg) {
+		JSONObject json = new JSONObject();
+		for (String key: cfg.getKeys()) {
+			json.put(key, cfg.getString(key));
+		}
+		return json.toJSONString();
+	}
 	private static String getJSONData(Chunk chunk) {
 		return map_chunks.get(serializeChunk(chunk));
 	}
 
 	@Deprecated
 	public static String getBlockInfo(Block block, String key) {
-		return getBlockInfo(block.getLocation(), key);
+		return getLocationInfo(block.getLocation(), key);
 	}
 
 	@Deprecated
@@ -348,7 +348,7 @@ public class BlockStorage {
 	}
 
 	public static String getLocationInfo(Location l, String key) {
-		return parseJSON(getJSONData(l)).get(key);
+		return getBlockInfo(l).getString(key);
 	}
 	
 	public static void addBlockInfo(Location l, String key, String value) {
@@ -364,8 +364,7 @@ public class BlockStorage {
 	}
 	
 	public static void addBlockInfo(Location l, String key, String value, boolean updateTicker) {
-		Config cfg = new Config("data-storage/Slimefun/temp.yml");
-		if (hasBlockInfo(l)) cfg = getBlockInfo(l);
+		Config cfg = hasBlockInfo(l) ? getLocationInfo(l) : new BlockInfoConfig();
 		cfg.setValue(key, value);
 		setBlockInfo(l, cfg, updateTicker);
 	}
@@ -376,45 +375,36 @@ public class BlockStorage {
 	
 	public static boolean hasBlockInfo(Location l) {
 		BlockStorage storage = getStorage(l.getWorld());
-		return storage != null && storage.storage.containsKey(l) && getBlockInfo(l, "id") != null;
+		return storage != null && storage.storage.containsKey(l) && getLocationInfo(l, "id") != null;
 	}
-	
+
 	public static void setBlockInfo(Block block, Config cfg, boolean updateTicker) {
 		setBlockInfo(block.getLocation(), cfg, updateTicker);
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
-		_integrated_removeBlockInfo(l, false);
-		
-		JSONObject json = new JSONObject();
-		for (String key: cfg.getKeys()) {
-			json.put(key, cfg.getString(key));
-		}
-		
-		setBlockInfo(l, json.toJSONString(), updateTicker);
-	}
-	
-	public static void setBlockInfo(Block b, String json, boolean updateTicker) {
-		setBlockInfo(b.getLocation(), json, updateTicker);
-	}
-	
-	public static void setBlockInfo(Location l, String json, boolean updateTicker) {
 		BlockStorage storage = getStorage(l.getWorld());
-		storage.storage.put(l, json);
-		Map<String, String> parsed = parseJSON(json);
-		if (BlockMenuPreset.isInventory(parsed.get("id"))) {
-			if (BlockMenuPreset.isUniversalInventory(parsed.get("id"))) {
-				if (!universal_inventories.containsKey(parsed.get("id"))) storage.loadUniversalInventory(BlockMenuPreset.getPreset(parsed.get("id")));
+		storage.storage.put(l, cfg);
+		if (BlockMenuPreset.isInventory(cfg.getString("id"))) {
+			if (BlockMenuPreset.isUniversalInventory(cfg.getString("id"))) {
+				if (!universal_inventories.containsKey(cfg.getString("id"))) storage.loadUniversalInventory(BlockMenuPreset.getPreset(cfg.getString("id")));
 			}
 			else if (!storage.hasInventory(l)) {
 				File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
 				
-				if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(parsed.get("id")), l, new Config(file)));
-				else storage.loadInventory(l, BlockMenuPreset.getPreset(parsed.get("id")));
+				if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(cfg.getString("id")), l, new Config(file)));
+				else storage.loadInventory(l, BlockMenuPreset.getPreset(cfg.getString("id")));
 			}
 		}
-		refreshCache(getStorage(l.getWorld()), l, parsed.get("id"), json, updateTicker);
+		refreshCache(getStorage(l.getWorld()), l, cfg.getString("id"), serializeBlockInfo(cfg), updateTicker);
+	}
+	public static void setBlockInfo(Block b, String json, boolean updateTicker) {
+		setBlockInfo(b.getLocation(), json, updateTicker);
+	}
+	public static void setBlockInfo(Location l, String json, boolean updateTicker) {
+		Config blockInfo = json == null ? new BlockInfoConfig() : parseBlockInfo(l, json);
+		if (blockInfo == null) return;
+		setBlockInfo(l, blockInfo, updateTicker);
 	}
 
 	public static void clearBlockInfo(Block block) {
@@ -436,7 +426,7 @@ public class BlockStorage {
 	public static void _integrated_removeBlockInfo(Location l, boolean destroy) {
 		BlockStorage storage = getStorage(l.getWorld());
 		if (hasBlockInfo(l)) {
-			refreshCache(storage, l, getBlockInfo(l).getString("id"), null, destroy);
+			refreshCache(storage, l, getLocationInfo(l).getString("id"), null, destroy);
 			storage.storage.remove(l);
 		}
 		
@@ -477,7 +467,7 @@ public class BlockStorage {
 		if (!hasBlockInfo(from)) return;
 		BlockStorage storage = getStorage(from.getWorld());
 		
-		setBlockInfo(to, getBlockInfo(from), true);
+		setBlockInfo(to, getLocationInfo(from), true);
 		if (storage.inventories.containsKey(from)) {
 			BlockMenu menu = storage.inventories.get(from);
 			storage.inventories.put(to, menu);
@@ -485,7 +475,7 @@ public class BlockStorage {
 			menu.move(to);
 		}
 		
-		refreshCache(storage, from, getBlockInfo(from).getString("id"), null, true);
+		refreshCache(storage, from, getLocationInfo(from).getString("id"), null, true);
 		storage.storage.remove(from);
 
 		String chunk_string = locationToChunkString(from);
@@ -498,11 +488,6 @@ public class BlockStorage {
 			}
 			else ticking_chunks.put(chunk_string, locations);
 		}
-	}
-
-	@Deprecated
-	private static void refreshCache(BlockStorage storage, Block b, String key, String value, boolean updateTicker) {
-		refreshCache(storage, b.getLocation(), key, value, updateTicker);
 	}
 
 	private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
@@ -530,7 +515,7 @@ public class BlockStorage {
 
 	public static SlimefunItem check(Location l) {
 		if (!hasBlockInfo(l)) return null;
-		return SlimefunItem.getByID(getBlockInfo(l, "id"));
+		return SlimefunItem.getByID(getLocationInfo(l, "id"));
 	}
 	
 	public static String checkID(Block block) {
@@ -543,16 +528,16 @@ public class BlockStorage {
 	
 	public static String checkID(Location l) {
 		if (!hasBlockInfo(l)) return null;
-		return getBlockInfo(l, "id");
+		return getLocationInfo(l, "id");
 	}
 
 	public static boolean check(Location l, String slimefunItem) {
 		if (!hasBlockInfo(l)) return false;
 		try {
-			String id = getBlockInfo(l, "id");
+			String id = getLocationInfo(l, "id");
 			return id != null && id.equalsIgnoreCase(slimefunItem);
 		}
-		catch(NullPointerException x) {
+		catch (NullPointerException x) {
 			return false;
 		}
 	}
@@ -577,7 +562,7 @@ public class BlockStorage {
 	@Deprecated
 	public static Set<Block> getTickingBlocks(String chunk) {
 		Set<Block> ret = new HashSet<Block>();
-		for(Location l: getTickingLocations(chunk)) {
+		for (Location l: getTickingLocations(chunk)) {
 			ret.add(l.getBlock());
 		}
 		return ret;
@@ -600,7 +585,7 @@ public class BlockStorage {
 	public void clearInventory(Location l) {
 		BlockMenu menu = getInventory(l);
 
-		for(HumanEntity human: new ArrayList<>(menu.toInventory().getViewers())) {
+		for (HumanEntity human: new ArrayList<>(menu.toInventory().getViewers())) {
 			human.closeInventory();
 		}
 
@@ -654,7 +639,7 @@ public class BlockStorage {
 			}
 			
 			return cfg;
-		} catch(Exception x) {
+		} catch (Exception x) {
 			System.err.println(x.getClass().getName());
 			System.err.println("[Slimefun] Failed to parse ChunkInfo for Chunk @ " + chunk.getX() + ", " + chunk.getZ());
 			try {
@@ -704,7 +689,7 @@ public class BlockStorage {
 	}
 
 	public static String getBlockInfoAsJson(Location l) {
-		return getJSONData(l);
+		return serializeBlockInfo(getLocationInfo(l));
 	}
 
 	public boolean hasUniversalInventory(Block block) {
