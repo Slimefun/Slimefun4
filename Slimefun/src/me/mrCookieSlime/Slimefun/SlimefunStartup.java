@@ -142,6 +142,8 @@ public class SlimefunStartup extends JavaPlugin {
 			whitelist = new Config(Files.WHITELIST);
 
 			// Init Config, Updater, Metrics and messages.yml
+			//utils.setupUpdater(53485, getFile());
+			//utils.setupMetrics();
 			utils.setupLocalization();
 			config = utils.getConfig();
 			Messages.local = utils.getLocalization();
