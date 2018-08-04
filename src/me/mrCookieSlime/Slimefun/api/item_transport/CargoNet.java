@@ -533,8 +533,7 @@ public class CargoNet extends Network {
 
 	private static Block getAttachedBlock(Block block) {
 		if (block.getType() == Material.PLAYER_WALL_HEAD || block.getType() == Material.PLAYER_HEAD) {
-			Skull skull = (Skull) block.getState();
-			CraftSkullPlayerWall c = (CraftSkullPlayerWall) skull.getBlockData();
+			CraftSkullPlayerWall c = (CraftSkullPlayerWall) block.getBlockData();
 
 			if (c.getFacing() == BlockFace.SOUTH) {
 				return block.getRelative(BlockFace.NORTH);
