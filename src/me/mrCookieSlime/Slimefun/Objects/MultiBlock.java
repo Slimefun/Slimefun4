@@ -44,7 +44,7 @@ public class MultiBlock {
 			if (trigger == mb.getTriggerBlock()) {
 				for (int i = 0; i < mb.getBuild().length; i++) {
 					if (mb.getBuild()[i] != null) {
-						if (mb.getBuild()[i] == Material.LOG) {
+						if (mb.getBuild()[i] == Material.OAK_LOG) {
 							if (!blocks[i].toString().contains("LOG")) return false;
 						}
 						else if (mb.getBuild()[i] != blocks[i]) return false;
@@ -62,7 +62,7 @@ public class MultiBlock {
 		else if (trigger == mb.getTriggerBlock()) {
 			for (int i = 0; i < mb.getBuild().length; i++) {
 				if (mb.getBuild()[i] != null) {
-					if (mb.getBuild()[i] == Material.LOG) {
+					if (mb.getBuild()[i] == Material.OAK_LOG) {
 						if (!blocks[i].toString().contains("LOG")) return false;
 					}
 					else if (mb.getBuild()[i] != blocks[i]) return false;
