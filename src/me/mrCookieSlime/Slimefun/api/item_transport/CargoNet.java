@@ -15,13 +15,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Skull;
+import org.bukkit.craftbukkit.v1_13_R1.block.impl.CraftSkullPlayerWall;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
-
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
@@ -44,11 +45,11 @@ public class CargoNet extends Network {
 	public static Map<Location, Integer> round_robin = new HashMap<Location, Integer>();
 	public static Set<ItemRequest> requests = new HashSet<ItemRequest>();
 
-	private static int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
+	private static int[] slots = new int[] { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
 
 	// Chest Terminal Stuff
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
-	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
+	public static final int[] terminal_slots = new int[] { 0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42 };
 	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = new MenuClickHandler() {
 
@@ -80,8 +81,7 @@ public class CargoNet extends Network {
 	private Set<Location> outputNodes = new HashSet<Location>();
 	private Set<Location> advancedOutputNodes = new HashSet<Location>();
 
-
-	//Chest Terminal Stuff
+	// Chest Terminal Stuff
 	final Set<Location> terminals = new HashSet<Location>();
 	final Set<Location> imports = new HashSet<Location>();
 	final Set<Location> exports = new HashSet<Location>();
@@ -96,21 +96,22 @@ public class CargoNet extends Network {
 
 	public Network.Component classifyLocation(Location l) {
 		String id = BlockStorage.checkID(l);
-		if (id == null) return null;
-		switch(id) {
-			case "CARGO_MANAGER":
-				return Component.REGULATOR;
-			case "CARGO_NODE":
-				return Component.CONNECTOR;
-			case "CARGO_NODE_INPUT":
-			case "CARGO_NODE_OUTPUT":
-			case "CARGO_NODE_OUTPUT_ADVANCED":
-			case "CT_IMPORT_BUS":
-			case "CT_EXPORT_BUS":
-			case "CHEST_TERMINAL":
-				return Component.TERMINUS;
-			default:
-				return null;
+		if (id == null)
+			return null;
+		switch (id) {
+		case "CARGO_MANAGER":
+			return Component.REGULATOR;
+		case "CARGO_NODE":
+			return Component.CONNECTOR;
+		case "CARGO_NODE_INPUT":
+		case "CARGO_NODE_OUTPUT":
+		case "CARGO_NODE_OUTPUT_ADVANCED":
+		case "CT_IMPORT_BUS":
+		case "CT_EXPORT_BUS":
+		case "CHEST_TERMINAL":
+			return Component.TERMINUS;
+		default:
+			return null;
 		}
 	}
 
@@ -124,25 +125,25 @@ public class CargoNet extends Network {
 			exports.remove(l);
 		}
 		if (to == Component.TERMINUS) {
-			switch(BlockStorage.checkID(l)) {
-				case "CARGO_NODE_INPUT":
-					inputNodes.add(l);
-					break;
-				case "CARGO_NODE_OUTPUT":
-					outputNodes.add(l);
-					break;
-				case "CARGO_NODE_OUTPUT_ADVANCED":
-					advancedOutputNodes.add(l);
-					break;
-				case "CHEST_TERMINAL":
-					terminals.add(l);
-					break;
-				case "CT_IMPORT_BUS":
-					imports.add(l);
-					break;
-				case "CT_EXPORT_BUS":
-					exports.add(l);
-					break;
+			switch (BlockStorage.checkID(l)) {
+			case "CARGO_NODE_INPUT":
+				inputNodes.add(l);
+				break;
+			case "CARGO_NODE_OUTPUT":
+				outputNodes.add(l);
+				break;
+			case "CARGO_NODE_OUTPUT_ADVANCED":
+				advancedOutputNodes.add(l);
+				break;
+			case "CHEST_TERMINAL":
+				terminals.add(l);
+				break;
+			case "CT_IMPORT_BUS":
+				imports.add(l);
+				break;
+			case "CT_EXPORT_BUS":
+				exports.add(l);
+				break;
 			}
 		}
 	}
@@ -156,22 +157,19 @@ public class CargoNet extends Network {
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
 			CargoHologram.update(b, "&7Status: &4&lOFFLINE");
 			return;
-		}
-		else {
+		} else {
 			CargoHologram.update(b, "&7Status: &a&lONLINE");
-
 
 			final Map<Integer, List<Location>> output = new HashMap<Integer, List<Location>>();
 
-
-			for (Location outputNode: outputNodes) {
+			for (Location outputNode : outputNodes) {
 				Integer frequency = getFrequency(outputNode);
 				if (!output.containsKey(frequency)) {
 					output.put(frequency, new ArrayList<Location>());
 				}
 				output.get(frequency).add(outputNode);
 			}
-			for (Location outputNode: advancedOutputNodes) {
+			for (Location outputNode : advancedOutputNodes) {
 				Integer frequency = getFrequency(outputNode);
 				if (!output.containsKey(frequency)) {
 					output.put(frequency, new ArrayList<Location>());
@@ -179,7 +177,7 @@ public class CargoNet extends Network {
 				output.get(frequency).add(outputNode);
 			}
 
-			//Chest Terminal Stuff
+			// Chest Terminal Stuff
 			final Set<Location> providers = new HashSet<Location>();
 			final Set<Location> destinations;
 			if (output.containsKey(16)) {
@@ -187,7 +185,7 @@ public class CargoNet extends Network {
 			} else {
 				destinations = new HashSet<Location>();
 			}
-			for (Location inputNode: inputNodes) {
+			for (Location inputNode : inputNodes) {
 				int frequency = getFrequency(inputNode);
 				if (frequency == 16) {
 					providers.add(inputNode);
@@ -203,9 +201,9 @@ public class CargoNet extends Network {
 					if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
 						self.display();
 					}
-					//Chest Terminal Code
+					// Chest Terminal Code
 					if (EXTRA_CHANNELS) {
-						for (Location bus: imports) {
+						for (Location bus : imports) {
 							BlockMenu menu = BlockStorage.getInventory(bus);
 
 							if (menu.getItemInSlot(17) == null) {
@@ -222,7 +220,7 @@ public class CargoNet extends Network {
 							}
 						}
 
-						for (Location bus: exports) {
+						for (Location bus : exports) {
 							BlockMenu menu = BlockStorage.getInventory(bus);
 
 							if (menu.getItemInSlot(17) != null) {
@@ -233,16 +231,18 @@ public class CargoNet extends Network {
 
 							if (menu.getItemInSlot(17) == null) {
 								List<ItemStack> items = new ArrayList<ItemStack>();
-								for (int slot: slots) {
+								for (int slot : slots) {
 									ItemStack template = menu.getItemInSlot(slot);
-									if (template != null) items.add(new CustomItem(template, 1));
+									if (template != null)
+										items.add(new CustomItem(template, 1));
 								}
 
 								if (!items.isEmpty()) {
 									int index = Integer.parseInt(BlockStorage.getLocationInfo(bus, "index"));
 
 									index++;
-									if (index > (items.size() - 1)) index = 0;
+									if (index > (items.size() - 1))
+										index = 0;
 
 									BlockStorage.addBlockInfo(bus, "index", String.valueOf(index));
 
@@ -260,8 +260,7 @@ public class CargoNet extends Network {
 								switch (request.getDirection()) {
 								case INSERT: {
 									ItemStack stack = request.getItem();
-									nodes:
-									for (Location l: destinations) {
+									nodes: for (Location l : destinations) {
 										Block target = getAttachedBlock(l.getBlock());
 										stack = CargoManager.insert(l.getBlock(), storage, target, stack, -1);
 										if (stack == null) {
@@ -287,22 +286,19 @@ public class CargoNet extends Network {
 
 									ItemStack stack = null;
 									ItemStack requested = request.getItem();
-									nodes:
-									for (Location l: providers) {
+									nodes: for (Location l : providers) {
 										Block target = getAttachedBlock(l.getBlock());
 										ItemStack is = CargoManager.withdraw(l.getBlock(), storage, target, requested);
 										if (is != null) {
 											if (stack == null) {
 												stack = is;
-											}
-											else {
+											} else {
 												stack = new CustomItem(stack, stack.getAmount() + is.getAmount());
 											}
 
 											if (is.getAmount() == requested.getAmount()) {
 												break nodes;
-											}
-											else {
+											} else {
 												requested = new CustomItem(requested, requested.getAmount() - is.getAmount());
 											}
 										}
@@ -311,8 +307,10 @@ public class CargoNet extends Network {
 									if (stack != null) {
 										ItemStack prev = menu.getItemInSlot(slot);
 
-										if (prev == null) menu.replaceExistingItem(slot, stack);
-										else menu.replaceExistingItem(slot, new CustomItem(stack, stack.getAmount() + prev.getAmount()));
+										if (prev == null)
+											menu.replaceExistingItem(slot, stack);
+										else
+											menu.replaceExistingItem(slot, new CustomItem(stack, stack.getAmount() + prev.getAmount()));
 									}
 
 									iterator.remove();
@@ -325,8 +323,9 @@ public class CargoNet extends Network {
 							}
 						}
 					}
-					// All operations happen here: Everything gets iterated from the Input Nodes. (Apart from ChestTerminal Buses)
-					for (Location input: inputNodes) {
+					// All operations happen here: Everything gets iterated from the Input Nodes.
+					// (Apart from ChestTerminal Buses)
+					for (Location input : inputNodes) {
 						Integer frequency = getFrequency(input);
 						if (frequency < 0 || frequency > 15) {
 							continue;
@@ -362,18 +361,18 @@ public class CargoNet extends Network {
 										outputlist.add(temp);
 									}
 									c_index++;
-								}
-								else c_index = 1;
+								} else
+									c_index = 1;
 
 								round_robin.put(input, c_index);
 							}
 
-							destinations:
-							for (Location out: outputlist) {
+							destinations: for (Location out : outputlist) {
 								Block target = getAttachedBlock(out.getBlock());
 								if (target != null) {
 									stack = CargoManager.insert(out.getBlock(), storage, target, stack, -1);
-									if (stack == null) break destinations;
+									if (stack == null)
+										break destinations;
 								}
 							}
 						}
@@ -382,29 +381,27 @@ public class CargoNet extends Network {
 							if (storage.hasUniversalInventory(inputTarget)) {
 								UniversalBlockMenu menu = storage.getUniversalInventory(inputTarget);
 								menu.replaceExistingItem(previousSlot, stack);
-							}
-							else if (storage.hasInventory(inputTarget.getLocation())) {
+							} else if (storage.hasInventory(inputTarget.getLocation())) {
 								BlockMenu menu = BlockStorage.getInventory(inputTarget.getLocation());
 								menu.replaceExistingItem(previousSlot, stack);
-							}
-							else if (inputTarget.getState() instanceof InventoryHolder) {
+							} else if (inputTarget.getState() instanceof InventoryHolder) {
 								Inventory inv = ((InventoryHolder) inputTarget.getState()).getInventory();
 								inv.setItem(previousSlot, stack);
 							}
 						}
 					}
-					//Chest Terminal Code
+					// Chest Terminal Code
 					if (EXTRA_CHANNELS) {
 						List<StoredItem> items = new ArrayList<StoredItem>();
-						for (Location l: providers) {
+						for (Location l : providers) {
 							Block target = getAttachedBlock(l.getBlock());
 							if (storage.hasUniversalInventory(target)) {
 								UniversalBlockMenu menu = storage.getUniversalInventory(target);
-								for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+								for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 									ItemStack is = menu.getItemInSlot(slot);
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 										boolean add = true;
-										for (StoredItem item: items) {
+										for (StoredItem item : items) {
 											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
 												add = false;
 												item.add(is.getAmount());
@@ -416,16 +413,15 @@ public class CargoNet extends Network {
 										}
 									}
 								}
-							}
-							else if (storage.hasInventory(target.getLocation())) {
+							} else if (storage.hasInventory(target.getLocation())) {
 								BlockMenu menu = BlockStorage.getInventory(target.getLocation());
 								if (BlockStorage.checkID(target.getLocation()).startsWith("BARREL_") && BlockStorage.getLocationInfo(target.getLocation(), "storedItems") != null) {
 									int stored = Integer.valueOf(BlockStorage.getLocationInfo(target.getLocation(), "storedItems"));
-									for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+									for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 										ItemStack is = menu.getItemInSlot(slot);
 										if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 											boolean add = true;
-											for (StoredItem item: items) {
+											for (StoredItem item : items) {
 												if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
 													add = false;
 													item.add(is.getAmount() + stored);
@@ -437,13 +433,12 @@ public class CargoNet extends Network {
 											}
 										}
 									}
-								}
-								else {
-									for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+								} else {
+									for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 										ItemStack is = menu.getItemInSlot(slot);
 										if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 											boolean add = true;
-											for (StoredItem item: items) {
+											for (StoredItem item : items) {
 												if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
 													add = false;
 													item.add(is.getAmount());
@@ -456,13 +451,12 @@ public class CargoNet extends Network {
 										}
 									}
 								}
-							}
-							else if (target.getState() instanceof InventoryHolder) {
+							} else if (target.getState() instanceof InventoryHolder) {
 								Inventory inv = ((InventoryHolder) target.getState()).getInventory();
-								for (ItemStack is: inv.getContents()) {
+								for (ItemStack is : inv.getContents()) {
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 										boolean add = true;
-										for (StoredItem item: items) {
+										for (StoredItem item : items) {
 											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
 												add = false;
 												item.add(is.getAmount());
@@ -479,7 +473,7 @@ public class CargoNet extends Network {
 
 						Collections.sort(items, sorter);
 
-						for (final Location l: terminals) {
+						for (final Location l : terminals) {
 							BlockMenu menu = BlockStorage.getInventory(l);
 							int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
 							if (!items.isEmpty() && items.size() < (page - 1) * terminal_slots.length + 1) {
@@ -497,11 +491,13 @@ public class CargoNet extends Network {
 									List<String> lore = new ArrayList<String>();
 									lore.add("");
 									lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
-									if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
-									else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
+									if (stack.getMaxStackSize() > 1)
+										lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize() : item.getAmount()) + ">"));
+									else
+										lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
 									lore.add("");
 									if (im.hasLore()) {
-										for (String line: im.getLore()) {
+										for (String line : im.getLore()) {
 											lore.add(line);
 										}
 									}
@@ -512,13 +508,12 @@ public class CargoNet extends Network {
 
 										@Override
 										public boolean onClick(Player p, int slot, ItemStack is, ClickAction action) {
-											requests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
+											requests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getAmount()) : 1), ItemTransportFlow.WITHDRAW));
 											return false;
 										}
 									});
 
-								}
-								else {
+								} else {
 									menu.replaceExistingItem(slot, terminal_noitem_item);
 									menu.addMenuClickHandler(slot, terminal_noitem_handler);
 								}
@@ -536,19 +531,24 @@ public class CargoNet extends Network {
 		}
 	}
 
-
 	private static Block getAttachedBlock(Block block) {
-		if (block.getData() == 2) {
-			return block.getRelative(BlockFace.SOUTH);
-		}
-		else if (block.getData() == 3) {
-			return block.getRelative(BlockFace.NORTH);
-		}
-		else if (block.getData() == 4) {
-			return block.getRelative(BlockFace.EAST);
-		}
-		else if (block.getData() == 5) {
-			return block.getRelative(BlockFace.WEST);
+		if (block.getType() == Material.PLAYER_WALL_HEAD) {
+			Skull skull = (Skull) block.getState();
+			CraftSkullPlayerWall c = (CraftSkullPlayerWall) skull.getBlockData();
+
+			if (c.getFacing() == BlockFace.SOUTH) {
+				return block.getRelative(BlockFace.NORTH);
+			} else if (c.getFacing() == BlockFace.NORTH) {
+				return block.getRelative(BlockFace.SOUTH);
+			} else if (c.getFacing() == BlockFace.EAST) {
+				return block.getRelative(BlockFace.WEST);
+			} else if (c.getFacing() == BlockFace.WEST) {
+				return block.getRelative(BlockFace.EAST);
+			}else if (c.getFacing() == BlockFace.UP) {
+				return block.getRelative(BlockFace.DOWN);
+			}else if (c.getFacing() == BlockFace.DOWN) {
+				return block.getRelative(BlockFace.UP);
+			}
 		}
 		return null;
 	}
@@ -557,7 +557,8 @@ public class CargoNet extends Network {
 		int freq = 0;
 		try {
 			freq = Integer.parseInt(BlockStorage.getLocationInfo(l).getString("frequency"));
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 		return freq;
 	}
 }
