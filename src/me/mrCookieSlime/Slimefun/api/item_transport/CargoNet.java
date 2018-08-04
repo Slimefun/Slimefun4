@@ -544,9 +544,9 @@ public class CargoNet extends Network {
 				return block.getRelative(BlockFace.WEST);
 			} else if (c.getFacing() == BlockFace.WEST) {
 				return block.getRelative(BlockFace.EAST);
-			}else if (c.getFacing() == BlockFace.UP) {
+			} else if (c.getFacing() == BlockFace.UP) {
 				return block.getRelative(BlockFace.DOWN);
-			}else if (c.getFacing() == BlockFace.DOWN) {
+			} else if (c.getFacing() == BlockFace.DOWN) {
 				return block.getRelative(BlockFace.UP);
 			}
 		}
