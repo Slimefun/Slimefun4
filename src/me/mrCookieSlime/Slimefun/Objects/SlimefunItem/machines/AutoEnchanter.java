@@ -29,6 +29,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
+@SuppressWarnings("deprecation")
 public class AutoEnchanter extends AContainer {
 	public static int max_emerald_enchantments = 2;
 
@@ -43,7 +44,7 @@ public class AutoEnchanter extends AContainer {
 
 	@Override
 	public ItemStack getProgressBar() {
-		return new ItemStack(Material.GOLD_CHESTPLATE);
+		return new ItemStack(Material.GOLDEN_CHESTPLATE);
 	}
 
 	@Override
@@ -54,7 +55,6 @@ public class AutoEnchanter extends AContainer {
 		return 9;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
@@ -81,7 +81,7 @@ public class AutoEnchanter extends AContainer {
 				else progress.put(b, timeleft - 1);
 			}
 			else {
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
+				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput());
 
 				progress.remove(b);

@@ -25,6 +25,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+@SuppressWarnings("deprecation")
 public abstract class ADrill extends AContainer {
 	
 	private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 9, 10, 11, 12, 18, 21, 27, 28, 29, 30, 19, 20 };
@@ -45,10 +46,9 @@ public abstract class ADrill extends AContainer {
 				this.constructMenu(this);
 			}
 
-			@SuppressWarnings("deprecation")
 			private void constructMenu(BlockMenuPreset preset) {
 				for (int i: border) {
-					preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
+					preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
 					new MenuClickHandler() {
 
 						@Override
@@ -59,7 +59,7 @@ public abstract class ADrill extends AContainer {
 					});
 				}
 				for (int i: border_out) {
-					preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
+					preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "),
 					new MenuClickHandler() {
 
 						@Override
@@ -70,7 +70,7 @@ public abstract class ADrill extends AContainer {
 					});
 				}
 				
-				preset.addItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
+				preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "),
 				new MenuClickHandler() {
 
 					@Override
@@ -129,7 +129,6 @@ public abstract class ADrill extends AContainer {
 	@Override
 	public void registerDefaultRecipes() {}
 	
-	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
@@ -153,7 +152,7 @@ public abstract class ADrill extends AContainer {
 				progress.put(b, timeleft - 1);
 			}
 			else {
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
+				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput());
 				
 				progress.remove(b);

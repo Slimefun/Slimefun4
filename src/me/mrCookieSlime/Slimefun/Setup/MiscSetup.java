@@ -194,6 +194,7 @@ public class MiscSetup {
 		sender.sendMessage(color + "###################### - Slimefun - ######################");
 		sender.sendMessage(color + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
 		sender.sendMessage(color + "( " + SlimefunItem.vanilla + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunItem.vanilla) + " Items from Addons )");
+		sender.sendMessage(color + "Edited for 1.13 by PrzemoVi <3");
 		sender.sendMessage(color + "##########################################################");
 		SlimefunStartup.getItemCfg().save();
 		SlimefunStartup.getResearchCfg().save();
