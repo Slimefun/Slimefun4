@@ -93,19 +93,25 @@ public class RitualAnimation implements Runnable {
 
 	private void abort() {
 		running = false;
-		pedestals.forEach((pblock) -> Variables.altarinuse.remove(pblock.getLocation()));
+    
+		pedestals.forEach((pblock)->{
+			Variables.altarinuse.remove(pblock.getLocation());
+		});
+    
 		Variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks on craft failure.
 		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 5F, 1F);
 		altars.remove(altar);
 	}
-
+  
 	private void finish() {
 		if (running) {
 			l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 			l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
 			l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
-
-			pedestals.forEach((pblock)-> Variables.altarinuse.remove(pblock.getLocation()));
+      
+			pedestals.forEach((pblock)->{
+				Variables.altarinuse.remove(pblock.getLocation());
+			});
 			Variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks on craft completion.
 			altars.remove(altar);
 		}
