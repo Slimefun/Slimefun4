@@ -66,18 +66,23 @@ public class ItemListener implements Listener {
 	}
 
 	/**
-	 * Listens to InventoryMoveItemEvent to handle IGNITION_CHAMBER.
-	 * @param e InventoryMoveItemEvent
-	 * @since 4.1.11
-	 */
-	@EventHandler
-	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
-		if (e.getInitiator().getHolder() instanceof Hopper) {
-			if (BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
-				e.setCancelled(true);
-			}
-		}
-	}
+     * Listens to InventoryMoveItemEvent to handle IGNITION_CHAMBER.
+     * @param e InventoryMoveItemEvent
+     * @since 4.1.11
+     */
+    @EventHandler
+    public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
+        if (e.getInitiator().getHolder() instanceof Hopper && e.getDestination().getHolder() instanceof Dispenser) {
+            		if (BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
+                		CraftHopper chamber = ((CraftHopper) e.getInitiator().getHolder());
+   	             		BlockFace hopperFace = ((CraftHopper) e.getInitiator().getHolder()).getBlock().getFace(((CraftDispenser) e.getDestination().getHolder()).getBlock());
+       	         		org.bukkit.material.Hopper newHopper = new org.bukkit.material.Hopper(hopperFace, false);
+
+          	      		chamber.setData(newHopper);
+     	           		e.setCancelled(true);
+            		}
+        	}
+    	}
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
