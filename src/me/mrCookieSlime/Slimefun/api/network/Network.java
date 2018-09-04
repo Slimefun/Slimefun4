@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 import org.bukkit.Location;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_8.ParticleEffect;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import org.bukkit.Particle;
 
 public abstract class Network {
 	private static List<Network> NETWORK_LIST = new ArrayList<Network>();
@@ -157,7 +157,7 @@ public abstract class Network {
 			public void run() {
 				for(Location l: connectedLocations) {
 					try {
-						ParticleEffect.REDSTONE.display(l.clone().add(0.5, 0.5, 0.5), 0, 0, 0, 0, 1);
+						l.getWorld().spawnParticle(Particle.REDSTONE, l.clone().add(0.5, 0.5, 0.5), 1);
 					} catch(Exception e) {
 
 					}
