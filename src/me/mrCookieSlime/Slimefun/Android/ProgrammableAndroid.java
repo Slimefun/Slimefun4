@@ -795,7 +795,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.WHEAT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        ((org.bukkit.block.data.Ageable)block.getBlockData()).setAge(0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
@@ -806,7 +808,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.POTATO, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        ((org.bukkit.block.data.Ageable)block.getBlockData()).setAge(0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
@@ -817,7 +821,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.CARROT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-						((org.bukkit.block.data.Ageable)block.getBlockData()).setAge(0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
@@ -828,7 +834,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.BEETROOT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        ((org.bukkit.block.data.Ageable)block.getBlockData()).setAge(0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
@@ -839,7 +847,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new MaterialData(Material.COCOA).toItemStack(CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        ((org.bukkit.block.data.Ageable)block.getBlockData()).setAge(0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
@@ -850,7 +860,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.NETHER_WART, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        ((org.bukkit.block.data.Ageable)block.getBlockData()).setAge(0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }

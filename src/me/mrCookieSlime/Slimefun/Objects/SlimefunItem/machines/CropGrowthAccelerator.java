@@ -9,7 +9,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_8.ParticleEffect;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -25,11 +24,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.CocoaPlant;
 import org.bukkit.material.MaterialData;
 
 public abstract class CropGrowthAccelerator extends SlimefunItem {
@@ -161,17 +160,11 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 								if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
 								ChargableBlock.addCharge(b, -getEnergyConsumption());
 								
-//								if (block.getType().equals(Material.COCOA)) {
-//									((Ageable)block.getBlockData()).se
-//									block.setData((byte) (block.getData() + 4));
-//								}
-//								else {
-//									block.setData((byte) (block.getData() + 1));
-//								}
-								//ToDO: Test and cleanup
-								((Ageable)block.getBlockData()).setAge(((Ageable)block.getBlockData()).getAge()+1);
+								Ageable ageable = (Ageable)block.getBlockData();
+								ageable.setAge(ageable.getAge()+1);
+								block.setBlockData(ageable);
 
-								ParticleEffect.VILLAGER_HAPPY.display(block.getLocation().add(0.5D, 0.5D, 0.5D), 0.1F, 0.1F, 0.1F, 0, 4);
+								block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY,block.getLocation().add(0.5D, 0.5D, 0.5D), 4,0.1F, 0.1F, 0.1F);
 								work++;
 								break slots;
 							}
