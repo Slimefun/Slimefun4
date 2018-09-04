@@ -4,15 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_8.ParticleEffect;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -82,7 +78,7 @@ public class TeleportationSequence {
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b&lYou have been given 30 Seconds of Invulnerability!"));
 					}
 					
-					ParticleEffect.PORTAL.display(new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()), 0.2F, 0.8F, 0.2F, 1, progress * 2);
+					destination.getWorld().spawnParticle(Particle.PORTAL,new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()),progress * 2, 0.2F, 0.8F, 0.2F );
 					destination.getWorld().playSound(destination, Sound.ENTITY_BLAZE_DEATH, 2F, 1.4F);
 					players.remove(uuid);
 				}
@@ -93,7 +89,7 @@ public class TeleportationSequence {
 					title.send(TitleType.TITLE, p);
 					subtitle.send(TitleType.SUBTITLE, p);
 					
-					ParticleEffect.PORTAL.display(source, 0.2F, 0.8F, 0.2F, 1, progress * 2);
+					source.getWorld().spawnParticle(Particle.PORTAL, source, progress * 2, 0.2F, 0.8F, 0.2F);
 					source.getWorld().playSound(source, Sound.UI_BUTTON_CLICK, 1.7F, 0.6F);
 					
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
