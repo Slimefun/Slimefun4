@@ -55,8 +55,17 @@ public class SlimefunManager {
 			}
 		}
 	}
-	
-	public static List<Material> data_safe = Arrays.asList(Material.WOOL, Material.CARPET, Material.STAINED_CLAY, Material.STAINED_GLASS, Material.STAINED_GLASS_PANE, Material.INK_SACK, Material.STONE, Material.COAL, Material.SKULL_ITEM, Material.RAW_FISH, Material.COOKED_FISH);
+
+	//ToDO: ALl all
+	//Charcoal=coal?
+//	public static List<Material> data_safe = Arrays.asList(Material.WHITE_WOOL,
+//			Material.WHITE_CARPET,
+//			Material.WHITE_TERRACOTTA,
+//			Material.WHITE_STAINED_GLASS,
+//			Material.WHITE_STAINED_GLASS_PANE,
+//			Material.INK_SAC,
+//			Material.STONE,
+//			Material.COAL, Material.SKULL_ITEM, Material.RAW_FISH, Material.COOKED_FISH);
 	
 	public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore) {
 		return isItemSimiliar(item, SFitem, lore, DataType.IF_COLORED);
@@ -76,16 +85,17 @@ public class SlimefunManager {
 		if (SFitem == null) return false;
 		
 		if (item.getType() == SFitem.getType() && item.getAmount() >= SFitem.getAmount()) {
-			if (data.equals(DataType.ALWAYS) || (data.equals(DataType.IF_COLORED) && data_safe.contains(item.getType()))) {
-				if (data_safe.contains(item.getType())) {
-					if (item.getData().getData() != SFitem.getData().getData()) {
-						if (!(SFitem.getDurability() == item.getData().getData() && SFitem.getData().getData() == item.getDurability())) return false;
-					}
-				}
-				else if (data.equals(DataType.ALWAYS) && item.getDurability() != SFitem.getDurability()) {
-					return false;
-				}
-			}
+			//ToDo: Removed data_safe - is that correct?
+//			if (data.equals(DataType.ALWAYS) || (data.equals(DataType.IF_COLORED) && data_safe.contains(item.getType()))) {
+//				if (data_safe.contains(item.getType())) {
+//					if (item.getData().getData() != SFitem.getData().getData()) {
+//						if (!(SFitem.getDurability() == item.getData().getData() && SFitem.getData().getData() == item.getDurability())) return false;
+//					}
+//				}
+//				else if (data.equals(DataType.ALWAYS) && item.getDurability() != SFitem.getDurability()) {
+//					return false;
+//				}
+//			}
 			
 			if (item.hasItemMeta() && SFitem.hasItemMeta()) {
 				if (item.getItemMeta().hasDisplayName() && SFitem.getItemMeta().hasDisplayName()) {
