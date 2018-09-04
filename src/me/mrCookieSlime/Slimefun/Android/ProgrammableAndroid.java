@@ -87,8 +87,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 
 		if (getTier() == 1) {
-			registerFuel(new MachineFuel(80, new MaterialData(Material.COAL, (byte) 0).toItemStack(1)));
-			registerFuel(new MachineFuel(80, new MaterialData(Material.COAL, (byte) 1).toItemStack(1)));
+			registerFuel(new MachineFuel(80, new MaterialData(Material.COAL).toItemStack(1)));
+			registerFuel(new MachineFuel(80, new MaterialData(Material.CHARCOAL).toItemStack(1)));
 			registerFuel(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
 			registerFuel(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
 
