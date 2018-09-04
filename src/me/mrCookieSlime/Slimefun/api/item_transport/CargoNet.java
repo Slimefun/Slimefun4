@@ -15,6 +15,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -538,17 +539,8 @@ public class CargoNet extends Network {
 
 	@SuppressWarnings("deprecation")
 	private static Block getAttachedBlock(Block block) {
-		if (block.getData() == 2) {
-			return block.getRelative(BlockFace.SOUTH);
-		}
-		else if (block.getData() == 3) {
-			return block.getRelative(BlockFace.NORTH);
-		}
-		else if (block.getData() == 4) {
-			return block.getRelative(BlockFace.EAST);
-		}
-		else if (block.getData() == 5) {
-			return block.getRelative(BlockFace.WEST);
+		if (block.getBlockData() instanceof Directional) {
+			return block.getRelative(((Directional) block.getBlockData()).getFacing().getOppositeFace());
 		}
 		return null;
 	}

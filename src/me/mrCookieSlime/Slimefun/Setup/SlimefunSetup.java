@@ -21,18 +21,9 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.Hopper;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Bat;
-import org.bukkit.entity.EnderPearl;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -4525,8 +4516,10 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(e.getItem(), SlimefunItems.INFERNAL_BONEMEAL, true)) {
 					if (e.getClickedBlock() != null && e.getClickedBlock().getType().equals(Material.NETHER_WART)) {
-						if (e.getClickedBlock().getData() < 3) {
-//							e.getClickedBlock().setData((byte) (e.getClickedBlock().getData() + 1)); //ToDO: Ageable
+						Ageable ageable =(Ageable)e.getClickedBlock().getBlockData();
+						if (ageable.getAge() < ageable.getMaximumAge()) {
+							ageable.setAge(ageable.getAge()+1);
+							e.getClickedBlock().setBlockData(ageable);
 							e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
 							PlayerInventory.consumeItemInHand(p);
 						}

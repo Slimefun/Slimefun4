@@ -787,11 +787,17 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
+	private boolean isFullGrown(Block block){
+		org.bukkit.block.data.Ageable ageable = ((org.bukkit.block.data.Ageable)block.getBlockData());
+		return ageable.getAge() >= ageable.getMaximumAge();
+	}
+
     @SuppressWarnings("deprecation")
     private void farm(Block b, Block block) {
         switch (block.getType()) {
             case WHEAT: {
-                if (block.getData() >= 7) {
+
+                if (isFullGrown(block)) {
                     ItemStack drop = new ItemStack(Material.WHEAT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
@@ -804,7 +810,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                 break;
             }
             case POTATOES: {
-                if (block.getData() >= 7) {
+                if (isFullGrown(block)) {
                     ItemStack drop = new ItemStack(Material.POTATO, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
@@ -817,7 +823,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                 break;
             }
             case CARROTS: {
-                if (block.getData() >= 7) {
+                if (isFullGrown(block)) {
                     ItemStack drop = new ItemStack(Material.CARROT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
@@ -830,7 +836,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                 break;
             }
 			case BEETROOTS: {
-                if (block.getData() >= 3) {
+                if (isFullGrown(block)) {
                     ItemStack drop = new ItemStack(Material.BEETROOT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
@@ -843,7 +849,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                 break;
             }
             case COCOA: {
-                if (block.getData() >= 8) {
+                if (isFullGrown(block)) {
                     ItemStack drop = new MaterialData(Material.COCOA).toItemStack(CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
@@ -856,7 +862,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                 break;
             }
 			case NETHER_WART: {
-                if (block.getData() >= 3) {
+                if (isFullGrown(block)) {
                     ItemStack drop = new ItemStack(Material.NETHER_WART, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
