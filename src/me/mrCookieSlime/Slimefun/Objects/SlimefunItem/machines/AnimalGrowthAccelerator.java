@@ -6,7 +6,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_8.ParticleEffect;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -22,6 +21,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
@@ -87,7 +87,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
+			preset.addItem(i, new CustomItem(new MaterialData(Material.CYAN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -143,7 +143,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 						BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 						((Ageable) n).setAge(((Ageable) n).getAge() + 2000);
 						if (((Ageable) n).getAge() > 0) ((Ageable) n).setAge(0);
-						ParticleEffect.VILLAGER_HAPPY.display(((LivingEntity) n).getEyeLocation(), 0.2F, 0.2F, 0.2F, 0, 8);
+						n.getWorld().spawnParticle(Particle.VILLAGER_HAPPY,((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
 						return;
 					}
 				}
