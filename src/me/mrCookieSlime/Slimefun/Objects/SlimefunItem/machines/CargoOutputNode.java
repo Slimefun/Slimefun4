@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 public class CargoOutputNode extends SlimefunItem {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+
 
 	public CargoOutputNode(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, name, recipeType, recipe, recipeOutput);
@@ -72,7 +74,7 @@ public class CargoOutputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(13, new CustomItem(new MaterialData(Material.WOOL, (byte) channel), "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(13, new CustomItem(new MaterialData(MaterialHook.WoolColours[channel]), "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(13, new MenuClickHandler() {
 
 							@Override
@@ -140,7 +142,7 @@ public class CargoOutputNode extends SlimefunItem {
 	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
+			preset.addItem(i, new CustomItem(new MaterialData(Material.CYAN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
