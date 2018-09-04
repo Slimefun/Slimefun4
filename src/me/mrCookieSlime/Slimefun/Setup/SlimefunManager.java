@@ -86,16 +86,16 @@ public class SlimefunManager {
 		
 		if (item.getType() == SFitem.getType() && item.getAmount() >= SFitem.getAmount()) {
 			//ToDo: Removed data_safe - is that correct?
-//			if (data.equals(DataType.ALWAYS) || (data.equals(DataType.IF_COLORED) && data_safe.contains(item.getType()))) {
-//				if (data_safe.contains(item.getType())) {
-//					if (item.getData().getData() != SFitem.getData().getData()) {
-//						if (!(SFitem.getDurability() == item.getData().getData() && SFitem.getData().getData() == item.getDurability())) return false;
-//					}
-//				}
-//				else if (data.equals(DataType.ALWAYS) && item.getDurability() != SFitem.getDurability()) {
-//					return false;
-//				}
-//			}
+			if (data.equals(DataType.ALWAYS)/* || (data.equals(DataType.IF_COLORED) && data_safe.contains(item.getType()))*/) {
+/*				if (data_safe.contains(item.getType())) {
+					if (item.getData().getData() != SFitem.getData().getData()) {
+						if (!(SFitem.getDurability() == item.getData().getData() && SFitem.getData().getData() == item.getDurability())) return false;
+					}
+				}
+				else*/ if (data.equals(DataType.ALWAYS) && item.getDurability() != SFitem.getDurability()) {
+					return false;
+				}
+			}
 			
 			if (item.hasItemMeta() && SFitem.hasItemMeta()) {
 				if (item.getItemMeta().hasDisplayName() && SFitem.getItemMeta().hasDisplayName()) {
