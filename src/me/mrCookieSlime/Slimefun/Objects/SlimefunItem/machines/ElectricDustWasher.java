@@ -35,7 +35,7 @@ public abstract class ElectricDustWasher extends AContainer {
 
 	@Override
 	public ItemStack getProgressBar() {
-		return new ItemStack(Material.GOLD_SPADE);
+		return new ItemStack(Material.GOLDEN_SHOVEL);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public abstract class ElectricDustWasher extends AContainer {
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
 
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
+				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput());
 				
 				progress.remove(b);
