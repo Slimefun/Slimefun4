@@ -12,47 +12,47 @@ public class OilResource implements OreGenResource {
 	@Override
 	public int getDefaultSupply(Biome biome) {
 		switch (biome) {
-		case COLD_BEACH:
-		case STONE_BEACH:
-		case BEACHES: {
+		case SNOWY_BEACH:
+		case STONE_SHORE:
+		case BEACH: {
 			return CSCoreLib.randomizer().nextInt(6) + 2;
 		}
 
 		case DESERT:
 		case DESERT_HILLS:
-		case MUTATED_DESERT: {
+		case DESERT_LAKES: {
 			return CSCoreLib.randomizer().nextInt(40) + 19;
 		}
 
-		case EXTREME_HILLS:
-		case MUTATED_EXTREME_HILLS:
-		case SMALLER_EXTREME_HILLS:
+		case MOUNTAINS:
+		case GRAVELLY_MOUNTAINS:
+		case MOUNTAIN_EDGE:
 		case RIVER: {
 			return CSCoreLib.randomizer().nextInt(14) + 13;
 		}
 
-		case ICE_MOUNTAINS:
-		case ICE_FLATS:
-		case MUTATED_ICE_FLATS:
+		case SNOWY_MOUNTAINS:
+		case SNOWY_TUNDRA:
+		case ICE_SPIKES:
 		case FROZEN_OCEAN:
 		case FROZEN_RIVER: {
 			return CSCoreLib.randomizer().nextInt(11) + 3;
 		}
 
-		case SKY:
-		case HELL: {
+		case THE_END:
+		case NETHER: {
 			return 0;
 		}
 
 
-		case MESA:
-		case MESA_CLEAR_ROCK:
-		case MESA_ROCK:
-		case MUTATED_MESA:
-		case MUTATED_MESA_CLEAR_ROCK:
-		case MUTATED_MESA_ROCK:
-		case MUSHROOM_ISLAND:
-		case MUSHROOM_ISLAND_SHORE: {
+		case BADLANDS:
+		case BADLANDS_PLATEAU:
+		case WOODED_BADLANDS_PLATEAU:
+		case ERODED_BADLANDS:
+		case MODIFIED_BADLANDS_PLATEAU:
+		case MODIFIED_WOODED_BADLANDS_PLATEAU:
+		case MUSHROOM_FIELDS:
+		case MUSHROOM_FIELD_SHORE: {
 			return CSCoreLib.randomizer().nextInt(24) + 14;
 		}
 
@@ -61,8 +61,8 @@ public class OilResource implements OreGenResource {
 			return CSCoreLib.randomizer().nextInt(62) + 24;
 		}
 
-		case SWAMPLAND:
-		case MUTATED_SWAMPLAND: {
+		case SWAMP:
+		case SWAMP_HILLS: {
 			return CSCoreLib.randomizer().nextInt(20) + 4;
 		}
 
