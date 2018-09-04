@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import me.mrCookieSlime.Slimefun.Misc.MaterialHelper;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -43,7 +44,7 @@ public class CargoInputNode extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-type") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-type").equals("whitelist")) {
-						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL), "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
+						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WHITE_WOOL), "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
 						menu.addMenuClickHandler(15, new MenuClickHandler() {
 
 							@Override
@@ -55,7 +56,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.WOOL, (byte) 15), "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
+						menu.replaceExistingItem(15, new CustomItem(new MaterialData(Material.BLACK_WOOL), "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
 						menu.addMenuClickHandler(15, new MenuClickHandler() {
 
 							@Override
@@ -80,7 +81,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.GOLD_SWORD, (byte) 20), "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
+						menu.replaceExistingItem(16, new CustomItem(new MaterialData(Material.GOLDEN_SWORD, (byte) 20), "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
 						menu.addMenuClickHandler(16, new MenuClickHandler() {
 
 							@Override
@@ -118,7 +119,7 @@ public class CargoInputNode extends SlimefunItem {
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
-						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
+						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.MAP), "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
 						menu.addMenuClickHandler(25, new MenuClickHandler() {
 
 							@Override
@@ -130,7 +131,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.EMPTY_MAP), "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
+						menu.replaceExistingItem(25, new CustomItem(new MaterialData(Material.MAP), "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
 						menu.addMenuClickHandler(25, new MenuClickHandler() {
 
 							@Override
@@ -171,7 +172,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(42, new CustomItem(new MaterialData(Material.WOOL, (byte) channel), "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(42, new CustomItem(new MaterialData(MaterialHelper.WoolColours[channel]), "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(42, new MenuClickHandler() {
 
 							@Override
@@ -253,7 +254,7 @@ public class CargoInputNode extends SlimefunItem {
 	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
+			preset.addItem(i, new CustomItem(new MaterialData(Material.CYAN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override

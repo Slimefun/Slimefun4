@@ -53,7 +53,7 @@ public class TrashCan extends SlimefunItem {
 	@SuppressWarnings("deprecation")
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 14), " "),
+			preset.addItem(i, new CustomItem(new MaterialData(Material.RED_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override

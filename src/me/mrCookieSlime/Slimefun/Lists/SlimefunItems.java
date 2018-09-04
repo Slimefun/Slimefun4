@@ -24,15 +24,15 @@ public class SlimefunItems {
 	public static ItemStack PORTABLE_CRAFTER = new CustomItem(Material.BOOK, "&6Portable Crafter", 0, new String[] {"&a&oA portable Crafting Table", "", "&eRight Click&7 to open"});
 	public static ItemStack PORTABLE_DUSTBIN = null;
 	public static ItemStack ENDER_BACKPACK = null;
-	public static ItemStack MAGIC_EYE_OF_ENDER = new CustomItem(Material.EYE_OF_ENDER, "&6&lMagic Eye of Ender", 0, new String[] {"&4&lRequires full Ender Armor", "", "&7&eRight Click&7 to shoot an Ender Pearl"});
-	public static ItemStack BROKEN_SPAWNER = new CustomItem(new MaterialData(Material.MOB_SPAWNER), "&cBroken Spawner", "&7Type: &b<Type>", "", "&cFractured, must be repaired in an Ancient Altar");
-	public static ItemStack REPAIRED_SPAWNER = new CustomItem(Material.MOB_SPAWNER, "&bReinforced Spawner", 0, new String[] {"&7Type: &b<Type>"});
-	public static ItemStack INFERNAL_BONEMEAL = new CustomItem(new MaterialData(Material.INK_SACK, (byte) 15), "&4Infernal Bonemeal", "", "&cSpeeds up the Growth of", "&cNether Warts as well");
+	public static ItemStack MAGIC_EYE_OF_ENDER = new CustomItem(Material.ENDER_EYE, "&6&lMagic Eye of Ender", 0, new String[] {"&4&lRequires full Ender Armor", "", "&7&eRight Click&7 to shoot an Ender Pearl"});
+	public static ItemStack BROKEN_SPAWNER = new CustomItem(new MaterialData(Material.SPAWNER), "&cBroken Spawner", "&7Type: &b<Type>", "", "&cFractured, must be repaired in an Ancient Altar");
+	public static ItemStack REPAIRED_SPAWNER = new CustomItem(Material.SPAWNER, "&bReinforced Spawner", 0, new String[] {"&7Type: &b<Type>"});
+	public static ItemStack INFERNAL_BONEMEAL = new CustomItem(new MaterialData(Material.BONE_MEAL), "&4Infernal Bonemeal", "", "&cSpeeds up the Growth of", "&cNether Warts as well");
 	
 	/*		 Gadgets 		*/
 	public static ItemStack GOLD_PAN = new CustomItem(Material.BOWL, "&6Gold Pan", 0, new String[] {"&a&oCan get you all kinds of Goodies...", "", "&7&eRight Click&7 to pan various Stuff out of Gravel"});
 	public static ItemStack PARACHUTE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&r&lParachute", 0, new String[] {"", "&7Hold &eShift&7 to use"}), Color.WHITE);
-	public static ItemStack GRAPPLING_HOOK = new CustomItem(Material.LEASH, "&6Grappling Hook", 0, new String[] {"", "&7&eRight Click&7 to use"});
+	public static ItemStack GRAPPLING_HOOK = new CustomItem(Material.LEAD, "&6Grappling Hook", 0, new String[] {"", "&7&eRight Click&7 to use"});
 	public static ItemStack SOLAR_HELMET = new CustomItem(Material.IRON_HELMET, "&bSolar Helmet", 0, new String[] {"", "&a&oCharges held Items and Armor"});
 	public static ItemStack CLOTH = new CustomItem(Material.PAPER, "&bCloth", 0);
 	public static ItemStack CAN = null;
@@ -43,7 +43,7 @@ public class SlimefunItems {
 	public static ItemStack RAG = new CustomItem(Material.PAPER, "&cRag", 0, new String[] {"", "&aLevel I - Medical Supply", "", "&rRestores 2 Hearts", "&rExtinguishes Fire", "", "&7&eRight Click&7 to use"});
 	public static ItemStack BANDAGE = new CustomItem(Material.PAPER, "&cBandage", 0, new String[] {"", "&aLevel II - Medical Supply", "", "&rRestores 4 Hearts", "&rExtinguishes Fire", "", "&7&eRight Click&7 to use"});
 	public static ItemStack SPLINT = new CustomItem(Material.STICK, "&cSplint", 0, new String[] {"", "&aLevel I - Medical Supply", "", "&rRestores 2 Hearts", "", "&7&eRight Click&7 to use"});
-	public static ItemStack VITAMINS = new CustomItem(Material.NETHER_STALK, "&cVitamins", 0, new String[] {"", "&aLevel III - Medical Supply", "", "&rRestores 4 Hearts", "&rExtinguishes Fire", "&rCures Poison/Wither/Radiation", "", "&7&eRight Click&7 to use"});
+	public static ItemStack VITAMINS = new CustomItem(Material.NETHER_WART, "&cVitamins", 0, new String[] {"", "&aLevel III - Medical Supply", "", "&rRestores 4 Hearts", "&rExtinguishes Fire", "&rCures Poison/Wither/Radiation", "", "&7&eRight Click&7 to use"});
 	public static ItemStack MEDICINE = new CustomItem(Material.POTION, "&cMedicine", 8229, new String[] {"", "&aLevel III - Medical Supply", "", "&rRestores 4 Hearts", "&rExtinguishes Fire", "&rCures Poison/Wither/Radiation", "", "&7&eRight Click&7 to drink"});
 	
 	/*		Backpacks		*/
@@ -111,7 +111,7 @@ public class SlimefunItems {
 	public static ItemStack CHRISTMAS_APPLE_PIE = new CustomItem(Material.PUMPKIN_PIE, "&rApple Pie", 0);
 	public static ItemStack CHRISTMAS_HOT_CHOCOLATE = new CustomPotion("&6Hot Chocolate", 8201, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
 	public static ItemStack CHRISTMAS_CAKE = new CustomItem(Material.PUMPKIN_PIE, Christmas.color("Christmas Cake"), 0);
-	public static ItemStack CHRISTMAS_CARAMEL = new CustomItem(Material.CLAY_BRICK, "&6Caramel", 0);
+	public static ItemStack CHRISTMAS_CARAMEL = new CustomItem(Material.BRICKS, "&6Caramel", 0);
 	public static ItemStack CHRISTMAS_CARAMEL_APPLE = new CustomItem(Material.APPLE, "&6Caramel Apple", 0);
 	public static ItemStack CHRISTMAS_CHOCOLATE_APPLE = new CustomItem(Material.APPLE, "&6Chocolate Apple", 0);
 	public static ItemStack CHRISTMAS_PRESENT = new CustomItem(Material.CHEST, Christmas.color("Christmas Present"), 0, new String[] {"&7From: &emrCookieSlime", "&7To: &eYou", "", "&eRight Click&7 to open"});
@@ -124,7 +124,7 @@ public class SlimefunItems {
 	public static ItemStack GRANDMAS_WALKING_STICK = new CustomItem(Material.STICK, "&7Grandmas Walking Stick", 0, new String[0], new String[] {"KNOCKBACK-2"});
 	public static ItemStack GRANDPAS_WALKING_STICK = new CustomItem(Material.STICK, "&7Grandpas Walking Stick", 0, new String[0], new String[] {"KNOCKBACK-5"});
 	public static ItemStack SWORD_OF_BEHEADING = new CustomItem(Material.IRON_SWORD, "&6Sword of Beheading", 0, new String[] {"&7Beheading II", "", "&rHas a chance to behead Mobs", "&r(even a higher chance for Wither Skeletons)"});
-	public static ItemStack BLADE_OF_VAMPIRES = new CustomItem(Material.GOLD_SWORD, "&cBlade of Vampires", 0, new String[] {"&7Life Steal I", "", "&rEverytime you attack something", "&ryou have a 45% chance to", "&rrecover 2 Hearts of your Health"}, new String[] {"FIRE_ASPECT-2", "DURABILITY-4", "DAMAGE_ALL-2"});
+	public static ItemStack BLADE_OF_VAMPIRES = new CustomItem(Material.GOLDEN_SWORD, "&cBlade of Vampires", 0, new String[] {"&7Life Steal I", "", "&rEverytime you attack something", "&ryou have a 45% chance to", "&rrecover 2 Hearts of your Health"}, new String[] {"FIRE_ASPECT-2", "DURABILITY-4", "DAMAGE_ALL-2"});
 	public static ItemStack SEISMIC_AXE = new CustomItem(Material.IRON_AXE, "&aSeismic Axe", 0, new String[] {"", "&7&oA portable Earthquake...", "", "&7&eRight Click&7 to use"});
 	
 	/*		Bows		*/
@@ -170,14 +170,14 @@ public class SlimefunItems {
 	public static ItemStack HAZMATSUIT_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&cHazmat Suit", 0, new String[] {"", "&bAllows you to walk through Fire", "&4&oPart of Hazmat Suit"}), Color.ORANGE);
 	public static ItemStack HAZMATSUIT_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&cHazmat Suit Leggings", 0, new String[] {"", "&4&oPart of Hazmat Suit"}), Color.ORANGE);
 	public static ItemStack RUBBER_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&cRubber Boots", 0, new String[] {"", "&4&oPart of Hazmat Suit"}), Color.BLACK);
-	public static ItemStack GILDED_IRON_HELMET = new CustomItem(Material.GOLD_HELMET, "&6Gilded Iron Helmet", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
-	public static ItemStack GILDED_IRON_CHESTPLATE = new CustomItem(Material.GOLD_CHESTPLATE, "&6Gilded Iron Chestplate", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
-	public static ItemStack GILDED_IRON_LEGGINGS = new CustomItem(Material.GOLD_LEGGINGS, "&6Gilded Iron Leggings", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
-	public static ItemStack GILDED_IRON_BOOTS = new CustomItem(Material.GOLD_BOOTS, "&6Gilded Iron Boots", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
-	public static ItemStack GOLD_HELMET = new CustomItem(Material.GOLD_HELMET, "&6Gold Helmet", 0, new String[] {"&912-Carat"}, new String[] {"DURABILITY-10"});
-	public static ItemStack GOLD_CHESTPLATE = new CustomItem(Material.GOLD_CHESTPLATE, "&6Gold Chestplate", 0, new String[] {"&912-Carat"}, new String[] {"DURABILITY-10"});
-	public static ItemStack GOLD_LEGGINGS = new CustomItem(Material.GOLD_LEGGINGS, "&6Gold Leggings", 0, new String[] {"&912-Carat"}, new String[] {"DURABILITY-10"});
-	public static ItemStack GOLD_BOOTS = new CustomItem(Material.GOLD_BOOTS, "&6Gold Boots", 0, new String[] {"&912-Carat"}, new String[] {"DURABILITY-10"});
+	public static ItemStack GILDED_IRON_HELMET = new CustomItem(Material.GOLDEN_HELMET, "&6Gilded Iron Helmet", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
+	public static ItemStack GILDED_IRON_CHESTPLATE = new CustomItem(Material.GOLDEN_CHESTPLATE, "&6Gilded Iron Chestplate", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
+	public static ItemStack GILDED_IRON_LEGGINGS = new CustomItem(Material.GOLDEN_LEGGINGS, "&6Gilded Iron Leggings", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
+	public static ItemStack GILDED_IRON_BOOTS = new CustomItem(Material.GOLDEN_BOOTS, "&6Gilded Iron Boots", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
+	public static ItemStack GOLD_HELMET = new CustomItem(Material.GOLDEN_HELMET, "&6Gold Helmet", 0, new String[] {"&912-Carat"}, new String[] {"DURABILITY-10"});
+	public static ItemStack GOLD_CHESTPLATE = new CustomItem(Material.GOLDEN_CHESTPLATE, "&6Gold Chestplate", 0, new String[] {"&912-Carat"}, new String[] {"DURABILITY-10"});
+	public static ItemStack GOLD_LEGGINGS = new CustomItem(Material.GOLDEN_LEGGINGS, "&6Gold Leggings", 0, new String[] {"&912-Carat"}, new String[] {"DURABILITY-10"});
+	public static ItemStack GOLD_BOOTS = new CustomItem(Material.GOLDEN_BOOTS, "&6Gold Boots", 0, new String[] {"&912-Carat"}, new String[] {"DURABILITY-10"});
 	public static ItemStack SLIME_HELMET_STEEL = new CustomItem(Material.IRON_HELMET, "&a&lSlime Helmet", 0, new String[] {"&7&oReinforced", "", "&a&oBouncy Feeling"}, new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-2"});
 	public static ItemStack SLIME_CHESTPLATE_STEEL = new CustomItem(Material.IRON_CHESTPLATE, "&a&lSlime Chestplate", 0, new String[] {"&7&oReinforced", "", "&a&oBouncy Feeling"}, new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-2"});
 	public static ItemStack SLIME_LEGGINGS_STEEL = new CustomItem(Material.IRON_LEGGINGS, "&a&lSlime Leggings", 0, new String[] {"&7&oReinforced", "", "&a&oBouncy Feeling", "", "&9+ Speed"}, new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-2"});
@@ -207,21 +207,21 @@ public class SlimefunItems {
 	public static ItemStack POWER_CRYSTAL = null;
 	public static ItemStack CHAIN = new CustomItem(Material.STRING, "&bChain", 0);
 	public static ItemStack HOOK = new CustomItem(Material.FLINT, "&bHook", 0);
-	public static ItemStack SIFTED_ORE = new CustomItem(Material.SULPHUR, "&6Sifted Ore", 0);
+	public static ItemStack SIFTED_ORE = new CustomItem(Material.GUNPOWDER, "&6Sifted Ore", 0);
 	public static ItemStack STONE_CHUNK = null;
 	public static ItemStack LAVA_CRYSTAL = null;
 	public static ItemStack SALT = new CustomItem(Material.SUGAR, "&rSalt", 0);
 	public static ItemStack BUTTER = null;
 	public static ItemStack CHEESE = null;
-	public static ItemStack HEAVY_CREAM = new CustomItem(Material.SNOW_BALL, "&rHeavy Cream", 0);
-	public static ItemStack CRUSHED_ORE = new CustomItem(Material.SULPHUR, "&6Crushed Ore", 0);
-	public static ItemStack PULVERIZED_ORE = new CustomItem(Material.SULPHUR, "&6Pulverized Ore", 0);
-	public static ItemStack PURE_ORE_CLUSTER = new CustomItem(Material.SULPHUR, "&6Pure Ore Cluster", 0);
+	public static ItemStack HEAVY_CREAM = new CustomItem(Material.SNOWBALL, "&rHeavy Cream", 0);
+	public static ItemStack CRUSHED_ORE = new CustomItem(Material.GUNPOWDER, "&6Crushed Ore", 0);
+	public static ItemStack PULVERIZED_ORE = new CustomItem(Material.GUNPOWDER, "&6Pulverized Ore", 0);
+	public static ItemStack PURE_ORE_CLUSTER = new CustomItem(Material.GUNPOWDER, "&6Pure Ore Cluster", 0);
 	public static ItemStack TINY_URANIUM = null;
 	public static ItemStack SMALL_URANIUM = null;
 	public static ItemStack MAGNET = null;
-	public static ItemStack NECROTIC_SKULL = new CustomItem(new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1), "&cNecrotic Skull");
-	public static ItemStack ESSENCE_OF_AFTERLIFE = new CustomItem(Material.SULPHUR, "&4Essence of Afterlife", 0);
+	public static ItemStack NECROTIC_SKULL = new CustomItem(new MaterialData(Material.WITHER_SKELETON_SKULL, (byte) 1).toItemStack(1), "&cNecrotic Skull");
+	public static ItemStack ESSENCE_OF_AFTERLIFE = new CustomItem(Material.GUNPOWDER, "&4Essence of Afterlife", 0);
 	public static ItemStack ELECTRO_MAGNET = null;
 	public static ItemStack HEATING_COIL = null;
 	public static ItemStack COOLING_UNIT = null;
@@ -229,31 +229,31 @@ public class SlimefunItems {
 	public static ItemStack CARGO_MOTOR = null;
 	public static ItemStack SCROLL_OF_DIMENSIONAL_TELEPOSITION = new CustomItem(Material.PAPER, "&6Scroll of Dimensional Teleposition", 0, new String[] {"", "&cThis Scroll is capable of creating", "&ca temporary black Hole which pulls", "&cnearby Entities into itself and sends", "&cthem into another Dimension where", "&ceverything is turned around", "", "&rIn other words: Makes Entities turn by 180 Degrees"});
 	public static ItemStack TOME_OF_KNOWLEDGE_SHARING = new CustomItem(Material.BOOK, "&6Tome of Knowledge Sharing", 0, new String[] {"&7Owner: &bNone", "", "&eRight Click&7 to bind this Tome to yourself", "", "", "&eRight Click&7 to obtain all Researches by", "&7the previously assigned Owner"});
-	public static ItemStack HARDENED_GLASS = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 8), "&7Hardened Glass", "", "&rWithstands Explosions");
+	public static ItemStack HARDENED_GLASS = new CustomItem(new MaterialData(Material.LIGHT_GRAY_STAINED_GLASS), "&7Hardened Glass", "", "&rWithstands Explosions");
 	public static ItemStack WITHER_PROOF_OBSIDIAN = new CustomItem(Material.OBSIDIAN, "&5Wither-Proof Obsidian", 0, new String[] {"", "&rWithstands Explosions", "&rWithstands Wither Bosses"});
-	public static ItemStack WITHER_PROOF_GLASS = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 15), "&5Wither-Proof Glass", "", "&rWithstands Explosions", "&rWithstands Wither Bosses");
+	public static ItemStack WITHER_PROOF_GLASS = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&5Wither-Proof Glass", "", "&rWithstands Explosions", "&rWithstands Wither Bosses");
 	public static ItemStack REINFORCED_PLATE = new CustomItem(Material.PAPER, "&7Reinforced Plate", 0);
 	public static ItemStack ANCIENT_PEDESTAL = new CustomItem(Material.DISPENSER, "&dAncient Pedestal", 0, new String[] {"", "&5Part of the Ancient Altar"});
-	public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTMENT_TABLE, "&dAncient Altar", 0, new String[] {"", "&5Multi-Block Altar for", "&5magical Crafting Processes"});
+	public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&dAncient Altar", 0, new String[] {"", "&5Multi-Block Altar for", "&5magical Crafting Processes"});
 	public static ItemStack DUCT_TAPE = null;
 	
-	public static ItemStack RAINBOW_WOOL = new CustomItem(new MaterialData(Material.WOOL), "&5Rainbow Wool", "", "&dCycles through all Colors of the Rainbow!");
-	public static ItemStack RAINBOW_GLASS = new CustomItem(new MaterialData(Material.STAINED_GLASS), "&5Rainbow Glass", "", "&dCycles through all Colors of the Rainbow!");
-	public static ItemStack RAINBOW_CLAY = new CustomItem(new MaterialData(Material.STAINED_CLAY), "&5Rainbow Clay", "", "&dCycles through all Colors of the Rainbow!");
-	public static ItemStack RAINBOW_GLASS_PANE = new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE), "&5Rainbow Glass Pane", "", "&dCycles through all Colors of the Rainbow!");
+	public static ItemStack RAINBOW_WOOL = new CustomItem(new MaterialData(Material.WHITE_WOOL), "&5Rainbow Wool", "", "&dCycles through all Colors of the Rainbow!");
+	public static ItemStack RAINBOW_GLASS = new CustomItem(new MaterialData(Material.WHITE_STAINED_GLASS), "&5Rainbow Glass", "", "&dCycles through all Colors of the Rainbow!");
+	public static ItemStack RAINBOW_CLAY = new CustomItem(new MaterialData(Material.TERRACOTTA), "&5Rainbow Clay", "", "&dCycles through all Colors of the Rainbow!");
+	public static ItemStack RAINBOW_GLASS_PANE = new CustomItem(new MaterialData(Material.WHITE_STAINED_GLASS_PANE), "&5Rainbow Glass Pane", "", "&dCycles through all Colors of the Rainbow!");
 	
-	public static ItemStack RAINBOW_WOOL_XMAS = new CustomItem(new MaterialData(Material.WOOL), "&5Rainbow Wool &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
-	public static ItemStack RAINBOW_GLASS_XMAS = new CustomItem(new MaterialData(Material.STAINED_GLASS), "&5Rainbow Glass &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
-	public static ItemStack RAINBOW_CLAY_XMAS = new CustomItem(new MaterialData(Material.STAINED_CLAY), "&5Rainbow Clay &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
-	public static ItemStack RAINBOW_GLASS_PANE_XMAS = new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE), "&5Rainbow Glass Pane &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
+	public static ItemStack RAINBOW_WOOL_XMAS = new CustomItem(new MaterialData(Material.WHITE_WOOL), "&5Rainbow Wool &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
+	public static ItemStack RAINBOW_GLASS_XMAS = new CustomItem(new MaterialData(Material.WHITE_STAINED_GLASS), "&5Rainbow Glass &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
+	public static ItemStack RAINBOW_CLAY_XMAS = new CustomItem(new MaterialData(Material.WHITE_TERRACOTTA), "&5Rainbow Clay &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
+	public static ItemStack RAINBOW_GLASS_PANE_XMAS = new CustomItem(new MaterialData(Material.WHITE_STAINED_GLASS_PANE), "&5Rainbow Glass Pane &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
 	
-	public static ItemStack RAINBOW_WOOL_VALENTINE = new CustomItem(new MaterialData(Material.WOOL), "&5Rainbow Wool &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
-	public static ItemStack RAINBOW_GLASS_VALENTINE = new CustomItem(new MaterialData(Material.STAINED_GLASS), "&5Rainbow Glass &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
-	public static ItemStack RAINBOW_CLAY_VALENTINE = new CustomItem(new MaterialData(Material.STAINED_CLAY), "&5Rainbow Clay &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
-	public static ItemStack RAINBOW_GLASS_PANE_VALENTINE = new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE), "&5Rainbow Glass Pane &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
+	public static ItemStack RAINBOW_WOOL_VALENTINE = new CustomItem(new MaterialData(Material.PINK_WOOL), "&5Rainbow Wool &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
+	public static ItemStack RAINBOW_GLASS_VALENTINE = new CustomItem(new MaterialData(Material.PINK_STAINED_GLASS), "&5Rainbow Glass &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
+	public static ItemStack RAINBOW_CLAY_VALENTINE = new CustomItem(new MaterialData(Material.PINK_TERRACOTTA), "&5Rainbow Clay &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
+	public static ItemStack RAINBOW_GLASS_PANE_VALENTINE = new CustomItem(new MaterialData(Material.PINK_STAINED_GLASS_PANE), "&5Rainbow Glass Pane &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
     
 	/*		 Ingots 		*/
-	public static ItemStack COPPER_INGOT = new CustomItem(Material.CLAY_BRICK, "&bCopper Ingot", 0, new String[0]);
+	public static ItemStack COPPER_INGOT = new CustomItem(Material.BRICK, "&bCopper Ingot", 0, new String[0]);
 	public static ItemStack TIN_INGOT = new CustomItem(Material.IRON_INGOT, "&bTin Ingot", 0, new String[0]);
 	public static ItemStack SILVER_INGOT = new CustomItem(Material.IRON_INGOT, "&bSilver Ingot", 0, new String[0]);
 	public static ItemStack ALUMINUM_INGOT = new CustomItem(Material.IRON_INGOT, "&bAluminum Ingot", 0, new String[0]);
@@ -264,7 +264,7 @@ public class SlimefunItems {
 	/*		Alloy (Carbon + Iron)	*/
 	public static ItemStack STEEL_INGOT = new CustomItem(Material.IRON_INGOT, "&bSteel Ingot", 0, new String[0]);
 	/*		Alloy (Copper + Tin)	*/
-	public static ItemStack BRONZE_INGOT = new CustomItem(Material.CLAY_BRICK, "&bBronze Ingot", 0, new String[0]);
+	public static ItemStack BRONZE_INGOT = new CustomItem(Material.BRICKS, "&bBronze Ingot", 0, new String[0]);
 	/*		Alloy (Copper + Aluminum)	*/
 	public static ItemStack DURALUMIN_INGOT = new CustomItem(Material.IRON_INGOT, "&bDuralumin Ingot", 0, new String[0]);
 	/*		Alloy (Copper + Silver)	*/
@@ -290,7 +290,7 @@ public class SlimefunItems {
 	/*		Alloy (Iron + Gold)			*/
 	public static ItemStack GILDED_IRON = new CustomItem(Material.GOLD_INGOT, "&6&lGilded Iron", 0);
 	/*		Alloy (Redston + Ferrosilicon)	*/
-	public static ItemStack REDSTONE_ALLOY = new CustomItem(Material.CLAY_BRICK, "&cRedstone Alloy Ingot", 0);
+	public static ItemStack REDSTONE_ALLOY = new CustomItem(Material.BRICKS, "&cRedstone Alloy Ingot", 0);
 	/*		Alloy (Iron + Copper)		*/
 	public static ItemStack NICKEL_INGOT = new CustomItem(Material.IRON_INGOT, "&bNickel Ingot" , 0);
 	/*		Alloy (Nickel + Iron + Copper)		*/
@@ -310,23 +310,23 @@ public class SlimefunItems {
 	public static ItemStack GOLD_24K = new CustomItem(Material.GOLD_INGOT, "&rGold Ingot &7(24-Carat)", 0);
 	
 	/*		 Dusts 		*/
-	public static ItemStack IRON_DUST = new CustomItem(Material.SULPHUR, "&6Iron Dust", 0);
+	public static ItemStack IRON_DUST = new CustomItem(Material.GUNPOWDER, "&6Iron Dust", 0);
 	public static ItemStack GOLD_DUST = new CustomItem(Material.GLOWSTONE_DUST, "&6Gold Dust", 0);
 	public static ItemStack TIN_DUST = new CustomItem(Material.SUGAR, "&6Tin Dust", 0);
 	public static ItemStack COPPER_DUST = new CustomItem(Material.GLOWSTONE_DUST, "&6Copper Dust", 0);
 	public static ItemStack SILVER_DUST = new CustomItem(Material.SUGAR, "&6Silver Dust", 0);
 	public static ItemStack ALUMINUM_DUST = new CustomItem(Material.SUGAR, "&6Aluminum Dust", 0);
-	public static ItemStack LEAD_DUST = new CustomItem(Material.SULPHUR, "&6Lead Dust", 0);
+	public static ItemStack LEAD_DUST = new CustomItem(Material.GUNPOWDER, "&6Lead Dust", 0);
 	public static ItemStack SULFATE = new CustomItem(Material.GLOWSTONE_DUST, "&6Sulfate", 0);
 	public static ItemStack ZINC_DUST = new CustomItem(Material.SUGAR, "&6Zinc Dust", 0);
 	public static ItemStack MAGNESIUM_DUST = new CustomItem(Material.SUGAR, "&6Magnesium", 0);
 	public static ItemStack CARBON = null;
-	public static ItemStack SILICON = new CustomItem(Material.FIREWORK_CHARGE, "&6Silicon", 0);
+	public static ItemStack SILICON = new CustomItem(Material.FIREWORK_STAR, "&6Silicon", 0);
 	public static ItemStack GOLD_24K_BLOCK = new CustomItem(Material.GOLD_BLOCK, "&rGold Block &7(24-Carat)", 0);
 	
 	/*		 Gems 		*/
 	public static ItemStack SYNTHETIC_DIAMOND = new CustomItem(Material.DIAMOND, "&bSynthetic Diamond", 0);
-	public static ItemStack SYNTHETIC_SAPPHIRE = new CustomItem(new MaterialData(Material.INK_SACK, (byte) 4), "&bSynthetic Sapphire");
+	public static ItemStack SYNTHETIC_SAPPHIRE = new CustomItem(new MaterialData(Material.LAPIS_LAZULI), "&bSynthetic Sapphire");
 	public static ItemStack SYNTHETIC_EMERALD = new CustomItem(Material.EMERALD, "&bSynthetic Emerald", 0);
 	public static ItemStack CARBONADO = null;
 	public static ItemStack RAW_CARBONADO = null;
@@ -363,14 +363,14 @@ public class SlimefunItems {
 	public static ItemStack SMELTERY = new CustomItem(Material.FURNACE, "&6Smeltery", 0, new String[] {"", "&a&oActs as a high-temperature Furnace for Metals"});
 	public static ItemStack IGNITION_CHAMBER = new CustomItem(new ItemStack(Material.HOPPER), "&4Automatic Ignition Chamber", "&rPrevents the Smeltery from using up fire.", "&rRequires Flint and Steel", "&rMust be placed adjacent to the Smeltery's dispenser");
 	public static ItemStack ORE_CRUSHER = new CustomItem(Material.DISPENSER, "&bOre Crusher", 0, new String[] {"", "&a&oCrushes Ores to double them"});
-	public static ItemStack COMPRESSOR = new CustomItem(Material.PISTON_BASE, "&bCompressor", 0, new String[] {"", "&a&oCompresses Items"});
+	public static ItemStack COMPRESSOR = new CustomItem(Material.PISTON, "&bCompressor", 0, new String[] {"", "&a&oCompresses Items"});
 	public static ItemStack PRESSURE_CHAMBER = new CustomItem(Material.GLASS, "&bPressure Chamber", 0, new String[] {"", "&a&oCompresses Items even more"});
-	public static ItemStack MAGIC_WORKBENCH = new CustomItem(Material.WORKBENCH, "&6Magic Workbench", 0, new String[] {"Infuses Items with magical Energy"});
-	public static ItemStack ORE_WASHER = new CustomItem(Material.CAULDRON_ITEM, "&6Ore Washer", 0, new String[] {"", "&a&oWashes Sifted Ore to filter Ores", "&a&oand gives you small Stone Chunks"});
-	public static ItemStack SAW_MILL = new CustomItem(Material.IRON_FENCE, "&6Saw Mill", 0, new String[] {"", "&a&oAllows you to get 8 planks from 1 Log"});
-	public static ItemStack COMPOSTER = new CustomItem(Material.CAULDRON_ITEM, "&aComposter", 0, new String[] {"", "&a&oCan convert various Materials over Time..."});
-	public static ItemStack ENHANCED_CRAFTING_TABLE = new CustomItem(Material.WORKBENCH, "&eEnhanced Crafting Table", 0, new String[] {"", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power..."});
-	public static ItemStack CRUCIBLE = new CustomItem(Material.CAULDRON_ITEM, "&cCrucible", 0, new String[] {"", "&a&oUsed to smelt Items into Liquids"});
+	public static ItemStack MAGIC_WORKBENCH = new CustomItem(Material.CRAFTING_TABLE, "&6Magic Workbench", 0, new String[] {"Infuses Items with magical Energy"});
+	public static ItemStack ORE_WASHER = new CustomItem(Material.CAULDRON, "&6Ore Washer", 0, new String[] {"", "&a&oWashes Sifted Ore to filter Ores", "&a&oand gives you small Stone Chunks"});
+	public static ItemStack SAW_MILL = new CustomItem(Material.IRON_BARS, "&6Saw Mill", 0, new String[] {"", "&a&oAllows you to get 8 planks from 1 Log"});
+	public static ItemStack COMPOSTER = new CustomItem(Material.CAULDRON, "&aComposter", 0, new String[] {"", "&a&oCan convert various Materials over Time..."});
+	public static ItemStack ENHANCED_CRAFTING_TABLE = new CustomItem(Material.CRAFTING_TABLE, "&eEnhanced Crafting Table", 0, new String[] {"", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power..."});
+	public static ItemStack CRUCIBLE = new CustomItem(Material.CAULDRON, "&cCrucible", 0, new String[] {"", "&a&oUsed to smelt Items into Liquids"});
 	public static ItemStack JUICER = new CustomItem(Material.GLASS_BOTTLE, "&aJuicer", 0, new String[] {"", "&a&oAllows you to create delicious Juice"});
 	
 	public static ItemStack SOLAR_PANEL = new CustomItem(Material.DAYLIGHT_DETECTOR, "&bSolar Panel", 0, new String[] {"", "&a&oTransforms Sunlight to Energy"});
@@ -379,7 +379,7 @@ public class SlimefunItems {
 	public static ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6Advanced Digital Miner", 0, new String[] {"", "&a&oDigs out everything!", "&a&oAutomatically crushes your Ores"});
 	public static ItemStack AUTOMATED_PANNING_MACHINE = new CustomItem(Material.BOWL, "&aAutomated Panning Machine", 0, new String[] {"", "&a&oA MultiBlock Version of the Gold Pan"});
 
-	public static ItemStack HOLOGRAM_PROJECTOR = new CustomItem(new MaterialData(Material.STEP, (byte) 7), "&bHologram Projector", "", "&rProjects an Editable Hologram");
+	public static ItemStack HOLOGRAM_PROJECTOR = new CustomItem(new MaterialData(Material.QUARTZ_SLAB), "&bHologram Projector", "", "&rProjects an Editable Hologram");
 	
 	/*		 Enhanced Furnaces 		*/
 	public static ItemStack ENHANCED_FURNACE = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eI", 0, new String[] {"", "&7Processing Speed: &e1x", "&7Fuel Efficiency: &e1x", "&7Luck Multiplier: &e1x"});
@@ -403,7 +403,7 @@ public class SlimefunItems {
 	public static ItemStack SOULBOUND_BOW = new CustomItem(Material.BOW, "&cSoulbound Bow", 0);
 	public static ItemStack SOULBOUND_PICKAXE = new CustomItem(Material.DIAMOND_PICKAXE, "&cSoulbound Pickaxe", 0);
 	public static ItemStack SOULBOUND_AXE = new CustomItem(Material.DIAMOND_AXE, "&cSoulbound Axe", 0);
-	public static ItemStack SOULBOUND_SHOVEL = new CustomItem(Material.DIAMOND_SPADE, "&cSoulbound Shovel", 0);
+	public static ItemStack SOULBOUND_SHOVEL = new CustomItem(Material.DIAMOND_SHOVEL, "&cSoulbound Shovel", 0);
 	public static ItemStack SOULBOUND_HOE = new CustomItem(Material.DIAMOND_HOE, "&cSoulbound Hoe", 0);
 	
 	public static ItemStack SOULBOUND_HELMET = new CustomItem(Material.DIAMOND_HELMET, "&cSoulbound Helmet", 0);
@@ -421,49 +421,49 @@ public class SlimefunItems {
 	public static ItemStack RUNE_RAINBOW = null;
 	
 	static {
-		ItemStack itemB = new ItemStack(Material.FIREWORK_CHARGE);
+		ItemStack itemB = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imB = (FireworkEffectMeta) itemB.getItemMeta();
 		imB.setEffect(FireworkEffect.builder().with(Type.BURST).with(Type.BURST).withColor(Color.BLACK).build());
 		imB.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&8Blank Rune"));
 		itemB.setItemMeta(imB);
 		BLANK_RUNE = itemB;
 		
-		ItemStack itemA = new ItemStack(Material.FIREWORK_CHARGE);
+		ItemStack itemA = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imA = (FireworkEffectMeta) itemA.getItemMeta();
 		imA.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.AQUA).build());
 		imA.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&b&lAir&8&l]"));
 		itemA.setItemMeta(imA);
 		RUNE_AIR = itemA;
 		
-		ItemStack itemW = new ItemStack(Material.FIREWORK_CHARGE);
+		ItemStack itemW = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imW = (FireworkEffectMeta) itemW.getItemMeta();
 		imW.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.BLUE).build());
 		imW.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&1&lWater&8&l]"));
 		itemW.setItemMeta(imW);
 		RUNE_WATER = itemW;
 		
-		ItemStack itemF = new ItemStack(Material.FIREWORK_CHARGE);
+		ItemStack itemF = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imF = (FireworkEffectMeta) itemF.getItemMeta();
 		imF.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.RED).build());
 		imF.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&4&lFire&8&l]"));
 		itemF.setItemMeta(imF);
 		RUNE_FIRE = itemF;
 		
-		ItemStack itemE = new ItemStack(Material.FIREWORK_CHARGE);
+		ItemStack itemE = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imE = (FireworkEffectMeta) itemE.getItemMeta();
 		imE.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.ORANGE).build());
 		imE.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&c&lEarth&8&l]"));
 		itemE.setItemMeta(imE);
 		RUNE_EARTH = itemE;
 		
-		ItemStack itemN = new ItemStack(Material.FIREWORK_CHARGE);
+		ItemStack itemN = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imN = (FireworkEffectMeta) itemN.getItemMeta();
 		imN.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
 		imN.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&5&lEnder&8&l]"));
 		itemN.setItemMeta(imN);
 		RUNE_ENDER = itemN;
 		
-		ItemStack itemR = new ItemStack(Material.FIREWORK_CHARGE);
+		ItemStack itemR = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imR = (FireworkEffectMeta) itemR.getItemMeta();
 		imR.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
 		imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
@@ -487,13 +487,13 @@ public class SlimefunItems {
 	public static ItemStack ELECTRIC_ORE_GRINDER = new CustomItem(new ItemStack(Material.FURNACE), "&cElectric Ore Grinder", "","&rWorks as an Ore Crusher and Grind Stone", "", "&6Advanced Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &712 J/s");
 	public static ItemStack ELECTRIC_ORE_GRINDER_2 = new CustomItem(new ItemStack(Material.FURNACE), "&cElectric Ore Grinder &7(&eII&7)", "","&rWorks as an Ore Crusher and Grind Stone", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 4x", "&8\u21E8 &e\u26A1 &730 J/s");
 	public static ItemStack ELECTRIC_INGOT_PULVERIZER = new CustomItem(new ItemStack(Material.FURNACE), "&cElectric Ingot Pulverizer", "", "&rPulverizes Ingots into Dust", "", "&aMedium Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &714 J/s");
-	public static ItemStack AUTO_ENCHANTER = new CustomItem(new ItemStack(Material.ENCHANTMENT_TABLE), "&5Auto Enchanter", "", "&aMedium Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &718 J/s");
-	public static ItemStack AUTO_DISENCHANTER = new CustomItem(new ItemStack(Material.ENCHANTMENT_TABLE), "&5Auto Disenchanter", "", "&aMedium Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &718 J/s");
+	public static ItemStack AUTO_ENCHANTER = new CustomItem(new ItemStack(Material.ENCHANTING_TABLE), "&5Auto Enchanter", "", "&aMedium Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &718 J/s");
+	public static ItemStack AUTO_DISENCHANTER = new CustomItem(new ItemStack(Material.ENCHANTING_TABLE), "&5Auto Disenchanter", "", "&aMedium Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &718 J/s");
 	public static ItemStack AUTO_ANVIL = new CustomItem(new ItemStack(Material.IRON_BLOCK), "&7Auto Anvil", "", "&6Advanced Machine", "&8\u21E8 &7Repair Factor: 10%", "&8\u21E8 &e\u26A1 &724 J/s");
 	public static ItemStack AUTO_ANVIL_2 = new CustomItem(new ItemStack(Material.IRON_BLOCK), "&7Auto Anvil Mk.II", "", "&4End-Game Machine", "&8\u21E8 &7Repair Factor: 25%", "&8\u21E8 &e\u26A1 &732 J/s");
 	
-	public static ItemStack BIO_REACTOR = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 5), "&2Bio Reactor", "", "&6Average Generator", "&8\u21E8 &e\u26A1 &7128 J Buffer", "&8\u21E8 &e\u26A1 &78 J/s");
-	public static ItemStack MULTIMETER = new CustomItem(new MaterialData(Material.WATCH), "&eMultimeter", "", "&rMeasures the Amount of stored", "&rEnergy in a Block");
+	public static ItemStack BIO_REACTOR = new CustomItem(new MaterialData(Material.LIME_TERRACOTTA), "&2Bio Reactor", "", "&6Average Generator", "&8\u21E8 &e\u26A1 &7128 J Buffer", "&8\u21E8 &e\u26A1 &78 J/s");
+	public static ItemStack MULTIMETER = new CustomItem(new MaterialData(Material.CLOCK), "&eMultimeter", "", "&rMeasures the Amount of stored", "&rEnergy in a Block");
 	public static ItemStack SMALL_CAPACITOR = null, MEDIUM_CAPACITOR = null, BIG_CAPACITOR = null, LARGE_CAPACITOR = null, CARBONADO_EDGED_CAPACITOR = null;
 	
 	/*		Robots				*/
@@ -520,7 +520,7 @@ public class SlimefunItems {
 	public static ItemStack GPS_TRANSMITTER_4 = null;
 	
 	public static ItemStack GPS_CONTROL_PANEL = null;
-	public static ItemStack GPS_MARKER_TOOL = new CustomItem(new MaterialData(Material.REDSTONE_TORCH_ON), "&bGPS Marker Tool", "", "&rAllows you to set a Waypoint at", "&rthe Location you place this");
+	public static ItemStack GPS_MARKER_TOOL = new CustomItem(new MaterialData(Material.REDSTONE_TORCH), "&bGPS Marker Tool", "", "&rAllows you to set a Waypoint at", "&rthe Location you place this");
 	public static ItemStack GPS_EMERGENCY_TRANSMITTER = null;
 	public static ItemStack GPS_GEO_SCANNER = null;
 	
@@ -531,46 +531,46 @@ public class SlimefunItems {
 	public static ItemStack BUCKET_OF_FUEL = null;
 	public static ItemStack OIL_PUMP = null;
 
-	public static ItemStack REFINERY = new CustomItem(new ItemStack(Material.PISTON_BASE), "&cRefinery", "", "&rRefines Oil to create Fuel");
+	public static ItemStack REFINERY = new CustomItem(new ItemStack(Material.PISTON), "&cRefinery", "", "&rRefines Oil to create Fuel");
 	public static ItemStack COMBUSTION_REACTOR = null;
 	public static ItemStack ANDROID_MEMORY_CORE = null;
 	
-	public static ItemStack GPS_TELEPORTER_PYLON = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 10), "&5GPS Teleporter Pylon", "", "&7Teleporter Component");
+	public static ItemStack GPS_TELEPORTER_PYLON = new CustomItem(new MaterialData(Material.PURPLE_STAINED_GLASS), "&5GPS Teleporter Pylon", "", "&7Teleporter Component");
 	public static ItemStack GPS_TELEPORTATION_MATRIX = new CustomItem(new MaterialData(Material.IRON_BLOCK), "&bGPS Teleporter Matrix", "", "&rThis is your Teleporter's Main Component", "&rThis Matrix allows Players to choose from all", "&rWaypoints made by the Player who has placed", "&rthis Device.");
-	public static ItemStack GPS_ACTIVATION_DEVICE_SHARED = new CustomItem(new MaterialData(Material.STONE_PLATE), "&rGPS Activation Device &3(Shared)", "", "&rPlace this onto a Teleportation Matrix", "&rand step onto this Plate to activate", "&rthe Teleportation Process");
-	public static ItemStack GPS_ACTIVATION_DEVICE_PERSONAL = new CustomItem(new MaterialData(Material.STONE_PLATE), "&rGPS Activation Device &a(Personal)", "", "&rPlace this onto a Teleportation Matrix", "&rand step onto this Plate to activate", "&rthe Teleportation Process", "", "&rThis Version only allows the Person who", "&rplaced this Device to use it");
+	public static ItemStack GPS_ACTIVATION_DEVICE_SHARED = new CustomItem(new MaterialData(Material.STONE_PRESSURE_PLATE), "&rGPS Activation Device &3(Shared)", "", "&rPlace this onto a Teleportation Matrix", "&rand step onto this Plate to activate", "&rthe Teleportation Process");
+	public static ItemStack GPS_ACTIVATION_DEVICE_PERSONAL = new CustomItem(new MaterialData(Material.STONE_PRESSURE_PLATE), "&rGPS Activation Device &a(Personal)", "", "&rPlace this onto a Teleportation Matrix", "&rand step onto this Plate to activate", "&rthe Teleportation Process", "", "&rThis Version only allows the Person who", "&rplaced this Device to use it");
 
-	public static ItemStack ELEVATOR = new CustomItem(new MaterialData(Material.STONE_PLATE), "&bElevator Plate", "", "&rPlace an Elevator Plate on every floor", "&rand you will be able to teleport between them.", "", "&eRight Click this Block &7to name it");
+	public static ItemStack ELEVATOR = new CustomItem(new MaterialData(Material.STONE_PRESSURE_PLATE), "&bElevator Plate", "", "&rPlace an Elevator Plate on every floor", "&rand you will be able to teleport between them.", "", "&eRight Click this Block &7to name it");
 	
 	public static ItemStack INFUSED_HOPPER = new CustomItem(new MaterialData(Material.HOPPER), "&5Infused Hopper", "", "&rAutomatically picks up nearby Items in a 7x7x7", "&rRadius when placed.");
 
 	public static ItemStack PLASTIC_SHEET = new CustomItem(new MaterialData(Material.PAPER), "&rPlastic Sheet");
-	public static ItemStack HEATED_PRESSURE_CHAMBER = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 8), "&cHeated Pressure Chamber", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &710 J/s");
-	public static ItemStack HEATED_PRESSURE_CHAMBER_2 = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 8), "&cHeated Pressure Chamber &7- &eII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 5x", "&8\u21E8 &e\u26A1 &744 J/s");
+	public static ItemStack HEATED_PRESSURE_CHAMBER = new CustomItem(new MaterialData(Material.LIGHT_GRAY_STAINED_GLASS), "&cHeated Pressure Chamber", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &710 J/s");
+	public static ItemStack HEATED_PRESSURE_CHAMBER_2 = new CustomItem(new MaterialData(Material.LIGHT_GRAY_STAINED_GLASS), "&cHeated Pressure Chamber &7- &eII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 5x", "&8\u21E8 &e\u26A1 &744 J/s");
 	
 	public static ItemStack ELECTRIC_SMELTERY = new CustomItem(new MaterialData(Material.FURNACE), "&cElectric Smeltery", "", "&4Alloys-Only, doesn't smelt Dust into Ingots", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &720 J/s");
 	public static ItemStack ELECTRIC_SMELTERY_2 = new CustomItem(new MaterialData(Material.FURNACE), "&cElectric Smeltery &7- &eII", "", "&4Alloys-Only, doesn't smelt Dust into Ingots", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 3x", "&8\u21E8 &e\u26A1 &740 J/s");
 	
-	public static ItemStack ELECTRIFIED_CRUCIBLE = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 14), "&cElectrified Crucible", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &748 J/s");
-	public static ItemStack ELECTRIFIED_CRUCIBLE_2 = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 14), "&cElectrified Crucible &7- &eII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 2x", "&8\u21E8 &e\u26A1 &780 J/s");
-	public static ItemStack ELECTRIFIED_CRUCIBLE_3 = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 14), "&cElectrified Crucible &7- &eIII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 4x", "&8\u21E8 &e\u26A1 &7120 J/s");
+	public static ItemStack ELECTRIFIED_CRUCIBLE = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectrified Crucible", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &748 J/s");
+	public static ItemStack ELECTRIFIED_CRUCIBLE_2 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectrified Crucible &7- &eII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 2x", "&8\u21E8 &e\u26A1 &780 J/s");
+	public static ItemStack ELECTRIFIED_CRUCIBLE_3 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectrified Crucible &7- &eIII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 4x", "&8\u21E8 &e\u26A1 &7120 J/s");
 
-	public static ItemStack CARBON_PRESS = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 15), "&cCarbon Press", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &720 J/s");
-	public static ItemStack CARBON_PRESS_2 = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 15), "&cCarbon Press &7- &eII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 3x", "&8\u21E8 &e\u26A1 &750 J/s");
-	public static ItemStack CARBON_PRESS_3 = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 15), "&cCarbon Press &7- &eIII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 15x", "&8\u21E8 &e\u26A1 &7180 J/s");
+	public static ItemStack CARBON_PRESS = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&cCarbon Press", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &720 J/s");
+	public static ItemStack CARBON_PRESS_2 = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&cCarbon Press &7- &eII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 3x", "&8\u21E8 &e\u26A1 &750 J/s");
+	public static ItemStack CARBON_PRESS_3 = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&cCarbon Press &7- &eIII", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 15x", "&8\u21E8 &e\u26A1 &7180 J/s");
 	
 	public static ItemStack BLISTERING_INGOT = new CustomItem(new MaterialData(Material.GOLD_INGOT), "&6Blistering Ingot &7(33%)", "", "&2Radiation Level: HIGH", "&4&oHazmat Suit required");
 	public static ItemStack BLISTERING_INGOT_2 = new CustomItem(new MaterialData(Material.GOLD_INGOT), "&6Blistering Ingot &7(66%)", "", "&2Radiation Level: HIGH", "&4&oHazmat Suit required");
 	public static ItemStack BLISTERING_INGOT_3 = new CustomItem(new MaterialData(Material.GOLD_INGOT), "&6Blistering Ingot", "", "&2Radiation Level: HIGH", "&4&oHazmat Suit required");
 	
 	public static ItemStack ENERGY_REGULATOR = null;
-	public static ItemStack DEBUG_FISH = new CustomItem(new MaterialData(Material.RAW_FISH), "&3How much is the Fish?", "", "&eRight Click &rany Block to view it's BlockData", "&eLeft Click &rto break a Block", "&eShift + Left Click &rany Block to erase it's BlockData", "&eShift + Right Click &rto place a Placeholder Block");
+	public static ItemStack DEBUG_FISH = new CustomItem(new MaterialData(Material.PUFFERFISH), "&3How much is the Fish?", "", "&eRight Click &rany Block to view it's BlockData", "&eLeft Click &rto break a Block", "&eShift + Left Click &rany Block to erase it's BlockData", "&eShift + Right Click &rto place a Placeholder Block");
 
 
 	public static ItemStack NETHER_ICE = null;
 	public static ItemStack ENRICHED_NETHER_ICE = null;
 	public static ItemStack NETHER_ICE_COOLANT_CELL = null;
-	public static ItemStack NETHER_DRILL = new CustomItem(new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 14), "&4Nether Drill", "", "&rAllows you to mine Nether Ice", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &7102 J/s", "", "&c&l! &cCan only be used in the Nether!", "&c&l! &cMake sure to Geo-Scan the Chunk first"));
+	public static ItemStack NETHER_DRILL = new CustomItem(new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&4Nether Drill", "", "&rAllows you to mine Nether Ice", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &7102 J/s", "", "&c&l! &cCan only be used in the Nether!", "&c&l! &cMake sure to Geo-Scan the Chunk first"));
 	
 	// Cargo
 	public static ItemStack CARGO_MANAGER = null;
@@ -603,37 +603,37 @@ public class SlimefunItems {
 	public static ItemStack CROP_GROWTH_ACCELERATOR = null;
 	public static ItemStack CROP_GROWTH_ACCELERATOR_2 = null;
 
-	public static ItemStack FOOD_FABRICATOR = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 13), "&cFood Fabricator", "", "&rProduces &aOrganic Food", "", "&6Advanced Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &714 J/s");
-	public static ItemStack FOOD_FABRICATOR_2 = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 13), "&cFood Fabricator &7(&eII&7)", "", "&rProduces &aOrganic Food", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 6x", "&8\u21E8 &e\u26A1 &7512 J Buffer", "&8\u21E8 &e\u26A1 &748 J/s");
+	public static ItemStack FOOD_FABRICATOR = new CustomItem(new MaterialData(Material.GREEN_STAINED_GLASS), "&cFood Fabricator", "", "&rProduces &aOrganic Food", "", "&6Advanced Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &714 J/s");
+	public static ItemStack FOOD_FABRICATOR_2 = new CustomItem(new MaterialData(Material.GREEN_STAINED_GLASS), "&cFood Fabricator &7(&eII&7)", "", "&rProduces &aOrganic Food", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 6x", "&8\u21E8 &e\u26A1 &7512 J Buffer", "&8\u21E8 &e\u26A1 &748 J/s");
 	
-	public static ItemStack FOOD_COMPOSTER = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 13), "&cFood Composter", "", "&rProduces &aOrganic Fertilizer", "", "&6Advanced Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &716 J/s");
-	public static ItemStack FOOD_COMPOSTER_2 = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 13), "&cFood Composter &7(&eII&7)", "", "&rProduces &aOrganic Fertilizer", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 10x", "&8\u21E8 &e\u26A1 &7512 J Buffer", "&8\u21E8 &e\u26A1 &752 J/s");
+	public static ItemStack FOOD_COMPOSTER = new CustomItem(new MaterialData(Material.GREEN_TERRACOTTA), "&cFood Composter", "", "&rProduces &aOrganic Fertilizer", "", "&6Advanced Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &716 J/s");
+	public static ItemStack FOOD_COMPOSTER_2 = new CustomItem(new MaterialData(Material.GREEN_TERRACOTTA), "&cFood Composter &7(&eII&7)", "", "&rProduces &aOrganic Fertilizer", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 10x", "&8\u21E8 &e\u26A1 &7512 J Buffer", "&8\u21E8 &e\u26A1 &752 J/s");
 
 	public static ItemStack XP_COLLECTOR = null;
 	public static ItemStack REACTOR_COOLANT_CELL = null;
 
 	public static ItemStack NUCLEAR_REACTOR = null;
 	public static ItemStack NETHERSTAR_REACTOR = null;
-	public static ItemStack REACTOR_ACCESS_PORT = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 9), "&2Reactor Access Port", "", "&rAllows you to interact with a Reactor", "&rvia Cargo Nodes, can also be used", "&ras a Buffer", "", "&8\u21E8 &eMust be placed &a3 Blocks &eabove the Reactor");
+	public static ItemStack REACTOR_ACCESS_PORT = new CustomItem(new MaterialData(Material.CYAN_TERRACOTTA), "&2Reactor Access Port", "", "&rAllows you to interact with a Reactor", "&rvia Cargo Nodes, can also be used", "&ras a Buffer", "", "&8\u21E8 &eMust be placed &a3 Blocks &eabove the Reactor");
 	
 	public static ItemStack FREEZER = null;
 	public static ItemStack FREEZER_2 = null;
 	
-	public static ItemStack ELECTRIC_GOLD_PAN = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 12), "&6Electric Gold Pan", "", "&eBasic Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &72 J/s");
-	public static ItemStack ELECTRIC_GOLD_PAN_2 = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 12), "&6Electric Gold Pan &7(&eII&7)", "", "&eBasic Machine", "&8\u21E8 &7Speed: 3x", "&8\u21E8 &e\u26A1 &74 J/s");
-	public static ItemStack ELECTRIC_GOLD_PAN_3 = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 12), "&6Electric Gold Pan &7(&eIII&7)", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 10x", "&8\u21E8 &e\u26A1 &714 J/s");
+	public static ItemStack ELECTRIC_GOLD_PAN = new CustomItem(new MaterialData(Material.BROWN_TERRACOTTA), "&6Electric Gold Pan", "", "&eBasic Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &72 J/s");
+	public static ItemStack ELECTRIC_GOLD_PAN_2 = new CustomItem(new MaterialData(Material.BROWN_TERRACOTTA), "&6Electric Gold Pan &7(&eII&7)", "", "&eBasic Machine", "&8\u21E8 &7Speed: 3x", "&8\u21E8 &e\u26A1 &74 J/s");
+	public static ItemStack ELECTRIC_GOLD_PAN_3 = new CustomItem(new MaterialData(Material.BROWN_TERRACOTTA), "&6Electric Gold Pan &7(&eIII&7)", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 10x", "&8\u21E8 &e\u26A1 &714 J/s");
 
-	public static ItemStack ELECTRIC_DUST_WASHER = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 11), "&3Electric Dust Washer", "", "&eBasic Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &76 J/s");
-	public static ItemStack ELECTRIC_DUST_WASHER_2 = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 11), "&3Electric Dust Washer &7(&eII&7)", "", "&eBasic Machine", "&8\u21E8 &7Speed: 2x", "&8\u21E8 &e\u26A1 &710 J/s");
-	public static ItemStack ELECTRIC_DUST_WASHER_3 = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 11), "&3Electric Dust Washer &7(&eIII&7)", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 10x", "&8\u21E8 &e\u26A1 &730 J/s");
+	public static ItemStack ELECTRIC_DUST_WASHER = new CustomItem(new MaterialData(Material.BLUE_STAINED_GLASS), "&3Electric Dust Washer", "", "&eBasic Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &76 J/s");
+	public static ItemStack ELECTRIC_DUST_WASHER_2 = new CustomItem(new MaterialData(Material.BLUE_STAINED_GLASS), "&3Electric Dust Washer &7(&eII&7)", "", "&eBasic Machine", "&8\u21E8 &7Speed: 2x", "&8\u21E8 &e\u26A1 &710 J/s");
+	public static ItemStack ELECTRIC_DUST_WASHER_3 = new CustomItem(new MaterialData(Material.BLUE_STAINED_GLASS), "&3Electric Dust Washer &7(&eIII&7)", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 10x", "&8\u21E8 &e\u26A1 &730 J/s");
 
-	public static ItemStack ELECTRIC_INGOT_FACTORY = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 14), "&cElectric Ingot Factory", "", "&eBasic Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &78 J/s");
-	public static ItemStack ELECTRIC_INGOT_FACTORY_2 = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 14), "&cElectric Ingot Factory &7(&eII&7)", "", "&eBasic Machine", "&8\u21E8 &7Speed: 2x", "&8\u21E8 &e\u26A1 &714 J/s");
-	public static ItemStack ELECTRIC_INGOT_FACTORY_3 = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 14), "&cElectric Ingot Factory &7(&eIII&7)", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 8x", "&8\u21E8 &e\u26A1 &740 J/s");
+	public static ItemStack ELECTRIC_INGOT_FACTORY = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectric Ingot Factory", "", "&eBasic Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &78 J/s");
+	public static ItemStack ELECTRIC_INGOT_FACTORY_2 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectric Ingot Factory &7(&eII&7)", "", "&eBasic Machine", "&8\u21E8 &7Speed: 2x", "&8\u21E8 &e\u26A1 &714 J/s");
+	public static ItemStack ELECTRIC_INGOT_FACTORY_3 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectric Ingot Factory &7(&eIII&7)", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 8x", "&8\u21E8 &e\u26A1 &740 J/s");
 
-	public static ItemStack AUTOMATED_CRAFTING_CHAMBER = new CustomItem(new MaterialData(Material.WORKBENCH), "&6Automated Crafting Chamber", "", "&6Advanced Machine", "&8\u21E8 &e\u26A1 &710 J/Item");
-	public static ItemStack FLUID_PUMP = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 11), "&9Fluid Pump", "", "&6Advanced Machine", "&8\u21E8 &e\u26A1 &732 J/Block");
-	public static ItemStack CHARGING_BENCH = new CustomItem(new MaterialData(Material.WORKBENCH), "&6Charging Bench", "", "&rCharges Items such as Jetpacks", "", "&eBasic Machine", "&8\u21E8 &e\u26A1 &7128 J Buffer", "&8\u21E8 &e\u26A1 &7Energy Loss: &c50%");
+	public static ItemStack AUTOMATED_CRAFTING_CHAMBER = new CustomItem(new MaterialData(Material.CRAFTING_TABLE), "&6Automated Crafting Chamber", "", "&6Advanced Machine", "&8\u21E8 &e\u26A1 &710 J/Item");
+	public static ItemStack FLUID_PUMP = new CustomItem(new MaterialData(Material.BLUE_TERRACOTTA), "&9Fluid Pump", "", "&6Advanced Machine", "&8\u21E8 &e\u26A1 &732 J/Block");
+	public static ItemStack CHARGING_BENCH = new CustomItem(new MaterialData(Material.CRAFTING_TABLE), "&6Charging Bench", "", "&rCharges Items such as Jetpacks", "", "&eBasic Machine", "&8\u21E8 &e\u26A1 &7128 J Buffer", "&8\u21E8 &e\u26A1 &7Energy Loss: &c50%");
 
 	public static ItemStack WITHER_ASSEMBLER = new CustomItem(new MaterialData(Material.OBSIDIAN), "&5Wither Assembler", "", "&4End-Game Machine", "&8\u21E8 &7Cooldown: &b30 Seconds", "&8\u21E8 &e\u26A1 &74096 J Buffer", "&8\u21E8 &e\u26A1 &74096 J/Wither");
 	
@@ -755,8 +755,8 @@ public class SlimefunItems {
 
 			AUTO_BREEDER = new CustomItem(new MaterialData(Material.HAY_BLOCK), "&eAuto-Breeder", "", "&rRuns on &aOrganic Food", "", "&4End-Game Machine", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &760 J/Animal");
 			ANIMAL_GROWTH_ACCELERATOR = new CustomItem(new MaterialData(Material.HAY_BLOCK), "&bAnimal Growth Accelerator", "", "&rRuns on &aOrganic Food", "", "&4End-Game Machine", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &728 J/s");
-			CROP_GROWTH_ACCELERATOR = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 5), "&aCrop Growth Accelerator", "", "&rRuns on &aOrganic Fertilizer", "", "&4End-Game Machine", "&8\u21E8 &7Radius: 7x7", "&8\u21E8 &7Speed: &a3/time", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &750 J/s");
-			CROP_GROWTH_ACCELERATOR_2 = new CustomItem(new MaterialData(Material.STAINED_CLAY, (byte) 5), "&aCrop Growth Accelerator &7(&eII&7)", "", "&rRuns on &aOrganic Fertilizer", "", "&4End-Game Machine", "&8\u21E8 &7Radius: 9x9", "&8\u21E8 &7Speed: &a4/time", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &760 J/s");
+			CROP_GROWTH_ACCELERATOR = new CustomItem(new MaterialData(Material.LIME_TERRACOTTA), "&aCrop Growth Accelerator", "", "&rRuns on &aOrganic Fertilizer", "", "&4End-Game Machine", "&8\u21E8 &7Radius: 7x7", "&8\u21E8 &7Speed: &a3/time", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &750 J/s");
+			CROP_GROWTH_ACCELERATOR_2 = new CustomItem(new MaterialData(Material.LIME_TERRACOTTA), "&aCrop Growth Accelerator &7(&eII&7)", "", "&rRuns on &aOrganic Fertilizer", "", "&4End-Game Machine", "&8\u21E8 &7Radius: 9x9", "&8\u21E8 &7Speed: &a4/time", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &760 J/s");
 			XP_COLLECTOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTc2MmExNWIwNDY5MmEyZTRiM2ZiMzY2M2JkNGI3ODQzNGRjZTE3MzJiOGViMWM3YTlmN2MwZmJmNmYifX19"), "&aEXP Collector", "", "&rCollects nearby Exp and stores it", "", "&4End-Game Machine", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &720 J/s");
 			
 			ORGANIC_FOOD = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Food", "&7Content: &9X");
@@ -784,8 +784,8 @@ public class SlimefunItems {
 			CT_IMPORT_BUS = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTEzZGIyZTdlNzJlYTQ0MzJlZWZiZDZlNThhODVlYWEyNDIzZjgzZTY0MmNhNDFhYmM2YTkzMTc3NTdiODg5In19fQ=="), "&3CT Import Bus", "&7If this Block is connected to a", "&7Cargo Network, it will pull any Items from", "&7the Inventory it is attached to and place it", "&7into the CT Network Channel");
 			CT_EXPORT_BUS = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTEzZGIyZTdlNzJlYTQ0MzJlZWZiZDZlNThhODVlYWEyNDIzZjgzZTY0MmNhNDFhYmM2YTkzMTc3NTdiODg5In19fQ=="), "&3CT Export Bus", "&7If this Block is connected to a", "&7Cargo Network, it will pull any Items from", "&7the CT Network Channel and place these", "&7into the Inventory it is attached to");
 			
-			FREEZER = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 3), "&bFreezer", "", "&6Advanced Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &718 J/s");
-			FREEZER_2 = new CustomItem(new MaterialData(Material.STAINED_GLASS, (byte) 3), "&bFreezer &7(&eII&7)", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 2x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &730 J/s");
+			FREEZER = new CustomItem(new MaterialData(Material.LIGHT_BLUE_STAINED_GLASS), "&bFreezer", "", "&6Advanced Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &718 J/s");
+			FREEZER_2 = new CustomItem(new MaterialData(Material.LIGHT_BLUE_STAINED_GLASS), "&bFreezer &7(&eII&7)", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 2x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &730 J/s");
 			
 			BATTERY = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmUyZGRhNmVmNjE4NWQ0ZGQ2ZWE4Njg0ZTk3ZDM5YmE4YWIwMzdlMjVmNzVjZGVhNmJkMjlkZjhlYjM0ZWUifX19"), "&6Battery");
 			

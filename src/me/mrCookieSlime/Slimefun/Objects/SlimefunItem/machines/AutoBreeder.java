@@ -87,7 +87,7 @@ public class AutoBreeder extends SlimefunItem {
 	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
+			preset.addItem(i, new CustomItem(new MaterialData(Material.CYAN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override

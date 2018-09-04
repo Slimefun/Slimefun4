@@ -26,8 +26,10 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.CocoaPlant;
 import org.bukkit.material.MaterialData;
 
 public abstract class CropGrowthAccelerator extends SlimefunItem {
@@ -37,11 +39,11 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	public static final Map<Material, Integer> crops = new HashMap<Material, Integer>();
 	
 	static {
-		crops.put(Material.CROPS, 7);
-		crops.put(Material.POTATO, 7);
-		crops.put(Material.CARROT, 7);
-		crops.put(Material.NETHER_WARTS, 3);
-		crops.put(Material.BEETROOT_BLOCK, 3);
+		crops.put(Material.WHEAT, 7);
+		crops.put(Material.POTATOES, 7);
+		crops.put(Material.CARROTS, 7);
+		crops.put(Material.NETHER_WART, 3);
+		crops.put(Material.BEETROOTS, 3);
 		crops.put(Material.COCOA, 8);
 	}
 
@@ -97,7 +99,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 9), " "),
+			preset.addItem(i, new CustomItem(new MaterialData(Material.CYAN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -159,12 +161,15 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 								if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
 								ChargableBlock.addCharge(b, -getEnergyConsumption());
 								
-								if (block.getType().equals(Material.COCOA)) {
-									block.setData((byte) (block.getData() + 4));
-								}
-								else {
-									block.setData((byte) (block.getData() + 1));
-								}
+//								if (block.getType().equals(Material.COCOA)) {
+//									((Ageable)block.getBlockData()).se
+//									block.setData((byte) (block.getData() + 4));
+//								}
+//								else {
+//									block.setData((byte) (block.getData() + 1));
+//								}
+								//ToDO: Test and cleanup
+								((Ageable)block.getBlockData()).setAge(((Ageable)block.getBlockData()).getAge()+1);
 
 								ParticleEffect.VILLAGER_HAPPY.display(block.getLocation().add(0.5D, 0.5D, 0.5D), 0.1F, 0.1F, 0.1F, 0, 4);
 								work++;
