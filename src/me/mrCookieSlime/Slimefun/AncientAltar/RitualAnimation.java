@@ -77,7 +77,7 @@ public class RitualAnimation implements Runnable {
 		else {
 			particles.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
 			items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
-			pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 5F, 2F);
+			pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5F, 2F);
 
 			try {
 				ParticleEffect.ENCHANTMENT_TABLE.display(pedestal.getLocation().add(0.5, 1.5, 0.5), 0.3F, 0.2F, 0.3F, 0, 16);
@@ -116,7 +116,7 @@ public class RitualAnimation implements Runnable {
 			altars.remove(altar);
 		}
 		else {
-			l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 1F, 1F);
+			l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 1F);
 		}
 	}
 }

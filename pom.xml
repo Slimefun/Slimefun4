@@ -93,7 +93,7 @@
     		<dependency>
     			<groupId>org.bukkit</groupId>
     			<artifactId>bukkit</artifactId>
-    			<version>1.12-R0.1-SNAPSHOT</version>
+    			<version>1.13.1-R0.1-SNAPSHOT</version>
     		</dependency>
     		<dependency>
     			<groupId>com.sk89q.worldedit</groupId>
@@ -103,7 +103,7 @@
     		<dependency>
     			<groupId>com.github.TheBusyBiscuit</groupId>
     			<artifactId>CS-CoreLib</artifactId>
-    			<version>v1.5.18</version>
+    			<version>2e43353cd0</version>
     		</dependency>
     		<dependency>
     			<groupId>me.minebuilders</groupId>

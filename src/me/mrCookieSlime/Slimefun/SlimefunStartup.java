@@ -83,7 +83,7 @@ public class SlimefunStartup extends JavaPlugin {
 	private boolean coreProtect = false;
 
 	// Supported Versions of Minecraft
-	final String[] supported = {"v1_9_", "v1_10_", "v1_11_", "v1_12_"};
+	final String[] supported = {"v1_13_"};
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -205,8 +205,7 @@ public class SlimefunStartup extends JavaPlugin {
 			new TeleporterListener(this);
 			new AndroidKillingListener(this);
 			new NetworkListener(this);
-			if (currentVersion.startsWith("v1_12_")) new ItemPickupListener_1_12(this);
-			else new ItemPickupListener(this);
+			new ItemPickupListener(this);
 
 			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);

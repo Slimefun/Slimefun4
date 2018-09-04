@@ -45,6 +45,7 @@ public class MultiBlock {
 				for (int i = 0; i < mb.getBuild().length; i++) {
 					if (mb.getBuild()[i] != null) {
 						if (mb.getBuild()[i] == Material.LOG) {
+							// TODO: Proper Wood Checks
 							if (!blocks[i].toString().contains("LOG")) return false;
 						}
 						else if (mb.getBuild()[i] != blocks[i]) return false;
@@ -63,6 +64,7 @@ public class MultiBlock {
 			for (int i = 0; i < mb.getBuild().length; i++) {
 				if (mb.getBuild()[i] != null) {
 					if (mb.getBuild()[i] == Material.LOG) {
+						// TODO: Proper Wood Checks
 						if (!blocks[i].toString().contains("LOG")) return false;
 					}
 					else if (mb.getBuild()[i] != blocks[i]) return false;

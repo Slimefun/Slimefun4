@@ -52,7 +52,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private static final int[] border_out = {10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41};
 
 	@SuppressWarnings("deprecation")
-	private static final ItemStack[] fish = new ItemStack[] {new MaterialData(Material.RAW_FISH, (byte) 0).toItemStack(1), new MaterialData(Material.RAW_FISH, (byte) 1).toItemStack(1), new MaterialData(Material.RAW_FISH, (byte) 2).toItemStack(1), new MaterialData(Material.RAW_FISH, (byte) 3).toItemStack(1), new ItemStack(Material.STRING), new ItemStack(Material.BONE), new ItemStack(Material.STICK)};
+	private static final ItemStack[] fish = new ItemStack[] {new ItemStack(Material.COD), new ItemStack(Material.SALMON), new ItemStack(Material.PUFFERFISH), new ItemStack(Material.TROPICAL_FISH), new ItemStack(Material.STRING), new ItemStack(Material.BONE), new ItemStack(Material.STICK)};
 
 	private static final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 	private static final List<Material> blockblacklist = new ArrayList<Material>();
@@ -60,10 +60,10 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	static {
 		blockblacklist.add(Material.BEDROCK);
 		blockblacklist.add(Material.BARRIER);
-		blockblacklist.add(Material.ENDER_PORTAL_FRAME);
-		blockblacklist.add(Material.COMMAND);
-		blockblacklist.add(Material.COMMAND_CHAIN);
-		blockblacklist.add(Material.COMMAND_REPEATING);
+		blockblacklist.add(Material.END_PORTAL_FRAME);
+		blockblacklist.add(Material.COMMAND_BLOCK);
+		blockblacklist.add(Material.CHAIN_COMMAND_BLOCK);
+		blockblacklist.add(Material.REPEATING_COMMAND_BLOCK);
 	}
 
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
@@ -92,20 +92,20 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			registerFuel(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
 
 			// Logs
-			registerFuel(new MachineFuel(4, new MaterialData(Material.LOG, (byte) 0).toItemStack(1)));
-			registerFuel(new MachineFuel(4, new MaterialData(Material.LOG, (byte) 1).toItemStack(1)));
-			registerFuel(new MachineFuel(4, new MaterialData(Material.LOG, (byte) 2).toItemStack(1)));
-			registerFuel(new MachineFuel(4, new MaterialData(Material.LOG, (byte) 3).toItemStack(1)));
-			registerFuel(new MachineFuel(4, new MaterialData(Material.LOG_2, (byte) 0).toItemStack(1)));
-			registerFuel(new MachineFuel(4, new MaterialData(Material.LOG_2, (byte) 1).toItemStack(1)));
+			registerFuel(new MachineFuel(4, new ItemStack(Material.OAK_LOG)));
+			registerFuel(new MachineFuel(4, new ItemStack(Material.BIRCH_LOG)));
+			registerFuel(new MachineFuel(4, new ItemStack(Material.SPRUCE_LOG)));
+			registerFuel(new MachineFuel(4, new ItemStack(Material.JUNGLE_LOG)));
+			registerFuel(new MachineFuel(4, new ItemStack(Material.DARK_OAK_LOG)));
+			registerFuel(new MachineFuel(4, new ItemStack(Material.ACACIA_LOG)));
 
 			// Wooden Planks
-			registerFuel(new MachineFuel(1, new MaterialData(Material.WOOD, (byte) 0).toItemStack(1)));
-			registerFuel(new MachineFuel(1, new MaterialData(Material.WOOD, (byte) 1).toItemStack(1)));
-			registerFuel(new MachineFuel(1, new MaterialData(Material.WOOD, (byte) 2).toItemStack(1)));
-			registerFuel(new MachineFuel(1, new MaterialData(Material.WOOD, (byte) 3).toItemStack(1)));
-			registerFuel(new MachineFuel(1, new MaterialData(Material.WOOD, (byte) 4).toItemStack(1)));
-			registerFuel(new MachineFuel(1, new MaterialData(Material.WOOD, (byte) 5).toItemStack(1)));
+			registerFuel(new MachineFuel(1, new ItemStack(Material.OAK_PLANKS)));
+			registerFuel(new MachineFuel(1, new ItemStack(Material.BIRCH_PLANKS)));
+			registerFuel(new MachineFuel(1, new ItemStack(Material.SPRUCE_PLANKS)));
+			registerFuel(new MachineFuel(1, new ItemStack(Material.JUNGLE_PLANKS)));
+			registerFuel(new MachineFuel(1, new ItemStack(Material.DARK_OAK_PLANKS)));
+			registerFuel(new MachineFuel(1, new ItemStack(Material.ACACIA_PLANKS)));
 		}
 		else if (getTier() == 2){
 			registerFuel(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
@@ -340,7 +340,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 					case CATCH_FISH: {
 						Block block = b.getRelative(BlockFace.DOWN);
-						if (block.getType().equals(Material.STATIONARY_WATER)) {
+						if (block.getType().equals(Material.WATER)) {
 							block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 							if (CSCoreLib.randomizer().nextInt(100) < 10 * getTier()) {
 								ItemStack drop = fish[CSCoreLib.randomizer().nextInt(fish.length)];
@@ -880,7 +880,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	@SuppressWarnings("deprecation")
 	private void constructMenu(BlockMenuPreset preset) throws Exception {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -891,7 +891,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			});
 		}
 		for (int i: border_out) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -1110,7 +1110,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 			@Override
 			public void onOpen(Player p) {
-				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_HAT, 0.7F, 0.7F);
+				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F);
 			}
 		});
 
@@ -1120,7 +1120,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		final int pages = (scripts.size() / 45) + 1;
 
 		for (int i = 45; i < 54; i++) {
-			menu.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
+			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 			menu.addMenuClickHandler(i, new MenuClickHandler() {
 
 				@Override
@@ -1130,7 +1130,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			});
 		}
 
-		menu.addItem(46, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&r\u21E6 Previous Page", "", "&7(" + page + " / " + pages + ")"));
+		menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 Previous Page", "", "&7(" + page + " / " + pages + ")"));
 		menu.addMenuClickHandler(46, new MenuClickHandler() {
 
 			@Override
@@ -1199,7 +1199,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			}
 		});
 
-		menu.addItem(52, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 5), "&rNext Page \u21E8", "", "&7(" + page + " / " + pages + ")"));
+		menu.addItem(52, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&rNext Page \u21E8", "", "&7(" + page + " / " + pages + ")"));
 		menu.addMenuClickHandler(52, new MenuClickHandler() {
 
 			@Override
@@ -1330,95 +1330,17 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 		final String[] commands = script.split("-");
 
-		menu.addItem(0, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
+		for (int i = 0; i < 9; i++) {
+			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
+			new MenuClickHandler() {
 
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
-
-		menu.addItem(1, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
-
-		menu.addItem(2, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
-
-		menu.addItem(3, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
-
-		menu.addItem(4, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
-
-		menu.addItem(5, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
-
-		menu.addItem(6, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
-
-		menu.addItem(7, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
-
-		menu.addItem(8, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-
-		});
+				@Override
+				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+					return false;
+				}
+				
+			});
+		}
 
 		menu.addItem(9, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"),
 		new MenuClickHandler() {
@@ -1479,7 +1401,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
 		}
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));

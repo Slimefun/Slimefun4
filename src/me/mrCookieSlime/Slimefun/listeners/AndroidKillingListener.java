@@ -3,25 +3,22 @@ package me.mrCookieSlime.Slimefun.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Android.AndroidObject;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.MetadataValue;
+
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.Android.AndroidObject;
 
 public class AndroidKillingListener implements Listener {
 	
@@ -36,7 +33,6 @@ public class AndroidKillingListener implements Listener {
 				final AndroidObject obj = (AndroidObject) value.value();
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 					
-					@SuppressWarnings("deprecation")
 					@Override
 					public void run() {
 						List<ItemStack> items = new ArrayList<ItemStack>();
@@ -57,7 +53,7 @@ public class AndroidKillingListener implements Listener {
 							break;
 						}
 						case WITHER_SKELETON: {
-							if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new MaterialData(Material.SKULL_ITEM, (byte) 1).toItemStack(1));
+							if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
 							break;
 						}
 						default:

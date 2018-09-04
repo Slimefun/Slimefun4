@@ -5,15 +5,16 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 
 /**
  * Listens to the ItemPickup events to prevent it if the item has the "no_pickup" metadata or is an ALTAR_PROBE.
  *
+ * This Listener uses the new {@link EntityPickupItemEvent} due to the deprecation of {@link org.bukkit.event.player.PlayerPickupItemEvent}.
+ *
  * @since 4.1.11
  */
-@SuppressWarnings("deprecation")
 public class ItemPickupListener implements Listener {
 
     public ItemPickupListener(SlimefunStartup plugin) {
@@ -21,7 +22,7 @@ public class ItemPickupListener implements Listener {
     }
 
     @EventHandler
-    public void onPickup(PlayerPickupItemEvent e) {
+    public void onPickup(EntityPickupItemEvent e) {
         if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
         else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ChatColor.translateAlternateColorCodes('&', "&5&dALTAR &3Probe - &e"))) {
             e.setCancelled(true);

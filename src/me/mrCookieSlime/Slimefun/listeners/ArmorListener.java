@@ -32,7 +32,6 @@ public class ArmorListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority=EventPriority.MONITOR)
 	public void onDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player && !e.isCancelled()) {
@@ -50,7 +49,7 @@ public class ArmorListener implements Listener {
 					else if (SlimefunItem.getByItem(armor).isItem(SlimefunItems.BOOTS_OF_THE_STOMPER) && Slimefun.hasUnlocked(p, SlimefunItems.BOOTS_OF_THE_STOMPER, true)) {
 						if (e.getCause() == DamageCause.FALL) {
 							e.setCancelled(true);
-							p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 2F, 2F);
+							p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 2F, 2F);
 							p.setVelocity(new Vector(0.0, 0.7, 0.0));
 							for (Entity n: p.getNearbyEntities(4, 4, 4)) {
 								if (n instanceof LivingEntity && !n.getUniqueId().toString().equalsIgnoreCase(p.getUniqueId().toString())) {
@@ -79,7 +78,7 @@ public class ArmorListener implements Listener {
 	
 	@EventHandler
 	public void onTrample(PlayerInteractEvent e) {
-		if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.SOIL) {
+		if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.FARMLAND) {
 			if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getBoots(), SlimefunItem.getItem("FARMER_SHOES"), true)) e.setCancelled(true);
 		}
 	}
