@@ -674,9 +674,8 @@ public class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.BOOK), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.MAGIC_LUMP_2, null})
 		.register(true);
 
-		//ToDo:  new CustomItem(Material.MONSTER_EGG, "&a&oIron Golem", 99)
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.BASIC_CIRCUIT_BOARD, "BASIC_CIRCUIT_BOARD", RecipeType.MOB_DROP,
-		new ItemStack[] {null, null, null, null, new CustomItem(Material.BAT_SPAWN_EGG, "&a&oIron Golem", 99), null, null, null, null})
+		new ItemStack[] {null, null, null, null, new CustomItem(Material.POPPY, "&a&oIron Golem",0), null, null, null, null})
 		.register(true);
 
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.ADVANCED_CIRCUIT_BOARD, "ADVANCED_CIRCUIT_BOARD", RecipeType.ENHANCED_CRAFTING_TABLE,
