@@ -64,7 +64,6 @@ public class MultiBlock {
 			for (int i = 0; i < mb.getBuild().length; i++) {
 				if (mb.getBuild()[i] != null) {
 					if (MaterialHook.isLog(mb.getBuild()[i])) {
-						// TODO: Proper Wood Checks
 						if (!MaterialHook.isLog(blocks[i])) return false;
 					}
 					else if (mb.getBuild()[i] != blocks[i]) return false;
