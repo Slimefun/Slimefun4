@@ -22,6 +22,7 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.Hopper;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -2462,7 +2463,23 @@ public class SlimefunSetup {
 
 		new SlimefunGadget(Categories.MACHINES_1, SlimefunItems.CRUCIBLE, "CRUCIBLE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack [] {new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.TERRACOTTA)},
-		new ItemStack [] {new ItemStack(Material.COBBLESTONE, 16), new ItemStack(Material.LAVA_BUCKET), new ItemStack(Material.OAK_LEAVES, 16), new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET)})
+		new ItemStack [] {new ItemStack(Material.COBBLESTONE, 16), new ItemStack(Material.LAVA_BUCKET), new ItemStack(Material.OAK_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
+				new ItemStack(Material.WHITE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.ORANGE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.MAGENTA_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.LIGHT_BLUE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.YELLOW_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.LIME_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.PINK_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.GRAY_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.LIGHT_GRAY_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.CYAN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.PURPLE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.BROWN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.GREEN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.RED_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+				new ItemStack(Material.BLACK_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET)
+		})
 		.register(true, new ItemInteractionHandler() {
 
 			@Override
@@ -2481,116 +2498,149 @@ public class SlimefunSetup {
 										removing.setAmount(convert.getAmount());
 										p.getInventory().removeItem(removing);
 
+										//ToDo: RandomUpdates remove our liquid - solve this nicer
 										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
 
 											@Override
 											public void run() {
-												if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA) {
+												if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
 													block.setType(Material.LAVA);
-//													block.setData((byte) 7); //ToDo:
+													Levelled le = (Levelled) block.getBlockData();
+													le.setLevel(7);
+													block.setBlockData(le, false);
 													block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 												}
 												else if (input.getType() == Material.OAK_LEAVES) {
 													block.setType(Material.WATER);
-//													block.setData((byte) 7); //ToDo:
+													Levelled le = (Levelled) block.getBlockData();
+													le.setLevel(7);
+													block.setBlockData(le, false);
 													block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 												}
 												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
 
 													@Override
 													public void run() {
-														if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA) {
+														if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
 															block.setType(Material.LAVA);
-//															block.setData((byte) 6); //ToDo:
+															Levelled le = (Levelled) block.getBlockData();
+															le.setLevel(6);
+															block.setBlockData(le);
 															block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 														}
 														else if (input.getType() == Material.OAK_LEAVES) {
 															block.setType(Material.WATER);
-//															block.setData((byte) 6); //ToDo:
+															Levelled le = (Levelled) block.getBlockData();
+															le.setLevel(6);
+															block.setBlockData(le);
 															block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 														}
 														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
 
 															@Override
 															public void run() {
-																if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA) {
+																if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
 																	block.setType(Material.LAVA);
-//																	block.setData((byte) 5); //ToDo:
+																	Levelled le = (Levelled) block.getBlockData();
+																	le.setLevel(5);
+																	block.setBlockData(le);
 																	block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																}
 																else if (input.getType() == Material.OAK_LEAVES) {
 																	block.setType(Material.WATER);
-//																	block.setData((byte) 5);//ToDo:
+																	Levelled le = (Levelled) block.getBlockData();
+																	le.setLevel(5);
+																	block.setBlockData(le);
 																	block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																}
 																Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
 
 																	@Override
 																	public void run() {
-																		if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA) {
+																		if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
 																			block.setType(Material.LAVA);
-//																			block.setData((byte) 4); //ToDo:
+																			Levelled le = (Levelled) block.getBlockData();
+																			le.setLevel(4);
+																			block.setBlockData(le);
 																			block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																		}
 																		else if (input.getType() == Material.OAK_LEAVES) {
 																			block.setType(Material.WATER);
-//																			block.setData((byte) 4); //ToDo:
+																			Levelled le = (Levelled) block.getBlockData();
+																			le.setLevel(4);
+																			block.setBlockData(le);
 																			block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																		}
 																		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
 
 																			@Override
 																			public void run() {
-																				if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA) {
+																				if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
 																					block.setType(Material.LAVA);
-//																					block.setData((byte) 3); //ToDo:
+																					Levelled le = (Levelled) block.getBlockData();
+																					le.setLevel(3);
+																					block.setBlockData(le);
 																					block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																				}
 																				else if (input.getType() == Material.OAK_LEAVES) {
 																					block.setType(Material.WATER);
-//																					block.setData((byte) 3); //ToDo:
+																					Levelled le = (Levelled) block.getBlockData();
+																					le.setLevel(3);
+																					block.setBlockData(le);
 																					block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																				}
 																				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
 
 																					@Override
 																					public void run() {
-																						if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA) {
+																						if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
 																							block.setType(Material.LAVA);
-//																							block.setData((byte) 2); //ToDo:
+																							Levelled le = (Levelled) block.getBlockData();
+																							le.setLevel(2);
+																							block.setBlockData(le);
 																							block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																						}
 																						else if (input.getType() == Material.OAK_LEAVES) {
 																							block.setType(Material.WATER);
-//																							block.setData((byte) 2); //ToDo:
+																							Levelled le = (Levelled) block.getBlockData();
+																							le.setLevel(2);
+																							block.setBlockData(le);
 																							block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																						}
 																						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
 
 																							@Override
 																							public void run() {
-																								if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA) {
+																								if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
 																									block.setType(Material.LAVA);
-//																									block.setData((byte) 1); //ToDo:
+																									Levelled le = (Levelled) block.getBlockData();
+																									le.setLevel(1);
+																									block.setBlockData(le);
 																									block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																								}
 																								else if (input.getType() == Material.OAK_LEAVES) {
 																									block.setType(Material.WATER);
-//																									block.setData((byte) 1); //ToDo:
+																									Levelled le = (Levelled) block.getBlockData();
+																									le.setLevel(1);
+																									block.setBlockData(le);
 																									block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																								}
 																								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
 
 																									@Override
 																									public void run() {
-																										if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA) {
+																										if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
 																											block.setType(Material.LAVA);
-//																											block.setData((byte) 0); //ToDo:
+																											Levelled le = (Levelled) block.getBlockData();
+																											le.setLevel(0);
+																											block.setBlockData(le);
 																											block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 																										}
 																										else if (input.getType() == Material.OAK_LEAVES) {
 																											block.setType(Material.WATER);
-//																											block.setData((byte) 0); //ToDo:
+																											Levelled le = (Levelled) block.getBlockData();
+																											le.setLevel(0);
+																											block.setBlockData(le);
 																											block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																										}
 																									}
