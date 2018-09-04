@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.tasks;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 
@@ -25,7 +26,15 @@ public class RainbowTicker extends BlockTicker {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void tick(Block b, SlimefunItem item, Config data) {
-		b.setData((byte) meta, false);
+		if (MaterialHook.isWool(b.getType())){
+			b.setType(MaterialHook.WoolColours[meta], false);
+		}else if (MaterialHook.isStainedGlass(b.getType())) {
+			b.setType(MaterialHook.StainedGlassColours[meta], false);
+		}else if (MaterialHook.isStainedGlassPane(b.getType())){
+			b.setType(MaterialHook.StainedGlassPaneColours[meta], false);
+		}else if (MaterialHook.isTerracotta(b.getType())){
+			b.setType(MaterialHook.TerracottaColours[meta], false);
+		}
 	}
 
 	@Override
