@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.Misc.MaterialHelper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 
@@ -44,7 +45,7 @@ public class MultiBlock {
 			if (trigger == mb.getTriggerBlock()) {
 				for (int i = 0; i < mb.getBuild().length; i++) {
 					if (mb.getBuild()[i] != null) {
-						if (mb.getBuild()[i] == Material.LOG) {
+						if (MaterialHelper.isLog( mb.getBuild()[i])) {
 							// TODO: Proper Wood Checks
 							if (!blocks[i].toString().contains("LOG")) return false;
 						}
@@ -63,7 +64,7 @@ public class MultiBlock {
 		else if (trigger == mb.getTriggerBlock()) {
 			for (int i = 0; i < mb.getBuild().length; i++) {
 				if (mb.getBuild()[i] != null) {
-					if (mb.getBuild()[i] == Material.LOG) {
+					if (MaterialHelper.isLog(mb.getBuild()[i])) {
 						// TODO: Proper Wood Checks
 						if (!blocks[i].toString().contains("LOG")) return false;
 					}

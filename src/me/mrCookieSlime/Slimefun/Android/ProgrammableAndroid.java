@@ -17,6 +17,7 @@ import me.mrCookieSlime.ExoticGarden.ExoticGarden;
 import me.mrCookieSlime.Slimefun.Android.ScriptComparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Misc.MaterialHelper;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -200,7 +201,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				BlockStorage.addBlockInfo(b, "fuel", "0");
 				BlockStorage.addBlockInfo(b, "rotation", "NORTH");
 				BlockStorage.addBlockInfo(b, "paused", "true");
-				b.setData((byte) 1);
+				b.setType(Material.WITHER_SKELETON_SKULL);
 				Skull skull = (Skull) b.getState();
 				skull.setRotation(BlockFace.NORTH);
 				skull.update(true, false);
@@ -441,7 +442,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					case CHOP_TREE: {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(face);
-						if (block.getType().equals(Material.LOG) || block.getType().equals(Material.LOG_2)) {
+						if (MaterialHelper.isLog( block.getType())) {
 							List<Location> list = new ArrayList<Location>();
 							list.add(block.getLocation());
 		        			TreeCalculator.getTree(block.getLocation(), block.getLocation(), list);
@@ -456,10 +457,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 										pushItems(b, items);
 										log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 										if (log.getY() == block.getY()) {
-											byte data = log.getData();
-											if (log.getType() == Material.LOG_2) data = (byte) (data + 4);
-				        					log.setType(Material.SAPLING);
-				        					log.setData(data);
+				        					log.setType(MaterialHelper.getSaplingFromLog(log.getType()));
 										}
 										else log.setType(Material.AIR);
 									}
@@ -697,8 +695,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		if (block.getY() < 0 || block.getY() > block.getWorld().getMaxHeight()) return;
 
 		if (block.getType() == Material.AIR) {
-			block.setType(Material.SKULL);
-			block.setData((byte) 1);
+			block.setType(Material.WITHER_SKELETON_SKULL);
 
 			Skull skull = (Skull) block.getState();
 			skull.setRotation(face);
@@ -750,9 +747,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								
 								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 								
-								block.setType(Material.SKULL);
-								block.setData((byte) 1);
-			
+								block.setType(Material.WITHER_SKELETON_SKULL);
+
 								Skull skull = (Skull) block.getState();
 								skull.setRotation(face);
 								skull.update(true, false);
@@ -768,9 +764,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					if (fits(b, items)) {
 						pushItems(b, items);
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-						block.setType(Material.SKULL);
-						block.setData((byte) 1);
-	
+						block.setType(Material.WITHER_SKELETON_SKULL);
+
 						Skull skull = (Skull) block.getState();
 						skull.setRotation(face);
 						skull.update(true, false);
@@ -792,70 +787,88 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
+	private boolean isFullGrown(Block block){
+		org.bukkit.block.data.Ageable ageable = ((org.bukkit.block.data.Ageable)block.getBlockData());
+		return ageable.getAge() >= ageable.getMaximumAge();
+	}
+
     @SuppressWarnings("deprecation")
     private void farm(Block b, Block block) {
         switch (block.getType()) {
-            case CROPS: {
-                if (block.getData() >= 7) {
+            case WHEAT: {
+
+                if (isFullGrown(block)) {
                     ItemStack drop = new ItemStack(Material.WHEAT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        block.setData((byte) 0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
                 break;
             }
-            case POTATO: {
-                if (block.getData() >= 7) {
-                    ItemStack drop = new ItemStack(Material.POTATO_ITEM, CSCoreLib.randomizer().nextInt(3) + 1);
+            case POTATOES: {
+                if (isFullGrown(block)) {
+                    ItemStack drop = new ItemStack(Material.POTATO, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        block.setData((byte) 0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
                 break;
             }
-            case CARROT: {
-                if (block.getData() >= 7) {
-                    ItemStack drop = new ItemStack(Material.CARROT_ITEM, CSCoreLib.randomizer().nextInt(3) + 1);
+            case CARROTS: {
+                if (isFullGrown(block)) {
+                    ItemStack drop = new ItemStack(Material.CARROT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        block.setData((byte) 0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
                 break;
             }
-            case BEETROOT_BLOCK: {
-                if (block.getData() >= 3) {
+			case BEETROOTS: {
+                if (isFullGrown(block)) {
                     ItemStack drop = new ItemStack(Material.BEETROOT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        block.setData((byte) 0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
                 break;
             }
             case COCOA: {
-                if (block.getData() >= 8) {
-                    ItemStack drop = new MaterialData(Material.INK_SACK, (byte) 3).toItemStack(CSCoreLib.randomizer().nextInt(3) + 1);
+                if (isFullGrown(block)) {
+                    ItemStack drop = new MaterialData(Material.COCOA).toItemStack(CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        block.setData((byte) (block.getData() - 8));
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }
                 break;
             }
-            case NETHER_WARTS: {
-                if (block.getData() >= 3) {
-                    ItemStack drop = new ItemStack(Material.NETHER_STALK, CSCoreLib.randomizer().nextInt(3) + 1);
+			case NETHER_WART: {
+                if (isFullGrown(block)) {
+                    ItemStack drop = new ItemStack(Material.NETHER_WART, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        block.setData((byte) 0);
+                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        ageable.setAge(0);
+                        block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
                 }

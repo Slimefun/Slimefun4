@@ -15,10 +15,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.Soul;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -82,26 +79,29 @@ public class DamageListener implements Listener {
                     if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("SWORD_OF_BEHEADING"), true)) {
                         if (e.getEntity() instanceof Zombie) {
                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE"))) {
-                                e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 2));
+                                e.getDrops().add(new CustomItem(Material.ZOMBIE_HEAD, 2));
                             }
                         } else if (e.getEntity() instanceof Skeleton) {
                             switch (((Skeleton) e.getEntity()).getSkeletonType()) {
                                 case NORMAL: {
                                     if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON")))
-                                        e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 0));
+                                        e.getDrops().add(new CustomItem(Material.SKELETON_SKULL, 0));
                                     break;
                                 }
                                 case WITHER: {
                                     if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON")))
-                                        e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 1));
+                                        e.getDrops().add(new CustomItem(Material.WITHER_SKELETON_SKULL, 1));
                                     break;
                                 }
                                 default:
                                     break;
                             }
+                        }else  if (e.getEntity() instanceof WitherSkeleton) {
+                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON")))
+                                        e.getDrops().add(new CustomItem(Material.WITHER_SKELETON_SKULL, 1));
                         } else if (e.getEntity() instanceof Creeper) {
                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER"))) {
-                                e.getDrops().add(new CustomItem(Material.SKULL_ITEM, 4));
+                                e.getDrops().add(new CustomItem(Material.CREEPER_HEAD, 4));
                             }
                         } else if (e.getEntity() instanceof Player) {
                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.PLAYER"))) {

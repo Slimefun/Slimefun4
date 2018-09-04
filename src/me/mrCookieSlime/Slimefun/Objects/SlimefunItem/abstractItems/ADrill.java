@@ -48,7 +48,7 @@ public abstract class ADrill extends AContainer {
 			@SuppressWarnings("deprecation")
 			private void constructMenu(BlockMenuPreset preset) {
 				for (int i: border) {
-					preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "),
+					preset.addItem(i, new CustomItem(new MaterialData(Material.GRAY_STAINED_GLASS_PANE), " "),
 					new MenuClickHandler() {
 
 						@Override
@@ -59,7 +59,7 @@ public abstract class ADrill extends AContainer {
 					});
 				}
 				for (int i: border_out) {
-					preset.addItem(i, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 1), " "),
+					preset.addItem(i, new CustomItem(new MaterialData(Material.ORANGE_STAINED_GLASS_PANE), " "),
 					new MenuClickHandler() {
 
 						@Override
@@ -70,7 +70,7 @@ public abstract class ADrill extends AContainer {
 					});
 				}
 				
-				preset.addItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "),
+				preset.addItem(22, new CustomItem(new MaterialData(Material.BLACK_STAINED_GLASS_PANE), " "),
 				new MenuClickHandler() {
 
 					@Override
@@ -153,7 +153,7 @@ public abstract class ADrill extends AContainer {
 				progress.put(b, timeleft - 1);
 			}
 			else {
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 15), " "));
+				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new MaterialData(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput());
 				
 				progress.remove(b);
