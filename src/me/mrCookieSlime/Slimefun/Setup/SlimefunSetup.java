@@ -3847,8 +3847,8 @@ public class SlimefunSetup {
 
 			@Override
 			public void registerDefaultRecipes() {
-				registerFuel(new MachineFuel(8, new MaterialData(Material.COAL, (byte) 0).toItemStack(1)));
-				registerFuel(new MachineFuel(8, new MaterialData(Material.COAL, (byte) 1).toItemStack(1)));
+				registerFuel(new MachineFuel(8, new MaterialData(Material.COAL).toItemStack(1)));
+				registerFuel(new MachineFuel(8, new MaterialData(Material.CHARCOAL).toItemStack(1)));
 				registerFuel(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
 				registerFuel(new MachineFuel(12, new ItemStack(Material.BLAZE_ROD)));
 
