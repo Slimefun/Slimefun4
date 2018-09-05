@@ -31,7 +31,7 @@ public class RainbowTicker extends BlockTicker {
 		}else if (MaterialHook.isStainedGlass(b.getType())) {
 			b.setType(MaterialHook.StainedGlassColours[meta], false);
 		}else if (MaterialHook.isStainedGlassPane(b.getType())){
-			b.setType(MaterialHook.StainedGlassPaneColours[meta], false);
+			b.setType(MaterialHook.StainedGlassPaneColours[meta], true);
 		}else if (MaterialHook.isTerracotta(b.getType())){
 			b.setType(MaterialHook.TerracottaColours[meta], false);
 		}
