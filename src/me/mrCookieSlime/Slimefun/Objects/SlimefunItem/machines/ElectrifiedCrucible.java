@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,7 +18,7 @@ public abstract class ElectrifiedCrucible extends AContainer {
 	public void registerDefaultRecipes() {
 		registerRecipe(10, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(Material.COBBLESTONE, 16)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
 		registerRecipe(8, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(Material.TERRACOTTA, 12)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
-		for (Material coloured_terracotta : MaterialHook.TerracottaColours){
+		for (Material coloured_terracotta : MaterialHelper.TerracottaColours){
 		    registerRecipe(8, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(coloured_terracotta, 12)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
         }
 		registerRecipe(10, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(Material.OAK_LEAVES, 16)}, new ItemStack[]{new ItemStack(Material.WATER_BUCKET)});

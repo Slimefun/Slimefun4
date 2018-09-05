@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 
@@ -45,8 +45,8 @@ public class MultiBlock {
 			if (trigger == mb.getTriggerBlock()) {
 				for (int i = 0; i < mb.getBuild().length; i++) {
 					if (mb.getBuild()[i] != null) {
-						if (MaterialHook.isLog( mb.getBuild()[i])) {
-							if (!MaterialHook.isLog(blocks[i])) return false;
+						if (MaterialHelper.isLog( mb.getBuild()[i])) {
+							if (!MaterialHelper.isLog(blocks[i])) return false;
 						}
 						else if (mb.getBuild()[i] != blocks[i]) return false;
 					}
@@ -63,8 +63,8 @@ public class MultiBlock {
 		else if (trigger == mb.getTriggerBlock()) {
 			for (int i = 0; i < mb.getBuild().length; i++) {
 				if (mb.getBuild()[i] != null) {
-					if (MaterialHook.isLog(mb.getBuild()[i])) {
-						if (!MaterialHook.isLog(blocks[i])) return false;
+					if (MaterialHelper.isLog(mb.getBuild()[i])) {
+						if (!MaterialHelper.isLog(blocks[i])) return false;
 					}
 					else if (mb.getBuild()[i] != blocks[i]) return false;
 				}

@@ -21,7 +21,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -49,7 +48,7 @@ public class CargoNet extends Network {
 	// Chest Terminal Stuff
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
-	private static final ItemStack terminal_noitem_item = new CustomItem(new MaterialData(Material.BARRIER), "&4No Item cached");
+	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = new MenuClickHandler() {
 
 		@Override
@@ -536,8 +535,6 @@ public class CargoNet extends Network {
 		}
 	}
 
-
-	@SuppressWarnings("deprecation")
 	private static Block getAttachedBlock(Block block) {
 		if (block.getBlockData() instanceof Directional) {
 			return block.getRelative(((Directional) block.getBlockData()).getFacing().getOppositeFace());

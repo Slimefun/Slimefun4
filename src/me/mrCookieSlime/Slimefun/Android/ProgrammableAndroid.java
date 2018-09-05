@@ -1,8 +1,42 @@
 package me.mrCookieSlime.Slimefun.Android;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Dispenser;
+import org.bukkit.block.Skull;
+import org.bukkit.entity.Ageable;
+import org.bukkit.entity.Animals;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -10,11 +44,12 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuOpeningHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper.ChatHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Android.ScriptComparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -26,33 +61,17 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.holograms.AndroidStatusHologram;
-import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Dispenser;
-import org.bukkit.block.Skull;
-import org.bukkit.entity.*;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
-import org.bukkit.metadata.FixedMetadataValue;
-
-import java.io.File;
-import java.util.*;
 
 public abstract class ProgrammableAndroid extends SlimefunItem {
 
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private static final int[] border_out = {10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41};
-
-	@SuppressWarnings("deprecation")
+	
 	private static final ItemStack[] fish = new ItemStack[] {new ItemStack(Material.COD), new ItemStack(Material.SALMON), new ItemStack(Material.PUFFERFISH), new ItemStack(Material.TROPICAL_FISH), new ItemStack(Material.STRING), new ItemStack(Material.BONE), new ItemStack(Material.STICK)};
 
 	private static final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
@@ -87,8 +106,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 
 		if (getTier() == 1) {
-			registerFuel(new MachineFuel(80, new MaterialData(Material.COAL).toItemStack(1)));
-			registerFuel(new MachineFuel(80, new MaterialData(Material.CHARCOAL).toItemStack(1)));
+			registerFuel(new MachineFuel(80, new ItemStack(Material.COAL)));
+			registerFuel(new MachineFuel(80, new ItemStack(Material.CHARCOAL)));
 			registerFuel(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
 			registerFuel(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
 
@@ -442,7 +461,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					case CHOP_TREE: {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(face);
-						if (MaterialHook.isLog( block.getType())) {
+						if (MaterialHelper.isLog( block.getType())) {
 							List<Location> list = new ArrayList<Location>();
 							list.add(block.getLocation());
 		        			TreeCalculator.getTree(block.getLocation(), block.getLocation(), list);
@@ -457,7 +476,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 										pushItems(b, items);
 										log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 										if (log.getY() == block.getY()) {
-				        					log.setType(MaterialHook.getSaplingFromLog(log.getType()));
+				        					log.setType(MaterialHelper.getSaplingFromLog(log.getType()));
 										}
 										else log.setType(Material.AIR);
 									}
@@ -792,7 +811,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		return ageable.getAge() >= ageable.getMaximumAge();
 	}
 
-    @SuppressWarnings("deprecation")
     private void farm(Block b, Block block) {
         switch (block.getType()) {
             case WHEAT: {
@@ -850,7 +868,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
             }
             case COCOA: {
                 if (isFullGrown(block)) {
-                    ItemStack drop = new MaterialData(Material.COCOA).toItemStack(CSCoreLib.randomizer().nextInt(3) + 1);
+                    ItemStack drop = new ItemStack(Material.COCOA_BEANS, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
                         org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
@@ -890,7 +908,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
         }
     }
 
-	@SuppressWarnings("deprecation")
 	private void constructMenu(BlockMenuPreset preset) throws Exception {
 		for (int i: border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
@@ -1115,7 +1132,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		menu.open(p);
 	}
 
-	@SuppressWarnings("deprecation")
 	private void openScriptDownloader(final Player p, final Block b, final int page) throws Exception {
 		final ChestMenu menu = new ChestMenu("Slimefun Guide");
 
@@ -1337,7 +1353,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		return progress;
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void openScriptComponentEditor(Player p, final Block b, final String script, final int index) throws Exception {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 

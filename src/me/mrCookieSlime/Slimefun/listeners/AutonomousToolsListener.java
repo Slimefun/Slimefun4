@@ -22,7 +22,6 @@ public class AutonomousToolsListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockDispensing(final BlockDispenseEvent e) {
 		Block dispenser = e.getBlock();

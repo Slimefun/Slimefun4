@@ -34,7 +34,6 @@ public class BlockListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockFall(EntityChangeBlockEvent event) {
 		if (event.getEntity() instanceof FallingBlock) {
