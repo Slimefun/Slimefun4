@@ -42,7 +42,7 @@ public class BlockListener implements Listener {
 				event.setCancelled(true);
 				FallingBlock fb = (FallingBlock) event.getEntity();
 				if (fb.getDropItem()) {
-					fb.getWorld().dropItemNaturally(fb.getLocation(), new ItemStack(fb.getMaterial(), 1, fb.getBlockData()));
+					fb.getWorld().dropItemNaturally(fb.getLocation(), new ItemStack(fb.getBlockData().getMaterial(), 1));
 				}
 			}
 		}
