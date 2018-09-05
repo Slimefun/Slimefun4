@@ -1,14 +1,13 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 public abstract class CarbonPress extends AContainer {
 
@@ -16,10 +15,9 @@ public abstract class CarbonPress extends AContainer {
 		super(category, item, name, recipeType, recipe);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void registerDefaultRecipes() {
-		registerRecipe(15, new ItemStack[] {new CustomItem(new MaterialData(Material.CHARCOAL).toItemStack(1), 4)}, new ItemStack[] {new ItemStack(Material.COAL)});
+		registerRecipe(15, new ItemStack[] {new CustomItem(new ItemStack(Material.CHARCOAL), 4)}, new ItemStack[] {new ItemStack(Material.COAL)});
 		registerRecipe(20, new ItemStack[] {new CustomItem(new ItemStack(Material.COAL), 8)}, new ItemStack[] {SlimefunItems.CARBON});
 		registerRecipe(30, new ItemStack[] {new CustomItem(SlimefunItems.CARBON, 4)}, new ItemStack[] {SlimefunItems.COMPRESSED_CARBON});
 		registerRecipe(60, new ItemStack[] {SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND}, new ItemStack[] {SlimefunItems.RAW_CARBONADO});

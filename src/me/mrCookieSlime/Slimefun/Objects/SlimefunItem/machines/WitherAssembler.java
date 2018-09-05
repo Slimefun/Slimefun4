@@ -29,7 +29,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 public class WitherAssembler extends SlimefunItem {
 	
@@ -53,7 +52,7 @@ public class WitherAssembler extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
-						menu.replaceExistingItem(22, new CustomItem(new MaterialData(Material.GUNPOWDER), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
+						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
 						menu.addMenuClickHandler(22, new MenuClickHandler() {
 
 							@Override
@@ -65,7 +64,7 @@ public class WitherAssembler extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(22, new CustomItem(new MaterialData(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
+						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
 						menu.addMenuClickHandler(22, new MenuClickHandler() {
 
 							@Override
@@ -79,7 +78,7 @@ public class WitherAssembler extends SlimefunItem {
 					
 					double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 					
-					menu.replaceExistingItem(31, new CustomItem(new MaterialData(Material.PISTON), "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
+					menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
 					menu.addMenuClickHandler(31, new MenuClickHandler() {
 
 						@Override
@@ -147,10 +146,9 @@ public class WitherAssembler extends SlimefunItem {
 		});
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.GRAY_STAINED_GLASS_PANE), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -162,7 +160,7 @@ public class WitherAssembler extends SlimefunItem {
 		}
 		
 		for (int i: border_1) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.BLACK_STAINED_GLASS_PANE), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -174,7 +172,7 @@ public class WitherAssembler extends SlimefunItem {
 		}
 		
 		for (int i: border_2) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.BROWN_STAINED_GLASS_PANE), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.BROWN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -185,7 +183,7 @@ public class WitherAssembler extends SlimefunItem {
 			});
 		}
 		
-		preset.addItem(1, new CustomItem(new MaterialData(Material.WITHER_SKELETON_SKULL, (byte) 1), "&7Wither Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"),
+		preset.addItem(1, new CustomItem(new ItemStack(Material.WITHER_SKELETON_SKULL, (byte) 1), "&7Wither Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"),
 		new MenuClickHandler() {
 
 			@Override
@@ -195,7 +193,7 @@ public class WitherAssembler extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(7, new CustomItem(new MaterialData(Material.SOUL_SAND), "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"),
+		preset.addItem(7, new CustomItem(new ItemStack(Material.SOUL_SAND), "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"),
 		new MenuClickHandler() {
 
 			@Override
@@ -205,7 +203,7 @@ public class WitherAssembler extends SlimefunItem {
 							
 		});
 		
-		preset.addItem(13, new CustomItem(new MaterialData(Material.CLOCK), "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"),
+		preset.addItem(13, new CustomItem(new ItemStack(Material.CLOCK), "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"),
 		new MenuClickHandler() {
 
 			@Override
@@ -236,7 +234,6 @@ public class WitherAssembler extends SlimefunItem {
 	public void register(boolean slimefun) {
 		addItemHandler(new BlockTicker() {
 			
-			@SuppressWarnings("deprecation")
 			@Override
 			public void tick(final Block b, SlimefunItem sf, Config data) {
 				if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
@@ -257,7 +254,7 @@ public class WitherAssembler extends SlimefunItem {
 					}
 					
 					for (int slot: getWitherSkullSlots()) {
-						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new MaterialData(Material.WITHER_SKELETON_SKULL, (byte) 1).toItemStack(1), true, DataType.ALWAYS)) {
+						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true, DataType.ALWAYS)) {
 							skulls = skulls + BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 							if (skulls > 2) {
 								skulls = 3;
@@ -282,7 +279,7 @@ public class WitherAssembler extends SlimefunItem {
 						}
 						
 						for (int slot: getWitherSkullSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new MaterialData(Material.WITHER_SKELETON_SKULL, (byte) 1).toItemStack(1), true, DataType.ALWAYS)) {
+							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true, DataType.ALWAYS)) {
 								final int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 								if (amount >= skulls) {
 									BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), skulls));

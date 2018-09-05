@@ -25,7 +25,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 public class ReactorAccessPort extends SlimefunItem {
 	
@@ -104,10 +103,9 @@ public class ReactorAccessPort extends SlimefunItem {
 		});
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.GRAY_STAINED_GLASS_PANE), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -119,7 +117,7 @@ public class ReactorAccessPort extends SlimefunItem {
 		}
 		
 		for (int i: border_1) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.LIME_STAINED_GLASS_PANE), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -131,7 +129,7 @@ public class ReactorAccessPort extends SlimefunItem {
 		}
 		
 		for (int i: border_2) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.CYAN_STAINED_GLASS_PANE), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
@@ -143,7 +141,7 @@ public class ReactorAccessPort extends SlimefunItem {
 		}
 		
 		for (int i: border_3) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.GREEN_STAINED_GLASS_PANE), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override

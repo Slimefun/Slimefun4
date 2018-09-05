@@ -1,11 +1,10 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
@@ -40,7 +39,6 @@ public class CargoOutputNode extends SlimefunItem {
 				constructMenu(this);
 			}
 
-			@SuppressWarnings("deprecation")
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
@@ -74,7 +72,7 @@ public class CargoOutputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(13, new CustomItem(new MaterialData(MaterialHook.WoolColours[channel]), "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(13, new CustomItem(new ItemStack(MaterialHelper.WoolColours[channel]), "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(13, new MenuClickHandler() {
 
 							@Override
@@ -139,10 +137,9 @@ public class CargoOutputNode extends SlimefunItem {
 		});
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i: border) {
-			preset.addItem(i, new CustomItem(new MaterialData(Material.CYAN_STAINED_GLASS_PANE), " "),
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
 			new MenuClickHandler() {
 
 				@Override
