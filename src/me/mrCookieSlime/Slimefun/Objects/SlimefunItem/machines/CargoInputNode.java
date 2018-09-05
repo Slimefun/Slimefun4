@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -172,7 +172,7 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(42, new CustomItem(new MaterialData(MaterialHook.WoolColours[channel]), "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(42, new CustomItem(new MaterialData(MaterialHelper.WoolColours[channel]), "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(42, new MenuClickHandler() {
 
 							@Override

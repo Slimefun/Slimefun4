@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -1666,7 +1666,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.LUMBER_AXE, true)) {
-					if (MaterialHook.isLog( e.getBlock().getType())) {
+					if (MaterialHelper.isLog( e.getBlock().getType())) {
 						List<Location> logs = new ArrayList<Location>();
 						TreeCalculator.getTree(e.getBlock().getLocation(), e.getBlock().getLocation(), logs);
 
@@ -1901,10 +1901,10 @@ public class SlimefunSetup {
 				if (mb.isMultiBlock(SlimefunItem.getByID("SAW_MILL"))) {
 					if (CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), b.getRelative(BlockFace.UP), true)) {
 						if (Slimefun.hasUnlocked(p, SlimefunItems.SAW_MILL, true)) {
-							if (MaterialHook.isLog(b.getRelative(BlockFace.UP).getType())) {
+							if (MaterialHelper.isLog(b.getRelative(BlockFace.UP).getType())) {
 								Block log = b.getRelative(BlockFace.UP);
 								if (!BlockStorage.hasBlockInfo(log)) {
-									ItemStack item =  new CustomItem(MaterialHook.getWoodFromLog(log.getType()), 8);
+									ItemStack item =  new CustomItem(MaterialHelper.getWoodFromLog(log.getType()), 8);
 									log.getWorld().dropItemNaturally(log.getLocation(), item);
 									log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 									log.setType(Material.AIR); 
@@ -2502,7 +2502,7 @@ public class SlimefunSetup {
 
 											@Override
 											public void run() {
-												if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
+												if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 													block.setType(Material.LAVA);
 													Levelled le = (Levelled) block.getBlockData();
 													le.setLevel(7);
@@ -2520,7 +2520,7 @@ public class SlimefunSetup {
 
 													@Override
 													public void run() {
-														if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
+														if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 															block.setType(Material.LAVA);
 															Levelled le = (Levelled) block.getBlockData();
 															le.setLevel(6);
@@ -2538,7 +2538,7 @@ public class SlimefunSetup {
 
 															@Override
 															public void run() {
-																if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
+																if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 																	block.setType(Material.LAVA);
 																	Levelled le = (Levelled) block.getBlockData();
 																	le.setLevel(5);
@@ -2556,7 +2556,7 @@ public class SlimefunSetup {
 
 																	@Override
 																	public void run() {
-																		if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
+																		if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 																			block.setType(Material.LAVA);
 																			Levelled le = (Levelled) block.getBlockData();
 																			le.setLevel(4);
@@ -2574,7 +2574,7 @@ public class SlimefunSetup {
 
 																			@Override
 																			public void run() {
-																				if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
+																				if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 																					block.setType(Material.LAVA);
 																					Levelled le = (Levelled) block.getBlockData();
 																					le.setLevel(3);
@@ -2592,7 +2592,7 @@ public class SlimefunSetup {
 
 																					@Override
 																					public void run() {
-																						if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
+																						if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 																							block.setType(Material.LAVA);
 																							Levelled le = (Levelled) block.getBlockData();
 																							le.setLevel(2);
@@ -2610,7 +2610,7 @@ public class SlimefunSetup {
 
 																							@Override
 																							public void run() {
-																								if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
+																								if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 																									block.setType(Material.LAVA);
 																									Levelled le = (Levelled) block.getBlockData();
 																									le.setLevel(1);
@@ -2628,7 +2628,7 @@ public class SlimefunSetup {
 
 																									@Override
 																									public void run() {
-																										if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHook.isTerracotta(input.getType())) {
+																										if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 																											block.setType(Material.LAVA);
 																											Levelled le = (Levelled) block.getBlockData();
 																											le.setLevel(0);

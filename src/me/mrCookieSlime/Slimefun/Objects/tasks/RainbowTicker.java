@@ -1,7 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.tasks;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 
@@ -26,14 +26,14 @@ public class RainbowTicker extends BlockTicker {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void tick(Block b, SlimefunItem item, Config data) {
-		if (MaterialHook.isWool(b.getType())){
-			b.setType(MaterialHook.WoolColours[meta], false);
-		}else if (MaterialHook.isStainedGlass(b.getType())) {
-			b.setType(MaterialHook.StainedGlassColours[meta], false);
-		}else if (MaterialHook.isStainedGlassPane(b.getType())){
-			b.setType(MaterialHook.StainedGlassPaneColours[meta], true);
-		}else if (MaterialHook.isTerracotta(b.getType())){
-			b.setType(MaterialHook.TerracottaColours[meta], false);
+		if (MaterialHelper.isWool(b.getType())){
+			b.setType(MaterialHelper.WoolColours[meta], false);
+		}else if (MaterialHelper.isStainedGlass(b.getType())) {
+			b.setType(MaterialHelper.StainedGlassColours[meta], false);
+		}else if (MaterialHelper.isStainedGlassPane(b.getType())){
+			b.setType(MaterialHelper.StainedGlassPaneColours[meta], true);
+		}else if (MaterialHelper.isTerracotta(b.getType())){
+			b.setType(MaterialHelper.TerracottaColours[meta], false);
 		}
 	}
 

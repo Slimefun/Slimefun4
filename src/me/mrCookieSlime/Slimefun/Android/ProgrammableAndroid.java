@@ -2,7 +2,7 @@ package me.mrCookieSlime.Slimefun.Android;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -442,7 +442,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					case CHOP_TREE: {
 						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 						Block block = b.getRelative(face);
-						if (MaterialHook.isLog( block.getType())) {
+						if (MaterialHelper.isLog( block.getType())) {
 							List<Location> list = new ArrayList<Location>();
 							list.add(block.getLocation());
 		        			TreeCalculator.getTree(block.getLocation(), block.getLocation(), list);
@@ -457,7 +457,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 										pushItems(b, items);
 										log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 										if (log.getY() == block.getY()) {
-				        					log.setType(MaterialHook.getSaplingFromLog(log.getType()));
+				        					log.setType(MaterialHelper.getSaplingFromLog(log.getType()));
 										}
 										else log.setType(Material.AIR);
 									}

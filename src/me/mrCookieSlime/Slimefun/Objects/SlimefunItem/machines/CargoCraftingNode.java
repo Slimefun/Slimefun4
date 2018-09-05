@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHook;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -54,7 +54,7 @@ public class CargoCraftingNode extends SlimefunItem {
 						}
 					});
 
-					menu.replaceExistingItem(42, new CustomItem(new MaterialData(((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? Material.WHITE_WOOL: MaterialHook.WoolColours[(Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")))])), "&bChannel ID: &3" + (((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")))) + 1)));
+					menu.replaceExistingItem(42, new CustomItem(new MaterialData(((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? Material.WHITE_WOOL: MaterialHelper.WoolColours[(Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")))])), "&bChannel ID: &3" + (((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")))) + 1)));
 					menu.addMenuClickHandler(42, new MenuClickHandler() {
 
 						@Override
