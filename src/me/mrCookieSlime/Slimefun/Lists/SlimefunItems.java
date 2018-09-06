@@ -95,10 +95,10 @@ public class SlimefunItems {
 	public static ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6Beef Jerky", 0, new String[] {"", "&a&oSaturating"});
 	public static ItemStack MAGIC_SUGAR = new CustomItem(Material.SUGAR, "&6Magic Sugar", 0, new String[] {"", "&a&oFeel the Power of Hermes!"});
 	public static ItemStack MONSTER_JERKY = new CustomItem(Material.ROTTEN_FLESH, "&6Monster Jerky", 0, new String[] {"", "&a&oNo longer hungry"});
-	public static ItemStack APPLE_JUICE = new CustomPotion("&cApple Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 10, 0));
-	public static ItemStack MELON_JUICE = new CustomPotion("&cMelon Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 10, 0));
-	public static ItemStack CARROT_JUICE = new CustomPotion("&6Carrot Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 10, 0));
-	public static ItemStack PUMPKIN_JUICE = new CustomPotion("&6Pumpkin Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 10, 0));
+	public static ItemStack APPLE_JUICE = new CustomPotion("&cApple Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
+	public static ItemStack MELON_JUICE = new CustomPotion("&cMelon Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
+	public static ItemStack CARROT_JUICE = new CustomPotion("&6Carrot Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
+	public static ItemStack PUMPKIN_JUICE = new CustomPotion("&6Pumpkin Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
 	public static ItemStack GOLDEN_APPLE_JUICE = new CustomPotion("&bGolden Apple Juice", 8195, new String[0], new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0));
 	
 	/*		Christmas		*/
