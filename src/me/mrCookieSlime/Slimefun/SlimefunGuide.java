@@ -785,7 +785,7 @@ public class SlimefunGuide {
 			});
 			
 			int index = 9;
-			final int pages = category.getItems().size() / category_size + 1;
+			final int pages = (category.getItems().size() - 1) / category_size + 1;
 			for (int i = 0; i < 4; i++) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 				menu.addMenuClickHandler(i, new MenuClickHandler() {
