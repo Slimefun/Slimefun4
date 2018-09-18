@@ -21,7 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 public class SlimefunItems {
 	
 	/*		 Items 		*/
-	public static ItemStack PORTABLE_CRAFTER = new CustomItem(Material.BOOK, "&6Portable Crafter", 0, new String[] {"&a&oA portable Crafting Table", "", "&eRight Click&7 to open"});
+	public static ItemStack PORTABLE_CRAFTER = null;
 	public static ItemStack PORTABLE_DUSTBIN = null;
 	public static ItemStack ENDER_BACKPACK = null;
 	public static ItemStack MAGIC_EYE_OF_ENDER = new CustomItem(Material.ENDER_EYE, "&6&lMagic Eye of Ender", 0, new String[] {"&4&lRequires full Ender Armor", "", "&7&eRight Click&7 to shoot an Ender Pearl"});
@@ -220,7 +220,7 @@ public class SlimefunItems {
 	public static ItemStack TINY_URANIUM = null;
 	public static ItemStack SMALL_URANIUM = null;
 	public static ItemStack MAGNET = null;
-	public static ItemStack NECROTIC_SKULL = new CustomItem(new MaterialData(Material.WITHER_SKELETON_SKULL, (byte) 1).toItemStack(1), "&cNecrotic Skull");
+	public static ItemStack NECROTIC_SKULL = new CustomItem(new ItemStack(Material.WITHER_SKELETON_SKULL), "&cNecrotic Skull");
 	public static ItemStack ESSENCE_OF_AFTERLIFE = new CustomItem(Material.GUNPOWDER, "&4Essence of Afterlife", 0);
 	public static ItemStack ELECTRO_MAGNET = null;
 	public static ItemStack HEATING_COIL = null;
@@ -229,28 +229,28 @@ public class SlimefunItems {
 	public static ItemStack CARGO_MOTOR = null;
 	public static ItemStack SCROLL_OF_DIMENSIONAL_TELEPOSITION = new CustomItem(Material.PAPER, "&6Scroll of Dimensional Teleposition", 0, new String[] {"", "&cThis Scroll is capable of creating", "&ca temporary black Hole which pulls", "&cnearby Entities into itself and sends", "&cthem into another Dimension where", "&ceverything is turned around", "", "&rIn other words: Makes Entities turn by 180 Degrees"});
 	public static ItemStack TOME_OF_KNOWLEDGE_SHARING = new CustomItem(Material.BOOK, "&6Tome of Knowledge Sharing", 0, new String[] {"&7Owner: &bNone", "", "&eRight Click&7 to bind this Tome to yourself", "", "", "&eRight Click&7 to obtain all Researches by", "&7the previously assigned Owner"});
-	public static ItemStack HARDENED_GLASS = new CustomItem(new MaterialData(Material.LIGHT_GRAY_STAINED_GLASS), "&7Hardened Glass", "", "&rWithstands Explosions");
+	public static ItemStack HARDENED_GLASS = new CustomItem(new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS), "&7Hardened Glass", "", "&rWithstands Explosions");
 	public static ItemStack WITHER_PROOF_OBSIDIAN = new CustomItem(Material.OBSIDIAN, "&5Wither-Proof Obsidian", 0, new String[] {"", "&rWithstands Explosions", "&rWithstands Wither Bosses"});
-	public static ItemStack WITHER_PROOF_GLASS = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&5Wither-Proof Glass", "", "&rWithstands Explosions", "&rWithstands Wither Bosses");
+	public static ItemStack WITHER_PROOF_GLASS = new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS), "&5Wither-Proof Glass", "", "&rWithstands Explosions", "&rWithstands Wither Bosses");
 	public static ItemStack REINFORCED_PLATE = new CustomItem(Material.PAPER, "&7Reinforced Plate", 0);
 	public static ItemStack ANCIENT_PEDESTAL = new CustomItem(Material.DISPENSER, "&dAncient Pedestal", 0, new String[] {"", "&5Part of the Ancient Altar"});
 	public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&dAncient Altar", 0, new String[] {"", "&5Multi-Block Altar for", "&5magical Crafting Processes"});
 	public static ItemStack DUCT_TAPE = null;
 	
-	public static ItemStack RAINBOW_WOOL = new CustomItem(new MaterialData(Material.WHITE_WOOL), "&5Rainbow Wool", "", "&dCycles through all Colors of the Rainbow!");
-	public static ItemStack RAINBOW_GLASS = new CustomItem(new MaterialData(Material.WHITE_STAINED_GLASS), "&5Rainbow Glass", "", "&dCycles through all Colors of the Rainbow!");
-	public static ItemStack RAINBOW_CLAY = new CustomItem(new MaterialData(Material.WHITE_TERRACOTTA), "&5Rainbow Clay", "", "&dCycles through all Colors of the Rainbow!");
-	public static ItemStack RAINBOW_GLASS_PANE = new CustomItem(new MaterialData(Material.WHITE_STAINED_GLASS_PANE), "&5Rainbow Glass Pane", "", "&dCycles through all Colors of the Rainbow!");
+	public static ItemStack RAINBOW_WOOL = new CustomItem(new ItemStack(Material.WHITE_WOOL), "&5Rainbow Wool", "", "&dCycles through all Colors of the Rainbow!");
+	public static ItemStack RAINBOW_GLASS = new CustomItem(new ItemStack(Material.WHITE_STAINED_GLASS), "&5Rainbow Glass", "", "&dCycles through all Colors of the Rainbow!");
+	public static ItemStack RAINBOW_CLAY = new CustomItem(new ItemStack(Material.WHITE_TERRACOTTA), "&5Rainbow Clay", "", "&dCycles through all Colors of the Rainbow!");
+	public static ItemStack RAINBOW_GLASS_PANE = new CustomItem(new ItemStack(Material.WHITE_STAINED_GLASS_PANE), "&5Rainbow Glass Pane", "", "&dCycles through all Colors of the Rainbow!");
 	
-	public static ItemStack RAINBOW_WOOL_XMAS = new CustomItem(new MaterialData(Material.WHITE_WOOL), "&5Rainbow Wool &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
-	public static ItemStack RAINBOW_GLASS_XMAS = new CustomItem(new MaterialData(Material.WHITE_STAINED_GLASS), "&5Rainbow Glass &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
-	public static ItemStack RAINBOW_CLAY_XMAS = new CustomItem(new MaterialData(Material.WHITE_TERRACOTTA), "&5Rainbow Clay &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
-	public static ItemStack RAINBOW_GLASS_PANE_XMAS = new CustomItem(new MaterialData(Material.WHITE_STAINED_GLASS_PANE), "&5Rainbow Glass Pane &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
+	public static ItemStack RAINBOW_WOOL_XMAS = new CustomItem(new ItemStack(Material.WHITE_WOOL), "&5Rainbow Wool &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
+	public static ItemStack RAINBOW_GLASS_XMAS = new CustomItem(new ItemStack(Material.WHITE_STAINED_GLASS), "&5Rainbow Glass &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
+	public static ItemStack RAINBOW_CLAY_XMAS = new CustomItem(new ItemStack(Material.WHITE_TERRACOTTA), "&5Rainbow Clay &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
+	public static ItemStack RAINBOW_GLASS_PANE_XMAS = new CustomItem(new ItemStack(Material.WHITE_STAINED_GLASS_PANE), "&5Rainbow Glass Pane &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
 	
-	public static ItemStack RAINBOW_WOOL_VALENTINE = new CustomItem(new MaterialData(Material.PINK_WOOL), "&5Rainbow Wool &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
-	public static ItemStack RAINBOW_GLASS_VALENTINE = new CustomItem(new MaterialData(Material.PINK_STAINED_GLASS), "&5Rainbow Glass &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
-	public static ItemStack RAINBOW_CLAY_VALENTINE = new CustomItem(new MaterialData(Material.PINK_TERRACOTTA), "&5Rainbow Clay &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
-	public static ItemStack RAINBOW_GLASS_PANE_VALENTINE = new CustomItem(new MaterialData(Material.PINK_STAINED_GLASS_PANE), "&5Rainbow Glass Pane &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
+	public static ItemStack RAINBOW_WOOL_VALENTINE = new CustomItem(new ItemStack(Material.PINK_WOOL), "&5Rainbow Wool &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
+	public static ItemStack RAINBOW_GLASS_VALENTINE = new CustomItem(new ItemStack(Material.PINK_STAINED_GLASS), "&5Rainbow Glass &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
+	public static ItemStack RAINBOW_CLAY_VALENTINE = new CustomItem(new ItemStack(Material.PINK_TERRACOTTA), "&5Rainbow Clay &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
+	public static ItemStack RAINBOW_GLASS_PANE_VALENTINE = new CustomItem(new ItemStack(Material.PINK_STAINED_GLASS_PANE), "&5Rainbow Glass Pane &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
     
 	/*		 Ingots 		*/
 	public static ItemStack COPPER_INGOT = new CustomItem(Material.BRICK, "&bCopper Ingot", 0, new String[0]);
@@ -264,7 +264,7 @@ public class SlimefunItems {
 	/*		Alloy (Carbon + Iron)	*/
 	public static ItemStack STEEL_INGOT = new CustomItem(Material.IRON_INGOT, "&bSteel Ingot", 0, new String[0]);
 	/*		Alloy (Copper + Tin)	*/
-	public static ItemStack BRONZE_INGOT = new CustomItem(Material.BRICKS, "&bBronze Ingot", 0, new String[0]);
+	public static ItemStack BRONZE_INGOT = new CustomItem(Material.BRICK, "&bBronze Ingot", 0, new String[0]);
 	/*		Alloy (Copper + Aluminum)	*/
 	public static ItemStack DURALUMIN_INGOT = new CustomItem(Material.IRON_INGOT, "&bDuralumin Ingot", 0, new String[0]);
 	/*		Alloy (Copper + Silver)	*/
@@ -290,7 +290,7 @@ public class SlimefunItems {
 	/*		Alloy (Iron + Gold)			*/
 	public static ItemStack GILDED_IRON = new CustomItem(Material.GOLD_INGOT, "&6&lGilded Iron", 0);
 	/*		Alloy (Redston + Ferrosilicon)	*/
-	public static ItemStack REDSTONE_ALLOY = new CustomItem(Material.BRICKS, "&cRedstone Alloy Ingot", 0);
+	public static ItemStack REDSTONE_ALLOY = new CustomItem(Material.BRICK, "&cRedstone Alloy Ingot", 0);
 	/*		Alloy (Iron + Copper)		*/
 	public static ItemStack NICKEL_INGOT = new CustomItem(Material.IRON_INGOT, "&bNickel Ingot" , 0);
 	/*		Alloy (Nickel + Iron + Copper)		*/
@@ -326,8 +326,8 @@ public class SlimefunItems {
 	
 	/*		 Gems 		*/
 	public static ItemStack SYNTHETIC_DIAMOND = new CustomItem(Material.DIAMOND, "&bSynthetic Diamond", 0);
-	public static ItemStack SYNTHETIC_SAPPHIRE = new CustomItem(new MaterialData(Material.LAPIS_LAZULI), "&bSynthetic Sapphire");
 	public static ItemStack SYNTHETIC_EMERALD = new CustomItem(Material.EMERALD, "&bSynthetic Emerald", 0);
+	public static ItemStack SYNTHETIC_SAPPHIRE;
 	public static ItemStack CARBONADO = null;
 	public static ItemStack RAW_CARBONADO = null;
 	public static ItemStack URANIUM = null;
@@ -652,6 +652,7 @@ public class SlimefunItems {
 	
 	static {
 		try {
+			PORTABLE_CRAFTER = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzJlYzRhNGJkOGE1OGY4MzYxZjhhMDMwM2UyMTk5ZDMzZDYyNGVhNWY5MmY3Y2IzNDE0ZmVlOTVlMmQ4NjEifX19"), "&6Portable Crafter", "&a&oA portable Crafting Table", "", "&eRight Click&7 to open");
 			PORTABLE_DUSTBIN = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJkNDEwNDJjZTk5MTQ3Y2MzOGNhYzllNDY3NDE1NzZlN2VlNzkxMjgzZTZmYWM4ZDMyOTJjYWUyOTM1ZjFmIn19fQ=="), "&6Portable Dustbin", "&rYour portable Item-Destroyer", "", "&eRight Click&7 to open");
 			TRASH_CAN = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJkNDEwNDJjZTk5MTQ3Y2MzOGNhYzllNDY3NDE1NzZlN2VlNzkxMjgzZTZmYWM4ZDMyOTJjYWUyOTM1ZjFmIn19fQ=="), "&3Trash Can", "", "&rWill destroy all Items put into it");
 			CAN = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTRkYTk3ZjA4MGUzOTViODQyYzRjYzgyYTg0MDgyM2Q0ZGJkOGNhNjg4YTIwNjg1M2U1NzgzZTRiZmRjMDEyIn19fQ=="), "&rTin Can");
@@ -742,6 +743,7 @@ public class SlimefunItems {
 			COMPRESSED_CARBON = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIxZDQ5NTE2NTc0OGQzMTE2Zjk5ZDZiNWJkNWQ0MmViOGJhNTkyYmNkZmFkMzdmZDk1ZjliNmMwNGEzYiJ9fX0="), "&cCompressed Carbon");
 			CARBON_CHUNK = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIxZDQ5NTE2NTc0OGQzMTE2Zjk5ZDZiNWJkNWQ0MmViOGJhNTkyYmNkZmFkMzdmZDk1ZjliNmMwNGEzYiJ9fX0="), "&4Carbon Chunk");
 			
+			SYNTHETIC_SAPPHIRE = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTM1MDMyZjRkN2QwMWRlOGVjOTlkODlmODcyMzAxMmQ0ZTc0ZmE3MzAyMmM0ZmFjZjFiNTdjN2ZmNmZmMCJ9fX0="), "&bSynthetic Sapphire");
 			CARBONADO = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTJmNGIxNTc3ZjUxNjBjNjg5MzE3MjU3MWM0YTcxZDhiMzIxY2RjZWFhMDMyYzZlMGUzYjYwZTBiMzI4ZmEifX19"), "&b&lCarbonado", "", "&7&o\"Black Diamond\"");
 			RAW_CARBONADO = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWI0OWU2ZWMxMDc3MWU4OTkyMjVhZWE3M2NkOGNmMDM2ODRmNDExZDE0MTVjNzMyM2M5M2NiOTQ3NjIzMCJ9fX0="), "&bRaw Carbonado");
 			
