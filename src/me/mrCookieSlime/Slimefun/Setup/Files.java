@@ -9,6 +9,7 @@ public class Files {
 	public static File ITEMS = new File("plugins/Slimefun/Items.yml");
 	public static File DATABASE = new File("data-storage/Slimefun/Players");
 	public static File WHITELIST = new File("plugins/Slimefun/whitelist.yml");
+	public static File MYSQL = new File("plugins/Slimefun/mysql.yml");
 	
 	public static void cleanup() {
 		if (!RESEARCHES.exists()) {
