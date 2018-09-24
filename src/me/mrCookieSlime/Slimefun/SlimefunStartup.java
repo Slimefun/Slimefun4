@@ -17,6 +17,8 @@ import me.mrCookieSlime.Slimefun.GitHub.GitHubSetup;
 import me.mrCookieSlime.Slimefun.Hashing.ItemHash;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Misc.BookDesign;
+import me.mrCookieSlime.Slimefun.MySQL.Components.CallbackResults;
+import me.mrCookieSlime.Slimefun.MySQL.Components.ResultData;
 import me.mrCookieSlime.Slimefun.MySQL.MySQLMain;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -58,6 +60,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
 
 public class SlimefunStartup extends JavaPlugin {
 
@@ -126,6 +130,17 @@ public class SlimefunStartup extends JavaPlugin {
 
 			instance = this;
 			mySQLMain = new MySQLMain();
+
+			for (World world: Bukkit.getWorlds()) {
+				mySQLMain.getBlock_storage().search("world", world.getName(), new CallbackResults() {
+					@Override
+					public void onResult(List<HashMap<String, ResultData>> results) {
+						mySQLMain.setLoad_storage(world.getName(), results);
+						mySQLMain.setLoaded(world.getName(), true);
+						System.out.println("[Slimefun] MySQL, world: " + world.getName() + " data received for " + results.size() + " blocks.");
+					}
+				});
+			}
 			System.out.println("[Slimefun] Loading Files...");
 			Files.cleanup();
 

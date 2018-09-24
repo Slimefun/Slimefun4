@@ -32,6 +32,7 @@ public class MySQLMain {
     public String titan_mysql_username;
     public String titan_mysql_password;
     private Boolean MySQL_enabled;
+    private int queued_size = 100000;
     public HashMap<Integer, BukkitRunnable> tasksSaver = new HashMap<Integer, BukkitRunnable>();
     private FileConfiguration config;
     private HashMap<String, Boolean> loaded = new HashMap<String, Boolean>();
@@ -43,10 +44,17 @@ public class MySQLMain {
         load_storage = new HashMap<String, List<HashMap<String, ResultData>>>();
         this.config = YamlConfiguration.loadConfiguration(Files.MYSQL);
 
+
+        if (!this.config.contains("mysql.queued_size"))
+        {
+            this.config.set("mysql.queued_size", 100000);
+        }
+
         if (!this.config.contains("mysql.enable"))
         {
             this.config.set("mysql.enable", false);
         }
+
         if (!this.config.contains("mysql.host"))
         {
             this.config.set("mysql.host", "Host_Adrress_Here");
@@ -67,6 +75,9 @@ public class MySQLMain {
         {
             this.config.set("mysql.password", "Password_Name_Here");
         }
+        this.config.set("note 1", "First time converting flat file format to mysql will take a very long time.");
+        this.config.set("note 2", "500,000 blocks from server to server takes around 20 mins.");
+        this.config.set("note 3", "500,000 blocks from home to server takes around > 12 hours.");
         try {
             this.config.save(Files.MYSQL);
         } catch (IOException e) {
@@ -80,13 +91,20 @@ public class MySQLMain {
         titan_mysql_username = this.config.getString("mysql.username");
         titan_mysql_password = this.config.getString("mysql.password");
         MySQL_enabled = this.config.getBoolean("mysql.enable");
+        queued_size = this.config.getInt("mysql.queued_size");
         connections = new HashMap<String, Database>();
         if (!MySQL_enabled) return;
 
+        try
+        {
         Database myDefault = new Database(titan_mysql_database,true);
         connections.put("defualt", myDefault);
         connections.put(titan_mysql_database, myDefault);
-
+        } catch (Exception e) {
+            System.out.println("[Slimefun]: Can Not Connect To MySQL, disabling.");
+            MySQL_enabled= false;
+            return;
+        }
 
         Bukkit.getScheduler().runTaskTimer(SlimefunStartup.instance, new Runnable() {
             @Override
@@ -106,6 +124,10 @@ public class MySQLMain {
         System.out.println("[Slimefun, MySQL]: Initialized and Enabled.");
 
 
+    }
+
+    public int getQueued_size() {
+        return queued_size;
     }
 
     public boolean isLoaded(String world) {

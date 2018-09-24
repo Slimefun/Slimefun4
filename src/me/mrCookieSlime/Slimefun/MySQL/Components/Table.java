@@ -18,6 +18,8 @@ public class Table {
     private String name;
     private HashMap<String, Object> tempRow;
     private Database database;
+    private PreparedStatement  preparedStatementBulkData;
+    private int builkDataCount = 0;
     public Table(String myName)
     {
         this.types = new ArrayList<DataType>();
@@ -107,7 +109,7 @@ public class Table {
                 }
             }
         };
-        tmpY.runTaskAsynchronously(SlimefunStartup.instance);
+        tmpY.runTask(SlimefunStartup.instance);
         MySQLMain.instance.tasksSaver.put(tmpY.getTaskId(), tmpY);
     }
     public void search(final String type,final Object what, final CallbackResults callback)
@@ -161,7 +163,7 @@ public class Table {
                 }
             }
         };
-        tmpY.runTaskAsynchronously(SlimefunStartup.instance);
+        tmpY.runTask(SlimefunStartup.instance);
         MySQLMain.instance.tasksSaver.put(tmpY.getTaskId(), tmpY);
     }
 
@@ -256,7 +258,7 @@ public class Table {
                 }
             }
         };
-        tmpY.runTaskAsynchronously(SlimefunStartup.instance);
+        tmpY.runTask(SlimefunStartup.instance);
         MySQLMain.instance.tasksSaver.put(tmpY.getTaskId(), tmpY);
 
 
@@ -339,7 +341,7 @@ public class Table {
 
             }
         };
-        tmpY.runTaskAsynchronously(SlimefunStartup.instance);
+        tmpY.runTask(SlimefunStartup.instance);
         MySQLMain.instance.tasksSaver.put(tmpY.getTaskId(), tmpY);
     }
 
@@ -365,6 +367,94 @@ public class Table {
         }
         tempRow.put(dataname, value);
         return true;
+    }
+    public void insertDataBulk()
+    {
+        insertDataBulk(true);
+    }
+    public void insertDataBulk(boolean useThread)
+    {
+        final HashMap<String, Object> HoldMetempRow = new HashMap<String, Object>();
+        if (tempRow != null) {
+            HoldMetempRow.putAll(tempRow);
+            tempRow.clear();
+        }
+
+        String AoutputString = "REPLACE INTO " + name + " (";
+        String BoutputString = ") VALUES(";
+        List<String> order = new ArrayList<String>();
+        for(DataType dt: types)
+        {
+            if (HoldMetempRow.containsKey(dt.getName())) {
+                AoutputString = AoutputString + dt.getName() + ",";
+                BoutputString = BoutputString + "?,";
+                order.add(dt.getName());
+            }
+        }
+        AoutputString = AoutputString.substring(0, AoutputString.length() - 1);
+        BoutputString = BoutputString.substring(0, BoutputString.length() - 1);
+
+        try {
+            if (preparedStatementBulkData == null) {
+                preparedStatementBulkData = database.getConnection().prepareStatement(AoutputString + BoutputString + ")");//, Statement.RETURN_GENERATED_KEYS);
+            }
+            int i = 1;
+            for(String key: order)
+            {
+                DataTypeEnum DT = typesByName.get(key).getType();
+                DT.setPreparedStatement(preparedStatementBulkData, i, HoldMetempRow.get(key));
+                i++;
+            }
+            preparedStatementBulkData.addBatch();
+            builkDataCount++;
+            if (builkDataCount >= MySQLMain.instance.getQueued_size())
+            {
+                sendDataBulk(useThread);
+                builkDataCount = 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+    public void sendDataBulk()
+    {
+        sendDataBulk(true);
+    }
+    public void sendDataBulk(boolean useThread)
+    {
+        if (builkDataCount <= 0) return;
+        final String trace =  MySQLMain.getTrace();
+        final String simpletrace =  MySQLMain.getSimpleTrace();
+        final String pluginName = MySQLMain.getPlugin();
+        MySQLRunnable tmpY = new MySQLRunnable(pluginName, simpletrace) {
+
+            @Override
+            public void run() {
+                System.out.println("[Slimefun]: Sending data to MySql, queued: " + builkDataCount + "/" + MySQLMain.instance.getQueued_size());
+                try {
+                    preparedStatementBulkData.executeBatch();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println("----------------------------------");
+                    System.out.println(trace);
+                    System.out.println("----------------------------------");
+                } finally {
+                    close(preparedStatementBulkData);
+                    preparedStatementBulkData = null;
+                    builkDataCount = 0;
+                }
+            }
+        };
+        if (builkDataCount < 100) {
+            tmpY.runTask(SlimefunStartup.instance);
+            MySQLMain.instance.tasksSaver.put(tmpY.getTaskId(), tmpY);
+        }
+        else {
+            tmpY.run();
+        }
+
+
     }
     public void insertData()
     {
@@ -403,7 +493,6 @@ public class Table {
                     AoutputString = AoutputString.substring(0, AoutputString.length() - 1);
                     BoutputString = BoutputString.substring(0, BoutputString.length() - 1);
 
-
                     try {
                         ps = database.getConnection().prepareStatement(AoutputString + BoutputString +")", Statement.RETURN_GENERATED_KEYS);
 
@@ -437,7 +526,7 @@ public class Table {
                 }
             }
         };
-        tmpY.runTaskAsynchronously(SlimefunStartup.instance);
+        tmpY.runTask(SlimefunStartup.instance);
         MySQLMain.instance.tasksSaver.put(tmpY.getTaskId(), tmpY);
     }
     @Deprecated
