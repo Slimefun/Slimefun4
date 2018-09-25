@@ -2,6 +2,7 @@
 
  import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
  import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
+ import me.mrCookieSlime.Slimefun.MySQL.Components.CallbackResults;
  import me.mrCookieSlime.Slimefun.MySQL.Components.ResultData;
  import me.mrCookieSlime.Slimefun.MySQL.Components.Table;
  import me.mrCookieSlime.Slimefun.MySQL.MySQLMain;
@@ -316,6 +317,19 @@ public class BlockStorage {
 					Config blockInfo = parseBlockInfo(l, json);
 					if (blockInfo.getString("id") == null)
 					{
+						//this block turned into a head lets retrive the data from the MySQL and not save this bad data.
+						block_storage_table.search("id", key, new CallbackResults() {
+									@Override
+									public void onResult(List<HashMap<String, ResultData>> results) {
+										for (HashMap<String, ResultData> result : results) {
+											String key = result.get("id").getString();
+											Location l = deserializeLocation(key);
+											String json = result.get("json").getString();
+											Config blockInfo = parseBlockInfo(l, json);
+											storage.put(l, blockInfo);
+										}
+									}
+								});
 						//System.out.println("[Slimefun]: Block with no id can't be saved, this will turn into a head. location: " + key);
 						continue;
 					}
@@ -409,6 +423,29 @@ public class BlockStorage {
 
 			BlockStorage storage = getStorage(l.getWorld());
 			Config cfg = storage.storage.get(l);
+			if (MySQLMain.instance.isEnabled())
+			{
+				if (cfg == null)
+				{
+					//new BlockInfoConfig(), the block info is missing, the code 'new BlockInfoConfig()' below changes it to a head with no id.
+					//Lets retrieve the information from the MySQL database
+					String key = serializeLocation(l);
+					Table block_storage_table = MySQLMain.instance.getBlock_storage();
+					block_storage_table.search("id", key, new CallbackResults() {
+						@Override
+						public void onResult(List<HashMap<String, ResultData>> results) {
+							for (HashMap<String, ResultData> result : results) {
+								String key = result.get("id").getString();
+								Location l = deserializeLocation(key);
+								String json = result.get("json").getString();
+								Config blockInfo = parseBlockInfo(l, json);
+								storage.storage.put(l, blockInfo);
+							}
+						}
+					});
+
+				}
+			}
 			return cfg == null ? new BlockInfoConfig() : cfg;
 	}
 	
