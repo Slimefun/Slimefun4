@@ -406,7 +406,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		Bukkit.getScheduler().cancelTasks(this);
+
 		
 		// Finishes all started movements/removals of block data
 		ticker.HALTED = true;
@@ -426,6 +426,13 @@ public class SlimefunStartup extends JavaPlugin {
 			SlimefunBackup.start();
 		} catch (Exception x) {}
 
+		if (mySQLMain.isEnabled())
+		{
+			//we can't just end all the thread, because its data being save to MySQL. We need to wait on them, and try and fource them to finish.
+			mySQLMain.disable();
+		}
+
+		Bukkit.getScheduler().cancelTasks(this);
 		// Prevent Memory Leaks
 		config = null;
 		researches = null;
