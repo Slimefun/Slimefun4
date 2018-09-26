@@ -570,7 +570,7 @@ public class BlockStorage {
 			if (MySQLMain.instance.isEnabled())
 			{
 				MySQLMain.instance.getBlock_storage().delete("id", getLocationInfo(l).getString("key"));
-
+				MySQLMain.instance.deleteBackUp(l);
 			}
 			storage.storage.remove(l);
 		}
@@ -624,7 +624,7 @@ public class BlockStorage {
 		if (MySQLMain.instance.isEnabled())
 		{
 			MySQLMain.instance.getBlock_storage().delete("id", getLocationInfo(from).getString("key"));
-
+			MySQLMain.instance.deleteBackUp(from);
 		}
 		storage.storage.remove(from);
 

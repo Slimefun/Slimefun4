@@ -151,6 +151,10 @@ public class MySQLMain {
         }
         return map;
     }
+    public void  deleteBackUp(Location l)
+    {
+        blockBackup.remove(l);
+    }
     public Config getBlockBackUp(Location l)
     {
         return blockBackup.get(l);

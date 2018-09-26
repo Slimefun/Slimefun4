@@ -18,7 +18,7 @@ public class Table {
     private String name;
     private HashMap<String, Object> tempRow;
     private Database database;
-    private PreparedStatement  preparedStatementBulkData;
+    private List<PreparedStatement> preparedStatementBulkData;
     private int builkDataCount = 0;
     public Table(String myName)
     {
@@ -26,6 +26,7 @@ public class Table {
         this.typesByName = new HashMap<String, DataType>();
         this.name = myName;
         this.database = MySQLMain.instance.getDatebase();
+        preparedStatementBulkData = new ArrayList<PreparedStatement>();
     }
     public Table(String myName, String DatabaseName)
     {
@@ -33,6 +34,7 @@ public class Table {
         this.typesByName = new HashMap<String, DataType>();
         this.name = myName;
         this.database = MySQLMain.instance.getDatebase(DatabaseName);
+        preparedStatementBulkData = new ArrayList<PreparedStatement>();
         if (this.database == null)
         {
             MySQLMain.instance.addDatabase(DatabaseName, true);
@@ -45,6 +47,7 @@ public class Table {
         this.typesByName = new HashMap<String, DataType>();
         this.name = myName;
         this.database = MySQLMain.instance.getDatebase(DatabaseName);
+        preparedStatementBulkData = new ArrayList<PreparedStatement>();
         if (this.database == null)
         {
             MySQLMain.instance.addDatabase(DatabaseName, keepalive);
@@ -395,22 +398,23 @@ public class Table {
         BoutputString = BoutputString.substring(0, BoutputString.length() - 1);
 
         try {
-            if (preparedStatementBulkData == null) {
-                preparedStatementBulkData = database.getConnection().prepareStatement(AoutputString + BoutputString + ")");//, Statement.RETURN_GENERATED_KEYS);
+            if (preparedStatementBulkData.size() == 0)
+            {
+                preparedStatementBulkData.add(database.getConnection().prepareStatement(AoutputString + BoutputString + ")"));
             }
+            PreparedStatement tmpST = preparedStatementBulkData.get(0);
             int i = 1;
             for(String key: order)
             {
                 DataTypeEnum DT = typesByName.get(key).getType();
-                DT.setPreparedStatement(preparedStatementBulkData, i, HoldMetempRow.get(key));
+                DT.setPreparedStatement(tmpST, i, HoldMetempRow.get(key));
                 i++;
             }
-            preparedStatementBulkData.addBatch();
+            tmpST.addBatch();
             builkDataCount++;
             if (builkDataCount >= MySQLMain.instance.getQueued_size())
             {
                 sendDataBulk(useThread);
-                builkDataCount = 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -427,21 +431,22 @@ public class Table {
         final String trace =  MySQLMain.getTrace();
         final String simpletrace =  MySQLMain.getSimpleTrace();
         final String pluginName = MySQLMain.getPlugin();
+        final PreparedStatement tmpST = preparedStatementBulkData.get(0);
+        preparedStatementBulkData.remove(0);
         MySQLRunnable tmpY = new MySQLRunnable(pluginName, simpletrace) {
 
             @Override
             public void run() {
-                System.out.println("[Slimefun]: Sending data to MySql, queued: " + builkDataCount + "/" + MySQLMain.instance.getQueued_size());
+                if (!useThread) System.out.println("[Slimefun]: Sending data to MySql, queued: " + builkDataCount + "/" + MySQLMain.instance.getQueued_size());
                 try {
-                    preparedStatementBulkData.executeBatch();
+                    tmpST.executeBatch();
                 } catch (SQLException e) {
                     e.printStackTrace();
                     System.out.println("----------------------------------");
                     System.out.println(trace);
                     System.out.println("----------------------------------");
                 } finally {
-                    close(preparedStatementBulkData);
-                    preparedStatementBulkData = null;
+                    close(tmpST);
                     builkDataCount = 0;
                 }
             }
