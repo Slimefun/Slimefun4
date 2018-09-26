@@ -1,34 +1,33 @@
  package me.mrCookieSlime.Slimefun.api;
 
  import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
- import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
- import me.mrCookieSlime.Slimefun.MySQL.Components.CallbackResults;
- import me.mrCookieSlime.Slimefun.MySQL.Components.ResultData;
- import me.mrCookieSlime.Slimefun.MySQL.Components.Table;
- import me.mrCookieSlime.Slimefun.MySQL.MySQLMain;
- import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
- import me.mrCookieSlime.Slimefun.SlimefunStartup;
- import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
- import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
- import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
- import org.bukkit.Bukkit;
- import org.bukkit.Chunk;
- import org.bukkit.Location;
- import org.bukkit.World;
- import org.bukkit.block.Block;
- import org.bukkit.configuration.file.FileConfiguration;
- import org.bukkit.configuration.file.YamlConfiguration;
- import org.bukkit.entity.HumanEntity;
- import org.bukkit.inventory.ItemStack;
- import org.json.simple.JSONObject;
- import org.json.simple.parser.JSONParser;
- import org.json.simple.parser.ParseException;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
+import me.mrCookieSlime.Slimefun.MySQL.Components.ResultData;
+import me.mrCookieSlime.Slimefun.MySQL.Components.Table;
+import me.mrCookieSlime.Slimefun.MySQL.MySQLMain;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.inventory.ItemStack;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
- import java.io.File;
- import java.io.IOException;
- import java.nio.file.Files;
- import java.nio.file.StandardCopyOption;
- import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 public class BlockStorage {
 	private static final String path_blocks = "data-storage/Slimefun/stored-blocks/";
@@ -121,6 +120,7 @@ public class BlockStorage {
 							String json = result.get("json").getString();
 							Config blockInfo = parseBlockInfo(l, json);
 							storage.put(l, blockInfo);
+							mySQLMain.instance.setBlockBackUp(l, json);
 							if (SlimefunItem.isTicking(id)) {
 								Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string) : new HashSet<Location>();
 								locations.add(l);
@@ -179,6 +179,7 @@ public class BlockStorage {
 									block_storage_table.setDataField("world", l.getWorld().getName());
 									block_storage_table.setDataField("json", json);
 									block_storage_table.insertDataBulk(false);
+									mySQLMain.instance.setBlockBackUp(l, json);
 								}
 								storage.put(l, blockInfo);
 
@@ -318,19 +319,10 @@ public class BlockStorage {
 					if (blockInfo.getString("id") == null)
 					{
 						//this block turned into a head lets retrive the data from the MySQL and not save this bad data.
-						block_storage_table.search("id", key, new CallbackResults() {
-									@Override
-									public void onResult(List<HashMap<String, ResultData>> results) {
-										for (HashMap<String, ResultData> result : results) {
-											String key = result.get("id").getString();
-											Location l = deserializeLocation(key);
-											String json = result.get("json").getString();
-											Config blockInfo = parseBlockInfo(l, json);
-											storage.put(l, blockInfo);
-										}
-									}
-								});
-						//System.out.println("[Slimefun]: Block with no id can't be saved, this will turn into a head. location: " + key);
+						Config blockBackup = mySQLMain.instance.getBlockBackUp(l);
+						if (blockBackup != null) {
+							storage.put(l, blockBackup);
+						}
 						continue;
 					}
 					block_storage_table.setDataField("id", key);
@@ -427,23 +419,12 @@ public class BlockStorage {
 			{
 				if (cfg == null)
 				{
-					//new BlockInfoConfig(), the block info is missing, the code 'new BlockInfoConfig()' below changes it to a head with no id.
-					//Lets retrieve the information from the MySQL database
-					String key = serializeLocation(l);
-					Table block_storage_table = MySQLMain.instance.getBlock_storage();
-					block_storage_table.search("id", key, new CallbackResults() {
-						@Override
-						public void onResult(List<HashMap<String, ResultData>> results) {
-							for (HashMap<String, ResultData> result : results) {
-								String key = result.get("id").getString();
-								Location l = deserializeLocation(key);
-								String json = result.get("json").getString();
-								Config blockInfo = parseBlockInfo(l, json);
-								storage.storage.put(l, blockInfo);
-							}
-						}
-					});
-
+					cfg = MySQLMain.instance.getBlockBackUp(l);
+					if (cfg != null)
+					{
+						storage.storage.put(l, cfg);
+						return cfg;
+					}
 				}
 			}
 			return cfg == null ? new BlockInfoConfig() : cfg;
@@ -640,6 +621,11 @@ public class BlockStorage {
 		}
 		
 		refreshCache(storage, from, getLocationInfo(from).getString("id"), null, true);
+		if (MySQLMain.instance.isEnabled())
+		{
+			MySQLMain.instance.getBlock_storage().delete("id", getLocationInfo(from).getString("key"));
+
+		}
 		storage.storage.remove(from);
 
 		String chunk_string = locationToChunkString(from);

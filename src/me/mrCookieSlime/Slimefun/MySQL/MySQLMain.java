@@ -1,8 +1,10 @@
 package me.mrCookieSlime.Slimefun.MySQL;
 
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.MySQL.Components.*;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -13,6 +15,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
@@ -20,10 +25,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MySQLMain {
 
     //private Connection connection;
+    private HashMap<Location, Config> blockBackup = new HashMap<Location, Config>();
     private HashMap<String, Database> connections;
     public static MySQLMain instance;
     public String titan_mysql_host;
@@ -97,9 +104,9 @@ public class MySQLMain {
 
         try
         {
-        Database myDefault = new Database(titan_mysql_database,true);
-        connections.put("defualt", myDefault);
-        connections.put(titan_mysql_database, myDefault);
+            Database myDefault = new Database(titan_mysql_database,true);
+            connections.put("defualt", myDefault);
+            connections.put(titan_mysql_database, myDefault);
         } catch (Exception e) {
             System.out.println("[Slimefun]: Can Not Connect To MySQL, disabling.");
             MySQL_enabled= false;
@@ -125,7 +132,44 @@ public class MySQLMain {
 
 
     }
+    private static Map<String, String> parseJSON(String json) {
+        Map<String, String> map = new HashMap<String, String>();
 
+        if (json != null && json.length() > 2) {
+            try {
+                JSONParser parser = new JSONParser();
+                JSONObject obj = (JSONObject) parser.parse(json);
+                for (Object entry: obj.keySet()) {
+                    String key = entry.toString();
+                    String value = obj.get(entry).toString();
+                    map.put(key, value);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return map;
+    }
+    public Config getBlockBackUp(Location l)
+    {
+        return blockBackup.get(l);
+    }
+    public void setBlockBackUp(Location l, String rawJSON)
+    {
+
+        try {
+            blockBackup.put(l, new BlockInfoConfig(parseJSON(rawJSON)));
+        } catch(Exception x) {
+            System.err.println(x.getClass().getName());
+            System.err.println("[Slimefun] Failed to parse BlockInfo for Block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+            System.err.println(rawJSON);
+            System.err.println("[Slimefun] ");
+            System.err.println("[Slimefun] IGNORE THIS ERROR UNLESS IT IS SPAMMING");
+            System.err.println("[Slimefun] ");
+            x.printStackTrace();
+        }
+    }
     public int getQueued_size() {
         return queued_size;
     }
