@@ -306,7 +306,6 @@ public class Table {
 
         return -1;
     }
-    //DELETE FROM `lkr8bkxu_firesoftitan`.`fot_test` WHERE  `id`=12345 AND `name`='Farthead1' AND `something`=b'0' LIMIT 1;
     public void delete(String name, Object what)
     {
         DataType type = getDataType(name);
@@ -346,6 +345,48 @@ public class Table {
         };
         tmpY.runTask(SlimefunStartup.instance);
         MySQLMain.instance.tasksSaver.put(tmpY.getTaskId(), tmpY);
+    }
+    public void deleteBulk(String name, Object what)
+    {
+        DataType type = getDataType(name);
+        deleteBulk(type, what);
+    }
+    public void deleteBulk(DataType type, final Object what)
+    {
+        final String trace =  MySQLMain.getTrace();
+        final String simpletrace =  MySQLMain.getSimpleTrace();
+        final String pluginName = MySQLMain.getPlugin();
+
+
+        long first = System.currentTimeMillis();
+        PreparedStatement ps = null;
+        ResultData conver = new ResultData(type, what);
+        Object whatconverted = conver.get();
+        try {
+            if (preparedStatementBulkData.size() == 0)
+            {
+                preparedStatementBulkData.add(database.getConnection().prepareStatement("DELETE FROM " + name + " WHERE " + type.getName() + " = ? LIMIT 1"));
+            }
+            PreparedStatement tmpST = preparedStatementBulkData.get(0);
+            type.getType().setPreparedStatement(tmpST, 1, whatconverted);
+            tmpST.addBatch();
+            builkDataCount++;
+            if (builkDataCount >= MySQLMain.instance.getQueued_size())
+            {
+                sendDataBulk(true);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("----------------------------------");
+            System.out.println(trace);
+            System.out.println("----------------------------------");
+        } finally {
+            long last = System.currentTimeMillis() - first;
+            printThreadTime(last);
+            close(ps);
+        }
+
+
     }
 
     private void startRow()

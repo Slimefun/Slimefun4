@@ -331,10 +331,6 @@ public class BlockStorage {
 					block_storage_table.setDataField("json", json);
 					if (!SlimefunStartup.instance.isEnabled())
 					{
-						//We can't start new threads when the server is shuting down so we have to do it this way.
-						block_storage_table.insertDataDirect();
-					}
-					else {
 						block_storage_table.insertDataBulk();
 					}
 				}
@@ -569,7 +565,7 @@ public class BlockStorage {
 			refreshCache(storage, l, getLocationInfo(l).getString("id"), null, destroy);
 			if (MySQLMain.instance.isEnabled())
 			{
-				MySQLMain.instance.getBlock_storage().delete("id", getLocationInfo(l).getString("key"));
+				MySQLMain.instance.getBlock_storage().deleteBulk("id", getLocationInfo(l).getString("key"));
 				MySQLMain.instance.deleteBackUp(l);
 			}
 			storage.storage.remove(l);
@@ -623,7 +619,7 @@ public class BlockStorage {
 		refreshCache(storage, from, getLocationInfo(from).getString("id"), null, true);
 		if (MySQLMain.instance.isEnabled())
 		{
-			MySQLMain.instance.getBlock_storage().delete("id", getLocationInfo(from).getString("key"));
+			MySQLMain.instance.getBlock_storage().deleteBulk("id", getLocationInfo(from).getString("key"));
 			MySQLMain.instance.deleteBackUp(from);
 		}
 		storage.storage.remove(from);
