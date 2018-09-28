@@ -469,6 +469,7 @@ public class Table {
     public void sendDataBulk(boolean useThread)
     {
         if (builkDataCount <= 0) return;
+        if (preparedStatementBulkData.size() < 1) return;
         final String trace =  MySQLMain.getTrace();
         final String simpletrace =  MySQLMain.getSimpleTrace();
         final String pluginName = MySQLMain.getPlugin();
