@@ -121,6 +121,7 @@ public class BlockStorage {
 							Config blockInfo = parseBlockInfo(l, json);
 							storage.put(l, blockInfo);
 							mySQLMain.instance.setBlockBackUp(l, json);
+							totalBlocks++;
 							if (SlimefunItem.isTicking(id)) {
 								Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string) : new HashSet<Location>();
 								locations.add(l);
@@ -133,11 +134,13 @@ public class BlockStorage {
 					}
 
 				} finally {
-					long time = (System.currentTimeMillis() - start);
-					System.out.println("[Slimefun] Loading Blocks From MySQL... 100% (FINISHED - " + time + "ms)");
-					System.out.println("[Slimefun] Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
-					if (totalBlocks > 0)
-						System.out.println("[Slimefun] Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
+					if (totalBlocks > 0) {
+						long time = (System.currentTimeMillis() - start);
+						System.out.println("[Slimefun] Loading Blocks From MySQL... 100% (FINISHED - " + time + "ms)");
+						System.out.println("[Slimefun] Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
+						if (totalBlocks > 0)
+							System.out.println("[Slimefun] Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
+					}
 				}
 
 			}
