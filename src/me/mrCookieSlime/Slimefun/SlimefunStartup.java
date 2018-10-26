@@ -112,26 +112,25 @@ public class SlimefunStartup extends JavaPlugin {
 				
 				// Looks like you are using an unsupported Minecraft Version
 				if (!compatibleVersion) {
-					System.err.println("### Slimefun failed to load!");
+					System.err.println("### Slimefun 加载失败!");
 					System.err.println("###");
-					System.err.println("### You are using the wrong Version of Minecraft!!!");
+					System.err.println("### 你使用了错误版本的 Minecraft 服务端!!!");
 					System.err.println("###");
-					System.err.println("### You are using Minecraft " + ReflectionUtils.getVersion());
-					System.err.println("### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
-					System.err.println("### Minecraft " + versions.toString());
+					System.err.println("### 你正在使用 " + ReflectionUtils.getVersion());
+					System.err.println("### 但 Slimefun v" + getDescription().getVersion() + " 要求你使用 Minecraft" + versions.toString());
 					System.err.println("###");
-					System.err.println("### Please use an older Version of Slimefun and disable auto-updating");
-					System.err.println("### or consider updating your Server Software.");
+					System.err.println("### 请使用旧版本的 Slimefun 并且关闭自动更新");
+					System.err.println("### 或者考虑更新服务端版本.");
 					getServer().getPluginManager().disablePlugin(this);
 					return;
 				}
 			}
 
 			instance = this;
-			System.out.println("[Slimefun] Loading Files...");
+			System.out.println("[Slimefun] 加载文件中...");
 			Files.cleanup();
 
-			System.out.println("[Slimefun] Loading Config...");
+			System.out.println("[Slimefun] 加载配置文件中...");
 
 			utils = new PluginUtils(this);
 			utils.setupConfig();
@@ -165,7 +164,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 			SlimefunManager.plugin = this;
 
-			System.out.println("[Slimefun] Loading Items...");
+			System.out.println("[Slimefun] 加载物品中...");
 			MiscSetup.setupItemSettings();
 			try {
 				SlimefunSetup.setupItems();
@@ -174,7 +173,7 @@ public class SlimefunStartup extends JavaPlugin {
 			}
 			MiscSetup.loadDescriptions();
 
-			System.out.println("[Slimefun] Loading Researches...");
+			System.out.println("[Slimefun] 加载研究项目中...");
 			Research.enabled = getResearchCfg().getBoolean("enable-researching");
 			ResearchSetup.setupResearches();
 
@@ -182,7 +181,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 			BlockStorage.info_delay = config.getInt("URID.info-delay");
 
-			System.out.println("[Slimefun] Loading World Generators...");
+			System.out.println("[Slimefun] 加载世界生成器中...");
 
 			// Generating Oil as an OreGenResource (its a cool API)
 			OreGenSystem.registerResource(new OilResource());
@@ -249,7 +248,7 @@ public class SlimefunStartup extends JavaPlugin {
 				public void onWorldUnload(WorldUnloadEvent e) {
 					BlockStorage storage = BlockStorage.getStorage(e.getWorld());
 					if (storage != null) storage.save(true);
-					else System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + e.getWorld().getName() + "\"");
+					else System.err.println("[Slimefun] 无法在世界 \"" + e.getWorld().getName() + "\" 中保存粘液科技方块");
 				}
 
 			}, this);
