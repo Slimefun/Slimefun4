@@ -27,7 +27,7 @@ public class AutoSavingTask implements Runnable {
 		}
 		
 		if (!worlds.isEmpty()) {
-			System.out.println("[Slimefun] Auto-Saving Data... (Next Auto-Save: " + SlimefunStartup.getCfg().getInt("options.auto-save-delay-in-minutes") + "m)");
+			System.out.println("[Slimefun] 正在自动保存数据... (下一次自动保存将在 " + SlimefunStartup.getCfg().getInt("options.auto-save-delay-in-minutes") + "分钟后)");
 			
 			for (BlockStorage storage: worlds) {
 				storage.save(false);

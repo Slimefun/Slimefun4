@@ -13,16 +13,15 @@ public class Files {
 	public static void cleanup() {
 		if (!RESEARCHES.exists()) {
 			System.err.println("###############################################");
-			System.err.println("############## = -  INFO  - = #################");
+			System.err.println("############## = -  信息  - = #################");
 			System.err.println("###############################################");
 			System.err.println("      ");
-			System.err.println("Slimefun Warning:");
+			System.err.println("Slimefun 警告:");
 			System.err.println("         ");
-			System.err.println("Slimefun has detected that your Files are either");
-			System.err.println("outdated or do not exist. We generated new Files");
-			System.err.println("instead otherwise Slimefun would not work. If you");
-			System.err.println("have used Slimefun before, your Settings are now");
-			System.err.println("gone. But therefore Slimefun works!");
+			System.err.println("Slimefun 检测到文件已过时或不存在,");
+			System.err.println("我们已自动生成了新文件以保证正常工作.");
+			System.err.println("如果你此先曾经使用过 Slimefun,");
+			System.err.println("你的配置文件已被删除, 请重新配置!");
 			delete(new File("plugins/Slimefun"));
 			delete(new File("data-storage/Slimefun"));
 		}
