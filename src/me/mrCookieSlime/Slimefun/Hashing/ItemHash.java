@@ -22,7 +22,7 @@ public class ItemHash {
 			digest = MessageDigest.getInstance("SHA");
 			LENGTH = hash("The Busy Biscuit").length();
 		} catch (NoSuchAlgorithmException e) {
-			System.out.println("FATAL Security ERROR - Slimefun was disabled.");
+			System.out.println("致命安全错误 - Slimefun 已被禁用.");
 			Bukkit.getPluginManager().disablePlugin(SlimefunStartup.instance);
 			e.printStackTrace();
 		}
@@ -58,7 +58,7 @@ public class ItemHash {
 		String hash = hash(item.getID());
 		
 		if (map.containsKey(hash) && !item.getID().equals(map.get(hash).getHash())) {
-			System.out.println("FATAL Security ERROR - Slimefun was disabled.");
+			System.out.println("致命安全错误 - Slimefun 已被禁用.");
 			Bukkit.getPluginManager().disablePlugin(SlimefunStartup.instance);
 			throw new IllegalStateException("Hash Collision: " + hash);
 		}
