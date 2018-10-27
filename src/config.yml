@@ -8,9 +8,9 @@ options:
   armor-update-interval: 10
   # 是否在玩家第一次进入服务器时自动赠送粘液科技指南? 
   give-guide-on-first-join: true
-  # 是否完全展示加载过程的 log (?)
+  # 是否在控制台完全输出加载过程的日志 (?)
   print-out-loading: false
-  # 是否展示与 Github 的数据检索过程
+  # 是否在控制台完全输出与 Github 的数据检索过程
   print-out-github-data-retrieving: false
   # 是否启用粘液科技护甲效果
   enable-armor-effects: true
@@ -24,7 +24,7 @@ options:
   allow-free-creative-research: true
   # 绿宝石附魔上限 (扩展选项)
   emerald-enchantment-limit: 2
-  # 是否在解锁时发射烟花 (建议关闭, 全解时卡死人)
+  # 是否在解锁时发射烟花 (建议关闭, 一次性批量解锁时卡死人)
   research-unlock-fireworks: true
   # 是否在解锁时给玩家烟花让玩家自己放
   research-give-fireworks: true
@@ -33,7 +33,7 @@ options:
   # 是否使用除尘机旧的工作方式
   legacy-dust-washer: false
 guide:
-  # 默认使用书与笔 GUI 展示?
+  # 默认使用书与笔进行GUI的展示?
   default-view-book: false
 URID:
   info-delay: 3000
@@ -41,12 +41,12 @@ URID:
   enable-tickers: true
   
 items:
- # 是否启用以下物品?
+ # 是否启用以下物品种类?
   talismans: true
   coolers: true
   backpacks: true
   
-# 研究等级
+# 研究等级，可自行更改
 research-ranks:
 - Chicken
 - Cow
