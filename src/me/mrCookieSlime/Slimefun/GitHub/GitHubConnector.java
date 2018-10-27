@@ -34,7 +34,7 @@ public abstract class GitHubConnector {
 	public abstract void onFailure();
 	
 	public void pullFile() {
-		if (SlimefunStartup.getCfg().getBoolean("options.print-out-github-data-retrieving")) System.out.println("[Slimefun - GitHub] Retrieving '" + this.getFileName() + ".json' from GitHub...");
+		if (SlimefunStartup.getCfg().getBoolean("options.print-out-github-data-retrieving")) System.out.println("[Slimefun - GitHub] 正在检索来自 Github 的文件 '" + this.getFileName() + ".json'...");
 		
 		try {
 			URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
@@ -50,7 +50,7 @@ public abstract class GitHubConnector {
 			fos.close();
 			this.parseData();
 		} catch (IOException e) {
-			if (SlimefunStartup.getCfg().getBoolean("options.print-out-github-data-retrieving")) System.err.println("[Slimefun - GitHub] ERROR - Could not connect to GitHub in time.");
+			if (SlimefunStartup.getCfg().getBoolean("options.print-out-github-data-retrieving")) System.err.println("[Slimefun - GitHub] 错误 - 无法及时连接至 Github.");
 			
 			if (hasData()) {
 				this.parseData();
