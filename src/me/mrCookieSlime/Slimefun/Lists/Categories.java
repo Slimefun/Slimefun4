@@ -21,7 +21,7 @@ import org.bukkit.Material;
  */
 public class Categories {
 	
-	public static Category WEAPONS = new Category(new MenuItem(Material.GOLDEN_SWORD, "&7武器", 0, "open"), 1);
+	public static Category WEAPONS = new Category(new MenuItem(Material.GOLDEN_SWORD, "&7武器", 0, "打开"), 1);
 	public static Category PORTABLE = null;
 	public static Category FOOD = new Category(new MenuItem(Material.APPLE, "&7食物", 0, "open"), 2);
 	public static Category MACHINES_1 = null;
