@@ -24,7 +24,7 @@ public class SlimefunItems {
 	public static ItemStack PORTABLE_CRAFTER = null;
 	public static ItemStack PORTABLE_DUSTBIN = null;
 	public static ItemStack ENDER_BACKPACK = null;
-	public static ItemStack MAGIC_EYE_OF_ENDER = new CustomItem(Material.ENDER_EYE, "&6&lMagic Eye of Ender", 0, new String[] {"&4&lRequires full Ender Armor", "", "&7&eRight Click&7 to shoot an Ender Pearl"});
+	public static ItemStack MAGIC_EYE_OF_ENDER = new CustomItem(Material.ENDER_EYE, "&6&l魔法末影之眼r", 0, new String[] {"&4&l需要全套末影护甲", "", "&7&e右键&7 以射出一颗末影珍珠"});
 	public static ItemStack BROKEN_SPAWNER = new CustomItem(new MaterialData(Material.SPAWNER), "&cBroken Spawner", "&7Type: &b<Type>", "", "&cFractured, must be repaired in an Ancient Altar");
 	public static ItemStack REPAIRED_SPAWNER = new CustomItem(Material.SPAWNER, "&bReinforced Spawner", 0, new String[] {"&7Type: &b<Type>"});
 	public static ItemStack INFERNAL_BONEMEAL = new CustomItem(new MaterialData(Material.BONE_MEAL), "&4Infernal Bonemeal", "", "&cSpeeds up the Growth of", "&cNether Warts as well");
