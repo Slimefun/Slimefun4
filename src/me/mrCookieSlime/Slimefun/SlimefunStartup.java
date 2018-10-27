@@ -282,10 +282,10 @@ public class SlimefunStartup extends JavaPlugin {
 				try {
 					Class.forName("com.sk89q.worldedit.extent.Extent");
 					new WESlimefunManager();
-					System.out.println("[Slimefun] Successfully hooked into WorldEdit!");
+					System.out.println("[Slimefun] 成功 Hook WorldEdit!");
 				} catch (Exception x) {
-					System.err.println("[Slimefun] Failed to hook into WorldEdit!");
-					System.err.println("[Slimefun] Maybe consider updating WorldEdit or Slimefun?");
+					System.err.println("[Slimefun] Hook WorldEdit 时出现了错误!");
+					System.err.println("[Slimefun] 请尝试更新 WorldEdit 或者等待 Slimefun 更新.");
 				}
 			}
 
@@ -361,7 +361,7 @@ public class SlimefunStartup extends JavaPlugin {
 			}, 80L, 60 * 60 * 20L);
 			
 			// Hooray!
-			System.out.println("[Slimefun] Finished!");
+			System.out.println("[Slimefun] 加载完成!");
 
 			clearlag = getServer().getPluginManager().isPluginEnabled("ClearLag");
 
@@ -405,7 +405,7 @@ public class SlimefunStartup extends JavaPlugin {
 					storage.save(true);
 				}
 				else {
-					System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
+					System.err.println("[Slimefun] 无法在世界 \"" + world.getName() + "\" 中保存粘液科技方块");
 				}
 			}
 
