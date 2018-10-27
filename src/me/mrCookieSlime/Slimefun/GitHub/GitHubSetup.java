@@ -20,7 +20,7 @@ public class GitHubSetup {
 			    	JsonObject object = array.get(i).getAsJsonObject();
 			    	
 			    	String name = object.get("login").getAsString();
-			    	String job = "&cAuthor";
+			    	String job = "&c作者";
 			    	int commits = object.get("contributions").getAsInt();
 			    	String profile = object.get("html_url").getAsString();
 			    	
@@ -30,15 +30,15 @@ public class GitHubSetup {
 			    		SlimefunGuide.contributors.add(contributor);
 			    	}
 			    }
-				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6首席艺术家", 0));
 			}
 			
 			@Override
 			public void onFailure() {
 				SlimefunGuide.contributors.clear();
-				SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
-				SlimefunGuide.contributors.add(new Contributor("John000708", "&cAuthor", 2));
-				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&c作者", 3));
+				SlimefunGuide.contributors.add(new Contributor("John000708", "&c作者", 2));
+				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6首席艺术家", 0));
 			}
 			
 			@Override
