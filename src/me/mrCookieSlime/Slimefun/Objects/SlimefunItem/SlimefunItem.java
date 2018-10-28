@@ -222,7 +222,7 @@ public class SlimefunItem {
 	public void register(boolean slimefun) {
 		this.addon = !slimefun;
 		try {
-			if (map_id.containsKey(this.id)) throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
+			if (map_id.containsKey(this.id)) throw new IllegalArgumentException("ID \"" + this.id + "\" 已存在");
 			if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
 			all.add(this);
 			
@@ -268,13 +268,13 @@ public class SlimefunItem {
 					handlers.put(handler.toCodename(), handlerset);
 				}
 				
-				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.id + "\"");
+				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] 已加载物品 \"" + this.id + "\"");
 			} else {
 			    if (this instanceof VanillaItem) this.state = State.VANILLA;
 			    else this.state = State.DISABLED;
 			}
 		} catch(Exception x) {
-			System.err.println("[Slimefun] Item Registration failed: " + this.id);
+			System.err.println("[Slimefun]  物品  " + this.id + " 注册失败!");
 			x.printStackTrace();
 		}
 	}
@@ -374,7 +374,7 @@ public class SlimefunItem {
 			}
 			install();
 		} catch(Exception x) {
-			System.err.println("[Slimefun] Item Initialization failed: " + id);
+			System.err.println("[Slimefun] 物品 " + id + " 加载失败!");
 		}
 	}
 	
@@ -452,8 +452,8 @@ public class SlimefunItem {
 	public static void patchExistingItem(String id, ItemStack stack) {
 		SlimefunItem item = getByID(id);
 		if (item != null) {
-			System.out.println("[Slimefun] WARNING - Patching existing Item - " + id);
-			System.out.println("[Slimefun] This might take a while");
+			System.out.println("[Slimefun] 警告 - 正在修复现有物品 - " + id);
+			System.out.println("[Slimefun] 这可能需要一些时间");
 			
 			final ItemStack old = item.getItem();
 			item.setItem(stack);
