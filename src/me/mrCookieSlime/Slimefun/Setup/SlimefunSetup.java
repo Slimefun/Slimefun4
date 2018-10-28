@@ -3139,6 +3139,24 @@ public class SlimefunSetup {
 				else return false;
 			}
 		});
+		
+		// 凋灵弓
+		new SlimefunBow(SlimefunItems.WITHER_BOW, "WITHER_BOW",
+		new ItemStack[] {null, new ItemStack(Material.STICK), SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.NECROTIC_SKULL, null, new ItemStack(Material.PUFFERFISH), null, new ItemStack(Material.STICK), SlimefunItems.ESSENCE_OF_AFTERLIFE})
+		.register(true, new BowShootHandler() {
+
+			@Override
+			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
+				if (SlimefunManager.isItemSimiliar(Variables.arrows.get(e.getDamager().getUniqueId()), SlimefunItems.WITHER_BOW, true)) {
+					n.getWorld().playEffect(n.getLocation(), Effect.STEP_SOUND, Material.WITHER_SKELETON_SKULL);
+					n.getWorld().playEffect(n.getEyeLocation(), Effect.STEP_SOUND, Material.WITHER_SKELETON_SKULL);
+					n.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 20 * 2, 3));
+					n.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 20 * 2, 3));
+					return true;
+				}
+				else return false;
+			}
+		});
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, "TOME_OF_KNOWLEDGE_SHARING", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, new ItemStack(Material.FEATHER), null, new ItemStack(Material.INK_SAC), SlimefunItems.MAGICAL_BOOK_COVER, new ItemStack(Material.GLASS_BOTTLE), null, new ItemStack(Material.WRITABLE_BOOK), null})
