@@ -81,7 +81,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		// 机器人无法破坏的方块列表
 		blockblacklist.add(Material.BEDROCK);
 		blockblacklist.add(Material.CHEST);
-		blockblacklist.add(Material.END_CHEST);
+		blockblacklist.add(Material.ENDER_CHEST);
 		blockblacklist.add(Material.SHULKER_BOX);
 		blockblacklist.add(Material.BARRIER);
 		blockblacklist.add(Material.END_PORTAL_FRAME);
@@ -93,7 +93,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
 
 	public String getInventoryTitle() {
-		return "Programmable Android";
+		return "可编程式机器人";
 	}
 
 	public int[] getOutputSlots() {
