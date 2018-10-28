@@ -139,7 +139,7 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(138, "Block Placer", 17), SlimefunItems.BLOCK_PLACER);
 	    Slimefun.registerResearch(new Research(139, "Lazy Panning", 29), SlimefunItems.AUTOMATED_PANNING_MACHINE);
 	    Slimefun.registerResearch(new Research(142, "Turning things around", 38), SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION);
-	    Slimefun.registerResearch(new Research(143, "Robin Hood", 22), SlimefunItems.EXPLOSIVE_BOW, SlimefunItems.ICY_BOW);
+	    Slimefun.registerResearch(new Research(143, "Robin Hood", 22), SlimefunItems.EXPLOSIVE_BOW, SlimefunItems.ICY_BOW, SlimefunItems.WITHER_BOW);
 	    Slimefun.registerResearch(new Research(144, "Sharing with friends", 30), SlimefunItems.TOME_OF_KNOWLEDGE_SHARING);
 	    Slimefun.registerResearch(new Research(145, "XP Storage", 13), SlimefunItems.FLASK_OF_KNOWLEDGE);
 	    Slimefun.registerResearch(new Research(146, "Withstanding Explosions", 15), SlimefunItems.REINFORCED_PLATE, SlimefunItems.HARDENED_GLASS);
