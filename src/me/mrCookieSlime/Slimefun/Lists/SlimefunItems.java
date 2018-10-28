@@ -72,84 +72,85 @@ public class SlimefunItems {
 	public static ItemStack ARMORED_JETPACK = new CustomItem(new MaterialData(Material.IRON_CHESTPLATE), "&9装甲喷气背包", "&8\u21E8 &7材料: &b钢", "", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "&8\u21E8 &7推力: &c0.45", "", "&7按住 &eShift&7 使用");
 	
 	/*		 Jetboots		*/
-	public static ItemStack DURALUMIN_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9Jet Boots &7- &eI", "", "&8\u21E8 &7材料: &b硬铝", "&c&o&8\u21E8 &e\u26A1 &70 / 20 J", "&8\u21E8 &7速度: &a0.35", "&8\u21E8 &7准确度: &c50%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
-	public static ItemStack SOLDER_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9Jet Boots &7- &eII", "", "&8\u21E8 &7材料: &b焊锡", "&c&o&8\u21E8 &e\u26A1 &70 / 30 J", "&8\u21E8 &7速度: &a0.4", "&8\u21E8 &7准确度: &660%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
-	public static ItemStack BILLON_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9Jet Boots &7- &eIII", "", "&8\u21E8 &7材料: &b银铜合金", "&c&o&8\u21E8 &e\u26A1 &70 / 40 J", "&8\u21E8 &7速度: &a0.45", "&8\u21E8 &7准确度: &665%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
-	public static ItemStack STEEL_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9Jet Boots &7- &eIV", "", "&8\u21E8 &7材料: &b钢", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "&8\u21E8 &7速度: &a0.5", "&8\u21E8 &7准确度: &e70%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
-	public static ItemStack DAMASCUS_STEEL_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9Jet Boots &7- &eV", "", "&8\u21E8 &7材料: &b大马士革钢", "&c&o&8\u21E8 &e\u26A1 &70 / 75 J", "&8\u21E8 &7速度: &a0.55", "&8\u21E8 &7准确度: &a75%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
-	public static ItemStack REINFORCED_ALLOY_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9Jet Boots &7- &eVI", "", "&8\u21E8 &7材料: &b强化合金", "&c&o&8\u21E8 &e\u26A1 &70 / 100 J", "&8\u21E8 &7速度: &a0.6", "&8\u21E8 &7准确度: &c80%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
-	public static ItemStack CARBONADO_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9Jet Boots &7- &eVII", "", "&8\u21E8 &7材料: &b黑金刚石", "&c&o&8\u21E8 &e\u26A1 &70 / 125 J", "&8\u21E8 &7速度: &a0.7", "&8\u21E8 &7准确度: &c99.9%", "", "&7按住 &eShift&7 使用"), Color.BLACK);
-	public static ItemStack ARMORED_JETBOOTS = new CustomItem(new MaterialData(Material.IRON_BOOTS), "&9Armored Jet Boots", "", "&8\u21E8 &7材料: &b钢", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "&8\u21E8 &7速度: &a0.45", "&8\u21E8 &7准确度: &e70%", "", "&7按住 &eShift&7 使用");
+	public static ItemStack DURALUMIN_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9喷气靴 &7- &eI", "", "&8\u21E8 &7材料: &b硬铝", "&c&o&8\u21E8 &e\u26A1 &70 / 20 J", "&8\u21E8 &7速度: &a0.35", "&8\u21E8 &7准确度: &c50%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
+	public static ItemStack SOLDER_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9喷气靴 &7- &eII", "", "&8\u21E8 &7材料: &b焊锡", "&c&o&8\u21E8 &e\u26A1 &70 / 30 J", "&8\u21E8 &7速度: &a0.4", "&8\u21E8 &7准确度: &660%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
+	public static ItemStack BILLON_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9喷气靴 &7- &eIII", "", "&8\u21E8 &7材料: &b银铜合金", "&c&o&8\u21E8 &e\u26A1 &70 / 40 J", "&8\u21E8 &7速度: &a0.45", "&8\u21E8 &7准确度: &665%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
+	public static ItemStack STEEL_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9喷气靴 &7- &eIV", "", "&8\u21E8 &7材料: &b钢", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "&8\u21E8 &7速度: &a0.5", "&8\u21E8 &7准确度: &e70%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
+	public static ItemStack DAMASCUS_STEEL_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9喷气靴 &7- &eV", "", "&8\u21E8 &7材料: &b大马士革钢", "&c&o&8\u21E8 &e\u26A1 &70 / 75 J", "&8\u21E8 &7速度: &a0.55", "&8\u21E8 &7准确度: &a75%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
+	public static ItemStack REINFORCED_ALLOY_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9喷气靴 &7- &eVI", "", "&8\u21E8 &7材料: &b强化合金", "&c&o&8\u21E8 &e\u26A1 &70 / 100 J", "&8\u21E8 &7速度: &a0.6", "&8\u21E8 &7准确度: &c80%", "", "&7按住 &eShift&7 使用"), Color.SILVER);
+	public static ItemStack CARBONADO_JETBOOTS = new CustomArmor(new CustomItem(new MaterialData(Material.LEATHER_BOOTS), "&9喷气靴 &7- &eVII", "", "&8\u21E8 &7材料: &b黑金刚石", "&c&o&8\u21E8 &e\u26A1 &70 / 125 J", "&8\u21E8 &7速度: &a0.7", "&8\u21E8 &7准确度: &c99.9%", "", "&7按住 &eShift&7 使用"), Color.BLACK);
+	public static ItemStack ARMORED_JETBOOTS = new CustomItem(new MaterialData(Material.IRON_BOOTS), "&9装甲喷气靴", "", "&8\u21E8 &7材料: &b钢", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "&8\u21E8 &7速度: &a0.45", "&8\u21E8 &7准确度: &e70%", "", "&7按住 &eShift&7 使用");
 	
 	/*		 Multi Tools		*/
-	public static ItemStack DURALUMIN_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9Multi Tool &7- &eI", "", "&8\u21E8 &7材料: &b硬铝", "&c&o&8\u21E8 &e\u26A1 &70 / 20 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-	public static ItemStack SOLDER_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9Multi Tool &7- &eII", "", "&8\u21E8 &7材料: &b焊锡", "&c&o&8\u21E8 &e\u26A1 &70 / 30 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-	public static ItemStack BILLON_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9Multi Tool &7- &eIII", "", "&8\u21E8 &7材料: &b银铜合金", "&c&o&8\u21E8 &e\u26A1 &70 / 40 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-	public static ItemStack STEEL_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9Multi Tool &7- &eIV", "", "&8\u21E8 &7材料: &b钢", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-	public static ItemStack DAMASCUS_STEEL_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9Multi Tool &7- &eV", "", "&8\u21E8 &7材料: &b大马士革钢", "&c&o&8\u21E8 &e\u26A1 &70 / 60 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-	public static ItemStack REINFORCED_ALLOY_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9Multi Tool &7- &eVI", "", "&8\u21E8 &7材料: &b强化合金", "&c&o&8\u21E8 &e\u26A1 &70 / 75 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-	public static ItemStack CARBONADO_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9Multi Tool &7- &eVII", "", "&8\u21E8 &7材料: &b黑金刚石", "&c&o&8\u21E8 &e\u26A1 &70 / 100 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
+	public static ItemStack DURALUMIN_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9多功能工具 &7- &eI", "", "&8\u21E8 &7材料: &b硬铝", "&c&o&8\u21E8 &e\u26A1 &70 / 20 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
+	public static ItemStack SOLDER_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9多功能工具 &7- &eII", "", "&8\u21E8 &7材料: &b焊锡", "&c&o&8\u21E8 &e\u26A1 &70 / 30 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
+	public static ItemStack BILLON_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9多功能工具 &7- &eIII", "", "&8\u21E8 &7材料: &b银铜合金", "&c&o&8\u21E8 &e\u26A1 &70 / 40 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
+	public static ItemStack STEEL_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9多功能工具 &7- &eIV", "", "&8\u21E8 &7材料: &b钢", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
+	public static ItemStack DAMASCUS_STEEL_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9多功能工具 &7- &eV", "", "&8\u21E8 &7材料: &b大马士革钢", "&c&o&8\u21E8 &e\u26A1 &70 / 60 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
+	public static ItemStack REINFORCED_ALLOY_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9多功能工具 &7- &eVI", "", "&8\u21E8 &7材料: &b强化合金", "&c&o&8\u21E8 &e\u26A1 &70 / 75 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
+	public static ItemStack CARBONADO_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9多功能工具 &7- &eVII", "", "&8\u21E8 &7材料: &b黑金刚石", "&c&o&8\u21E8 &e\u26A1 &70 / 100 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
 	
 	/*		 Food 		*/
-	public static ItemStack FORTUNE_COOKIE = new CustomItem(Material.COOKIE, "&6Fortune Cookie", 0, new String[] {"", "&a&oTells you stuff about your Future :o"});
-	public static ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6Beef Jerky", 0, new String[] {"", "&a&oSaturating"});
-	public static ItemStack MAGIC_SUGAR = new CustomItem(Material.SUGAR, "&6Magic Sugar", 0, new String[] {"", "&a&oFeel the Power of Hermes!"});
-	public static ItemStack MONSTER_JERKY = new CustomItem(Material.ROTTEN_FLESH, "&6Monster Jerky", 0, new String[] {"", "&a&oNo longer hungry"});
-	public static ItemStack APPLE_JUICE = new CustomPotion("&cApple Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
-	public static ItemStack MELON_JUICE = new CustomPotion("&cMelon Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
-	public static ItemStack CARROT_JUICE = new CustomPotion("&6Carrot Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
-	public static ItemStack PUMPKIN_JUICE = new CustomPotion("&6Pumpkin Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
-	public static ItemStack GOLDEN_APPLE_JUICE = new CustomPotion("&bGolden Apple Juice", 8195, new String[0], new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0));
+	public static ItemStack FORTUNE_COOKIE = new CustomItem(Material.COOKIE, "&6幸运饼干", 0, new String[] {"", "&a&o告诉你未来发生的事 :o"});
+	public static ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6牛肉干", 0, new String[] {"", "&a&o管饱"});
+	public static ItemStack MAGIC_SUGAR = new CustomItem(Material.SUGAR, "&6魔法糖", 0, new String[] {"", "&a&o感受赫尔墨斯的力量!"});
+	public static ItemStack MONSTER_JERKY = new CustomItem(Material.ROTTEN_FLESH, "&6怪物肉干", 0, new String[] {"", "&a&o提神抗饥饿"});
+	public static ItemStack APPLE_JUICE = new CustomPotion("&c苹果汁", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
+	public static ItemStack MELON_JUICE = new CustomPotion("&c西瓜汁", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
+	public static ItemStack CARROT_JUICE = new CustomPotion("&6胡萝卜汁", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
+	public static ItemStack PUMPKIN_JUICE = new CustomPotion("&6南瓜汁", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
+	public static ItemStack GOLDEN_APPLE_JUICE = new CustomPotion("&b金苹果汁", 8195, new String[0], new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0));
 	
 	/*		Christmas		*/
-	public static ItemStack CHRISTMAS_MILK = new CustomPotion("&6Glass of Milk", 8194, new String[0], new PotionEffect(PotionEffectType.SATURATION, 5, 0));
-	public static ItemStack CHRISTMAS_CHOCOLATE_MILK = new CustomPotion("&6Chocolate Milk", 8201, new String[0], new PotionEffect(PotionEffectType.SATURATION, 12, 0));
-	public static ItemStack CHRISTMAS_EGG_NOG = new CustomPotion("&aEgg Nog", 8194, new String[0], new PotionEffect(PotionEffectType.SATURATION, 7, 0));
-	public static ItemStack CHRISTMAS_APPLE_CIDER = new CustomPotion("&cApple Cider", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
-	public static ItemStack CHRISTMAS_COOKIE = new CustomItem(Material.COOKIE, Christmas.color("Christmas Cookie"), 0);
-	public static ItemStack CHRISTMAS_FRUIT_CAKE = new CustomItem(Material.PUMPKIN_PIE, Christmas.color("Fruit Cake"), 0);
-	public static ItemStack CHRISTMAS_APPLE_PIE = new CustomItem(Material.PUMPKIN_PIE, "&rApple Pie", 0);
-	public static ItemStack CHRISTMAS_HOT_CHOCOLATE = new CustomPotion("&6Hot Chocolate", 8201, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
-	public static ItemStack CHRISTMAS_CAKE = new CustomItem(Material.PUMPKIN_PIE, Christmas.color("Christmas Cake"), 0);
-	public static ItemStack CHRISTMAS_CARAMEL = new CustomItem(Material.BRICKS, "&6Caramel", 0);
-	public static ItemStack CHRISTMAS_CARAMEL_APPLE = new CustomItem(Material.APPLE, "&6Caramel Apple", 0);
-	public static ItemStack CHRISTMAS_CHOCOLATE_APPLE = new CustomItem(Material.APPLE, "&6Chocolate Apple", 0);
-	public static ItemStack CHRISTMAS_PRESENT = new CustomItem(Material.CHEST, Christmas.color("Christmas Present"), 0, new String[] {"&7From: &emrCookieSlime", "&7To: &eYou", "", "&eRight Click&7 to open"});
+	public static ItemStack CHRISTMAS_MILK = new CustomPotion("&6圣诞牛奶", 8194, new String[0], new PotionEffect(PotionEffectType.SATURATION, 5, 0));
+	public static ItemStack CHRISTMAS_CHOCOLATE_MILK = new CustomPotion("&6巧克力牛奶", 8201, new String[0], new PotionEffect(PotionEffectType.SATURATION, 12, 0));
+	public static ItemStack CHRISTMAS_EGG_NOG = new CustomPotion("&a蛋酒", 8194, new String[0], new PotionEffect(PotionEffectType.SATURATION, 7, 0));
+	public static ItemStack CHRISTMAS_APPLE_CIDER = new CustomPotion("&c苹果酒", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
+	public static ItemStack CHRISTMAS_COOKIE = new CustomItem(Material.COOKIE, Christmas.color("圣诞曲奇"), 0);
+	public static ItemStack CHRISTMAS_FRUIT_CAKE = new CustomItem(Material.PUMPKIN_PIE, Christmas.color("水果蛋糕"), 0);
+	public static ItemStack CHRISTMAS_APPLE_PIE = new CustomItem(Material.PUMPKIN_PIE, "&r苹果派", 0);
+	public static ItemStack CHRISTMAS_HOT_CHOCOLATE = new CustomPotion("&6热可可", 8201, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
+	public static ItemStack CHRISTMAS_CAKE = new CustomItem(Material.PUMPKIN_PIE, Christmas.color("圣诞蛋糕"), 0);
+	public static ItemStack CHRISTMAS_CARAMEL = new CustomItem(Material.BRICKS, "&6焦糖", 0);
+	public static ItemStack CHRISTMAS_CARAMEL_APPLE = new CustomItem(Material.APPLE, "&6焦糖苹果", 0);
+	public static ItemStack CHRISTMAS_CHOCOLATE_APPLE = new CustomItem(Material.APPLE, "&6巧克力苹果", 0);
+	public static ItemStack CHRISTMAS_PRESENT = new CustomItem(Material.CHEST, Christmas.color("圣诞礼物"), 0, new String[] {"&7来自 &emrCookieSlime &7的礼物", "&7收件人: &e你", "", "&e右键&7 拆开"});
 	
 	/*		Easter			*/
-	public static ItemStack EASTER_EGG = new CustomItem(Material.EGG, "&rEaster Egg", 0, new String[] {"&bSurprise! Surprise!"});
-	public static ItemStack EASTER_CARROT_PIE = new CustomItem(Material.PUMPKIN_PIE, "&6Carrot Pie", 0);
+	public static ItemStack EASTER_EGG = new CustomItem(Material.EGG, "&r复活节彩蛋", 0, new String[] {"&b惊喜!"});
+	public static ItemStack EASTER_CARROT_PIE = new CustomItem(Material.PUMPKIN_PIE, "&6胡萝卜派", 0);
 	
 	/*		 Weapons 		*/
-	public static ItemStack GRANDMAS_WALKING_STICK = new CustomItem(Material.STICK, "&7Grandmas Walking Stick", 0, new String[0], new String[] {"KNOCKBACK-2"});
-	public static ItemStack GRANDPAS_WALKING_STICK = new CustomItem(Material.STICK, "&7Grandpas Walking Stick", 0, new String[0], new String[] {"KNOCKBACK-5"});
-	public static ItemStack SWORD_OF_BEHEADING = new CustomItem(Material.IRON_SWORD, "&6Sword of Beheading", 0, new String[] {"&7Beheading II", "", "&rHas a chance to behead Mobs", "&r(even a higher chance for Wither Skeletons)"});
-	public static ItemStack BLADE_OF_VAMPIRES = new CustomItem(Material.GOLDEN_SWORD, "&cBlade of Vampires", 0, new String[] {"&7Life Steal I", "", "&rEverytime you attack something", "&ryou have a 45% chance to", "&rrecover 2 Hearts of your Health"}, new String[] {"FIRE_ASPECT-2", "DURABILITY-4", "DAMAGE_ALL-2"});
-	public static ItemStack SEISMIC_AXE = new CustomItem(Material.IRON_AXE, "&aSeismic Axe", 0, new String[] {"", "&7&oA portable Earthquake...", "", "&7&e右键&7 使用"});
+	public static ItemStack GRANDMAS_WALKING_STICK = new CustomItem(Material.STICK, "&7奶奶的拐杖", 0, new String[0], new String[] {"KNOCKBACK-2"});
+	public static ItemStack GRANDPAS_WALKING_STICK = new CustomItem(Material.STICK, "&7爷爷的拐杖", 0, new String[0], new String[] {"KNOCKBACK-5"});
+	public static ItemStack SWORD_OF_BEHEADING = new CustomItem(Material.IRON_SWORD, "&6处决之剑", 0, new String[] {"&7斩首处决 II", "", "&r有几率砍下生物的头", "&r(提高掉落凋灵骷髅头的几率)"});
+	public static ItemStack BLADE_OF_VAMPIRES = new CustomItem(Material.GOLDEN_SWORD, "&c吸血鬼之刀", 0, new String[] {"&7生命窃取 I", "", "&r在攻击时有 45% 的几率", "使自己恢复 2 点血量"}, new String[] {"FIRE_ASPECT-2", "DURABILITY-4", "DAMAGE_ALL-2"});
+	public static ItemStack SEISMIC_AXE = new CustomItem(Material.IRON_AXE, "&a地震斧", 0, new String[] {"", "&7&o制造一场地震...", "", "&7&e右键&7 使用"});
 	
 	/*		Bows		*/
-	public static ItemStack EXPLOSIVE_BOW = new CustomItem(Material.BOW, "&cExplosive Bow", 0, new String[] {"&rAny Arrows fired using this Bow", "&rwill launch hit enemys into the air"});
-	public static ItemStack ICY_BOW = new CustomItem(Material.BOW, "&bIcy Bow", 0, new String[] {"&rAny Arrows fired using this Bow", "&rwill prevent hit enemys from moving", "&rfor 2 seconds"});
+	public static ItemStack EXPLOSIVE_BOW = new CustomItem(Material.BOW, "&c爆裂之弓", 0, new String[] {"&r被爆裂之弓射出的箭击中将会飞上天"});
+	public static ItemStack ICY_BOW = new CustomItem(Material.BOW, "&b冰封之弓", 0, new String[] {"&r被此弓射出的箭击中", "&r将会因寒冷而无法移动 (2秒内)"});
+	public static ItemStack WITHER_BOW = new CustomItem(Material.BOW, "&a凋零之弓", 0, new String[] {"&c&o花开凋谢之时", "", "&r将会给予射中的实体凋零效果"});
 	
 	/*		 Tools		*/
-	public static ItemStack AUTO_SMELT_PICKAXE = new CustomItem(Material.DIAMOND_PICKAXE, "&6Smelter's Pickaxe", 0, new String[] {"&c&lAuto-Smelting", "", "&9Works with Fortune"});
-	public static ItemStack LUMBER_AXE = new CustomItem(Material.DIAMOND_AXE, "&6Lumber Axe", 0, new String[] {"&a&oCuts down the whole Tree..."});
-	public static ItemStack PICKAXE_OF_CONTAINMENT = new CustomItem(Material.IRON_PICKAXE, "&cPickaxe of Containment", 0, new String[] {"", "&9Can pickup Spawners"});
-	public static ItemStack HERCULES_PICKAXE = new CustomItem(Material.IRON_PICKAXE, "&9Hercules' Pickaxe", 0, new String[] {"", "&rSo powerful that it", "&rcrushes all mined Ores", "&rinto Dust..."}, new String[] {"DURABILITY-2", "DIG_SPEED-4"});
-	public static ItemStack EXPLOSIVE_PICKAXE = new CustomItem(Material.DIAMOND_PICKAXE, "&eExplosive Pickaxe", 0, new String[] {"", "&rAllows you to mine a good bit", "&rof Blocks at once...", "", "&9Works with Fortune"});
-	public static ItemStack PICKAXE_OF_THE_SEEKER = new CustomItem(Material.DIAMOND_PICKAXE, "&aPickaxe of the Seeker", 0, new String[] {"&rWill always point you to the nearest Ore", "&rbut might get damaged when doing it", "", "&7&eRight Click&7 to be pointed to the nearest Ore"});
-	public static ItemStack COBALT_PICKAXE = new CustomItem(Material.IRON_PICKAXE, "&9Cobalt Pickaxe", 0, new String[] {}, new String[] {"DURABILITY-3", "DIG_SPEED-6"});
-	public static ItemStack PICKAXE_OF_VEIN_MINING = new CustomItem(Material.DIAMOND_PICKAXE, "&ePickaxe of Vein Mining", 0, new String[] {"", "&rThis Pickaxe will dig out", "&rwhole Veins of Ores..."});
+	public static ItemStack AUTO_SMELT_PICKAXE = new CustomItem(Material.DIAMOND_PICKAXE, "&6熔炉镐", 0, new String[] {"&c&l自动熔炼", "", "&9在挖矿时有时运效果"});
+	public static ItemStack LUMBER_AXE = new CustomItem(Material.DIAMOND_AXE, "&6伐木斧", 0, new String[] {"&a&o砍倒整棵树木..."});
+	public static ItemStack PICKAXE_OF_CONTAINMENT = new CustomItem(Material.IRON_PICKAXE, "&c刷怪笼之镐", 0, new String[] {"", "&9可以获取刷怪笼"});
+	public static ItemStack HERCULES_PICKAXE = new CustomItem(Material.IRON_PICKAXE, "&9赫拉克勒斯之镐", 0, new String[] {"", "&r它如此强大", "&r因此能自动将挖到的矿物变为粉末..."}, new String[] {"DURABILITY-2", "DIG_SPEED-4"});
+	public static ItemStack EXPLOSIVE_PICKAXE = new CustomItem(Material.DIAMOND_PICKAXE, "&e爆炸稿", 0, new String[] {"", "&r允许你在一瞬间挖掘矿物", "", "&9在挖矿时有时运效果"});
+	public static ItemStack PICKAXE_OF_THE_SEEKER = new CustomItem(Material.DIAMOND_PICKAXE, "&a寻矿稿", 0, new String[] {"&r使用时将会指出你附近的矿物", "&r但可能它会受到损伤", "", "&7&e右键&7 以寻找四周的矿物"});
+	public static ItemStack COBALT_PICKAXE = new CustomItem(Material.IRON_PICKAXE, "&9钴镐", 0, new String[] {}, new String[] {"DURABILITY-3", "DIG_SPEED-6"});
+	public static ItemStack PICKAXE_OF_VEIN_MINING = new CustomItem(Material.DIAMOND_PICKAXE, "&e矿脉镐", 0, new String[] {"", "&r这个镐子将会挖出", "&r整个矿脉的矿物..."});
 	
 	/*		 Armor 		*/
-	public static ItemStack GLOWSTONE_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&e&lGlowstone Helmet", 0, new String[] {"", "&a&oShining like the sun!", "", "&9+ Night Vision"}), Color.YELLOW);
-	public static ItemStack GLOWSTONE_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&e&lGlowstone Chestplate", 0, new String[] {"", "&a&oShining like the sun!", "", "&9+ Night Vision"}), Color.YELLOW);
-	public static ItemStack GLOWSTONE_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&e&lGlowstone Leggings", 0, new String[] {"", "&a&oShining like the sun!", "", "&9+ Night Vision"}), Color.YELLOW);
-	public static ItemStack GLOWSTONE_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&e&lGlowstone Boots", 0, new String[] {"", "&a&oShining like the sun!", "", "&9+ Night Vision"}), Color.YELLOW);
-	public static ItemStack ENDER_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&5&lEnder Helmet", 0, new String[] {"", "&a&oSometimes its here, sometimes there!"}), Color.fromRGB(28, 25, 112));
-	public static ItemStack ENDER_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&5&lEnder Chestplate", 0, new String[] {"", "&a&oSometimes its here, sometimes there!"}), Color.fromRGB(28, 25, 112));
-	public static ItemStack ENDER_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&5&lEnder Leggings", 0, new String[] {"", "&a&oSometimes its here, sometimes there!"}), Color.fromRGB(28, 25, 112));
-	public static ItemStack ENDER_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&5&lEnder Boots", 0, new String[] {"", "&a&oSometimes its here, sometimes there!", "" , "&9+ No Enderpearl Damage"}), Color.fromRGB(28, 25, 112));
+	public static ItemStack GLOWSTONE_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&e&l萤石头盔", 0, new String[] {"", "&a&o像太阳一样闪耀!", "", "&9+ 夜视效果"}), Color.YELLOW);
+	public static ItemStack GLOWSTONE_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&e&l萤石 胸甲", 0, new String[] {"", "&a&o像太阳一样闪耀!", "", "&9+ 夜视效果"}), Color.YELLOW);
+	public static ItemStack GLOWSTONE_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&e&l萤石 Leggings", 0, new String[] {"", "&a&o像太阳一样闪耀!", "", "&9+ 夜视效果"}), Color.YELLOW);
+	public static ItemStack GLOWSTONE_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&e&l萤石 Boots", 0, new String[] {"", "&a&o像太阳一样闪耀!", "", "&9+ 夜视效果"}), Color.YELLOW);
+	public static ItemStack ENDER_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&5&l末影 Helmet", 0, new String[] {"", "&a&o嘿, 想我了吗?"}), Color.fromRGB(28, 25, 112));
+	public static ItemStack ENDER_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&5&l末影 Chestplate", 0, new String[] {"", "&a&o嘿, 想我了吗?"}), Color.fromRGB(28, 25, 112));
+	public static ItemStack ENDER_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&5&l末影 Leggings", 0, new String[] {"", "&a&o嘿, 想我了吗?"}), Color.fromRGB(28, 25, 112));
+	public static ItemStack ENDER_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&5&l末影 Boots", 0, new String[] {"", "&a&o嘿, 想我了吗?", "" , "&9+ 使用末影珍珠时无伤害"}), Color.fromRGB(28, 25, 112));
 	public static ItemStack SLIME_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&a&lSlime Helmet", 0, new String[] {"", "&a&oBouncy Feeling"}), Color.LIME);
 	public static ItemStack SLIME_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&a&lSlime Chestplate", 0, new String[] {"", "&a&oBouncy Feeling"}), Color.LIME);
 	public static ItemStack SLIME_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&a&lSlime Leggings", 0, new String[] {"", "&a&oBouncy Feeling", "", "&9+ SPEED"}), Color.LIME);
@@ -203,7 +204,7 @@ public class SlimefunItems {
 	public static ItemStack COMPRESSED_CARBON = null;
 	public static ItemStack BATTERY = null;
 	public static ItemStack CARBON_CHUNK = null;
-	public static ItemStack STEEL_推力ER = new CustomItem(Material.BUCKET, "&7&lSteel 推力er", 0);
+	public static ItemStack STEEL_THRUSTER = new CustomItem(Material.BUCKET, "&7&lSteel 推力er", 0);
 	public static ItemStack POWER_CRYSTAL = null;
 	public static ItemStack CHAIN = new CustomItem(Material.STRING, "&bChain", 0);
 	public static ItemStack HOOK = new CustomItem(Material.FLINT, "&bHook", 0);
@@ -336,26 +337,27 @@ public class SlimefunItems {
 	public static ItemStack BOOSTED_URANIUM = null;
 	
 	/*		Talisman		*/
-	public static ItemStack TALISMAN = new CustomItem(Material.EMERALD, "&6Common Talisman", 0);
-	public static ItemStack TALISMAN_ANVIL = new CustomItem(Material.EMERALD, "&aTalisman of the Anvil", 0, new String[] {"", "&rEach Talisman can prevent", "&r1 Tool from breaking, but will then", "&rbe consumed", "", "&4&lWARNING:", "&4This Talisman does not work on", "&4Tools which are too powerful", "&4due to their complexity"});
-	public static ItemStack TALISMAN_MINER = new CustomItem(Material.EMERALD, "&aTalisman of the Miner", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it has", "&ra 20% chance of doubling", "&rall Ores you mine"});
-	public static ItemStack TALISMAN_HUNTER = new CustomItem(Material.EMERALD, "&aTalisman of the Hunter", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it has", "&ra 20% chance of doubling", "&rall Drops from Mobs you kill"});
-	public static ItemStack TALISMAN_LAVA = new CustomItem(Material.EMERALD, "&aTalisman of the Lava Walker", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it will", "&rgive you Fire Resistance", "&ras soon as you touch Lava", "&rbut will then be consumed"});
-	public static ItemStack TALISMAN_WATER = new CustomItem(Material.EMERALD, "&aTalisman of the Water Breather", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it will", "&rgive you the ability", "&rto breath underwater as", "&rsoon as you start drowning", "&rbut will then be consumed"});
-	public static ItemStack TALISMAN_ANGEL = new CustomItem(Material.EMERALD, "&aTalisman of the Angel", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it has a", "&r75% chance to prevent you", "&rfrom taking Fall Damage"});
-	public static ItemStack TALISMAN_FIRE = new CustomItem(Material.EMERALD, "&aTalisman of the Firefighter", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it will", "&rgive you Fire Resistance", "&ras soon as you start burning", "&rbut will then be consumed"});
-	public static ItemStack TALISMAN_MAGICIAN = new CustomItem(Material.EMERALD, "&aTalisman of the Magician", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it gives", "&ryou a 80% Luck Bonus on Enchanting", "&rYou will sometimes get an Extra Enchantment"});
-	public static ItemStack TALISMAN_TRAVELLER = new CustomItem(Material.EMERALD, "&aTalisman of the Traveller", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it gives", "&ryou a 60% Chance for a decent", "&rSPEED Buff when you start sprinting"});
-	public static ItemStack TALISMAN_WARRIOR = new CustomItem(Material.EMERALD, "&aTalisman of the Warrior", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it gives", "&ryou Strength III whenever you get hit", "&rbut will then be consumed"});
-	public static ItemStack TALISMAN_KNIGHT = new CustomItem(Material.EMERALD, "&aTalisman of the Knight", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it gives", "&ryou a 30% Chance for 5 Seconds of Regeneration", "&rwhenever You get hit", "&rbut will then be consumed"});
-	public static ItemStack TALISMAN_WHIRLWIND = new CustomItem(Material.EMERALD, "&aTalisman of the Whirlwind", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it will reflect", "&r60% of all Projectiles fired at you"});
-	public static ItemStack TALISMAN_WIZARD = new CustomItem(Material.EMERALD, "&aTalisman of the Wizard", 0, new String[] {"", "&rWhile you have this Talisman", "&rin your Inventory it allows you to", "&robtain Fortune Level 4/5 however", "&rit also has a chance to lower the", "&rLevel of some Enchantments on your Item"});
+	public static ItemStack TALISMAN = new CustomItem(Material.EMERALD, "&6Common 护身符", 0);
+	public static ItemStack TALISMAN_ANVIL = new CustomItem(Material.EMERALD, "&a护身符 of the Anvil", 0, new String[] {"", "&rEach 护身符 can prevent", "&r1 Tool from breaking, but will then", "&rbe consumed", "", "&4&lWARNING:", "&4This 护身符 does not work on", "&4Tools which are too powerful", "&4due to their complexity"});
+	public static ItemStack TALISMAN_MINER = new CustomItem(Material.EMERALD, "&a护身符 of the Miner", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it has", "&ra 20% chance of doubling", "&rall Ores you mine"});
+	public static ItemStack TALISMAN_HUNTER = new CustomItem(Material.EMERALD, "&a护身符 of the Hunter", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it has", "&ra 20% chance of doubling", "&rall Drops from Mobs you kill"});
+	public static ItemStack TALISMAN_LAVA = new CustomItem(Material.EMERALD, "&a护身符 of the Lava Walker", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it will", "&rgive you Fire Resistance", "&ras soon as you touch Lava", "&rbut will then be consumed"});
+	public static ItemStack TALISMAN_WATER = new CustomItem(Material.EMERALD, "&a护身符 of the Water Breather", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it will", "&rgive you the ability", "&rto breath underwater as", "&rsoon as you start drowning", "&rbut will then be consumed"});
+	public static ItemStack TALISMAN_ANGEL = new CustomItem(Material.EMERALD, "&a护身符 of the Angel", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it has a", "&r75% chance to prevent you", "&rfrom taking Fall Damage"});
+	public static ItemStack TALISMAN_FIRE = new CustomItem(Material.EMERALD, "&a护身符 of the Firefighter", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it will", "&rgive you Fire Resistance", "&ras soon as you start burning", "&rbut will then be consumed"});
+	public static ItemStack TALISMAN_MAGICIAN = new CustomItem(Material.EMERALD, "&a护身符 of the Magician", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it gives", "&ryou a 80% Luck Bonus on Enchanting", "&rYou will sometimes get an Extra Enchantment"});
+	public static ItemStack TALISMAN_TRAVELLER = new CustomItem(Material.EMERALD, "&a护身符 of the Traveller", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it gives", "&ryou a 60% Chance for a decent", "&rSPEED Buff when you start sprinting"});
+	public static ItemStack TALISMAN_WARRIOR = new CustomItem(Material.EMERALD, "&a护身符 of the Warrior", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it gives", "&ryou Strength III whenever you get hit", "&rbut will then be consumed"});
+	public static ItemStack TALISMAN_KNIGHT = new CustomItem(Material.EMERALD, "&a护身符 of the Knight", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it gives", "&ryou a 30% Chance for 5 Seconds of Regeneration", "&rwhenever You get hit", "&rbut will then be consumed"});
+	public static ItemStack TALISMAN_WHIRLWIND = new CustomItem(Material.EMERALD, "&a护身符 of the Whirlwind", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it will reflect", "&r60% of all Projectiles fired at you"});
+	public static ItemStack TALISMAN_WIZARD = new CustomItem(Material.EMERALD, "&a护身符 of the Wizard", 0, new String[] {"", "&rWhile you have this 护身符", "&rin your Inventory it allows you to", "&robtain Fortune Level 4/5 however", "&rit also has a chance to lower the", "&rLevel of some Enchantments on your Item"});
 	
 	/*		Staves		*/
-	public static ItemStack STAFF_ELEMENTAL = new CustomItem(Material.STICK, "&6Elemental Staff", 0);
-	public static ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6Elemental Staff &7- &b&oWind", 0, new String[] {"", "&7Element: &b&oWind", "", "&7&eRight Click&7 to launch yourself forward"}, new String[] {"LUCK-1"});
-	public static ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6Elemental Staff &7- &c&oFire", 0, new String[] {"", "&7Element: &c&oFire"}, new String[] {"FIRE_ASPECT-5"});
-	public static ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6Elemental Staff &7- &1&oWater", 0, new String[] {"", "&7Element: &1&oWater", "", "&7&eRight Click&7 to extinguish yourself"}, new String[] {"WATER_WORKER-1"});
+	public static ItemStack STAFF_ELEMENTAL = new CustomItem(Material.STICK, "&6元素法杖", 0);
+	public static ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6元素法杖 &7- &b&o风", 0, new String[] {"", "&7元素: &b&o风", "", "&7&e右键&7 以将你吹飞"}, new String[] {"LUCK-1"});
+	public static ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6元素法杖 &7- &c&o火", 0, new String[] {"", "&7元素: &c&o火"},"", "&c让火焰净化一切!", new String[] {"FIRE_ASPECT-5"});
+	public static ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6元素法杖 &7- &1&o水", 0, new String[] {"", "&7元素: &1&o水", "", "&7&e右键&7 以灭掉你身上的火"}, new String[] {"WATER_WORKER-1"});
+	//public static ItemStack STAFF_EARTH = new CustomItem(Material.STICK, "&6元素法杖 &7- &a&o土",0, new String[] {"", "&7元素: &1&o土","", "&a让土地随你的意志行动")};
 	
 	/*		 Machines 		*/
 	public static ItemStack GRIND_STONE = new CustomItem(Material.DISPENSER, "&bGrind Stone", 0, new String[] {"", "&a&oGrinds Items for more Efficiency"});
@@ -382,19 +384,19 @@ public class SlimefunItems {
 	public static ItemStack HOLOGRAM_PROJECTOR = new CustomItem(new MaterialData(Material.QUARTZ_SLAB), "&bHologram Projector", "", "&rProjects an Editable Hologram");
 	
 	/*		 Enhanced Furnaces 		*/
-	public static ItemStack ENHANCED_FURNACE = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eI", 0, new String[] {"", "&7Processing SPEED: &e1x", "&7Fuel Efficiency: &e1x", "&7Luck Multiplier: &e1x"});
-	public static ItemStack ENHANCED_FURNACE_2 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eII", 0, new String[] {"", "&7Processing SPEED: &e2x", "&7Fuel Efficiency: &e1x", "&7Luck Multiplier: &e1x"});
-	public static ItemStack ENHANCED_FURNACE_3 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eIII", 0, new String[] {"", "&7Processing SPEED: &e2x", "&7Fuel Efficiency: &e2x", "&7Luck Multiplier: &e1x"});
-	public static ItemStack ENHANCED_FURNACE_4 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eIV", 0, new String[] {"", "&7Processing SPEED: &e3x", "&7Fuel Efficiency: &e2x", "&7Luck Multiplier: &e1x"});
-	public static ItemStack ENHANCED_FURNACE_5 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eV", 0, new String[] {"", "&7Processing SPEED: &e3x", "&7Fuel Efficiency: &e2x", "&7Luck Multiplier: &e2x"});
-	public static ItemStack ENHANCED_FURNACE_6 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eVI", 0, new String[] {"", "&7Processing SPEED: &e3x", "&7Fuel Efficiency: &e3x", "&7Luck Multiplier: &e2x"});
-	public static ItemStack ENHANCED_FURNACE_7 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eVII", 0, new String[] {"", "&7Processing SPEED: &e4x", "&7Fuel Efficiency: &e3x", "&7Luck Multiplier: &e2x"});
-	public static ItemStack ENHANCED_FURNACE_8 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eVIII", 0, new String[] {"", "&7Processing SPEED: &e4x", "&7Fuel Efficiency: &e4x", "&7Luck Multiplier: &e2x"});
-	public static ItemStack ENHANCED_FURNACE_9 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eIX", 0, new String[] {"", "&7Processing SPEED: &e5x", "&7Fuel Efficiency: &e4x", "&7Luck Multiplier: &e2x"});
-	public static ItemStack ENHANCED_FURNACE_10 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eX", 0, new String[] {"", "&7Processing SPEED: &e5x", "&7Fuel Efficiency: &e5x", "&7Luck Multiplier: &e2x"});
-	public static ItemStack ENHANCED_FURNACE_11 = new CustomItem(Material.FURNACE, "&7Enhanced Furnace - &eXI", 0, new String[] {"", "&7Processing SPEED: &e5x", "&7Fuel Efficiency: &e5x", "&7Luck Multiplier: &e3x"});
-	public static ItemStack REINFORCED_FURNACE = new CustomItem(Material.FURNACE, "&7Reinforced Furnace", 0, new String[] {"", "&7Processing SPEED: &e10x", "&7Fuel Efficiency: &e10x", "&7Luck Multiplier: &e3x"});
-	public static ItemStack CARBONADO_EDGED_FURNACE = new CustomItem(Material.FURNACE, "&7Carbonado Edged Furnace", 0, new String[] {"", "&7Processing SPEED: &e20x", "&7Fuel Efficiency: &e10x", "&7Luck Multiplier: &e3x"});
+	public static ItemStack ENHANCED_FURNACE = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eI", 0, new String[] {"", "&7燃烧速度: &e1x", "&7燃料效率: &e1x", "&7产物翻倍倍数: &e1x"});
+	public static ItemStack ENHANCED_FURNACE_2 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eII", 0, new String[] {"", "&7燃烧速度: &e2x", "&7燃料效率: &e1x", "&7产物翻倍倍数: &e1x"});
+	public static ItemStack ENHANCED_FURNACE_3 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eIII", 0, new String[] {"", "&7燃烧速度: &e2x", "&7燃料效率: &e2x", "&7产物翻倍倍数: &e1x"});
+	public static ItemStack ENHANCED_FURNACE_4 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eIV", 0, new String[] {"", "&7燃烧速度: &e3x", "&7燃料效率: &e2x", "&7产物翻倍倍数: &e1x"});
+	public static ItemStack ENHANCED_FURNACE_5 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eV", 0, new String[] {"", "&7燃烧速度: &e3x", "&7燃料效率: &e2x", "&7产物翻倍倍数: &e2x"});
+	public static ItemStack ENHANCED_FURNACE_6 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eVI", 0, new String[] {"", "&7燃烧速度: &e3x", "&7燃料效率: &e3x", "&7产物翻倍倍数: &e2x"});
+	public static ItemStack ENHANCED_FURNACE_7 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eVII", 0, new String[] {"", "&7燃烧速度: &e4x", "&7燃料效率: &e3x", "&7产物翻倍倍数: &e2x"});
+	public static ItemStack ENHANCED_FURNACE_8 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eVIII", 0, new String[] {"", "&7燃烧速度: &e4x", "&7燃料效率: &e4x", "&7产物翻倍倍数: &e2x"});
+	public static ItemStack ENHANCED_FURNACE_9 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eIX", 0, new String[] {"", "&7燃烧速度: &e5x", "&7燃料效率: &e4x", "&7产物翻倍倍数: &e2x"});
+	public static ItemStack ENHANCED_FURNACE_10 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eX", 0, new String[] {"", "&7燃烧速度: &e5x", "&7燃料效率: &e5x", "&7产物翻倍倍数: &e2x"});
+	public static ItemStack ENHANCED_FURNACE_11 = new CustomItem(Material.FURNACE, "&7强化熔炉 - &eXI", 0, new String[] {"", "&7燃烧速度: &e5x", "&7燃料效率: &e5x", "&7产物翻倍倍数: &e3x"});
+	public static ItemStack REINFORCED_FURNACE = new CustomItem(Material.FURNACE, "&7强化合金熔炉", 0, new String[] {"", "&7燃烧速度: &e10x", "&7燃料效率: &e10x", "&7产物翻倍倍数: &e3x"});
+	public static ItemStack CARBONADO_EDGED_FURNACE = new CustomItem(Material.FURNACE, "&7黑金刚石镶边熔炉", 0, new String[] {"", "&7燃烧速度: &e20x", "&7燃料效率: &e10x", "&7产物翻倍倍数: &e3x"});
 	
 	public static ItemStack BLOCK_PLACER = new CustomItem(Material.DISPENSER, "&aBlock Placer", 0, new String[] {"", "&rAll Blocks in this Dispenser", "&rwill automatically get placed"});
 	
