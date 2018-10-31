@@ -426,49 +426,49 @@ public class SlimefunItems {
 		ItemStack itemB = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imB = (FireworkEffectMeta) itemB.getItemMeta();
 		imB.setEffect(FireworkEffect.builder().with(Type.BURST).with(Type.BURST).withColor(Color.BLACK).build());
-		imB.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&8Blank Rune"));
+		imB.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&8空白符文"));
 		itemB.setItemMeta(imB);
 		BLANK_RUNE = itemB;
 		
 		ItemStack itemA = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imA = (FireworkEffectMeta) itemA.getItemMeta();
 		imA.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.AQUA).build());
-		imA.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&b&lAir&8&l]"));
+		imA.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&b&l气&8&l]"));
 		itemA.setItemMeta(imA);
 		RUNE_AIR = itemA;
 		
 		ItemStack itemW = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imW = (FireworkEffectMeta) itemW.getItemMeta();
 		imW.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.BLUE).build());
-		imW.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&1&lWater&8&l]"));
+		imW.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&1&l水&8&l]"));
 		itemW.setItemMeta(imW);
 		RUNE_WATER = itemW;
 		
 		ItemStack itemF = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imF = (FireworkEffectMeta) itemF.getItemMeta();
 		imF.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.RED).build());
-		imF.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&4&lFire&8&l]"));
+		imF.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&4&l火&8&l]"));
 		itemF.setItemMeta(imF);
 		RUNE_FIRE = itemF;
 		
 		ItemStack itemE = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imE = (FireworkEffectMeta) itemE.getItemMeta();
 		imE.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.ORANGE).build());
-		imE.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&c&lEarth&8&l]"));
+		imE.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&c&l地&8&l]"));
 		itemE.setItemMeta(imE);
 		RUNE_EARTH = itemE;
 		
 		ItemStack itemN = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imN = (FireworkEffectMeta) itemN.getItemMeta();
 		imN.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
-		imN.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&5&lEnder&8&l]"));
+		imN.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&5&l末影&8&l]"));
 		itemN.setItemMeta(imN);
 		RUNE_ENDER = itemN;
 		
 		ItemStack itemR = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imR = (FireworkEffectMeta) itemR.getItemMeta();
 		imR.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
-		imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
+		imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&d&l虹&8&l]"));
 		itemR.setItemMeta(imR);
 		RUNE_RAINBOW = itemR;
 	}
@@ -487,12 +487,12 @@ public class SlimefunItems {
 	public static ItemStack ELECTRIC_FURNACE_3 = new CustomItem(new ItemStack(Material.FURNACE), "&cElectric Furnace &7- &eIII", "", "&aMedium Machine", "&8\u21E8 &7SPEED: 4x", "&8\u21E8 &e\u26A1 &710 J/s");
 	
 	public static ItemStack ELECTRIC_ORE_GRINDER = new CustomItem(new ItemStack(Material.FURNACE), "&cElectric Ore Grinder", "","&rWorks as an Ore Crusher and Grind Stone", "", "&6Advanced Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &712 J/s");
-	public static ItemStack ELECTRIC_ORE_GRINDER_2 = new CustomItem(new ItemStack(Material.FURNACE), "&cElectric Ore Grinder &7(&eII&7)", "","&rWorks as an Ore Crusher and Grind Stone", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 4x", "&8\u21E8 &e\u26A1 &730 J/s");
+	public static ItemStack ELECTRIC_ORE_GRINDER_2 = new CustomItem(new ItemStack(Material.FURNACE), "&cElectric Ore Grinder &7(&eII&7)", "","&rWorks as an Ore Crusher and Grind Stone", "", "&4终极机器", "&8\u21E8 &7SPEED: 4x", "&8\u21E8 &e\u26A1 &730 J/s");
 	public static ItemStack ELECTRIC_INGOT_PULVERIZER = new CustomItem(new ItemStack(Material.FURNACE), "&cElectric Ingot Pulverizer", "", "&rPulverizes Ingots into Dust", "", "&aMedium Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &714 J/s");
 	public static ItemStack AUTO_ENCHANTER = new CustomItem(new ItemStack(Material.ENCHANTING_TABLE), "&5Auto Enchanter", "", "&aMedium Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &718 J/s");
 	public static ItemStack AUTO_DISENCHANTER = new CustomItem(new ItemStack(Material.ENCHANTING_TABLE), "&5Auto Disenchanter", "", "&aMedium Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &718 J/s");
 	public static ItemStack AUTO_ANVIL = new CustomItem(new ItemStack(Material.IRON_BLOCK), "&7Auto Anvil", "", "&6Advanced Machine", "&8\u21E8 &7Repair Factor: 10%", "&8\u21E8 &e\u26A1 &724 J/s");
-	public static ItemStack AUTO_ANVIL_2 = new CustomItem(new ItemStack(Material.IRON_BLOCK), "&7Auto Anvil Mk.II", "", "&4End-Game Machine", "&8\u21E8 &7Repair Factor: 25%", "&8\u21E8 &e\u26A1 &732 J/s");
+	public static ItemStack AUTO_ANVIL_2 = new CustomItem(new ItemStack(Material.IRON_BLOCK), "&7Auto Anvil Mk.II", "", "&4终极机器", "&8\u21E8 &7Repair Factor: 25%", "&8\u21E8 &e\u26A1 &732 J/s");
 	
 	public static ItemStack BIO_REACTOR = new CustomItem(new MaterialData(Material.LIME_TERRACOTTA), "&2Bio Reactor", "", "&6Average Generator", "&8\u21E8 &e\u26A1 &7128 J Buffer", "&8\u21E8 &e\u26A1 &78 J/s");
 	public static ItemStack MULTIMETER = new CustomItem(new MaterialData(Material.CLOCK), "&eMultimeter", "", "&rMeasures the Amount of stored", "&rEnergy in a Block");
@@ -547,32 +547,32 @@ public class SlimefunItems {
 	public static ItemStack INFUSED_HOPPER = new CustomItem(new MaterialData(Material.HOPPER), "&5Infused Hopper", "", "&rAutomatically picks up nearby Items in a 7x7x7", "&rRadius when placed.");
 
 	public static ItemStack PLASTIC_SHEET = new CustomItem(new MaterialData(Material.PAPER), "&rPlastic Sheet");
-	public static ItemStack HEATED_PRESSURE_CHAMBER = new CustomItem(new MaterialData(Material.LIGHT_GRAY_STAINED_GLASS), "&cHeated Pressure Chamber", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &710 J/s");
-	public static ItemStack HEATED_PRESSURE_CHAMBER_2 = new CustomItem(new MaterialData(Material.LIGHT_GRAY_STAINED_GLASS), "&cHeated Pressure Chamber &7- &eII", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 5x", "&8\u21E8 &e\u26A1 &744 J/s");
+	public static ItemStack HEATED_PRESSURE_CHAMBER = new CustomItem(new MaterialData(Material.LIGHT_GRAY_STAINED_GLASS), "&cHeated Pressure Chamber", "", "&4终极机器", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &710 J/s");
+	public static ItemStack HEATED_PRESSURE_CHAMBER_2 = new CustomItem(new MaterialData(Material.LIGHT_GRAY_STAINED_GLASS), "&cHeated Pressure Chamber &7- &eII", "", "&4终极机器", "&8\u21E8 &7SPEED: 5x", "&8\u21E8 &e\u26A1 &744 J/s");
 	
-	public static ItemStack ELECTRIC_SMELTERY = new CustomItem(new MaterialData(Material.FURNACE), "&cElectric Smeltery", "", "&4Alloys-Only, doesn't smelt Dust into Ingots", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &720 J/s");
-	public static ItemStack ELECTRIC_SMELTERY_2 = new CustomItem(new MaterialData(Material.FURNACE), "&cElectric Smeltery &7- &eII", "", "&4Alloys-Only, doesn't smelt Dust into Ingots", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 3x", "&8\u21E8 &e\u26A1 &740 J/s");
+	public static ItemStack ELECTRIC_SMELTERY = new CustomItem(new MaterialData(Material.FURNACE), "&cElectric Smeltery", "", "&4Alloys-Only, doesn't smelt Dust into Ingots", "", "&4终极机器", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &720 J/s");
+	public static ItemStack ELECTRIC_SMELTERY_2 = new CustomItem(new MaterialData(Material.FURNACE), "&cElectric Smeltery &7- &eII", "", "&4Alloys-Only, doesn't smelt Dust into Ingots", "", "&4终极机器", "&8\u21E8 &7SPEED: 3x", "&8\u21E8 &e\u26A1 &740 J/s");
 	
-	public static ItemStack ELECTRIFIED_CRUCIBLE = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectrified Crucible", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &748 J/s");
-	public static ItemStack ELECTRIFIED_CRUCIBLE_2 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectrified Crucible &7- &eII", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 2x", "&8\u21E8 &e\u26A1 &780 J/s");
-	public static ItemStack ELECTRIFIED_CRUCIBLE_3 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectrified Crucible &7- &eIII", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 4x", "&8\u21E8 &e\u26A1 &7120 J/s");
+	public static ItemStack ELECTRIFIED_CRUCIBLE = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectrified Crucible", "", "&4终极机器", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &748 J/s");
+	public static ItemStack ELECTRIFIED_CRUCIBLE_2 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectrified Crucible &7- &eII", "", "&4终极机器", "&8\u21E8 &7SPEED: 2x", "&8\u21E8 &e\u26A1 &780 J/s");
+	public static ItemStack ELECTRIFIED_CRUCIBLE_3 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectrified Crucible &7- &eIII", "", "&4终极机器", "&8\u21E8 &7SPEED: 4x", "&8\u21E8 &e\u26A1 &7120 J/s");
 
-	public static ItemStack CARBON_PRESS = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&cCarbon Press", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &720 J/s");
-	public static ItemStack CARBON_PRESS_2 = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&cCarbon Press &7- &eII", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 3x", "&8\u21E8 &e\u26A1 &750 J/s");
-	public static ItemStack CARBON_PRESS_3 = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&cCarbon Press &7- &eIII", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 15x", "&8\u21E8 &e\u26A1 &7180 J/s");
+	public static ItemStack CARBON_PRESS = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&cCarbon Press", "", "&4终极机器", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &720 J/s");
+	public static ItemStack CARBON_PRESS_2 = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&cCarbon Press &7- &eII", "", "&4终极机器", "&8\u21E8 &7SPEED: 3x", "&8\u21E8 &e\u26A1 &750 J/s");
+	public static ItemStack CARBON_PRESS_3 = new CustomItem(new MaterialData(Material.RED_STAINED_GLASS), "&cCarbon Press &7- &eIII", "", "&4终极机器", "&8\u21E8 &7SPEED: 15x", "&8\u21E8 &e\u26A1 &7180 J/s");
 	
 	public static ItemStack BLISTERING_INGOT = new CustomItem(new MaterialData(Material.GOLD_INGOT), "&6Blistering Ingot &7(33%)", "", "&2Radiation Level: HIGH", "&4&oHazmat Suit required");
 	public static ItemStack BLISTERING_INGOT_2 = new CustomItem(new MaterialData(Material.GOLD_INGOT), "&6Blistering Ingot &7(66%)", "", "&2Radiation Level: HIGH", "&4&oHazmat Suit required");
 	public static ItemStack BLISTERING_INGOT_3 = new CustomItem(new MaterialData(Material.GOLD_INGOT), "&6Blistering Ingot", "", "&2Radiation Level: HIGH", "&4&oHazmat Suit required");
 	
 	public static ItemStack ENERGY_REGULATOR = null;
-	public static ItemStack DEBUG_FISH = new CustomItem(new MaterialData(Material.PUFFERFISH), "&3How much is the Fish?", "", "&eRight Click &rany Block to view it's BlockData", "&eLeft Click &rto break a Block", "&eShift + Left Click &rany Block to erase it's BlockData", "&eShift + Right Click &rto place a Placeholder Block");
+	public static ItemStack DEBUG_FISH = new CustomItem(new MaterialData(Material.PUFFERFISH), "&3这鱼多少钱?", "", "&e右键 &r任意方块以查看它的方块数据 to view it's BlockData", "&eLeft Click &rto break a Block", "&eShift + Left Click &rany Block to erase it's BlockData", "&eShift + Right Click &rto place a Placeholder Block");
 
 
 	public static ItemStack NETHER_ICE = null;
 	public static ItemStack ENRICHED_NETHER_ICE = null;
 	public static ItemStack NETHER_ICE_COOLANT_CELL = null;
-	public static ItemStack NETHER_DRILL = new CustomItem(new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&4Nether Drill", "", "&rAllows you to mine Nether Ice", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &7102 J/s", "", "&c&l! &cCan only be used in the Nether!", "&c&l! &cMake sure to Geo-Scan the Chunk first"));
+	public static ItemStack NETHER_DRILL = new CustomItem(new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&4Nether Drill", "", "&rAllows you to mine Nether Ice", "", "&4终极机器", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &7102 J/s", "", "&c&l! &cCan only be used in the Nether!", "&c&l! &cMake sure to Geo-Scan the Chunk first"));
 	
 	// Cargo
 	public static ItemStack CARGO_MANAGER = null;
@@ -606,10 +606,10 @@ public class SlimefunItems {
 	public static ItemStack CROP_GROWTH_ACCELERATOR_2 = null;
 
 	public static ItemStack FOOD_FABRICATOR = new CustomItem(new MaterialData(Material.GREEN_STAINED_GLASS), "&cFood Fabricator", "", "&rProduces &aOrganic Food", "", "&6Advanced Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &714 J/s");
-	public static ItemStack FOOD_FABRICATOR_2 = new CustomItem(new MaterialData(Material.GREEN_STAINED_GLASS), "&cFood Fabricator &7(&eII&7)", "", "&rProduces &aOrganic Food", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 6x", "&8\u21E8 &e\u26A1 &7512 J Buffer", "&8\u21E8 &e\u26A1 &748 J/s");
+	public static ItemStack FOOD_FABRICATOR_2 = new CustomItem(new MaterialData(Material.GREEN_STAINED_GLASS), "&cFood Fabricator &7(&eII&7)", "", "&rProduces &aOrganic Food", "", "&4终极机器", "&8\u21E8 &7SPEED: 6x", "&8\u21E8 &e\u26A1 &7512 J Buffer", "&8\u21E8 &e\u26A1 &748 J/s");
 	
 	public static ItemStack FOOD_COMPOSTER = new CustomItem(new MaterialData(Material.GREEN_TERRACOTTA), "&cFood Composter", "", "&rProduces &aOrganic Fertilizer", "", "&6Advanced Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &716 J/s");
-	public static ItemStack FOOD_COMPOSTER_2 = new CustomItem(new MaterialData(Material.GREEN_TERRACOTTA), "&cFood Composter &7(&eII&7)", "", "&rProduces &aOrganic Fertilizer", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 10x", "&8\u21E8 &e\u26A1 &7512 J Buffer", "&8\u21E8 &e\u26A1 &752 J/s");
+	public static ItemStack FOOD_COMPOSTER_2 = new CustomItem(new MaterialData(Material.GREEN_TERRACOTTA), "&cFood Composter &7(&eII&7)", "", "&rProduces &aOrganic Fertilizer", "", "&4终极机器", "&8\u21E8 &7SPEED: 10x", "&8\u21E8 &e\u26A1 &7512 J Buffer", "&8\u21E8 &e\u26A1 &752 J/s");
 
 	public static ItemStack XP_COLLECTOR = null;
 	public static ItemStack REACTOR_COOLANT_CELL = null;
@@ -623,28 +623,28 @@ public class SlimefunItems {
 	
 	public static ItemStack ELECTRIC_GOLD_PAN = new CustomItem(new MaterialData(Material.BROWN_TERRACOTTA), "&6Electric Gold Pan", "", "&eBasic Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &72 J/s");
 	public static ItemStack ELECTRIC_GOLD_PAN_2 = new CustomItem(new MaterialData(Material.BROWN_TERRACOTTA), "&6Electric Gold Pan &7(&eII&7)", "", "&eBasic Machine", "&8\u21E8 &7SPEED: 3x", "&8\u21E8 &e\u26A1 &74 J/s");
-	public static ItemStack ELECTRIC_GOLD_PAN_3 = new CustomItem(new MaterialData(Material.BROWN_TERRACOTTA), "&6Electric Gold Pan &7(&eIII&7)", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 10x", "&8\u21E8 &e\u26A1 &714 J/s");
+	public static ItemStack ELECTRIC_GOLD_PAN_3 = new CustomItem(new MaterialData(Material.BROWN_TERRACOTTA), "&6Electric Gold Pan &7(&eIII&7)", "", "&4终极机器", "&8\u21E8 &7SPEED: 10x", "&8\u21E8 &e\u26A1 &714 J/s");
 
 	public static ItemStack ELECTRIC_DUST_WASHER = new CustomItem(new MaterialData(Material.BLUE_STAINED_GLASS), "&3Electric Dust Washer", "", "&eBasic Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &76 J/s");
 	public static ItemStack ELECTRIC_DUST_WASHER_2 = new CustomItem(new MaterialData(Material.BLUE_STAINED_GLASS), "&3Electric Dust Washer &7(&eII&7)", "", "&eBasic Machine", "&8\u21E8 &7SPEED: 2x", "&8\u21E8 &e\u26A1 &710 J/s");
-	public static ItemStack ELECTRIC_DUST_WASHER_3 = new CustomItem(new MaterialData(Material.BLUE_STAINED_GLASS), "&3Electric Dust Washer &7(&eIII&7)", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 10x", "&8\u21E8 &e\u26A1 &730 J/s");
+	public static ItemStack ELECTRIC_DUST_WASHER_3 = new CustomItem(new MaterialData(Material.BLUE_STAINED_GLASS), "&3Electric Dust Washer &7(&eIII&7)", "", "&4终极机器", "&8\u21E8 &7SPEED: 10x", "&8\u21E8 &e\u26A1 &730 J/s");
 
 	public static ItemStack ELECTRIC_INGOT_FACTORY = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectric Ingot Factory", "", "&eBasic Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &78 J/s");
 	public static ItemStack ELECTRIC_INGOT_FACTORY_2 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectric Ingot Factory &7(&eII&7)", "", "&eBasic Machine", "&8\u21E8 &7SPEED: 2x", "&8\u21E8 &e\u26A1 &714 J/s");
-	public static ItemStack ELECTRIC_INGOT_FACTORY_3 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectric Ingot Factory &7(&eIII&7)", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 8x", "&8\u21E8 &e\u26A1 &740 J/s");
+	public static ItemStack ELECTRIC_INGOT_FACTORY_3 = new CustomItem(new MaterialData(Material.RED_TERRACOTTA), "&cElectric Ingot Factory &7(&eIII&7)", "", "&4终极机器", "&8\u21E8 &7SPEED: 8x", "&8\u21E8 &e\u26A1 &740 J/s");
 
 	public static ItemStack AUTOMATED_CRAFTING_CHAMBER = new CustomItem(new MaterialData(Material.CRAFTING_TABLE), "&6Automated Crafting Chamber", "", "&6Advanced Machine", "&8\u21E8 &e\u26A1 &710 J/Item");
 	public static ItemStack FLUID_PUMP = new CustomItem(new MaterialData(Material.BLUE_TERRACOTTA), "&9Fluid Pump", "", "&6Advanced Machine", "&8\u21E8 &e\u26A1 &732 J/Block");
 	public static ItemStack CHARGING_BENCH = new CustomItem(new MaterialData(Material.CRAFTING_TABLE), "&6Charging Bench", "", "&rCharges Items such as Jetpacks", "", "&eBasic Machine", "&8\u21E8 &e\u26A1 &7128 J Buffer", "&8\u21E8 &e\u26A1 &7Energy Loss: &c50%");
 
-	public static ItemStack WITHER_ASSEMBLER = new CustomItem(new MaterialData(Material.OBSIDIAN), "&5Wither Assembler", "", "&4End-Game Machine", "&8\u21E8 &7Cooldown: &b30 Seconds", "&8\u21E8 &e\u26A1 &74096 J Buffer", "&8\u21E8 &e\u26A1 &74096 J/Wither");
+	public static ItemStack WITHER_ASSEMBLER = new CustomItem(new MaterialData(Material.OBSIDIAN), "&5Wither Assembler", "", "&4终极机器", "&8\u21E8 &7Cooldown: &b30 Seconds", "&8\u21E8 &e\u26A1 &74096 J Buffer", "&8\u21E8 &e\u26A1 &74096 J/Wither");
 	
 	public static ItemStack TRASH_CAN = null;
 	
 	public static ItemStack ELYTRA = new ItemStack(Material.ELYTRA);
-	public static ItemStack ELYTRA_SCALE = new CustomItem(new ItemStack(Material.FEATHER), "&bEyltra Scale");
-	public static ItemStack INFUSED_ELYTRA = new CustomItem(new CustomItem(ELYTRA, "&5Infused Elytra"), new String[] {"MENDING-1"});
-	public static ItemStack SOULBOUND_ELYTRA = new CustomItem(ELYTRA, "&cSoulbound Elytra");
+	public static ItemStack ELYTRA_SCALE = new CustomItem(new ItemStack(Material.FEATHER), "&b鞘翅鳞片");
+	public static ItemStack INFUSED_ELYTRA = new CustomItem(new CustomItem(ELYTRA, "&5鞘翅 (经验修补)"), new String[] {"MENDING-1"});
+	public static ItemStack SOULBOUND_ELYTRA = new CustomItem(ELYTRA, "&c鞘翅 (灵魂绑定)");
 	
 	// ChestTerminal Addon
 	
@@ -656,10 +656,10 @@ public class SlimefunItems {
 		try {
 			PORTABLE_CRAFTER = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzJlYzRhNGJkOGE1OGY4MzYxZjhhMDMwM2UyMTk5ZDMzZDYyNGVhNWY5MmY3Y2IzNDE0ZmVlOTVlMmQ4NjEifX19"), "&6Portable Crafter", "&a&oA portable Crafting Table", "", "&eRight Click&7 to open");
 			PORTABLE_DUSTBIN = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJkNDEwNDJjZTk5MTQ3Y2MzOGNhYzllNDY3NDE1NzZlN2VlNzkxMjgzZTZmYWM4ZDMyOTJjYWUyOTM1ZjFmIn19fQ=="), "&6Portable Dustbin", "&rYour portable Item-Destroyer", "", "&eRight Click&7 to open");
-			TRASH_CAN = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJkNDEwNDJjZTk5MTQ3Y2MzOGNhYzllNDY3NDE1NzZlN2VlNzkxMjgzZTZmYWM4ZDMyOTJjYWUyOTM1ZjFmIn19fQ=="), "&3Trash Can", "", "&rWill destroy all Items put into it");
+			TRASH_CAN = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJkNDEwNDJjZTk5MTQ3Y2MzOGNhYzllNDY3NDE1NzZlN2VlNzkxMjgzZTZmYWM4ZDMyOTJjYWUyOTM1ZjFmIn19fQ=="), "&3垃圾箱", "", "&rWill destroy all Items put into it");
 			CAN = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTRkYTk3ZjA4MGUzOTViODQyYzRjYzgyYTg0MDgyM2Q0ZGJkOGNhNjg4YTIwNjg1M2U1NzgzZTRiZmRjMDEyIn19fQ=="), "&rTin Can");
 			
-			STONE_CHUNK = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2U4ZjVhZGIxNGQ2YzlmNmI4MTBkMDI3NTQzZjFhOGMxZjQxN2UyZmVkOTkzYzk3YmNkODljNzRmNWUyZTgifX19"), "&6Stone Chunk");
+			STONE_CHUNK = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2U4ZjVhZGIxNGQ2YzlmNmI4MTBkMDI3NTQzZjFhOGMxZjQxN2UyZmVkOTkzYzk3YmNkODljNzRmNWUyZTgifX19"), "&6石块");
 			
 			INFUSED_MAGNET = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJhOGViYzRjNmE4MTczMDk0NzQ5OWJmN2UxZDVlNzNmZWQ2YzFiYjJjMDUxZTk2ZDM1ZWIxNmQyNDYxMGU3In19fQ=="), "&aInfused Magnet" , "", "&rMagical infused Magnets", "&rattract nearby Items", "&ras long as it is somewhere in", "&ryour Inventory", "", "&7Hold &eShift&7 to pick up nearby Items");
 			MAGNET = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJhOGViYzRjNmE4MTczMDk0NzQ5OWJmN2UxZDVlNzNmZWQ2YzFiYjJjMDUxZTk2ZDM1ZWIxNmQyNDYxMGU3In19fQ=="), "&cMagnet");
@@ -735,11 +735,11 @@ public class SlimefunItems {
 			BUCKET_OF_OIL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNlMDRiNDFkMTllYzc5MjdmOTgyYTYzYTk0YTNkNzlmNzhlY2VjMzMzNjMwNTFmZGUwODMxYmZhYmRiZCJ9fX0="), "&rBucket of Oil");
 			BUCKET_OF_FUEL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg0ZGRjYTc2NjcyNWI4Yjk3NDEzZjI1OWMzZjc2NjgwNzBmNmFlNTU0ODNhOTBjOGU1NTI1Mzk0ZjljMDk5In19fQ=="), "&rBucket of Fuel");
 
-			NETHER_ICE = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2NlMmRhZDliYWY3ZWFiYTdlODBkNGQwZjlmYWMwYWFiMDFhNzZiMTJmYjcxYzNkMmFmMmExNmZkZDRjNzM4MyJ9fX0="), "&eNether Ice", "", "&eRadiation Level: MODERATE", "&4&oHazmat Suit required");
+			NETHER_ICE = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2NlMmRhZDliYWY3ZWFiYTdlODBkNGQwZjlmYWMwYWFiMDFhNzZiMTJmYjcxYzNkMmFmMmExNmZkZDRjNzM4MyJ9fX0="), "&e下界冰", "", "&eRadiation Level: MODERATE", "&4&oHazmat Suit required");
 			ENRICHED_NETHER_ICE = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2M4MThhYTEzYWFiYzcyOTQ4MzhkMjFjYWFjMDU3ZTk3YmQ4Yzg5NjQxYTBjMGY4YTU1NDQyZmY0ZTI3In19fQ=="), "&eEnriched Nether Ice", "", "&2Radiation Level: EXTREMELY HIGH", "&4&oHazmat Suit required");
 
 			LAVA_CRYSTAL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNhZDhlZTg0OWVkZjA0ZWQ5YTI2Y2EzMzQxZjYwMzNiZDc2ZGNjNDIzMWVkMWVhNjNiNzU2NTc1MWIyN2FjIn19fQ=="), "&4Lava Crystal");
-			ANDROID_MEMORY_CORE = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&bAndroid Memory Core");
+			ANDROID_MEMORY_CORE = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&b机器人内存核心");
 
 			CARBON = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGIzYTA5NWI2YjgxZTZiOTg1M2ExOTMyNGVlZGYwYmI5MzQ5NDE3MjU4ZGQxNzNiOGVmZjg3YTA4N2FhIn19fQ=="), "&eCarbon");
 			COMPRESSED_CARBON = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIxZDQ5NTE2NTc0OGQzMTE2Zjk5ZDZiNWJkNWQ0MmViOGJhNTkyYmNkZmFkMzdmZDk1ZjliNmMwNGEzYiJ9fX0="), "&cCompressed Carbon");
@@ -757,45 +757,45 @@ public class SlimefunItems {
 			CARGO_OUTPUT = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTViMjFmZDQ4MGMxYzQzYmYzYjlmODQyYzg2OWJkYzNiYzVhY2MyNTk5YmYyZWI2YjhhMWM5NWRjZTk3OGYifX19"), "&7Cargo Node &c(Output)", "", "&rCargo Output Pipe");
 			CARGO_OUTPUT_ADVANCED = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTViMjFmZDQ4MGMxYzQzYmYzYjlmODQyYzg2OWJkYzNiYzVhY2MyNTk5YmYyZWI2YjhhMWM5NWRjZTk3OGYifX19"), "&6Advanced Cargo Node &c(Output)", "", "&rCargo Output Pipe");
 
-			AUTO_BREEDER = new CustomItem(new MaterialData(Material.HAY_BLOCK), "&eAuto-Breeder", "", "&rRuns on &aOrganic Food", "", "&4End-Game Machine", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &760 J/Animal");
-			ANIMAL_GROWTH_ACCELERATOR = new CustomItem(new MaterialData(Material.HAY_BLOCK), "&bAnimal Growth Accelerator", "", "&rRuns on &aOrganic Food", "", "&4End-Game Machine", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &728 J/s");
-			CROP_GROWTH_ACCELERATOR = new CustomItem(new MaterialData(Material.LIME_TERRACOTTA), "&aCrop Growth Accelerator", "", "&rRuns on &aOrganic Fertilizer", "", "&4End-Game Machine", "&8\u21E8 &7Radius: 7x7", "&8\u21E8 &7SPEED: &a3/time", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &750 J/s");
-			CROP_GROWTH_ACCELERATOR_2 = new CustomItem(new MaterialData(Material.LIME_TERRACOTTA), "&aCrop Growth Accelerator &7(&eII&7)", "", "&rRuns on &aOrganic Fertilizer", "", "&4End-Game Machine", "&8\u21E8 &7Radius: 9x9", "&8\u21E8 &7SPEED: &a4/time", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &760 J/s");
-			XP_COLLECTOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTc2MmExNWIwNDY5MmEyZTRiM2ZiMzY2M2JkNGI3ODQzNGRjZTE3MzJiOGViMWM3YTlmN2MwZmJmNmYifX19"), "&aEXP Collector", "", "&rCollects nearby Exp and stores it", "", "&4End-Game Machine", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &720 J/s");
+			AUTO_BREEDER = new CustomItem(new MaterialData(Material.HAY_BLOCK), "&eAuto-Breeder", "", "&rRuns on &aOrganic Food", "", "&4终极机器", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &760 J/只动物");
+			ANIMAL_GROWTH_ACCELERATOR = new CustomItem(new MaterialData(Material.HAY_BLOCK), "&bAnimal Growth Accelerator", "", "&rRuns on &aOrganic Food", "", "&4终极机器", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &728 J/s");
+			CROP_GROWTH_ACCELERATOR = new CustomItem(new MaterialData(Material.LIME_TERRACOTTA), "&aCrop Growth Accelerator", "", "&rRuns on &aOrganic Fertilizer", "", "&4终极机器", "&8\u21E8 &7半径: 7x7", "&8\u21E8 &7SPEED: &a3/time", "&8\u21E8 &e\u26A1 &7可储存 1024 J", "&8\u21E8 &e\u26A1 &750 J/s");
+			CROP_GROWTH_ACCELERATOR_2 = new CustomItem(new MaterialData(Material.LIME_TERRACOTTA), "&aCrop Growth Accelerator &7(&eII&7)", "", "&rRuns on &aOrganic Fertilizer", "", "&4终极机器", "&8\u21E8 &7半径: 9x9", "&8\u21E8 &7速度: &a4/次", "&8\u21E8 &e\u26A1 &7可储存 1024 J", "&8\u21E8 &e\u26A1 &760 J/s");
+			XP_COLLECTOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTc2MmExNWIwNDY5MmEyZTRiM2ZiMzY2M2JkNGI3ODQzNGRjZTE3MzJiOGViMWM3YTlmN2MwZmJmNmYifX19"), "&a经验收集器", "", "&r可以收集附近的经验并存储起来", "", "&4终极机器", "&8\u21E8 &e\u26A1 &7可储存 1024 J", "&8\u21E8 &e\u26A1 &720 J/s");
 			
-			ORGANIC_FOOD = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Food", "&7Content: &9X");
-			ORGANIC_FOOD2 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Food", "&7Content: &9Wheat");
-			ORGANIC_FOOD3 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Food", "&7Content: &9Carrots");
-			ORGANIC_FOOD4 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Food", "&7Content: &9Potatoes");
-			ORGANIC_FOOD5 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Food", "&7Content: &9Seeds");
-			ORGANIC_FOOD6 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Food", "&7Content: &9Beetroot");
-			ORGANIC_FOOD7 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Food", "&7Content: &9Melon");
-			ORGANIC_FOOD8 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Food", "&7Content: &9Apple");
+			ORGANIC_FOOD = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机食物", "&7内含 &9X");
+			ORGANIC_FOOD2 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机食物", "&7内含 &9小麦");
+			ORGANIC_FOOD3 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机食物", "&7内含 &9胡萝卜");
+			ORGANIC_FOOD4 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机食物", "&7内含 &9土豆");
+			ORGANIC_FOOD5 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机食物", "&7内含 &9小麦种子");
+			ORGANIC_FOOD6 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机食物", "&7内含 &9甜菜");
+			ORGANIC_FOOD7 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机食物", "&7内含 &9西瓜");
+			ORGANIC_FOOD8 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机食物", "&7内含 &9苹果");
 
-			FERTILIZER = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Fertilizer", "&7Content: &9X");
-			FERTILIZER2 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Fertilizer", "&7Content: &9Wheat");
-			FERTILIZER3 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Fertilizer", "&7Content: &9Carrots");
-			FERTILIZER4 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Fertilizer", "&7Content: &9Potatoes");
-			FERTILIZER5 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Fertilizer", "&7Content: &9Seeds");
-			FERTILIZER6 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Fertilizer", "&7Content: &9Beetroot");
-			FERTILIZER7 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Fertilizer", "&7Content: &9Melon");
-			FERTILIZER8 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&aOrganic Fertilizer", "&7Content: &9Apple");
+			FERTILIZER = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机肥料", "&7内含 &9X");
+			FERTILIZER2 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机肥料", "&7内含 &9小麦");
+			FERTILIZER3 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机肥料", "&7内含 &9胡萝卜");
+			FERTILIZER4 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机肥料", "&7内含 &9土豆");
+			FERTILIZER5 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机肥料", "&7内含 &9小麦种子");
+			FERTILIZER6 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机肥料", "&7内含 &9甜菜");
+			FERTILIZER7 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机肥料", "&7内含 &9西瓜");
+			FERTILIZER8 = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQzOWUzZjVhY2JlZTliZTRjNDI1OTI4OWQ2ZDlmMzVjNjM1ZmZhNjYxMTE0Njg3YjNlYTZkZGE4Yzc5In19fQ=="), "&a有机肥料", "&7内含 &9苹果");
 
-			NETHER_ICE_COOLANT_CELL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQzY2Q0MTI1NTVmODk3MDE2MjEzZTVkNmM3NDMxYjQ0OGI5ZTU2NDRlMWIxOWVjNTFiNTMxNmYzNTg0MGUwIn19fQ=="), "&6Nether Ice Coolant Cell");
-			REACTOR_COOLANT_CELL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGU0MDczYmU0MGNiM2RlYjMxMGEwYmU5NTliNGNhYzY4ZTgyNTM3MjcyOGZhZmI2YzI5NzNlNGU3YzMzIn19fQ=="), "&bReactor Coolant Cell");
+			NETHER_ICE_COOLANT_CELL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQzY2Q0MTI1NTVmODk3MDE2MjEzZTVkNmM3NDMxYjQ0OGI5ZTU2NDRlMWIxOWVjNTFiNTMxNmYzNTg0MGUwIn19fQ=="), "&6下界冰冷却剂");
+			REACTOR_COOLANT_CELL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGU0MDczYmU0MGNiM2RlYjMxMGEwYmU5NTliNGNhYzY4ZTgyNTM3MjcyOGZhZmI2YzI5NzNlNGU3YzMzIn19fQ=="), "&b反应堆冷却剂");
 
-			CHEST_TERMINAL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2E0NGZmM2E1ZjQ5YzY5Y2FiNjc2YmFkOGQ5OGEwNjNmYTc4Y2ZhNjE5MTZmZGVmM2UyNjc1NTdmZWMxODI4MyJ9fX0="), "&3CT Access Terminal", "&7If this Block is connected to a", "&7Cargo Network, it will allow you to remotely", "&7interact with any Items supplied by", "&7Nodes tuned into the ChestTerminal Channel");
-			CT_IMPORT_BUS = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTEzZGIyZTdlNzJlYTQ0MzJlZWZiZDZlNThhODVlYWEyNDIzZjgzZTY0MmNhNDFhYmM2YTkzMTc3NTdiODg5In19fQ=="), "&3CT Import Bus", "&7If this Block is connected to a", "&7Cargo Network, it will pull any Items from", "&7the Inventory it is attached to and place it", "&7into the CT Network Channel");
-			CT_EXPORT_BUS = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTEzZGIyZTdlNzJlYTQ0MzJlZWZiZDZlNThhODVlYWEyNDIzZjgzZTY0MmNhNDFhYmM2YTkzMTc3NTdiODg5In19fQ=="), "&3CT Export Bus", "&7If this Block is connected to a", "&7Cargo Network, it will pull any Items from", "&7the CT Network Channel and place these", "&7into the Inventory it is attached to");
+			CHEST_TERMINAL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2E0NGZmM2E1ZjQ5YzY5Y2FiNjc2YmFkOGQ5OGEwNjNmYTc4Y2ZhNjE5MTZmZGVmM2UyNjc1NTdmZWMxODI4MyJ9fX0="), "&3CT接入终端", "&7当此设备成功连接至货运网络时", "它将允许你远程与", "&7货运网络中的任何物品交互", "&7节点将调整至 ChestTerminal 频道");
+			CT_IMPORT_BUS = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTEzZGIyZTdlNzJlYTQ0MzJlZWZiZDZlNThhODVlYWEyNDIzZjgzZTY0MmNhNDFhYmM2YTkzMTc3NTdiODg5In19fQ=="), "&3CT输入总线", "&7当此设备成功连接至货运网络时", "它将从其所附属于的容器中", "&7取出物品并放入CT网络频道)";
+			CT_EXPORT_BUS = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTEzZGIyZTdlNzJlYTQ0MzJlZWZiZDZlNThhODVlYWEyNDIzZjgzZTY0MmNhNDFhYmM2YTkzMTc3NTdiODg5In19fQ=="), "&3CT输出总线", "&7当此设备成功连接至货运网络时", "它将从 CT 网络频道", "&7取出物品并将它们放入", "&7总线所附属于的容器");
 			
-			FREEZER = new CustomItem(new MaterialData(Material.LIGHT_BLUE_STAINED_GLASS), "&bFreezer", "", "&6Advanced Machine", "&8\u21E8 &7SPEED: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &718 J/s");
-			FREEZER_2 = new CustomItem(new MaterialData(Material.LIGHT_BLUE_STAINED_GLASS), "&bFreezer &7(&eII&7)", "", "&4End-Game Machine", "&8\u21E8 &7SPEED: 2x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &730 J/s");
+			FREEZER = new CustomItem(new MaterialData(Material.LIGHT_BLUE_STAINED_GLASS), "&b冰箱", "", "&6进阶机器", "&8\u21E8 &7速度: 1x", "&8\u21E8 &e\u26A1 &7可储存 256 J ", "&8\u21E8 &e\u26A1 &718 J/s");
+			FREEZER_2 = new CustomItem(new MaterialData(Material.LIGHT_BLUE_STAINED_GLASS), "&b冰箱 &7(&eII&7)", "", "&4终极机器", "&8\u21E8 &7速度: 2x", "&8\u21E8 &e\u26A1 &7可储存 256 J", "&8\u21E8 &e\u26A1 &730 J/s");
 			
-			BATTERY = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmUyZGRhNmVmNjE4NWQ0ZGQ2ZWE4Njg0ZTk3ZDM5YmE4YWIwMzdlMjVmNzVjZGVhNmJkMjlkZjhlYjM0ZWUifX19"), "&6Battery");
+			BATTERY = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmUyZGRhNmVmNjE4NWQ0ZGQ2ZWE4Njg0ZTk3ZDM5YmE4YWIwMzdlMjVmNzVjZGVhNmJkMjlkZjhlYjM0ZWUifX19"), "&6电池");
 			
-			HEATING_COIL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2UzYmM0ODkzYmE0MWEzZjczZWUyODE3NGNkZjRmZWY2YjE0NWU0MWZlNmM4MmNiN2JlOGQ4ZTk3NzFhNSJ9fX0="), "&cHeating Coil");
-			COOLING_UNIT = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0YmFkODZjOTlkZjc4MGM4ODlhMTA5OGY3NzY0OGVhZDczODVjYzFkZGIwOTNkYTVhN2Q4YzRjMmFlNTRkIn19fQ=="), "&bCooling Unit");
-			POWER_CRYSTAL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTNjMWIwMzZiNmUwMzUxN2IyODVhODExYmQ4NWU3M2Y1YWJmZGFjYzFkZGY5MGRmZjk2MmUxODA5MzRlMyJ9fX0="), "&c&lPower Crystal");
+			HEATING_COIL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2UzYmM0ODkzYmE0MWEzZjczZWUyODE3NGNkZjRmZWY2YjE0NWU0MWZlNmM4MmNiN2JlOGQ4ZTk3NzFhNSJ9fX0="), "&c加热线圈");
+			COOLING_UNIT = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0YmFkODZjOTlkZjc4MGM4ODlhMTA5OGY3NzY0OGVhZDczODVjYzFkZGIwOTNkYTVhN2Q4YzRjMmFlNTRkIn19fQ=="), "&b冷却装置");
+			POWER_CRYSTAL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTNjMWIwMzZiNmUwMzUxN2IyODVhODExYmQ4NWU3M2Y1YWJmZGFjYzFkZGY5MGRmZjk2MmUxODA5MzRlMyJ9fX0="), "&c&l能量水晶");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
