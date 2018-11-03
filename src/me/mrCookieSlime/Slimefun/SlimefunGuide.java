@@ -207,7 +207,7 @@ public class SlimefunGuide {
 		});
 
 		try {
-			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&e源码, "", "&7代码大小: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7上次更新于: &a" + IntegerFormat.timeDelta(last_update) + " 前", "&7分支: &e" + forks, "&7点赞数: &e" + stars, "", "&7&oSlimefun 4 是一个社区性的项目,", "&7&o其源码公开于 Github 上", "&7&o如果你有 Java 编程经验,", "&7&o请考虑为此项目做出贡献", "", "&7\u21E8 单击前往 Github 页面"));
+			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&e源码", "&7代码大小: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7上次更新于: &a" + IntegerFormat.timeDelta(last_update) + " 前", "&7分支: &e" + forks, "&7点赞数: &e" + stars, "", "&7&oSlimefun 4 是一个社区性的项目,", "&7&o其源码公开于 Github 上", "&7&o如果你有 Java 编程经验,", "&7&o请考虑为此项目做出贡献", "", "&7\u21E8 单击前往 Github 页面"));
 			menu.addMenuClickHandler(4, new MenuClickHandler() {
 
 				@Override
