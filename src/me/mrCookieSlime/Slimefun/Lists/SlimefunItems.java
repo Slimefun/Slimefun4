@@ -13,7 +13,7 @@ import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
-import org.bukkit.Material.MaterialData;
+import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -27,7 +27,7 @@ public class SlimefunItems {
 	public static ItemStack MAGIC_EYE_OF_ENDER = new CustomItem(Material.ENDER_EYE, "&6&l魔法末影之眼", 0, new String[] {"&4&l需要全套末影护甲", "", "&7&e右键&7 以射出一颗末影珍珠"});
 	public static ItemStack BROKEN_SPAWNER = new CustomItem(new MaterialData(Material.SPAWNER), "&c已损坏的刷怪笼", "&7类型: &b<类型>", "", "&c已损坏, 需要在古代祭坛中修复");
 	public static ItemStack REPAIRED_SPAWNER = new CustomItem(Material.SPAWNER, "&b已修复的刷怪笼", 0, new String[] {"&7类型: &b<类型>"});
-	public static ItemStack INFERNAL_BONEMEAL = new CustomItem(new MaterialData(Material.BONE_MEAL), "&4地狱骨粉", "", "&c加速地狱疣的生长SPEED"));
+	public static ItemStack INFERNAL_BONEMEAL = new CustomItem(new MaterialData(Material.BONE_MEAL), "&4地狱骨粉", "", "&c加速地狱疣的生长速度");
 	
 	/*		 Gadgets 		*/
 	public static ItemStack GOLD_PAN = new CustomItem(Material.BOWL, "&6淘金盘", 0, new String[] {"&a&o可以获得各种各样的矿物", "", "&7&e右键&7 从沙砾中淘金"});
@@ -229,11 +229,11 @@ public class SlimefunItems {
 	public static ItemStack ELECTRIC_MOTOR = null;
 	public static ItemStack CARGO_MOTOR = null;
 	public static ItemStack SCROLL_OF_DIMENSIONAL_TELEPOSITION = new CustomItem(Material.PAPER, "&6维度传送卷轴", 0, new String[] {"", "&c这个卷轴可以便携地创建", "&c一个临时的黑洞", "&c将附近的实体都传送至", "&c另一个维度上", "&c所有东西都反转了", "", "&r就是说: 让实体转180°"});
-	public static ItemStack TOME_OF_KNOWLEDGE_SHARING = new CustomItem(Material.BOOK, "&6知识巨著", 0, new String[] {"&7主人: &bNone", "", "&e右键&7 以绑定你的所有研究", "", "", ""&e右键&7 以获得前任主人的所有研究"});
+	public static ItemStack TOME_OF_KNOWLEDGE_SHARING = new CustomItem(Material.BOOK, "&6知识巨著", 0, new String[] {"&7主人: &bNone", "", "&e右键&7 以绑定你的所有研究", "", "", "&e右键&7 以获得前任主人的所有研究"});
 	public static ItemStack HARDENED_GLASS = new CustomItem(new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS), "&7钢化玻璃", "", "&r可以抵抗爆炸");
 	public static ItemStack WITHER_PROOF_OBSIDIAN = new CustomItem(Material.OBSIDIAN, "&5防凋零黑曜石", 0, new String[] {"", "&r可以抵抗爆炸和", "&r凋零的攻击"});
-	public static ItemStack WITHER_PROOF_GLASS = new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS), "&5防凋零玻璃", "", "&r可以抵抗爆炸和", "&r凋零的攻击"});
-	public static ItemStack REINFORCED_PLATE = new CustomItem(Material.PAPER, "&7Reinforced Plate", 0);
+	public static ItemStack WITHER_PROOF_GLASS = new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS), "&5防凋零玻璃", "", "&r可以抵抗爆炸和", "&r凋零的攻击");
+    public static ItemStack REINFORCED_PLATE = new CustomItem(Material.PAPER, "&7Reinforced Plate", 0);
 	public static ItemStack ANCIENT_PEDESTAL = new CustomItem(Material.DISPENSER, "&dAncient Pedestal", 0, new String[] {"", "&5Part of the Ancient Altar"});
 	public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&dAncient Altar", 0, new String[] {"", "&5Multi-Block Altar for", "&5magical Crafting Processes"});
 	public static ItemStack DUCT_TAPE = null;
@@ -355,9 +355,9 @@ public class SlimefunItems {
 	/*		Staves		*/
 	public static ItemStack STAFF_ELEMENTAL = new CustomItem(Material.STICK, "&6元素法杖", 0);
 	public static ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6元素法杖 &7- &b&o风", 0, new String[] {"", "&7元素: &b&o风", "", "&7&e右键&7 以将你吹飞"}, new String[] {"LUCK-1"});
-	public static ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6元素法杖 &7- &c&o火", 0, new String[] {"", "&7元素: &c&o火"},"", "&c让火焰净化一切!", new String[] {"FIRE_ASPECT-5"});
+	public static ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6元素法杖 &7- &c&o火", 0, new String[] {"", "&7元素: &c&o火","", "&c让火焰净化一切!"}, new String[] {"FIRE_ASPECT-5"});
 	public static ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6元素法杖 &7- &1&o水", 0, new String[] {"", "&7元素: &1&o水", "", "&7&e右键&7 以灭掉你身上的火"}, new String[] {"WATER_WORKER-1"});
-	//public static ItemStack STAFF_EARTH = new CustomItem(Material.STICK, "&6元素法杖 &7- &a&o土",0, new String[] {"", "&7元素: &1&o土","", "&a让土地随你的意志行动"}, new String[] {"LUCK-2"});
+	public static ItemStack STAFF_EARTH = new CustomItem(Material.STICK, "&6元素法杖 &7- &a&o土",0, new String[] {"", "&7元素: &1&o土","", "&a让土地随你的意志行动"}, new String[] {"LUCK-2"});
 	
 	/*		机器s 		*/
 	public static ItemStack GRIND_STONE = new CustomItem(Material.DISPENSER, "&b磨石", 0, new String[] {"", "&a&o更高效的磨物品"});
@@ -515,7 +515,7 @@ public class SlimefunItems {
 	public static ItemStack PROGRAMMABLE_ANDROID_3_FISHERMAN = null;
 	public static ItemStack PROGRAMMABLE_ANDROID_3_BUTCHER = null;
 	
-	/*		GPS					*/
+	/*		GPS		*/
 	public static ItemStack GPS_TRANSMITTER = null;
 	public static ItemStack GPS_TRANSMITTER_2 = null;
 	public static ItemStack GPS_TRANSMITTER_3 = null;
@@ -785,7 +785,7 @@ public class SlimefunItems {
 			REACTOR_COOLANT_CELL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGU0MDczYmU0MGNiM2RlYjMxMGEwYmU5NTliNGNhYzY4ZTgyNTM3MjcyOGZhZmI2YzI5NzNlNGU3YzMzIn19fQ=="), "&b反应堆冷却剂");
 
 			CHEST_TERMINAL = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2E0NGZmM2E1ZjQ5YzY5Y2FiNjc2YmFkOGQ5OGEwNjNmYTc4Y2ZhNjE5MTZmZGVmM2UyNjc1NTdmZWMxODI4MyJ9fX0="), "&3CT接入终端", "&7当此设备成功连接至货运网络时", "它将允许你远程与", "&7货运网络中的任何物品交互", "&7节点将调整至 ChestTerminal 频道");
-			CT_IMPORT_BUS = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTEzZGIyZTdlNzJlYTQ0MzJlZWZiZDZlNThhODVlYWEyNDIzZjgzZTY0MmNhNDFhYmM2YTkzMTc3NTdiODg5In19fQ=="), "&3CT输入总线", "&7当此设备成功连接至货运网络时", "它将从其所附属于的容器中", "&7取出物品并放入CT网络频道)";
+			CT_IMPORT_BUS = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTEzZGIyZTdlNzJlYTQ0MzJlZWZiZDZlNThhODVlYWEyNDIzZjgzZTY0MmNhNDFhYmM2YTkzMTc3NTdiODg5In19fQ=="), "&3CT输入总线", "&7当此设备成功连接至货运网络时", "它将从其所附属于的容器中", "&7取出物品并放入CT网络频道)");
 			CT_EXPORT_BUS = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTEzZGIyZTdlNzJlYTQ0MzJlZWZiZDZlNThhODVlYWEyNDIzZjgzZTY0MmNhNDFhYmM2YTkzMTc3NTdiODg5In19fQ=="), "&3CT输出总线", "&7当此设备成功连接至货运网络时", "它将从 CT 网络频道", "&7取出物品并将它们放入", "&7总线所附属于的容器");
 			
 			FREEZER = new CustomItem(new MaterialData(Material.LIGHT_BLUE_STAINED_GLASS), "&b冰箱", "", "&6进阶机器", "&8\u21E8 &7速度: 1x", "&8\u21E8 &e\u26A1 &7可储存 256 J ", "&8\u21E8 &e\u26A1 &718 J/s");
