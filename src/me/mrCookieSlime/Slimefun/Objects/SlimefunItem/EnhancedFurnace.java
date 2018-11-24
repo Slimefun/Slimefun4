@@ -29,8 +29,10 @@ public class EnhancedFurnace extends SlimefunItem {
 					if (((Furnace) b.getState()).getCookTime() > 0) {
 						Furnace furnace = (Furnace) b.getState();
 
-						if ((furnace.getCookTime() + getSpeed() * 10) > 200) furnace.setCookTime((short) 188);
-						else furnace.setCookTime((short) (furnace.getCookTime() + getSpeed() * 10));
+						int newCookTime = furnace.getCookTime() + getSpeed() * 10;
+
+						if (newCookTime > 200) furnace.setCookTime((short) 188);
+						else furnace.setCookTime((short) newCookTime);
 
 						furnace.update(true, false);
 					}
