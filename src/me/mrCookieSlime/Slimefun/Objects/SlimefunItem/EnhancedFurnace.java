@@ -6,6 +6,7 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
@@ -24,12 +25,16 @@ public class EnhancedFurnace extends SlimefunItem {
 		addItemHandler(new BlockTicker() {
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				if (b.getState() instanceof Furnace)
+				if (b.getState() instanceof Furnace) {
 					if (((Furnace) b.getState()).getCookTime() > 0) {
 						Furnace furnace = (Furnace) b.getState();
-						furnace.setCookTime((short) (furnace.getCookTime() + getSpeed() * 10));
+
+						if ((furnace.getCookTime() + getSpeed() * 10) > 200) furnace.setCookTime((short) 188);
+						else furnace.setCookTime((short) (furnace.getCookTime() + getSpeed() * 10));
+
 						furnace.update(true, false);
 					}
+				}
 			}
 
 			@Override
