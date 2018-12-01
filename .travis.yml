@@ -1,1 +1,17 @@
+# Speed up?
+sudo: true
+
 language: java
+jdk: [oraclejdk8]
+
+after_success: |
+  if [ -n \"$GITHUB_API_KEY\" ]; then
+    cd \"$TRAVIS_BUILD_DIR\"
+    ls
+  fi
+
+deploy:
+  provider: releases
+  api_key: ${GITHUB_API_KEY}
+  file: ${RELEASE_JAR_FILE}
+  skip_cleanup: true
