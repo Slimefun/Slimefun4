@@ -4,16 +4,16 @@
 
 Slimefun 4 是 [Slimefun](http://dev.bukkit.org/bukkit-plugins/slimefun/) 这个改变了Minecraft玩法的插件的第四代
 
-Slimefun 4 使用的开源协议为 
+Slimefun 4 使用的开源协议为: 
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
-## 开发版 (无汉化)
+## 开发版 (已汉化)
 单击下方 "构建服务器" 按钮，可以下载到最新版本未汉化的开发版本。
 但是请注意: 这些版本可能不稳定且仍在开发之下, 部分功能可能没有完善.
 
 <p align="center">
   <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
-    <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="构建服务器"/>
+    <img src="https://travis-ci.org/StarWishsama/Slimefun4.svg?branch=master" alt="构建服务器"/>
   </a>
 </p>
 
