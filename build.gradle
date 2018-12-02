@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group 'me.mrCookieSlime.Slimefun'
+version '4.1.16'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        url 'http://maven.sk89q.com/repo/'
+''    }
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile files ("libs/bukkit-1.13.1-R0.1-20181019.092832-98.jar")
+    compile files ("libs/CS-CoreLib-29.jar")
+    compile files ("libs/EmeraldEnchants v2.0.jar")
+    compile files ("libs/CoreProtect-2.14.2.jar")
+    compile files ("libs/worldedit-bukkit-6.1.7.3.jar")
+    compile files ("libs/Clearlag.jar")
+    compile files ("libs/org.json.simple-0.4.jar")
+    compile files ("libs/org.apache.commons.lang-2.6.0.jar")
+    compile files ("libs/com.google.gson-2.2.4.jar")
+    compile files ("libs/ExoticGarden v1.2.0.jar")
+}
