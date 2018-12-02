@@ -2,3 +2,7 @@
 sudo: true
 language: java
 jdk: [oraclejdk8]
+
+before_script:
+  - chmod +x gradlew
+script: ./gradlew clean build
