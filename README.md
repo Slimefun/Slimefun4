@@ -8,8 +8,8 @@ Slimefun 4 使用的开源协议为:
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
 ## 开发版 (已汉化)
-单击下方 "构建服务器" 按钮，可以下载到最新版本未汉化的开发版本。
-但是请注意: 这些版本可能不稳定且仍在开发之下, 部分功能可能没有完善.
+单击下方按钮，可以下载到最新版本未汉化的开发版本。
+但是请注意: 这些版本可能不稳定且仍在开发之下, 部分功能可能没有完善, 可能会出现 Bug.
 
 <p align="center">
   <a href="https://github.com/StarWishsama/Slimefun4/releases">
