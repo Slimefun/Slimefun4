@@ -12,7 +12,7 @@ Slimefun 4 使用的开源协议为:
 但是请注意: 这些版本可能不稳定且仍在开发之下, 部分功能可能没有完善.
 
 <p align="center">
-  <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
+  <a href="https://github.com/StarWishsama/Slimefun4/releases">
     <img src="https://travis-ci.org/StarWishsama/Slimefun4.svg?branch=master" alt="构建服务器"/>
   </a>
 </p>
