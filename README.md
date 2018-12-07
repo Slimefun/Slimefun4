@@ -1,12 +1,35 @@
 # Slimefun 4
 
-Modified Slimefun 4
+Hello and welcome to Slimefun 4's GitHub Page.
 
-Latest .jars (both cscorelib and slimefun):
-https://drive.google.com/open?id=16Ru4UAN3QEr1uTJ3OETRUN5lJUjrw0J5
+Slimefun 4 is the 4th of the big Updates to the revolutionary and game-changing Plugin [Slimefun](http://dev.bukkit.org/bukkit-plugins/slimefun/)
 
-Fixed worldedit 7 (my request https://github.com/TheBusyBiscuit/Slimefun4/pull/814)
-Fixed enchanted furnaces and lumber axe duplication glitch (https://github.com/TheBusyBiscuit/Slimefun4/pull/810)
-Fixed auto. crafting. table, electric furnace and charging bench (my request https://github.com/TheBusyBiscuit/CS-CoreLib/pull/64)
+Slimefun 4 is licensed under 
+[GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
-Warn: This will broke support with worldedit older than 7.0!!!
+## Development Builds
+Click on the badge below to go to our "development" build page, where you can download the latest Slimefun versions before they are released to the public. But keep in mind: These builds are still in development and not guaranteed to work or to be stable.
+
+<p align="center">
+  <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
+    <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
+  </a>
+</p>
+
+## Contributions
+
+You are allowed, even encouraged, to contribute to Slimefun 4 by making Pull Requests.
+These Pull Requests can be Fixes, Changes or even Additions, but please keep in mind that
+if you add too much content to Slimefun 4, you should rather make an Addon for it instead.
+
+Check the license for more Info on redistributing and modifying Slimefun 4.
+
+### Contributors
+
+[Here is a list of all people who contributed to Slimefun 4 by submitting Code.](https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors)
+
+## Wiki
+
+Slimefun has a (detailed and well-maintained) Wiki for new Users, maybe also consider
+applying as Wiki Staff to help grow our Community and help out new Users of this Project.
+https://github.com/TheBusyBiscuit/Slimefun4/wiki
