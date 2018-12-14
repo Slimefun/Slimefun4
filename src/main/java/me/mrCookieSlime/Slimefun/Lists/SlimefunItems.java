@@ -233,9 +233,9 @@ public class SlimefunItems {
 	public static ItemStack HARDENED_GLASS = new CustomItem(new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS), "&7钢化玻璃", "", "&r可以抵抗爆炸");
 	public static ItemStack WITHER_PROOF_OBSIDIAN = new CustomItem(Material.OBSIDIAN, "&5防凋零黑曜石", 0, new String[] {"", "&r可以抵抗爆炸和", "&r凋零的攻击"});
 	public static ItemStack WITHER_PROOF_GLASS = new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS), "&5防凋零玻璃", "", "&r可以抵抗爆炸和", "&r凋零的攻击");
-    public static ItemStack REINFORCED_PLATE = new CustomItem(Material.PAPER, "&7Reinforced Plate", 0);
-	public static ItemStack ANCIENT_PEDESTAL = new CustomItem(Material.DISPENSER, "&dAncient Pedestal", 0, new String[] {"", "&5Part of the Ancient Altar"});
-	public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&dAncient Altar", 0, new String[] {"", "&5Multi-Block Altar for", "&5magical Crafting Processes"});
+        public static ItemStack REINFORCED_PLATE = new CustomItem(Material.PAPER, "&7钢筋板", 0);
+	public static ItemStack ANCIENT_PEDESTAL = new CustomItem(Material.DISPENSER, "&d古代基座", 0, new String[] {"", "&5古代祭坛的一部分"});
+	public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&d古代祭坛", 0, new String[] {"", "&5在世界里建造祭坛", "&5并用古老的仪式合成物品"});
 	public static ItemStack DUCT_TAPE = null;
 	
 	public static ItemStack RAINBOW_WOOL = new CustomItem(new ItemStack(Material.WHITE_WOOL), "&5彩虹羊毛", "", "&d轮番展现彩虹的颜色!");
