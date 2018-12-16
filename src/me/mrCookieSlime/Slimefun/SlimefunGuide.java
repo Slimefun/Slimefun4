@@ -23,6 +23,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
@@ -671,7 +672,7 @@ public class SlimefunGuide {
 						    final Research research = item.getResearch();
 						    
 							texts.add(ChatColor.translateAlternateColorCodes('&', shorten("&7", StringUtils.formatItemName(item.getItem(), false))));
-							tooltips.add(ChatColor.translateAlternateColorCodes('&', StringUtils.formatItemName(item.getItem(), false) + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " Levels\n\n&a> Click to unlock"));
+							tooltips.add(StringUtils.formatItemName(item.getItem(), false) + "\n&c&lLOCKED\n\n" + config.getString("options.level-cost")replaceAll("%level%", research.getCost()) + " Levels\n\n" + config.getString("options.click-to-unlock"));
 							actions.add(new PlayerRunnable(2) {
 								
 								@Override
