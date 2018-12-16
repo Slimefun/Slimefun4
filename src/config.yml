@@ -14,6 +14,8 @@ options:
   research-give-fireworks: true
   legacy-ore-washer: false
   legacy-dust-washer: false
+  level-cost: "&7Cost: &b%level"
+  click-to-unlock: "&a> Click to unlock"
 guide:
   default-view-book: false
 URID:
