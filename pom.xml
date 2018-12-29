@@ -19,7 +19,7 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>worldedit-worldguard-repo</id>
+            <id>worldedit-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
