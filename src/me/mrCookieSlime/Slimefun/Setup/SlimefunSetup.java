@@ -1904,7 +1904,7 @@ public class SlimefunSetup {
 							if (MaterialHelper.isLog(b.getRelative(BlockFace.UP).getType())) {
 								Block log = b.getRelative(BlockFace.UP);
 								if (!BlockStorage.hasBlockInfo(log)) {
-									ItemStack item =  new CustomItem(MaterialHelper.getWoodFromLog(log.getType()), 8);
+									ItemStack item =  new CustomItem(MaterialHelper.getWoodFromLog(log.getType()), 0, 8);
 									log.getWorld().dropItemNaturally(log.getLocation(), item);
 									log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 									log.setType(Material.AIR); 
