@@ -145,12 +145,11 @@ public class AncientAltarListener implements Listener {
 
 	public static ItemStack fixItemStack(ItemStack itemStack, String customName) {
 		ItemStack stack = itemStack.clone();
-		if (customName.equals(StringUtils.formatItemName(new CustomItem(itemStack, 1), false))) {
+		if (customName.equals(StringUtils.formatItemName(new ItemStack(itemStack.getType()), false))) {
 			ItemMeta im = stack.getItemMeta();
 			im.setDisplayName(null);
 			stack.setItemMeta(im);
-		}
-		else {
+		} else {
 			ItemMeta im = stack.getItemMeta();
 			im.setDisplayName(customName);
 			stack.setItemMeta(im);
