@@ -1,17 +1,18 @@
 package me.mrCookieSlime.Slimefun.WorldEdit;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.event.extent.EditSessionEvent;
 import com.sk89q.worldedit.extent.AbstractDelegateExtent;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.util.eventbus.Subscribe;
 import com.sk89q.worldedit.world.block.BlockStateHolder;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class WESlimefunManager {
 	
@@ -24,7 +25,8 @@ public class WESlimefunManager {
 		
 		event.setExtent(new AbstractDelegateExtent(event.getExtent()) {
 
-			public boolean setBlock(Vector pos, BlockStateHolder block) throws WorldEditException {
+			@Override
+			public boolean setBlock(BlockVector3 pos, BlockStateHolder block) throws WorldEditException {
 				if (block.getBlockType().getLegacyId() == 0) {
 					World world = Bukkit.getWorld(event.getWorld().getName());
 					
