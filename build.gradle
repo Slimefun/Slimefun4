@@ -28,7 +28,7 @@ dependencies {
     compile files ("libs/CS-CoreLib-29.jar")
     compile files ("libs/EmeraldEnchants v2.0.jar")
     compile files ("libs/CoreProtect-2.14.2.jar")
-    compile files ("libs/worldedit-bukkit-6.1.7.3.jar")
+    compile files ("libs/worldedit-bukkit-7.0.0-beta-04.jar")
     compile files ("libs/Clearlag.jar")
     compile files ("libs/org.json.simple-0.4.jar")
     compile files ("libs/org.apache.commons.lang-2.6.0.jar")
