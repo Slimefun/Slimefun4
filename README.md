@@ -1,20 +1,18 @@
 # Slimefun 4
 
-欢迎来到 Slimefun 4 的汉化版页面
+Hello and welcome to Slimefun 4's GitHub Page.
 
-Slimefun 4 是 [Slimefun](http://dev.bukkit.org/bukkit-plugins/slimefun/) 这个改变了Minecraft玩法的插件的第四代
+Slimefun 4 is the 4th of the big Updates to the revolutionary and game-changing Plugin [Slimefun](http://dev.bukkit.org/bukkit-plugins/slimefun/)
 
-Slimefun 4 使用的开源协议为: 
+Slimefun 4 is licensed under 
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
-## 开发版 (已汉化)
-单击下方按钮，可以下载到最新版本未汉化的开发版本。
-但是请注意: 这些版本可能不稳定且仍在开发之下, 部分功能可能没有完善, 可能会出现 Bug.
-<a href="https://travis-ci.org/StarWishsama/Slimefun4">编译状态</a>
+## Development Builds
+Click on the badge below to go to our "development" build page, where you can download the latest Slimefun versions before they are released to the public. But keep in mind: These builds are still in development and not guaranteed to work or to be stable.
 
 <p align="center">
-  <a href="https://github.com/StarWishsama/Slimefun4/releases">
-    <img src="https://travis-ci.org/StarWishsama/Slimefun4.svg?branch=master" alt="构建服务器"/>
+  <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
+    <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
   </a>
 </p>
 

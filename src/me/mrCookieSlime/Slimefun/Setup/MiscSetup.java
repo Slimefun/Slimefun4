@@ -50,11 +50,11 @@ public class MiscSetup {
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
 			if (item == null) {
-				System.err.println("[Slimefun] Removed bugged Item ('NULL?')");
+				System.err.println("[Slimefun] 已移除有问题的物品 ('NULL?')");
 				iterator.remove();
 			}
 			else if (item.getItem() == null) {
-				System.err.println("[Slimefun] Removed bugged Item ('" + item.getID() + "')");
+				System.err.println("[Slimefun] 已移除有问题的物品 ('" + item.getID() + "')");
 				iterator.remove();
 			}
 		}
@@ -192,8 +192,8 @@ public class MiscSetup {
 		}
 		
 		sender.sendMessage(color + "###################### - Slimefun - ######################");
-		sender.sendMessage(color + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
-		sender.sendMessage(color + "( " + SlimefunItem.vanilla + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunItem.vanilla) + " Items from Addons )");
+		sender.sendMessage(color + "成功载入了 " + SlimefunItem.list().size() + " 个物品 (" + Research.list().size() + " 个研究)");
+		sender.sendMessage(color + "( " + SlimefunItem.vanilla + " 个物品来自 Slimefun, " + (SlimefunItem.list().size() - SlimefunItem.vanilla) + " 个物品来自扩展 )");
 		sender.sendMessage(color + "##########################################################");
 		SlimefunStartup.getItemCfg().save();
 		SlimefunStartup.getResearchCfg().save();

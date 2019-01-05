@@ -4,7 +4,6 @@
 options:
   # 自动更新
   auto-update: true
-  #
   armor-update-interval: 10
   # 是否在玩家第一次进入服务器时自动赠送粘液科技指南? 
   give-guide-on-first-join: true

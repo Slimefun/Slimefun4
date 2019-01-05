@@ -51,3 +51,6 @@ permissions:
   slimefun.inventory.bypass:
     description: Allows you to open all Slimefun Machines
     default: op
+  slimefun.command.reload:
+    description: Allows you to reload config file
+    default: op

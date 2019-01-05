@@ -35,7 +35,7 @@ public class XPCollector extends SlimefunItem {
 	public XPCollector(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "&aEXP Collector") {
+		new BlockMenuPreset(name, "&a经验收集机") {
 			
 			@Override
 			public void init() {
@@ -170,9 +170,9 @@ public class XPCollector extends SlimefunItem {
 					
 					int withdrawn = 0;
 					for (int level = 0; level < getEXP(b); level = level + 10) {
-						if (fits(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge", 0))) {
+						if (fits(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶", 0))) {
 							withdrawn = withdrawn + 10;
-							pushItems(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge", 0));
+							pushItems(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶", 0));
 						}
 					}
 					BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));

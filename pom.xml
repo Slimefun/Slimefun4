@@ -84,7 +84,7 @@
             <groupId>me.mrCookieSlime</groupId>
             <artifactId>ExoticGarden</artifactId>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ExoticGarden v1.7.0.jar</systemPath>
+            <systemPath>${project.basedir}/lib/ExoticGarden v1.2.0.jar</systemPath>
         </dependency>
     </dependencies>
     <dependencyManagement>
