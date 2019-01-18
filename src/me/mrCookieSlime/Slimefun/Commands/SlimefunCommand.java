@@ -38,7 +38,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import sun.security.krb5.Config;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
 	
@@ -304,9 +303,10 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			}
 
 			else if (args[0].equalsIgnoreCase("reload")){
-			    if (sender.hasPermission("slimefun.commands.reload")) {
-                    plugin.reloadConfig();
-                    Files.ITEMS = new File("plugins/Slimefun/Items.yml");
+			    if (sender.hasPermission("slimefun.commands.reload") || sender instanceof Player) {
+                    SlimefunStartup.getCfg().reload();
+                    SlimefunStartup.getItemCfg().reload();
+                    SlimefunStartup.getResearchCfg().reload();
                     Messages.local.sendTranslation(sender, "message.reloaded", true);
                 }
                 else Messages.local.sendTranslation(sender, "messages.no-permission", true);

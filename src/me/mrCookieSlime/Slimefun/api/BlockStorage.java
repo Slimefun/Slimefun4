@@ -84,7 +84,7 @@ public class BlockStorage {
 		if (worlds.containsKey(w.getName())) return;
 		this.world = w;
 		System.out.println("[Slimefun] 正在加载 \"" + w.getName() + "\"");
-		System.out.println("[Slimefun] This may take a long time...");
+		System.out.println("[Slimefun] 这可能需要一些时间...");
 		
 		File f = new File(path_blocks + w.getName());
 		if (f.exists()) {
@@ -95,7 +95,7 @@ public class BlockStorage {
 				for (File file: f.listFiles()) {
 					if (file.getName().endsWith(".sfb")) {
 						if (timestamp + info_delay < System.currentTimeMillis()) {
-							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% done (\"" + w.getName() + "\")");
+							System.out.println("[Slimefun] 加载方块中... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% 已完成 (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
 						
@@ -126,7 +126,7 @@ public class BlockStorage {
 				}
 			} finally {
 				long time = (System.currentTimeMillis() - start);
-				System.out.println("[Slimefun] Loading Blocks... 100% (FINISHED - " + time + "ms)");
+				System.out.println("[Slimefun] 加载方块中... 100% (FINISHED - " + time + "ms)");
 				System.out.println("[Slimefun] Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
 				if (totalBlocks > 0) System.out.println("[Slimefun] Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
 			}

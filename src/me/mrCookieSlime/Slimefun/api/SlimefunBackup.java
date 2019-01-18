@@ -110,7 +110,7 @@ public class SlimefunBackup {
 			}
 
 			output.close();
-			System.out.println("[Slimefun] Backed up Blocks to " + file.getName());
+			System.out.println("[Slimefun] 已备份方块至 " + file.getName());
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
