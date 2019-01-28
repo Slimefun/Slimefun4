@@ -302,14 +302,18 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 				}
 			}
 
-			else if (args[0].equalsIgnoreCase("reload")){
-			    if (sender.hasPermission("slimefun.commands.reload") || sender instanceof Player) {
-                    SlimefunStartup.getCfg().reload();
-                    SlimefunStartup.getItemCfg().reload();
-                    SlimefunStartup.getResearchCfg().reload();
-                    Messages.local.sendTranslation(sender, "message.reloaded", true);
+			else if (args[0].equalsIgnoreCase("reload")) {
+                if (args.length == 1) {
+                    if (sender.hasPermission("slimefun.commands.reload") || sender instanceof ConsoleCommandSender) {
+                        SlimefunStartup.instance.reloadConfig();
+                        SlimefunStartup.getItemCfg().reload();
+                        SlimefunStartup.getResearchCfg().reload();
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun > &c重载成功."));
+                    } else Messages.local.sendTranslation(sender, "messages.no-permission", true);
                 }
-                else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+                else {
+                    Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf reload"));
+                }
             }
 			else {
 				sendHelp(sender);

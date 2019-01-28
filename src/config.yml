@@ -3,7 +3,7 @@
 # 选项中设为 true 以启用, false 以关闭 
 options:
   # 自动更新
-  auto-update: true
+  auto-update: false
   armor-update-interval: 10
   # 是否在玩家第一次进入服务器时自动赠送粘液科技指南? 
   give-guide-on-first-join: true
@@ -32,7 +32,7 @@ options:
   # 是否使用除尘机旧的工作方式
   legacy-dust-washer: false
 guide:
-  # 默认使用书与笔进行GUI的展示?
+  # 是否默认使用书与笔进行GUI的展示
   default-view-book: false
 URID:
   info-delay: 3000
@@ -40,7 +40,7 @@ URID:
   enable-tickers: true
   
 items:
- # 是否启用以下物品种类?
+ # 是否启用以下物品种类
   talismans: true
   coolers: true
   backpacks: true

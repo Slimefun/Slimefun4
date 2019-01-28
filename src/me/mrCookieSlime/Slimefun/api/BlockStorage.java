@@ -117,7 +117,7 @@ public class BlockStorage {
 									if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
 								}
 							} catch (Exception x) {
-								System.err.println("[Slimefun] Failed to load " + file.getName() + "(ERR: " + key + ")");
+								System.err.println("[Slimefun] 加载 " + file.getName() + " 时出现了错误. (ERR: " + key + ")");
 								x.printStackTrace();
 							}
 						}
@@ -127,8 +127,8 @@ public class BlockStorage {
 			} finally {
 				long time = (System.currentTimeMillis() - start);
 				System.out.println("[Slimefun] 加载方块中... 100% (FINISHED - " + time + "ms)");
-				System.out.println("[Slimefun] Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
-				if (totalBlocks > 0) System.out.println("[Slimefun] Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
+				System.out.println("[Slimefun] 已在世界" + world.getName() + "中加载了 " + totalBlocks + " 个方块.");
+				if (totalBlocks > 0) System.out.println("[Slimefun] 平均用时: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/个方块");
 			}
 		}
 		else f.mkdirs();
@@ -206,7 +206,7 @@ public class BlockStorage {
 		
 		if (changes == 0) return;
 		
-		System.out.println("[Slimefun] Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Changes queued)");
+		System.out.println("[Slimefun] 正在保存世界 " + world.getName() + "中的方块 (" + changes + " 个更改已列队)");
 		
 		Map<String, Config> cache = new HashMap<String, Config>(cache_blocks);
 		
