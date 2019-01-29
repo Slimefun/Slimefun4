@@ -21,7 +21,6 @@ public class Messages {
         local.setDefault("commands.teleporter",   "看看其他玩家的路径点" );
         local.setDefault("commands.versions",   "显示粘液科技的版本号" );
         local.setDefault("commands.open_guide",   "不用粘液科技指南书就能打开指南" );
-        local.setDefault("commands.reload", "重载配置文件");
 
         local.setDefault("messages.only-players",   "&4这个指令只能在游戏内使用" );
         local.setDefault("messages.no-permission",   "&4你没有足够的权限去做这个" );
@@ -72,8 +71,7 @@ public class Messages {
         local.setDefault("commands.research.reset-target",   "&c你的所有研究已被重置" );
         local.setDefault("machines.in-use",   "&c这个机器正在被其他玩家使用." );
 		local.setDefault("machines.ignition-chamber-no-flint", "&c自动点火机缺少打火石.");
-    	local.setDefault("messages.cannot-place" ,"&c你不能在这里放置方块!");
-    	local.setDefault("messages.reloaded", "&e重载成功.");
+    	local.setDefault("messages.cannot-place","&c你不能在这里放置方块!");
 
         local.setDefault("gps.waypoint.new",   "&e请为你的路径点起名 &7(支持彩色代码!)" );
         local.setDefault("gps.waypoint.added",   "&a成功新增了新的路径点" );

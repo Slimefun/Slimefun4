@@ -89,10 +89,6 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		arguments.add("/sf open_guide");
 		tabs.add("open_guide");
 		descriptions.add(Messages.local.getTranslation("commands.open_guide").get(0));
-
-		arguments.add("/sf reload");
-		tabs.add("reload");
-		descriptions.add(Messages.local.getTranslation("commands.reload").get(0));
 		
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -301,20 +297,6 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf research <玩家名> <all/reset/研究名>"));
 				}
 			}
-
-			else if (args[0].equalsIgnoreCase("reload")) {
-                if (args.length == 1) {
-                    if (sender.hasPermission("slimefun.commands.reload") || sender instanceof ConsoleCommandSender) {
-                        SlimefunStartup.instance.reloadConfig();
-                        SlimefunStartup.getItemCfg().reload();
-                        SlimefunStartup.getResearchCfg().reload();
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun > &c重载成功."));
-                    } else Messages.local.sendTranslation(sender, "messages.no-permission", true);
-                }
-                else {
-                    Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf reload"));
-                }
-            }
 			else {
 				sendHelp(sender);
 			}
