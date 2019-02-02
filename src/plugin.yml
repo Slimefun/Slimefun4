@@ -11,9 +11,9 @@ api-version: 1.13
 
 commands:
   slimefun:
-    description: basic Slimefun command
+    description: Basic slimefun command
     aliases: sf
-    usage: /sf <argument>
+    usage: /sf <参数>
 permissions:
   slimefun.cheat.items:
     description: Allows you to cheat Items
