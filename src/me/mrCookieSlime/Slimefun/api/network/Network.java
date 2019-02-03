@@ -8,6 +8,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 import org.bukkit.Location;
+import org.bukkit.Color;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import org.bukkit.Particle;
