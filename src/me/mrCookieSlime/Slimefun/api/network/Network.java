@@ -157,7 +157,7 @@ public abstract class Network {
 			public void run() {
 				for(Location l: connectedLocations) {
 					try {
-						l.getWorld().spawnParticle(Particle.REDSTONE, l.clone().add(0.5, 0.5, 0.5), 1);
+						l.getWorld().spawnParticle(Particle.REDSTONE, l.clone().add(0.5, 0.5, 0.5), 1, new Particle.DustOptions(Color.RED, 1.0F));
 					} catch(Exception e) {
 
 					}
