@@ -19,7 +19,7 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>worldedit-repo</id>
+            <id>worldedit-worldguard-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
@@ -98,7 +98,7 @@
     		<dependency>
     			<groupId>com.sk89q.worldedit</groupId>
     			<artifactId>worldedit-bukkit</artifactId>
-    			<version>7.0.0-SNAPSHOT</version>
+    			<version>7.0.0-beta-02</version>
     		</dependency>
     		<dependency>
     			<groupId>com.github.TheBusyBiscuit</groupId>

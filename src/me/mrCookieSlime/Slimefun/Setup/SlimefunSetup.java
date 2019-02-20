@@ -412,28 +412,25 @@ public class SlimefunSetup {
 												if (removing != null) inv.removeItem(removing);
 											}
 											p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+											new BukkitRunnable() {
 												@Override
 												public void run() {
 													p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+													new BukkitRunnable() {
 														@Override
 														public void run() {
 															p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
-															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+															new BukkitRunnable() {
 																@Override
 																public void run() {
 																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 																	inv.addItem(adding);
 																}
-															}, 20L);
+															}.runTaskLater(SlimefunStartup.instance, 20L);
 														}
-													}, 20L);
+													}.runTaskLater(SlimefunStartup.instance, 20L);
 												}
-											}, 20L);
+											}.runTaskLater(SlimefunStartup.instance, 20L);
 										}
 										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 									}
@@ -515,28 +512,25 @@ public class SlimefunSetup {
 											removing.setAmount(convert.getAmount());
 											inv.removeItem(removing);
 											p.getWorld().playSound(p.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+											new BukkitRunnable() {
 												@Override
 												public void run() {
 													p.getWorld().playSound(p.getLocation(), Sound.BLOCK_PISTON_CONTRACT, 1F, 2F);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+													new BukkitRunnable() {
 														@Override
 														public void run() {
 															p.getWorld().playSound(p.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1F, 2F);
-															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+															new BukkitRunnable() {
 																@Override
 																public void run() {
 																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 																	inv.addItem(adding);
 																}
-															}, 20L);
+															}.runTaskLater(SlimefunStartup.instance, 20L);
 														}
-													}, 20L);
+													}.runTaskLater(SlimefunStartup.instance, 20L);
 												}
-											}, 20L);
+											}.runTaskLater(SlimefunStartup.instance, 20L);
 										}
 										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 										return true;
@@ -846,24 +840,21 @@ public class SlimefunSetup {
 											p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
 											p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
 											p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+											new BukkitRunnable() {
 												@Override
 												public void run() {
 													p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
 													p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
 													p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
 													p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+													new BukkitRunnable() {
 														@Override
 														public void run() {
 															p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
 															p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
 															p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
 															p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+															new BukkitRunnable() {
 																@Override
 																public void run() {
 																	p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
@@ -872,11 +863,11 @@ public class SlimefunSetup {
 																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 																	inv.addItem(adding);
 																}
-															}, 20L);
+															}.runTaskLater(SlimefunStartup.instance, 20L);
 														}
-													}, 20L);
+													}.runTaskLater(SlimefunStartup.instance, 20L);
 												}
-											}, 20L);
+											}.runTaskLater(SlimefunStartup.instance, 20L);
 										}
 										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 										return true;
@@ -1274,22 +1265,19 @@ public class SlimefunSetup {
 											p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
 											p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 											p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+											new BukkitRunnable() {
 												@Override
 												public void run() {
 													p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
 													p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 													p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+													new BukkitRunnable() {
 														@Override
 														public void run() {
 															p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
 															p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 															p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
-															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+															new BukkitRunnable() {
 																@Override
 																public void run() {
 																	p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
@@ -1297,11 +1285,11 @@ public class SlimefunSetup {
 																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 																	inv.addItem(adding);
 																}
-															}, 20L);
+															}.runTaskLater(SlimefunStartup.instance, 20L);
 														}
-													}, 20L);
+													}.runTaskLater(SlimefunStartup.instance, 20L);
 												}
-											}, 20L);
+											}.runTaskLater(SlimefunStartup.instance, 20L);
 										}
 										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 									}
@@ -1976,27 +1964,23 @@ public class SlimefunSetup {
 								ores.clear();
 								if (InvUtils.fits(inv, adding)) {
 									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+									new BukkitRunnable() {
 										@Override
 										public void run() {
 											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+											new BukkitRunnable() {
 												@Override
 												public void run() {
 													b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+													new BukkitRunnable() {
 														@Override
 														public void run() {
 															b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+															new BukkitRunnable() {
 																@Override
 																public void run() {
 																	b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-																	Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+																	new BukkitRunnable() {
 
 																		@Override
 																		public void run() {
@@ -2004,15 +1988,15 @@ public class SlimefunSetup {
 																			p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 																			inv.addItem(adding);
 																		}
-																	}, 20L);
+																	}.runTaskLater(SlimefunStartup.instance, 20L);
 																}
-															}, 20L);
+															}.runTaskLater(SlimefunStartup.instance, 20L);
 														}
-													}, 20L);
+													}.runTaskLater(SlimefunStartup.instance, 20L);
 												}
-											}, 20L);
+											}.runTaskLater(SlimefunStartup.instance, 20L);
 										}
-									}, 20L);
+									}.runTaskLater(SlimefunStartup.instance, 20L);
 								}
 								else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 							}
@@ -2073,36 +2057,32 @@ public class SlimefunSetup {
 								ores.clear();
 								if (InvUtils.fits(inv, adding)) {
 									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+									new BukkitRunnable() {
 										@Override
 										public void run() {
 											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+											new BukkitRunnable() {
 												@Override
 												public void run() {
 													b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+													new BukkitRunnable() {
 														@Override
 														public void run() {
 															b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+															new BukkitRunnable() {
 																@Override
 																public void run() {
 																	b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
 																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 																	inv.addItem(adding);
 																}
-															}, 20L);
+															}.runTaskLater(SlimefunStartup.instance, 20L);
 														}
-													}, 20L);
+													}.runTaskLater(SlimefunStartup.instance, 20L);
 												}
-											}, 20L);
+											}.runTaskLater(SlimefunStartup.instance, 20L);
 										}
-									}, 20L);
+									}.runTaskLater(SlimefunStartup.instance, 20L);
 								}
 								else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 							}
@@ -2155,68 +2135,57 @@ public class SlimefunSetup {
 									removing.setAmount(convert.getAmount());
 									p.getInventory().removeItem(removing);
 									final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+									new BukkitRunnable() {
 										@Override
 										public void run() {
 											if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 											else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+											new BukkitRunnable() {
 												@Override
 												public void run() {
 													if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 													else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+													new BukkitRunnable() {
 														@Override
 														public void run() {
 															if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 															else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-															Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+															new BukkitRunnable() {
 																@Override
 																public void run() {
 																	if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 																	else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																	Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+																	new BukkitRunnable() {
 																		@Override
 																		public void run() {
 																			if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 																			else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+																			new BukkitRunnable() {
 																				@Override
 																				public void run() {
 																					if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 																					else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+																					new BukkitRunnable() {
 																						@Override
 																						public void run() {
 																							if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 																							else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+																							new BukkitRunnable() {
 																								@Override
 																								public void run() {
 																									if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 																									else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+																									new BukkitRunnable() {
 																										@Override
 																										public void run() {
 																											if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 																											else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+																											new BukkitRunnable() {
 																												@Override
 																												public void run() {
 																													if (input.getType().isBlock()) b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType());
 																													else b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-																													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+																													new BukkitRunnable() {
 
 																														@Override
 																														public void run() {
@@ -2225,27 +2194,27 @@ public class SlimefunSetup {
 																															p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 																															b.getWorld().dropItemNaturally(b.getRelative(BlockFace.UP).getLocation(), adding);
 																														}
-																													}, 30L);
+																													}.runTaskLater(SlimefunStartup.instance, 30L);
 																												}
-																											}, 30L);
+																											}.runTaskLater(SlimefunStartup.instance, 30L);
 																										}
-																									}, 30L);
+																									}.runTaskLater(SlimefunStartup.instance, 30L);
 																								}
-																							}, 30L);
+																							}.runTaskLater(SlimefunStartup.instance, 30L);
 																						}
-																					}, 30L);
+																					}.runTaskLater(SlimefunStartup.instance, 30L);
 																				}
-																			}, 30L);
+																			}.runTaskLater(SlimefunStartup.instance, 30L);
 																		}
-																	}, 30L);
+																	}.runTaskLater(SlimefunStartup.instance, 30L);
 																}
-															}, 30L);
+															}.runTaskLater(SlimefunStartup.instance, 30L);
 														}
-													}, 30L);
+													}.runTaskLater(SlimefunStartup.instance, 30L);
 												}
-											}, 30L);
+											}.runTaskLater(SlimefunStartup.instance, 30L);
 										}
-									}, 30L);
+									}.runTaskLater(SlimefunStartup.instance, 30L);
 									return true;
 								}
 							}
@@ -2335,32 +2304,27 @@ public class SlimefunSetup {
 						if (input != null) {
 							if (input.getType() == Material.GRAVEL) {
 								PlayerInventory.consumeItemInHand(p);
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+								new BukkitRunnable() {
 									@Override
 									public void run() {
 										b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+										new BukkitRunnable() {
 											@Override
 											public void run() {
 												b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+												new BukkitRunnable() {
 													@Override
 													public void run() {
 														b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+														new BukkitRunnable() {
 															@Override
 															public void run() {
 																b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-																Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
-
+																new BukkitRunnable() {
 																	@Override
 																	public void run() {
 																		b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-																		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+																		new BukkitRunnable() {
 
 																			@Override
 																			public void run() {
@@ -2368,17 +2332,17 @@ public class SlimefunSetup {
 																				if (drop != null) b.getWorld().dropItemNaturally(b.getLocation(), drop);
 																				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 																			}
-																		}, 30L);
+																		}.runTaskLater(SlimefunStartup.instance, 30L);
 																	}
-																}, 30L);
+																}.runTaskLater(SlimefunStartup.instance, 30L);
 															}
-														}, 30L);
+														}.runTaskLater(SlimefunStartup.instance, 30L);
 													}
-												}, 30L);
+												}.runTaskLater(SlimefunStartup.instance, 30L);
 											}
-										}, 30L);
+										}.runTaskLater(SlimefunStartup.instance, 30L);
 									}
-								}, 30L);
+								}.runTaskLater(SlimefunStartup.instance, 30L);
 								return true;
 							}
 						}
@@ -2504,7 +2468,7 @@ public class SlimefunSetup {
 										removing.setAmount(convert.getAmount());
 										p.getInventory().removeItem(removing);
 
-										Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+										new BukkitRunnable() {
 
 											@Override
 											public void run() {
@@ -2522,7 +2486,7 @@ public class SlimefunSetup {
 													block.setBlockData(le, false);
 													block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 												}
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+												new BukkitRunnable() {
 
 													@Override
 													public void run() {
@@ -2540,7 +2504,7 @@ public class SlimefunSetup {
 															block.setBlockData(le, false);
 															block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 														}
-														Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+														new BukkitRunnable() {
 
 															@Override
 															public void run() {
@@ -2558,7 +2522,7 @@ public class SlimefunSetup {
 																	block.setBlockData(le, false);
 																	block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																}
-																Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+																new BukkitRunnable() {
 
 																	@Override
 																	public void run() {
@@ -2576,7 +2540,7 @@ public class SlimefunSetup {
 																			block.setBlockData(le, false);
 																			block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																		}
-																		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+																		new BukkitRunnable() {
 
 																			@Override
 																			public void run() {
@@ -2594,7 +2558,7 @@ public class SlimefunSetup {
 																					block.setBlockData(le, false);
 																					block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																				}
-																				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+																				new BukkitRunnable() {
 
 																					@Override
 																					public void run() {
@@ -2612,7 +2576,7 @@ public class SlimefunSetup {
 																							block.setBlockData(le, false);
 																							block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																						}
-																						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+																						new BukkitRunnable() {
 
 																							@Override
 																							public void run() {
@@ -2630,7 +2594,7 @@ public class SlimefunSetup {
 																									block.setBlockData(le, false);
 																									block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																								}
-																								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+																								new BukkitRunnable() {
 
 																									@Override
 																									public void run() {
@@ -2649,21 +2613,21 @@ public class SlimefunSetup {
 																											block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 																										}
 																									}
-																								}, 50L);
+																								}.runTaskLater(SlimefunStartup.instance, 50L);
 																							}
-																						}, 50L);
+																						}.runTaskLater(SlimefunStartup.instance, 50L);
 																					}
-																				}, 50L);
+																				}.runTaskLater(SlimefunStartup.instance, 50L);
 																			}
-																		}, 50L);
+																		}.runTaskLater(SlimefunStartup.instance, 50L);
 																	}
-																}, 50L);
+																}.runTaskLater(SlimefunStartup.instance, 50L);
 															}
-														}, 50L);
+														}.runTaskLater(SlimefunStartup.instance, 50L);
 													}
-												}, 50L);
+												}.runTaskLater(SlimefunStartup.instance, 50L);
 											}
-										}, 50L);
+										}.runTaskLater(SlimefunStartup.instance, 50L);
 										return true;
 									}
 								}
@@ -3054,12 +3018,12 @@ public class SlimefunSetup {
 								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
 								if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
 								else {
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+									new BukkitRunnable() {
 										@Override
 										public void run() {
 											d.getInventory().removeItem(e.getItem());
 										}
-									}, 2L);
+									}.runTaskLater(SlimefunStartup.instance, 2L);
 								}
 							}
 						}
@@ -3069,12 +3033,12 @@ public class SlimefunSetup {
 							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
 							if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
 							else {
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+								new BukkitRunnable() {
 									@Override
 									public void run() {
 										d.getInventory().removeItem(e.getItem());
 									}
-								}, 2L);
+								}.runTaskLater(SlimefunStartup.instance, 2L);
 							}
 						}
 					}
@@ -5304,7 +5268,7 @@ public class SlimefunSetup {
 
 			@Override
 			public void extraTick(final Location l) {
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new BukkitRunnable() {
+				new BukkitRunnable() {
 					@Override
 					public void run() {
 						for (Entity entity : ReactorHologram.getArmorStand(l).getNearbyEntities(5, 5, 5)) {
@@ -5313,7 +5277,7 @@ public class SlimefunSetup {
 							}
 						}
 					}
-				}, 0);
+				}.runTaskLater(SlimefunStartup.instance, 0L);
 			}
 
             @Override

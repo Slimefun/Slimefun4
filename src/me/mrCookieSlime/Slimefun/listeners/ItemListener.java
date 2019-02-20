@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Hopper;
 import org.bukkit.block.Skull;
@@ -35,9 +37,9 @@ import org.bukkit.potion.PotionEffectType;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Variables;
@@ -165,6 +167,17 @@ public class ItemListener implements Listener {
 
 		final Player p = e.getPlayer();
 		ItemStack item = e.getItem();
+		
+		// water place under head bug fix
+		if (e != null && e.getPlayer() != null && e.getParentEvent().getAction() != null && e.getParentEvent().getAction() == Action.RIGHT_CLICK_BLOCK && e.getParentEvent().getBlockFace() != null && e.getPlayer().getInventory() != null && e.getPlayer().getInventory().getItemInMainHand() != null && e.getPlayer().getInventory().getItemInMainHand().getType() == Material.WATER_BUCKET) {
+			Location clicked = e.getClickedBlock().getLocation();
+			BlockFace f = e.getParentEvent().getBlockFace();
+			Location water = new Location(clicked.getWorld(), clicked.getX() + f.getModX(), clicked.getY() + f.getModY(), clicked.getZ() + f.getModZ());
+			if (e.getPlayer().getLocation().getWorld().getBlockAt(water) != null && e.getPlayer().getLocation().getWorld().getBlockAt(water).getType() == Material.PLAYER_HEAD) {
+				e.setCancelled(true);
+				return;
+			}
+		}
 		
 		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);

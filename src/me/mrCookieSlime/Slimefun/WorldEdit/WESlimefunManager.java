@@ -22,9 +22,8 @@ public class WESlimefunManager {
 	
 	@Subscribe
     public void wrapForLogging(final EditSessionEvent event) {
-		
 		event.setExtent(new AbstractDelegateExtent(event.getExtent()) {
-
+			@SuppressWarnings({ "rawtypes", "deprecation" })
 			@Override
 			public boolean setBlock(BlockVector3 pos, BlockStateHolder block) throws WorldEditException {
 				if (block.getBlockType().getLegacyId() == 0) {
