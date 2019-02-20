@@ -6,6 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -27,15 +35,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.api.item_transport.RecipeSorter;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class AutomatedCraftingChamber extends SlimefunItem {
 	
@@ -102,7 +101,14 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 					if (menu.getItemInSlot(slot) != null) slots.add(slot);
 				}
 				Collections.sort(slots, new RecipeSorter(menu));
-				return ArrayUtils.toPrimitive(slots.toArray(new Integer[slots.size()]));
+				
+				int[] array = new int[slots.size()];
+				
+				for (int i = 0; i < slots.size(); i++) {
+					array[i] = slots.get(i);
+				}
+				
+				return array;
 			}
 		};
 		
