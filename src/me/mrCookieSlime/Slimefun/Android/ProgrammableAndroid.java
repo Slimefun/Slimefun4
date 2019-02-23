@@ -20,9 +20,10 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.Skull;
-import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -100,7 +101,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	public abstract float getFuelEfficiency();
 	public abstract int getTier();
 
-	@SuppressWarnings("deprecation")
 	public ProgrammableAndroid(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 
@@ -218,12 +218,12 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				BlockStorage.addBlockInfo(b, "script", "START-TURN_LEFT-REPEAT");
 				BlockStorage.addBlockInfo(b, "index", "0");
 				BlockStorage.addBlockInfo(b, "fuel", "0");
-				BlockStorage.addBlockInfo(b, "rotation", "NORTH");
+				BlockStorage.addBlockInfo(b, "rotation", p.getFacing().toString());
 				BlockStorage.addBlockInfo(b, "paused", "true");
 				b.setType(Material.PLAYER_HEAD);
-				Skull skull = (Skull) b.getState();
-				skull.setRotation(BlockFace.NORTH);
-				skull.update(true, false);
+				Rotatable blockData = (Rotatable) b.getBlockData();
+				blockData.setRotation(p.getFacing());
+				b.setBlockData(blockData);
 			}
 
 			@Override
@@ -252,7 +252,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		});
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		try {
 			if (!(b.getState() instanceof Skull)) {
@@ -327,9 +326,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) - 1;
 						if (rotIndex < 0) rotIndex = directions.size() - 1;
 						BlockFace dir = directions.get(rotIndex);
-						Skull skull = (Skull) b.getState();
-						skull.setRotation(dir);
-						skull.update(true, false);
+						Rotatable blockData = (Rotatable) b.getBlockData();
+						blockData.setRotation(dir);
+						b.setBlockData(blockData);
 						BlockStorage.addBlockInfo(b, "rotation", dir.toString());
 						break;
 					}
@@ -337,9 +336,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) + 1;
 						if (rotIndex == directions.size()) rotIndex = 0;
 						BlockFace dir = directions.get(rotIndex);
-						Skull skull = (Skull) b.getState();
-						skull.setRotation(dir);
-						skull.update(true, false);
+						Rotatable blockData = (Rotatable) b.getBlockData();
+						blockData.setRotation(dir);
+						b.setBlockData(blockData);
 						BlockStorage.addBlockInfo(b, "rotation", dir.toString());
 						break;
 					}
@@ -652,7 +651,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						entities:
 						for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
 							if (n instanceof Monster) continue;
-							if (n instanceof Ageable && !((Ageable) n).isAdult()) continue;
+							if (n instanceof org.bukkit.entity.Ageable && !((org.bukkit.entity.Ageable) n).isAdult()) continue;
 							switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 							case NORTH: {
 								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
@@ -709,16 +708,14 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void move(Block b, BlockFace face, Block block) throws Exception {
 		if (block.getY() < 0 || block.getY() > block.getWorld().getMaxHeight()) return;
 
 		if (block.getType() == Material.AIR) {
 			block.setType(Material.PLAYER_HEAD);
-
-			Skull skull = (Skull) block.getState();
-			skull.setRotation(face);
-			skull.update(true, false);
+			Rotatable blockData = (Rotatable) block.getBlockData();
+			blockData.setRotation(face);
+			block.setBlockData(blockData);
 			CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 			b.setType(Material.AIR);
 			BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
@@ -752,7 +749,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void movedig(Block b, BlockFace face, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
@@ -763,14 +759,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						if (SlimefunItem.blockhandler.containsKey(item.getID())) {
 							if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
 								pushItems(b, BlockStorage.retrieve(block));
-								
 								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-								
 								block.setType(Material.PLAYER_HEAD);
-
-								Skull skull = (Skull) block.getState();
-								skull.setRotation(face);
-								skull.update(true, false);
+								Rotatable blockData = (Rotatable) block.getBlockData();
+								blockData.setRotation(face);
+								block.setBlockData(blockData);
 								CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 								b.setType(Material.AIR);
 								BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
@@ -784,10 +777,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						pushItems(b, items);
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 						block.setType(Material.PLAYER_HEAD);
-
-						Skull skull = (Skull) block.getState();
-						skull.setRotation(face);
-						skull.update(true, false);
+						Rotatable blockData = (Rotatable) block.getBlockData();
+						blockData.setRotation(face);
+						block.setBlockData(blockData);
 						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 						b.setType(Material.AIR);
 						BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
@@ -807,7 +799,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	private boolean isFullGrown(Block block){
-		org.bukkit.block.data.Ageable ageable = ((org.bukkit.block.data.Ageable)block.getBlockData());
+		Ageable ageable = ((Ageable) block.getBlockData());
 		return ageable.getAge() >= ageable.getMaximumAge();
 	}
 
@@ -819,7 +811,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.WHEAT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        Ageable ageable = (Ageable) block.getBlockData();
                         ageable.setAge(0);
                         block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
@@ -832,7 +824,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.POTATO, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        Ageable ageable = (Ageable) block.getBlockData();
                         ageable.setAge(0);
                         block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
@@ -845,7 +837,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.CARROT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        Ageable ageable = (Ageable) block.getBlockData();
                         ageable.setAge(0);
                         block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
@@ -858,7 +850,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.BEETROOT, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        Ageable ageable = (Ageable) block.getBlockData();
                         ageable.setAge(0);
                         block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
@@ -871,7 +863,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.COCOA_BEANS, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        Ageable ageable = (Ageable) block.getBlockData();
                         ageable.setAge(0);
                         block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
@@ -884,7 +876,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     ItemStack drop = new ItemStack(Material.NETHER_WART, CSCoreLib.randomizer().nextInt(3) + 1);
                     if (fits(b, drop)) {
                         pushItems(b, drop);
-                        org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable)block.getBlockData();
+                        Ageable ageable = (Ageable) block.getBlockData();
                         ageable.setAge(0);
                         block.setBlockData(ageable);
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
