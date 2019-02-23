@@ -160,7 +160,7 @@ public class ItemListener implements Listener {
 		final Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 
-		// Fix for placing water on head
+		// Fix for placing water on player heads
 		if (e.getParentEvent().getAction() == Action.RIGHT_CLICK_BLOCK && item != null && item.getType() == Material.WATER_BUCKET) {
 			Location water = e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace()).getLocation();
 			if ((p.getWorld().getBlockAt(water).getType() == Material.PLAYER_HEAD || p.getWorld().getBlockAt(water).getType() == Material.PLAYER_WALL_HEAD) && BlockStorage.hasBlockInfo(water)) {

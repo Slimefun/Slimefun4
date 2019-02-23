@@ -327,7 +327,7 @@ public class SlimefunItems {
 	/*		 Gems 		*/
 	public static ItemStack SYNTHETIC_DIAMOND = new CustomItem(Material.DIAMOND, "&bSynthetic Diamond", 0);
 	public static ItemStack SYNTHETIC_EMERALD = new CustomItem(Material.EMERALD, "&bSynthetic Emerald", 0);
-	public static ItemStack SYNTHETIC_SAPPHIRE;
+	public static ItemStack SYNTHETIC_SAPPHIRE = null;
 	public static ItemStack CARBONADO = null;
 	public static ItemStack RAW_CARBONADO = null;
 	public static ItemStack URANIUM = null;
