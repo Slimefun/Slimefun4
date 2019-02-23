@@ -66,11 +66,6 @@ public class ItemListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	/**
-	 * Listens to InventoryMoveItemEvent to handle IGNITION_CHAMBER.
-	 * @param e InventoryMoveItemEvent
-	 * @since 4.1.11
-	 */
 	@EventHandler
 	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
 		if (e.getInitiator().getHolder() instanceof Hopper) {
@@ -80,7 +75,6 @@ public class ItemListener implements Listener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void debug(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.PHYSICAL) || !e.getHand().equals(EquipmentSlot.HAND)) return;
@@ -124,7 +118,7 @@ public class ItemListener implements Listener {
 						}
 						if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&2\u2714"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dAsync: &e" + (BlockStorage.check(e.getClickedBlock()).getTicker().isSynchronized() ? "&4\u2718": "&2\u2714")));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dAsync: &e" + (BlockStorage.check(e.getClickedBlock()).getBlockTicker().isSynchronized() ? "&4\u2718": "&2\u2714")));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTotal Timings: &e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
@@ -158,8 +152,7 @@ public class ItemListener implements Listener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
-	@EventHandler(priority=EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onRightClick(ItemUseEvent e) {
 		if (e.getParentEvent() != null && !e.getParentEvent().getHand().equals(EquipmentSlot.HAND)) {
 			return;
@@ -167,7 +160,7 @@ public class ItemListener implements Listener {
 
 		final Player p = e.getPlayer();
 		ItemStack item = e.getItem();
-		
+
 		// water place under head bug fix
 		if (e != null && e.getPlayer() != null && e.getParentEvent().getAction() != null && e.getParentEvent().getAction() == Action.RIGHT_CLICK_BLOCK && e.getParentEvent().getBlockFace() != null && e.getPlayer().getInventory() != null && e.getPlayer().getInventory().getItemInMainHand() != null && e.getPlayer().getInventory().getItemInMainHand().getType() == Material.WATER_BUCKET) {
 			Location clicked = e.getClickedBlock().getLocation();
@@ -178,7 +171,7 @@ public class ItemListener implements Listener {
 				return;
 			}
 		}
-		
+
 		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, true);
@@ -192,7 +185,7 @@ public class ItemListener implements Listener {
 			else p.chat("/sf cheat");
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getDeprecatedItem(true), true)) {
-			item = SlimefunGuide.getItem(true);
+			item = SlimefunGuide.getItem(BookDesign.BOOK);
 			p.getInventory().setItemInMainHand(item);
 			PlayerInventory.update(p);
 
@@ -200,7 +193,7 @@ public class ItemListener implements Listener {
 			else SlimefunGuide.openGuide(p, true);
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getDeprecatedItem(false), true)) {
-			item = SlimefunGuide.getItem(false);
+			item = SlimefunGuide.getItem(BookDesign.CHEST);
 			p.getInventory().setItemInMainHand(item);
 			PlayerInventory.update(p);
 
@@ -210,13 +203,13 @@ public class ItemListener implements Listener {
 		else if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
 		}
 		else if (Slimefun.hasUnlocked(p, item, true)) {
-			for (ItemHandler handler: SlimefunItem.getHandlers("ItemInteractionHandler")) {
+			for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
 				if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
 			}
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DURALUMIN_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.SOLDER_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.BILLON_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.STEEL_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.CARBONADO_MULTI_TOOL, false)) {
 				e.setCancelled(true);
 				ItemStack tool = null;
-				for (ItemStack mTool: new ItemStack[] {SlimefunItems.DURALUMIN_MULTI_TOOL, SlimefunItems.SOLDER_MULTI_TOOL, SlimefunItems.BILLON_MULTI_TOOL, SlimefunItems.STEEL_MULTI_TOOL, SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL, SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL, SlimefunItems.CARBONADO_MULTI_TOOL}) {
+				for (ItemStack mTool : new ItemStack[] {SlimefunItems.DURALUMIN_MULTI_TOOL, SlimefunItems.SOLDER_MULTI_TOOL, SlimefunItems.BILLON_MULTI_TOOL, SlimefunItems.STEEL_MULTI_TOOL, SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL, SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL, SlimefunItems.CARBONADO_MULTI_TOOL}) {
 					if (mTool.getItemMeta().getLore().get(0).equalsIgnoreCase(item.getItemMeta().getLore().get(0))) {
 						tool = mTool;
 						break;
@@ -231,14 +224,14 @@ public class ItemListener implements Listener {
 						float charge = ItemEnergy.getStoredEnergy(item);
 						float cost = 0.3F;
 						if (charge >= cost) {
-							p.setItemInHand(ItemEnergy.chargeItem(item, -cost));
+							p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
 							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getID(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
 						}
 					}
 					else {
 						index++;
 						if (index == modes.size()) index = 0;
-						Messages.local.sendTranslation(p, "messages.mode-change", true, new Variable("%device%", "Multi Tool"), new Variable("%mode%", (String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getName(), "mode." + modes.get(index) + ".name")));
+						Messages.local.sendTranslation(p, "messages.mode-change", true, new Variable("%device%", "Multi Tool"), new Variable("%mode%", (String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getID(), "mode." + modes.get(index) + ".name")));
 						Variables.mode.put(p.getUniqueId(), index);
 					}
 				}
@@ -308,8 +301,7 @@ public class ItemListener implements Listener {
 				else if (item.getType() == Material.POTION) {
 					SlimefunItem sfItem = SlimefunItem.getByItem(item);
 					if (sfItem != null && sfItem instanceof Juice) {
-						// Fix for 1.11 and 1.12 where Saturation potions are no longer working
-						
+						// Fix for Saturation on potions is no longer working
 						for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
 							if (effect.getType().equals(PotionEffectType.SATURATION)) {
 								p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, effect.getDuration(), effect.getAmplifier()));
@@ -341,20 +333,14 @@ public class ItemListener implements Listener {
 
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
 
-			                @Override
-			                public void run() {
-			                    if (m == 0) {
-			                    	p.getInventory().setItemInMainHand(null);
-			                    }
-			                    else if (m == 1) {
-			                    	p.getInventory().setItemInOffHand(null);
-			                    }
-			                    else if (m == 2) {
-			                    	p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
-			                    }
-			                }
+							@Override
+							public void run() {
+								if (m == 0) p.getEquipment().setItemInMainHand(null);
+								else if (m == 1) p.getEquipment().setItemInOffHand(null);
+								else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
+							}
 
-			            }, 1L);
+						}, 1L);
 					}
 				}
 			}
@@ -363,17 +349,17 @@ public class ItemListener implements Listener {
 	}
 
 	@EventHandler
-    public void onCraft(CraftItemEvent e) {
-        for (ItemStack item: e.getInventory().getContents()) {
-        	if (SlimefunItem.getByItem(item) != null && !(SlimefunItem.getByItem(item).isReplacing())) {
-        		e.setCancelled(true);
-        		Messages.local.sendTranslation((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
-        		break;
-        	}
-        }
-    }
+	public void onCraft(CraftItemEvent e) {
+		for (ItemStack item : e.getInventory().getContents()) {
+			if (SlimefunItem.getByItem(item) != null && !(SlimefunItem.getByItem(item).isReplacing())) {
+				e.setCancelled(true);
+				Messages.local.sendTranslation((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
+				break;
+			}
+		}
+	}
 
-	@EventHandler(priority=EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityChangeBlock(EntityChangeBlockEvent e) {
 		if (e.getEntity() instanceof FallingBlock) {
 			if (Variables.blocks.contains(e.getEntity().getUniqueId())) {
@@ -385,28 +371,28 @@ public class ItemListener implements Listener {
 			SlimefunItem item = BlockStorage.check(e.getBlock());
 			if (item != null) {
 				if (item.getID().equals("WITHER_PROOF_OBSIDIAN")) e.setCancelled(true);
-				if (item.getID().equals("WITHER_PROOF_GLASS")) e.setCancelled(true);
+				else if (item.getID().equals("WITHER_PROOF_GLASS")) e.setCancelled(true);
 			}
 		}
 	}
 
 	@EventHandler
-    public void onAnvil(InventoryClickEvent e) {
-        if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
+	public void onAnvil(InventoryClickEvent e) {
+		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
 		if (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.ELYTRA, true)) return;
+		if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && !SlimefunItem.isDisabled(e.getInventory().getContents()[0])) {
+			e.setCancelled(true);
+				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+			}
+		}
+	}
 
-        	if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && !SlimefunItem.isDisabled(e.getInventory().getContents()[0])) {
-            	e.setCancelled(true);
-                Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-            }
-        }
-    }
-	
 	@EventHandler (ignoreCancelled = true)
-    public void onPreBrew(InventoryClickEvent e) {
-        Inventory inventory = e.getInventory();
-        if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand) {
-	        if(e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
-        }
-    }
+	public void onPreBrew(InventoryClickEvent e) {
+		Inventory inventory = e.getInventory();
+		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand) {
+			if (e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
+		}
+	}
+
 }
