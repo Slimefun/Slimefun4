@@ -1,4 +1,3 @@
-
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
@@ -12,6 +11,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Hopper;
 import org.bukkit.block.Skull;
+import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
@@ -110,11 +110,11 @@ public class ItemListener implements Listener {
 					}
 					else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
 						p.sendMessage(" ");
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d" + e.getClickedBlock().getType() + ":" + e.getClickedBlock().getData() + " &e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ()));
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d" + e.getClickedBlock().getType() + " &e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ()));
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dID: " + "&e" + BlockStorage.checkID(e.getClickedBlock())));
 						if (e.getClickedBlock().getState() instanceof Skull) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dSkull: " + "&2\u2714"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dRotation: &e" + ((Skull) e.getClickedBlock().getState()).getRotation().toString()));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dRotation: &e" + ((Rotatable) e.getClickedBlock().getBlockData()).getRotation().toString()));
 						}
 						if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dInventory: " + "&2\u2714"));
