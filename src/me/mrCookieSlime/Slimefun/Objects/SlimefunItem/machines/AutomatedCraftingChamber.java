@@ -101,13 +101,13 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 					if (menu.getItemInSlot(slot) != null) slots.add(slot);
 				}
 				Collections.sort(slots, new RecipeSorter(menu));
-				
+
 				int[] array = new int[slots.size()];
-				
+
 				for (int i = 0; i < slots.size(); i++) {
 					array[i] = slots.get(i);
 				}
-				
+
 				return array;
 			}
 		};

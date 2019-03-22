@@ -83,13 +83,13 @@ public abstract class ElectricSmeltery extends AContainer {
 				}
 				else {
 					Collections.sort(slots, new RecipeSorter(menu));
-					
+
 					int[] array = new int[slots.size()];
-					
+
 					for (int i = 0; i < slots.size(); i++) {
 						array[i] = slots.get(i);
 					}
-					
+
 					return array;
 				}
 			}
@@ -119,8 +119,8 @@ public abstract class ElectricSmeltery extends AContainer {
 						}
 					}
 				}
-				progress.remove(b.getLocation());
-				processing.remove(b.getLocation());
+				progress.remove(b);
+				processing.remove(b);
 				return true;
 			}
 		});
