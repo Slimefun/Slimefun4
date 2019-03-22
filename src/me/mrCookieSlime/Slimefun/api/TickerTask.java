@@ -214,30 +214,9 @@ public class TickerTask implements Runnable {
 								if (errors == 1) {
 									File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
 									if (file.exists()) {
-										file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(2).err");
-										if (file.exists()) {
-											file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(3).err");
-											if (file.exists()) {
-												file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(4).err");
-												if (file.exists()) {
-													file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(5).err");
-													if (file.exists()) {
-														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(6).err");
-														if (file.exists()) {
-															file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(7).err");
-															if (file.exists()) {
-																file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(8).err");
-																if (file.exists()) {
-																	file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(9).err");
-																	if (file.exists()) {
-																		file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(10).err");
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
+										for (int i = 2; i < 11; i++) {
+											file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + " (" + i + ").err");
+											if (!file.exists()) break;
 										}
 									}
 									try {
