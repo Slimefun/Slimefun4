@@ -103,7 +103,7 @@
     		<dependency>
     			<groupId>com.github.TheBusyBiscuit</groupId>
     			<artifactId>CS-CoreLib</artifactId>
-    			<version>30d7c3418b</version>
+    			<version>2e140f829f</version>
     		</dependency>
     		<dependency>
     			<groupId>me.minebuilders</groupId>
