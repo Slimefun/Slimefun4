@@ -35,6 +35,9 @@ import org.bukkit.entity.Player;
  * @since 4.0
  */
 public class Research {
+
+	private static final int[] research_progress = {23, 44, 57, 92};
+
 	/**
 	 * Whether researching is enabled or not;
 	 * @since 4.0
@@ -260,50 +263,21 @@ public class Research {
 				else if (!researching.contains(p.getUniqueId())){
 					researching.add(p.getUniqueId());
 					Messages.local.sendTranslation(p, "messages.research.start", true, new Variable("%research%", getName()));
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-						@Override
-						public void run() {
+					for (int i = 1; i < research_progress.length + 1; i++) {
+						int j = i;
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
 							p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-							Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "23%"));
-							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-								@Override
-								public void run() {
-									p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-									Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "44%"));
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-										@Override
-										public void run() {
-											p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-											Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "57%"));
-											Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-												@Override
-												public void run() {
-													p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-													Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", "92%"));
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-														@Override
-														public void run() {
-															Config cfg = new Config(new File("data-storage/Slimefun/Players/" + p.getUniqueId() + ".yml"));
-															cfg.setValue("researches." + research, true);
-															cfg.save();
-															Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
-															if(SlimefunStartup.getCfg().getBoolean("options.research-unlock-fireworks")) FireworkShow.launchRandom(p, 1);
-															researching.remove(p.getUniqueId());
-														}
-													}, 20L);
-												}
-											}, 20L);
-										}
-									}, 20L);
-								}
-							}, 20L);
-						}
-					}, 20L);
+							Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", research_progress[j - 1] + "%"));
+						}, i*20L);
+					}
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+						Config cfg = new Config(new File("data-storage/Slimefun/Players/" + p.getUniqueId() + ".yml"));
+						cfg.setValue("researches." + research, true);
+						cfg.save();
+						Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
+						if (SlimefunStartup.getCfg().getBoolean("options.research-unlock-fireworks")) FireworkShow.launchRandom(p, 1);
+						researching.remove(p.getUniqueId());
+					}, (research_progress.length + 1)*20L);
 				}
 			}
 		}
