@@ -23,6 +23,10 @@
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
+            <id>coreprotect-repo</id>
+            <url>http://maven.playpro.com/</url>
+        </repository>
+        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -73,7 +77,7 @@
         </dependency>
         <dependency>
             <groupId>net.coreprotect</groupId>
-            <artifactId>CoreProtect</artifactId>
+            <artifactId>coreprotect</artifactId>
         </dependency>
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
@@ -112,8 +116,8 @@
     		</dependency>
     		<dependency>
     			<groupId>net.coreprotect</groupId>
-    			<artifactId>CoreProtect</artifactId>
-    			<version>2.14.2</version>
+    			<artifactId>coreprotect</artifactId>
+    			<version>2.16.0</version>
     		</dependency>
     		<dependency>
     			<groupId>me.mrCookieSlime</groupId>
