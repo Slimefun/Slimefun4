@@ -95,21 +95,21 @@ public class SlimefunItems {
 	public static ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6Beef Jerky", 0, new String[] {"", "&a&oSaturating"});
 	public static ItemStack MAGIC_SUGAR = new CustomItem(Material.SUGAR, "&6Magic Sugar", 0, new String[] {"", "&a&oFeel the Power of Hermes!"});
 	public static ItemStack MONSTER_JERKY = new CustomItem(Material.ROTTEN_FLESH, "&6Monster Jerky", 0, new String[] {"", "&a&oNo longer hungry"});
-	public static ItemStack APPLE_JUICE = new CustomPotion("&cApple Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
-	public static ItemStack MELON_JUICE = new CustomPotion("&cMelon Juice", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
-	public static ItemStack CARROT_JUICE = new CustomPotion("&6Carrot Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
-	public static ItemStack PUMPKIN_JUICE = new CustomPotion("&6Pumpkin Juice", 8195, new String[0], new PotionEffect(PotionEffectType.SATURATION, 6, 0));
-	public static ItemStack GOLDEN_APPLE_JUICE = new CustomPotion("&bGolden Apple Juice", 8195, new String[0], new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0));
+	public static ItemStack APPLE_JUICE = new CustomPotion("&cApple Juice", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger");
+	public static ItemStack MELON_JUICE = new CustomPotion("&cMelon Juice", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger");
+	public static ItemStack CARROT_JUICE = new CustomPotion("&6Carrot Juice", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger");
+	public static ItemStack PUMPKIN_JUICE = new CustomPotion("&6Pumpkin Juice", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger");
+	public static ItemStack GOLDEN_APPLE_JUICE = new CustomPotion("&bGolden Apple Juice", Color.YELLOW, new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0));
 	
 	/*		Christmas		*/
-	public static ItemStack CHRISTMAS_MILK = new CustomPotion("&6Glass of Milk", 8194, new String[0], new PotionEffect(PotionEffectType.SATURATION, 5, 0));
-	public static ItemStack CHRISTMAS_CHOCOLATE_MILK = new CustomPotion("&6Chocolate Milk", 8201, new String[0], new PotionEffect(PotionEffectType.SATURATION, 12, 0));
-	public static ItemStack CHRISTMAS_EGG_NOG = new CustomPotion("&aEgg Nog", 8194, new String[0], new PotionEffect(PotionEffectType.SATURATION, 7, 0));
-	public static ItemStack CHRISTMAS_APPLE_CIDER = new CustomPotion("&cApple Cider", 8197, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
+	public static ItemStack CHRISTMAS_MILK = new CustomPotion("&6Glass of Milk", Color.WHITE, new PotionEffect(PotionEffectType.SATURATION, 5, 0), "", "&7&oRestores &b&o" + "2.5" + " &7&oHunger");
+	public static ItemStack CHRISTMAS_CHOCOLATE_MILK = new CustomPotion("&6Chocolate Milk", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 12, 0), "", "&7&oRestores &b&o" + "6.0" + " &7&oHunger");
+	public static ItemStack CHRISTMAS_EGG_NOG = new CustomPotion("&aEgg Nog", Color.GRAY, new PotionEffect(PotionEffectType.SATURATION, 7, 0), "", "&7&oRestores &b&o" + "3.5" + " &7&oHunger");
+	public static ItemStack CHRISTMAS_APPLE_CIDER = new CustomPotion("&cApple Cider", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "", "&7&oRestores &b&o" + "7.0" + " &7&oHunger");
 	public static ItemStack CHRISTMAS_COOKIE = new CustomItem(Material.COOKIE, Christmas.color("Christmas Cookie"), 0);
 	public static ItemStack CHRISTMAS_FRUIT_CAKE = new CustomItem(Material.PUMPKIN_PIE, Christmas.color("Fruit Cake"), 0);
 	public static ItemStack CHRISTMAS_APPLE_PIE = new CustomItem(Material.PUMPKIN_PIE, "&rApple Pie", 0);
-	public static ItemStack CHRISTMAS_HOT_CHOCOLATE = new CustomPotion("&6Hot Chocolate", 8201, new String[0], new PotionEffect(PotionEffectType.SATURATION, 14, 0));
+	public static ItemStack CHRISTMAS_HOT_CHOCOLATE = new CustomPotion("&6Hot Chocolate", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "", "&7&oRestores &b&o" + "7.0" + " &7&oHunger");
 	public static ItemStack CHRISTMAS_CAKE = new CustomItem(Material.PUMPKIN_PIE, Christmas.color("Christmas Cake"), 0);
 	public static ItemStack CHRISTMAS_CARAMEL = new CustomItem(Material.BRICKS, "&6Caramel", 0);
 	public static ItemStack CHRISTMAS_CARAMEL_APPLE = new CustomItem(Material.APPLE, "&6Caramel Apple", 0);
