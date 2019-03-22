@@ -84,13 +84,9 @@ public class BowListener implements Listener {
 		    	    	n.remove();
 		    	    }
 		    	    
-		    	    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						
-						@Override
-						public void run() {
-							Variables.jump.remove(p.getUniqueId());
-							Variables.remove.remove(p.getUniqueId());
-						}
+		    	    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+						Variables.jump.remove(p.getUniqueId());
+						Variables.remove.remove(p.getUniqueId());
 					}, 20L);
 				}
 			}

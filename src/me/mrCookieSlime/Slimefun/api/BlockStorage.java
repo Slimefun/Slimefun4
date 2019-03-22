@@ -339,7 +339,7 @@ public class BlockStorage {
 	@SuppressWarnings("unchecked")
 	private static String serializeBlockInfo(Config cfg) {
 		JSONObject json = new JSONObject();
-		for (String key: cfg.getKeys()) {
+		for (String key : cfg.getKeys()) {
 			json.put(key, cfg.getString(key));
 		}
 		return json.toJSONString();

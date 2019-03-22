@@ -45,7 +45,7 @@ public class AncientAltarListener implements Listener {
 	List<Block> altars = new ArrayList<Block>();
 	Set<UUID> removed_items = new HashSet<UUID>();
 
-	@EventHandler(priority=EventPriority.HIGH, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
@@ -70,12 +70,8 @@ public class AncientAltarListener implements Listener {
 					final UUID uuid = stack.getUniqueId();
 					removed_items.add(uuid);
 
-					SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-						@Override
-						public void run() {
+					SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
 							removed_items.remove(uuid);
-						}
 					}, 30L);
 
 					stack.remove();

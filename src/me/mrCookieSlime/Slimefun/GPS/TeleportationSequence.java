@@ -92,12 +92,8 @@ public class TeleportationSequence {
 					source.getWorld().spawnParticle(Particle.PORTAL, source, progress * 2, 0.2F, 0.8F, 0.2F);
 					source.getWorld().playSound(source, Sound.UI_BUTTON_CLICK, 1.7F, 0.6F);
 					
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						
-						@Override
-						public void run() {
-							updateProgress(uuid, speed, progress + speed, source, destination, resistance);
-						}
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+						updateProgress(uuid, speed, progress + speed, source, destination, resistance);
 					}, 10l);
 				}
 			} catch (Exception e) {

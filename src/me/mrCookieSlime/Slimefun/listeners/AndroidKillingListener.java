@@ -26,24 +26,21 @@ public class AndroidKillingListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onDeath(final EntityDeathEvent e) {
 		if (e.getEntity().hasMetadata("android_killer")) {
 			for (MetadataValue value: e.getEntity().getMetadata("android_killer")) {
 				final AndroidObject obj = (AndroidObject) value.value();
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-					
-					@Override
-					public void run() {
-						List<ItemStack> items = new ArrayList<ItemStack>();
-						for (Entity n: e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
-							if (n instanceof Item && !n.hasMetadata("no_pickup")) {
-								items.add(((Item) n).getItemStack());
-								n.remove();
-							}
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+					List<ItemStack> items = new ArrayList<ItemStack>();
+					for (Entity n: e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
+						if (n instanceof Item && !n.hasMetadata("no_pickup")) {
+							items.add(((Item) n).getItemStack());
+							n.remove();
 						}
-						
-						switch (e.getEntityType()) {
+					}
+					
+					switch (e.getEntityType()) {
 						case BLAZE: {
 							items.add(new ItemStack(Material.BLAZE_ROD, 1 + CSCoreLib.randomizer().nextInt(2)));
 							break;
@@ -58,12 +55,11 @@ public class AndroidKillingListener implements Listener {
 						}
 						default:
 							break;
-						}
-						
-						obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[items.size()]));
-						ExperienceOrb exp = (ExperienceOrb) e.getEntity().getWorld().spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
-						exp.setExperience(1 + CSCoreLib.randomizer().nextInt(6));
 					}
+					
+					obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[items.size()]));
+					ExperienceOrb exp = (ExperienceOrb) e.getEntity().getWorld().spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
+					exp.setExperience(1 + CSCoreLib.randomizer().nextInt(6));
 				}, 1L);
 				return;
 			}
