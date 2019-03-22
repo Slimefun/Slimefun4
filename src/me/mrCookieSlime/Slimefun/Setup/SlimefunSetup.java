@@ -4997,31 +4997,31 @@ public class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 512);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.ORGANIC_FOOD2, "ORGANIC_FOOD_WHEAT", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
+		new SlimefunItem(Categories.MISC, SlimefunItems.WHEAT_ORGANIC_FOOD, "WHEAT_ORGANIC_FOOD", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
 		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.WHEAT), null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.ORGANIC_FOOD3, "ORGANIC_FOOD_CARROT", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
+		new SlimefunItem(Categories.MISC, SlimefunItems.CARROT_ORGANIC_FOOD, "CARROT_ORGANIC_FOOD", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
 		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.CARROT), null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.ORGANIC_FOOD4, "ORGANIC_FOOD_POTATO", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
+		new SlimefunItem(Categories.MISC, SlimefunItems.POTATO_ORGANIC_FOOD, "POTATO_ORGANIC_FOOD", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
 		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.POTATO), null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.ORGANIC_FOOD5, "ORGANIC_FOOD_SEEDS", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
+		new SlimefunItem(Categories.MISC, SlimefunItems.SEEDS_ORGANIC_FOOD, "SEEDS_ORGANIC_FOOD", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
 		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.WHEAT_SEEDS), null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.ORGANIC_FOOD6, "ORGANIC_FOOD_BEETROOT", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
+		new SlimefunItem(Categories.MISC, SlimefunItems.BEETROOT_ORGANIC_FOOD, "BEETROOT_ORGANIC_FOOD", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
 		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.BEETROOT), null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.ORGANIC_FOOD7, "ORGANIC_FOOD_MELON", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
+		new SlimefunItem(Categories.MISC, SlimefunItems.MELON_ORGANIC_FOOD, "MELON_ORGANIC_FOOD", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
 		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.MELON), null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.ORGANIC_FOOD8, "ORGANIC_FOOD_APPLE", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
+		new SlimefunItem(Categories.MISC, SlimefunItems.APPLE_ORGANIC_FOOD, "APPLE_ORGANIC_FOOD", new RecipeType(SlimefunItems.FOOD_FABRICATOR),
 		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.APPLE), null, null, null, null, null, null, null})
 		.register(true);
 
@@ -5030,7 +5030,7 @@ public class SlimefunSetup {
 		.registerChargeableBlock(true, 1024);
 
 		new AnimalGrowthAccelerator(Categories.ELECTRICITY, SlimefunItems.ANIMAL_GROWTH_ACCELERATOR, "ANIMAL_GROWTH_ACCELERATOR", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ORGANIC_FOOD2, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.AUTO_BREEDER, SlimefunItems.REINFORCED_ALLOY_INGOT})
+		new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.WHEAT_ORGANIC_FOOD, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.AUTO_BREEDER, SlimefunItems.REINFORCED_ALLOY_INGOT})
 		.registerChargeableBlock(true, 1024);
 
 		new XPCollector(Categories.ELECTRICITY, SlimefunItems.XP_COLLECTOR, "XP_COLLECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -5087,32 +5087,32 @@ public class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 256);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.FERTILIZER2, "FERTILIZER_WHEAT", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
-		new ItemStack[] {SlimefunItems.ORGANIC_FOOD2, null, null, null, null, null, null, null, null})
+		new SlimefunItem(Categories.MISC, SlimefunItems.WHEAT_FERTILIZER, "WHEAT_FERTILIZER", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
+		new ItemStack[] {SlimefunItems.WHEAT_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.FERTILIZER3, "FERTILIZER_CARROT", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
-		new ItemStack[] {SlimefunItems.ORGANIC_FOOD3, null, null, null, null, null, null, null, null})
+		new SlimefunItem(Categories.MISC, SlimefunItems.CARROT_FERTILIZER, "CARROT_FERTILIZER", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
+		new ItemStack[] {SlimefunItems.CARROT_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.FERTILIZER4, "FERTILIZER_POTATO", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
-		new ItemStack[] {SlimefunItems.ORGANIC_FOOD4, null, null, null, null, null, null, null, null})
+		new SlimefunItem(Categories.MISC, SlimefunItems.POTATO_FERTILIZER, "POTATO_FERTILIZER", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
+		new ItemStack[] {SlimefunItems.POTATO_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.FERTILIZER5, "FERTILIZER_SEEDS", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
-		new ItemStack[] {SlimefunItems.ORGANIC_FOOD5, null, null, null, null, null, null, null, null})
+		new SlimefunItem(Categories.MISC, SlimefunItems.SEEDS_FERTILIZER, "SEEDS_FERTILIZER", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
+		new ItemStack[] {SlimefunItems.SEEDS_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.FERTILIZER6, "FERTILIZER_BEETROOT", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
-		new ItemStack[] {SlimefunItems.ORGANIC_FOOD6, null, null, null, null, null, null, null, null})
+		new SlimefunItem(Categories.MISC, SlimefunItems.BEETROOT_FERTILIZER, "BEETROOT_FERTILIZER", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
+		new ItemStack[] {SlimefunItems.BEETROOT_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.FERTILIZER7, "FERTILIZER_MELON", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
-		new ItemStack[] {SlimefunItems.ORGANIC_FOOD7, null, null, null, null, null, null, null, null})
+		new SlimefunItem(Categories.MISC, SlimefunItems.MELON_FERTILIZER, "MELON_FERTILIZER", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
+		new ItemStack[] {SlimefunItems.MELON_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.FERTILIZER8, "FERTILIZER_APPLE", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
-		new ItemStack[] {SlimefunItems.ORGANIC_FOOD8, null, null, null, null, null, null, null, null})
+		new SlimefunItem(Categories.MISC, SlimefunItems.APPLE_FERTILIZER, "APPLE_FERTILIZER", new RecipeType(SlimefunItems.FOOD_COMPOSTER),
+		new ItemStack[] {SlimefunItems.APPLE_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new CropGrowthAccelerator(Categories.ELECTRICITY, SlimefunItems.CROP_GROWTH_ACCELERATOR, "CROP_GROWTH_ACCELERATOR", RecipeType.ENHANCED_CRAFTING_TABLE,
