@@ -1794,8 +1794,8 @@ public class SlimefunSetup {
 			@Override
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
-					if (e.getBlock().getType() != Material.SPAWNER) return true;
-					BlockStorage.retrieve(e.getBlock());
+					if (e.getBlock().getType() != Material.SPAWNER) return false;
+					BlockStorage.clearBlockInfo(e.getBlock());
 					ItemStack spawner = SlimefunItems.BROKEN_SPAWNER.clone();
 					ItemMeta im = spawner.getItemMeta();
 					List<String> lore = im.getLore();
@@ -2605,20 +2605,9 @@ public class SlimefunSetup {
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				SlimefunItem spawner = BlockStorage.check(e.getBlock());
 				if (spawner != null && SlimefunManager.isItemSimiliar(spawner.getItem(), SlimefunItems.REPAIRED_SPAWNER, false)) {
-					BlockStorage.retrieve(e.getBlock());
-					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
-						ItemStack sp = SlimefunItems.BROKEN_SPAWNER.clone();
-						ItemMeta im = sp.getItemMeta();
-						List<String> lore = im.getLore();
-						for (int i = 0; i < lore.size(); i++) {
-							if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) e.getBlock().getState()).getSpawnedType().toString())));
-						}
-						im.setLore(lore);
-						sp.setItemMeta(im);
-						BlockStorage.retrieve(e.getBlock());
-						e.getBlock().getLocation().getWorld().dropItemNaturally(e.getBlock().getLocation(), sp);
-						e.setExpToDrop(0);
-					}
+					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true))
+						return false;
+					BlockStorage.clearBlockInfo(e.getBlock());
 					return true;
 				}
 				else return false;
