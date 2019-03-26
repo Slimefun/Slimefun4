@@ -42,6 +42,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -1841,8 +1842,9 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
 					if (e.getBlock().getType() != Material.SPAWNER) return true;
+					BlockStorage.retrieve(e.getBlock());
 					ItemStack spawner = SlimefunItems.BROKEN_SPAWNER.clone();
 					ItemMeta im = spawner.getItemMeta();
 					List<String> lore = im.getLore();
@@ -2919,6 +2921,30 @@ public class SlimefunSetup {
 						CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
 						spawner.setSpawnedType(type);
 						spawner.update(true, false);
+					}
+					return true;
+				}
+				else return false;
+			}
+		}, new BlockBreakHandler() {
+
+			@Override
+			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
+				SlimefunItem spawner = BlockStorage.check(e.getBlock());
+				if (spawner != null && SlimefunManager.isItemSimiliar(spawner.getItem(), SlimefunItems.REPAIRED_SPAWNER, false)) {
+					BlockStorage.retrieve(e.getBlock());
+					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
+						ItemStack sp = SlimefunItems.BROKEN_SPAWNER.clone();
+						ItemMeta im = sp.getItemMeta();
+						List<String> lore = im.getLore();
+						for (int i = 0; i < lore.size(); i++) {
+							if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) e.getBlock().getState()).getSpawnedType().toString())));
+						}
+						im.setLore(lore);
+						sp.setItemMeta(im);
+						BlockStorage.retrieve(e.getBlock());
+						e.getBlock().getLocation().getWorld().dropItemNaturally(e.getBlock().getLocation(), sp);
+						e.setExpToDrop(0);
 					}
 					return true;
 				}
