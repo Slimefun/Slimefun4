@@ -300,7 +300,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					case GO_FORWARD: {
 						try {
 							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face);
+							Block block = b.getRelative(face.getOppositeFace());
 							move(b, face, block);
 						} catch (Exception e) {
 							e.printStackTrace();
