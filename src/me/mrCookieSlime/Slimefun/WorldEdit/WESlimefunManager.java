@@ -15,20 +15,18 @@ import com.sk89q.worldedit.world.block.BlockStateHolder;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class WESlimefunManager {
-	
+
 	public WESlimefunManager() {
 		WorldEdit.getInstance().getEventBus().register(this);
 	}
-	
+
 	@Subscribe
     public void wrapForLogging(final EditSessionEvent event) {
 		event.setExtent(new AbstractDelegateExtent(event.getExtent()) {
-			@SuppressWarnings({ "rawtypes", "deprecation" })
 			@Override
-			public boolean setBlock(BlockVector3 pos, BlockStateHolder block) throws WorldEditException {
-				if (block.getBlockType().getLegacyId() == 0) {
+			public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 pos, T block) throws WorldEditException {
+				if (block.getBlockType().getMaterial().isAir()) {
 					World world = Bukkit.getWorld(event.getWorld().getName());
-					
 					if (world != null) {
 						Location l = new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
 						if (BlockStorage.hasBlockInfo(l)) BlockStorage.clearBlockInfo(l);
@@ -36,7 +34,6 @@ public class WESlimefunManager {
 				}
                 return getExtent().setBlock(pos, block);
             }
-			
 		});
     }
 
