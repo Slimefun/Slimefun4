@@ -150,18 +150,10 @@ public class SlimefunStartup extends JavaPlugin {
 			Messages.setup();
 
 			// Creating all necessary Folders
-			// TODO: Make a shortcut method such as createDir(path)
-			if (!new File("data-storage/Slimefun/blocks").exists()) new File("data-storage/Slimefun/blocks").mkdirs();
-			if (!new File("data-storage/Slimefun/stored-blocks").exists()) new File("data-storage/Slimefun/stored-blocks").mkdirs();
-			if (!new File("data-storage/Slimefun/stored-inventories").exists()) new File("data-storage/Slimefun/stored-inventories").mkdirs();
-			if (!new File("data-storage/Slimefun/stored-chunks").exists()) new File("data-storage/Slimefun/stored-chunks").mkdirs();
-			if (!new File("data-storage/Slimefun/universal-inventories").exists()) new File("data-storage/Slimefun/universal-inventories").mkdirs();
-			if (!new File("data-storage/Slimefun/waypoints").exists()) new File("data-storage/Slimefun/waypoints").mkdirs();
-			if (!new File("data-storage/Slimefun/block-backups").exists()) new File("data-storage/Slimefun/block-backups").mkdirs();
-			if (!new File("plugins/Slimefun/scripts").exists()) new File("plugins/Slimefun/scripts").mkdirs();
-			if (!new File("plugins/Slimefun/generators").exists()) new File("plugins/Slimefun/generators").mkdirs();
-			if (!new File("plugins/Slimefun/error-reports").exists()) new File("plugins/Slimefun/error-reports").mkdirs();
-			if (!new File("plugins/Slimefun/cache/github").exists()) new File("plugins/Slimefun/cache/github").mkdirs();
+			String[] storage = {"blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
+			String[] general = {"scripts", "generators", "error-reports", "cache/github"};
+			for (String s : storage) createDir("data-storage/Slimefun/" + s);
+			for (String s : general) createDir("plugins/Slimefun/" + s);
 
 			SlimefunManager.plugin = this;
 
@@ -478,6 +470,10 @@ public class SlimefunStartup extends JavaPlugin {
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();
 		}
+	}
+
+	private void createDir(String path) {
+		if (!new File(path).exists()) new File(path).mkdirs();
 	}
 
 	public static Config getCfg() {
