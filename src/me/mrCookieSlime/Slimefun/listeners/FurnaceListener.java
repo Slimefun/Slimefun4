@@ -22,15 +22,17 @@ public class FurnaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBurn(FurnaceBurnEvent e) {
-		EnhancedFurnace furnace = (EnhancedFurnace) BlockStorage.check(e.getBlock());
-		if (furnace instanceof EnhancedFurnace && furnace.getFuelEfficiency() > 0)
-			e.setBurnTime(((int) ((1 + 0.2 * furnace.getFuelEfficiency()) * e.getBurnTime())));
+		if (BlockStorage.check(e.getBlock()) instanceof EnhancedFurnace) {
+			EnhancedFurnace furnace = (EnhancedFurnace) BlockStorage.check(e.getBlock());
+			if (furnace.getFuelEfficiency() > 0)
+				e.setBurnTime(((int) ((1 + 0.2 * furnace.getFuelEfficiency()) * e.getBurnTime())));
+		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onSmelt(FurnaceSmeltEvent e) {
-		EnhancedFurnace furnace = (EnhancedFurnace) BlockStorage.check(e.getBlock());
-		if (furnace instanceof EnhancedFurnace) {
+		if (BlockStorage.check(e.getBlock()) instanceof EnhancedFurnace) {
+			EnhancedFurnace furnace = (EnhancedFurnace) BlockStorage.check(e.getBlock());
 			Furnace f = (Furnace) e.getBlock().getState();
 			int amount = f.getInventory().getSmelting().getType().toString().endsWith("_ORE") ? furnace.getOutput() : 1;
 			ItemStack result = f.getInventory().getResult() == null ? RecipeCalculator.getSmeltedOutput(f.getInventory().getSmelting().getType()) : f.getInventory().getResult().clone();
