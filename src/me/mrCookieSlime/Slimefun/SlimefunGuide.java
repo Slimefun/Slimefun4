@@ -21,7 +21,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
@@ -940,7 +939,7 @@ public class SlimefunGuide {
 		list.add(urid);
 		history.put(p.getUniqueId(), list);
 	}
-	
+
 	private static URID getLastEntry(Player p, boolean remove) {
 		List<URID> list = new ArrayList<URID>();
 		if (history.containsKey(p.getUniqueId())) list = history.get(p.getUniqueId());
@@ -953,8 +952,7 @@ public class SlimefunGuide {
 		else history.put(p.getUniqueId(), list);
 		return list.isEmpty() ? null: list.get(list.size() - 1);
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	public static void displayItem(Player p, final ItemStack item, boolean addToHistory, final boolean book, final int page) {
 		if (item == null || item.getType() == Material.AIR) return;
 
@@ -988,7 +986,7 @@ public class SlimefunGuide {
 			Iterator<Recipe> iterator = Bukkit.recipeIterator();
 			while (iterator.hasNext()) {
 				Recipe r = iterator.next();
-				if (SlimefunManager.isItemSimiliar(new CustomItem(r.getResult(), 1), item, true) && r.getResult().getData().getData() == item.getData().getData()) recipes.add(r);
+				if (SlimefunManager.isItemSimiliar(new CustomItem(r.getResult(), 1), item, true)) recipes.add(r);
 			}
 			
 			if (recipes.isEmpty()) return;
@@ -1010,13 +1008,7 @@ public class SlimefunGuide {
 					String[] shape = ((ShapedRecipe) r).getShape();
 					for (int i = 0; i < shape.length; i++) {
 			            for (int j = 0; j < shape[i].length(); j++) {
-			            	ItemStack ingredient = ((ShapedRecipe) r).getIngredientMap().get(shape[i].charAt(j));
-							if (ingredient != null) {
-								MaterialData data = ingredient.getData();
-								if (ingredient.getData().getData() < 0) data.setData((byte) 0);
-								ingredient = data.toItemStack(ingredient.getAmount());
-							}
-							recipe[i * 3 + j] = ingredient;
+			            	recipe[i * 3 + j] = ((ShapedRecipe) r).getIngredientMap().get(shape[i].charAt(j));
 			            }
 			        }
 					recipeType = RecipeType.SHAPED_RECIPE.toItem();
@@ -1025,25 +1017,13 @@ public class SlimefunGuide {
 				else if (r instanceof ShapelessRecipe) {
 			        List<ItemStack> ingredients = ((ShapelessRecipe) r).getIngredientList();
 					for (int i = 0; i < ingredients.size(); i++) {
-						ItemStack ingredient = ingredients.get(i);
-						if (ingredient != null) {
-							MaterialData data = ingredient.getData();
-							if (ingredient.getData().getData() < 0) data.setData((byte) 0);
-							ingredient = data.toItemStack(ingredient.getAmount());
-						}
-			            recipe[i] = ingredient;
+						recipe[i] = ingredients.get(i);
 			        }
 					recipeType = RecipeType.SHAPELESS_RECIPE.toItem();
 					recipeOutput = r.getResult();
 				}
 				else if (r instanceof FurnaceRecipe) {
-					ItemStack ingredient = ((FurnaceRecipe) r).getInput();
-					if (ingredient != null) {
-						MaterialData data = ingredient.getData();
-						if (ingredient.getData().getData() < 0) data.setData((byte) 0);
-						ingredient = data.toItemStack(ingredient.getAmount());
-					}
-					recipe[4] = ingredient;
+					recipe[4] = ((FurnaceRecipe) r).getInput();
 					
 					recipeType = RecipeType.FURNACE.toItem();
 					recipeOutput = r.getResult();
@@ -1319,7 +1299,7 @@ public class SlimefunGuide {
 			}
 		}
 		
-		menu.build().open(p);
+		menu.open(p);
 	}
 	
 	public static void clearHistory(UUID uuid) {
