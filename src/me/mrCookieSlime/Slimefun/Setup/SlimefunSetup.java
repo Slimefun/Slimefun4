@@ -1607,9 +1607,9 @@ public class SlimefunSetup {
 		false, false, "magician", 80, new PotionEffect[0])
 		.register(true);
 
-		for (Enchantment e: Enchantment.values()) {
+		for (Enchantment e : Enchantment.values()) {
 			for (int i = 1; i <= e.getMaxLevel(); i++) {
-				Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + e.getName() + ".level." + i, true);
+				Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + e.getKey().getKey() + ".level." + i, true);
 			}
 		}
 
