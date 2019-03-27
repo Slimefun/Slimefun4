@@ -244,7 +244,7 @@ public class ItemListener implements Listener {
 					else if (canPlaceBlock(p, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
 					else if (canPlaceBlock(p, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, true));
 					else if (canPlaceBlock(p, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_EXPORT_BUS, true));
-					else {
+					else if (!p.isSneaking() || item == null || item.getType() == Material.AIR) {
 						e.setCancelled(true);
 						BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
 
@@ -338,7 +338,7 @@ public class ItemListener implements Listener {
 								else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
 							}
 
-						}, 1L);
+						}, 0L);
 					}
 				}
 			}
@@ -379,7 +379,7 @@ public class ItemListener implements Listener {
 		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
 		if (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.ELYTRA, true)) return;
 		if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && !SlimefunItem.isDisabled(e.getInventory().getContents()[0])) {
-			e.setCancelled(true);
+				e.setCancelled(true);
 				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
 			}
 		}
