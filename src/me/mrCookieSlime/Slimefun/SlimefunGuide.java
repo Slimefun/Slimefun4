@@ -349,7 +349,8 @@ public class SlimefunGuide {
 	}
 	
 	public static void openMainMenu(final Player p, final boolean survival, final boolean book, final int selected_page) {
-		clearHistory(p.getUniqueId());
+		if (survival)
+			clearHistory(p.getUniqueId());
 		
 		if (book) {
 			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
