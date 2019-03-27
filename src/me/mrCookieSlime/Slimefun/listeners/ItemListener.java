@@ -338,7 +338,7 @@ public class ItemListener implements Listener {
 								else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
 							}
 
-						}, 1L);
+						}, 0L);
 					}
 				}
 			}
