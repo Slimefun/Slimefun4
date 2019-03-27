@@ -36,7 +36,8 @@ public class FurnaceListener implements Listener {
 			Furnace f = (Furnace) e.getBlock().getState();
 			int amount = f.getInventory().getSmelting().getType().toString().endsWith("_ORE") ? furnace.getOutput() : 1;
 			ItemStack result = f.getInventory().getResult() == null ? RecipeCalculator.getSmeltedOutput(f.getInventory().getSmelting().getType()) : f.getInventory().getResult().clone();
-			f.getInventory().setResult(new CustomItem(result, result.getAmount() + amount > result.getMaxStackSize() ? result.getMaxStackSize() : result.getAmount() + amount));
+			if (result != null)
+				f.getInventory().setResult(new CustomItem(result, result.getAmount() + amount > result.getMaxStackSize() ? result.getMaxStackSize() : result.getAmount() + amount));
 		}
 	}
 
