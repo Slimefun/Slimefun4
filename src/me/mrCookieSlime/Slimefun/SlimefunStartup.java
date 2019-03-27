@@ -465,7 +465,9 @@ public class SlimefunStartup extends JavaPlugin {
 	}
 
 	private void createDir(String path) {
-		if (!new File(path).exists()) new File(path).mkdirs();
+		File file = new File(path);
+		if (!file.exists())
+			file.mkdirs();
 	}
 
 	public static Config getCfg() {
