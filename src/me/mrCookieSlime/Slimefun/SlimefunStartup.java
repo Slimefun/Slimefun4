@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
 
-import me.mrCookieSlime.Slimefun.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -16,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
@@ -61,6 +59,8 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
+import me.mrCookieSlime.Slimefun.listeners.*;
+
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
@@ -84,8 +84,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 	// Supported Versions of Minecraft
 	final String[] supported = {"v1_13_"};
-	
-	@SuppressWarnings("deprecation")
+
 	@Override
 	public void onEnable() {
 		CSCoreLibLoader loader = new CSCoreLibLoader(this);
@@ -96,20 +95,20 @@ public class SlimefunStartup extends JavaPlugin {
 			if (currentVersion.startsWith("v")) {
 				boolean compatibleVersion = false;
 				StringBuilder versions = new StringBuilder();
-				
+
 				int i = 0;
 				for (String version: supported) {
 					if (currentVersion.startsWith(version)) {
 						compatibleVersion = true;
 					}
-					
+
 					if (i == 0) versions.append(version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
 					else if (i == supported.length - 1) versions.append(" or " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
 					else versions.append(", " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
 					
 					i++;
 				}
-				
+
 				// Looks like you are using an unsupported Minecraft Version
 				if (!compatibleVersion) {
 					System.err.println("### Slimefun failed to load!");
@@ -179,11 +178,11 @@ public class SlimefunStartup extends JavaPlugin {
 			// Generating Oil as an OreGenResource (its a cool API)
 			OreGenSystem.registerResource(new OilResource());
 			OreGenSystem.registerResource(new NetherIceResource());
-			
+
 			// Setting up GitHub Connectors...
-			
+
 			GitHubSetup.setup();
-			
+
 			// All Slimefun Listeners
 			new ArmorListener(this);
 			new ItemListener(this);
@@ -340,16 +339,12 @@ public class SlimefunStartup extends JavaPlugin {
 			ticker = new TickerTask();
 
 			// Starting all ASYNC Tasks
-			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
-			getServer().getScheduler().scheduleAsyncRepeatingTask(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
-			
-			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
-				
-				@Override
-				public void run() {
-					for (GitHubConnector connector: GitHubConnector.connectors) {
-						connector.pullFile();
-					}
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
+
+			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+				for (GitHubConnector connector : GitHubConnector.connectors) {
+					connector.pullFile();
 				}
 			}, 80L, 60 * 60 * 20L);
 			
@@ -360,16 +355,13 @@ public class SlimefunStartup extends JavaPlugin {
 
 			coreProtect = getServer().getPluginManager().isPluginEnabled("CoreProtect");
 
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new BukkitRunnable() {
-                @Override
-                public void run() {
-                    exoticGarden = getServer().getPluginManager().isPluginEnabled("ExoticGarden"); // Had to do it this way, otherwise it seems disabled.
-                }
-            }, 0);
+			getServer().getScheduler().runTaskLater(this, () -> {
+				exoticGarden = getServer().getPluginManager().isPluginEnabled("ExoticGarden"); // Had to do it this way, otherwise it seems disabled.
+			}, 0);
 
 			if (clearlag) new ClearLaggIntegration(this);
 
-			if (coreProtect) coreProtectAPI = ((CoreProtect)getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
+			if (coreProtect) coreProtectAPI = ((CoreProtect) getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
 
 			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
 
@@ -517,4 +509,5 @@ public class SlimefunStartup extends JavaPlugin {
 	public CoreProtectAPI getCoreProtectAPI() {
 		return coreProtectAPI;
 	}
+
 }
