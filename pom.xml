@@ -20,15 +20,15 @@
         </repository>
         <repository>
             <id>worldedit-worldguard-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
+            <url>https://maven.sk89q.com/repo/</url>
+        </repository>
+        <repository>
+            <id>coreprotect-repo</id>
+            <url>https://maven.playpro.com/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>robomwm-repo</id>
-            <url>https://dl.bintray.com/robomwm/maven</url>
         </repository>
     </repositories>
     <build>
@@ -73,7 +73,7 @@
         </dependency>
         <dependency>
             <groupId>net.coreprotect</groupId>
-            <artifactId>CoreProtect</artifactId>
+            <artifactId>coreprotect</artifactId>
         </dependency>
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
@@ -112,8 +112,8 @@
     		</dependency>
     		<dependency>
     			<groupId>net.coreprotect</groupId>
-    			<artifactId>CoreProtect</artifactId>
-    			<version>2.14.2</version>
+    			<artifactId>coreprotect</artifactId>
+    			<version>2.16.0</version>
     		</dependency>
     		<dependency>
     			<groupId>me.mrCookieSlime</groupId>
