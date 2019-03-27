@@ -42,6 +42,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -1841,8 +1842,9 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
 					if (e.getBlock().getType() != Material.SPAWNER) return true;
+					BlockStorage.clearBlockInfo(e.getBlock());
 					ItemStack spawner = SlimefunItems.BROKEN_SPAWNER.clone();
 					ItemMeta im = spawner.getItemMeta();
 					List<String> lore = im.getLore();
@@ -2920,6 +2922,19 @@ public class SlimefunSetup {
 						spawner.setSpawnedType(type);
 						spawner.update(true, false);
 					}
+					return true;
+				}
+				else return false;
+			}
+		}, new BlockBreakHandler() {
+
+			@Override
+			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
+				SlimefunItem spawner = BlockStorage.check(e.getBlock());
+				if (spawner != null && SlimefunManager.isItemSimiliar(spawner.getItem(), SlimefunItems.REPAIRED_SPAWNER, false)) {
+					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true))
+						return false;
+					BlockStorage.clearBlockInfo(e.getBlock());
 					return true;
 				}
 				else return false;
