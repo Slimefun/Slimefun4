@@ -12,6 +12,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EnhancedFurnace;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class FurnaceListener implements Listener {
@@ -22,19 +23,19 @@ public class FurnaceListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBurn(FurnaceBurnEvent e) {
-		if (BlockStorage.check(e.getBlock()) instanceof EnhancedFurnace) {
-			EnhancedFurnace furnace = (EnhancedFurnace) BlockStorage.check(e.getBlock());
-			if (furnace.getFuelEfficiency() > 0)
-				e.setBurnTime(((int) ((1 + 0.2 * furnace.getFuelEfficiency()) * e.getBurnTime())));
+		SlimefunItem furnace = BlockStorage.check(e.getBlock());
+		if (furnace instanceof EnhancedFurnace) {
+			if (((EnhancedFurnace) furnace).getFuelEfficiency() > 0)
+				e.setBurnTime(((int) ((1 + 0.2 * ((EnhancedFurnace) furnace).getFuelEfficiency()) * e.getBurnTime())));
 		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onSmelt(FurnaceSmeltEvent e) {
-		if (BlockStorage.check(e.getBlock()) instanceof EnhancedFurnace) {
-			EnhancedFurnace furnace = (EnhancedFurnace) BlockStorage.check(e.getBlock());
+		SlimefunItem furnace = BlockStorage.check(e.getBlock());
+		if (furnace instanceof EnhancedFurnace) {
 			Furnace f = (Furnace) e.getBlock().getState();
-			int amount = f.getInventory().getSmelting().getType().toString().endsWith("_ORE") ? furnace.getOutput() : 1;
+			int amount = f.getInventory().getSmelting().getType().toString().endsWith("_ORE") ? ((EnhancedFurnace) furnace).getOutput() : 1;
 			ItemStack result = f.getInventory().getResult() == null ? RecipeCalculator.getSmeltedOutput(f.getInventory().getSmelting().getType()) : f.getInventory().getResult().clone();
 			if (result != null)
 				f.getInventory().setResult(new CustomItem(result, result.getAmount() + amount > result.getMaxStackSize() ? result.getMaxStackSize() : result.getAmount() + amount));
