@@ -134,7 +134,7 @@ public abstract class ADrill extends AContainer {
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
 				ItemMeta im = item.getItemMeta();
-		        ((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));

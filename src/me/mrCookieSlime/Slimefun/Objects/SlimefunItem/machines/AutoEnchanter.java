@@ -62,7 +62,7 @@ public class AutoEnchanter extends AContainer {
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
 				ItemMeta im = item.getItemMeta();
-		        ((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
@@ -120,7 +120,7 @@ public class AutoEnchanter extends AContainer {
 								enchantments2.add(enchantment);
 							}
 						}
-                        special_amount+=EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
+						special_amount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
 					}
 					if (amount > 0 && special_amount <= max_emerald_enchantments) {
 						ItemStack newItem = target.clone();
