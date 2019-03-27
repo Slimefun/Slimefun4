@@ -104,7 +104,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	public ProgrammableAndroid(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 
-
 		if (getTier() == 1) {
 			registerFuel(new MachineFuel(80, new ItemStack(Material.COAL)));
 			registerFuel(new MachineFuel(80, new ItemStack(Material.CHARCOAL)));
@@ -287,7 +286,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				ScriptPart part = ScriptPart.valueOf(script[index]);
 
 				if (getAndroidType().isType(part.getRequiredType())) {
-					switch(part) {
+					switch (part) {
 					case GO_DOWN: {
 						try {
 							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
@@ -301,7 +300,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					case GO_FORWARD: {
 						try {
 							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face);
+							Block block = b.getRelative(face.getOppositeFace());
 							move(b, face, block);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -711,7 +710,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private void move(Block b, BlockFace face, Block block) throws Exception {
 		if (block.getY() < 0 || block.getY() > block.getWorld().getMaxHeight()) return;
 
-		if (block.getType() == Material.AIR) {
+		if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
 			block.setType(Material.PLAYER_HEAD);
 			Rotatable blockData = (Rotatable) block.getBlockData();
 			blockData.setRotation(face);
