@@ -36,6 +36,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class AGenerator extends SlimefunItem {
@@ -257,15 +258,14 @@ public abstract class AGenerator extends SlimefunItem {
 	public void register(boolean slimefun) {
 		addItemHandler(new EnergyTicker() {
 			
-			@SuppressWarnings("deprecation")
 			@Override
 			public double generateEnergy(Location l, SlimefunItem sf, Config data) {
 				if (isProcessing(l)) {
 					int timeleft = progress.get(l);
 					if (timeleft > 0) {
 						ItemStack item = getProgressBar().clone();
-				        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(l).getTicks()));
 						ItemMeta im = item.getItemMeta();
+						((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(l).getTicks()));
 						im.setDisplayName(" ");
 						List<String> lore = new ArrayList<String>();
 						lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
@@ -291,13 +291,9 @@ public abstract class AGenerator extends SlimefunItem {
 					}
 					else {
 						ItemStack fuel = processing.get(l).getInput();
-						if (SlimefunManager.isItemSimiliar(fuel, new ItemStack(Material.LAVA_BUCKET), true)) {
-							pushItems(l, new ItemStack[] {new ItemStack(Material.BUCKET)});
-						}
-						else if (SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_FUEL, true)) {
-							pushItems(l, new ItemStack[] {new ItemStack(Material.BUCKET)});
-						}
-						else if (SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
+						if (SlimefunManager.isItemSimiliar(fuel, new ItemStack(Material.LAVA_BUCKET), true)
+								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_FUEL, true)
+								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
 							pushItems(l, new ItemStack[] {new ItemStack(Material.BUCKET)});
 						}
 						BlockStorage.getInventory(l).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));

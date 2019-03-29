@@ -297,7 +297,6 @@ public abstract class AReactor extends SlimefunItem {
 
 			Set<Location> explode = new HashSet<Location>();
 
-			@SuppressWarnings("deprecation")
 			@Override
 			public double generateEnergy(final Location l, SlimefunItem sf, Config data) {
 				BlockMenu port = getAccessPort(l);
@@ -312,7 +311,7 @@ public abstract class AReactor extends SlimefunItem {
 							ChargableBlock.addCharge(l, getEnergyProduction());
 							space -= produced;
 						}
-						if (space >= produced || !BlockStorage.getBlockInfo(l, "reactor-mode").equals("generator")) {
+						if (space >= produced || !BlockStorage.getLocationInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
 
 							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {

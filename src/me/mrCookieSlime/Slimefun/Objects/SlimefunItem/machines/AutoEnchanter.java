@@ -25,10 +25,12 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class AutoEnchanter extends AContainer {
+
 	public static int max_emerald_enchantments = 2;
 
 	public AutoEnchanter(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
@@ -59,8 +61,8 @@ public class AutoEnchanter extends AContainer {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
@@ -118,7 +120,7 @@ public class AutoEnchanter extends AContainer {
 								enchantments2.add(enchantment);
 							}
 						}
-                        special_amount+=EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
+						special_amount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
 					}
 					if (amount > 0 && special_amount <= max_emerald_enchantments) {
 						ItemStack newItem = target.clone();

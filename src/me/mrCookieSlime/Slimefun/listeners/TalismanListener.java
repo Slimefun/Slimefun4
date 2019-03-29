@@ -12,6 +12,7 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
@@ -86,23 +87,21 @@ public class TalismanListener implements Listener {
 	public void onEnchant(EnchantItemEvent e) {
 		if (Talisman.checkFor(e, SlimefunItem.getByID("MAGICIAN_TALISMAN"))) {
 			List<String> enchantments = new ArrayList<String>();
-			for (Enchantment en: Enchantment.values()) {
+			for (Enchantment en : Enchantment.values()) {
 				for (int i = 1; i <= en.getMaxLevel(); i++) {
-					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getName() + ".level." + i) && en.canEnchantItem(e.getItem())) enchantments.add(en.getName() + "-" + i);
+					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i) && en.canEnchantItem(e.getItem())) enchantments.add(en.getKey().getKey() + "-" + i);
 				}
 			}
 			String enchant = enchantments.get(SlimefunStartup.randomize(enchantments.size()));
-			e.getEnchantsToAdd().put(Enchantment.getByName(enchant.split("-")[0]), Integer.parseInt(enchant.split("-")[1]));
-			
+			e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchant.split("-")[0])), Integer.parseInt(enchant.split("-")[1]));
 		}
 		if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem())) {
 			if (Talisman.checkFor(e, SlimefunItem.getByID("WIZARD_TALISMAN"))) {
 				if (e.getEnchantsToAdd().containsKey(Enchantment.LOOT_BONUS_BLOCKS)) e.getEnchantsToAdd().remove(Enchantment.LOOT_BONUS_BLOCKS);
 				Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
-				for (Enchantment en: enchantments) {
+				for (Enchantment en : enchantments) {
 					if (SlimefunStartup.chance(100, 40)) e.getEnchantsToAdd().put(en, SlimefunStartup.randomize(3) + 1);
 				}
-				
 				e.getItem().addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, SlimefunStartup.randomize(3) + 3);
 			}
 		}

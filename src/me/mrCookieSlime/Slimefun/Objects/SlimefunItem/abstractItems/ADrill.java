@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
@@ -26,8 +27,8 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class ADrill extends AContainer {
 	
-	private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 9, 10, 11, 12, 18, 21, 27, 28, 29, 30, 19, 20 };
-	private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
+	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 9, 10, 11, 12, 18, 21, 27, 28, 29, 30, 19, 20};
+	private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 	
 	public abstract OreGenResource getOreGenResource();
 	public abstract ItemStack[] getOutputItems();
@@ -127,14 +128,13 @@ public abstract class ADrill extends AContainer {
 	@Override
 	public void registerDefaultRecipes() {}
 	
-	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
