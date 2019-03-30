@@ -5,12 +5,6 @@ import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.world.WorldLoadEvent;
-import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
@@ -32,7 +26,6 @@ import me.mrCookieSlime.Slimefun.GitHub.GitHubConnector;
 import me.mrCookieSlime.Slimefun.GitHub.GitHubSetup;
 import me.mrCookieSlime.Slimefun.Hashing.ItemHash;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
@@ -204,57 +197,13 @@ public class SlimefunStartup extends JavaPlugin {
 			if (config.getBoolean("items.coolers")) new CoolerListener(this);
 
 			// Handle Slimefun Guide being given on Join
-			// TODO: Move it to its own class, was too lazy
-			if (config.getBoolean("options.give-guide-on-first-join")) {
-				getServer().getPluginManager().registerEvents(new Listener() {
-
-					@EventHandler
-					public void onJoin(PlayerJoinEvent e) {
-						if (!e.getPlayer().hasPlayedBefore()) {
-							Player p = e.getPlayer();
-							if (!getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
-							if (!getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
-							
-							if (config.getBoolean("guide.default-view-book")) p.getInventory().addItem(SlimefunGuide.getItem(BookDesign.BOOK));
-							else p.getInventory().addItem(SlimefunGuide.getItem(BookDesign.CHEST));
-						}
-					}
-
-				}, this);
-			}
+			if (config.getBoolean("options.give-guide-on-first-join")) new GuideOnJoinListener(this);
 
 			// Load/Unload Worlds in Slimefun
-			// TODO: Move it to its own class, was too lazy
-			getServer().getPluginManager().registerEvents(new Listener() {
-
-				@EventHandler
-				public void onWorldLoad(WorldLoadEvent e) {
-					BlockStorage.getForcedStorage(e.getWorld());
-
-					SlimefunStartup.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled", true);
-					SlimefunStartup.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
-					SlimefunStartup.getWhitelist().save();
-				}
-
-				@EventHandler
-				public void onWorldUnload(WorldUnloadEvent e) {
-					BlockStorage storage = BlockStorage.getStorage(e.getWorld());
-					if (storage != null) storage.save(true);
-					else System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + e.getWorld().getName() + "\"");
-				}
-
-			}, this);
+			new WorldListener(this);
 
 			// Clear the Slimefun Guide History upon Player Leaving
-			// TODO: Move it to its own class, was too lazy
-			getServer().getPluginManager().registerEvents(new Listener() {
-
-				@EventHandler
-				public void onDisconnect(PlayerQuitEvent e) {
-					SlimefunGuide.history.remove(e.getPlayer().getUniqueId());
-				}
-
-			}, this);
+			new PlayerQuitListener(this);
 
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
