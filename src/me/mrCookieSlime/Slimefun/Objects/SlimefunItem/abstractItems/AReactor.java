@@ -314,14 +314,9 @@ public abstract class AReactor extends SlimefunItem {
 						if (space >= produced || !BlockStorage.getLocationInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
 
-							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-								@Override
-								public void run() {
-									if (!l.getBlock().getRelative(cooling[CSCoreLib.randomizer().nextInt(cooling.length)]).isLiquid()) explode.add(l);
-								}
+							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+								if (!l.getBlock().getRelative(cooling[CSCoreLib.randomizer().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 							});
-
 
 							ItemStack item = getProgressBar().clone();
 							ItemMeta im = item.getItemMeta();
@@ -433,11 +428,8 @@ public abstract class AReactor extends SlimefunItem {
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
 					
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-						@Override
-						public void run() {
-							ReactorHologram.remove(l);
-						}
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+						ReactorHologram.remove(l);
 					}, 0);
 					
 					explode.remove(l);

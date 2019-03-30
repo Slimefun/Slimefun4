@@ -204,7 +204,13 @@ public class ItemListener implements Listener {
 			for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
 				if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
 			}
-			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DURALUMIN_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.SOLDER_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.BILLON_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.STEEL_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL, false) || SlimefunManager.isItemSimiliar(item, SlimefunItems.CARBONADO_MULTI_TOOL, false)) {
+			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DURALUMIN_MULTI_TOOL, false)
+					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.SOLDER_MULTI_TOOL, false)
+					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.BILLON_MULTI_TOOL, false)
+					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.STEEL_MULTI_TOOL, false)
+					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL, false)
+					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL, false)
+					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.CARBONADO_MULTI_TOOL, false)) {
 				e.setCancelled(true);
 				ItemStack tool = null;
 				for (ItemStack mTool : new ItemStack[] {SlimefunItems.DURALUMIN_MULTI_TOOL, SlimefunItems.SOLDER_MULTI_TOOL, SlimefunItems.BILLON_MULTI_TOOL, SlimefunItems.STEEL_MULTI_TOOL, SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL, SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL, SlimefunItems.CARBONADO_MULTI_TOOL}) {
@@ -329,15 +335,10 @@ public class ItemListener implements Listener {
 						// Remove the glass bottle once drunk
 						final int m = mode;
 
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-							@Override
-							public void run() {
-								if (m == 0) p.getEquipment().setItemInMainHand(null);
-								else if (m == 1) p.getEquipment().setItemInOffHand(null);
-								else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
-							}
-
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+							if (m == 0) p.getEquipment().setItemInMainHand(null);
+							else if (m == 1) p.getEquipment().setItemInOffHand(null);
+							else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
 						}, 0L);
 					}
 				}

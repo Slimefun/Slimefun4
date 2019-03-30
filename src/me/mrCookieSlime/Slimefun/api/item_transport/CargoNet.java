@@ -195,210 +195,246 @@ public class CargoNet extends Network {
 
 			CargoNet self = this;
 			final BlockStorage storage = BlockStorage.getStorage(b.getWorld());
-			SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
+			SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+				if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
+					self.display();
+				}
+				//Chest Terminal Code
+				if (EXTRA_CHANNELS) {
+					for (Location bus: imports) {
+						BlockMenu menu = BlockStorage.getInventory(bus);
 
-				@Override
-				public void run() {
-					if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
-						self.display();
+						if (menu.getItemInSlot(17) == null) {
+							Block target = getAttachedBlock(bus.getBlock());
+							ItemSlot stack = CargoManager.withdraw(bus.getBlock(), storage, target, -1);
+
+							if (stack != null) {
+								menu.replaceExistingItem(17, stack.getItem());
+							}
+						}
+
+						if (menu.getItemInSlot(17) != null) {
+							requests.add(new ItemRequest(bus, 17, menu.getItemInSlot(17), ItemTransportFlow.INSERT));
+						}
 					}
-					//Chest Terminal Code
-					if (EXTRA_CHANNELS) {
-						for (Location bus: imports) {
-							BlockMenu menu = BlockStorage.getInventory(bus);
 
-							if (menu.getItemInSlot(17) == null) {
-								Block target = getAttachedBlock(bus.getBlock());
-								ItemSlot stack = CargoManager.withdraw(bus.getBlock(), storage, target, -1);
+					for (Location bus: exports) {
+						BlockMenu menu = BlockStorage.getInventory(bus);
+
+						if (menu.getItemInSlot(17) != null) {
+							Block target = getAttachedBlock(bus.getBlock());
+
+							menu.replaceExistingItem(17, CargoManager.insert(bus.getBlock(), storage, target, menu.getItemInSlot(17), -1));
+						}
+
+						if (menu.getItemInSlot(17) == null) {
+							List<ItemStack> items = new ArrayList<ItemStack>();
+							for (int slot: slots) {
+								ItemStack template = menu.getItemInSlot(slot);
+								if (template != null) items.add(new CustomItem(template, 1));
+							}
+
+							if (!items.isEmpty()) {
+								int index = Integer.parseInt(BlockStorage.getLocationInfo(bus, "index"));
+
+								index++;
+								if (index > (items.size() - 1)) index = 0;
+
+								BlockStorage.addBlockInfo(bus, "index", String.valueOf(index));
+
+								requests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
+							}
+						}
+					}
+
+					Iterator<ItemRequest> iterator = requests.iterator();
+					while (iterator.hasNext()) {
+						ItemRequest request = iterator.next();
+						if (terminals.contains(request.getTerminal()) || imports.contains(request.getTerminal()) || exports.contains(request.getTerminal())) {
+							BlockMenu menu = BlockStorage.getInventory(request.getTerminal());
+
+							switch (request.getDirection()) {
+							case INSERT: {
+								ItemStack stack = request.getItem();
+								nodes:
+								for (Location l: destinations) {
+									Block target = getAttachedBlock(l.getBlock());
+									stack = CargoManager.insert(l.getBlock(), storage, target, stack, -1);
+									if (stack == null) {
+										menu.replaceExistingItem(request.getSlot(), null);
+										break nodes;
+									}
+								}
 
 								if (stack != null) {
-									menu.replaceExistingItem(17, stack.getItem());
-								}
-							}
-
-							if (menu.getItemInSlot(17) != null) {
-								requests.add(new ItemRequest(bus, 17, menu.getItemInSlot(17), ItemTransportFlow.INSERT));
-							}
-						}
-
-						for (Location bus: exports) {
-							BlockMenu menu = BlockStorage.getInventory(bus);
-
-							if (menu.getItemInSlot(17) != null) {
-								Block target = getAttachedBlock(bus.getBlock());
-
-								menu.replaceExistingItem(17, CargoManager.insert(bus.getBlock(), storage, target, menu.getItemInSlot(17), -1));
-							}
-
-							if (menu.getItemInSlot(17) == null) {
-								List<ItemStack> items = new ArrayList<ItemStack>();
-								for (int slot: slots) {
-									ItemStack template = menu.getItemInSlot(slot);
-									if (template != null) items.add(new CustomItem(template, 1));
+									menu.replaceExistingItem(request.getSlot(), stack);
 								}
 
-								if (!items.isEmpty()) {
-									int index = Integer.parseInt(BlockStorage.getLocationInfo(bus, "index"));
-
-									index++;
-									if (index > (items.size() - 1)) index = 0;
-
-									BlockStorage.addBlockInfo(bus, "index", String.valueOf(index));
-
-									requests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
-								}
+								iterator.remove();
+								break;
 							}
-						}
+							case WITHDRAW: {
+								int slot = request.getSlot();
+								ItemStack prevStack = menu.getItemInSlot(slot);
+								if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunManager.isItemSimiliar(prevStack, new CustomItem(request.getItem(), 1), true, DataType.ALWAYS)))) {
+									iterator.remove();
+									break;
+								}
 
-						Iterator<ItemRequest> iterator = requests.iterator();
-						while (iterator.hasNext()) {
-							ItemRequest request = iterator.next();
-							if (terminals.contains(request.getTerminal()) || imports.contains(request.getTerminal()) || exports.contains(request.getTerminal())) {
-								BlockMenu menu = BlockStorage.getInventory(request.getTerminal());
-
-								switch (request.getDirection()) {
-								case INSERT: {
-									ItemStack stack = request.getItem();
-									nodes:
-									for (Location l: destinations) {
-										Block target = getAttachedBlock(l.getBlock());
-										stack = CargoManager.insert(l.getBlock(), storage, target, stack, -1);
+								ItemStack stack = null;
+								ItemStack requested = request.getItem();
+								nodes:
+								for (Location l: providers) {
+									Block target = getAttachedBlock(l.getBlock());
+									ItemStack is = CargoManager.withdraw(l.getBlock(), storage, target, requested);
+									if (is != null) {
 										if (stack == null) {
-											menu.replaceExistingItem(request.getSlot(), null);
+											stack = is;
+										}
+										else {
+											stack = new CustomItem(stack, stack.getAmount() + is.getAmount());
+										}
+
+										if (is.getAmount() == requested.getAmount()) {
 											break nodes;
 										}
+										else {
+											requested = new CustomItem(requested, requested.getAmount() - is.getAmount());
+										}
 									}
-
-									if (stack != null) {
-										menu.replaceExistingItem(request.getSlot(), stack);
-									}
-
-									iterator.remove();
-									break;
 								}
-								case WITHDRAW: {
-									int slot = request.getSlot();
-									ItemStack prevStack = menu.getItemInSlot(slot);
-									if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunManager.isItemSimiliar(prevStack, new CustomItem(request.getItem(), 1), true, DataType.ALWAYS)))) {
-										iterator.remove();
-										break;
-									}
 
-									ItemStack stack = null;
-									ItemStack requested = request.getItem();
-									nodes:
-									for (Location l: providers) {
-										Block target = getAttachedBlock(l.getBlock());
-										ItemStack is = CargoManager.withdraw(l.getBlock(), storage, target, requested);
-										if (is != null) {
-											if (stack == null) {
-												stack = is;
-											}
-											else {
-												stack = new CustomItem(stack, stack.getAmount() + is.getAmount());
-											}
+								if (stack != null) {
+									ItemStack prev = menu.getItemInSlot(slot);
 
-											if (is.getAmount() == requested.getAmount()) {
-												break nodes;
-											}
-											else {
-												requested = new CustomItem(requested, requested.getAmount() - is.getAmount());
-											}
+									if (prev == null) menu.replaceExistingItem(slot, stack);
+									else menu.replaceExistingItem(slot, new CustomItem(stack, stack.getAmount() + prev.getAmount()));
+								}
+
+								iterator.remove();
+								break;
+							}
+							default: {
+								break;
+							}
+							}
+						}
+					}
+				}
+				// All operations happen here: Everything gets iterated from the Input Nodes. (Apart from ChestTerminal Buses)
+				for (Location input: inputNodes) {
+					Integer frequency = getFrequency(input);
+					if (frequency < 0 || frequency > 15) {
+						continue;
+					}
+					Block inputTarget = getAttachedBlock(input.getBlock());
+					ItemStack stack = null;
+					int previousSlot = -1;
+
+					boolean roundrobin = BlockStorage.getLocationInfo(input, "round-robin").equals("true");
+
+					if (inputTarget != null) {
+						ItemSlot slot = CargoManager.withdraw(input.getBlock(), storage, inputTarget, Integer.parseInt(BlockStorage.getLocationInfo(input, "index")));
+						if (slot != null) {
+							stack = slot.getItem();
+							previousSlot = slot.getSlot();
+						}
+					}
+
+					if (stack != null && output.containsKey(frequency)) {
+						List<Location> outputlist = new ArrayList<Location>(output.get(frequency));
+
+						if (roundrobin) {
+							if (!round_robin.containsKey(input)) {
+								round_robin.put(input, 0);
+							}
+
+							int c_index = round_robin.get(input);
+
+							if (c_index < outputlist.size()) {
+								for (int i = 0; i < c_index; i++) {
+									final Location temp = outputlist.get(0);
+									outputlist.remove(temp);
+									outputlist.add(temp);
+								}
+								c_index++;
+							}
+							else c_index = 1;
+
+							round_robin.put(input, c_index);
+						}
+
+						destinations:
+						for (Location out: outputlist) {
+							Block target = getAttachedBlock(out.getBlock());
+							if (target != null) {
+								stack = CargoManager.insert(out.getBlock(), storage, target, stack, -1);
+								if (stack == null) break destinations;
+							}
+						}
+					}
+
+					if (stack != null && previousSlot > -1) {
+						if (storage.hasUniversalInventory(inputTarget)) {
+							UniversalBlockMenu menu = storage.getUniversalInventory(inputTarget);
+							menu.replaceExistingItem(previousSlot, stack);
+						}
+						else if (storage.hasInventory(inputTarget.getLocation())) {
+							BlockMenu menu = BlockStorage.getInventory(inputTarget.getLocation());
+							menu.replaceExistingItem(previousSlot, stack);
+						}
+						else if (inputTarget.getState() instanceof InventoryHolder) {
+							Inventory inv = ((InventoryHolder) inputTarget.getState()).getInventory();
+							inv.setItem(previousSlot, stack);
+						}
+					}
+				}
+				//Chest Terminal Code
+				if (EXTRA_CHANNELS) {
+					List<StoredItem> items = new ArrayList<StoredItem>();
+					for (Location l: providers) {
+						Block target = getAttachedBlock(l.getBlock());
+						if (storage.hasUniversalInventory(target)) {
+							UniversalBlockMenu menu = storage.getUniversalInventory(target);
+							for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+								ItemStack is = menu.getItemInSlot(slot);
+								if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
+									boolean add = true;
+									for (StoredItem item: items) {
+										if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
+											add = false;
+											item.add(is.getAmount());
 										}
 									}
 
-									if (stack != null) {
-										ItemStack prev = menu.getItemInSlot(slot);
-
-										if (prev == null) menu.replaceExistingItem(slot, stack);
-										else menu.replaceExistingItem(slot, new CustomItem(stack, stack.getAmount() + prev.getAmount()));
+									if (add) {
+										items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
 									}
-
-									iterator.remove();
-									break;
-								}
-								default: {
-									break;
-								}
 								}
 							}
 						}
-					}
-					// All operations happen here: Everything gets iterated from the Input Nodes. (Apart from ChestTerminal Buses)
-					for (Location input: inputNodes) {
-						Integer frequency = getFrequency(input);
-						if (frequency < 0 || frequency > 15) {
-							continue;
-						}
-						Block inputTarget = getAttachedBlock(input.getBlock());
-						ItemStack stack = null;
-						int previousSlot = -1;
+						else if (storage.hasInventory(target.getLocation())) {
+							BlockMenu menu = BlockStorage.getInventory(target.getLocation());
+							if (BlockStorage.checkID(target.getLocation()).startsWith("BARREL_") && BlockStorage.getLocationInfo(target.getLocation(), "storedItems") != null) {
+								int stored = Integer.valueOf(BlockStorage.getLocationInfo(target.getLocation(), "storedItems"));
+								for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+									ItemStack is = menu.getItemInSlot(slot);
+									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
+										boolean add = true;
+										for (StoredItem item: items) {
+											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
+												add = false;
+												item.add(is.getAmount() + stored);
+											}
+										}
 
-						boolean roundrobin = BlockStorage.getLocationInfo(input, "round-robin").equals("true");
-
-						if (inputTarget != null) {
-							ItemSlot slot = CargoManager.withdraw(input.getBlock(), storage, inputTarget, Integer.parseInt(BlockStorage.getLocationInfo(input, "index")));
-							if (slot != null) {
-								stack = slot.getItem();
-								previousSlot = slot.getSlot();
-							}
-						}
-
-						if (stack != null && output.containsKey(frequency)) {
-							List<Location> outputlist = new ArrayList<Location>(output.get(frequency));
-
-							if (roundrobin) {
-								if (!round_robin.containsKey(input)) {
-									round_robin.put(input, 0);
-								}
-
-								int c_index = round_robin.get(input);
-
-								if (c_index < outputlist.size()) {
-									for (int i = 0; i < c_index; i++) {
-										final Location temp = outputlist.get(0);
-										outputlist.remove(temp);
-										outputlist.add(temp);
+										if (add) {
+											items.add(new StoredItem(new CustomItem(is, 1), is.getAmount() + stored));
+										}
 									}
-									c_index++;
-								}
-								else c_index = 1;
-
-								round_robin.put(input, c_index);
-							}
-
-							destinations:
-							for (Location out: outputlist) {
-								Block target = getAttachedBlock(out.getBlock());
-								if (target != null) {
-									stack = CargoManager.insert(out.getBlock(), storage, target, stack, -1);
-									if (stack == null) break destinations;
 								}
 							}
-						}
-
-						if (stack != null && previousSlot > -1) {
-							if (storage.hasUniversalInventory(inputTarget)) {
-								UniversalBlockMenu menu = storage.getUniversalInventory(inputTarget);
-								menu.replaceExistingItem(previousSlot, stack);
-							}
-							else if (storage.hasInventory(inputTarget.getLocation())) {
-								BlockMenu menu = BlockStorage.getInventory(inputTarget.getLocation());
-								menu.replaceExistingItem(previousSlot, stack);
-							}
-							else if (inputTarget.getState() instanceof InventoryHolder) {
-								Inventory inv = ((InventoryHolder) inputTarget.getState()).getInventory();
-								inv.setItem(previousSlot, stack);
-							}
-						}
-					}
-					//Chest Terminal Code
-					if (EXTRA_CHANNELS) {
-						List<StoredItem> items = new ArrayList<StoredItem>();
-						for (Location l: providers) {
-							Block target = getAttachedBlock(l.getBlock());
-							if (storage.hasUniversalInventory(target)) {
-								UniversalBlockMenu menu = storage.getUniversalInventory(target);
+							else {
 								for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 									ItemStack is = menu.getItemInSlot(slot);
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
@@ -416,120 +452,79 @@ public class CargoNet extends Network {
 									}
 								}
 							}
-							else if (storage.hasInventory(target.getLocation())) {
-								BlockMenu menu = BlockStorage.getInventory(target.getLocation());
-								if (BlockStorage.checkID(target.getLocation()).startsWith("BARREL_") && BlockStorage.getLocationInfo(target.getLocation(), "storedItems") != null) {
-									int stored = Integer.valueOf(BlockStorage.getLocationInfo(target.getLocation(), "storedItems"));
-									for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
-										ItemStack is = menu.getItemInSlot(slot);
-										if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
-											boolean add = true;
-											for (StoredItem item: items) {
-												if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
-													add = false;
-													item.add(is.getAmount() + stored);
-												}
-											}
-
-											if (add) {
-												items.add(new StoredItem(new CustomItem(is, 1), is.getAmount() + stored));
-											}
-										}
-									}
-								}
-								else {
-									for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
-										ItemStack is = menu.getItemInSlot(slot);
-										if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
-											boolean add = true;
-											for (StoredItem item: items) {
-												if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
-													add = false;
-													item.add(is.getAmount());
-												}
-											}
-
-											if (add) {
-												items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
-											}
-										}
-									}
-								}
-							}
-							else if (target.getState() instanceof InventoryHolder) {
-								Inventory inv = ((InventoryHolder) target.getState()).getInventory();
-								for (ItemStack is: inv.getContents()) {
-									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
-										boolean add = true;
-										for (StoredItem item: items) {
-											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
-												add = false;
-												item.add(is.getAmount());
-											}
-										}
-
-										if (add) {
-											items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
-										}
-									}
-								}
-							}
 						}
-
-						Collections.sort(items, sorter);
-
-						for (final Location l: terminals) {
-							BlockMenu menu = BlockStorage.getInventory(l);
-							int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
-							if (!items.isEmpty() && items.size() < (page - 1) * terminal_slots.length + 1) {
-								page = 1;
-								BlockStorage.addBlockInfo(l, "page", String.valueOf(1));
-							}
-
-							for (int i = 0; i < terminal_slots.length; i++) {
-								int slot = terminal_slots[i];
-								if (items.size() > i + (terminal_slots.length * (page - 1))) {
-									final StoredItem item = items.get(i + (terminal_slots.length * (page - 1)));
-
-									ItemStack stack = item.getItem().clone();
-									ItemMeta im = stack.getItemMeta();
-									List<String> lore = new ArrayList<String>();
-									lore.add("");
-									lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
-									if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
-									else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
-									lore.add("");
-									if (im.hasLore()) {
-										for (String line: im.getLore()) {
-											lore.add(line);
+						else if (target.getState() instanceof InventoryHolder) {
+							Inventory inv = ((InventoryHolder) target.getState()).getInventory();
+							for (ItemStack is: inv.getContents()) {
+								if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
+									boolean add = true;
+									for (StoredItem item: items) {
+										if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
+											add = false;
+											item.add(is.getAmount());
 										}
 									}
-									im.setLore(lore);
-									stack.setItemMeta(im);
-									menu.replaceExistingItem(slot, stack);
-									menu.addMenuClickHandler(slot, new MenuClickHandler() {
 
-										@Override
-										public boolean onClick(Player p, int slot, ItemStack is, ClickAction action) {
-											requests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
-											return false;
-										}
-									});
-
+									if (add) {
+										items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
+									}
 								}
-								else {
-									menu.replaceExistingItem(slot, terminal_noitem_item);
-									menu.addMenuClickHandler(slot, terminal_noitem_handler);
-								}
-							}
-
-							ItemStack sent_item = menu.getItemInSlot(17);
-							if (sent_item != null) {
-								requests.add(new ItemRequest(l, 17, sent_item, ItemTransportFlow.INSERT));
 							}
 						}
 					}
 
+					Collections.sort(items, sorter);
+
+					for (final Location l: terminals) {
+						BlockMenu menu = BlockStorage.getInventory(l);
+						int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
+						if (!items.isEmpty() && items.size() < (page - 1) * terminal_slots.length + 1) {
+							page = 1;
+							BlockStorage.addBlockInfo(l, "page", String.valueOf(1));
+						}
+
+						for (int i = 0; i < terminal_slots.length; i++) {
+							int slot = terminal_slots[i];
+							if (items.size() > i + (terminal_slots.length * (page - 1))) {
+								final StoredItem item = items.get(i + (terminal_slots.length * (page - 1)));
+
+								ItemStack stack = item.getItem().clone();
+								ItemMeta im = stack.getItemMeta();
+								List<String> lore = new ArrayList<String>();
+								lore.add("");
+								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
+								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
+								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
+								lore.add("");
+								if (im.hasLore()) {
+									for (String line: im.getLore()) {
+										lore.add(line);
+									}
+								}
+								im.setLore(lore);
+								stack.setItemMeta(im);
+								menu.replaceExistingItem(slot, stack);
+								menu.addMenuClickHandler(slot, new MenuClickHandler() {
+
+									@Override
+									public boolean onClick(Player p, int slot, ItemStack is, ClickAction action) {
+										requests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
+										return false;
+									}
+								});
+
+							}
+							else {
+								menu.replaceExistingItem(slot, terminal_noitem_item);
+								menu.addMenuClickHandler(slot, terminal_noitem_handler);
+							}
+						}
+
+						ItemStack sent_item = menu.getItemInSlot(17);
+						if (sent_item != null) {
+							requests.add(new ItemRequest(l, 17, sent_item, ItemTransportFlow.INSERT));
+						}
+					}
 				}
 			});
 		}

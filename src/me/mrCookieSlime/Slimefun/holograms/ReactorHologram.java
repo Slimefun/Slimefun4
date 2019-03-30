@@ -28,14 +28,10 @@ public class ReactorHologram {
     }
     
     public static void update(final Location l, final String name) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-			
-			@Override
-			public void run() {
-				ArmorStand hologram = getArmorStand(l);
-				if (!hologram.isCustomNameVisible()) hologram.setCustomNameVisible(true);
-				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
-			}
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+			ArmorStand hologram = getArmorStand(l);
+			if (!hologram.isCustomNameVisible()) hologram.setCustomNameVisible(true);
+			hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
 		});
 	}
 
