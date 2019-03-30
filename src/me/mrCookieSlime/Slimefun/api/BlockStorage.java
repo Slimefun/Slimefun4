@@ -339,7 +339,7 @@ public class BlockStorage {
 	@SuppressWarnings("unchecked")
 	private static String serializeBlockInfo(Config cfg) {
 		JSONObject json = new JSONObject();
-		for (String key: cfg.getKeys()) {
+		for (String key : cfg.getKeys()) {
 			json.put(key, cfg.getString(key));
 		}
 		return json.toJSONString();
@@ -596,8 +596,11 @@ public class BlockStorage {
 	public void clearInventory(Location l) {
 		BlockMenu menu = getInventory(l);
 
-		for (HumanEntity human: new ArrayList<>(menu.toInventory().getViewers())) {
-			human.closeInventory();
+		for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
+			// Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while holding an item
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+				human.closeInventory();
+			});
 		}
 
 		inventories.get(l).delete(l);
