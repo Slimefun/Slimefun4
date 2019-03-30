@@ -15,13 +15,13 @@ public abstract class FoodComposter extends AContainer {
 	
 	@Override
 	public void registerDefaultRecipes() {
-		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD2}, new ItemStack[] {SlimefunItems.FERTILIZER2});
-		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD3}, new ItemStack[] {SlimefunItems.FERTILIZER3});
-		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD4}, new ItemStack[] {SlimefunItems.FERTILIZER4});
-		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD5}, new ItemStack[] {SlimefunItems.FERTILIZER5});
-		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD6}, new ItemStack[] {SlimefunItems.FERTILIZER6});
-		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD7}, new ItemStack[] {SlimefunItems.FERTILIZER7});
-		registerRecipe(30, new ItemStack[] {SlimefunItems.ORGANIC_FOOD8}, new ItemStack[] {SlimefunItems.FERTILIZER8});
+		registerRecipe(30, new ItemStack[] {SlimefunItems.WHEAT_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.WHEAT_FERTILIZER});
+		registerRecipe(30, new ItemStack[] {SlimefunItems.CARROT_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.CARROT_FERTILIZER});
+		registerRecipe(30, new ItemStack[] {SlimefunItems.POTATO_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.POTATO_FERTILIZER});
+		registerRecipe(30, new ItemStack[] {SlimefunItems.SEEDS_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.SEEDS_FERTILIZER});
+		registerRecipe(30, new ItemStack[] {SlimefunItems.BEETROOT_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.BEETROOT_FERTILIZER});
+		registerRecipe(30, new ItemStack[] {SlimefunItems.MELON_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.MELON_FERTILIZER});
+		registerRecipe(30, new ItemStack[] {SlimefunItems.APPLE_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.APPLE_FERTILIZER});
 	}
 	
 	@Override
