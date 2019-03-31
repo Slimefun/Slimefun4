@@ -16,14 +16,12 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
@@ -49,13 +47,7 @@ public class CargoNet extends Network {
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
 	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
-	private static final MenuClickHandler terminal_noitem_handler = new MenuClickHandler() {
-
-		@Override
-		public boolean onClick(Player p, int slot, ItemStack stack, ClickAction action) {
-			return false;
-		}
-	};
+	private static final MenuClickHandler terminal_noitem_handler = (p, slot, item, action) -> false;
 
 	public static CargoNet getNetworkFromLocation(Location l) {
 		return getNetworkFromLocation(l, CargoNet.class);
@@ -201,7 +193,7 @@ public class CargoNet extends Network {
 				}
 				//Chest Terminal Code
 				if (EXTRA_CHANNELS) {
-					for (Location bus: imports) {
+					for (Location bus : imports) {
 						BlockMenu menu = BlockStorage.getInventory(bus);
 
 						if (menu.getItemInSlot(17) == null) {
@@ -218,7 +210,7 @@ public class CargoNet extends Network {
 						}
 					}
 
-					for (Location bus: exports) {
+					for (Location bus : exports) {
 						BlockMenu menu = BlockStorage.getInventory(bus);
 
 						if (menu.getItemInSlot(17) != null) {
@@ -284,7 +276,7 @@ public class CargoNet extends Network {
 								ItemStack stack = null;
 								ItemStack requested = request.getItem();
 								nodes:
-								for (Location l: providers) {
+								for (Location l : providers) {
 									Block target = getAttachedBlock(l.getBlock());
 									ItemStack is = CargoManager.withdraw(l.getBlock(), storage, target, requested);
 									if (is != null) {
@@ -365,7 +357,7 @@ public class CargoNet extends Network {
 						}
 
 						destinations:
-						for (Location out: outputlist) {
+						for (Location out : outputlist) {
 							Block target = getAttachedBlock(out.getBlock());
 							if (target != null) {
 								stack = CargoManager.insert(out.getBlock(), storage, target, stack, -1);
@@ -504,13 +496,9 @@ public class CargoNet extends Network {
 								im.setLore(lore);
 								stack.setItemMeta(im);
 								menu.replaceExistingItem(slot, stack);
-								menu.addMenuClickHandler(slot, new MenuClickHandler() {
-
-									@Override
-									public boolean onClick(Player p, int slot, ItemStack is, ClickAction action) {
-										requests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
-										return false;
-									}
+								menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
+									requests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
+									return false;
 								});
 
 							}
@@ -544,4 +532,5 @@ public class CargoNet extends Network {
 		} catch (Exception e) {}
 		return freq;
 	}
+
 }

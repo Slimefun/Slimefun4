@@ -3,10 +3,15 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -22,13 +27,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.Ageable;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class CropGrowthAccelerator extends SlimefunItem {
 	
@@ -75,7 +73,6 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
-				
 			}
 			
 			@Override
@@ -95,16 +92,10 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i: border) {
+		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+				(p, slot, item, action) -> false
+			);
 		}
 	}
 	
@@ -171,7 +162,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 		}
 		
 		if (work > 0) {
-			for (int slot: getInputSlots()) {
+			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					break;

@@ -1,14 +1,12 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -44,62 +42,46 @@ public class CargoOutputNode extends SlimefunItem {
 				try {
 
 					menu.replaceExistingItem(12, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
-					menu.addMenuClickHandler(12, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
-							if (channel < 0) {
-								if (CargoNet.EXTRA_CHANNELS) channel = 16;
-								else channel = 15;
-							}
-							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
-							newInstance(menu, b);
-							return false;
+					menu.addMenuClickHandler(12, (p, slot, item, action) -> {
+						int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
+						if (channel < 0) {
+							if (CargoNet.EXTRA_CHANNELS) channel = 16;
+							else channel = 15;
 						}
+						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
+						newInstance(menu, b);
+						return false;
 					});
 					
 					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))));
 
 					if (channel == 16) {
 						menu.replaceExistingItem(13, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&bChannel ID: &3" + (channel + 1)));
-						menu.addMenuClickHandler(13, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								return false;
-							}
-						});
+						menu.addMenuClickHandler(13,
+							(p, slot, item, action) -> false
+						);
 					}
 					else {
 						menu.replaceExistingItem(13, new CustomItem(new ItemStack(MaterialHelper.WoolColours[channel]), "&bChannel ID: &3" + (channel + 1)));
-						menu.addMenuClickHandler(13, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								return false;
-							}
-						});
+						menu.addMenuClickHandler(13,
+							(p, slot, item, action) -> false
+						);
 					}
 
 					menu.replaceExistingItem(14, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&bChannel", "", "&e> Click to increase the Channel ID by 1"));
-					menu.addMenuClickHandler(14, new MenuClickHandler() {
+					menu.addMenuClickHandler(14, (p, slot, item, action) -> {
+						int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
 
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
-
-							if (CargoNet.EXTRA_CHANNELS) {
-								if (channel > 16) channel = 0;
-							}
-							else {
-								if (channel > 15) channel = 0;
-							}
-							
-							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
-							newInstance(menu, b);
-							return false;
+						if (CargoNet.EXTRA_CHANNELS) {
+							if (channeln > 16) channeln = 0;
 						}
+						else {
+							if (channeln > 15) channeln = 0;
+						}
+						
+						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
+						newInstance(menu, b);
+						return false;
 					});
 					
 				} catch (Exception e) {
@@ -138,16 +120,11 @@ public class CargoOutputNode extends SlimefunItem {
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i: border) {
+		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-				
-			});
+				(p, slot, item, action) -> false
+			);
 		}
 	}
+
 }

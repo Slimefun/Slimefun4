@@ -46,38 +46,20 @@ public abstract class ADrill extends AContainer {
 			}
 
 			private void constructMenu(BlockMenuPreset preset) {
-				for (int i: border) {
+				for (int i : border) {
 					preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-					new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-							return false;
-						}
-								
-					});
+						(p, slot, item, action) -> false
+					);
 				}
-				for (int i: border_out) {
+				for (int i : border_out) {
 					preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "),
-					new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-							return false;
-						}
-								
-					});
+						(p, slot, item, action) -> false
+					);
 				}
 				
 				preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "),
-				new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						return false;
-					}
-									
-				});
+					(p, slot, item, action) -> false
+				);
 				
 				for (int i: getOutputSlots()) {
 					preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
