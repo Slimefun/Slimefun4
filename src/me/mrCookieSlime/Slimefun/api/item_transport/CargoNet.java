@@ -48,6 +48,7 @@ public class CargoNet extends Network {
 	// Chest Terminal Stuff
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
+	private static final int TERMINAL_OUT_SLOT = 17;
 	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = new MenuClickHandler() {
 
@@ -247,6 +248,15 @@ public class CargoNet extends Network {
 
 									requests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
 								}
+							}
+						}
+
+						for (final Location terminal : terminals) {
+							BlockMenu menu = BlockStorage.getInventory(terminal);
+
+							ItemStack sending_item = menu.getItemInSlot(TERMINAL_OUT_SLOT);
+							if (sending_item != null) {
+								requests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sending_item, ItemTransportFlow.INSERT));
 							}
 						}
 
@@ -521,11 +531,6 @@ public class CargoNet extends Network {
 									menu.replaceExistingItem(slot, terminal_noitem_item);
 									menu.addMenuClickHandler(slot, terminal_noitem_handler);
 								}
-							}
-
-							ItemStack sent_item = menu.getItemInSlot(17);
-							if (sent_item != null) {
-								requests.add(new ItemRequest(l, 17, sent_item, ItemTransportFlow.INSERT));
 							}
 						}
 					}
