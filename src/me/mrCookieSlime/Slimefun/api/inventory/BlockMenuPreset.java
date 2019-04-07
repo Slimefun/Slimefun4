@@ -157,10 +157,8 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public void newInstance(final BlockMenu menu, final Location l) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-			public void run() {
-				newInstance(menu, l.getBlock());
-			}
+		Bukkit.getScheduler().runTask(SlimefunStartup.instance, () -> {
+			newInstance(menu, l.getBlock());
 		});
 	}
 

@@ -81,116 +81,107 @@ public class TickerTask implements Runnable {
 							try {
 								item.getBlockTicker().update();
 								if (item.getBlockTicker().isSynchronized()) {
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-										
-										@Override
-										public void run() {
-											try {
-												long timestamp3 = System.currentTimeMillis();
-												item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
-												
-												map_machinetime.put(item.getID(), (map_machinetime.containsKey(item.getID()) ? map_machinetime.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
-												map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
-												map_machine.put(item.getID(), (map_machine.containsKey(item.getID()) ? map_machine.get(item.getID()): 0) + 1);
-												block_timings.put(l, System.currentTimeMillis() - timestamp3);
-											} catch (Exception x) {
-												int errors = 0;
-												if (bugged.containsKey(l)) errors = bugged.get(l);
-												errors++;
-												
-												if (errors == 1) {
-													int try_count = 1;
-													File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
-													while (file.exists()) {
-														try_count += 1;
-														file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(" + try_count + ").err");
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+										try {
+											long timestamp3 = System.currentTimeMillis();
+											item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
+											
+											map_machinetime.put(item.getID(), (map_machinetime.containsKey(item.getID()) ? map_machinetime.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
+											map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
+											map_machine.put(item.getID(), (map_machine.containsKey(item.getID()) ? map_machine.get(item.getID()): 0) + 1);
+											block_timings.put(l, System.currentTimeMillis() - timestamp3);
+										} catch (Exception x) {
+											int errors = 0;
+											if (bugged.containsKey(l)) errors = bugged.get(l);
+											errors++;
+											
+											if (errors == 1) {
+												int try_count = 1;
+												File file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
+												while (file.exists()) {
+													try_count += 1;
+													file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(" + try_count + ").err");
+												}
+												try {
+													PrintStream stream = new PrintStream(file);
+													stream.println();
+													stream.println("Server Software: " + Bukkit.getName());
+													stream.println("  Build: " + Bukkit.getVersion());
+													stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
+													stream.println();
+													stream.println("Slimefun Environment:");
+													stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
+													stream.println("  Slimefun v" + SlimefunStartup.instance.getDescription().getVersion());
+													stream.println();
+
+													List<String> plugins = new ArrayList<>();
+													List<String> addons = new ArrayList<>();
+													for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
+														if (Bukkit.getPluginManager().isPluginEnabled(p)) {
+															plugins.add("  + " + p.getName() + " " + p.getDescription().getVersion());
+															if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
+																addons.add("  + " + p.getName() + " " + p.getDescription().getVersion());
+														}
+														else {
+															plugins.add("  - " + p.getName() + " " + p.getDescription().getVersion());
+															if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
+																addons.add("  - " + p.getName() + " " + p.getDescription().getVersion());
+														}
 													}
-													try {
-														PrintStream stream = new PrintStream(file);
-														stream.println();
-														stream.println("Server Software: " + Bukkit.getName());
-														stream.println("  Build: " + Bukkit.getVersion());
-														stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
-														stream.println();
-														stream.println("Slimefun Environment:");
-														stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
-														stream.println("  Slimefun v" + SlimefunStartup.instance.getDescription().getVersion());
-														stream.println();
 
-														List<String> plugins = new ArrayList<>();
-														List<String> addons = new ArrayList<>();
-														for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
-															if (Bukkit.getPluginManager().isPluginEnabled(p)) {
-																plugins.add("  + " + p.getName() + " " + p.getDescription().getVersion());
-																if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
-																	addons.add("  + " + p.getName() + " " + p.getDescription().getVersion());
-															}
-															else {
-																plugins.add("  - " + p.getName() + " " + p.getDescription().getVersion());
-																if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
-																	addons.add("  - " + p.getName() + " " + p.getDescription().getVersion());
-															}
-														}
-
-														stream.println(" Installed Addons (" + addons.size() + ")");
-														for (String addon : addons) {
-															stream.println(addon);
-														}
-														stream.println();
-														stream.println("Installed Plugins (" + plugins.size() + "):");
-														for (String plugin : plugins) {
-															stream.println(plugin);
-														}
-														stream.println();
-														stream.println("Ticked Block:");
-														stream.println("  World: " + l.getWorld().getName());
-														stream.println("  X: " + l.getBlockX());
-														stream.println("  Y: " + l.getBlockY());
-														stream.println("  Z: " + l.getBlockZ());
-														stream.println();
-														stream.println("Slimefun Data:");
-														stream.println("  ID: " + item.getID());
-														stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
-														stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
-														stream.println();
-														stream.println("Stacktrace:");
-														stream.println();
-														x.printStackTrace(stream);
-														
-														stream.close();
-													} catch (FileNotFoundException e) {
-														e.printStackTrace();
+													stream.println(" Installed Addons (" + addons.size() + ")");
+													for (String addon : addons) {
+														stream.println(addon);
 													}
+													stream.println();
+													stream.println("Installed Plugins (" + plugins.size() + "):");
+													for (String plugin : plugins) {
+														stream.println(plugin);
+													}
+													stream.println();
+													stream.println("Ticked Block:");
+													stream.println("  World: " + l.getWorld().getName());
+													stream.println("  X: " + l.getBlockX());
+													stream.println("  Y: " + l.getBlockY());
+													stream.println("  Z: " + l.getBlockZ());
+													stream.println();
+													stream.println("Slimefun Data:");
+													stream.println("  ID: " + item.getID());
+													stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
+													stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
+													stream.println();
+													stream.println("Stacktrace:");
+													stream.println();
+													x.printStackTrace(stream);
 													
-													System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
-													System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-													System.err.println("[Slimefun] Saved as: ");
-													System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
-													System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
-													System.err.println("[Slimefun] ");
-													
-													bugged_blocks.put(l, errors);
+													stream.close();
+												} catch (FileNotFoundException e) {
+													e.printStackTrace();
 												}
-												else if (errors == 4) {
-													System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
-													System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
-													System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
-													System.err.println("[Slimefun] ");
-													
-													BlockStorage._integrated_removeBlockInfo(l, true);
-													
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-														@Override
-														public void run() {
-															l.getBlock().setType(Material.AIR);
-														}
-														
-													});
-												}
-												else {
-													bugged_blocks.put(l, errors);
-												}
+												
+												System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
+												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
+												System.err.println("[Slimefun] Saved as: ");
+												System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
+												System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
+												System.err.println("[Slimefun] ");
+												
+												bugged_blocks.put(l, errors);
+											}
+											else if (errors == 4) {
+												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
+												System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+												System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
+												System.err.println("[Slimefun] ");
+												
+												BlockStorage._integrated_removeBlockInfo(l, true);
+												
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+													l.getBlock().setType(Material.AIR);
+												});
+											}
+											else {
+												bugged_blocks.put(l, errors);
 											}
 										}
 									});
@@ -273,13 +264,8 @@ public class TickerTask implements Runnable {
 									
 									BlockStorage._integrated_removeBlockInfo(l, true);
 									
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-										@Override
-										public void run() {
-											l.getBlock().setType(Material.AIR);
-										}
-										
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+										l.getBlock().setType(Material.AIR);
 									});
 								}
 								else {
@@ -300,7 +286,7 @@ public class TickerTask implements Runnable {
 				map_chunktime.put(c, System.currentTimeMillis() - timestamp2);
 			}
 		}
-		
+
 		for (Map.Entry<Location, Location> entry: move.entrySet()) {
 			BlockStorage._integrated_moveLocationInfo(entry.getKey(), entry.getValue());
 		}

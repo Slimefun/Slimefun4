@@ -1,9 +1,15 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.Animals;
@@ -20,14 +26,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class AutoBreeder extends SlimefunItem {
 	
@@ -63,7 +61,6 @@ public class AutoBreeder extends SlimefunItem {
 			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
-				
 			}
 			
 			@Override
@@ -71,7 +68,7 @@ public class AutoBreeder extends SlimefunItem {
 				me.mrCookieSlime.Slimefun.holograms.AutoBreeder.getArmorStand(b).remove();
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
-					for (int slot: getInputSlots()) {
+					for (int slot : getInputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -84,16 +81,10 @@ public class AutoBreeder extends SlimefunItem {
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i: border) {
+		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+				(p, slot, item, action) -> false
+			);
 		}
 	}
 	
@@ -132,9 +123,9 @@ public class AutoBreeder extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) throws Exception {
-		for (Entity n: me.mrCookieSlime.Slimefun.holograms.AutoBreeder.getArmorStand(b).getNearbyEntities(4D, 2D, 4D)) {
+		for (Entity n : me.mrCookieSlime.Slimefun.holograms.AutoBreeder.getArmorStand(b).getNearbyEntities(4D, 2D, 4D)) {
 			if (Animals.isFeedable(n)) {
-				for (int slot: getInputSlots()) {
+				for (int slot : getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
 						if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 						ChargableBlock.addCharge(b, -getEnergyConsumption());
