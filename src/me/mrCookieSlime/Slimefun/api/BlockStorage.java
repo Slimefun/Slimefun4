@@ -98,7 +98,7 @@ public class BlockStorage {
 							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
-						
+
 						FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 						for (String key: cfg.getKeys(false)) {
 							Location l = deserializeLocation(key);
@@ -107,9 +107,9 @@ public class BlockStorage {
 								totalBlocks++;
 								String json = cfg.getString(key);
 								Config blockInfo = parseBlockInfo(l, json);
-								if (blockInfo == null) continue;
+								if (blockInfo == null || !blockInfo.contains("id")) continue;
 								storage.put(l, blockInfo);
-								
+
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
 									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
 									locations.add(l);
