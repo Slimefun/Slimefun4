@@ -202,7 +202,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				BlockStorage.addBlockInfo(b, "script", "START-TURN_LEFT-REPEAT");
 				BlockStorage.addBlockInfo(b, "index", "0");
 				BlockStorage.addBlockInfo(b, "fuel", "0");
-				BlockStorage.addBlockInfo(b, "rotation", p.getFacing().toString());
+				BlockStorage.addBlockInfo(b, "rotation", p.getFacing().getOppositeFace().toString());
 				BlockStorage.addBlockInfo(b, "paused", "true");
 				b.setType(Material.PLAYER_HEAD);
 				Rotatable blockData = (Rotatable) b.getBlockData();
@@ -285,7 +285,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					case GO_FORWARD: {
 						try {
 							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face.getOppositeFace());
+							Block block = b.getRelative(face);
 							move(b, face, block);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -693,12 +693,12 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	private void move(Block b, BlockFace face, Block block) throws Exception {
-		if (block.getY() < 0 || block.getY() > block.getWorld().getMaxHeight()) return;
-
+		if (block.getY() < 0 || block.getY() > block.getWorld().getMaxHeight())
+			return;
 		if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
 			block.setType(Material.PLAYER_HEAD);
 			Rotatable blockData = (Rotatable) block.getBlockData();
-			blockData.setRotation(face);
+			blockData.setRotation(face.getOppositeFace());
 			block.setBlockData(blockData);
 			CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 			b.setType(Material.AIR);
@@ -746,7 +746,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 								block.setType(Material.PLAYER_HEAD);
 								Rotatable blockData = (Rotatable) block.getBlockData();
-								blockData.setRotation(face);
+								blockData.setRotation(face.getOppositeFace());
 								block.setBlockData(blockData);
 								CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 								b.setType(Material.AIR);
@@ -762,7 +762,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 						block.setType(Material.PLAYER_HEAD);
 						Rotatable blockData = (Rotatable) block.getBlockData();
-						blockData.setRotation(face);
+						blockData.setRotation(face.getOppositeFace());
 						block.setBlockData(blockData);
 						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 						b.setType(Material.AIR);
