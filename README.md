@@ -16,6 +16,13 @@ Click on the badge below to go to our "development" build page, where you can do
   </a>
 </p>
 
+## Discord
+
+Slimefun4 now has a Discord Server too!
+Join it for Suggestions/Questions or other discussions about this plugin.
+
+<iframe src="https://discordapp.com/widget?id=565557184348422174&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+
 ## Contributions
 
 You are allowed, even encouraged, to contribute to Slimefun 4 by making Pull Requests.
