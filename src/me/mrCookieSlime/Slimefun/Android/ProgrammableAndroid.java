@@ -202,7 +202,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				BlockStorage.addBlockInfo(b, "script", "START-TURN_LEFT-REPEAT");
 				BlockStorage.addBlockInfo(b, "index", "0");
 				BlockStorage.addBlockInfo(b, "fuel", "0");
-				BlockStorage.addBlockInfo(b, "rotation", p.getFacing().toString());
+				BlockStorage.addBlockInfo(b, "rotation", p.getFacing().getOppositeFace().toString());
 				BlockStorage.addBlockInfo(b, "paused", "true");
 				b.setType(Material.PLAYER_HEAD);
 				Rotatable blockData = (Rotatable) b.getBlockData();
@@ -285,7 +285,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					case GO_FORWARD: {
 						try {
 							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face.getOppositeFace());
+							Block block = b.getRelative(face);
 							move(b, face, block);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -693,12 +693,12 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	private void move(Block b, BlockFace face, Block block) throws Exception {
-		if (block.getY() < 0 || block.getY() > block.getWorld().getMaxHeight()) return;
-
+		if (block.getY() < 0 || block.getY() > block.getWorld().getMaxHeight())
+			return;
 		if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
 			block.setType(Material.PLAYER_HEAD);
 			Rotatable blockData = (Rotatable) block.getBlockData();
-			blockData.setRotation(face);
+			blockData.setRotation(face.getOppositeFace());
 			block.setBlockData(blockData);
 			CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 			b.setType(Material.AIR);
@@ -746,7 +746,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 								block.setType(Material.PLAYER_HEAD);
 								Rotatable blockData = (Rotatable) block.getBlockData();
-								blockData.setRotation(face);
+								blockData.setRotation(face.getOppositeFace());
 								block.setBlockData(blockData);
 								CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 								b.setType(Material.AIR);
@@ -762,7 +762,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 						block.setType(Material.PLAYER_HEAD);
 						Rotatable blockData = (Rotatable) block.getBlockData();
-						blockData.setRotation(face);
+						blockData.setRotation(face.getOppositeFace());
 						block.setBlockData(blockData);
 						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
 						b.setType(Material.AIR);
@@ -930,7 +930,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	public void openScriptEditor(Player p, final Block b) throws Exception {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 
-		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"),
+		menu.addItem(1, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"),
 			(pl, slot, item, action) -> {
 				try {
 					openScript(pl, b, BlockStorage.getLocationInfo(b.getLocation(), "script"));
@@ -941,7 +941,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			}
 		);
 
-		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"),
+		menu.addItem(3, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"),
 			(pl, slot, item, action) -> {
 				try {
 					openScript(pl, b, "START-TURN_LEFT-REPEAT");
@@ -952,10 +952,21 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			}
 		);
 
-		menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAxNTg2ZTM5ZjZmZmE2M2I0ZmIzMDFiNjVjYTdkYThhOTJmNzM1M2FhYWI4OWQzODg2NTc5MTI1ZGZiYWY5In19fQ=="), "&6> Download a Script", "", "&eDownload a Script from the Server", "&eYou can edit or simply use it"),
+		menu.addItem(5, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAxNTg2ZTM5ZjZmZmE2M2I0ZmIzMDFiNjVjYTdkYThhOTJmNzM1M2FhYWI4OWQzODg2NTc5MTI1ZGZiYWY5In19fQ=="), "&6> Download a Script", "", "&eDownload a Script from the Server", "&eYou can edit or simply use it"),
 			(pl, slot, item, action) -> {
 				try {
 					openScriptDownloader(pl, b, 1);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return false;
+			}
+		);
+
+		menu.addItem(8, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"),
+			(pl, slot, item, action) -> {
+				try {
+					BlockStorage.getInventory(b).open(p);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -970,10 +981,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 		final String[] commands = script.split("-");
 
-		menu.addItem(0, ScriptPart.START.toItemStack());
-		menu.addMenuClickHandler(0,
-			(pl, slot, item, action) -> false
-		);
+		menu.addItem(0, new CustomItem(ScriptPart.START.toItemStack(), ScriptPart.START.toItemStack().getItemMeta().getDisplayName(), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+		menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
+			BlockStorage.getInventory(b).open(pl);
+			return false;
+		});
 
 		for (int i = 1; i < commands.length; i++) {
 			final int index = i;
@@ -992,10 +1004,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					});
 				}
 
-				menu.addItem(i + additional, ScriptPart.REPEAT.toItemStack());
-				menu.addMenuClickHandler(i + additional,
-					(pl, slot, item, action) -> false
-				);
+				menu.addItem(i + additional, new CustomItem(ScriptPart.REPEAT.toItemStack(), ScriptPart.REPEAT.toItemStack().getItemMeta().getDisplayName(), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+				menu.addMenuClickHandler(i + additional, (pl, slot, item, action) -> {
+					BlockStorage.getInventory(b).open(pl);
+					return false;
+				});
 			}
 			else {
 				ItemStack stack = ScriptPart.valueOf(commands[i]).toItemStack();
@@ -1056,7 +1069,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	private void openScriptDownloader(final Player p, final Block b, final int page) throws Exception {
-		final ChestMenu menu = new ChestMenu("Slimefun Guide");
+		final ChestMenu menu = new ChestMenu("Android Scripts");
 
 		menu.addMenuOpeningHandler(
 			(pl) -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F)
@@ -1088,8 +1101,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			return false;
 		});
 
-		menu.addItem(49, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
-		menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
+		menu.addItem(48, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
+		menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
 			final String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
 			int num = 1;
 
@@ -1131,8 +1144,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			return false;
 		});
 
-		menu.addItem(52, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&rNext Page \u21E8", "", "&7(" + page + " / " + pages + ")"));
-		menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
+		menu.addItem(50, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&rNext Page \u21E8", "", "&7(" + page + " / " + pages + ")"));
+		menu.addMenuClickHandler(50, (pl, slot, item, action) -> {
 			int next = page + 1;
 			if (next > pages) next = 1;
 			if (next != page) {
@@ -1141,6 +1154,16 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
+			return false;
+		});
+
+		menu.addItem(53, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
+		menu.addMenuClickHandler(53, (pl, slot, item, action) -> {
+			try {
+				openScriptEditor(pl, b);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return false;
 		});
@@ -1390,7 +1413,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	public List<ScriptPart> getAccessibleScriptParts() {
 		List<ScriptPart> list = new ArrayList<ScriptPart>();
 
-		for (final ScriptPart part: ScriptPart.values()) {
+		for (final ScriptPart part : ScriptPart.values()) {
 			if (!part.equals(ScriptPart.START) && !part.equals(ScriptPart.REPEAT) && getAndroidType().isType(part.getRequiredType())) {
 				list.add(part);
 			}
