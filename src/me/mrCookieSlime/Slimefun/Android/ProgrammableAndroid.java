@@ -1251,7 +1251,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	public float getScriptRating(Config script) {
-		return Math.round(((getScriptRating(script, true) * 100.0f) / getScriptRating(script, true) + getScriptRating(script, false)) * 100.0f) / 100.0f;
+		int positive = getScriptRating(script, true) + 1;
+		int negative = getScriptRating(script, false);
+		return Math.round((positive / (positive + negative)) * 100.0f) / 100.0f;
 	}
 
 	private int getScriptRating(Config script, boolean positive) {
