@@ -79,7 +79,7 @@ public class CargoOutputNode extends SlimefunItem {
 							if (channeln > 15) channeln = 0;
 						}
 						
-						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
+						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channeln));
 						newInstance(menu, b);
 						return false;
 					});
