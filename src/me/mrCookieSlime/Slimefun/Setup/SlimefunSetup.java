@@ -1901,8 +1901,8 @@ public class SlimefunSetup {
                         				Chest chest = (Chest) chestBlock.getState();
 							final Inventory inv = chest.getInventory();
 							List<Location> ores = new ArrayList<Location>();
-							for (int x = b.getX() - 4; x < b.getX() + 4; x++) {
-								for (int z = b.getZ() - 4; z < b.getZ() + 4; z++) {
+							for (int x = b.getX() - 4; x <= b.getX() + 4; x++) {
+								for (int z = b.getZ() - 4; z <= b.getZ() + 4; z++) {
 									for (int y = b.getY(); y > 0; y--) {
 										if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
 											ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
@@ -1959,8 +1959,8 @@ public class SlimefunSetup {
                         				Chest chest = (Chest) chestBlock.getState();
 							final Inventory inv = chest.getInventory();
 							List<Location> ores = new ArrayList<Location>();
-							for (int x = b.getX() - 6; x < b.getX() + 6; x++) {
-								for (int z = b.getZ() - 6; z < b.getZ() + 6; z++) {
+							for (int x = b.getX() - 6; x <= b.getX() + 6; x++) {
+								for (int z = b.getZ() - 6; z <= b.getZ() + 6; z++) {
 									for (int y = b.getY(); y > 0; y--) {
 										if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
 											ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
