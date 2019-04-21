@@ -113,8 +113,8 @@ public abstract class ElectricSmeltery extends AContainer {
 						}
 					}
 				}
-				progress.remove(b.getLocation());
-				processing.remove(b.getLocation());
+				progress.remove(b);
+				processing.remove(b);
 				return true;
 			}
 		});

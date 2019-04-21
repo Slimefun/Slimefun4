@@ -51,7 +51,7 @@ public class Backpacks {
 		if (id >= 0) {
 			Config cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid + ".yml"));
 			int size = cfg.getInt("backpacks." + id + ".size");
-			Inventory inv = Bukkit.createInventory(null, size, "背包 [" + size + " 格]");
+			Inventory inv = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
 			for (int i = 0; i < size; i++) {
 				inv.setItem(i, cfg.getItem("backpacks." + id + ".contents." + i));
 			}

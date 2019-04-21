@@ -352,6 +352,9 @@ public class SlimefunGuide {
 	public static void openMainMenu(final Player p, final boolean survival, final boolean book, final int selected_page) {
 		clearHistory(p.getUniqueId());
 
+        if (survival)
+            clearHistory(p.getUniqueId());
+
 		if (book) {
 			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
 			List<String> texts = new ArrayList<String>();
@@ -420,12 +423,8 @@ public class SlimefunGuide {
 
 								@Override
 								public void run(final Player p) {
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-										@Override
-										public void run() {
-											openCategory(p, category, survival, 1, book);
-										}
+                                    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+                                        openCategory(p, category, survival, 1, book);
 									}, 1L);
 								}
 							});
@@ -438,12 +437,8 @@ public class SlimefunGuide {
 
 							@Override
 							public void run(final Player p) {
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-									@Override
-									public void run() {
-										openCategory(p, category, survival, 1, book);
-									}
+                                Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+                                    openCategory(p, category, survival, 1, book);
 								}, 1L);
 							}
 						});
@@ -688,21 +683,13 @@ public class SlimefunGuide {
 
 												if (p.getGameMode() == GameMode.CREATIVE) {
 													research.unlock(p, true);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-														@Override
-														public void run() {
-															openCategory(p, category, survival, selected_page, book);
-														}
+                                                    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+                                                        openCategory(p, category, survival, selected_page, book);
 													}, 1L);
 												} else {
 													research.unlock(p, false);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-														@Override
-														public void run() {
-															openCategory(p, category, survival, selected_page, book);
-														}
+                                                    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+                                                        openCategory(p, category, survival, selected_page, book);
 													}, 103L);
 												}
 											}
@@ -759,12 +746,8 @@ public class SlimefunGuide {
 
 					@Override
 					public void run(final Player p) {
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-							@Override
-							public void run() {
-								openMainMenu(p, survival, true, 1);
-							}
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+                            openMainMenu(p, survival, true, 1);
 						}, 1L);
 					}
 				});
@@ -882,12 +865,8 @@ public class SlimefunGuide {
 													openCategory(p, category, survival, selected_page, book);
 												} else {
 													research.unlock(p, false);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-
-														@Override
-														public void run() {
-															openCategory(p, category, survival, selected_page, book);
-														}
+                                                    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+                                                        openCategory(p, category, survival, selected_page, book);
 													}, 103L);
 												}
 											}
@@ -988,7 +967,7 @@ public class SlimefunGuide {
 			Iterator<Recipe> iterator = Bukkit.recipeIterator();
 			while (iterator.hasNext()) {
 				Recipe r = iterator.next();
-				if (SlimefunManager.isItemSimiliar(new CustomItem(r.getResult(), 1), item, true) && r.getResult().getData().getData() == item.getData().getData()) recipes.add(r);
+                if (SlimefunManager.isItemSimiliar(new CustomItem(r.getResult(), 1), item, true)) recipes.add(r);
 			}
 
 			if (recipes.isEmpty()) return;
@@ -1010,13 +989,7 @@ public class SlimefunGuide {
 					String[] shape = ((ShapedRecipe) r).getShape();
 					for (int i = 0; i < shape.length; i++) {
 			            for (int j = 0; j < shape[i].length(); j++) {
-			            	ItemStack ingredient = ((ShapedRecipe) r).getIngredientMap().get(shape[i].charAt(j));
-							if (ingredient != null) {
-								MaterialData data = ingredient.getData();
-								if (ingredient.getData().getData() < 0) data.setData((byte) 0);
-								ingredient = data.toItemStack(ingredient.getAmount());
-							}
-							recipe[i * 3 + j] = ingredient;
+                            recipe[i * 3 + j] = ((ShapedRecipe) r).getIngredientMap().get(shape[i].charAt(j));
 			            }
 			        }
 					recipeType = RecipeType.SHAPED_RECIPE.toItem();
@@ -1025,25 +998,14 @@ public class SlimefunGuide {
 				else if (r instanceof ShapelessRecipe) {
 			        List<ItemStack> ingredients = ((ShapelessRecipe) r).getIngredientList();
 					for (int i = 0; i < ingredients.size(); i++) {
-						ItemStack ingredient = ingredients.get(i);
-						if (ingredient != null) {
-							MaterialData data = ingredient.getData();
-							if (ingredient.getData().getData() < 0) data.setData((byte) 0);
-							ingredient = data.toItemStack(ingredient.getAmount());
-						}
-			            recipe[i] = ingredient;
+                        recipe[i] = ingredients.get(i);
 			        }
 					recipeType = RecipeType.SHAPELESS_RECIPE.toItem();
 					recipeOutput = r.getResult();
 				}
 				else if (r instanceof FurnaceRecipe) {
 					ItemStack ingredient = ((FurnaceRecipe) r).getInput();
-					if (ingredient != null) {
-						MaterialData data = ingredient.getData();
-						if (ingredient.getData().getData() < 0) data.setData((byte) 0);
-						ingredient = data.toItemStack(ingredient.getAmount());
-					}
-					recipe[4] = ingredient;
+					recipe[4] = ((FurnaceRecipe) r).getInput();
 
 					recipeType = RecipeType.FURNACE.toItem();
 					recipeOutput = r.getResult();
@@ -1322,7 +1284,7 @@ public class SlimefunGuide {
 			}
 		}
 
-		menu.build().open(p);
+		menu.open(p);
 	}
 
 	public static void clearHistory(UUID uuid) {

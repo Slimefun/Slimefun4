@@ -149,18 +149,10 @@ public class SlimefunStartup extends JavaPlugin {
 			Messages.setup();
 
 			// Creating all necessary Folders
-			// TODO: Make a shortcut method such as createDir(path)
-			if (!new File("data-storage/Slimefun/blocks").exists()) new File("data-storage/Slimefun/blocks").mkdirs();
-			if (!new File("data-storage/Slimefun/stored-blocks").exists()) new File("data-storage/Slimefun/stored-blocks").mkdirs();
-			if (!new File("data-storage/Slimefun/stored-inventories").exists()) new File("data-storage/Slimefun/stored-inventories").mkdirs();
-			if (!new File("data-storage/Slimefun/stored-chunks").exists()) new File("data-storage/Slimefun/stored-chunks").mkdirs();
-			if (!new File("data-storage/Slimefun/universal-inventories").exists()) new File("data-storage/Slimefun/universal-inventories").mkdirs();
-			if (!new File("data-storage/Slimefun/waypoints").exists()) new File("data-storage/Slimefun/waypoints").mkdirs();
-			if (!new File("data-storage/Slimefun/block-backups").exists()) new File("data-storage/Slimefun/block-backups").mkdirs();
-			if (!new File("plugins/Slimefun/scripts").exists()) new File("plugins/Slimefun/scripts").mkdirs();
-			if (!new File("plugins/Slimefun/generators").exists()) new File("plugins/Slimefun/generators").mkdirs();
-			if (!new File("plugins/Slimefun/error-reports").exists()) new File("plugins/Slimefun/error-reports").mkdirs();
-			if (!new File("plugins/Slimefun/cache/github").exists()) new File("plugins/Slimefun/cache/github").mkdirs();
+            String[] storage = {"blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
+            String[] general = {"scripts", "generators", "error-reports", "cache/github"};
+            for (String s : storage) createDir("data-storage/Slimefun/" + s);
+            for (String s : general) createDir("plugins/Slimefun/" + s);
 
 			SlimefunManager.plugin = this;
 
@@ -212,70 +204,13 @@ public class SlimefunStartup extends JavaPlugin {
 			if (config.getBoolean("items.coolers")) new CoolerListener(this);
 
 			// Handle Slimefun Guide being given on Join
-			// TODO: Move it to its own class, was too lazy
-			if (config.getBoolean("options.give-guide-on-first-join")) {
-				getServer().getPluginManager().registerEvents(new Listener() {
-
-					@EventHandler
-					public void onJoin(PlayerJoinEvent e) {
-						if (!e.getPlayer().hasPlayedBefore()) {
-							Player p = e.getPlayer();
-							if (!getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
-							if (!getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
-							
-							if (config.getBoolean("guide.default-view-book")) p.getInventory().addItem(SlimefunGuide.getItem(BookDesign.BOOK));
-							else p.getInventory().addItem(SlimefunGuide.getItem(BookDesign.CHEST));
-						}
-					}
-
-				}, this);
-			}
+            if (config.getBoolean("options.give-guide-on-first-join")) new GuideOnJoinListener(this);
 
 			// Load/Unload Worlds in Slimefun
-			// TODO: Move it to its own class, was too lazy
-			getServer().getPluginManager().registerEvents(new Listener() {
-
-				@EventHandler
-				public void onWorldLoad(WorldLoadEvent e) {
-					BlockStorage.getForcedStorage(e.getWorld());
-
-					SlimefunStartup.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled", true);
-					SlimefunStartup.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
-					SlimefunStartup.getWhitelist().save();
-				}
-
-				@EventHandler
-				public void onWorldUnload(WorldUnloadEvent e) {
-					BlockStorage storage = BlockStorage.getStorage(e.getWorld());
-					if (storage != null) storage.save(true);
-					else System.err.println("[Slimefun] 无法在世界 \"" + e.getWorld().getName() + "\" 中保存粘液科技方块");
-				}
-
-			}, this);
+            new WorldListener(this);
 
 			// Clear the Slimefun Guide History upon Player Leaving
-			// TODO: Move it to its own class, was too lazy
-			getServer().getPluginManager().registerEvents(new Listener() {
-
-				@EventHandler
-				public void onDisconnect(PlayerQuitEvent e) {
-					SlimefunGuide.history.remove(e.getPlayer().getUniqueId());
-				}
-
-			}, this);
-
-			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
-			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-				Slimefun.emeraldenchants = getServer().getPluginManager().isPluginEnabled("EmeraldEnchants");
-				SlimefunGuide.all_recipes = config.getBoolean("options.show-vanilla-recipes-in-guide");
-				MiscSetup.loadItems();
-
-				for (World world: Bukkit.getWorlds()) {
-					new BlockStorage(world);
-				}
-
-				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
-			}, 0);
+            new PlayerQuitListener(this);
 
 			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
 			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
@@ -347,18 +282,14 @@ public class SlimefunStartup extends JavaPlugin {
 			ticker = new TickerTask();
 
 			// Starting all ASYNC Tasks
-			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
-			getServer().getScheduler().scheduleAsyncRepeatingTask(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
-			
-			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
-				
-				@Override
-				public void run() {
-					for (GitHubConnector connector: GitHubConnector.connectors) {
-						connector.pullFile();
-					}
-				}
-			}, 80L, 60 * 60 * 20L);
+            getServer().getScheduler().runTaskTimerAsynchronously(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+            getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
+
+            getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+                for (GitHubConnector connector : GitHubConnector.connectors) {
+                    connector.pullFile();
+                }
+            }, 80L, 60 * 60 * 20L);
 			
 			// Hooray!
 			System.out.println("[Slimefun] 加载完成!");
@@ -367,16 +298,13 @@ public class SlimefunStartup extends JavaPlugin {
 
 			coreProtect = getServer().getPluginManager().isPluginEnabled("CoreProtect");
 
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new BukkitRunnable() {
-                @Override
-                public void run() {
+            getServer().getScheduler().runTaskLater(this, () -> {
                     exoticGarden = getServer().getPluginManager().isPluginEnabled("ExoticGarden"); // Had to do it this way, otherwise it seems disabled.
-                }
             }, 0);
 
 			if (clearlag) new ClearLaggIntegration(this);
 
-			if (coreProtect) coreProtectAPI = ((CoreProtect)getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
+            if (coreProtect) coreProtectAPI = ((CoreProtect) getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
 
 			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
 
@@ -478,6 +406,12 @@ public class SlimefunStartup extends JavaPlugin {
 			p.closeInventory();
 		}
 	}
+
+    private void createDir(String path) {
+        File file = new File(path);
+        if (!file.exists())
+            file.mkdirs();
+    }
 
 	public static Config getCfg() {
 		return config;

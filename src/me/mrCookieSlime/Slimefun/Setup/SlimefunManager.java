@@ -9,6 +9,7 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.potion.PotionEffect;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
@@ -92,7 +93,7 @@ public class SlimefunManager {
 						if (!(SFitem.getDurability() == item.getData().getData() && SFitem.getData().getData() == item.getDurability())) return false;
 					}
 				}
-				else*/ if (data.equals(DataType.ALWAYS) && item.getDurability() != SFitem.getDurability()) {
+				else*/ if (data.equals(DataType.ALWAYS) && ((Damageable) item.getItemMeta()).getDamage() != ((Damageable) SFitem.getItemMeta()).getDamage()) {
 					return false;
 				}
 			}

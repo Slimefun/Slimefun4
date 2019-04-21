@@ -1,10 +1,8 @@
 package me.mrCookieSlime.Slimefun.Commands;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrCookieSlime.Slimefun.Setup.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -33,6 +31,7 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
@@ -107,13 +106,13 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 				}
 				else Messages.local.sendTranslation(sender, "messages.only-players", true);
 			}
-			else if (args[0].equalsIgnoreCase("guide")) {
-				if (sender instanceof Player) {
-					if (sender.hasPermission("slimefun.command.guide"))((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book")));
-					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
-				}
-				else Messages.local.sendTranslation(sender, "messages.only-players", true);
-			}
+            else if (args[0].equalsIgnoreCase("guide")) {
+                if (sender instanceof Player) {
+                    if (sender.hasPermission("slimefun.command.guide")) ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book") ? BookDesign.BOOK : BookDesign.CHEST));
+                    else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+                }
+                else Messages.local.sendTranslation(sender, "messages.only-players", true);
+            }
 			else if (args[0].equalsIgnoreCase("open_guide")) {
 				if (sender instanceof Player) { 
 					if (sender.hasPermission("slimefun.command.open_guide")) SlimefunGuide.openGuide((Player) sender, SlimefunStartup.getCfg().getBoolean("guide.default-view-book"));

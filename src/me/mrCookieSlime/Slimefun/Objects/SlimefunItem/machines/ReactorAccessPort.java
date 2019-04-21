@@ -194,7 +194,7 @@ public class ReactorAccessPort extends SlimefunItem {
 	}
 	
 	public String getInventoryTitle() {
-		return "&2Reactor Access Port";
+		return "&2反应堆访问接口";
 	}
 
 	public int[] getInputSlots() {

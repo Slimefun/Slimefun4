@@ -49,7 +49,7 @@ public class EnhancedFurnace extends SlimefunItem {
 	}
 	
 	public int getFuelEfficiency() {
-		return speed;
+		return efficiency;
 	}
 	
 	public int getOutput() {

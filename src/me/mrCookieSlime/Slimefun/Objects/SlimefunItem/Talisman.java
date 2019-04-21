@@ -131,7 +131,7 @@ public class Talisman extends SlimefunItem {
 		for (String line: getItem().getItemMeta().getLore()) {
 			lore.add(line);
 		}
-		ItemStack item = new CustomItem(getItem().getType(), "&5末影 " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), getItem().getDurability(), lore.toArray(new String[lore.size()]));
+		ItemStack item = new CustomItem(getItem().getType(), "&5末影 " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
 		return item;
 	}
 	
