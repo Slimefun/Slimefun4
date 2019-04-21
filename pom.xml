@@ -20,15 +20,15 @@
         </repository>
         <repository>
             <id>worldedit-worldguard-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
+            <url>https://maven.sk89q.com/repo/</url>
+        </repository>
+        <repository>
+            <id>coreprotect-repo</id>
+            <url>https://maven.playpro.com/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>robomwm-repo</id>
-            <url>https://dl.bintray.com/robomwm/maven</url>
         </repository>
     </repositories>
     <build>
@@ -64,8 +64,6 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/CS-CoreLib-v1.5.19.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.minebuilders</groupId>
@@ -75,7 +73,7 @@
         </dependency>
         <dependency>
             <groupId>net.coreprotect</groupId>
-            <artifactId>CoreProtect</artifactId>
+            <artifactId>coreprotect</artifactId>
         </dependency>
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
@@ -87,46 +85,46 @@
             <groupId>me.mrCookieSlime</groupId>
             <artifactId>ExoticGarden</artifactId>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ExoticGarden v1.7.0.jar</systemPath>
+            <systemPath>${project.basedir}/lib/ExoticGarden v1.2.0.jar</systemPath>
         </dependency>
     </dependencies>
     <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.bukkit</groupId>
-                <artifactId>bukkit</artifactId>
-                <version>1.13.2-R0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sk89q.worldedit</groupId>
-                <artifactId>worldedit-bukkit</artifactId>
-                <version>7.0.0-beta-02</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.TheBusyBiscuit</groupId>
-                <artifactId>CS-CoreLib</artifactId>
-                <version>v1.5.18</version>
-            </dependency>
-            <dependency>
-                <groupId>me.minebuilders</groupId>
-                <artifactId>clearlag-core</artifactId>
-                <version>2.9.7</version>
-            </dependency>
-            <dependency>
-                <groupId>net.coreprotect</groupId>
-                <artifactId>CoreProtect</artifactId>
-                <version>2.14.2</version>
-            </dependency>
-            <dependency>
-                <groupId>me.mrCookieSlime</groupId>
-                <artifactId>EmeraldEnchants</artifactId>
-                <version>2.0</version>
-            </dependency>
-            <dependency>
-                <groupId>me.mrCookieSlime</groupId>
-                <artifactId>ExoticGarden</artifactId>
-                <version>1.7.0</version>
-            </dependency>
-        </dependencies>
+    	<dependencies>
+    		<dependency>
+    			<groupId>org.bukkit</groupId>
+    			<artifactId>bukkit</artifactId>
+    			<version>1.13.2-R0.1-SNAPSHOT</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>com.sk89q.worldedit</groupId>
+    			<artifactId>worldedit-bukkit</artifactId>
+    			<version>7.0.0-SNAPSHOT</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>com.github.TheBusyBiscuit</groupId>
+    			<artifactId>CS-CoreLib</artifactId>
+    			<version>335cbc281d</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>me.minebuilders</groupId>
+    			<artifactId>clearlag-core</artifactId>
+    			<version>2.9.7</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>net.coreprotect</groupId>
+    			<artifactId>coreprotect</artifactId>
+    			<version>2.16.0</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>me.mrCookieSlime</groupId>
+    			<artifactId>EmeraldEnchants</artifactId>
+    			<version>2.0</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>me.mrCookieSlime</groupId>
+    			<artifactId>ExoticGarden</artifactId>
+    			<version>1.2.0</version>
+    		</dependency>
+    	</dependencies>
     </dependencyManagement>
 </project>
