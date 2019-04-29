@@ -36,8 +36,8 @@ public class RecipeType {
 	public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&eFurnace Recipe", 0, new String[] {"", "&a&oJust smelt it in a regular Furnace"}));
 	public static final RecipeType NULL = new RecipeType(null);
 	
-	ItemStack item;
-	String machine;
+	private ItemStack item;
+	private String machine;
 	
 	public RecipeType(ItemStack item) {
 		this.item = item;
@@ -51,8 +51,7 @@ public class RecipeType {
 	
 	public RecipeType(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
 		this.machine = machine;
-		SlimefunItem item = getMachine();
-		this.item = item.getItem();
+		this.item = getMachine().getItem();
 		
 		SlimefunRecipes.registerMachineRecipe(machine, seconds, input, output);
 	}
@@ -66,23 +65,23 @@ public class RecipeType {
 	}
 	
 	public static List<ItemStack> getRecipeInputs(SlimefunItem machine) {
-		if (machine == null) return new ArrayList<ItemStack>();
+		if (machine == null) return new ArrayList<>();
 		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
-		List<ItemStack> convertable = new ArrayList<ItemStack>();
+		List<ItemStack> convertible = new ArrayList<>();
 		for (int i = 0; i < recipes.size(); i++) {
-			if (i % 2 == 0) convertable.add(recipes.get(i)[0]);
+			if (i % 2 == 0) convertible.add(recipes.get(i)[0]);
 		}
-		return convertable;
+		return convertible;
 	}
 	
 	public static List<ItemStack[]> getRecipeInputList(SlimefunItem machine) {
-		if (machine == null) return new ArrayList<ItemStack[]>();
+		if (machine == null) return new ArrayList<>();
 		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
-		List<ItemStack[]> convertable = new ArrayList<ItemStack[]>();
+		List<ItemStack[]> convertible = new ArrayList<>();
 		for (int i = 0; i < recipes.size(); i++) {
-			if (i % 2 == 0) convertable.add(recipes.get(i));
+			if (i % 2 == 0) convertible.add(recipes.get(i));
 		}
-		return convertable;
+		return convertible;
 	}
 	
 	public static ItemStack getRecipeOutput(SlimefunItem machine, ItemStack input) {
