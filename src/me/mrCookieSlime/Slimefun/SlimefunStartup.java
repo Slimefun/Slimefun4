@@ -76,7 +76,7 @@ public class SlimefunStartup extends JavaPlugin {
 	private boolean coreProtect = false;
 
 	// Supported Versions of Minecraft
-	final String[] supported = {"v1_13_"};
+	final String[] supported = {"v1_14_"};
 
 	@Override
 	public void onEnable() {
@@ -98,7 +98,7 @@ public class SlimefunStartup extends JavaPlugin {
 					if (i == 0) versions.append(version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
 					else if (i == supported.length - 1) versions.append(" or " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
 					else versions.append(", " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
-					
+
 					i++;
 				}
 
@@ -296,7 +296,7 @@ public class SlimefunStartup extends JavaPlugin {
 					connector.pullFile();
 				}
 			}, 80L, 60 * 60 * 20L);
-			
+
 			// Hooray!
 			System.out.println("[Slimefun] Finished!");
 
@@ -327,11 +327,13 @@ public class SlimefunStartup extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		Bukkit.getScheduler().cancelTasks(this);
-		
-		// Finishes all started movements/removals of block data
-		ticker.HALTED = true;
-		ticker.run();
-		
+
+		if (ticker != null) {
+			// Finishes all started movements/removals of block data
+			ticker.HALTED = true;
+			ticker.run();
+		}
+
 		try {
 			for (World world: Bukkit.getWorlds()) {
 				BlockStorage storage = BlockStorage.getStorage(world);
@@ -344,7 +346,7 @@ public class SlimefunStartup extends JavaPlugin {
 			}
 
 			SlimefunBackup.start();
-		} catch (Exception x) {}
+		} catch (Exception ignored) {}
 
 		// Prevent Memory Leaks
 		config = null;

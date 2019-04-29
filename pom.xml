@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.1.16</version>
+    <version>4.1.17</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -93,7 +93,7 @@
     		<dependency>
     			<groupId>org.bukkit</groupId>
     			<artifactId>bukkit</artifactId>
-    			<version>1.13.2-R0.1-SNAPSHOT</version>
+    			<version>1.14-R0.1-SNAPSHOT</version>
     		</dependency>
     		<dependency>
     			<groupId>com.sk89q.worldedit</groupId>
@@ -103,7 +103,7 @@
     		<dependency>
     			<groupId>com.github.TheBusyBiscuit</groupId>
     			<artifactId>CS-CoreLib</artifactId>
-    			<version>335cbc281d</version>
+    			<version>cc6a7de0e0</version>
     		</dependency>
     		<dependency>
     			<groupId>me.minebuilders</groupId>
