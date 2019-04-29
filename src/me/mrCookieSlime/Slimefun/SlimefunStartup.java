@@ -76,7 +76,7 @@ public class SlimefunStartup extends JavaPlugin {
 	private boolean coreProtect = false;
 
 	// Supported Versions of Minecraft
-	final String[] supported = {"v1_13_"};
+	final String[] supported = {"v1_14_"};
 
 	@Override
 	public void onEnable() {
@@ -135,7 +135,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 			// Init Config, Updater, Metrics and messages.yml
 			utils.setupUpdater(53485, getFile());
-			utils.setupMetrics();
+			//utils.setupMetrics();
 			utils.setupLocalization();
 			config = utils.getConfig();
 			Messages.local = utils.getLocalization();
