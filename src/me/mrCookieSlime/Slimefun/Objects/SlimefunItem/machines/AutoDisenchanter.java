@@ -37,7 +37,7 @@ public class AutoDisenchanter extends AContainer {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&5自动祛魔机";
+		return "&5Auto-Disenchanter";
 	}
 
 	@Override
@@ -60,8 +60,8 @@ public class AutoDisenchanter extends AContainer {
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
 				ItemMeta im = item.getItemMeta();
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				im.setDisplayName(" ");
-                ((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
 				lore.add("");

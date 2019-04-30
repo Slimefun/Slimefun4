@@ -18,7 +18,7 @@ public abstract class FoodFabricator extends AContainer {
 	public void registerDefaultRecipes() {
 		registerRecipe(12, new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.WHEAT)}, new ItemStack[] {SlimefunItems.WHEAT_ORGANIC_FOOD});
 		registerRecipe(12, new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.CARROT)}, new ItemStack[] {SlimefunItems.CARROT_ORGANIC_FOOD});
-		registerRecipe(12, new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.POTATO)}, new ItemStack[] {SlimefunItems.SEEDS_ORGANIC_FOOD});
+		registerRecipe(12, new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.POTATO)}, new ItemStack[] {SlimefunItems.POTATO_ORGANIC_FOOD});
 		registerRecipe(12, new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.BEETROOT)}, new ItemStack[] {SlimefunItems.BEETROOT_ORGANIC_FOOD});
 		registerRecipe(12, new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.MELON)}, new ItemStack[] {SlimefunItems.MELON_ORGANIC_FOOD});
 		registerRecipe(12, new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.APPLE)}, new ItemStack[] {SlimefunItems.APPLE_ORGANIC_FOOD});

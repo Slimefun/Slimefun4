@@ -82,14 +82,14 @@ public abstract class OilPump extends AContainer {
 
 	@Override
 	public void registerDefaultRecipes() {}
-
+	
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
 				ItemMeta im = item.getItemMeta();
-                ((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));

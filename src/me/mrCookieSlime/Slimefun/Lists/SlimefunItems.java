@@ -357,9 +357,8 @@ public class SlimefunItems {
     public static ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6元素法杖 &7- &b&o风", 0, new String[] {"", "&7元素: &b&o风", "", "&7&e右键&7 以将你吹飞"}, new String[] {"LUCK-1"});
     public static ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6元素法杖 &7- &c&o火", 0, new String[] {"", "&7元素: &c&o火","", "&c让火焰净化一切!"}, new String[] {"FIRE_ASPECT-5"});
     public static ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6元素法杖 &7- &1&o水", 0, new String[] {"", "&7元素: &1&o水", "", "&7&e右键&7 以灭掉你身上的火"}, new String[] {"WATER_WORKER-1"});
-    public static ItemStack STAFF_EARTH = new CustomItem(Material.STICK, "&6元素法杖 &7- &a&o土",0, new String[] {"", "&7元素: &1&o土","", "&a让土地随你的意志行动"}, new String[] {"LUCK-2"});
 
-    /*		机器s 		*/
+    /*	   	 机器 		*/
     public static ItemStack GRIND_STONE = new CustomItem(Material.DISPENSER, "&b磨石", 0, new String[] {"", "&a&o更高效的磨物品"});
     public static ItemStack ARMOR_FORGE = new CustomItem(Material.ANVIL, "&6盔甲锻造台", 0, new String[] {"", "&a&o给你创造强大防具的力量"});
     public static ItemStack SMELTERY = new CustomItem(Material.FURNACE, "&6冶炼炉", 0, new String[] {"", "&a&o用作冶炼金属的高温炉"});

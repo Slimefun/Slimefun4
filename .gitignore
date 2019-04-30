@@ -4,5 +4,6 @@
 /.settings/
 *.iml
 /target
+/.idea/
 
 lib/ExoticGarden v1.2.0.jar

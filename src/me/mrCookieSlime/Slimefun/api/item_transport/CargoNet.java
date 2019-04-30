@@ -85,7 +85,7 @@ public class CargoNet extends Network {
 		return RANGE;
 	}
 
-	public Network.Component classifyLocation(Location l) {
+	public Component classifyLocation(Location l) {
 		String id = BlockStorage.checkID(l);
 		if (id == null) return null;
 		switch(id) {

@@ -2,8 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -36,7 +34,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 	public AnimalGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "&b动物生长加速机") {
+		new BlockMenuPreset(name, "&bGrowth Accelerator") {
 			
 			@Override
 			public void init() {
@@ -71,7 +69,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 				me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAccelerator.getArmorStand(b).remove();
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
-					for (int slot: getInputSlots()) {
+					for (int slot : getInputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -84,16 +82,10 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i: border) {
+		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+				(p, slot, item, action) -> false
+			);
 		}
 	}
 	
@@ -132,7 +124,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) throws Exception {
-		for (Entity n: me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAccelerator.getArmorStand(b).getNearbyEntities(3D, 3D, 3D)) {
+		for (Entity n : me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAccelerator.getArmorStand(b).getNearbyEntities(3D, 3D, 3D)) {
 			if (n instanceof Ageable && !((Ageable) n).isAdult()) {
 				for (int slot: getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {

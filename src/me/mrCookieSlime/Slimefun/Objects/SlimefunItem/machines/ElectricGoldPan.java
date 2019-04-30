@@ -30,7 +30,7 @@ public abstract class ElectricGoldPan extends AContainer {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&6电动淘金机";
+		return "&6Electric Gold Pan";
 	}
 
 	@Override
@@ -43,14 +43,13 @@ public abstract class ElectricGoldPan extends AContainer {
 	
 	public abstract int getSpeed();
 	
-	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0 && getSpeed() < 10) {
 				ItemStack item = getProgressBar().clone();
 				ItemMeta im = item.getItemMeta();
-                ((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
