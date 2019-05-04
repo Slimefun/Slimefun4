@@ -1,12 +1,21 @@
 package me.mrCookieSlime.Slimefun.Objects.tasks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 public abstract class SlimefunTask implements Runnable {
     private UUID uuid;
     private int id;
+
+    public SlimefunTask(Player p){
+        this.uuid = p.getUniqueId();
+    }
+
+    public void setID(int id){
+        this.id = id;
+    }
 
     @Override
     public void run() {
