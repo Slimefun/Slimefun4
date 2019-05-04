@@ -92,41 +92,18 @@ public class Talisman extends SlimefunItem {
         if (!pass(p, talisman)) {
             return false;
         }
-        boolean message = !talisman.getSuffix().equalsIgnoreCase("");
 
         if (p.getInventory().containsAtLeast(talisman.getItem(), 1)) {
             if (Slimefun.hasUnlocked(p, talisman.getItem(), true)) {
-                if (talisman.isConsumable())
-                    p.getInventory().removeItem(talisman.getItem());
-                for (PotionEffect effect : talisman.getEffects()) {
-                    p.addPotionEffect(effect);
-                }
-
-                if (e instanceof Cancellable && talisman.isEventCancelled())
-                    ((Cancellable) e).setCancelled(true);
-
-                if (message)
-                    Messages.local.sendTranslation(p, "messages.talisman." + talisman.getSuffix(), true);
-
+                executeTalismanAttributes(e,p,talisman);
                 return true;
             } else return false;
         } else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
             if (Slimefun.hasUnlocked(p, talisman.upgrade(), true)) {
-                if (talisman.isConsumable())
-                    p.getEnderChest().removeItem(talisman.upgrade());
-                for (PotionEffect effect : talisman.getEffects()) {
-                    p.addPotionEffect(effect);
-                }
-                if (e instanceof Cancellable && talisman.isEventCancelled())
-                    ((Cancellable) e).setCancelled(true);
-
-                if (message)
-                    Messages.local.sendTranslation(p, "messages.talisman." + talisman.getSuffix(), true);
-
+                executeTalismanAttributes(e,p,talisman);
                 return true;
             } else return false;
         } else return false;
-
 
     }
 
@@ -156,6 +133,38 @@ public class Talisman extends SlimefunItem {
         }
 
         Slimefun.addOfficialWikiPage(getID(), "Talismans");
+    }
+
+    private static boolean isTalismanMessage(Talisman talisman){
+        return !("").equalsIgnoreCase(talisman.getSuffix());
+    }
+
+    private static void executeTalismanAttributes(Event e, Player p, Talisman talisman){
+        consumeItem(p,talisman);
+        applyTalismanEffects(p,talisman);
+        cancelEvent(e,talisman);
+        sendMessage(p,talisman);
+    }
+
+    private static void applyTalismanEffects(Player p, Talisman talisman){
+        for (PotionEffect effect : talisman.getEffects()) {
+            p.addPotionEffect(effect);
+        }
+    }
+
+    private static void cancelEvent(Event e, Talisman talisman){
+        if (e instanceof Cancellable && talisman.isEventCancelled())
+            ((Cancellable) e).setCancelled(true);
+    }
+
+    private static void sendMessage(Player p, Talisman talisman){
+        if (isTalismanMessage(talisman))
+            Messages.local.sendTranslation(p, "messages.talisman." + talisman.getSuffix(), true);
+    }
+
+    private static void consumeItem(Player p, Talisman talisman){
+        if (talisman.isConsumable())
+            p.getInventory().removeItem(talisman.getItem());
     }
 
     private static Player getPlayerByEventType(Event e) {
