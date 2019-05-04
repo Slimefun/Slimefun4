@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public abstract class SlimefunTask implements Runnable {
-    private UUID uuid;
-    private int id;
+    protected UUID uuid;
+    protected int id;
 
     public SlimefunTask(Player p){
         this.uuid = p.getUniqueId();
