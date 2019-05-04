@@ -21,7 +21,6 @@ public class JetBootsTask extends SlimefunTask {
 		this.speed = speed;
 	}
 
-
 	@Override
 	void executeTask() {
 		Player p = Bukkit.getPlayer(uuid);
