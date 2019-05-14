@@ -1,8 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -13,37 +11,31 @@ import org.bukkit.inventory.ItemStack;
 
 public class SlimefunMachine extends SlimefunItem {
 	
-	List<ItemStack[]> recipes;
-	List<ItemStack> shownRecipes;
-	Material trigger;
+	private List<ItemStack[]> recipes;
+	private List<ItemStack> shownRecipes;
+	private Material trigger;
 
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe);
-		this.recipes = new ArrayList<ItemStack[]>();
-		this.shownRecipes = new ArrayList<ItemStack>();
-		for (ItemStack i: machineRecipes) {
-			this.shownRecipes.add(i);
-		}
+		this.recipes = new ArrayList<>();
+		this.shownRecipes = new ArrayList<>();
+		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
 		this.trigger = trigger;
 	}
 	
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, boolean ghost) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe, ghost);
-		this.recipes = new ArrayList<ItemStack[]>();
-		this.shownRecipes = new ArrayList<ItemStack>();
-		for (ItemStack i: machineRecipes) {
-			this.shownRecipes.add(i);
-		}
+		this.recipes = new ArrayList<>();
+		this.shownRecipes = new ArrayList<>();
+		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
 		this.trigger = trigger;
 	}
 	
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, String[] keys, Object[] values) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe, keys, values);
-		this.recipes = new ArrayList<ItemStack[]>();
-		this.shownRecipes = new ArrayList<ItemStack>();
-		for (ItemStack i: machineRecipes) {
-			this.shownRecipes.add(i);
-		}
+		this.recipes = new ArrayList<>();
+		this.shownRecipes = new ArrayList<>();
+		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
 		this.trigger = trigger;
 	}
 	
@@ -75,10 +67,9 @@ public class SlimefunMachine extends SlimefunItem {
 	}
 	
 	public MultiBlock toMultiBlock() {
-		List<Material> mats = new ArrayList<Material>();
+		List<Material> mats = new ArrayList<>();
 		for (ItemStack i: this.getRecipe()) {
 			if (i == null) mats.add(null);
-			else if (i.getType() == Material.CAULDRON) mats.add(Material.CAULDRON);
 			else if (i.getType() == Material.FLINT_AND_STEEL) mats.add(Material.FIRE);
 			else mats.add(i.getType());
 		}

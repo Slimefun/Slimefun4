@@ -18,6 +18,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class Refinery extends AContainer {
@@ -49,8 +50,8 @@ public abstract class Refinery extends AContainer {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));

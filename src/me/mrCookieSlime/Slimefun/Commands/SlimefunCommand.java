@@ -31,6 +31,7 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
@@ -38,13 +39,13 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
-	
+
 	public SlimefunStartup plugin;
-	
+
 	public static List<String> arguments = new ArrayList<String>();
 	public static List<String> descriptions = new ArrayList<String>();
 	public static List<String> tabs = new ArrayList<String>();
-	
+
 	public SlimefunCommand(SlimefunStartup plugin) {
 		this.plugin = plugin;
 		
@@ -107,7 +108,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			}
 			else if (args[0].equalsIgnoreCase("guide")) {
 				if (sender instanceof Player) {
-					if (sender.hasPermission("slimefun.command.guide"))((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book")));
+					if (sender.hasPermission("slimefun.command.guide")) ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book") ? BookDesign.BOOK : BookDesign.CHEST));
 					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 				}
 				else Messages.local.sendTranslation(sender, "messages.only-players", true);
@@ -175,7 +176,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					
 					List<String> addons = new ArrayList<String>();
 					
-					for (Plugin plugin: Bukkit.getPluginManager().getPlugins()) {
+					for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
 						if (plugin.getDescription().getDepend().contains("Slimefun") || plugin.getDescription().getSoftDepend().contains("Slimefun")) {
 							if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
 								addons.add(ChatColor.translateAlternateColorCodes('&', " &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
@@ -188,7 +189,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Installed Addons &8(" + addons.size() + ")"));
 					
-					for (String addon: addons) {
+					for (String addon : addons) {
 						sender.sendMessage(addon);
 					}
 				}
@@ -256,20 +257,20 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 						if (Players.isOnline(args[1])) {
 							Player p = Bukkit.getPlayer(args[1]);
 							if (args[2].equalsIgnoreCase("all")) {
-								for (Research res: Research.list()) {
+								for (Research res : Research.list()) {
 									if (!res.hasUnlocked(p)) Messages.local.sendTranslation(sender, "messages.give-research", true, new Variable("%player%", p.getName()), new Variable("%research%", res.getName()));
 									res.unlock(p, true);
 								}
 							}
 							else if (args[2].equalsIgnoreCase("reset")) {
-								for (Research res: Research.list()) {
+								for (Research res : Research.list()) {
 									res.lock(p);
 								}
 								Messages.local.sendTranslation(p, "commands.research.reset", true, new Variable("%player%", args[1]));
 							}
 							else {
 								Research research = null;
-								for (Research res: Research.list()) {
+								for (Research res : Research.list()) {
 									if (res.getName().toUpperCase().replace(" ", "_").equalsIgnoreCase(args[2])) {
 										research = res;
 										break;
@@ -301,7 +302,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		}
 		return true;
 	}
-	
+
 	private void sendHelp(CommandSender sender) {
 		sender.sendMessage("");
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + plugin.getDescription().getVersion()));
@@ -318,4 +319,5 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			e.setCancelled(true);
 		}
 	}
+
 }

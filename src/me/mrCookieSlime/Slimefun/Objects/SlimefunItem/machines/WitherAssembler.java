@@ -1,9 +1,15 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
@@ -21,14 +27,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class WitherAssembler extends SlimefunItem {
 	
@@ -53,41 +51,29 @@ public class WitherAssembler extends SlimefunItem {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
 						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
-						menu.addMenuClickHandler(22, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "enabled", "true");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(22, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "enabled", "true");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					else {
 						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
-						menu.addMenuClickHandler(22, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "enabled", "false");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(22, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "enabled", "false");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					
 					double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 					
 					menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
-					menu.addMenuClickHandler(31, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							double offset = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (arg3.isRightClicked() ? -0.1F: 0.1F));
-							BlockStorage.addBlockInfo(b, "offset", String.valueOf(offset));
-							newInstance(menu, b);
-							return false;
-						}
+					menu.addMenuClickHandler(31, (p, slot, item, action) -> {
+						double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
+						BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
+						newInstance(menu, b);
+						return false;
 					});
 				} catch(Exception x) {
 					x.printStackTrace();
@@ -134,7 +120,7 @@ public class WitherAssembler extends SlimefunItem {
 							inv.replaceExistingItem(slot, null);
 						}
 					}
-					for (int slot: getWitherSkullSlots()) {
+					for (int slot : getWitherSkullSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -147,71 +133,35 @@ public class WitherAssembler extends SlimefunItem {
 	}
 	
 	private void constructMenu(BlockMenuPreset preset) {
-		for (int i: border) {
+		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+				(p, slot, item, action) -> false
+			);
 		}
 		
-		for (int i: border_1) {
+		for (int i : border_1) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+				(p, slot, item, action) -> false
+			);
 		}
 		
-		for (int i: border_2) {
+		for (int i : border_2) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.BROWN_STAINED_GLASS_PANE), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+				(p, slot, item, action) -> false
+			);
 		}
 		
 		preset.addItem(1, new CustomItem(new ItemStack(Material.WITHER_SKELETON_SKULL, (byte) 1), "&7Wither Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+			(p, slot, item, action) -> false
+		);
 		
 		preset.addItem(7, new CustomItem(new ItemStack(Material.SOUL_SAND), "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+			(p, slot, item, action) -> false
+		);
 		
 		preset.addItem(13, new CustomItem(new ItemStack(Material.CLOCK), "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-							
-		});
+			(p, slot, item, action) -> false
+		);
 	}
 	
 	public String getInventoryTitle() {
@@ -243,7 +193,7 @@ public class WitherAssembler extends SlimefunItem {
 					int soulsand = 0;
 					int skulls = 0;
 					
-					for (int slot: getSoulSandSlots()) {
+					for (int slot : getSoulSandSlots()) {
 						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true, DataType.ALWAYS)) {
 							soulsand = soulsand + BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 							if (soulsand > 3) {
@@ -253,7 +203,7 @@ public class WitherAssembler extends SlimefunItem {
 						}
 					}
 					
-					for (int slot: getWitherSkullSlots()) {
+					for (int slot : getWitherSkullSlots()) {
 						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true, DataType.ALWAYS)) {
 							skulls = skulls + BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 							if (skulls > 2) {
@@ -264,7 +214,7 @@ public class WitherAssembler extends SlimefunItem {
 					}
 					
 					if (soulsand > 3 && skulls > 2) {
-						for (int slot: getSoulSandSlots()) {
+						for (int slot : getSoulSandSlots()) {
 							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true, DataType.ALWAYS)) {
 								final int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 								if (amount >= soulsand) {
@@ -278,7 +228,7 @@ public class WitherAssembler extends SlimefunItem {
 							}
 						}
 						
-						for (int slot: getWitherSkullSlots()) {
+						for (int slot : getWitherSkullSlots()) {
 							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true, DataType.ALWAYS)) {
 								final int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 								if (amount >= skulls) {
@@ -296,12 +246,8 @@ public class WitherAssembler extends SlimefunItem {
 						
 						final double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 						
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-							
-							@Override
-							public void run() {
-								b.getWorld().spawnEntity(new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D), EntityType.WITHER);
-							}
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+							b.getWorld().spawnEntity(new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D), EntityType.WITHER);
 						});
 						
 						return;
@@ -326,4 +272,5 @@ public class WitherAssembler extends SlimefunItem {
 	public int getEnergyConsumption() {
 		return 4096;
 	}
+
 }

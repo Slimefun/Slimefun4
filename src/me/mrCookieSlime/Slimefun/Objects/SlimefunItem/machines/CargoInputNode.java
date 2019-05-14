@@ -7,8 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -43,161 +41,113 @@ public class CargoInputNode extends SlimefunItem {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-type") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-type").equals("whitelist")) {
 						menu.replaceExistingItem(15, new CustomItem(new ItemStack(Material.WHITE_WOOL), "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
-						menu.addMenuClickHandler(15, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "filter-type", "blacklist");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(15, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "filter-type", "blacklist");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					else {
 						menu.replaceExistingItem(15, new CustomItem(new ItemStack(Material.BLACK_WOOL), "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
-						menu.addMenuClickHandler(15, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(15, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals("false")) {
 						menu.replaceExistingItem(16, new CustomItem(new ItemStack(Material.STONE_SWORD, (byte) 20), "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
-						menu.addMenuClickHandler(16, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "filter-durability", "true");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(16, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "filter-durability", "true");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					else {
 						menu.replaceExistingItem(16, new CustomItem(new ItemStack(Material.GOLDEN_SWORD, (byte) 20), "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
-						menu.addMenuClickHandler(16, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "filter-durability", "false");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(16, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "filter-durability", "false");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "round-robin") == null || BlockStorage.getLocationInfo(b.getLocation(), "round-robin").equals("false")) {
 						menu.replaceExistingItem(24, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&7Round-Robin Mode: &4\u2718", "", "&e> Click to enable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
-						menu.addMenuClickHandler(24, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "round-robin", "true");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(24, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "round-robin", "true");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					else {
 						menu.replaceExistingItem(24, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
-						menu.addMenuClickHandler(24, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "round-robin", "false");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(24, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "round-robin", "false");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
 						menu.replaceExistingItem(25, new CustomItem(new ItemStack(Material.MAP), "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
-						menu.addMenuClickHandler(25, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "filter-lore", "false");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(25, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "filter-lore", "false");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 					else {
 						menu.replaceExistingItem(25, new CustomItem(new ItemStack(Material.MAP), "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
-						menu.addMenuClickHandler(25, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								BlockStorage.addBlockInfo(b, "filter-lore", "true");
-								newInstance(menu, b);
-								return false;
-							}
+						menu.addMenuClickHandler(25, (p, slot, item, action) -> {
+							BlockStorage.addBlockInfo(b, "filter-lore", "true");
+							newInstance(menu, b);
+							return false;
 						});
 					}
 
 					menu.replaceExistingItem(41, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
-					menu.addMenuClickHandler(41, new MenuClickHandler() {
-
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
-							if (channel < 0) {
-								if (CargoNet.EXTRA_CHANNELS) channel = 16;
-								else channel = 15;
-							}
-							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
-							newInstance(menu, b);
-							return false;
+					menu.addMenuClickHandler(41, (p, slot, item, action) -> {
+						int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
+						if (channel < 0) {
+							if (CargoNet.EXTRA_CHANNELS) channel = 16;
+							else channel = 15;
 						}
+						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
+						newInstance(menu, b);
+						return false;
 					});
 					
 					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))));
 
 					if (channel == 16) {
 						menu.replaceExistingItem(42, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&bChannel ID: &3" + (channel + 1)));
-						menu.addMenuClickHandler(42, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								return false;
-							}
-						});
+						menu.addMenuClickHandler(42,
+							(p, slot, item, action) -> false
+						);
 					}
 					else {
 						menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialHelper.WoolColours[channel]), "&bChannel ID: &3" + (channel + 1)));
-						menu.addMenuClickHandler(42, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-								return false;
-							}
-						});
+						menu.addMenuClickHandler(42,
+							(p, slot, item, action) -> false
+						);
 					}
 
 					menu.replaceExistingItem(43, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&bChannel", "", "&e> Click to increase the Channel ID by 1"));
-					menu.addMenuClickHandler(43, new MenuClickHandler() {
+					menu.addMenuClickHandler(43, (p, slot, item, action) -> {
+						int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
 
-						@Override
-						public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-							int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
-
-							if (CargoNet.EXTRA_CHANNELS) {
-								if (channel > 16) channel = 0;
-							}
-							else {
-								if (channel > 15) channel = 0;
-							}
-							
-							BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
-							newInstance(menu, b);
-							return false;
+						if (CargoNet.EXTRA_CHANNELS) {
+							if (channeln > 16) channeln = 0;
 						}
+						else {
+							if (channeln > 15) channeln = 0;
+						}
+						
+						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channeln));
+						newInstance(menu, b);
+						return false;
 					});
 					
 				} catch (Exception e) {
@@ -237,7 +187,7 @@ public class CargoInputNode extends SlimefunItem {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
-					for (int slot: getInputSlots()) {
+					for (int slot : getInputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -250,30 +200,19 @@ public class CargoInputNode extends SlimefunItem {
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i: border) {
+		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-				
-			});
+				(p, slot, item, action) -> false
+			);
 		}
 
 		preset.addItem(2, new CustomItem(new ItemStack(Material.PAPER), "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"),
-		new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-				return false;
-			}
-			
-		});
+			(p, slot, item, action) -> false
+		);
 	}
 	
 	public int[] getInputSlots() {
 		return new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 	}
+
 }
