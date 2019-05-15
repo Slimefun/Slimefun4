@@ -114,7 +114,6 @@ public class SlimefunStartup extends JavaPlugin {
 			}
 
 			instance = this;
-			new MySQLMain();
 			System.out.println("[Slimefun] Loading Files...");
 			Files.cleanup();
 
@@ -131,8 +130,9 @@ public class SlimefunStartup extends JavaPlugin {
 			// Init Config, Updater, Metrics and messages.yml
 			utils.setupUpdater(53485, getFile());
 			utils.setupMetrics();
-			utils.setupLocalization();
+			utils.setupLocalization();		
 			config = utils.getConfig();
+			new MySQLMain();			
 			Messages.local = utils.getLocalization();
 			Messages.setup();
 
