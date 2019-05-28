@@ -39,6 +39,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
 import me.mrCookieSlime.Slimefun.listeners.*;
+
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
@@ -130,9 +131,9 @@ public class SlimefunStartup extends JavaPlugin {
 			// Init Config, Updater, Metrics and messages.yml
 			utils.setupUpdater(53485, getFile());
 			utils.setupMetrics();
-			utils.setupLocalization();		
+			utils.setupLocalization();
 			config = utils.getConfig();
-			new MySQLMain();			
+			new MySQLMain();
 			Messages.local = utils.getLocalization();
 			Messages.setup();
 

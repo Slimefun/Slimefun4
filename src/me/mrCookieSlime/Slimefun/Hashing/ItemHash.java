@@ -1,15 +1,14 @@
 package me.mrCookieSlime.Slimefun.Hashing;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import org.bukkit.Bukkit;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.bukkit.Bukkit;
-
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class ItemHash {
 	
@@ -38,7 +37,7 @@ public class ItemHash {
 		StringBuilder builder = new StringBuilder(LENGTH * 2);
 		
 		for (char c: item.getHash().toCharArray()) {
-			builder.append('§');
+			builder.append('\u00a7');
 			builder.append(c);
 		}
 		
