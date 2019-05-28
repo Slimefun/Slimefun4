@@ -10,15 +10,11 @@ public class NetherIceResource implements OreGenResource {
 	
 	@Override
 	public int getDefaultSupply(Biome biome) {
-		switch (biome) {
-		case NETHER: {
-			return 32;
-		}
-		default: {
-			return 0;
-		}
-		}
-	}
+        if (biome == Biome.NETHER) {
+            return 32;
+        }
+        return 0;
+    }
 
 	@Override
 	public String getName() {

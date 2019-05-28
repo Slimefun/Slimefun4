@@ -239,157 +239,157 @@ public abstract class AReactor extends SlimefunItem {
 		this.recipes.add(fuel);
 	}
 
-    @Override
-    public void register(boolean slimefun) {
-        addItemHandler(new EnergyTicker() {
+	@Override
+	public void register(boolean slimefun) {
+		addItemHandler(new EnergyTicker() {
 
-            Set<Location> explode = new HashSet<Location>();
+			Set<Location> explode = new HashSet<Location>();
 
-            @Override
-            public double generateEnergy(final Location l, SlimefunItem sf, Config data) {
-                BlockMenu port = getAccessPort(l);
+			@Override
+			public double generateEnergy(final Location l, SlimefunItem sf, Config data) {
+				BlockMenu port = getAccessPort(l);
 
-                if (isProcessing(l)) {
-                    extraTick(l);
-                    int timeleft = progress.get(l);
-                    if (timeleft > 0) {
-                        int produced = getEnergyProduction();
-                        int space = ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l);
-                        if (space >= produced) {
-                            ChargableBlock.addCharge(l, getEnergyProduction());
-                            space -= produced;
-                        }
-                        if (space >= produced || !BlockStorage.getLocationInfo(l, "reactor-mode").equals("generator")) {
-                            progress.put(l, timeleft - 1);
+				if (isProcessing(l)) {
+					extraTick(l);
+					int timeleft = progress.get(l);
+					if (timeleft > 0) {
+						int produced = getEnergyProduction();
+						int space = ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l);
+						if (space >= produced) {
+							ChargableBlock.addCharge(l, getEnergyProduction());
+							space -= produced;
+						}
+						if (space >= produced || !BlockStorage.getLocationInfo(l, "reactor-mode").equals("generator")) {
+							progress.put(l, timeleft - 1);
 
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-                                if (!l.getBlock().getRelative(cooling[CSCoreLib.randomizer().nextInt(cooling.length)]).isLiquid()) explode.add(l);
-                            });
+							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+								if (!l.getBlock().getRelative(cooling[CSCoreLib.randomizer().nextInt(cooling.length)]).isLiquid()) explode.add(l);
+							});
 
-                            ItemStack item = getProgressBar().clone();
-                            ItemMeta im = item.getItemMeta();
-                            im.setDisplayName(" ");
-                            List<String> lore = new ArrayList<String>();
-                            lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
-                            lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
-                            lore.add("");
-                            lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-                            im.setLore(lore);
-                            item.setItemMeta(im);
+							ItemStack item = getProgressBar().clone();
+							ItemMeta im = item.getItemMeta();
+							im.setDisplayName(" ");
+							List<String> lore = new ArrayList<String>();
+							lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
+							lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
+							lore.add("");
+							lore.add(MachineHelper.getTimeLeft(timeleft / 2));
+							im.setLore(lore);
+							item.setItemMeta(im);
 
-                            BlockStorage.getInventory(l).replaceExistingItem(22, item);
+							BlockStorage.getInventory(l).replaceExistingItem(22, item);
 
-                            if (needsCooling()) {
-                                boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
+							if (needsCooling()) {
+								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
 
-                                if (coolant) {
-                                    if (port != null) {
-                                        for (int slot: getCoolantSlots()) {
-                                            if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), getCoolant(), true)) {
-                                                port.replaceExistingItem(slot, pushItems(l, port.getItemInSlot(slot), getCoolantSlots()));
-                                            }
-                                        }
-                                    }
+								if (coolant) {
+									if (port != null) {
+										for (int slot: getCoolantSlots()) {
+											if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), getCoolant(), true)) {
+												port.replaceExistingItem(slot, pushItems(l, port.getItemInSlot(slot), getCoolantSlots()));
+											}
+										}
+									}
 
-                                    boolean explosion = true;
-                                    for (int slot: getCoolantSlots()) {
-                                        if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), getCoolant(), true)) {
-                                            BlockStorage.getInventory(l).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(slot), 1));
-                                            ReactorHologram.update(l, "&b\u2744 &7100%");
-                                            explosion = false;
-                                            break;
-                                        }
-                                    }
+									boolean explosion = true;
+									for (int slot: getCoolantSlots()) {
+										if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), getCoolant(), true)) {
+											BlockStorage.getInventory(l).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(slot), 1));
+											ReactorHologram.update(l, "&b\u2744 &7100%");
+											explosion = false;
+											break;
+										}
+									}
 
-                                    if (explosion) {
-                                        explode.add(l);
-                                        return 0;
-                                    }
-                                }
-                                else {
-                                    ReactorHologram.update(l, "&b\u2744 &7" + MachineHelper.getPercentage(timeleft, processing.get(l).getTicks()) + "%");
-                                }
-                            }
+									if (explosion) {
+										explode.add(l);
+										return 0;
+									}
+								}
+								else {
+									ReactorHologram.update(l, "&b\u2744 &7" + MachineHelper.getPercentage(timeleft, processing.get(l).getTicks()) + "%");
+								}
+							}
 
-                            return ChargableBlock.getCharge(l);
-                        }
-                        return 0;
-                    }
-                    else {
-                        BlockStorage.getInventory(l).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-                        if (processing.get(l).getOutput() != null) pushItems(l, processing.get(l).getOutput());
+							return ChargableBlock.getCharge(l);
+						}
+						return 0;
+					}
+					else {
+						BlockStorage.getInventory(l).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+						if (processing.get(l).getOutput() != null) pushItems(l, processing.get(l).getOutput());
 
-                        if (port != null) {
-                            for (int slot: getOutputSlots()) {
-                                if (BlockStorage.getInventory(l).getItemInSlot(slot) != null) BlockStorage.getInventory(l).replaceExistingItem(slot, ReactorAccessPort.pushItems(port.getLocation(), BlockStorage.getInventory(l).getItemInSlot(slot)));
-                            }
-                        }
+						if (port != null) {
+							for (int slot: getOutputSlots()) {
+								if (BlockStorage.getInventory(l).getItemInSlot(slot) != null) BlockStorage.getInventory(l).replaceExistingItem(slot, ReactorAccessPort.pushItems(port.getLocation(), BlockStorage.getInventory(l).getItemInSlot(slot)));
+							}
+						}
 
-                        progress.remove(l);
-                        processing.remove(l);
-                        return 0;
-                    }
-                }
-                else {
-                    MachineFuel r = null;
-                    Map<Integer, Integer> found = new HashMap<Integer, Integer>();
+						progress.remove(l);
+						processing.remove(l);
+						return 0;
+					}
+				}
+				else {
+					MachineFuel r = null;
+					Map<Integer, Integer> found = new HashMap<Integer, Integer>();
 
-                    if (port != null) {
-                        refill:
-                        for (int slot: getFuelSlots()) {
-                            for (MachineFuel recipe: recipes) {
-                                if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true)) {
-                                    if (pushItems(l, new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots()) == null) {
-                                        port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
-                                        break refill;
-                                    }
-                                }
-                            }
-                        }
-                    }
+					if (port != null) {
+						refill:
+							for (int slot: getFuelSlots()) {
+								for (MachineFuel recipe: recipes) {
+									if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true)) {
+										if (pushItems(l, new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots()) == null) {
+											port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
+											break refill;
+										}
+									}
+								}
+							}
+					}
 
-                    outer:
-                    for (MachineFuel recipe: recipes) {
-                        for (int slot: getFuelSlots()) {
-                            if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), recipe.getInput(), true)) {
-                                found.put(slot, recipe.getInput().getAmount());
-                                r = recipe;
-                                break outer;
-                            }
-                        }
-                    }
+					outer:
+					for (MachineFuel recipe: recipes) {
+						for (int slot: getFuelSlots()) {
+							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), recipe.getInput(), true)) {
+								found.put(slot, recipe.getInput().getAmount());
+								r = recipe;
+								break outer;
+							}
+						}
+					}
 
-                    if (r != null) {
-                        for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
-                            BlockStorage.getInventory(l).replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(entry.getKey()), entry.getValue()));
-                        }
-                        processing.put(l, r);
-                        progress.put(l, r.getTicks());
-                    }
-                    return 0;
-                }
-            }
+					if (r != null) {
+						for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
+							BlockStorage.getInventory(l).replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(entry.getKey()), entry.getValue()));
+						}
+						processing.put(l, r);
+						progress.put(l, r.getTicks());
+					}
+					return 0;
+				}
+			}
 
-            @Override
-            public boolean explode(final Location l) {
-                final boolean explosion = explode.contains(l);
-                if (explosion) {
-                    BlockStorage.getInventory(l).close();
+			@Override
+			public boolean explode(final Location l) {
+				final boolean explosion = explode.contains(l);
+				if (explosion) {
+					BlockStorage.getInventory(l).close();
+					
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+						ReactorHologram.remove(l);
+					}, 0);
+					
+					explode.remove(l);
+					processing.remove(l);
+					progress.remove(l);
+				}
+				return explosion;
+			}
+		});
 
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-                                ReactorHologram.remove(l);
-                            }, 0);
-
-                    explode.remove(l);
-                    processing.remove(l);
-                    progress.remove(l);
-                }
-                return explosion;
-            }
-        });
-
-        super.register(slimefun);
-    }
+		super.register(slimefun);
+	}
 
 	private Inventory inject(Location l) {
 		int size = BlockStorage.getInventory(l).toInventory().getSize();
