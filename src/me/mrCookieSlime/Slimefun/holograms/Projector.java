@@ -20,7 +20,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class Projector {
 	
 	public static ArmorStand getArmorStand(Block projector) {
-		String nametag = ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(projector.getLocation(), "text"));
+		String nametag = BlockStorage.getLocationInfo(projector.getLocation(), "text");
 		double offset = Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), "offset"));
 		Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
 		
@@ -45,7 +45,7 @@ public class Projector {
 			MenuHelper.awaitChatInput(pl, (player, message) -> {
 				ArmorStand hologram = getArmorStand(projector);
 				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', message));
-				BlockStorage.addBlockInfo(projector, "text", message);
+				BlockStorage.addBlockInfo(projector, "text", hologram.getCustomName());
 				openEditor(player, projector);
 				return false;
 			});
