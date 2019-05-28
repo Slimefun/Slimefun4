@@ -489,13 +489,7 @@ public class SlimefunGuide {
 			final ChestMenu menu = new ChestMenu("粘液科技指南");
 
 			menu.setEmptySlotsClickable(false);
-			menu.addMenuOpeningHandler(new MenuOpeningHandler() {
-
-				@Override
-				public void onOpen(Player p) {
-					p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F);
-				}
-			});
+			menu.addMenuOpeningHandler(p1 -> p1.playSound(p1.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
 
 			List<Category> categories = Slimefun.current_categories;
 			List<GuideHandler> handlers = Slimefun.guide_handlers2;

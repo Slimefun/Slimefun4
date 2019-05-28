@@ -102,10 +102,11 @@ public class SlimefunStartup extends JavaPlugin {
 					if (currentVersion.startsWith(version)) {
 						compatibleVersion = true;
 					}
-					
-					if (i == 0) versions.append(version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
-					else if (i == supported.length - 1) versions.append(" or " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
-					else versions.append(", " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
+
+                    String replace = version.substring(1).replaceFirst("_", ".").replace("_", ".X");
+                    if (i == 0) versions.append(replace);
+					else if (i == supported.length - 1) versions.append(" or " + replace);
+					else versions.append(", " + replace);
 					
 					i++;
 				}
