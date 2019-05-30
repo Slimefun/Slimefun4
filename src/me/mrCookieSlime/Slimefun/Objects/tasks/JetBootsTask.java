@@ -1,17 +1,16 @@
 package me.mrCookieSlime.Slimefun.Objects.tasks;
 
 import java.text.DecimalFormat;
-import java.util.UUID;
-
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
 public class JetBootsTask extends SlimefunTask {
 	private double speed;

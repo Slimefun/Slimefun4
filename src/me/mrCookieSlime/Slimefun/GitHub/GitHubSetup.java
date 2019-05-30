@@ -1,10 +1,16 @@
 package me.mrCookieSlime.Slimefun.GitHub;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 public class GitHubSetup {
 
@@ -31,6 +37,50 @@ public class GitHubSetup {
 			    	}
 			    }
 				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				
+				SlimefunStartup.instance.getServer().getScheduler().runTaskAsynchronously(SlimefunStartup.instance, () -> {
+					for (JsonElement e: array) {
+						String name = e.getAsJsonObject().get("login").getAsString();
+						
+						if (Contributor.textures.containsKey(name)) continue;
+						
+						InputStreamReader profile_reader = null, session_reader = null;
+						
+						try {
+							URL profile = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
+							profile_reader = new InputStreamReader(profile.openStream());
+							String uuid = new JsonParser().parse(profile_reader).getAsJsonObject().get("id").getAsString();
+							
+							URL session = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false");
+				            session_reader = new InputStreamReader(session.openStream());
+				            JsonArray properties = new JsonParser().parse(session_reader).getAsJsonObject().get("properties").getAsJsonArray();
+				            
+				            for (JsonElement el: properties) {
+				            	if (el.isJsonObject() && el.getAsJsonObject().get("name").getAsString().equals("textures")) {
+									Contributor.textures.put(name, el.getAsJsonObject().get("value").getAsString());
+									break;
+				            	}
+				            }
+						} catch (Exception x) {
+							Contributor.textures.put(name, null);
+						} finally {
+							if (profile_reader != null) {
+								try {
+									profile_reader.close();
+								} catch (IOException x) {
+									x.printStackTrace();
+								}
+							}
+							if (session_reader != null) {
+								try {
+									session_reader.close();
+								} catch (IOException x) {
+									x.printStackTrace();
+								}
+							}
+						}
+					}
+				});
 			}
 			
 			@Override

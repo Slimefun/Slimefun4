@@ -337,7 +337,7 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.GRIND_STONE, "GRIND_STONE",
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)", 0), null},
+		new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 		new ItemStack[] {new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4), new ItemStack(Material.BONE), new ItemStack(Material.BONE_MEAL, 4), new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), new ItemStack(Material.NETHER_WART), new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2), new ItemStack(Material.ENDER_EYE), new CustomItem(SlimefunItems.ENDER_LUMP_1, 2), new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL), new ItemStack(Material.WHEAT), SlimefunItems.WHEAT_FLOUR, new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK},
 		Material.OAK_FENCE)
 		.register(true, new MultiBlockInteractionHandler() {
@@ -378,7 +378,7 @@ public class SlimefunSetup {
 		});
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ARMOR_FORGE, "ARMOR_FORGE",
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)", 0), null},
+		new ItemStack[] {null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 		new ItemStack[] {},
 		Material.ANVIL)
 		.register(true, new MultiBlockInteractionHandler() {
@@ -438,7 +438,7 @@ public class SlimefunSetup {
 		});
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ORE_CRUSHER, "ORE_CRUSHER",
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)", 0), new ItemStack(Material.IRON_BARS)},
+		new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS)},
 		new ItemStack[] {new ItemStack(Material.IRON_ORE), new CustomItem(SlimefunItems.IRON_DUST, (Boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1), new ItemStack(Material.GOLD_ORE), new CustomItem(SlimefunItems.GOLD_DUST, (Boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1), new ItemStack(Material.NETHERRACK, 16), SlimefunItems.SULFATE, SlimefunItems.SIFTED_ORE, SlimefunItems.CRUSHED_ORE, SlimefunItems.CRUSHED_ORE, SlimefunItems.PULVERIZED_ORE, SlimefunItems.PURE_ORE_CLUSTER, SlimefunItems.TINY_URANIUM, new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), new ItemStack(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST},
 		Material.NETHER_BRICK_FENCE)
 		.register(true, new MultiBlockInteractionHandler() {
@@ -479,7 +479,7 @@ public class SlimefunSetup {
 		});
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.COMPRESSOR, "COMPRESSOR",
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)", 0), new ItemStack(Material.PISTON)},
+		new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON)},
 		new ItemStack[] {new ItemStack(Material.COAL, 8), SlimefunItems.CARBON, new CustomItem(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE, new CustomItem(SlimefunItems.CARBON, 4), SlimefunItems.COMPRESSED_CARBON, new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE), new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE},
 		Material.NETHER_BRICK_FENCE)
 		.register(true, new MultiBlockInteractionHandler() {
@@ -696,7 +696,7 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.SMELTERY, "SMELTERY",
-		new ItemStack[] {null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispencer (Faced up)", 0), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null},
+		new ItemStack[] {null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispencer (Faced up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null},
 		new ItemStack[] {SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)}, Material.NETHER_BRICK_FENCE,
 		new String[] {"chance.fireBreak"}, new Integer[] {34})
 		.register(true, new MultiBlockInteractionHandler() {
@@ -797,7 +797,7 @@ public class SlimefunSetup {
 		.register(true);
 		
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.PRESSURE_CHAMBER, "PRESSURE_CHAMBER",
-		new ItemStack[] {new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)", 0), new ItemStack(Material.STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
+		new ItemStack[] {new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
 		new ItemStack[] {SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.RAW_CARBONADO, SlimefunItems.CARBONADO},
 		Material.CAULDRON)
 		.register(true, new MultiBlockInteractionHandler() {
@@ -1845,7 +1845,7 @@ public class SlimefunSetup {
 							if (MaterialHelper.isLog(b.getRelative(BlockFace.UP).getType())) {
 								Block log = b.getRelative(BlockFace.UP);
 								if (!BlockStorage.hasBlockInfo(log)) {
-									ItemStack item =  new CustomItem(MaterialHelper.getWoodFromLog(log.getType()), 0, 8);
+									ItemStack item =  new ItemStack(MaterialHelper.getWoodFromLog(log.getType()), 8);
 									log.getWorld().dropItemNaturally(log.getLocation(), item);
 									log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 									log.setType(Material.AIR); 
@@ -2016,19 +2016,19 @@ public class SlimefunSetup {
 		new SlimefunGadget(Categories.MACHINES_1, SlimefunItems.COMPOSTER, "COMPOSTER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), new ItemStack(Material.CAULDRON), new ItemStack(Material.OAK_SLAB)},
 		new ItemStack[] {
-				new CustomItem(Material.OAK_LEAVES, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.BIRCH_LEAVES, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.SPRUCE_LEAVES, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.JUNGLE_LEAVES, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.ACACIA_LEAVES, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.DARK_OAK_LEAVES, 0, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.OAK_LEAVES, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.BIRCH_LEAVES, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.SPRUCE_LEAVES, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.JUNGLE_LEAVES, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.ACACIA_LEAVES, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.DARK_OAK_LEAVES, 8), new ItemStack(Material.DIRT), 
 				
-				new CustomItem(Material.OAK_SAPLING, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.BIRCH_SAPLING, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.SPRUCE_SAPLING, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.JUNGLE_SAPLING, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.ACACIA_SAPLING, 0, 8), new ItemStack(Material.DIRT), 
-				new CustomItem(Material.DARK_OAK_SAPLING, 0, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.OAK_SAPLING, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.BIRCH_SAPLING, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.SPRUCE_SAPLING, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.JUNGLE_SAPLING, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.ACACIA_SAPLING, 8), new ItemStack(Material.DIRT), 
+				new ItemStack(Material.DARK_OAK_SAPLING, 8), new ItemStack(Material.DIRT), 
 				
 				new ItemStack(Material.STONE, 4), new ItemStack(Material.NETHERRACK), 
 				new ItemStack(Material.SAND, 2), new ItemStack(Material.SOUL_SAND), 
@@ -2511,7 +2511,7 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.JUICER, "JUICER",
-		new ItemStack[] {null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)", 0), null},
+		new ItemStack[] {null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 		new ItemStack[] {
 				new ItemStack(Material.APPLE), SlimefunItems.APPLE_JUICE,
 				new ItemStack(Material.MELON), SlimefunItems.MELON_JUICE,
@@ -2580,7 +2580,7 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.REPAIRED_SPAWNER, "REINFORCED_SPAWNER", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge", 0), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge", 0), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge", 0), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge", 0), SlimefunItems.RUNE_ENDER})
+		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.RUNE_ENDER})
 		.register(true, new BlockPlaceHandler() {
 
 			@Override
@@ -2820,7 +2820,7 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FLASK_OF_KNOWLEDGE, true) && p.getLevel() >= 1) {
 					p.setLevel(p.getLevel() - 1);
-					p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge", 0));
+					p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
 					PlayerInventory.consumeItemInHand(p);
 					PlayerInventory.update(p);
 					return true;

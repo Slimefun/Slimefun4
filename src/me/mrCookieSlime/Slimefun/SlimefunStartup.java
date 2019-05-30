@@ -22,6 +22,7 @@ import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
+import me.mrCookieSlime.Slimefun.GitHub.Contributor;
 import me.mrCookieSlime.Slimefun.GitHub.GitHubConnector;
 import me.mrCookieSlime.Slimefun.GitHub.GitHubSetup;
 import me.mrCookieSlime.Slimefun.Hashing.ItemHash;
@@ -406,6 +407,7 @@ public class SlimefunStartup extends JavaPlugin {
 		OreGenSystem.map = null;
 		SlimefunGuide.contributors = null;
 		GitHubConnector.connectors = null;
+		Contributor.textures = null;
 		ChestManipulator.listeners = null;
 		ItemHash.digest = null;
 		ItemHash.map = null;
