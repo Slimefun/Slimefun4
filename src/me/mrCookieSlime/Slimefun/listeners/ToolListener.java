@@ -79,6 +79,9 @@ public class ToolListener implements Listener {
 		}
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
+
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PORTABLE_CRAFTER, true)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PORTABLE_DUSTBIN, true)) e.setCancelled(true);
 		
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_SMALL, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_MEDIUM, false)) e.setCancelled(true);
