@@ -1149,7 +1149,7 @@ public class SlimefunGuide {
 			else if (sfItem instanceof AGenerator) {
 				int slot = 27;
 				for (MachineFuel fuel: ((AGenerator) sfItem).getFuelTypes()) {
-					if (slot > 54) break;
+					if (slot >= 54) break;
 					ItemStack fItem = fuel.getInput().clone();
 					ItemMeta im = fItem.getItemMeta();
 					List<String> lore = new ArrayList<String>();
@@ -1166,7 +1166,7 @@ public class SlimefunGuide {
 			else if (sfItem instanceof AReactor) {
 				int slot = 27;
 				for (MachineFuel fuel: ((AReactor) sfItem).getFuelTypes()) {
-					if (slot > 54) break;
+					if (slot >= 54) break;
 					ItemStack fItem = fuel.getInput().clone();
 					ItemMeta im = fItem.getItemMeta();
 					List<String> lore = new ArrayList<String>();
