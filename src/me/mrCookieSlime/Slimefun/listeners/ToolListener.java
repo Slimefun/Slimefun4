@@ -43,7 +43,7 @@ public class ToolListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
-	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockRegister(BlockPlaceEvent e) {
 		if (BlockStorage.hasBlockInfo(e.getBlock())) {
 			e.setCancelled(true);
@@ -52,14 +52,18 @@ public class ToolListener implements Listener {
 		ItemStack item = e.getItemInHand();
 		if (item != null && item.getType() == Material.INK_SAC) return;
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		if (sfItem != null && !(sfItem instanceof NotPlaceable)){
+		if (sfItem != null && !(sfItem instanceof NotPlaceable)) {
 			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
 			if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 				SlimefunItem.blockhandler.get(sfItem.getID()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
+			} else {
+				for (ItemHandler handler : SlimefunItem.getHandlers("BlockPlaceHandler")) {
+					if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) break;
+				}
 			}
 		}
 		else {
-			for (ItemHandler handler: SlimefunItem.getHandlers("BlockPlaceHandler")) {
+			for (ItemHandler handler : SlimefunItem.getHandlers("BlockPlaceHandler")) {
 				if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) break;
 			}
 		}
@@ -75,6 +79,9 @@ public class ToolListener implements Listener {
 		}
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
+
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PORTABLE_CRAFTER, true)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PORTABLE_DUSTBIN, true)) e.setCancelled(true);
 		
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_SMALL, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_MEDIUM, false)) e.setCancelled(true);
@@ -165,15 +172,15 @@ public class ToolListener implements Listener {
 		
 	}
 	
-	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent e) {
 		boolean allow = true;
 		List<ItemStack> drops = new ArrayList<ItemStack>();
-		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+		ItemStack item = e.getPlayer().getEquipment().getItemInMainHand();
 		int fortune = 1;
 		
 		Block block2 = e.getBlock().getRelative(BlockFace.UP);
-		if (StringUtils.equals(block2.getType().toString(), "SAPLING", "WOOD_PLATE", "STONE_PLATE", "IRON_PLATE", "GOLD_PLATE")) {
+		if (StringUtils.equals(block2.getType().toString(), "SAPLING", "WOOD_PLATE", "STONE_PLATE", "IRON_PLATE", "GOLD_PLATE")) { // ToDo: 1.13 Material names
 			SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
 			if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 				if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
@@ -194,6 +201,10 @@ public class ToolListener implements Listener {
 		if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 			if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 				allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+			} else {
+				for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
+					if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) return;
+				}
 			}
 			if (allow) {
 				drops.add(BlockStorage.retrieve(e.getBlock()));
@@ -203,21 +214,20 @@ public class ToolListener implements Listener {
 				return;
 			}
 		}
-		else if (item != null){
+		else if (item != null) {
 			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
 				fortune = SlimefunStartup.randomize(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
 				if (fortune <= 0) fortune = 1;
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + SlimefunStartup.randomize(5) : 1) * (fortune + 1);
 			}
-			
-			for (ItemHandler handler: SlimefunItem.getHandlers("BlockBreakHandler")) {
+			for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
 				if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 			}
 		}
 		
 		if (!drops.isEmpty()) {
 			e.getBlock().setType(Material.AIR);
-			for (ItemStack drop: drops) {
+			for (ItemStack drop : drops) {
 				if (drop != null) {
 					e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
 				}
@@ -225,7 +235,7 @@ public class ToolListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent e) {
 		Iterator<Block> blocks = e.blockList().iterator();
 		while (blocks.hasNext()) {
@@ -254,4 +264,5 @@ public class ToolListener implements Listener {
 		SlimefunItem item = BlockStorage.check(block);
 		if (item != null) e.setCancelled(true);
 	}
+
 }

@@ -98,7 +98,7 @@ public class BlockStorage {
 							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
-						
+
 						FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 						for (String key: cfg.getKeys(false)) {
 							Location l = deserializeLocation(key);
@@ -107,9 +107,18 @@ public class BlockStorage {
 								totalBlocks++;
 								String json = cfg.getString(key);
 								Config blockInfo = parseBlockInfo(l, json);
-								if (blockInfo == null) continue;
+								if (blockInfo == null || !blockInfo.contains("id")) continue;
+								if (storage.containsKey(l)) {
+									// It should not be possible to have two blocks on the same location. Ignore the
+									// new entry if a block is already present and print an error to the console.
+
+									System.out.println("[Slimefun] Ignoring duplicate block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+									System.out.println("[Slimefun] Old block data: " + serializeBlockInfo(storage.get(l)));
+									System.out.println("[Slimefun] New block data (" + key + "): " + json);
+									continue;
+								}
 								storage.put(l, blockInfo);
-								
+
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
 									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
 									locations.add(l);
@@ -339,7 +348,7 @@ public class BlockStorage {
 	@SuppressWarnings("unchecked")
 	private static String serializeBlockInfo(Config cfg) {
 		JSONObject json = new JSONObject();
-		for (String key: cfg.getKeys()) {
+		for (String key : cfg.getKeys()) {
 			json.put(key, cfg.getString(key));
 		}
 		return json.toJSONString();
@@ -596,8 +605,11 @@ public class BlockStorage {
 	public void clearInventory(Location l) {
 		BlockMenu menu = getInventory(l);
 
-		for (HumanEntity human: new ArrayList<>(menu.toInventory().getViewers())) {
-			human.closeInventory();
+		for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
+			// Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while holding an item
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+				human.closeInventory();
+			});
 		}
 
 		inventories.get(l).delete(l);

@@ -18,6 +18,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class AutoAnvil extends AContainer {
@@ -57,8 +58,8 @@ public abstract class AutoAnvil extends AContainer {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				im.setDisplayName(" ");
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
@@ -91,12 +92,14 @@ public abstract class AutoAnvil extends AContainer {
 				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
 				if (item != null) {
-					if (item.getType().getMaxDurability() > 0 && item.getDurability() > 0) {
+					if (item.getType().getMaxDurability() > 0 && ((Damageable) item.getItemMeta()).getDamage() > 0) {
 						if (SlimefunManager.isItemSimiliar(target, SlimefunItems.DUCT_TAPE, true)) {
 							ItemStack newItem = item.clone();
-							short durability = (short) (newItem.getDurability() - (item.getType().getMaxDurability() / getRepairFactor()));
+							short durability = (short) (((Damageable) newItem.getItemMeta()).getDamage() - (item.getType().getMaxDurability() / getRepairFactor()));
 							if (durability < 0) durability = 0;
-							newItem.setDurability(durability);
+							ItemMeta meta = newItem.getItemMeta();
+							((Damageable) meta).setDamage(durability);
+							newItem.setItemMeta(meta);
 							r = new MachineRecipe(30, new ItemStack[] {target, item}, new ItemStack[] {newItem});
 						}
 						break slots;

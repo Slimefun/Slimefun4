@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.1.16</version>
+    <version>4.1.17</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -19,16 +19,16 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>worldedit-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
+            <id>worldedit-worldguard-repo</id>
+            <url>https://maven.sk89q.com/repo/</url>
+        </repository>
+        <repository>
+            <id>coreprotect-repo</id>
+            <url>https://maven.playpro.com/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>robomwm-repo</id>
-            <url>https://dl.bintray.com/robomwm/maven</url>
         </repository>
     </repositories>
     <build>
@@ -55,6 +55,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
@@ -72,7 +73,7 @@
         </dependency>
         <dependency>
             <groupId>net.coreprotect</groupId>
-            <artifactId>CoreProtect</artifactId>
+            <artifactId>coreprotect</artifactId>
         </dependency>
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
@@ -92,7 +93,7 @@
     		<dependency>
     			<groupId>org.bukkit</groupId>
     			<artifactId>bukkit</artifactId>
-    			<version>1.13.2-R0.1-SNAPSHOT</version>
+    			<version>1.14.2-R0.1-SNAPSHOT</version>
     		</dependency>
     		<dependency>
     			<groupId>com.sk89q.worldedit</groupId>
@@ -102,7 +103,7 @@
     		<dependency>
     			<groupId>com.github.TheBusyBiscuit</groupId>
     			<artifactId>CS-CoreLib</artifactId>
-    			<version>a450ddc526</version>
+    			<version>v1.6.1</version>
     		</dependency>
     		<dependency>
     			<groupId>me.minebuilders</groupId>
@@ -111,8 +112,8 @@
     		</dependency>
     		<dependency>
     			<groupId>net.coreprotect</groupId>
-    			<artifactId>CoreProtect</artifactId>
-    			<version>2.14.2</version>
+    			<artifactId>coreprotect</artifactId>
+    			<version>2.16.0</version>
     		</dependency>
     		<dependency>
     			<groupId>me.mrCookieSlime</groupId>

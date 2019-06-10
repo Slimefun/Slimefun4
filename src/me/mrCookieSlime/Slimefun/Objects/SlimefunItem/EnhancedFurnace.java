@@ -6,7 +6,6 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
@@ -55,7 +54,7 @@ public class EnhancedFurnace extends SlimefunItem {
 	}
 	
 	public int getFuelEfficiency() {
-		return speed;
+		return efficiency;
 	}
 	
 	public int getOutput() {

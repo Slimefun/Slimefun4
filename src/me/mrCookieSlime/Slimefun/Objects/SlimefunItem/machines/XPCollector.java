@@ -2,10 +2,17 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import java.util.Iterator;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -18,15 +25,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ExperienceOrb;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public class XPCollector extends SlimefunItem {
 	
@@ -86,9 +84,9 @@ public class XPCollector extends SlimefunItem {
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US", 0));
+			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
 		}
-		for (int slot: getOutputSlots()) {
+		for (int slot : getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
 		}
 		return inv;
@@ -102,7 +100,7 @@ public class XPCollector extends SlimefunItem {
 		Inventory inv = inject(b);
 		inv.addItem(items);
 		
-		for (int slot: getOutputSlots()) {
+		for (int slot : getOutputSlots()) {
 			BlockStorage.getInventory(b).replaceExistingItem(slot, inv.getItem(slot));
 		}
 	}
@@ -112,16 +110,10 @@ public class XPCollector extends SlimefunItem {
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i: border) {
+		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS_PANE), " "),
-			new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-						
-			});
+				(p, slot, item, action) -> false
+			);
 		}
 	}
 	
@@ -170,9 +162,9 @@ public class XPCollector extends SlimefunItem {
 					
 					int withdrawn = 0;
 					for (int level = 0; level < getEXP(b); level = level + 10) {
-						if (fits(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge", 0))) {
+						if (fits(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"))) {
 							withdrawn = withdrawn + 10;
-							pushItems(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge", 0));
+							pushItems(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
 						}
 					}
 					BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));

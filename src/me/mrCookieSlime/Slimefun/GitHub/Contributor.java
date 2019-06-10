@@ -1,11 +1,16 @@
 package me.mrCookieSlime.Slimefun.GitHub;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents a contributor on Slimefun4's GitHub repository.
  *
  * @since 4.1.6
  */
 public class Contributor {
+	
+	public static Map<String, String> textures = new HashMap<>();
 	
 	private String name;
 	private String job;
@@ -60,5 +65,13 @@ public class Contributor {
 	 */
 	protected void setProfile(String profile) {
 		this.profile = profile;
+	}
+	
+	/**
+	 * Returns this Creator's head texture
+	 * @return A Base64-Head Texture
+	 */
+	public String getTexture() {
+		return textures.get(name);
 	}
 }

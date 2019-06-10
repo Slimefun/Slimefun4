@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
@@ -25,13 +31,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.api.item_transport.RecipeSorter;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class HeatedPressureChamber extends AContainer {
 
@@ -76,7 +75,14 @@ public abstract class HeatedPressureChamber extends AContainer {
 				}
 				else {
 					Collections.sort(slots, new RecipeSorter(menu));
-					return ArrayUtils.toPrimitive(slots.toArray(new Integer[slots.size()]));
+					
+					int[] array = new int[slots.size()];
+					
+					for (int i = 0; i < slots.size(); i++) {
+						array[i] = slots.get(i);
+					}
+					
+					return array;
 				}
 			}
 		};

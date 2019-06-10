@@ -1,14 +1,13 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.potion.PotionEffect;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
@@ -78,8 +77,7 @@ public class SlimefunManager {
 		IF_COLORED;
 		
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore, DataType data) {
 		if (item == null) return SFitem == null;
 		if (SFitem == null) return false;
@@ -92,7 +90,7 @@ public class SlimefunManager {
 						if (!(SFitem.getDurability() == item.getData().getData() && SFitem.getData().getData() == item.getDurability())) return false;
 					}
 				}
-				else*/ if (data.equals(DataType.ALWAYS) && item.getDurability() != SFitem.getDurability()) {
+				else*/ if (data.equals(DataType.ALWAYS) && ((Damageable) item.getItemMeta()).getDamage() != ((Damageable) SFitem.getItemMeta()).getDamage()) {
 					return false;
 				}
 			}
