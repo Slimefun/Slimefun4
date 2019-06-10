@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -353,6 +354,15 @@ public class ItemListener implements Listener {
 			if (SlimefunItem.getByItem(item) != null && !(SlimefunItem.getByItem(item).isReplacing())) {
 				e.setCancelled(true);
 				Messages.local.sendTranslation((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
+				break;
+			}
+		}
+	}
+	@EventHandler
+	public void onPrepareCraft(PrepareItemCraftEvent e) {
+		for (ItemStack item : e.getInventory().getContents()) {
+			if (SlimefunItem.getByItem(item) != null && !(SlimefunItem.getByItem(item).isReplacing())) {
+				e.getInventory().setResult(null);
 				break;
 			}
 		}
