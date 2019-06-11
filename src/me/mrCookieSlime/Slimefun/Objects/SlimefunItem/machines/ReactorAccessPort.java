@@ -60,6 +60,7 @@ public class ReactorAccessPort extends SlimefunItem {
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow.equals(ItemTransportFlow.INSERT)) {
 					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REACTOR_COOLANT_CELL, true)) return getCoolantSlots();
+					else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.NETHER_ICE_COOLANT_CELL, true)) return getCoolantSlots();
 					else return getFuelSlots();
 				}
 				else return getOutputSlots();
