@@ -243,7 +243,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 			
 			if (item != null && item.getAmount() == 1) return;
 			
-			builder.append(CustomItemSerializer.serialize(item, ItemFlag.DATA, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE, ItemFlag.MATERIAL));
+			builder.append(CustomItemSerializer.serialize(item, ItemFlag.MATERIAL, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE));
 			
 			i++;
 		}

@@ -102,7 +102,9 @@ public class MiscSetup {
 //				}
 //			}
 			
-			for (ItemStack[] inputs: RecipeType.getRecipeInputList((SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE"))) {
+			SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE");
+			
+			for (ItemStack[] inputs: RecipeType.getRecipeInputList(machine)) {
 				StringBuilder builder = new StringBuilder();
 				int i = 0;
 				for (ItemStack item: inputs) {
@@ -110,12 +112,12 @@ public class MiscSetup {
 						builder.append(" </slot> ");
 					}
 					
-					builder.append(CustomItemSerializer.serialize(item, ItemFlag.DATA, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE, ItemFlag.MATERIAL));
+					builder.append(CustomItemSerializer.serialize(item, ItemFlag.MATERIAL, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE));
 					
 					i++;
 				}
 				
-				AutomatedCraftingChamber.recipes.put(builder.toString(), RecipeType.getRecipeOutputList((SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE"), inputs));
+				AutomatedCraftingChamber.recipes.put(builder.toString(), RecipeType.getRecipeOutputList(machine, inputs));
 			}
 			
 		}
