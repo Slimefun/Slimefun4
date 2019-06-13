@@ -202,8 +202,9 @@ public class ToolListener implements Listener {
 			if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 				allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
 			} else {
+				// Walk over all registered block break handlers until one says that it'll handle it.
 				for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
-					if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) return;
+					if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 				}
 			}
 			if (allow) {
