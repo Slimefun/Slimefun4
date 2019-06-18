@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.AncientAltar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.block.Block;
@@ -20,6 +19,9 @@ public class Pedestals {
 	public static List<Block> getPedestals(Block altar) {
 		List<Block> list = new ArrayList<>();
 
+		if (BlockStorage.check(altar.getRelative(2, 0, -2), "ANCIENT_PEDESTAL")) {
+			list.add(altar.getRelative(2, 0, -2));
+		}
 		if (BlockStorage.check(altar.getRelative(3, 0, 0), "ANCIENT_PEDESTAL")) {
 			list.add(altar.getRelative(3, 0, 0));
 		}
@@ -40,9 +42,6 @@ public class Pedestals {
 		}
 		if (BlockStorage.check(altar.getRelative(0, 0, -3), "ANCIENT_PEDESTAL")) {
 			list.add(altar.getRelative(0, 0, -3));
-		}
-		if (BlockStorage.check(altar.getRelative(2, 0, -2), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(2, 0, -2));
 		}
 
 		return list;
