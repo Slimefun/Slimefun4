@@ -98,7 +98,7 @@ public class AncientAltarListener implements Listener {
 							Variables.altarinuse.add(pblock.getLocation());
 						});
 						if (catalyst != null && !catalyst.getType().equals(Material.AIR)) {
-							List<ItemStack> input = new ArrayList<ItemStack>();
+							List<ItemStack> input = new ArrayList<>();
 							for (Block pedestal: pedestals) {
 								Item stack = findItem(pedestal);
 								if (stack != null) input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
@@ -106,7 +106,7 @@ public class AncientAltarListener implements Listener {
 
 							ItemStack result = Pedestals.getRecipeOutput(catalyst, input);
 							if (result != null) {
-								List<ItemStack> consumed = new ArrayList<ItemStack>();
+								List<ItemStack> consumed = new ArrayList<>();
 								consumed.add(catalyst);
 								PlayerInventory.consumeItemInHand(e.getPlayer());
 								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);

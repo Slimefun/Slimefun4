@@ -70,6 +70,8 @@ public class SlimefunManager {
 		return isItemSimiliar(item, SFitem, lore, DataType.IF_COLORED);
 	}
 	
+	
+	@Deprecated
 	public static enum DataType {
 		
 		ALWAYS,
@@ -78,21 +80,14 @@ public class SlimefunManager {
 		
 	}
 
+	@Deprecated
 	public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore, DataType data) {
 		if (item == null) return SFitem == null;
 		if (SFitem == null) return false;
 		
 		if (item.getType() == SFitem.getType() && item.getAmount() >= SFitem.getAmount()) {
-			//ToDo: Removed data_safe - is that correct?
-			if (data.equals(DataType.ALWAYS)/* || (data.equals(DataType.IF_COLORED) && data_safe.contains(item.getType()))*/) {
-/*				if (data_safe.contains(item.getType())) {
-					if (item.getData().getData() != SFitem.getData().getData()) {
-						if (!(SFitem.getDurability() == item.getData().getData() && SFitem.getData().getData() == item.getDurability())) return false;
-					}
-				}
-				else*/ if (data.equals(DataType.ALWAYS) && ((Damageable) item.getItemMeta()).getDamage() != ((Damageable) SFitem.getItemMeta()).getDamage()) {
-					return false;
-				}
+			if (((Damageable) item.getItemMeta()).getDamage() != ((Damageable) SFitem.getItemMeta()).getDamage()) {
+				return false;
 			}
 			
 			if (item.hasItemMeta() && SFitem.hasItemMeta()) {

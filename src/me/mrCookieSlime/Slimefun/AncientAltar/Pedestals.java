@@ -15,34 +15,34 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class Pedestals {
 
-	public static List<AltarRecipe> recipes = new ArrayList<AltarRecipe>();
+	public static List<AltarRecipe> recipes = new ArrayList<>();
 
 	public static List<Block> getPedestals(Block altar) {
-		List<Block> list = new ArrayList<Block>();
+		List<Block> list = new ArrayList<>();
 
 		if (BlockStorage.check(altar.getRelative(3, 0, 0), "ANCIENT_PEDESTAL")) {
 			list.add(altar.getRelative(3, 0, 0));
 		}
-		if (BlockStorage.check(altar.getRelative(-3, 0, 0), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(-3, 0, 0));
+		if (BlockStorage.check(altar.getRelative(2, 0, 2), "ANCIENT_PEDESTAL")) {
+			list.add(altar.getRelative(2, 0, 2));
 		}
 		if (BlockStorage.check(altar.getRelative(0, 0, 3), "ANCIENT_PEDESTAL")) {
 			list.add(altar.getRelative(0, 0, 3));
 		}
-		if (BlockStorage.check(altar.getRelative(0, 0, -3), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(0, 0, -3));
-		}
-		if (BlockStorage.check(altar.getRelative(2, 0, 2), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(2, 0, 2));
-		}
-		if (BlockStorage.check(altar.getRelative(2, 0, -2), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(2, 0, -2));
-		}
 		if (BlockStorage.check(altar.getRelative(-2, 0, 2), "ANCIENT_PEDESTAL")) {
 			list.add(altar.getRelative(-2, 0, 2));
 		}
+		if (BlockStorage.check(altar.getRelative(-3, 0, 0), "ANCIENT_PEDESTAL")) {
+			list.add(altar.getRelative(-3, 0, 0));
+		}
 		if (BlockStorage.check(altar.getRelative(-2, 0, -2), "ANCIENT_PEDESTAL")) {
 			list.add(altar.getRelative(-2, 0, -2));
+		}
+		if (BlockStorage.check(altar.getRelative(0, 0, -3), "ANCIENT_PEDESTAL")) {
+			list.add(altar.getRelative(0, 0, -3));
+		}
+		if (BlockStorage.check(altar.getRelative(2, 0, -2), "ANCIENT_PEDESTAL")) {
+			list.add(altar.getRelative(2, 0, -2));
 		}
 
 		return list;
@@ -62,38 +62,28 @@ public class Pedestals {
 		return checkRecipe(catalyst, input);
 	}
 
-	private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> input) {
-        AltarRecipe r = null;
-		for (AltarRecipe recipe : recipes) {
-			if (SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
-				r = recipe;
-				
-				List<ItemStack> copy = new ArrayList<ItemStack>(input);
-				
-				recipe:
-				for (ItemStack item : recipe.getInput()) {
-					Iterator<ItemStack> iterator = copy.iterator();
-					boolean match = false;
-					
-					items:
-					while (iterator.hasNext()) {
-						ItemStack altar_item = iterator.next();
-						if (SlimefunManager.isItemSimiliar(altar_item, item, true)) {
-							match = true;
-							iterator.remove();
-							break items;
-						}
-					}
-					
-					if (!match) {
-						r = null;
-						break recipe;
+	private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
+		loop:
+        for (AltarRecipe recipe: recipes) {
+        	if (!SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
+    			continue;
+    		}
+        	
+        	for (int i = 0; i < 8; i++) {
+        		if (!SlimefunManager.isItemSimiliar(items.get(i), recipe.getInput().get(0), true)) {
+        			continue;
+    			}
+        		
+        		for (int j = 1; j < 8; j++) {
+					if (!SlimefunManager.isItemSimiliar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
+						continue loop;
 					}
 				}
-
-				if (r != null) return r.getOutput();
-			}
-		}
+				
+				return recipe.getOutput();
+        	}
+        }
+        
         return null;
 	}
 }

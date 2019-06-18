@@ -13,7 +13,7 @@ public class AltarRecipe {
 	
 	public AltarRecipe(List<ItemStack> input, ItemStack output) {
 		this.catalyst = input.get(4);
-		this.input = new ArrayList<ItemStack>();
+		this.input = new ArrayList<>();
 		for (int i = 0; i < input.size(); i++) {
 			if (i != 4) this.input.add(input.get(i));
 		}
