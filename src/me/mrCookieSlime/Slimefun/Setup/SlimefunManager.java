@@ -86,10 +86,6 @@ public class SlimefunManager {
 		if (SFitem == null) return false;
 		
 		if (item.getType() == SFitem.getType() && item.getAmount() >= SFitem.getAmount()) {
-			if (((Damageable) item.getItemMeta()).getDamage() != ((Damageable) SFitem.getItemMeta()).getDamage()) {
-				return false;
-			}
-			
 			if (item.hasItemMeta() && SFitem.hasItemMeta()) {
 				if (item.getItemMeta().hasDisplayName() && SFitem.getItemMeta().hasDisplayName()) {
 					if (item.getItemMeta().getDisplayName().equals(SFitem.getItemMeta().getDisplayName())) {
