@@ -25,7 +25,7 @@ public class CargoHologram {
 	}
 	
 	private static ArmorStand getArmorStand(Block b) {
-		Location l = new Location(b.getWorld(), b.getX() + 0.5, b.getY() - 0.7F, b.getZ() + 0.5);
+		Location l = new Location(b.getWorld(), b.getX() + 0.5, b.getY() + 0.7F, b.getZ() + 0.5);
 		
 		for (Entity n : l.getChunk().getEntities()) {
 			if (n instanceof ArmorStand) {
