@@ -149,7 +149,7 @@ public class AncientAltarListener implements Listener {
 		} 
 		else {
 			ItemMeta im = stack.getItemMeta();
-			if (!customName.startsWith(ChatColor.COLOR_CHAR)) customName = ChatColor.RESET + customName;
+			if (!customName.startsWith(String.valueOf(ChatColor.COLOR_CHAR))) customName = ChatColor.RESET + customName;
 			im.setDisplayName(customName);
 			stack.setItemMeta(im);
 		}
