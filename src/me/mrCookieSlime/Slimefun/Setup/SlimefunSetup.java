@@ -718,11 +718,11 @@ public class SlimefunSetup {
 										for (ItemStack converting: inputs.get(i)) {
 											if (converting != null) {
 												for (int j = 0; j < inv.getContents().length; j++) {
-													if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
+													if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true)) {
 														craft = false;
 														break;
 													}
-													else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) break;
+													else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true)) break;
 												}
 											}
 										}
@@ -1089,13 +1089,13 @@ public class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-					if (e.getClickedBlock() == null && !Variables.jump.containsKey(p.getUniqueId())) {
+					if (e.getClickedBlock() == null && !Variables.jump_state.containsKey(p.getUniqueId())) {
 						e.setCancelled(true);
 						if (p.getInventory().getItemInOffHand().getType().equals(Material.BOW)) {
 							// Cancel, to fix dupe #740
 							return false;
 						}
-						Variables.jump.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
+						Variables.jump_state.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
 						if (p.getInventory().getItemInMainHand().getType() == Material.LEAD) PlayerInventory.consumeItemInHand(p);
 
 						Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -1108,7 +1108,7 @@ public class SlimefunSetup {
 				    	b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
 				    	b.setLeashHolder(arrow);
 
-				    	Variables.damage.put(p.getUniqueId(), true);
+				    	Variables.damage.add(p.getUniqueId());
 						Variables.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
 					}
 					return true;
@@ -4213,7 +4213,7 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_RAINBOW, "ANCIENT_RUNE_RAINBOW", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ROSE_RED), SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.CYAN_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_ENDER, new ItemStack(Material.WHITE_WOOL) , new ItemStack(Material.DANDELION_YELLOW), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.MAGENTA_DYE)})
+		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.CYAN_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_ENDER, new ItemStack(Material.WHITE_WOOL) , new ItemStack(Material.YELLOW_DYE), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.MAGENTA_DYE)})
 		.register(true);
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.INFERNAL_BONEMEAL, "INFERNAL_BONEMEAL", RecipeType.ANCIENT_ALTAR,
@@ -4275,37 +4275,37 @@ public class SlimefunSetup {
 		RainbowTicker xmas = new RainbowTicker(13, 14);
 
 		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.RAINBOW_WOOL_XMAS, "RAINBOW_WOOL_XMAS", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ROSE_RED), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.CACTUS_GREEN), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.CACTUS_GREEN), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.ROSE_RED)}, new CustomItem(SlimefunItems.RAINBOW_WOOL_XMAS, 2))
+		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.RED_DYE)}, new CustomItem(SlimefunItems.RAINBOW_WOOL_XMAS, 2))
 		.register(true, xmas);
 
 		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.RAINBOW_GLASS_XMAS, "RAINBOW_GLASS_XMAS", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ROSE_RED), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.CACTUS_GREEN), new ItemStack(Material.WHITE_STAINED_GLASS), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.CACTUS_GREEN), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.ROSE_RED)}, new CustomItem(SlimefunItems.RAINBOW_GLASS_XMAS, 2))
+		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_STAINED_GLASS), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.RED_DYE)}, new CustomItem(SlimefunItems.RAINBOW_GLASS_XMAS, 2))
 		.register(true, xmas);
 
 		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.RAINBOW_GLASS_PANE_XMAS, "RAINBOW_GLASS_PANE_XMAS", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ROSE_RED), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.CACTUS_GREEN), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.CACTUS_GREEN), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.ROSE_RED)}, new CustomItem(SlimefunItems.RAINBOW_GLASS_PANE_XMAS, 2))
+		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.RED_DYE)}, new CustomItem(SlimefunItems.RAINBOW_GLASS_PANE_XMAS, 2))
 		.register(true, xmas);
 
 		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.RAINBOW_CLAY_XMAS, "RAINBOW_CLAY_XMAS", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ROSE_RED), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.CACTUS_GREEN), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.CACTUS_GREEN), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.ROSE_RED)}, new CustomItem(SlimefunItems.RAINBOW_CLAY_XMAS, 2))
+		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.RED_DYE)}, new CustomItem(SlimefunItems.RAINBOW_CLAY_XMAS, 2))
 		.register(true, xmas);
 
 		RainbowTicker valentine = new RainbowTicker(2, 6, 10);
 
 		new SlimefunItem(Categories.VALENTINES_DAY, SlimefunItems.RAINBOW_WOOL_VALENTINE, "RAINBOW_WOOL_VALENTINE", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ROSE_RED), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.ROSE_RED)}, new CustomItem(SlimefunItems.RAINBOW_WOOL_VALENTINE, 2))
+		new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)}, new CustomItem(SlimefunItems.RAINBOW_WOOL_VALENTINE, 2))
 		.register(true, valentine);
 
 		new SlimefunItem(Categories.VALENTINES_DAY, SlimefunItems.RAINBOW_GLASS_VALENTINE, "RAINBOW_GLASS_VALENTINE", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ROSE_RED), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_STAINED_GLASS), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.ROSE_RED)}, new CustomItem(SlimefunItems.RAINBOW_GLASS_VALENTINE, 2))
+		new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_STAINED_GLASS), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)}, new CustomItem(SlimefunItems.RAINBOW_GLASS_VALENTINE, 2))
 		.register(true, valentine);
 
 		new SlimefunItem(Categories.VALENTINES_DAY, SlimefunItems.RAINBOW_GLASS_PANE_VALENTINE, "RAINBOW_GLASS_PANE_VALENTINE", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ROSE_RED), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.ROSE_RED)}, new CustomItem(SlimefunItems.RAINBOW_GLASS_PANE_VALENTINE, 2))
+		new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)}, new CustomItem(SlimefunItems.RAINBOW_GLASS_PANE_VALENTINE, 2))
 		.register(true, valentine);
 
 		new SlimefunItem(Categories.VALENTINES_DAY, SlimefunItems.RAINBOW_CLAY_VALENTINE, "RAINBOW_CLAY_VALENTINE", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ROSE_RED), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.ROSE_RED)}, new CustomItem(SlimefunItems.RAINBOW_CLAY_VALENTINE, 2))
+		new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)}, new CustomItem(SlimefunItems.RAINBOW_CLAY_VALENTINE, 2))
 		.register(true, valentine);
 
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.WITHER_PROOF_GLASS, "WITHER_PROOF_GLASS", RecipeType.ENHANCED_CRAFTING_TABLE,
