@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.URID;
+package me.mrCookieSlime.Slimefun.api;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class AutoSavingTask implements Runnable {
 	

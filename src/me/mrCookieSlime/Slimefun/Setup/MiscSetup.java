@@ -29,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 
 public class MiscSetup {
 	
-	public static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<PostSlimefunLoadingHandler>();
+	public static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<>();
 	
 	public static void setupMisc() {
 		if (SlimefunItem.getByID("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
@@ -45,7 +45,6 @@ public class MiscSetup {
 	}
 	
 	public static void loadItems() {
-		
 		Iterator<SlimefunItem> iterator = SlimefunItem.items.iterator();
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
@@ -59,9 +58,9 @@ public class MiscSetup {
 			}
 		}
 		
-		List<SlimefunItem> pre = new ArrayList<SlimefunItem>();
-		List<SlimefunItem> init = new ArrayList<SlimefunItem>();
-		List<SlimefunItem> post = new ArrayList<SlimefunItem>();
+		List<SlimefunItem> pre = new ArrayList<>();
+		List<SlimefunItem> init = new ArrayList<>();
+		List<SlimefunItem> post = new ArrayList<>();
 		
 		for (SlimefunItem item: SlimefunItem.list()) {
 			if (item instanceof Alloy || item instanceof ReplacingAlloy) pre.add(item);
@@ -157,7 +156,7 @@ public class MiscSetup {
 				if (input == null) input = recipe;
 				else {
 					if (input[0] != null && recipe[0] != null) {
-						List<ItemStack> inputs = new ArrayList<ItemStack>();
+						List<ItemStack> inputs = new ArrayList<>();
 						boolean dust = false;
 						for (ItemStack i: input) {
 							if (i != null) {

@@ -40,8 +40,8 @@ import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
-import me.mrCookieSlime.Slimefun.URID.AutoSavingTask;
 import me.mrCookieSlime.Slimefun.WorldEdit.WESlimefunManager;
+import me.mrCookieSlime.Slimefun.api.AutoSavingTask;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
@@ -388,7 +388,7 @@ public class SlimefunStartup extends JavaPlugin {
 		SlimefunItem.handlers = null;
 		SlimefunItem.radioactive = null;
 		Variables.damage = null;
-		Variables.jump = null;
+		Variables.jump_state = null;
 		Variables.mode = null;
 		SlimefunGuide.history = null;
 		Variables.altarinuse = null;

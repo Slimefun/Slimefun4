@@ -718,11 +718,11 @@ public class SlimefunSetup {
 										for (ItemStack converting: inputs.get(i)) {
 											if (converting != null) {
 												for (int j = 0; j < inv.getContents().length; j++) {
-													if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
+													if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true)) {
 														craft = false;
 														break;
 													}
-													else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) break;
+													else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true)) break;
 												}
 											}
 										}
@@ -1089,13 +1089,13 @@ public class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-					if (e.getClickedBlock() == null && !Variables.jump.containsKey(p.getUniqueId())) {
+					if (e.getClickedBlock() == null && !Variables.jump_state.containsKey(p.getUniqueId())) {
 						e.setCancelled(true);
 						if (p.getInventory().getItemInOffHand().getType().equals(Material.BOW)) {
 							// Cancel, to fix dupe #740
 							return false;
 						}
-						Variables.jump.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
+						Variables.jump_state.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
 						if (p.getInventory().getItemInMainHand().getType() == Material.LEAD) PlayerInventory.consumeItemInHand(p);
 
 						Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -1108,7 +1108,7 @@ public class SlimefunSetup {
 				    	b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
 				    	b.setLeashHolder(arrow);
 
-				    	Variables.damage.put(p.getUniqueId(), true);
+				    	Variables.damage.add(p.getUniqueId());
 						Variables.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
 					}
 					return true;

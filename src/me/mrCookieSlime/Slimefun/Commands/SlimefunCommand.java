@@ -42,9 +42,9 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 
 	public SlimefunStartup plugin;
 
-	public static List<String> arguments = new ArrayList<String>();
-	public static List<String> descriptions = new ArrayList<String>();
-	public static List<String> tabs = new ArrayList<String>();
+	public static List<String> arguments = new ArrayList<>();
+	public static List<String> descriptions = new ArrayList<>();
+	public static List<String> tabs = new ArrayList<>();
 
 	public SlimefunCommand(SlimefunStartup plugin) {
 		this.plugin = plugin;
@@ -91,8 +91,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-
-	@SuppressWarnings("deprecation")
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 0) {

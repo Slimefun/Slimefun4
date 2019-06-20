@@ -31,12 +31,12 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class GPSNetwork {
 	
-	private Map<UUID, Set<Location>> transmitters = new HashMap<UUID, Set<Location>>();
+	private Map<UUID, Set<Location>> transmitters = new HashMap<>();
 	private int[] border = new int[] {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private int[] inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
 	public void updateTransmitter(Block b, UUID uuid, NetworkStatus status) {
-		Set<Location> set = new HashSet<Location>();
+		Set<Location> set = new HashSet<>();
 		if (transmitters.containsKey(uuid)) set = transmitters.get(uuid);
 		if (status.equals(NetworkStatus.ONLINE)) {
 			if (!set.contains(b.getLocation())) {
@@ -111,6 +111,7 @@ public class GPSNetwork {
 	
 	public static ItemStack getPlanet(Map.Entry<String, Location> entry) throws Exception {
 		Location l = entry.getValue();
+		
 		if (entry.getKey().startsWith("&4Deathpoint")) {
 			return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFlMzg1NWY5NTJjZDRhMDNjMTQ4YTk0NmUzZjgxMmE1OTU1YWQzNWNiY2I1MjYyN2VhNGFjZDQ3ZDMwODEifX19");
 		}
@@ -184,7 +185,7 @@ public class GPSNetwork {
 	}
 
 	public Map<String, Location> getWaypoints(UUID uuid) {
-		Map<String, Location> map = new HashMap<String, Location>();
+		Map<String, Location> map = new HashMap<>();
 		Config cfg = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
 		for (String key: cfg.getKeys()) {
 			if (cfg.contains(key + ".world") && Bukkit.getWorld(cfg.getString(key + ".world")) != null) {

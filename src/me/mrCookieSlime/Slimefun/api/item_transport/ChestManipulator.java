@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ChestManipulator {
 
-	public static List<CargoTransportEvent> listeners = new ArrayList<CargoTransportEvent>();
+	public static List<CargoTransportEvent> listeners = new ArrayList<>();
 	
 	public static void registerListener(CargoTransportEvent listener) {
 		listeners.add(listener);

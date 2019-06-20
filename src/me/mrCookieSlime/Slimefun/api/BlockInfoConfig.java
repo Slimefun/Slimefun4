@@ -11,26 +11,34 @@ import org.bukkit.configuration.file.FileConfiguration;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public class BlockInfoConfig extends Config {
+	
 	private Map<String, String> data;
+	
 	public BlockInfoConfig() {
 		this(new HashMap<>());
 	}
+	
 	public BlockInfoConfig(Map<String, String> data) {
 		super((File)null,(FileConfiguration)null);
 		this.data=data;
 	}
+	
 	public Map<String, String> getMap(){
 		return data;
 	}
+	
 	@Override
 	protected void store(String path, Object value) {
 		if (value != null && !(value instanceof String)) {
-			throw new UnsupportedOperationException("Can't set \""+path+"\" to \""+value+"\" (type: "+value.getClass().getSimpleName()+") because BlockInfoConfig only supports Strings");
+			throw new UnsupportedOperationException("Can't set \"" + path + "\" to \"" + value + "\" (type: " + value.getClass().getSimpleName() + ") because BlockInfoConfig only supports Strings");
 		}
+		
 		checkPath(path);
+		
 		if (value == null) {
 			data.remove(path);
-		} else {
+		} 
+		else {
 			data.put(path, (String) value);
 		}
 	}
@@ -38,7 +46,7 @@ public class BlockInfoConfig extends Config {
 	
 	private void checkPath(String path) {
 		if (path.contains(".")) {
-			throw new UnsupportedOperationException("BlockInfoConfig only supports Map<String,String> (path: " + path+")");
+			throw new UnsupportedOperationException("BlockInfoConfig only supports Map<String,String> (path: " + path + ")");
 		}
 	}
 
@@ -66,7 +74,7 @@ public class BlockInfoConfig extends Config {
 	}
 	
 	private UnsupportedOperationException invalidType(String path) {
-		return new UnsupportedOperationException("Can't get \""+path+"\" because BlockInfoConfig only supports String values");
+		return new UnsupportedOperationException("Can't get \"" + path + "\" because BlockInfoConfig only supports String values");
 	}
 	
 	@Override

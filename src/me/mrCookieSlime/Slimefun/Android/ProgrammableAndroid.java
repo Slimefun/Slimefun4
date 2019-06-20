@@ -73,7 +73,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private static final ItemStack[] fish = new ItemStack[] {new ItemStack(Material.COD), new ItemStack(Material.SALMON), new ItemStack(Material.PUFFERFISH), new ItemStack(Material.TROPICAL_FISH), new ItemStack(Material.STRING), new ItemStack(Material.BONE), new ItemStack(Material.STICK)};
 
 	private static final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-	private static final List<Material> blockblacklist = new ArrayList<Material>();
+	private static final List<Material> blockblacklist = new ArrayList<>();
 
 	static {
 		blockblacklist.add(Material.BEDROCK);
@@ -85,7 +85,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		blockblacklist.add(Material.STRUCTURE_BLOCK);
 	}
 
-	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
+	private Set<MachineFuel> recipes = new HashSet<>();
 
 	public String getInventoryTitle() {
 		return "Programmable Android";

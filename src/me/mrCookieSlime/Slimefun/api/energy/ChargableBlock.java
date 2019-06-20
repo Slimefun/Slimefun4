@@ -18,9 +18,9 @@ import org.bukkit.block.Skull;
 
 public class ChargableBlock {
 	
-	public static Map<String, Integer> max_charges = new HashMap<String, Integer>();
-	public static Set<String> rechargeable = new HashSet<String>();
-	public static Set<String> capacitors = new HashSet<String>();
+	public static Map<String, Integer> max_charges = new HashMap<>();
+	public static Set<String> rechargeable = new HashSet<>();
+	public static Set<String> capacitors = new HashSet<>();
 	
 	public static void registerChargableBlock(String id, int capacity, boolean recharge) {
 		max_charges.put(id, capacity);

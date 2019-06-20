@@ -23,26 +23,25 @@ public class TickerTask implements Runnable {
 	
 	public boolean HALTED = false;
 	
-	public Map<Location, Location> move = new HashMap<Location, Location>();
-	public Map<Location, Boolean> delete = new HashMap<Location, Boolean>();
+	public Map<Location, Location> move = new HashMap<>();
+	public Map<Location, Boolean> delete = new HashMap<>();
 	
-	private Set<BlockTicker> tickers = new HashSet<BlockTicker>();
+	private Set<BlockTicker> tickers = new HashSet<>();
 	
 	private int skipped = 0, chunks = 0, machines = 0;
 	private long time = 0;
-	private Map<String, Integer> map_chunk = new HashMap<String, Integer>();
-	private Map<String, Integer> map_machine = new HashMap<String, Integer>();
-	private Map<String, Long> map_machinetime = new HashMap<String, Long>();
-	private Map<String, Long> map_chunktime = new HashMap<String, Long>();
-	private Set<String> skipped_chunks = new HashSet<String>();
+	private Map<String, Integer> map_chunk = new HashMap<>();
+	private Map<String, Integer> map_machine = new HashMap<>();
+	private Map<String, Long> map_machinetime = new HashMap<>();
+	private Map<String, Long> map_chunktime = new HashMap<>();
+	private Set<String> skipped_chunks = new HashSet<>();
 
-	public static Map<Location, Long> block_timings = new HashMap<Location, Long>();
+	public static Map<Location, Long> block_timings = new HashMap<>();
 	
-	public static Map<Location, Integer> bugged_blocks = new HashMap<Location, Integer>();
+	public static Map<Location, Integer> bugged_blocks = new HashMap<>();
 	
 	@Override
 	public void run() {
-		
 		long timestamp = System.currentTimeMillis();
 		
 		skipped = 0;
@@ -56,10 +55,10 @@ public class TickerTask implements Runnable {
 		map_machinetime.clear();
 		block_timings.clear();
 
-		final Map<Location, Integer> bugged = new HashMap<Location, Integer>(bugged_blocks);
+		final Map<Location, Integer> bugged = new HashMap<>(bugged_blocks);
 		bugged_blocks.clear();
 		
-		Map<Location, Boolean> remove = new HashMap<Location, Boolean>(delete);
+		Map<Location, Boolean> remove = new HashMap<>(delete);
 
 		for (Map.Entry<Location, Boolean> entry: remove.entrySet()) {
 			BlockStorage._integrated_removeBlockInfo(entry.getKey(), entry.getValue());
@@ -350,6 +349,7 @@ public class TickerTask implements Runnable {
 			}
 			hover.append("\n\n&c+ &4" + hidden + " Hidden");
 			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
+			
 			try {
 				tellraw.send((Player) sender);
 			} catch (Exception e) {
@@ -357,7 +357,6 @@ public class TickerTask implements Runnable {
 			}
 		}
 		else {
-
 			int hidden = 0;
 			for (String c: map_chunktime.keySet()) {
 				if (!skipped_chunks.contains(c)) {

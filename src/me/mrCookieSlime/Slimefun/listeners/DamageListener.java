@@ -119,7 +119,7 @@ public class DamageListener implements Listener {
     @EventHandler
     public void onArrowHit(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
-            if (Variables.damage.containsKey(e.getEntity().getUniqueId())) {
+            if (Variables.damage.contains(e.getEntity().getUniqueId())) {
                 e.setCancelled(true);
                 Variables.damage.remove(e.getEntity().getUniqueId());
             }

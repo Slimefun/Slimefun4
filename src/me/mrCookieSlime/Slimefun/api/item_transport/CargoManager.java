@@ -23,7 +23,7 @@ public class CargoManager {
 			UniversalBlockMenu menu = storage.getUniversalInventory(target);
 			for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 				final ItemStack is = menu.getItemInSlot(slot);
-				if (SlimefunManager.isItemSimiliar(is, template, true, DataType.ALWAYS) && matchesFilter(node, is, -1)) {
+				if (SlimefunManager.isItemSimiliar(is, template, true) && matchesFilter(node, is, -1)) {
 					if (is.getAmount() > template.getAmount()) {
 						menu.replaceExistingItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
 						return template;
@@ -39,7 +39,7 @@ public class CargoManager {
 			BlockMenu menu = BlockStorage.getInventory(target.getLocation());
 			for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 				final ItemStack is = menu.getItemInSlot(slot);
-				if (SlimefunManager.isItemSimiliar(is, template, true, DataType.ALWAYS) && matchesFilter(node, is, -1)) {
+				if (SlimefunManager.isItemSimiliar(is, template, true) && matchesFilter(node, is, -1)) {
 					if (is.getAmount() > template.getAmount()) {
 						menu.replaceExistingItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
 						return template;
@@ -55,7 +55,7 @@ public class CargoManager {
 			Inventory inv = ((InventoryHolder) target.getState()).getInventory();
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
 				final ItemStack is = inv.getContents()[slot];
-				if (SlimefunManager.isItemSimiliar(is, template, true, DataType.ALWAYS) && matchesFilter(node, is, -1)) {
+				if (SlimefunManager.isItemSimiliar(is, template, true) && matchesFilter(node, is, -1)) {
 					if (is.getAmount() > template.getAmount()) {
 						inv.setItem(slot, ChestManipulator.trigger(target, slot, is, new CustomItem(is, is.getAmount() - template.getAmount())));
 						return template;
@@ -114,7 +114,7 @@ public class CargoManager {
 					menu.replaceExistingItem(slot, stack.clone());
 					return null;
 				}
-				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true, DataType.ALWAYS) && is.getAmount() < is.getType().getMaxStackSize()) {
+				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
 					int amount = is.getAmount() + stack.getAmount();
 					
 					if (amount > is.getType().getMaxStackSize()) {
@@ -139,7 +139,7 @@ public class CargoManager {
 					menu.replaceExistingItem(slot, stack.clone());
 					return null;
 				}
-				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true, DataType.ALWAYS) && is.getAmount() < is.getType().getMaxStackSize()) {
+				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
 					int amount = is.getAmount() + stack.getAmount();
 					
 					if (amount > is.getType().getMaxStackSize()) {
@@ -165,7 +165,7 @@ public class CargoManager {
 					inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
 					return null;
 				}
-				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true, DataType.ALWAYS) && is.getAmount() < is.getType().getMaxStackSize()) {
+				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
 					ItemStack prev = is.clone();
 					int amount = is.getAmount() + stack.getAmount();
 					
