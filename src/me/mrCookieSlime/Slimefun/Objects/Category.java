@@ -5,12 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.URID.URID;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Statically handles categories.
@@ -29,11 +28,10 @@ public class Category {
 	 * @since 4.0
 	 * @see Categories
 	 */
-	public static List<Category> list = new ArrayList<Category>();
+	public static List<Category> list = new ArrayList<>();
 
 	private ItemStack item;
 	private List<SlimefunItem> items;
-	private URID urid;
 	private int tier;
 
 	/**
@@ -46,8 +44,7 @@ public class Category {
 	 */
 	public Category(ItemStack item) {
 		this.item = item;
-		this.items = new ArrayList<SlimefunItem>();
-		this.urid = URID.nextURID(this, false);
+		this.items = new ArrayList<>();
 		this.tier = 3;
 	}
 
@@ -63,8 +60,7 @@ public class Category {
 	 */
 	public Category(ItemStack item, int tier) {
 		this.item = item;
-		this.items = new ArrayList<SlimefunItem>();
-		this.urid = URID.nextURID(this, false);
+		this.items = new ArrayList<>();
 		this.tier = tier;
 	}
 
@@ -144,17 +140,6 @@ public class Category {
 			if (c.getItem().isSimilar(item)) return c;
 		}
 		return null;
-	}
-
-	/**
-	 * Returns the {@link URID} of this category.
-	 * 
-	 * @return the URID of this category
-	 * 
-	 * @since 4.0
-	 */
-	public URID getURID() {
-		return urid;
 	}
 
 	/**

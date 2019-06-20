@@ -8,6 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.AncientAltar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -18,7 +25,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.URID.URID;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -27,28 +33,20 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyNet.NetworkComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
-
 public class SlimefunItem {
 	
-	public static List<SlimefunItem> items = new ArrayList<SlimefunItem>();
+	public static List<SlimefunItem> items = new ArrayList<>();
 	
-	public static Map<String, URID> map_id = new HashMap<String, URID>();
-	public static List<ItemStack> radioactive = new ArrayList<ItemStack>();
+	public static Map<String, SlimefunItem> map_id = new HashMap<>();
+	public static List<ItemStack> radioactive = new ArrayList<>();
 	public static int vanilla = 0;
-	public static Set<String> tickers = new HashSet<String>();
+	public static Set<String> tickers = new HashSet<>();
 	
-	public static List<SlimefunItem> all = new ArrayList<SlimefunItem>();
-	public static Map<String, Set<ItemHandler>> handlers = new HashMap<String, Set<ItemHandler>>();
-	public static Map<String, SlimefunBlockHandler> blockhandler = new HashMap<String, SlimefunBlockHandler>();
+	public static List<SlimefunItem> all = new ArrayList<>();
+	public static Map<String, Set<ItemHandler>> handlers = new HashMap<>();
+	public static Map<String, SlimefunBlockHandler> blockhandler = new HashMap<>();
 
 	private String id;
-	private URID urid;
 	private String hash;
 	private State state;
 	private ItemStack item;
@@ -98,8 +96,6 @@ public class SlimefunItem {
 		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
-
-		urid = URID.nextURID(this, false);
 	}
 	
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -109,8 +105,6 @@ public class SlimefunItem {
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = recipeOutput;
-
-		urid = URID.nextURID(this, false);
 	}
 	
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
@@ -122,8 +116,6 @@ public class SlimefunItem {
 		this.recipeOutput = recipeOutput;
 		this.keys = keys;
 		this.values = values;
-
-		urid = URID.nextURID(this, false);
 	}
 	
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
@@ -134,8 +126,6 @@ public class SlimefunItem {
 		this.recipe = recipe;
 		this.keys = keys;
 		this.values = values;
-
-		urid = URID.nextURID(this, false);
 	}
 	
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean hidden) {
@@ -145,8 +135,6 @@ public class SlimefunItem {
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.hidden = hidden;
-
-		urid = URID.nextURID(this, false);
 	}
 
 	/**
@@ -167,7 +155,6 @@ public class SlimefunItem {
 	 * @since 4.1.11, rename of {@link #getName()}.
 	 */
 	public String getID()				{		return id;			}
-	public URID getURID() 				{		return urid;			}
 	public String getHash()				{		return hash;			}
 	public State getState()				{		return state;			}
 	public ItemStack getItem()			{		return item;			}
@@ -260,7 +247,7 @@ public class SlimefunItem {
 				this.permission = SlimefunStartup.getItemCfg().getString(this.id + ".required-permission");
 				items.add(this);
 				if (slimefun) vanilla++;
-				map_id.put(this.id, this.urid);
+				map_id.put(this.id, this);
 				this.create();
 				for (ItemHandler handler: itemhandlers) {
 					Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
@@ -318,14 +305,14 @@ public class SlimefunItem {
 	 */
 	@Deprecated
 	public static SlimefunItem getByName(String name) {
-		return (SlimefunItem) URID.decode(map_id.get(name));
+		return map_id.get(name);
 	}
 
 	/**
 	 * @since 4.1.11, rename of {@link #getByName(String)}.
 	 */
 	public static SlimefunItem getByID(String id) {
-		return (SlimefunItem) URID.decode(map_id.get(id));
+		return map_id.get(id);
 	}
 	
 	public static SlimefunItem getByItem(ItemStack item) {
