@@ -2102,7 +2102,7 @@ public class SlimefunSetup {
 										if (SlimefunStartup.instance.isCoreProtectInstalled()) SlimefunStartup.instance.getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 										SlimefunItem sfItem = BlockStorage.check(b);
-										boolean allow = true;
+										boolean allow = false;
 										if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 											if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 												allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
