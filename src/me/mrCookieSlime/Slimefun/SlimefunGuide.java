@@ -52,13 +52,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.URID.URID;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class SlimefunGuide {
 
-	public static Map<UUID, List<URID>> history = new HashMap<UUID, List<URID>>();
+    public static Map<UUID, List<Object>> history = new HashMap<>();
 	public static int month = 0;
 
 	public static List<Contributor> contributors = new ArrayList<Contributor>();
@@ -341,11 +340,11 @@ public class SlimefunGuide {
 		if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
 		if (!history.containsKey(p.getUniqueId())) openMainMenu(p, true, book, 1);
 		else {
-			URID last = getLastEntry(p, false);
-			if (URID.decode(last) instanceof Category) openCategory(p, (Category) URID.decode(last), true, 1, book);
-			else if (URID.decode(last) instanceof SlimefunItem) displayItem(p, ((SlimefunItem) URID.decode(last)).getItem(), false, book, 0);
-			else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p, true, book);
-			else displayItem(p, (ItemStack) URID.decode(last), false, book, 0);
+            Object last = getLastEntry(p, false);
+            if (last instanceof Category) openCategory(p, (Category) last, true, 1, book);
+            else if (last instanceof SlimefunItem) displayItem(p, ((SlimefunItem) last).getItem(), false, book, 0);
+            else if (last instanceof GuideHandler) ((GuideHandler) last).run(p, true, book);
+            else displayItem(p, (ItemStack) last, false, book, 0);
 		}
 	}
 
@@ -903,24 +902,23 @@ public class SlimefunGuide {
 		}
 
 		if (survival) {
-			addToHistory(p, category.getURID());
+            addToHistory(p, category);
 		}
 	}
 
-	public static void addToHistory(Player p, URID urid) {
-		List<URID> list = new ArrayList<URID>();
+	public static void addToHistory(Player p, Object obj) {
+		List<Object> list = new ArrayList<>();
 		if (history.containsKey(p.getUniqueId())) list = history.get(p.getUniqueId());
-		list.add(urid);
+		list.add(obj);
 		history.put(p.getUniqueId(), list);
 	}
 
-	private static URID getLastEntry(Player p, boolean remove) {
-		List<URID> list = new ArrayList<URID>();
+	private static Object getLastEntry(Player p, boolean remove) {
+		List<Object> list = new ArrayList<>();
 		if (history.containsKey(p.getUniqueId())) list = history.get(p.getUniqueId());
 		if (remove && list.size() >= 1) {
-			URID urid = list.get(list.size() - 1);
-			urid.markDirty();
-			list.remove(urid);
+            Object obj = list.get(list.size() - 1);
+            list.remove(obj);
 		}
 		if (list.isEmpty()) history.remove(p.getUniqueId());
 		else history.put(p.getUniqueId(), list);
@@ -998,18 +996,18 @@ public class SlimefunGuide {
 
 
 
-		if (addToHistory) addToHistory(p, sfItem != null ? sfItem.getURID(): URID.nextURID(item, true));
+        if (addToHistory) addToHistory(p, sfItem != null ? sfItem: item);
 
 		if (history.containsKey(p.getUniqueId()) && history.get(p.getUniqueId()).size() > 1) {
 			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 返回", "", "&r左键: &7返回上一页", "&rShift +左键: &7返回主菜单"));
 			menu.addMenuClickHandler(0, (p13, slot, item1, action) -> {
                 if (action.isShiftClicked()) openMainMenu(p13, true, book, 1);
                 else {
-                    URID last = getLastEntry(p13, true);
-                    if (URID.decode(last) instanceof Category) openCategory(p13, (Category) URID.decode(last), true, 1, book);
-                    else if (URID.decode(last) instanceof SlimefunItem) displayItem(p13, ((SlimefunItem) URID.decode(last)).getItem(), false, book, 0);
-                    else if (URID.decode(last) instanceof GuideHandler) ((GuideHandler) URID.decode(last)).run(p13, true, book);
-                    else displayItem(p13, (ItemStack) URID.decode(last), false, book, 0);
+                    Object last = getLastEntry(p13, true);
+                    if (last instanceof Category) openCategory(p13, (Category) last, true, 1, book);
+                    else if (last instanceof SlimefunItem) displayItem(p13, ((SlimefunItem) last).getItem(), false, book, 0);
+                    else if (last instanceof GuideHandler) ((GuideHandler) last).run(p13, true, book);
+                    else displayItem(p13, (ItemStack) last, false, book, 0);
                 }
                 return false;
             });
@@ -1186,11 +1184,6 @@ public class SlimefunGuide {
 	}
 
 	public static void clearHistory(UUID uuid) {
-		if (!history.containsKey(uuid)) return;
-
-		for (URID urid: history.get(uuid)) {
-			urid.markDirty();
-		}
 		history.remove(uuid);
 	}
 

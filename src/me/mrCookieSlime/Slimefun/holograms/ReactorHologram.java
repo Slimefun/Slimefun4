@@ -13,7 +13,7 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 public class ReactorHologram {
 
     public static ArmorStand getArmorStand(Location reactor) {
-        Location l = new Location(reactor.getWorld(), reactor.getX() + 0.5, reactor.getY(), reactor.getZ() + 0.5);
+        Location l = new Location(reactor.getWorld(), reactor.getX() + 0.5, reactor.getY() + 0.7, reactor.getZ() + 0.5);
 
         for (Entity n : l.getChunk().getEntities()) {
             if (n instanceof ArmorStand) {

@@ -48,12 +48,12 @@ public class Research {
 	 * @since 4.0
 	 * @see ResearchSetup
 	 */
-	public static List<Research> list = new ArrayList<Research>();
+	public static List<Research> list = new ArrayList<>();
 	/**
 	 * Contains all the players (UUIDs) that are currently unlocking a research.
 	 * @since 4.0
 	 */
-	public static List<UUID> researching = new ArrayList<UUID>();
+	public static List<UUID> researching = new ArrayList<>();
 	/**
 	 * Whether researching in creative is free.
 	 * @since 4.0
@@ -87,7 +87,7 @@ public class Research {
 		this.id = id;
 		this.name = name;
 		this.cost = cost;
-		this.items = new ArrayList<SlimefunItem>();
+		this.items = new ArrayList<>();
 	}
 
 	/**

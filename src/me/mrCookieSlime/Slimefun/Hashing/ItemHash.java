@@ -15,7 +15,7 @@ public class ItemHash {
 	
 	public static MessageDigest digest;
 	public static int LENGTH;
-	public static Map<String, SlimefunItem> map = new HashMap<String, SlimefunItem>();
+	public static Map<String, SlimefunItem> map = new HashMap<>();
 	
 	static {
 		try {

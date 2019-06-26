@@ -38,14 +38,15 @@ public class CargoNet extends Network {
 
 	private static final int RANGE = 5;
 	public static List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-	public static Map<Location, Integer> round_robin = new HashMap<Location, Integer>();
-	public static Set<ItemRequest> requests = new HashSet<ItemRequest>();
+	public static Map<Location, Integer> round_robin = new HashMap<>();
+	public static Set<ItemRequest> requests = new HashSet<>();
 
 	private static int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
 	// Chest Terminal Stuff
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
+    private static final int TERMINAL_OUT_SLOT = 17;
 	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = (p, slot, item, action) -> false;
 
@@ -237,7 +238,14 @@ public class CargoNet extends Network {
 								requests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
 							}
 						}
-					}
+					} for (final Location terminal : terminals) {
+                        BlockMenu menu = BlockStorage.getInventory(terminal);
+
+                        ItemStack sending_item = menu.getItemInSlot(TERMINAL_OUT_SLOT);
+                        if (sending_item != null) {
+                            requests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sending_item, ItemTransportFlow.INSERT));
+                        }
+                    }
 
 					Iterator<ItemRequest> iterator = requests.iterator();
 					while (iterator.hasNext()) {
@@ -268,7 +276,7 @@ public class CargoNet extends Network {
 							case WITHDRAW: {
 								int slot = request.getSlot();
 								ItemStack prevStack = menu.getItemInSlot(slot);
-								if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunManager.isItemSimiliar(prevStack, new CustomItem(request.getItem(), 1), true, DataType.ALWAYS)))) {
+								if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunManager.isItemSimiliar(prevStack, new CustomItem(request.getItem(), 1), true)))) {
 									iterator.remove();
 									break;
 								}
@@ -393,7 +401,7 @@ public class CargoNet extends Network {
 								if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 									boolean add = true;
 									for (StoredItem item: items) {
-										if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
+										if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
 											add = false;
 											item.add(is.getAmount());
 										}
@@ -414,7 +422,7 @@ public class CargoNet extends Network {
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 										boolean add = true;
 										for (StoredItem item: items) {
-											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
+											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
 												add = false;
 												item.add(is.getAmount() + stored);
 											}
@@ -432,7 +440,7 @@ public class CargoNet extends Network {
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 										boolean add = true;
 										for (StoredItem item: items) {
-											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
+											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
 												add = false;
 												item.add(is.getAmount());
 											}
@@ -451,7 +459,7 @@ public class CargoNet extends Network {
 								if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 									boolean add = true;
 									for (StoredItem item: items) {
-										if (SlimefunManager.isItemSimiliar(is, item.getItem(), true, DataType.ALWAYS)) {
+										if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
 											add = false;
 											item.add(is.getAmount());
 										}
@@ -506,11 +514,6 @@ public class CargoNet extends Network {
 								menu.replaceExistingItem(slot, terminal_noitem_item);
 								menu.addMenuClickHandler(slot, terminal_noitem_handler);
 							}
-						}
-
-						ItemStack sent_item = menu.getItemInSlot(17);
-						if (sent_item != null) {
-							requests.add(new ItemRequest(l, 17, sent_item, ItemTransportFlow.INSERT));
 						}
 					}
 				}

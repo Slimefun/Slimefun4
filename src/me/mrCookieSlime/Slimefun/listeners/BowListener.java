@@ -43,9 +43,9 @@ public class BowListener implements Listener {
 	
 	private void handleGrapplingHook(Arrow arrow) {
 		if (arrow != null) {
-			if (arrow.getShooter() instanceof Player && Variables.jump.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
+			if (arrow.getShooter() instanceof Player && Variables.jump_state.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
 				final Player p = (Player) arrow.getShooter();
-				if (p.getGameMode() != GameMode.CREATIVE && Variables.jump.get(p.getUniqueId())) arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItem.getItem("GRAPPLING_HOOK"));
+				if (p.getGameMode() != GameMode.CREATIVE && Variables.jump_state.get(p.getUniqueId())) arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItem.getItem("GRAPPLING_HOOK"));
 				if (p.getLocation().distance(arrow.getLocation()) < 3.0D) {
 					if (arrow.getLocation().getY() > p.getLocation().getY()) {
 						p.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
@@ -56,7 +56,7 @@ public class BowListener implements Listener {
 		    	    }
 		    	    
 		    	    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-						Variables.jump.remove(p.getUniqueId());
+						Variables.jump_state.remove(p.getUniqueId());
 						Variables.remove.remove(p.getUniqueId());
 					}, 20L);
 				}
@@ -85,7 +85,7 @@ public class BowListener implements Listener {
 		    	    }
 		    	    
 		    	    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-						Variables.jump.remove(p.getUniqueId());
+						Variables.jump_state.remove(p.getUniqueId());
 						Variables.remove.remove(p.getUniqueId());
 					}, 20L);
 				}

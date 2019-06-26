@@ -780,11 +780,11 @@ public class SlimefunSetup {
 										for (ItemStack converting: inputs.get(i)) {
 											if (converting != null) {
 												for (int j = 0; j < inv.getContents().length; j++) {
-													if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
+                                                    if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true)) {
 														craft = false;
 														break;
 													}
-													else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) break;
+                                                    else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true)) break;
 												}
 											}
 										}
@@ -1151,13 +1151,13 @@ public class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-					if (e.getClickedBlock() == null && !Variables.jump.containsKey(p.getUniqueId())) {
+                    if (e.getClickedBlock() == null && !Variables.jump_state.containsKey(p.getUniqueId())) {
 						e.setCancelled(true);
 						if (p.getInventory().getItemInOffHand().getType().equals(Material.BOW)) {
 							// Cancel, to fix dupe #740
 							return false;
 						}
-						Variables.jump.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
+						Variables.jump_state.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
 						if (p.getInventory().getItemInMainHand().getType() == Material.LEAD) PlayerInventory.consumeItemInHand(p);
 
 						Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -1170,7 +1170,7 @@ public class SlimefunSetup {
 				    	b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
 				    	b.setLeashHolder(arrow);
 
-				    	Variables.damage.put(p.getUniqueId(), true);
+                        Variables.damage.add(p.getUniqueId());
 						Variables.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
 					}
 					return true;
@@ -2141,10 +2141,11 @@ public class SlimefunSetup {
 
 		@SuppressWarnings("unchecked")
 		final String[] explosiveblacklist = Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "unbreakable-blocks") != null ? ((List<String>) Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "unbreakable-blocks")).toArray(new String[((List<String>) Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "unbreakable-blocks")).size()]): new String[] {"BEDROCK", "BARRIER", "COMMAND", "COMMAND_CHAIN", "COMMAND_REPEATING", "CHEST"};
+        final boolean damageOnUse = Boolean.TRUE.equals(((Boolean) Slimefun.getItemValue("EXPLOSIVE_PICKAXE", "damage-on-use")));
 
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.EXPLOSIVE_PICKAXE, "EXPLOSIVE_PICKAXE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.TNT), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.TNT), null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null},
-		new String[] {"unbreakable-blocks"}, new Object[] {Arrays.asList("BEDROCK", "BARRIER", "COMMAND", "COMMAND_CHAIN", "COMMAND_REPEATING", "CHEST")})
+                new String[] {"unbreakable-blocks", "damage-on-use"}, new Object[] {Arrays.asList("BEDROCK", "BARRIER", "COMMAND", "COMMAND_CHAIN", "COMMAND_REPEATING"), Boolean.FALSE })
 		.register(true, new BlockBreakHandler() {
 
 			@Override
@@ -2161,7 +2162,7 @@ public class SlimefunSetup {
 										if (SlimefunStartup.instance.isCoreProtectInstalled()) SlimefunStartup.instance.getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 										SlimefunItem sfItem = BlockStorage.check(b);
-										boolean allow = true;
+										boolean allow = false;
 										if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 											if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 												allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
@@ -2182,11 +2183,17 @@ public class SlimefunSetup {
 											}
 											b.setType(Material.AIR);
 										}
+                                        if (damageOnUse) {
+                                            if (!item.getEnchantments().containsKey(Enchantment.DURABILITY) || SlimefunStartup.randomize(100) <= (60 + 40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
+                                                PlayerInventory.damageItemInHand(e.getPlayer());
+                                            }
+                                        }
 									}
 								}
 							}
 						}
 					}
+                    PlayerInventory.update(e.getPlayer());
 					return true;
 				}
 				else return false;

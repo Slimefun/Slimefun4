@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.URID;
+package me.mrCookieSlime.Slimefun.api;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +13,7 @@ public class AutoSavingTask implements Runnable {
 	
 	@Override
 	public void run() {
-		Set<BlockStorage> worlds = new HashSet<BlockStorage>();
+		Set<BlockStorage> worlds = new HashSet<>();
 		
 		for (World world: Bukkit.getWorlds()) {
 			if (BlockStorage.isWorldRegistered(world.getName())) {

@@ -23,22 +23,22 @@ public class TickerTask implements Runnable {
 	
 	public boolean HALTED = false;
 	
-	public Map<Location, Location> move = new HashMap<Location, Location>();
-	public Map<Location, Boolean> delete = new HashMap<Location, Boolean>();
+	public Map<Location, Location> move = new HashMap<>();
+	public Map<Location, Boolean> delete = new HashMap<>();
 	
-	private Set<BlockTicker> tickers = new HashSet<BlockTicker>();
+	private Set<BlockTicker> tickers = new HashSet<>();
 	
 	private int skipped = 0, chunks = 0, machines = 0;
 	private long time = 0;
-	private Map<String, Integer> map_chunk = new HashMap<String, Integer>();
-	private Map<String, Integer> map_machine = new HashMap<String, Integer>();
-	private Map<String, Long> map_machinetime = new HashMap<String, Long>();
-	private Map<String, Long> map_chunktime = new HashMap<String, Long>();
-	private Set<String> skipped_chunks = new HashSet<String>();
+	private Map<String, Integer> map_chunk = new HashMap<>();
+	private Map<String, Integer> map_machine = new HashMap<>();
+	private Map<String, Long> map_machinetime = new HashMap<>();
+	private Map<String, Long> map_chunktime = new HashMap<>();
+	private Set<String> skipped_chunks = new HashSet<>();
 
-	public static Map<Location, Long> block_timings = new HashMap<Location, Long>();
+	public static Map<Location, Long> block_timings = new HashMap<>();
 	
-	public static Map<Location, Integer> bugged_blocks = new HashMap<Location, Integer>();
+	public static Map<Location, Integer> bugged_blocks = new HashMap<>();
 	
 	@Override
 	public void run() {
@@ -56,10 +56,10 @@ public class TickerTask implements Runnable {
 		map_machinetime.clear();
 		block_timings.clear();
 
-		final Map<Location, Integer> bugged = new HashMap<Location, Integer>(bugged_blocks);
+		final Map<Location, Integer> bugged = new HashMap<>(bugged_blocks);
 		bugged_blocks.clear();
 		
-		Map<Location, Boolean> remove = new HashMap<Location, Boolean>(delete);
+		Map<Location, Boolean> remove = new HashMap<>(delete);
 
 		for (Map.Entry<Location, Boolean> entry: remove.entrySet()) {
 			BlockStorage._integrated_removeBlockInfo(entry.getKey(), entry.getValue());
@@ -105,11 +105,11 @@ public class TickerTask implements Runnable {
 												try {
 													PrintStream stream = new PrintStream(file);
 													stream.println();
-													stream.println("Server Software: " + Bukkit.getName());
-													stream.println("  Build: " + Bukkit.getVersion());
+													stream.println("服务端名称: " + Bukkit.getName());
+													stream.println("  构建版本号: " + Bukkit.getVersion());
 													stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
 													stream.println();
-													stream.println("Slimefun Environment:");
+													stream.println("Slimefun:");
 													stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
 													stream.println("  Slimefun v" + SlimefunStartup.instance.getDescription().getVersion());
 													stream.println();
@@ -129,26 +129,26 @@ public class TickerTask implements Runnable {
 														}
 													}
 
-													stream.println(" Installed Addons (" + addons.size() + ")");
+													stream.println(" 已安装的扩展 (" + addons.size() + ")");
 													for (String addon : addons) {
 														stream.println(addon);
 													}
 													stream.println();
-													stream.println("Installed Plugins (" + plugins.size() + "):");
+													stream.println("已安装的插件 (" + plugins.size() + "):");
 													for (String plugin : plugins) {
 														stream.println(plugin);
 													}
 													stream.println();
 													stream.println("Ticked Block:");
-													stream.println("  World: " + l.getWorld().getName());
+													stream.println("  世界: " + l.getWorld().getName());
 													stream.println("  X: " + l.getBlockX());
 													stream.println("  Y: " + l.getBlockY());
 													stream.println("  Z: " + l.getBlockZ());
 													stream.println();
-													stream.println("Slimefun Data:");
+													stream.println("Slimefun 数据:");
 													stream.println("  ID: " + item.getID());
-													stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
-													stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
+													stream.println("  方块物品栏: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
+													stream.println("  方块数据: " + BlockStorage.getBlockInfoAsJson(l));
 													stream.println();
 													stream.println("Stacktrace:");
 													stream.println();

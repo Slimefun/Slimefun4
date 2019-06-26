@@ -12,8 +12,11 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import org.bukkit.plugin.Plugin;
+import com.google.gson.JsonArray;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.json.simple.JSONValue;
 
 public class CSCoreLibLoader {
@@ -62,9 +65,11 @@ public class CSCoreLibLoader {
             connection.setDoOutput(true);
 
             final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            final JSONArray array = (JSONArray) JSONValue.parse(reader.readLine());
-            download = traceURL(((String) ((JSONObject) array.get(array.size() - 1)).get("downloadUrl")).replace("https:", "http:"));
-            file = new File("plugins/" + (String) ((JSONObject) array.get(array.size() - 1)).get("name") + ".jar");
+            final JsonArray array = new JsonParser().parse(reader).getAsJsonArray();
+            final JsonObject json = array.get(array.size() - 1).getAsJsonObject();
+
+            download = traceURL(json.get("downloadUrl").getAsString().replace("https:", "http:"));
+            file = new File("plugins/" + json.get("name").getAsString() + ".jar");
             
             return true;
         } catch (IOException e) {

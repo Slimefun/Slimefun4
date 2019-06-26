@@ -19,7 +19,7 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 public class TeleportationSequence {
 
-	public static Set<UUID> players = new HashSet<UUID>();
+	public static Set<UUID> players = new HashSet<>();
 	
 	public static void start(UUID uuid, int complexity, Location source, Location destination, boolean resistance) {
 		players.add(uuid);
@@ -53,7 +53,7 @@ public class TeleportationSequence {
 		players.remove(uuid);
 		if (p != null) {
 			try {
-				TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(ChatColor.translateAlternateColorCodes('&', "&4Teleportation cancelled"));
+				TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(ChatColor.translateAlternateColorCodes('&', "&4传送已取消"));
 				TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(ChatColor.translateAlternateColorCodes('&', "&40%"));
 				
 				title.send(TitleType.TITLE, p);

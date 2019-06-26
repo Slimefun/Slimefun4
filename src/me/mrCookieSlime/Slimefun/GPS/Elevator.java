@@ -24,7 +24,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class Elevator {
 	
-	public static List<UUID> ignored = new ArrayList<UUID>();
+	public static List<UUID> ignored = new ArrayList<>();
 
     public static void openEditor(Player p, final Block b) {
         ChestMenu menu = new ChestMenu("电梯设置");

@@ -35,19 +35,19 @@ public class BlockStorage {
 	private static final String path_blocks = "data-storage/Slimefun/stored-blocks/";
 	private static final String path_chunks = "data-storage/Slimefun/stored-chunks/";
 
-	public static Map<String, BlockStorage> worlds = new HashMap<String, BlockStorage>();
-	public static Map<String, Set<Location>> ticking_chunks = new HashMap<String, Set<Location>>();
-	public static Set<String> loaded_tickers = new HashSet<String>();
+	public static Map<String, BlockStorage> worlds = new HashMap<>();
+	public static Map<String, Set<Location>> ticking_chunks = new HashMap<>();
+	public static Set<String> loaded_tickers = new HashSet<>();
 	
 	private World world;
 	
 	private Map<Location, Config> storage = new HashMap<>();
-	private static Map<String, String> map_chunks = new HashMap<String, String>();
+	private static Map<String, String> map_chunks = new HashMap<>();
 	
-	private Map<Location, BlockMenu> inventories = new HashMap<Location, BlockMenu>();
-	public static Map<String, UniversalBlockMenu> universal_inventories = new HashMap<String, UniversalBlockMenu>();
+	private Map<Location, BlockMenu> inventories = new HashMap<>();
+	public static Map<String, UniversalBlockMenu> universal_inventories = new HashMap<>();
 	
-	private Map<String, Config> cache_blocks = new HashMap<String, Config>();
+	private Map<String, Config> cache_blocks = new HashMap<>();
 	
 	public static int info_delay;
 	
@@ -93,9 +93,14 @@ public class BlockStorage {
 			
 			try {
 				for (File file: f.listFiles()) {
-					if (file.getName().endsWith(".sfb")) {
+                    if (file.getName().equals("null.sfb")) {
+                        System.err.println("[Slimefun] 发现文件损坏!");
+                        System.err.println("[Slimefun] Slimefun 将会直接跳过这些文件,");
+                        System.err.println("[Slimefun] 但是你应该去看看它们!");
+                    }
+                    else if (file.getName().endsWith(".sfb")) {
 						if (timestamp + info_delay < System.currentTimeMillis()) {
-							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% done (\"" + w.getName() + "\")");
+							System.out.println("[Slimefun] 正在读取粘液科技方块... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% 已完成 (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
 
@@ -126,7 +131,7 @@ public class BlockStorage {
 									if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
 								}
 							} catch (Exception x) {
-								System.err.println("[Slimefun] Failed to load " + file.getName() + "(ERR: " + key + ")");
+								System.err.println("[Slimefun] 加载 " + file.getName() + " 时出现了问题 (ERR: " + key + ")");
 								x.printStackTrace();
 							}
 						}
@@ -135,9 +140,9 @@ public class BlockStorage {
 				}
 			} finally {
 				long time = (System.currentTimeMillis() - start);
-				System.out.println("[Slimefun] Loading Blocks... 100% (FINISHED - " + time + "ms)");
-				System.out.println("[Slimefun] Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
-				if (totalBlocks > 0) System.out.println("[Slimefun] Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
+				System.out.println("[Slimefun] 读取粘液科技方块完成 (耗时 - " + time + "ms)");
+				System.out.println("[Slimefun] 已加载了 " + totalBlocks + " 个方块在世界 \"" + world.getName() + "\"");
+				if (totalBlocks > 0) System.out.println("[Slimefun] 平均值: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/每方块");
 			}
 		}
 		else f.mkdirs();
@@ -191,12 +196,12 @@ public class BlockStorage {
 	public void computeChanges() {
 		changes = cache_blocks.size() + chunk_changes;
 		
-		Map<Location, BlockMenu> inventories2 = new HashMap<Location, BlockMenu>(inventories);
+		Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
 		for (Map.Entry<Location, BlockMenu> entry: inventories2.entrySet()) {
 			changes += entry.getValue().changes;
 		}
 		
-		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<String, UniversalBlockMenu>(universal_inventories);
+		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<>(universal_inventories);
 		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
 			changes += entry.getValue().changes;
 		}
@@ -215,9 +220,9 @@ public class BlockStorage {
 		
 		if (changes == 0) return;
 		
-		System.out.println("[Slimefun] Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Changes queued)");
+		System.out.println("[Slimefun] 正在保存世界 \"" + world.getName() + "\" 中的更改... (" + changes + " 个更改已列队)");
 		
-		Map<String, Config> cache = new HashMap<String, Config>(cache_blocks);
+		Map<String, Config> cache = new HashMap<>(cache_blocks);
 		
 		for (Map.Entry<String, Config> entry: cache.entrySet()) {
 			cache_blocks.remove(entry.getKey());
@@ -235,13 +240,13 @@ public class BlockStorage {
 			}
 		}
 		
-		Map<Location, BlockMenu> inventories2 = new HashMap<Location, BlockMenu>(inventories);
+		Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
 		
 		for (Map.Entry<Location, BlockMenu> entry: inventories2.entrySet()) {
 			entry.getValue().save(entry.getKey());
 		}
 		
-		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<String, UniversalBlockMenu>(universal_inventories);
+		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<>(universal_inventories);
 		
 		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
 			entry.getValue().save();
