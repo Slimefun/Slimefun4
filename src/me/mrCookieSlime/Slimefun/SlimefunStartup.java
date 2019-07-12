@@ -234,7 +234,7 @@ public class SlimefunStartup extends JavaPlugin {
                     new BlockStorage(world);
                 }
 
-                if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
+                if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener(instance);
             }, 0);
 
 			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent

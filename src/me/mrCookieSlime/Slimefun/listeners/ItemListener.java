@@ -81,6 +81,29 @@ public class ItemListener implements Listener {
 		}
 	}
 
+    @EventHandler
+    public void onGrindstone(InventoryClickEvent e){
+        if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.GRINDSTONE) {
+            ItemStack slot0 = e.getInventory().getContents()[0];
+            ItemStack slot1 = e.getInventory().getContents()[1];
+            if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0))
+                e.setCancelled(true);
+            else if (SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1))
+                e.setCancelled(true);
+
+
+            if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.BOOK), true))
+                e.setCancelled(true);
+            else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true))
+                e.setCancelled(true);
+
+            if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.BOOK), true))
+                e.setCancelled(true);
+            else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true))
+                e.setCancelled(true);
+        }
+    }
+
 	@EventHandler
 	public void debug(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.PHYSICAL) || !e.getHand().equals(EquipmentSlot.HAND)) return;

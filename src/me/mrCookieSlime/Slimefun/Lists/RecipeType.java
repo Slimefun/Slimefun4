@@ -14,8 +14,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class RecipeType {
 	
-	public static final RecipeType MULTIBLOCK = new RecipeType(new CustomItem(Material.BRICK, "&bMultiBlock", 0, new String[] {"", "&a&oBuild it in the World"}));
-	public static final RecipeType ARMOR_FORGE = new RecipeType(new CustomItem(Material.ANVIL, "&bArmor Forge", 0, new String[] {"", "&a&oCraft it in an Armor Forge"}), "ARMOR_FORGE");
+	public static final RecipeType MULTIBLOCK = new RecipeType(new CustomItem(Material.BRICK, "&b多方块结构", 0, new String[] {"", "&a&o以合成配方的样式建造"}));
+	public static final RecipeType ARMOR_FORGE = new RecipeType(new CustomItem(Material.ANVIL, "&b盔甲锻造台", 0, new String[] {"", "&a&o在盔甲锻造台中制造"}), "ARMOR_FORGE");
 	public static final RecipeType GRIND_STONE = new RecipeType(new CustomItem(Material.DISPENSER, "&bGrind Stone", 0, new String[] {"", "&a&oGrind it using the Grind Stone"}), "GRIND_STONE");
 	public static final RecipeType MOB_DROP = new RecipeType(new CustomItem(Material.IRON_SWORD, "&bMob Drop", 0, new String[] {"", "&a&oKill the specified Mob to obtain this Item"}));
 	public static final RecipeType SMELTERY = new RecipeType(new CustomItem(Material.FURNACE, "&6Smeltery", 0, new String[] {"", "&a&oSmelt it using a Smeltery"}), "SMELTERY");
@@ -31,9 +31,9 @@ public class RecipeType {
 	public static final RecipeType ANCIENT_ALTAR = new RecipeType(new CustomItem(Material.ENCHANTING_TABLE, "&4Ancient Altar", 0, new String[] {"", "&dYou will need to craft this Item", "&dby performing an Ancient Altar Ritual"}));
 	public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS), "&cHeated Pressure Chamber", "", "&a&oCraft this Item in a", "&a&oHeated Pressure Chamber"), "HEATED_PRESSURE_CHAMBER");
 	
-	public static final RecipeType SHAPED_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&eShaped Recipe", 0, new String[] {"", "&a&oJust a standard Recipe in the Workbench..."}));
-	public static final RecipeType SHAPELESS_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&eShapeless Recipe", 0, new String[] {"", "&a&oJust a standard Recipe in the Workbench..."}));
-	public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&eFurnace Recipe", 0, new String[] {"", "&a&oJust smelt it in a regular Furnace"}));
+	public static final RecipeType SHAPED_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&e有序合成配方", 0, new String[] {"", "&a&o原版工作台中的合成配方"}));
+	public static final RecipeType SHAPELESS_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&e无序合成配方", 0, new String[] {"", "&a&o原版工作台中的合成配方"}));
+	public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&e在熔炉中冶炼", 0, new String[] {"", "&a&o把它放在熔炉里烧"}));
 	public static final RecipeType NULL = new RecipeType(null);
 	
 	private ItemStack item;
