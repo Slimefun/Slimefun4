@@ -376,8 +376,8 @@ public class SlimefunItems {
 
     public static ItemStack SOLAR_PANEL = new CustomItem(Material.DAYLIGHT_DETECTOR, "&b太阳能板", 0, new String[] {"", "&a&o将阳光变为能量"});
     public static ItemStack SOLAR_ARRAY = new CustomItem(Material.DAYLIGHT_DETECTOR, "&b太阳能阵列", 0, new String[] {"", "&a&o将阳光变为能量"});
-    public static ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&b挖矿机", 0, new String[] {"", "&a&oDigs out everything!"});
-    public static ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6高级挖矿机", 0, new String[] {"", "&a&oDigs out everything!", "&a&oAutomatically crushes your Ores"});
+    public static ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&b挖矿机", 0, new String[] {"", "&a&o挖出所有东西!"});
+    public static ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6高级挖矿机", 0, new String[] {"", "&a&o挖出所有东西!", "&a&o自动粉碎挖到的矿物"});
     public static ItemStack AUTOMATED_PANNING_MACHINE = new CustomItem(Material.BOWL, "&a自动淘金机", 0, new String[] {"", "&a&o升级版淘金筛"});
 
     public static ItemStack HOLOGRAM_PROJECTOR = new CustomItem(new MaterialData(Material.QUARTZ_SLAB), "&b全息投影仪", "", "&r投影出可编辑的全息文字");
