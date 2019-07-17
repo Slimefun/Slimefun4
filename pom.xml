@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.1.17</version>
+    <version>DEV - 100 (git null)</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -30,15 +30,14 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+  			<id>CodeMC</id>
+  			<url>https://repo.codemc.org/repository/maven-public</url>
+		</repository>
     </repositories>
+    
     <build>
         <sourceDirectory>${project.basedir}/src</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/tests/java</testSourceDirectory>
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/tests/resources</directory>
-            </testResource>
-        </testResources>
         <finalName>${project.name} v${project.version}</finalName>
         <plugins>
             <plugin>
@@ -53,7 +52,45 @@
                     </execution>
                 </executions>
             </plugin>
+              <plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-shade-plugin</artifactId>
+    			<version>3.2.1</version>
+
+    			<configuration>
+    				<filters>
+      					<filter>
+    						<artifact>com.github.thebusybiscuit:CS-CoreLib2</artifact>
+    						<includes>
+    							<include>**/cscorelib2/updater/**</include>
+    						</includes>
+  						</filter>
+      				</filters>
+      					
+      				<relocations>
+      					<relocation>
+            				<pattern>org.bstats</pattern>
+            				<shadedPattern>me.mrCookieSlime.Slimefun.bstats</shadedPattern>
+          				</relocation>
+          				
+        				<relocation>
+          					<pattern>io.github.thebusybiscuit.cscorelib2</pattern>
+          					<shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
+      					</relocation>
+      				</relocations>
+    			</configuration>
+
+    			<executions>
+      				<execution>
+        				<phase>package</phase>
+        				<goals>
+         					<goal>shade</goal>
+        				</goals>
+      				</execution>
+    			</executions>
+  			</plugin>
         </plugins>
+        
         <resources>
             <resource>
                 <directory>${basedir}/src</directory>
@@ -69,76 +106,59 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
+    		<version>1.14.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
+    		<version>7.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
+    		<version>v1.6.1</version>
+    		<scope>provided</scope>
         </dependency>
+        <dependency>
+  			<groupId>com.github.thebusybiscuit</groupId>
+  			<artifactId>CS-CoreLib2</artifactId>
+  			<version>0.3.6</version>
+  			<scope>compile</scope>
+		</dependency>
+		<dependency>
+  			<groupId>org.bstats</groupId>
+  			<artifactId>bstats-bukkit</artifactId>
+  			<version>1.5</version>
+  			<scope>compile</scope>
+		</dependency>
         <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
+    		<version>2.9.7</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.coreprotect</groupId>
             <artifactId>coreprotect</artifactId>
+    		<version>2.16.3</version>
+    		<scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
             <artifactId>EmeraldEnchants</artifactId>
+    		<version>2.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/EmeraldEnchants v2.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
             <artifactId>ExoticGarden</artifactId>
+    		<version>1.2.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/ExoticGarden v1.2.0.jar</systemPath>
         </dependency>
     </dependencies>
-    <dependencyManagement>
-    	<dependencies>
-    		<dependency>
-    			<groupId>org.bukkit</groupId>
-    			<artifactId>bukkit</artifactId>
-    			<version>1.14.2-R0.1-SNAPSHOT</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>com.sk89q.worldedit</groupId>
-    			<artifactId>worldedit-bukkit</artifactId>
-    			<version>7.0.0</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>com.github.TheBusyBiscuit</groupId>
-    			<artifactId>CS-CoreLib</artifactId>
-    			<version>v1.6.1</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>me.minebuilders</groupId>
-    			<artifactId>clearlag-core</artifactId>
-    			<version>2.9.7</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>net.coreprotect</groupId>
-    			<artifactId>coreprotect</artifactId>
-    			<version>2.16.3</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>me.mrCookieSlime</groupId>
-    			<artifactId>EmeraldEnchants</artifactId>
-    			<version>2.0</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>me.mrCookieSlime</groupId>
-    			<artifactId>ExoticGarden</artifactId>
-    			<version>1.2.0</version>
-    		</dependency>
-    	</dependencies>
-    </dependencyManagement>
 </project>
