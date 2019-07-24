@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
@@ -57,7 +59,11 @@ public class CargoInputNode extends SlimefunItem {
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals("false")) {
-						menu.replaceExistingItem(16, new CustomItem(new ItemStack(Material.STONE_SWORD, (byte) 20), "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
+						ItemStack is = new ItemStack(Material.STONE_SWORD);
+						Damageable dmg = (Damageable) is.getItemMeta();
+						dmg.setDamage(20);
+						is.setItemMeta((ItemMeta) dmg);
+						menu.replaceExistingItem(16, new CustomItem(is, "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
 						menu.addMenuClickHandler(16, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "filter-durability", "true");
 							newInstance(menu, b);
@@ -65,7 +71,11 @@ public class CargoInputNode extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(16, new CustomItem(new ItemStack(Material.GOLDEN_SWORD, (byte) 20), "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
+						ItemStack is = new ItemStack(Material.GOLDEN_SWORD);
+						Damageable dmg = (Damageable) is.getItemMeta();
+						dmg.setDamage(20);
+						is.setItemMeta((ItemMeta) dmg);
+						menu.replaceExistingItem(16, new CustomItem(is, "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
 						menu.addMenuClickHandler(16, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "filter-durability", "false");
 							newInstance(menu, b);
