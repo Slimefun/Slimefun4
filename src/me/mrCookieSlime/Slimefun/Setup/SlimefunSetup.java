@@ -14,7 +14,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
@@ -719,11 +718,11 @@ public class SlimefunSetup {
 										for (ItemStack converting: inputs.get(i)) {
 											if (converting != null) {
 												for (int j = 0; j < inv.getContents().length; j++) {
-													if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true)) {
+													if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true, SlimefunManager.DataType.ALWAYS)) {
 														craft = false;
 														break;
 													}
-													else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true)) break;
+													else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true, SlimefunManager.DataType.ALWAYS)) break;
 												}
 											}
 										}
@@ -1090,13 +1089,13 @@ public class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-					if (e.getClickedBlock() == null && !Variables.jump_state.containsKey(p.getUniqueId())) {
+					if (e.getClickedBlock() == null && !Variables.jump.containsKey(p.getUniqueId())) {
 						e.setCancelled(true);
 						if (p.getInventory().getItemInOffHand().getType().equals(Material.BOW)) {
 							// Cancel, to fix dupe #740
 							return false;
 						}
-						Variables.jump_state.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
+						Variables.jump.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
 						if (p.getInventory().getItemInMainHand().getType() == Material.LEAD) PlayerInventory.consumeItemInHand(p);
 
 						Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -1109,7 +1108,7 @@ public class SlimefunSetup {
 				    	b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
 				    	b.setLeashHolder(arrow);
 
-				    	Variables.damage.add(p.getUniqueId());
+				    	Variables.damage.put(p.getUniqueId(), true);
 						Variables.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
 					}
 					return true;
@@ -2103,7 +2102,7 @@ public class SlimefunSetup {
 										if (SlimefunStartup.instance.isCoreProtectInstalled()) SlimefunStartup.instance.getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 										SlimefunItem sfItem = BlockStorage.check(b);
-										boolean allow = false;
+										boolean allow = true;
 										if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 											if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 												allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
@@ -3612,30 +3611,30 @@ public class SlimefunSetup {
 				registerFuel(new MachineFuel(3, new ItemStack(Material.POTATO)));
 				registerFuel(new MachineFuel(3, new ItemStack(Material.SUGAR_CANE)));
 				registerFuel(new MachineFuel(3, new ItemStack(Material.NETHER_WART)));
+				registerFuel(new MachineFuel(2, new ItemStack(Material.DANDELION)));
+				registerFuel(new MachineFuel(2, new ItemStack(Material.POPPY)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.RED_MUSHROOM)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.BROWN_MUSHROOM)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.VINE)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.CACTUS)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.LILY_PAD)));
 				registerFuel(new MachineFuel(8, new ItemStack(Material.CHORUS_FRUIT)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.KELP)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.DRIED_KELP)));
-				registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.SEAGRASS)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
-			
+
 				// Leaves
-				for(Material m:Tag.LEAVES.getValues())
-					registerFuel(new MachineFuel(1, new ItemStack(m)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.OAK_LEAVES)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.BIRCH_LEAVES)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.SPRUCE_LEAVES)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.JUNGLE_LEAVES)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.ACACIA_LEAVES)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.DARK_OAK_LEAVES)));
 
 				// Saplings
-				for (Material m:Tag.SAPLINGS.getValues())
-					registerFuel(new MachineFuel(1, new ItemStack(m)));
-				
-				// Small Flowers (formally just dandelions and poppies.
-				for(Material m:Tag.SMALL_FLOWERS.getValues())
-					registerFuel(new MachineFuel(1, new ItemStack(m)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.OAK_SAPLING)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.BIRCH_SAPLING)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.SPRUCE_SAPLING)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.JUNGLE_SAPLING)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.ACACIA_SAPLING)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.DARK_OAK_SAPLING)));
 			}
 
 			@Override
@@ -5212,4 +5211,3 @@ public class SlimefunSetup {
 	}
 
 }
-
