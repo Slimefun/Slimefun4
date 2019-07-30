@@ -1863,9 +1863,17 @@ public class SlimefunSetup {
 			}
 		});
 		
+		/*
+		* dNiym 7/30/2019 added the Table_Saw machine to replace the Saw_mill, as the sawmill's design does not work with
+		* the new types of log's in minecraft.   Now that there are multiple types with their own object ID the existing 
+		* way of detecting multi blocks limits us to using specific material types in a build, therefore having a block that
+		* needs to change like for the sawmill is not possible to do without major overhauling of multiblocks.  The Saw_Mill
+		* machine has been left in as to not break machines on existing servers however it should no longer show up in the
+		* slimefun guide.
+		*/
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.SAW_MILL, "SAW_MILL",
 		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.OAK_LOG)},
-		new ItemStack[] {}, Material.CRAFTING_TABLE)
+		new ItemStack[] {}, Material.CRAFTING_TABLE,true)
 		.register(true, new MultiBlockInteractionHandler() {
 
 			@Override
