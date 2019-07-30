@@ -14,6 +14,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
@@ -1831,7 +1832,37 @@ public class SlimefunSetup {
 				else return false;
 			}
 		});
+                
+		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.TABLE_SAW, "TABLE_SAW",
+		new ItemStack[] {null, null, null, new ItemStack(Material.BIRCH_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.BIRCH_SLAB), null, new ItemStack(Material.IRON_BLOCK), null},
+		new ItemStack[] {}, Material.STONECUTTER)
+		.register(true, new MultiBlockInteractionHandler() {
 
+			@Override
+			public boolean onInteract(Player p, MultiBlock mb, Block b) {
+				if (mb.isMultiBlock(SlimefunItem.getByID("TABLE_SAW"))) {
+					if (CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), b.getRelative(BlockFace.UP), true)) {
+						if (Slimefun.hasUnlocked(p, SlimefunItems.TABLE_SAW, true)) {
+								if(p.getInventory().getItemInMainHand() != null && Tag.LOGS.getValues().contains(p.getInventory().getItemInMainHand().getType())) {
+									ItemStack log = p.getInventory().getItemInMainHand();
+									
+									ItemStack item =  new ItemStack(MaterialHelper.getWoodFromLog(log.getType()), 8);
+									b.getWorld().dropItemNaturally(b.getLocation(), item);
+									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
+									log.setAmount(log.getAmount() -1);
+									if(log.getAmount() <= 0)
+										p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+									 
+								
+							}
+						}
+					}
+					return true;
+				}
+				else return false;
+			}
+		});
+		
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.SAW_MILL, "SAW_MILL",
 		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.OAK_LOG)},
 		new ItemStack[] {}, Material.CRAFTING_TABLE)
