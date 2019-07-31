@@ -117,15 +117,15 @@ public class BlockStorage {
 									// It should not be possible to have two blocks on the same location. Ignore the
 									// new entry if a block is already present and print an error to the console.
 
-									System.out.println("[Slimefun] Ignoring duplicate block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
-									System.out.println("[Slimefun] Old block data: " + serializeBlockInfo(storage.get(l)));
-									System.out.println("[Slimefun] New block data (" + key + "): " + json);
+									System.out.println("[Slimefun] 忽略重复方块 @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+									System.out.println("[Slimefun] 旧方块数据: " + serializeBlockInfo(storage.get(l)));
+									System.out.println("[Slimefun] 新方块数据 (" + key + "): " + json);
 									continue;
 								}
 								storage.put(l, blockInfo);
 
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
-									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
+									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<>();
 									locations.add(l);
 									ticking_chunks.put(chunk_string, locations);
 									if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
@@ -142,7 +142,7 @@ public class BlockStorage {
 				long time = (System.currentTimeMillis() - start);
 				System.out.println("[Slimefun] 读取粘液科技方块完成 (耗时 - " + time + "ms)");
 				System.out.println("[Slimefun] 已加载了 " + totalBlocks + " 个方块在世界 \"" + world.getName() + "\"");
-				if (totalBlocks > 0) System.out.println("[Slimefun] 平均值: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/每方块");
+				if (totalBlocks > 0) System.out.println("[Slimefun] 平均值: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/格");
 			}
 		}
 		else f.mkdirs();
@@ -154,7 +154,7 @@ public class BlockStorage {
 				try {
 					if (world.getName().equals(key.split(";")[0])) map_chunks.put(key, cfg.getString(key));
 				} catch (Exception x) {
-					System.err.println("[Slimefun] Failed to load " + chunks.getName() + " for World \"" + world.getName() + "\" (ERR: " + key + ")");
+					System.err.println("[Slimefun] 无法加载世界 " + world.getName() + " 中的区块 " + chunks.getName() + "\" (ERR: " + key + ")");
 					x.printStackTrace();
 				}
 			}
@@ -220,7 +220,7 @@ public class BlockStorage {
 		
 		if (changes == 0) return;
 		
-		System.out.println("[Slimefun] 正在保存世界 \"" + world.getName() + "\" 中的更改... (" + changes + " 个更改已列队)");
+		System.out.println("[Slimefun] 正在保存世界 \"" + world.getName() + "\" 中的更改... (剩余 " + changes + " 个更改)");
 		
 		Map<String, Config> cache = new HashMap<>(cache_blocks);
 		
@@ -572,7 +572,7 @@ public class BlockStorage {
 	}
 	
 	public static Set<String> getTickingChunks() {
-		return new HashSet<String>(loaded_tickers);
+		return new HashSet<>(loaded_tickers);
 	}
 
 	@Deprecated
@@ -586,7 +586,7 @@ public class BlockStorage {
 
 	@Deprecated
 	public static Set<Block> getTickingBlocks(String chunk) {
-		Set<Block> ret = new HashSet<Block>();
+		Set<Block> ret = new HashSet<>();
 		for (Location l: getTickingLocations(chunk)) {
 			ret.add(l.getBlock());
 		}
@@ -594,7 +594,7 @@ public class BlockStorage {
 	}
 
 	public static Set<Location> getTickingLocations(String chunk) {
-		return new HashSet<Location>(ticking_chunks.get(chunk));
+		return new HashSet<>(ticking_chunks.get(chunk));
 	}
 	
 	public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
@@ -669,11 +669,11 @@ public class BlockStorage {
 			return cfg;
 		} catch (Exception x) {
 			System.err.println(x.getClass().getName());
-			System.err.println("[Slimefun] Failed to parse ChunkInfo for Chunk @ " + chunk.getX() + ", " + chunk.getZ());
+			System.err.println("[Slimefun] 在解析区块 @" + chunk.getX() + ", " + chunk.getZ() + " 的方块信息时出现了问题");
 			try {
 				System.err.println(getJSONData(chunk));
 			} catch (Exception x2) {
-				System.err.println("No Metadata found!");
+				System.err.println("找不到 Metadata!");
 			}
 			x.printStackTrace();
 			return new Config("data-storage/Slimefun/temp.yml");

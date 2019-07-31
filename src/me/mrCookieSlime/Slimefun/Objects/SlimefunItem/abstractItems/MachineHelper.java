@@ -9,12 +9,12 @@ public class MachineHelper {
 		String timeleft = "";
         final int minutes = (int) (l / 60L);
         if (minutes > 0) {
-            timeleft = String.valueOf(timeleft) + minutes + "m ";
+            timeleft = timeleft + minutes + "分钟 ";
         }
         l -= minutes * 60;
-        final int seconds = (int)l;
-        timeleft = String.valueOf(timeleft) + seconds + "s";
-        return ChatColor.translateAlternateColorCodes('&', "&7" + timeleft + " left");
+        final int seconds = l;
+        timeleft = timeleft + seconds + "秒";
+        return ChatColor.translateAlternateColorCodes('&', "&7剩余 " + timeleft);
 	}
 
 	public static String getProgress(int time, int total) {

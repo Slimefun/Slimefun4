@@ -50,7 +50,7 @@ public abstract class OilPump extends AContainer {
 					return false;
 				}
 				
-				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("Oil"), b.getChunk())) {
+				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("石油"), b.getChunk())) {
 					Messages.local.sendTranslation(p, "gps.geo.scan-required", true);
 					return false;
 				}
@@ -72,7 +72,7 @@ public abstract class OilPump extends AContainer {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&4Oil Pump";
+		return "&4油泵";
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public abstract class OilPump extends AContainer {
 				processing.remove(b);
 			}
 		}
-		else if (OreGenSystem.getSupplies(OreGenSystem.getResource("Oil"), b.getChunk(), false) > 0) {
+		else if (OreGenSystem.getSupplies(OreGenSystem.getResource("石油"), b.getChunk(), false) > 0) {
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
@@ -121,7 +121,7 @@ public abstract class OilPump extends AContainer {
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
-					OreGenSystem.setSupplies(OreGenSystem.getResource("Oil"), b.getChunk(), OreGenSystem.getSupplies(OreGenSystem.getResource("Oil"), b.getChunk(), false) - 1);
+					OreGenSystem.setSupplies(OreGenSystem.getResource("Oil"), b.getChunk(), OreGenSystem.getSupplies(OreGenSystem.getResource("石油"), b.getChunk(), false) - 1);
 					break;
 				}
 			}

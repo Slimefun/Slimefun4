@@ -74,7 +74,7 @@ public class OilResource implements OreGenResource {
 
 	@Override
 	public String getName() {
-		return "Oil";
+		return "石油";
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class OilResource implements OreGenResource {
 
 	@Override
 	public String getMeasurementUnit() {
-		return "Buckets";
+		return "桶";
 	}
 
 }

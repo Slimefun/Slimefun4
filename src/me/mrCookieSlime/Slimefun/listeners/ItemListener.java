@@ -405,16 +405,38 @@ public class ItemListener implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onAnvil(InventoryClickEvent e) {
-		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
-		if (SlimefunManager.isItemSimiliar(e.getInventory().getContents()[0], SlimefunItems.ELYTRA, true)) return;
-		if (SlimefunItem.getByItem(e.getInventory().getContents()[0]) != null && !SlimefunItem.isDisabled(e.getInventory().getContents()[0])) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			}
-		}
-	}
+    @EventHandler
+    public void onAnvil(InventoryClickEvent e) {
+        if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
+            ItemStack slot0 = e.getInventory().getContents()[0];
+            ItemStack slot1 = e.getInventory().getContents()[1];
+            if (SlimefunManager.isItemSimiliar(slot0, SlimefunItems.ELYTRA, true)) return;
+            if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0)) {
+                e.setCancelled(true);
+                Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+            } else if (SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1)) {
+                e.setCancelled(true);
+                Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+            }
+
+
+            if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
+                e.setCancelled(true);
+                Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+            } else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
+                e.setCancelled(true);
+                Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+            }
+
+            if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
+                e.setCancelled(true);
+                Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+            } else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
+                e.setCancelled(true);
+                Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+            }
+        }
+    }
 
 	@EventHandler (ignoreCancelled = true)
 	public void onPreBrew(InventoryClickEvent e) {

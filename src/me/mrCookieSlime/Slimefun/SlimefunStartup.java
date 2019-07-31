@@ -1,5 +1,10 @@
 package me.mrCookieSlime.Slimefun;
 
+import org.bstats.bukkit.Metrics;
+import io.github.thebusybiscuit.cscorelib2.updater.BukkitUpdater;
+import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
+import io.github.thebusybiscuit.cscorelib2.updater.Updater;
+
 import java.io.File;
 
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
@@ -152,13 +157,26 @@ public class SlimefunStartup extends JavaPlugin {
 			items = new Config(Files.ITEMS);
 			whitelist = new Config(Files.WHITELIST);
 
-			// Init Config, Updater, Metrics and messages.yml
-			utils.setupUpdater(53485, getFile());
-			utils.setupMetrics();
 			utils.setupLocalization();
 			config = utils.getConfig();
 			Messages.local = utils.getLocalization();
 			Messages.setup();
+
+            new Metrics(this);
+
+            // Setting up the Auto-Updater
+            Updater updater;
+
+            if (!getDescription().getVersion().startsWith("DEV - ")) {
+                // We are using an official build, use the BukkitDev Updater
+                updater = new BukkitUpdater(this, getFile(), 53485);
+            }
+            else {
+                // If we are using a development build, we want to switch to our custom
+                updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
+            }
+
+            if (config.getBoolean("options.auto-update")) updater.start();
 
 			// Creating all necessary Folders
             String[] storage = {"blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};

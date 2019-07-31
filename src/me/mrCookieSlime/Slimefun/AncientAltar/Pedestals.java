@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.AncientAltar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.block.Block;
@@ -17,49 +16,50 @@ public class Pedestals {
 
     public static List<AltarRecipe> recipes = new ArrayList<>();
 
-	public static List<Block> getPedestals(Block altar) {
+    public static List<Block> getPedestals(Block altar) {
         List<Block> list = new ArrayList<>();
+
         if (BlockStorage.check(altar.getRelative(2, 0, -2), "ANCIENT_PEDESTAL")) {
             list.add(altar.getRelative(2, 0, -2));
         }
-		if (BlockStorage.check(altar.getRelative(3, 0, 0), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(3, 0, 0));
-		}
-		if (BlockStorage.check(altar.getRelative(2, 0, 2), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(2, 0, 2));
-		}
-		if (BlockStorage.check(altar.getRelative(0, 0, 3), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(0, 0, 3));
-		}
-		if (BlockStorage.check(altar.getRelative(-2, 0, 2), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(-2, 0, 2));
-		}
+        if (BlockStorage.check(altar.getRelative(3, 0, 0), "ANCIENT_PEDESTAL")) {
+            list.add(altar.getRelative(3, 0, 0));
+        }
+        if (BlockStorage.check(altar.getRelative(2, 0, 2), "ANCIENT_PEDESTAL")) {
+            list.add(altar.getRelative(2, 0, 2));
+        }
+        if (BlockStorage.check(altar.getRelative(0, 0, 3), "ANCIENT_PEDESTAL")) {
+            list.add(altar.getRelative(0, 0, 3));
+        }
+        if (BlockStorage.check(altar.getRelative(-2, 0, 2), "ANCIENT_PEDESTAL")) {
+            list.add(altar.getRelative(-2, 0, 2));
+        }
         if (BlockStorage.check(altar.getRelative(-3, 0, 0), "ANCIENT_PEDESTAL")) {
             list.add(altar.getRelative(-3, 0, 0));
         }
-		if (BlockStorage.check(altar.getRelative(-2, 0, -2), "ANCIENT_PEDESTAL")) {
-			list.add(altar.getRelative(-2, 0, -2));
-		}
+        if (BlockStorage.check(altar.getRelative(-2, 0, -2), "ANCIENT_PEDESTAL")) {
+            list.add(altar.getRelative(-2, 0, -2));
+        }
         if (BlockStorage.check(altar.getRelative(0, 0, -3), "ANCIENT_PEDESTAL")) {
             list.add(altar.getRelative(0, 0, -3));
         }
 
-		return list;
-	}
+        return list;
+    }
 
-	public static ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
-		if (input.size() != 8) return null;
-		if (SlimefunManager.isItemSimiliar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
+    public static ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
+        if (input.size() != 8) return null;
+        if (SlimefunManager.isItemSimiliar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
             if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) return null;
-			final ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
-			ItemMeta im = spawner.getItemMeta();
-			im.setLore(Arrays.asList(catalyst.getItemMeta().getLore().get(0)));
-			spawner.setItemMeta(im);
-			return spawner;
-		}
+            final ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
+            ItemMeta im = spawner.getItemMeta();
+            im.setLore(Arrays.asList(catalyst.getItemMeta().getLore().get(0)));
+            spawner.setItemMeta(im);
+            return spawner;
+        }
 
-		return checkRecipe(catalyst, input);
-	}
+        return checkRecipe(catalyst, input);
+    }
 
     private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
         loop:

@@ -46,7 +46,6 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
@@ -208,106 +207,105 @@ public class SlimefunSetup {
 							final Inventory inv = disp.getInventory();
 							List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
 
-							for (int i = 0; i < inputs.size(); i++) {
-								boolean craft = true;
-								for (int j = 0; j < inv.getContents().length; j++) {
-									if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
-										if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
-											if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], false)) {
-												craft = false;
-												break;
-											}
-										}
-										else {
-											craft = false;
-											break;
-										}
-									}
-								}
-								
-								if (craft) {
-									final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
-									if (Slimefun.hasUnlocked(p, adding, true)) {
-										Inventory inv2 = Bukkit.createInventory(null, 9, "test");
-										for (int j = 0; j < inv.getContents().length; j++) {
-											inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1): null): null);
-										}
-										if (InvUtils.fits(inv2, adding)) {
-											SlimefunItem sfItem = SlimefunItem.getByItem(adding);
-											
-											if (sfItem instanceof SlimefunBackpack) {
-												ItemStack backpack = null;
-												
-												for (int j = 0; j < 9; j++) {
-													if (inv.getContents()[j] != null) {
-														if (inv.getContents()[j].getType() != Material.AIR) {
-															if (SlimefunItem.getByItem(inv.getContents()[j]) instanceof SlimefunBackpack) {
-																backpack = inv.getContents()[j];
-																break;
-															}
-														}
-													}
-												}
-												String id = "";
-												int size = ((SlimefunBackpack) sfItem).size;
-												
-												if (backpack != null) {
-													for (String line: backpack.getItemMeta().getLore()) {
-														if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
-															id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-															Config cfg = new Config(new File("data-storage/Slimefun/Players/" + id.split("#")[0] + ".yml"));
-															cfg.setValue("backpacks." + id.split("#")[1] + ".size", size);
-															cfg.save();
-															break;
-														}
-													}
-												}
+                            for (ItemStack[] input : inputs) {
+                                boolean craft = true;
+                                for (int j = 0; j < inv.getContents().length; j++) {
+                                    if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], input[j], true)) {
+                                        if (SlimefunItem.getByItem(input[j]) instanceof SlimefunBackpack) {
+                                            if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], input[j], false)) {
+                                                craft = false;
+                                                break;
+                                            }
+                                        } else {
+                                            craft = false;
+                                            break;
+                                        }
+                                    }
+                                }
 
-												if (id.equals("")) {
-													for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
-														if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-															ItemMeta im = adding.getItemMeta();
-															List<String> lore = im.getLore();
-															lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, size)));
-															im.setLore(lore);
-															adding.setItemMeta(im);
-															break;
-														}
-													}
-												}
-												else {
-													for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
-														if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-															ItemMeta im = adding.getItemMeta();
-															List<String> lore = im.getLore();
-															lore.set(line, lore.get(line).replace("<ID>", id));
-															im.setLore(lore);
-															adding.setItemMeta(im);
-															break;
-														}
-													}
-												}
-											}
-											
+                                if (craft) {
+                                    final ItemStack adding = RecipeType.getRecipeOutputList(machine, input).clone();
+                                    if (Slimefun.hasUnlocked(p, adding, true)) {
+                                        Inventory inv2 = Bukkit.createInventory(null, 9, "test");
+                                        for (int j = 0; j < inv.getContents().length; j++) {
+                                            inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1) : null) : null);
+                                        }
+                                        if (InvUtils.fits(inv2, adding)) {
+                                            SlimefunItem sfItem = SlimefunItem.getByItem(adding);
 
-											for (int j = 0; j < 9; j++) {
-												if (inv.getContents()[j] != null) {
-													if (inv.getContents()[j].getType() != Material.AIR) {
-														if (inv.getContents()[j].getType().toString().endsWith("_BUCKET")) inv.setItem(j, new ItemStack(Material.BUCKET));
-														else if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-														else inv.setItem(j, null);
-													}
-												}
-											}
-											p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
-											
-											inv.addItem(adding);
-										}
-										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									}
-									return true;
-								}
-							}
+                                            if (sfItem instanceof SlimefunBackpack) {
+                                                ItemStack backpack = null;
+
+                                                for (int j = 0; j < 9; j++) {
+                                                    if (inv.getContents()[j] != null) {
+                                                        if (inv.getContents()[j].getType() != Material.AIR) {
+                                                            if (SlimefunItem.getByItem(inv.getContents()[j]) instanceof SlimefunBackpack) {
+                                                                backpack = inv.getContents()[j];
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                String id = "";
+                                                int size = ((SlimefunBackpack) sfItem).size;
+
+                                                if (backpack != null) {
+                                                    for (String line : backpack.getItemMeta().getLore()) {
+                                                        if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
+                                                            id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
+                                                            Config cfg = new Config(new File("data-storage/Slimefun/Players/" + id.split("#")[0] + ".yml"));
+                                                            cfg.setValue("backpacks." + id.split("#")[1] + ".size", size);
+                                                            cfg.save();
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+
+                                                if (id.equals("")) {
+                                                    for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
+                                                        if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+                                                            ItemMeta im = adding.getItemMeta();
+                                                            List<String> lore = im.getLore();
+                                                            lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, size)));
+                                                            im.setLore(lore);
+                                                            adding.setItemMeta(im);
+                                                            break;
+                                                        }
+                                                    }
+                                                } else {
+                                                    for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
+                                                        if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+                                                            ItemMeta im = adding.getItemMeta();
+                                                            List<String> lore = im.getLore();
+                                                            lore.set(line, lore.get(line).replace("<ID>", id));
+                                                            im.setLore(lore);
+                                                            adding.setItemMeta(im);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+
+                                            for (int j = 0; j < 9; j++) {
+                                                if (inv.getContents()[j] != null) {
+                                                    if (inv.getContents()[j].getType() != Material.AIR) {
+                                                        if (inv.getContents()[j].getType().toString().endsWith("_BUCKET"))
+                                                            inv.setItem(j, new ItemStack(Material.BUCKET));
+                                                        else if (inv.getContents()[j].getAmount() > 1)
+                                                            inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
+                                                        else inv.setItem(j, null);
+                                                    }
+                                                }
+                                            }
+                                            p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
+
+                                            inv.addItem(adding);
+                                        } else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+                                    }
+                                    return true;
+                                }
+                            }
 							Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 						}
 					}
@@ -480,57 +478,7 @@ public class SlimefunSetup {
         });
 
         new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.COMPRESSOR, "COMPRESSOR",
-                new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)", 0), new ItemStack(Material.PISTON)},
-                new ItemStack[] {new ItemStack(Material.COAL, 8), SlimefunItems.CARBON, new CustomItem(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE, new CustomItem(SlimefunItems.CARBON, 4), SlimefunItems.COMPRESSED_CARBON, new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE), new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE},
-                Material.NETHER_BRICK_FENCE)
-                .register(true, new MultiBlockInteractionHandler() {
-
-                    @Override
-                    public boolean onInteract(final Player p, MultiBlock mb, Block b) {
-
-                        SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("COMPRESSOR");
-
-                        if (mb.isMultiBlock(machine)) {
-                            if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
-                                if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-                                    Dispenser disp = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
-                                    final Inventory inv = disp.getInventory();
-                                    for (ItemStack current: inv.getContents()) {
-                                        for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-                                            if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-                                                final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-                                                if (InvUtils.fits(inv, adding)) {
-                                                    ItemStack removing = current.clone();
-                                                    removing.setAmount(convert.getAmount());
-                                                    inv.removeItem(removing);
-                                                    for (int i = 0; i < 4; i++) {
-                                                        int j = i;
-                                                        Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-                                                            if (j < 3) {
-                                                                p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
-                                                            } else {
-                                                                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                                                                inv.addItem(adding);
-                                                            }
-                                                        }, i*20L);
-                                                    }
-                                                }
-                                                else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-                                                return true;
-                                            }
-                                        }
-                                    }
-                                    Messages.local.sendTranslation(p, "machines.unknown-material", true);
-                                }
-                            }
-                            return true;
-                        }
-                        else return false;
-                    }
-                });
-
-        new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.COMPRESSOR, "COMPRESSOR",
-                new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON)},
+                new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "发射器 (面朝上面)"), new ItemStack(Material.PISTON)},
                 new ItemStack[] {new ItemStack(Material.COAL, 8), SlimefunItems.CARBON, new CustomItem(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE, new CustomItem(SlimefunItems.CARBON, 4), SlimefunItems.COMPRESSED_CARBON, new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE), new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE},
                 Material.NETHER_BRICK_FENCE)
                 .register(true, new MultiBlockInteractionHandler() {
@@ -4255,33 +4203,33 @@ public class SlimefunSetup {
 		}
 		.register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.BLANK_RUNE, "BLANK_RUNE", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.OBSIDIAN), SlimefunItems.MAGIC_LUMP_1,new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE)})
-		.register(true);
+        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.BLANK_RUNE, "BLANK_RUNE", RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] {new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.OBSIDIAN), SlimefunItems.MAGIC_LUMP_1,new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE)})
+                .register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_AIR, "ANCIENT_RUNE_AIR", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.FEATHER), new ItemStack(Material.GHAST_TEAR), SlimefunItems.BLANK_RUNE, new ItemStack(Material.GHAST_TEAR) ,new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.FEATHER)}, new CustomItem(SlimefunItems.RUNE_AIR, 4))
-		.register(true);
+        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_AIR, "ANCIENT_RUNE_AIR", RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] {new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.FEATHER), new ItemStack(Material.GHAST_TEAR), SlimefunItems.BLANK_RUNE, new ItemStack(Material.GHAST_TEAR) ,new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.FEATHER)}, new CustomItem(SlimefunItems.RUNE_AIR, 4))
+                .register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_EARTH, "ANCIENT_RUNE_EARTH", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.DIRT), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE), new ItemStack(Material.OBSIDIAN), SlimefunItems.BLANK_RUNE, new ItemStack(Material.OBSIDIAN) ,new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.DIRT)}, new CustomItem(SlimefunItems.RUNE_EARTH, 4))
-		.register(true);
+        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_EARTH, "ANCIENT_RUNE_EARTH", RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] {new ItemStack(Material.DIRT), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE), new ItemStack(Material.OBSIDIAN), SlimefunItems.BLANK_RUNE, new ItemStack(Material.OBSIDIAN) ,new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.DIRT)}, new CustomItem(SlimefunItems.RUNE_EARTH, 4))
+                .register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_FIRE, "ANCIENT_RUNE_FIRE", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.FIRE_CHARGE), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.FIRE_CHARGE), new ItemStack(Material.BLAZE_POWDER), SlimefunItems.RUNE_EARTH, new ItemStack(Material.FLINT_AND_STEEL) ,new ItemStack(Material.FIRE_CHARGE), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.FIRE_CHARGE)}, new CustomItem(SlimefunItems.RUNE_FIRE, 4))
-		.register(true);
+        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_FIRE, "ANCIENT_RUNE_FIRE", RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] {new ItemStack(Material.FIRE_CHARGE), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.FIRE_CHARGE), new ItemStack(Material.BLAZE_POWDER), SlimefunItems.RUNE_EARTH, new ItemStack(Material.FLINT_AND_STEEL) ,new ItemStack(Material.FIRE_CHARGE), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.FIRE_CHARGE)}, new CustomItem(SlimefunItems.RUNE_FIRE, 4))
+                .register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_WATER, "ANCIENT_RUNE_WATER", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.SALMON), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.SAND), SlimefunItems.BLANK_RUNE, new ItemStack(Material.SAND) ,new ItemStack(Material.WATER_BUCKET), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.COD)}, new CustomItem(SlimefunItems.RUNE_WATER, 4))
-		.register(true);
+        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_WATER, "ANCIENT_RUNE_WATER", RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] {new ItemStack(Material.SALMON), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.SAND), SlimefunItems.BLANK_RUNE, new ItemStack(Material.SAND) ,new ItemStack(Material.WATER_BUCKET), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.COD)}, new CustomItem(SlimefunItems.RUNE_WATER, 4))
+                .register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_ENDER, "ANCIENT_RUNE_ENDER", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENDER_PEARL), new ItemStack(Material.ENDER_EYE), SlimefunItems.BLANK_RUNE, new ItemStack(Material.ENDER_EYE) ,new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENDER_PEARL)}, new CustomItem(SlimefunItems.RUNE_ENDER, 6))
-		.register(true);
+        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_ENDER, "ANCIENT_RUNE_ENDER", RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] {new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENDER_PEARL), new ItemStack(Material.ENDER_EYE), SlimefunItems.BLANK_RUNE, new ItemStack(Material.ENDER_EYE) ,new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENDER_PEARL)}, new CustomItem(SlimefunItems.RUNE_ENDER, 6))
+                .register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_RAINBOW, "ANCIENT_RUNE_RAINBOW", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.CYAN_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_ENDER, new ItemStack(Material.WHITE_WOOL) , new ItemStack(Material.YELLOW_DYE), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.MAGENTA_DYE)})
-		.register(true);
+        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_RAINBOW, "ANCIENT_RUNE_RAINBOW", RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.CYAN_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_ENDER, new ItemStack(Material.WHITE_WOOL) , new ItemStack(Material.YELLOW_DYE), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.MAGENTA_DYE)})
+                .register(true);
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.INFERNAL_BONEMEAL, "INFERNAL_BONEMEAL", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.NETHER_WART), SlimefunItems.RUNE_EARTH, new ItemStack(Material.NETHER_WART), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.BONE_MEAL), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.NETHER_WART), new ItemStack(Material.BLAZE_POWDER), new ItemStack(Material.NETHER_WART)}, new CustomItem(SlimefunItems.INFERNAL_BONEMEAL, 8))
