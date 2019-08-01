@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -66,6 +67,7 @@ public class DamageListener implements Listener {
             }
 
         }
+
         if (e.getEntity().getKiller() instanceof Player) {
             Player p = (Player) e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
@@ -73,7 +75,13 @@ public class DamageListener implements Listener {
             if (SlimefunManager.drops.containsKey(e.getEntity().getType())) {
                 for (ItemStack drop : SlimefunManager.drops.get(e.getEntity().getType())) {
                     if (Slimefun.hasUnlocked(p, item, true)) {
-                        e.getDrops().add(drop);
+                    	SlimefunItem sfi = SlimefunItem.getByItem(item);
+                    	if(sfi != null) {
+                    		if(sfi.getDropChance() <= ThreadLocalRandom.current().nextInt(0,100))
+                    			continue;
+                    	} 
+                    	e.getDrops().add(drop);
+                    	
                     }
                 }
             }
