@@ -67,7 +67,7 @@ public class SlimefunItem {
 	private EnergyTicker energyTicker;
 	private String[] keys = null;
 	private Object[] values = null;
-
+	private int dropChance = 100;
 	/**
 	 * Defines whether a SlimefunItem is enabled, disabled or fall-back to its vanilla behavior.
 	 *
@@ -508,5 +508,13 @@ public class SlimefunItem {
 	
 	public void addWikipage(String page) {
 		Slimefun.addWikiPage(this.getID(), "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
+	}
+
+	public int getDropChance() {
+		return dropChance;
+	}
+
+	public void setDropChance(int dropChance) {
+		this.dropChance = dropChance;
 	}
 }
