@@ -117,6 +117,7 @@ public class SlimefunMachine extends SlimefunItem {
 				if (InvUtils.fits(chestInv, product)) {
 					// It fits! Let's set the inventory to that now.
 					outputInv = chestInv;
+					break;
 				}
 			}
 		}
