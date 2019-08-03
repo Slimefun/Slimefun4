@@ -1838,17 +1838,18 @@ public class SlimefunSetup {
 			@Override
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
-					if (e.getBlock().getType() != Material.SPAWNER) return true;
-					BlockStorage.clearBlockInfo(e.getBlock());
+					Block b = e.getBlock(); // Refactored it into this so we don't need to call e.getBlock() all the time.
+					if (b.getType() != Material.SPAWNER || BlockStorage.hasBlockInfo(b)) return true; 
+					// If the spawner's BlockStorage has BlockInfo, then it's not a vanilla spawner and shouldn't give a broken spawner.
 					ItemStack spawner = SlimefunItems.BROKEN_SPAWNER.clone();
 					ItemMeta im = spawner.getItemMeta();
 					List<String> lore = im.getLore();
 					for (int i = 0; i < lore.size(); i++) {
-						if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) e.getBlock().getState()).getSpawnedType().toString())));
+						if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
 					}
 					im.setLore(lore);
 					spawner.setItemMeta(im);
-					e.getBlock().getLocation().getWorld().dropItemNaturally(e.getBlock().getLocation(), spawner);
+					b.getLocation().getWorld().dropItemNaturally(b.getLocation(), spawner);
 					e.setExpToDrop(0);
 					return true;
 				}
