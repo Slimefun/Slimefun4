@@ -1840,7 +1840,6 @@ public class SlimefunSetup {
 					Block b = e.getBlock(); // Refactored it into this so we don't need to call e.getBlock() all the time.
 					if (b.getType() != Material.SPAWNER || BlockStorage.hasBlockInfo(b)) return true; 
 					// If the spawner's BlockStorage has BlockInfo, then it's not a vanilla spawner and shouldn't give a broken spawner.
-					BlockStorage.clearBlockInfo(b);
 					ItemStack spawner = SlimefunItems.BROKEN_SPAWNER.clone();
 					ItemMeta im = spawner.getItemMeta();
 					List<String> lore = im.getLore();
