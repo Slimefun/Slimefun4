@@ -54,8 +54,10 @@ public class RitualAnimation implements Runnable {
 	@Override
 	public void run() {
 		idle();
-		if(!checkLockedItems())
+		if(!checkLockedItems()) {
 			abort();
+			return;
+		}
 		if(this.stage == 36) {
 			finish();
 			return;
