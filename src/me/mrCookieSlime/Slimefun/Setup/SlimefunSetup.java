@@ -14,6 +14,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
@@ -3611,30 +3612,30 @@ public class SlimefunSetup {
 				registerFuel(new MachineFuel(3, new ItemStack(Material.POTATO)));
 				registerFuel(new MachineFuel(3, new ItemStack(Material.SUGAR_CANE)));
 				registerFuel(new MachineFuel(3, new ItemStack(Material.NETHER_WART)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.DANDELION)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.POPPY)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.RED_MUSHROOM)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.BROWN_MUSHROOM)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.VINE)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.CACTUS)));
 				registerFuel(new MachineFuel(2, new ItemStack(Material.LILY_PAD)));
 				registerFuel(new MachineFuel(8, new ItemStack(Material.CHORUS_FRUIT)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.KELP)));
+				registerFuel(new MachineFuel(2, new ItemStack(Material.DRIED_KELP)));
+				registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));
+				registerFuel(new MachineFuel(1, new ItemStack(Material.SEAGRASS)));
+				registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
 
 				// Leaves
-				registerFuel(new MachineFuel(1, new ItemStack(Material.OAK_LEAVES)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.BIRCH_LEAVES)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.SPRUCE_LEAVES)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.JUNGLE_LEAVES)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.ACACIA_LEAVES)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.DARK_OAK_LEAVES)));
+				for(Material m:Tag.LEAVES.getValues())
+						registerFuel(new MachineFuel(1, new ItemStack(m)));
 
 				// Saplings
-				registerFuel(new MachineFuel(1, new ItemStack(Material.OAK_SAPLING)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.BIRCH_SAPLING)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.SPRUCE_SAPLING)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.JUNGLE_SAPLING)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.ACACIA_SAPLING)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.DARK_OAK_SAPLING)));
+				for (Material m:Tag.SAPLINGS.getValues())
+						registerFuel(new MachineFuel(1, new ItemStack(m)));
+				
+				// Small Flowers (formally just dandelions and poppies.
+				for(Material m:Tag.SMALL_FLOWERS.getValues())
+					registerFuel(new MachineFuel(1, new ItemStack(m)));
 			}
 
 			@Override
