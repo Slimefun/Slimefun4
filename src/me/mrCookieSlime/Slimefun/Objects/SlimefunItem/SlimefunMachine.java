@@ -11,7 +11,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,8 +21,7 @@ public class SlimefunMachine extends SlimefunItem {
 	private List<ItemStack> shownRecipes;
 	private Material trigger;
 	//Adjacent blockfaces for iterative output chest checks
-	private static final BlockFace[] faces = {
-		    BlockFace.DOWN,
+	private static final BlockFace[] outputFaces = {
 		    BlockFace.UP,
 		    BlockFace.NORTH,
 		    BlockFace.EAST,
@@ -62,8 +61,8 @@ public class SlimefunMachine extends SlimefunItem {
 		return this.shownRecipes;
 	}
 	
-	public static BlockFace[] getFaces() {
-		return faces;
+	public static BlockFace[] getOutputFaces() {
+		return outputFaces;
 	}
 	
 	public void addRecipe(ItemStack[] input, ItemStack output) {
@@ -109,14 +108,15 @@ public class SlimefunMachine extends SlimefunItem {
 	
 	public static Inventory findValidOutputInv(ItemStack product, Block dispBlock, Inventory dispInv, Inventory placeCheckerInv) {
 		Inventory outputInv = null;
-		for (BlockFace face : faces) {
+		for (BlockFace face : outputFaces) {
 			Block potentialOutput = dispBlock.getRelative(face);
-			if (BlockStorage.hasBlockInfo(potentialOutput) && BlockStorage.checkID(potentialOutput).equals("OUTPUT_CHEST")) {
-				// Found the output chest! Now, let's check if we can fit the adding in it.
-				Inventory chestInv = ((Chest) potentialOutput.getState()).getInventory();
-				if (InvUtils.fits(chestInv, product)) {
+				String id = BlockStorage.checkID(potentialOutput);
+				if (id != null && id.equals("OUTPUT_CHEST")) {
+				// Found the output chest! Now, let's check if we can fit the product in it.
+				Inventory inv = ((Container) potentialOutput.getState()).getInventory();
+				if (InvUtils.fits(inv, product)) {
 					// It fits! Let's set the inventory to that now.
-					outputInv = chestInv;
+					outputInv = inv;
 					break;
 				}
 			}
