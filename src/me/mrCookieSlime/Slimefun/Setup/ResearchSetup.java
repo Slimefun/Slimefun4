@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class ResearchSetup {
 	
 	public static void setupResearches() {
-		Slimefun.registerResearch(new Research(0, "Walking Sticks", 1), SlimefunItems.GRANDMAS_WALKING_STICK, SlimefunItems.GRANDPAS_WALKING_STICK);
+	    Slimefun.registerResearch(new Research(0, "Walking Sticks", 1), SlimefunItems.GRANDMAS_WALKING_STICK, SlimefunItems.GRANDPAS_WALKING_STICK);
 	    Slimefun.registerResearch(new Research(1, "Portable Crafter", 1), SlimefunItems.PORTABLE_CRAFTER);
 	    Slimefun.registerResearch(new Research(2, "Fortune Cookie", 1), SlimefunItems.FORTUNE_COOKIE);
 	    Slimefun.registerResearch(new Research(4, "Portable Dustbin", 2), SlimefunItems.PORTABLE_DUSTBIN);
@@ -94,7 +94,7 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(89, "Night Vision Goggles", 10), SlimefunItems.NIGHT_VISION_GOGGLES);
 	    Slimefun.registerResearch(new Research(90, "Pickaxe of Containment", 14), SlimefunItems.PICKAXE_OF_CONTAINMENT, SlimefunItems.BROKEN_SPAWNER);
 	    Slimefun.registerResearch(new Research(91, "Hercules Pickaxe", 28), SlimefunItems.HERCULES_PICKAXE);
-	    Slimefun.registerResearch(new Research(92, "Saw Mill", 2), SlimefunItems.SAW_MILL);
+	    Slimefun.registerResearch(new Research(92, "Table Saw", 2), SlimefunItems.SAW_MILL, SlimefunItems.TABLE_SAW);
 	    Slimefun.registerResearch(new Research(93, "Slimy Steel Armor", 27), SlimefunItems.SLIME_HELMET_STEEL, SlimefunItems.SLIME_CHESTPLATE_STEEL, SlimefunItems.SLIME_LEGGINGS_STEEL, SlimefunItems.SLIME_BOOTS_STEEL);
 	    Slimefun.registerResearch(new Research(94, "Blade of Vampires", 26), SlimefunItems.BLADE_OF_VAMPIRES);
 	    Slimefun.registerResearch(new Research(95, "Lazy Mining", 40), SlimefunItems.DIGITAL_MINER);
@@ -235,5 +235,7 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(236, "Nether Star Reactor", 60), SlimefunItems.NETHERSTAR_REACTOR);
 	    Slimefun.registerResearch(new Research(237, "Blistering Radioactivity", 38), SlimefunItems.BLISTERING_INGOT, SlimefunItems.BLISTERING_INGOT_2, SlimefunItems.BLISTERING_INGOT_3);
 	    Slimefun.registerResearch(new Research(239, "Automatic Ignition Chamber", 12), SlimefunItems.IGNITION_CHAMBER);
+	    Slimefun.registerResearch(new Research(240, "Basic machinery output chest", 20), SlimefunItems.OUTPUT_CHEST);
+	    Slimefun.registerResearch(new Research(241, "Thinned-down Conductivity", 15), SlimefunItems.COPPER_WIRE);
 	}
 }
