@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class ResearchSetup {
 	
 	public static void setupResearches() {
-		Slimefun.registerResearch(new Research(0, "Walking Sticks", 1), SlimefunItems.GRANDMAS_WALKING_STICK, SlimefunItems.GRANDPAS_WALKING_STICK);
+	    Slimefun.registerResearch(new Research(0, "Walking Sticks", 1), SlimefunItems.GRANDMAS_WALKING_STICK, SlimefunItems.GRANDPAS_WALKING_STICK);
 	    Slimefun.registerResearch(new Research(1, "Portable Crafter", 1), SlimefunItems.PORTABLE_CRAFTER);
 	    Slimefun.registerResearch(new Research(2, "Fortune Cookie", 1), SlimefunItems.FORTUNE_COOKIE);
 	    Slimefun.registerResearch(new Research(4, "Portable Dustbin", 2), SlimefunItems.PORTABLE_DUSTBIN);
