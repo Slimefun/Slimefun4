@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -75,6 +77,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private static final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 	private static final List<Material> blockblacklist = new ArrayList<>();
 
+
 	static {
 		blockblacklist.add(Material.BEDROCK);
 		blockblacklist.add(Material.BARRIER);
@@ -83,8 +86,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		blockblacklist.add(Material.CHAIN_COMMAND_BLOCK);
 		blockblacklist.add(Material.REPEATING_COMMAND_BLOCK);
 		blockblacklist.add(Material.STRUCTURE_BLOCK);
-		blockblacklist.add(Material.PLAYER_HEAD);
-		blockblacklist.add(Material.PLAYER_WALL_HEAD);
 	}
 
 	private Set<MachineFuel> recipes = new HashSet<>();
@@ -713,14 +714,18 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
 			SlimefunItem item = BlockStorage.check(block);
+			boolean allow = false;
 			if (item != null) {
 				if (fits(b, item.getItem())) {
 					if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-						if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-							pushItems(b, BlockStorage.retrieve(block));
-							if (SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
-							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-							block.setType(Material.AIR);
+						if (allow) {
+							if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+								pushItems(b, BlockStorage.retrieve(block));
+								if (SlimefunItem.blockhandler.containsKey(item.getID()))
+									SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
+								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+								block.setType(Material.AIR);
+							}
 						}
 					}
 				}
