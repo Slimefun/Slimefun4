@@ -1834,7 +1834,7 @@ public class SlimefunSetup {
 		});
                 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.TABLE_SAW, "TABLE_SAW",
-		new ItemStack[] {null, null, null, new ItemStack(Material.BIRCH_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.BIRCH_SLAB), null, new ItemStack(Material.IRON_BLOCK), null},
+		new ItemStack[] {null, null, null, new ItemStack(Material.STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null},
 		new ItemStack[] {}, Material.STONECUTTER)
 		.register(true, new MultiBlockInteractionHandler() {
 
@@ -1873,7 +1873,7 @@ public class SlimefunSetup {
 		*/
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.SAW_MILL, "SAW_MILL",
 		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.OAK_LOG)},
-		new ItemStack[] {}, Material.CRAFTING_TABLE,true)
+		new ItemStack[] {}, Material.CRAFTING_TABLE)
 		.register(true, new MultiBlockInteractionHandler() {
 
 			@Override
