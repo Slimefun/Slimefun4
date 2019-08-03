@@ -108,9 +108,7 @@ public class RitualAnimation implements Runnable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			
-			System.out.println("UnLocking item: " + item.getCustomName() + " / " + item.getItemStack().getType().name());
 			itemLock.remove(item);
 			item.remove();
 			
