@@ -110,8 +110,8 @@ public class SlimefunMachine extends SlimefunItem {
 		Inventory outputInv = null;
 		for (BlockFace face : outputFaces) {
 			Block potentialOutput = dispBlock.getRelative(face);
-				String id = BlockStorage.checkID(potentialOutput);
-				if (id != null && id.equals("OUTPUT_CHEST")) {
+			String id = BlockStorage.checkID(potentialOutput);
+			if (id != null && id.equals("OUTPUT_CHEST")) {
 				// Found the output chest! Now, let's check if we can fit the product in it.
 				Inventory inv = ((Container) potentialOutput.getState()).getInventory();
 				if (InvUtils.fits(inv, product)) {
