@@ -94,7 +94,7 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(89, "Night Vision Goggles", 10), SlimefunItems.NIGHT_VISION_GOGGLES);
 	    Slimefun.registerResearch(new Research(90, "Pickaxe of Containment", 14), SlimefunItems.PICKAXE_OF_CONTAINMENT, SlimefunItems.BROKEN_SPAWNER);
 	    Slimefun.registerResearch(new Research(91, "Hercules Pickaxe", 28), SlimefunItems.HERCULES_PICKAXE);
-	    Slimefun.registerResearch(new Research(92, "Saw Mill", 2), SlimefunItems.SAW_MILL);
+	    Slimefun.registerResearch(new Research(92, "Table Saw", 2), SlimefunItems.SAW_MILL, SlimefunItems.TABLE_SAW);
 	    Slimefun.registerResearch(new Research(93, "Slimy Steel Armor", 27), SlimefunItems.SLIME_HELMET_STEEL, SlimefunItems.SLIME_CHESTPLATE_STEEL, SlimefunItems.SLIME_LEGGINGS_STEEL, SlimefunItems.SLIME_BOOTS_STEEL);
 	    Slimefun.registerResearch(new Research(94, "Blade of Vampires", 26), SlimefunItems.BLADE_OF_VAMPIRES);
 	    Slimefun.registerResearch(new Research(95, "Lazy Mining", 40), SlimefunItems.DIGITAL_MINER);

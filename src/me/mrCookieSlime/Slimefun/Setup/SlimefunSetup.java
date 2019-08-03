@@ -1875,7 +1875,45 @@ public class SlimefunSetup {
 				else return false;
 			}
 		});
+                
+		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.TABLE_SAW, "TABLE_SAW",
+		new ItemStack[] {null, null, null, new ItemStack(Material.STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null},
+		new ItemStack[] {}, Material.STONECUTTER)
+		.register(true, new MultiBlockInteractionHandler() {
 
+			@Override
+			public boolean onInteract(Player p, MultiBlock mb, Block b) {
+				if (mb.isMultiBlock(SlimefunItem.getByID("TABLE_SAW"))) {
+					if (CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), b.getRelative(BlockFace.UP), true)) {
+						if (Slimefun.hasUnlocked(p, SlimefunItems.TABLE_SAW, true)) {
+								if(p.getInventory().getItemInMainHand() != null && Tag.LOGS.getValues().contains(p.getInventory().getItemInMainHand().getType())) {
+									ItemStack log = p.getInventory().getItemInMainHand();
+									
+									ItemStack item =  new ItemStack(MaterialHelper.getWoodFromLog(log.getType()), 8);
+									b.getWorld().dropItemNaturally(b.getLocation(), item);
+									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
+									log.setAmount(log.getAmount() -1);
+									if(log.getAmount() <= 0)
+										p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+									 
+								
+							}
+						}
+					}
+					return true;
+				}
+				else return false;
+			}
+		});
+		
+		/*
+		* dNiym 7/30/2019 added the Table_Saw machine to replace the Saw_mill, as the sawmill's design does not work with
+		* the new types of log's in minecraft.   Now that there are multiple types with their own object ID the existing 
+		* way of detecting multi blocks limits us to using specific material types in a build, therefore having a block that
+		* needs to change like for the sawmill is not possible to do without major overhauling of multiblocks.  The Saw_Mill
+		* machine has been left in as to not break machines on existing servers however it should no longer show up in the
+		* slimefun guide.
+		*/
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.SAW_MILL, "SAW_MILL",
 		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.OAK_LOG)},
 		new ItemStack[] {}, Material.CRAFTING_TABLE)
