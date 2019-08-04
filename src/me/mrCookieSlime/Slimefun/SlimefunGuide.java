@@ -110,38 +110,22 @@ public class SlimefunGuide {
 		final ChestMenu menu = new ChestMenu("设置 / 关于");
 
 		menu.setEmptySlotsClickable(false);
-		menu.addMenuOpeningHandler(new MenuOpeningHandler() {
-
-			@Override
-			public void onOpen(Player p) {
-				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F);
-			}
-		});
+		menu.addMenuOpeningHandler(p1 -> p1.playSound(p1.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
 
 		for (int i: slots) {
 			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-			menu.addMenuClickHandler(i, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 		}
 
 
 		if (SlimefunManager.isItemSimiliar(guide, getItem(BookDesign.CHEST), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
 				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7指南样式: &e箱子界面", "", "&a箱子界面", "&7书与笔界面", "&7作弊模式", "", "&e 单击 &8\u21E8 &7修改样式"));
-				menu.addMenuClickHandler(19, new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-						p.getInventory().setItemInMainHand(getItem(BookDesign.BOOK));
-						openSettings(p, p.getInventory().getItemInMainHand());
-						return false;
-					}
-				});
+				menu.addMenuClickHandler(19, (p12, arg1, arg2, arg3) -> {
+                    p12.getInventory().setItemInMainHand(getItem(BookDesign.BOOK));
+                    openSettings(p12, p12.getInventory().getItemInMainHand());
+                    return false;
+                });
 			}
 			else {
 				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7指南样式: &e箱子界面", "", "&a箱子界面", "&7书与笔界面", "", "&e 单击 &8\u21E8 &7修改样式"));
@@ -196,28 +180,20 @@ public class SlimefunGuide {
 		}
 
 		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&a制作人员", "", "&7目前版本: &a" + SlimefunStartup.instance.getDescription().getVersion(), "&7贡献者: &e" + contributors.size(), "", "&7\u21E8 单击查看在插件背后工作的人们"));
-		menu.addMenuClickHandler(1, new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				openCredits(p, guide);
-				return false;
-			}
-		});
+		menu.addMenuClickHandler(1, (p14, arg1, arg2, arg3) -> {
+            openCredits(p14, guide);
+            return false;
+        });
 
 		try {
 			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&e源码", "&7代码大小: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7上次更新于: &a" + IntegerFormat.timeDelta(last_update) + " 前", "&7分支: &e" + forks, "&7点赞数: &e" + stars, "", "&7&oSlimefun 4 是一个社区性的项目,", "&7&o其源码公开于 Github 上", "&7&o如果你有 Java 编程经验,", "&7&o请考虑为此项目做出贡献", "", "&7\u21E8 单击前往 Github 页面"));
-			menu.addMenuClickHandler(4, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-					p.closeInventory();
-					p.sendMessage("");
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4"));
-					p.sendMessage("");
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(4, (p13, arg1, arg2, arg3) -> {
+                p13.closeInventory();
+                p13.sendMessage("");
+                p13.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4"));
+                p13.sendMessage("");
+                return false;
+            });
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -243,35 +219,19 @@ public class SlimefunGuide {
 		final ChestMenu menu = new ChestMenu("Credits");
 
 		menu.setEmptySlotsClickable(false);
-		menu.addMenuOpeningHandler(new MenuOpeningHandler() {
-
-			@Override
-			public void onOpen(Player p) {
-				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F);
-			}
-		});
+		menu.addMenuOpeningHandler(p1 -> p1.playSound(p1.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
 
 		for (int i = 0; i < 9; i++) {
 			if (i != 4) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						return false;
-					}
-				});
+				menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 			}
 			else {
 				menu.addItem(4, new CustomItem(new ItemStack(Material.EMERALD), "&7\u21E6 返回至设置"));
-				menu.addMenuClickHandler(4, new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-						openSettings(p, guide);
-						return false;
-					}
-				});
+				menu.addMenuClickHandler(4, (p12, arg1, arg2, arg3) -> {
+                    openSettings(p12, guide);
+                    return false;
+                });
 			}
 		}
 
@@ -300,32 +260,22 @@ public class SlimefunGuide {
 			skull.setItemMeta(meta);
 
 			menu.addItem(index, skull);
-			menu.addMenuClickHandler(index, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-					if (contributor.getCommits() > 0) {
-						p.closeInventory();
-						p.sendMessage("");
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + contributor.getProfile()));
-						p.sendMessage("");
-					}
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(index, (p13, arg1, arg2, arg3) -> {
+                if (contributor.getCommits() > 0) {
+                    p13.closeInventory();
+                    p13.sendMessage("");
+                    p13.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + contributor.getProfile()));
+                    p13.sendMessage("");
+                }
+                return false;
+            });
 
 			index++;
 		}
 
 		for (int i = 0; i < 9; i++) {
 			menu.addItem(36 + i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-			menu.addMenuClickHandler(36 + i, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(36 + i, (arg0, arg1, arg2, arg3) -> false);
 		}
 
 		menu.open(p);

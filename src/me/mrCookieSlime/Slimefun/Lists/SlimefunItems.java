@@ -237,6 +237,7 @@ public class SlimefunItems {
     public static ItemStack ANCIENT_PEDESTAL = new CustomItem(Material.DISPENSER, "&d古代基座", 0, new String[] {"", "&5古代祭坛的一部分"});
     public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&d古代祭坛", 0, new String[] {"", "&5在世界里建造祭坛", "&5并用古老的仪式合成物品"});
     public static ItemStack DUCT_TAPE = null;
+    public static ItemStack COPPER_WIRE = new CustomItem(Material.STRING, "&6铜线", "", "&6电子配件中的重要组成部分");
 
     public static ItemStack RAINBOW_WOOL = new CustomItem(new ItemStack(Material.WHITE_WOOL), "&5彩虹羊毛", "", "&d轮番展现彩虹的颜色!");
     public static ItemStack RAINBOW_GLASS = new CustomItem(new ItemStack(Material.WHITE_STAINED_GLASS), "&5彩虹玻璃", "", "&d轮番展现彩虹的颜色!");
@@ -368,9 +369,10 @@ public class SlimefunItems {
     public static ItemStack PRESSURE_CHAMBER = new CustomItem(Material.GLASS, "&b压力机", 0, new String[] {"", "&a&o压缩更多的物品"});
     public static ItemStack MAGIC_WORKBENCH = new CustomItem(Material.CRAFTING_TABLE, "&6魔法工作台", 0, new String[] {"给物品注入魔法能量"});
     public static ItemStack ORE_WASHER = new CustomItem(Material.CAULDRON, "&6洗矿机", 0, new String[] {"", "&a&o清洗筛矿变成过滤矿石", "&a&o并且给你一些小石块"});
-    public static ItemStack SAW_MILL = new CustomItem(Material.IRON_BARS, "&6锯木机", 0, new String[] {"", "&a&o从1个木头里获得8个木板"});
+    public static ItemStack TABLE_SAW = new CustomItem(Material.STONECUTTER, "&6台锯", "", "&a&o从1个木头里获得8个木板", "&a&o(支持所有的原木)");
+    public static ItemStack SAW_MILL = new CustomItem(Material.BARRIER, "&6锯木机", "", "&a&o现已被台锯代替");
     public static ItemStack COMPOSTER = new CustomItem(Material.CAULDRON, "&a搅拌机", 0, new String[] {"", "&a&o随着时间的推移可以转换各种材料..."});
-    public static ItemStack ENHANCED_CRAFTING_TABLE = new CustomItem(Material.CRAFTING_TABLE, "&e进阶工作台", 0, new String[] {"", "&a&o一个原始的工作台", "&a&o无法承受强大的力量..."});
+    public static ItemStack ENHANCED_CRAFTING_TABLE = new CustomItem(Material.CRAFTING_TABLE, "&e高级工作台", 0, new String[] {"", "&a&o一个原始的工作台", "&a&o无法承受强大的力量..."});
     public static ItemStack CRUCIBLE = new CustomItem(Material.CAULDRON, "&c坩埚", 0, new String[] {"", "&a&o用来把物品变为液体"});
     public static ItemStack JUICER = new CustomItem(Material.GLASS_BOTTLE, "&a榨汁机", 0, new String[] {"", "&a&o让你创造美味的果汁"});
 
@@ -379,7 +381,7 @@ public class SlimefunItems {
     public static ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&b挖矿机", 0, new String[] {"", "&a&o挖出所有东西!"});
     public static ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6高级挖矿机", 0, new String[] {"", "&a&o挖出所有东西!", "&a&o自动粉碎挖到的矿物"});
     public static ItemStack AUTOMATED_PANNING_MACHINE = new CustomItem(Material.BOWL, "&a自动淘金机", 0, new String[] {"", "&a&o升级版淘金筛"});
-
+    public static ItemStack OUTPUT_CHEST = new CustomItem(Material.CHEST, "&4物品输出箱", "", "&c&o这个机器会将箱子里的物品", "&c&o放入邻近的发射器");
     public static ItemStack HOLOGRAM_PROJECTOR = new CustomItem(new MaterialData(Material.QUARTZ_SLAB), "&b全息投影仪", "", "&r投影出可编辑的全息文字");
 
     /*		 Enhanced Furnaces 		*/

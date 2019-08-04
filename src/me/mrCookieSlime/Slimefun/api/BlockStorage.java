@@ -83,8 +83,8 @@ public class BlockStorage {
 	public BlockStorage(final World w) {
 		if (worlds.containsKey(w.getName())) return;
 		this.world = w;
-		System.out.println("[Slimefun] Loading Blocks for World \"" + w.getName() + "\"");
-		System.out.println("[Slimefun] This may take a long time...");
+		System.out.println("[Slimefun] 正在加载世界 " + w.getName() + " 中的粘液科技方块...");
+		System.out.println("[Slimefun] 这可能需要一点时间...");
 		
 		File f = new File(path_blocks + w.getName());
 		if (f.exists()) {

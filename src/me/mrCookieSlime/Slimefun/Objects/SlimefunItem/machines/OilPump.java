@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

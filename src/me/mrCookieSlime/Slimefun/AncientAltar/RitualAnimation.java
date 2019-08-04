@@ -1,14 +1,19 @@
-
 package me.mrCookieSlime.Slimefun.AncientAltar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.Variables;
 
-import org.bukkit.*;
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +29,7 @@ public class RitualAnimation implements Runnable {
     List<ItemStack> items;
 
     List<Location> particles;
+    Map<Item,Location> itemLock = new HashMap<>();
 
     boolean running;
     int stage;
@@ -39,11 +45,19 @@ public class RitualAnimation implements Runnable {
 
         this.running = true;
         this.stage = 0;
+        for(Block ped:this.pedestals) {
+            Item itm = AncientAltarListener.findItem(ped);
+            this.itemLock.put(itm, itm.getLocation().clone());
+        }
     }
 
     @Override
     public void run() {
         idle();
+        if(!checkLockedItems()) {
+            abort();
+            return;
+        }
         if(this.stage == 36) {
             finish();
             return;
@@ -53,6 +67,15 @@ public class RitualAnimation implements Runnable {
         }
         this.stage += 1;
         SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, this, 8);
+    }
+
+    private boolean checkLockedItems() {
+
+        for(Item itm:this.itemLock.keySet())
+            if(itm.getLocation().distance(this.itemLock.get(itm)) > 0.3)
+                return false;
+
+        return true;
     }
 
     private void idle() {
@@ -70,7 +93,12 @@ public class RitualAnimation implements Runnable {
 
     private void checkPedestal(Block pedestal) {
         Item item = AncientAltarListener.findItem(pedestal);
-        if (item == null) abort();
+
+
+        if(item == null || itemLock.remove(item) == null) {
+            abort();
+        }
+
         else {
             particles.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
             items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
@@ -83,7 +111,9 @@ public class RitualAnimation implements Runnable {
                 e.printStackTrace();
             }
 
+            itemLock.remove(item);
             item.remove();
+
             pedestal.removeMetadata("item_placed", SlimefunStartup.instance);
         }
     }
@@ -97,6 +127,7 @@ public class RitualAnimation implements Runnable {
 
         Variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks on craft failure.
         l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 5F, 1F);
+        itemLock.clear();
         altars.remove(altar);
     }
 
@@ -106,7 +137,9 @@ public class RitualAnimation implements Runnable {
             l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
             l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
 
-            pedestals.forEach((pblock)-> Variables.altarinuse.remove(pblock.getLocation()));
+            pedestals.forEach((pblock)->{
+                Variables.altarinuse.remove(pblock.getLocation());
+            });
             Variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks on craft completion.
             altars.remove(altar);
         }
