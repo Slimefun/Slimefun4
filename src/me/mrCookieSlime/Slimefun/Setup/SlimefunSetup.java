@@ -1536,6 +1536,7 @@ public class SlimefunSetup {
 			@Override
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.AUTO_SMELT_PICKAXE, true)) {
+					if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
 					if (e.getBlock().getType().equals(Material.PLAYER_HEAD)) return true;
 
 					int j = -1;
@@ -2180,7 +2181,7 @@ public class SlimefunSetup {
 						for (int y = -1; y <= 1; y++) {
 							for (int z = -1; z <= 1; z++) {
 								Block b = e.getBlock().getRelative(x, y, z);
-								if (b.getType() != Material.AIR && !StringUtils.equals(b.getType().toString(), explosiveblacklist)) {
+								if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), explosiveblacklist)) {
 									if (CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
 										if (SlimefunStartup.instance.isCoreProtectInstalled()) SlimefunStartup.instance.getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
