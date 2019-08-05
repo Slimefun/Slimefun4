@@ -48,6 +48,11 @@ public class ReactorAccessPort extends SlimefunItem {
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
+				if(p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(),b,true)) {
+					return false;
+				}
+				
+				
 				AReactor reactor = getReactor(b.getLocation());
 				if(reactor != null) {
 					boolean empty = true;
@@ -60,7 +65,7 @@ public class ReactorAccessPort extends SlimefunItem {
 							if(bm.getItemInSlot(slot) != null)
 								empty = false;
 					
-						if(!p.isSneaking() && !empty && (p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(),b,true))) {
+						if(!empty || !p.isSneaking()) {
 							//reactor is not empty, lets view it's inventory instead.
 							bm.open(p);
 							return false;
@@ -198,9 +203,11 @@ public class ReactorAccessPort extends SlimefunItem {
 	public BlockMenu getReactorMenu(Location l) {
 		Location reactorL = new Location(l.getWorld(), l.getX(), l.getY() - 3, l.getZ());
 		
-		if (BlockStorage.check(reactorL, "NUCLEAR_REACTOR")) return BlockStorage.getInventory(reactorL);
+		SlimefunItem item = BlockStorage.check(reactorL);
 		
-		if (BlockStorage.check(reactorL, "NETHERSTAR_REACTOR")) return BlockStorage.getInventory(reactorL);
+		if(item != null && (item.getID().equals("NUCLEAR_REACTOR") || item.getID().equals("NETHERSTAR_REACTOR")))
+			return BlockStorage.getInventory(reactorL);
+		
 		return null;
 	}
 	

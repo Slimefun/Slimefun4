@@ -99,7 +99,7 @@ public abstract class AReactor extends SlimefunItem {
 					}
 					BlockMenu ap = getAccessPort(b.getLocation());
 					if(ap != null) {
-						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Access Port", "", "&6Detected", "", "&7> Click to open Access Port"));
+						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
 						menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
 						ap.open(p);
 						newInstance(menu, b);
@@ -107,7 +107,7 @@ public abstract class AReactor extends SlimefunItem {
 							return false;
 						});
 					} else {
-						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Access Port", "", "&cNot Detected", "", "&7Access Port Must Be", "&7Placed 3 Blocks Above", "&7Reactor!"));
+						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
 						menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
 							newInstance(menu, b);
 							menu.open(p);
