@@ -253,9 +253,8 @@ public abstract class AGenerator extends SlimefunItem {
 							if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction()) {
 								ChargableBlock.addCharge(l, getEnergyProduction());
 								progress.put(l, timeleft - 1);
-								return ChargableBlock.getCharge(l);
 							}
-							return 0;
+							return ChargableBlock.getCharge(l);
 						}
 						else {
 							progress.put(l, timeleft - 1);
@@ -273,7 +272,7 @@ public abstract class AGenerator extends SlimefunItem {
 						
 						progress.remove(l);
 						processing.remove(l);
-						return 0;
+						return ChargableBlock.getCharge(l);
 					}
 				}
 				else {
@@ -297,7 +296,7 @@ public abstract class AGenerator extends SlimefunItem {
 						processing.put(l, r);
 						progress.put(l, r.getTicks());
 					}
-					return 0;
+					return ChargableBlock.getCharge(l);
 				}
 			}
 
