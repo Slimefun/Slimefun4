@@ -255,11 +255,9 @@ public abstract class AReactor extends SlimefunItem {
 					if (timeleft > 0) {
 						int produced = getEnergyProduction();
 						int space = ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l);
-						if (space >= produced) {
-							ChargableBlock.addCharge(l, getEnergyProduction());
-							space -= produced;
-						}
+
 						if (space >= produced || !BlockStorage.getLocationInfo(l, "reactor-mode").equals("generator")) {
+							ChargableBlock.addCharge(l, getEnergyProduction());
 							progress.put(l, timeleft - 1);
 
 							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
@@ -310,10 +308,8 @@ public abstract class AReactor extends SlimefunItem {
 									ReactorHologram.update(l, "&b\u2744 &7" + MachineHelper.getPercentage(timeleft, processing.get(l).getTicks()) + "%");
 								}
 							}
-
-							return ChargableBlock.getCharge(l);
 						}
-						return 0;
+						return ChargableBlock.getCharge(l);
 					}
 					else {
 						BlockStorage.getInventory(l).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
@@ -327,7 +323,7 @@ public abstract class AReactor extends SlimefunItem {
 
 						progress.remove(l);
 						processing.remove(l);
-						return 0;
+						return ChargableBlock.getCharge(l);
 					}
 				}
 				else {
@@ -366,7 +362,7 @@ public abstract class AReactor extends SlimefunItem {
 						processing.put(l, r);
 						progress.put(l, r.getTicks());
 					}
-					return 0;
+					return ChargableBlock.getCharge(l);
 				}
 			}
 
