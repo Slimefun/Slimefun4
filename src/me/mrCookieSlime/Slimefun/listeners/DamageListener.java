@@ -2,12 +2,15 @@ package me.mrCookieSlime.Slimefun.listeners;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
@@ -105,13 +108,21 @@ public class DamageListener implements Listener {
             }
 
             if (!e.getEntity().getCanPickupItems() && Talisman.checkFor(e, SlimefunItem.getByID("HUNTER_TALISMAN")) && !(e.getEntity() instanceof Player)) {
+            	
                 List<ItemStack> newDrops = new ArrayList<ItemStack>();
                 for (ItemStack drop : e.getDrops()) {
-                    newDrops.add(drop);
+                	newDrops.add(drop);
                 }
                 for (ItemStack drop : newDrops) {
                     e.getDrops().add(drop);
                 }
+                
+            	if(e.getEntity() instanceof ChestedHorse) {
+            		for(ItemStack invItem : ((ChestedHorse) e.getEntity()).getInventory().getStorageContents()) {
+            			e.getDrops().remove(invItem);
+            		}
+            		e.getDrops().remove(new ItemStack(Material.CHEST)); //The chest is not included in getStorageContents()
+            	}
             }
         }
     }
