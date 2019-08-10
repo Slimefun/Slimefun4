@@ -214,6 +214,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				boolean allow =  reason.equals(UnregisterReason.PLAYER_BREAK) && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
 
+                if (BlockStorage.hasBlockInfo(b)) return false;
+
 				if (allow) {
 					BlockMenu inv = BlockStorage.getInventory(b);
 					if (inv != null) {
@@ -270,424 +272,424 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
 				ScriptPart part = ScriptPart.valueOf(script[index]);
 
-				if (getAndroidType().isType(part.getRequiredType())) {
-					switch (part) {
-					case GO_DOWN: {
-						try {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(BlockFace.DOWN);
-							move(b, face, block);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						break;
-					}
-					case GO_FORWARD: {
-						try {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face);
-							move(b, face, block);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						break;
-					}
-					case GO_UP: {
-						try {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(BlockFace.UP);
-							move(b, face, block);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						break;
-					}
-					case REPEAT: {
-						BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
-						break;
-					}
-					case TURN_LEFT: {
-						int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) - 1;
-						if (rotIndex < 0) rotIndex = directions.size() - 1;
-						BlockFace dir = directions.get(rotIndex);
-						Rotatable blockData = (Rotatable) b.getBlockData();
-						blockData.setRotation(dir);
-						b.setBlockData(blockData);
-						BlockStorage.addBlockInfo(b, "rotation", dir.toString());
-						break;
-					}
-					case TURN_RIGHT: {
-						int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) + 1;
-						if (rotIndex == directions.size()) rotIndex = 0;
-						BlockFace dir = directions.get(rotIndex);
-						Rotatable blockData = (Rotatable) b.getBlockData();
-						blockData.setRotation(dir);
-						b.setBlockData(blockData);
-						BlockStorage.addBlockInfo(b, "rotation", dir.toString());
-						break;
-					}
-					case DIG_FORWARD: {
-						Block block = b.getRelative(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation")));
-						mine(b, block);
-						break;
-					}
-					case DIG_UP: {
-						Block block = b.getRelative(BlockFace.UP);
-						mine(b, block);
-						break;
-					}
-					case DIG_DOWN: {
-						Block block = b.getRelative(BlockFace.DOWN);
-						mine(b, block);
-						break;
-					}
-					case CATCH_FISH: {
-						Block block = b.getRelative(BlockFace.DOWN);
-						if (block.getType().equals(Material.WATER)) {
-							block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-							if (CSCoreLib.randomizer().nextInt(100) < 10 * getTier()) {
-								ItemStack drop = fish[CSCoreLib.randomizer().nextInt(fish.length)];
-								if (fits(b, drop)) pushItems(b, drop);
-							}
+                if (getAndroidType().isType(part.getRequiredType())) {
+                    switch (part) {
+                        case GO_DOWN: {
+                            try {
+                                BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                                Block block = b.getRelative(BlockFace.DOWN);
+                                move(b, face, block);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        }
+                        case GO_FORWARD: {
+                            try {
+                                BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                                Block block = b.getRelative(face);
+                                move(b, face, block);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        }
+                        case GO_UP: {
+                            try {
+                                BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                                Block block = b.getRelative(BlockFace.UP);
+                                move(b, face, block);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        }
+                        case REPEAT: {
+                            BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
+                            break;
+                        }
+                        case TURN_LEFT: {
+                            int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) - 1;
+                            if (rotIndex < 0) rotIndex = directions.size() - 1;
+                            BlockFace dir = directions.get(rotIndex);
+                            Rotatable blockData = (Rotatable) b.getBlockData();
+                            blockData.setRotation(dir);
+                            b.setBlockData(blockData);
+                            BlockStorage.addBlockInfo(b, "rotation", dir.toString());
+                            break;
+                        }
+                        case TURN_RIGHT: {
+                            int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) + 1;
+                            if (rotIndex == directions.size()) rotIndex = 0;
+                            BlockFace dir = directions.get(rotIndex);
+                            Rotatable blockData = (Rotatable) b.getBlockData();
+                            blockData.setRotation(dir);
+                            b.setBlockData(blockData);
+                            BlockStorage.addBlockInfo(b, "rotation", dir.toString());
+                            break;
+                        }
+                        case DIG_FORWARD: {
+                            Block block = b.getRelative(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation")));
+                            mine(b, block);
+                            break;
+                        }
+                        case DIG_UP: {
+                            Block block = b.getRelative(BlockFace.UP);
+                            mine(b, block);
+                            break;
+                        }
+                        case DIG_DOWN: {
+                            Block block = b.getRelative(BlockFace.DOWN);
+                            mine(b, block);
+                            break;
+                        }
+                        case CATCH_FISH: {
+                            Block block = b.getRelative(BlockFace.DOWN);
+                            if (block.getType().equals(Material.WATER)) {
+                                block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+                                if (CSCoreLib.randomizer().nextInt(100) < 10 * getTier()) {
+                                    ItemStack drop = fish[CSCoreLib.randomizer().nextInt(fish.length)];
+                                    if (fits(b, drop)) pushItems(b, drop);
+                                }
 
-						}
-						break;
-					}
-					case MOVE_AND_DIG_FORWARD: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-						Block block = b.getRelative(face);
-						movedig(b, face, block);
-						break;
-					}
-					case MOVE_AND_DIG_UP: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-						Block block = b.getRelative(BlockFace.UP);
-						movedig(b, face, block);
-						break;
-					}
-					case MOVE_AND_DIG_DOWN: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-						Block block = b.getRelative(BlockFace.DOWN);
-						movedig(b, face, block);
-						break;
-					}
-					case INTERFACE_ITEMS: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-						Block block = b.getRelative(face);
-						if (BlockStorage.check(block, "ANDROID_INTERFACE_ITEMS") && block.getState() instanceof Dispenser) {
-							Dispenser d = (Dispenser) block.getState();
-							for (int slot: getOutputSlots()) {
-								ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);
-								if (stack != null) {
-									Map<Integer, ItemStack> items = d.getInventory().addItem(stack);
-									if (items.isEmpty()) BlockStorage.getInventory(b).replaceExistingItem(slot, null);
-									else {
-										for (Map.Entry<Integer, ItemStack> entry: items.entrySet()) {
-											BlockStorage.getInventory(b).replaceExistingItem(slot, entry.getValue());
-											break;
-										}
-									}
-								}
-							}
-						}
-						break;
-					}
-					case INTERFACE_FUEL: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-						Block block = b.getRelative(face);
-						if (BlockStorage.check(block, "ANDROID_INTERFACE_FUEL") && block.getState() instanceof Dispenser) {
-							Dispenser d = (Dispenser) block.getState();
-							for (int slot = 0; slot < 9; slot++) {
-								ItemStack item = d.getInventory().getItem(slot);
-								if (item != null) {
-									if (BlockStorage.getInventory(b).getItemInSlot(43) == null) {
-										BlockStorage.getInventory(b).replaceExistingItem(43, item);
-										d.getInventory().setItem(slot, null);
-										break;
-									}
-									else if (SlimefunManager.isItemSimiliar(item, BlockStorage.getInventory(b).getItemInSlot(43), true)) {
-										int rest = item.getType().getMaxStackSize() - BlockStorage.getInventory(b).getItemInSlot(43).getAmount();
-										if (rest > 0) {
-											int amt = item.getAmount() > rest ? rest: item.getAmount();
-											BlockStorage.getInventory(b).replaceExistingItem(43, new CustomItem(item, BlockStorage.getInventory(b).getItemInSlot(43).getAmount() + amt));
-											d.getInventory().setItem(slot, InvUtils.decreaseItem(item, amt));
-										}
-										break;
-									}
-								}
-							}
-						}
-						break;
-					}
-					case FARM_FORWARD: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-						Block block = b.getRelative(face);
-						farm(b, block);
-						break;
-					}
-					case FARM_DOWN: {
-						Block block = b.getRelative(BlockFace.DOWN);
-						farm(b, block);
-						break;
-					}
-					case FARM_EXOTIC_FORWARD: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-						Block block = b.getRelative(face);
-						exoticFarm(b, block);
-						break;
-					}
-					case FARM_EXOTIC_DOWN: {
-						Block block = b.getRelative(BlockFace.DOWN);
-						exoticFarm(b, block);
-						break;
-					}
-					case CHOP_TREE: {
-						BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-						Block block = b.getRelative(face);
-						if (MaterialHelper.isLog( block.getType())) {
-							List<Location> list = new ArrayList<Location>();
-							list.add(block.getLocation());
-		        			TreeCalculator.getTree(block.getLocation(), block.getLocation(), list);
-		        			if (!list.isEmpty()) {
-		        				refresh = false;
-		        				Block log = list.get(list.size() - 1).getBlock();
-								Collection<ItemStack> drops = log.getDrops();
-		        				log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
-		        				if (!drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), log)) {
-									ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-									if (fits(b, items)) {
-										pushItems(b, items);
-										log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
-										if (log.getY() == block.getY()) {
-				        					log.setType(MaterialHelper.getSaplingFromLog(log.getType()));
-										}
-										else log.setType(Material.AIR);
-									}
+                            }
+                            break;
+                        }
+                        case MOVE_AND_DIG_FORWARD: {
+                            BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                            Block block = b.getRelative(face);
+                            movedig(b, face, block);
+                            break;
+                        }
+                        case MOVE_AND_DIG_UP: {
+                            BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                            Block block = b.getRelative(BlockFace.UP);
+                            movedig(b, face, block);
+                            break;
+                        }
+                        case MOVE_AND_DIG_DOWN: {
+                            BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                            Block block = b.getRelative(BlockFace.DOWN);
+                            movedig(b, face, block);
+                            break;
+                        }
+                        case INTERFACE_ITEMS: {
+                            BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                            Block block = b.getRelative(face);
+                            if (BlockStorage.check(block, "ANDROID_INTERFACE_ITEMS") && block.getState() instanceof Dispenser) {
+                                Dispenser d = (Dispenser) block.getState();
+                                for (int slot: getOutputSlots()) {
+                                    ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);
+                                    if (stack != null) {
+                                        Map<Integer, ItemStack> items = d.getInventory().addItem(stack);
+                                        if (items.isEmpty()) BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+                                        else {
+                                            for (Map.Entry<Integer, ItemStack> entry: items.entrySet()) {
+                                                BlockStorage.getInventory(b).replaceExistingItem(slot, entry.getValue());
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                        case INTERFACE_FUEL: {
+                            BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                            Block block = b.getRelative(face);
+                            if (BlockStorage.check(block, "ANDROID_INTERFACE_FUEL") && block.getState() instanceof Dispenser) {
+                                Dispenser d = (Dispenser) block.getState();
+                                for (int slot = 0; slot < 9; slot++) {
+                                    ItemStack item = d.getInventory().getItem(slot);
+                                    if (item != null) {
+                                        if (BlockStorage.getInventory(b).getItemInSlot(43) == null) {
+                                            BlockStorage.getInventory(b).replaceExistingItem(43, item);
+                                            d.getInventory().setItem(slot, null);
+                                            break;
+                                        }
+                                        else if (SlimefunManager.isItemSimiliar(item, BlockStorage.getInventory(b).getItemInSlot(43), true)) {
+                                            int rest = item.getType().getMaxStackSize() - BlockStorage.getInventory(b).getItemInSlot(43).getAmount();
+                                            if (rest > 0) {
+                                                int amt = item.getAmount() > rest ? rest: item.getAmount();
+                                                BlockStorage.getInventory(b).replaceExistingItem(43, new CustomItem(item, BlockStorage.getInventory(b).getItemInSlot(43).getAmount() + amt));
+                                                d.getInventory().setItem(slot, InvUtils.decreaseItem(item, amt));
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                        case FARM_FORWARD: {
+                            BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                            Block block = b.getRelative(face);
+                            farm(b, block);
+                            break;
+                        }
+                        case FARM_DOWN: {
+                            Block block = b.getRelative(BlockFace.DOWN);
+                            farm(b, block);
+                            break;
+                        }
+                        case FARM_EXOTIC_FORWARD: {
+                            BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                            Block block = b.getRelative(face);
+                            exoticFarm(b, block);
+                            break;
+                        }
+                        case FARM_EXOTIC_DOWN: {
+                            Block block = b.getRelative(BlockFace.DOWN);
+                            exoticFarm(b, block);
+                            break;
+                        }
+                        case CHOP_TREE: {
+                            BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                            Block block = b.getRelative(face);
+                            if (MaterialHelper.isLog( block.getType())) {
+                                List<Location> list = new ArrayList<Location>();
+                                list.add(block.getLocation());
+                                TreeCalculator.getTree(block.getLocation(), block.getLocation(), list);
+                                if (!list.isEmpty()) {
+                                    refresh = false;
+                                    Block log = list.get(list.size() - 1).getBlock();
+                                    Collection<ItemStack> drops = log.getDrops();
+                                    log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+                                    if (!drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), log)) {
+                                        ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
+                                        if (fits(b, items)) {
+                                            pushItems(b, items);
+                                            log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+                                            if (log.getY() == block.getY()) {
+                                                log.setType(MaterialHelper.getSaplingFromLog(log.getType()));
+                                            }
+                                            else log.setType(Material.AIR);
+                                        }
 
-								}
-		        			}
-						}
-	        			break;
-					}
-					case ATTACK_MOBS_ANIMALS: {
-						double damage = getTier() < 2 ? 20D : 4D * getTier();
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                        case ATTACK_MOBS_ANIMALS: {
+                            double damage = getTier() < 2 ? 20D : 4D * getTier();
 
-						entities:
-						for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
-							switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-							case NORTH: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                            entities:
+                            for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+                                switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
+                                    case NORTH: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case EAST: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case EAST: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case SOUTH: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case SOUTH: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case WEST: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case WEST: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							default:
-								break;
-							}
-						}
-						break;
-					}
-					case ATTACK_MOBS: {
-						double damage = getTier() < 2 ? 20D : 4D * getTier();
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    default:
+                                        break;
+                                }
+                            }
+                            break;
+                        }
+                        case ATTACK_MOBS: {
+                            double damage = getTier() < 2 ? 20D : 4D * getTier();
 
-						entities:
-						for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
-							if (n instanceof Animals) continue;
-							switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-							case NORTH: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                            entities:
+                            for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+                                if (n instanceof Animals) continue;
+                                switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
+                                    case NORTH: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case EAST: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case EAST: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case SOUTH: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case SOUTH: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case WEST: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case WEST: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							default:
-								break;
-							}
-						}
-						break;
-					}
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    default:
+                                        break;
+                                }
+                            }
+                            break;
+                        }
 
-					case ATTACK_ANIMALS: {
-						double damage = getTier() < 2 ? 20D : 4D * getTier();
+                        case ATTACK_ANIMALS: {
+                            double damage = getTier() < 2 ? 20D : 4D * getTier();
 
-						entities:
-						for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
-							if (n instanceof Monster) continue;
-							switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-							case NORTH: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                            entities:
+                            for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+                                if (n instanceof Monster) continue;
+                                switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
+                                    case NORTH: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case EAST: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case EAST: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case SOUTH: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case SOUTH: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case WEST: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case WEST: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							default:
-								break;
-							}
-						}
-						break;
-					}
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    default:
+                                        break;
+                                }
+                            }
+                            break;
+                        }
 
-					case ATTACK_ANIMALS_ADULT: {
-						double damage = getTier() < 2 ? 20D : 4D * getTier();
+                        case ATTACK_ANIMALS_ADULT: {
+                            double damage = getTier() < 2 ? 20D : 4D * getTier();
 
-						entities:
-						for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
-							if (n instanceof Monster) continue;
-							if (n instanceof org.bukkit.entity.Ageable && !((org.bukkit.entity.Ageable) n).isAdult()) continue;
-							switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-							case NORTH: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                            entities:
+                            for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+                                if (n instanceof Monster) continue;
+                                if (n instanceof org.bukkit.entity.Ageable && !((org.bukkit.entity.Ageable) n).isAdult()) continue;
+                                switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
+                                    case NORTH: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case EAST: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case EAST: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case SOUTH: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case SOUTH: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							case WEST: {
-								if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
-									if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-									n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    case WEST: {
+                                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
+                                            if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+                                            n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
 
-									((LivingEntity) n).damage(damage);
-									break entities;
-								}
-								break;
-							}
-							default:
-								break;
-							}
-						}
-						break;
-					}
-					default:
-						break;
-					}
-				}
-				if (refresh) BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                                            ((LivingEntity) n).damage(damage);
+                                            break entities;
+                                        }
+                                        break;
+                                    }
+                                    default:
+                                        break;
+                                }
+                            }
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                }
+                if (refresh) BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
 			}
 		}
 	}
@@ -710,15 +712,20 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
 			SlimefunItem item = BlockStorage.check(block);
+            boolean allow = false;
+
 			if (item != null) {
 				if (fits(b, item.getItem())) {
 					if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-						if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-							pushItems(b, BlockStorage.retrieve(block));
-							if (SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
-							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-							block.setType(Material.AIR);
-						}
+                        if (allow) {
+                            if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+                                pushItems(b, BlockStorage.retrieve(block));
+                                if (SlimefunItem.blockhandler.containsKey(item.getID()))
+                                    SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
+                                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+                                block.setType(Material.AIR);
+                            }
+                        }
 					}
 				}
 			}
