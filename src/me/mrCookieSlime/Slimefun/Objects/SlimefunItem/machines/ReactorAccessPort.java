@@ -193,6 +193,7 @@ public class ReactorAccessPort extends SlimefunItem {
 	
 	public AReactor getReactor(Location l) {
 		Location reactorL = new Location(l.getWorld(), l.getX(), l.getY() - 3, l.getZ());
+		
 		SlimefunItem item = BlockStorage.check(reactorL.getBlock());
 		if(item instanceof AReactor)
 			return (AReactor) item;
@@ -203,9 +204,7 @@ public class ReactorAccessPort extends SlimefunItem {
 	public BlockMenu getReactorMenu(Location l) {
 		Location reactorL = new Location(l.getWorld(), l.getX(), l.getY() - 3, l.getZ());
 		
-		SlimefunItem item = BlockStorage.check(reactorL);
-		
-		if(item != null && (item.getID().equals("NUCLEAR_REACTOR") || item.getID().equals("NETHERSTAR_REACTOR")))
+		if(BlockStorage.checkID(reactorL).equals("NUCLEAR_REACTOR") || BlockStorage.checkID(reactorL).equals("NETHERSTAR_REACTOR"))
 			return BlockStorage.getInventory(reactorL);
 		
 		return null;
