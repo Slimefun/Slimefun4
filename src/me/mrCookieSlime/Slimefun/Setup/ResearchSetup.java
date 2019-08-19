@@ -237,5 +237,6 @@ public class ResearchSetup {
 	    Slimefun.registerResearch(new Research(239, "Automatic Ignition Chamber", 12), SlimefunItems.IGNITION_CHAMBER);
 	    Slimefun.registerResearch(new Research(240, "Basic machinery output chest", 20), SlimefunItems.OUTPUT_CHEST);
 	    Slimefun.registerResearch(new Research(241, "Thinned-down Conductivity", 15), SlimefunItems.COPPER_WIRE);
+	    Slimefun.registerResearch(new Research(242, "Radiant Backpack", 25), SlimefunItems.RADIANT_BACKPACK);
 	}
 }
