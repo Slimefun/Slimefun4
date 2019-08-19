@@ -7,7 +7,7 @@ website: http://TheBusyBiscuit.github.io/
 main: me.mrCookieSlime.Slimefun.SlimefunStartup
 softdepend: [CS-CoreLib, ClearLag, WorldEdit]
 
-api-version: 1.13
+api-version: 1.14
 
 commands:
   slimefun:
