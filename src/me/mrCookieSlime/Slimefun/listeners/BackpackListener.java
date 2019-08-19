@@ -83,7 +83,7 @@ public class BackpackListener implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+			ItemStack item = e.getItem();
 			Player p = e.getPlayer();
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_SMALL, false)) {
 				e.setCancelled(true);
