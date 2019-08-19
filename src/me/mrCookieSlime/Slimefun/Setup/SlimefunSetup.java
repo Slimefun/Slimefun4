@@ -1892,6 +1892,9 @@ public class SlimefunSetup {
 									ItemStack log = p.getInventory().getItemInMainHand();
 									
 									ItemStack item =  new ItemStack(MaterialHelper.getWoodFromLog(log.getType()), 8);
+									if(item == null || item.getType() == Material.AIR) {
+										return false;
+									}
 									b.getWorld().dropItemNaturally(b.getLocation(), item);
 									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
 									log.setAmount(log.getAmount() -1);
