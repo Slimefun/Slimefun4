@@ -2228,6 +2228,48 @@ public class SlimefunSetup {
 			}
 		});
 
+		new SlimefunItem(Categories.TOOLS, SlimefunItems.EXPLOSIVE_SHOVEL, "EXPLOSIVE_SHOVEL", RecipeType.MAGIC_WORKBENCH,
+				new ItemStack[] {null, SlimefunItems.SYNTHETIC_DIAMOND, null, null, new ItemStack(Material.TNT), null, null, SlimefunItems.FERROSILICON, null},
+				new String[] {"unbreakable-blocks", "damage-on-use"}, new Object[] {Arrays.asList("BEDROCK", "BARRIER", "COMMAND", "COMMAND_CHAIN", "COMMAND_REPEATING"), Boolean.FALSE })
+				.register(true, new BlockBreakHandler() {
+
+					@Override
+					public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
+						if (SlimefunManager.isItemSimiliar(item, SlimefunItems.EXPLOSIVE_SHOVEL, true)) {
+							e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
+							e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+							for (int x = -1; x <= 1; x++) {
+								for (int y = -1; y <= 1; y++) {
+									for (int z = -1; z <= 1; z++) {
+										Block b = e.getBlock().getRelative(x, y, z);
+										if (MaterialHelper.isDiggable(b.getType())) {
+											if (CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
+												if (SlimefunStartup.instance.isCoreProtectInstalled()) SlimefunStartup.instance.getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
+												b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+
+												for (ItemStack drop: b.getDrops()) {
+													b.getWorld().dropItemNaturally(b.getLocation(), drop);
+												}
+												b.setType(Material.AIR);
+
+												if (damageOnUse) {
+													if (!item.getEnchantments().containsKey(Enchantment.DURABILITY) || SlimefunStartup.randomize(100) <= (60 + 40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
+														PlayerInventory.damageItemInHand(e.getPlayer());
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+
+							PlayerInventory.update(e.getPlayer());
+							return true;
+						}
+						else return false;
+					}
+				});
+
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.AUTOMATED_PANNING_MACHINE, "AUTOMATED_PANNING_MACHINE",
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null},
 		new ItemStack[] {new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE}, Material.OAK_TRAPDOOR)
