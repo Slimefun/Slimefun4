@@ -40,5 +40,8 @@ if you add too much content to Slimefun 4, you should rather make an Addon for i
 
 Check the license for more Info on redistributing and modifying Slimefun 4.
 
-### Contributors
-[Here is a list of all people who contributed to Slimefun 4 by submitting Code.](https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors)
+<p align="center">
+  <a href="https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors">
+    <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/TheBusyBiscuit/Slimefun4?style=for-the-badge">
+  </a>
+</p>
