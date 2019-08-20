@@ -7,7 +7,7 @@ It adds a whole new Layer of Survival to your Server by adding more than 400+ ne
 
 <p align="center">
   <a href="https://bstats.org/plugin/bukkit/Slimefun">
-    <img alt="bStats Servers" src="https://img.shields.io/bstats/servers/4574?color=%2344AD44&label=Servers%20using%20Slimefun4%20right%20now&logo=https%3A%2F%2Fimg.shields.io%2Fbstats%2Fservers%2F4574%3Fcolor%3D%252344AD44%26label%3DServers%2520using%2520Slimefun%2520right%2520now%26style%3Dfor-the-badge&style=for-the-badge">
+    <img alt="bStats Servers" src="https://img.shields.io/bstats/servers/4574?color=%2344AD44&label=Servers%20using%20Slimefun4&logo=https%3A%2F%2Fimg.shields.io%2Fbstats%2Fservers%2F4574%3Fcolor%3D%252344AD44%26label%3DServers%2520using%2520Slimefun%2520right%2520now%26style%3Dfor-the-badge&style=for-the-badge">
   </a>
 </p>
 
