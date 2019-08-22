@@ -90,7 +90,7 @@ public class UniversalBlockMenu extends ChestMenu {
 	}
 	
 	public void close() {
-		for(HumanEntity human: new ArrayList<>(toInventory().getViewers())) {
+		for (HumanEntity human: new ArrayList<>(toInventory().getViewers())) {
 			human.closeInventory();
 		}
 	}

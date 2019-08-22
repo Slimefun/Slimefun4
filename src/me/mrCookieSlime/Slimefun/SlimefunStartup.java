@@ -54,6 +54,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
@@ -155,19 +156,19 @@ public class SlimefunStartup extends JavaPlugin {
 			researches = new Config(Files.RESEARCHES);
 			items = new Config(Files.ITEMS);
 			whitelist = new Config(Files.WHITELIST);
-			
+
 			// Setup Config and messages.yml
 			utils.setupLocalization();
 			config = utils.getConfig();
 			Messages.local = utils.getLocalization();
 			Messages.setup();
-			
+
 			// Setting up bStats
 			new Metrics(this);
-			
+
 			// Setting up the Auto-Updater
 			Updater updater;
-			
+
 			if (!getDescription().getVersion().startsWith("DEV - ")) {
 				// We are using an official build, use the BukkitDev Updater
 				updater = new BukkitUpdater(this, getFile(), 53485);
@@ -176,7 +177,7 @@ public class SlimefunStartup extends JavaPlugin {
 				// If we are using a development build, we want to switch to our custom 
 				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
 			}
-			
+
 			if (config.getBoolean("options.auto-update")) updater.start();
 
 			// Creating all necessary Folders
@@ -300,9 +301,9 @@ public class SlimefunStartup extends JavaPlugin {
 								// Check if player is wearing the hazmat suit
 								// If so, break the loop
 								if (SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
-									SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
-									SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
-									SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
+										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
+										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
+										SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
 									break;
 								}
 
@@ -371,20 +372,27 @@ public class SlimefunStartup extends JavaPlugin {
 			ticker.HALTED = true;
 			ticker.run();
 		}
-
-		try {
-			for (World world: Bukkit.getWorlds()) {
+		
+		for (World world: Bukkit.getWorlds()) {
+			try {
 				BlockStorage storage = BlockStorage.getStorage(world);
+				
 				if (storage != null) {
 					storage.save(true);
 				}
 				else {
 					System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
 				}
+			} catch (Exception x) {
+				x.printStackTrace();
 			}
-
-			SlimefunBackup.start();
-		} catch (Exception ignored) {}
+		}
+		
+		for (UniversalBlockMenu menu: BlockStorage.universal_inventories.values()) {
+			menu.save();
+		}
+		
+		SlimefunBackup.start();
 
 		// Prevent Memory Leaks
 		config = null;
