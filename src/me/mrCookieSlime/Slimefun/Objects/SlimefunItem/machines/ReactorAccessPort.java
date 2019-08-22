@@ -44,10 +44,6 @@ public class ReactorAccessPort extends SlimefunItem {
 
 			@Override
 			public void newInstance(BlockMenu menu, Block b) {
-				
-					if (BlockStorage.getLocationInfo(b.getLocation(), "reactor-port") == null){
-						BlockStorage.addBlockInfo(b, "reactor-port", "true");
-					}
 			}
 
 			@Override
