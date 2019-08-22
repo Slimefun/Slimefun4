@@ -141,7 +141,7 @@ public class EnergyNet extends Network {
 			EnergyHologram.update(b, "&4No Energy Network found");
 		}
 		else {
-			HashSet<Location> exploded = new HashSet<>();
+			Set<Location> exploded = new HashSet<>();
 			for (final Location source: input) {
 				long timestamp = System.currentTimeMillis();
 				SlimefunItem item = BlockStorage.check(source);
