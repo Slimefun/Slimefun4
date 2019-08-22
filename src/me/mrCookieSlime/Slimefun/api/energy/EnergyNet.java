@@ -141,12 +141,14 @@ public class EnergyNet extends Network {
 			EnergyHologram.update(b, "&4No Energy Network found");
 		}
 		else {
+			Set<Location> exploded = new HashSet<>();
 			for (final Location source: input) {
 				long timestamp = System.currentTimeMillis();
 				SlimefunItem item = BlockStorage.check(source);
 				double energy = item.getEnergyTicker().generateEnergy(source, item, BlockStorage.getLocationInfo(source));
 
 				if (item.getEnergyTicker().explode(source)) {
+					exploded.add(source); 
 					BlockStorage.clearBlockInfo(source);
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
 						source.getBlock().setType(Material.LAVA);
@@ -158,6 +160,8 @@ public class EnergyNet extends Network {
 				}
 				TickerTask.block_timings.put(source, System.currentTimeMillis() - timestamp);
 			}
+
+			input.removeAll(exploded);
 
 			for (Location battery: storage) {
 				supply = supply + ChargableBlock.getCharge(battery);
