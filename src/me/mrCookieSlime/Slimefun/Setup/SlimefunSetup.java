@@ -2689,7 +2689,9 @@ public class SlimefunSetup {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
 					EntityType type = null;
 					for (String line: item.getItemMeta().getLore()) {
-						if (ChatColor.stripColor(line).startsWith("Type: ")) type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(" ", "_").toUpperCase());
+						if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>"))
+							type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(" ", "_").toUpperCase());
+						
 					}
 					if (type != null) {
 						CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
