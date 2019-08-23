@@ -230,9 +230,9 @@ public class ToolListener implements Listener {
 		if (!drops.isEmpty() && e.isDropItems()) {
 			e.getBlock().setType(Material.AIR);
 			for (ItemStack drop : drops) {
-				if (drop != null) {
+				if (drop != null) 
 					e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
-				}
+				
 			}
 		}
 	}

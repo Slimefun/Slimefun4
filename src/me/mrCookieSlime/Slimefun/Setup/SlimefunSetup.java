@@ -2710,22 +2710,8 @@ public class SlimefunSetup {
 				}
 				else return false;
 			}
-		}); /*, new BlockBreakHandler() {
-
-			
-			@Override
-			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				SlimefunItem spawner = BlockStorage.check(e.getBlock());
-				if (spawner != null && SlimefunManager.isItemSimiliar(spawner.getItem(), SlimefunItems.REPAIRED_SPAWNER, false)) {
-					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true))
-						return false;
-					BlockStorage.clearBlockInfo(e.getBlock());
-					return true;
-				}
-				else return false;
-			}
-		});*/
-
+		});
+		
 		new EnhancedFurnace(1, 1, 1, SlimefunItems.ENHANCED_FURNACE, "ENHANCED_FURNACE",
 		new ItemStack[] {null, SlimefunItems.BASIC_CIRCUIT_BOARD, null, SlimefunItems.HEATING_COIL, new ItemStack(Material.FURNACE), SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
 		.register(true);
