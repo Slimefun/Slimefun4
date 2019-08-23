@@ -76,7 +76,7 @@ public class ItemListener implements Listener {
 	}
 
 	@EventHandler
-	public void onGrindstone(InventoryClickEvent e){
+	public void onGrindstone(InventoryClickEvent e) {
 		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.GRINDSTONE) {
 			ItemStack slot0 = e.getInventory().getContents()[0];
 			ItemStack slot1 = e.getInventory().getContents()[1];

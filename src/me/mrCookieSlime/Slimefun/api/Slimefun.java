@@ -37,9 +37,9 @@ public class Slimefun {
 	 * Whether EmeraldEnchants is enabled or not.
 	 */
 	public static boolean emeraldenchants = false;
-    /**
-     * Lists all the registered categories.
-     */
+	/**
+	 * Lists all the registered categories.
+	 */
 	public static List<Category> current_categories = new ArrayList<Category>();
 
 	public static void registerGuideHandler(GuideHandler handler) {
@@ -94,24 +94,24 @@ public class Slimefun {
 		return SlimefunStartup.getItemCfg();
 	}
 
-    /**
-     * Registers this Research and automatically binds these ItemStacks to it.
-     * <p>
-     * This convenience method spares from doing the code below:
-     * <pre>
-     *     {@code
-     *		Research r = new Research(7, "Glowstone Armor", 3);
-     *		r.addItems(SlimefunItem.getByItem(SlimefunItems.GLOWSTONE_HELMET),
+	/**
+	 * Registers this Research and automatically binds these ItemStacks to it.
+	 * <p>
+	 * This convenience method spares from doing the code below:
+	 * <pre>
+	 *     {@code
+	 *		Research r = new Research(7, "Glowstone Armor", 3);
+	 *		r.addItems(SlimefunItem.getByItem(SlimefunItems.GLOWSTONE_HELMET),
 	 *		           SlimefunItem.getByItem(SlimefunItems.GLOWSTONE_CHESTPLATE),
 	 *		           SlimefunItem.getByItem(SlimefunItems.GLOWSTONE_LEGGINGS),
 	 *		           SlimefunItem.getByItem(SlimefunItems.GLOWSTONE_BOOTS));
 	 *		r.register();
 	 *     }*
-     * </pre>
+	 * </pre>
 
-     * @param  research  the research to register, not null
-     * @param  items     the items to bind, not null
-     */
+	 * @param  research  the research to register, not null
+	 * @param  items     the items to bind, not null
+	 */
 	public static void registerResearch(Research research, ItemStack... items) {
 		for (ItemStack item: items) {
 			research.addItems(SlimefunItem.getByItem(item));
@@ -132,6 +132,7 @@ public class Slimefun {
 	public static boolean hasUnlocked(Player p, ItemStack item, boolean message) {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		State state = SlimefunItem.getState(item);
+
 		if (sfItem == null) {
 			if (state != State.ENABLED) {
 				if (message && state != State.VANILLA) Messages.local.sendTranslation(p, "messages.disabled-item", true);
@@ -176,7 +177,7 @@ public class Slimefun {
 	 * Checks if this player has the permission to use this item.
 	 *
 	 * @param  p        the player to check, not null
- 	 * @param  item     the item to check, null returns <code>true</code>
+	 * @param  item     the item to check, null returns <code>true</code>
 	 * @param  message  whether a message should be sent to the player or not
 	 *
 	 * @return <code>true</code> if the item is not null and if the player has the permission to use it,
@@ -265,12 +266,12 @@ public class Slimefun {
 		return ids;
 	}
 
-    /**
-     * Returns a list of all the ItemStacks representing the registered categories.
-     *
-     * @return the list of the display items of all the registered categories.
-     * @see #current_categories
-     */
+	/**
+	 * Returns a list of all the ItemStacks representing the registered categories.
+	 *
+	 * @return the list of the display items of all the registered categories.
+	 * @see #current_categories
+	 */
 	public static List<ItemStack> listCategories() {
 		List<ItemStack> items = new ArrayList<ItemStack>();
 		for (Category c: Category.list()) {
@@ -279,57 +280,57 @@ public class Slimefun {
 		return items;
 	}
 
-    /**
-     * Binds this description to the SlimefunItem corresponding to this id.
-     *
-     * @param  id           the id of the SlimefunItem, not null
-     * @param  description  the description, not null
-     *
-     * @deprecated As of 4.1.10, renamed to {@link #addHint(String, String...)} for better name convenience.
-     */
+	/**
+	 * Binds this description to the SlimefunItem corresponding to this id.
+	 *
+	 * @param  id           the id of the SlimefunItem, not null
+	 * @param  description  the description, not null
+	 *
+	 * @deprecated As of 4.1.10, renamed to {@link #addHint(String, String...)} for better name convenience.
+	 */
 	@Deprecated
 	public static void addDescription(String id, String... description) {
 		getItemConfig().setDefaultValue(id + ".description", Arrays.asList(description));
 	}
 
-    /**
-     * Binds this hint to the SlimefunItem corresponding to this id.
-     *
-     * @param  id    the id of the SlimefunItem, not null
-     * @param  hint  the hint, not null
-     *
-     * @since 4.1.10, rename of {@link #addDescription(String, String...)}.
-     */
+	/**
+	 * Binds this hint to the SlimefunItem corresponding to this id.
+	 *
+	 * @param  id    the id of the SlimefunItem, not null
+	 * @param  hint  the hint, not null
+	 *
+	 * @since 4.1.10, rename of {@link #addDescription(String, String...)}.
+	 */
 	public static void addHint(String id, String... hint) {
-        getItemConfig().setDefaultValue(id + ".hint", Arrays.asList(hint));
-    }
+		getItemConfig().setDefaultValue(id + ".hint", Arrays.asList(hint));
+	}
 
-    /**
-     * Binds this YouTube link to the SlimefunItem corresponding to this id.
-     *
-     * @param  id    the id of the SlimefunItem, not null
-     * @param  link  the link of the YouTube video, not null
-     */
+	/**
+	 * Binds this YouTube link to the SlimefunItem corresponding to this id.
+	 *
+	 * @param  id    the id of the SlimefunItem, not null
+	 * @param  link  the link of the YouTube video, not null
+	 */
 	public static void addYoutubeVideo(String id, String link) {
 		getItemConfig().setDefaultValue(id + ".youtube", link);
 	}
 
-    /**
-     * Binds this link as a Wiki page to the SlimefunItem corresponding to this id.
-     *
-     * @param  id    the id of the SlimefunItem, not null
-     * @param  link  the link of the Wiki page, not null
-     */
+	/**
+	 * Binds this link as a Wiki page to the SlimefunItem corresponding to this id.
+	 *
+	 * @param  id    the id of the SlimefunItem, not null
+	 * @param  link  the link of the Wiki page, not null
+	 */
 	public static void addWikiPage(String id, String link) {
 		getItemConfig().setDefaultValue(id + ".wiki", link);
 	}
 
-    /**
-     * Convenience method to simplify binding an official Wiki page to the SlimefunItem corresponding to this id.
-     *
-     * @param  id    the id of the SlimefunItem, not null
-     * @param  page  the ending of the link corresponding to the page, not null
-     */
+	/**
+	 * Convenience method to simplify binding an official Wiki page to the SlimefunItem corresponding to this id.
+	 *
+	 * @param  id    the id of the SlimefunItem, not null
+	 * @param  page  the ending of the link corresponding to the page, not null
+	 */
 	public static void addOfficialWikiPage(String id, String page) {
 		addWikiPage(id, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
 	}

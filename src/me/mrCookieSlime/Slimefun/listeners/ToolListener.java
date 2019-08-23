@@ -1,10 +1,15 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -21,7 +26,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Variables;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -39,8 +43,17 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class ToolListener implements Listener {
 	
+	// Materials that require a Block under it, e.g. Pressure Plates
+	private final Set<Material> sensitiveMaterials = new HashSet<>();
+	
 	public ToolListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		
+		sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
+		sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
+		sensitiveMaterials.add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
+		Tag.SAPLINGS.getValues().forEach((mat) -> sensitiveMaterials.add(mat));
+		Tag.WOODEN_PRESSURE_PLATES.getValues().forEach((mat) -> sensitiveMaterials.add(mat));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -49,14 +62,20 @@ public class ToolListener implements Listener {
 			e.setCancelled(true);
 			return;
 		}
+		
 		ItemStack item = e.getItemInHand();
+		
+		// Why does this "Ink Sack" check exist??
 		if (item != null && item.getType() == Material.INK_SAC) return;
+		
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		if (sfItem != null && !(sfItem instanceof NotPlaceable)) {
+		if (sfItem != null && !sfItem.isDisabled() && !(sfItem instanceof NotPlaceable)) {
 			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
+			
 			if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 				SlimefunItem.blockhandler.get(sfItem.getID()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
-			} else {
+			} 
+			else {
 				for (ItemHandler handler : SlimefunItem.getHandlers("BlockPlaceHandler")) {
 					if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) break;
 				}
@@ -112,7 +131,7 @@ public class ToolListener implements Listener {
 			e.setCancelled(true);
 			PlayerInventory.consumeItemInHand(e.getPlayer());
 			FireworkShow.launchRandom(e.getPlayer(), 3);
-			List<ItemStack> gifts = new ArrayList<ItemStack>();
+			List<ItemStack> gifts = new ArrayList<>();
 			for (int i = 0; i < 2; i++) {
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
@@ -176,13 +195,14 @@ public class ToolListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent e) {
 		boolean allow = true;
-		List<ItemStack> drops = new ArrayList<ItemStack>();
+		List<ItemStack> drops = new ArrayList<>();
 		ItemStack item = e.getPlayer().getEquipment().getItemInMainHand();
 		int fortune = 1;
 		
 		Block block2 = e.getBlock().getRelative(BlockFace.UP);
-		if (StringUtils.equals(block2.getType().toString(), "SAPLING", "WOOD_PLATE", "STONE_PLATE", "IRON_PLATE", "GOLD_PLATE")) { // ToDo: 1.13 Material names
+		if (sensitiveMaterials.contains(block2.getType())) {
 			SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
+			
 			if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 				if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 					allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
@@ -199,12 +219,14 @@ public class ToolListener implements Listener {
 		}
 
 		SlimefunItem sfItem = BlockStorage.check(e.getBlock());
+		
 		if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 			if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
 				allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
-			} else {
+			} 
+			else {
 				// Walk over all registered block break handlers until one says that it'll handle it.
-				for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
+				for (ItemHandler handler: SlimefunItem.getHandlers("BlockBreakHandler")) {
 					if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 				}
 			}
@@ -222,6 +244,7 @@ public class ToolListener implements Listener {
 				if (fortune <= 0) fortune = 1;
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + SlimefunStartup.randomize(5) : 1) * (fortune + 1);
 			}
+			
 			for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
 				if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 			}
@@ -229,6 +252,7 @@ public class ToolListener implements Listener {
 		
 		if (!drops.isEmpty()) {
 			e.getBlock().setType(Material.AIR);
+			
 			for (ItemStack drop : drops) {
 				if (drop != null) {
 					e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
@@ -240,6 +264,7 @@ public class ToolListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent e) {
 		Iterator<Block> blocks = e.blockList().iterator();
+		
 		while (blocks.hasNext()) {
 			Block block = blocks.next();
 			SlimefunItem item = BlockStorage.check(block);

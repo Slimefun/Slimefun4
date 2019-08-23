@@ -22,8 +22,8 @@ public class GuideOnJoinListener implements Listener {
 			if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
 			if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
 			
-			p.getInventory().addItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book")
-					? SlimefunGuide.getItem(BookDesign.BOOK) : SlimefunGuide.getItem(BookDesign.CHEST));
+			BookDesign type = SlimefunStartup.getCfg().getBoolean("guide.default-view-book") ? BookDesign.BOOK : BookDesign.CHEST;
+			p.getInventory().addItem(SlimefunGuide.getItem(type));
 		}
 	}
 

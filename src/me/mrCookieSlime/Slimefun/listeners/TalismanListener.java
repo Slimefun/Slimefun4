@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -29,9 +22,19 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TalismanListener implements Listener {
 	
@@ -73,9 +76,38 @@ public class TalismanListener implements Listener {
 		}
 	}
 	
+	private final int[] armorSlots = {39, 38, 37, 36};
+	
 	@EventHandler
 	public void onItemBreak(PlayerItemBreakEvent e) {
-		if (Talisman.checkFor(e, SlimefunItem.getByID("ANVIL_TALISMAN"))) e.getBrokenItem().setAmount(1);
+		if (Talisman.checkFor(e, SlimefunItem.getByID("ANVIL_TALISMAN"))) {
+			PlayerInventory inv = e.getPlayer().getInventory();
+			int slot = inv.getHeldItemSlot();
+			
+			// Did the tool in our hand broke or was it an Armorpiece?
+			if (!inv.getItem(inv.getHeldItemSlot()).equals(e.getBrokenItem())) {
+				for (int s: armorSlots) {
+					if (inv.getItem(s).equals(e.getBrokenItem())) {
+						slot = s;
+						break;
+					}
+				}
+			}
+			
+			final ItemStack item = e.getBrokenItem().clone();
+			ItemMeta meta = item.getItemMeta();
+			
+			if (meta instanceof Damageable) {
+				((Damageable) meta).setDamage(0);
+			}
+			
+			item.setItemMeta(meta);
+			
+			final int itemSlot = slot;
+			SlimefunStartup.instance.getServer().getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+				inv.setItem(itemSlot, item);
+			}, 1L);
+		}
 	}
 	
 	@EventHandler
@@ -86,7 +118,7 @@ public class TalismanListener implements Listener {
 	@EventHandler
 	public void onEnchant(EnchantItemEvent e) {
 		if (Talisman.checkFor(e, SlimefunItem.getByID("MAGICIAN_TALISMAN"))) {
-			List<String> enchantments = new ArrayList<String>();
+			List<String> enchantments = new ArrayList<>();
 			for (Enchantment en : Enchantment.values()) {
 				for (int i = 1; i <= en.getMaxLevel(); i++) {
 					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i) && en.canEnchantItem(e.getItem())) enchantments.add(en.getKey().getKey() + "-" + i);
@@ -114,7 +146,7 @@ public class TalismanListener implements Listener {
 	 */
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		List<ItemStack> drops = new ArrayList<ItemStack>();
+		List<ItemStack> drops = new ArrayList<>();
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		int fortune = 1;
 
@@ -128,7 +160,7 @@ public class TalismanListener implements Listener {
 			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE")) {
 				if (Talisman.checkFor(e, SlimefunItem.getByID("MINER_TALISMAN"))) {
 					if (drops.isEmpty()) drops = (List<ItemStack>) e.getBlock().getDrops();
-					for (ItemStack drop : new ArrayList<ItemStack>(drops)) {
+					for (ItemStack drop : new ArrayList<>(drops)) {
 						if (!drop.getType().isBlock()) drops.add(new CustomItem(drop, fortune * 2));
 					}
 				}
