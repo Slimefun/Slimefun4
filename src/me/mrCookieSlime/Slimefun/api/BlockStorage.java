@@ -34,6 +34,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 public class BlockStorage {
+	
 	private static final String path_blocks = "data-storage/Slimefun/stored-blocks/";
 	private static final String path_chunks = "data-storage/Slimefun/stored-chunks/";
 
@@ -187,7 +188,10 @@ public class BlockStorage {
 			if (file.getName().endsWith(".sfi")) {
 				Config cfg = new Config(file);
 				BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
-				universal_inventories.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
+				
+				if (preset != null) {
+					universal_inventories.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
+				}
 			}
 		}
 	}
@@ -322,7 +326,7 @@ public class BlockStorage {
 		
 		if (json != null && json.length() > 2) {
 			JsonParser parser = new JsonParser();
-			JsonObject obj = (JsonObject) parser.parse(json);
+			JsonObject obj = parser.parse(json).getAsJsonObject();
 			for (Map.Entry<String, JsonElement> entry: obj.entrySet()) {
 				map.put(entry.getKey(), entry.getValue().getAsString());
 			}
@@ -352,6 +356,7 @@ public class BlockStorage {
 		}
 		return json.toString();
 	}
+	
 	private static String getJSONData(Chunk chunk) {
 		return map_chunks.get(serializeChunk(chunk));
 	}

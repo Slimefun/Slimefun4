@@ -216,8 +216,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				boolean allow =  reason.equals(UnregisterReason.PLAYER_BREAK) && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
 
-				if (BlockStorage.hasBlockInfo(b)) return false;
-
 				if (allow) {
 					BlockMenu inv = BlockStorage.getInventory(b);
 					if (inv != null) {
