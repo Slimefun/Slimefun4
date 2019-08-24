@@ -1858,7 +1858,7 @@ public class SlimefunSetup {
 					return true;
 				}
 				else {
-					e.setDropItems(false);
+					if (e.getBlock().getType() == Material.SPAWNER) e.setDropItems(false);
 					return false;
 				}
 			}
