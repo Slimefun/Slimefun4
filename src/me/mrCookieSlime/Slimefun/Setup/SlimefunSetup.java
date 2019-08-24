@@ -1840,9 +1840,11 @@ public class SlimefunSetup {
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
 					Block b = e.getBlock(); // Refactored it into this so we don't need to call e.getBlock() all the time.
-					if (b.getType() != Material.SPAWNER || BlockStorage.hasBlockInfo(b)) return true; 
+					if (b.getType() != Material.SPAWNER) return true; 
 					// If the spawner's BlockStorage has BlockInfo, then it's not a vanilla spawner and shouldn't give a broken spawner.
 					ItemStack spawner = SlimefunItems.BROKEN_SPAWNER.clone();
+					if(BlockStorage.hasBlockInfo(b))
+						spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
 					ItemMeta im = spawner.getItemMeta();
 					List<String> lore = im.getLore();
 					for (int i = 0; i < lore.size(); i++) {
@@ -1852,9 +1854,13 @@ public class SlimefunSetup {
 					spawner.setItemMeta(im);
 					b.getLocation().getWorld().dropItemNaturally(b.getLocation(), spawner);
 					e.setExpToDrop(0);
+					e.setDropItems(false);
 					return true;
 				}
-				else return false;
+				else {
+					e.setDropItems(false);
+					return false;
+				}
 			}
 		});
 
@@ -2698,19 +2704,6 @@ public class SlimefunSetup {
 						spawner.setSpawnedType(type);
 						spawner.update(true, false);
 					}
-					return true;
-				}
-				else return false;
-			}
-		}, new BlockBreakHandler() {
-
-			@Override
-			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				SlimefunItem spawner = BlockStorage.check(e.getBlock());
-				if (spawner != null && SlimefunManager.isItemSimiliar(spawner.getItem(), SlimefunItems.REPAIRED_SPAWNER, false)) {
-					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true))
-						return false;
-					BlockStorage.clearBlockInfo(e.getBlock());
 					return true;
 				}
 				else return false;
