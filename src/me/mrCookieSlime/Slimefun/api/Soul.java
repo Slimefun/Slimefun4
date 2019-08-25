@@ -9,6 +9,7 @@ import me.mrCookieSlime.Slimefun.Variables;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+@Deprecated
 public class Soul {
 	
 	public static void storeItem(UUID uuid, ItemStack drop) {
