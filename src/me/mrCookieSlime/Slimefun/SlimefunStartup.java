@@ -29,7 +29,6 @@ import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GitHub.Contributor;
 import me.mrCookieSlime.Slimefun.GitHub.GitHubConnector;
 import me.mrCookieSlime.Slimefun.GitHub.GitHubSetup;
-import me.mrCookieSlime.Slimefun.Hashing.ItemHash;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -44,9 +43,8 @@ import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
-import me.mrCookieSlime.Slimefun.WorldEdit.WESlimefunManager;
-import me.mrCookieSlime.Slimefun.api.AutoSavingTask;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
@@ -57,6 +55,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
+import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
+import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
@@ -78,6 +78,7 @@ import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
+import me.mrCookieSlime.Slimefun.worldedit.WESlimefunManager;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
@@ -198,7 +199,7 @@ public class SlimefunStartup extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 
 			System.out.println("[Slimefun] Loading Researches...");
-			Research.enabled = getResearchCfg().getBoolean("enable-researching");
+			Research.enableResearching = getResearchCfg().getBoolean("enable-researching");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
@@ -326,8 +327,10 @@ public class SlimefunStartup extends JavaPlugin {
 
 			ticker = new TickerTask();
 
+			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+
 			// Starting all ASYNC Tasks
-			getServer().getScheduler().runTaskTimerAsynchronously(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
 			getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
@@ -340,7 +343,6 @@ public class SlimefunStartup extends JavaPlugin {
 			System.out.println("[Slimefun] Finished!");
 
 			clearlag = getServer().getPluginManager().isPluginEnabled("ClearLag");
-
 			coreProtect = getServer().getPluginManager().isPluginEnabled("CoreProtect");
 
 			getServer().getScheduler().runTaskLater(this, () -> {
@@ -372,6 +374,10 @@ public class SlimefunStartup extends JavaPlugin {
 			ticker.HALTED = true;
 			ticker.run();
 		}
+		
+		PlayerProfile.iterator().forEachRemaining((profile) -> {
+			if (profile.isDirty()) profile.save();
+		});
 		
 		for (World world: Bukkit.getWorlds()) {
 			try {
@@ -452,8 +458,7 @@ public class SlimefunStartup extends JavaPlugin {
 		GitHubConnector.connectors = null;
 		Contributor.textures = null;
 		ChestManipulator.listeners = null;
-		ItemHash.digest = null;
-		ItemHash.map = null;
+		PlayerProfile.profiles = null;
 
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();

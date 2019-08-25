@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -22,7 +23,6 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.Hopper;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
@@ -147,6 +147,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
 import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
 import me.mrCookieSlime.Slimefun.api.Backpacks;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
@@ -2902,10 +2903,10 @@ public class SlimefunSetup {
 					return true;
 				}
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, false)) {
-					List<Research> researches = Research.getResearches(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
-					for (Research research: researches) {
-						research.unlock(p, true);
-					}
+					PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
+					Set<Research> researches = PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)))).getResearches();
+					researches.forEach((research) -> profile.setResearched(research, true));
+					
 					PlayerInventory.consumeItemInHand(p);
 					return true;
 				}

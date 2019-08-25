@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.WorldEdit;
+package me.mrCookieSlime.Slimefun.worldedit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

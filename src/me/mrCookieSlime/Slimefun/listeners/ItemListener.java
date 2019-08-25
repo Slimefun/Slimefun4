@@ -102,6 +102,7 @@ public class ItemListener implements Listener {
 	public void debug(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.PHYSICAL) || !e.getHand().equals(EquipmentSlot.HAND)) return;
 		Player p = e.getPlayer();
+		
 		if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
 			e.setCancelled(true);
 			if (p.isOp()) {

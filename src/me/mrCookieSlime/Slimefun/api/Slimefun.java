@@ -26,8 +26,8 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
  */
 public class Slimefun {
 
-	public static Map<Integer, List<GuideHandler>> guide_handlers = new HashMap<Integer, List<GuideHandler>>();
-	public static List<GuideHandler> guide_handlers2 = new ArrayList<GuideHandler>();
+	public static Map<Integer, List<GuideHandler>> guide_handlers = new HashMap<>();
+	public static List<GuideHandler> guide_handlers2 = new ArrayList<>();
 
 	/**
 	 * Instance of the GPSNetwork.
@@ -40,10 +40,10 @@ public class Slimefun {
 	/**
 	 * Lists all the registered categories.
 	 */
-	public static List<Category> current_categories = new ArrayList<Category>();
+	public static List<Category> current_categories = new ArrayList<>();
 
 	public static void registerGuideHandler(GuideHandler handler) {
-		List<GuideHandler> handlers = new ArrayList<GuideHandler>();
+		List<GuideHandler> handlers = new ArrayList<>();
 		if (guide_handlers.containsKey(handler.getTier())) handlers = guide_handlers.get(handler.getTier());
 		handlers.add(handler);
 		guide_handlers.put(handler.getTier(), handlers);
@@ -142,7 +142,7 @@ public class Slimefun {
 		}
 		else if (isEnabled(p, item, message) && hasPermission(p, sfItem, message)) {
 			if (sfItem.getResearch() == null) return true;
-			else if (sfItem.getResearch().hasUnlocked(p)) return true;
+			else if (PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(sfItem.getResearch())) return true;
 			else {
 				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.not-researched", true);
 				return false;
@@ -164,7 +164,7 @@ public class Slimefun {
 	public static boolean hasUnlocked(Player p, SlimefunItem sfItem, boolean message) {
 		if (isEnabled(p, sfItem, message) && hasPermission(p, sfItem, message)) {
 			if (sfItem.getResearch() == null) return true;
-			else if (sfItem.getResearch().hasUnlocked(p)) return true;
+			else if (PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(sfItem.getResearch())) return true;
 			else {
 				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.not-researched", true);
 				return false;
