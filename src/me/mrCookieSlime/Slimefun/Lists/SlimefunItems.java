@@ -533,7 +533,7 @@ public class SlimefunItems {
 	public static ItemStack BUCKET_OF_FUEL = null;
 	public static ItemStack OIL_PUMP = null;
 
-	public static ItemStack REFINERY = new CustomItem(Material.PISTON, "&cRefinery", "", "&rRefines Oil to create Fuel");
+	public static ItemStack REFINERY = new CustomItem(Material.PISTON, "&cRefinery", "", "&rRefines Oil to create Fuel", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &720 J/s");
 	public static ItemStack COMBUSTION_REACTOR = null;
 	public static ItemStack ANDROID_MEMORY_CORE = null;
 	
@@ -616,7 +616,7 @@ public class SlimefunItems {
 
 	public static ItemStack NUCLEAR_REACTOR = null;
 	public static ItemStack NETHERSTAR_REACTOR = null;
-	public static ItemStack REACTOR_ACCESS_PORT = new CustomItem(Material.CYAN_TERRACOTTA, "&2Reactor Access Port", "", "&rAllows you to interact with a Reactor", "&rvia Cargo Nodes, can also be used", "&ras a Buffer", "", "&8\u21E8 &eMust be placed &a3 Blocks &eabove the Reactor");
+	public static ItemStack REACTOR_ACCESS_PORT = new CustomItem(Material.CYAN_TERRACOTTA, "&2Reactor Access Port", "", "&rAllows you to interact with a Reactor", "&rvia Cargo Nodes, can also be used", "&ras a Buffer", "", "&8\u21E8 &eMust be placed &a3 Blocks &eabove the Reactor", "&7Right click after placed to view reactor", "&7Shift right click after placed to view port");
 	
 	public static ItemStack FREEZER = new CustomItem(Material.LIGHT_BLUE_STAINED_GLASS, "&bFreezer", "", "&6Advanced Machine", "&8\u21E8 &7Speed: 1x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &718 J/s");;
 	public static ItemStack FREEZER_2 = new CustomItem(Material.LIGHT_BLUE_STAINED_GLASS, "&bFreezer &7(&eII&7)", "", "&4End-Game Machine", "&8\u21E8 &7Speed: 2x", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &730 J/s");;
