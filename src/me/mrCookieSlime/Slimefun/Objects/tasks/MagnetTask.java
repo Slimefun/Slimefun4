@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.tasks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -22,6 +23,11 @@ public class MagnetTask extends SlimefunTask {
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected boolean cancelTask() {
+		return super.cancelTask() ? true: p.getGameMode() != GameMode.SPECTATOR;
 	}
 
 }
