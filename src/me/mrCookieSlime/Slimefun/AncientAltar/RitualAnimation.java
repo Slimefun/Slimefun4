@@ -41,7 +41,7 @@ public class RitualAnimation implements Runnable {
 		this.output = output;
 		this.pedestals = pedestals;
 		this.items = items;
-		this.particles = new ArrayList<Location>();
+		this.particles = new ArrayList<>();
 
 		this.running = true;
 		this.stage = 0;
@@ -54,26 +54,31 @@ public class RitualAnimation implements Runnable {
 	@Override
 	public void run() {
 		idle();
+		
 		if(!checkLockedItems()) {
 			abort();
 			return;
 		}
+		
 		if(this.stage == 36) {
 			finish();
 			return;
 		}
+		
 		if(this.stage > 0 && this.stage % 4 == 0) {
 			checkPedestal(pedestals.get(this.stage / 4 - 1));
 		}
+		
 		this.stage += 1;
 		SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, this, 8);
 	}
 
 	private boolean checkLockedItems() {
-		
-		for(Item itm:this.itemLock.keySet())
-			if(itm.getLocation().distance(this.itemLock.get(itm)) > 0.3)
+		for (Item item : this.itemLock.keySet()) {
+			if (item.getLocation().distance(this.itemLock.get(item)) > 0.3) {
 				return false;
+			}
+		}
 			
 		return true;
 	}
@@ -82,6 +87,7 @@ public class RitualAnimation implements Runnable {
 		try {
 			l.getWorld().spawnParticle(Particle.SPELL_WITCH, l,16, 1.2F, 0F, 1.2F);
 			l.getWorld().spawnParticle(Particle.FIREWORKS_SPARK,l,8, 0.2F, 0F, 0.2F);
+			
 			for (Location l2: particles) {
 				l.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, l2,16, 0.3F, 0.2F, 0.3F);
 				l.getWorld().spawnParticle(Particle.CRIT_MAGIC,l2,8, 0.3F, 0.2F, 0.3F);
@@ -94,11 +100,9 @@ public class RitualAnimation implements Runnable {
 	private void checkPedestal(Block pedestal) {
 		Item item = AncientAltarListener.findItem(pedestal);
 		
-		
 		if(item == null || itemLock.remove(item) == null) {	
 			abort();
 		}
-		
 		else {
 			particles.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
 			items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
@@ -121,7 +125,7 @@ public class RitualAnimation implements Runnable {
 	private void abort() {
 		running = false;
     
-		pedestals.forEach((pblock)->{
+		pedestals.forEach((pblock)-> {
 			Variables.altarinuse.remove(pblock.getLocation());
 		});
     

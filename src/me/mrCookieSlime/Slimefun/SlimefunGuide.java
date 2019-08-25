@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -424,7 +425,7 @@ public class SlimefunGuide {
 			);
 			
 			List<Category> categories = Slimefun.current_categories;
-			List<GuideHandler> handlers = Slimefun.guide_handlers2;
+			List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(list -> list.stream()).collect(Collectors.toList());
 			
 			int index = 9;
 			int pages = 1;
