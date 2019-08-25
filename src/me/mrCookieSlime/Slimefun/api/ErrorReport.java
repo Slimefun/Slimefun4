@@ -28,8 +28,10 @@ public class ErrorReport {
 			file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(" + try_count + ").err");
 		}
 		
+		PrintStream stream = null;
+		
 		try {
-			PrintStream stream = new PrintStream(file);
+			stream = new PrintStream(file);
 			stream.println();
 			stream.println("Java Environment:");
 			stream.println("  Operating System: " + System.getProperty("os.name"));
@@ -88,10 +90,10 @@ public class ErrorReport {
 			stream.println("Stacktrace:");
 			stream.println();
 			x.printStackTrace(stream);
-			
-			stream.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} finally {
+			if (stream != null) stream.close();
 		}
 	}
 

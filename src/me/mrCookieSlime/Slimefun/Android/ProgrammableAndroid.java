@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -381,12 +381,13 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								for (int slot: getOutputSlots()) {
 									ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);
 									if (stack != null) {
-										Map<Integer, ItemStack> items = d.getInventory().addItem(stack);
-										if (items.isEmpty()) {
-											BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+										Optional<ItemStack> optional = d.getInventory().addItem(stack).values().stream().findFirst();
+										
+										if (optional.isPresent()) {
+											BlockStorage.getInventory(b).replaceExistingItem(slot, optional.get());
 										}
 										else {
-											BlockStorage.getInventory(b).replaceExistingItem(slot, items.values().stream().findFirst().get());
+											BlockStorage.getInventory(b).replaceExistingItem(slot, null);
 										}
 									}
 								}
