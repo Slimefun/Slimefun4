@@ -145,7 +145,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
 import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
-import me.mrCookieSlime.Slimefun.api.Backpacks;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -278,9 +277,11 @@ public class SlimefunSetup {
 												if (id.equals("")) {
 													for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
 														if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+															int backpackID = PlayerProfile.fromUUID(p.getUniqueId()).createBackpack(size).getID();
+															
 															ItemMeta im = adding.getItemMeta();
 															List<String> lore = im.getLore();
-															lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, size)));
+															lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + backpackID));
 															im.setLore(lore);
 															adding.setItemMeta(im);
 															break;
@@ -1229,9 +1230,11 @@ public class SlimefunSetup {
 												if (id.equals("")) {
 													for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
 														if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+															int backpackID = PlayerProfile.fromUUID(p.getUniqueId()).createBackpack(size).getID();
+															
 															ItemMeta im = adding.getItemMeta();
 															List<String> lore = im.getLore();
-															lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, size)));
+															lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + backpackID));
 															im.setLore(lore);
 															adding.setItemMeta(im);
 															break;

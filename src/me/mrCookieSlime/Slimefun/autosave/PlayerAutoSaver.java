@@ -21,7 +21,7 @@ public class PlayerAutoSaver implements Runnable {
 			
 			if (profile.isMarkedForDeletion()) iterator.remove();
 		}
-		System.out.println(players);
+		
 		if (players > 0) {
 			System.out.println("[Slimefun] Auto-Saved Player Data for " + players + " Player(s)!");
 		}
