@@ -34,6 +34,10 @@
   			<id>CodeMC</id>
   			<url>https://repo.codemc.org/repository/maven-public</url>
 		</repository>
+		<repository>
+            <id>placeholderapi-repo</id>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
     
     <build>
@@ -110,12 +114,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
-    		<version>7.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
     		<version>v1.6.1</version>
@@ -133,6 +131,18 @@
   			<version>1.5</version>
   			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+    		<version>7.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+        	<groupId>me.clip</groupId>
+          	<artifactId>placeholderapi</artifactId>
+          	<version>2.10.3</version>
+         	<scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>

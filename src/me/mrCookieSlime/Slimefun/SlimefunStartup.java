@@ -57,6 +57,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
+import me.mrCookieSlime.Slimefun.hooks.PlaceholderAPIHook;
 import me.mrCookieSlime.Slimefun.hooks.WorldEditHook;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
@@ -191,6 +192,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 			System.out.println("[Slimefun] Loading Items...");
 			MiscSetup.setupItemSettings();
+			
 			try {
 				SlimefunSetup.setupItems();
 			} catch (Exception e1) {
@@ -268,6 +270,10 @@ public class SlimefunStartup extends JavaPlugin {
 					System.err.println("[Slimefun] Failed to hook into WorldEdit!");
 					System.err.println("[Slimefun] Maybe consider updating WorldEdit or Slimefun?");
 				}
+			}
+			
+			if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+				new PlaceholderAPIHook().register();
 			}
 
 			getCommand("slimefun").setExecutor(new SlimefunCommand(this));
