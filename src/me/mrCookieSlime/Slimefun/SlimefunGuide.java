@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,7 +58,7 @@ public class SlimefunGuide {
 	public static Map<UUID, List<Object>> history = new HashMap<>();
 	public static int month = 0;
 	
-	public static List<Contributor> contributors = new ArrayList<Contributor>();
+	public static List<Contributor> contributors = new ArrayList<>();
 	public static int issues = 0;
 	public static int forks = 0;
 	/**
@@ -68,7 +69,7 @@ public class SlimefunGuide {
 	public static int code_bytes = 0;
 	public static Date last_update = new Date();
 
-	static boolean all_recipes = true;
+	protected static boolean all_recipes = true;
 	private static final int category_size = 36;
 
 	@Deprecated
@@ -78,15 +79,12 @@ public class SlimefunGuide {
 
 	public static ItemStack getItem(BookDesign design) {
 		switch (design) {
-		case BOOK: {
+		case BOOK:
 			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Book GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
-		}
-		case CHEAT_SHEET: {
+		case CHEAT_SHEET:
 			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&cSlimefun Guide &4(Cheat Sheet)", "", "&4&lOnly openable by Admins", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
-		}
-		case CHEST: {
+		case CHEST:
 			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Chest GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
-		}
 		default:
 			return null;
 		}
@@ -424,7 +422,7 @@ public class SlimefunGuide {
 			);
 			
 			List<Category> categories = Slimefun.current_categories;
-			List<GuideHandler> handlers = Slimefun.guide_handlers2;
+			List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(list -> list.stream()).collect(Collectors.toList());
 			
 			int index = 9;
 			int pages = 1;

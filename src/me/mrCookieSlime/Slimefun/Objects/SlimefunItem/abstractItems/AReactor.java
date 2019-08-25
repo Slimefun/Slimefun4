@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -41,8 +42,8 @@ import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 
 public abstract class AReactor extends SlimefunItem {
 
-	public static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
-	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
+	public static Map<Location, MachineFuel> processing = new HashMap<>();
+	public static Map<Location, Integer> progress = new HashMap<>();
 
 	private static final BlockFace[] cooling =
 		{
@@ -56,7 +57,7 @@ public abstract class AReactor extends SlimefunItem {
 				BlockFace.NORTH_WEST
 		};
 
-	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
+	private Set<MachineFuel> recipes = new HashSet<>();
 
 	private static final int[] border = {0, 1, 2, 3, 5, 6, 7, 8, 12, 13, 14, 21, 23};
 	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
@@ -446,14 +447,14 @@ public abstract class AReactor extends SlimefunItem {
 
 	public ItemStack pushItems(Location l, ItemStack item, int[] slots) {
 		Inventory inv = inject(l, slots);
-		Map<Integer, ItemStack> map = inv.addItem(item);
+		Optional<ItemStack> optional = inv.addItem(item).values().stream().findFirst();
 
 		for (int slot : slots) {
 			BlockStorage.getInventory(l).replaceExistingItem(slot, inv.getItem(slot));
 		}
 
-		if (map.isEmpty()) return null;
-		else return map.values().stream().findFirst().get();
+		if (optional.isPresent()) return optional.get();
+		else return null;
 	}
 
 	public abstract ItemStack getProgressBar();

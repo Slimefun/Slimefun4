@@ -27,16 +27,17 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
 public class Slimefun {
 
 	public static Map<Integer, List<GuideHandler>> guide_handlers = new HashMap<>();
-	public static List<GuideHandler> guide_handlers2 = new ArrayList<>();
 
 	/**
 	 * Instance of the GPSNetwork.
 	 */
 	private static GPSNetwork gps = new GPSNetwork();
+	
 	/**
 	 * Whether EmeraldEnchants is enabled or not.
 	 */
 	public static boolean emeraldenchants = false;
+	
 	/**
 	 * Lists all the registered categories.
 	 */
@@ -47,7 +48,6 @@ public class Slimefun {
 		if (guide_handlers.containsKey(handler.getTier())) handlers = guide_handlers.get(handler.getTier());
 		handlers.add(handler);
 		guide_handlers.put(handler.getTier(), handlers);
-		guide_handlers2.add(handler);
 	}
 
 	/**

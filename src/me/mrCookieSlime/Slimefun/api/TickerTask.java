@@ -206,6 +206,10 @@ public class TickerTask implements Runnable {
 		
 		time = System.currentTimeMillis() - timestamp;
 	}
+	
+	public long getTime() {
+		return time;
+	}
 
 	public void info(CommandSender sender) {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2== &aSlimefun Diagnostic Tool &2=="));

@@ -51,14 +51,28 @@ public class PlayerProfile {
 		return uuid;
 	}
 	
+	/**
+	 * This method returns whether the Player has logged off.
+	 * If this is true, then the Profile can be removed from RAM.
+	 * 
+	 * @return	Whether the Profile is marked for deletion
+	 */
 	public boolean isMarkedForDeletion() {
 		return markedForDeletion;
 	}
 	
+	/**
+	 * This method returns whether the Profile has unsaved changes
+	 * 
+	 * @return	Whether there are unsaved changes
+	 */
 	public boolean isDirty() {
 		return dirty;
 	}
 	
+	/**
+	 * This method will save the Player's Researches and Backpacks to the hard drive
+	 */
 	public void save() {
 		for (BackpackInventory backpack: backpacks.values()) {
 			backpack.save();
@@ -68,6 +82,13 @@ public class PlayerProfile {
 		dirty = false;
 	}
 	
+	/**
+	 * This method sets the Player's "researched" status for this Research.
+	 * Use the boolean to unlock or lock the Research
+	 * 
+	 * @param research	The Research that should be unlocked or locked
+	 * @param unlock	Whether the Research should be unlocked or locked
+	 */
 	public void setResearched(Research research, boolean unlock) {
 		dirty = true;
 		
@@ -81,6 +102,12 @@ public class PlayerProfile {
 		}
 	}
 	
+	/**
+	 * This method returns whether the Player has unlocked the given Research
+	 * 
+	 * @param research	The Research that is being queried
+	 * @return			Whether this Research has been unlocked
+	 */
 	public boolean hasUnlocked(Research research) {
 		return !research.isEnabled() || researches.contains(research);
 	}
@@ -128,6 +155,12 @@ public class PlayerProfile {
 			backpacks.put(id, backpack);
 			return backpack;
 		}
+	}
+
+	public String getTitle() {
+		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0f) / Research.titles.size())))));
+		if (index > 0) index--;
+		return Research.titles.get(index);
 	}
 	
 	public static PlayerProfile fromUUID(UUID uuid) {
