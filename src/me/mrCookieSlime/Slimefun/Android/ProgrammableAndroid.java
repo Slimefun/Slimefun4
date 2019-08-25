@@ -48,7 +48,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Android.ScriptComparators.ScriptReputationSorter;
+import me.mrCookieSlime.Slimefun.Android.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -249,7 +249,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 		if (BlockStorage.getLocationInfo(b.getLocation(), "paused").equals("false")) {
 			float fuel = Float.parseFloat(BlockStorage.getLocationInfo(b.getLocation(), "fuel"));
-			if (fuel == 0) {
+			if (fuel < 0.001) {
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(43);
 				if (item != null) {
 					for (MachineFuel recipe: recipes) {
@@ -382,12 +382,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 									ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);
 									if (stack != null) {
 										Map<Integer, ItemStack> items = d.getInventory().addItem(stack);
-										if (items.isEmpty()) BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+										if (items.isEmpty()) {
+											BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+										}
 										else {
-											for (Map.Entry<Integer, ItemStack> entry: items.entrySet()) {
-												BlockStorage.getInventory(b).replaceExistingItem(slot, entry.getValue());
-												break;
-											}
+											BlockStorage.getInventory(b).replaceExistingItem(slot, items.values().stream().findFirst().get());
 										}
 									}
 								}
@@ -1257,7 +1256,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	public float getScriptRating(Config script) {
 		int positive = getScriptRating(script, true) + 1;
 		int negative = getScriptRating(script, false);
-		return Math.round((positive / (positive + negative)) * 100.0f) / 100.0f;
+		return Math.round((positive / (double) (positive + negative)) * 100.0f) / 100.0f;
 	}
 
 	private int getScriptRating(Config script, boolean positive) {

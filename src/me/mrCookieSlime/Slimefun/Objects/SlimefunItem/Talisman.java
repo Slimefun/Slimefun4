@@ -89,7 +89,7 @@ public class Talisman extends SlimefunItem {
         }
 
         Player p = getPlayerByEventType(e);
-        if (!pass(p, talisman)) {
+        if (p == null || !pass(p, talisman)) {
             return false;
         }
 
@@ -97,13 +97,17 @@ public class Talisman extends SlimefunItem {
             if (Slimefun.hasUnlocked(p, talisman.getItem(), true)) {
                 executeTalismanAttributes(e,p,talisman);
                 return true;
-            } else return false;
-        } else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
+            } 
+            else return false;
+        } 
+        else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
             if (Slimefun.hasUnlocked(p, talisman.upgrade(), true)) {
                 executeTalismanAttributes(e,p,talisman);
                 return true;
-            } else return false;
-        } else return false;
+            } 
+            else return false;
+        } 
+        else return false;
 
     }
 
@@ -173,6 +177,7 @@ public class Talisman extends SlimefunItem {
         else if (e instanceof PlayerEvent) return ((PlayerEvent) e).getPlayer();
         else if (e instanceof EntityEvent) return (Player) ((EntityEvent) e).getEntity();
         else if (e instanceof EnchantItemEvent) return ((EnchantItemEvent) e).getEnchanter();
+        
         return null;
     }
 
@@ -180,6 +185,7 @@ public class Talisman extends SlimefunItem {
         for (PotionEffect effect : ((Talisman) talisman).getEffects()) {
             if (effect != null && p.hasPotionEffect(effect.getType())) return false;
         }
+        
         return true;
     }
 

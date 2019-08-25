@@ -452,11 +452,8 @@ public abstract class AReactor extends SlimefunItem {
 			BlockStorage.getInventory(l).replaceExistingItem(slot, inv.getItem(slot));
 		}
 
-		for (Map.Entry<Integer, ItemStack> entry : map.entrySet()) {
-			return entry.getValue();
-		}
-
-		return null;
+		if (map.isEmpty()) return null;
+		else return map.values().stream().findFirst().get();
 	}
 
 	public abstract ItemStack getProgressBar();

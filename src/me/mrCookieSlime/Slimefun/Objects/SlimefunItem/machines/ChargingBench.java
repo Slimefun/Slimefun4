@@ -72,7 +72,7 @@ public class ChargingBench extends AContainer {
 				if (ItemEnergy.getStoredEnergy(stack) < ItemEnergy.getMaxEnergy(stack)) {
 
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
-					float rest = ItemEnergy.addStoredEnergy(stack, getEnergyConsumption() / 2);
+					float rest = ItemEnergy.addStoredEnergy(stack, getEnergyConsumption() / 2F);
 					if (rest > 0F) {
 						if (fits(b, new ItemStack[] {stack})) {
 							pushItems(b, new ItemStack[] {stack});

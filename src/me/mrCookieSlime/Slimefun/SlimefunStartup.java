@@ -57,6 +57,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
+import me.mrCookieSlime.Slimefun.hooks.WorldEditHook;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
@@ -78,7 +79,6 @@ import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
-import me.mrCookieSlime.Slimefun.worldedit.WESlimefunManager;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
@@ -262,7 +262,7 @@ public class SlimefunStartup extends JavaPlugin {
 			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
 				try {
 					Class.forName("com.sk89q.worldedit.extent.Extent");
-					new WESlimefunManager();
+					new WorldEditHook();
 					System.out.println("[Slimefun] Successfully hooked into WorldEdit!");
 				} catch (Exception x) {
 					System.err.println("[Slimefun] Failed to hook into WorldEdit!");
