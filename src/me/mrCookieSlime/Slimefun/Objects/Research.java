@@ -54,6 +54,11 @@ public class Research {
 	public static List<Research> list = new LinkedList<>();
 	
 	/**
+	 * Contains all Research Titles
+	 */
+	public static List<String> titles;
+	
+	/**
 	 * Contains all the players (UUIDs) that are currently unlocking a research.
 	 * @since 4.0
 	 */
@@ -395,9 +400,9 @@ public class Research {
 	 */
 	@Deprecated
 	public static String getTitle(Player p, Set<Research> researched) {
-		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0f) / list().size()) * 100.0f) / 100.0f)) / 100.0F) *  SlimefunStartup.getCfg().getStringList("research-ranks").size();
+		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0f) / list().size()) * 100.0f) / 100.0f)) / 100.0F) * titles.size();
 		if (index > 0) index--;
-		return SlimefunStartup.getCfg().getStringList("research-ranks").get(index);
+		return titles.get(index);
 	}
 
 	/**

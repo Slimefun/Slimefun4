@@ -156,6 +156,12 @@ public class PlayerProfile {
 			return backpack;
 		}
 	}
+
+	public String getTitle() {
+		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0f) / Research.titles.size())))));
+		if (index > 0) index--;
+		return Research.titles.get(index);
+	}
 	
 	public static PlayerProfile fromUUID(UUID uuid) {
 		PlayerProfile profile = profiles.get(uuid);

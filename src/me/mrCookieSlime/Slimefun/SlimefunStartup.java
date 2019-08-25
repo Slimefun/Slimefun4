@@ -20,8 +20,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
 import me.mrCookieSlime.Slimefun.CSCoreLibSetup.CSCoreLibLoader;
-import me.mrCookieSlime.Slimefun.Commands.SlimefunCommand;
-import me.mrCookieSlime.Slimefun.Commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
@@ -57,6 +55,8 @@ import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
+import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
+import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.hooks.PlaceholderAPIHook;
 import me.mrCookieSlime.Slimefun.hooks.WorldEditHook;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
@@ -360,7 +360,8 @@ public class SlimefunStartup extends JavaPlugin {
 			if (coreProtect) coreProtectAPI = ((CoreProtect) getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
 
 			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
-
+			Research.titles = config.getStringList("research-ranks");
+			
 			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
 
 			SlimefunSetup.legacy_ore_washer = config.getBoolean("options.legacy-ore-washer");

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Commands;
+package me.mrCookieSlime.Slimefun.commands;
 
 import java.util.ArrayList;
 import java.util.List;
