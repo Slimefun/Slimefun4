@@ -1,10 +1,11 @@
-package me.mrCookieSlime.Slimefun.api;
+package me.mrCookieSlime.Slimefun.api.inventory;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 public class BackpackInventory {
 	
@@ -17,7 +18,7 @@ public class BackpackInventory {
 	/**
 	 * This constructor loads an existing Backpack
 	 */
-	protected BackpackInventory(PlayerProfile profile, int id) {
+	public BackpackInventory(PlayerProfile profile, int id) {
 		this(profile, id, profile.getConfig().getInt("backpacks." + id + ".size"));
 		
 		for (int i = 0; i < size; i++) {
@@ -28,7 +29,7 @@ public class BackpackInventory {
 	/**
 	 * This constructor creates a new Backpack
 	 */
-	protected BackpackInventory(PlayerProfile profile, int id, int size) {
+	public BackpackInventory(PlayerProfile profile, int id, int size) {
 		this.profile = profile;
 		this.id = id;
 		this.cfg = profile.getConfig();
@@ -61,6 +62,15 @@ public class BackpackInventory {
 	public void setSize(int size) {
 		this.size = size;
 		cfg.setValue("backpacks." + id + ".size", size);
+		
+		Inventory inventory = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
+		
+		for (int slot = 0; slot < this.inventory.getSize(); slot++) {
+			inventory.setItem(slot, this.inventory.getItem(slot));
+		}
+		
+		this.inventory = inventory;
+		
 		markDirty();
 	}
 

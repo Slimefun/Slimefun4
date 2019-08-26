@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.Research;
+import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
 
 /**
  * A class that can store a Player's Research Profile for caching
@@ -43,7 +44,7 @@ public class PlayerProfile {
 		}
 	}
 	
-	protected Config getConfig() {
+	public Config getConfig() {
 		return cfg;
 	}
 	
