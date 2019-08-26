@@ -1,6 +1,5 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -266,9 +265,7 @@ public class SlimefunSetup {
 													for (String line: backpack.getItemMeta().getLore()) {
 														if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 															id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-															Config cfg = new Config(new File("data-storage/Slimefun/Players/" + id.split("#")[0] + ".yml"));
-															cfg.setValue("backpacks." + id.split("#")[1] + ".size", size);
-															cfg.save();
+															PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
 															break;
 														}
 													}
@@ -1219,9 +1216,7 @@ public class SlimefunSetup {
 													for (String line: backpack.getItemMeta().getLore()) {
 														if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 															id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-															Config cfg = new Config(new File("data-storage/Slimefun/Players/" + id.split("#")[0] + ".yml"));
-															cfg.setValue("backpacks." + id.split("#")[1] + ".size", size);
-															cfg.save();
+															PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
 															break;
 														}
 													}

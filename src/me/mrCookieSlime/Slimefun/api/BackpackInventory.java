@@ -58,6 +58,12 @@ public class BackpackInventory {
 		}
 	}
 
+	public void setSize(int size) {
+		this.size = size;
+		cfg.setValue("backpacks." + id + ".size", size);
+		markDirty();
+	}
+
 	public void save() {
 		for (int i = 0; i < size; i++) {
 			cfg.setValue("backpacks." + id + ".contents." + i, inventory.getItem(i));
