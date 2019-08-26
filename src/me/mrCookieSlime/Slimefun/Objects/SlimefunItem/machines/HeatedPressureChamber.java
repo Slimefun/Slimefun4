@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
@@ -139,15 +140,14 @@ public abstract class HeatedPressureChamber extends AContainer {
 		super.register(slimefun);
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
-		        item.setDurability(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
+				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
 				List<String> lore = new ArrayList<String>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
 				lore.add("");

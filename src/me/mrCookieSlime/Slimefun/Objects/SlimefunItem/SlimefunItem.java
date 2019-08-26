@@ -274,7 +274,7 @@ public class SlimefunItem {
 	}
 
 	public void bindToResearch(Research r) {
-		if (r != null) r.getEffectedItems().add(this);
+		if (r != null) r.getAffectedItems().add(this);
 		this.research = r;
 	}
 

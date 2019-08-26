@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.GitHub;
+package me.mrCookieSlime.Slimefun.hooks.github;
 
 import java.io.BufferedReader;
 import java.io.File;

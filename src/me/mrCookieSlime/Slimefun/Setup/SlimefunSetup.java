@@ -1,10 +1,10 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -22,7 +22,6 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.Hopper;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
@@ -145,8 +144,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
 import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
-import me.mrCookieSlime.Slimefun.api.Backpacks;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
@@ -266,9 +265,7 @@ public class SlimefunSetup {
 													for (String line: backpack.getItemMeta().getLore()) {
 														if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 															id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-															Config cfg = new Config(new File("data-storage/Slimefun/Players/" + id.split("#")[0] + ".yml"));
-															cfg.setValue("backpacks." + id.split("#")[1] + ".size", size);
-															cfg.save();
+															PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
 															break;
 														}
 													}
@@ -277,9 +274,11 @@ public class SlimefunSetup {
 												if (id.equals("")) {
 													for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
 														if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+															int backpackID = PlayerProfile.fromUUID(p.getUniqueId()).createBackpack(size).getID();
+															
 															ItemMeta im = adding.getItemMeta();
 															List<String> lore = im.getLore();
-															lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, size)));
+															lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + backpackID));
 															im.setLore(lore);
 															adding.setItemMeta(im);
 															break;
@@ -1217,9 +1216,7 @@ public class SlimefunSetup {
 													for (String line: backpack.getItemMeta().getLore()) {
 														if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 															id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-															Config cfg = new Config(new File("data-storage/Slimefun/Players/" + id.split("#")[0] + ".yml"));
-															cfg.setValue("backpacks." + id.split("#")[1] + ".size", size);
-															cfg.save();
+															PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
 															break;
 														}
 													}
@@ -1228,9 +1225,11 @@ public class SlimefunSetup {
 												if (id.equals("")) {
 													for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
 														if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+															int backpackID = PlayerProfile.fromUUID(p.getUniqueId()).createBackpack(size).getID();
+															
 															ItemMeta im = adding.getItemMeta();
 															List<String> lore = im.getLore();
-															lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, size)));
+															lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + backpackID));
 															im.setLore(lore);
 															adding.setItemMeta(im);
 															break;
@@ -1840,9 +1839,11 @@ public class SlimefunSetup {
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
 					Block b = e.getBlock(); // Refactored it into this so we don't need to call e.getBlock() all the time.
-					if (b.getType() != Material.SPAWNER || BlockStorage.hasBlockInfo(b)) return true; 
+					if (b.getType() != Material.SPAWNER) return true; 
 					// If the spawner's BlockStorage has BlockInfo, then it's not a vanilla spawner and shouldn't give a broken spawner.
 					ItemStack spawner = SlimefunItems.BROKEN_SPAWNER.clone();
+					if(BlockStorage.hasBlockInfo(b))
+						spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
 					ItemMeta im = spawner.getItemMeta();
 					List<String> lore = im.getLore();
 					for (int i = 0; i < lore.size(); i++) {
@@ -1852,9 +1853,13 @@ public class SlimefunSetup {
 					spawner.setItemMeta(im);
 					b.getLocation().getWorld().dropItemNaturally(b.getLocation(), spawner);
 					e.setExpToDrop(0);
+					e.setDropItems(false);
 					return true;
 				}
-				else return false;
+				else {
+					if (e.getBlock().getType() == Material.SPAWNER) e.setDropItems(false);
+					return false;
+				}
 			}
 		});
 
@@ -2702,19 +2707,6 @@ public class SlimefunSetup {
 				}
 				else return false;
 			}
-		}, new BlockBreakHandler() {
-
-			@Override
-			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				SlimefunItem spawner = BlockStorage.check(e.getBlock());
-				if (spawner != null && SlimefunManager.isItemSimiliar(spawner.getItem(), SlimefunItems.REPAIRED_SPAWNER, false)) {
-					if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true))
-						return false;
-					BlockStorage.clearBlockInfo(e.getBlock());
-					return true;
-				}
-				else return false;
-			}
 		});
 
 		new EnhancedFurnace(1, 1, 1, SlimefunItems.ENHANCED_FURNACE, "ENHANCED_FURNACE",
@@ -2909,10 +2901,10 @@ public class SlimefunSetup {
 					return true;
 				}
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, false)) {
-					List<Research> researches = Research.getResearches(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
-					for (Research research: researches) {
-						research.unlock(p, true);
-					}
+					PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
+					Set<Research> researches = PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)))).getResearches();
+					researches.forEach((research) -> profile.setResearched(research, true));
+					
 					PlayerInventory.consumeItemInHand(p);
 					return true;
 				}

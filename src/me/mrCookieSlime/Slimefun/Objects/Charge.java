@@ -2,7 +2,8 @@ package me.mrCookieSlime.Slimefun.Objects;
 
 public class Charge {
 	
-	double charge, capacity;
+	private double charge;
+	private double capacity;
 	
 	public Charge(double charge, double capacity) {
 		this.charge = charge;

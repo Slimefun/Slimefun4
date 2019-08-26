@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
+@Deprecated
 public class Variables {
 	
 	public static Map<UUID, Boolean> jump_state = new HashMap<>();

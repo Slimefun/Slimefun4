@@ -204,12 +204,12 @@ public class BlockStorage {
 		
 		Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
 		for (Map.Entry<Location, BlockMenu> entry: inventories2.entrySet()) {
-			changes += entry.getValue().changes;
+			changes += entry.getValue().getUnsavedChanges();
 		}
 		
 		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<>(universal_inventories);
 		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
-			changes += entry.getValue().changes;
+			changes += entry.getValue().getUnsavedChanges();
 		}
 	}
 	
@@ -235,7 +235,8 @@ public class BlockStorage {
 			Config cfg = entry.getValue();
 			if (cfg.getKeys().isEmpty()) {
 				cfg.getFile().delete();
-			} else {
+			} 
+			else {
 				File tmpFile = new File(cfg.getFile().getParentFile(), cfg.getFile().getName() + ".tmp");
 				cfg.save(tmpFile);
 				try {

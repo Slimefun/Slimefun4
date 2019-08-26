@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.GitHub;
+package me.mrCookieSlime.Slimefun.hooks.github;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class IntegerFormat {
 	
-	private static SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public static String formatBigNumber(int i) {
 		return NumberFormat.getNumberInstance(Locale.US).format(i);

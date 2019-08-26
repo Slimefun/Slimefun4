@@ -20,16 +20,10 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
 import me.mrCookieSlime.Slimefun.CSCoreLibSetup.CSCoreLibLoader;
-import me.mrCookieSlime.Slimefun.Commands.SlimefunCommand;
-import me.mrCookieSlime.Slimefun.Commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
-import me.mrCookieSlime.Slimefun.GitHub.Contributor;
-import me.mrCookieSlime.Slimefun.GitHub.GitHubConnector;
-import me.mrCookieSlime.Slimefun.GitHub.GitHubSetup;
-import me.mrCookieSlime.Slimefun.Hashing.ItemHash;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -44,9 +38,8 @@ import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
-import me.mrCookieSlime.Slimefun.WorldEdit.WESlimefunManager;
-import me.mrCookieSlime.Slimefun.api.AutoSavingTask;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
@@ -57,6 +50,15 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
+import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
+import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
+import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
+import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
+import me.mrCookieSlime.Slimefun.hooks.PlaceholderAPIHook;
+import me.mrCookieSlime.Slimefun.hooks.WorldEditHook;
+import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
+import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
+import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
@@ -190,6 +192,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 			System.out.println("[Slimefun] Loading Items...");
 			MiscSetup.setupItemSettings();
+			
 			try {
 				SlimefunSetup.setupItems();
 			} catch (Exception e1) {
@@ -198,7 +201,7 @@ public class SlimefunStartup extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 
 			System.out.println("[Slimefun] Loading Researches...");
-			Research.enabled = getResearchCfg().getBoolean("enable-researching");
+			Research.enableResearching = getResearchCfg().getBoolean("enable-researching");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
@@ -261,12 +264,16 @@ public class SlimefunStartup extends JavaPlugin {
 			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
 				try {
 					Class.forName("com.sk89q.worldedit.extent.Extent");
-					new WESlimefunManager();
+					new WorldEditHook();
 					System.out.println("[Slimefun] Successfully hooked into WorldEdit!");
 				} catch (Exception x) {
 					System.err.println("[Slimefun] Failed to hook into WorldEdit!");
 					System.err.println("[Slimefun] Maybe consider updating WorldEdit or Slimefun?");
 				}
+			}
+			
+			if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+				new PlaceholderAPIHook().register();
 			}
 
 			getCommand("slimefun").setExecutor(new SlimefunCommand(this));
@@ -326,8 +333,10 @@ public class SlimefunStartup extends JavaPlugin {
 
 			ticker = new TickerTask();
 
+			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+
 			// Starting all ASYNC Tasks
-			getServer().getScheduler().runTaskTimerAsynchronously(this, new AutoSavingTask(), 1200L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
 			getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
@@ -340,7 +349,6 @@ public class SlimefunStartup extends JavaPlugin {
 			System.out.println("[Slimefun] Finished!");
 
 			clearlag = getServer().getPluginManager().isPluginEnabled("ClearLag");
-
 			coreProtect = getServer().getPluginManager().isPluginEnabled("CoreProtect");
 
 			getServer().getScheduler().runTaskLater(this, () -> {
@@ -352,7 +360,8 @@ public class SlimefunStartup extends JavaPlugin {
 			if (coreProtect) coreProtectAPI = ((CoreProtect) getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
 
 			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
-
+			Research.titles = config.getStringList("research-ranks");
+			
 			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
 
 			SlimefunSetup.legacy_ore_washer = config.getBoolean("options.legacy-ore-washer");
@@ -372,6 +381,10 @@ public class SlimefunStartup extends JavaPlugin {
 			ticker.HALTED = true;
 			ticker.run();
 		}
+		
+		PlayerProfile.iterator().forEachRemaining((profile) -> {
+			if (profile.isDirty()) profile.save();
+		});
 		
 		for (World world: Bukkit.getWorlds()) {
 			try {
@@ -452,8 +465,7 @@ public class SlimefunStartup extends JavaPlugin {
 		GitHubConnector.connectors = null;
 		Contributor.textures = null;
 		ChestManipulator.listeners = null;
-		ItemHash.digest = null;
-		ItemHash.map = null;
+		PlayerProfile.profiles = null;
 
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();

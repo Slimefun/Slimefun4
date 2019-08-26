@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -252,11 +250,11 @@ public class ToolListener implements Listener {
 		
 		if (!drops.isEmpty()) {
 			e.getBlock().setType(Material.AIR);
-			
-			for (ItemStack drop : drops) {
-				if (drop != null) {
-					e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
-				}
+			if(e.isDropItems())
+				for (ItemStack drop : drops) {
+					if (drop != null) 
+						e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+				
 			}
 		}
 	}

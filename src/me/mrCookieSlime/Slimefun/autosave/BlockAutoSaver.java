@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api;
+package me.mrCookieSlime.Slimefun.autosave;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,8 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class AutoSavingTask implements Runnable {
+public class BlockAutoSaver implements Runnable {
 	
 	@Override
 	public void run() {
@@ -26,7 +27,7 @@ public class AutoSavingTask implements Runnable {
 		}
 		
 		if (!worlds.isEmpty()) {
-			System.out.println("[Slimefun] Auto-Saving Data... (Next Auto-Save: " + SlimefunStartup.getCfg().getInt("options.auto-save-delay-in-minutes") + "m)");
+			System.out.println("[Slimefun] Auto-Saving Block Data... (Next Auto-Save: " + SlimefunStartup.getCfg().getInt("options.auto-save-delay-in-minutes") + "m)");
 			
 			for (BlockStorage storage: worlds) {
 				storage.save(false);

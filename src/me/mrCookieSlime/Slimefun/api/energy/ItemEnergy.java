@@ -48,7 +48,7 @@ public class ItemEnergy {
 		float rest = 0F;
 		float capacity = getMaxEnergy(item);
 
-		if (capacity == 0F) {
+		if ((int) capacity == 0) {
 			return rest;
 		}
 
@@ -76,7 +76,7 @@ public class ItemEnergy {
 			}
 		}
 
-		BigDecimal decimal = new BigDecimal(stored).setScale(2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal decimal = BigDecimal.valueOf(stored).setScale(2, BigDecimal.ROUND_HALF_UP);
 
 		lore.set(index, ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7") + decimal.floatValue() + " / " + capacity + " J");
 		
