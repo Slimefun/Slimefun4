@@ -98,9 +98,35 @@ public class ItemListener implements Listener {
 		}
 	}
 
+	/*
+	 * Handles Left click use and checks for disabled items.
+	 */
+	@EventHandler
+	public void enabledCheck(PlayerInteractEvent e) {
+		if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
+			return;
+		
+		ItemStack item = e.getItem();
+		
+		if(item == null) 
+			item = e.getPlayer().getInventory().getItemInMainHand();
+			
+		if(item == null)
+			item = e.getPlayer().getInventory().getItemInOffHand();
+			
+		if(item == null) 
+			return;
+		
+		
+		if(!Slimefun.isEnabled(e.getPlayer(), item, true)) 
+			e.setCancelled(true);
+		
+	}
 	@EventHandler
 	public void debug(PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.PHYSICAL) || !e.getHand().equals(EquipmentSlot.HAND)) return;
+		if (e.getAction().equals(Action.PHYSICAL) || !e.getHand().equals(EquipmentSlot.HAND)) {
+			return;
+		}
 		Player p = e.getPlayer();
 		
 		if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
