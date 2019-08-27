@@ -39,18 +39,18 @@ public class GPSNetwork {
 	private static final int[] teleporter_border = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private static final int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
-	public void updateTransmitter(Block b, UUID uuid, NetworkStatus status) {
+	public void updateTransmitter(Location l, UUID uuid, NetworkStatus status) {
 		Set<Location> set = new HashSet<>();
 		if (transmitters.containsKey(uuid)) set = transmitters.get(uuid);
 		
 		if (status == NetworkStatus.ONLINE) {
-			if (!set.contains(b.getLocation())) {
-				set.add(b.getLocation());
+			if (!set.contains(l)) {
+				set.add(l);
 				transmitters.put(uuid, set);
 			}
 		}
 		else {
-			set.remove(b.getLocation());
+			set.remove(l);
 			transmitters.put(uuid, set);
 		}
 	}
