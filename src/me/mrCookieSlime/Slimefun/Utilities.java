@@ -13,6 +13,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
+import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 
 /**
@@ -46,6 +47,8 @@ public final class Utilities {
 	
 	public Set<GitHubConnector> connectors = new HashSet<>();
 	public Map<String, String> contributorHeads = new HashMap<>();
+	
+	public List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 	
 	/**
 	 * Contains all the players (UUIDs) that are currently unlocking a research.

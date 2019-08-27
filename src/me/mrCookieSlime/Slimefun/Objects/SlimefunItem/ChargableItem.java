@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ChargableItem extends SlimefunItem {
 	
-	String chargeType;
+	private String chargeType;
 
 	public ChargableItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String chargeType) {
 		super(category, item, id, recipeType, recipe);
@@ -19,6 +19,8 @@ public class ChargableItem extends SlimefunItem {
 		this.chargeType = chargeType;
 	}
 	
-	public String getChargeType()		{		return this.chargeType;		}
+	public String getChargeType() {
+		return chargeType;
+	}
 
 }

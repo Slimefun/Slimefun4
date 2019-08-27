@@ -50,6 +50,7 @@ public class OreWasher extends SlimefunMachine {
 						Block dispBlock = b.getRelative(BlockFace.UP);
 						Dispenser disp = (Dispenser) dispBlock.getState();
 						Inventory inv = disp.getInventory();
+						
 						for (ItemStack current: inv.getContents()) {
 							if (current != null) {
 								if (SlimefunManager.isItemSimiliar(current, SlimefunItems.SIFTED_ORE, true)) {

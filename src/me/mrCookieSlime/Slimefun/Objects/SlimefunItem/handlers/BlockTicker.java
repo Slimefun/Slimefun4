@@ -4,10 +4,9 @@ import org.bukkit.block.Block;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 @Deprecated
-public abstract class BlockTicker implements ItemHandler {
+public abstract class BlockTicker extends ItemHandler {
 	
 	public boolean unique = true;
 

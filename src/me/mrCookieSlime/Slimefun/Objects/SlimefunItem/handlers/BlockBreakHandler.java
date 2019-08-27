@@ -5,10 +5,8 @@ import java.util.List;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-
 @Deprecated
-public abstract class BlockBreakHandler implements ItemHandler {
+public abstract class BlockBreakHandler extends ItemHandler {
 	
 	public abstract boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops);
 	
