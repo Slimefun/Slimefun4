@@ -19,7 +19,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 public class TickerTask implements Runnable {
 	

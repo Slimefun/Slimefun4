@@ -17,8 +17,8 @@ import org.bukkit.util.Vector;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BowShootHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 public class BowListener implements Listener {
 	

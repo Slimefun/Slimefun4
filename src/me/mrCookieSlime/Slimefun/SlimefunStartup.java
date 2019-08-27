@@ -29,6 +29,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricDustWasher;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OreWasher;
 import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
@@ -47,7 +48,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
-import me.mrCookieSlime.Slimefun.api.item_transport.ChestManipulator;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
@@ -358,7 +358,9 @@ public class SlimefunStartup extends JavaPlugin {
 			
 			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
 
-			SlimefunSetup.legacy_ore_washer = config.getBoolean("options.legacy-ore-washer");
+			OreWasher.legacy = config.getBoolean("options.legacy-ore-washer");
+			OreWasher.items = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};
+			
 			ElectricDustWasher.legacy_dust_washer = config.getBoolean("options.legacy-dust-washer");
 
 			// Do not show /sf elevator command in our Log, it could get quite spammy
@@ -443,8 +445,8 @@ public class SlimefunStartup extends JavaPlugin {
 		TickerTask.block_timings = null;
 		OreGenSystem.map = null;
 		SlimefunGuide.contributors = null;
-		ChestManipulator.listeners = null;
 		PlayerProfile.profiles = null;
+		OreWasher.items = null;
 
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();

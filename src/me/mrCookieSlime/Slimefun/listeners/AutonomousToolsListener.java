@@ -11,8 +11,8 @@ import org.bukkit.event.block.BlockDispenseEvent;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.AutonomousMachineHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class AutonomousToolsListener implements Listener {

@@ -2,14 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.Random;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,6 +15,13 @@ import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.Slimefun.Lists.Categories;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Research;
+import me.mrCookieSlime.Slimefun.Setup.Messages;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * @since 4.0
@@ -84,7 +84,7 @@ public class Talisman extends SlimefunItem {
         }
 
         Talisman talisman = (Talisman) item;
-        if (!SlimefunStartup.chance(100, talisman.getChance())) {
+        if (new Random().nextInt(100) < talisman.getChance()) {
             return false;
         }
 

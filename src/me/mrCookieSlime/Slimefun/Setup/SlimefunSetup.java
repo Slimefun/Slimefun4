@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -102,13 +103,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.AutonomousMachineHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockPlaceHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BowShootHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AdvancedCargoOutputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AnimalGrowthAccelerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoAnvil;
@@ -136,12 +130,20 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HeatedPressureCha
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.MagicWorkbench;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.NetherDrill;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OilPump;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OreWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Refinery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Smeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
+import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
 import me.mrCookieSlime.Slimefun.androids.AndroidType;
 import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
@@ -160,8 +162,6 @@ import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 
 public class SlimefunSetup {
-
-	public static boolean legacy_ore_washer = false;
 
 	public static void setupItems() {
 		new SlimefunItem(Categories.WEAPONS, SlimefunItems.GRANDMAS_WALKING_STICK, "GRANDMAS_WALKING_STICK", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -559,17 +559,18 @@ public class SlimefunSetup {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GOLD_PAN, true)) {
 					if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.GRAVEL) {
 						if (CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), e.getClickedBlock(), true)) {
-							List<ItemStack> drops = new ArrayList<ItemStack>();
-							if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE"))) drops.add(SlimefunItems.SIFTED_ORE);
-								else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY"))) drops.add(new ItemStack(Material.CLAY_BALL));
-								else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT"))) drops.add(new ItemStack(Material.FLINT));
-
-
+							List<ItemStack> drops = new ArrayList<>();
+							Random random = new Random();
 							
-								e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, e.getClickedBlock().getType());
-								e.getClickedBlock().setType(Material.AIR);
-								for (ItemStack drop: drops) {
-									e.getClickedBlock().getWorld().dropItemNaturally(e.getClickedBlock().getLocation(), drop);
+							if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE")) drops.add(SlimefunItems.SIFTED_ORE);
+							else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY")) drops.add(new ItemStack(Material.CLAY_BALL));
+							else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT")) drops.add(new ItemStack(Material.FLINT));
+							
+							e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, e.getClickedBlock().getType());
+							e.getClickedBlock().setType(Material.AIR);
+							
+							for (ItemStack drop: drops) {
+								e.getClickedBlock().getWorld().dropItemNaturally(e.getClickedBlock().getLocation(), drop);
 							}
 						}
 					}
@@ -998,97 +999,7 @@ public class SlimefunSetup {
 		new String[] {"mode.0.enabled", "mode.0.name", "mode.0.item", "mode.1.enabled", "mode.1.name", "mode.1.item", "mode.2.enabled", "mode.2.name", "mode.2.item", "mode.3.enabled", "mode.3.name", "mode.3.item", "mode.4.enabled", "mode.4.name", "mode.4.item"}, new Object[] {true, "Portable Crafter", "PORTABLE_CRAFTER", true, "Magic Eye of Ender", "MAGIC_EYE_OF_ENDER", true, "Wind Staff", "STAFF_ELEMENTAL_WIND", true, "Grappling Hook", "GRAPPLING_HOOK", true, "Gold Pan", "GOLD_PAN"})
 		.register(true);
 
-		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ORE_WASHER, "ORE_WASHER",
-		new ItemStack[] {null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null},
-		new ItemStack[] {SlimefunItems.SIFTED_ORE, SlimefunItems.IRON_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.GOLD_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.COPPER_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.TIN_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.ZINC_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.ALUMINUM_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.LEAD_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.SILVER_DUST},
-		Material.OAK_FENCE)
-		.register(true, new MultiBlockInteractionHandler() {
-
-			@Override
-			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ORE_WASHER");
-
-				if (mb.isMultiBlock(machine)) {
-					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
-						if (Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-							Block dispBlock = b.getRelative(BlockFace.UP);
-							Dispenser disp = (Dispenser) dispBlock.getState();
-							Inventory inv = disp.getInventory();
-							for (ItemStack current: inv.getContents()) {
-								if (current != null) {
-									if (SlimefunManager.isItemSimiliar(current, SlimefunItems.SIFTED_ORE, true)) {
-										ItemStack adding = SlimefunItems.IRON_DUST;
-										if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.GOLD_DUST;
-										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.ALUMINUM_DUST;
-										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.COPPER_DUST;
-										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.ZINC_DUST;
-										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.TIN_DUST;
-										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.MAGNESIUM_DUST;
-										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.LEAD_DUST;
-										else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.SILVER_DUST;
-										
-										Inventory outputInv = null;
-										
-										if (!legacy_ore_washer) {
-											// This is a fancy way of checking if there is empty space in the inv; by checking if an unobtainable item could fit in it.
-											// However, due to the way the method findValidOutputInv() functions, the dummyAdding will never actually be added to the real inventory,
-											// so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH however, signals that it's
-											// not supposed to be given to the player.
-											ItemStack dummyAdding = SlimefunItems.DEBUG_FISH;
-											outputInv = SlimefunMachine.findValidOutputInv(dummyAdding, dispBlock, inv);
-										} else outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-					
-										if (outputInv != null) {
-											ItemStack removing = current.clone();
-											removing.setAmount(1);
-											inv.removeItem(removing);
-											outputInv.addItem(adding);
-											p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-											p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-											if (InvUtils.fits(outputInv, SlimefunItems.STONE_CHUNK)) outputInv.addItem(SlimefunItems.STONE_CHUNK);
-										}
-										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-										return true;
-									}
-									else if (SlimefunManager.isItemSimiliar(current, new ItemStack(Material.SAND, 4), false)) {
-										ItemStack adding = SlimefunItems.SALT;
-										Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-										if (outputInv != null) {
-											ItemStack removing = current.clone();
-											removing.setAmount(4);
-											inv.removeItem(removing);
-											outputInv.addItem(adding);
-											p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-											p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-										}
-										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-										return true;
-									}
-									else if (SlimefunManager.isItemSimiliar(current, SlimefunItems.PULVERIZED_ORE, true)) {
-										ItemStack adding = SlimefunItems.PURE_ORE_CLUSTER;
-										Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-										if (outputInv != null) {
-											ItemStack removing = current.clone();
-											removing.setAmount(1);
-											inv.removeItem(removing);
-											outputInv.addItem(adding);
-											p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-											p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-										}
-										else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-										return true;
-									}
-								}
-							}
-							Messages.local.sendTranslation(p, "machines.unknown-material", true);
-						}
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		new OreWasher().register();
 
 		new SlimefunItem(Categories.RESOURCES, SlimefunItems.GOLD_24K, "GOLD_24K", RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_22K, null, null, null, null, null, null, null})

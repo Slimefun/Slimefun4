@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.tasks;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Waterlogged;
@@ -28,17 +28,21 @@ public class RainbowTicker extends BlockTicker {
 	public void tick(Block b, SlimefunItem item, Config data) {
 		if (MaterialHelper.isWool(b.getType())) {
 			b.setType(MaterialHelper.WoolColours[meta], false);
-		} else if (MaterialHelper.isStainedGlass(b.getType())) {
+		} 
+		else if (MaterialHelper.isStainedGlass(b.getType())) {
 			b.setType(MaterialHelper.StainedGlassColours[meta], false);
-		} else if (MaterialHelper.isStainedGlassPane(b.getType())){
+		} 
+		else if (MaterialHelper.isStainedGlassPane(b.getType())){
 			boolean waterlogged = ((Waterlogged) b.getBlockData()).isWaterlogged();
 			b.setType(MaterialHelper.StainedGlassPaneColours[meta], true);
+			
 			if (waterlogged) {
 				Waterlogged block = (Waterlogged) b.getBlockData();
 				block.setWaterlogged(true);
 				b.setBlockData(block);
 			}
-		} else if (MaterialHelper.isTerracotta(b.getType())){
+		} 
+		else if (MaterialHelper.isTerracotta(b.getType())){
 			b.setType(MaterialHelper.TerracottaColours[meta], false);
 		}
 	}
