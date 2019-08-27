@@ -391,7 +391,7 @@ public class SlimefunItem {
 
 	@Deprecated
 	public void addItemHandler(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handler) {
-		addItemHandler(handler);
+		addItemHandler((ItemHandler[]) handler);
 	}
 	
 	public void addItemHandler(ItemHandler... handler) {
@@ -422,8 +422,7 @@ public class SlimefunItem {
 
 	@Deprecated
 	public void register(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
-		addItemHandler(handlers);
-		register(false);
+		register((ItemHandler[]) handlers);
 	}
 
 	public void register(boolean vanilla, SlimefunBlockHandler handler) {
