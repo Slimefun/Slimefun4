@@ -61,7 +61,7 @@ public class SlimefunItem {
 	private boolean replacing = false;
 	private boolean addon = false;
 	private String permission = "";
-	private Set<ItemHandler> itemhandlers = new HashSet<ItemHandler>();
+	private Set<ItemHandler> itemhandlers = new HashSet<>();
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
@@ -389,6 +389,11 @@ public class SlimefunItem {
 	public void install() {}
 	public void create()  {}
 
+	@Deprecated
+	public void addItemHandler(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handler) {
+		addItemHandler(handler);
+	}
+	
 	public void addItemHandler(ItemHandler... handler) {
 		this.itemhandlers.addAll(Arrays.asList(handler));
 
@@ -411,6 +416,12 @@ public class SlimefunItem {
 	}
 
 	public void register(ItemHandler... handlers) {
+		addItemHandler(handlers);
+		register(false);
+	}
+
+	@Deprecated
+	public void register(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
 		addItemHandler(handlers);
 		register(false);
 	}
