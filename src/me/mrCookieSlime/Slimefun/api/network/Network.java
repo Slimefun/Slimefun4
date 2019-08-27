@@ -97,9 +97,11 @@ public abstract class Network {
 	private Component getCurrentClassification(Location l) {
 		if(regulatorNodes.contains(l)) {
 			return Component.REGULATOR;
-		} else if(connectorNodes.contains(l)) {
+		} 
+		else if(connectorNodes.contains(l)) {
 			return Component.CONNECTOR;
-		} else if(terminusNodes.contains(l)) {
+		} 
+		else if(terminusNodes.contains(l)) {
 			return Component.TERMINUS;
 		}
 		return null;
@@ -107,27 +109,33 @@ public abstract class Network {
 
 	private void discoverStep() {
 		int steps = 0;
-		while(nodeQueue.peek() != null) {
+		while (nodeQueue.peek() != null) {
 			Location l = nodeQueue.poll();
 			Component currentAssignment = getCurrentClassification(l);
 			Component classification = classifyLocation(l);
-			if(classification != currentAssignment) {
-				if(currentAssignment == Component.REGULATOR || currentAssignment == Component.CONNECTOR) {
+			
+			if (classification != currentAssignment) {
+				if (currentAssignment == Component.REGULATOR || currentAssignment == Component.CONNECTOR) {
 					// Requires a complete rebuild of the network, so we just throw the current one away.
 					unregisterNetwork(this);
 					return;
-				} else if(currentAssignment == Component.TERMINUS) {
+				} 
+				else if (currentAssignment == Component.TERMINUS) {
 					terminusNodes.remove(l);
 				}
-				if(classification == Component.REGULATOR) {
+				
+				if (classification == Component.REGULATOR) {
 					regulatorNodes.add(l);
 					discoverNeighbors(l);
-				} else if(classification == Component.CONNECTOR) {
+				} 
+				else if(classification == Component.CONNECTOR) {
 					connectorNodes.add(l);
 					discoverNeighbors(l);
-				} else if(classification == Component.TERMINUS) {
+				} 
+				else if(classification == Component.TERMINUS) {
 					terminusNodes.add(l);
 				}
+				
 				locationClassificationChange(l, currentAssignment, classification);
 			}
 			steps += 1;
@@ -137,7 +145,7 @@ public abstract class Network {
 		}
 	}
 
-	private void discoverNeighbors(Location l, int xDiff, int yDiff, int zDiff) {
+	private void discoverNeighbors(Location l, double xDiff, double yDiff, double zDiff) {
 		for(int i = getRange() + 1; i > 0; i --) {
 			Location new_location = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
 			addLocationToNetwork(new_location);
@@ -145,12 +153,12 @@ public abstract class Network {
 	}
 
 	private void discoverNeighbors(Location l) {
-		discoverNeighbors(l, 1, 0, 0);
-		discoverNeighbors(l, -1, 0, 0);
-		discoverNeighbors(l, 0, 1, 0);
-		discoverNeighbors(l, 0, -1, 0);
-		discoverNeighbors(l, 0, 0, 1);
-		discoverNeighbors(l, 0, 0, -1);
+		discoverNeighbors(l, 1.0, 0.0, 0.0);
+		discoverNeighbors(l, -1.0, 0.0, 0.0);
+		discoverNeighbors(l, 0.0, 1.0, 0.0);
+		discoverNeighbors(l, 0.0, -1.0, 0.0);
+		discoverNeighbors(l, 0.0, 0.0, 1.0);
+		discoverNeighbors(l, 0.0, 0.0, -1.0);
 	}
 
 	public void display() {

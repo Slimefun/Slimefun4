@@ -609,16 +609,18 @@ public class BlockStorage {
 	
 	public void clearInventory(Location l) {
 		BlockMenu menu = getInventory(l);
+		
+		if (menu != null) {
+			for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
+				// Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while holding an item
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+					human.closeInventory();
+				});
+			}
 
-		for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
-			// Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while holding an item
-			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-				human.closeInventory();
-			});
+			inventories.get(l).delete(l);
+			inventories.remove(l);
 		}
-
-		inventories.get(l).delete(l);
-		inventories.remove(l);
 	}
 	
 	public boolean hasInventory(Location l) {

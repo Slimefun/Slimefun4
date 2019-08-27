@@ -6,17 +6,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class IntegerFormat {
+public final class IntegerFormat {
 	
-	private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+	private IntegerFormat() {}
+	
 	public static String formatBigNumber(int i) {
 		return NumberFormat.getNumberInstance(Locale.US).format(i);
 	}
 	
 	public static Date parseGitHubDate(String str) {
 		try {
-			return date_format.parse(str.replace("T", " ").replace("Z", ""));
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(str.replace("T", " ").replace("Z", ""));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;

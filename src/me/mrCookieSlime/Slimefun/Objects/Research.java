@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -363,7 +364,7 @@ public class Research {
 	public static void sendStats(CommandSender sender, Player p) {
 		PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
 		Set<Research> researched = profile.getResearches();
-		int levels = researched.stream().mapToInt(r -> r.getCost()).sum();
+		int levels = researched.stream().mapToInt(Research::getCost).sum();
 		
 		String progress = String.valueOf(Math.round(((researched.size() * 100.0F) / list().size()) * 100.0F) / 100.0F);
 		if (Float.parseFloat(progress) < 16.0F) progress = "&4" + progress + " &r% ";
@@ -392,7 +393,7 @@ public class Research {
 	 * @see #sendStats(CommandSender, Player)
 	 */
 	@Deprecated
-	public static String getTitle(Player p, Set<Research> researched) {
+	public static String getTitle(Player p, Collection<Research> researched) {
 		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0F) / list().size()) * 100.0F) / 100.0F)) / 100.0F) * titles.size();
 		if (index > 0) index--;
 		return titles.get(index);

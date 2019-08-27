@@ -27,7 +27,7 @@ public class MagnetTask extends SlimefunTask {
 	
 	@Override
 	protected boolean cancelTask() {
-		return super.cancelTask() ? true: p.getGameMode() == GameMode.SPECTATOR;
+		return super.cancelTask() || p.getGameMode() == GameMode.SPECTATOR;
 	}
 
 }

@@ -23,7 +23,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
  * @author TheBusyBiscuit
  *
  */
-public class PlayerProfile {
+public final class PlayerProfile {
 	
 	public static Map<UUID, PlayerProfile> profiles = new HashMap<>();
 	

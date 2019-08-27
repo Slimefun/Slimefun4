@@ -95,6 +95,7 @@ public class SlimefunGuide {
 		return getItem(book ? BookDesign.BOOK: BookDesign.CHEST);
 	}
 	
+	@Deprecated
 	public static ItemStack getDeprecatedItem(boolean book) {
 		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&eSlimefun Guide &7(Right Click)", (book ? "": "&2"), "&rThis is your basic Guide for Slimefun", "&rYou can see all Items added by this Plugin", "&ror its Addons including their Recipes", "&ra bit of information and more");
 	}
@@ -1018,7 +1019,7 @@ public class SlimefunGuide {
 					List<String> lore = new ArrayList<>();
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + (((AGenerator) sfItem).getEnergyProduction() * 2) + " J/s"));
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AGenerator) sfItem).getEnergyProduction()) + " J in total"));
+					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * ((AGenerator) sfItem).getEnergyProduction()) + " J in total"));
 					im.setLore(lore);
 					fItem.setItemMeta(im);
 					menu.addItem(slot, fItem);
@@ -1037,7 +1038,7 @@ public class SlimefunGuide {
 					List<String> lore = new ArrayList<>();
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + (((AReactor) sfItem).getEnergyProduction() * 2) + " J/s"));
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AReactor) sfItem).getEnergyProduction()) + " J in total"));
+					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * ((AReactor) sfItem).getEnergyProduction()) + " J in total"));
 					im.setLore(lore);
 					fItem.setItemMeta(im);
 					menu.addItem(slot, fItem);

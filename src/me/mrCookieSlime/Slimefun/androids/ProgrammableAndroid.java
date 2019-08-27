@@ -713,19 +713,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
 			SlimefunItem item = BlockStorage.check(block);
 
-			if (item != null) {
-				return;
-                /*if (fits(b, item.getItem())) {
-                    if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-                        if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-                            pushItems(b, BlockStorage.retrieve(block));
-                            if (SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
-                            block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-                            block.setType(Material.AIR);
-                        }
-                    }
-                }*/
-			} else {
+			if (item == null) {
 				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
 				if (fits(b, items)) {
 					pushItems(b, items);
@@ -733,6 +721,17 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					block.setType(Material.AIR);
 				}
 			}
+			/*
+			else if (fits(b, item.getItem())) {
+	            if (SlimefunItem.blockhandler.containsKey(item.getID())) {
+	                if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+	                    pushItems(b, BlockStorage.retrieve(block));
+	                    if (SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
+	                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+	                    block.setType(Material.AIR);
+	                }
+	            }
+        	}*/
 		}
 	}
 

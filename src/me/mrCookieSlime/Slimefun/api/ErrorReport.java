@@ -24,13 +24,14 @@ public class ErrorReport {
 	private File file;
 	
 	public ErrorReport(Throwable throwable, Consumer<PrintStream> printer) {
-		file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + ".err");
+		String path = "plugins/Slimefun/error-reports/" + Clock.getFormattedTime();
+		file = new File(path + ".err");
 		
 		if (file.exists()) {
-			IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(" + i + ").err").exists());
+			IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").err").exists());
 			int id = stream.findFirst().getAsInt();
 			
-			file = new File("plugins/Slimefun/error-reports/" + Clock.getFormattedTime() + "(" + id + ").err");
+			file = new File(path + " (" + id + ").err");
 		}
 		
 		try (PrintStream stream = new PrintStream(file)) {
