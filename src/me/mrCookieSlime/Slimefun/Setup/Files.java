@@ -2,7 +2,9 @@ package me.mrCookieSlime.Slimefun.Setup;
 
 import java.io.File;
 
-public class Files {
+public final class Files {
+	
+	private Files() {}
 	
 	public static File RESEARCHES = new File("plugins/Slimefun/Researches.yml");
 	public static File CONFIG = new File("plugins/Slimefun/config.yml");

@@ -1,27 +1,24 @@
 package me.mrCookieSlime.Slimefun.GEO;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.bukkit.Chunk;
 import org.bukkit.block.Biome;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public final class OreGenSystem {
 	
 	private OreGenSystem() {}
 	
-	public static Map<String, OreGenResource> map = new HashMap<>();
-	
 	public static Collection<OreGenResource> listResources() {
-		return map.values();
+		return SlimefunStartup.instance.getUtilities().resources.values();
 	}
 	
 	public static void registerResource(OreGenResource resource) {
-		map.put(resource.getName(), resource);
+		SlimefunStartup.instance.getUtilities().resources.put(resource.getName(), resource);
 		System.out.println("[Slimefun - GEO] Registering Ore Gen: " + resource.getName());
 		
 		Config cfg = new Config("plugins/Slimefun/generators/" + resource.getName() + ".cfg");
@@ -32,7 +29,7 @@ public final class OreGenSystem {
 	}
 	
 	public static OreGenResource getResource(String name) {
-		return map.get(name);
+		return SlimefunStartup.instance.getUtilities().resources.get(name);
 	}
 	
 	private static int getDefault(OreGenResource resource, Biome biome) {

@@ -12,14 +12,16 @@ import com.google.gson.JsonParser;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
-public class GitHubSetup {
-
+public final class GitHubSetup {
+	
+	private GitHubSetup() {}
+	
 	public static void setup() {
 		new GitHubConnector() {
 			
 			@Override
 			public void onSuccess(JsonElement element) {
-				SlimefunGuide.contributors.clear();
+				SlimefunStartup.instance.getUtilities().contributors.clear();
 				JsonArray array = element.getAsJsonArray();
 			    
 			    for (int i = 0; i < array.size(); i++) {
@@ -33,10 +35,10 @@ public class GitHubSetup {
 			    	if (!name.equals("invalid-email-address")) {
 			    		Contributor contributor = new Contributor(name, job, commits);
 			    		contributor.setProfile(profile);
-			    		SlimefunGuide.contributors.add(contributor);
+			    		SlimefunStartup.instance.getUtilities().contributors.add(contributor);
 			    	}
 			    }
-				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+			    SlimefunStartup.instance.getUtilities().contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
 				
 				SlimefunStartup.instance.getServer().getScheduler().runTaskAsynchronously(SlimefunStartup.instance, () -> {
 					for (JsonElement e: array) {
@@ -87,10 +89,10 @@ public class GitHubSetup {
 			
 			@Override
 			public void onFailure() {
-				SlimefunGuide.contributors.clear();
-				SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
-				SlimefunGuide.contributors.add(new Contributor("John000708", "&cAuthor", 2));
-				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				SlimefunStartup.instance.getUtilities().contributors.clear();
+				SlimefunStartup.instance.getUtilities().contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
+				SlimefunStartup.instance.getUtilities().contributors.add(new Contributor("John000708", "&cAuthor", 2));
+				SlimefunStartup.instance.getUtilities().contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
 			}
 			
 			@Override

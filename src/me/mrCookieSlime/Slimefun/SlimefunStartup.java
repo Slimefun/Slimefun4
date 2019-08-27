@@ -436,15 +436,12 @@ public class SlimefunStartup extends JavaPlugin {
 		AContainer.processing = null;
 		AContainer.progress = null;
 		Slimefun.guide_handlers = null;
-		EnergyNet.listeners = null;
 		EnergyNet.machines_input = null;
 		EnergyNet.machines_output = null;
 		EnergyNet.machines_storage = null;
 		CargoNet.faces = null;
 		BlockStorage.universal_inventories = null;
 		TickerTask.block_timings = null;
-		OreGenSystem.map = null;
-		SlimefunGuide.contributors = null;
 		PlayerProfile.profiles = null;
 		OreWasher.items = null;
 
@@ -455,8 +452,7 @@ public class SlimefunStartup extends JavaPlugin {
 
 	private void createDir(String path) {
 		File file = new File(path);
-		if (!file.exists())
-			file.mkdirs();
+		if (!file.exists()) file.mkdirs();
 	}
 
 	public static Config getCfg() {

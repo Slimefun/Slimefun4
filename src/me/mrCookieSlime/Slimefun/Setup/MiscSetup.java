@@ -27,7 +27,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCrafting
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 
-public class MiscSetup {
+public final class MiscSetup {
+	
+	private MiscSetup() {}
 	
 	public static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<>();
 	

@@ -7,7 +7,9 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class ResearchSetup {
+public final class ResearchSetup {
+	
+	private ResearchSetup() {}
 	
 	public static void setupResearches() {
 	    Slimefun.registerResearch(new Research(0, "Walking Sticks", 1), SlimefunItems.GRANDMAS_WALKING_STICK, SlimefunItems.GRANDPAS_WALKING_STICK);

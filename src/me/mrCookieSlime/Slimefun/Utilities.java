@@ -12,8 +12,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
+import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 
 /**
@@ -45,8 +47,11 @@ public final class Utilities {
 	public Set<UUID> elevatorUsers = new HashSet<>();
 	public Set<UUID> teleporterUsers = new HashSet<>();
 	
+	public Map<String, OreGenResource> resources = new HashMap<>();
+	
 	public Set<GitHubConnector> connectors = new HashSet<>();
 	public Map<String, String> contributorHeads = new HashMap<>();
+	public List<Contributor> contributors = new ArrayList<>();
 	
 	public List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 	

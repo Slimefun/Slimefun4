@@ -1,22 +1,20 @@
 package me.mrCookieSlime.Slimefun.api.energy;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-
-import me.mrCookieSlime.Slimefun.api.network.Network;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.TickerTask;
-import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.TickerTask;
+import me.mrCookieSlime.Slimefun.api.network.Network;
+import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 public class EnergyNet extends Network {
 	public enum NetworkComponent {
@@ -31,9 +29,7 @@ public class EnergyNet extends Network {
 	public static Set<String> machines_input = new HashSet<String>();
 	public static Set<String> machines_storage = new HashSet<String>();
 	public static Set<String> machines_output = new HashSet<String>();
-
-	public static Map<String, EnergyFlowListener> listeners = new HashMap<String, EnergyFlowListener>();
-
+	
 	public static NetworkComponent getComponent(Block b) {
 		return getComponent(b.getLocation());
 	}

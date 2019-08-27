@@ -19,10 +19,10 @@ import com.google.gson.JsonParser;
 
 public class CSCoreLibLoader {
 	
-	Plugin plugin;
-	URL url;
-	URL download;
-	File file;
+	private Plugin plugin;
+	private URL url;
+	private URL download;
+	private File file;
 	
 	public CSCoreLibLoader(Plugin plugin) {
 		this.plugin = plugin;

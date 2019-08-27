@@ -2,7 +2,9 @@ package me.mrCookieSlime.Slimefun.Setup;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Localization;
 
-public class Messages {
+public final class Messages {
+	
+	private Messages() {}
 	
 	public static Localization local;
 	

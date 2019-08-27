@@ -53,12 +53,13 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.IntegerFormat;
 
-public class SlimefunGuide {
+public final class SlimefunGuide {
+	
+	private SlimefunGuide() {}
 	
 	public static Map<UUID, List<Object>> history = new HashMap<>();
 	public static int month = 0;
 	
-	public static List<Contributor> contributors = new ArrayList<>();
 	public static int issues = 0;
 	public static int forks = 0;
 	/**
@@ -163,7 +164,7 @@ public class SlimefunGuide {
 			});
 		}
 		
-		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&aCredits", "", "&7Version: &a" + SlimefunStartup.instance.getDescription().getVersion(), "&7Contributors: &e" + contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
+		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&aCredits", "", "&7Version: &a" + SlimefunStartup.instance.getDescription().getVersion(), "&7Contributors: &e" + SlimefunStartup.instance.getUtilities().contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
 		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 			openCredits(pl, guide);
 			return false;
@@ -221,11 +222,11 @@ public class SlimefunGuide {
 		int index = 9;
 		double total = 0;
 
-		for (Contributor contributor : contributors) {
+		for (Contributor contributor : SlimefunStartup.instance.getUtilities().contributors) {
 			total += contributor.getCommits();
 		}
 		
-		for (final Contributor contributor: contributors) {
+		for (final Contributor contributor: SlimefunStartup.instance.getUtilities().contributors) {
 			ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
 			
 			try {
