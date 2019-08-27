@@ -5,12 +5,15 @@ import java.util.List;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-@FunctionalInterface
-public interface BlockBreakHandler extends ItemHandler {
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+
+@Deprecated
+public abstract class BlockBreakHandler implements ItemHandler {
 	
-	boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops);
+	public abstract boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops);
 	
-	default String toCodename() {
+	@Override
+	public String toCodename() {
 		return "BlockBreakHandler";
 	}
 }

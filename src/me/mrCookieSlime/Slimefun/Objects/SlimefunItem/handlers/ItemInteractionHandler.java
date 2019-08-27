@@ -1,16 +1,18 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers;
 
-import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-@FunctionalInterface
-public interface ItemInteractionHandler extends ItemHandler {
+import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+
+@Deprecated
+public abstract class ItemInteractionHandler implements ItemHandler {
 	
-	boolean onRightClick(ItemUseEvent e, Player p, ItemStack item);
+	public abstract boolean onRightClick(ItemUseEvent e, Player p, ItemStack item);
 	
-	default String toCodename() {
+	@Override
+	public String toCodename() {
 		return "ItemInteractionHandler";
 	}
 

@@ -1,16 +1,18 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers;
 
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
-
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-@FunctionalInterface
-public interface MultiBlockInteractionHandler extends ItemHandler {
+import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+
+@Deprecated
+public abstract class MultiBlockInteractionHandler implements ItemHandler {
 	
-	boolean onInteract(Player p, MultiBlock mb, Block b);
+	public abstract boolean onInteract(Player p, MultiBlock mb, Block b);
 	
-	default String toCodename() {
+	@Override
+	public String toCodename() {
 		return "MultiBlockInteractionHandler";
 	}
 }

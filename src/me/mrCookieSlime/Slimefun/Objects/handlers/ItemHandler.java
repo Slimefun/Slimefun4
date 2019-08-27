@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers;
+package me.mrCookieSlime.Slimefun.Objects.handlers;
 
 @FunctionalInterface
 public interface ItemHandler {
