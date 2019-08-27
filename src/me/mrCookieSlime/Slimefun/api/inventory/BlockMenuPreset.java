@@ -17,10 +17,10 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
 	
-	public static Map<String, BlockMenuPreset> presets = new HashMap<String, BlockMenuPreset>();
+	public static Map<String, BlockMenuPreset> presets = new HashMap<>();
 	
 	private String title;
-	private Set<Integer> occupied = new HashSet<Integer>();
+	private Set<Integer> occupied = new HashSet<>();
 	private String id;
 	private int size = -1;
 	private boolean universal;
