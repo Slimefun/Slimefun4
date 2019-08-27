@@ -191,8 +191,8 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.MACHINES_1, SlimefunItems.OUTPUT_CHEST, "OUTPUT_CHEST", RecipeType.ENHANCED_CRAFTING_TABLE,
-				new ItemStack[] {SlimefunItems.LEAD_INGOT, new ItemStack(Material.HOPPER), SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, new ItemStack(Material.CHEST), SlimefunItems.LEAD_INGOT, null, SlimefunItems.LEAD_INGOT, null})
-				.register(true);
+		new ItemStack[] {SlimefunItems.LEAD_INGOT, new ItemStack(Material.HOPPER), SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, new ItemStack(Material.CHEST), SlimefunItems.LEAD_INGOT, null, SlimefunItems.LEAD_INGOT, null})
+		.register(true);
 		
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ENHANCED_CRAFTING_TABLE, "ENHANCED_CRAFTING_TABLE",
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null},
@@ -720,8 +720,6 @@ public class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)}, Material.NETHER_BRICK_FENCE,
 		new String[] {"chance.fireBreak"}, new Integer[] {34})
 		.register(true, new MultiBlockInteractionHandler() {
-			
-					private final String chamberID = "IGNITION_CHAMBER";
 
 					@Override
 					public boolean onInteract(Player p, MultiBlock mb, Block b) {
@@ -761,24 +759,8 @@ public class SlimefunSetup {
 													outputInv.addItem(adding);
 													p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
 													p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-													// Block raw_disp = b.getRelative(BlockFace.DOWN);					
-													// raw_disp has been removed since the outputInv functionality already uses such an object which is declared above as dispBlock. 
-													// The chamber methods have been updated to reflect this change.
-													// Maybe this code snippet should be turned into a loop?
-													Hopper chamber = null;
 													
-													if (BlockStorage.check(dispBlock.getRelative(BlockFace.EAST).getState().getBlock(), chamberID)) {
-														chamber = (Hopper) dispBlock.getRelative(BlockFace.EAST).getState();
-													} 
-													else if (BlockStorage.check(dispBlock.getRelative(BlockFace.WEST).getState().getBlock(), chamberID)) {
-														chamber = (Hopper) dispBlock.getRelative(BlockFace.WEST).getState();
-													} 
-													else if (BlockStorage.check(dispBlock.getRelative(BlockFace.NORTH).getState().getBlock(), chamberID)) {
-														chamber = (Hopper) dispBlock.getRelative(BlockFace.NORTH).getState();
-													} 
-													else if (BlockStorage.check(dispBlock.getRelative(BlockFace.SOUTH).getState().getBlock(), chamberID)){
-														chamber = (Hopper) dispBlock.getRelative(BlockFace.SOUTH).getState();
-													}
+													Hopper chamber = findHopper(dispBlock, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 													
 													if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
 														if (chamber != null) {
@@ -787,10 +769,12 @@ public class SlimefunSetup {
 																ItemMeta meta = item.getItemMeta();
 																((Damageable) meta).setDamage(((Damageable) meta).getDamage() + 1);
 																item.setItemMeta(meta);
+																
 																if (((Damageable) item.getItemMeta()).getDamage() >= item.getType().getMaxDurability()) {
 																	item.setAmount(0); 
 																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
 																}
+																
 																p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
 															} 
 															else {
@@ -819,6 +803,16 @@ public class SlimefunSetup {
 							return true;
 						}
 						else return false;
+					}
+
+					private Hopper findHopper(Block b, BlockFace... faces) {
+						for (BlockFace face: faces) {
+							if (b.getRelative(face).getType() == Material.HOPPER && BlockStorage.check(b.getRelative(face), "IGNITION_CHAMBER")) {
+								return (Hopper) b.getRelative(face).getState();
+							}
+						}
+						
+						return null;
 					}
 				});
 		

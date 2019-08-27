@@ -98,7 +98,7 @@ public class SlimefunStartup extends JavaPlugin {
 	private boolean clearlag = false;
 	private boolean exoticGarden = false;
 	private boolean coreProtect = false;
-
+	
 	// Supported Versions of Minecraft
 	final String[] supported = {"v1_14_"};
 
