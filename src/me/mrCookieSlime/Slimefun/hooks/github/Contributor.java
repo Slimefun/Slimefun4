@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.hooks.github;
 
-import java.util.HashMap;
-import java.util.Map;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 /**
  * Represents a contributor on Slimefun4's GitHub repository.
@@ -9,8 +8,6 @@ import java.util.Map;
  * @since 4.1.6
  */
 public class Contributor {
-	
-	public static Map<String, String> textures = new HashMap<>();
 	
 	private String name;
 	private String job;
@@ -72,6 +69,6 @@ public class Contributor {
 	 * @return A Base64-Head Texture
 	 */
 	public String getTexture() {
-		return textures.get(name);
+		return SlimefunStartup.instance.getUtilities().contributorHeads.get(name);
 	}
 }

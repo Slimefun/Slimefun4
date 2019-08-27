@@ -106,24 +106,14 @@ public class ItemListener implements Listener {
 	 */
 	@EventHandler
 	public void enabledCheck(PlayerInteractEvent e) {
-		if(e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK)
+		if (e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
 			return;
+		}
 		
 		ItemStack item = e.getItem();
-		
-		if(item == null) 
-			item = e.getPlayer().getInventory().getItemInMainHand();
-			
-		if(item == null)
-			item = e.getPlayer().getInventory().getItemInOffHand();
-			
-		if(item == null) 
-			return;
-		
-		
-		if(!Slimefun.isEnabled(e.getPlayer(), item, true)) 
+		if (item != null && !Slimefun.isEnabled(e.getPlayer(), item, true)) {
 			e.setCancelled(true);
-		
+		}
 	}
 	@EventHandler
 	public void debug(PlayerInteractEvent e) {

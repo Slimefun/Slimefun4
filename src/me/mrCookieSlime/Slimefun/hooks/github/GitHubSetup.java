@@ -42,7 +42,9 @@ public class GitHubSetup {
 					for (JsonElement e: array) {
 						String name = e.getAsJsonObject().get("login").getAsString();
 						
-						if (Contributor.textures.containsKey(name)) continue;
+						if (SlimefunStartup.instance.getUtilities().contributorHeads.containsKey(name)) {
+							continue;
+						}
 						
 						InputStreamReader profile_reader = null, session_reader = null;
 						
@@ -57,12 +59,12 @@ public class GitHubSetup {
 				            
 				            for (JsonElement el: properties) {
 				            	if (el.isJsonObject() && el.getAsJsonObject().get("name").getAsString().equals("textures")) {
-									Contributor.textures.put(name, el.getAsJsonObject().get("value").getAsString());
+				            		SlimefunStartup.instance.getUtilities().contributorHeads.put(name, el.getAsJsonObject().get("value").getAsString());
 									break;
 				            	}
 				            }
 						} catch (Exception x) {
-							Contributor.textures.put(name, null);
+							SlimefunStartup.instance.getUtilities().contributorHeads.put(name, null);
 						} finally {
 							if (profile_reader != null) {
 								try {

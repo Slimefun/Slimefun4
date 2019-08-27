@@ -10,7 +10,9 @@ import org.bukkit.block.Biome;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class OreGenSystem {
+public final class OreGenSystem {
+	
+	private OreGenSystem() {}
 	
 	public static Map<String, OreGenResource> map = new HashMap<>();
 	

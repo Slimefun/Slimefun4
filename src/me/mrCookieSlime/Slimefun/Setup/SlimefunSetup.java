@@ -1118,13 +1118,13 @@ public class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-					if (e.getClickedBlock() == null && !variables.jump_state.containsKey(p.getUniqueId())) {
+					if (e.getClickedBlock() == null && !variables.jumpState.containsKey(p.getUniqueId())) {
 						e.setCancelled(true);
 						if (p.getInventory().getItemInOffHand().getType().equals(Material.BOW)) {
 							// Cancel, to fix dupe #740
 							return false;
 						}
-						variables.jump_state.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
+						variables.jumpState.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
 						if (p.getInventory().getItemInMainHand().getType() == Material.LEAD) PlayerInventory.consumeItemInHand(p);
 
 						Vector direction = p.getEyeLocation().getDirection().multiply(2.0);

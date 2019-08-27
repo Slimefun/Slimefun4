@@ -28,7 +28,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Misc.BookDesign;
@@ -143,7 +142,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					double z = Integer.parseInt(args[3]) + 0.5D;
 					
 					if (BlockStorage.getLocationInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])).getLocation(), "floor") != null) {
-						Elevator.ignored.add(((Player) sender).getUniqueId());
+						plugin.getUtilities().elevatorUsers.add(((Player) sender).getUniqueId());
 						float yaw = ((Player) sender).getEyeLocation().getYaw() + 180;
 						if (yaw > 180) yaw = -180 + (yaw - 180);
 						((Player) sender).teleport(new Location(((Player) sender).getWorld(), x, y, z, yaw, ((Player) sender).getEyeLocation().getPitch()));

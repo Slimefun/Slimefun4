@@ -12,6 +12,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.Slimefun.AncientAltar.AltarRecipe;
+import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
+
 /**
  * Really dirty way to store stuff, but you can dump
  * some Objects into here that need to be used throughout
@@ -22,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public final class Utilities {
 	
-	public Map<UUID, Boolean> jump_state = new HashMap<>();
+	public Map<UUID, Boolean> jumpState = new HashMap<>();
 	public Set<UUID> damage = new HashSet<>();
 	public Map<UUID, Entity[]> remove = new HashMap<>();
 	public Map<UUID, Integer> mode = new HashMap<>();
@@ -31,10 +34,22 @@ public final class Utilities {
 	public Map<UUID, ItemStack> backpack = new HashMap<>();
 	
 	public Set<Location> altarinuse = new HashSet<>();
+	public Set<AltarRecipe> altarRecipes = new HashSet<>();
 	
 	public Map<UUID, List<ItemStack>> soulbound = new HashMap<>();
 	public List<UUID> blocks = new ArrayList<>();
 	public List<UUID> cancelPlace = new ArrayList<>();
 	public Map<UUID, ItemStack> arrows = new HashMap<>();
+	
+	public Set<UUID> elevatorUsers = new HashSet<>();
+	
+	public Set<GitHubConnector> connectors = new HashSet<>();
+	public Map<String, String> contributorHeads = new HashMap<>();
+	
+	/**
+	 * Contains all the players (UUIDs) that are currently unlocking a research.
+	 * @since 4.0
+	 */
+	public Set<UUID> researching = new HashSet<>();
 
 }

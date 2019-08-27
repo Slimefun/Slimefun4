@@ -9,22 +9,19 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 public abstract class GitHubConnector {
-	
-	public static Set<GitHubConnector> connectors = new HashSet<GitHubConnector>();
 	
 	private File file;
 
 	public GitHubConnector() {
 		this.file = new File("plugins/Slimefun/cache/github/" + this.getFileName() + ".json");
-		connectors.add(this);
+		SlimefunStartup.instance.getUtilities().connectors.add(this);
 	}
 	
 	public abstract String getFileName();

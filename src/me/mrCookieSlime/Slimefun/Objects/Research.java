@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,12 +56,6 @@ public class Research {
 	 * Contains all Research Titles
 	 */
 	public static List<String> titles;
-	
-	/**
-	 * Contains all the players (UUIDs) that are currently unlocking a research.
-	 * @since 4.0
-	 */
-	public static Set<UUID> researching = new HashSet<>();
 	
 	/**
 	 * Whether researching in creative is free.
@@ -275,8 +268,8 @@ public class Research {
 						FireworkShow.launchRandom(p, 1);
 					}
 				} 
-				else if (!researching.contains(p.getUniqueId())){
-					researching.add(p.getUniqueId());
+				else if (!SlimefunStartup.instance.getUtilities().researching.contains(p.getUniqueId())){
+					SlimefunStartup.instance.getUtilities().researching.add(p.getUniqueId());
 					Messages.local.sendTranslation(p, "messages.research.start", true, new Variable("%research%", getName()));
 					
 					for (int i = 1; i < research_progress.length + 1; i++) {
@@ -296,7 +289,7 @@ public class Research {
 							FireworkShow.launchRandom(p, 1);
 						}
 						
-						researching.remove(p.getUniqueId());
+						SlimefunStartup.instance.getUtilities().researching.remove(p.getUniqueId());
 					}, (research_progress.length + 1) * 20L);
 				}
 			}
@@ -354,7 +347,7 @@ public class Research {
 	 * @since 4.0
 	 */
 	public static boolean isResearching(Player p) {
-		return researching.contains(p.getUniqueId());
+		return SlimefunStartup.instance.getUtilities().researching.contains(p.getUniqueId());
 	}
 
 	/**

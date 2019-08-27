@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.GPS;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
@@ -16,13 +15,14 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class Elevator {
-	
-	public static List<UUID> ignored = new ArrayList<>();
+public final class Elevator {
 
+	private Elevator() {}
+	
 	public static void openEditor(Player p, final Block b) {
 		ChestMenu menu = new ChestMenu("Elevator Settings");
 		
@@ -53,8 +53,10 @@ public class Elevator {
 	}
 
 	public static void openDialogue(Player p, Block b) {
-		if (ignored.contains(p.getUniqueId())) {
-			ignored.remove(p.getUniqueId());
+		Set<UUID> elevatorUsers = SlimefunStartup.instance.getUtilities().elevatorUsers;
+		
+		if (elevatorUsers.contains(p.getUniqueId())) {
+			elevatorUsers.remove(p.getUniqueId());
 			return;
 		}
 		
