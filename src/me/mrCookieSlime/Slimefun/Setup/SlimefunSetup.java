@@ -65,7 +65,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
+import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.Android.AndroidType;
 import me.mrCookieSlime.Slimefun.Android.ProgrammableAndroid;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
@@ -1112,17 +1112,19 @@ public class SlimefunSetup {
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.GRAPPLING_HOOK, "GRAPPLING_HOOK", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.HOOK, SlimefunItems.HOOK, null, SlimefunItems.CHAIN, SlimefunItems.HOOK, SlimefunItems.CHAIN, null, null})
 		.register(true, new ItemInteractionHandler() {
+			
+			private Utilities variables = SlimefunStartup.instance.getUtilities();
 
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-					if (e.getClickedBlock() == null && !Variables.jump_state.containsKey(p.getUniqueId())) {
+					if (e.getClickedBlock() == null && !variables.jump_state.containsKey(p.getUniqueId())) {
 						e.setCancelled(true);
 						if (p.getInventory().getItemInOffHand().getType().equals(Material.BOW)) {
 							// Cancel, to fix dupe #740
 							return false;
 						}
-						Variables.jump_state.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
+						variables.jump_state.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
 						if (p.getInventory().getItemInMainHand().getType() == Material.LEAD) PlayerInventory.consumeItemInHand(p);
 
 						Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -1135,8 +1137,8 @@ public class SlimefunSetup {
 				    	b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
 				    	b.setLeashHolder(arrow);
 
-				    	Variables.damage.add(p.getUniqueId());
-						Variables.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
+				    	variables.damage.add(p.getUniqueId());
+				    	variables.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
 					}
 					return true;
 				}
@@ -2517,7 +2519,7 @@ public class SlimefunSetup {
 							FallingBlock block = ground.getWorld().spawnFallingBlock(ground.getBlock().getRelative(BlockFace.UP).getLocation(), ground.getBlock().getBlockData());
 							block.setDropItem(false);
 							block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-							Variables.blocks.add(block.getUniqueId());
+							SlimefunStartup.instance.getUtilities().blocks.add(block.getUniqueId());
 						}
 						for (Entity n: ground.getChunk().getEntities()) {
 							if (n instanceof LivingEntity) {
@@ -2854,7 +2856,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(Variables.arrows.get(e.getDamager().getUniqueId()), SlimefunItems.EXPLOSIVE_BOW, true)) {
+				if (SlimefunManager.isItemSimiliar(SlimefunStartup.instance.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.EXPLOSIVE_BOW, true)) {
 					Vector vector = n.getVelocity();
 					vector.setY(0.6);
 					n.setVelocity(vector);
@@ -2872,7 +2874,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(Variables.arrows.get(e.getDamager().getUniqueId()), SlimefunItems.ICY_BOW, true)) {
+				if (SlimefunManager.isItemSimiliar(SlimefunStartup.instance.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.ICY_BOW, true)) {
 					n.getWorld().playEffect(n.getLocation(), Effect.STEP_SOUND, Material.ICE);
 					n.getWorld().playEffect(n.getEyeLocation(), Effect.STEP_SOUND, Material.ICE);
 					n.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 2, 10));

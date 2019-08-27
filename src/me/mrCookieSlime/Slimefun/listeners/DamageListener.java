@@ -27,7 +27,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
+import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
@@ -38,11 +38,13 @@ import me.mrCookieSlime.Slimefun.api.Soul;
 
 public class DamageListener implements Listener {
 
+    private SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");
+	private Utilities utilities;
+
     public DamageListener(SlimefunStartup plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        utilities = plugin.getUtilities();
     }
-
-    private SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");
 
     @EventHandler
     public void onDamage(EntityDeathEvent e) {
@@ -138,9 +140,9 @@ public class DamageListener implements Listener {
     @EventHandler
     public void onArrowHit(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
-            if (Variables.damage.contains(e.getEntity().getUniqueId())) {
+            if (utilities.damage.contains(e.getEntity().getUniqueId())) {
                 e.setCancelled(true);
-                Variables.damage.remove(e.getEntity().getUniqueId());
+                utilities.damage.remove(e.getEntity().getUniqueId());
             }
         }
     }

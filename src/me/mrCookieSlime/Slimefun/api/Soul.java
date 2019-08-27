@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import me.mrCookieSlime.Slimefun.Variables;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 @Deprecated
 public class Soul {
 	
 	public static void storeItem(UUID uuid, ItemStack drop) {
 		List<ItemStack> items = new ArrayList<>();
-		if (Variables.soulbound.containsKey(uuid)) items = Variables.soulbound.get(uuid);
+		if (SlimefunStartup.instance.getUtilities().soulbound.containsKey(uuid)) items = SlimefunStartup.instance.getUtilities().soulbound.get(uuid);
 		items.add(drop);
-		Variables.soulbound.put(uuid, items);
+		SlimefunStartup.instance.getUtilities().soulbound.put(uuid, items);
 	}
 	
 	public static void retrieveItems(Player p) {
-		if (Variables.soulbound.containsKey(p.getUniqueId())) {
-			for (ItemStack item: Variables.soulbound.get(p.getUniqueId())) {
+		if (SlimefunStartup.instance.getUtilities().soulbound.containsKey(p.getUniqueId())) {
+			for (ItemStack item: SlimefunStartup.instance.getUtilities().soulbound.get(p.getUniqueId())) {
 				if (item.equals(p.getInventory().getHelmet())) continue;
 				if (item.equals(p.getInventory().getChestplate())) continue;
 				if (item.equals(p.getInventory().getLeggings())) continue;
@@ -32,7 +32,7 @@ public class Soul {
 					p.getInventory().addItem(item);
 				}
 			}
-			Variables.soulbound.remove(p.getUniqueId());
+			SlimefunStartup.instance.getUtilities().soulbound.remove(p.getUniqueId());
 		}
 	}
 

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.CSCoreLibSetup;
+package me.mrCookieSlime.Slimefun.Setup;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

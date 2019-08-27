@@ -19,7 +19,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
-import me.mrCookieSlime.Slimefun.CSCoreLibSetup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
@@ -32,6 +31,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricDustWasher;
+import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
@@ -96,6 +96,7 @@ public class SlimefunStartup extends JavaPlugin {
 	public static TickerTask ticker;
 
 	private CoreProtectAPI coreProtectAPI;
+	private Utilities utilities = new Utilities();
 
 	private boolean clearlag = false;
 	private boolean exoticGarden = false;
@@ -427,17 +428,7 @@ public class SlimefunStartup extends JavaPlugin {
 		SlimefunItem.map_id = null;
 		SlimefunItem.handlers = null;
 		SlimefunItem.radioactive = null;
-		Variables.damage = null;
-		Variables.jump_state = null;
-		Variables.mode = null;
 		SlimefunGuide.history = null;
-		Variables.altarinuse = null;
-		Variables.enchanting = null;
-		Variables.backpack = null;
-		Variables.soulbound = null;
-		Variables.blocks = null;
-		Variables.cancelPlace = null;
-		Variables.arrows = null;
 		SlimefunCommand.arguments = null;
 		SlimefunCommand.descriptions = null;
 		SlimefunCommand.tabs = null;
@@ -518,6 +509,10 @@ public class SlimefunStartup extends JavaPlugin {
 
 	public CoreProtectAPI getCoreProtectAPI() {
 		return coreProtectAPI;
+	}
+	
+	public Utilities getUtilities() {
+		return utilities;
 	}
 
 }

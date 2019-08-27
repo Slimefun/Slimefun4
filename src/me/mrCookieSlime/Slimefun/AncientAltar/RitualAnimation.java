@@ -7,7 +7,7 @@ import java.util.Map;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
-import me.mrCookieSlime.Slimefun.Variables;
+import me.mrCookieSlime.Slimefun.Utilities;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -20,19 +20,21 @@ import org.bukkit.inventory.ItemStack;
 
 public class RitualAnimation implements Runnable {
 
-	List<Block> altars;
+	private List<Block> altars;
 
-	Block altar;
-	Location l;
-	ItemStack output;
-	List<Block> pedestals;
-	List<ItemStack> items;
+	private Block altar;
+	private Location l;
+	private ItemStack output;
+	private List<Block> pedestals;
+	private List<ItemStack> items;
 
-	List<Location> particles;
-	Map<Item,Location> itemLock = new HashMap<>();
+	private List<Location> particles;
+	private Map<Item,Location> itemLock = new HashMap<>();
 
-	boolean running;
-	int stage;
+	private boolean running;
+	private int stage;
+	
+	private Utilities variables = SlimefunStartup.instance.getUtilities();
 
 	public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
 		this.l = drop;
@@ -126,10 +128,10 @@ public class RitualAnimation implements Runnable {
 		running = false;
     
 		pedestals.forEach((pblock)-> {
-			Variables.altarinuse.remove(pblock.getLocation());
+			variables.altarinuse.remove(pblock.getLocation());
 		});
     
-		Variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks on craft failure.
+		variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks on craft failure.
 		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 5F, 1F);
 		itemLock.clear();
 		altars.remove(altar);
@@ -142,9 +144,9 @@ public class RitualAnimation implements Runnable {
 			l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
       
 			pedestals.forEach((pblock)->{
-				Variables.altarinuse.remove(pblock.getLocation());
+				variables.altarinuse.remove(pblock.getLocation());
 			});
-			Variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks on craft completion.
+			variables.altarinuse.remove(altar.getLocation());  // should re-enable altar blocks on craft completion.
 			altars.remove(altar);
 		}
 		else {

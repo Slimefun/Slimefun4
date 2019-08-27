@@ -25,7 +25,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
+import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -43,9 +43,11 @@ public class ToolListener implements Listener {
 	
 	// Materials that require a Block under it, e.g. Pressure Plates
 	private final Set<Material> sensitiveMaterials = new HashSet<>();
+	private Utilities utilities;
 	
 	public ToolListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		utilities = plugin.getUtilities();
 		
 		sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
 		sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
@@ -90,9 +92,9 @@ public class ToolListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent e) {
 		ItemStack item = e.getItemInHand();
 		
-		if (Variables.cancelPlace.contains(e.getPlayer().getUniqueId())) {
+		if (utilities.cancelPlace.contains(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
-			Variables.cancelPlace.remove(e.getPlayer().getUniqueId());
+			utilities.cancelPlace.remove(e.getPlayer().getUniqueId());
 		}
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
