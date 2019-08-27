@@ -24,6 +24,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
@@ -35,10 +36,14 @@ public class GPSNetwork {
 	private int[] border = new int[] {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private int[] inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
+	private static final int[] teleporter_border = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+	private static final int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
+	
 	public void updateTransmitter(Block b, UUID uuid, NetworkStatus status) {
 		Set<Location> set = new HashSet<>();
 		if (transmitters.containsKey(uuid)) set = transmitters.get(uuid);
-		if (status.equals(NetworkStatus.ONLINE)) {
+		
+		if (status == NetworkStatus.ONLINE) {
 			if (!set.contains(b.getLocation())) {
 				set.add(b.getLocation());
 				transmitters.put(uuid, set);
@@ -115,10 +120,10 @@ public class GPSNetwork {
 		if (entry.getKey().startsWith("&4Deathpoint")) {
 			return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFlMzg1NWY5NTJjZDRhMDNjMTQ4YTk0NmUzZjgxMmE1OTU1YWQzNWNiY2I1MjYyN2VhNGFjZDQ3ZDMwODEifX19");
 		}
-		else if (l.getWorld().getEnvironment().equals(Environment.NETHER)) {
+		else if (l.getWorld().getEnvironment() == Environment.NETHER) {
 			return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0=");
 		}
-		else if (l.getWorld().getEnvironment().equals(Environment.THE_END)) {
+		else if (l.getWorld().getEnvironment() == Environment.THE_END) {
 			return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzZjYWM1OWIyYWFlNDg5YWEwNjg3YjVkODAyYjI1NTVlYjE0YTQwYmQ2MmIyMWViMTE2ZmE1NjljZGI3NTYifX19");
 		}
 		else {
@@ -146,14 +151,10 @@ public class GPSNetwork {
 		});
 		
 		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Network Info", "", "&8\u21E8 &7Status: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&lONLINE": "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + getNetworkComplexity(p.getUniqueId())));
-		menu.addMenuClickHandler(4,
-			(pl, slot, item, action) -> false
-		);
+		menu.addMenuClickHandler(4, (pl, slot, item, action) -> false);
 		
 		menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &e(Selected)"));
-		menu.addMenuClickHandler(6,
-			(pl, slot, item, action) -> false
-		);
+		menu.addMenuClickHandler(6, (pl, slot, item, action) -> false);
 		
 		int index = 0;
 		for (final Map.Entry<String, Location> entry : getWaypoints(p.getUniqueId()).entrySet()) {
@@ -223,7 +224,7 @@ public class GPSNetwork {
 	}
 
 	public Set<Location> getTransmitters(UUID uuid) {
-		return transmitters.containsKey(uuid) ? transmitters.get(uuid): new HashSet<Location>();
+		return transmitters.containsKey(uuid) ? transmitters.get(uuid): new HashSet<>();
 	}
 
 	public void scanChunk(Player p, Chunk chunk) {
@@ -247,20 +248,15 @@ public class GPSNetwork {
 		menu.open(p);
 	}
 	
-	private final static int[] teleporter_border = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-	private final static int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
-	
 	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) throws Exception {
-		if (TeleportationSequence.players.contains(p.getUniqueId())) return;
+		if (SlimefunStartup.instance.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
 		
 		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-		TeleportationSequence.players.add(p.getUniqueId());
+		SlimefunStartup.instance.getUtilities().teleporterUsers.add(p.getUniqueId());
 		
 		ChestMenu menu = new ChestMenu("&3Teleporter");
 		
-		menu.addMenuCloseHandler(
-			pl -> TeleportationSequence.players.remove(pl.getUniqueId())
-		);
+		menu.addMenuCloseHandler(pl -> SlimefunStartup.instance.getUtilities().teleporterUsers.remove(pl.getUniqueId()));
 		
 		for (int slot : teleporter_border) {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
@@ -269,9 +265,7 @@ public class GPSNetwork {
 		}
 		
 		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &e(Select a Destination)"));
-		menu.addMenuClickHandler(4,
-			(pl, slot, item, action) -> false
-		);
+		menu.addMenuClickHandler(4, (pl, slot, item, action) -> false);
 		
 		final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
 		int index = 0;

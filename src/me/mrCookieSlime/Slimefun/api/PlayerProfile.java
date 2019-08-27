@@ -159,7 +159,7 @@ public class PlayerProfile {
 	}
 
 	public String getTitle() {
-		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0f) / Research.titles.size())))));
+		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0F) / Research.titles.size())))));
 		if (index > 0) index--;
 		return Research.titles.get(index);
 	}

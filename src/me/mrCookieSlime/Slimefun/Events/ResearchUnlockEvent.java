@@ -18,10 +18,10 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
 	public HandlerList getHandlers() {
 	    return handlers;
 	}
-	 
+	
 	public static HandlerList getHandlerList() {
-	    return handlers;
-	}
+        return handlers;
+    }
 	
 	public ResearchUnlockEvent(Player p, Research res) {
 		this.p = p;

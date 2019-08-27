@@ -365,7 +365,7 @@ public class Research {
 		Set<Research> researched = profile.getResearches();
 		int levels = researched.stream().mapToInt(r -> r.getCost()).sum();
 		
-		String progress = String.valueOf(Math.round(((researched.size() * 100.0f) / list().size()) * 100.0f) / 100.0f);
+		String progress = String.valueOf(Math.round(((researched.size() * 100.0F) / list().size()) * 100.0F) / 100.0F);
 		if (Float.parseFloat(progress) < 16.0F) progress = "&4" + progress + " &r% ";
 		else if (Float.parseFloat(progress) < 32.0F) progress = "&c" + progress + " &r% ";
 		else if (Float.parseFloat(progress) < 48.0F) progress = "&6" + progress + " &r% ";
@@ -393,7 +393,7 @@ public class Research {
 	 */
 	@Deprecated
 	public static String getTitle(Player p, Set<Research> researched) {
-		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0f) / list().size()) * 100.0f) / 100.0f)) / 100.0F) * titles.size();
+		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0F) / list().size()) * 100.0F) / 100.0F)) / 100.0F) * titles.size();
 		if (index > 0) index--;
 		return titles.get(index);
 	}

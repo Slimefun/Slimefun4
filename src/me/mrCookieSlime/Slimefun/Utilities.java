@@ -12,7 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.AncientAltar.AltarRecipe;
+import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 
 /**
@@ -42,6 +42,7 @@ public final class Utilities {
 	public Map<UUID, ItemStack> arrows = new HashMap<>();
 	
 	public Set<UUID> elevatorUsers = new HashSet<>();
+	public Set<UUID> teleporterUsers = new HashSet<>();
 	
 	public Set<GitHubConnector> connectors = new HashSet<>();
 	public Map<String, String> contributorHeads = new HashMap<>();

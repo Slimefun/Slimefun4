@@ -20,10 +20,10 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
 	public HandlerList getHandlers() {
 	    return handlers;
 	}
-	 
+	
 	public static HandlerList getHandlerList() {
-	    return handlers;
-	}
+        return handlers;
+    }
 	
 	public MultiBlockInteractEvent(Player p, MultiBlock mb, Block clicked) {
 		this.p = p;

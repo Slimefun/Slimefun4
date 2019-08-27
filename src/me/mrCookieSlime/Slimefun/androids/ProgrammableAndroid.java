@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Android;
+package me.mrCookieSlime.Slimefun.androids;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,7 +48,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Android.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -59,6 +58,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.androids.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -1257,7 +1257,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	public float getScriptRating(Config script) {
 		int positive = getScriptRating(script, true) + 1;
 		int negative = getScriptRating(script, false);
-		return Math.round((positive / (double) (positive + negative)) * 100.0f) / 100.0f;
+		return Math.round((positive / (double) (positive + negative)) * 100.0F) / 100.0F;
 	}
 
 	private int getScriptRating(Config script, boolean positive) {
@@ -1283,29 +1283,28 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		final String[] commands = script.split("-");
 
 		for (int i = 0; i < 9; i++) {
-			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-					(pl, slot, item, action) -> false
-			);
+			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (pl, slot, item, action) -> false);
 		}
 
-		menu.addItem(9, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"),
-				(pl, slot, item, action) -> {
-					int i = 0;
-					StringBuilder builder = new StringBuilder("START-");
-					for (String command : commands) {
-						if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
-						i++;
-					}
-					builder.append("REPEAT");
-					BlockStorage.addBlockInfo(b, "script", builder.toString());
-					try {
-						openScript(p, b, builder.toString());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					return false;
-				}
-		);
+		menu.addItem(9, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"), (pl, slot, item, action) -> {
+			int i = 0;
+			StringBuilder builder = new StringBuilder("START-");
+			
+			for (String command : commands) {
+				if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
+				i++;
+			}
+			
+			builder.append("REPEAT");
+			BlockStorage.addBlockInfo(b, "script", builder.toString());
+			
+			try {
+				openScript(p, b, builder.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return false;
+		});
 
 		int i = 10;
 		for (final ScriptPart part : getAccessibleScriptParts()) {
@@ -1340,12 +1339,15 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private Inventory inject(Block b) {
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
+		
 		for (int i = 0; i < size; i++) {
 			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
 		}
+		
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
 		}
+		
 		return inv;
 	}
 
@@ -1393,7 +1395,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	public List<Config> getUploadedScripts() {
-		List<Config> scripts = new ArrayList<Config>();
+		List<Config> scripts = new ArrayList<>();
 
 		File directory = new File("plugins/Slimefun/scripts/" + this.getAndroidType().toString());
 		if (!directory.exists()) directory.mkdirs();
@@ -1417,7 +1419,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	public List<ScriptPart> getAccessibleScriptParts() {
-		List<ScriptPart> list = new ArrayList<ScriptPart>();
+		List<ScriptPart> list = new ArrayList<>();
 
 		for (final ScriptPart part : ScriptPart.values()) {
 			if (!part.equals(ScriptPart.START) && !part.equals(ScriptPart.REPEAT) && getAndroidType().isType(part.getRequiredType())) {

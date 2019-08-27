@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Android.comparators;
+package me.mrCookieSlime.Slimefun.androids.comparators;
 
 import java.util.Comparator;
 
@@ -8,7 +8,7 @@ public class ScriptDownloadSorter implements Comparator<Config> {
 
 	@Override
 	public int compare(Config c1, Config c2) {
-		return (int) (c2.getInt("downloads") - c1.getInt("downloads"));
+		return c2.getInt("downloads") - c1.getInt("downloads");
 	}
 
 }

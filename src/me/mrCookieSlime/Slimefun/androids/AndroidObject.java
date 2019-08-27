@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Android;
+package me.mrCookieSlime.Slimefun.androids;
 
 import org.bukkit.block.Block;
 

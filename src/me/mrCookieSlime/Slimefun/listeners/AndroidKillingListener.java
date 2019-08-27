@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Android.AndroidObject;
+import me.mrCookieSlime.Slimefun.androids.AndroidObject;
 
 public class AndroidKillingListener implements Listener {
 	

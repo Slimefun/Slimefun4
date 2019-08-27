@@ -1,9 +1,9 @@
-package me.mrCookieSlime.Slimefun.Android.comparators;
+package me.mrCookieSlime.Slimefun.androids.comparators;
 
 import java.util.Comparator;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Android.ProgrammableAndroid;
+import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
 
 public class ScriptReputationSorter implements Comparator<Config> {
 

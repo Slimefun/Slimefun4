@@ -105,14 +105,10 @@ public class TickerTask implements Runnable {
 											
 											if (errors == 1) {
 												// Generate a new Error-Report
-												ErrorReport report = new ErrorReport(this, l, item, x);
+												new ErrorReport(x, this, l, item);
 												
 												System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
 												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-												System.err.println("[Slimefun] Saved as: ");
-												System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + report.getFile().getName());
-												System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
-												System.err.println("[Slimefun] ");
 												
 												bugged_blocks.put(l, errors);
 											}
@@ -151,14 +147,10 @@ public class TickerTask implements Runnable {
 								
 								if (errors == 1) {
 									// Generate a new Error-Report
-									ErrorReport report = new ErrorReport(this, l, item, x);
+									new ErrorReport(x, this, l, item);
 									
 									System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
 									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-									System.err.println("[Slimefun] Saved as: ");
-									System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + report.getFile().getName());
-									System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
-									System.err.println("[Slimefun] ");
 									
 									bugged_blocks.put(l, errors);
 								}

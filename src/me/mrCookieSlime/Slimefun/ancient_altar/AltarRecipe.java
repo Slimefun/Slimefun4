@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.AncientAltar;
+package me.mrCookieSlime.Slimefun.ancient_altar;
 
 import java.util.ArrayList;
 import java.util.List;

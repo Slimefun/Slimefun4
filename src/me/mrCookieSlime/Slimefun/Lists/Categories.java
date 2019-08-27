@@ -1,5 +1,9 @@
 package me.mrCookieSlime.Slimefun.Lists;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomArmor;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.MenuItem;
@@ -8,10 +12,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.SeasonCategory;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
-
 /**
  * Built-in categories.
  * 
@@ -19,7 +19,9 @@ import org.bukkit.Material;
  * @since 4.0
  * @see Category
  */
-public class Categories {
+public final class Categories {
+	
+	private Categories() {}
 	
 	public static Category WEAPONS = new Category(new MenuItem(Material.GOLDEN_SWORD, "&7Weapons", 0, "open"), 1);
 	public static Category PORTABLE = null;

@@ -56,7 +56,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		
 		if (params.equals("researches_percentage_researches_unlocked")) {
 			Set<Research> set = PlayerProfile.fromUUID(p.getUniqueId()).getResearches();
-			return String.valueOf(Math.round(((set.size() * 100.0f) / Research.list().size()) * 100.0f) / 100.0f);
+			return String.valueOf(Math.round(((set.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F);
 		}
 		
 		if (params.equals("researches_title")) {

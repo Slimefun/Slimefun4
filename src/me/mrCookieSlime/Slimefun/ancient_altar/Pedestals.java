@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.AncientAltar;
+package me.mrCookieSlime.Slimefun.ancient_altar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,25 +65,21 @@ public final class Pedestals {
 	}
 
 	private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
-		loop:
         for (AltarRecipe recipe: SlimefunStartup.instance.getUtilities().altarRecipes) {
-        	if (!SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
-    			continue;
+        	if (SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
+        		for (int i = 0; i < 8; i++) {
+            		if (SlimefunManager.isItemSimiliar(items.get(i), recipe.getInput().get(0), true)) {
+            			for (int j = 1; j < 8; j++) {
+        					if (!SlimefunManager.isItemSimiliar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
+        						break;
+        					}
+        					else if (j == 7) {
+        						return recipe.getOutput();
+        					}
+        				}
+        			}
+            	}
     		}
-        	
-        	for (int i = 0; i < 8; i++) {
-        		if (!SlimefunManager.isItemSimiliar(items.get(i), recipe.getInput().get(0), true)) {
-        			continue;
-    			}
-        		
-        		for (int j = 1; j < 8; j++) {
-					if (!SlimefunManager.isItemSimiliar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
-						continue loop;
-					}
-				}
-				
-				return recipe.getOutput();
-        	}
         }
         
         return null;

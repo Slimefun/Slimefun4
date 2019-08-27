@@ -14,35 +14,30 @@ public class OilResource implements OreGenResource {
 		switch (biome) {
 		case SNOWY_BEACH:
 		case STONE_SHORE:
-		case BEACH: {
+		case BEACH:
 			return CSCoreLib.randomizer().nextInt(6) + 2;
-		}
 
 		case DESERT:
 		case DESERT_HILLS:
-		case DESERT_LAKES: {
+		case DESERT_LAKES: 
 			return CSCoreLib.randomizer().nextInt(40) + 19;
-		}
 
 		case MOUNTAINS:
 		case GRAVELLY_MOUNTAINS:
 		case MOUNTAIN_EDGE:
-		case RIVER: {
+		case RIVER: 
 			return CSCoreLib.randomizer().nextInt(14) + 13;
-		}
 
 		case SNOWY_MOUNTAINS:
 		case SNOWY_TUNDRA:
 		case ICE_SPIKES:
 		case FROZEN_OCEAN:
-		case FROZEN_RIVER: {
+		case FROZEN_RIVER: 
 			return CSCoreLib.randomizer().nextInt(11) + 3;
-		}
 
 		case THE_END:
-		case NETHER: {
+		case NETHER:
 			return 0;
-		}
 
 
 		case BADLANDS:
@@ -52,23 +47,19 @@ public class OilResource implements OreGenResource {
 		case MODIFIED_BADLANDS_PLATEAU:
 		case MODIFIED_WOODED_BADLANDS_PLATEAU:
 		case MUSHROOM_FIELDS:
-		case MUSHROOM_FIELD_SHORE: {
+		case MUSHROOM_FIELD_SHORE:
 			return CSCoreLib.randomizer().nextInt(24) + 14;
-		}
 
 		case DEEP_OCEAN:
-		case OCEAN: {
+		case OCEAN:
 			return CSCoreLib.randomizer().nextInt(62) + 24;
-		}
 
 		case SWAMP:
-		case SWAMP_HILLS: {
+		case SWAMP_HILLS:
 			return CSCoreLib.randomizer().nextInt(20) + 4;
-		}
 
-		default: {
+		default:
 			return CSCoreLib.randomizer().nextInt(10) + 6;
-		}
 		}
 	}
 
