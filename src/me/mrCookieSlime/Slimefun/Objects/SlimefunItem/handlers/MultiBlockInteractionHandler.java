@@ -5,12 +5,12 @@ import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public abstract class MultiBlockInteractionHandler extends ItemHandler {
+@FunctionalInterface
+public interface MultiBlockInteractionHandler extends ItemHandler {
 	
-	public abstract boolean onInteract(Player p, MultiBlock mb, Block b);
+	boolean onInteract(Player p, MultiBlock mb, Block b);
 	
-	@Override
-	public String toCodename() {
+	default String toCodename() {
 		return "MultiBlockInteractionHandler";
 	}
 }

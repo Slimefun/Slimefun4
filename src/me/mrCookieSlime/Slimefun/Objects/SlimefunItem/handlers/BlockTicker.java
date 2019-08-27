@@ -5,7 +5,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 import org.bukkit.block.Block;
 
-public abstract class BlockTicker extends ItemHandler {
+public abstract class BlockTicker implements ItemHandler {
 	
 	public boolean unique = true;
 

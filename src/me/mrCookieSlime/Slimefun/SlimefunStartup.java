@@ -473,11 +473,13 @@ public class SlimefunStartup extends JavaPlugin {
 		return whitelist;
 	}
 
+	@Deprecated
 	public static int randomize(int max) {
 		if (max < 1) return 0;
 		return CSCoreLib.randomizer().nextInt(max);
 	}
 
+	@Deprecated
 	public static boolean chance(int max, int percentage) {
 		if (max < 1) return false;
 		return CSCoreLib.randomizer().nextInt(max) <= percentage;

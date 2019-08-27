@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers;
 
-public abstract class ItemHandler {
+@FunctionalInterface
+public interface ItemHandler {
 	
-	public abstract String toCodename();
+	String toCodename();
 }

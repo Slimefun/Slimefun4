@@ -6,7 +6,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
 
 import org.bukkit.Location;
 
-public abstract class EnergyTicker extends ItemHandler {
+public abstract class EnergyTicker implements ItemHandler {
 	
 	public abstract double generateEnergy(Location l, SlimefunItem item, Config data);
 	public abstract boolean explode(Location l);

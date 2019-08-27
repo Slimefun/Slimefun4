@@ -23,7 +23,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class ElectricDustWasher extends AContainer {
-
+	
 	public ElectricDustWasher(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 	}
@@ -92,7 +92,7 @@ public abstract class ElectricDustWasher extends AContainer {
 						}
 						if (!empty_slot) return;
 					}
-
+					
 					ItemStack adding = SlimefunItems.IRON_DUST;
 					if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.GOLD_DUST;
 					else if (SlimefunStartup.chance(100, 25)) adding = SlimefunItems.ALUMINUM_DUST;

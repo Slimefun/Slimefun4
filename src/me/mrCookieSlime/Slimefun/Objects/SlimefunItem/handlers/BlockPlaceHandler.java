@@ -3,12 +3,12 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class BlockPlaceHandler extends ItemHandler {
+@FunctionalInterface
+public interface BlockPlaceHandler extends ItemHandler {
 	
-	public abstract boolean onBlockPlace(BlockPlaceEvent e, ItemStack item);
+	boolean onBlockPlace(BlockPlaceEvent e, ItemStack item);
 	
-	@Override
-	public String toCodename() {
+	default String toCodename() {
 		return "BlockPlaceHandler";
 	}
 }

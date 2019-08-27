@@ -5,12 +5,12 @@ import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class ItemInteractionHandler extends ItemHandler {
+@FunctionalInterface
+public interface ItemInteractionHandler extends ItemHandler {
 	
-	public abstract boolean onRightClick(ItemUseEvent e, Player p, ItemStack item);
+	boolean onRightClick(ItemUseEvent e, Player p, ItemStack item);
 	
-	@Override
-	public String toCodename() {
+	default String toCodename() {
 		return "ItemInteractionHandler";
 	}
 

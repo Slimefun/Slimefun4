@@ -3,12 +3,12 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public abstract class BowShootHandler extends ItemHandler {
+@FunctionalInterface
+public interface BowShootHandler extends ItemHandler {
 	
-	public abstract boolean onHit(EntityDamageByEntityEvent e, LivingEntity n);
-
-	@Override
-	public String toCodename() {
+	boolean onHit(EntityDamageByEntityEvent e, LivingEntity n);
+	
+	default String toCodename() {
 		return "BowShootHandler";
 	}
 }

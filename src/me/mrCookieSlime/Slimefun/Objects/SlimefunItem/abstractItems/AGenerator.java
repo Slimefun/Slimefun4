@@ -40,10 +40,10 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class AGenerator extends SlimefunItem {
 
-	public static Map<Location, MachineFuel> processing = new HashMap<Location, MachineFuel>();
-	public static Map<Location, Integer> progress = new HashMap<Location, Integer>();
+	public static Map<Location, MachineFuel> processing = new HashMap<>();
+	public static Map<Location, Integer> progress = new HashMap<>();
 	
-	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
+	private Set<MachineFuel> recipes = new HashSet<>();
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
 	private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
@@ -70,7 +70,7 @@ public abstract class AGenerator extends SlimefunItem {
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.INSERT)) return getInputSlots();
+				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
 				else return getOutputSlots();
 			}
 		};
@@ -108,78 +108,21 @@ public abstract class AGenerator extends SlimefunItem {
 	}
 
 	public AGenerator(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, id, recipeType, recipe, recipeOutput);
-		
-		new BlockMenuPreset(id, getInventoryTitle()) {
-			
-			@Override
-			public void init() {
-				constructMenu(this);
-			}
-
-			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
-			public boolean canOpen(Block b, Player p) {
-				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
-			}
-
-			@Override
-			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.INSERT)) return getInputSlots();
-				else return getOutputSlots();
-			}
-		};
-		
-		registerBlockHandler(id, new SlimefunBlockHandler() {
-			
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-			}
-			
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				BlockMenu inv = BlockStorage.getInventory(b);
-				if (inv != null) {
-					for (int slot : getInputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-					for (int slot : getOutputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-				}
-				progress.remove(b.getLocation());
-				processing.remove(b.getLocation());
-				return true;
-			}
-		});
-		
-		this.registerDefaultRecipes();
+		this(category, item, id, recipeType, recipe);
+		this.recipeOutput = recipeOutput;
 	}
 	
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
+		
 		for (int i : border_in) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),(p, slot, item, action) -> false);
 		}
+		
 		for (int i: border_out) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 		
 		for (int i: getOutputSlots()) {
@@ -197,9 +140,7 @@ public abstract class AGenerator extends SlimefunItem {
 			});
 		}
 		
-		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "),
-			(p, slot, item, action) -> false
-		);
+		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 	}
 	
 	public abstract String getInventoryTitle();
@@ -240,7 +181,7 @@ public abstract class AGenerator extends SlimefunItem {
 						ItemMeta im = item.getItemMeta();
 						((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(l).getTicks()));
 						im.setDisplayName(" ");
-						List<String> lore = new ArrayList<String>();
+						List<String> lore = new ArrayList<>();
 						lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
 						lore.add("");
 						lore.add(MachineHelper.getTimeLeft(timeleft / 2));
@@ -267,7 +208,7 @@ public abstract class AGenerator extends SlimefunItem {
 						if (SlimefunManager.isItemSimiliar(fuel, new ItemStack(Material.LAVA_BUCKET), true)
 								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_FUEL, true)
 								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
-							pushItems(l, new ItemStack[] {new ItemStack(Material.BUCKET)});
+							pushItems(l, new ItemStack(Material.BUCKET));
 						}
 						BlockStorage.getInventory(l).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 						
@@ -278,7 +219,7 @@ public abstract class AGenerator extends SlimefunItem {
 				}
 				else {
 					MachineFuel r = null;
-					Map<Integer, Integer> found = new HashMap<Integer, Integer>();
+					Map<Integer, Integer> found = new HashMap<>();
 					outer:
 					for (MachineFuel recipe: recipes) {
 						for (int slot: getInputSlots()) {
@@ -326,7 +267,7 @@ public abstract class AGenerator extends SlimefunItem {
 		return inv;
 	}
 	 
-	protected void pushItems(Location l, ItemStack[] items) {
+	protected void pushItems(Location l, ItemStack... items) {
 		Inventory inv = inject(l);
 		inv.addItem(items);
 		

@@ -260,15 +260,17 @@ public class Research {
 			ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
 			Bukkit.getPluginManager().callEvent(event);
 			
+			Runnable runnable = () -> {
+				PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, true);
+				Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
+				
+				if (SlimefunStartup.getCfg().getBoolean("options.research-unlock-fireworks")) {
+					FireworkShow.launchRandom(p, 1);
+				}
+			};
+			
 			if (!event.isCancelled()) {
-				if (instant) {
-					PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, true);
-					
-					Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
-					if (SlimefunStartup.getCfg().getBoolean("options.research-give-fireworks")) {
-						FireworkShow.launchRandom(p, 1);
-					}
-				} 
+				if (instant) runnable.run();
 				else if (!SlimefunStartup.instance.getUtilities().researching.contains(p.getUniqueId())){
 					SlimefunStartup.instance.getUtilities().researching.add(p.getUniqueId());
 					Messages.local.sendTranslation(p, "messages.research.start", true, new Variable("%research%", getName()));
@@ -283,13 +285,7 @@ public class Research {
 					}
 					
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-						PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, true);
-						Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
-						
-						if (SlimefunStartup.getCfg().getBoolean("options.research-unlock-fireworks")) {
-							FireworkShow.launchRandom(p, 1);
-						}
-						
+						runnable.run();
 						SlimefunStartup.instance.getUtilities().researching.remove(p.getUniqueId());
 					}, (research_progress.length + 1) * 20L);
 				}

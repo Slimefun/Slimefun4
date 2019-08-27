@@ -53,7 +53,7 @@ public class SlimefunItem {
 	private Category category;
 	private ItemStack[] recipe;
 	private RecipeType recipeType;
-	private ItemStack recipeOutput = null;
+	protected ItemStack recipeOutput = null;
 	private Research research;
 	private int month = -1;
 	private boolean enchantable = true, disenchantable = true;
