@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.WorldEdit;
+package me.mrCookieSlime.Slimefun.hooks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,9 +14,9 @@ import com.sk89q.worldedit.world.block.BlockStateHolder;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class WESlimefunManager {
+public class WorldEditHook {
 
-	public WESlimefunManager() {
+	public WorldEditHook() {
 		WorldEdit.getInstance().getEventBus().register(this);
 	}
 

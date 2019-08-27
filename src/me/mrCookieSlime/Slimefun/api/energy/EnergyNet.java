@@ -138,16 +138,18 @@ public class EnergyNet extends Network {
 		double demand = 0.0D;
 
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-			EnergyHologram.update(b, "&4No Energy Network found");
+			EnergyHologram.update(b, "&4找不到能源网络");
 		}
 		else {
+            Set<Location> exploded = new HashSet<>();
 			for (final Location source: input) {
 				long timestamp = System.currentTimeMillis();
 				SlimefunItem item = BlockStorage.check(source);
 				double energy = item.getEnergyTicker().generateEnergy(source, item, BlockStorage.getLocationInfo(source));
 
 				if (item.getEnergyTicker().explode(source)) {
-					BlockStorage.clearBlockInfo(source);
+                    exploded.add(source);
+                    BlockStorage.clearBlockInfo(source);
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
 						source.getBlock().setType(Material.LAVA);
 						source.getWorld().createExplosion(source, 0F, false);
@@ -158,6 +160,8 @@ public class EnergyNet extends Network {
 				}
 				TickerTask.block_timings.put(source, System.currentTimeMillis() - timestamp);
 			}
+
+            input.removeAll(exploded);
 
 			for (Location battery: storage) {
 				supply = supply + ChargableBlock.getCharge(battery);

@@ -16,8 +16,8 @@ public class BlockInfoConfig extends Config {
 		this(new HashMap<>());
 	}
 	public BlockInfoConfig(Map<String, String> data) {
-		super((File)null,(FileConfiguration)null);
-		this.data=data;
+		super(null, null);
+		this.data = data;
 	}
 	public Map<String, String> getMap(){
 		return data;

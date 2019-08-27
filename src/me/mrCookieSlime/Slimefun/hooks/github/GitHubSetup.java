@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.GitHub;
+package me.mrCookieSlime.Slimefun.hooks.github;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -30,7 +30,7 @@ public class GitHubSetup {
 			    		SlimefunGuide.contributors.add(contributor);
 			    	}
 			    }
-				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6首席艺术家", 0));
+				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6首席美术家", 0));
 			}
 			
 			@Override
@@ -38,7 +38,7 @@ public class GitHubSetup {
 				SlimefunGuide.contributors.clear();
 				SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&c作者", 3));
 				SlimefunGuide.contributors.add(new Contributor("John000708", "&c作者", 2));
-				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6首席艺术家", 0));
+				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6首席美术家", 0));
 			}
 			
 			@Override

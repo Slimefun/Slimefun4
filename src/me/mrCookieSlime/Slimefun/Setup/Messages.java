@@ -27,7 +27,7 @@ public class Messages {
         local.setDefault("messages.usage",   "&4例子: &c%usage%" );
         local.setDefault("messages.not-online",   "&4%player% &c不在线!" );
         local.setDefault("messages.not-valid-item",   "&4%item% &c不是一个粘液科技物品!" );
-        local.setDefault("messages.given-item",   "&b你已被给予了一个 &7\"%item%\"" );
+        local.setDefault("messages.given-item",   "&b你收到了一个 &7\"%item%\"" );
         local.setDefault("messages.give-item",   "&b你给予了玩家 %player% 一个 &7\"%item%\"" );
         local.setDefault("messages.not-valid-research",   "&4%research% &c不是一个有效的研究名!" );
         local.setDefault("messages.give-research",   "&b你成功解锁了玩家 %player% 的研究 &7\"%research%\"" );
@@ -76,7 +76,7 @@ public class Messages {
         local.setDefault("gps.waypoint.new",   "&e请为你的路径点起名 &7(支持彩色代码!)" );
         local.setDefault("gps.waypoint.added",   "&a成功新增了新的路径点" );
         local.setDefault("gps.waypoint.max",   "&4你已到达设置路径点的最大上限!" );
-        local.setDefault("gps.insufficient-complexity",   "&4GPS 网络复杂度不够: &c%complexity%", "&4a) 你还没有设置一个 GPS 网络", "&4b) 你的 GPS 网络复杂度不够, 多设置几个卫星" );
+        local.setDefault("gps.insufficient-complexity",   "&4GPS 网络复杂度不够: &c%complexity%", "&4a) 你还没有设置一个 GPS 网络", "&4b) 你的 GPS 网络复杂度不够, 多设置几个 GPS 发射机" );
         local.setDefault("gps.geo.scan-required",   "&4需要先进行地形扫描! &c请先使用地形扫描器!" );
 
         local.setDefault("robot.started",   "&7你的机器人重新运行了它的脚本" );
@@ -85,7 +85,7 @@ public class Messages {
 
         local.setDefault("machines.ANCIENT_ALTAR.not-enough-pedestals",   "&4基座不足. 目前已摆放的基座: &c(%pedestals% / 8)" );
         local.setDefault("machines.ANCIENT_ALTAR.unknown-catalyst",   "&4无效的合成配方! &c请先摆放其他物品再右键!" );
-        local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe",   "&4未知合成表! &c请使用正确的合成方式!" );
+        local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe",   "&4未知合成表! &c请使用正确的合成方式! 如果确认没错请将摆放的物品旋转 90 度重试." );
         local.setDefault("machines.HOLOGRAM_PROJECTOR.enter-text",   "&7请写下想显示在全息文本上的话. &r(支持颜色代码)" );
         local.setDefault("machines.ELEVATOR.no-destinations",   "&4找不到目的地 (检查上/下方是否也放置了电梯)" );
         local.setDefault("machines.CARGO_NODES.must-be-placed",   "&4必须放置在箱子或机器上!" );

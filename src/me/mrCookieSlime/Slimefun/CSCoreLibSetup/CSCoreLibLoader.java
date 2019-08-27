@@ -13,11 +13,8 @@ import java.net.URLConnection;
 
 import org.bukkit.plugin.Plugin;
 import com.google.gson.JsonArray;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.json.simple.JSONValue;
 
 public class CSCoreLibLoader {
 	
@@ -40,12 +37,11 @@ public class CSCoreLibLoader {
 			System.err.println(" ");
 			System.err.println("#################### - INFO - ####################");
 			System.err.println(" ");
-			System.err.println(plugin.getName() + " could not be loaded.");
-			System.err.println("It appears that you have not installed CS-CoreLib");
-			System.err.println("Your Server will now try to download and install");
-			System.err.println("CS-CoreLib for you.");
-			System.err.println("You will be asked to restart your Server when it's finished.");
-			System.err.println("If this somehow fails, please download and install CS-CoreLib manually:");
+			System.err.println(plugin.getName() + " 无法被加载.");
+			System.err.println("你的服务器可能没有安装前置 CS-CoreLib,");
+			System.err.println("我们正在自动为你下载.");
+			System.err.println("在下载完成后, 请重启服务器以安装前置插件");
+			System.err.println("如果无法自动下载, 你可以打开这个链接尝试重新下载:");
 			System.err.println("https://dev.bukkit.org/projects/cs-corelib");
 			System.err.println(" ");
 			System.err.println("#################### - INFO - ####################");
@@ -76,8 +72,8 @@ public class CSCoreLibLoader {
         	System.err.println(" ");
         	System.err.println("#################### - WARNING - ####################");
 			System.err.println(" ");
-			System.err.println("Could not connect to BukkitDev.");
-			System.err.println("Please download & install CS-CoreLib manually:");
+			System.err.println("无法连接至 BukkitDev.");
+			System.err.println("请手动下载并安装 CS-CoreLib:");
 			System.err.println("https://dev.bukkit.org/projects/cs-corelib");
 			System.err.println(" ");
 			System.err.println("#################### - WARNING - ####################");
@@ -126,8 +122,8 @@ public class CSCoreLibLoader {
         	System.err.println(" ");
         	System.err.println("#################### - WARNING - ####################");
 			System.err.println(" ");
-			System.err.println("Failed to download CS-CoreLib");
-			System.err.println("Please download & install CS-CoreLib manually:");
+            System.err.println("无法连接至 BukkitDev.");
+            System.err.println("请手动下载并安装 CS-CoreLib:");
 			System.err.println("https://dev.bukkit.org/projects/cs-corelib");
 			System.err.println(" ");
 			System.err.println("#################### - WARNING - ####################");
@@ -137,12 +133,11 @@ public class CSCoreLibLoader {
                 if (input != null) input.close();
                 if (output != null) output.close();
                 System.err.println(" ");
-                System.err.println("#################### - INFO - ####################");
+                System.err.println("####################### - INFO - #######################");
                 System.err.println(" ");
-                System.err.println("Please restart your Server to finish the Installation");
-                System.err.println("of " + plugin.getName() + " and CS-CoreLib");
+                System.err.println("请重启服务器完成 " + plugin.getName() + " 和 CS-CoreLib 的安装");
                 System.err.println(" ");
-                System.err.println("#################### - INFO - ####################");
+                System.err.println("####################### - INFO - #######################");
                 System.err.println(" ");
             } catch (IOException e) {
             	e.printStackTrace();

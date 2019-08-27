@@ -1,35 +1,31 @@
  package me.mrCookieSlime.Slimefun.api;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+ import com.google.gson.JsonElement;
+ import com.google.gson.JsonObject;
+ import com.google.gson.JsonParser;
+ import com.google.gson.JsonPrimitive;
+ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+ import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
+ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+ import me.mrCookieSlime.Slimefun.SlimefunStartup;
+ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+ import org.bukkit.Bukkit;
+ import org.bukkit.Chunk;
+ import org.bukkit.Location;
+ import org.bukkit.World;
+ import org.bukkit.block.Block;
+ import org.bukkit.configuration.file.FileConfiguration;
+ import org.bukkit.configuration.file.YamlConfiguration;
+ import org.bukkit.entity.HumanEntity;
+ import org.bukkit.inventory.ItemStack;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.inventory.ItemStack;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+ import java.io.File;
+ import java.io.IOException;
+ import java.nio.file.Files;
+ import java.nio.file.StandardCopyOption;
+ import java.util.*;
 
 public class BlockStorage {
 	private static final String path_blocks = "data-storage/Slimefun/stored-blocks/";
@@ -185,7 +181,9 @@ public class BlockStorage {
 			if (file.getName().endsWith(".sfi")) {
 				Config cfg = new Config(file);
 				BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
-				universal_inventories.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
+                if (preset != null) {
+                    universal_inventories.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
+                }
 			}
 		}
 	}
@@ -198,12 +196,12 @@ public class BlockStorage {
 		
 		Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
 		for (Map.Entry<Location, BlockMenu> entry: inventories2.entrySet()) {
-			changes += entry.getValue().changes;
+			changes += entry.getValue().getUnsavedChanges();
 		}
 		
 		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<>(universal_inventories);
 		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
-			changes += entry.getValue().changes;
+			changes += entry.getValue().getUnsavedChanges();
 		}
 	}
 	
@@ -316,21 +314,13 @@ public class BlockStorage {
 	}
 	
 	private static Map<String, String> parseJSON(String json) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<>();
 		
 		if (json != null && json.length() > 2) {
-			try {
-				JSONParser parser = new JSONParser();
-				JSONObject obj = (JSONObject) parser.parse(json);
-				for (Object entry: obj.keySet()) {
-					String key = entry.toString();
-					String value = obj.get(entry).toString();
-					map.put(key, value);
-				}
-				
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+            JsonParser parser = new JsonParser();
+            JsonObject obj = parser.parse(json).getAsJsonObject();
+            for (Map.Entry<String, JsonElement> entry: obj.entrySet())
+                map.put(entry.getKey(), entry.getValue().getAsString());
 		}
 		return map;
 	}
@@ -350,13 +340,12 @@ public class BlockStorage {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private static String serializeBlockInfo(Config cfg) {
-		JSONObject json = new JSONObject();
+        JsonObject json = new JsonObject();
 		for (String key : cfg.getKeys()) {
-			json.put(key, cfg.getString(key));
+            json.add(key, new JsonPrimitive(cfg.getString(key)));
 		}
-		return json.toJSONString();
+		return json.toString();
 	}
 	private static String getJSONData(Chunk chunk) {
 		return map_chunks.get(serializeChunk(chunk));
@@ -572,7 +561,7 @@ public class BlockStorage {
 	}
 	
 	public static Set<String> getTickingChunks() {
-		return new HashSet<>(loaded_tickers);
+        return new HashSet<>(loaded_tickers);
 	}
 
 	@Deprecated
@@ -586,7 +575,7 @@ public class BlockStorage {
 
 	@Deprecated
 	public static Set<Block> getTickingBlocks(String chunk) {
-		Set<Block> ret = new HashSet<>();
+        Set<Block> ret = new HashSet<>();
 		for (Location l: getTickingLocations(chunk)) {
 			ret.add(l.getBlock());
 		}
@@ -652,10 +641,6 @@ public class BlockStorage {
 		if (!storage.hasInventory(l)) return storage.loadInventory(l, BlockMenuPreset.getPreset(checkID(l)));
 		else return storage.inventories.get(l);
 	}
-	
-	public static JSONParser getParser() {
-		return new JSONParser();
-	}
 
 	public static Config getChunkInfo(Chunk chunk) {
 		try {
@@ -683,19 +668,18 @@ public class BlockStorage {
 	public static boolean hasChunkInfo(Chunk chunk) {
 		return map_chunks.containsKey(serializeChunk(chunk));
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public static void setChunkInfo(Chunk chunk, String key, String value) {
 		Config cfg = new Config("data-storage/Slimefun/temp.yml");
 		if (hasChunkInfo(chunk)) cfg = getChunkInfo(chunk);
 		cfg.setValue(key, value);
-		
-		JSONObject json = new JSONObject();
+
+        JsonObject json = new JsonObject();
 		for (String path: cfg.getKeys()) {
-			json.put(path, cfg.getString(path));
+            json.add(path, new JsonPrimitive(cfg.getString(path)));
 		}
 		
-		map_chunks.put(serializeChunk(chunk), json.toJSONString());
+		map_chunks.put(serializeChunk(chunk), json.toString());
 		
 		chunk_changes++;
 	}

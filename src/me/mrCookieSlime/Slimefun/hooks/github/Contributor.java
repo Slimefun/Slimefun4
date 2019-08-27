@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.GitHub;
+package me.mrCookieSlime.Slimefun.hooks.github;
 
 /**
  * Represents a contributor on Slimefun4's GitHub repository.

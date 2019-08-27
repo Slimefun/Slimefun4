@@ -29,129 +29,129 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class BlockListener implements Listener {
-	
-	public BlockListener(SlimefunStartup plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-	
-	@EventHandler
-	public void onBlockFall(EntityChangeBlockEvent event) {
-		if (event.getEntity() instanceof FallingBlock) {
-			if (BlockStorage.hasBlockInfo(event.getBlock())) {
-				event.setCancelled(true);
-				FallingBlock fb = (FallingBlock) event.getEntity();
-				if (fb.getDropItem()) {
-					fb.getWorld().dropItemNaturally(fb.getLocation(), new ItemStack(fb.getBlockData().getMaterial(), 1));
-				}
-			}
-		}
-	}
 
-	@EventHandler
-	public void onPistonExtend(BlockPistonExtendEvent e) {
-		for (Block b : e.getBlocks()) {
-			if (BlockStorage.hasBlockInfo(b)) {
-				e.setCancelled(true);
-				return;
-			}
-			else if(b.getRelative(e.getDirection()) == null && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
-				e.setCancelled(true);
-				return;
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onPistonRetract(BlockPistonRetractEvent e) {
-		if (e.isSticky()) {
-			for (Block b : e.getBlocks()) {
-				if (BlockStorage.hasBlockInfo(b)) {
-					e.setCancelled(true);
-					return;
-				}
-				else if(b.getRelative(e.getDirection()) == null && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
-					e.setCancelled(true);
-					return;
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onRightClick(PlayerInteractEvent e) {
-		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (!e.getHand().equals(EquipmentSlot.HAND)) return;
-			Player p = e.getPlayer();
-			Block b = e.getClickedBlock();
-			List<MultiBlock> multiblocks = new ArrayList<MultiBlock>();
-			for (MultiBlock mb: MultiBlock.list()) {
-				if (mb.getTriggerBlock() == b.getType()) {
-					Material[] blocks = mb.getBuild();
-					
-					if (mb.getTriggerBlock() == blocks[1]) {
-						if (
-						BlockAdjacents.hasMaterialOnSide(b, blocks[0]) &&
-						BlockAdjacents.hasMaterialOnSide(b, blocks[2]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN), blocks[4]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[3]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[5]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[7]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[6]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[8])
-						) {
-							if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[0]));
-							else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[5]));
-							else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -2, 0), blocks[8]));
-							else multiblocks.add(mb);
-						}
-					}
-					else if (mb.getTriggerBlock() == blocks[4]) {
-						if (
-						BlockAdjacents.hasMaterialOnSide(b, blocks[3]) &&
-						BlockAdjacents.hasMaterialOnSide(b, blocks[5]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN), blocks[7]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[6]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[8]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[1]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[0]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[2])
-						) {
-							if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[0]));
-							else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[5]));
-							else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[8]));
-							else multiblocks.add(mb);;
-						}
-					}
-					else if (mb.getTriggerBlock() == blocks[7]) {
-						if (
-						BlockAdjacents.hasMaterialOnSide(b, blocks[6]) &&
-						BlockAdjacents.hasMaterialOnSide(b, blocks[8]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[1]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[0]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[2]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[4]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[3]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[5])
-						) {
-							if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 2, 0), blocks[0]));
-							else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[5]));
-							else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[8]));
-							else multiblocks.add(mb);;
-						}
-					}
-				}
-			}
-			
-			if (!multiblocks.isEmpty()) {
-				e.setCancelled(true);
-				
-				for (ItemHandler handler: SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
-					if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblocks.get(multiblocks.size() - 1), b)) break;
-				}
-				
-				MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, multiblocks.get(multiblocks.size() - 1), b);
-				Bukkit.getPluginManager().callEvent(event);
-			}
-		}
-	}
+    public BlockListener(SlimefunStartup plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
+    @EventHandler
+    public void onBlockFall(EntityChangeBlockEvent event) {
+        if (event.getEntity() instanceof FallingBlock) {
+            if (BlockStorage.hasBlockInfo(event.getBlock())) {
+                event.setCancelled(true);
+                FallingBlock fb = (FallingBlock) event.getEntity();
+                if (fb.getDropItem()) {
+                    fb.getWorld().dropItemNaturally(fb.getLocation(), new ItemStack(fb.getBlockData().getMaterial(), 1));
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPistonExtend(BlockPistonExtendEvent e) {
+        for (Block b : e.getBlocks()) {
+            if (BlockStorage.hasBlockInfo(b)) {
+                e.setCancelled(true);
+                return;
+            }
+            else if (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+                e.setCancelled(true);
+                return;
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPistonRetract(BlockPistonRetractEvent e) {
+        if (e.isSticky()) {
+            for (Block b : e.getBlocks()) {
+                if (BlockStorage.hasBlockInfo(b)) {
+                    e.setCancelled(true);
+                    return;
+                }
+                else if (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onRightClick(PlayerInteractEvent e) {
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (!e.getHand().equals(EquipmentSlot.HAND)) return;
+            Player p = e.getPlayer();
+            Block b = e.getClickedBlock();
+            List<MultiBlock> multiblocks = new ArrayList<>();
+            for (MultiBlock mb: MultiBlock.list()) {
+                if (mb.getTriggerBlock() == b.getType()) {
+                    Material[] blocks = mb.getBuild();
+
+                    if (mb.getTriggerBlock() == blocks[1]) {
+                        if (
+                                BlockAdjacents.hasMaterialOnSide(b, blocks[0]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b, blocks[2]) &&
+                                        BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN), blocks[4]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[3]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[5]) &&
+                                        BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[7]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[6]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[8])
+                        ) {
+                            if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[0]));
+                            else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[5]));
+                            else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -2, 0), blocks[8]));
+                            else multiblocks.add(mb);
+                        }
+                    }
+                    else if (mb.getTriggerBlock() == blocks[4]) {
+                        if (
+                                BlockAdjacents.hasMaterialOnSide(b, blocks[3]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b, blocks[5]) &&
+                                        BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN), blocks[7]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[6]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[8]) &&
+                                        BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[1]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[0]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[2])
+                        ) {
+                            if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[0]));
+                            else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[5]));
+                            else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[8]));
+                            else multiblocks.add(mb);;
+                        }
+                    }
+                    else if (mb.getTriggerBlock() == blocks[7]) {
+                        if (
+                                BlockAdjacents.hasMaterialOnSide(b, blocks[6]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b, blocks[8]) &&
+                                        BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[1]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[0]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[2]) &&
+                                        BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[4]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[3]) &&
+                                        BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[5])
+                        ) {
+                            if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 2, 0), blocks[0]));
+                            else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[5]));
+                            else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[8]));
+                            else multiblocks.add(mb);;
+                        }
+                    }
+                }
+            }
+
+            if (!multiblocks.isEmpty()) {
+                e.setCancelled(true);
+
+                for (ItemHandler handler: SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
+                    if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblocks.get(multiblocks.size() - 1), b)) break;
+                }
+
+                MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, multiblocks.get(multiblocks.size() - 1), b);
+                Bukkit.getPluginManager().callEvent(event);
+            }
+        }
+    }
 }

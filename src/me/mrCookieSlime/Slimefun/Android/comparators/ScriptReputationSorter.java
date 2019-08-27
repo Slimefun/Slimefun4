@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Android.ScriptComparators;
+package me.mrCookieSlime.Slimefun.Android.comparators;
 
 import java.util.Comparator;
 
@@ -7,10 +7,10 @@ import me.mrCookieSlime.Slimefun.Android.ProgrammableAndroid;
 
 public class ScriptReputationSorter implements Comparator<Config> {
 
-	ProgrammableAndroid android;
+	private ProgrammableAndroid android;
 	
-	public ScriptReputationSorter(ProgrammableAndroid programmableAndroid) {
-		this.android = programmableAndroid;
+	public ScriptReputationSorter(ProgrammableAndroid android) {
+		this.android = android;
 	}
 
 	@Override

@@ -1,15 +1,7 @@
 package me.mrCookieSlime.Slimefun.Android;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,7 +40,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Android.ScriptComparators.ScriptReputationSorter;
+import me.mrCookieSlime.Slimefun.Android.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -214,8 +206,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				boolean allow =  reason.equals(UnregisterReason.PLAYER_BREAK) && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
 
-                if (BlockStorage.hasBlockInfo(b)) return false;
-
 				if (allow) {
 					BlockMenu inv = BlockStorage.getInventory(b);
 					if (inv != null) {
@@ -249,7 +239,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 		if (BlockStorage.getLocationInfo(b.getLocation(), "paused").equals("false")) {
 			float fuel = Float.parseFloat(BlockStorage.getLocationInfo(b.getLocation(), "fuel"));
-			if (fuel == 0) {
+			if (fuel < 0.001) {
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(43);
 				if (item != null) {
 					for (MachineFuel recipe: recipes) {
@@ -381,13 +371,12 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                                 for (int slot: getOutputSlots()) {
                                     ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);
                                     if (stack != null) {
-                                        Map<Integer, ItemStack> items = d.getInventory().addItem(stack);
-                                        if (items.isEmpty()) BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+                                        Optional<ItemStack> optional = d.getInventory().addItem(stack).values().stream().findFirst();
+                                        if (optional.isPresent()) {
+                                            BlockStorage.getInventory(b).replaceExistingItem(slot, optional.get());
+                                        }
                                         else {
-                                            for (Map.Entry<Integer, ItemStack> entry: items.entrySet()) {
-                                                BlockStorage.getInventory(b).replaceExistingItem(slot, entry.getValue());
-                                                break;
-                                            }
+                                            BlockStorage.getInventory(b).replaceExistingItem(slot, null);
                                         }
                                     }
                                 }
@@ -690,8 +679,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                     }
                 }
                 if (refresh) BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
-			}
-		}
+            }
+        }
 	}
 
 	private void move(Block b, BlockFace face, Block block) throws Exception {
@@ -708,91 +697,87 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
-	private void mine(Block b, Block block) {
-		Collection<ItemStack> drops = block.getDrops();
-		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
-			SlimefunItem item = BlockStorage.check(block);
-            boolean allow = false;
+    private void mine(Block b, Block block) {
+        Collection<ItemStack> drops = block.getDrops();
+        if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
+            SlimefunItem item = BlockStorage.check(block);
 
-			if (item != null) {
-				if (fits(b, item.getItem())) {
-					if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-                        if (allow) {
+            if (item != null) {
+                return;
+                /*if (fits(b, item.getItem())) {
+                    if (SlimefunItem.blockhandler.containsKey(item.getID())) {
+                        if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+                            pushItems(b, BlockStorage.retrieve(block));
+                            if (SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
+                            block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+                            block.setType(Material.AIR);
+                        }
+                    }
+                }*/
+            } else {
+                ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
+                if (fits(b, items)) {
+                    pushItems(b, items);
+                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+                    block.setType(Material.AIR);
+                }
+            }
+        }
+    }
+
+    private void movedig(Block b, BlockFace face, Block block) {
+        Collection<ItemStack> drops = block.getDrops();
+        if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
+            try {
+                SlimefunItem item = BlockStorage.check(block);
+                if (item != null) {
+                    if (fits(b, item.getItem())) {
+                        if (SlimefunItem.blockhandler.containsKey(item.getID())) {
                             if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
                                 pushItems(b, BlockStorage.retrieve(block));
-                                if (SlimefunItem.blockhandler.containsKey(item.getID()))
-                                    SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
                                 block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-                                block.setType(Material.AIR);
+                                block.setType(Material.PLAYER_HEAD);
+                                Rotatable blockData = (Rotatable) block.getBlockData();
+                                blockData.setRotation(face.getOppositeFace());
+                                block.setBlockData(blockData);
+                                CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+                                b.setType(Material.AIR);
+                                BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
                             }
                         }
-					}
-				}
-			}
-			else {
-				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-				if (fits(b, items)) {
-					pushItems(b, items);
-					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-					block.setType(Material.AIR);
-				}
-			}
-		}
-	}
+                    }
+                }
+                else {
+                    ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
+                    if (fits(b, items)) {
+                        pushItems(b, items);
+                        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+                        block.setType(Material.PLAYER_HEAD);
+                        Rotatable blockData = (Rotatable) block.getBlockData();
+                        blockData.setRotation(face.getOppositeFace());
+                        block.setBlockData(blockData);
+                        CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+                        b.setType(Material.AIR);
+                        BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
+                    }
+                }
+            } catch (Exception x) {
+                x.printStackTrace();
+            }
+        }
+        else {
+            try {
+                move(b, face, block);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	private void movedig(Block b, BlockFace face, Block block) {
-		Collection<ItemStack> drops = block.getDrops();
-		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
-			try {
-				SlimefunItem item = BlockStorage.check(block);
-				if (item != null) {
-					if (fits(b, item.getItem())) {
-						if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-							if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-								pushItems(b, BlockStorage.retrieve(block));
-								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-								block.setType(Material.PLAYER_HEAD);
-								Rotatable blockData = (Rotatable) block.getBlockData();
-								blockData.setRotation(face.getOppositeFace());
-								block.setBlockData(blockData);
-								CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-								b.setType(Material.AIR);
-								BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
-							}
-						}
-					}
-				}
-				else {
-					ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-					if (fits(b, items)) {
-						pushItems(b, items);
-						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-						block.setType(Material.PLAYER_HEAD);
-						Rotatable blockData = (Rotatable) block.getBlockData();
-						blockData.setRotation(face.getOppositeFace());
-						block.setBlockData(blockData);
-						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-						b.setType(Material.AIR);
-						BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
-					}
-				}
-			} catch (Exception x) {
-				x.printStackTrace();
-			}
-		}
-		else {
-			try {
-				move(b, face, block);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private boolean isFullGrown(Block block){
-		Ageable ageable = ((Ageable) block.getBlockData());
-		return ageable.getAge() >= ageable.getMaximumAge();
-	}
+    private boolean isFullGrown(Block block){
+        Ageable ageable = ((Ageable) block.getBlockData());
+        return ageable.getAge() >= ageable.getMaximumAge();
+    }
 
     private void farm(Block b, Block block) {
         switch (block.getType()) {
@@ -1260,7 +1245,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	public float getScriptRating(Config script) {
 		int positive = getScriptRating(script, true) + 1;
 		int negative = getScriptRating(script, false);
-		return Math.round((positive / (positive + negative)) * 100.0f) / 100.0f;
+        return Math.round((positive / (double) (positive + negative)) * 100.0f) / 100.0f;
 	}
 
 	private int getScriptRating(Config script, boolean positive) {
@@ -1292,48 +1277,49 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 
 		menu.addItem(9, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"),
-			(pl, slot, item, action) -> {
-				int i = 0;
-				StringBuilder builder = new StringBuilder("START-");
-				for (String command : commands) {
-					if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
-					i++;
-				}
-				builder.append("REPEAT");
-				BlockStorage.addBlockInfo(b, "script", builder.toString());
-				try {
-					openScript(p, b, builder.toString());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return false;
-			}
-		);
-
-		int i = 10;
-		for (final ScriptPart part : getAccessibleScriptParts()) {
-			menu.addItem(i, part.toItemStack(),
 				(pl, slot, item, action) -> {
 					int j = 0;
 					StringBuilder builder = new StringBuilder("START-");
 					for (String command : commands) {
-						if (j > 0) {
-							if (j == index) builder.append(part.toString() + "-");
-							else if (j < commands.length - 1) builder.append(command + "-");
-						}
+                        if (j != index && j > 0 && j < commands.length - 1) builder.append(command + "-");
 						j++;
 					}
 					builder.append("REPEAT");
 					BlockStorage.addBlockInfo(b, "script", builder.toString());
 
 					try {
-						openScript(pl, b, builder.toString());
+						openScript(p, b, builder.toString());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					return false;
 				}
-			);
+        );
+
+        int i = 10;
+        for (final ScriptPart part : getAccessibleScriptParts()) {
+            menu.addItem(i, part.toItemStack(),
+                    (pl, slot, item, action) -> {
+                        int j = 0;
+                        StringBuilder builder = new StringBuilder("START-");
+                        for (String command : commands) {
+                            if (j > 0) {
+                                if (j == index) builder.append(part.toString() + "-");
+                                else if (j < commands.length - 1) builder.append(command + "-");
+                            }
+                            j++;
+                        }
+                        builder.append("REPEAT");
+                        BlockStorage.addBlockInfo(b, "script", builder.toString());
+
+                        try {
+                            openScript(pl, b, builder.toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }
+            );
 			i++;
 		}
 

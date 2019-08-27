@@ -11,20 +11,19 @@ import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 
 public class GuideOnJoinListener implements Listener {
 
-	public GuideOnJoinListener(SlimefunStartup plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
+    public GuideOnJoinListener(SlimefunStartup plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
 
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e) {
-		if (!e.getPlayer().hasPlayedBefore()) {
-			Player p = e.getPlayer();
-			if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
-			if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
-			
-			p.getInventory().addItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book")
-					? SlimefunGuide.getItem(BookDesign.BOOK) : SlimefunGuide.getItem(BookDesign.CHEST));
-		}
-	}
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        if (!e.getPlayer().hasPlayedBefore()) {
+            Player p = e.getPlayer();
+            if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
+            if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
 
+            BookDesign type = SlimefunStartup.getCfg().getBoolean("guide.default-view-book") ? BookDesign.BOOK : BookDesign.CHEST;
+            p.getInventory().addItem(SlimefunGuide.getItem(type));
+        }
+    }
 }

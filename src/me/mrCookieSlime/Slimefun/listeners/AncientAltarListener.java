@@ -115,19 +115,15 @@ public class AncientAltarListener implements Listener {
                             else {
                                 altars.remove(e.getClickedBlock());
                                 Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
-                                pedestals.forEach((pblock)->{
-                                    Variables.altarinuse.remove(pblock.getLocation());
-                                });
+                                pedestals.forEach((pblock) -> Variables.altarinuse.remove(pblock.getLocation()));
                                 Variables.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use.
                             }
                         }
                         else {
                             altars.remove(e.getClickedBlock());
                             Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
-                            pedestals.forEach((pblock)->{
-                                Variables.altarinuse.remove(pblock.getLocation());
-                            });
-                            Variables.altarinuse.remove(b.getLocation());  // unkown catalyst, no longer in use
+                            pedestals.forEach((pblock) -> Variables.altarinuse.remove(pblock.getLocation()));
+                            Variables.altarinuse.remove(b.getLocation());  // unknown catalyst, no longer in use
                         }
                     }
                     else {

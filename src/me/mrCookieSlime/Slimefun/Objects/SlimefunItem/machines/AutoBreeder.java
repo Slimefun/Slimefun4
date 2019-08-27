@@ -34,7 +34,7 @@ public class AutoBreeder extends SlimefunItem {
 	public AutoBreeder(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "&6Auto Breeder") {
+		new BlockMenuPreset(name, "&6自动喂食机") {
 			
 			@Override
 			public void init() {

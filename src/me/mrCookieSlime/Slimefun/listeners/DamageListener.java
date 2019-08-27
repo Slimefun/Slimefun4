@@ -1,21 +1,19 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
-import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
-import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.Soul;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.*;
+import org.bukkit.entity.ChestedHorse;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.WitherSkeleton;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -23,12 +21,20 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
+import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.Variables;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.Soul;
 
 public class DamageListener implements Listener {
 
@@ -43,7 +49,7 @@ public class DamageListener implements Listener {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {
-                Slimefun.getGPSNetwork().addWaypoint(p, "&4死亡点 &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
+                Slimefun.getGPSNetwork().addWaypoint(p, "&4死亡地点 &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
             }
             Iterator<ItemStack> drops = e.getDrops().iterator();
             while (drops.hasNext()) {
@@ -79,21 +85,30 @@ public class DamageListener implements Listener {
                     if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("SWORD_OF_BEHEADING"), true)) {
                         if (e.getEntity() instanceof Zombie) {
                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE"))) {
-                                e.getDrops().add(new CustomItem(Material.ZOMBIE_HEAD, 2));
+                                e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
                             }
-                        }else  if (e.getEntity() instanceof WitherSkeleton) {
-                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON")))
-                                 e.getDrops().add(new CustomItem(Material.WITHER_SKELETON_SKULL, 1));
-                        } else if (e.getEntity() instanceof Skeleton) {
+                        }
+                        else if (e.getEntity() instanceof WitherSkeleton) {
+                            if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON")))
+                                e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+                        }
+                        else if (e.getEntity() instanceof Skeleton) {
                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON")))
-                                e.getDrops().add(new CustomItem(Material.SKELETON_SKULL, 0));
-                        } else if (e.getEntity() instanceof Creeper) {
+                                e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
+                        }
+                        else if (e.getEntity() instanceof Creeper) {
                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER"))) {
-                                e.getDrops().add(new CustomItem(Material.CREEPER_HEAD, 4));
+                                e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
                             }
-                        } else if (e.getEntity() instanceof Player) {
+                        }
+                        else if (e.getEntity() instanceof Player) {
                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.PLAYER"))) {
-                                e.getDrops().add(new SkullItem(((Player) e.getEntity()).getName()));
+                                ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+                                ItemMeta meta = skull.getItemMeta();
+                                ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());
+                                skull.setItemMeta(meta);
+
+                                e.getDrops().add(skull);
                             }
                         }
                     }
@@ -101,12 +116,20 @@ public class DamageListener implements Listener {
             }
 
             if (!e.getEntity().getCanPickupItems() && Talisman.checkFor(e, SlimefunItem.getByID("HUNTER_TALISMAN")) && !(e.getEntity() instanceof Player)) {
+
                 List<ItemStack> newDrops = new ArrayList<ItemStack>();
                 for (ItemStack drop : e.getDrops()) {
                     newDrops.add(drop);
                 }
                 for (ItemStack drop : newDrops) {
                     e.getDrops().add(drop);
+                }
+
+                if(e.getEntity() instanceof ChestedHorse) {
+                    for(ItemStack invItem : ((ChestedHorse) e.getEntity()).getInventory().getStorageContents()) {
+                        e.getDrops().remove(invItem);
+                    }
+                    e.getDrops().remove(new ItemStack(Material.CHEST)); //The chest is not included in getStorageContents()
                 }
             }
         }

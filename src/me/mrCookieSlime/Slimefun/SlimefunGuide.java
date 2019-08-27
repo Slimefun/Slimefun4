@@ -8,7 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -21,14 +23,12 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuOpeningHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
@@ -36,8 +36,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.GitHub.Contributor;
-import me.mrCookieSlime.Slimefun.GitHub.IntegerFormat;
+import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
+import me.mrCookieSlime.Slimefun.hooks.github.IntegerFormat;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -60,7 +60,7 @@ public class SlimefunGuide {
     public static Map<UUID, List<Object>> history = new HashMap<>();
 	public static int month = 0;
 
-	public static List<Contributor> contributors = new ArrayList<Contributor>();
+    public static List<Contributor> contributors = new ArrayList<>();
 	public static int issues = 0;
 	public static int forks = 0;
 	/**
@@ -71,7 +71,7 @@ public class SlimefunGuide {
 	public static int code_bytes = 0;
 	public static Date last_update = new Date();
 
-	static boolean all_recipes = true;
+    protected static boolean all_recipes = true;
 	private static final int category_size = 36;
 
 	@Deprecated
@@ -81,15 +81,12 @@ public class SlimefunGuide {
 
 	public static ItemStack getItem(BookDesign design) {
 		switch (design) {
-		case BOOK: {
+		case BOOK:
 			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&a粘液科技指南 &7(书与笔界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开设置菜单");
-		}
-		case CHEAT_SHEET: {
+		case CHEAT_SHEET:
 			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&c粘液科技指南 &4(作弊模式)", "", "&4&l仅限管理员使用", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开设置菜单");
-		}
-		case CHEST: {
+		case CHEST:
 			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&a粘液科技指南 &7(箱子界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开设置菜单");
-		}
 		default:
 			return null;
 		}
@@ -441,31 +438,19 @@ public class SlimefunGuide {
 			menu.addMenuOpeningHandler(p1 -> p1.playSound(p1.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
 
 			List<Category> categories = Slimefun.current_categories;
-			List<GuideHandler> handlers = Slimefun.guide_handlers2;
+            List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(list -> list.stream()).collect(Collectors.toList());
 
 			int index = 9;
 			int pages = 1;
 
 			for (int i = 0; i < 9; i++) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						return false;
-					}
-				});
+				menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 			}
 
 			for (int i = 45; i < 54; i++) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						return false;
-					}
-				});
+				menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 			}
 
 			int target = (category_size * (selected_page - 1)) - 1;
@@ -500,41 +485,29 @@ public class SlimefunGuide {
 					else if (!(category instanceof LockedCategory)) {
 						if (!(category instanceof SeasonCategory)) {
 							menu.addItem(index, category.getItem());
-							menu.addMenuClickHandler(index, new MenuClickHandler() {
-
-								@Override
-								public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-									openCategory(p, category, survival, 1, book);
-									return false;
-								}
-							});
+							menu.addMenuClickHandler(index, (p12, slot, item, action) -> {
+                                openCategory(p12, category, survival, 1, book);
+                                return false;
+                            });
 							index++;
 						}
 						else {
 							if (((SeasonCategory) category).isUnlocked()) {
 								menu.addItem(index, category.getItem());
-								menu.addMenuClickHandler(index, new MenuClickHandler() {
-
-									@Override
-									public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-										openCategory(p, category, survival, 1, book);
-										return false;
-									}
-								});
+								menu.addMenuClickHandler(index, (p14, slot, item, action) -> {
+                                    openCategory(p14, category, survival, 1, book);
+                                    return false;
+                                });
 								index++;
 							}
 						}
 					}
 					else if (((LockedCategory) category).hasUnlocked(p)) {
 						menu.addItem(index, category.getItem());
-						menu.addMenuClickHandler(index, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-								openCategory(p, category, survival, 1, book);
-								return false;
-							}
-						});
+						menu.addMenuClickHandler(index, (p13, slot, item, action) -> {
+                            openCategory(p13, category, survival, 1, book);
+                            return false;
+                        });
 						index++;
 					}
 					else {
@@ -562,28 +535,20 @@ public class SlimefunGuide {
 			final int finalPages = pages;
 
 			menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 上一页", "", "&7(" + selected_page + " / " + pages + ")"));
-			menu.addMenuClickHandler(46, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					int next = selected_page - 1;
-					if (next < 1) next = finalPages;
-					if (next != selected_page) openMainMenu(p, survival, book, next);
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(46, (arg0, arg1, arg2, arg3) -> {
+                int next = selected_page - 1;
+                if (next < 1) next = finalPages;
+                if (next != selected_page) openMainMenu(p, survival, book, next);
+                return false;
+            });
 
 			menu.addItem(52, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r下一页 \u21E8", "", "&7(" + selected_page + " / " + pages + ")"));
-			menu.addMenuClickHandler(52, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					int next = selected_page + 1;
-					if (next > finalPages) next = 1;
-					if (next != selected_page) openMainMenu(p, survival, book, next);
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(52, (arg0, arg1, arg2, arg3) -> {
+                int next = selected_page + 1;
+                if (next > finalPages) next = 1;
+                if (next != selected_page) openMainMenu(p, survival, book, next);
+                return false;
+            });
 
 			menu.open(p);
 		}
@@ -617,8 +582,10 @@ public class SlimefunGuide {
 								public void run(final Player p) {
 									if (!Research.isResearching(p)) {
 										if (research.canUnlock(p)) {
-											if (research.hasUnlocked(p))
-												openCategory(p, category, true, selected_page, book);
+                                            PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
+                                            if (profile.hasUnlocked(research)) {
+                                                openCategory(p, category, true, selected_page, book);
+                                            }
 											else {
 												if (!(p.getGameMode() == GameMode.CREATIVE && Research.creative_research)) {
 													p.setLevel(p.getLevel() - research.getCost());
@@ -703,82 +670,46 @@ public class SlimefunGuide {
 			final ChestMenu menu = new ChestMenu("粘液科技指南");
 
 			menu.setEmptySlotsClickable(false);
-			menu.addMenuOpeningHandler(new MenuOpeningHandler() {
-
-				@Override
-				public void onOpen(Player p) {
-					p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F);
-				}
-			});
+			menu.addMenuOpeningHandler(p12 -> p12.playSound(p12.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
 
 			int index = 9;
 			final int pages = (category.getItems().size() - 1) / category_size + 1;
 			for (int i = 0; i < 4; i++) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						return false;
-					}
-				});
+				menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 			}
 
 			menu.addItem(4, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 返回"));
-			menu.addMenuClickHandler(4, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					openMainMenu(p, survival, book, 1);
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(4, (arg0, arg1, arg2, arg3) -> {
+                openMainMenu(p, survival, book, 1);
+                return false;
+            });
 
 			for (int i = 5; i < 9; i++) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						return false;
-					}
-				});
+				menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 			}
 
 			for (int i = 45; i < 54; i++) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, new MenuClickHandler() {
-
-					@Override
-					public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-						return false;
-					}
-				});
+				menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 			}
 
 			menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 上一页", "", "&7(" + selected_page + " / " + pages + ")"));
-			menu.addMenuClickHandler(46, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					int next = selected_page - 1;
-					if (next < 1) next = pages;
-					if (next != selected_page) openCategory(p, category, survival, next, book);
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(46, (arg0, arg1, arg2, arg3) -> {
+                int next = selected_page - 1;
+                if (next < 1) next = pages;
+                if (next != selected_page) openCategory(p, category, survival, next, book);
+                return false;
+            });
 
 			menu.addItem(52, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r下一页 \u21E8", "", "&7(" + selected_page + " / " + pages + ")"));
-			menu.addMenuClickHandler(52, new MenuClickHandler() {
-
-				@Override
-				public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-					int next = selected_page + 1;
-					if (next > pages) next = 1;
-					if (next != selected_page) openCategory(p, category, survival, next, book);
-					return false;
-				}
-			});
+			menu.addMenuClickHandler(52, (arg0, arg1, arg2, arg3) -> {
+                int next = selected_page + 1;
+                if (next > pages) next = 1;
+                if (next != selected_page) openCategory(p, category, survival, next, book);
+                return false;
+            });
 
 			int category_index = category_size * (selected_page - 1);
 			for (int i = 0; i < category_size; i++) {
@@ -790,59 +721,49 @@ public class SlimefunGuide {
 						if (Slimefun.hasPermission(p, sfitem, false)) {
 						    final Research research = sfitem.getResearch();
 							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"&4&l已锁定", "", "&a> 单击解锁", "", "&7需要经验: &b" + research.getCost() + "级"}));
-							menu.addMenuClickHandler(index, new MenuClickHandler() {
+                            menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
+                                if (!Research.isResearching(pl)) {
+                                    if (research.canUnlock(pl)) {
+                                        PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
 
-								@Override
-								public boolean onClick(final Player p, int slot, ItemStack item, ClickAction action) {
-									if (!Research.isResearching(p)) {
-										if (research.canUnlock(p)) {
-											if (research.hasUnlocked(p))
-												openCategory(p, category, true, selected_page, book);
-											else {
-												if (!(p.getGameMode() == GameMode.CREATIVE && Research.creative_research)) {
-													p.setLevel(p.getLevel() - research.getCost());
-												}
+                                        if (profile.hasUnlocked(research)) {
+                                            openCategory(p, category, true, selected_page, book);
+                                        }
+                                        else {
+                                            if (!(pl.getGameMode() == GameMode.CREATIVE && Research.creative_research)) {
+                                                pl.setLevel(pl.getLevel() - research.getCost());
+                                            }
 
-												if (p.getGameMode() == GameMode.CREATIVE) {
-													research.unlock(p, Research.creative_research);
-													openCategory(p, category, survival, selected_page, book);
-												} else {
-													research.unlock(p, false);
-                                                    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-                                                        openCategory(p, category, survival, selected_page, book);
-													}, 103L);
-												}
-											}
-										} else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
-									}
-									return false;
-								}
-							});
+                                            if (pl.getGameMode() == GameMode.CREATIVE) {
+                                                research.unlock(pl, Research.creative_research);
+                                                openCategory(pl, category, survival, selected_page, book);
+                                            }
+                                            else {
+                                                research.unlock(pl, false);
+                                                Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+                                                    openCategory(pl, category, survival, selected_page, book);
+                                                }, 103L);
+                                            }
+                                        }
+                                    } else Messages.local.sendTranslation(pl, "messages.not-enough-xp", true);
+                                }
+                                return false;
+                            });
 							index++;
 						}
 						else {
 							menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), 0, new String[] {"", "&r你没有权限", "&r与此物品交互"}));
-							menu.addMenuClickHandler(index, new MenuClickHandler() {
-
-								@Override
-								public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-									return false;
-								}
-							});
+							menu.addMenuClickHandler(index, (arg0, arg1, arg2, arg3) -> false);
 							index++;
 						}
 					}
 					else {
 						menu.addItem(index, sfitem.getItem());
-						menu.addMenuClickHandler(index, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
-								if (survival) displayItem(p, item, true, book, 0);
-								else p.getInventory().addItem(item);
-								return false;
-							}
-						});
+						menu.addMenuClickHandler(index, (p1, slot, item, action) -> {
+                            if (survival) displayItem(p1, item, true, book, 0);
+                            else p1.getInventory().addItem(item);
+                            return false;
+                        });
 						index++;
 					}
 				}

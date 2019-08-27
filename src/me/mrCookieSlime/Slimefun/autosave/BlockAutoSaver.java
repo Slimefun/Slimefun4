@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api;
+package me.mrCookieSlime.Slimefun.autosave;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,7 @@ import org.bukkit.World;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class AutoSavingTask implements Runnable {
+public class BlockAutoSaver implements Runnable {
 	
 	@Override
 	public void run() {
