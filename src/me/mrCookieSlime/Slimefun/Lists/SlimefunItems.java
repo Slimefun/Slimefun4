@@ -620,7 +620,7 @@ public final class SlimefunItems {
 
 	public static ItemStack NUCLEAR_REACTOR = null;
 	public static ItemStack NETHERSTAR_REACTOR = null;
-	public static ItemStack REACTOR_ACCESS_PORT = new CustomItem(new MaterialData(Material.CYAN_TERRACOTTA), "&2反应堆访问接口", "",  "&r允许你通过货运节点来访问反应堆", "&r也可以用于储存", "", "&8\u21E8 &c必须 &e在反应堆上放置3个");
+	public static ItemStack REACTOR_ACCESS_PORT = new CustomItem(new MaterialData(Material.CYAN_TERRACOTTA), "&2反应堆访问接口", "",  "&r允许你通过货运节点来访问反应堆", "&r也可以用于储存", "", "&8\u21E8 &c必须 &e放置在反应堆上方的第三格处");
 	
 	public static ItemStack FREEZER = null;
 	public static ItemStack FREEZER_2 = null;
