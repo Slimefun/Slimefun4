@@ -63,7 +63,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow.equals(ItemTransportFlow.WITHDRAW)) return getOutputSlots();
 				
-				List<Integer> slots = new ArrayList<Integer>();
+				List<Integer> slots = new ArrayList<>();
 				
 				for (int slot: getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), item, true)) {
@@ -98,8 +98,8 @@ public abstract class HeatedPressureChamber extends AContainer {
 		registerRecipe(30, new ItemStack[] {SlimefunItems.BLISTERING_INGOT, SlimefunItems.CARBONADO}, new ItemStack[] {SlimefunItems.BLISTERING_INGOT_2});
 		registerRecipe(60, new ItemStack[] {SlimefunItems.BLISTERING_INGOT_2, new ItemStack(Material.NETHER_STAR)}, new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3});
 		registerRecipe(90, new ItemStack[] {SlimefunItems.PLUTONIUM, SlimefunItems.URANIUM}, new ItemStack[] {SlimefunItems.BOOSTED_URANIUM});
-		registerRecipe(60, new ItemStack[]{SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM}, new ItemStack[]{new CustomItem(SlimefunItems.ENRICHED_NETHER_ICE, 4)});
-		registerRecipe(45, new ItemStack[]{SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[]{new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)});
+		registerRecipe(60, new ItemStack[] {SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM}, new ItemStack[]{new CustomItem(SlimefunItems.ENRICHED_NETHER_ICE, 4)});
+		registerRecipe(45, new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[]{new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)});
 	}
 	
 	public String getInventoryTitle() {
@@ -148,7 +148,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 				ItemMeta im = item.getItemMeta();
 				im.setDisplayName(" ");
 				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
-				List<String> lore = new ArrayList<String>();
+				List<String> lore = new ArrayList<>();
 				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
 				lore.add("");
 				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
@@ -174,8 +174,8 @@ public abstract class HeatedPressureChamber extends AContainer {
 		}
 		else {
 			MachineRecipe r = null;
-			Map<Integer, Integer> found = new HashMap<Integer, Integer>();
-			outer:
+			Map<Integer, Integer> found = new HashMap<>();
+			
 			for (MachineRecipe recipe: recipes) {
 				for (ItemStack input: recipe.getInput()) {
 					slots:
@@ -188,7 +188,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 				}
 				if (found.size() == recipe.getInput().length) {
 					r = recipe;
-					break outer;
+					break;
 				}
 				else found.clear();
 			}

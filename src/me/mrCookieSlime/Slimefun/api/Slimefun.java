@@ -259,7 +259,7 @@ public class Slimefun {
 	 * @return the list of all the IDs of the enabled items.
 	 */
 	public static List<String> listIDs() {
-		List<String> ids = new ArrayList<String>();
+		List<String> ids = new ArrayList<>();
 		for (SlimefunItem item: SlimefunItem.list()) {
 			ids.add(item.getID());
 		}
@@ -273,7 +273,7 @@ public class Slimefun {
 	 * @see #current_categories
 	 */
 	public static List<ItemStack> listCategories() {
-		List<ItemStack> items = new ArrayList<ItemStack>();
+		List<ItemStack> items = new ArrayList<>();
 		for (Category c: Category.list()) {
 			items.add(c.getItem());
 		}
@@ -348,6 +348,6 @@ public class Slimefun {
 	}
 
 	public static List<GuideHandler> getGuideHandlers(int tier) {
-		return guide_handlers.containsKey(tier) ? guide_handlers.get(tier): new ArrayList<GuideHandler>();
+		return guide_handlers.containsKey(tier) ? guide_handlers.get(tier): new ArrayList<>();
 	}
 }

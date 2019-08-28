@@ -255,8 +255,8 @@ public abstract class AContainer extends SlimefunItem {
 		}
 		else {
 			MachineRecipe r = null;
-			Map<Integer, Integer> found = new HashMap<Integer, Integer>();
-			outer:
+			Map<Integer, Integer> found = new HashMap<>();
+			
 			for (MachineRecipe recipe: recipes) {
 				for (ItemStack input: recipe.getInput()) {
 					slots:
@@ -269,7 +269,7 @@ public abstract class AContainer extends SlimefunItem {
 				}
 				if (found.size() == recipe.getInput().length) {
 					r = recipe;
-					break outer;
+					break;
 				}
 				else found.clear();
 			}

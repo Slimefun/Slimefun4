@@ -32,7 +32,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 	
-	public static final Map<Material, Integer> crops = new HashMap<Material, Integer>();
+	public static final Map<Material, Integer> crops = new HashMap<>();
 	
 	static {
 		crops.put(Material.WHEAT, 7);

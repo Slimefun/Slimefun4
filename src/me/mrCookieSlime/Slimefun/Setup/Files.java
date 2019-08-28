@@ -34,19 +34,20 @@ public final class Files {
 		}
 	}
 	
-	public static void delete(File folder) {
+	public static boolean delete(File folder) {
 		File[] files = folder.listFiles();
 		if (files != null) {
 			for (File current: files) {
 				if (current.isDirectory()) {
-					delete(current);
+					if (!delete(current)) return false;;
 				}
 				else {
-					current.delete();
+					if (!current.delete()) return false;
 				}
 			}
 		}
-		folder.delete();
+		
+		return folder.delete();
 	}
 
 }

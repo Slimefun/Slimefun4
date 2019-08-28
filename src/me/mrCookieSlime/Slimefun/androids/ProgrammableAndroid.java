@@ -273,80 +273,67 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				ScriptPart part = ScriptPart.valueOf(script[index]);
 
 				if (getAndroidType().isType(part.getRequiredType())) {
+					BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+					double damage = getTier() < 2 ? 20D : 4D * getTier();
+					
 					switch (part) {
-						case GO_DOWN: {
+						case GO_DOWN:
 							try {
-								BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 								Block block = b.getRelative(BlockFace.DOWN);
 								move(b, face, block);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 							break;
-						}
-						case GO_FORWARD: {
+						case GO_FORWARD:
 							try {
-								BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 								Block block = b.getRelative(face);
 								move(b, face, block);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 							break;
-						}
-						case GO_UP: {
+						case GO_UP:
 							try {
-								BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 								Block block = b.getRelative(BlockFace.UP);
 								move(b, face, block);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 							break;
-						}
-						case REPEAT: {
+						case REPEAT:
 							BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
 							break;
-						}
-						case TURN_LEFT: {
-							int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) - 1;
-							if (rotIndex < 0) rotIndex = directions.size() - 1;
-							BlockFace dir = directions.get(rotIndex);
-							Rotatable blockData = (Rotatable) b.getBlockData();
-							blockData.setRotation(dir);
-							b.setBlockData(blockData);
-							BlockStorage.addBlockInfo(b, "rotation", dir.toString());
+						case TURN_LEFT:
+							int indexLeft = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) - 1;
+							if (indexLeft < 0) indexLeft = directions.size() - 1;
+							Rotatable rotatableLeft = (Rotatable) b.getBlockData();
+							rotatableLeft.setRotation(directions.get(indexLeft));
+							b.setBlockData(rotatableLeft);
+							BlockStorage.addBlockInfo(b, "rotation", directions.get(indexLeft).toString());
 							break;
-						}
 						case TURN_RIGHT: {
-							int rotIndex = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) + 1;
-							if (rotIndex == directions.size()) rotIndex = 0;
-							BlockFace dir = directions.get(rotIndex);
-							Rotatable blockData = (Rotatable) b.getBlockData();
-							blockData.setRotation(dir);
-							b.setBlockData(blockData);
-							BlockStorage.addBlockInfo(b, "rotation", dir.toString());
+							int indexRight = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) + 1;
+							if (indexRight == directions.size()) indexRight = 0;
+							Rotatable rotatableRight = (Rotatable) b.getBlockData();
+							rotatableRight.setRotation(directions.get(indexRight));
+							b.setBlockData(rotatableRight);
+							BlockStorage.addBlockInfo(b, "rotation", directions.get(indexRight).toString());
 							break;
 						}
-						case DIG_FORWARD: {
-							Block block = b.getRelative(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation")));
-							mine(b, block);
+						case DIG_FORWARD:
+							mine(b, b.getRelative(face));
 							break;
-						}
-						case DIG_UP: {
-							Block block = b.getRelative(BlockFace.UP);
-							mine(b, block);
+						case DIG_UP:
+							mine(b, b.getRelative(BlockFace.UP));
 							break;
-						}
-						case DIG_DOWN: {
-							Block block = b.getRelative(BlockFace.DOWN);
-							mine(b, block);
+						case DIG_DOWN:
+							mine(b, b.getRelative(BlockFace.DOWN));
 							break;
-						}
-						case CATCH_FISH: {
-							Block block = b.getRelative(BlockFace.DOWN);
-							if (block.getType().equals(Material.WATER)) {
-								block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+						case CATCH_FISH:
+							Block water = b.getRelative(BlockFace.DOWN);
+							if (water.getType().equals(Material.WATER)) {
+								water.getWorld().playSound(water.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 								if (CSCoreLib.randomizer().nextInt(100) < 10 * getTier()) {
 									ItemStack drop = fish[CSCoreLib.randomizer().nextInt(fish.length)];
 									if (fits(b, drop)) pushItems(b, drop);
@@ -354,30 +341,19 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 							}
 							break;
-						}
-						case MOVE_AND_DIG_FORWARD: {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face);
-							movedig(b, face, block);
+						case MOVE_AND_DIG_FORWARD:
+							movedig(b, face, b.getRelative(face));
 							break;
-						}
 						case MOVE_AND_DIG_UP: {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(BlockFace.UP);
-							movedig(b, face, block);
+							movedig(b, face, b.getRelative(BlockFace.UP));
 							break;
 						}
-						case MOVE_AND_DIG_DOWN: {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(BlockFace.DOWN);
-							movedig(b, face, block);
+						case MOVE_AND_DIG_DOWN:
+							movedig(b, face, b.getRelative(BlockFace.DOWN));
 							break;
-						}
-						case INTERFACE_ITEMS: {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face);
-							if (BlockStorage.check(block, "ANDROID_INTERFACE_ITEMS") && block.getState() instanceof Dispenser) {
-								Dispenser d = (Dispenser) block.getState();
+						case INTERFACE_ITEMS:
+							if (BlockStorage.check(b.getRelative(face), "ANDROID_INTERFACE_ITEMS") && b.getRelative(face).getState() instanceof Dispenser) {
+								Dispenser d = (Dispenser) b.getRelative(face).getState();
 								for (int slot: getOutputSlots()) {
 									ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);
 									if (stack != null) {
@@ -393,12 +369,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								}
 							}
 							break;
-						}
-						case INTERFACE_FUEL: {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face);
-							if (BlockStorage.check(block, "ANDROID_INTERFACE_FUEL") && block.getState() instanceof Dispenser) {
-								Dispenser d = (Dispenser) block.getState();
+						case INTERFACE_FUEL:
+							if (BlockStorage.check(b.getRelative(face), "ANDROID_INTERFACE_FUEL") && b.getRelative(face).getState() instanceof Dispenser) {
+								Dispenser d = (Dispenser) b.getRelative(face).getState();
 								for (int slot = 0; slot < 9; slot++) {
 									ItemStack item = d.getInventory().getItem(slot);
 									if (item != null) {
@@ -420,36 +393,23 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								}
 							}
 							break;
-						}
-						case FARM_FORWARD: {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face);
-							farm(b, block);
+						case FARM_FORWARD:
+							farm(b, b.getRelative(face));
 							break;
-						}
-						case FARM_DOWN: {
-							Block block = b.getRelative(BlockFace.DOWN);
-							farm(b, block);
+						case FARM_DOWN:
+							farm(b, b.getRelative(BlockFace.DOWN));
 							break;
-						}
-						case FARM_EXOTIC_FORWARD: {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face);
-							exoticFarm(b, block);
+						case FARM_EXOTIC_FORWARD:
+							exoticFarm(b, b.getRelative(face));
 							break;
-						}
-						case FARM_EXOTIC_DOWN: {
-							Block block = b.getRelative(BlockFace.DOWN);
-							exoticFarm(b, block);
+						case FARM_EXOTIC_DOWN:
+							exoticFarm(b, b.getRelative(BlockFace.DOWN));
 							break;
-						}
-						case CHOP_TREE: {
-							BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-							Block block = b.getRelative(face);
-							if (MaterialHelper.isLog( block.getType())) {
-								List<Location> list = new ArrayList<Location>();
-								list.add(block.getLocation());
-								TreeCalculator.getTree(block.getLocation(), block.getLocation(), list);
+						case CHOP_TREE:
+							if (MaterialHelper.isLog(b.getRelative(face).getType())) {
+								List<Location> list = new ArrayList<>();
+								list.add(b.getRelative(face).getLocation());
+								TreeCalculator.getTree(b.getRelative(face).getLocation(), b.getRelative(face).getLocation(), list);
 								if (!list.isEmpty()) {
 									refresh = false;
 									Block log = list.get(list.size() - 1).getBlock();
@@ -460,7 +420,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 										if (fits(b, items)) {
 											pushItems(b, items);
 											log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
-											if (log.getY() == block.getY()) {
+											if (log.getY() == b.getRelative(face).getY()) {
 												log.setType(MaterialHelper.getSaplingFromLog(log.getType()));
 											}
 											else log.setType(Material.AIR);
@@ -470,10 +430,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								}
 							}
 							break;
-						}
-						case ATTACK_MOBS_ANIMALS: {
-							double damage = getTier() < 2 ? 20D : 4D * getTier();
-
+						case ATTACK_MOBS_ANIMALS:
 							entities:
 							for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
 								switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
@@ -522,10 +479,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								}
 							}
 							break;
-						}
-						case ATTACK_MOBS: {
-							double damage = getTier() < 2 ? 20D : 4D * getTier();
-
+						case ATTACK_MOBS:
 							entities:
 							for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
 								if (n instanceof Animals) continue;
@@ -575,11 +529,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								}
 							}
 							break;
-						}
-
-						case ATTACK_ANIMALS: {
-							double damage = getTier() < 2 ? 20D : 4D * getTier();
-
+						case ATTACK_ANIMALS:
 							entities:
 							for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
 								if (n instanceof Monster) continue;
@@ -629,11 +579,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								}
 							}
 							break;
-						}
-
-						case ATTACK_ANIMALS_ADULT: {
-							double damage = getTier() < 2 ? 20D : 4D * getTier();
-
+						case ATTACK_ANIMALS_ADULT:
 							entities:
 							for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
 								if (n instanceof Monster) continue;
@@ -684,7 +630,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								}
 							}
 							break;
-						}
 						default:
 							break;
 					}

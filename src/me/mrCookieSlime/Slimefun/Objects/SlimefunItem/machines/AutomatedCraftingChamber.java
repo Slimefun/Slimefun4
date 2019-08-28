@@ -41,7 +41,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 	private static final int[] border_in = {9, 10, 11, 12, 13, 18, 22, 27, 31, 36, 40, 45, 46, 47, 48, 49};
 	private static final int[] border_out = {23, 24, 25, 26, 32, 35, 41, 42, 43, 44};
 	
-	public static Map<String, ItemStack> recipes = new HashMap<String, ItemStack>();
+	public static Map<String, ItemStack> recipes = new HashMap<>();
 
 	public AutomatedCraftingChamber(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);

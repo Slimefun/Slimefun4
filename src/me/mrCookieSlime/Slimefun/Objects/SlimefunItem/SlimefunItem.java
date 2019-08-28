@@ -349,7 +349,7 @@ public class SlimefunItem {
 			if (recipeType.toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
 				try {
 					EntityType entity = EntityType.valueOf(ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(" ", "_"));
-					List<ItemStack> dropping = new ArrayList<ItemStack>();
+					List<ItemStack> dropping = new ArrayList<>();
 					if (SlimefunManager.drops.containsKey(entity)) dropping = SlimefunManager.drops.get(entity);
 					dropping.add(output);
 					SlimefunManager.drops.put(entity, dropping);

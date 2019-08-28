@@ -1196,7 +1196,7 @@ public final class SlimefunSetup {
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.LUMBER_AXE, true)) {
 					if (MaterialHelper.isLog( e.getBlock().getType())) {
-						List<Location> logs = new ArrayList<Location>();
+						List<Location> logs = new ArrayList<>();
 						TreeCalculator.getTree(e.getBlock().getLocation(), e.getBlock().getLocation(), logs);
 
 						if (logs.contains(e.getBlock().getLocation())) logs.remove(e.getBlock().getLocation());
@@ -1541,9 +1541,10 @@ public final class SlimefunSetup {
 								return false;
 							}
 
-                        				Chest chest = (Chest) chestBlock.getState();
+                        	Chest chest = (Chest) chestBlock.getState();
 							final Inventory inv = chest.getInventory();
-							List<Location> ores = new ArrayList<Location>();
+							List<Location> ores = new ArrayList<>();
+							
 							for (int x = b.getX() - 4; x <= b.getX() + 4; x++) {
 								for (int z = b.getZ() - 4; z <= b.getZ() + 4; z++) {
 									for (int y = b.getY(); y > 0; y--) {
@@ -1599,9 +1600,10 @@ public final class SlimefunSetup {
 								return false;
 							}
 
-                        				Chest chest = (Chest) chestBlock.getState();
+                        	Chest chest = (Chest) chestBlock.getState();
 							final Inventory inv = chest.getInventory();
-							List<Location> ores = new ArrayList<Location>();
+							List<Location> ores = new ArrayList<>();
+							
 							for (int x = b.getX() - 6; x <= b.getX() + 6; x++) {
 								for (int z = b.getZ() - 6; z <= b.getZ() + 6; z++) {
 									for (int y = b.getY(); y > 0; y--) {
@@ -1789,15 +1791,19 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE}, Material.OAK_TRAPDOOR)
 		.register(true, new MultiBlockInteractionHandler() {
 
+			private Random random = new Random();
+			
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
 				if (mb.isMultiBlock(SlimefunItem.getByID("AUTOMATED_PANNING_MACHINE"))) {
 					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
 						final ItemStack input = p.getInventory().getItemInMainHand();
 						ItemStack output = null;
-						if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE"))) output = SlimefunItems.SIFTED_ORE;
-						else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY"))) output = new ItemStack(Material.CLAY_BALL);
-						else if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT"))) output = new ItemStack(Material.FLINT);
+						
+						if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE")) output = SlimefunItems.SIFTED_ORE;
+						else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY")) output = new ItemStack(Material.CLAY_BALL);
+						else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT")) output = new ItemStack(Material.FLINT);
+						
 						final ItemStack drop = output;
 						if (input != null) {
 							if (input.getType() == Material.GRAVEL) {
@@ -1815,6 +1821,7 @@ public final class SlimefunSetup {
 								return true;
 							}
 						}
+						
 						Messages.local.sendTranslation(p, "machines.wrong-item", true);
 						return true;
 					}
@@ -1864,7 +1871,7 @@ public final class SlimefunSetup {
 					}
 
 					if (e.getPlayer().getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.DURABILITY)) {
-						if (SlimefunStartup.randomize(100) <= (60 + 40 / (e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY) + 1))) PlayerInventory.damageItemInHand(e.getPlayer());
+						if (new Random().nextInt(100) <= (60 + 40 / (e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY) + 1))) PlayerInventory.damageItemInHand(e.getPlayer());
 					}
 					else PlayerInventory.damageItemInHand(e.getPlayer());
 
@@ -2108,7 +2115,7 @@ public final class SlimefunSetup {
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.PICKAXE_OF_VEIN_MINING, true)) {
 					if (e.getBlock().getType().toString().endsWith("_ORE")) {
-						List<Location> blocks = new ArrayList<Location>();
+						List<Location> blocks = new ArrayList<>();
 						Vein.calculate(e.getBlock().getLocation(), e.getBlock().getLocation(), blocks, 16);
 						for (Location block: blocks) {
 							Block b = block.getBlock();
@@ -2555,7 +2562,8 @@ public final class SlimefunSetup {
 					PlayerInventory.consumeItemInHand(e.getPlayer());
 					FireworkShow.launchRandom(e.getPlayer(), 2);
 
-					List<ItemStack> gifts = new ArrayList<ItemStack>();
+					List<ItemStack> gifts = new ArrayList<>();
+					
 					for (int i = 0; i < 2; i++) {
 						gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
 						gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));

@@ -26,9 +26,9 @@ public class EnergyNet extends Network {
 
 	private static final int RANGE = 6;
 
-	public static Set<String> machines_input = new HashSet<String>();
-	public static Set<String> machines_storage = new HashSet<String>();
-	public static Set<String> machines_output = new HashSet<String>();
+	public static Set<String> machines_input = new HashSet<>();
+	public static Set<String> machines_storage = new HashSet<>();
+	public static Set<String> machines_output = new HashSet<>();
 	
 	public static NetworkComponent getComponent(Block b) {
 		return getComponent(b.getLocation());
@@ -79,9 +79,9 @@ public class EnergyNet extends Network {
 		return energy_network;
 	}
 
-	private Set<Location> input = new HashSet<Location>();
-	private Set<Location> storage = new HashSet<Location>();
-	private Set<Location> output = new HashSet<Location>();
+	private Set<Location> input = new HashSet<>();
+	private Set<Location> storage = new HashSet<>();
+	private Set<Location> output = new HashSet<>();
 
 	protected EnergyNet(Location l) {
 		super(l);

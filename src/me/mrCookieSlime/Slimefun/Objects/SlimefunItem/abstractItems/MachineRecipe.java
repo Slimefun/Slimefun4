@@ -4,9 +4,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class MachineRecipe {
 	
-	int ticks;
-	ItemStack[] input;
-	ItemStack[] output;
+	private int ticks;
+	private ItemStack[] input;
+	private ItemStack[] output;
 	
 	public MachineRecipe(int seconds, ItemStack[] input, ItemStack[] output) {
 		this.ticks = seconds * 2;

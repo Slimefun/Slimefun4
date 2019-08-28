@@ -33,6 +33,7 @@ import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
 
 public class CargoNet extends Network {
+	
 	public static boolean EXTRA_CHANNELS = false;
 
 	private static final int RANGE = 5;
@@ -67,15 +68,15 @@ public class CargoNet extends Network {
 		return getNetworkFromLocation(b.getLocation()) != null;
 	}
 
-	private Set<Location> inputNodes = new HashSet<Location>();
-	private Set<Location> outputNodes = new HashSet<Location>();
-	private Set<Location> advancedOutputNodes = new HashSet<Location>();
+	private Set<Location> inputNodes = new HashSet<>();
+	private Set<Location> outputNodes = new HashSet<>();
+	private Set<Location> advancedOutputNodes = new HashSet<>();
 
 
 	//Chest Terminal Stuff
-	final Set<Location> terminals = new HashSet<Location>();
-	final Set<Location> imports = new HashSet<Location>();
-	final Set<Location> exports = new HashSet<Location>();
+	private final Set<Location> terminals = new HashSet<>();
+	private final Set<Location> imports = new HashSet<>();
+	private final Set<Location> exports = new HashSet<>();
 
 	protected CargoNet(Location l) {
 		super(l);

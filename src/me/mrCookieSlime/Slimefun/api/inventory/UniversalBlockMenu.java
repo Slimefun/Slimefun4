@@ -12,8 +12,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public class UniversalBlockMenu extends DirtyChestMenu {
 	
-	BlockMenuPreset preset;
-	ItemManipulationEvent event;
+	private BlockMenuPreset preset;
+	private ItemManipulationEvent event;
 	
 	public UniversalBlockMenu(BlockMenuPreset preset) {
 		super(preset.getTitle());
