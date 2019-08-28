@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OreWasher;
 import me.mrCookieSlime.Slimefun.api.*;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
@@ -46,14 +47,12 @@ import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
-import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
-import me.mrCookieSlime.Slimefun.CSCoreLibSetup.CSCoreLibLoader;
+import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
-import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -92,6 +91,7 @@ public class SlimefunStartup extends JavaPlugin {
 	public static TickerTask ticker;
 
 	private CoreProtectAPI coreProtectAPI;
+    private Utilities utilities = new Utilities();
 
 	private boolean clearlag = false;
 	private boolean exoticGarden = false;
@@ -254,22 +254,6 @@ public class SlimefunStartup extends JavaPlugin {
                 if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener(instance);
             }, 0);
 
-			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
-			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
-				try {
-					Class.forName("com.sk89q.worldedit.extent.Extent");
-                    new WorldEditHook();
-					System.out.println("[Slimefun] 成功 Hook WorldEdit!");
-				} catch (Exception x) {
-					System.err.println("[Slimefun] Hook WorldEdit 时出现了错误!");
-					System.err.println("[Slimefun] 请尝试更新 WorldEdit 或者等待 Slimefun 更新.");
-				}
-			}
-
-            if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-                new PlaceholderAPIHook().register();
-            }
-
 			getCommand("slimefun").setExecutor(new SlimefunCommand(this));
 			getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter());
 
@@ -333,11 +317,7 @@ public class SlimefunStartup extends JavaPlugin {
             getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
             getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 
-            getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-                for (GitHubConnector connector : GitHubConnector.connectors) {
-                    connector.pullFile();
-                }
-            }, 80L, 60 * 60 * 20L);
+            getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);
 			
 			// Hooray!
 			System.out.println("[Slimefun] 加载完成!");
@@ -354,12 +334,30 @@ public class SlimefunStartup extends JavaPlugin {
 
             if (coreProtect) coreProtectAPI = ((CoreProtect) getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
 
+            // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
+            if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
+                try {
+                    Class.forName("com.sk89q.worldedit.extent.Extent");
+                    new WorldEditHook();
+                    System.out.println("[Slimefun] 成功接入 WorldEdit!");
+                } catch (Exception x) {
+                    System.err.println("[Slimefun] 无法接入 WorldEdit!");
+                    System.err.println("[Slimefun] 试试更新 WorldEdit 或者 Slimefun?");
+                }
+            }
+
+            if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                new PlaceholderAPIHook().register();
+            }
+
 			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
             Research.titles = config.getStringList("research-ranks");
 
 			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
 
-			SlimefunSetup.legacy_ore_washer = config.getBoolean("options.legacy-ore-washer");
+            OreWasher.legacy = config.getBoolean("options.legacy-ore-washer");
+            OreWasher.items = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};
+
 			ElectricDustWasher.legacy_dust_washer = config.getBoolean("options.legacy-dust-washer");
 
 			// Do not show /sf elevator command in our Log, it could get quite spammy
@@ -415,23 +413,12 @@ public class SlimefunStartup extends JavaPlugin {
 		Files.WHITELIST = null;
 		MultiBlock.list = null;
 		Research.list = null;
-		Research.researching = null;
 		SlimefunItem.all = null;
 		SlimefunItem.items = null;
 		SlimefunItem.map_id = null;
 		SlimefunItem.handlers = null;
 		SlimefunItem.radioactive = null;
-		Variables.damage = null;
-		Variables.jump_state = null;
-		Variables.mode = null;
 		SlimefunGuide.history = null;
-		Variables.altarinuse = null;
-		Variables.enchanting = null;
-		Variables.backpack = null;
-		Variables.soulbound = null;
-		Variables.blocks = null;
-		Variables.cancelPlace = null;
-		Variables.arrows = null;
 		SlimefunCommand.arguments = null;
 		SlimefunCommand.descriptions = null;
 		SlimefunCommand.tabs = null;
@@ -445,20 +432,14 @@ public class SlimefunStartup extends JavaPlugin {
 		AContainer.processing = null;
 		AContainer.progress = null;
 		Slimefun.guide_handlers = null;
-		Pedestals.recipes = null;
-		Elevator.ignored = null;
-		EnergyNet.listeners = null;
 		EnergyNet.machines_input = null;
 		EnergyNet.machines_output = null;
 		EnergyNet.machines_storage = null;
 		CargoNet.faces = null;
 		BlockStorage.universal_inventories = null;
 		TickerTask.block_timings = null;
-		OreGenSystem.map = null;
-		SlimefunGuide.contributors = null;
-		GitHubConnector.connectors = null;
-		ChestManipulator.listeners = null;
         PlayerProfile.profiles = null;
+        OreWasher.items = null;
 
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();
@@ -467,8 +448,7 @@ public class SlimefunStartup extends JavaPlugin {
 
     private void createDir(String path) {
         File file = new File(path);
-        if (!file.exists())
-            file.mkdirs();
+        if (!file.exists()) file.mkdirs();
     }
 
 	public static Config getCfg() {
@@ -487,11 +467,13 @@ public class SlimefunStartup extends JavaPlugin {
 		return whitelist;
 	}
 
+	@Deprecated
 	public static int randomize(int max) {
 		if (max < 1) return 0;
 		return CSCoreLib.randomizer().nextInt(max);
 	}
 
+	@Deprecated
 	public static boolean chance(int max, int percentage) {
 		if (max < 1) return false;
 		return CSCoreLib.randomizer().nextInt(max) <= percentage;
@@ -512,4 +494,8 @@ public class SlimefunStartup extends JavaPlugin {
 	public CoreProtectAPI getCoreProtectAPI() {
 		return coreProtectAPI;
 	}
+
+    public Utilities getUtilities() {
+        return utilities;
+    }
 }

@@ -55,12 +55,13 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class SlimefunGuide {
+public final class SlimefunGuide {
+
+    private SlimefunGuide(){}
 
     public static Map<UUID, List<Object>> history = new HashMap<>();
 	public static int month = 0;
 
-    public static List<Contributor> contributors = new ArrayList<>();
 	public static int issues = 0;
 	public static int forks = 0;
 	/**
@@ -97,6 +98,7 @@ public class SlimefunGuide {
 		return getItem(book ? BookDesign.BOOK: BookDesign.CHEST);
 	}
 
+	@Deprecated
 	public static ItemStack getDeprecatedItem(boolean book) {
 		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&e粘液科技指南 &7(右键打开)", (book ? "": "&2"), "&r这是粘液科技的基础指南", "&r指南内可以查看粘液科技的所有物品", "&r以及扩展的物品和更多信息");
 	}
@@ -176,7 +178,7 @@ public class SlimefunGuide {
 			});
 		}
 
-		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&a制作人员", "", "&7目前版本: &a" + SlimefunStartup.instance.getDescription().getVersion(), "&7贡献者: &e" + contributors.size(), "", "&7\u21E8 单击查看在插件背后工作的人们"));
+		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&a制作人员", "", "&7目前版本: &a" + SlimefunStartup.instance.getDescription().getVersion(), "&7贡献者: &e" + SlimefunStartup.instance.getUtilities().contributors.size(), "", "&7\u21E8 单击查看在插件背后工作的人们"));
 		menu.addMenuClickHandler(1, (p14, arg1, arg2, arg3) -> {
             openCredits(p14, guide);
             return false;
@@ -236,11 +238,11 @@ public class SlimefunGuide {
 
 		double total = 0;
 
-		for (Contributor contributor: contributors) {
+		for (Contributor contributor: SlimefunStartup.instance.getUtilities().contributors) {
 			total += contributor.getCommits();
 		}
 
-		for (final Contributor contributor: contributors) {
+		for (final Contributor contributor: SlimefunStartup.instance.getUtilities().contributors) {
 			ItemStack skull = new SkullItem("&a" + contributor.getName(), contributor.getName());
 
 			ItemMeta meta = skull.getItemMeta();
@@ -1024,7 +1026,7 @@ public class SlimefunGuide {
 					List<String> lore = new ArrayList<String>();
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7剩余 " + getTimeLeft(fuel.getTicks() / 2)));
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + (((AGenerator) sfItem).getEnergyProduction() * 2) + " J/s"));
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7 共发电" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AGenerator) sfItem).getEnergyProduction()) + " J"));
+					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7 共发电" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * ((AGenerator) sfItem).getEnergyProduction()) + " J"));
 					im.setLore(lore);
 					fItem.setItemMeta(im);
 					menu.addItem(slot, fItem);
@@ -1041,7 +1043,7 @@ public class SlimefunGuide {
 					List<String> lore = new ArrayList<String>();
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7剩余 " + getTimeLeft(fuel.getTicks() / 2)));
 					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + (((AReactor) sfItem).getEnergyProduction() * 2) + " J/s"));
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7 共发电" + DoubleHandler.getFancyDouble(fuel.getTicks() * ((AReactor) sfItem).getEnergyProduction()) + " J"));
+					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7 共发电" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * ((AReactor) sfItem).getEnergyProduction()) + " J"));
 					im.setLore(lore);
 					fItem.setItemMeta(im);
 					menu.addItem(slot, fItem);

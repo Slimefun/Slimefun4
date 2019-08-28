@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.tasks;
 
 import java.text.DecimalFormat;
+import java.util.Random;
 import java.util.UUID;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
@@ -37,7 +38,7 @@ public class JetBootsTask implements Runnable {
 			Player p = Bukkit.getPlayer(uuid);
 			float cost = 0.075F;
 			float charge = ItemEnergy.getStoredEnergy(p.getInventory().getBoots());
-			double accuracy = Double.valueOf(new DecimalFormat("##.##").format(speed - 0.7).replace(",", "."));
+			double accuracy = Double.parseDouble(new DecimalFormat("##.##").format(speed - 0.7).replace(",", "."));
 			if (charge >= cost) {
 				p.getInventory().setBoots(ItemEnergy.chargeItem(p.getInventory().getBoots(), -cost));
 				PlayerInventory.update(p);
@@ -46,7 +47,7 @@ public class JetBootsTask implements Runnable {
 				p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1, 1);
 				p.setFallDistance(0.0f);
 				double gravity = 0.04;
-				double offset = SlimefunStartup.chance(100, 50) ? accuracy: -accuracy;
+				double offset = new Random().nextInt(2) == 1 ? accuracy: -accuracy;
 				Vector vector = new Vector(p.getEyeLocation().getDirection().getX() * speed + offset, gravity, p.getEyeLocation().getDirection().getZ() * speed  - offset);
 				
 				p.setVelocity(vector);

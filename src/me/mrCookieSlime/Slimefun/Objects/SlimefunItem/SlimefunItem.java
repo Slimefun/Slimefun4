@@ -16,14 +16,14 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.AncientAltar.AltarRecipe;
+import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -53,7 +53,7 @@ public class SlimefunItem {
     private Category category;
     private ItemStack[] recipe;
     private RecipeType recipeType;
-    private ItemStack recipeOutput = null;
+    protected ItemStack recipeOutput = null;
     private Research research;
     private int month = -1;
     private boolean enchantable = true, disenchantable = true;
@@ -61,7 +61,7 @@ public class SlimefunItem {
     private boolean replacing = false;
     private boolean addon = false;
     private String permission = "";
-    private Set<ItemHandler> itemhandlers = new HashSet<ItemHandler>();
+    private Set<ItemHandler> itemhandlers = new HashSet<>();
     private boolean ticking = false;
     private BlockTicker blockTicker;
     private EnergyTicker energyTicker;
@@ -204,6 +204,17 @@ public class SlimefunItem {
 
     public void register() {
         register(false);
+    }
+
+    @Deprecated
+    public void register(boolean vanilla, me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
+        addItemHandler(handlers);
+        register(vanilla);
+    }
+
+    @Deprecated
+    public void register(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
+        register((ItemHandler[]) handlers);
     }
 
     public void register(boolean slimefun) {
@@ -386,6 +397,11 @@ public class SlimefunItem {
     public void install() {}
     public void create()  {}
 
+    @Deprecated
+    public void addItemHandler(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handler) {
+        addItemHandler((ItemHandler[]) handler);
+    }
+
     public void addItemHandler(ItemHandler... handler) {
         this.itemhandlers.addAll(Arrays.asList(handler));
 
@@ -508,5 +524,10 @@ public class SlimefunItem {
 
     public void addWikipage(String page) {
         Slimefun.addWikiPage(this.getID(), "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
+    }
+
+    @Override
+    public String toString() {
+        return "SlimefunItem: " + id + " (" + state + ", vanilla=" + !addon + ")";
     }
 }

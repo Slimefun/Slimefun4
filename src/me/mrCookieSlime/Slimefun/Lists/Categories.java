@@ -19,7 +19,9 @@ import org.bukkit.Material;
  * @since 4.0
  * @see Category
  */
-public class Categories {
+public final class Categories {
+
+    private Categories() {}
 	
 	public static Category WEAPONS = new Category(new MenuItem(Material.GOLDEN_SWORD, "&7武器", 0, "打开"), 1);
 	public static Category PORTABLE = null;

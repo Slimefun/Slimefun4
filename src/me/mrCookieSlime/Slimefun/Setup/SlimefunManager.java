@@ -18,7 +18,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 
-public class SlimefunManager {
+public final class SlimefunManager {
+    private SlimefunManager(){}
 
     public static SlimefunStartup plugin;
     public static String PREFIX;

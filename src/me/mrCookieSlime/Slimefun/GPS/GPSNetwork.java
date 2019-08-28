@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -38,18 +39,20 @@ public class GPSNetwork {
 	private Map<UUID, Set<Location>> transmitters = new HashMap<>();
 	private int[] border = new int[] {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private int[] inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
+    private static final int[] teleporter_border = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+    private static final int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
-	public void updateTransmitter(Block b, UUID uuid, NetworkStatus status) {
+	public void updateTransmitter(Location l, UUID uuid, NetworkStatus status) {
 		Set<Location> set = new HashSet<>();
 		if (transmitters.containsKey(uuid)) set = transmitters.get(uuid);
-		if (status.equals(NetworkStatus.ONLINE)) {
-			if (!set.contains(b.getLocation())) {
-				set.add(b.getLocation());
+        if (status == NetworkStatus.ONLINE) {
+            if (!set.contains(l)) {
+				set.add(l);
 				transmitters.put(uuid, set);
 			}
 		}
 		else {
-			set.remove(b.getLocation());
+			set.remove(l);
 			transmitters.put(uuid, set);
 		}
 	}
@@ -111,10 +114,10 @@ public class GPSNetwork {
 		if (entry.getKey().startsWith("&4Deathpoint")) {
 			return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFlMzg1NWY5NTJjZDRhMDNjMTQ4YTk0NmUzZjgxMmE1OTU1YWQzNWNiY2I1MjYyN2VhNGFjZDQ3ZDMwODEifX19");
 		}
-		else if (l.getWorld().getEnvironment().equals(Environment.NETHER)) {
+		else if (l.getWorld().getEnvironment() == Environment.NETHER) {
 			return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0=");
 		}
-		else if (l.getWorld().getEnvironment().equals(Environment.THE_END)) {
+		else if (l.getWorld().getEnvironment() == Environment.THE_END) {
 			return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzZjYWM1OWIyYWFlNDg5YWEwNjg3YjVkODAyYjI1NTVlYjE0YTQwYmQ2MmIyMWViMTE2ZmE1NjljZGI3NTYifX19");
 		}
 		else {
@@ -236,19 +239,16 @@ public class GPSNetwork {
 		
 		menu.open(p);
 	}
-	
-	private final static int[] teleporter_border = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-	private final static int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
-	
+
 	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) throws Exception {
-		if (TeleportationSequence.players.contains(p.getUniqueId())) return;
+		if (SlimefunStartup.instance.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
 		
 		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-		TeleportationSequence.players.add(p.getUniqueId());
+        SlimefunStartup.instance.getUtilities().teleporterUsers.add(p.getUniqueId());
 		
 		ChestMenu menu = new ChestMenu("&3传送机");
 		
-		menu.addMenuCloseHandler(p12 -> TeleportationSequence.players.remove(p12.getUniqueId()));
+		menu.addMenuCloseHandler(p12 -> SlimefunStartup.instance.getUtilities().teleporterUsers.remove(p12.getUniqueId()));
 		
 		for (int slot: teleporter_border) {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),

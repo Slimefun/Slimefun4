@@ -135,7 +135,7 @@ public abstract class Network {
 		}
 	}
 
-	private void discoverNeighbors(Location l, int xDiff, int yDiff, int zDiff) {
+	private void discoverNeighbors(Location l, double xDiff, double yDiff, double zDiff) {
 		for(int i = getRange() + 1; i > 0; i --) {
 			Location new_location = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
 			addLocationToNetwork(new_location);
@@ -143,12 +143,12 @@ public abstract class Network {
 	}
 
 	private void discoverNeighbors(Location l) {
-		discoverNeighbors(l, 1, 0, 0);
-		discoverNeighbors(l, -1, 0, 0);
-		discoverNeighbors(l, 0, 1, 0);
-		discoverNeighbors(l, 0, -1, 0);
-		discoverNeighbors(l, 0, 0, 1);
-		discoverNeighbors(l, 0, 0, -1);
+		discoverNeighbors(l, 1.0, 0.0, 0.0);
+		discoverNeighbors(l, -1.0, 0.0, 0.0);
+		discoverNeighbors(l, 0.0, 1.0, 0.0);
+		discoverNeighbors(l, 0.0, -1.0, 0.0);
+		discoverNeighbors(l, 0.0, 0.0, 1.0);
+		discoverNeighbors(l, 0.0, 0.0, -1.0);
 	}
 
 	public void display() {

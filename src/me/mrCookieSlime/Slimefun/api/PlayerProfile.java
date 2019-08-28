@@ -23,7 +23,7 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
  * @author TheBusyBiscuit
  *
  */
-public class PlayerProfile {
+public final class PlayerProfile {
 
     public static Map<UUID, PlayerProfile> profiles = new HashMap<>();
 

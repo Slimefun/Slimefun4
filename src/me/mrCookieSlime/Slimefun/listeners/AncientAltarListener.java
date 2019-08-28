@@ -30,21 +30,25 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
-import me.mrCookieSlime.Slimefun.AncientAltar.RitualAnimation;
+import me.mrCookieSlime.Slimefun.Utilities;
+import me.mrCookieSlime.Slimefun.ancient_altar.Pedestals;
+import me.mrCookieSlime.Slimefun.ancient_altar.RitualAnimation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.Variables;
 
 public class AncientAltarListener implements Listener {
 
+    private Utilities utilities;
+
     public AncientAltarListener(SlimefunStartup plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        utilities = plugin.getUtilities();
     }
 
-    List<Block> altars = new ArrayList<>();
-    Set<UUID> removed_items = new HashSet<>();
+    private List<Block> altars = new ArrayList<>();
+    private Set<UUID> removed_items = new HashSet<>();
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent e) {
@@ -53,7 +57,7 @@ public class AncientAltarListener implements Listener {
         SlimefunItem item = BlockStorage.check(b);
         if (item != null) {
             if (item.getID().equals("ANCIENT_PEDESTAL")) {
-                if (Variables.altarinuse.contains(b.getLocation())) {
+                if (utilities.altarinuse.contains(b.getLocation())) {
                     e.setCancelled(true);
                     return;
                 }
@@ -82,11 +86,12 @@ public class AncientAltarListener implements Listener {
                 }
             }
             else if (item.getID().equals("ANCIENT_ALTAR")) {
-                if (Variables.altarinuse.contains(b.getLocation())) {
+                if (utilities.altarinuse.contains(b.getLocation())) {
                     e.setCancelled(true);
                     return;
                 }
-                Variables.altarinuse.add(b.getLocation());  // make altarinuse simply because that was the last block clicked.
+
+                utilities.altarinuse.add(b.getLocation());  // make altarinuse simply because that was the last block clicked.
                 e.setCancelled(true);
 
                 ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
@@ -96,8 +101,9 @@ public class AncientAltarListener implements Listener {
                     altars.add(e.getClickedBlock());
                     if (pedestals.size() == 8) {
                         pedestals.forEach((pblock)->{
-                            Variables.altarinuse.add(pblock.getLocation());
+                            utilities.altarinuse.add(pblock.getLocation());
                         });
+
                         if (catalyst != null && !catalyst.getType().equals(Material.AIR)) {
                             List<ItemStack> input = new ArrayList<>();
                             for (Block pedestal: pedestals) {
@@ -115,21 +121,29 @@ public class AncientAltarListener implements Listener {
                             else {
                                 altars.remove(e.getClickedBlock());
                                 Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
-                                pedestals.forEach((pblock) -> Variables.altarinuse.remove(pblock.getLocation()));
-                                Variables.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use.
+
+                                pedestals.forEach((pblock)->{
+                                    utilities.altarinuse.remove(pblock.getLocation());
+                                });
+
+                                utilities.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use.
                             }
                         }
                         else {
                             altars.remove(e.getClickedBlock());
                             Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
-                            pedestals.forEach((pblock) -> Variables.altarinuse.remove(pblock.getLocation()));
-                            Variables.altarinuse.remove(b.getLocation());  // unknown catalyst, no longer in use
+
+                            pedestals.forEach((pblock)->{
+                                utilities.altarinuse.remove(pblock.getLocation());
+                            });
+
+                            utilities.altarinuse.remove(b.getLocation());  // unkown catalyst, no longer in use
                         }
                     }
                     else {
                         altars.remove(e.getClickedBlock());
                         Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, new Variable("%pedestals%", String.valueOf(pedestals.size())));
-                        Variables.altarinuse.remove(b.getLocation());  // not a valid altar so remove from inuse
+                        utilities.altarinuse.remove(b.getLocation());  // not a valid altar so remove from inuse
                     }
                 }
             }

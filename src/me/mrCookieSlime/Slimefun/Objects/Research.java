@@ -1,7 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,12 +57,6 @@ public class Research {
      * Contains all Research Titles
      */
     public static List<String> titles;
-
-    /**
-     * Contains all the players (UUIDs) that are currently unlocking a research.
-     * @since 4.0
-     */
-    public static Set<UUID> researching = new HashSet<>();
 
     /**
      * Whether researching in creative is free.
@@ -266,17 +260,19 @@ public class Research {
             ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
             Bukkit.getPluginManager().callEvent(event);
 
-            if (!event.isCancelled()) {
-                if (instant) {
-                    PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, true);
+            Runnable runnable = () -> {
+                PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, true);
+                Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
 
-                    Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
-                    if (SlimefunStartup.getCfg().getBoolean("options.research-give-fireworks")) {
-                        FireworkShow.launchRandom(p, 1);
-                    }
+                if (SlimefunStartup.getCfg().getBoolean("options.research-unlock-fireworks")) {
+                    FireworkShow.launchRandom(p, 1);
                 }
-                else if (!researching.contains(p.getUniqueId())){
-                    researching.add(p.getUniqueId());
+            };
+
+            if (!event.isCancelled()) {
+                if (instant) runnable.run();
+                else if (!SlimefunStartup.instance.getUtilities().researching.contains(p.getUniqueId())){
+                    SlimefunStartup.instance.getUtilities().researching.add(p.getUniqueId());
                     Messages.local.sendTranslation(p, "messages.research.start", true, new Variable("%research%", getName()));
 
                     for (int i = 1; i < research_progress.length + 1; i++) {
@@ -289,14 +285,8 @@ public class Research {
                     }
 
                     Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-                        PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, true);
-                        Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
-
-                        if (SlimefunStartup.getCfg().getBoolean("options.research-unlock-fireworks")) {
-                            FireworkShow.launchRandom(p, 1);
-                        }
-
-                        researching.remove(p.getUniqueId());
+                        runnable.run();
+                        SlimefunStartup.instance.getUtilities().researching.remove(p.getUniqueId());
                     }, (research_progress.length + 1) * 20L);
                 }
             }
@@ -354,7 +344,7 @@ public class Research {
      * @since 4.0
      */
     public static boolean isResearching(Player p) {
-        return researching.contains(p.getUniqueId());
+        return SlimefunStartup.instance.getUtilities().researching.contains(p.getUniqueId());
     }
 
     /**
@@ -370,9 +360,9 @@ public class Research {
     public static void sendStats(CommandSender sender, Player p) {
         PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
         Set<Research> researched = profile.getResearches();
-        int levels = researched.stream().mapToInt(r -> r.getCost()).sum();
+        int levels = researched.stream().mapToInt(Research::getCost).sum();
 
-        String progress = String.valueOf(Math.round(((researched.size() * 100.0f) / list().size()) * 100.0f) / 100.0f);
+        String progress = String.valueOf(Math.round(((researched.size() * 100.0F) / list().size()) * 100.0F) / 100.0F);
         if (Float.parseFloat(progress) < 16.0F) progress = "&4" + progress + " &r% ";
         else if (Float.parseFloat(progress) < 32.0F) progress = "&c" + progress + " &r% ";
         else if (Float.parseFloat(progress) < 48.0F) progress = "&6" + progress + " &r% ";
@@ -399,8 +389,8 @@ public class Research {
      * @see #sendStats(CommandSender, Player)
      */
     @Deprecated
-    public static String getTitle(Player p, Set<Research> researched) {
-        int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0f) / list().size()) * 100.0f) / 100.0f)) / 100.0F) * titles.size();
+    public static String getTitle(Player p, Collection<Research> researched) {
+        int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0F) / list().size()) * 100.0F) / 100.0F)) / 100.0F) * titles.size();
         if (index > 0) index--;
         return titles.get(index);
     }

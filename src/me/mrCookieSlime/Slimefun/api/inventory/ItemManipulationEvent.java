@@ -2,8 +2,9 @@ package me.mrCookieSlime.Slimefun.api.inventory;
 
 import org.bukkit.inventory.ItemStack;
 
+@FunctionalInterface
 public interface ItemManipulationEvent {
 	
-	public ItemStack onEvent(int slot, ItemStack previous, ItemStack next);
+	ItemStack onEvent(int slot, ItemStack previous, ItemStack next);
 
 }

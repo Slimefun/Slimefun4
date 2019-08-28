@@ -18,7 +18,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 @SuppressWarnings("deprecation")
-public class SlimefunItems {
+public final class SlimefunItems {
+
+    private SlimefunItems() {}
 	
 	/*		 Items 		*/
 	public static ItemStack PORTABLE_CRAFTER = null;
@@ -135,7 +137,7 @@ public class SlimefunItems {
 
     /*		 Tools		*/
     public static ItemStack AUTO_SMELT_PICKAXE = new CustomItem(Material.DIAMOND_PICKAXE, "&6熔炉镐", 0, new String[] {"&c&l自动熔炼", "", "&9在挖矿时有时运效果"});
-    public static ItemStack LUMBER_AXE = new CustomItem(Material.DIAMOND_AXE, "&6伐木斧", 0, new String[] {"&a&o砍倒整棵树木..."});
+    public static ItemStack LUMBER_AXE = new CustomItem(Material.DIAMOND_AXE, "&6伐木斧","&a&o砍倒整棵树木...");
     public static ItemStack PICKAXE_OF_CONTAINMENT = new CustomItem(Material.IRON_PICKAXE, "&c刷怪笼之镐", 0, new String[] {"", "&9可以获取刷怪笼"});
     public static ItemStack HERCULES_PICKAXE = new CustomItem(Material.IRON_PICKAXE, "&9赫拉克勒斯之镐", 0, new String[] {"", "&r它如此强大", "&r因此能自动将挖到的矿物变为粉末..."}, new String[] {"DURABILITY-2", "DIG_SPEED-4"});
     public static ItemStack EXPLOSIVE_PICKAXE = new CustomItem(Material.DIAMOND_PICKAXE, "&e爆炸稿", 0, new String[] {"", "&r允许你在一瞬间挖掘矿物", "", "&9在挖矿时有时运效果"});

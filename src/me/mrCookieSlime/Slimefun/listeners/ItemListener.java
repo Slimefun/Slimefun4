@@ -42,14 +42,14 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
+import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.MultiTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -62,8 +62,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 public class ItemListener implements Listener {
 
+    private Utilities utilities;
+
     public ItemListener(SlimefunStartup plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        utilities = plugin.getUtilities();
     }
 
     @EventHandler
@@ -103,24 +106,14 @@ public class ItemListener implements Listener {
      */
     @EventHandler
     public void enabledCheck(PlayerInteractEvent e) {
-        if(e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK)
+        if (e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
             return;
+        }
 
         ItemStack item = e.getItem();
-
-        if(item == null)
-            item = e.getPlayer().getInventory().getItemInMainHand();
-
-        if(item == null)
-            item = e.getPlayer().getInventory().getItemInOffHand();
-
-        if(item == null)
-            return;
-
-
-        if(!Slimefun.isEnabled(e.getPlayer(), item, true))
+        if (item != null && !Slimefun.isEnabled(e.getPlayer(), item, true)) {
             e.setCancelled(true);
-
+        }
     }
     @EventHandler
     public void debug(PlayerInteractEvent e) {
@@ -272,7 +265,7 @@ public class ItemListener implements Listener {
                 if (tool != null) {
                     List<Integer> modes = ((MultiTool) SlimefunItem.getByItem(tool)).getModes();
                     int index = 0;
-                    if (Variables.mode.containsKey(p.getUniqueId())) index = Variables.mode.get(p.getUniqueId());
+                    if (utilities.mode.containsKey(p.getUniqueId())) index = utilities.mode.get(p.getUniqueId());
 
                     if (!p.isSneaking()) {
                         float charge = ItemEnergy.getStoredEnergy(item);
@@ -286,7 +279,7 @@ public class ItemListener implements Listener {
                         index++;
                         if (index == modes.size()) index = 0;
                         Messages.local.sendTranslation(p, "messages.mode-change", true, new Variable("%device%", "Multi Tool"), new Variable("%mode%", (String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getID(), "mode." + modes.get(index) + ".name")));
-                        Variables.mode.put(p.getUniqueId(), index);
+                        utilities.mode.put(p.getUniqueId(), index);
                     }
                 }
             }
@@ -420,7 +413,7 @@ public class ItemListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityChangeBlock(EntityChangeBlockEvent e) {
         if (e.getEntity() instanceof FallingBlock) {
-            if (Variables.blocks.contains(e.getEntity().getUniqueId())) {
+            if (utilities.blocks.contains(e.getEntity().getUniqueId())) {
                 e.setCancelled(true);
                 e.getEntity().remove();
             }

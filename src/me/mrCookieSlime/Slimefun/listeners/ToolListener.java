@@ -25,15 +25,15 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
+import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Interfaces.NotPlaceable;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockPlaceHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -43,15 +43,17 @@ public class ToolListener implements Listener {
 
     // Materials that require a Block under it, e.g. Pressure Plates
     private final Set<Material> sensitiveMaterials = new HashSet<>();
+    private Utilities utilities;
 
     public ToolListener(SlimefunStartup plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        utilities = plugin.getUtilities();
 
         sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
         sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
         sensitiveMaterials.add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
-        sensitiveMaterials.addAll(Tag.SAPLINGS.getValues());
-        sensitiveMaterials.addAll(Tag.WOODEN_PRESSURE_PLATES.getValues());
+        Tag.SAPLINGS.getValues().forEach((mat) -> sensitiveMaterials.add(mat));
+        Tag.WOODEN_PRESSURE_PLATES.getValues().forEach((mat) -> sensitiveMaterials.add(mat));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -90,9 +92,9 @@ public class ToolListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
         ItemStack item = e.getItemInHand();
 
-        if (Variables.cancelPlace.contains(e.getPlayer().getUniqueId())) {
+        if (utilities.cancelPlace.contains(e.getPlayer().getUniqueId())) {
             e.setCancelled(true);
-            Variables.cancelPlace.remove(e.getPlayer().getUniqueId());
+            utilities.cancelPlace.remove(e.getPlayer().getUniqueId());
         }
         if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
         else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
@@ -250,12 +252,11 @@ public class ToolListener implements Listener {
 
         if (!drops.isEmpty()) {
             e.getBlock().setType(Material.AIR);
-
-            if (e.isDropItems())
+            if(e.isDropItems())
                 for (ItemStack drop : drops) {
-                    if (drop != null) {
+                    if (drop != null)
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
-                    }
+
                 }
         }
     }

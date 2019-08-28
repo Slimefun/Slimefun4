@@ -27,7 +27,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCrafting
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 
-public class MiscSetup {
+public final class MiscSetup {
+
+    private MiscSetup(){}
 	
 	public static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<>();
 	
@@ -121,7 +123,9 @@ public class MiscSetup {
 			}
 			
 		}
-		
+
+        List<ItemStack[]> grinder_recipes = new ArrayList<>();
+
 		SlimefunItem grinder = SlimefunItem.getByID("GRIND_STONE");
 		if (grinder != null) {
 			ItemStack[] input = null;
@@ -129,7 +133,7 @@ public class MiscSetup {
 				if (input == null) input = recipe;
 				else {
 					if (input[0] != null && recipe[0] != null) {
-						SlimefunRecipes.registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {input[0]}, new ItemStack[] {recipe[0]});
+                        grinder_recipes.add(new ItemStack[] {input[0], recipe[0]});
 					}
 					input = null;
 				}
@@ -143,12 +147,15 @@ public class MiscSetup {
 				if (input == null) input = recipe;
 				else {
 					if (input[0] != null && recipe[0] != null) {
-						SlimefunRecipes.registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {input[0]}, new ItemStack[] {recipe[0]});
+                        grinder_recipes.add(new ItemStack[] {input[0], recipe[0]});
 					}
 					input = null;
 				}
 			}
 		}
+
+        // Favour 8 Cobblestone -> 1 Sand Recipe over 1 Cobblestone -> 1 Gravel Recipe
+        grinder_recipes.stream().sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount())).forEach(recipe -> SlimefunRecipes.registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {recipe[0]}, new ItemStack[] {recipe[1]}));
 
 		SlimefunItem smeltery = SlimefunItem.getByID("SMELTERY");
 		if (smeltery != null) {
@@ -173,12 +180,10 @@ public class MiscSetup {
 								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.ZINC_DUST, true)) dust = true;
 							}
 						}
-						
-						if (dust && inputs.size() == 1) {
+
+                        if (!(dust && inputs.size() == 1)) {
 							// Dust -> Ingot Recipe, we want to exclude those
-						}
-						else {
-							SlimefunRecipes.registerMachineRecipe("ELECTRIC_SMELTERY", 12, inputs.toArray(new ItemStack[inputs.size()]), new ItemStack[] {recipe[0]});
+                            SlimefunRecipes.registerMachineRecipe("ELECTRIC_SMELTERY", 12, inputs.toArray(new ItemStack[inputs.size()]), new ItemStack[] {recipe[0]});
 						}
 					}
 					input = null;

@@ -44,33 +44,43 @@ public class ReactorAccessPort extends SlimefunItem {
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
+
             }
 
             @Override
             public boolean canOpen(Block b, Player p) {
                 if(p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(),b,true)) {
-
                     AReactor reactor = getReactor(b.getLocation());
                     if (reactor != null) {
                         boolean empty = true;
                         BlockMenu bm = getReactorMenu(b.getLocation());
-                        if (bm != null) {
-                            for (int slot : reactor.getCoolantSlots())
-                                if (bm.getItemInSlot(slot) != null)
-                                    empty = false;
-                            for (int slot : reactor.getFuelSlots())
-                                if (bm.getItemInSlot(slot) != null)
-                                    empty = false;
 
-                            if (!empty || !p.isSneaking()) {
+                        if (bm != null) {
+                            for (int slot: reactor.getCoolantSlots()) {
+                                if (bm.getItemInSlot(slot) != null) {
+                                    empty = false;
+                                }
+                            }
+
+                            for (int slot: reactor.getFuelSlots()) {
+                                if (bm.getItemInSlot(slot) != null) {
+                                    empty = false;
+                                }
+                            }
+
+                            if(!empty || !p.isSneaking()) {
                                 //reactor is not empty, lets view it's inventory instead.
                                 bm.open(p);
                                 return false;
                             }
+
                         }
+
                         return true;
+
                     }
                 }
+
                 return false;
             }
 
@@ -95,11 +105,13 @@ public class ReactorAccessPort extends SlimefunItem {
 
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
+
             }
 
             @Override
             public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
                 BlockMenu inv = BlockStorage.getInventory(b);
+
                 if (inv != null) {
                     for (int slot : getFuelSlots()) {
                         if (inv.getItemInSlot(slot) != null) {
@@ -107,12 +119,14 @@ public class ReactorAccessPort extends SlimefunItem {
                             inv.replaceExistingItem(slot, null);
                         }
                     }
+
                     for (int slot : getCoolantSlots()) {
                         if (inv.getItemInSlot(slot) != null) {
                             b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
                             inv.replaceExistingItem(slot, null);
                         }
                     }
+
                     for (int slot : getOutputSlots()) {
                         if (inv.getItemInSlot(slot) != null) {
                             b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
@@ -127,44 +141,24 @@ public class ReactorAccessPort extends SlimefunItem {
 
     private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-                    (p, slot, item, action) -> false
-            );
+            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
         }
 
         for (int i : border_1) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "),
-                    (p, slot, item, action) -> false
-            );
+            preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
         }
 
         for (int i : border_2) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-                    (p, slot, item, action) -> false
-            );
+            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
         }
 
         for (int i : border_3) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "),
-                    (p, slot, item, action) -> false
-            );
+            preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
         }
 
-        preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"),
-                (p, slot, item, action) -> false
-        );
-
-        preset.addItem(22, new CustomItem(SlimefunItems.PLUTONIUM, "&7Byproduct Slot", "", "&rThis Slot contains the Reactor's Byproduct", "&rsuch as &aNeptunium &ror &7Plutonium"),
-                (p, slot, item, action) -> false
-        );
-
-        preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"),
-                (p, slot, item, action) -> false
-        );
-
-        preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"),
-                (p, slot, item, action) -> false
-        );
+        preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"), (p, slot, item, action) -> false);
+        preset.addItem(22, new CustomItem(SlimefunItems.PLUTONIUM, "&7Byproduct Slot", "", "&rThis Slot contains the Reactor's Byproduct", "&rsuch as &aNeptunium &ror &7Plutonium"), (p, slot, item, action) -> false);
+        preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"),(p, slot, item, action) -> false);
     }
 
     public String getInventoryTitle() {
@@ -189,9 +183,9 @@ public class ReactorAccessPort extends SlimefunItem {
 
     public AReactor getReactor(Location l) {
         Location reactorL = new Location(l.getWorld(), l.getX(), l.getY() - 3, l.getZ());
+
         SlimefunItem item = BlockStorage.check(reactorL.getBlock());
-        if(item instanceof AReactor)
-            return (AReactor) item;
+        if (item instanceof AReactor) return (AReactor) item;
 
         return null;
     }
@@ -201,8 +195,9 @@ public class ReactorAccessPort extends SlimefunItem {
 
         String id = BlockStorage.checkID(reactorL);
 
-        if(id.equals("NUCLEAR_REACTOR") || id.equals("NETHERSTAR_REACTOR"))
+        if(id.equals("NUCLEAR_REACTOR") || id.equals("NETHERSTAR_REACTOR")) {
             return BlockStorage.getInventory(reactorL);
+        }
 
         return null;
     }
@@ -210,12 +205,15 @@ public class ReactorAccessPort extends SlimefunItem {
     private static Inventory inject(Location l) {
         int size = BlockStorage.getInventory(l).toInventory().getSize();
         Inventory inv = Bukkit.createInventory(null, size);
+
         for (int i = 0; i < size; i++) {
             inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
         }
+
         for (int slot : getOutputSlots()) {
             inv.setItem(slot, BlockStorage.getInventory(l).getItemInSlot(slot));
         }
+
         return inv;
     }
 
@@ -227,10 +225,7 @@ public class ReactorAccessPort extends SlimefunItem {
             BlockStorage.getInventory(l).replaceExistingItem(slot, inv.getItem(slot));
         }
 
-        for (Map.Entry<Integer, ItemStack> entry: map.entrySet()) {
-            return entry.getValue();
-        }
-        return null;
+        return map.values().stream().findAny().orElse(null);
     }
 
 }
