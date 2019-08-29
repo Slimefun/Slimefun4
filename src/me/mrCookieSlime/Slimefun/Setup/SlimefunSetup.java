@@ -170,8 +170,14 @@ public final class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DIET_COOKIE, true)) {
 					e.setCancelled(true);
+
+					int amount = item.getAmount();
+					if (amount <= 1) item.setType(Material.AIR);
+					item.setAmount(amount - 1);
+
 					p.sendMessage(ChatColor.YELLOW + "You feel so light...");
 					p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
+
 					if (p.hasPotionEffect(PotionEffectType.LEVITATION)) p.removePotionEffect(PotionEffectType.LEVITATION);
 					p.addPotionEffect(PotionEffectType.LEVITATION.createEffect(60, 1));
 					return true;
