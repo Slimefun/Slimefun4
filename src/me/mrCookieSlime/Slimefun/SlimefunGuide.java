@@ -784,7 +784,7 @@ public final class SlimefunGuide {
 		List<Object> list = new ArrayList<>();
 		if (history.containsKey(p.getUniqueId())) list = history.get(p.getUniqueId());
 		
-		if (remove && list.size() >= 1) {
+		if (remove && !list.isEmpty()) {
 			Object obj = list.get(list.size() - 1);
 			list.remove(obj);
 		}
@@ -978,7 +978,7 @@ public final class SlimefunGuide {
 		});
 		
 		if (sfItem != null) {
-			if ((sfItem instanceof SlimefunMachine && ((SlimefunMachine) sfItem).getDisplayRecipes().size() > 0) || (sfItem instanceof SlimefunGadget && ((SlimefunGadget) sfItem).getRecipes().size() > 0)) {
+			if ((sfItem instanceof SlimefunMachine && !((SlimefunMachine) sfItem).getDisplayRecipes().isEmpty()) || (sfItem instanceof SlimefunGadget && !((SlimefunGadget) sfItem).getRecipes().isEmpty())) {
 				for (int i = 27; i < 36; i++) {
 					menu.addItem(i, new CustomItem(Material.LIME_STAINED_GLASS_PANE, SlimefunItem.getByItem(item) instanceof SlimefunMachine ? "&7\u21E9 Recipes made in this Machine \u21E9": " "));
 					menu.addMenuClickHandler(i,

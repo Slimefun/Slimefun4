@@ -147,7 +147,6 @@ public class CargoNet extends Network {
 		super.tick();
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
 			CargoHologram.update(b, "&7Status: &4&lOFFLINE");
-			return;
 		}
 		else {
 			CargoHologram.update(b, "&7Status: &a&lONLINE");
@@ -418,7 +417,7 @@ public class CargoNet extends Network {
 						else if (storage.hasInventory(target.getLocation())) {
 							BlockMenu menu = BlockStorage.getInventory(target.getLocation());
 							if (BlockStorage.checkID(target.getLocation()).startsWith("BARREL_") && BlockStorage.getLocationInfo(target.getLocation(), "storedItems") != null) {
-								int stored = Integer.valueOf(BlockStorage.getLocationInfo(target.getLocation(), "storedItems"));
+								int stored = Integer.parseInt(BlockStorage.getLocationInfo(target.getLocation(), "storedItems"));
 								for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 									ItemStack is = menu.getItemInSlot(slot);
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
