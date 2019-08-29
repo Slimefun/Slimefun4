@@ -64,7 +64,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.GPS.NetworkStatus;
@@ -160,6 +159,7 @@ import me.mrCookieSlime.Slimefun.holograms.InfusedHopper;
 import me.mrCookieSlime.Slimefun.holograms.Projector;
 import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public final class SlimefunSetup {
 	

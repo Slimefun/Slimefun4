@@ -52,8 +52,6 @@ public class BlockStorage {
 	
 	private Map<String, Config> cache_blocks = new HashMap<>();
 	
-	public static int info_delay;
-	
 	public static BlockStorage getStorage(World world) {
 		return worlds.get(world.getName());
 	}
@@ -102,7 +100,7 @@ public class BlockStorage {
 						System.err.println("[Slimefun] should probably look into it!");
 					}
 					else if (file.getName().endsWith(".sfb")) {
-						if (timestamp + info_delay < System.currentTimeMillis()) {
+						if (timestamp + SlimefunStartup.instance.getSettings().BLOCK_LOADING_INFO_DELAY < System.currentTimeMillis()) {
 							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}

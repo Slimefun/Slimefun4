@@ -39,12 +39,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class Research {
 
 	private static final int[] research_progress = {23, 44, 57, 92};
-
-	/**
-	 * Whether researching is enabled or not;
-	 * @since 4.0
-	 */
-	public static boolean enableResearching;
 	
 	/**
 	 * Contains all the registered researches;
@@ -57,12 +51,6 @@ public class Research {
 	 * Contains all Research Titles
 	 */
 	public static List<String> titles;
-	
-	/**
-	 * Whether researching in creative is free.
-	 * @since 4.0
-	 */
-	public static boolean creative_research = true;
 
 	private int id;
 	private String name;
@@ -97,7 +85,7 @@ public class Research {
 	}
 	
 	public boolean isEnabled() {
-		return enableResearching && enabled;
+		return SlimefunStartup.instance.getSettings().RESEARCHES_ENABLED && enabled;
 	}
 
 	/**
@@ -231,7 +219,7 @@ public class Research {
 	 */
 	public boolean canUnlock(Player p) {
 		if (!isEnabled()) return true;
-		return (p.getGameMode() == GameMode.CREATIVE && creative_research) || p.getLevel() >= this.cost;
+		return (p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE) || p.getLevel() >= this.cost;
 	}
 
 	/**

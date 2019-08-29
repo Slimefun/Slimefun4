@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun;
+package me.mrCookieSlime.Slimefun.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

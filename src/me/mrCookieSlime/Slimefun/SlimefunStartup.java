@@ -27,8 +27,6 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricDustWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OreWasher;
 import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
@@ -77,6 +75,8 @@ import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
+import me.mrCookieSlime.Slimefun.utils.Settings;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
@@ -93,7 +93,9 @@ public class SlimefunStartup extends JavaPlugin {
 	public static TickerTask ticker;
 
 	private CoreProtectAPI coreProtectAPI;
+	
 	private Utilities utilities = new Utilities();
+	private Settings settings;
 
 	private boolean clearlag = false;
 	private boolean exoticGarden = false;
@@ -162,6 +164,8 @@ public class SlimefunStartup extends JavaPlugin {
 			config = utils.getConfig();
 			Messages.local = utils.getLocalization();
 			Messages.setup();
+			
+			settings = new Settings(config);
 
 			// Setting up bStats
 			new Metrics(this);
@@ -199,12 +203,10 @@ public class SlimefunStartup extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 
 			System.out.println("[Slimefun] Loading Researches...");
-			Research.enableResearching = getResearchCfg().getBoolean("enable-researching");
+			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
-
-			BlockStorage.info_delay = config.getInt("URID.info-delay");
 
 			System.out.println("[Slimefun] Loading World Generators...");
 
@@ -248,8 +250,7 @@ public class SlimefunStartup extends JavaPlugin {
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
 				Slimefun.emeraldenchants = getServer().getPluginManager().isPluginEnabled("EmeraldEnchants");
-				SlimefunGuide.all_recipes = config.getBoolean("options.show-vanilla-recipes-in-guide");
-				MiscSetup.loadItems();
+				MiscSetup.loadItems(settings);
 
 				for (World world: Bukkit.getWorlds()) {
 					new BlockStorage(world);
@@ -315,10 +316,10 @@ public class SlimefunStartup extends JavaPlugin {
 
 			ticker = new TickerTask();
 
-			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, settings.BLOCK_AUTO_SAVE_DELAY * 60L * 20L);
 
 			// Starting all ASYNC Tasks
-			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, settings.BLOCK_AUTO_SAVE_DELAY * 60L * 20L);
 			getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);
@@ -353,15 +354,8 @@ public class SlimefunStartup extends JavaPlugin {
 				new PlaceholderAPIHook().register();
 			}
 			
-			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
 			Research.titles = config.getStringList("research-ranks");
-			
-			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
-
-			OreWasher.legacy = config.getBoolean("options.legacy-ore-washer");
 			OreWasher.items = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};
-			
-			ElectricDustWasher.legacy_dust_washer = config.getBoolean("options.legacy-dust-washer");
 
 			// Do not show /sf elevator command in our Log, it could get quite spammy
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
@@ -501,6 +495,10 @@ public class SlimefunStartup extends JavaPlugin {
 	
 	public Utilities getUtilities() {
 		return utilities;
+	}
+	
+	public Settings getSettings() {
+		return settings;
 	}
 
 }

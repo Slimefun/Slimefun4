@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Setup;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,6 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCraftingChamber;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
+import me.mrCookieSlime.Slimefun.utils.Settings;
 
 public final class MiscSetup {
 	
@@ -37,6 +39,7 @@ public final class MiscSetup {
 		if (SlimefunItem.getByID("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
 			SlimefunItem.getByID("COMMON_TALISMAN").setRecipe(new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2});
 		}
+		
 		SlimefunItem.setRadioactive(SlimefunItems.URANIUM);
 		SlimefunItem.setRadioactive(SlimefunItems.SMALL_URANIUM);
 		SlimefunItem.setRadioactive(SlimefunItems.BLISTERING_INGOT);
@@ -46,7 +49,7 @@ public final class MiscSetup {
 		SlimefunItem.setRadioactive(SlimefunItems.ENRICHED_NETHER_ICE);
 	}
 	
-	public static void loadItems() {
+	public static void loadItems(Settings settings) {
 		Iterator<SlimefunItem> iterator = SlimefunItem.items.iterator();
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
@@ -154,8 +157,14 @@ public final class MiscSetup {
 		}
 		
 		// Favour 8 Cobblestone -> 1 Sand Recipe over 1 Cobblestone -> 1 Gravel Recipe
-		grinder_recipes.stream().sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount())).forEach(recipe -> SlimefunRecipes.registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {recipe[0]}, new ItemStack[] {recipe[1]}));
-
+		Stream<ItemStack[]> stream = grinder_recipes.stream();
+		
+		if (!settings.ORE_GRINDER_LEGACY) {
+			stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
+		}
+		
+		stream.forEach(recipe -> SlimefunRecipes.registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {recipe[0]}, new ItemStack[] {recipe[1]}));
+		
 		SlimefunItem smeltery = SlimefunItem.getByID("SMELTERY");
 		if (smeltery != null) {
 			ItemStack[] input = null;
