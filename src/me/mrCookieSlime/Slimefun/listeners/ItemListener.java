@@ -225,22 +225,6 @@ public class ItemListener implements Listener {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
 			else p.chat("/sf cheat");
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getDeprecatedItem(true), true)) {
-			item = SlimefunGuide.getItem(BookDesign.BOOK);
-			p.getInventory().setItemInMainHand(item);
-			PlayerInventory.update(p);
-
-			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
-			else SlimefunGuide.openGuide(p, true);
-		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getDeprecatedItem(false), true)) {
-			item = SlimefunGuide.getItem(BookDesign.CHEST);
-			p.getInventory().setItemInMainHand(item);
-			PlayerInventory.update(p);
-
-			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
-			else SlimefunGuide.openGuide(p, false);
-		}
 		else if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
 		}
 		else if (Slimefun.hasUnlocked(p, item, true)) {

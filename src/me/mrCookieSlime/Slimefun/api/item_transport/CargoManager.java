@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager.DataType;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
@@ -199,7 +198,6 @@ public class CargoManager {
 
 		BlockMenu menu = BlockStorage.getInventory(block.getLocation());
 		boolean lore = blockInfo.getString("filter-lore").equals("true");
-		boolean data = blockInfo.getString("filter-durability").equals("true");
 		
 		if (blockInfo.getString("filter-type").equals("whitelist")) {
 			List<ItemStack> items = new ArrayList<>();
@@ -218,18 +216,18 @@ public class CargoManager {
 				
 				BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
 				
-				return SlimefunManager.isItemSimiliar(item, items.get(index), lore, data ? DataType.ALWAYS: DataType.NEVER);
+				return SlimefunManager.isItemSimiliar(item, items.get(index), lore);
 			}
 			else {
 				for (ItemStack stack: items) {
-					if (SlimefunManager.isItemSimiliar(item, stack, lore, data ? DataType.ALWAYS: DataType.NEVER)) return true;
+					if (SlimefunManager.isItemSimiliar(item, stack, lore)) return true;
 				}
 				return false;
 			}
 		}
 		else {
 			for (int slot: slots) {
-				if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimiliar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore, data ? DataType.ALWAYS: DataType.NEVER)) {
+				if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimiliar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
 					return false;
 				}
 			}

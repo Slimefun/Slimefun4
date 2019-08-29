@@ -50,8 +50,7 @@ import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
-import me.mrCookieSlime.Slimefun.hooks.PlaceholderAPIHook;
-import me.mrCookieSlime.Slimefun.hooks.WorldEditHook;
+import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
@@ -61,7 +60,6 @@ import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
 import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
 import me.mrCookieSlime.Slimefun.listeners.BlockListener;
 import me.mrCookieSlime.Slimefun.listeners.BowListener;
-import me.mrCookieSlime.Slimefun.listeners.ClearLaggIntegration;
 import me.mrCookieSlime.Slimefun.listeners.CoolerListener;
 import me.mrCookieSlime.Slimefun.listeners.DamageListener;
 import me.mrCookieSlime.Slimefun.listeners.FurnaceListener;
@@ -77,8 +75,6 @@ import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
 import me.mrCookieSlime.Slimefun.utils.Settings;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
-import net.coreprotect.CoreProtect;
-import net.coreprotect.CoreProtectAPI;
 
 public final class SlimefunStartup extends JavaPlugin {
 
@@ -91,15 +87,10 @@ public final class SlimefunStartup extends JavaPlugin {
 	private static Config config;
 
 	public static TickerTask ticker;
-
-	private CoreProtectAPI coreProtectAPI;
 	
 	private Utilities utilities = new Utilities();
 	private Settings settings;
-
-	private boolean clearlag = false;
-	private boolean exoticGarden = false;
-	private boolean coreProtect = false;
+	private SlimefunHooks hooks;
 	
 	// Supported Versions of Minecraft
 	private final String[] supported = {"v1_14_"};
@@ -327,33 +318,7 @@ public final class SlimefunStartup extends JavaPlugin {
 
 			// Hooray!
 			System.out.println("[Slimefun] Finished!");
-
-			clearlag = getServer().getPluginManager().isPluginEnabled("ClearLag");
-			coreProtect = getServer().getPluginManager().isPluginEnabled("CoreProtect");
-
-			getServer().getScheduler().runTaskLater(this, () -> {
-				exoticGarden = getServer().getPluginManager().isPluginEnabled("ExoticGarden"); // Had to do it this way, otherwise it seems disabled.
-			}, 0);
-
-			if (clearlag) new ClearLaggIntegration(this);
-			if (coreProtect) coreProtectAPI = ((CoreProtect) getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
-
-
-			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
-			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
-				try {
-					Class.forName("com.sk89q.worldedit.extent.Extent");
-					new WorldEditHook();
-					System.out.println("[Slimefun] Successfully hooked into WorldEdit!");
-				} catch (Exception x) {
-					System.err.println("[Slimefun] Failed to hook into WorldEdit!");
-					System.err.println("[Slimefun] Maybe consider updating WorldEdit or Slimefun?");
-				}
-			}
-			
-			if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-				new PlaceholderAPIHook().register();
-			}
+			hooks = new SlimefunHooks(this);
 			
 			OreWasher.items = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};
 
@@ -477,20 +442,8 @@ public final class SlimefunStartup extends JavaPlugin {
 		return CSCoreLib.randomizer().nextInt(max) <= percentage;
 	}
 
-	public boolean isClearLagInstalled() {
-		return clearlag;
-	}
-
-	public boolean isExoticGardenInstalled () {
-		return exoticGarden;
-	}
-
-	public boolean isCoreProtectInstalled() {
-		return coreProtect;
-	}
-
-	public CoreProtectAPI getCoreProtectAPI() {
-		return coreProtectAPI;
+	public SlimefunHooks getHooks() {
+		return hooks;
 	}
 	
 	public Utilities getUtilities() {

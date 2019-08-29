@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Material;
@@ -38,6 +39,8 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TalismanListener implements Listener {
 	
+	private Random random;
+	
 	public TalismanListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -46,7 +49,7 @@ public class TalismanListener implements Listener {
 	public void onDamageGet(EntityDamageEvent e) {
 		if (!e.isCancelled()) {
 			if (e instanceof EntityDamageByEntityEvent) {
-				if (((EntityDamageByEntityEvent) e).getDamager() instanceof Player && SlimefunStartup.chance(100, 45)) {
+				if (((EntityDamageByEntityEvent) e).getDamager() instanceof Player && random.nextInt(100) < 45) {
 					if (SlimefunManager.isItemSimiliar(((Player) ((EntityDamageByEntityEvent) e).getDamager()).getInventory().getItemInMainHand(), SlimefunItem.getItem("BLADE_OF_VAMPIRES"), true)) {
 						((Player) ((EntityDamageByEntityEvent) e).getDamager()).playSound(((EntityDamageByEntityEvent) e).getDamager().getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
 						((Player) ((EntityDamageByEntityEvent) e).getDamager()).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
@@ -124,7 +127,7 @@ public class TalismanListener implements Listener {
 					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i) && en.canEnchantItem(e.getItem())) enchantments.add(en.getKey().getKey() + "-" + i);
 				}
 			}
-			String enchant = enchantments.get(SlimefunStartup.randomize(enchantments.size()));
+			String enchant = enchantments.get(random.nextInt(enchantments.size()));
 			e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchant.split("-")[0])), Integer.parseInt(enchant.split("-")[1]));
 		}
 		if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem())) {
@@ -132,9 +135,9 @@ public class TalismanListener implements Listener {
 				if (e.getEnchantsToAdd().containsKey(Enchantment.LOOT_BONUS_BLOCKS)) e.getEnchantsToAdd().remove(Enchantment.LOOT_BONUS_BLOCKS);
 				Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
 				for (Enchantment en : enchantments) {
-					if (SlimefunStartup.chance(100, 40)) e.getEnchantsToAdd().put(en, SlimefunStartup.randomize(3) + 1);
+					if (random.nextInt(100) < 40) e.getEnchantsToAdd().put(en, random.nextInt(3) + 1);
 				}
-				e.getItem().addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, SlimefunStartup.randomize(3) + 3);
+				e.getItem().addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
 			}
 		}
 	}
@@ -152,9 +155,9 @@ public class TalismanListener implements Listener {
 
 		if (item != null) {
 			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-				fortune = SlimefunStartup.randomize(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
+				fortune =random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
 				if (fortune <= 0) fortune = 1;
-				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + SlimefunStartup.randomize(5) : 1) * (fortune + 1);
+				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
 			}
 
 			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE")) {

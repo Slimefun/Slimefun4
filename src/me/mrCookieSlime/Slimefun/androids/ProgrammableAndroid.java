@@ -822,7 +822,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 	private void exoticFarm(Block b, Block block) {
 		farm(b, block);
-		if (SlimefunStartup.instance.isExoticGardenInstalled()) {
+		if (SlimefunStartup.instance.getHooks().isExoticGardenInstalled()) {
 			ItemStack drop = ExoticGarden.harvestPlant(block);
 			if (drop != null && fits(b, drop)) {
 				pushItems(b, drop);

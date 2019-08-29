@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
@@ -651,8 +652,12 @@ public final class SlimefunItems {
 	
 	public static final ItemStack ELYTRA = new ItemStack(Material.ELYTRA);
 	public static final ItemStack ELYTRA_SCALE = new CustomItem(Material.FEATHER, "&bEyltra Scale");
-	public static final ItemStack INFUSED_ELYTRA = new CustomItem(new CustomItem(ELYTRA, "&5Infused Elytra"), new String[] {"MENDING-1"});
+	public static final ItemStack INFUSED_ELYTRA = new CustomItem(ELYTRA, "&5Infused Elytra");
 	public static final ItemStack SOULBOUND_ELYTRA = new CustomItem(ELYTRA, "&cSoulbound Elytra");
+	
+	static {
+		INFUSED_ELYTRA.addEnchantment(Enchantment.MENDING, 1);
+	}
 	
 	// ChestTerminal Addon
 	

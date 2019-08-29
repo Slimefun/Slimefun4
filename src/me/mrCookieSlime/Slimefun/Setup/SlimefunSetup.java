@@ -166,6 +166,8 @@ public final class SlimefunSetup {
 	private SlimefunSetup() {}
 
 	public static void setupItems() {
+		Random random = new Random();
+		
 		new SlimefunItem(Categories.WEAPONS, SlimefunItems.GRANDMAS_WALKING_STICK, "GRANDMAS_WALKING_STICK", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null})
 		.register(true);
@@ -555,8 +557,6 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE},
 		new String[] {"chance.FLINT", "chance.CLAY", "chance.SIFTED_ORE"}, new Integer[] {47, 28, 15})
 		.register(true, new ItemInteractionHandler() {
-
-			private Random random = new Random();
 
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
@@ -1744,7 +1744,10 @@ public final class SlimefunSetup {
 								Block b = e.getBlock().getRelative(x, y, z);
 								if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), explosiveblacklist)) {
 									if (CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
-										if (SlimefunStartup.instance.isCoreProtectInstalled()) SlimefunStartup.instance.getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
+										if (SlimefunStartup.instance.getHooks().isCoreProtectInstalled()) {
+											SlimefunStartup.instance.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
+										}
+										
 										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 										SlimefunItem sfItem = BlockStorage.check(b);
 										boolean allow = false;
@@ -1769,7 +1772,7 @@ public final class SlimefunSetup {
 											b.setType(Material.AIR);
 										}
 										if (damageOnUse) {
-											if (!item.getEnchantments().containsKey(Enchantment.DURABILITY) || SlimefunStartup.randomize(100) <= (60 + 40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
+											if (!item.getEnchantments().containsKey(Enchantment.DURABILITY) || random.nextInt(100) <= (60 + 40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
 												PlayerInventory.damageItemInHand(e.getPlayer());
 											}
 										}
@@ -2096,7 +2099,7 @@ public final class SlimefunSetup {
 					for (int i = 0; i < 4; i++) {
 						if (e.getPlayer().getInventory().getItemInMainHand() != null) {
 							if (e.getPlayer().getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.DURABILITY)) {
-								if (SlimefunStartup.randomize(100) <= (60 + 40 / (e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY) + 1))) PlayerInventory.damageItemInHand(e.getPlayer());
+								if (random.nextInt(100) <= (60 + 40 / (e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY) + 1))) PlayerInventory.damageItemInHand(e.getPlayer());
 							}
 							else PlayerInventory.damageItemInHand(e.getPlayer());
 						}
@@ -2570,7 +2573,7 @@ public final class SlimefunSetup {
 						gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
 					}
 
-					gifts.add(new SkullItem("mrCookieSlime"));
+					gifts.add(new SkullItem("TheBusyBiscuit"));
 					gifts.add(new SkullItem("timtower"));
 					gifts.add(new SkullItem("bwfcwalshy"));
 					gifts.add(new SkullItem("jadedcat"));

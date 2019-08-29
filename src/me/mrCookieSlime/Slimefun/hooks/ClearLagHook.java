@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.listeners;
+package me.mrCookieSlime.Slimefun.hooks;
 
 import java.util.Iterator;
 
@@ -10,9 +10,9 @@ import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class ClearLaggIntegration implements Listener {
+public class ClearLagHook implements Listener {
 	
-	public ClearLaggIntegration(SlimefunStartup plugin) {
+	public ClearLagHook(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	

@@ -68,21 +68,6 @@ public final class SlimefunManager {
 //			Material.COAL, Material.SKULL_ITEM, Material.RAW_FISH, Material.COOKED_FISH);
 	
 	public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore) {
-		return isItemSimiliar(item, SFitem, lore, DataType.IF_COLORED);
-	}
-	
-	
-	@Deprecated
-	public static enum DataType {
-		
-		ALWAYS,
-		NEVER,
-		IF_COLORED;
-		
-	}
-
-	@Deprecated
-	public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore, DataType data) {
 		if (item == null) return SFitem == null;
 		if (SFitem == null) return false;
 		
@@ -114,6 +99,21 @@ public final class SlimefunManager {
 			else return !item.hasItemMeta() && !SFitem.hasItemMeta();
 		}
 		else return false;
+	}
+	
+	
+	@Deprecated
+	public static enum DataType {
+		
+		ALWAYS,
+		NEVER,
+		IF_COLORED;
+		
+	}
+
+	@Deprecated
+	public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore, DataType data) {
+		return isItemSimiliar(item, SFitem, lore);
 	}
 	
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {

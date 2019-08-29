@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Material;
@@ -42,7 +43,8 @@ import me.mrCookieSlime.Slimefun.utils.Utilities;
 public class ToolListener implements Listener {
 	
 	// Materials that require a Block under it, e.g. Pressure Plates
-	private final Set<Material> sensitiveMaterials = new HashSet<>();
+	private Set<Material> sensitiveMaterials = new HashSet<>();
+	private Random random = new Random();
 	private Utilities utilities;
 	
 	public ToolListener(SlimefunStartup plugin) {
@@ -145,7 +147,7 @@ public class ToolListener implements Listener {
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
 			}
-			gifts.add(new SkullItem("mrCookieSlime"));
+			gifts.add(new SkullItem("TheBusyBiscuit"));
 			gifts.add(new SkullItem("timtower"));
 			gifts.add(new SkullItem("bwfcwalshy"));
 			gifts.add(new SkullItem("jadedcat"));
@@ -163,7 +165,7 @@ public class ToolListener implements Listener {
 			"" +
 			"- mrCookieSlime"
 			);
-			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(SlimefunStartup.randomize(gifts.size())));
+			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(random.nextInt(gifts.size())));
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
@@ -240,9 +242,9 @@ public class ToolListener implements Listener {
 		}
 		else if (item != null) {
 			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-				fortune = SlimefunStartup.randomize(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
+				fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
 				if (fortune <= 0) fortune = 1;
-				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + SlimefunStartup.randomize(5) : 1) * (fortune + 1);
+				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
 			}
 			
 			for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
@@ -252,11 +254,13 @@ public class ToolListener implements Listener {
 		
 		if (!drops.isEmpty()) {
 			e.getBlock().setType(Material.AIR);
-			if(e.isDropItems())
+			
+			if (e.isDropItems()) {
 				for (ItemStack drop : drops) {
-					if (drop != null) 
+					if (drop != null) {
 						e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
-				
+					}
+				}
 			}
 		}
 	}
