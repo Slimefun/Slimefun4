@@ -40,7 +40,7 @@ public class HologramProjector extends SlimefunItem {
 
 	@Override
 	public void register(boolean slimefun) {
-		super.register(slimefun, new ItemInteractionHandler() {
+		addItemHandler(new ItemInteractionHandler() {
 
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
@@ -56,5 +56,7 @@ public class HologramProjector extends SlimefunItem {
 				return true;
 			}
 		});
+		
+		super.register(slimefun);
 	}
 }
