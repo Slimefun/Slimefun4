@@ -98,6 +98,7 @@ public final class SlimefunItems {
 	
 	/*		 Food 		*/
 	public static final ItemStack FORTUNE_COOKIE = new CustomItem(Material.COOKIE, "&6Fortune Cookie", "", "&a&oTells you stuff about your Future :o");
+	public static final ItemStack DIET_COOKIE = new CustomItem(Material.COOKIE, "&6Diet Cookie", "", "&aA very &olightweight &r&acookie.");
 	public static final ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6Beef Jerky", "", "&a&oSaturating");
 	public static final ItemStack MAGIC_SUGAR = new CustomItem(Material.SUGAR, "&6Magic Sugar", "", "&a&oFeel the Power of Hermes!");
 	public static final ItemStack MONSTER_JERKY = new CustomItem(Material.ROTTEN_FLESH, "&6Monster Jerky", "", "&a&oNo longer hungry");
