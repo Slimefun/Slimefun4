@@ -752,7 +752,7 @@ public final class SlimefunItems {
 	public static final ItemStack TRASH_CAN = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJkNDEwNDJjZTk5MTQ3Y2MzOGNhYzllNDY3NDE1NzZlN2VlNzkxMjgzZTZmYWM4ZDMyOTJjYWUyOTM1ZjFmIn19fQ=="), "&3Trash Can", "", "&rWill destroy all Items put into it");
 	
 	public static final ItemStack ELYTRA = new ItemStack(Material.ELYTRA);
-	public static final ItemStack ELYTRA_SCALE = new CustomItem(Material.FEATHER, "&bEyltra Scale");
+	public static final ItemStack ELYTRA_SCALE = new CustomItem(Material.FEATHER, "&bElytra Scale");
 	public static final ItemStack INFUSED_ELYTRA = new CustomItem(ELYTRA, "&5Infused Elytra");
 	public static final ItemStack SOULBOUND_ELYTRA = new CustomItem(ELYTRA, "&cSoulbound Elytra");
 	
