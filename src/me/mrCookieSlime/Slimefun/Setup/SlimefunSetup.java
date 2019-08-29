@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -1809,7 +1809,7 @@ public final class SlimefunSetup {
 							for (int z = -1; z <= 1; z++) {
 								Block b = e.getBlock().getRelative(x, y, z);
 								boolean correctType = false;
-								for (Material mat : MaterialCollections.getAllFishItems()) {
+								for (Material mat : MaterialTools.getShovelItems()) {
 									if (b.getType() == mat) {
 										correctType = true;
 										break;
