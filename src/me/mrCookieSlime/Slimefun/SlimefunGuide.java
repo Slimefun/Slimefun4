@@ -198,18 +198,14 @@ public final class SlimefunGuide {
 		}
 
 		menu.addItem(7, new CustomItem(new ItemStack(Material.REDSTONE), "&4问题追踪器", "", "&7未解决的问题: &a" + issues, "", "&7\u21E8 单击前往 Slimefun 问题追踪器"));
-		menu.addMenuClickHandler(7, new MenuClickHandler() {
-
-			@Override
-			public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
-				p.closeInventory();
-				p.sendMessage("");
-				p.sendMessage("&7&o单击下方链接打开:");
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4/issues"));
-				p.sendMessage("");
-				return false;
-			}
-		});
+		menu.addMenuClickHandler(7, (p15, arg1, arg2, arg3) -> {
+            p15.closeInventory();
+            p15.sendMessage("");
+            p15.sendMessage("&7&o单击下方链接打开:");
+            p15.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4/issues"));
+            p15.sendMessage("");
+            return false;
+        });
 
 		menu.open(p);
 	}
@@ -304,10 +300,10 @@ public final class SlimefunGuide {
             clearHistory(p.getUniqueId());
 
 		if (book) {
-			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
-			List<String> texts = new ArrayList<String>();
-			List<String> tooltips = new ArrayList<String>();
-			List<PlayerRunnable> actions = new ArrayList<PlayerRunnable>();
+			List<TellRawMessage> pages = new ArrayList<>();
+			List<String> texts = new ArrayList<>();
+			List<String> tooltips = new ArrayList<>();
+			List<PlayerRunnable> actions = new ArrayList<>();
 
 			int tier = 0;
 
@@ -522,13 +518,7 @@ public final class SlimefunGuide {
 							parents.add(parent.getItem().getItemMeta().getDisplayName());
 						}
 						menu.addItem(index, new CustomItem(Material.BARRIER, "&4已锁定 &7- &r" + category.getItem().getItemMeta().getDisplayName(), 0, parents.toArray(new String[parents.size()])));
-						menu.addMenuClickHandler(index, new MenuClickHandler() {
-
-							@Override
-							public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-								return false;
-							}
-						});
+						menu.addMenuClickHandler(index, (arg0, arg1, arg2, arg3) -> false);
 						index++;
 					}
 				}
@@ -565,10 +555,10 @@ public final class SlimefunGuide {
 		if (category == null) return;
 
 		if (book && category.getItems().size() < 250) {
-			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
-			List<String> texts = new ArrayList<String>();
-			List<String> tooltips = new ArrayList<String>();
-			List<PlayerRunnable> actions = new ArrayList<PlayerRunnable>();
+			List<TellRawMessage> pages = new ArrayList<>();
+			List<String> texts = new ArrayList<>();
+			List<String> tooltips = new ArrayList<>();
+			List<PlayerRunnable> actions = new ArrayList<>();
 
 			for (final SlimefunItem item: category.getItems()) {
 				if (Slimefun.hasPermission(p, item, false)) {
@@ -658,15 +648,13 @@ public final class SlimefunGuide {
 
 					@Override
 					public void run(final Player p) {
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-                            openMainMenu(p, survival, true, 1);
-						}, 1L);
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> openMainMenu(p, survival, true, 1), 1L);
 					}
 				});
 				pages.add(page);
 			}
 
-			new CustomBookOverlay("粘液科技指南", "mrCookieSlime", pages.toArray(new TellRawMessage[pages.size()])).open(p);
+			new CustomBookOverlay("粘液科技指南", "mrCookieSlime", pages.toArray(new TellRawMessage[0])).open(p);
 		}
 		else {
 			final ChestMenu menu = new ChestMenu("粘液科技指南");
@@ -1064,11 +1052,11 @@ public final class SlimefunGuide {
 		String timeleft = "";
         final int minutes = (int) (l / 60L);
         if (minutes > 0) {
-            timeleft = String.valueOf(timeleft) + minutes + "m ";
+            timeleft = timeleft + minutes + "m ";
         }
         l -= minutes * 60;
-        final int seconds = (int)l;
-        timeleft = String.valueOf(timeleft) + seconds + "s";
+        final int seconds = l;
+        timeleft = timeleft + seconds + "s";
         return "&7" + timeleft;
 	}
 

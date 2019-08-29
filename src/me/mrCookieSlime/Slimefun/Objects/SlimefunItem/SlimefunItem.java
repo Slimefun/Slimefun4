@@ -372,7 +372,7 @@ public class SlimefunItem {
             }
             install();
         } catch(Exception x) {
-            System.err.println("[Slimefun] Item Initialization failed: " + id);
+            System.err.println("[Slimefun] 物品: " + id + " 实例化失败");
         }
     }
 

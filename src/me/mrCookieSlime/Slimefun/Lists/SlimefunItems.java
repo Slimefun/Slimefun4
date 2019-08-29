@@ -35,17 +35,17 @@ public final class SlimefunItems {
 	public static ItemStack GOLD_PAN = new CustomItem(Material.BOWL, "&6淘金盘","&a&o可以获得各种各样的矿物", "", "&7&e右键&7 从沙砾中淘金");
 	public static ItemStack PARACHUTE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&r&l降落伞", "&7按住 &eShift&7 使用"), Color.WHITE);
 	public static ItemStack GRAPPLING_HOOK = new CustomItem(Material.LEAD, "&6抓钩",  "&7&e右键&7 使用");
-	public static ItemStack SOLAR_HELMET = new CustomItem(Material.IRON_HELMET, "&b太阳能头盔", "&7&o的饥饿值", "&a&oCharges held Items and Armor");
+	public static ItemStack SOLAR_HELMET = new CustomItem(Material.IRON_HELMET, "&b太阳能头盔", "", "&a&oCharges held Items and Armor");
 	public static ItemStack CLOTH = new CustomItem(Material.PAPER, "&b布", 0);
 	public static ItemStack CAN = null;
-	public static ItemStack NIGHT_VISION_GOGGLES = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&a夜视眼镜", "&7&o的饥饿值", "&9+ 夜视效果"), Color.BLACK);
-	public static ItemStack FARMER_SHOES = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&e农夫的靴子", "&7&o的饥饿值", "&6&o能够防止你踩坏农田"), Color.YELLOW);
+	public static ItemStack NIGHT_VISION_GOGGLES = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&a夜视眼镜", "", "&9+ 夜视效果"), Color.BLACK);
+	public static ItemStack FARMER_SHOES = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&e农夫的靴子", "", "&6&o能够防止你踩坏农田"), Color.YELLOW);
 	public static ItemStack INFUSED_MAGNET = null;
-	public static ItemStack FLASK_OF_KNOWLEDGE = new CustomItem(Material.GLASS_BOTTLE, "&c学识之瓶", "&7&o的饥饿值", "&r允许你将经验储存在瓶子里", "&7需要消耗 &a1 个等级");
-	public static ItemStack RAG = new CustomItem(Material.PAPER, "&c破布", "&7&o的饥饿值", "&a1级医疗供给", "", "&r恢复2点血量", "&r可以熄灭身上的火", "", "&7&e右键&7 使用");
-	public static ItemStack BANDAGE = new CustomItem(Material.PAPER, "&c绷带", "&7&o的饥饿值", "&a2级医疗供给", "", "&r恢复4点血量", "&r可以熄灭身上的火", "", "&7&e右键&7 使用");
-	public static ItemStack SPLINT = new CustomItem(Material.STICK, "&c夹板", "&7&o的饥饿值", "&a1级医疗供给", "", "&r恢复2点血量", "", "&7&e右键&7 使用");
-	public static ItemStack VITAMINS = new CustomItem(Material.NETHER_WART, "&c维他命", "&7&o的饥饿值", "&a3级医疗供给", "", "&r恢复4点血量", "&r可以熄灭身上的火", "&r治愈中毒/凋零/辐射的负面效果", "", "&7&e右键&7 使用");
+	public static ItemStack FLASK_OF_KNOWLEDGE = new CustomItem(Material.GLASS_BOTTLE, "&c学识之瓶", "", "&r允许你将经验储存在瓶子里", "&7需要消耗 &a1 个等级");
+	public static ItemStack RAG = new CustomItem(Material.PAPER, "&c破布", "", "&a1级医疗供给", "", "&r恢复2点血量", "&r可以熄灭身上的火", "", "&7&e右键&7 使用");
+	public static ItemStack BANDAGE = new CustomItem(Material.PAPER, "&c绷带", "", "&a2级医疗供给", "", "&r恢复4点血量", "&r可以熄灭身上的火", "", "&7&e右键&7 使用");
+	public static ItemStack SPLINT = new CustomItem(Material.STICK, "&c夹板", "", "&a1级医疗供给", "", "&r恢复2点血量", "", "&7&e右键&7 使用");
+	public static ItemStack VITAMINS = new CustomItem(Material.NETHER_WART, "&c维他命", "", "&a3级医疗供给", "", "&r恢复4点血量", "&r可以熄灭身上的火", "&r治愈中毒/凋零/辐射的负面效果", "", "&7&e右键&7 使用");
 	public static ItemStack MEDICINE = new CustomItem(Material.POTION, "&c药物", 8229, new String[] {"", "&a3级医疗供给", "", "&r恢复4点血量", "&r可以熄灭身上的火", "&r治愈中毒/凋零/辐射的负面效果", "", "&7&e右键&7 饮用"});
 	
 	/*		Backpacks		*/
@@ -94,10 +94,10 @@ public final class SlimefunItems {
 	public static ItemStack CARBONADO_MULTI_TOOL = new CustomItem(new MaterialData(Material.SHEARS), "&9多功能工具 &7- &eVII", "", "&8\u21E8 &7材料: &b黑金刚石", "&c&o&8\u21E8 &e\u26A1 &70 / 100 J", "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
 	
 	/*		 Food 		*/
-	public static ItemStack FORTUNE_COOKIE = new CustomItem(Material.COOKIE, "&6幸运饼干", "&7&o的饥饿值", "&a&o告诉你未来发生的事 :o");
-	public static ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6牛肉干", "&7&o的饥饿值", "&a&o管饱");
-	public static ItemStack MAGIC_SUGAR = new CustomItem(Material.SUGAR, "&6魔法糖", "&7&o的饥饿值", "&a&o感受赫尔墨斯的力量!");
-	public static ItemStack MONSTER_JERKY = new CustomItem(Material.ROTTEN_FLESH, "&6怪物肉干", "&7&o的饥饿值", "&a&o提神抗饥饿");
+	public static ItemStack FORTUNE_COOKIE = new CustomItem(Material.COOKIE, "&6幸运饼干", "", "&a&o告诉你未来发生的事 :o");
+	public static ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6牛肉干", "", "&a&o管饱");
+	public static ItemStack MAGIC_SUGAR = new CustomItem(Material.SUGAR, "&6魔法糖", "", "&a&o感受赫尔墨斯的力量!");
+	public static ItemStack MONSTER_JERKY = new CustomItem(Material.ROTTEN_FLESH, "&6怪物肉干", "", "&a&o提神抗饥饿");
 	public static ItemStack APPLE_JUICE = new CustomPotion("&c苹果汁",  Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o" + "3.0" + " &7&o的饥饿值");
 	public static ItemStack MELON_JUICE = new CustomPotion("&c西瓜汁", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o" + "3.0" + "  &7&o的饥饿值");
 	public static ItemStack CARROT_JUICE = new CustomPotion("&6胡萝卜汁", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢复 &b&o" + "3.0" + "  &7&o的饥饿值");
@@ -128,7 +128,7 @@ public final class SlimefunItems {
 	public static ItemStack GRANDPAS_WALKING_STICK = new CustomItem(Material.STICK, "&7爷爷的拐杖", 0, new String[0], new String[] {"KNOCKBACK-5"});
 	public static ItemStack SWORD_OF_BEHEADING = new CustomItem(Material.IRON_SWORD, "&6处决之剑", "&7斩首处决 II", "", "&r有几率砍下生物的头", "&r(提高掉落凋灵骷髅头的几率)");
     public static ItemStack BLADE_OF_VAMPIRES = new CustomItem(Material.GOLDEN_SWORD, "&c吸血鬼之刀", 0, new String[] {"&7生命窃取 I", "", "&r在攻击时有 45% 的几率", "使自己恢复 2 点血量"}, new String[] {"FIRE_ASPECT-2", "DURABILITY-4", "DAMAGE_ALL-2"});
-	public static ItemStack SEISMIC_AXE = new CustomItem(Material.IRON_AXE, "&a地震斧", "&7&o的饥饿值", "&7&o制造一场地震...", "", "&7&e右键&7 使用");
+	public static ItemStack SEISMIC_AXE = new CustomItem(Material.IRON_AXE, "&a地震斧", "", "&7&o制造一场地震...", "", "&7&e右键&7 使用");
 
     /*		Bows		*/
     public static ItemStack EXPLOSIVE_BOW = new CustomItem(Material.BOW, "&c爆裂之弓", 0, new String[] {"&r被爆裂之弓射出的箭击中将会飞上天"});

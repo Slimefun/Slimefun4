@@ -10,9 +10,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Random;
+
 public class EnhancedFurnace extends SlimefunItem {
 	
-	int speed, efficiency, fortune;
+	private int speed, efficiency, fortune;
 	
 	public EnhancedFurnace(int speed, int efficiency, int fortune, ItemStack item, String id, ItemStack[] recipe) {
 		super(Categories.MACHINES_1, item, id, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
@@ -59,7 +61,7 @@ public class EnhancedFurnace extends SlimefunItem {
 	
 	public int getOutput() {
 		int fortune = this.fortune;
-		fortune = SlimefunStartup.randomize(fortune + 2) - 1;
+		fortune = new Random().nextInt(fortune + 2) - 1;
 		if (fortune <= 0) fortune = 0;
 		fortune++;
 		return fortune;

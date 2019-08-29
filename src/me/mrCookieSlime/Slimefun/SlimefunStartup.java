@@ -120,8 +120,8 @@ public class SlimefunStartup extends JavaPlugin {
 
                     String replace = version.substring(1).replaceFirst("_", ".").replace("_", ".X");
                     if (i == 0) versions.append(replace);
-					else if (i == supported.length - 1) versions.append(" or " + replace);
-					else versions.append(", " + replace);
+					else if (i == supported.length - 1) versions.append(" or ").append(replace);
+					else versions.append(", ").append(replace);
 					
 					i++;
 				}
@@ -273,7 +273,7 @@ public class SlimefunStartup extends JavaPlugin {
                                     if (SlimefunManager.isItemSimiliar(armor, SlimefunItem.getItem("SOLAR_HELMET"), false)) {
                                         if (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) {
                                             if (p.getEyeLocation().getBlock().getLightFromSky() == 15) {
-                                                ItemEnergy.chargeInventory(p, Float.valueOf(String.valueOf(Slimefun.getItemValue("SOLAR_HELMET", "charge-amount"))));
+                                                ItemEnergy.chargeInventory(p, Float.parseFloat(String.valueOf(Slimefun.getItemValue("SOLAR_HELMET", "charge-amount"))));
                                             }
                                         }
                                     }

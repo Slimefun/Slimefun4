@@ -28,9 +28,11 @@ public class ParachuteTask implements Runnable {
 			Player p = Bukkit.getPlayer(uuid);
 			Vector vector = new Vector(0, 1, 0);
 			vector.multiply(-0.1);
-			p.setVelocity(vector);
-			p.setFallDistance(0.0f);
-			if (!p.isSneaking()) Bukkit.getScheduler().cancelTask(id);
+			if (p != null) {
+                p.setVelocity(vector);
+                p.setFallDistance(0.0f);
+                if (!p.isSneaking()) Bukkit.getScheduler().cancelTask(id);
+            }
 		}
 	}
 
