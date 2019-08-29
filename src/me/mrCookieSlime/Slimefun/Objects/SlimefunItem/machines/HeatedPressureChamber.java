@@ -101,19 +101,23 @@ public abstract class HeatedPressureChamber extends AContainer {
 		registerRecipe(60, new ItemStack[] {SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM}, new ItemStack[]{new CustomItem(SlimefunItems.ENRICHED_NETHER_ICE, 4)});
 		registerRecipe(45, new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[]{new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)});
 	}
-	
+
+	@Override
 	public String getInventoryTitle() {
 		return "&cHeated Pressure Chamber";
 	}
-	
+
+	@Override
 	public ItemStack getProgressBar() {
 		return new ItemStack(Material.FLINT_AND_STEEL);
 	}
-	
+
+	@Override
 	public int[] getInputSlots() {
 		return new int[] {19, 20};
 	}
-	
+
+	@Override
 	public int[] getOutputSlots() {
 		return new int[] {24, 25};
 	}
@@ -139,7 +143,8 @@ public abstract class HeatedPressureChamber extends AContainer {
 
 		super.register(slimefun);
 	}
-	
+
+	@Override
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);

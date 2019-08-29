@@ -423,7 +423,7 @@ public final class SlimefunGuide {
 			);
 			
 			List<Category> categories = Slimefun.current_categories;
-			List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(list -> list.stream()).collect(Collectors.toList());
+			List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
 			
 			int index = 9;
 			int pages = 1;

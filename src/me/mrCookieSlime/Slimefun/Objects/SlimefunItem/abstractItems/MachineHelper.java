@@ -12,14 +12,14 @@ public class MachineHelper {
             timeleft = String.valueOf(timeleft) + minutes + "m ";
         }
         l -= minutes * 60;
-        final int seconds = (int)l;
+        final int seconds = (int) l;
         timeleft = String.valueOf(timeleft) + seconds + "s";
         return ChatColor.translateAlternateColorCodes('&', "&7" + timeleft + " left");
 	}
 
 	public static String getProgress(int time, int total) {
 		StringBuilder progress = new StringBuilder();
-		float percentage = Math.round(((((total - time) * 100.0f) / total) * 100.0f) / 100.0f);
+		float percentage = Math.round(((((total - time) * 100.0F) / total) * 100.0F) / 100.0F);
 		
 		if (percentage < 16.0F) progress.append("&4");
 		else if (percentage < 32.0F) progress.append("&c");
@@ -47,7 +47,7 @@ public class MachineHelper {
 	public static String getCoolant(int time, int total) {
 		int passed = ((total - time) % 25);
 		StringBuilder progress = new StringBuilder();
-		float percentage = Math.round(((((25 - passed) * 100.0f) / 25) * 100.0f) / 100.0f);
+		float percentage = Math.round(((((25 - passed) * 100.0F) / 25) * 100.0F) / 100.0F);
 		
 		if (percentage < 33.0F) progress.append("&9");
 		else if (percentage < 66.0F) progress.append("&1");
@@ -71,7 +71,7 @@ public class MachineHelper {
 
 	public static float getPercentage(int time, int total) {
 		int passed = ((total - time) % 25);
-		return Math.round(((((25 - passed) * 100.0f) / 25) * 100.0f) / 100.0f);
+		return Math.round(((((25 - passed) * 100.0F) / 25) * 100.0F) / 100.0F);
 	}
 
 	public static short getDurability(ItemStack item, int timeleft, int max) {

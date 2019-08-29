@@ -43,7 +43,8 @@ public abstract class ElectricDustWasher extends AContainer {
 	public void registerDefaultRecipes() {}
 	
 	public abstract int getSpeed();
-	
+
+	@Override
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);

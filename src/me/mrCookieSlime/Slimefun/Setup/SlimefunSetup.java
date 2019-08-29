@@ -966,7 +966,7 @@ public final class SlimefunSetup {
 						p.setVelocity(p.getEyeLocation().getDirection().multiply(4));
 						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
 						p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1);
-						p.setFallDistance(0.0f);
+						p.setFallDistance(0F);
 					}
 					else {
 						Messages.local.sendTranslation(p, "messages.hungry", true);

@@ -42,7 +42,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 	public String onRequest(OfflinePlayer p, String params) {
 		if (params.equals("researches_total_xp_levels_spent")) {
 			Stream<Research> stream = PlayerProfile.fromUUID(p.getUniqueId()).getResearches().stream();
-			return String.valueOf(stream.mapToInt(r -> r.getCost()).sum());
+			return String.valueOf(stream.mapToInt(Research::getCost).sum());
 		}
 		
 		if (params.equals("researches_total_researches_unlocked")) {

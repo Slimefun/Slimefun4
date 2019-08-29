@@ -16,7 +16,7 @@ public class ParachuteTask extends SlimefunTask {
 		Vector vector = new Vector(0, 1, 0);
 		vector.multiply(-0.1);
 		p.setVelocity(vector);
-		p.setFallDistance(0.0f);
+		p.setFallDistance(0F);
 		if (!p.isSneaking()) Bukkit.getScheduler().cancelTask(id);
 	}
 

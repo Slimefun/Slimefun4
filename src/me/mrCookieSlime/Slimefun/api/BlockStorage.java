@@ -104,7 +104,7 @@ public class BlockStorage {
 					}
 					else if (file.getName().endsWith(".sfb")) {
 						if (timestamp + SlimefunStartup.instance.getSettings().BLOCK_LOADING_INFO_DELAY < System.currentTimeMillis()) {
-							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% done (\"" + w.getName() + "\")");
+							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
 
@@ -318,9 +318,9 @@ public class BlockStorage {
 	}
 
 	public static Config getLocationInfo(Location l) {
-			BlockStorage storage = getStorage(l.getWorld());
-			Config cfg = storage.storage.get(l);
-			return cfg == null ? new BlockInfoConfig() : cfg;
+		BlockStorage storage = getStorage(l.getWorld());
+		Config cfg = storage.storage.get(l);
+		return cfg == null ? new BlockInfoConfig() : cfg;
 	}
 	
 	private static Map<String, String> parseJSON(String json) {
@@ -374,7 +374,7 @@ public class BlockStorage {
 	}
 
 	public static String getLocationInfo(Location l, String key) {
-		return getBlockInfo(l).getString(key);
+		return getLocationInfo(l).getString(key);
 	}
 	
 	public static void addBlockInfo(Location l, String key, String value) {
@@ -616,9 +616,7 @@ public class BlockStorage {
 		if (menu != null) {
 			for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
 				// Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while holding an item
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-					human.closeInventory();
-				});
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> human.closeInventory());
 			}
 
 			inventories.get(l).delete(l);

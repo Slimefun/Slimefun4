@@ -125,7 +125,8 @@ public abstract class ElectricSmeltery extends AContainer {
 		
 		this.registerDefaultRecipes();
 	}
-	
+
+	@Override
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),

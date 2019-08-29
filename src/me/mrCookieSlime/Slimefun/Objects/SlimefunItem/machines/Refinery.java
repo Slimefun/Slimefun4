@@ -44,7 +44,8 @@ public abstract class Refinery extends AContainer {
 	public String getMachineIdentifier() {
 		return "REFINERY";
 	}
-	
+
+	@Override
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);

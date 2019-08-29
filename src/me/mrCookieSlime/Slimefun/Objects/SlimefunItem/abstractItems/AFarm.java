@@ -164,7 +164,7 @@ public abstract class AFarm extends SlimefunItem {
 	public int[] getOutputSlots() {
 		return new int[] {19, 20, 21, 22, 23, 24, 25};
 	}
-
+	
 	protected void tick(Block b) {
 		if (ChargableBlock.isChargable(b)) {
 			if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
