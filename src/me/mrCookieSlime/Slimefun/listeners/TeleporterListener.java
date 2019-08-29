@@ -23,7 +23,7 @@ public class TeleporterListener implements Listener {
 	
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled=true)
 	public void onStarve(PlayerInteractEvent e) {
-		if (!e.getAction().equals(Action.PHYSICAL)) return;
+		if (e.getAction() != Action.PHYSICAL) return;
 		
 		if (e.getClickedBlock() == null) return;
 		SlimefunItem item = BlockStorage.check(e.getClickedBlock());

@@ -64,7 +64,7 @@ public class AncientAltarListener implements Listener {
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
-					if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
+					if(e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) return;
 					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
 						return;
@@ -102,7 +102,7 @@ public class AncientAltarListener implements Listener {
 					if (pedestals.size() == 8) {
 						pedestals.forEach(block -> utilities.altarinuse.add(block.getLocation()));
 						
-						if (catalyst != null && !catalyst.getType().equals(Material.AIR)) {
+						if (catalyst != null && catalyst.getType() != Material.AIR) {
 							List<ItemStack> input = new ArrayList<>();
 							for (Block pedestal: pedestals) {
 								Item stack = findItem(pedestal);

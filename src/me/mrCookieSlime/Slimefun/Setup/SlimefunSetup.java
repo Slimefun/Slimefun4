@@ -860,7 +860,7 @@ public final class SlimefunSetup {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
 					if (e.getClickedBlock() == null && !variables.jumpState.containsKey(p.getUniqueId())) {
 						e.setCancelled(true);
-						if (p.getInventory().getItemInOffHand().getType().equals(Material.BOW)) {
+						if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
 							// Cancel, to fix dupe #740
 							return false;
 						}
@@ -1048,7 +1048,7 @@ public final class SlimefunSetup {
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.AUTO_SMELT_PICKAXE, true)) {
 					if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
-					if (e.getBlock().getType().equals(Material.PLAYER_HEAD)) return true;
+					if (e.getBlock().getType() == Material.PLAYER_HEAD) return true;
 
 					int j = -1;
 					List<ItemStack> dropsList = (List<ItemStack>) e.getBlock().getDrops();
@@ -1726,7 +1726,7 @@ public final class SlimefunSetup {
 												drops.add(BlockStorage.retrieve(e.getBlock()));
 											}
 										}
-										else if (b.getType().equals(Material.PLAYER_HEAD)) {
+										else if (b.getType() == Material.PLAYER_HEAD) {
 											b.breakNaturally();
 										}
 										else if (b.getType().name().endsWith("_SHULKER_BOX")) {
@@ -1734,7 +1734,7 @@ public final class SlimefunSetup {
 										}
 										else {
 											for (ItemStack drop: b.getDrops()) {
-												b.getWorld().dropItemNaturally(b.getLocation(), (b.getType().toString().endsWith("_ORE") && !b.getType().equals(Material.IRON_ORE) && !b.getType().equals(Material.GOLD_ORE)) ? new CustomItem(drop, fortune): drop);
+												b.getWorld().dropItemNaturally(b.getLocation(), (b.getType().toString().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE) ? new CustomItem(drop, fortune): drop);
 											}
 											b.setType(Material.AIR);
 										}
@@ -3848,7 +3848,7 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(e.getItem(), SlimefunItems.INFERNAL_BONEMEAL, true)) {
-					if (e.getClickedBlock() != null && e.getClickedBlock().getType().equals(Material.NETHER_WART)) {
+					if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.NETHER_WART) {
 						Ageable ageable = (Ageable)e.getClickedBlock().getBlockData();
 						if (ageable.getAge() < ageable.getMaximumAge()) {
 							ageable.setAge(ageable.getMaximumAge());
@@ -3969,7 +3969,7 @@ public final class SlimefunSetup {
 			@Override
 			public int getSpeed() {
 				return 1;
-			};
+			}
 
 		}.registerChargeableBlock(true, 200);
 
@@ -4009,7 +4009,7 @@ public final class SlimefunSetup {
 			@Override
 			public int getSpeed() {
 				return 1;
-			};
+			}
 
 		}.registerChargeableBlock(true, 256);
 
@@ -4260,7 +4260,7 @@ public final class SlimefunSetup {
 			@Override
 			public int getSpeed() {
 				return 1;
-			};
+			}
 
 		}.registerChargeableBlock(true, 256);
 
@@ -4285,7 +4285,7 @@ public final class SlimefunSetup {
 			@Override
 			public int getSpeed() {
 				return 6;
-			};
+			}
 
 		}.registerChargeableBlock(true, 512);
 

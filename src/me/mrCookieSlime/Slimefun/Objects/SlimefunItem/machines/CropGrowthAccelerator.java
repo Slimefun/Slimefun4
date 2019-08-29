@@ -64,7 +64,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.INSERT)) return getInputSlots();
+				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
 				return new int[0];
 			}
 		};

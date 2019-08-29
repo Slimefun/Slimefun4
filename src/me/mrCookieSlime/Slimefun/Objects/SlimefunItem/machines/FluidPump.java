@@ -64,7 +64,7 @@ public class FluidPump extends SlimefunItem{
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.INSERT)) return getInputSlots();
+				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
 				else return getOutputSlots();
 			}
 		};
@@ -117,7 +117,7 @@ public class FluidPump extends SlimefunItem{
 	
 	protected void tick(Block b) {
 		Block fluid = b.getRelative(BlockFace.DOWN);
-		if (fluid.getType().equals(Material.LAVA)) {
+		if (fluid.getType() == Material.LAVA) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -139,7 +139,7 @@ public class FluidPump extends SlimefunItem{
 				}
 			}
 		}
-		else if (fluid.getType().equals(Material.WATER)) {
+		else if (fluid.getType() == Material.WATER) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;

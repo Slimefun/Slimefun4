@@ -61,7 +61,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
-				if (flow.equals(ItemTransportFlow.WITHDRAW)) return getOutputSlots();
+				if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
 				
 				List<Integer> slots = new ArrayList<>();
 				

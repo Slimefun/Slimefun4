@@ -39,7 +39,7 @@ public final class Files {
 		if (files != null) {
 			for (File current: files) {
 				if (current.isDirectory()) {
-					if (!delete(current)) return false;;
+					if (!delete(current)) return false;
 				}
 				else {
 					if (!current.delete()) return false;
