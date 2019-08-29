@@ -41,6 +41,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -206,8 +207,17 @@ public final class SlimefunSetup {
 					e.setCancelled(true);
 
 					int amount = item.getAmount();
-					if (amount <= 1) item.setType(Material.AIR);
-					item.setAmount(amount - 1);
+					if (amount <= 1) {
+						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+							p.getInventory().setItemInMainHand(null);
+						}
+						else {
+							p.getInventory().setItemInOffHand(null);
+						}
+					}
+					else {
+						item.setAmount(amount - 1);
+					}
 
 					p.sendMessage(ChatColor.YELLOW + "You feel so light...");
 					p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
