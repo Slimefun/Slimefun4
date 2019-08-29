@@ -128,7 +128,7 @@ public class BlockStorage {
 								storage.put(l, blockInfo);
 
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
-									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
+									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<>();
 									locations.add(l);
 									ticking_chunks.put(chunk_string, locations);
 									if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
@@ -525,7 +525,7 @@ public class BlockStorage {
 			if (item != null && item.isTicking()) {
 				String chunk_string = locationToChunkString(l);
 				if (value != null) {
-					Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
+					Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<>();
 					locations.add(l);
 					ticking_chunks.put(chunk_string, locations);
 					if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
