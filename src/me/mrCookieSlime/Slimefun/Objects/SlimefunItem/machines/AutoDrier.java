@@ -73,6 +73,7 @@ public class AutoDrier extends AContainer {
         }
         else {
             MachineRecipe r = null;
+            int inputSlot = -1;
             for (int slot: getInputSlots()) {
                 ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
                 if (item == null) continue;
@@ -102,13 +103,14 @@ public class AutoDrier extends AContainer {
                 else continue;
 
                 r = new MachineRecipe(5, new ItemStack[] {item}, new ItemStack[] {output});
+                inputSlot = slot;
+                break;
             }
 
             if (r != null) {
+                if (inputSlot == -1) return;
                 if (!fits(b, r.getOutput())) return;
-                for (int slot: getInputSlots()) {
-                    BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
-                }
+                BlockStorage.getInventory(b).replaceExistingItem(inputSlot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(inputSlot), 1));
                 processing.put(b, r);
                 progress.put(b, r.getTicks());
             }
