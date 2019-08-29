@@ -39,7 +39,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TalismanListener implements Listener {
 	
-	private Random random;
+	private Random random = new Random();
 	
 	public TalismanListener(SlimefunStartup plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
