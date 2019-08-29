@@ -109,7 +109,7 @@ public class MagicWorkbench extends SlimefunMachine {
 											}
 											
 											String id = "";
-											int size = ((SlimefunBackpack) sfItem).size;
+											int size = ((SlimefunBackpack) sfItem).getSize();
 
 											if (backpack != null) {
 												for (String line: backpack.getItemMeta().getLore()) {

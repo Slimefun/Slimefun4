@@ -52,8 +52,8 @@ public class ToolListener implements Listener {
 		sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
 		sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
 		sensitiveMaterials.add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
-		Tag.SAPLINGS.getValues().forEach((mat) -> sensitiveMaterials.add(mat));
-		Tag.WOODEN_PRESSURE_PLATES.getValues().forEach((mat) -> sensitiveMaterials.add(mat));
+		Tag.SAPLINGS.getValues().forEach(mat -> sensitiveMaterials.add(mat));
+		Tag.WOODEN_PRESSURE_PLATES.getValues().forEach(mat -> sensitiveMaterials.add(mat));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

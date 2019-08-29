@@ -46,11 +46,6 @@ public class Research {
 	 * @see ResearchSetup
 	 */
 	public static List<Research> list = new LinkedList<>();
-	
-	/**
-	 * Contains all Research Titles
-	 */
-	public static List<String> titles;
 
 	private int id;
 	private String name;
@@ -378,9 +373,7 @@ public class Research {
 	 */
 	@Deprecated
 	public static String getTitle(Player p, Collection<Research> researched) {
-		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0F) / list().size()) * 100.0F) / 100.0F)) / 100.0F) * titles.size();
-		if (index > 0) index--;
-		return titles.get(index);
+		return PlayerProfile.fromUUID(p.getUniqueId()).getTitle();
 	}
 
 	/**

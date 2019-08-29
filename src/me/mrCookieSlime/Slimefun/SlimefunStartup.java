@@ -80,15 +80,15 @@ import me.mrCookieSlime.Slimefun.utils.Utilities;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
-public class SlimefunStartup extends JavaPlugin {
+public final class SlimefunStartup extends JavaPlugin {
 
 	public static SlimefunStartup instance;
 
-	static PluginUtils utils;
-	static Config researches;
-	static Config items;
-	static Config whitelist;
-	static Config config;
+	private static PluginUtils utils;
+	private static Config researches;
+	private static Config items;
+	private static Config whitelist;
+	private static Config config;
 
 	public static TickerTask ticker;
 
@@ -166,6 +166,8 @@ public class SlimefunStartup extends JavaPlugin {
 			Messages.setup();
 			
 			settings = new Settings(config);
+			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
+			settings.SMELTERY_FIRE_BREAK_CHANCE = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			// Setting up bStats
 			new Metrics(this);
@@ -203,7 +205,6 @@ public class SlimefunStartup extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 
 			System.out.println("[Slimefun] Loading Researches...");
-			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
@@ -354,7 +355,6 @@ public class SlimefunStartup extends JavaPlugin {
 				new PlaceholderAPIHook().register();
 			}
 			
-			Research.titles = config.getStringList("research-ranks");
 			OreWasher.items = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};
 
 			// Do not show /sf elevator command in our Log, it could get quite spammy
@@ -372,7 +372,7 @@ public class SlimefunStartup extends JavaPlugin {
 			ticker.run();
 		}
 		
-		PlayerProfile.iterator().forEachRemaining((profile) -> {
+		PlayerProfile.iterator().forEachRemaining(profile -> {
 			if (profile.isDirty()) profile.save();
 		});
 		

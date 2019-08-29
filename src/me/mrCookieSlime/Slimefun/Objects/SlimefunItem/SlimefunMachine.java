@@ -20,6 +20,7 @@ public class SlimefunMachine extends SlimefunItem {
 	private List<ItemStack[]> recipes;
 	private List<ItemStack> shownRecipes;
 	private Material trigger;
+	
 	//Adjacent blockfaces for iterative output chest checks
 	private static final BlockFace[] outputFaces = {
 		    BlockFace.UP,

@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 
 public abstract class BlockTicker implements ItemHandler {
 	
-	public boolean unique = true;
+	protected boolean unique = true;
 
 	public void update() {
 		if (unique) {
@@ -24,6 +24,10 @@ public abstract class BlockTicker implements ItemHandler {
 	@Override
 	public String toCodename() {
 		return "BlockTicker";
+	}
+	
+	public void startNewTick() {
+		unique = true;
 	}
 
 }

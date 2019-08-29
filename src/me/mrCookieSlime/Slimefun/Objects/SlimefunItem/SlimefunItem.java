@@ -73,7 +73,7 @@ public class SlimefunItem {
 	 *
 	 * @since 4.1.10
 	 */
-	public enum State {
+	public static enum State {
 		/**
 		 * This SlimefunItem is enabled.
 		 */

@@ -1,11 +1,14 @@
 package me.mrCookieSlime.Slimefun.utils;
 
+import java.util.List;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public final class Settings {
 	
 	public boolean RESEARCHES_ENABLED;
 	public boolean RESEARCHES_FREE_IN_CREATIVE;
+	public List<String> RESEARCHES_TITLES;
 	
 	public int BLOCK_LOADING_INFO_DELAY;
 	public int BLOCK_AUTO_SAVE_DELAY;
@@ -18,8 +21,11 @@ public final class Settings {
 	public boolean ORE_GRINDER_LEGACY;
 	public boolean ORE_WASHER_LEGACY;
 	
+	public int SMELTERY_FIRE_BREAK_CHANCE;
+	
 	public Settings(Config cfg) {
 		RESEARCHES_FREE_IN_CREATIVE = cfg.getBoolean("options.allow-free-creative-research");
+		RESEARCHES_TITLES = cfg.getStringList("research-ranks");
 		
 		BLOCK_LOADING_INFO_DELAY = cfg.getInt("URID.info-delay");
 		BLOCK_AUTO_SAVE_DELAY = cfg.getInt("options.auto-save-delay-in-minutes");

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
 
@@ -159,9 +161,11 @@ public final class PlayerProfile {
 	}
 
 	public String getTitle() {
-		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0F) / Research.titles.size())))));
+		List<String> titles = SlimefunStartup.instance.getSettings().RESEARCHES_TITLES;
+		
+		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0F) / titles.size())))));
 		if (index > 0) index--;
-		return Research.titles.get(index);
+		return titles.get(index);
 	}
 	
 	public static PlayerProfile fromUUID(UUID uuid) {

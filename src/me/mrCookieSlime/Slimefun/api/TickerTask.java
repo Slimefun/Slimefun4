@@ -192,7 +192,7 @@ public class TickerTask implements Runnable {
 		
 		Iterator<BlockTicker> iterator = tickers.iterator();
 		while (iterator.hasNext()) {
-			iterator.next().unique = true;
+			iterator.next().startNewTick();
 			iterator.remove();
 		}
 		
@@ -219,41 +219,13 @@ public class TickerTask implements Runnable {
 			tellraw.addText("   &7&oHover for more Info");
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
-			for (String item: map_machine.keySet()) {
-				if (map_machinetime.get(item) > 0) hover.append("\n&c" + item + " - " + map_machine.get(item) + "x &7(" + map_machinetime.get(item) + "ms)");
+			
+			for (Map.Entry<String, Integer> entry: map_machine.entrySet()) {
+				long timings = map_machinetime.get(entry.getKey());
+				if (timings > 0) hover.append("\n&c" + entry.getKey() + " - " + entry.getValue()+ "x &7(" + timings + "ms)");
 				else hidden++;
 			}
-			hover.append("\n\n&c+ &4" + hidden + " Hidden");
-			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
-			try {
-				tellraw.send((Player) sender);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		else {
-			int hidden = 0;
-			for (String item: map_machine.keySet()) {
-				if (map_machinetime.get(item) > 0) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &e" + item + " - " + map_machine.get(item) + "x &7(" + map_machinetime.get(item) + "ms)"));
-				else hidden++;
-			}
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
-		}
-		
-		sender.sendMessage("");
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticking Chunks:"));
-		
-		if (sender instanceof Player) {
-			TellRawMessage tellraw = new TellRawMessage();
-			tellraw.addText("   &7&oHover for more Info");
-			StringBuilder hover = new StringBuilder();
-			int hidden = 0;
-			for (String c: map_chunktime.keySet()) {
-				if (!skipped_chunks.contains(c)) {
-					if (map_chunktime.get(c) > 0) hover.append("\n&c" + c.replace("CraftChunk", "") + " - " + (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + "x &7(" + map_chunktime.get(c) + "ms)");
-					else hidden++;
-				}
-			}
+			
 			hover.append("\n\n&c+ &4" + hidden + " Hidden");
 			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
 			
@@ -265,9 +237,46 @@ public class TickerTask implements Runnable {
 		}
 		else {
 			int hidden = 0;
-			for (String c: map_chunktime.keySet()) {
-				if (!skipped_chunks.contains(c)) {
-					if (map_chunktime.get(c) > 0) sender.sendMessage("  &c" + c.replace("CraftChunk", "") + " - " + (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + "x &7(" + map_chunktime.get(c) + "ms)");
+			
+			for (Map.Entry<String, Integer> entry: map_machine.entrySet()) {
+				long timings = map_machinetime.get(entry.getKey());
+				if (timings > 0) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &e" + entry.getKey() + " - " + entry.getValue()+ "x &7(" + timings + "ms)"));
+				else hidden++;
+			}
+			
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
+		}
+		
+		sender.sendMessage("");
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticking Chunks:"));
+		
+		if (sender instanceof Player) {
+			TellRawMessage tellraw = new TellRawMessage();
+			tellraw.addText("   &7&oHover for more Info");
+			StringBuilder hover = new StringBuilder();
+			int hidden = 0;
+			
+			for (Map.Entry<String, Long> entry: map_chunktime.entrySet()) {
+				if (!skipped_chunks.contains(entry.getKey())) {
+					if (entry.getValue() > 0) hover.append("\n&c" + entry.getKey().replace("CraftChunk", "") + " - " + (map_chunk.containsKey(entry.getKey()) ? map_chunk.get(entry.getKey()): 0) + "x &7(" + entry.getValue() + "ms)");
+					else hidden++;
+				}
+			}
+			
+			hover.append("\n\n&c+ &4" + hidden + " Hidden");
+			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
+			
+			try {
+				tellraw.send((Player) sender);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			int hidden = 0;
+			for (Map.Entry<String, Long> entry: map_chunktime.entrySet()) {
+				if (!skipped_chunks.contains(entry.getKey())) {
+					if (entry.getValue() > 0) sender.sendMessage("  &c" + entry.getKey().replace("CraftChunk", "") + " - " + (map_chunk.containsKey(entry.getKey()) ? map_chunk.get(entry.getKey()): 0) + "x &7(" + entry.getValue() + "ms)");
 					else hidden++;
 				}
 			}

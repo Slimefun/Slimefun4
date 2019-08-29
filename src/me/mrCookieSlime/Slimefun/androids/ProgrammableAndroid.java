@@ -1019,9 +1019,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private void openScriptDownloader(final Player p, final Block b, final int page) throws Exception {
 		final ChestMenu menu = new ChestMenu("Android Scripts");
 
-		menu.addMenuOpeningHandler(
-				(pl) -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F)
-		);
+		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F));
 
 		List<Config> scripts = getUploadedScripts();
 

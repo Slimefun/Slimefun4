@@ -245,9 +245,7 @@ public class WitherAssembler extends SlimefunItem {
 						
 						final double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 						
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-							b.getWorld().spawnEntity(new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D), EntityType.WITHER);
-						});
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> b.getWorld().spawnEntity(new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D), EntityType.WITHER));
 						
 						return;
 					}

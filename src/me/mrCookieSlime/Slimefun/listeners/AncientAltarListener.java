@@ -100,9 +100,7 @@ public class AncientAltarListener implements Listener {
 				if (!altars.contains(e.getClickedBlock())) {
 					altars.add(e.getClickedBlock());
 					if (pedestals.size() == 8) {
-						pedestals.forEach((pblock)->{
-							utilities.altarinuse.add(pblock.getLocation());
-						});
+						pedestals.forEach(block -> utilities.altarinuse.add(block.getLocation()));
 						
 						if (catalyst != null && !catalyst.getType().equals(Material.AIR)) {
 							List<ItemStack> input = new ArrayList<>();
@@ -122,9 +120,7 @@ public class AncientAltarListener implements Listener {
 								altars.remove(e.getClickedBlock());
 								Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
 								
-								pedestals.forEach((pblock)->{
-									utilities.altarinuse.remove(pblock.getLocation());
-								});
+								pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
 								
 								utilities.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use.								
 							}
@@ -133,9 +129,7 @@ public class AncientAltarListener implements Listener {
 							altars.remove(e.getClickedBlock());
 							Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 							
-							pedestals.forEach((pblock)->{
-								utilities.altarinuse.remove(pblock.getLocation());
-							});
+							pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
 							
 							utilities.altarinuse.remove(b.getLocation());  // unkown catalyst, no longer in use							
 						}

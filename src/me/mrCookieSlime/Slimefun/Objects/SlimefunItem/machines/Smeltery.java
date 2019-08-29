@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -84,7 +85,7 @@ public class Smeltery extends SlimefunMachine {
 										
 										Hopper chamber = findHopper(dispBlock, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 										
-										if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
+										if (new Random().nextInt(100) < SlimefunStartup.instance.getSettings().SMELTERY_FIRE_BREAK_CHANCE) {
 											if (chamber != null) {
 												if (chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
 													ItemStack item = chamber.getInventory().getItem(chamber.getInventory().first(Material.FLINT_AND_STEEL));

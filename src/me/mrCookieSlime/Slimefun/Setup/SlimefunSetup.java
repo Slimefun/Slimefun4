@@ -2461,7 +2461,7 @@ public final class SlimefunSetup {
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, false)) {
 					PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
 					Set<Research> researches = PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)))).getResearches();
-					researches.forEach((research) -> profile.setResearched(research, true));
+					researches.forEach(research -> profile.setResearched(research, true));
 					
 					PlayerInventory.consumeItemInHand(p);
 					return true;
