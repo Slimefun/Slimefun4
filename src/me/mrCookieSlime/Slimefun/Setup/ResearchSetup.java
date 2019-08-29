@@ -241,5 +241,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(241, "Thinned-down Conductivity", 15), SlimefunItems.COPPER_WIRE);
 	    Slimefun.registerResearch(new Research(242, "Radiant Backpack", 25), SlimefunItems.RADIANT_BACKPACK);
 	    Slimefun.registerResearch(new Research(243, "A Dry Day", 15), SlimefunItems.AUTO_DRIER);
+	    Slimefun.registerResearch(new Research(244, "Diet Cookie", 3), SlimefunItems.DIET_COOKIE);
 	}
 }

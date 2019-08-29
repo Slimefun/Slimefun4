@@ -163,6 +163,23 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.COOKIE), new ItemStack(Material.PAPER), null, null, null, null, null, null, null})
 		.register(true);
 
+		new SlimefunItem(Categories.FOOD, SlimefunItems.DIET_COOKIE, "DIET_COOKIE", RecipeType.MAGIC_WORKBENCH,
+		new ItemStack[] {new ItemStack(Material.COOKIE), SlimefunItems.ELYTRA_SCALE, null, null, null, null, null, null, null})
+		.register(true, new ItemInteractionHandler() {
+			@Override
+			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DIET_COOKIE, true)) {
+					e.setCancelled(true);
+					p.sendMessage(ChatColor.YELLOW + "You feel so light...");
+					p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
+					if (p.hasPotionEffect(PotionEffectType.LEVITATION)) p.removePotionEffect(PotionEffectType.LEVITATION);
+					p.addPotionEffect(PotionEffectType.LEVITATION.createEffect(60, 1));
+					return true;
+				}
+				return false;
+			}
+		});
+
 		new SlimefunItem(Categories.MACHINES_1, SlimefunItems.OUTPUT_CHEST, "OUTPUT_CHEST", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LEAD_INGOT, new ItemStack(Material.HOPPER), SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, new ItemStack(Material.CHEST), SlimefunItems.LEAD_INGOT, null, SlimefunItems.LEAD_INGOT, null})
 		.register(true);
