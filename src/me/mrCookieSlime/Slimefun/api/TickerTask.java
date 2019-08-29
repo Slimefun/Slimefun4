@@ -30,7 +30,9 @@ public class TickerTask implements Runnable {
 	
 	private Set<BlockTicker> tickers = new HashSet<>();
 	
-	private int skipped = 0, chunks = 0, machines = 0;
+	private int skipped = 0;
+	private int chunks = 0;
+	private int machines = 0;
 	private long time = 0;
 	private Map<String, Integer> map_chunk = new HashMap<>();
 	private Map<String, Integer> map_machine = new HashMap<>();

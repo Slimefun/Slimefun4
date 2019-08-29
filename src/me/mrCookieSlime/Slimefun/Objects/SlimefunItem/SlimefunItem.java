@@ -56,7 +56,8 @@ public class SlimefunItem {
 	protected ItemStack recipeOutput = null;
 	private Research research;
 	private int month = -1;
-	private boolean enchantable = true, disenchantable = true;
+	private boolean enchantable = true;
+	private boolean disenchantable = true;
 	private boolean hidden = false;
 	private boolean replacing = false;
 	private boolean addon = false;

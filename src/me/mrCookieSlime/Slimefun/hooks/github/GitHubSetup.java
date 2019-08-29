@@ -48,7 +48,8 @@ public final class GitHubSetup {
 							continue;
 						}
 						
-						InputStreamReader profile_reader = null, session_reader = null;
+						InputStreamReader profile_reader = null;
+						InputStreamReader session_reader = null;
 						
 						try {
 							URL profile = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);

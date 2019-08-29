@@ -989,7 +989,8 @@ public final class SlimefunGuide {
 				List<ItemStack> recipes = SlimefunItem.getByItem(item) instanceof SlimefunMachine ? ((SlimefunMachine) SlimefunItem.getByItem(item)).getDisplayRecipes() : ((SlimefunGadget) SlimefunItem.getByItem(item)).getDisplayRecipes();
 				int recipe_size = recipes.size();
 				if (recipe_size > 18) recipe_size = 18;
-				int inputs = -1, outputs = -1;
+				int inputs = -1;
+				int outputs = -1;
 				
 				for (int i = 0; i < recipe_size; i++) {
 					int slot = 36;

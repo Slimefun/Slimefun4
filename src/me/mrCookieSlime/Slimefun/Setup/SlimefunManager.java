@@ -117,7 +117,8 @@ public final class SlimefunManager {
 	}
 	
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {
-		String string1 = "", string2 = "";
+		String string1 = "";
+		String string2 = "";
 		for (String string: lore) {
 			if (!string.startsWith("&e&e&7")) string1 = string1 + "-NEW LINE-" + string;
 		}
