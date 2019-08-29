@@ -14,6 +14,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomArmor;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomPotion;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.Christmas;
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 
 public final class SlimefunItems {
 	
@@ -661,7 +662,7 @@ public final class SlimefunItems {
 	
 	private static ItemStack getSkull(String texture) {
 		try {
-			return getSkull(texture);
+			return CustomSkull.getItem(texture);
 		}
 		catch(Exception x) {
 			x.printStackTrace();

@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomArmor;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.SeasonCategory;
@@ -46,7 +47,7 @@ public final class Categories {
 	
 	private static ItemStack getSkull(String texture) {
 		try {
-			return getSkull(texture);
+			return CustomSkull.getItem(texture);
 		}
 		catch(Exception x) {
 			x.printStackTrace();
