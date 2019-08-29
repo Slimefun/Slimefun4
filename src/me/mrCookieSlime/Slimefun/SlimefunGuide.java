@@ -800,9 +800,7 @@ public final class SlimefunGuide {
 
 		final SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		
-		if (sfItem == null) {
-			if (!SlimefunStartup.instance.getSettings().GUIDE_SHOW_VANILLA_RECIPES) return;
-		}
+		if (sfItem == null && !SlimefunStartup.instance.getSettings().GUIDE_SHOW_VANILLA_RECIPES) return;
 		
 		ItemStack[] recipe = new ItemStack[9];
 		ItemStack recipeType = null;

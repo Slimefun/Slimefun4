@@ -41,23 +41,19 @@ public class GearListener implements Listener {
 						}
 					}
 				}
-				else if (item.isItem(SlimefunItems.PARACHUTE)) {
-					if (Slimefun.hasUnlocked(p, SlimefunItems.PARACHUTE, true)) {
-						ParachuteTask task = new ParachuteTask(p);
-						task.setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(SlimefunStartup.instance, task, 0L, 3L));
-					}
+				else if (item.isItem(SlimefunItems.PARACHUTE) && Slimefun.hasUnlocked(p, SlimefunItems.PARACHUTE, true)) {
+					ParachuteTask task = new ParachuteTask(p);
+					task.setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(SlimefunStartup.instance, task, 0L, 3L));
 				}
 			}
 			if (SlimefunItem.getByItem(p.getInventory().getBoots()) != null) {
 				SlimefunItem item = SlimefunItem.getByItem(p.getInventory().getBoots());
 
-				if (item instanceof JetBoots) {
-					if (Slimefun.hasUnlocked(p, item.getItem(), true)) {
-						double speed = ((JetBoots) item).getSpeed();
-						if (speed > 0.2) {
-							JetBootsTask task = new JetBootsTask(p, speed);
-							task.setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(SlimefunStartup.instance, task, 0L, 2L));
-						}
+				if (item instanceof JetBoots && Slimefun.hasUnlocked(p, item.getItem(), true)) {
+					double speed = ((JetBoots) item).getSpeed();
+					if (speed > 0.2) {
+						JetBootsTask task = new JetBootsTask(p, speed);
+						task.setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(SlimefunStartup.instance, task, 0L, 2L));
 					}
 				}
 			}

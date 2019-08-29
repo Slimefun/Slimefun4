@@ -45,76 +45,74 @@ public class OreWasher extends SlimefunMachine {
 	private MultiBlockInteractionHandler onInteract() {
 		return (p, mb, b) -> {
 			if (mb.isMultiBlock(this)) {
-				if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
-					if (Slimefun.hasUnlocked(p, getItem(), true)) {
-						Block dispBlock = b.getRelative(BlockFace.UP);
-						Dispenser disp = (Dispenser) dispBlock.getState();
-						Inventory inv = disp.getInventory();
-						
-						for (ItemStack current: inv.getContents()) {
-							if (current != null) {
-								if (SlimefunManager.isItemSimiliar(current, SlimefunItems.SIFTED_ORE, true)) {
-									ItemStack adding = items[new Random().nextInt(items.length)];
-									Inventory outputInv = null;
-									
-									if (!SlimefunStartup.instance.getSettings().ORE_WASHER_LEGACY) {
-										// This is a fancy way of checking if there is empty space in the inv; by checking if an unobtainable item could fit in it.
-										// However, due to the way the method findValidOutputInv() functions, the dummyAdding will never actually be added to the real inventory,
-										// so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH however, signals that it's
-										// not supposed to be given to the player.
-										ItemStack dummyAdding = SlimefunItems.DEBUG_FISH;
-										outputInv = SlimefunMachine.findValidOutputInv(dummyAdding, dispBlock, inv);
-									} 
-									else outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-				
-									if (outputInv != null) {
-										ItemStack removing = current.clone();
-										removing.setAmount(1);
-										inv.removeItem(removing);
-										outputInv.addItem(adding);
-										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-										if (InvUtils.fits(outputInv, SlimefunItems.STONE_CHUNK)) outputInv.addItem(SlimefunItems.STONE_CHUNK);
-									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									return true;
+				if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, getItem(), true)) {
+					Block dispBlock = b.getRelative(BlockFace.UP);
+					Dispenser disp = (Dispenser) dispBlock.getState();
+					Inventory inv = disp.getInventory();
+
+					for (ItemStack current: inv.getContents()) {
+						if (current != null) {
+							if (SlimefunManager.isItemSimiliar(current, SlimefunItems.SIFTED_ORE, true)) {
+								ItemStack adding = items[new Random().nextInt(items.length)];
+								Inventory outputInv = null;
+
+								if (!SlimefunStartup.instance.getSettings().ORE_WASHER_LEGACY) {
+									// This is a fancy way of checking if there is empty space in the inv; by checking if an unobtainable item could fit in it.
+									// However, due to the way the method findValidOutputInv() functions, the dummyAdding will never actually be added to the real inventory,
+									// so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH however, signals that it's
+									// not supposed to be given to the player.
+									ItemStack dummyAdding = SlimefunItems.DEBUG_FISH;
+									outputInv = SlimefunMachine.findValidOutputInv(dummyAdding, dispBlock, inv);
 								}
-								else if (SlimefunManager.isItemSimiliar(current, new ItemStack(Material.SAND, 4), false)) {
-									ItemStack adding = SlimefunItems.SALT;
-									Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-									
-									if (outputInv != null) {
-										ItemStack removing = current.clone();
-										removing.setAmount(4);
-										inv.removeItem(removing);
-										outputInv.addItem(adding);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									
-									return true;
+								else outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
+
+								if (outputInv != null) {
+									ItemStack removing = current.clone();
+									removing.setAmount(1);
+									inv.removeItem(removing);
+									outputInv.addItem(adding);
+									p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+									p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
+									if (InvUtils.fits(outputInv, SlimefunItems.STONE_CHUNK)) outputInv.addItem(SlimefunItems.STONE_CHUNK);
 								}
-								else if (SlimefunManager.isItemSimiliar(current, SlimefunItems.PULVERIZED_ORE, true)) {
-									ItemStack adding = SlimefunItems.PURE_ORE_CLUSTER;
-									Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-									
-									if (outputInv != null) {
-										ItemStack removing = current.clone();
-										removing.setAmount(1);
-										inv.removeItem(removing);
-										outputInv.addItem(adding);
-										p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-										p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-									
-									return true;
+								else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+								return true;
+							}
+							else if (SlimefunManager.isItemSimiliar(current, new ItemStack(Material.SAND, 4), false)) {
+								ItemStack adding = SlimefunItems.SALT;
+								Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
+
+								if (outputInv != null) {
+									ItemStack removing = current.clone();
+									removing.setAmount(4);
+									inv.removeItem(removing);
+									outputInv.addItem(adding);
+									p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
+									p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
 								}
+								else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+
+								return true;
+							}
+							else if (SlimefunManager.isItemSimiliar(current, SlimefunItems.PULVERIZED_ORE, true)) {
+								ItemStack adding = SlimefunItems.PURE_ORE_CLUSTER;
+								Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
+
+								if (outputInv != null) {
+									ItemStack removing = current.clone();
+									removing.setAmount(1);
+									inv.removeItem(removing);
+									outputInv.addItem(adding);
+									p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
+									p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+								}
+								else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+
+								return true;
 							}
 						}
-						Messages.local.sendTranslation(p, "machines.unknown-material", true);
 					}
+					Messages.local.sendTranslation(p, "machines.unknown-material", true);
 				}
 				return true;
 			}

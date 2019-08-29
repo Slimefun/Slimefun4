@@ -116,11 +116,7 @@ public class LockedCategory extends Category {
 		
 		for (Category category: parents) {
 			for (SlimefunItem item: category.getItems()) {
-				if (Slimefun.isEnabled(p, item.getItem(), false) && Slimefun.hasPermission(p, item, false)) {
-					if (item.getResearch() != null) {
-						if (!profile.hasUnlocked(item.getResearch())) return false;
-					}
-				}
+				if (Slimefun.isEnabled(p, item.getItem(), false) && Slimefun.hasPermission(p, item, false) && item.getResearch() != null && !profile.hasUnlocked(item.getResearch())) return false;
 			}
 		}
 		return true;

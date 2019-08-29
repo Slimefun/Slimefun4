@@ -91,19 +91,17 @@ public abstract class AutoAnvil extends AContainer {
 			for (int slot: getInputSlots()) {
 				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
-				if (item != null) {
-					if (item.getType().getMaxDurability() > 0 && ((Damageable) item.getItemMeta()).getDamage() > 0) {
-						if (SlimefunManager.isItemSimiliar(target, SlimefunItems.DUCT_TAPE, true)) {
-							ItemStack newItem = item.clone();
-							short durability = (short) (((Damageable) newItem.getItemMeta()).getDamage() - (item.getType().getMaxDurability() / getRepairFactor()));
-							if (durability < 0) durability = 0;
-							ItemMeta meta = newItem.getItemMeta();
-							((Damageable) meta).setDamage(durability);
-							newItem.setItemMeta(meta);
-							r = new MachineRecipe(30, new ItemStack[] {target, item}, new ItemStack[] {newItem});
-						}
-						break slots;
+				if (item != null && item.getType().getMaxDurability() > 0 && ((Damageable) item.getItemMeta()).getDamage() > 0) {
+					if (SlimefunManager.isItemSimiliar(target, SlimefunItems.DUCT_TAPE, true)) {
+						ItemStack newItem = item.clone();
+						short durability = (short) (((Damageable) newItem.getItemMeta()).getDamage() - (item.getType().getMaxDurability() / getRepairFactor()));
+						if (durability < 0) durability = 0;
+						ItemMeta meta = newItem.getItemMeta();
+						((Damageable) meta).setDamage(durability);
+						newItem.setItemMeta(meta);
+						r = new MachineRecipe(30, new ItemStack[] {target, item}, new ItemStack[] {newItem});
 					}
+					break slots;
 				}
 			}
 			

@@ -44,9 +44,7 @@ public class BlockMenu extends DirtyChestMenu {
 		
 		preset.clone(this);
 		
-		if (preset.getSize() > -1 && !preset.getPresetSlots().contains(preset.getSize() - 1)) {
-			if (cfg.contains(String.valueOf(preset.getSize() - 1))) addItem(preset.getSize() - 1, cfg.getItem(String.valueOf(preset.getSize() - 1)));
-		}
+		if (preset.getSize() > -1 && !preset.getPresetSlots().contains(preset.getSize() - 1) && cfg.contains(String.valueOf(preset.getSize() - 1))) addItem(preset.getSize() - 1, cfg.getItem(String.valueOf(preset.getSize() - 1)));
 		
 		this.getContents();
 	}

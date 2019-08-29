@@ -687,20 +687,16 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			try {
 				SlimefunItem item = BlockStorage.check(block);
 				if (item != null) {
-					if (fits(b, item.getItem())) {
-						if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-							if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-								pushItems(b, BlockStorage.retrieve(block));
-								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-								block.setType(Material.PLAYER_HEAD);
-								Rotatable blockData = (Rotatable) block.getBlockData();
-								blockData.setRotation(face.getOppositeFace());
-								block.setBlockData(blockData);
-								CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-								b.setType(Material.AIR);
-								BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
-							}
-						}
+					if (fits(b, item.getItem()) && SlimefunItem.blockhandler.containsKey(item.getID()) && SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+						pushItems(b, BlockStorage.retrieve(block));
+						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+						block.setType(Material.PLAYER_HEAD);
+						Rotatable blockData = (Rotatable) block.getBlockData();
+						blockData.setRotation(face.getOppositeFace());
+						block.setBlockData(blockData);
+						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+						b.setType(Material.AIR);
+						BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
 					}
 				}
 				else {

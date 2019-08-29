@@ -25,9 +25,7 @@ public class Projector {
 		Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
 		
 		for (Entity n : l.getChunk().getEntities()) {
-			if (n instanceof ArmorStand) {
-				if (n.getCustomName() != null && n.getCustomName().equals(nametag) && l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
-			}
+			if (n instanceof ArmorStand && n.getCustomName() != null && n.getCustomName().equals(nametag) && l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
 		}
 		
 		ArmorStand hologram = ArmorStandFactory.createHidden(l);

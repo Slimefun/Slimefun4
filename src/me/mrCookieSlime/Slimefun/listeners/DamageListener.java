@@ -64,11 +64,9 @@ public class DamageListener implements Listener {
                         Soul.storeItem(e.getEntity().getUniqueId(), item);
                         drops.remove();
                     } 
-                    else if (SlimefunItem.getByItem(removeEnchantments(item)) != null) {
-                        if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) {
-                            Soul.storeItem(e.getEntity().getUniqueId(), item);
-                            drops.remove();
-                        }
+                    else if (SlimefunItem.getByItem(removeEnchantments(item)) != null && SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) {
+                        Soul.storeItem(e.getEntity().getUniqueId(), item);
+                        drops.remove();
                     }
                 }
             }
@@ -86,38 +84,32 @@ public class DamageListener implements Listener {
                 }
             }
 
-            if (item != null) {
-                if (Slimefun.hasUnlocked(p, item, true)) {
-                    if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("SWORD_OF_BEHEADING"), true)) {
-                        if (e.getEntity() instanceof Zombie) {
-                            if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE")) {
-                                e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
-                            }
-                        }
-                        else if (e.getEntity() instanceof WitherSkeleton) {
-                             if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON"))
-                                 e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
-                        } 
-                        else if (e.getEntity() instanceof Skeleton) {
-                            if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON"))
-                                e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
-                        } 
-                        else if (e.getEntity() instanceof Creeper) {
-                            if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER")) {
-                                e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
-                            }
-                        } 
-                        else if (e.getEntity() instanceof Player) {
-                            if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.PLAYER")) {
-                                ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-                                ItemMeta meta = skull.getItemMeta();
-                                ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());
-                                skull.setItemMeta(meta);
-                                
-                            	e.getDrops().add(skull);
-                            }
-                        }
+            if (item != null && Slimefun.hasUnlocked(p, item, true) && SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("SWORD_OF_BEHEADING"), true)) {
+                if (e.getEntity() instanceof Zombie) {
+                    if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE")) {
+                        e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
                     }
+                }
+                else if (e.getEntity() instanceof WitherSkeleton) {
+                    if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON"))
+                        e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+                }
+                else if (e.getEntity() instanceof Skeleton) {
+                    if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON"))
+                        e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
+                }
+                else if (e.getEntity() instanceof Creeper) {
+                    if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER")) {
+                        e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
+                    }
+                }
+                else if (e.getEntity() instanceof Player && random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.PLAYER")) {
+                    ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+                    ItemMeta meta = skull.getItemMeta();
+                    ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());
+                    skull.setItemMeta(meta);
+
+                    e.getDrops().add(skull);
                 }
             }
 
@@ -143,11 +135,9 @@ public class DamageListener implements Listener {
 
     @EventHandler
     public void onArrowHit(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
-            if (utilities.damage.contains(e.getEntity().getUniqueId())) {
-                e.setCancelled(true);
-                utilities.damage.remove(e.getEntity().getUniqueId());
-            }
+        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && utilities.damage.contains(e.getEntity().getUniqueId())) {
+            e.setCancelled(true);
+            utilities.damage.remove(e.getEntity().getUniqueId());
         }
     }
 
