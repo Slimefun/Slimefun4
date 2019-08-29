@@ -842,6 +842,43 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CHAIN, null, SlimefunItems.CHAIN, null, null, null})
 		.register(true);
 
+		new SlimefunItem(Categories.TECH, SlimefunItems.HOLOGRAM_PROJECTOR, "HOLOGRAM_PROJECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+				new ItemStack[] {null, SlimefunItems.POWER_CRYSTAL, null, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}, new CustomItem(SlimefunItems.HOLOGRAM_PROJECTOR, 3))
+				.register(true, new ItemInteractionHandler() {
+
+					@Override
+					public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
+						if (e.getClickedBlock() == null) return false;
+						SlimefunItem item = BlockStorage.check(e.getClickedBlock());
+						if (item == null || !item.getID().equals("HOLOGRAM_PROJECTOR")) return false;
+						e.setCancelled(true);
+
+						if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
+							Projector.openEditor(p, e.getClickedBlock());
+						}
+
+						return true;
+					}
+				});
+
+		SlimefunItem.registerBlockHandler("HOLOGRAM_PROJECTOR", new SlimefunBlockHandler() {
+
+			@Override
+			public void onPlace(Player p, Block b, SlimefunItem item) {
+				BlockStorage.addBlockInfo(b, "text", "&bHi, I am a Hologram, &3configure me using the Projector");
+				BlockStorage.addBlockInfo(b, "offset", "-0.5");
+				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
+
+				Projector.getArmorStand(b);
+			}
+
+			@Override
+			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
+				Projector.getArmorStand(b).remove();
+				return true;
+			}
+		});
+
 		new SlimefunItem(Categories.MISC, SlimefunItems.CHAIN, "CHAIN", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, null}, new CustomItem(SlimefunItems.CHAIN, 8))
 		.register(true);
@@ -4147,43 +4184,6 @@ public final class SlimefunSetup {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				return true;
-			}
-		});
-
-		new SlimefunItem(Categories.TECH, SlimefunItems.HOLOGRAM_PROJECTOR, "HOLOGRAM_PROJECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, SlimefunItems.POWER_CRYSTAL, null, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}, new CustomItem(SlimefunItems.HOLOGRAM_PROJECTOR, 3))
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
-				if (e.getClickedBlock() == null) return false;
-				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getID().equals("HOLOGRAM_PROJECTOR")) return false;
-				e.setCancelled(true);
-
-				if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
-					Projector.openEditor(p, e.getClickedBlock());
-				}
-
-				return true;
-			}
-		});
-
-		SlimefunItem.registerBlockHandler("HOLOGRAM_PROJECTOR", new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "text", "&bHi, I am a Hologram, &3configure me using the Projector");
-				BlockStorage.addBlockInfo(b, "offset", "-0.5");
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-
-				Projector.getArmorStand(b);
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Projector.getArmorStand(b).remove();
 				return true;
 			}
 		});
