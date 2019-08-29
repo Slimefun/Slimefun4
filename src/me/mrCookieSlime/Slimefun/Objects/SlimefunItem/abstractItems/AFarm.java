@@ -101,7 +101,7 @@ public abstract class AFarm extends SlimefunItem {
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.WITHDRAW)) return getOutputSlots();
+				if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
 				return new int[0];
 			}
 		};

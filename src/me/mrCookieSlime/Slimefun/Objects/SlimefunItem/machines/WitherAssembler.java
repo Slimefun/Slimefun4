@@ -86,13 +86,13 @@ public class WitherAssembler extends SlimefunItem {
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.INSERT)) return getInputSlots();
+				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
 				else return new int[0];
 			}
 			
 			@Override
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
-				if (flow.equals(ItemTransportFlow.INSERT)) {
+				if (flow == ItemTransportFlow.INSERT) {
 					if (SlimefunManager.isItemSimiliar(item, new ItemStack(Material.SOUL_SAND), true)) return getSoulSandSlots();
 					else return getWitherSkullSlots();
 				}
@@ -110,7 +110,7 @@ public class WitherAssembler extends SlimefunItem {
 			
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				if (reason.equals(UnregisterReason.EXPLODE)) return false;
+				if (reason == UnregisterReason.EXPLODE) return false;
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot: getSoulSandSlots()) {

@@ -214,7 +214,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				boolean allow =  reason.equals(UnregisterReason.PLAYER_BREAK) && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
+				boolean allow =  reason == UnregisterReason.PLAYER_BREAK && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
 
 				if (allow) {
 					BlockMenu inv = BlockStorage.getInventory(b);
@@ -332,7 +332,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							break;
 						case CATCH_FISH:
 							Block water = b.getRelative(BlockFace.DOWN);
-							if (water.getType().equals(Material.WATER)) {
+							if (water.getType() == Material.WATER) {
 								water.getWorld().playSound(water.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 								if (CSCoreLib.randomizer().nextInt(100) < 10 * getTier()) {
 									ItemStack drop = fish[CSCoreLib.randomizer().nextInt(fish.length)];
@@ -1346,7 +1346,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			if (script.getName().endsWith("sfs")) scripts.add(new Config(script));
 		}
 
-		if (!this.getAndroidType().equals(AndroidType.NONE)) {
+		if (this.getAndroidType() != AndroidType.NONE) {
 			File directory2 = new File("plugins/Slimefun/scripts/NONE");
 			if (!directory2.exists()) directory2.mkdirs();
 
@@ -1364,7 +1364,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		List<ScriptPart> list = new ArrayList<>();
 
 		for (final ScriptPart part : ScriptPart.values()) {
-			if (!part.equals(ScriptPart.START) && !part.equals(ScriptPart.REPEAT) && getAndroidType().isType(part.getRequiredType())) {
+			if (part != ScriptPart.START && part != ScriptPart.REPEAT && getAndroidType().isType(part.getRequiredType())) {
 				list.add(part);
 			}
 		}

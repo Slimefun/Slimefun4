@@ -117,7 +117,7 @@ public class ItemListener implements Listener {
 	}
 	@EventHandler
 	public void debug(PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.PHYSICAL) || !e.getHand().equals(EquipmentSlot.HAND)) return;
+		if (e.getAction() == Action.PHYSICAL || e.getHand() != EquipmentSlot.HAND) return;
 		
 		Player p = e.getPlayer();
 		
@@ -196,7 +196,7 @@ public class ItemListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onRightClick(ItemUseEvent e) {
-		if (e.getParentEvent() != null && !e.getParentEvent().getHand().equals(EquipmentSlot.HAND)) {
+		if (e.getParentEvent() != null && e.getParentEvent().getHand() != EquipmentSlot.HAND) {
 			return;
 		}
 
@@ -297,7 +297,7 @@ public class ItemListener implements Listener {
 	}
 
 	private boolean canPlaceBlock(Player p, Block relative) {
-		return p.isSneaking() && relative.getType().equals(Material.AIR);
+		return p.isSneaking() && relative.getType() == Material.AIR;
 	}
 
 	@EventHandler

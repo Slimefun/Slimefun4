@@ -80,7 +80,7 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (!e.getHand().equals(EquipmentSlot.HAND)) return;
+			if (e.getHand() != EquipmentSlot.HAND) return;
 			Player p = e.getPlayer();
 			Block b = e.getClickedBlock();
 			List<MultiBlock> multiblocks = new ArrayList<>();
@@ -119,7 +119,7 @@ public class BlockListener implements Listener {
 							if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[0]));
 							else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[5]));
 							else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[8]));
-							else multiblocks.add(mb);;
+							else multiblocks.add(mb);
 						}
 					}
 					else if (mb.getTriggerBlock() == blocks[7]) {
@@ -136,7 +136,7 @@ public class BlockListener implements Listener {
 							if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 2, 0), blocks[0]));
 							else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[5]));
 							else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[8]));
-							else multiblocks.add(mb);;
+							else multiblocks.add(mb);
 						}
 					}
 				}
