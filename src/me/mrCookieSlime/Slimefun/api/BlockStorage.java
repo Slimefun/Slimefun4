@@ -90,7 +90,9 @@ public class BlockStorage {
 		File f = new File(path_blocks + w.getName());
 		if (f.exists()) {
 			long total = f.listFiles().length, start = System.currentTimeMillis();
-			long done = 0, timestamp = System.currentTimeMillis(), totalBlocks = 0;
+			long done = 0;
+			long timestamp = System.currentTimeMillis();
+			long totalBlocks = 0;
 			
 			try {
 				for (File file: f.listFiles()) {
