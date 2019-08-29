@@ -32,7 +32,7 @@ public class AutoDrier extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.CAMPFIRE);
+        return new ItemStack(Material.FLINT_AND_STEEL);
     }
 
     @Override
@@ -78,12 +78,8 @@ public class AutoDrier extends AContainer {
                 ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
                 if (item == null) continue;
 
-                // Check if dryable
+                // Checking if dryable
                 Material mat = item.getType();
-                boolean dryable = mat == Material.ROTTEN_FLESH || mat == Material.WATER_BUCKET || mat == Material.WET_SPONGE || Tag.SAPLINGS.isTagged(mat) || Tag.LEAVES.isTagged(mat) || mat.name().contains("POTION");
-                if (!dryable) continue;
-
-                // Dry
                 ItemStack output;
                 if (mat == Material.ROTTEN_FLESH) {
                     output = new ItemStack(Material.LEATHER);
