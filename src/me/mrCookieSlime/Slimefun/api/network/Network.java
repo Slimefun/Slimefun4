@@ -162,15 +162,12 @@ public abstract class Network {
 	}
 
 	public void display() {
-		SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new Runnable() {
-			@Override
-			public void run() {
-				for(Location l: connectedLocations) {
-					try {
-						ParticleEffect.REDSTONE.display(l.clone().add(0.5, 0.5, 0.5), 0, 0, 0, 1, 1);
-					} catch(Exception e) {
-						e.printStackTrace();
-					}
+		SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+			for(Location l: connectedLocations) {
+				try {
+					ParticleEffect.REDSTONE.display(l.clone().add(0.5, 0.5, 0.5), 0, 0, 0, 1, 1);
+				} catch(Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});

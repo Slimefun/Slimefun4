@@ -34,9 +34,7 @@ public final class CargoHologram {
 		}
 		
 		if (!createIfNonExists) return null;
-		
-		ArmorStand hologram = ArmorStandFactory.createHidden(l);
-		return hologram;
+		else return ArmorStandFactory.createHidden(l);
 	}
 
 }

@@ -64,7 +64,7 @@ public class DamageListener implements Listener {
                         Soul.storeItem(e.getEntity().getUniqueId(), item);
                         drops.remove();
                     } 
-                    else if (SlimefunItem.getByItem(removeEnchantments(item)) != null && SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) {
+                    else if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) {
                         Soul.storeItem(e.getEntity().getUniqueId(), item);
                         drops.remove();
                     }

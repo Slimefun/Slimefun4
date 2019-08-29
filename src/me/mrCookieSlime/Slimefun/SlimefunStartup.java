@@ -80,7 +80,6 @@ public final class SlimefunStartup extends JavaPlugin {
 
 	public static SlimefunStartup instance;
 
-	private static PluginUtils utils;
 	private static Config researches;
 	private static Config items;
 	private static Config whitelist;
@@ -142,7 +141,7 @@ public final class SlimefunStartup extends JavaPlugin {
 
 			System.out.println("[Slimefun] Loading Config...");
 
-			utils = new PluginUtils(this);
+			PluginUtils utils = new PluginUtils(this);
 			utils.setupConfig();
 
 			// Loading all extra configs

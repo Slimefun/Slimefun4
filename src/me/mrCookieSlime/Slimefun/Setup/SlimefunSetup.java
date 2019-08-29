@@ -2102,10 +2102,11 @@ public final class SlimefunSetup {
 							SlimefunStartup.instance.getUtilities().blocks.add(block.getUniqueId());
 						}
 						for (Entity n: ground.getChunk().getEntities()) {
-							if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && n.getUniqueId() != p.getUniqueId()) {
+							if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
 								Vector vector = n.getLocation().toVector().subtract(p.getLocation().toVector()).normalize().multiply(1.4);
 								vector.setY(0.9);
 								n.setVelocity(vector);
+								
 								if (p.getWorld().getPVP()) {
 									EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n, DamageCause.ENTITY_ATTACK, 6D);
 									Bukkit.getPluginManager().callEvent(event);
@@ -2414,9 +2415,10 @@ public final class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION, true)) {
 					for (Entity n: p.getNearbyEntities(10.0, 10.0, 10.0)) {
-						if (n instanceof LivingEntity && !(n instanceof ArmorStand) &&n.getUniqueId() != p.getUniqueId()) {
+						if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !n.getUniqueId().equals(p.getUniqueId())) {
 							float yaw = n.getLocation().getYaw() + 180.0F;
 							if (yaw > 360.0F) yaw = yaw - 360.0F;
+							
 							n.teleport(new Location(n.getWorld(), n.getLocation().getX(), n.getLocation().getY(), n.getLocation().getZ(), yaw, n.getLocation().getPitch()));
 						}
 					}

@@ -52,7 +52,8 @@ public class TalismanListener implements Listener {
 				((Player) ((EntityDamageByEntityEvent) e).getDamager()).playSound(((EntityDamageByEntityEvent) e).getDamager().getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
 				((Player) ((EntityDamageByEntityEvent) e).getDamager()).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
 			}
-			if (e.getEntity() instanceof Player && !e.isCancelled()) {
+			
+			if (e.getEntity() instanceof Player) {
 				if (e.getCause() == DamageCause.LAVA) Talisman.checkFor(e, SlimefunItem.getByID("LAVA_TALISMAN"));
 				if (e.getCause() == DamageCause.DROWNING) Talisman.checkFor(e, SlimefunItem.getByID("WATER_TALISMAN"));
 				if (e.getCause() == DamageCause.FALL) Talisman.checkFor(e, SlimefunItem.getByID("ANGEL_TALISMAN"));
