@@ -21,9 +21,7 @@ public class ClearLagHook implements Listener {
 		Iterator<Entity> iterator = e.getEntityList().iterator();
 		while (iterator.hasNext()) {
 			Entity n = iterator.next();
-			if (n instanceof Item) {
-				if (n.hasMetadata("no_pickup")) iterator.remove();
-			}
+			if (n instanceof Item && n.hasMetadata("no_pickup")) iterator.remove();
 		}
 	}
 }

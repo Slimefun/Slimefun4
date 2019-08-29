@@ -360,11 +360,9 @@ public abstract class AReactor extends SlimefunItem {
 						refill:
 							for (int slot: getFuelSlots()) {
 								for (MachineFuel recipe: recipes) {
-									if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true)) {
-										if (pushItems(l, new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots()) == null) {
-											port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
-											break refill;
-										}
+									if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true) && pushItems(l, new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots()) == null) {
+										port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
+										break refill;
 									}
 								}
 							}

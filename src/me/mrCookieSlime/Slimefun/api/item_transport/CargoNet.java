@@ -147,13 +147,12 @@ public class CargoNet extends Network {
 		super.tick();
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
 			CargoHologram.update(b, "&7Status: &4&lOFFLINE");
-			return;
 		}
 		else {
 			CargoHologram.update(b, "&7Status: &a&lONLINE");
 
 
-			final Map<Integer, List<Location>> output = new HashMap<Integer, List<Location>>();
+			final Map<Integer, List<Location>> output = new HashMap<>();
 
 
 			for (Location outputNode: outputNodes) {
@@ -172,12 +171,12 @@ public class CargoNet extends Network {
 			}
 
 			//Chest Terminal Stuff
-			final Set<Location> providers = new HashSet<Location>();
+			final Set<Location> providers = new HashSet<>();
 			final Set<Location> destinations;
 			if (output.containsKey(16)) {
-				destinations = new HashSet<Location>(output.get(16));
+				destinations = new HashSet<>(output.get(16));
 			} else {
-				destinations = new HashSet<Location>();
+				destinations = new HashSet<>();
 			}
 			for (Location inputNode: inputNodes) {
 				int frequency = getFrequency(inputNode);
@@ -221,7 +220,7 @@ public class CargoNet extends Network {
 						}
 
 						if (menu.getItemInSlot(17) == null) {
-							List<ItemStack> items = new ArrayList<ItemStack>();
+							List<ItemStack> items = new ArrayList<>();
 							for (int slot: slots) {
 								ItemStack template = menu.getItemInSlot(slot);
 								if (template != null) items.add(new CustomItem(template, 1));
@@ -344,7 +343,7 @@ public class CargoNet extends Network {
 					}
 
 					if (stack != null && output.containsKey(frequency)) {
-						List<Location> outputlist = new ArrayList<Location>(output.get(frequency));
+						List<Location> outputlist = new ArrayList<>(output.get(frequency));
 
 						if (roundrobin) {
 							if (!round_robin.containsKey(input)) {
@@ -393,7 +392,7 @@ public class CargoNet extends Network {
 				}
 				//Chest Terminal Code
 				if (EXTRA_CHANNELS) {
-					List<StoredItem> items = new ArrayList<StoredItem>();
+					List<StoredItem> items = new ArrayList<>();
 					for (Location l: providers) {
 						Block target = getAttachedBlock(l.getBlock());
 						if (storage.hasUniversalInventory(target)) {
@@ -418,7 +417,7 @@ public class CargoNet extends Network {
 						else if (storage.hasInventory(target.getLocation())) {
 							BlockMenu menu = BlockStorage.getInventory(target.getLocation());
 							if (BlockStorage.checkID(target.getLocation()).startsWith("BARREL_") && BlockStorage.getLocationInfo(target.getLocation(), "storedItems") != null) {
-								int stored = Integer.valueOf(BlockStorage.getLocationInfo(target.getLocation(), "storedItems"));
+								int stored = Integer.parseInt(BlockStorage.getLocationInfo(target.getLocation(), "storedItems"));
 								for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 									ItemStack is = menu.getItemInSlot(slot);
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
@@ -492,7 +491,7 @@ public class CargoNet extends Network {
 
 								ItemStack stack = item.getItem().clone();
 								ItemMeta im = stack.getItemMeta();
-								List<String> lore = new ArrayList<String>();
+								List<String> lore = new ArrayList<>();
 								lore.add("");
 								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
 								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));

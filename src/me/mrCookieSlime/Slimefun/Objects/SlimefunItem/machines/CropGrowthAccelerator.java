@@ -139,22 +139,20 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 		for (int x = -getRadius(); x <= getRadius(); x++) {
 			for (int z = -getRadius(); z <= getRadius(); z++) {
 				Block block = b.getRelative(x, 0, z);
-				if (crops.containsKey(block.getType())) {
-					if (((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
-						for (int slot : getInputSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-								if (work > (getSpeed() - 1)) break master;
-								if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
-								ChargableBlock.addCharge(b, -getEnergyConsumption());
-								
-								Ageable ageable = (Ageable) block.getBlockData();
-								ageable.setAge(ageable.getAge() + 1);
-								block.setBlockData(ageable);
+				if (crops.containsKey(block.getType()) && ((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
+					for (int slot : getInputSlots()) {
+						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+							if (work > (getSpeed() - 1)) break master;
+							if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
+							ChargableBlock.addCharge(b, -getEnergyConsumption());
 
-								block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
-								work++;
-								break;
-							}
+							Ageable ageable = (Ageable) block.getBlockData();
+							ageable.setAge(ageable.getAge() + 1);
+							block.setBlockData(ageable);
+
+							block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
+							work++;
+							break;
 						}
 					}
 				}

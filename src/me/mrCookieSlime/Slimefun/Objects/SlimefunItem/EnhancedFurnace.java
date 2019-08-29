@@ -27,17 +27,15 @@ public class EnhancedFurnace extends SlimefunItem {
 		addItemHandler(new BlockTicker() {
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				if (b.getState() instanceof Furnace) {
-					if (((Furnace) b.getState()).getCookTime() > 0) {
-						Furnace furnace = (Furnace) b.getState();
+				if (b.getState() instanceof Furnace && ((Furnace) b.getState()).getCookTime() > 0) {
+					Furnace furnace = (Furnace) b.getState();
 
-						int newCookTime = furnace.getCookTime() + getSpeed() * 10;
+					int newCookTime = furnace.getCookTime() + getSpeed() * 10;
 
-						if (newCookTime > 200) furnace.setCookTime((short) 188);
-						else furnace.setCookTime((short) newCookTime);
+					if (newCookTime > 200) furnace.setCookTime((short) 188);
+					else furnace.setCookTime((short) newCookTime);
 
-						furnace.update(true, false);
-					}
+					furnace.update(true, false);
 				}
 			}
 

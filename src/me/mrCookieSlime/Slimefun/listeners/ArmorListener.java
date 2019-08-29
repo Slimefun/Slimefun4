@@ -39,9 +39,7 @@ public class ArmorListener implements Listener {
 			for (ItemStack armor: p.getInventory().getArmorContents()) {
 				if (armor != null && SlimefunItem.getByItem(armor) != null) {
 					if (SlimefunItem.getByItem(armor).isItem(SlimefunItems.ENDER_BOOTS) && Slimefun.hasUnlocked(p, SlimefunItems.ENDER_BOOTS, true)) {
-						if (e instanceof EntityDamageByEntityEvent) {
-							if (((EntityDamageByEntityEvent) e).getDamager() instanceof EnderPearl) e.setCancelled(true);
-						}
+						if (e instanceof EntityDamageByEntityEvent && ((EntityDamageByEntityEvent) e).getDamager() instanceof EnderPearl) e.setCancelled(true);
 					}
 					else if (SlimefunItem.getByItem(armor).isItem(SlimefunItems.SLIME_BOOTS) && Slimefun.hasUnlocked(p, SlimefunItems.SLIME_BOOTS, true)) {
 						if (e.getCause() == DamageCause.FALL) e.setCancelled(true);
@@ -68,9 +66,7 @@ public class ArmorListener implements Listener {
 							}
 						}
 					}
-					else if (SlimefunItem.getByItem(armor).isItem(SlimefunItems.SLIME_BOOTS_STEEL) && Slimefun.hasUnlocked(p, SlimefunItems.SLIME_BOOTS_STEEL, true)) {
-						if (e.getCause() == DamageCause.FALL) e.setCancelled(true);
-					}
+					else if (SlimefunItem.getByItem(armor).isItem(SlimefunItems.SLIME_BOOTS_STEEL) && Slimefun.hasUnlocked(p, SlimefunItems.SLIME_BOOTS_STEEL, true) && e.getCause() == DamageCause.FALL) e.setCancelled(true);
 				}
 			}
 		}
@@ -78,8 +74,6 @@ public class ArmorListener implements Listener {
 	
 	@EventHandler
 	public void onTrample(PlayerInteractEvent e) {
-		if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.FARMLAND) {
-			if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getBoots(), SlimefunItem.getItem("FARMER_SHOES"), true)) e.setCancelled(true);
-		}
+		if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.FARMLAND && SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getBoots(), SlimefunItem.getItem("FARMER_SHOES"), true)) e.setCancelled(true);
 	}
 }

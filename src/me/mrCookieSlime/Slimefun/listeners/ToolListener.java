@@ -185,11 +185,9 @@ public class ToolListener implements Listener {
 				e.setCancelled(true);
 			}
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, false)) {
-			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
-				Messages.local.sendTranslation(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
-				e.setCancelled(true);
-			}
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, false) && e.getBlock().getY() != e.getBlockAgainst().getY()) {
+			Messages.local.sendTranslation(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
+			e.setCancelled(true);
 		}
 		
 	}

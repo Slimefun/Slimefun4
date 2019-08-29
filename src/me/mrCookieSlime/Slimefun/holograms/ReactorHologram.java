@@ -16,9 +16,7 @@ public class ReactorHologram {
         Location l = new Location(reactor.getWorld(), reactor.getX() + 0.5, reactor.getY() + 0.7, reactor.getZ() + 0.5);
 
         for (Entity n : l.getChunk().getEntities()) {
-            if (n instanceof ArmorStand) {
-                if (l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
-            }
+            if (n instanceof ArmorStand && l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
         }
 
         ArmorStand hologram = ArmorStandFactory.createHidden(l);

@@ -45,54 +45,52 @@ public class BowListener implements Listener {
 	}
 	
 	private void handleGrapplingHook(Arrow arrow) {
-		if (arrow != null) {
-			if (arrow.getShooter() instanceof Player && utilities.jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
-				final Player p = (Player) arrow.getShooter();
-				if (p.getGameMode() != GameMode.CREATIVE && utilities.jumpState.get(p.getUniqueId())) arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItem.getItem("GRAPPLING_HOOK"));
-				if (p.getLocation().distance(arrow.getLocation()) < 3.0D) {
-					if (arrow.getLocation().getY() > p.getLocation().getY()) {
-						p.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
-					}
-					else p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
-					
-					for (Entity n: utilities.remove.get(p.getUniqueId())) {
-		    	    	n.remove();
-		    	    }
-		    	    
-		    	    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-		    	    	utilities.jumpState.remove(p.getUniqueId());
-		    	    	utilities.remove.remove(p.getUniqueId());
-					}, 20L);
+		if (arrow != null && arrow.getShooter() instanceof Player && utilities.jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
+			final Player p = (Player) arrow.getShooter();
+			if (p.getGameMode() != GameMode.CREATIVE && utilities.jumpState.get(p.getUniqueId())) arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItem.getItem("GRAPPLING_HOOK"));
+			if (p.getLocation().distance(arrow.getLocation()) < 3.0D) {
+				if (arrow.getLocation().getY() > p.getLocation().getY()) {
+					p.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
 				}
-				else {
-					Location l = p.getLocation();
-					l.setY(l.getY() + 0.5D);
-					p.teleport(l);
-					
-					double g = -0.08D;
-		    	    double d = arrow.getLocation().distance(l);
-		    	    double t = d;
-		    	    double v_x = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getX() - l.getX()) / t;
-		    	    double v_y = (1.0D + 0.04D * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
-		    	    double v_z = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
+				else p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
 
-		    	    Vector v = p.getVelocity();
-		    	    
-		    	    v.setX(v_x);
-		    	    v.setY(v_y);
-		    	    v.setZ(v_z);
-		    	    
-		    	    p.setVelocity(v);
-		    	    
-		    	    for (Entity n: utilities.remove.get(p.getUniqueId())) {
-		    	    	n.remove();
-		    	    }
-		    	    
-		    	    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-		    	    	utilities.jumpState.remove(p.getUniqueId());
-		    	    	utilities.remove.remove(p.getUniqueId());
-					}, 20L);
+				for (Entity n: utilities.remove.get(p.getUniqueId())) {
+					n.remove();
 				}
+
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+					utilities.jumpState.remove(p.getUniqueId());
+					utilities.remove.remove(p.getUniqueId());
+				}, 20L);
+			}
+			else {
+				Location l = p.getLocation();
+				l.setY(l.getY() + 0.5D);
+				p.teleport(l);
+
+				double g = -0.08D;
+				double d = arrow.getLocation().distance(l);
+				double t = d;
+				double v_x = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getX() - l.getX()) / t;
+				double v_y = (1.0D + 0.04D * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
+				double v_z = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
+
+				Vector v = p.getVelocity();
+
+				v.setX(v_x);
+				v.setY(v_y);
+				v.setZ(v_z);
+
+				p.setVelocity(v);
+
+				for (Entity n: utilities.remove.get(p.getUniqueId())) {
+					n.remove();
+				}
+
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+					utilities.jumpState.remove(p.getUniqueId());
+					utilities.remove.remove(p.getUniqueId());
+				}, 20L);
 			}
 		}
 	}

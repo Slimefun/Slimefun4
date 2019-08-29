@@ -49,122 +49,114 @@ public class EnhancedCraftingTable extends SlimefunMachine {
 	private MultiBlockInteractionHandler onInteract() {
 		return (p, mb, b) -> {
 			if (mb.isMultiBlock(this)) {
-				if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
-					if (Slimefun.hasUnlocked(p, getItem(), true)) {
-						// Objects dispBlock and disp have been split up, in order to add the output chest functionallity, which is the only functionallity
-						// that is dependant on the dispenser's block methods.
-						// the Dispenser disp still remains the same though, and as such doesn't break any existing code which involves said object.
-						Block dispBlock = b.getRelative(BlockFace.DOWN);
-						Dispenser disp = (Dispenser) dispBlock.getState();
-						Inventory inv = disp.getInventory();
-						
-						List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
+				if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, getItem(), true)) {
+					// Objects dispBlock and disp have been split up, in order to add the output chest functionallity, which is the only functionallity
+					// that is dependant on the dispenser's block methods.
+					// the Dispenser disp still remains the same though, and as such doesn't break any existing code which involves said object.
+					Block dispBlock = b.getRelative(BlockFace.DOWN);
+					Dispenser disp = (Dispenser) dispBlock.getState();
+					Inventory inv = disp.getInventory();
 
-						for (int i = 0; i < inputs.size(); i++) {
-							boolean craft = true;
-							for (int j = 0; j < inv.getContents().length; j++) {
-								if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
-									if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
-										if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], false)) {
-											craft = false;
-											break;
-										}
-									}
-									else {
+					List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
+
+					for (int i = 0; i < inputs.size(); i++) {
+						boolean craft = true;
+						for (int j = 0; j < inv.getContents().length; j++) {
+							if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
+								if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
+									if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], false)) {
 										craft = false;
 										break;
 									}
 								}
-							}
-							
-							if (craft) {
-								final ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
-								if (Slimefun.hasUnlocked(p, adding, true)) {
-									Inventory inv2 = Bukkit.createInventory(null, 9, "test");
-									for (int j = 0; j < inv.getContents().length; j++) {
-										inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1): null): null);
-									}
-									
-									Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv, inv2);
-									
-									if (outputInv != null) {	
-										SlimefunItem sfItem = SlimefunItem.getByItem(adding);
-										if (sfItem instanceof SlimefunBackpack) {
-											ItemStack backpack = null;
-											
-											for (int j = 0; j < 9; j++) {
-												if (inv.getContents()[j] != null) {
-													if (inv.getContents()[j].getType() != Material.AIR) {
-														if (SlimefunItem.getByItem(inv.getContents()[j]) instanceof SlimefunBackpack) {
-															backpack = inv.getContents()[j];
-															break;
-														}
-													}
-												}
-											}
-											String id = "";
-											int size = ((SlimefunBackpack) sfItem).getSize();
-											
-											if (backpack != null) {
-												for (String line: backpack.getItemMeta().getLore()) {
-													if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
-														id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-														PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
-														break;
-													}
-												}
-											}
-
-											if (id.equals("")) {
-												for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
-													if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-														int backpackID = PlayerProfile.fromUUID(p.getUniqueId()).createBackpack(size).getID();
-														
-														ItemMeta im = adding.getItemMeta();
-														List<String> lore = im.getLore();
-														lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + backpackID));
-														im.setLore(lore);
-														adding.setItemMeta(im);
-														break;
-													}
-												}
-											}
-											else {
-												for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
-													if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-														ItemMeta im = adding.getItemMeta();
-														List<String> lore = im.getLore();
-														lore.set(line, lore.get(line).replace("<ID>", id));
-														im.setLore(lore);
-														adding.setItemMeta(im);
-														break;
-													}
-												}
-											}
-										}
-										
-
-										for (int j = 0; j < 9; j++) {
-											if (inv.getContents()[j] != null) {
-												if (inv.getContents()[j].getType() != Material.AIR) {
-													if (inv.getContents()[j].getType().toString().endsWith("_BUCKET")) inv.setItem(j, new ItemStack(Material.BUCKET));
-													else if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-													else inv.setItem(j, null);
-												}
-											}
-										}
-										p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
-										
-										outputInv.addItem(adding);
-										
-									}
-									else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+								else {
+									craft = false;
+									break;
 								}
-								return true;
 							}
 						}
-						Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
+
+						if (craft) {
+							final ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+							if (Slimefun.hasUnlocked(p, adding, true)) {
+								Inventory inv2 = Bukkit.createInventory(null, 9, "test");
+								for (int j = 0; j < inv.getContents().length; j++) {
+									inv2.setItem(j, inv.getContents()[j] != null ? (inv.getContents()[j].getAmount() > 1 ? new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1): null): null);
+								}
+
+								Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv, inv2);
+
+								if (outputInv != null) {
+									SlimefunItem sfItem = SlimefunItem.getByItem(adding);
+									if (sfItem instanceof SlimefunBackpack) {
+										ItemStack backpack = null;
+
+										for (int j = 0; j < 9; j++) {
+											if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR && SlimefunItem.getByItem(inv.getContents()[j]) instanceof SlimefunBackpack) {
+												backpack = inv.getContents()[j];
+												break;
+											}
+										}
+										String id = "";
+										int size = ((SlimefunBackpack) sfItem).getSize();
+
+										if (backpack != null) {
+											for (String line: backpack.getItemMeta().getLore()) {
+												if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
+													id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
+													PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
+													break;
+												}
+											}
+										}
+
+										if (id.equals("")) {
+											for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
+												if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+													int backpackID = PlayerProfile.fromUUID(p.getUniqueId()).createBackpack(size).getID();
+
+													ItemMeta im = adding.getItemMeta();
+													List<String> lore = im.getLore();
+													lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + backpackID));
+													im.setLore(lore);
+													adding.setItemMeta(im);
+													break;
+												}
+											}
+										}
+										else {
+											for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
+												if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+													ItemMeta im = adding.getItemMeta();
+													List<String> lore = im.getLore();
+													lore.set(line, lore.get(line).replace("<ID>", id));
+													im.setLore(lore);
+													adding.setItemMeta(im);
+													break;
+												}
+											}
+										}
+									}
+
+
+									for (int j = 0; j < 9; j++) {
+										if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR) {
+											if (inv.getContents()[j].getType().toString().endsWith("_BUCKET")) inv.setItem(j, new ItemStack(Material.BUCKET));
+											else if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
+											else inv.setItem(j, null);
+										}
+									}
+									p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
+
+									outputInv.addItem(adding);
+
+								}
+								else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+							}
+							return true;
+						}
 					}
+					Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
 				}
 				return true;
 			}

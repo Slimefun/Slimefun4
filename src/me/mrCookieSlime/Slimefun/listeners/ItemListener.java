@@ -71,10 +71,8 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
-		if (e.getInitiator().getHolder() instanceof Hopper) {
-			if (BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
-				e.setCancelled(true);
-			}
+		if (e.getInitiator().getHolder() instanceof Hopper && BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
+			e.setCancelled(true);
 		}
 	}
 
@@ -447,9 +445,7 @@ public class ItemListener implements Listener {
 	@EventHandler (ignoreCancelled = true)
 	public void onPreBrew(InventoryClickEvent e) {
 		Inventory inventory = e.getInventory();
-		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand) {
-			if (e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
-		}
+		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand && e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
 	}
 
 }
