@@ -156,10 +156,6 @@ public final class SlimefunStartup extends JavaPlugin {
 			Messages.local = utils.getLocalization();
 			Messages.setup();
 			
-			settings = new Settings(config);
-			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
-			settings.SMELTERY_FIRE_BREAK_CHANCE = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
-
 			// Setting up bStats
 			new Metrics(this);
 
@@ -190,10 +186,14 @@ public final class SlimefunStartup extends JavaPlugin {
 			
 			try {
 				SlimefunSetup.setupItems();
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			} catch (Exception x) {
+				x.printStackTrace();
 			}
 			MiscSetup.loadDescriptions();
+			
+			settings = new Settings(config);
+			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
+			settings.SMELTERY_FIRE_BREAK_CHANCE = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			System.out.println("[Slimefun] Loading Researches...");
 			ResearchSetup.setupResearches();
