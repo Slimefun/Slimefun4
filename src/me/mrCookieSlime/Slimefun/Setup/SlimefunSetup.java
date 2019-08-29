@@ -8,8 +8,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -50,6 +48,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
@@ -104,6 +103,43 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AdvancedCargoOutputNode;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AnimalGrowthAccelerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoAnvil;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoBreeder;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoDisenchanter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoDrier;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCraftingChamber;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CarbonPress;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CargoInputNode;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CargoOutputNode;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ChargingBench;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CropGrowthAccelerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricDustWasher;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricFurnace;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricGoldPan;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricIngotFactory;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricSmeltery;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectrifiedCrucible;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.EnhancedCraftingTable;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FluidPump;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodComposter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodFabricator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Freezer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HeatedPressureChamber;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HologramProjector;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.InfusedHopper;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.MagicWorkbench;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.NetherDrill;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OilPump;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OreWasher;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Refinery;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Smeltery;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.WitherAssembler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
 import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
@@ -123,8 +159,6 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
-import me.mrCookieSlime.Slimefun.holograms.InfusedHopper;
-import me.mrCookieSlime.Slimefun.holograms.Projector;
 import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
@@ -828,42 +862,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CHAIN, null, SlimefunItems.CHAIN, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.TECH, SlimefunItems.HOLOGRAM_PROJECTOR, "HOLOGRAM_PROJECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
-				new ItemStack[] {null, SlimefunItems.POWER_CRYSTAL, null, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}, new CustomItem(SlimefunItems.HOLOGRAM_PROJECTOR, 3))
-				.register(true, new ItemInteractionHandler() {
-
-					@Override
-					public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
-						if (e.getClickedBlock() == null) return false;
-						SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-						if (item == null || !item.getID().equals("HOLOGRAM_PROJECTOR")) return false;
-						e.setCancelled(true);
-
-						if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
-							Projector.openEditor(p, e.getClickedBlock());
-						}
-
-						return true;
-					}
-				});
-
-		SlimefunItem.registerBlockHandler("HOLOGRAM_PROJECTOR", new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "text", "&bHi, I am a Hologram, &3configure me using the Projector");
-				BlockStorage.addBlockInfo(b, "offset", "-0.5");
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-
-				Projector.getArmorStand(b);
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Projector.getArmorStand(b).remove();
-				return true;
-			}
-		});
+		new HologramProjector(Categories.TECH, SlimefunItems.HOLOGRAM_PROJECTOR, "HOLOGRAM_PROJECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {null, SlimefunItems.POWER_CRYSTAL, null, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}, new CustomItem(SlimefunItems.HOLOGRAM_PROJECTOR, 3))
+		.register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.CHAIN, "CHAIN", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, null}, new CustomItem(SlimefunItems.CHAIN, 8))
@@ -4149,60 +4150,9 @@ public final class SlimefunSetup {
 			}
 		});
 
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.INFUSED_HOPPER, "INFUSED_HOPPER", RecipeType.ANCIENT_ALTAR,
+		new InfusedHopper(Categories.MAGIC, SlimefunItems.INFUSED_HOPPER, "INFUSED_HOPPER", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.OBSIDIAN), SlimefunItems.RUNE_EARTH, new ItemStack(Material.HOPPER), SlimefunItems.RUNE_ENDER, SlimefunItems.INFUSED_MAGNET, SlimefunItems.RUNE_ENDER, new ItemStack(Material.HOPPER), SlimefunItems.RUNE_EARTH, new ItemStack(Material.OBSIDIAN)})
-		.register(true, new BlockTicker() {
-
-			@Override
-			public void uniqueTick() {
-				
-			}
-
-			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				if (b.getType() != Material.HOPPER) {
-					// we're no longer a hopper, we were probably destroyed. skipping this tick.
-					BlockStorage.clearBlockInfo(b);
-					return;
-				}
-				
-				ArmorStand hologram = InfusedHopper.getArmorStand(b, true);
-				boolean sound = false;
-				
-				for (Entity n: hologram.getNearbyEntities(3.5D, 3.5D, 3.5D)) {
-					if (n instanceof Item && !n.hasMetadata("no_pickup") && n.getLocation().distance(hologram.getLocation()) > 0.4D) {
-						n.setVelocity(new Vector(0, 0.1, 0));
-						n.teleport(hologram);
-						sound = true;
-					}
-				}
-				
-				if (sound) b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5F, 2F);
-			}
-
-			@Override
-			public boolean isSynchronized() {
-				return true;
-			}
-		});
-
-		SlimefunItem.registerBlockHandler("INFUSED_HOPPER", new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				InfusedHopper.getArmorStand(b, true);
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				final ArmorStand hologram = InfusedHopper.getArmorStand(b, false);
-				
-				if (hologram != null) {
-					hologram.remove();
-				}
-				return true;
-			}
-		});
+		.register(true);
 
 		new SlimefunItem(Categories.RESOURCES, SlimefunItems.BLISTERING_INGOT, "BLISTERING_INGOT", RecipeType.HEATED_PRESSURE_CHAMBER,
 		new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.URANIUM, null, null, null, null, null, null, null})
@@ -4599,7 +4549,7 @@ public final class SlimefunSetup {
 			@Override
 			public void extraTick(final Location l) {
 				Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-					for (Entity entity : ReactorHologram.getArmorStand(l).getNearbyEntities(5, 5, 5)) {
+					for (Entity entity : ReactorHologram.getArmorStand(l, true).getNearbyEntities(5, 5, 5)) {
 						if (entity instanceof LivingEntity) {
 							((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
 						}

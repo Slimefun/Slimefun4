@@ -25,6 +25,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import me.mrCookieSlime.Slimefun.holograms.XPCollectorHologram;
 
 public class XPCollector extends SlimefunItem {
 	
@@ -65,7 +66,7 @@ public class XPCollector extends SlimefunItem {
 			
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				me.mrCookieSlime.Slimefun.holograms.XPCollector.getArmorStand(b).remove();
+				XPCollectorHologram.remove(b);
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot: getOutputSlots()) {
@@ -148,7 +149,7 @@ public class XPCollector extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) throws Exception {
-		Iterator<Entity> iterator = me.mrCookieSlime.Slimefun.holograms.XPCollector.getArmorStand(b).getNearbyEntities(4D, 4D, 4D).iterator();
+		Iterator<Entity> iterator = XPCollectorHologram.getArmorStand(b, true).getNearbyEntities(4D, 4D, 4D).iterator();
 		while (iterator.hasNext()) {
 			Entity n = iterator.next();
 			if (n instanceof ExperienceOrb) {

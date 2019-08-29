@@ -1,5 +1,14 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Ageable;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
@@ -17,15 +26,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAcceleratorHologram;
 
 public class AnimalGrowthAccelerator extends SlimefunItem {
 	
@@ -66,7 +67,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 			
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAccelerator.getArmorStand(b).remove();
+				AnimalGrowthAcceleratorHologram.remove(b);
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot : getInputSlots()) {
@@ -124,7 +125,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) throws Exception {
-		for (Entity n : me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAccelerator.getArmorStand(b).getNearbyEntities(3D, 3D, 3D)) {
+		for (Entity n : AnimalGrowthAcceleratorHologram.getArmorStand(b, true).getNearbyEntities(3D, 3D, 3D)) {
 			if (n instanceof Ageable && !((Ageable) n).isAdult()) {
 				for (int slot: getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {

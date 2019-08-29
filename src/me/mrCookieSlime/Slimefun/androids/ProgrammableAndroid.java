@@ -63,7 +63,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.holograms.AndroidStatusHologram;
+import me.mrCookieSlime.Slimefun.holograms.AndroidHologram;
 
 public abstract class ProgrammableAndroid extends SlimefunItem {
 
@@ -230,7 +230,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							}
 						}
 					}
-					AndroidStatusHologram.remove(b);
+					AndroidHologram.remove(b);
 				}
 
 				return allow;
@@ -432,7 +432,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							break;
 						case ATTACK_MOBS_ANIMALS:
 							entities:
-							for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+							for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
 								switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 									case NORTH: {
 										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
@@ -481,7 +481,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							break;
 						case ATTACK_MOBS:
 							entities:
-							for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+							for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
 								if (n instanceof Animals) continue;
 								switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 									case NORTH: {
@@ -531,7 +531,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							break;
 						case ATTACK_ANIMALS:
 							entities:
-							for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+							for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
 								if (n instanceof Monster) continue;
 								switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 									case NORTH: {
@@ -581,7 +581,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							break;
 						case ATTACK_ANIMALS_ADULT:
 							entities:
-							for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+							for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
 								if (n instanceof Monster) continue;
 								if (n instanceof org.bukkit.entity.Ageable && !((org.bukkit.entity.Ageable) n).isAdult()) continue;
 								switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
