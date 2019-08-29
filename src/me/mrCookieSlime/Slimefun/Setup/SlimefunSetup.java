@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -840,6 +841,43 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.TECH, SlimefunItems.PARACHUTE, "PARACHUTE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CHAIN, null, SlimefunItems.CHAIN, null, null, null})
 		.register(true);
+
+		new SlimefunItem(Categories.TECH, SlimefunItems.HOLOGRAM_PROJECTOR, "HOLOGRAM_PROJECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+				new ItemStack[] {null, SlimefunItems.POWER_CRYSTAL, null, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}, new CustomItem(SlimefunItems.HOLOGRAM_PROJECTOR, 3))
+				.register(true, new ItemInteractionHandler() {
+
+					@Override
+					public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
+						if (e.getClickedBlock() == null) return false;
+						SlimefunItem item = BlockStorage.check(e.getClickedBlock());
+						if (item == null || !item.getID().equals("HOLOGRAM_PROJECTOR")) return false;
+						e.setCancelled(true);
+
+						if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
+							Projector.openEditor(p, e.getClickedBlock());
+						}
+
+						return true;
+					}
+				});
+
+		SlimefunItem.registerBlockHandler("HOLOGRAM_PROJECTOR", new SlimefunBlockHandler() {
+
+			@Override
+			public void onPlace(Player p, Block b, SlimefunItem item) {
+				BlockStorage.addBlockInfo(b, "text", "&bHi, I am a Hologram, &3configure me using the Projector");
+				BlockStorage.addBlockInfo(b, "offset", "-0.5");
+				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
+
+				Projector.getArmorStand(b);
+			}
+
+			@Override
+			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
+				Projector.getArmorStand(b).remove();
+				return true;
+			}
+		});
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.CHAIN, "CHAIN", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, null}, new CustomItem(SlimefunItems.CHAIN, 8))
@@ -1738,6 +1776,56 @@ public final class SlimefunSetup {
 											}
 											b.setType(Material.AIR);
 										}
+										if (damageOnUse) {
+											if (!item.getEnchantments().containsKey(Enchantment.DURABILITY) || random.nextInt(100) <= (60 + 40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
+												PlayerInventory.damageItemInHand(e.getPlayer());
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+
+					PlayerInventory.update(e.getPlayer());
+					return true;
+				}
+				else return false;
+			}
+		});
+
+		new SlimefunItem(Categories.TOOLS, SlimefunItems.EXPLOSIVE_SHOVEL, "EXPLOSIVE_SHOVEL", RecipeType.MAGIC_WORKBENCH,
+		new ItemStack[] {null, SlimefunItems.SYNTHETIC_DIAMOND, null, null, new ItemStack(Material.TNT), null, null, SlimefunItems.FERROSILICON, null},
+		new String[] {"damage-on-use"}, new Object[] {Boolean.FALSE })
+		.register(true, new BlockBreakHandler() {
+
+			@Override
+			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.EXPLOSIVE_SHOVEL, true)) {
+					e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
+					e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+					for (int x = -1; x <= 1; x++) {
+						for (int y = -1; y <= 1; y++) {
+							for (int z = -1; z <= 1; z++) {
+								Block b = e.getBlock().getRelative(x, y, z);
+								boolean correctType = false;
+								for (Material mat : MaterialTools.getShovelItems()) {
+									if (b.getType() == mat) {
+										correctType = true;
+										break;
+									}
+								}
+								if (correctType) {
+									if (CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
+										if (SlimefunStartup.instance.getHooks().isCoreProtectInstalled()) {
+											SlimefunStartup.instance.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
+										}
+
+										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+										for (ItemStack drop: b.getDrops()) {
+											b.getWorld().dropItemNaturally(b.getLocation(), drop);
+										}
+										b.setType(Material.AIR);
 										if (damageOnUse) {
 											if (!item.getEnchantments().containsKey(Enchantment.DURABILITY) || random.nextInt(100) <= (60 + 40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
 												PlayerInventory.damageItemInHand(e.getPlayer());
@@ -4096,43 +4184,6 @@ public final class SlimefunSetup {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				return true;
-			}
-		});
-
-		new SlimefunItem(Categories.TECH, SlimefunItems.HOLOGRAM_PROJECTOR, "HOLOGRAM_PROJECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, SlimefunItems.POWER_CRYSTAL, null, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}, new CustomItem(SlimefunItems.HOLOGRAM_PROJECTOR, 3))
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
-				if (e.getClickedBlock() == null) return false;
-				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getID().equals("HOLOGRAM_PROJECTOR")) return false;
-				e.setCancelled(true);
-
-				if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
-					Projector.openEditor(p, e.getClickedBlock());
-				}
-
-				return true;
-			}
-		});
-
-		SlimefunItem.registerBlockHandler("HOLOGRAM_PROJECTOR", new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "text", "&bHi, I am a Hologram, &3configure me using the Projector");
-				BlockStorage.addBlockInfo(b, "offset", "-0.5");
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-
-				Projector.getArmorStand(b);
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Projector.getArmorStand(b).remove();
 				return true;
 			}
 		});

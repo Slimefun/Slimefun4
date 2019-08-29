@@ -67,6 +67,7 @@
     						<artifact>com.github.thebusybiscuit:CS-CoreLib2</artifact>
     						<includes>
     							<include>**/cscorelib2/updater/**</include>
+                                <include>**/cscorelib2/materials/**</include>
     						</includes>
   						</filter>
       				</filters>
@@ -122,7 +123,7 @@
         <dependency>
   			<groupId>com.github.thebusybiscuit</groupId>
   			<artifactId>CS-CoreLib2</artifactId>
-  			<version>0.3.7</version>
+  			<version>0.3.8</version>
   			<scope>compile</scope>
 		</dependency>
 		<dependency>
