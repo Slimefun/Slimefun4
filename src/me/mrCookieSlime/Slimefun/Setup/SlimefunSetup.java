@@ -141,6 +141,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.ArmorForge;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.AutomatedPanningMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Compressor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.EnhancedCraftingTable;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.GrindStone;
@@ -1537,48 +1538,7 @@ public final class SlimefunSetup {
 			}
 		});
 
-		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.AUTOMATED_PANNING_MACHINE, "AUTOMATED_PANNING_MACHINE",
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null},
-		new ItemStack[] {new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE}, Material.OAK_TRAPDOOR)
-		.register(true, new MultiBlockInteractionHandler() {
-
-			private Random random = new Random();
-			
-			@Override
-			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByID("AUTOMATED_PANNING_MACHINE"))) {
-					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true)) {
-						final ItemStack input = p.getInventory().getItemInMainHand();
-						ItemStack output = null;
-						
-						if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE")) output = SlimefunItems.SIFTED_ORE;
-						else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY")) output = new ItemStack(Material.CLAY_BALL);
-						else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT")) output = new ItemStack(Material.FLINT);
-						
-						final ItemStack drop = output;
-						if (input != null && input.getType() == Material.GRAVEL) {
-							PlayerInventory.consumeItemInHand(p);
-							for (int i = 1; i < 7; i++) {
-								int j = i;
-								Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-									b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
-									if (j == 6) {
-										if (drop != null) b.getWorld().dropItemNaturally(b.getLocation(), drop);
-										p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-									}
-								}, i*30L);
-							}
-							return true;
-						}
-						
-						Messages.local.sendTranslation(p, "machines.wrong-item", true);
-						return true;
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		new AutomatedPanningMachine().register();
 
 		new SlimefunItem(Categories.MAGIC_ARMOR, SlimefunItems.BOOTS_OF_THE_STOMPER, "BOOTS_OF_THE_STOMPER", RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.YELLOW_WOOL), null, new ItemStack(Material.YELLOW_WOOL), new ItemStack(Material.PISTON), null, new ItemStack(Material.PISTON)})
