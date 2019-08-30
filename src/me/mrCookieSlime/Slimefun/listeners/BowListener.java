@@ -71,15 +71,15 @@ public class BowListener implements Listener {
 				double g = -0.08D;
 				double d = arrow.getLocation().distance(l);
 				double t = d;
-				double v_x = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getX() - l.getX()) / t;
-				double v_y = (1.0D + 0.04D * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
-				double v_z = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
+				double vX = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getX() - l.getX()) / t;
+				double vY = (1.0D + 0.04D * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
+				double vZ = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
 
 				Vector v = p.getVelocity();
 
-				v.setX(v_x);
-				v.setY(v_y);
-				v.setZ(v_z);
+				v.setX(vX);
+				v.setY(vY);
+				v.setZ(vZ);
 
 				p.setVelocity(v);
 

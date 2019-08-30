@@ -687,9 +687,9 @@ public final class SlimefunGuide {
 				return false;
 			});
 			
-			int category_index = category_size * (selected_page - 1);
+			int categoryIndex = category_size * (selected_page - 1);
 			for (int i = 0; i < category_size; i++) {
-				int target = category_index + i;
+				int target = categoryIndex + i;
 				if (target >= category.getItems().size()) break;
 				final SlimefunItem sfitem = category.getItems().get(target);
 				if (Slimefun.isEnabled(p, sfitem, false)) {
@@ -967,12 +967,12 @@ public final class SlimefunGuide {
 				}
 				
 				List<ItemStack> recipes = SlimefunItem.getByItem(item) instanceof SlimefunMachine ? ((SlimefunMachine) SlimefunItem.getByItem(item)).getDisplayRecipes() : ((SlimefunGadget) SlimefunItem.getByItem(item)).getDisplayRecipes();
-				int recipe_size = recipes.size();
-				if (recipe_size > 18) recipe_size = 18;
+				int recipeSize = recipes.size();
+				if (recipeSize > 18) recipeSize = 18;
 				int inputs = -1;
 				int outputs = -1;
 				
-				for (int i = 0; i < recipe_size; i++) {
+				for (int i = 0; i < recipeSize; i++) {
 					int slot = 36;
 					if (i % 2 == 1) {
 						slot = slot + 9;

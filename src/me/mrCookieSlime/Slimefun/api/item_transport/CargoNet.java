@@ -55,12 +55,12 @@ public class CargoNet extends Network {
 	}
 
 	public static CargoNet getNetworkFromLocationOrCreate(Location l) {
-		CargoNet cargo_network = getNetworkFromLocation(l);
-		if (cargo_network == null) {
-			cargo_network = new CargoNet(l);
-			registerNetwork(cargo_network);
+		CargoNet cargoNetwork = getNetworkFromLocation(l);
+		if (cargoNetwork == null) {
+			cargoNetwork = new CargoNet(l);
+			registerNetwork(cargoNetwork);
 		}
-		return cargo_network;
+		return cargoNetwork;
 	}
 
 	@Deprecated
@@ -242,9 +242,9 @@ public class CargoNet extends Network {
 											for (final Location terminal : terminals) {
 							BlockMenu menu = BlockStorage.getInventory(terminal);
 
-							ItemStack sending_item = menu.getItemInSlot(TERMINAL_OUT_SLOT);
-							if (sending_item != null) {
-								requests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sending_item, ItemTransportFlow.INSERT));
+							ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);
+							if (sendingItem != null) {
+								requests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sendingItem, ItemTransportFlow.INSERT));
 							}
 						}
 
@@ -349,19 +349,19 @@ public class CargoNet extends Network {
 								round_robin.put(input, 0);
 							}
 
-							int c_index = round_robin.get(input);
+							int cIndex = round_robin.get(input);
 
-							if (c_index < outputlist.size()) {
-								for (int i = 0; i < c_index; i++) {
+							if (cIndex < outputlist.size()) {
+								for (int i = 0; i < cIndex; i++) {
 									final Location temp = outputlist.get(0);
 									outputlist.remove(temp);
 									outputlist.add(temp);
 								}
-								c_index++;
+								cIndex++;
 							}
-							else c_index = 1;
+							else cIndex = 1;
 
-							round_robin.put(input, c_index);
+							round_robin.put(input, cIndex);
 						}
 						
 						for (Location out : outputlist) {

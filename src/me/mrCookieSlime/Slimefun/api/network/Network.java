@@ -147,8 +147,8 @@ public abstract class Network {
 
 	private void discoverNeighbors(Location l, double xDiff, double yDiff, double zDiff) {
 		for(int i = getRange() + 1; i > 0; i --) {
-			Location new_location = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
-			addLocationToNetwork(new_location);
+			Location newLocation = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
+			addLocationToNetwork(newLocation);
 		}
 	}
 

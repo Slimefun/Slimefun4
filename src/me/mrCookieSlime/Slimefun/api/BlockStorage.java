@@ -111,7 +111,7 @@ public class BlockStorage {
 						FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 						for (String key: cfg.getKeys(false)) {
 							Location l = deserializeLocation(key);
-							String chunk_string = locationToChunkString(l);
+							String chunkString = locationToChunkString(l);
 							try {
 								totalBlocks++;
 								String json = cfg.getString(key);
@@ -129,10 +129,10 @@ public class BlockStorage {
 								storage.put(l, blockInfo);
 
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
-									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<>();
+									Set<Location> locations = ticking_chunks.containsKey(chunkString) ? ticking_chunks.get(chunkString): new HashSet<>();
 									locations.add(l);
-									ticking_chunks.put(chunk_string, locations);
-									if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
+									ticking_chunks.put(chunkString, locations);
+									if (!loaded_tickers.contains(chunkString)) loaded_tickers.add(chunkString);
 								}
 							} catch (Exception x) {
 								System.err.println("[Slimefun] Failed to load " + file.getName() + "(ERR: " + key + ")");
@@ -208,8 +208,8 @@ public class BlockStorage {
 			changes += entry.getValue().getUnsavedChanges();
 		}
 		
-		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<>(universal_inventories);
-		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
+		Map<String, UniversalBlockMenu> universalInventories2 = new HashMap<>(universal_inventories);
+		for (Map.Entry<String, UniversalBlockMenu> entry: universalInventories2.entrySet()) {
 			changes += entry.getValue().getUnsavedChanges();
 		}
 	}
@@ -254,9 +254,9 @@ public class BlockStorage {
 			entry.getValue().save(entry.getKey());
 		}
 		
-		Map<String, UniversalBlockMenu> universal_inventories2 = new HashMap<>(universal_inventories);
+		Map<String, UniversalBlockMenu> universalInventories2 = new HashMap<>(universal_inventories);
 		
-		for (Map.Entry<String, UniversalBlockMenu> entry: universal_inventories2.entrySet()) {
+		for (Map.Entry<String, UniversalBlockMenu> entry: universalInventories2.entrySet()) {
 			entry.getValue().save();
 		}
 		
@@ -462,15 +462,15 @@ public class BlockStorage {
 				storage.getUniversalInventory(l).close();
 				storage.getUniversalInventory(l).save();
 			}
-			String chunk_string = locationToChunkString(l);
-			if (ticking_chunks.containsKey(chunk_string)) {
-				Set<Location> locations = ticking_chunks.get(chunk_string);
+			String chunkString = locationToChunkString(l);
+			if (ticking_chunks.containsKey(chunkString)) {
+				Set<Location> locations = ticking_chunks.get(chunkString);
 				locations.remove(l);
 				if (locations.isEmpty()) {
-					ticking_chunks.remove(chunk_string);
-					loaded_tickers.remove(chunk_string);
+					ticking_chunks.remove(chunkString);
+					loaded_tickers.remove(chunkString);
 				}
-				else ticking_chunks.put(chunk_string, locations);
+				else ticking_chunks.put(chunkString, locations);
 			}
 		}
 	}
@@ -504,15 +504,15 @@ public class BlockStorage {
 		refreshCache(storage, from, getLocationInfo(from).getString("id"), null, true);
 		storage.storage.remove(from);
 
-		String chunk_string = locationToChunkString(from);
-		if (ticking_chunks.containsKey(chunk_string)) {
-			Set<Location> locations = ticking_chunks.get(chunk_string);
+		String chunkString = locationToChunkString(from);
+		if (ticking_chunks.containsKey(chunkString)) {
+			Set<Location> locations = ticking_chunks.get(chunkString);
 			locations.remove(from);
 			if (locations.isEmpty()) {
-				ticking_chunks.remove(chunk_string);
-				loaded_tickers.remove(chunk_string);
+				ticking_chunks.remove(chunkString);
+				loaded_tickers.remove(chunkString);
 			}
-			else ticking_chunks.put(chunk_string, locations);
+			else ticking_chunks.put(chunkString, locations);
 		}
 	}
 
@@ -524,14 +524,14 @@ public class BlockStorage {
 		if (updateTicker) {
 			SlimefunItem item = SlimefunItem.getByID(key);
 			if (item != null && item.isTicking()) {
-				String chunk_string = locationToChunkString(l);
+				String chunkString = locationToChunkString(l);
 				if (value != null) {
-					Set<Location> locations = ticking_chunks.get(chunk_string);
+					Set<Location> locations = ticking_chunks.get(chunkString);
 					if (locations == null) locations = new HashSet<>();
 					
 					locations.add(l);
-					ticking_chunks.put(chunk_string, locations);
-					if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
+					ticking_chunks.put(chunkString, locations);
+					if (!loaded_tickers.contains(chunkString)) loaded_tickers.add(chunkString);
 				}
 			}
 		}

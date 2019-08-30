@@ -969,9 +969,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			return false;
 		});
 
-		int category_index = 45 * (page - 1);
+		int categoryIndex = 45 * (page - 1);
 		for (int i = 0; i < 45; i++) {
-			int target = category_index + i;
+			int target = categoryIndex + i;
 			if (target >= scripts.size()) break;
 			else {
 				final Config script = scripts.get(target);

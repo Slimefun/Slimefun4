@@ -71,12 +71,12 @@ public class EnergyNet extends Network {
 	}
 
 	public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
-		EnergyNet energy_network = getNetworkFromLocation(l);
-		if (energy_network == null) {
-			energy_network = new EnergyNet(l);
-			registerNetwork(energy_network);
+		EnergyNet energyNetwork = getNetworkFromLocation(l);
+		if (energyNetwork == null) {
+			energyNetwork = new EnergyNet(l);
+			registerNetwork(energyNetwork);
 		}
-		return energy_network;
+		return energyNetwork;
 	}
 
 	private Set<Location> input = new HashSet<>();
