@@ -1106,11 +1106,18 @@ public final class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				//Not checking if lores equals because we need a special one for that.
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_STORM, false)) {
+
 					ItemMeta itemM = item.getItemMeta();
 					List<String> itemML = itemM.getLore();
+					if (itemML == null) return false;
+
+					ItemStack SFitem = SlimefunItems.STAFF_STORM;
+					ItemMeta SFitemM = SFitem.getItemMeta();
+					List<String> SFitemML = SFitemM.getLore();
 					if (itemML.size() < 6) {
-						if (!itemML.get(1).equals("&7Element: &9&oStorm")) return false;
-						if (!itemML.get(3).equals("&eRight Click&7 to summon a lightning")) return false;
+					    // Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
+						if (!itemML.get(1).equals(SFitemML.get(1))) return false;
+						if (!itemML.get(3).equals(SFitemML.get(3))) return false;
 					} else return false;
 
 					if (p.getFoodLevel() >= 2) {
