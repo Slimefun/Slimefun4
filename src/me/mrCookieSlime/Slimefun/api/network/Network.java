@@ -49,16 +49,9 @@ public abstract class Network {
 		}
 	}
 
-	public static enum Component {
-		CONNECTOR,
-		REGULATOR,
-		TERMINUS;
-	}
-
-
 	public abstract int getRange();
-	public abstract Component classifyLocation(Location l);
-	public abstract void locationClassificationChange(Location l, Component from, Component to);
+	public abstract NetworkComponent classifyLocation(Location l);
+	public abstract void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
 
 	protected Location regulator;
 	private Queue<Location> nodeQueue = new ArrayDeque<>();
@@ -94,15 +87,15 @@ public abstract class Network {
 		return connectedLocations.contains(l);
 	}
 
-	private Component getCurrentClassification(Location l) {
+	private NetworkComponent getCurrentClassification(Location l) {
 		if(regulatorNodes.contains(l)) {
-			return Component.REGULATOR;
+			return NetworkComponent.REGULATOR;
 		} 
 		else if(connectorNodes.contains(l)) {
-			return Component.CONNECTOR;
+			return NetworkComponent.CONNECTOR;
 		} 
 		else if(terminusNodes.contains(l)) {
-			return Component.TERMINUS;
+			return NetworkComponent.TERMINUS;
 		}
 		return null;
 	}
@@ -111,28 +104,28 @@ public abstract class Network {
 		int steps = 0;
 		while (nodeQueue.peek() != null) {
 			Location l = nodeQueue.poll();
-			Component currentAssignment = getCurrentClassification(l);
-			Component classification = classifyLocation(l);
+			NetworkComponent currentAssignment = getCurrentClassification(l);
+			NetworkComponent classification = classifyLocation(l);
 			
 			if (classification != currentAssignment) {
-				if (currentAssignment == Component.REGULATOR || currentAssignment == Component.CONNECTOR) {
+				if (currentAssignment == NetworkComponent.REGULATOR || currentAssignment == NetworkComponent.CONNECTOR) {
 					// Requires a complete rebuild of the network, so we just throw the current one away.
 					unregisterNetwork(this);
 					return;
 				} 
-				else if (currentAssignment == Component.TERMINUS) {
+				else if (currentAssignment == NetworkComponent.TERMINUS) {
 					terminusNodes.remove(l);
 				}
 				
-				if (classification == Component.REGULATOR) {
+				if (classification == NetworkComponent.REGULATOR) {
 					regulatorNodes.add(l);
 					discoverNeighbors(l);
 				} 
-				else if(classification == Component.CONNECTOR) {
+				else if(classification == NetworkComponent.CONNECTOR) {
 					connectorNodes.add(l);
 					discoverNeighbors(l);
 				} 
-				else if(classification == Component.TERMINUS) {
+				else if(classification == NetworkComponent.TERMINUS) {
 					terminusNodes.add(l);
 				}
 				

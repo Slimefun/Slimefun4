@@ -29,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNet.NetworkComponent;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
@@ -405,7 +405,7 @@ public class SlimefunItem {
 			}
 			else if (h instanceof EnergyTicker) {
 				this.energyTicker = (EnergyTicker) h;
-				EnergyNet.registerComponent(getID(), NetworkComponent.SOURCE);
+				EnergyNet.registerComponent(getID(), EnergyNetComponent.SOURCE);
 			}
 		}
 	}
@@ -480,7 +480,7 @@ public class SlimefunItem {
 	public void registerChargeableBlock(boolean slimefun, int capacity) {
 		this.register(slimefun);
 		ChargableBlock.registerChargableBlock(id, capacity, true);
-		EnergyNet.registerComponent(id, NetworkComponent.CONSUMER);
+		EnergyNet.registerComponent(id, EnergyNetComponent.CONSUMER);
 	}
 
 	public void registerUnrechargeableBlock(boolean slimefun, int capacity) {
@@ -495,12 +495,12 @@ public class SlimefunItem {
 
 	public void registerEnergyDistributor(boolean slimefun) {
 		this.register(slimefun);
-		EnergyNet.registerComponent(id, NetworkComponent.DISTRIBUTOR);
+		EnergyNet.registerComponent(id, EnergyNetComponent.DISTRIBUTOR);
 	}
 
 	public void registerDistibutingCapacitor(boolean slimefun, final int capacity) {
 		this.register(slimefun);
-		EnergyNet.registerComponent(id, NetworkComponent.DISTRIBUTOR);
+		EnergyNet.registerComponent(id, EnergyNetComponent.DISTRIBUTOR);
 		ChargableBlock.registerCapacitor(id, capacity);
 	}
 
