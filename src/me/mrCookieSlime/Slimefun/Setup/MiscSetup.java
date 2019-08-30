@@ -34,7 +34,7 @@ public final class MiscSetup {
 	
 	private MiscSetup() {}
 	
-	public static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<>();
+	public static List<PostSlimefunLoadingHandler> postHandlers = new ArrayList<>();
 	
 	public static void setupMisc() {
 		if (SlimefunItem.getByID("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
@@ -205,7 +205,7 @@ public final class MiscSetup {
 		CommandSender sender = Bukkit.getConsoleSender();
 		ChatColor color = Colors.getRandom();
 		
-		for (PostSlimefunLoadingHandler handler: post_handlers) {
+		for (PostSlimefunLoadingHandler handler: postHandlers) {
 			handler.run(pre, init, post);
 		}
 		

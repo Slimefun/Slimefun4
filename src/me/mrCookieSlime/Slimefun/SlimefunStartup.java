@@ -145,9 +145,9 @@ public final class SlimefunStartup extends JavaPlugin {
 			utils.setupConfig();
 
 			// Loading all extra configs
-			researches = new Config(Files.RESEARCHES);
-			items = new Config(Files.ITEMS);
-			whitelist = new Config(Files.WHITELIST);
+			researches = new Config(Files.Researches);
+			items = new Config(Files.items);
+			whitelist = new Config(Files.whitelist);
 
 			// Setup Config and messages.yml
 			utils.setupLocalization();
@@ -191,7 +191,7 @@ public final class SlimefunStartup extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 			
 			settings = new Settings(config);
-			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
+			settings.Researches_ENABLED = getResearchCfg().getBoolean("enable-researching");
 			settings.SMELTERY_FIRE_BREAK_CHANCE = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			System.out.println("[Slimefun] Loading Researches...");
@@ -349,7 +349,7 @@ public final class SlimefunStartup extends JavaPlugin {
 			}
 		}
 		
-		for (UniversalBlockMenu menu: BlockStorage.universal_inventories.values()) {
+		for (UniversalBlockMenu menu: BlockStorage.universalInventories.values()) {
 			menu.save();
 		}
 		
@@ -362,16 +362,16 @@ public final class SlimefunStartup extends JavaPlugin {
 		whitelist = null;
 		instance = null;
 		Messages.local = null;
-		Files.CONFIG = null;
-		Files.DATABASE = null;
-		Files.ITEMS = null;
-		Files.RESEARCHES = null;
-		Files.WHITELIST = null;
+		Files.config = null;
+		Files.database = null;
+		Files.items = null;
+		Files.Researches = null;
+		Files.whitelist = null;
 		MultiBlock.list = null;
 		Research.list = null;
 		SlimefunItem.all = null;
 		SlimefunItem.items = null;
-		SlimefunItem.map_id = null;
+		SlimefunItem.mapID = null;
 		SlimefunItem.handlers = null;
 		SlimefunItem.radioactive = null;
 		SlimefunCommand.arguments = null;
@@ -379,19 +379,19 @@ public final class SlimefunStartup extends JavaPlugin {
 		SlimefunCommand.tabs = null;
 		SlimefunItem.blockhandler = null;
 		BlockMenuPreset.presets = null;
-		BlockStorage.loaded_tickers = null;
-		BlockStorage.ticking_chunks = null;
+		BlockStorage.loadedTickers = null;
+		BlockStorage.tickingChunks = null;
 		BlockStorage.worlds = null;
 		ChargableBlock.capacitors = null;
-		ChargableBlock.max_charges = null;
+		ChargableBlock.maxCharges = null;
 		AContainer.processing = null;
 		AContainer.progress = null;
-		Slimefun.guide_handlers = null;
-		EnergyNet.machines_input = null;
-		EnergyNet.machines_output = null;
-		EnergyNet.machines_storage = null;
+		Slimefun.guideHandlers = null;
+		EnergyNet.machinesInput = null;
+		EnergyNet.machinesOutput = null;
+		EnergyNet.machinesStorage = null;
 		CargoNet.faces = null;
-		BlockStorage.universal_inventories = null;
+		BlockStorage.universalInventories = null;
 		PlayerProfile.profiles = null;
 		OreWasher.items = null;
 

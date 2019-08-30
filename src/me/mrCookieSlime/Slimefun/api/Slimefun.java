@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
  */
 public class Slimefun {
 
-	public static Map<Integer, List<GuideHandler>> guide_handlers = new HashMap<>();
+	public static Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
 
 	/**
 	 * Instance of the GPSNetwork.
@@ -41,13 +41,13 @@ public class Slimefun {
 	/**
 	 * Lists all the registered categories.
 	 */
-	public static List<Category> current_categories = new ArrayList<>();
+	public static List<Category> currentCategories = new ArrayList<>();
 
 	public static void registerGuideHandler(GuideHandler handler) {
 		List<GuideHandler> handlers = new ArrayList<>();
-		if (guide_handlers.containsKey(handler.getTier())) handlers = guide_handlers.get(handler.getTier());
+		if (guideHandlers.containsKey(handler.getTier())) handlers = guideHandlers.get(handler.getTier());
 		handlers.add(handler);
-		guide_handlers.put(handler.getTier(), handlers);
+		guideHandlers.put(handler.getTier(), handlers);
 	}
 
 	/**
@@ -270,7 +270,7 @@ public class Slimefun {
 	 * Returns a list of all the ItemStacks representing the registered categories.
 	 *
 	 * @return the list of the display items of all the registered categories.
-	 * @see #current_categories
+	 * @see #currentCategories
 	 */
 	public static List<ItemStack> listCategories() {
 		List<ItemStack> items = new ArrayList<>();
@@ -348,6 +348,6 @@ public class Slimefun {
 	}
 
 	public static List<GuideHandler> getGuideHandlers(int tier) {
-		return guide_handlers.containsKey(tier) ? guide_handlers.get(tier): new ArrayList<>();
+		return guideHandlers.containsKey(tier) ? guideHandlers.get(tier): new ArrayList<>();
 	}
 }

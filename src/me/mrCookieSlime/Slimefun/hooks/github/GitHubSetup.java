@@ -120,7 +120,7 @@ public final class GitHubSetup {
 				SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
 				SlimefunGuide.forks = object.get("forks").getAsInt();
 				SlimefunGuide.stars = object.get("stargazers_count").getAsInt();
-				SlimefunGuide.last_update = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
+				SlimefunGuide.lastUpdate = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
 			}
 			
 			@Override
@@ -148,7 +148,7 @@ public final class GitHubSetup {
 			@Override
 			public void onSuccess(JsonElement element) {
 				JsonObject object = element.getAsJsonObject();
-				SlimefunGuide.code_bytes = object.get("Java").getAsInt();
+				SlimefunGuide.codeBytes = object.get("Java").getAsInt();
 			}
 			
 			@Override

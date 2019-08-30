@@ -39,16 +39,16 @@ public class BlockStorage {
 	private static final String path_chunks = "data-storage/Slimefun/stored-chunks/";
 
 	public static Map<String, BlockStorage> worlds = new HashMap<>();
-	public static Map<String, Set<Location>> ticking_chunks = new HashMap<>();
-	public static Set<String> loaded_tickers = new HashSet<>();
+	public static Map<String, Set<Location>> tickingChunks = new HashMap<>();
+	public static Set<String> loadedTickers = new HashSet<>();
 	
 	private World world;
 	
 	private Map<Location, Config> storage = new HashMap<>();
-	private static Map<String, String> map_chunks = new HashMap<>();
+	private static Map<String, String> mapChunks = new HashMap<>();
 	
 	private Map<Location, BlockMenu> inventories = new HashMap<>();
-	public static Map<String, UniversalBlockMenu> universal_inventories = new HashMap<>();
+	public static Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
 	
 	private Map<String, Config> cache_blocks = new HashMap<>();
 	
@@ -129,10 +129,10 @@ public class BlockStorage {
 								storage.put(l, blockInfo);
 
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
-									Set<Location> locations = ticking_chunks.containsKey(chunkString) ? ticking_chunks.get(chunkString): new HashSet<>();
+									Set<Location> locations = tickingChunks.containsKey(chunkString) ? tickingChunks.get(chunkString): new HashSet<>();
 									locations.add(l);
-									ticking_chunks.put(chunkString, locations);
-									if (!loaded_tickers.contains(chunkString)) loaded_tickers.add(chunkString);
+									tickingChunks.put(chunkString, locations);
+									if (!loadedTickers.contains(chunkString)) loadedTickers.add(chunkString);
 								}
 							} catch (Exception x) {
 								System.err.println("[Slimefun] Failed to load " + file.getName() + "(ERR: " + key + ")");
@@ -156,7 +156,7 @@ public class BlockStorage {
 			FileConfiguration cfg = YamlConfiguration.loadConfiguration(chunks);
 			for (String key: cfg.getKeys(false)) {
 				try {
-					if (world.getName().equals(key.split(";")[0])) map_chunks.put(key, cfg.getString(key));
+					if (world.getName().equals(key.split(";")[0])) mapChunks.put(key, cfg.getString(key));
 				} catch (Exception x) {
 					System.err.println("[Slimefun] Failed to load " + chunks.getName() + " for World \"" + world.getName() + "\" (ERR: " + key + ")");
 					x.printStackTrace();
@@ -191,24 +191,24 @@ public class BlockStorage {
 				BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
 				
 				if (preset != null) {
-					universal_inventories.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
+					universalInventories.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
 				}
 			}
 		}
 	}
 
-	private static int chunk_changes = 0;
+	private static int chunkChanges = 0;
 	private int changes = 0;
 	
 	public void computeChanges() {
-		changes = cache_blocks.size() + chunk_changes;
+		changes = cache_blocks.size() + chunkChanges;
 		
 		Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
 		for (Map.Entry<Location, BlockMenu> entry: inventories2.entrySet()) {
 			changes += entry.getValue().getUnsavedChanges();
 		}
 		
-		Map<String, UniversalBlockMenu> universalInventories2 = new HashMap<>(universal_inventories);
+		Map<String, UniversalBlockMenu> universalInventories2 = new HashMap<>(universalInventories);
 		for (Map.Entry<String, UniversalBlockMenu> entry: universalInventories2.entrySet()) {
 			changes += entry.getValue().getUnsavedChanges();
 		}
@@ -254,17 +254,17 @@ public class BlockStorage {
 			entry.getValue().save(entry.getKey());
 		}
 		
-		Map<String, UniversalBlockMenu> universalInventories2 = new HashMap<>(universal_inventories);
+		Map<String, UniversalBlockMenu> universalInventories2 = new HashMap<>(universalInventories);
 		
 		for (Map.Entry<String, UniversalBlockMenu> entry: universalInventories2.entrySet()) {
 			entry.getValue().save();
 		}
 		
-		if (chunk_changes > 0) {
+		if (chunkChanges > 0) {
 			File chunks = new File(path_chunks + "chunks.sfc");
 			Config cfg = new Config("data-storage/Slimefun/temp.yml");
 			
-			for (Map.Entry<String, String> entry: map_chunks.entrySet()) {
+			for (Map.Entry<String, String> entry: mapChunks.entrySet()) {
 				cfg.setValue(entry.getKey(), entry.getValue());
 			}
 			
@@ -276,7 +276,7 @@ public class BlockStorage {
 		}
 		
 		changes = 0;
-		chunk_changes = 0;
+		chunkChanges = 0;
 	}
 	
 	public static void store(Block block, ItemStack item) {
@@ -360,7 +360,7 @@ public class BlockStorage {
 	}
 	
 	private static String getJSONData(Chunk chunk) {
-		return map_chunks.get(serializeChunk(chunk));
+		return mapChunks.get(serializeChunk(chunk));
 	}
 
 	@Deprecated
@@ -413,7 +413,7 @@ public class BlockStorage {
 		storage.storage.put(l, cfg);
 		if (BlockMenuPreset.isInventory(cfg.getString("id"))) {
 			if (BlockMenuPreset.isUniversalInventory(cfg.getString("id"))) {
-				if (!universal_inventories.containsKey(cfg.getString("id"))) storage.loadUniversalInventory(BlockMenuPreset.getPreset(cfg.getString("id")));
+				if (!universalInventories.containsKey(cfg.getString("id"))) storage.loadUniversalInventory(BlockMenuPreset.getPreset(cfg.getString("id")));
 			}
 			else if (!storage.hasInventory(l)) {
 				File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
@@ -463,14 +463,14 @@ public class BlockStorage {
 				storage.getUniversalInventory(l).save();
 			}
 			String chunkString = locationToChunkString(l);
-			if (ticking_chunks.containsKey(chunkString)) {
-				Set<Location> locations = ticking_chunks.get(chunkString);
+			if (tickingChunks.containsKey(chunkString)) {
+				Set<Location> locations = tickingChunks.get(chunkString);
 				locations.remove(l);
 				if (locations.isEmpty()) {
-					ticking_chunks.remove(chunkString);
-					loaded_tickers.remove(chunkString);
+					tickingChunks.remove(chunkString);
+					loadedTickers.remove(chunkString);
 				}
-				else ticking_chunks.put(chunkString, locations);
+				else tickingChunks.put(chunkString, locations);
 			}
 		}
 	}
@@ -505,14 +505,14 @@ public class BlockStorage {
 		storage.storage.remove(from);
 
 		String chunkString = locationToChunkString(from);
-		if (ticking_chunks.containsKey(chunkString)) {
-			Set<Location> locations = ticking_chunks.get(chunkString);
+		if (tickingChunks.containsKey(chunkString)) {
+			Set<Location> locations = tickingChunks.get(chunkString);
 			locations.remove(from);
 			if (locations.isEmpty()) {
-				ticking_chunks.remove(chunkString);
-				loaded_tickers.remove(chunkString);
+				tickingChunks.remove(chunkString);
+				loadedTickers.remove(chunkString);
 			}
-			else ticking_chunks.put(chunkString, locations);
+			else tickingChunks.put(chunkString, locations);
 		}
 	}
 
@@ -526,12 +526,12 @@ public class BlockStorage {
 			if (item != null && item.isTicking()) {
 				String chunkString = locationToChunkString(l);
 				if (value != null) {
-					Set<Location> locations = ticking_chunks.get(chunkString);
+					Set<Location> locations = tickingChunks.get(chunkString);
 					if (locations == null) locations = new HashSet<>();
 					
 					locations.add(l);
-					ticking_chunks.put(chunkString, locations);
-					if (!loaded_tickers.contains(chunkString)) loaded_tickers.add(chunkString);
+					tickingChunks.put(chunkString, locations);
+					if (!loadedTickers.contains(chunkString)) loadedTickers.add(chunkString);
 				}
 			}
 		}
@@ -575,7 +575,7 @@ public class BlockStorage {
 	}
 	
 	public static Set<String> getTickingChunks() {
-		return new HashSet<>(loaded_tickers);
+		return new HashSet<>(loadedTickers);
 	}
 
 	@Deprecated
@@ -597,7 +597,7 @@ public class BlockStorage {
 	}
 
 	public static Set<Location> getTickingLocations(String chunk) {
-		return new HashSet<>(ticking_chunks.get(chunk));
+		return new HashSet<>(tickingChunks.get(chunk));
 	}
 	
 	public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
@@ -607,7 +607,7 @@ public class BlockStorage {
 	}
 	
 	public void loadUniversalInventory(BlockMenuPreset preset) {
-		universal_inventories.put(preset.getID(), new UniversalBlockMenu(preset));
+		universalInventories.put(preset.getID(), new UniversalBlockMenu(preset));
 	}
 	
 	public void clearInventory(Location l) {
@@ -629,7 +629,7 @@ public class BlockStorage {
 	}
 	
 	public boolean hasUniversalInventory(String id) {
-		return universal_inventories.containsKey(id);
+		return universalInventories.containsKey(id);
 	}
 
 	public UniversalBlockMenu getUniversalInventory(Block block) {
@@ -642,7 +642,7 @@ public class BlockStorage {
 	}
 
 	public UniversalBlockMenu getUniversalInventory(String id) {
-		return universal_inventories.get(id);
+		return universalInventories.get(id);
 	}
 	
 	public static BlockMenu getInventory(Block b) {
@@ -659,7 +659,7 @@ public class BlockStorage {
 	public static Config getChunkInfo(Chunk chunk) {
 		try {
 			Config cfg = new Config("data-storage/Slimefun/temp.yml");
-			if (!map_chunks.containsKey(serializeChunk(chunk))) return cfg;
+			if (!mapChunks.containsKey(serializeChunk(chunk))) return cfg;
 			
 			for (Map.Entry<String, String> entry: parseJSON(getJSONData(chunk)).entrySet()) {
 				cfg.setValue(entry.getKey(), entry.getValue());
@@ -680,7 +680,7 @@ public class BlockStorage {
 	}
 	
 	public static boolean hasChunkInfo(Chunk chunk) {
-		return map_chunks.containsKey(serializeChunk(chunk));
+		return mapChunks.containsKey(serializeChunk(chunk));
 	}
 	
 	public static void setChunkInfo(Chunk chunk, String key, String value) {
@@ -693,9 +693,9 @@ public class BlockStorage {
 			json.add(path, new JsonPrimitive(cfg.getString(path)));
 		}
 		
-		map_chunks.put(serializeChunk(chunk), json.toString());
+		mapChunks.put(serializeChunk(chunk), json.toString());
 		
-		chunk_changes++;
+		chunkChanges++;
 	}
 
 	public static String getChunkInfo(Chunk chunk, String key) {
@@ -707,7 +707,7 @@ public class BlockStorage {
 	}
 	
 	public static void clearChunkInfo(Chunk chunk) {
-		map_chunks.remove(serializeChunk(chunk));
+		mapChunks.remove(serializeChunk(chunk));
 	}
 
 	public static String getBlockInfoAsJson(Block block) {

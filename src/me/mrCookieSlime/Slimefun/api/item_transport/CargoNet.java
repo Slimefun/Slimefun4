@@ -34,11 +34,11 @@ import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
 
 public class CargoNet extends Network {
 	
-	public static boolean EXTRA_CHANNELS = false;
+	public static boolean extraChannels = false;
 
 	private static final int RANGE = 5;
 	public static List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-	public static Map<Location, Integer> round_robin = new HashMap<>();
+	public static Map<Location, Integer> roundRobin = new HashMap<>();
 	public static Set<ItemRequest> requests = new HashSet<>();
 
 	private static int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
@@ -192,7 +192,7 @@ public class CargoNet extends Network {
 					self.display();
 				}
 				//Chest Terminal Code
-				if (EXTRA_CHANNELS) {
+				if (extraChannels) {
 					for (Location bus : imports) {
 						BlockMenu menu = BlockStorage.getInventory(bus);
 
@@ -345,11 +345,11 @@ public class CargoNet extends Network {
 						List<Location> outputlist = new ArrayList<>(output.get(frequency));
 
 						if (roundrobin) {
-							if (!round_robin.containsKey(input)) {
-								round_robin.put(input, 0);
+							if (!roundRobin.containsKey(input)) {
+								roundRobin.put(input, 0);
 							}
 
-							int cIndex = round_robin.get(input);
+							int cIndex = roundRobin.get(input);
 
 							if (cIndex < outputlist.size()) {
 								for (int i = 0; i < cIndex; i++) {
@@ -361,7 +361,7 @@ public class CargoNet extends Network {
 							}
 							else cIndex = 1;
 
-							round_robin.put(input, cIndex);
+							roundRobin.put(input, cIndex);
 						}
 						
 						for (Location out : outputlist) {
@@ -389,7 +389,7 @@ public class CargoNet extends Network {
 					}
 				}
 				//Chest Terminal Code
-				if (EXTRA_CHANNELS) {
+				if (extraChannels) {
 					List<StoredItem> items = new ArrayList<>();
 					for (Location l: providers) {
 						Block target = getAttachedBlock(l.getBlock());
