@@ -4278,7 +4278,7 @@ public final class SlimefunSetup {
 	}
 	
 	public static void registerPostHandler(PostSlimefunLoadingHandler handler) {
-		MiscSetup.post_handlers.add(handler);
+		MiscSetup.postHandlers.add(handler);
 	}
 
 }

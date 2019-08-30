@@ -6,14 +6,14 @@ public final class Files {
 	
 	private Files() {}
 	
-	public static File RESEARCHES = new File("plugins/Slimefun/Researches.yml");
-	public static File CONFIG = new File("plugins/Slimefun/config.yml");
-	public static File ITEMS = new File("plugins/Slimefun/Items.yml");
-	public static File DATABASE = new File("data-storage/Slimefun/Players");
-	public static File WHITELIST = new File("plugins/Slimefun/whitelist.yml");
+	public static File researches = new File("plugins/Slimefun/Researches.yml");
+	public static File config = new File("plugins/Slimefun/config.yml");
+	public static File items = new File("plugins/Slimefun/Items.yml");
+	public static File database = new File("data-storage/Slimefun/Players");
+	public static File whitelist = new File("plugins/Slimefun/whitelist.yml");
 	
 	public static void cleanup() {
-		if (!RESEARCHES.exists()) {
+		if (!researches.exists()) {
 			System.err.println("###############################################");
 			System.err.println("############## = -  INFO  - = #################");
 			System.err.println("###############################################");
@@ -29,8 +29,8 @@ public final class Files {
 			delete(new File("data-storage/Slimefun"));
 		}
 		
-		if (!DATABASE.exists()) {
-			DATABASE.mkdirs();
+		if (!database.exists()) {
+			database.mkdirs();
 		}
 	}
 	

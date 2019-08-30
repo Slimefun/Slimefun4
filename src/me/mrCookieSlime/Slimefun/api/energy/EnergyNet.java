@@ -26,40 +26,40 @@ public class EnergyNet extends Network {
 
 	private static final int RANGE = 6;
 
-	public static Set<String> machines_input = new HashSet<>();
-	public static Set<String> machines_storage = new HashSet<>();
-	public static Set<String> machines_output = new HashSet<>();
+	public static Set<String> machinesInput = new HashSet<>();
+	public static Set<String> machinesStorage = new HashSet<>();
+	public static Set<String> machinesOutput = new HashSet<>();
 	
 	public static NetworkComponent getComponent(Block b) {
 		return getComponent(b.getLocation());
 	}
 
 	public static NetworkComponent getComponent(String id) {
-		if (machines_input.contains(id)) return NetworkComponent.SOURCE;
-		if (machines_storage.contains(id)) return NetworkComponent.DISTRIBUTOR;
-		if (machines_output.contains(id)) return NetworkComponent.CONSUMER;
+		if (machinesInput.contains(id)) return NetworkComponent.SOURCE;
+		if (machinesStorage.contains(id)) return NetworkComponent.DISTRIBUTOR;
+		if (machinesOutput.contains(id)) return NetworkComponent.CONSUMER;
 		return NetworkComponent.NONE;
 	}
 
 	public static NetworkComponent getComponent(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return NetworkComponent.NONE;
 		String id = BlockStorage.checkID(l);
-		if (machines_input.contains(id)) return NetworkComponent.SOURCE;
-		if (machines_storage.contains(id)) return NetworkComponent.DISTRIBUTOR;
-		if (machines_output.contains(id)) return NetworkComponent.CONSUMER;
+		if (machinesInput.contains(id)) return NetworkComponent.SOURCE;
+		if (machinesStorage.contains(id)) return NetworkComponent.DISTRIBUTOR;
+		if (machinesOutput.contains(id)) return NetworkComponent.CONSUMER;
 		return NetworkComponent.NONE;
 	}
 
 	public static void registerComponent(String id, NetworkComponent component) {
 		switch (component) {
 		case CONSUMER:
-			machines_output.add(id);
+			machinesOutput.add(id);
 			break;
 		case DISTRIBUTOR:
-			machines_storage.add(id);
+			machinesStorage.add(id);
 			break;
 		case SOURCE:
-			machines_input.add(id);
+			machinesInput.add(id);
 			break;
 		default:
 			break;
@@ -71,12 +71,12 @@ public class EnergyNet extends Network {
 	}
 
 	public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
-		EnergyNet energy_network = getNetworkFromLocation(l);
-		if (energy_network == null) {
-			energy_network = new EnergyNet(l);
-			registerNetwork(energy_network);
+		EnergyNet energyNetwork = getNetworkFromLocation(l);
+		if (energyNetwork == null) {
+			energyNetwork = new EnergyNet(l);
+			registerNetwork(energyNetwork);
 		}
-		return energy_network;
+		return energyNetwork;
 	}
 
 	private Set<Location> input = new HashSet<>();

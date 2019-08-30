@@ -14,10 +14,10 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 public abstract class Network {
 	
-	private static List<Network> NETWORK_LIST = new ArrayList<>();
+	private static List<Network> networkList = new ArrayList<>();
 	
 	public static<T extends Network> T getNetworkFromLocation(Location l, Class<T> type) {
-		for(Network n: NETWORK_LIST) {
+		for(Network n: networkList) {
 			if(type.isInstance(n) && n.connectsTo(l)) {
 				return type.cast(n);
 			}
@@ -27,7 +27,7 @@ public abstract class Network {
 
 	public static<T extends Network> List<T> getNetworksFromLocation(Location l, Class<T> type) {
 		List<T> ret = new ArrayList<>();
-		for(Network n: NETWORK_LIST) {
+		for(Network n: networkList) {
 			if(type.isInstance(n) && n.connectsTo(l)) {
 				ret.add(type.cast(n));
 			}
@@ -36,11 +36,11 @@ public abstract class Network {
 	}
 
 	public static void registerNetwork(Network n) {
-		NETWORK_LIST.add(n);
+		networkList.add(n);
 	}
 
 	public static void unregisterNetwork(Network n) {
-		NETWORK_LIST.remove(n);
+		networkList.remove(n);
 	}
 
 	public static void handleAllNetworkLocationUpdate(Location l) {
@@ -147,8 +147,8 @@ public abstract class Network {
 
 	private void discoverNeighbors(Location l, double xDiff, double yDiff, double zDiff) {
 		for(int i = getRange() + 1; i > 0; i --) {
-			Location new_location = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
-			addLocationToNetwork(new_location);
+			Location newLocation = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
+			addLocationToNetwork(newLocation);
 		}
 	}
 

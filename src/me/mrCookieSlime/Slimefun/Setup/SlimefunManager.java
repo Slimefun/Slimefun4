@@ -22,7 +22,7 @@ public final class SlimefunManager {
 	private SlimefunManager() {}
 	
 	public static SlimefunStartup plugin;
-	public static String PREFIX;
+	public static String prefix;
 	public static Map<EntityType, List<ItemStack>> drops = new EnumMap<>(EntityType.class);
 	
 	public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean special, boolean slimefun) {
@@ -74,36 +74,36 @@ public final class SlimefunManager {
 //			Material.STONE,
 //			Material.COAL, Material.SKULL_ITEM, Material.RAW_FISH, Material.COOKED_FISH);
 	
-	public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore) {
-		if (item == null) return SFitem == null;
-		if (SFitem == null) return false;
+	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore) {
+		if (item == null) return sfitem == null;
+		if (sfitem == null) return false;
 		
-		if (item.getType() == SFitem.getType() && item.getAmount() >= SFitem.getAmount()) {
-			if (item.hasItemMeta() && SFitem.hasItemMeta()) {
-				if (item.getItemMeta().hasDisplayName() && SFitem.getItemMeta().hasDisplayName()) {
-					if (item.getItemMeta().getDisplayName().equals(SFitem.getItemMeta().getDisplayName())) {
+		if (item.getType() == sfitem.getType() && item.getAmount() >= sfitem.getAmount()) {
+			if (item.hasItemMeta() && sfitem.hasItemMeta()) {
+				if (item.getItemMeta().hasDisplayName() && sfitem.getItemMeta().hasDisplayName()) {
+					if (item.getItemMeta().getDisplayName().equals(sfitem.getItemMeta().getDisplayName())) {
 						if (lore) {
-							if (item.getItemMeta().hasLore() && SFitem.getItemMeta().hasLore()) {
-								return equalsLore(item.getItemMeta().getLore(), SFitem.getItemMeta().getLore());
+							if (item.getItemMeta().hasLore() && sfitem.getItemMeta().hasLore()) {
+								return equalsLore(item.getItemMeta().getLore(), sfitem.getItemMeta().getLore());
 							}
-							else return !item.getItemMeta().hasLore() && !SFitem.getItemMeta().hasLore();
+							else return !item.getItemMeta().hasLore() && !sfitem.getItemMeta().hasLore();
 						}
 						else return true;
 					}
 					else return false;
 				}
-				else if (!item.getItemMeta().hasDisplayName() && !SFitem.getItemMeta().hasDisplayName()) {
+				else if (!item.getItemMeta().hasDisplayName() && !sfitem.getItemMeta().hasDisplayName()) {
 					if (lore) {
-						if (item.getItemMeta().hasLore() && SFitem.getItemMeta().hasLore()) {
-							return equalsLore(item.getItemMeta().getLore(), SFitem.getItemMeta().getLore());
+						if (item.getItemMeta().hasLore() && sfitem.getItemMeta().hasLore()) {
+							return equalsLore(item.getItemMeta().getLore(), sfitem.getItemMeta().getLore());
 						}
-						else return !item.getItemMeta().hasLore() && !SFitem.getItemMeta().hasLore();
+						else return !item.getItemMeta().hasLore() && !sfitem.getItemMeta().hasLore();
 					}
 					else return true;
 				}
 				else return false;
 			} 
-			else return !item.hasItemMeta() && !SFitem.hasItemMeta();
+			else return !item.hasItemMeta() && !sfitem.hasItemMeta();
 		}
 		else return false;
 	}
@@ -119,8 +119,8 @@ public final class SlimefunManager {
 	}
 
 	@Deprecated
-	public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore, DataType data) {
-		return isItemSimiliar(item, SFitem, lore);
+	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore, DataType data) {
+		return isItemSimiliar(item, sfitem, lore);
 	}
 	
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {

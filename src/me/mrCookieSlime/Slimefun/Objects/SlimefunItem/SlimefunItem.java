@@ -37,7 +37,7 @@ public class SlimefunItem {
 
 	public static List<SlimefunItem> items = new ArrayList<>();
 
-	public static Map<String, SlimefunItem> map_id = new HashMap<>();
+	public static Map<String, SlimefunItem> mapID = new HashMap<>();
 	public static List<ItemStack> radioactive = new ArrayList<>();
 	public static Set<String> tickers = new HashSet<>();
 
@@ -209,7 +209,7 @@ public class SlimefunItem {
 	public void register(boolean slimefun) {
 		this.addon = !slimefun;
 		try {
-			if (map_id.containsKey(this.id)) throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
+			if (mapID.containsKey(this.id)) throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
 			if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
 			all.add(this);
 
@@ -248,7 +248,7 @@ public class SlimefunItem {
 				this.permission = SlimefunStartup.getItemCfg().getString(this.id + ".required-permission");
 				items.add(this);
 				if (slimefun) SlimefunStartup.instance.getUtilities().vanillaItems++;
-				map_id.put(this.id, this);
+				mapID.put(this.id, this);
 				this.create();
 				
 				for (ItemHandler handler: itemhandlers) {
@@ -308,14 +308,14 @@ public class SlimefunItem {
 	 */
 	@Deprecated
 	public static SlimefunItem getByName(String name) {
-		return map_id.get(name);
+		return mapID.get(name);
 	}
 
 	/**
 	 * @since 4.1.11, rename of {@link #getByName(String)}.
 	 */
 	public static SlimefunItem getByID(String id) {
-		return map_id.get(id);
+		return mapID.get(id);
 	}
 
 	public static SlimefunItem getByItem(ItemStack item) {

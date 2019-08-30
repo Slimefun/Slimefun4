@@ -48,17 +48,17 @@ public final class GitHubSetup {
 							continue;
 						}
 						
-						InputStreamReader profile_reader = null;
-						InputStreamReader session_reader = null;
+						InputStreamReader profileReader = null;
+						InputStreamReader sessionReader = null;
 						
 						try {
 							URL profile = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
-							profile_reader = new InputStreamReader(profile.openStream());
-							String uuid = new JsonParser().parse(profile_reader).getAsJsonObject().get("id").getAsString();
+							profileReader = new InputStreamReader(profile.openStream());
+							String uuid = new JsonParser().parse(profileReader).getAsJsonObject().get("id").getAsString();
 							
 							URL session = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false");
-				            session_reader = new InputStreamReader(session.openStream());
-				            JsonArray properties = new JsonParser().parse(session_reader).getAsJsonObject().get("properties").getAsJsonArray();
+				            sessionReader = new InputStreamReader(session.openStream());
+				            JsonArray properties = new JsonParser().parse(sessionReader).getAsJsonObject().get("properties").getAsJsonArray();
 				            
 				            for (JsonElement el: properties) {
 				            	if (el.isJsonObject() && el.getAsJsonObject().get("name").getAsString().equals("textures")) {
@@ -69,16 +69,16 @@ public final class GitHubSetup {
 						} catch (Exception x) {
 							SlimefunStartup.instance.getUtilities().contributorHeads.put(name, null);
 						} finally {
-							if (profile_reader != null) {
+							if (profileReader != null) {
 								try {
-									profile_reader.close();
+									profileReader.close();
 								} catch (IOException x) {
 									x.printStackTrace();
 								}
 							}
-							if (session_reader != null) {
+							if (sessionReader != null) {
 								try {
-									session_reader.close();
+									sessionReader.close();
 								} catch (IOException x) {
 									x.printStackTrace();
 								}
@@ -120,7 +120,7 @@ public final class GitHubSetup {
 				SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
 				SlimefunGuide.forks = object.get("forks").getAsInt();
 				SlimefunGuide.stars = object.get("stargazers_count").getAsInt();
-				SlimefunGuide.last_update = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
+				SlimefunGuide.lastUpdate = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
 			}
 			
 			@Override
@@ -148,7 +148,7 @@ public final class GitHubSetup {
 			@Override
 			public void onSuccess(JsonElement element) {
 				JsonObject object = element.getAsJsonObject();
-				SlimefunGuide.code_bytes = object.get("Java").getAsInt();
+				SlimefunGuide.codeBytes = object.get("Java").getAsInt();
 			}
 			
 			@Override

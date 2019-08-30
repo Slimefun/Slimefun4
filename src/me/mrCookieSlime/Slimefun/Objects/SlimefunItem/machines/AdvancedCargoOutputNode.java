@@ -105,7 +105,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 					menu.addMenuClickHandler(41, (p, slot, item, action) -> {
 						int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
 						if (channel < 0) {
-							if (CargoNet.EXTRA_CHANNELS) channel = 16;
+							if (CargoNet.extraChannels) channel = 16;
 							else channel = 15;
 						}
 						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
@@ -132,7 +132,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 					menu.addMenuClickHandler(43, (p, slot, item, action) -> {
 						int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
 
-						if (CargoNet.EXTRA_CHANNELS) {
+						if (CargoNet.extraChannels) {
 							if (channeln > 16) channeln = 0;
 						}
 						else {

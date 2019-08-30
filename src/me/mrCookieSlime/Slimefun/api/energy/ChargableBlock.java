@@ -18,17 +18,17 @@ import org.bukkit.block.Skull;
 
 public class ChargableBlock {
 	
-	public static Map<String, Integer> max_charges = new HashMap<>();
+	public static Map<String, Integer> maxCharges = new HashMap<>();
 	public static Set<String> rechargeable = new HashSet<>();
 	public static Set<String> capacitors = new HashSet<>();
 	
 	public static void registerChargableBlock(String id, int capacity, boolean recharge) {
-		max_charges.put(id, capacity);
+		maxCharges.put(id, capacity);
 		if (recharge) rechargeable.add(id);
 	}
 	
 	public static void registerCapacitor(String id, int capacity) {
-		max_charges.put(id, capacity);
+		maxCharges.put(id, capacity);
 		rechargeable.add(id);
 		capacitors.add(id);
 	}
@@ -39,13 +39,13 @@ public class ChargableBlock {
 	
 	public static boolean isChargable(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return false;
-		return max_charges.containsKey(BlockStorage.checkID(l));
+		return maxCharges.containsKey(BlockStorage.checkID(l));
 	}
 	
 	public static boolean isRechargable(Block b) {
 		if (!BlockStorage.hasBlockInfo(b)) return false;
 		String id = BlockStorage.checkID(b);
-		return max_charges.containsKey(id) && rechargeable.contains(id);
+		return maxCharges.containsKey(id) && rechargeable.contains(id);
 	}
 	
 	public static boolean isCapacitor(Block b) {
@@ -63,7 +63,7 @@ public class ChargableBlock {
 	
 	public static int getDefaultCapacity(Location l) {
 		String id = BlockStorage.checkID(l);
-		return id == null ? 0: max_charges.get(id);
+		return id == null ? 0: maxCharges.get(id);
 	}
 	
 	public static int getCharge(Block b) {
