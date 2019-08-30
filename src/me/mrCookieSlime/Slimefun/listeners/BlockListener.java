@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.BlockAdjacents;
@@ -138,9 +139,9 @@ public class BlockListener implements Listener {
 			
 			if (!multiblocks.isEmpty()) {
 				e.setCancelled(true);
-				
+				System.out.println(Arrays.toString(multiblocks.get(multiblocks.size() - 1).getBuild()));
 				for (ItemHandler handler: SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
-					if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblocks.get(multiblocks.size() - 1), b)) break;
+					if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblocks.get(multiblocks.size() - 1), b)) continue;
 				}
 				
 				MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, multiblocks.get(multiblocks.size() - 1), b);

@@ -263,10 +263,10 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_BEEF), null, null, null, null, null, null, null}, new String[] {"Saturation"}, new Integer[] {20})
 		.register(true);
 
-		new GrindStone().register(true);
-		new ArmorForge().register(true);
-		new OreCrusher().register(true);
-		new Compressor().register(true);
+		new GrindStone().register();
+		new ArmorForge().register();
+		new OreCrusher().register();
+		new Compressor().register();
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.MAGIC_LUMP_1, "MAGIC_LUMP_1", RecipeType.GRIND_STONE,
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_WART), null, null, null, null}, new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2))
@@ -437,7 +437,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.STEEL_PLATE, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.STEEL_PLATE, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_PLATE, SlimefunItems.ELECTRIC_MOTOR, null, new ItemStack(Material.HOPPER), null})
 		.register(true);
 		
-		new PressureChamber().register(true);
+		new PressureChamber().register();
 
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.BATTERY, "BATTERY", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] { null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT })
@@ -1899,7 +1899,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_BOOTS), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new Juicer().register(true);
+		new Juicer().register();
 
 		new Juice(Categories.FOOD, SlimefunItems.APPLE_JUICE, "APPLE_JUICE", RecipeType.JUICER,
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.APPLE), null, null, null, null})
