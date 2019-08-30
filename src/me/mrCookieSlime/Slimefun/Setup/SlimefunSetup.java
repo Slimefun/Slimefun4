@@ -867,7 +867,7 @@ public final class SlimefunSetup {
 		.register(true);
 		
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_STORM, "STAFF_ELEMENTAL_STORM", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.STAFF_WATER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_SUGAR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
+		new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.STAFF_WATER, SlimefunItems.MAGIC_SUGAR, SlimefunItems.STAFF_WIND, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
 		.register(true, new ItemInteractionHandler() {
 
 			@Override
