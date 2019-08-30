@@ -136,10 +136,6 @@ public abstract class AReactor extends SlimefunItem {
 		registerBlockHandler(id, new SlimefunBlockHandler() {
 
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-			}
-
-			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
