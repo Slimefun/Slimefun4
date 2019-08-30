@@ -867,7 +867,7 @@ public final class SlimefunSetup {
 		.register(true);
 		
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_STORM, "STAFF_ELEMENTAL_STORM", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.STAFF_WATER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_SUGAR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
+		new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_SUGAR, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_SUGAR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
 		.register(true, new ItemInteractionHandler() {
 
 			@Override
@@ -875,9 +875,10 @@ public final class SlimefunSetup {
 				//Not checking if lores equals because we need a special one for that.
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_STORM, false)) {
 
+					if (!item.hasItemMeta()) return false;
 					ItemMeta itemM = item.getItemMeta();
+					if (!itemM.hasLore()) return false;
 					List<String> itemML = itemM.getLore();
-					if (itemML == null) return false;
 
 					ItemStack SFitem = SlimefunItems.STAFF_STORM;
 					ItemMeta SFitemM = SFitem.getItemMeta();
@@ -900,40 +901,33 @@ public final class SlimefunSetup {
 							p.setFoodLevel(event.getFoodLevel());
 						}
 
-						for (int i = 0; i < itemML.size(); i++) {
-							boolean correctLore = false;
-							switch (itemML.get(i)) {
-								case "&e5 Uses &7left":
-									itemML.set(i, "&e4 Uses &7left");
-									correctLore = true;
-									break;
-								case "&e4 Uses &7left":
-									itemML.set(i, "&e3 Uses &7left");
-									correctLore = true;
-									break;
-								case "&e3 Uses &7left":
-									itemML.set(i, "&e2 Uses &7left");
-									correctLore = true;
-									break;
-								case "&e2 Uses &7left":
-									itemML.set(i, "&e1 Uses &7left");
-									correctLore = true;
-									break;
-								case "&e1 Uses &7left":
-									if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
-										p.getInventory().setItemInMainHand(null);
-									} else {
-										p.getInventory().setItemInOffHand(null);
-									}
-									p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
-									correctLore = true;
-									break;
-							}
-							if (correctLore) break;
+						boolean itemBroke = false;
+						switch (itemML.get(3)) {
+							case "&e5 Uses &7left":
+								itemML.set(3, "&e4 Uses &7left");
+								break;
+							case "&e4 Uses &7left":
+								itemML.set(3, "&e3 Uses &7left");
+								break;
+							case "&e3 Uses &7left":
+								itemML.set(3, "&e2 Uses &7left");
+								break;
+							case "&e2 Uses &7left":
+								itemML.set(3, "&e1 Use &7left");
+								break;
+							case "&e1 Use &7left":
+								item = null;
+								p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+								break;
 						}
-						// Saving the changes to lore and item.
-						itemM.setLore(itemML);
-						item.setItemMeta(itemM);
+						
+						if (item != null) {
+							// Saving the changes to lore and item.
+							itemM.setLore(itemML);
+							item.setItemMeta(itemM);
+						}
+						
+						//Saving the item.
 						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
 							p.getInventory().setItemInMainHand(item);
 						} else {
