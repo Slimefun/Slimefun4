@@ -56,19 +56,18 @@ public class DamageListener implements Listener {
                 Slimefun.getGPSNetwork().addWaypoint(p, "&4Deathpoint &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
             }
             
+            for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
+            	ItemStack item = p.getInventory().getItem(slot);
+            	
+            	if (isSoulbound(item)) {
+            		Soul.storeItem(p.getUniqueId(), slot, item);
+            	}
+            }
+            
             Iterator<ItemStack> drops = e.getDrops().iterator();
             while (drops.hasNext()) {
                 ItemStack item = drops.next();
-                if (item != null) {
-                    if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) {
-                        Soul.storeItem(e.getEntity().getUniqueId(), item);
-                        drops.remove();
-                    } 
-                    else if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) {
-                        Soul.storeItem(e.getEntity().getUniqueId(), item);
-                        drops.remove();
-                    }
-                }
+                if (isSoulbound(item)) drops.remove();
             }
 
         }
@@ -133,7 +132,14 @@ public class DamageListener implements Listener {
         }
     }
 
-    @EventHandler
+    private boolean isSoulbound(ItemStack item) {
+    	if (item == null || item.getType() == null || item.getType() == Material.AIR) return false;
+    	else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) return true;
+    	else if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) return true;
+    	else return false;
+	}
+
+	@EventHandler
     public void onArrowHit(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && utilities.damage.contains(e.getEntity().getUniqueId())) {
             e.setCancelled(true);

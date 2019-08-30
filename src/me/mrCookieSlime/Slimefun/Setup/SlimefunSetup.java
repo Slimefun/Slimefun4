@@ -58,7 +58,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.Vein;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
@@ -2351,20 +2350,14 @@ public final class SlimefunSetup {
 					
 					for (int i = 0; i < 2; i++) {
 						gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
-						gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
 						gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
+						gifts.add(new ItemStack(Material.EMERALD));
+						gifts.add(new ItemStack(Material.CAKE));
+						gifts.add(new ItemStack(Material.RABBIT_FOOT));
+						gifts.add(new ItemStack(Material.GOLDEN_CARROT, 4));
 					}
 
-					gifts.add(new SkullItem("TheBusyBiscuit"));
-					gifts.add(new SkullItem("timtower"));
-					gifts.add(new SkullItem("bwfcwalshy"));
-					gifts.add(new SkullItem("jadedcat"));
-					gifts.add(new SkullItem("ZeldoKavira"));
-					gifts.add(new SkullItem("eyamaz"));
-					gifts.add(new SkullItem("Kaelten"));
-					gifts.add(new SkullItem("Myrathi"));
-
-					p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(SlimefunStartup.randomize(gifts.size())));
+					p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(random.nextInt(gifts.size())));
 					return true;
 				}
 				else return false;

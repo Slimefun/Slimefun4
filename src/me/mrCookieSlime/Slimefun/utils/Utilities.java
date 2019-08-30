@@ -39,7 +39,7 @@ public final class Utilities {
 	public Set<Location> altarinuse = new HashSet<>();
 	public Set<AltarRecipe> altarRecipes = new HashSet<>();
 	
-	public Map<UUID, List<ItemStack>> soulbound = new HashMap<>();
+	public Map<UUID, Map<Integer, ItemStack>> soulbound = new HashMap<>();
 	public List<UUID> blocks = new ArrayList<>();
 	public List<UUID> cancelPlace = new ArrayList<>();
 	public Map<UUID, ItemStack> arrows = new HashMap<>();

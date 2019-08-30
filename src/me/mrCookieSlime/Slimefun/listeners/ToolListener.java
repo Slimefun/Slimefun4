@@ -22,7 +22,6 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
@@ -134,6 +133,7 @@ public class ToolListener implements Listener {
 			PlayerInventory.consumeItemInHand(e.getPlayer());
 			FireworkShow.launchRandom(e.getPlayer(), 3);
 			List<ItemStack> gifts = new ArrayList<>();
+			
 			for (int i = 0; i < 2; i++) {
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
@@ -146,25 +146,9 @@ public class ToolListener implements Listener {
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1));
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
 				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
+				gifts.add(new ItemStack(Material.EMERALD));
 			}
-			gifts.add(new SkullItem("TheBusyBiscuit"));
-			gifts.add(new SkullItem("timtower"));
-			gifts.add(new SkullItem("bwfcwalshy"));
-			gifts.add(new SkullItem("jadedcat"));
-			gifts.add(new SkullItem("ZeldoKavira"));
-			gifts.add(new SkullItem("eyamaz"));
-			gifts.add(new SkullItem("Kaelten"));
-			gifts.add(new SkullItem("ahamling27"));
-			gifts.add(new SkullItem("Myrathi"));
 			
-			new String(
-			"Good day to whoever is just looking through my code." + 
-			"Since it is Christmas, I wanted to add some Christmas flavour to this Plugin." +
-			"So, I hope you don't mind that I implemented some of your Heads >.>" +
-			"Merry Christmas everyone!" +
-			"" +
-			"- mrCookieSlime"
-			);
 			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(random.nextInt(gifts.size())));
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, false)) {
