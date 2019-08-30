@@ -77,6 +77,7 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EnhancedFurnace;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedSoulboundTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
@@ -2175,7 +2176,7 @@ public final class SlimefunSetup {
 			}
 		});
 
-		new SlimefunItem(Categories.BIRTHDAY, new CustomItem(new ItemStack(Material.CAKE), "&bBirthday Cake"), "BIRTHDAY_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ExcludedBlock(Categories.BIRTHDAY, new CustomItem(new ItemStack(Material.CAKE), "&bBirthday Cake"), "BIRTHDAY_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.TORCH), null, new ItemStack(Material.SUGAR), new ItemStack(Material.CAKE), new ItemStack(Material.SUGAR), null, null, null})
 		.register(true);
 

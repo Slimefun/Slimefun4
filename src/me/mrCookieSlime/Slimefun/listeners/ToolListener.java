@@ -66,9 +66,6 @@ public class ToolListener implements Listener {
 		
 		ItemStack item = e.getItemInHand();
 		
-		// Why does this "Ink Sack" check exist??
-		if (item != null && item.getType() == Material.INK_SAC) return;
-		
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem != null && !sfItem.isDisabled() && !(sfItem instanceof NotPlaceable)) {
 			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
@@ -97,6 +94,7 @@ public class ToolListener implements Listener {
 			e.setCancelled(true);
 			utilities.cancelPlace.remove(e.getPlayer().getUniqueId());
 		}
+		
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
 
