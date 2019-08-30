@@ -26,7 +26,7 @@ public class PressureChamber extends MultiBlockMachine {
 				Categories.MACHINES_1, 
 				SlimefunItems.PRESSURE_CHAMBER, 
 				"PRESSURE_CHAMBER",
-				new ItemStack[] {new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
+				new ItemStack[] {new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
 				new ItemStack[] {
 						SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND, 
 						SlimefunItems.RAW_CARBONADO, SlimefunItems.CARBONADO
@@ -40,6 +40,7 @@ public class PressureChamber extends MultiBlockMachine {
 		Block dispBlock = b.getRelative(BlockFace.UP).getRelative(BlockFace.UP);
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		final Inventory inv = disp.getInventory();
+		
 		for (ItemStack current: inv.getContents()) {
 			for (ItemStack convert: RecipeType.getRecipeInputs(this)) {
 				if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {

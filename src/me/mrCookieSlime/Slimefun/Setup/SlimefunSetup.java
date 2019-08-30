@@ -150,6 +150,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreCrusher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.PressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Smeltery;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.TableSaw;
 import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
@@ -1221,35 +1222,7 @@ public final class SlimefunSetup {
 			}
 		});
                 
-		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.TABLE_SAW, "TABLE_SAW",
-		new ItemStack[] {null, null, null, new ItemStack(Material.STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null},
-		new ItemStack[] {}, Material.STONECUTTER)
-		.register(true, new MultiBlockInteractionHandler() {
-
-			@Override
-			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-				if (mb.isMultiBlock(SlimefunItem.getByID("TABLE_SAW"))) {
-					if (CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), b.getRelative(BlockFace.UP), true) && Slimefun.hasUnlocked(p, SlimefunItems.TABLE_SAW, true) && p.getInventory().getItemInMainHand() != null && Tag.LOGS.getValues().contains(p.getInventory().getItemInMainHand().getType())) {
-						ItemStack log = p.getInventory().getItemInMainHand();
-
-						ItemStack item =  new ItemStack(MaterialHelper.getWoodFromLog(log.getType()), 8);
-						if(item == null || item.getType() == Material.AIR) {
-							return false;
-						}
-						
-						b.getWorld().dropItemNaturally(b.getLocation(), item);
-						b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
-						log.setAmount(log.getAmount() -1);
-						
-						if(log.getAmount() <= 0) {
-							p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-						}
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		new TableSaw().register();
 		
 		/*
 		* dNiym 7/30/2019 added the Table_Saw machine to replace the Saw_mill, as the sawmill's design does not work with
