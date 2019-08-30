@@ -56,10 +56,6 @@ public abstract class AContainer extends SlimefunItem {
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
 			public boolean canOpen(Block b, Player p) {
 				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
 			}
@@ -83,6 +79,7 @@ public abstract class AContainer extends SlimefunItem {
 							inv.replaceExistingItem(slot, null);
 						}
 					}
+					
 					for (int slot : getOutputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
@@ -90,6 +87,7 @@ public abstract class AContainer extends SlimefunItem {
 						}
 					}
 				}
+				
 				progress.remove(b);
 				processing.remove(b);
 				return true;
@@ -137,10 +135,13 @@ public abstract class AContainer extends SlimefunItem {
 	
 	public abstract String getInventoryTitle();
 	public abstract ItemStack getProgressBar();
-	public abstract void registerDefaultRecipes();
 	public abstract int getEnergyConsumption();
 	public abstract int getSpeed();
 	public abstract String getMachineIdentifier();
+	
+	public void registerDefaultRecipes() {
+		// Override this method to register your machine recipes
+	}
 	
 	public int[] getInputSlots() {
 		return new int[] {19, 20};
