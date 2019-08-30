@@ -865,6 +865,89 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_FIRE, "STAFF_ELEMENTAL_FIRE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, null, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, null})
 		.register(true);
+		
+		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_STORM, "STAFF_ELEMENTAL_STORM", RecipeType.ANCIENT_ALTAR,
+		new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.STAFF_WATER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_SUGAR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
+		.register(true, new ItemInteractionHandler() {
+
+			@Override
+			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
+				//Not checking if lores equals because we need a special one for that.
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_STORM, false)) {
+
+					ItemMeta itemM = item.getItemMeta();
+					List<String> itemML = itemM.getLore();
+					if (itemML == null) return false;
+
+					ItemStack SFitem = SlimefunItems.STAFF_STORM;
+					ItemMeta SFitemM = SFitem.getItemMeta();
+					List<String> SFitemML = SFitemM.getLore();
+					if (itemML.size() < 6) {
+					    // Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
+						if (!itemML.get(1).equals(SFitemML.get(1))) return false;
+						if (!itemML.get(3).equals(SFitemML.get(3))) return false;
+					} else return false;
+
+					if (p.getFoodLevel() >= 4) {
+						Location loc = p.getTargetBlock(null, 50).getLocation();
+						if (loc.getWorld() == null) return false;
+						if (!loc.getChunk().isLoaded()) return false;
+						loc.getWorld().strikeLightning(loc);
+
+						if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
+							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
+							Bukkit.getPluginManager().callEvent(event);
+							p.setFoodLevel(event.getFoodLevel());
+						}
+
+						for (int i = 0; i < itemML.size(); i++) {
+							boolean correctLore = false;
+							switch (itemML.get(i)) {
+								case "&e5 Uses &7left":
+									itemML.set(i, "&e4 Uses &7left");
+									correctLore = true;
+									break;
+								case "&e4 Uses &7left":
+									itemML.set(i, "&e3 Uses &7left");
+									correctLore = true;
+									break;
+								case "&e3 Uses &7left":
+									itemML.set(i, "&e2 Uses &7left");
+									correctLore = true;
+									break;
+								case "&e2 Uses &7left":
+									itemML.set(i, "&e1 Uses &7left");
+									correctLore = true;
+									break;
+								case "&e1 Uses &7left":
+									if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+										p.getInventory().setItemInMainHand(null);
+									} else {
+										p.getInventory().setItemInOffHand(null);
+									}
+									p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+									correctLore = true;
+									break;
+							}
+							if (correctLore) break;
+						}
+						// Saving the changes to lore and item.
+						itemM.setLore(itemML);
+						item.setItemMeta(itemM);
+						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+							p.getInventory().setItemInMainHand(item);
+						} else {
+							p.getInventory().setItemInOffHand(item);
+						}
+						PlayerInventory.update(p);
+
+					} else {
+						Messages.local.sendTranslation(p, "messages.hungry", true);
+					}
+					return true;
+				} else return false;
+			}
+		});
 
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.AUTO_SMELT_PICKAXE, "SMELTERS_PICKAXE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
