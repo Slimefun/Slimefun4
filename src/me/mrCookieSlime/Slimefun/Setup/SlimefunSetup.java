@@ -1098,6 +1098,31 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, null, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, null})
 		.register(true);
 
+		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_STORM, "STAFF_ELEMENTAL_STORM", RecipeType.MAGIC_WORKBENCH,
+		new ItemStack[] {null, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.STAFF_WIND, SlimefunItems.RUNE_AIR, SlimefunItems.STAFF_WATER, null, null})
+		.register(true, new ItemInteractionHandler() {
+
+			@Override
+			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_STORM, true)) {
+					if (p.getFoodLevel() >= 2) {
+						Location loc = p.getTargetBlock(null, 50).getLocation();
+						if (!loc.getChunk().isLoaded()) return false;
+						loc.getWorld().strikeLightning(loc);
+
+						if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
+							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 2);
+							Bukkit.getPluginManager().callEvent(event);
+							p.setFoodLevel(event.getFoodLevel());
+						}
+					} else {
+						Messages.local.sendTranslation(p, "messages.hungry", true);
+					}
+					return true;
+				} else return false;
+			}
+		});
+
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.AUTO_SMELT_PICKAXE, "SMELTERS_PICKAXE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
 		.register(true, new BlockBreakHandler() {
