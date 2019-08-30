@@ -194,7 +194,7 @@ public final class SlimefunStartup extends JavaPlugin {
 			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
 			settings.SMELTERY_FIRE_BREAK_CHANCE = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
-			System.out.println("[Slimefun] Loading researches...");
+			System.out.println("[Slimefun] Loading Researches...");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();

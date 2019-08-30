@@ -74,7 +74,7 @@ public final class PlayerProfile {
 	}
 	
 	/**
-	 * This method will save the Player's researches and Backpacks to the hard drive
+	 * This method will save the Player's Researches and Backpacks to the hard drive
 	 */
 	public void save() {
 		for (BackpackInventory backpack: backpacks.values()) {
@@ -116,9 +116,9 @@ public final class PlayerProfile {
 	}
 	
 	/**
-	 * This Method will return all researches that this Player has unlocked
+	 * This Method will return all Researches that this Player has unlocked
 	 * 
-	 * @return	A Hashset<Research> of all researches this Player has unlocked
+	 * @return	A Hashset<Research> of all Researches this Player has unlocked
 	 */
 	public Set<Research> getResearches() {
 		return researches;
