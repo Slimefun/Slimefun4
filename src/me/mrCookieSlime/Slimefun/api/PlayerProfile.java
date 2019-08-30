@@ -163,7 +163,7 @@ public final class PlayerProfile {
 	public String getTitle() {
 		List<String> titles = SlimefunStartup.instance.getSettings().RESEARCHES_TITLES;
 		
-		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0F) / titles.size())))));
+		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F)) / 100.0F) *  titles.size();
 		if (index > 0) index--;
 		return titles.get(index);
 	}

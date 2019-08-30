@@ -227,7 +227,7 @@ public class BlockStorage {
 		
 		if (changes == 0) return;
 		
-		System.out.println("[Slimefun] Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Changes queued)");
+		System.out.println("[Slimefun] Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Change(s) queued)");
 		
 		Map<String, Config> cache = new HashMap<>(cache_blocks);
 		

@@ -2254,6 +2254,7 @@ public final class SlimefunSetup {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FLASK_OF_KNOWLEDGE, true) && p.getLevel() >= 1) {
 					if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof Container)) {
 						p.setLevel(p.getLevel() - 1);
+						e.setCancelled(true);
 						p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
 						
 						p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
