@@ -867,7 +867,7 @@ public final class SlimefunSetup {
 		.register(true);
 		
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_STORM, "STAFF_ELEMENTAL_STORM", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_SUGAR, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_SUGAR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
+		new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.STAFF_WATER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_SUGAR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
 		.register(true, new ItemInteractionHandler() {
 
 			@Override
@@ -889,7 +889,7 @@ public final class SlimefunSetup {
 						if (!itemML.get(3).equals(SFitemML.get(3))) return false;
 					} else return false;
 
-					if (p.getFoodLevel() >= 4) {
+					if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
 						Location loc = p.getTargetBlock(null, 50).getLocation();
 						if (loc.getWorld() == null) return false;
 						if (!loc.getChunk().isLoaded()) return false;
@@ -901,40 +901,36 @@ public final class SlimefunSetup {
 							p.setFoodLevel(event.getFoodLevel());
 						}
 
-						boolean itemBroke = false;
-						switch (itemML.get(3)) {
-							case "&e5 Uses &7left":
-								itemML.set(3, "&e4 Uses &7left");
-								break;
-							case "&e4 Uses &7left":
-								itemML.set(3, "&e3 Uses &7left");
-								break;
-							case "&e3 Uses &7left":
-								itemML.set(3, "&e2 Uses &7left");
-								break;
-							case "&e2 Uses &7left":
-								itemML.set(3, "&e1 Use &7left");
-								break;
-							case "&e1 Use &7left":
-								item = null;
-								p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
-								break;
+						if (ChatColor.translateAlternateColorCodes('&', "&e5 Uses &7left").equals(itemML.get(4))) {
+							itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e4 Uses &7left"));
 						}
-						
-						if (item != null) {
-							// Saving the changes to lore and item.
-							itemM.setLore(itemML);
-							item.setItemMeta(itemM);
+						else if (ChatColor.translateAlternateColorCodes('&', "&e4 Uses &7left").equals(itemML.get(4))) {
+							itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e3 Uses &7left"));
 						}
-						
-						//Saving the item.
+						else if (ChatColor.translateAlternateColorCodes('&', "&e3 Uses &7left").equals(itemML.get(4))) {
+							itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e2 Uses &7left"));
+						}
+						else if (ChatColor.translateAlternateColorCodes('&', "&e2 Uses &7left").equals(itemML.get(4))) {
+							itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left"));
+						}
+						else if (ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left").equals(itemML.get(4))) {
+							e.setCancelled(true);
+							p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+							item.setAmount(0);
+							return true;
+						}
+						else return false;
+
+						e.setCancelled(true);
+						// Saving the changes to lore and item.
+						itemM.setLore(itemML);
+						item.setItemMeta(itemM);
 						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
 							p.getInventory().setItemInMainHand(item);
-						} else {
+						}
+						else {
 							p.getInventory().setItemInOffHand(item);
 						}
-						PlayerInventory.update(p);
-
 					} else {
 						Messages.local.sendTranslation(p, "messages.hungry", true);
 					}
