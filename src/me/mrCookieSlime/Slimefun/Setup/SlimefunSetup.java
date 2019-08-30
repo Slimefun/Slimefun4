@@ -1104,7 +1104,15 @@ public final class SlimefunSetup {
 
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_STORM, true)) {
+				//Not checking if lores equals because we need a special one for that.
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_STORM, false)) {
+					ItemMeta itemM = item.getItemMeta();
+					List<String> itemML = itemM.getLore();
+					if (itemML.size() < 6) {
+						if (!itemML.get(1).equals("&7Element: &9&oStorm")) return false;
+						if (!itemML.get(3).equals("&eRight Click&7 to summon a lightning")) return false;
+					} else return false;
+
 					if (p.getFoodLevel() >= 2) {
 						Location loc = p.getTargetBlock(null, 50).getLocation();
 						if (loc.getWorld() == null) return false;
@@ -1115,6 +1123,33 @@ public final class SlimefunSetup {
 							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 2);
 							Bukkit.getPluginManager().callEvent(event);
 							p.setFoodLevel(event.getFoodLevel());
+						}
+
+						for (int i = 0; i < itemML.size(); i++) {
+							boolean correctLore = false;
+							switch (itemML.get(i)) {
+								case "&e5 Uses &7left":
+									itemML.set(i, "&e4 Uses &7left");
+									break;
+								case "&e4 Uses &7left":
+									itemML.set(i, "&e3 Uses &7left");
+									break;
+								case "&e3 Uses &7left":
+									itemML.set(i, "&e2 Uses &7left");
+									break;
+								case "&e2 Uses &7left":
+									itemML.set(i, "&e1 Uses &7left");
+									break;
+								case "&e1 Uses &7left":
+									if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+										p.getInventory().setItemInMainHand(null);
+									} else {
+										p.getInventory().setItemInOffHand(null);
+									}
+									p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+									break;
+							}
+							if (correctLore) break;
 						}
 					} else {
 						Messages.local.sendTranslation(p, "messages.hungry", true);

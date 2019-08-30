@@ -453,10 +453,10 @@ public final class SlimefunItems {
 	
 	/*		Staves		*/
 	public static final ItemStack STAFF_ELEMENTAL = new CustomItem(Material.STICK, "&6Elemental Staff");
-	public static final ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6Elemental Staff &7- &b&oWind", "", "&7Element: &b&oWind", "", "&7&eRight Click&7 to launch yourself forward");
+	public static final ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6Elemental Staff &7- &b&oWind", "", "&7Element: &b&oWind", "", "&eRight Click&7 to launch yourself forward");
 	public static final ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6Elemental Staff &7- &c&oFire", "", "&7Element: &c&oFire");
-	public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6Elemental Staff &7- &1&oWater", "", "&7Element: &1&oWater", "", "&7&eRight Click&7 to extinguish yourself");
-	public static final ItemStack STAFF_STORM = new CustomItem(Material.STICK, "&6Elemental Staff &7- &9&oStorm", "", "&7Element: &9&oStorm", "", "&7&eRight Click&7 to summon a lightning");
+	public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6Elemental Staff &7- &1&oWater", "", "&7Element: &1&oWater", "", "&eRight Click&7 to extinguish yourself");
+	public static final ItemStack STAFF_STORM = new CustomItem(Material.STICK, "&6Elemental Staff &7- &9&oStorm", "", "&7Element: &9&oStorm", "", "&eRight Click&7 to summon a lightning", "&e5 Uses &7left");
 
 	static {
 		STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK, 1);
