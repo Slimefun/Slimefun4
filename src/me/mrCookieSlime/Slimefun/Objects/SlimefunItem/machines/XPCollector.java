@@ -42,10 +42,6 @@ public class XPCollector extends SlimefunItem {
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
 			public boolean canOpen(Block b, Player p) {
 				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
 			}

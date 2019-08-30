@@ -1,5 +1,10 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -7,14 +12,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class ChargingBench extends AContainer {
 
@@ -26,10 +25,6 @@ public class ChargingBench extends AContainer {
 			@Override
 			public void init() {
 				constructMenu(this);
-			}
-
-			@Override
-			public void newInstance(BlockMenu menu, Block b) {
 			}
 
 			@Override
@@ -59,9 +54,6 @@ public class ChargingBench extends AContainer {
 	public int getEnergyConsumption() {
 		return 10;
 	}
-
-	@Override
-	public void registerDefaultRecipes() {}
 
 	@Override
 	protected void tick(Block b) {

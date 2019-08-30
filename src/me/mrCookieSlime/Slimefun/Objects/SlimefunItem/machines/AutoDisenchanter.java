@@ -47,9 +47,6 @@ public class AutoDisenchanter extends AContainer {
 	}
 
 	@Override
-	public void registerDefaultRecipes() {}
-
-	@Override
 	public int getEnergyConsumption() {
 		return 9;
 	}

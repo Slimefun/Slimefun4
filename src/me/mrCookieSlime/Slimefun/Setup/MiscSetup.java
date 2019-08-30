@@ -160,7 +160,7 @@ public final class MiscSetup {
 		// Favour 8 Cobblestone -> 1 Sand Recipe over 1 Cobblestone -> 1 Gravel Recipe
 		Stream<ItemStack[]> stream = grinderRecipes.stream();
 		
-		if (!settings.ORE_GRINDER_LEGACY) {
+		if (!settings.legacyOreGrinder) {
 			stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
 		}
 		

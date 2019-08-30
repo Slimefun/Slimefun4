@@ -191,7 +191,7 @@ public final class SlimefunStartup extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 			
 			settings = new Settings(config);
-			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
+			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 			settings.SMELTERY_FIRE_BREAK_CHANCE = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			System.out.println("[Slimefun] Loading Researches...");
@@ -301,10 +301,10 @@ public final class SlimefunStartup extends JavaPlugin {
 
 			ticker = new TickerTask();
 
-			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, settings.BLOCK_AUTO_SAVE_DELAY * 60L * 20L);
+			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, settings.blocksAutoSaveDelay * 60L * 20L);
 
 			// Starting all ASYNC Tasks
-			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, settings.BLOCK_AUTO_SAVE_DELAY * 60L * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, settings.blocksAutoSaveDelay * 60L * 20L);
 			getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);

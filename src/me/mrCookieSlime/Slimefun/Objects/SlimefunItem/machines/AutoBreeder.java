@@ -43,10 +43,6 @@ public class AutoBreeder extends SlimefunItem {
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
 			public boolean canOpen(Block b, Player p) {
 				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
 			}
@@ -79,9 +75,7 @@ public class AutoBreeder extends SlimefunItem {
 	
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 	}
 	

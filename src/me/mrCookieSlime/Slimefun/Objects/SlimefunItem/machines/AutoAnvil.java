@@ -37,9 +37,6 @@ public abstract class AutoAnvil extends AContainer {
 	public ItemStack getProgressBar() {
 		return new ItemStack(Material.IRON_PICKAXE);
 	}
-
-	@Override
-	public void registerDefaultRecipes() {}
 	
 	@Override
 	public int getSpeed() {

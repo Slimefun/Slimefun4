@@ -56,7 +56,7 @@ public class OreWasher extends MultiBlockMachine {
 					ItemStack adding = items[new Random().nextInt(items.length)];
 					Inventory outputInv = null;
 
-					if (!SlimefunStartup.instance.getSettings().ORE_WASHER_LEGACY) {
+					if (!SlimefunStartup.instance.getSettings().legacyOreWasher) {
 						// This is a fancy way of checking if there is empty space in the inv; by checking if an unobtainable item could fit in it.
 						// However, due to the way the method findValidOutputInv() functions, the dummyAdding will never actually be added to the real inventory,
 						// so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH however, signals that it's

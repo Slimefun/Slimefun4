@@ -80,7 +80,7 @@ public class Research {
 	}
 	
 	public boolean isEnabled() {
-		return SlimefunStartup.instance.getSettings().RESEARCHES_ENABLED && enabled;
+		return SlimefunStartup.instance.getSettings().researchesEnabled && enabled;
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class Research {
 	 */
 	public boolean canUnlock(Player p) {
 		if (!isEnabled()) return true;
-		return (p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE) || p.getLevel() >= this.cost;
+		return (p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().researchesFreeInCreative) || p.getLevel() >= this.cost;
 	}
 
 	/**

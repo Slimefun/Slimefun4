@@ -48,9 +48,6 @@ public class AutoEnchanter extends AContainer {
 	}
 
 	@Override
-	public void registerDefaultRecipes() {}
-
-	@Override
 	public int getEnergyConsumption() {
 		return 9;
 	}
@@ -126,7 +123,7 @@ public class AutoEnchanter extends AContainer {
 						specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
 					}
 					
-					if (amount > 0 && specialAmount <= SlimefunStartup.instance.getSettings().EMERALD_ENCHANTS_LIMIT) {
+					if (amount > 0 && specialAmount <= SlimefunStartup.instance.getSettings().emeraldEnchantsLimit) {
 						ItemStack newItem = target.clone();
 						for (Map.Entry<Enchantment, Integer> e: enchantments.entrySet()) {
 							newItem.addUnsafeEnchantment(e.getKey(), e.getValue());
