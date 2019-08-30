@@ -73,7 +73,6 @@ public class TickerTask implements Runnable {
 				long timestamp2 = System.currentTimeMillis();
 				chunks++;
 				
-				blocks:
 				for (final Location l: BlockStorage.getTickingLocations(c)) {
 					if (l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4)) {
 						final Block b = l.getBlock();
@@ -178,7 +177,7 @@ public class TickerTask implements Runnable {
 						skipped += BlockStorage.getTickingLocations(c).size();
 						chunksSkipped.add(c);
 						chunks--;
-						break blocks;
+						break;
 					}
 				}
 				

@@ -3,6 +3,12 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -14,12 +20,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class AutoAnvil extends AContainer {
 
@@ -86,11 +87,13 @@ public abstract class AutoAnvil extends AContainer {
 			}
 		}
 		else {
-			MachineRecipe r = null;
-			slots:
+			BlockMenu menu = BlockStorage.getInventory(b);
+			MachineRecipe recipe = null;
+			
 			for (int slot: getInputSlots()) {
-				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
-				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
+				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
+				ItemStack item = menu.getItemInSlot(slot);
+				
 				if (item != null && item.getType().getMaxDurability() > 0 && ((Damageable) item.getItemMeta()).getDamage() > 0) {
 					if (SlimefunManager.isItemSimiliar(target, SlimefunItems.DUCT_TAPE, true)) {
 						ItemStack newItem = item.clone();
@@ -99,19 +102,20 @@ public abstract class AutoAnvil extends AContainer {
 						ItemMeta meta = newItem.getItemMeta();
 						((Damageable) meta).setDamage(durability);
 						newItem.setItemMeta(meta);
-						r = new MachineRecipe(30, new ItemStack[] {target, item}, new ItemStack[] {newItem});
+						recipe = new MachineRecipe(30, new ItemStack[] {target, item}, new ItemStack[] {newItem});
 					}
-					break slots;
+					break;
 				}
 			}
 			
-			if (r != null) {
-				if (!fits(b, r.getOutput())) return;
+			if (recipe != null) {
+				if (!fits(b, recipe.getOutput())) return;
+				
 				for (int slot: getInputSlots()) {
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
 				}
-				processing.put(b, r);
-				progress.put(b, r.getTicks());
+				processing.put(b, recipe);
+				progress.put(b, recipe.getTicks());
 			}
 		}
 	}

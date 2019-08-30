@@ -211,10 +211,6 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
 			public boolean isSynchronized() {
 				return false;
 			}

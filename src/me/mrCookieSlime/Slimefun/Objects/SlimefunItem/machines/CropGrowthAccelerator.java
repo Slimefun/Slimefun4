@@ -131,16 +131,26 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) throws Exception {
+		if (work(b) > 0) {
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					break;
+				}
+			}
+		}
+	}
+
+	private int work(Block b) {
 		int work = 0;
-		master:
+		
 		for (int x = -getRadius(); x <= getRadius(); x++) {
 			for (int z = -getRadius(); z <= getRadius(); z++) {
 				Block block = b.getRelative(x, 0, z);
 				if (crops.containsKey(block.getType()) && ((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
 					for (int slot : getInputSlots()) {
 						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-							if (work > (getSpeed() - 1)) break master;
-							if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
+							if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption()) return work;
 							ChargableBlock.addCharge(b, -getEnergyConsumption());
 
 							Ageable ageable = (Ageable) block.getBlockData();
@@ -149,21 +159,14 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 
 							block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
 							work++;
-							break;
+							return work;
 						}
 					}
 				}
 			}
 		}
 		
-		if (work > 0) {
-			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
-					break;
-				}
-			}
-		}
+		return work;
 	}
 
 }

@@ -353,39 +353,19 @@ public abstract class AReactor extends SlimefunItem {
 					}
 				}
 				else {
-					MachineFuel r = null;
+					BlockMenu menu = BlockStorage.getInventory(l);
 					Map<Integer, Integer> found = new HashMap<>();
+					MachineFuel fuel = findRecipe(menu, found);
 
-					if (port != null) {
-						refill:
-							for (int slot: getFuelSlots()) {
-								for (MachineFuel recipe: recipes) {
-									if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true) && pushItems(l, new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots()) == null) {
-										port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
-										break refill;
-									}
-								}
-							}
-					}
+					if (port != null) restockCoolant(l, port);
 
-					outer:
-						for (MachineFuel recipe: recipes) {
-							for (int slot: getFuelSlots()) {
-								if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), recipe.getInput(), true)) {
-									found.put(slot, recipe.getInput().getAmount());
-									r = recipe;
-									break outer;
-								}
-							}
-						}
-
-					if (r != null) {
+					if (fuel != null) {
 						for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
-							BlockStorage.getInventory(l).replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(entry.getKey()), entry.getValue()));
+							menu.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(menu.getItemInSlot(entry.getKey()), entry.getValue()));
 						}
 						
-						processing.put(l, r);
-						progress.put(l, r.getTicks());
+						processing.put(l, fuel);
+						progress.put(l, fuel.getTicks());
 					}
 					return 0;
 				}
@@ -408,6 +388,30 @@ public abstract class AReactor extends SlimefunItem {
 		});
 
 		super.register(slimefun);
+	}
+	
+	private void restockCoolant(Location l, BlockMenu port) {
+		for (int slot: getFuelSlots()) {
+			for (MachineFuel recipe: recipes) {
+				if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true) && pushItems(l, new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots()) == null) {
+					port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
+					return;
+				}
+			}
+		}
+	}
+	
+	private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
+		for (MachineFuel recipe: recipes) {
+			for (int slot: getInputSlots()) {
+				if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
+					found.put(slot, recipe.getInput().getAmount());
+					return recipe;
+				}
+			}
+		}
+		
+		return null;
 	}
 
 	private Inventory inject(Location l) {

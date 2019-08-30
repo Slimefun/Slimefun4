@@ -218,25 +218,17 @@ public abstract class AGenerator extends SlimefunItem {
 					}
 				}
 				else {
-					MachineFuel r = null;
+					BlockMenu menu = BlockStorage.getInventory(l);
 					Map<Integer, Integer> found = new HashMap<>();
-					outer:
-					for (MachineFuel recipe: recipes) {
-						for (int slot: getInputSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), recipe.getInput(), true)) {
-								found.put(slot, recipe.getInput().getAmount());
-								r = recipe;
-								break outer;
-							}
-						}
-					}
+					MachineFuel fuel = findRecipe(menu, found);
 					
-					if (r != null) {
+					if (fuel != null) {
 						for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
-							BlockStorage.getInventory(l).replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(BlockStorage.getInventory(l).getItemInSlot(entry.getKey()), entry.getValue()));
+							menu.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(menu.getItemInSlot(entry.getKey()), entry.getValue()));
 						}
-						processing.put(l, r);
-						progress.put(l, r.getTicks());
+						
+						processing.put(l, fuel);
+						progress.put(l, fuel.getTicks());
 					}
 					return 0;
 				}
@@ -249,6 +241,19 @@ public abstract class AGenerator extends SlimefunItem {
 		});
 
 		super.register(slimefun);
+	}
+	
+	private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
+		for (MachineFuel recipe: recipes) {
+			for (int slot: getInputSlots()) {
+				if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
+					found.put(slot, recipe.getInput().getAmount());
+					return recipe;
+				}
+			}
+		}
+		
+		return null;
 	}
 
 	public Set<MachineFuel> getFuelTypes() {

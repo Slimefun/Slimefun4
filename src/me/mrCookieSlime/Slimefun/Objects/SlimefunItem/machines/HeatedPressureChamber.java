@@ -132,10 +132,6 @@ public abstract class HeatedPressureChamber extends AContainer {
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
 			public boolean isSynchronized() {
 				return false;
 			}
@@ -148,6 +144,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
 				ItemMeta im = item.getItemMeta();
@@ -178,35 +175,40 @@ public abstract class HeatedPressureChamber extends AContainer {
 			}
 		}
 		else {
-			MachineRecipe r = null;
+			BlockMenu menu = BlockStorage.getInventory(b.getLocation());
 			Map<Integer, Integer> found = new HashMap<>();
+			MachineRecipe recipe = findRecipe(menu, found);
 			
-			for (MachineRecipe recipe: recipes) {
-				for (ItemStack input: recipe.getInput()) {
-					slots:
-					for (int slot: getInputSlots()) {
-						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), input, true)) {
-							found.put(slot, input.getAmount());
-							break slots;
-						}
-					}
-				}
-				if (found.size() == recipe.getInput().length) {
-					r = recipe;
-					break;
-				}
-				else found.clear();
-			}
-			
-			if (r != null) {
-				if (!fits(b, r.getOutput())) return;
+			if (recipe != null) {
+				if (!fits(b, recipe.getOutput())) return;
+				
 				for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
-					BlockStorage.getInventory(b).replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(entry.getKey()), entry.getValue()));
+					menu.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(menu.getItemInSlot(entry.getKey()), entry.getValue()));
 				}
-				processing.put(b, r);
-				progress.put(b, r.getTicks());
+				
+				processing.put(b, recipe);
+				progress.put(b, recipe.getTicks());
 			}
 		}
+	}
+	
+	private MachineRecipe findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
+		for (MachineRecipe recipe: recipes) {
+			for (ItemStack input: recipe.getInput()) {
+				for (int slot: getInputSlots()) {
+					if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), input, true)) {
+						found.put(slot, input.getAmount());
+						break;
+					}
+				}
+			}
+			if (found.size() == recipe.getInput().length) {
+				return recipe;
+			}
+			else found.clear();
+		}
+		
+		return null;
 	}
 	
 	@Override

@@ -28,6 +28,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class AutoDisenchanter extends AContainer {
 
@@ -87,13 +88,14 @@ public class AutoDisenchanter extends AContainer {
 			}
 		}
 		else {
-			MachineRecipe r = null;
+			BlockMenu menu = BlockStorage.getInventory(b);
+			MachineRecipe recipe = null;
 			Map<Enchantment, Integer> enchantments = new HashMap<>();
 			Set<ItemEnchantment> enchantments2 = new HashSet<>();
-			slots:
+			
 			for (int slot: getInputSlots()) {
-				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
-				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
+				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
+				ItemStack item = menu.getItemInSlot(slot);
 				
 				// Check if disenchantable
 				SlimefunItem sfItem = null;
@@ -133,19 +135,22 @@ public class AutoDisenchanter extends AContainer {
 							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, e.getEnchantment(), e.getLevel());
 							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), 0);
 						}
-						r = new MachineRecipe(100 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, book});
-						break slots;
+						
+						recipe = new MachineRecipe(100 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, book});
+						break;
 					}
 				}
 			}
 
-			if (r != null) {
-				if (!fits(b, r.getOutput())) return;
+			if (recipe != null) {
+				if (!fits(b, recipe.getOutput())) return;
+				
 				for (int slot: getInputSlots()) {
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
 				}
-				processing.put(b, r);
-				progress.put(b, r.getTicks());
+				
+				processing.put(b, recipe);
+				progress.put(b, recipe.getTicks());
 			}
 		}
 	}

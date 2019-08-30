@@ -255,11 +255,10 @@ public abstract class AContainer extends SlimefunItem {
 			
 			for (MachineRecipe recipe: recipes) {
 				for (ItemStack input: recipe.getInput()) {
-					slots:
 					for (int slot: getInputSlots()) {
 						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), input, true)) {
 							found.put(slot, input.getAmount());
-							break slots;
+							break;
 						}
 					}
 				}
@@ -272,9 +271,11 @@ public abstract class AContainer extends SlimefunItem {
 			
 			if (r != null) {
 				if (!fits(b, r.getOutput())) return;
+				
 				for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
 					BlockStorage.getInventory(b).replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(entry.getKey()), entry.getValue()));
 				}
+				
 				processing.put(b, r);
 				progress.put(b, r.getTicks());
 			}

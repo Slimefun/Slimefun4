@@ -29,6 +29,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class AutoEnchanter extends AContainer {
 
@@ -88,15 +89,16 @@ public class AutoEnchanter extends AContainer {
 			}
 		}
 		else {
-			MachineRecipe r = null;
-			slots:
+			BlockMenu menu = BlockStorage.getInventory(b.getLocation());
+			MachineRecipe recipe = null;
+			
 			for (int slot: getInputSlots()) {
-				ItemStack target = BlockStorage.getInventory(b).getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
+				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				// Check if enchantable
 				SlimefunItem sfTarget = SlimefunItem.getByItem(target);
 				if(sfTarget != null && !sfTarget.isEnchantable()) return;
 				
-				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
+				ItemStack item = menu.getItemInSlot(slot);
 				
 				// Enchant
 				if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
@@ -105,12 +107,14 @@ public class AutoEnchanter extends AContainer {
 					int amount = 0;
 					int special_amount = 0;
 					EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+					
 					for (Map.Entry<Enchantment, Integer> e: meta.getStoredEnchants().entrySet()) {
 						if (e.getKey().canEnchantItem(target)) {
 							amount++;
 							enchantments.put(e.getKey(), e.getValue());
 						}
 					}
+					
 					if (Slimefun.isEmeraldEnchantsInstalled()) {
 						for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
 							if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
@@ -121,27 +125,32 @@ public class AutoEnchanter extends AContainer {
 						}
 						special_amount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
 					}
+					
 					if (amount > 0 && special_amount <= SlimefunStartup.instance.getSettings().EMERALD_ENCHANTS_LIMIT) {
 						ItemStack newItem = target.clone();
 						for (Map.Entry<Enchantment, Integer> e: enchantments.entrySet()) {
 							newItem.addUnsafeEnchantment(e.getKey(), e.getValue());
 						}
+						
 						for (ItemEnchantment e: enchantments2) {
 							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), e.getLevel());
 						}
-						r = new MachineRecipe(75 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, new ItemStack(Material.BOOK)});
+						
+						recipe = new MachineRecipe(75 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, new ItemStack(Material.BOOK)});
 					}
-					break slots;
+					break;
 				}
 			}
 
-			if (r != null) {
-				if (!fits(b, r.getOutput())) return;
+			if (recipe != null) {
+				if (!fits(b, recipe.getOutput())) return;
+				
 				for (int slot: getInputSlots()) {
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
 				}
-				processing.put(b, r);
-				progress.put(b, r.getTicks());
+				
+				processing.put(b, recipe);
+				progress.put(b, recipe.getTicks());
 			}
 		}
 	}
