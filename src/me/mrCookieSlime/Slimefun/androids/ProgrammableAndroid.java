@@ -351,8 +351,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						case MOVE_AND_DIG_DOWN:
 							movedig(b, face, b.getRelative(BlockFace.DOWN));
 							break;
-						case INTERFACE_items:
-							if (BlockStorage.check(b.getRelative(face), "ANDROID_INTERFACE_items") && b.getRelative(face).getState() instanceof Dispenser) {
+						case INTERFACE_ITEMS:
+							if (BlockStorage.check(b.getRelative(face), "ANDROID_INTERFACE_ITEMS") && b.getRelative(face).getState() instanceof Dispenser) {
 								Dispenser d = (Dispenser) b.getRelative(face).getState();
 								for (int slot: getOutputSlots()) {
 									ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);

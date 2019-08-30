@@ -145,7 +145,7 @@ public final class SlimefunStartup extends JavaPlugin {
 			utils.setupConfig();
 
 			// Loading all extra configs
-			researches = new Config(Files.Researches);
+			researches = new Config(Files.researches);
 			items = new Config(Files.items);
 			whitelist = new Config(Files.whitelist);
 
@@ -191,10 +191,10 @@ public final class SlimefunStartup extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 			
 			settings = new Settings(config);
-			settings.Researches_ENABLED = getResearchCfg().getBoolean("enable-researching");
+			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
 			settings.SMELTERY_FIRE_BREAK_CHANCE = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
-			System.out.println("[Slimefun] Loading Researches...");
+			System.out.println("[Slimefun] Loading researches...");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
@@ -365,7 +365,7 @@ public final class SlimefunStartup extends JavaPlugin {
 		Files.config = null;
 		Files.database = null;
 		Files.items = null;
-		Files.Researches = null;
+		Files.researches = null;
 		Files.whitelist = null;
 		MultiBlock.list = null;
 		Research.list = null;

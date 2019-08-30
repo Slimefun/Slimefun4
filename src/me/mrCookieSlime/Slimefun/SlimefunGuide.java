@@ -567,7 +567,7 @@ public final class SlimefunGuide {
 												openCategory(p, category, true, selected_page, book);
 											}
 											else {
-												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().Researches_FREE_IN_CREATIVE)) {
+												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE)) {
 													p.setLevel(p.getLevel() - research.getCost());
 												}
 
@@ -706,12 +706,12 @@ public final class SlimefunGuide {
 											openCategory(p, category, true, selected_page, book);
 										}
 										else {
-											if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().Researches_FREE_IN_CREATIVE)) {
+											if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE)) {
 												pl.setLevel(pl.getLevel() - research.getCost());
 											}
 
 											if (pl.getGameMode() == GameMode.CREATIVE) {
-												research.unlock(pl, SlimefunStartup.instance.getSettings().Researches_FREE_IN_CREATIVE);
+												research.unlock(pl, SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE);
 												openCategory(pl, category, survival, selected_page, book);
 											} 
 											else {

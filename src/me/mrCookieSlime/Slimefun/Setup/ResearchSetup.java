@@ -177,7 +177,7 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(177, "Basic GPS Setup", 28), SlimefunItems.GPS_TRANSMITTER, SlimefunItems.GPS_CONTROL_PANEL, SlimefunItems.GPS_MARKER_TOOL);
 	    Slimefun.registerResearch(new Research(178, "GPS Emergency Waypoint", 30), SlimefunItems.GPS_EMERGENCY_TRANSMITTER);
 	    Slimefun.registerResearch(new Research(179, "Programmable Androids", 50), SlimefunItems.PROGRAMMABLE_ANDROID, SlimefunItems.PROGRAMMABLE_ANDROID_FARMER, SlimefunItems.PROGRAMMABLE_ANDROID_BUTCHER, SlimefunItems.PROGRAMMABLE_ANDROID_FISHERMAN, SlimefunItems.PROGRAMMABLE_ANDROID_MINER, SlimefunItems.PROGRAMMABLE_ANDROID_WOODCUTTER);
-	    Slimefun.registerResearch(new Research(180, "Android Interfaces", 26), SlimefunItems.ANDROID_INTERFACE_FUEL, SlimefunItems.ANDROID_INTERFACE_items);
+	    Slimefun.registerResearch(new Research(180, "Android Interfaces", 26), SlimefunItems.ANDROID_INTERFACE_FUEL, SlimefunItems.ANDROID_INTERFACE_ITEMS);
 	    Slimefun.registerResearch(new Research(181, "GEO-Scans", 30), SlimefunItems.GPS_GEO_SCANNER);
 	    Slimefun.registerResearch(new Research(182, "Combustion Reactor", 38), SlimefunItems.COMBUSTION_REACTOR);
 	    Slimefun.registerResearch(new Research(183, "Teleporter Base Components", 42), SlimefunItems.GPS_TELEPORTATION_MATRIX, SlimefunItems.GPS_TELEPORTER_PYLON);

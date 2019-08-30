@@ -19,7 +19,7 @@ permissions:
     description: Allows you to cheat Items
     default: op
   slimefun.cheat.researches:
-    description: Allows you to cheat Researches
+    description: Allows you to cheat researches
     default: op
   slimefun.stats.others:
     description: Allows you to see the Stats from other Players

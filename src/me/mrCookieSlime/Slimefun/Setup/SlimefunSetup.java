@@ -3294,7 +3294,7 @@ public final class SlimefunSetup {
 		}
 		.register(true);
 
-		new SlimefunItem(Categories.ELECTRICITY, SlimefunItems.ANDROID_INTERFACE_items, "ANDROID_INTERFACE_items", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.ELECTRICITY, SlimefunItems.ANDROID_INTERFACE_ITEMS, "ANDROID_INTERFACE_ITEMS", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.PLASTIC_SHEET, SlimefunItems.PLASTIC_SHEET, SlimefunItems.PLASTIC_SHEET, SlimefunItems.PLASTIC_SHEET, SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.BLUE_STAINED_GLASS), SlimefunItems.PLASTIC_SHEET, SlimefunItems.PLASTIC_SHEET, SlimefunItems.PLASTIC_SHEET})
 		.register(true);
 

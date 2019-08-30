@@ -6,9 +6,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public final class Settings {
 	
-	public boolean Researches_ENABLED;
-	public boolean Researches_FREE_IN_CREATIVE;
-	public List<String> Researches_TITLES;
+	public boolean RESEARCHES_ENABLED;
+	public boolean RESEARCHES_FREE_IN_CREATIVE;
+	public List<String> RESEARCHES_TITLES;
 	
 	public int BLOCK_LOADING_INFO_DELAY;
 	public int BLOCK_AUTO_SAVE_DELAY;
@@ -24,8 +24,8 @@ public final class Settings {
 	public int SMELTERY_FIRE_BREAK_CHANCE;
 	
 	public Settings(Config cfg) {
-		Researches_FREE_IN_CREATIVE = cfg.getBoolean("options.allow-free-creative-research");
-		Researches_TITLES = cfg.getStringList("research-ranks");
+		RESEARCHES_FREE_IN_CREATIVE = cfg.getBoolean("options.allow-free-creative-research");
+		RESEARCHES_TITLES = cfg.getStringList("research-ranks");
 		
 		BLOCK_LOADING_INFO_DELAY = cfg.getInt("URID.info-delay");
 		BLOCK_AUTO_SAVE_DELAY = cfg.getInt("options.auto-save-delay-in-minutes");
