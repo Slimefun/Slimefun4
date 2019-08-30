@@ -1098,8 +1098,8 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, null, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_STORM, "STAFF_ELEMENTAL_STORM", RecipeType.MAGIC_WORKBENCH,
-		new ItemStack[] {null, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.STAFF_WIND, SlimefunItems.RUNE_AIR, SlimefunItems.STAFF_WATER, null, null})
+		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_STORM, "STAFF_ELEMENTAL_STORM", RecipeType.ANCIENT_ALTAR,
+		new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_SUGAR, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_SUGAR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
 		.register(true, new ItemInteractionHandler() {
 
 			@Override
@@ -1120,14 +1120,14 @@ public final class SlimefunSetup {
 						if (!itemML.get(3).equals(SFitemML.get(3))) return false;
 					} else return false;
 
-					if (p.getFoodLevel() >= 2) {
+					if (p.getFoodLevel() >= 4) {
 						Location loc = p.getTargetBlock(null, 50).getLocation();
 						if (loc.getWorld() == null) return false;
 						if (!loc.getChunk().isLoaded()) return false;
 						loc.getWorld().strikeLightning(loc);
 
 						if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
-							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 2);
+							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
 							Bukkit.getPluginManager().callEvent(event);
 							p.setFoodLevel(event.getFoodLevel());
 						}
@@ -1137,15 +1137,19 @@ public final class SlimefunSetup {
 							switch (itemML.get(i)) {
 								case "&e5 Uses &7left":
 									itemML.set(i, "&e4 Uses &7left");
+									correctLore = true;
 									break;
 								case "&e4 Uses &7left":
 									itemML.set(i, "&e3 Uses &7left");
+									correctLore = true;
 									break;
 								case "&e3 Uses &7left":
 									itemML.set(i, "&e2 Uses &7left");
+									correctLore = true;
 									break;
 								case "&e2 Uses &7left":
 									itemML.set(i, "&e1 Uses &7left");
+									correctLore = true;
 									break;
 								case "&e1 Uses &7left":
 									if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
@@ -1154,10 +1158,21 @@ public final class SlimefunSetup {
 										p.getInventory().setItemInOffHand(null);
 									}
 									p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+									correctLore = true;
 									break;
 							}
 							if (correctLore) break;
 						}
+						// Saving the changes to lore and item.
+						itemM.setLore(itemML);
+						item.setItemMeta(itemM);
+						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+							p.getInventory().setItemInMainHand(item);
+						} else {
+							p.getInventory().setItemInOffHand(item);
+						}
+						PlayerInventory.update(p);
+
 					} else {
 						Messages.local.sendTranslation(p, "messages.hungry", true);
 					}
