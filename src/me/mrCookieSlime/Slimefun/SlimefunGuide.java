@@ -567,7 +567,7 @@ public final class SlimefunGuide {
 												openCategory(p, category, true, selected_page, book);
 											}
 											else {
-												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE)) {
+												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().researchesFreeInCreative)) {
 													p.setLevel(p.getLevel() - research.getCost());
 												}
 
@@ -706,12 +706,12 @@ public final class SlimefunGuide {
 											openCategory(p, category, true, selected_page, book);
 										}
 										else {
-											if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE)) {
+											if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().researchesFreeInCreative)) {
 												pl.setLevel(pl.getLevel() - research.getCost());
 											}
 
 											if (pl.getGameMode() == GameMode.CREATIVE) {
-												research.unlock(pl, SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE);
+												research.unlock(pl, SlimefunStartup.instance.getSettings().researchesFreeInCreative);
 												openCategory(pl, category, survival, selected_page, book);
 											} 
 											else {
@@ -780,7 +780,7 @@ public final class SlimefunGuide {
 
 		final SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		
-		if (sfItem == null && !SlimefunStartup.instance.getSettings().GUIDE_SHOW_VANILLA_RECIPES) return;
+		if (sfItem == null && !SlimefunStartup.instance.getSettings().guideShowVanillaRecipes) return;
 		
 		ItemStack[] recipe = new ItemStack[9];
 		ItemStack recipeType = null;

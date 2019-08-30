@@ -103,7 +103,7 @@ public class BlockStorage {
 						System.err.println("[Slimefun] should probably look into it!");
 					}
 					else if (file.getName().endsWith(".sfb")) {
-						if (timestamp + SlimefunStartup.instance.getSettings().BLOCK_LOADING_INFO_DELAY < System.currentTimeMillis()) {
+						if (timestamp + SlimefunStartup.instance.getSettings().blocksInfoLoadingDelay < System.currentTimeMillis()) {
 							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
