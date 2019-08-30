@@ -2,11 +2,11 @@ package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,7 +21,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.block.CreatureSpawner;
-import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
@@ -36,7 +35,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -112,6 +110,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoDisenchanter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoDrier;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCraftingChamber;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CarbonPress;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CargoInputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CargoOutputNode;
@@ -152,7 +151,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.PressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.TableSaw;
-import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -1719,7 +1717,7 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SEISMIC_AXE, true)) {
-					List<Block> blocks = p.getLineOfSight((HashSet<Material>) null, 10);
+					List<Block> blocks = p.getLineOfSight(null, 10);
 					for (int i = 0; i < blocks.size(); i++) {
 						Block b = blocks.get(i);
 						Location ground = b.getLocation();
@@ -1949,53 +1947,11 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.COPPER_WIRE, "COPPER_WIRE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, null, null, null}, new CustomItem(SlimefunItems.COPPER_WIRE, 8))
 		.register(true);
-
-
-		@SuppressWarnings("unchecked")
-		final String[] blockPlacerBlacklist = Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks") != null ? ((List<String>) Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks")).toArray(new String[((List<String>) Slimefun.getItemValue("BLOCK_PLACER", "unplaceable-blocks")).size()]) : new String[] {"STRUCTURE_BLOCK"};
-
-		new SlimefunItem(Categories.MACHINES_1, SlimefunItems.BLOCK_PLACER, "BLOCK_PLACER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		
+		new BlockPlacer(Categories.MACHINES_1, SlimefunItems.BLOCK_PLACER, "BLOCK_PLACER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON), SlimefunItems.GOLD_4K, new ItemStack(Material.IRON_INGOT), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.IRON_INGOT), SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON), SlimefunItems.GOLD_4K}, 
-		new String[] {"unplaceable-blocks"}, new Object[] {Arrays.asList("STRUCTURE_BLOCK")})
-		.register(true, new AutonomousMachineHandler() {
-
-			@Override
-			public boolean onBlockDispense(final BlockDispenseEvent e, Block dispenser, final Dispenser d, Block block, Block chest, SlimefunItem machine) {
-				if (machine.getID().equalsIgnoreCase("BLOCK_PLACER")) {
-					e.setCancelled(true);
-					if ((block.getType() == null || block.getType() == Material.AIR) && e.getItem().getType().isBlock()) {
-						for(String blockType : blockPlacerBlacklist) {
-							if (e.getItem().getType().toString().equals(blockType)) {
-								return false;
-							}
-						}
-						
-						SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
-						if (sfItem != null) {
-							if (!SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
-								block.setType(e.getItem().getType());
-								BlockStorage.store(block, sfItem.getID());
-								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
-								if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
-								else {
-									Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
-								}
-							}
-						}
-						else {
-							block.setType(e.getItem().getType());
-							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
-							if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
-							else {
-								Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
-							}
-						}
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		new String[] {"unplaceable-blocks"}, Stream.of(Material.STRUCTURE_BLOCK, Material.COMMAND_BLOCK).map(Material::toString).toArray(Object[]::new))
+		.register(true);
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION, "SCROLL_OF_DIMENSIONAL_TELEPOSITION", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.ENDER_LUMP_3, null})
