@@ -1107,6 +1107,7 @@ public final class SlimefunSetup {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_STORM, true)) {
 					if (p.getFoodLevel() >= 2) {
 						Location loc = p.getTargetBlock(null, 50).getLocation();
+						if (loc.getWorld() == null) return false;
 						if (!loc.getChunk().isLoaded()) return false;
 						loc.getWorld().strikeLightning(loc);
 
