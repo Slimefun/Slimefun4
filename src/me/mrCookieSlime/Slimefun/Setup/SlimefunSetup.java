@@ -2275,10 +2275,6 @@ public final class SlimefunSetup {
 		SlimefunItem.registerBlockHandler("ANCIENT_PEDESTAL", new SlimefunBlockHandler() {
 
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-			}
-
-			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				Item stack = AncientAltarListener.findItem(b);
 				if (stack != null) { 
@@ -4201,10 +4197,6 @@ public final class SlimefunSetup {
 		});
 
 		SlimefunItem.registerBlockHandler("CARGO_MANAGER", new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-			}
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
