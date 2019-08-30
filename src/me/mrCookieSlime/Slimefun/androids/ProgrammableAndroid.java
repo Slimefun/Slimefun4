@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -344,10 +345,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						case MOVE_AND_DIG_FORWARD:
 							movedig(b, face, b.getRelative(face));
 							break;
-						case MOVE_AND_DIG_UP: {
+						case MOVE_AND_DIG_UP:
 							movedig(b, face, b.getRelative(BlockFace.UP));
 							break;
-						}
 						case MOVE_AND_DIG_DOWN:
 							movedig(b, face, b.getRelative(BlockFace.DOWN));
 							break;
@@ -431,210 +431,69 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							}
 							break;
 						case ATTACK_MOBS_ANIMALS:
-							entities:
-							for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
-								switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-									case NORTH: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case EAST: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case SOUTH: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case WEST: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									default:
-										break;
-								}
-							}
+							killEntities(b, damage, e -> true);
 							break;
 						case ATTACK_MOBS:
-							entities:
-							for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
-								if (n instanceof Animals) continue;
-								switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-									case NORTH: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case EAST: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case SOUTH: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case WEST: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									default:
-										break;
-								}
-							}
+							killEntities(b, damage, e -> e instanceof Monster);
 							break;
 						case ATTACK_ANIMALS:
-							entities:
-							for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
-								if (n instanceof Monster) continue;
-								switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-									case NORTH: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case EAST: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case SOUTH: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case WEST: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									default:
-										break;
-								}
-							}
+							killEntities(b, damage, e -> e instanceof Animals);
 							break;
 						case ATTACK_ANIMALS_ADULT:
-							entities:
-							for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
-								if (n instanceof Monster) continue;
-								if (n instanceof org.bukkit.entity.Ageable && !((org.bukkit.entity.Ageable) n).isAdult()) continue;
-								switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-									case NORTH: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case EAST: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() > b.getX()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case SOUTH: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() > b.getZ()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									case WEST: {
-										if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getX() < b.getX()) {
-											if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-											n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
-
-											((LivingEntity) n).damage(damage);
-											break entities;
-										}
-										break;
-									}
-									default:
-										break;
-								}
-							}
+							killEntities(b, damage, e -> e instanceof Animals && e instanceof org.bukkit.entity.Ageable && ((org.bukkit.entity.Ageable) e).isAdult());
 							break;
 						default:
 							break;
 					}
 				}
 				if (refresh) BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+			}
+		}
+	}
+	
+	private void killEntities(Block b, double damage, Predicate<Entity> predicate) {
+		for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
+			if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && predicate.test(n)) {
+				switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
+				case NORTH:
+					if (n.getLocation().getZ() < b.getZ()) {
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+
+						((LivingEntity) n).damage(damage);
+						return;
+					}
+					break;
+				case EAST:
+					if (n.getLocation().getX() > b.getX()) {
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+
+						((LivingEntity) n).damage(damage);
+						return;
+					}
+					break;
+				case SOUTH:
+					if (n.getLocation().getZ() > b.getZ()) {
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+
+						((LivingEntity) n).damage(damage);
+						return;
+					}
+					break;
+				case WEST:
+					if (n.getLocation().getX() < b.getX()) {
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+
+						((LivingEntity) n).damage(damage);
+						return;
+					}
+					break;
+				default:
+					break;
+				}
 			}
 		}
 	}
