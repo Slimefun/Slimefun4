@@ -20,7 +20,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @since 4.0
  *
  * @see LockedCategory
- * @see SeasonCategory
+ * @see SeasonalCategory
  */
 public class Category {
 	/**
@@ -75,8 +75,8 @@ public class Category {
 		list.add(this);
 		Collections.sort(list, new CategorySorter());
 
-		if (this instanceof SeasonCategory) {
-			if (((SeasonCategory) this).isUnlocked()) Slimefun.current_categories.add(this);
+		if (this instanceof SeasonalCategory) {
+			if (((SeasonalCategory) this).isUnlocked()) Slimefun.current_categories.add(this);
 		}
 		else Slimefun.current_categories.add(this);
 		

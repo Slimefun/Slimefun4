@@ -27,7 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OreWasher;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.Messages;

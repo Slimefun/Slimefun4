@@ -37,7 +37,7 @@ import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SeasonCategory;
+import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
@@ -345,8 +345,8 @@ public final class SlimefunGuide {
 						tooltips.add(parents.toString());
 						actions.add(null);
 					}
-					else if (category instanceof SeasonCategory) {
-						if (((SeasonCategory) category).isUnlocked()) {
+					else if (category instanceof SeasonalCategory) {
+						if (((SeasonalCategory) category).isUnlocked()) {
 							texts.add(ChatColor.translateAlternateColorCodes('&', shorten("&a", StringUtils.formatItemName(category.getItem(), false))));
 							tooltips.add(ChatColor.translateAlternateColorCodes('&', "&eClick to open the following Category:\n" + StringUtils.formatItemName(category.getItem(), false)));
 							actions.add(new PlayerRunnable(1) {
@@ -466,7 +466,7 @@ public final class SlimefunGuide {
 						// Dont display that Category...
 					}
 					else if (!(category instanceof LockedCategory)) {
-						if (!(category instanceof SeasonCategory)) {
+						if (!(category instanceof SeasonalCategory)) {
 							menu.addItem(index, category.getItem());
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 								openCategory(pl, category, survival, 1, book);
@@ -475,7 +475,7 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-							if (((SeasonCategory) category).isUnlocked()) {
+							if (((SeasonalCategory) category).isUnlocked()) {
 								menu.addItem(index, category.getItem());
 								menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 									openCategory(pl, category, survival, 1, book);

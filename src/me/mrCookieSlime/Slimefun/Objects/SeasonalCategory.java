@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
  * @see Category
  * @see LockedCategory
  */
-public class SeasonCategory extends Category {
+public class SeasonalCategory extends Category {
 
 	private int month = -1;
 
@@ -32,7 +32,7 @@ public class SeasonCategory extends Category {
 	 * 
 	 * @since 4.0
 	 */
-	public SeasonCategory(int month, int tier, ItemStack item) {
+	public SeasonalCategory(int month, int tier, ItemStack item) {
 		super(item, tier);
 		this.month = month - 1;
 	}

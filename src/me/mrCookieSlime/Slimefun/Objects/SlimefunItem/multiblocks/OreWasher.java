@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import java.util.Random;
 
@@ -45,7 +45,7 @@ public class OreWasher extends SlimefunMachine {
 	private MultiBlockInteractionHandler onInteract() {
 		return (p, mb, b) -> {
 			if (mb.isMultiBlock(this)) {
-				if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, getItem(), true)) {
+				if (!isDisabled() && CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, getItem(), true)) {
 					Block dispBlock = b.getRelative(BlockFace.UP);
 					Dispenser disp = (Dispenser) dispBlock.getState();
 					Inventory inv = disp.getInventory();

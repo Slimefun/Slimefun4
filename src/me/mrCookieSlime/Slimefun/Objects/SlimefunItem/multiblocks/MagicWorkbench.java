@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import java.util.List;
 import java.util.UUID;
@@ -50,7 +50,7 @@ public class MagicWorkbench extends SlimefunMachine {
 	private MultiBlockInteractionHandler onInteract() {
 		return (p, mb, b) -> {
 			if (mb.isMultiBlock(this)) {
-				if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, getItem(), true)) {
+				if (!isDisabled() && CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, getItem(), true)) {
 					Block dispBlock = null;
 
 					// Maybe this could be implemented by instead looping over a BlockFace<> array?

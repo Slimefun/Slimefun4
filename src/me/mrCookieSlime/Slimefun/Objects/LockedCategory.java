@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
  * @since 4.0
  * 
  * @see Category
- * @see SeasonCategory
+ * @see SeasonalCategory
  */
 public class LockedCategory extends Category {
 

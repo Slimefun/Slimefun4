@@ -9,7 +9,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
-import me.mrCookieSlime.Slimefun.Objects.SeasonCategory;
+import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 
 /**
  * Built-in categories.
@@ -40,10 +40,10 @@ public final class Categories {
 	public static final Category TALISMANS_1 = new Category(new CustomItem(Material.EMERALD, "&7Talismans - &aTier I", "", "&a> Click to open"), 2);
 	public static final LockedCategory TALISMANS_2 = new LockedCategory(new CustomItem(Material.EMERALD, "&7Talismans - &aTier II", "", "&a> Click to open"), 3, TALISMANS_1);
 	public static final Category TOOLS = new Category(new CustomItem(Material.GOLDEN_PICKAXE, "&7Tools", "", "&a> Click to open"), 1);
-	public static final SeasonCategory CHRISTMAS = new SeasonCategory(12, 1, new CustomItem(Material.NETHER_STAR, "&aC&ch&ar&ci&as&ct&am&ca&as", "", "&c> Click to help &aSanta"));
-	public static final SeasonCategory VALENTINES_DAY = new SeasonCategory(2, 2, new CustomItem(Material.POPPY, "&dValentine's Day", "", "&d> Click to celebrate Love"));
-	public static final SeasonCategory EASTER = new SeasonCategory(4, 2, new CustomItem(Material.EGG, "&6Easter", "", "&a> Click to paint some Eggs"));
-	public static final SeasonCategory BIRTHDAY = new SeasonCategory(10, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)", "", "&a> Click to celebrate with me"));
+	public static final SeasonalCategory CHRISTMAS = new SeasonalCategory(12, 1, new CustomItem(Material.NETHER_STAR, "&aC&ch&ar&ci&as&ct&am&ca&as", "", "&c> Click to help &aSanta"));
+	public static final SeasonalCategory VALENTINES_DAY = new SeasonalCategory(2, 2, new CustomItem(Material.POPPY, "&dValentine's Day", "", "&d> Click to celebrate Love"));
+	public static final SeasonalCategory EASTER = new SeasonalCategory(4, 2, new CustomItem(Material.EGG, "&6Easter", "", "&a> Click to paint some Eggs"));
+	public static final SeasonalCategory BIRTHDAY = new SeasonalCategory(10, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)", "", "&a> Click to celebrate with me"));
 	
 	private static ItemStack getSkull(String texture) {
 		try {

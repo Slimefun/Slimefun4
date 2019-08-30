@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +49,7 @@ public class EnhancedCraftingTable extends SlimefunMachine {
 	private MultiBlockInteractionHandler onInteract() {
 		return (p, mb, b) -> {
 			if (mb.isMultiBlock(this)) {
-				if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, getItem(), true)) {
+				if (!isDisabled() && CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, getItem(), true)) {
 					// Objects dispBlock and disp have been split up, in order to add the output chest functionallity, which is the only functionallity
 					// that is dependant on the dispenser's block methods.
 					// the Dispenser disp still remains the same though, and as such doesn't break any existing code which involves said object.
