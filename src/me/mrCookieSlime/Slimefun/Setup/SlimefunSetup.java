@@ -1555,8 +1555,8 @@ public final class SlimefunSetup {
 						for (int y = -4; y <= 4; y++) {
 							for (int z = -4; z <= 4; z++) {
 								if (p.getLocation().getBlock().getRelative(x, y, z).getType().toString().endsWith("_ORE")) {
-									if (closest == null) closest = p.getLocation().getBlock().getRelative(x, y, z);
-									else if (p.getLocation().distance(closest.getLocation()) < p.getLocation().distance(p.getLocation().getBlock().getRelative(x, y, z).getLocation())) closest = p.getLocation().getBlock().getRelative(x, y, z);
+									if (closest == null || p.getLocation().distance(closest.getLocation()) < p.getLocation().distance(p.getLocation().getBlock().getRelative(x, y, z).getLocation()))
+									    closest = p.getLocation().getBlock().getRelative(x, y, z);
 								}
 							}
 						}

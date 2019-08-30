@@ -48,13 +48,11 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void onPistonExtend(BlockPistonExtendEvent e) {
 		for (Block b : e.getBlocks()) {
-			if (BlockStorage.hasBlockInfo(b)) {
-				e.setCancelled(true);
-				return;
-			}
-			else if (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
-				e.setCancelled(true);
-				return;
+			if (BlockStorage.hasBlockInfo(b) ||
+					b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+
+						e.setCancelled(true);
+						return;
 			}
 		}
 	}
@@ -63,13 +61,11 @@ public class BlockListener implements Listener {
 	public void onPistonRetract(BlockPistonRetractEvent e) {
 		if (e.isSticky()) {
 			for (Block b : e.getBlocks()) {
-				if (BlockStorage.hasBlockInfo(b)) {
-					e.setCancelled(true);
-					return;
-				}
-				else if (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
-					e.setCancelled(true);
-					return;
+				if (BlockStorage.hasBlockInfo(b) ||
+						b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+
+							e.setCancelled(true);
+							return;
 				}
 			}
 		}
