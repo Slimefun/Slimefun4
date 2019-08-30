@@ -37,9 +37,6 @@ public abstract class ElectricGoldPan extends AContainer {
 	public ItemStack getProgressBar() {
 		return new ItemStack(Material.DIAMOND_SHOVEL);
 	}
-
-	@Override
-	public void registerDefaultRecipes() {}
 	
 	public abstract int getSpeed();
 

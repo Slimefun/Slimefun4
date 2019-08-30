@@ -39,9 +39,6 @@ public abstract class ElectricDustWasher extends AContainer {
 	public ItemStack getProgressBar() {
 		return new ItemStack(Material.GOLDEN_SHOVEL);
 	}
-
-	@Override
-	public void registerDefaultRecipes() {}
 	
 	public abstract int getSpeed();
 

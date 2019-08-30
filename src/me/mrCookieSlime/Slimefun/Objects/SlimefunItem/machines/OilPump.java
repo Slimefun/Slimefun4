@@ -24,7 +24,6 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
@@ -38,10 +37,6 @@ public abstract class OilPump extends AContainer {
 			@Override
 			public void init() {
 				constructMenu(this);
-			}
-
-			@Override
-			public void newInstance(BlockMenu menu, Block b) {
 			}
 
 			@Override
@@ -79,9 +74,6 @@ public abstract class OilPump extends AContainer {
 	public ItemStack getProgressBar() {
 		return new ItemStack(Material.DIAMOND_SHOVEL);
 	}
-
-	@Override
-	public void registerDefaultRecipes() {}
 
 	@Override
 	protected void tick(Block b) {
