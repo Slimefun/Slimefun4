@@ -28,6 +28,8 @@ import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
  */
 public final class Utilities {
 	
+	public int vanillaItems = 0;
+	
 	public Map<UUID, Boolean> jumpState = new HashMap<>();
 	public Set<UUID> damage = new HashSet<>();
 	public Map<UUID, Entity[]> remove = new HashMap<>();

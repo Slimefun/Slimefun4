@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
@@ -15,26 +16,18 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class OreCrusher extends MultiBlockMachine {
+public class Juicer extends MultiBlockMachine {
 
-	public OreCrusher() {
+	public Juicer() {
 		super(
-				Categories.MACHINES_1, 
-				SlimefunItems.ORE_CRUSHER, 
-				"ORE_CRUSHER",
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS)},
+				Categories.MACHINES_1, SlimefunItems.JUICER, "JUICER",
+				new ItemStack[] {null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 				new ItemStack[] {
-						new ItemStack(Material.IRON_ORE), new CustomItem(SlimefunItems.IRON_DUST, (Boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1), 
-						new ItemStack(Material.GOLD_ORE), new CustomItem(SlimefunItems.GOLD_DUST, (Boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1), 
-						new ItemStack(Material.NETHERRACK, 16), SlimefunItems.SULFATE, 
-						SlimefunItems.SIFTED_ORE, SlimefunItems.CRUSHED_ORE, 
-						SlimefunItems.CRUSHED_ORE, SlimefunItems.PULVERIZED_ORE, 
-						SlimefunItems.PURE_ORE_CLUSTER, SlimefunItems.TINY_URANIUM, 
-						new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), 
-						new ItemStack(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST, 
-						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST
+						new ItemStack(Material.APPLE), SlimefunItems.APPLE_JUICE,
+						new ItemStack(Material.MELON), SlimefunItems.MELON_JUICE,
+						new ItemStack(Material.CARROT), SlimefunItems.CARROT_JUICE,
+						new ItemStack(Material.PUMPKIN), SlimefunItems.PUMPKIN_JUICE
 				},
 				Material.NETHER_BRICK_FENCE
 		);
@@ -50,12 +43,14 @@ public class OreCrusher extends MultiBlockMachine {
 				if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
 					ItemStack adding = RecipeType.getRecipeOutput(this, convert);
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
+					
 					if (outputInv != null) {
 						ItemStack removing = current.clone();
-						removing.setAmount(convert.getAmount());
+						removing.setAmount(1);
 						inv.removeItem(removing);
 						outputInv.addItem(adding);
-						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);
+						p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
 					}
 					else Messages.local.sendTranslation(p, "machines.full-inventory", true);
 					

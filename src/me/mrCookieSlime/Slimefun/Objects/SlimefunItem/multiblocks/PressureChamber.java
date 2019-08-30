@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -18,30 +19,27 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
-public class Compressor extends MultiBlockMachine {
+public class PressureChamber extends MultiBlockMachine {
 
-	public Compressor() {
+	public PressureChamber() {
 		super(
 				Categories.MACHINES_1, 
-				SlimefunItems.COMPRESSOR, 
-				"COMPRESSOR",
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON)},
+				SlimefunItems.PRESSURE_CHAMBER, 
+				"PRESSURE_CHAMBER",
+				new ItemStack[] {new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
 				new ItemStack[] {
-						new ItemStack(Material.COAL, 8), SlimefunItems.CARBON, 
-						new CustomItem(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE, 
-						new CustomItem(SlimefunItems.CARBON, 4), SlimefunItems.COMPRESSED_CARBON, 
-						new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE), 
-						new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE
+						SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND, 
+						SlimefunItems.RAW_CARBONADO, SlimefunItems.CARBONADO
 				},
-				Material.NETHER_BRICK_FENCE
+				Material.CAULDRON
 		);
 	}
 	
 	@Override
 	public void onInteract(Player p, Block b) {
-		Block dispBlock = b.getRelative(BlockFace.DOWN);
+		Block dispBlock = b.getRelative(BlockFace.UP).getRelative(BlockFace.UP);
 		Dispenser disp = (Dispenser) dispBlock.getState();
-		Inventory inv = disp.getInventory();
+		final Inventory inv = disp.getInventory();
 		for (ItemStack current: inv.getContents()) {
 			for (ItemStack convert: RecipeType.getRecipeInputs(this)) {
 				if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
@@ -55,8 +53,13 @@ public class Compressor extends MultiBlockMachine {
 							int j = i;
 							
 							Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+								p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
+								p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+								p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+								p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
+								
 								if (j < 3) {
-									p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
+									p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1F, 1F);
 								} 
 								else {
 									p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);

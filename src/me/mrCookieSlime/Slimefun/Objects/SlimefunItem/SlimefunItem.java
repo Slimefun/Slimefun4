@@ -39,7 +39,6 @@ public class SlimefunItem {
 
 	public static Map<String, SlimefunItem> map_id = new HashMap<>();
 	public static List<ItemStack> radioactive = new ArrayList<>();
-	public static int vanilla = 0;
 	public static Set<String> tickers = new HashSet<>();
 
 	public static List<SlimefunItem> all = new ArrayList<>();
@@ -248,7 +247,7 @@ public class SlimefunItem {
 				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
 				this.permission = SlimefunStartup.getItemCfg().getString(this.id + ".required-permission");
 				items.add(this);
-				if (slimefun) vanilla++;
+				if (slimefun) SlimefunStartup.instance.getUtilities().vanillaItems++;
 				map_id.put(this.id, this);
 				this.create();
 				
