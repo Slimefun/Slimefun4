@@ -209,10 +209,6 @@ public abstract class AContainer extends SlimefunItem {
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
 			public boolean isSynchronized() {
 				return false;
 			}

@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.Colors;
@@ -221,7 +222,14 @@ public final class MiscSetup {
 		for (World world: Bukkit.getWorlds()) {
 			SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
 		}
+		
 		Slimefun.setItemVariable("ORE_CRUSHER", "double-ores", true);
+		
+		for (Enchantment e : Enchantment.values()) {
+			for (int i = 1; i <= e.getMaxLevel(); i++) {
+				Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + e.getKey().getKey() + ".level." + i, true);
+			}
+		}
 	}
 	
 	public static void loadDescriptions() {

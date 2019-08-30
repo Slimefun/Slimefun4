@@ -122,10 +122,6 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
 			public boolean isSynchronized() {
 				return true;
 			}

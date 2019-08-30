@@ -68,10 +68,6 @@ public class TrashCan extends SlimefunItem {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
-			public void uniqueTick() {
-			}
-			
-			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
 				BlockMenu menu = BlockStorage.getInventory(b);
 				for (int slot: getInputSlots()) {

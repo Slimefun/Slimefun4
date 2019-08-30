@@ -45,11 +45,6 @@ public class InfusedHopper extends SlimefunItem {
 		addItemHandler(new BlockTicker() {
 
 			@Override
-			public void uniqueTick() {
-				
-			}
-
-			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
 				if (b.getType() != Material.HOPPER) {
 					// we're no longer a hopper, we were probably destroyed. skipping this tick.

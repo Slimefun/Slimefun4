@@ -198,11 +198,7 @@ public abstract class AFarm extends SlimefunItem {
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				AFarm.this.tick(b);
 			}
-
-			@Override
-			public void uniqueTick() {
-			}
-
+			
 			@Override
 			public boolean isSynchronized() {
 				return true;
@@ -215,12 +211,14 @@ public abstract class AFarm extends SlimefunItem {
 	private Inventory inject(Block b) {
 		int size = BlockStorage.getInventory(b).toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
+		
 		for (int i = 0; i < size; i++) {
 			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
 		}
 		for (int slot: getOutputSlots()) {
 			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
 		}
+		
 		return inv;
 	}
 
