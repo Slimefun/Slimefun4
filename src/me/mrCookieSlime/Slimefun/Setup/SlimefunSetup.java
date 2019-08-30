@@ -19,6 +19,7 @@ import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Ageable;
@@ -289,7 +290,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ENDER_LUMP_2, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.PORTABLE, SlimefunItems.ENDER_BACKPACK, "ENDER_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.MAGIC, SlimefunItems.ENDER_BACKPACK, "ENDER_BACKPACK", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.LEATHER), SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.LEATHER), new ItemStack(Material.CHEST), new ItemStack(Material.LEATHER), SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.LEATHER), SlimefunItems.ENDER_LUMP_2})
 		.register(true, new ItemInteractionHandler() {
 
@@ -2251,10 +2252,19 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FLASK_OF_KNOWLEDGE, true) && p.getLevel() >= 1) {
-					p.setLevel(p.getLevel() - 1);
-					p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
-					PlayerInventory.consumeItemInHand(p);
-					PlayerInventory.update(p);
+					if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof Container)) {
+						p.setLevel(p.getLevel() - 1);
+						p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
+						
+						p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
+						
+						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+							p.getInventory().setItemInMainHand(InvUtils.decreaseItem(item, 1));
+						}
+						else {
+							p.getInventory().setItemInOffHand(InvUtils.decreaseItem(item, 1));
+						}
+					}
 					return true;
 				}
 				else return false;
