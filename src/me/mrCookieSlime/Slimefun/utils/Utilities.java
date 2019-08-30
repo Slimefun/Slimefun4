@@ -52,6 +52,8 @@ public final class Utilities {
 	public Set<GitHubConnector> connectors = new HashSet<>();
 	public Map<String, String> contributorHeads = new HashMap<>();
 	public List<Contributor> contributors = new ArrayList<>();
+
+	public Map<UUID, List<Object>> guideHistory = new HashMap<>();
 	
 	public List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 	

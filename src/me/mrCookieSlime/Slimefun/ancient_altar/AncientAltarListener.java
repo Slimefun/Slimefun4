@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.listeners;
+package me.mrCookieSlime.Slimefun.ancient_altar;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,8 +32,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
-import me.mrCookieSlime.Slimefun.ancient_altar.Pedestals;
-import me.mrCookieSlime.Slimefun.ancient_altar.RitualAnimation;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
@@ -48,7 +46,7 @@ public class AncientAltarListener implements Listener {
 	}
 
 	private List<Block> altars = new ArrayList<>();
-	private Set<UUID> removed_items = new HashSet<>();
+	private Set<UUID> removedItems = new HashSet<>();
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {
@@ -71,12 +69,12 @@ public class AncientAltarListener implements Listener {
 					}
 					insertItem(e.getPlayer(), b);
 				}
-				else if (!removed_items.contains(stack.getUniqueId())) {
+				else if (!removedItems.contains(stack.getUniqueId())) {
 					final UUID uuid = stack.getUniqueId();
-					removed_items.add(uuid);
+					removedItems.add(uuid);
 
 					SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-						removed_items.remove(uuid);
+						removedItems.remove(uuid);
 					}, 30L);
 
 					stack.remove();

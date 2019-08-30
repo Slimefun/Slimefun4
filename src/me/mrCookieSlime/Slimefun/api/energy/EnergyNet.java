@@ -12,12 +12,12 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 public class EnergyNet extends Network {
-	public enum NetworkComponent {
+	
+	public static enum NetworkComponent {
 		SOURCE,
 		DISTRIBUTOR,
 		CONSUMER,
@@ -154,7 +154,7 @@ public class EnergyNet extends Network {
 				else {
 					supply = supply + energy;
 				}
-				TickerTask.block_timings.put(source, System.currentTimeMillis() - timestamp);
+				SlimefunStartup.ticker.blockTimings.put(source, System.currentTimeMillis() - timestamp);
 			}
 
 			input.removeAll(exploded);

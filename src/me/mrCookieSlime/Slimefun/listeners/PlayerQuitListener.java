@@ -4,7 +4,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
@@ -16,7 +15,7 @@ public class PlayerQuitListener implements Listener {
 
 	@EventHandler
 	public void onDisconnect(PlayerQuitEvent e) {
-		SlimefunGuide.history.remove(e.getPlayer().getUniqueId());
+		SlimefunStartup.instance.getUtilities().guideHistory.remove(e.getPlayer().getUniqueId());
 		
 		if (PlayerProfile.isLoaded(e.getPlayer().getUniqueId())) {
 			PlayerProfile.fromUUID(e.getPlayer().getUniqueId()).markForDeletion();

@@ -11,28 +11,28 @@ import org.bukkit.inventory.ItemStack;
 public class SlimefunGadget extends SlimefunItem {
 	
 	private List<ItemStack[]> recipes;
-	private List<ItemStack> display_recipes;
+	private List<ItemStack> displayRecipes;
 
 	public SlimefunGadget(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack[] machineRecipes) {
 		super(category, item, id, recipeType, recipe);
 		
 		this.recipes = new ArrayList<>();
-		this.display_recipes = new ArrayList<>();
+		this.displayRecipes = new ArrayList<>();
 		
 		for (ItemStack i: machineRecipes) {
 			this.recipes.add(new ItemStack[] {i});
-			this.display_recipes.add(i);
+			this.displayRecipes.add(i);
 		}
 	}
 	
 	public SlimefunGadget(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack[] machineRecipes, String[] keys, Object[] values) {
 		super(category, item, id, recipeType, recipe, keys, values);
 		this.recipes = new ArrayList<>();
-		this.display_recipes = new ArrayList<>();
+		this.displayRecipes = new ArrayList<>();
 		
 		for (ItemStack i: machineRecipes) {
 			this.recipes.add(new ItemStack[] {i});
-			this.display_recipes.add(i);
+			this.displayRecipes.add(i);
 		}
 	}
 	
@@ -41,13 +41,13 @@ public class SlimefunGadget extends SlimefunItem {
 	}
 	
 	public List<ItemStack> getDisplayRecipes() {
-		return this.display_recipes;
+		return this.displayRecipes;
 	}
 	
 	public void addRecipe(ItemStack input, ItemStack output) {
 		this.recipes.add(new ItemStack[] {input});
 		this.recipes.add(new ItemStack[] {output});
-		this.display_recipes.add(input);
-		this.display_recipes.add(output);
+		this.displayRecipes.add(input);
+		this.displayRecipes.add(output);
 	}
 }

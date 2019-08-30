@@ -149,6 +149,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
+import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.androids.AndroidType;
 import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -161,7 +162,6 @@ import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
-import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public final class SlimefunSetup {
@@ -2417,9 +2417,7 @@ public final class SlimefunSetup {
 								block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
 								if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
 								else {
-									Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-										d.getInventory().removeItem(e.getItem());
-									}, 2L);
+									Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
 								}
 							}
 						}
@@ -2428,9 +2426,7 @@ public final class SlimefunSetup {
 							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
 							if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
 							else {
-								Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-									d.getInventory().removeItem(e.getItem());
-								}, 2L);
+								Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
 							}
 						}
 					}
