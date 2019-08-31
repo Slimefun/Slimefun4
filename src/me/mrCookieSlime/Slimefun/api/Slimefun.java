@@ -23,8 +23,10 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
  *
  * @since 4.0
  */
-public class Slimefun {
+public final class Slimefun {
 
+	private Slimefun() {}
+	
 	public static void registerGuideHandler(GuideHandler handler) {
 		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(handler.getTier(), new ArrayList<>());
 		handlers.add(handler);
