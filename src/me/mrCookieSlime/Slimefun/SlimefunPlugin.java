@@ -144,17 +144,19 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			getLogger().log(Level.INFO, "Loading Config...");
 
+			// Setup config.yml
 			PluginUtils utils = new PluginUtils(this);
 			utils.setupConfig();
+			config = utils.getConfig();
+			settings = new Settings(config);
 
 			// Loading all extra configs
 			researches = new Config(files.researches);
 			items = new Config(files.items);
 			whitelist = new Config(files.whitelist);
 
-			// Setup Config and messages.yml
+			// Setup messages.yml
 			utils.setupLocalization();
-			config = utils.getConfig();
 			Messages.local = utils.getLocalization();
 			Messages.setup();
 			
@@ -192,7 +194,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 			
 			MiscSetup.loadDescriptions();
 			
-			settings = new Settings(config);
 			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 			settings.smelteryFireBreakChance = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
