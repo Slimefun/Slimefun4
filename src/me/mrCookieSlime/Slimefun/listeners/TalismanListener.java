@@ -98,9 +98,7 @@ public class TalismanListener implements Listener {
 			item.setItemMeta(meta);
 			
 			final int itemSlot = slot;
-			SlimefunPlugin.instance.getServer().getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
-				inv.setItem(itemSlot, item);
-			}, 1L);
+			SlimefunPlugin.instance.getServer().getScheduler().runTaskLater(SlimefunPlugin.instance, () -> inv.setItem(itemSlot, item), 1L);
 		}
 	}
 	

@@ -260,7 +260,7 @@ public class SlimefunItem {
 				}
 
 				if (SlimefunPlugin.getSettings().printOutLoading) {
-					Slimefun.getLogger().log(Level.INFO, "Loaded Item \"" + this.id + "\"");
+					Slimefun.getLogger().log(Level.INFO, "Loaded Item \"{0}\"", this.id);
 				}
 			} 
 			else {
@@ -465,7 +465,7 @@ public class SlimefunItem {
 	public static void patchExistingItem(String id, ItemStack stack) {
 		SlimefunItem item = getByID(id);
 		if (item != null) {
-			Slimefun.getLogger().log(Level.INFO, "WARNING - Patching existing Item - " + id);
+			Slimefun.getLogger().log(Level.INFO, "Patching existing Item... {0}", id);
 			Slimefun.getLogger().log(Level.INFO, "This might take a while");
 
 			final ItemStack old = item.getItem();

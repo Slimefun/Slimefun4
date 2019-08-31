@@ -73,9 +73,7 @@ public class AncientAltarListener implements Listener {
 					final UUID uuid = stack.getUniqueId();
 					removedItems.add(uuid);
 
-					SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-						removedItems.remove(uuid);
-					}, 30L);
+					SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> removedItems.remove(uuid), 30L);
 
 					stack.remove();
 					e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));

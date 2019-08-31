@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -34,6 +35,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -83,6 +85,7 @@ public abstract class AReactor extends SlimefunItem {
 					if (BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode") == null){
 						BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 					}
+					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode").equals("generator")) {
 						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
 						menu.addMenuClickHandler(4, (p, slot, item, action) -> {
@@ -99,16 +102,18 @@ public abstract class AReactor extends SlimefunItem {
 							return false;
 						});
 					}
-					BlockMenu ap = getAccessPort(b.getLocation());
-					if(ap != null) {
+					
+					BlockMenu port = getAccessPort(b.getLocation());
+					if (port != null) {
 						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
 						menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
-							ap.open(p);
+							port.open(p);
 							newInstance(menu, b);
 
 							return false;
 						});
-					} else {
+					} 
+					else {
 						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
 						menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
 							newInstance(menu, b);
@@ -118,6 +123,7 @@ public abstract class AReactor extends SlimefunItem {
 					}
 
 				} catch(Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured when creating a Reactor Menu for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -145,12 +151,14 @@ public abstract class AReactor extends SlimefunItem {
 							inv.replaceExistingItem(slot, null);
 						}
 					}
+					
 					for (int slot : getCoolantSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
 						}
 					}
+					
 					for (int slot : getOutputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
@@ -158,6 +166,7 @@ public abstract class AReactor extends SlimefunItem {
 						}
 					}
 				}
+				
 				progress.remove(b.getLocation());
 				processing.remove(b.getLocation());
 				ReactorHologram.remove(b.getLocation());
@@ -170,35 +179,23 @@ public abstract class AReactor extends SlimefunItem {
 
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-					(p, slot, item, action) -> false
-					);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 
 		for (int i : border_1) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "),
-					(p, slot, item, action) -> false
-					);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 
 		for (int i : border_3) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "),
-					(p, slot, item, action) -> false
-					);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 
-		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-				);
+		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 
-		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"),
-				(p, slot, item, action) -> false
-				);
+		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"), (p, slot, item, action) -> false);
 
 		for (int i : border_2) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-					(p, slot, item, action) -> false
-					);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 
 		if (needsCooling()) {
@@ -208,9 +205,7 @@ public abstract class AReactor extends SlimefunItem {
 			preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
 
 			for (int i : border_4) {
-				preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"),
-						(p, slot, item, action) -> false
-						);
+				preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"), (p, slot, item, action) -> false);
 			}
 		}
 	}

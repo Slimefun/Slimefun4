@@ -3,7 +3,9 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
-public class MachineHelper {
+public final class MachineHelper {
+	
+	private MachineHelper() {}
 	
 	public static String getTimeLeft(int l) {
 		String timeleft = "";

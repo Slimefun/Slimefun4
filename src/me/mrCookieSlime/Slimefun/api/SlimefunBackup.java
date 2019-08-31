@@ -16,8 +16,10 @@ import java.util.zip.ZipOutputStream;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
 
-public class SlimefunBackup {
+public final class SlimefunBackup {
 
+	private SlimefunBackup() {}
+	
 	public static void start() {
 		File folder = new File("data-storage/Slimefun/block-backups");
 		List<File> backups = Arrays.asList(folder.listFiles());

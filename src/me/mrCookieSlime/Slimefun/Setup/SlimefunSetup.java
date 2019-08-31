@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
@@ -3995,15 +3996,11 @@ public final class SlimefunSetup {
 			}
 
 			@Override
-			public void extraTick(Location l) {
-
-			}
-
-			@Override
 			public ItemStack getProgressBar() {
 				try {
 					return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNhZDhlZTg0OWVkZjA0ZWQ5YTI2Y2EzMzQxZjYwMzNiZDc2ZGNjNDIzMWVkMWVhNjNiNzU2NTc1MWIyN2FjIn19fQ==");
 				} catch (Exception e) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Progressbar of a Reactor for Slimefun " + Slimefun.getVersion());
 					return new ItemStack(Material.BLAZE_POWDER);
 				}
 			}
@@ -4012,6 +4009,12 @@ public final class SlimefunSetup {
             public ItemStack getCoolant() {
                 return SlimefunItems.REACTOR_COOLANT_CELL;
             }
+
+			@Override
+			public void extraTick(Location l) {
+				// This machine does not need to perform anything while ticking
+				// The Nether Star Reactor uses this method to generate the Wither Effect
+			}
 		}
 		.registerChargeableBlock(true, 16384);
 

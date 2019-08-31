@@ -126,6 +126,7 @@ public final class GitHubSetup {
 			
 			@Override
 			public void onFailure() {
+				// We don't have to do anything on failure
 			}
 			
 			@Override
@@ -154,6 +155,7 @@ public final class GitHubSetup {
 			
 			@Override
 			public void onFailure() {
+				// We don't have to do anything on failure
 			}
 			
 			@Override

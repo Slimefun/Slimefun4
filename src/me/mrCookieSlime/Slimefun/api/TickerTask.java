@@ -118,9 +118,7 @@ public class TickerTask implements Runnable {
 												
 												BlockStorage._integrated_removeBlockInfo(l, true);
 												
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-													l.getBlock().setType(Material.AIR);
-												});
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
 											}
 											else {
 												buggedBlocks.put(l, errors);
@@ -156,9 +154,7 @@ public class TickerTask implements Runnable {
 									
 									BlockStorage._integrated_removeBlockInfo(l, true);
 									
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-										l.getBlock().setType(Material.AIR);
-									});
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
 								}
 								else {
 									buggedBlocks.put(l, errors);
