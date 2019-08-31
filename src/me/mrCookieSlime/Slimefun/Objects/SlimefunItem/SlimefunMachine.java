@@ -65,8 +65,9 @@ public class SlimefunMachine extends SlimefunItem {
 	public void install() {
 		for (ItemStack i: this.getDisplayRecipes()) {
 			SlimefunItem item = SlimefunItem.getByItem(i);
-			if (item == null) this.recipes.add(new ItemStack[] {i});
-			else if (!SlimefunItem.isDisabled(i)) this.recipes.add(new ItemStack[] {i});
+			if (item == null || !SlimefunItem.isDisabled(i))
+
+				this.recipes.add(new ItemStack[] {i});
 		}
 	}
 	

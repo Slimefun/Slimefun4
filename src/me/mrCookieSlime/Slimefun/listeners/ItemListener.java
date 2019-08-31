@@ -418,32 +418,17 @@ public class ItemListener implements Listener {
 			
 			if (SlimefunManager.isItemSimiliar(slot0, SlimefunItems.ELYTRA, true)) return;
 			
-			if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			} 
-			else if (SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			}
+			if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0) ||
+					SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1) ||
 
+					SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.BOOK), true) ||
+					SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true)||
 
-			if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			} 
-			else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			}
+					SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.BOOK), true) ||
+					SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
 
-			if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			} 
-			else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+						e.setCancelled(true);
+						Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
 			}
 		}
 	}
