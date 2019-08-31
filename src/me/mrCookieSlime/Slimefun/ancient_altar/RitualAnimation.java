@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 import org.bukkit.Effect;
@@ -94,8 +96,8 @@ public class RitualAnimation implements Runnable {
 				l.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, l2,16, 0.3F, 0.2F, 0.3F);
 				l.getWorld().spawnParticle(Particle.CRIT_MAGIC,l2,8, 0.3F, 0.2F, 0.3F);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Ritual Animation for Slimefun " + Slimefun.getVersion(), x);
 		}
 	}
 
@@ -113,8 +115,8 @@ public class RitualAnimation implements Runnable {
 			try {
 				l.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,pedestal.getLocation().add(0.5, 1.5, 0.5),16, 0.3F, 0.2F, 0.3F);
 				l.getWorld().spawnParticle(Particle.CRIT_MAGIC,pedestal.getLocation().add(0.5, 1.5, 0.5), 8,0.3F, 0.2F, 0.3F);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Pedestal Animation for Slimefun " + Slimefun.getVersion(), x);
 			}
 			
 			itemLock.remove(item);

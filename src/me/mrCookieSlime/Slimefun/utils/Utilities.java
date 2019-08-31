@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
+import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
 import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
@@ -34,6 +35,7 @@ public final class Utilities {
 	
 	public Map<UUID, PlayerProfile> profiles = new HashMap<>();
 	
+	public Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
 	public List<PostSlimefunLoadingHandler> postHandlers = new ArrayList<>();
 	
 	public Map<UUID, Boolean> jumpState = new HashMap<>();

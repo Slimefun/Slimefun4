@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
+import java.util.logging.Level;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -81,12 +82,11 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static SlimefunPlugin instance;
 
+	private TickerTask ticker;
 	private Config researches;
 	private Config items;
 	private Config whitelist;
 	private Config config;
-
-	public static TickerTask ticker;
 	
 	public GPSNetwork gps = new GPSNetwork();
 	private Utilities utilities = new Utilities();
@@ -188,7 +188,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			try {
 				SlimefunSetup.setupItems();
 			} catch (Exception x) {
-				x.printStackTrace();
+				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + Slimefun.getVersion());
 			}
 			MiscSetup.loadDescriptions();
 			
@@ -242,7 +242,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-				Slimefun.emeraldenchants = getServer().getPluginManager().isPluginEnabled("EmeraldEnchants");
 				MiscSetup.loadItems(settings);
 
 				for (World world: Bukkit.getWorlds()) {
@@ -344,10 +343,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 					storage.save(true);
 				}
 				else {
-					System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
+					getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
 				}
 			} catch (Exception x) {
-				x.printStackTrace();
+				getLogger().log(Level.SEVERE, "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + Slimefun.getVersion());
 			}
 		}
 		
@@ -383,7 +382,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 		ChargableBlock.maxCharges = null;
 		AContainer.processing = null;
 		AContainer.progress = null;
-		Slimefun.guideHandlers = null;
 		EnergyNet.machinesInput = null;
 		EnergyNet.machinesOutput = null;
 		EnergyNet.machinesStorage = null;
@@ -441,6 +439,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	public static Settings getSettings() {
 		return instance.settings;
+	}
+	
+	public static TickerTask getTicker() {
+		return instance.ticker;
 	}
 
 }

@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.hooks.github;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.logging.Level;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -11,6 +12,7 @@ import com.google.gson.JsonParser;
 
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class GitHubSetup {
 	
@@ -73,14 +75,14 @@ public final class GitHubSetup {
 								try {
 									profileReader.close();
 								} catch (IOException x) {
-									x.printStackTrace();
+									Slimefun.getLogger().log(Level.SEVERE, "An Error occured while closing GitHub-Stream for Slimefun " + Slimefun.getVersion(), x);
 								}
 							}
 							if (sessionReader != null) {
 								try {
 									sessionReader.close();
 								} catch (IOException x) {
-									x.printStackTrace();
+									Slimefun.getLogger().log(Level.SEVERE, "An Error occured while closing GitHub-Stream for Slimefun " + Slimefun.getVersion(), x);
 								}
 							}
 						}

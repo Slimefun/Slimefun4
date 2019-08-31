@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -61,6 +62,7 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.androids.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -143,8 +145,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			public void init() {
 				try {
 					constructMenu(this);
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while constructing an Android Inventory for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -186,8 +188,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						}
 						return false;
 					});
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a new Instance of an Android Inventory for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -240,11 +242,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	protected void tick(Block b) {
-		try {
-			if (!(b.getState() instanceof Skull)) {
-				return;
-			}
-		} catch (NullPointerException x) {
+		if (!(b.getState() instanceof Skull)) {
+			// The Android was destroyed or moved.
 			return;
 		}
 
@@ -279,28 +278,13 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					
 					switch (part) {
 						case GO_DOWN:
-							try {
-								Block block = b.getRelative(BlockFace.DOWN);
-								move(b, face, block);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							move(b, face, b.getRelative(BlockFace.DOWN));
 							break;
 						case GO_FORWARD:
-							try {
-								Block block = b.getRelative(face);
-								move(b, face, block);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							move(b, face, b.getRelative(face));
 							break;
 						case GO_UP:
-							try {
-								Block block = b.getRelative(BlockFace.UP);
-								move(b, face, block);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							move(b, face, b.getRelative(BlockFace.UP));
 							break;
 						case REPEAT:
 							BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
@@ -498,15 +482,19 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
-	private void move(Block b, BlockFace face, Block block) throws Exception {
-		if (block.getY() < 0 || block.getY() > block.getWorld().getMaxHeight())
-			return;
-		if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
+	private void move(Block b, BlockFace face, Block block) {
+		if (block.getY() > 0 && block.getY() < block.getWorld().getMaxHeight() && (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)) {
 			block.setType(Material.PLAYER_HEAD);
 			Rotatable blockData = (Rotatable) block.getBlockData();
 			blockData.setRotation(face.getOppositeFace());
 			block.setBlockData(blockData);
-			CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+			
+			try {
+				CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while moving an Android for Slimefun " + Slimefun.getVersion(), x);
+			}
+			
 			b.setType(Material.AIR);
 			BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
 		}
@@ -577,11 +565,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			}
 		}
 		else {
-			try {
-				move(b, face, block);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			move(b, face, block);
 		}
 	}
 

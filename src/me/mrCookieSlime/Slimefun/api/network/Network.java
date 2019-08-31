@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.api.network;
 
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.List;
 import java.util.Queue;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import org.bukkit.Location;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_13.ParticleEffect;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public abstract class Network {
 	
@@ -159,8 +161,8 @@ public abstract class Network {
 			for(Location l: connectedLocations) {
 				try {
 					ParticleEffect.REDSTONE.display(l.clone().add(0.5, 0.5, 0.5), 0, 0, 0, 1, 1);
-				} catch(Exception e) {
-					e.printStackTrace();
+				} catch(Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Network Animation for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 		});

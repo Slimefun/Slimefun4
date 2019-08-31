@@ -2,9 +2,7 @@ package me.mrCookieSlime.Slimefun.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
@@ -17,8 +15,8 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem.State;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
+import me.mrCookieSlime.Slimefun.Setup.Messages;
 
 /**
  * Provides a few convenience methods.
@@ -26,13 +24,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
  * @since 4.0
  */
 public class Slimefun {
-
-	public static Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
-	
-	/**
-	 * Whether EmeraldEnchants is enabled or not.
-	 */
-	public static boolean emeraldenchants = false;
 	
 	/**
 	 * Lists all the registered categories.
@@ -40,10 +31,9 @@ public class Slimefun {
 	public static List<Category> currentCategories = new ArrayList<>();
 
 	public static void registerGuideHandler(GuideHandler handler) {
-		List<GuideHandler> handlers = new ArrayList<>();
-		if (guideHandlers.containsKey(handler.getTier())) handlers = guideHandlers.get(handler.getTier());
+		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(handler.getTier(), new ArrayList<>());
 		handlers.add(handler);
-		guideHandlers.put(handler.getTier(), handlers);
+		SlimefunPlugin.getUtilities().guideHandlers.put(handler.getTier(), handlers);
 	}
 
 	/**
@@ -335,20 +325,8 @@ public class Slimefun {
 		addWikiPage(id, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
 	}
 
-	/**
-	 * Returns whether EmeraldEnchants is enabled or not.
-	 * <p>
-	 * It can be directly accessed by {@link #emeraldenchants}.
-	 *
-	 * @return <code>true</code> if EmeraldEnchants is enabled,
-	 *         <code>false</code> otherwise.
-	 */
-	public static boolean isEmeraldEnchantsInstalled() {
-		return emeraldenchants;
-	}
-
 	public static List<GuideHandler> getGuideHandlers(int tier) {
-		return guideHandlers.containsKey(tier) ? guideHandlers.get(tier): new ArrayList<>();
+		return SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(tier, new ArrayList<>());
 	}
 
 	public static String getVersion() {

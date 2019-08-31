@@ -9,11 +9,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.logging.Level;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public abstract class GitHubConnector {
 
@@ -79,8 +81,8 @@ public abstract class GitHubConnector {
 			JsonElement element = new JsonParser().parse(full);
 			this.onSuccess(element);
 		} 
-		catch (IOException e) {
-			e.printStackTrace();
+		catch (IOException x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing GitHub-Data for Slimefun " + Slimefun.getVersion(), x);
 			this.onFailure();
 		}
 	}

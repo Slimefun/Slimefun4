@@ -7,6 +7,7 @@ import net.coreprotect.CoreProtectAPI;
 public final class SlimefunHooks {
 	
 	private boolean exoticGarden = false;
+	private boolean emeraldEnchants = false;
 	private boolean coreProtect = false;
 	private boolean clearLag = false;
 	private boolean worldEdit = false;
@@ -27,6 +28,7 @@ public final class SlimefunHooks {
 			}
 			
 			exoticGarden = plugin.getServer().getPluginManager().isPluginEnabled("ExoticGarden"); // Had to do it this way, otherwise it seems disabled.
+			emeraldEnchants = plugin.getServer().getPluginManager().isPluginEnabled("EmeraldEnchants");
 			
 			if (plugin.getServer().getPluginManager().isPluginEnabled("CoreProtect")) {
 				coreProtectAPI = ((CoreProtect) plugin.getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
@@ -49,6 +51,10 @@ public final class SlimefunHooks {
 	
 	public boolean isExoticGardenInstalled() {
 		return exoticGarden;
+	}
+	
+	public boolean isEmeraldEnchantsInstalled() {
+		return emeraldEnchants;
 	}
 
 	public boolean isCoreProtectInstalled() {

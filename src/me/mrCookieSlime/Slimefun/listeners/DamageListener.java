@@ -159,7 +159,7 @@ public class DamageListener implements Listener {
             strippedItem.removeEnchantment(enchantment);
         }
 
-        if (Slimefun.isEmeraldEnchantsInstalled()) {
+        if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
             for(ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(itemStack)){
                 EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
             }
