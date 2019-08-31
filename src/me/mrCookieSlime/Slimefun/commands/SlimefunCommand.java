@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -153,8 +154,8 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 							
 							title.send(TitleType.TITLE, ((Player) sender));
 							subtitle.send(TitleType.SUBTITLE, ((Player) sender));
-						} catch (Exception x1) {
-							x1.printStackTrace();
+						} catch (Exception e) {
+							Slimefun.getLogger().log(Level.SEVERE, "An Error occured while a Player used an Elevator in Slimefun " + Slimefun.getVersion(), e);
 						}
 					}
 				}
@@ -239,11 +240,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {
 						OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
 						if (player.getName() != null) {
-							try {
-								GPSNetwork.openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							GPSNetwork.openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
 						}
 						else sender.sendMessage("&4Unknown Player: &c" + args[1]);
 					}

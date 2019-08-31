@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,6 +28,7 @@ public class TickerTask implements Runnable {
 	
 	public Map<Location, Location> move = new HashMap<>();
 	public Map<Location, Boolean> delete = new HashMap<>();
+	public Map<Location, Long> blockTimings = new HashMap<>();
 	
 	private Set<BlockTicker> tickers = new HashSet<>();
 	
@@ -41,7 +43,6 @@ public class TickerTask implements Runnable {
 	private Map<String, Long> chunkTimings = new HashMap<>();
 	private Set<String> chunksSkipped = new HashSet<>();
 	private Map<Location, Integer> buggedBlocks = new HashMap<>();
-	public Map<Location, Long> blockTimings = new HashMap<>();
 	
 	@Override
 	public void run() {
@@ -231,8 +232,8 @@ public class TickerTask implements Runnable {
 			
 			try {
 				tellraw.send((Player) sender);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		else {
@@ -268,8 +269,8 @@ public class TickerTask implements Runnable {
 			
 			try {
 				tellraw.send((Player) sender);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		else {

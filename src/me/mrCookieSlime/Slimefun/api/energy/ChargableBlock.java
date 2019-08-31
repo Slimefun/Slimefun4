@@ -4,19 +4,23 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 
-public class ChargableBlock {
+public final class ChargableBlock {
+	
+	private ChargableBlock() {}
 	
 	public static Map<String, Integer> maxCharges = new HashMap<>();
 	public static Set<String> rechargeable = new HashSet<>();
@@ -96,16 +100,12 @@ public class ChargableBlock {
 		if (charge != getCharge(l)) {
 			BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
 			if (updateTexture) {
-				try {
-					updateTexture(l);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				updateTexture(l);
 			}
 		}
 	}
 	
-	private static void updateTexture(final Location l) throws Exception {
+	private static void updateTexture(final Location l) {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			try {
 				Block b = l.getBlock();
@@ -117,8 +117,8 @@ public class ChargableBlock {
 					else if (charge < (int) (capacity * 0.75D)) CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU4NDQzMmFmNmYzODIxNjcxMjAyNThkMWVlZThjODdjNmU3NWQ5ZTQ3OWU3YjBkNGM3YjZhZDQ4Y2ZlZWYifX19");
 					else CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2EyNTY5NDE1YzE0ZTMxYzk4ZWM5OTNhMmY5OWU2ZDY0ODQ2ZGIzNjdhMTNiMTk5OTY1YWQ5OWM0MzhjODZjIn19fQ==");
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while updating a Capacitor Texture for Slimefun " + Slimefun.getVersion(), x);
 			}
 		});
 	}
@@ -145,21 +145,14 @@ public class ChargableBlock {
 				setCharge(l, getMaxCharge(l));
 			}
 			if (capacitors.contains(BlockStorage.checkID(l))) {
-				try {
-					updateTexture(l);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				updateTexture(l);
 			}
 		}
 		else if (charge < 0 && energy >= -charge) {
 			setCharge(l, energy + charge);
+			
 			if (capacitors.contains(BlockStorage.checkID(l))) {
-				try {
-					updateTexture(l);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				updateTexture(l);
 			}
 		}
 		return rest;

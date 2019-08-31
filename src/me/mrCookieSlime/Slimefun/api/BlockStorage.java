@@ -367,6 +367,7 @@ public class BlockStorage {
 	}
 	
 	private static String getJSONData(Chunk chunk) {
+		if (chunk == null) return null;
 		return mapChunks.get(serializeChunk(chunk));
 	}
 
@@ -674,14 +675,7 @@ public class BlockStorage {
 			
 			return cfg;
 		} catch (Exception x) {
-			System.err.println(x.getClass().getName());
-			System.err.println("[Slimefun] Failed to parse ChunkInfo for Chunk @ " + chunk.getX() + ", " + chunk.getZ());
-			try {
-				System.err.println(getJSONData(chunk));
-			} catch (Exception x2) {
-				System.err.println("No Metadata found!");
-			}
-			x.printStackTrace();
+			Slimefun.getLogger().log(Level.SEVERE, "Failed to parse ChunkInfo for Chunk: " + (chunk == null ? "?": chunk.getX()) + ", " + (chunk == null ? "?": chunk.getZ()) + " (" + getJSONData(chunk) + ") for Slimefun " + Slimefun.getVersion(), x);
 			return new Config("data-storage/Slimefun/temp.yml");
 		}
 	}

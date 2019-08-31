@@ -241,7 +241,7 @@ public class GPSNetwork {
 		menu.open(p);
 	}
 	
-	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) throws Exception {
+	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) {
 		if (SlimefunPlugin.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
 		
 		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
@@ -257,26 +257,31 @@ public class GPSNetwork {
 			);
 		}
 		
-		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &e(Select a Destination)"));
-		menu.addMenuClickHandler(4, (pl, slot, item, action) -> false);
-		
-		final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
-		int index = 0;
-		for (final Map.Entry<String, Location> entry: Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
-			if (index >= teleporter_inventory.length) break;
-			int slot = teleporter_inventory[index];
+		try {
+			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &e(Select a Destination)"));
+			menu.addMenuClickHandler(4, (pl, slot, item, action) -> false);
 			
-			final Location l = entry.getValue();
-			ItemStack globe = getPlanet(entry);
-			
-			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick to select"));
-			menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
-					pl.closeInventory();
-					TeleportationSequence.start(pl.getUniqueId(), complexity, source, l, false);
-					return false;
-			});
-			
-			index++;
+			final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
+			int index = 0;
+			for (final Map.Entry<String, Location> entry: Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
+				if (index >= teleporter_inventory.length) break;
+				int slot = teleporter_inventory[index];
+				
+				final Location l = entry.getValue();
+				ItemStack globe = getPlanet(entry);
+				
+				menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick to select"));
+				menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
+						pl.closeInventory();
+						TeleportationSequence.start(pl.getUniqueId(), complexity, source, l, false);
+						return false;
+				});
+				
+				index++;
+			}
+		} 
+		catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a Teleporter Menu for Slimefun " + Slimefun.getVersion(), x);
 		}
 		
 		menu.open(p);
