@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -143,7 +143,7 @@ public class MagicWorkbench extends MultiBlockMachine {
 						}
 						for (int j = 0; j < 4; j++) {
 							int current = j;
-							Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+							Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 								p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 								p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
 								if (current < 3) {

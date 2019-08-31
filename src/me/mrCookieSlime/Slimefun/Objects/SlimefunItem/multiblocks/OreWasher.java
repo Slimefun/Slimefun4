@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
@@ -56,7 +56,7 @@ public class OreWasher extends MultiBlockMachine {
 					ItemStack adding = items[new Random().nextInt(items.length)];
 					Inventory outputInv = null;
 
-					if (!SlimefunStartup.instance.getSettings().legacyOreWasher) {
+					if (!SlimefunPlugin.getSettings().legacyOreWasher) {
 						// This is a fancy way of checking if there is empty space in the inv; by checking if an unobtainable item could fit in it.
 						// However, due to the way the method findValidOutputInv() functions, the dummyAdding will never actually be added to the real inventory,
 						// so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH however, signals that it's

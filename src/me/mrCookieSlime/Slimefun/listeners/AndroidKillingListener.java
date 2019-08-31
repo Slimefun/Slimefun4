@@ -16,12 +16,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.androids.AndroidObject;
 
 public class AndroidKillingListener implements Listener {
 	
-	public AndroidKillingListener(SlimefunStartup plugin) {
+	public AndroidKillingListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
@@ -30,7 +30,7 @@ public class AndroidKillingListener implements Listener {
 		if (e.getEntity().hasMetadata("android_killer")) {
 			final AndroidObject obj = (AndroidObject) e.getEntity().getMetadata("android_killer").get(0).value();
 					
-			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 				List<ItemStack> items = new ArrayList<>();
 				
 				for (Entity n : e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {

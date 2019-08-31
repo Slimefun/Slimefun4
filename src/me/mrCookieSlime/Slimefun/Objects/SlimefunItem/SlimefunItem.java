@@ -15,7 +15,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -213,41 +213,41 @@ public class SlimefunItem {
 			if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
 			all.add(this);
 
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".enabled", true);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.replacing);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".hide-in-guide", this.hidden);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
-			SlimefunStartup.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".enabled", true);
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.replacing);
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".hide-in-guide", this.hidden);
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
 			
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
-					SlimefunStartup.getItemCfg().setDefaultValue(this.id + "." + this.keys[i], this.values[i]);
+					SlimefunPlugin.getItemCfg().setDefaultValue(this.id + "." + this.keys[i], this.values[i]);
 				}
 			}
 
 			for (World world: Bukkit.getWorlds()) {
-				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
-				SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.id, true);
+				SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
+				SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.id, true);
 			}
 
-			if (this.ticking && !SlimefunStartup.getCfg().getBoolean("URID.enable-tickers")) {
+			if (this.ticking && !SlimefunPlugin.getCfg().getBoolean("URID.enable-tickers")) {
 				this.state = State.DISABLED;
 				return;
 			}
 
-			if (SlimefunStartup.getItemCfg().getBoolean(id + ".enabled")) {
+			if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
 				if (!Category.list().contains(category)) category.register();
 
 				this.state = State.ENABLED;
 
-				this.replacing = SlimefunStartup.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
-				this.hidden = SlimefunStartup.getItemCfg().getBoolean(this.id + ".hide-in-guide");
-				this.enchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-enchanting");
-				this.disenchantable = SlimefunStartup.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
-				this.permission = SlimefunStartup.getItemCfg().getString(this.id + ".required-permission");
+				this.replacing = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
+				this.hidden = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".hide-in-guide");
+				this.enchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-enchanting");
+				this.disenchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
+				this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
 				items.add(this);
-				if (slimefun) SlimefunStartup.instance.getUtilities().vanillaItems++;
+				if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
 				mapID.put(this.id, this);
 				this.create();
 				
@@ -257,7 +257,7 @@ public class SlimefunItem {
 					handlers.put(handler.toCodename(), handlerset);
 				}
 
-				if (SlimefunStartup.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.id + "\"");
+				if (SlimefunPlugin.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.id + "\"");
 			} 
 			else {
 				if (this instanceof VanillaItem) this.state = State.VANILLA;

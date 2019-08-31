@@ -21,6 +21,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
+import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -76,17 +77,18 @@ import me.mrCookieSlime.Slimefun.listeners.WorldListener;
 import me.mrCookieSlime.Slimefun.utils.Settings;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
-public final class SlimefunStartup extends JavaPlugin {
+public final class SlimefunPlugin extends JavaPlugin {
 
-	public static SlimefunStartup instance;
+	public static SlimefunPlugin instance;
 
-	private static Config researches;
-	private static Config items;
-	private static Config whitelist;
-	private static Config config;
+	private Config researches;
+	private Config items;
+	private Config whitelist;
+	private Config config;
 
 	public static TickerTask ticker;
 	
+	public GPSNetwork gps = new GPSNetwork();
 	private Utilities utilities = new Utilities();
 	private Settings settings;
 	private SlimefunHooks hooks;
@@ -247,7 +249,7 @@ public final class SlimefunStartup extends JavaPlugin {
 					new BlockStorage(world);
 				}
 
-				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
+				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunPlugin) instance);
 			}, 0);
 
 			getCommand("slimefun").setExecutor(new SlimefunCommand(this));
@@ -356,11 +358,6 @@ public final class SlimefunStartup extends JavaPlugin {
 		SlimefunBackup.start();
 
 		// Prevent Memory Leaks
-		config = null;
-		researches = null;
-		items = null;
-		whitelist = null;
-		instance = null;
 		Messages.local = null;
 		Files.config = null;
 		Files.database = null;
@@ -392,8 +389,9 @@ public final class SlimefunStartup extends JavaPlugin {
 		EnergyNet.machinesStorage = null;
 		CargoNet.faces = null;
 		BlockStorage.universalInventories = null;
-		PlayerProfile.profiles = null;
 		OreWasher.items = null;
+
+		instance = null;
 
 		for (Player p: Bukkit.getOnlinePlayers()) {
 			p.closeInventory();
@@ -406,19 +404,19 @@ public final class SlimefunStartup extends JavaPlugin {
 	}
 
 	public static Config getCfg() {
-		return config;
+		return instance.config;
 	}
 
 	public static Config getResearchCfg() {
-		return researches;
+		return instance.researches;
 	}
 
 	public static Config getItemCfg() {
-		return items;
+		return instance.items;
 	}
 
 	public static Config getWhitelist() {
-		return whitelist;
+		return instance.whitelist;
 	}
 
 	@Deprecated
@@ -433,16 +431,16 @@ public final class SlimefunStartup extends JavaPlugin {
 		return CSCoreLib.randomizer().nextInt(max) <= percentage;
 	}
 
-	public SlimefunHooks getHooks() {
-		return hooks;
+	public static SlimefunHooks getHooks() {
+		return instance.hooks;
 	}
 	
-	public Utilities getUtilities() {
-		return utilities;
+	public static Utilities getUtilities() {
+		return instance.utilities;
 	}
 	
-	public Settings getSettings() {
-		return settings;
+	public static Settings getSettings() {
+		return instance.settings;
 	}
 
 }

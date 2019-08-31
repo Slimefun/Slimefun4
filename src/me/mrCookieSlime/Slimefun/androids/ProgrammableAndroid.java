@@ -48,7 +48,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -457,8 +457,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 				case NORTH:
 					if (n.getLocation().getZ() < b.getZ()) {
-						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
 
 						((LivingEntity) n).damage(damage);
 						return;
@@ -466,8 +466,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					break;
 				case EAST:
 					if (n.getLocation().getX() > b.getX()) {
-						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
 
 						((LivingEntity) n).damage(damage);
 						return;
@@ -475,8 +475,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					break;
 				case SOUTH:
 					if (n.getLocation().getZ() > b.getZ()) {
-						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
 
 						((LivingEntity) n).damage(damage);
 						return;
@@ -484,8 +484,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					break;
 				case WEST:
 					if (n.getLocation().getX() < b.getX()) {
-						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
 
 						((LivingEntity) n).damage(damage);
 						return;
@@ -677,7 +677,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 	private void exoticFarm(Block b, Block block) {
 		farm(b, block);
-		if (SlimefunStartup.instance.getHooks().isExoticGardenInstalled()) {
+		if (SlimefunPlugin.getHooks().isExoticGardenInstalled()) {
 			ItemStack drop = ExoticGarden.harvestPlant(block);
 			if (drop != null && fits(b, drop)) {
 				pushItems(b, drop);

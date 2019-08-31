@@ -11,7 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -54,7 +54,7 @@ public class Compressor extends MultiBlockMachine {
 						for (int i = 0; i < 4; i++) {
 							int j = i;
 							
-							Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+							Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 								if (j < 3) {
 									p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
 								} 

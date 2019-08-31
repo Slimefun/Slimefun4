@@ -19,7 +19,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -123,7 +123,7 @@ public class AutoEnchanter extends AContainer {
 						specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
 					}
 					
-					if (amount > 0 && specialAmount <= SlimefunStartup.instance.getSettings().emeraldEnchantsLimit) {
+					if (amount > 0 && specialAmount <= SlimefunPlugin.getSettings().emeraldEnchantsLimit) {
 						ItemStack newItem = target.clone();
 						for (Map.Entry<Enchantment, Integer> e: enchantments.entrySet()) {
 							newItem.addUnsafeEnchantment(e.getKey(), e.getValue());

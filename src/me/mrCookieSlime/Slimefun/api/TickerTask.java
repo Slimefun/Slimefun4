@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
@@ -85,7 +85,7 @@ public class TickerTask implements Runnable {
 								item.getBlockTicker().update();
 								
 								if (item.getBlockTicker().isSynchronized()) {
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 										try {
 											long timestamp3 = System.currentTimeMillis();
 											item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
@@ -120,7 +120,7 @@ public class TickerTask implements Runnable {
 												
 												BlockStorage._integrated_removeBlockInfo(l, true);
 												
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 													l.getBlock().setType(Material.AIR);
 												});
 											}
@@ -162,7 +162,7 @@ public class TickerTask implements Runnable {
 									
 									BlockStorage._integrated_removeBlockInfo(l, true);
 									
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 										l.getBlock().setType(Material.AIR);
 									});
 								}

@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.network.Network;
@@ -141,7 +141,7 @@ public class EnergyNet extends Network {
 				if (item.getEnergyTicker().explode(source)) {
 					exploded.add(source); 
 					BlockStorage.clearBlockInfo(source);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 						source.getBlock().setType(Material.LAVA);
 						source.getWorld().createExplosion(source, 0F, false);
 					});
@@ -149,7 +149,7 @@ public class EnergyNet extends Network {
 				else {
 					supply = supply + energy;
 				}
-				SlimefunStartup.ticker.blockTimings.put(source, System.currentTimeMillis() - timestamp);
+				SlimefunPlugin.ticker.blockTimings.put(source, System.currentTimeMillis() - timestamp);
 			}
 
 			input.removeAll(exploded);

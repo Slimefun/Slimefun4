@@ -24,7 +24,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
@@ -249,14 +249,14 @@ public class GPSNetwork {
 	}
 	
 	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) throws Exception {
-		if (SlimefunStartup.instance.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
+		if (SlimefunPlugin.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
 		
 		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-		SlimefunStartup.instance.getUtilities().teleporterUsers.add(p.getUniqueId());
+		SlimefunPlugin.getUtilities().teleporterUsers.add(p.getUniqueId());
 		
 		ChestMenu menu = new ChestMenu("&3Teleporter");
 		
-		menu.addMenuCloseHandler(pl -> SlimefunStartup.instance.getUtilities().teleporterUsers.remove(pl.getUniqueId()));
+		menu.addMenuCloseHandler(pl -> SlimefunPlugin.getUtilities().teleporterUsers.remove(pl.getUniqueId()));
 		
 		for (int slot : teleporter_border) {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),

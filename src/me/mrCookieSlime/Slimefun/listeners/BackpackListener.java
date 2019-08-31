@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
@@ -33,9 +33,9 @@ public class BackpackListener implements Listener {
 	
 	private Utilities utilities;
 	
-	public BackpackListener(SlimefunStartup plugin) {
+	public BackpackListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		utilities = plugin.getUtilities();
+		utilities = SlimefunPlugin.getUtilities();
 	}
 	
 	@EventHandler

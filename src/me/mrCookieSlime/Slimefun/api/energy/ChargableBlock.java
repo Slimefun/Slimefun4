@@ -8,7 +8,7 @@ import java.util.Set;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 import org.bukkit.Bukkit;
@@ -106,7 +106,7 @@ public class ChargableBlock {
 	}
 	
 	private static void updateTexture(final Location l) throws Exception {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			try {
 				Block b = l.getBlock();
 				int charge = getCharge(b);

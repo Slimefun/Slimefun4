@@ -5,19 +5,20 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem.State;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 
 /**
  * Provides a few convenience methods.
@@ -27,11 +28,6 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
 public class Slimefun {
 
 	public static Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
-
-	/**
-	 * Instance of the GPSNetwork.
-	 */
-	private static GPSNetwork gps = new GPSNetwork();
 	
 	/**
 	 * Whether EmeraldEnchants is enabled or not.
@@ -56,7 +52,11 @@ public class Slimefun {
 	 * @return the GPSNetwork instance.
 	 */
 	public static GPSNetwork getGPSNetwork() {
-		return gps;
+		return SlimefunPlugin.instance.gps;
+	}
+	
+	public static Logger getLogger() {
+		return SlimefunPlugin.instance.getLogger();
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class Slimefun {
 	 * @return the Items.yml Config instance.
 	 */
 	public static Config getItemConfig() {
-		return SlimefunStartup.getItemCfg();
+		return SlimefunPlugin.getItemCfg();
 	}
 
 	/**
@@ -207,10 +207,10 @@ public class Slimefun {
 		String world = p.getWorld().getName();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem == null) return !SlimefunItem.isDisabled(item);
-		if (SlimefunStartup.getWhitelist().contains(world + ".enabled")) {
-			if (SlimefunStartup.getWhitelist().getBoolean(world + ".enabled")) {
-				if (!SlimefunStartup.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunStartup.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-				if (SlimefunStartup.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
+		if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
+			if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
+				if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
+				if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
 				else {
 					if (message) Messages.local.sendTranslation(p, "messages.disabled-in-world", true);
 					return false;
@@ -236,10 +236,10 @@ public class Slimefun {
 	 */
 	public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
 		String world = p.getWorld().getName();
-		if (SlimefunStartup.getWhitelist().contains(world + ".enabled")) {
-			if (SlimefunStartup.getWhitelist().getBoolean(world + ".enabled")) {
-				if (!SlimefunStartup.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunStartup.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-				if (SlimefunStartup.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
+		if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
+			if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
+				if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
+				if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
 				else {
 					if (message) Messages.local.sendTranslation(p, "messages.disabled-in-world", true);
 					return false;

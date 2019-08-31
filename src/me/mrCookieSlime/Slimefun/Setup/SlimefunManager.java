@@ -9,7 +9,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -21,7 +21,7 @@ public final class SlimefunManager {
 	
 	private SlimefunManager() {}
 	
-	public static SlimefunStartup plugin;
+	public static SlimefunPlugin plugin;
 	public static String prefix;
 	public static Map<EntityType, List<ItemStack>> drops = new EnumMap<>(EntityType.class);
 	

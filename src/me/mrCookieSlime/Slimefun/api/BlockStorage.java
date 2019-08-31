@@ -27,7 +27,7 @@ import com.google.gson.JsonPrimitive;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -103,7 +103,7 @@ public class BlockStorage {
 						System.err.println("[Slimefun] should probably look into it!");
 					}
 					else if (file.getName().endsWith(".sfb")) {
-						if (timestamp + SlimefunStartup.instance.getSettings().blocksInfoLoadingDelay < System.currentTimeMillis()) {
+						if (timestamp + SlimefunPlugin.getSettings().blocksInfoLoadingDelay < System.currentTimeMillis()) {
 							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
@@ -446,7 +446,7 @@ public class BlockStorage {
 	}
 
 	public static void clearBlockInfo(Location l, boolean destroy) {
-		SlimefunStartup.ticker.delete.put(l, destroy);
+		SlimefunPlugin.ticker.delete.put(l, destroy);
 	}
 
 	public static void _integrated_removeBlockInfo(Location l, boolean destroy) {
@@ -481,7 +481,7 @@ public class BlockStorage {
 	}
 
 	public static void moveBlockInfo(Location from, Location to) {
-		SlimefunStartup.ticker.move.put(from, to);
+		SlimefunPlugin.ticker.move.put(from, to);
 	}
 
 	@Deprecated
@@ -616,7 +616,7 @@ public class BlockStorage {
 		if (menu != null) {
 			for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
 				// Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while holding an item
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> human.closeInventory());
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> human.closeInventory());
 			}
 
 			inventories.get(l).delete(l);

@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.hooks;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
@@ -14,7 +14,7 @@ public final class SlimefunHooks {
 	
 	private CoreProtectAPI coreProtectAPI;
 	
-	public SlimefunHooks(SlimefunStartup plugin) {
+	public SlimefunHooks(SlimefunPlugin plugin) {
 		if (plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			placeHolderAPI = true;
 			new PlaceholderAPIHook().register();

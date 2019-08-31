@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -28,7 +28,7 @@ import org.bukkit.util.Vector;
 
 public class ArmorListener implements Listener {
 	
-	public ArmorListener(SlimefunStartup plugin) {
+	public ArmorListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	

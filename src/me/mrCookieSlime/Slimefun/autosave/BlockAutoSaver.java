@@ -6,7 +6,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class BlockAutoSaver implements Runnable {
@@ -27,7 +27,7 @@ public class BlockAutoSaver implements Runnable {
 		}
 		
 		if (!worlds.isEmpty()) {
-			System.out.println("[Slimefun] Auto-Saving Block Data... (Next Auto-Save: " + SlimefunStartup.getCfg().getInt("options.auto-save-delay-in-minutes") + "m)");
+			System.out.println("[Slimefun] Auto-Saving Block Data... (Next Auto-Save: " + SlimefunPlugin.getCfg().getInt("options.auto-save-delay-in-minutes") + "m)");
 			
 			for (BlockStorage storage: worlds) {
 				storage.save(false);

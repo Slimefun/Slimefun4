@@ -5,12 +5,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class WorldListener implements Listener {
 
-	public WorldListener(SlimefunStartup plugin) {
+	public WorldListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
@@ -18,9 +18,9 @@ public class WorldListener implements Listener {
 	public void onWorldLoad(WorldLoadEvent e) {
 		BlockStorage.getForcedStorage(e.getWorld());
 
-		SlimefunStartup.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled", true);
-		SlimefunStartup.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
-		SlimefunStartup.getWhitelist().save();
+		SlimefunPlugin.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled", true);
+		SlimefunPlugin.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
+		SlimefunPlugin.getWhitelist().save();
 	}
 
 	@EventHandler

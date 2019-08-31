@@ -16,7 +16,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class ErrorReport {
@@ -46,7 +46,7 @@ public class ErrorReport {
 			stream.println();
 			stream.println("Slimefun Environment:");
 			stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
-			stream.println("  Slimefun v" + SlimefunStartup.instance.getDescription().getVersion());
+			stream.println("  Slimefun v" + SlimefunPlugin.instance.getDescription().getVersion());
 			stream.println();
 
 			List<String> plugins = new ArrayList<>();

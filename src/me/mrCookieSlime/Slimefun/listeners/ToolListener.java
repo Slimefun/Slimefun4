@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -46,9 +46,9 @@ public class ToolListener implements Listener {
 	private Random random = new Random();
 	private Utilities utilities;
 	
-	public ToolListener(SlimefunStartup plugin) {
+	public ToolListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		utilities = plugin.getUtilities();
+		utilities = SlimefunPlugin.getUtilities();
 		
 		sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
 		sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);

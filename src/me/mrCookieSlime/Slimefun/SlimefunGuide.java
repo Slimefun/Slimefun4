@@ -33,7 +33,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -46,6 +45,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -72,10 +72,10 @@ public final class SlimefunGuide {
 
 	@Deprecated
 	public static ItemStack getItem() {
-		return getItem(BookDesign.CHEST);
+		return getItem(SlimefunGuideLayout.CHEST);
 	}
 
-	public static ItemStack getItem(BookDesign design) {
+	public static ItemStack getItem(SlimefunGuideLayout design) {
 		switch (design) {
 		case BOOK:
 			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Book GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
@@ -90,7 +90,7 @@ public final class SlimefunGuide {
 
 	@Deprecated
 	public static ItemStack getItem(boolean book) {
-		return getItem(book ? BookDesign.BOOK: BookDesign.CHEST);
+		return getItem(book ? SlimefunGuideLayout.BOOK: SlimefunGuideLayout.CHEST);
 	}
 	
 	@Deprecated
@@ -116,11 +116,11 @@ public final class SlimefunGuide {
 		}
 		
 		
-		if (SlimefunManager.isItemSimiliar(guide, getItem(BookDesign.CHEST), true)) {
+		if (SlimefunManager.isItemSimiliar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
 				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
 				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
-					pl.getInventory().setItemInMainHand(getItem(BookDesign.BOOK));
+					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
@@ -128,17 +128,17 @@ public final class SlimefunGuide {
 			else {
 				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click &8\u21E8 &7Change Layout"));
 				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
-					pl.getInventory().setItemInMainHand(getItem(BookDesign.BOOK));
+					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
 		}
-		else if (SlimefunManager.isItemSimiliar(guide, getItem(BookDesign.BOOK), true)) {
+		else if (SlimefunManager.isItemSimiliar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
 				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
 				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
-					pl.getInventory().setItemInMainHand(getItem(BookDesign.CHEAT_SHEET));
+					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEAT_SHEET));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
@@ -146,22 +146,22 @@ public final class SlimefunGuide {
 			else {
 				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click &8\u21E8 &7Change Layout"));
 				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
-					pl.getInventory().setItemInMainHand(getItem(BookDesign.CHEST));
+					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
 		}
-		else if (SlimefunManager.isItemSimiliar(guide, getItem(BookDesign.CHEAT_SHEET), true)) {
+		else if (SlimefunManager.isItemSimiliar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
 			menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
 			menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
-				pl.getInventory().setItemInMainHand(getItem(BookDesign.CHEST));
+				pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 				openSettings(pl, pl.getInventory().getItemInMainHand());
 				return false;
 			});
 		}
 		
-		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&aCredits", "", "&7Version: &a" + SlimefunStartup.instance.getDescription().getVersion(), "&7Contributors: &e" + SlimefunStartup.instance.getUtilities().contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
+		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&aCredits", "", "&7Version: &a" + SlimefunPlugin.instance.getDescription().getVersion(), "&7Contributors: &e" + SlimefunPlugin.getUtilities().contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
 		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 			openCredits(pl, guide);
 			return false;
@@ -219,11 +219,11 @@ public final class SlimefunGuide {
 		int index = 9;
 		double total = 0;
 
-		for (Contributor contributor : SlimefunStartup.instance.getUtilities().contributors) {
+		for (Contributor contributor : SlimefunPlugin.getUtilities().contributors) {
 			total += contributor.getCommits();
 		}
 		
-		for (final Contributor contributor: SlimefunStartup.instance.getUtilities().contributors) {
+		for (final Contributor contributor: SlimefunPlugin.getUtilities().contributors) {
 			ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
 			
 			try {
@@ -269,8 +269,8 @@ public final class SlimefunGuide {
 	}
 	
 	public static void openGuide(Player p, boolean book) {
-		if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
-		if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
+		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
+		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
 		if (!getHistory().containsKey(p.getUniqueId())) openMainMenu(p, true, book, 1);
 		else {
 			Object last = getLastEntry(p, false);
@@ -352,7 +352,7 @@ public final class SlimefunGuide {
 							actions.add(new PlayerRunnable(1) {
 								@Override
 								public void run(final Player p) {
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> openCategory(p, category, survival, 1, book), 1L);
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openCategory(p, category, survival, 1, book), 1L);
 								}
 							});
 						}
@@ -363,7 +363,7 @@ public final class SlimefunGuide {
 						actions.add(new PlayerRunnable(1) {
 							@Override
 							public void run(final Player p) {
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> openCategory(p, category, survival, 1, book), 1L);
+								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openCategory(p, category, survival, 1, book), 1L);
 							}
 						});
 					}
@@ -567,19 +567,19 @@ public final class SlimefunGuide {
 												openCategory(p, category, true, selected_page, book);
 											}
 											else {
-												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().researchesFreeInCreative)) {
+												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative)) {
 													p.setLevel(p.getLevel() - research.getCost());
 												}
 
 												if (p.getGameMode() == GameMode.CREATIVE) {
 													research.unlock(p, true);
 													
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> openCategory(p, category, survival, selected_page, book), 1L);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openCategory(p, category, survival, selected_page, book), 1L);
 												} 
 												else {
 													research.unlock(p, false);
 													
-													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> openCategory(p, category, survival, selected_page, book), 103L);
+													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openCategory(p, category, survival, selected_page, book), 103L);
 												}
 											}
 										} else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
@@ -634,7 +634,7 @@ public final class SlimefunGuide {
 				page.addClickEvent(new PlayerRunnable(2) {
 					@Override
 					public void run(final Player p) {
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> openMainMenu(p, survival, true, 1), 1L);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openMainMenu(p, survival, true, 1), 1L);
 					}
 				});
 				pages.add(page);
@@ -706,17 +706,17 @@ public final class SlimefunGuide {
 											openCategory(p, category, true, selected_page, book);
 										}
 										else {
-											if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().researchesFreeInCreative)) {
+											if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative)) {
 												pl.setLevel(pl.getLevel() - research.getCost());
 											}
 
 											if (pl.getGameMode() == GameMode.CREATIVE) {
-												research.unlock(pl, SlimefunStartup.instance.getSettings().researchesFreeInCreative);
+												research.unlock(pl, SlimefunPlugin.getSettings().researchesFreeInCreative);
 												openCategory(pl, category, survival, selected_page, book);
 											} 
 											else {
 												research.unlock(pl, false);
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> openCategory(pl, category, survival, selected_page, book), 103L);
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openCategory(pl, category, survival, selected_page, book), 103L);
 											}
 										}
 									} 
@@ -780,7 +780,7 @@ public final class SlimefunGuide {
 
 		final SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		
-		if (sfItem == null && !SlimefunStartup.instance.getSettings().guideShowVanillaRecipes) return;
+		if (sfItem == null && !SlimefunPlugin.getSettings().guideShowVanillaRecipes) return;
 		
 		ItemStack[] recipe = new ItemStack[9];
 		ItemStack recipeType = null;
@@ -1031,7 +1031,7 @@ public final class SlimefunGuide {
 	}
 	
 	private static Map<UUID, List<Object>> getHistory() {
-		return SlimefunStartup.instance.getUtilities().guideHistory;
+		return SlimefunPlugin.getUtilities().guideHistory;
 	}
 	
 	public static void clearHistory(UUID uuid) {

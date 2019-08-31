@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Misc;
+package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.List;
 

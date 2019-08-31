@@ -8,7 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -65,7 +65,7 @@ public final class Pedestals {
 	}
 
 	private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
-        for (AltarRecipe recipe: SlimefunStartup.instance.getUtilities().altarRecipes) {
+        for (AltarRecipe recipe: SlimefunPlugin.getUtilities().altarRecipes) {
         	if (SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
         		for (int i = 0; i < 8; i++) {
             		if (SlimefunManager.isItemSimiliar(items.get(i), recipe.getInput().get(0), true)) {

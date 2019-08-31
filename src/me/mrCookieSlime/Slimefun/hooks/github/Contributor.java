@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.hooks.github;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * Represents a contributor on Slimefun4's GitHub repository.
@@ -69,6 +69,6 @@ public class Contributor {
 	 * @return A Base64-Head Texture
 	 */
 	public String getTexture() {
-		return SlimefunStartup.instance.getUtilities().contributorHeads.get(name);
+		return SlimefunPlugin.getUtilities().contributorHeads.get(name);
 	}
 }

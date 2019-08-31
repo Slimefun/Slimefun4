@@ -24,7 +24,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -280,7 +280,7 @@ public abstract class AReactor extends SlimefunItem {
 						if (space >= produced || !BlockStorage.getLocationInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
 
-							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 								if (!l.getBlock().getRelative(cooling[new Random().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 							});
 
@@ -373,7 +373,7 @@ public abstract class AReactor extends SlimefunItem {
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
 
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> ReactorHologram.remove(l), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> ReactorHologram.remove(l), 0);
 
 					explode.remove(l);
 					processing.remove(l);

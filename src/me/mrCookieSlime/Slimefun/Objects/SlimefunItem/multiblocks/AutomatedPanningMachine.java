@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
@@ -52,7 +52,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 			PlayerInventory.consumeItemInHand(p);
 			for (int i = 1; i < 7; i++) {
 				int j = i;
-				Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+				Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 					b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
 					if (j == 6) {
 						if (drop != null) b.getWorld().dropItemNaturally(b.getLocation(), drop);

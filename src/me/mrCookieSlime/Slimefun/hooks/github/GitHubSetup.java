@@ -10,7 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class GitHubSetup {
 	
@@ -21,7 +21,7 @@ public final class GitHubSetup {
 			
 			@Override
 			public void onSuccess(JsonElement element) {
-				SlimefunStartup.instance.getUtilities().contributors.clear();
+				SlimefunPlugin.getUtilities().contributors.clear();
 				JsonArray array = element.getAsJsonArray();
 			    
 			    for (int i = 0; i < array.size(); i++) {
@@ -35,16 +35,16 @@ public final class GitHubSetup {
 			    	if (!name.equals("invalid-email-address")) {
 			    		Contributor contributor = new Contributor(name, job, commits);
 			    		contributor.setProfile(profile);
-			    		SlimefunStartup.instance.getUtilities().contributors.add(contributor);
+			    		SlimefunPlugin.getUtilities().contributors.add(contributor);
 			    	}
 			    }
-			    SlimefunStartup.instance.getUtilities().contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+			    SlimefunPlugin.getUtilities().contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
 				
-				SlimefunStartup.instance.getServer().getScheduler().runTaskAsynchronously(SlimefunStartup.instance, () -> {
+				SlimefunPlugin.instance.getServer().getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
 					for (JsonElement e: array) {
 						String name = e.getAsJsonObject().get("login").getAsString();
 						
-						if (SlimefunStartup.instance.getUtilities().contributorHeads.containsKey(name)) {
+						if (SlimefunPlugin.getUtilities().contributorHeads.containsKey(name)) {
 							continue;
 						}
 						
@@ -62,12 +62,12 @@ public final class GitHubSetup {
 				            
 				            for (JsonElement el: properties) {
 				            	if (el.isJsonObject() && el.getAsJsonObject().get("name").getAsString().equals("textures")) {
-				            		SlimefunStartup.instance.getUtilities().contributorHeads.put(name, el.getAsJsonObject().get("value").getAsString());
+				            		SlimefunPlugin.getUtilities().contributorHeads.put(name, el.getAsJsonObject().get("value").getAsString());
 									break;
 				            	}
 				            }
 						} catch (Exception x) {
-							SlimefunStartup.instance.getUtilities().contributorHeads.put(name, null);
+							SlimefunPlugin.getUtilities().contributorHeads.put(name, null);
 						} finally {
 							if (profileReader != null) {
 								try {
@@ -90,10 +90,10 @@ public final class GitHubSetup {
 			
 			@Override
 			public void onFailure() {
-				SlimefunStartup.instance.getUtilities().contributors.clear();
-				SlimefunStartup.instance.getUtilities().contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
-				SlimefunStartup.instance.getUtilities().contributors.add(new Contributor("John000708", "&cAuthor", 2));
-				SlimefunStartup.instance.getUtilities().contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				SlimefunPlugin.getUtilities().contributors.clear();
+				SlimefunPlugin.getUtilities().contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
+				SlimefunPlugin.getUtilities().contributors.add(new Contributor("John000708", "&cAuthor", 2));
+				SlimefunPlugin.getUtilities().contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
 			}
 			
 			@Override

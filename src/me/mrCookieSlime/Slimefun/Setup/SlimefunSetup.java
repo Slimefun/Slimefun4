@@ -62,14 +62,13 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.GPS.NetworkStatus;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Misc.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -679,7 +678,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.HOOK, SlimefunItems.HOOK, null, SlimefunItems.CHAIN, SlimefunItems.HOOK, SlimefunItems.CHAIN, null, null})
 		.register(true, new ItemInteractionHandler() {
 			
-			private Utilities variables = SlimefunStartup.instance.getUtilities();
+			private Utilities variables = SlimefunPlugin.getUtilities();
 
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
@@ -1305,7 +1304,7 @@ public final class SlimefunSetup {
 							if (InvUtils.fits(inv, adding)) {
 								for (int i = 0; i < 4; i++) {
 									int j = i;
-									Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+									Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 										if (j < 3) {
 											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
 										} else {
@@ -1374,7 +1373,7 @@ public final class SlimefunSetup {
 							if (InvUtils.fits(inv, adding)) {
 								for (int i = 0; i < 4; i++) {
 									int j = i;
-									Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+									Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 										if (j < 3) {
 											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
 										} 
@@ -1444,8 +1443,8 @@ public final class SlimefunSetup {
 							for (int z = -1; z <= 1; z++) {
 								Block b = e.getBlock().getRelative(x, y, z);
 								if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), explosiveblacklist) && CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
-									if (SlimefunStartup.instance.getHooks().isCoreProtectInstalled()) {
-										SlimefunStartup.instance.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
+									if (SlimefunPlugin.getHooks().isCoreProtectInstalled()) {
+										SlimefunPlugin.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 									}
 
 									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -1509,8 +1508,8 @@ public final class SlimefunSetup {
 								}
 								if (correctType) {
 									if (CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
-										if (SlimefunStartup.instance.getHooks().isCoreProtectInstalled()) {
-											SlimefunStartup.instance.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
+										if (SlimefunPlugin.getHooks().isCoreProtectInstalled()) {
+											SlimefunPlugin.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 										}
 
 										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -1734,7 +1733,7 @@ public final class SlimefunSetup {
 							FallingBlock block = ground.getWorld().spawnFallingBlock(ground.getBlock().getRelative(BlockFace.UP).getLocation(), ground.getBlock().getBlockData());
 							block.setDropItem(false);
 							block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-							SlimefunStartup.instance.getUtilities().blocks.add(block.getUniqueId());
+							SlimefunPlugin.getUtilities().blocks.add(block.getUniqueId());
 						}
 						for (Entity n: ground.getChunk().getEntities()) {
 							if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
@@ -1980,7 +1979,7 @@ public final class SlimefunSetup {
 
 			@Override
 			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(SlimefunStartup.instance.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.EXPLOSIVE_BOW, true)) {
+				if (SlimefunManager.isItemSimiliar(SlimefunPlugin.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.EXPLOSIVE_BOW, true)) {
 					Vector vector = n.getVelocity();
 					vector.setY(0.6);
 					n.setVelocity(vector);
@@ -1998,7 +1997,7 @@ public final class SlimefunSetup {
 
 			@Override
 			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(SlimefunStartup.instance.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.ICY_BOW, true)) {
+				if (SlimefunManager.isItemSimiliar(SlimefunPlugin.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.ICY_BOW, true)) {
 					n.getWorld().playEffect(n.getLocation(), Effect.STEP_SOUND, Material.ICE);
 					n.getWorld().playEffect(n.getEyeLocation(), Effect.STEP_SOUND, Material.ICE);
 					n.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 2, 10));
@@ -2194,7 +2193,7 @@ public final class SlimefunSetup {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				Item stack = AncientAltarListener.findItem(b);
 				if (stack != null) { 
-					stack.removeMetadata("item_placed", SlimefunStartup.instance);
+					stack.removeMetadata("item_placed", SlimefunPlugin.instance);
 					b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
 					stack.remove();
 				}
@@ -4042,7 +4041,7 @@ public final class SlimefunSetup {
 
 			@Override
 			public void extraTick(final Location l) {
-				Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+				Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 					for (Entity entity : ReactorHologram.getArmorStand(l, true).getNearbyEntities(5, 5, 5)) {
 						if (entity instanceof LivingEntity) {
 							((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
@@ -4278,7 +4277,7 @@ public final class SlimefunSetup {
 	}
 	
 	public static void registerPostHandler(PostSlimefunLoadingHandler handler) {
-		MiscSetup.postHandlers.add(handler);
+		SlimefunPlugin.getUtilities().postHandlers.add(handler);
 	}
 
 }

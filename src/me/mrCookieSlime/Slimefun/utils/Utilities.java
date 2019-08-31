@@ -13,7 +13,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
+import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
 import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
@@ -29,6 +31,10 @@ import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 public final class Utilities {
 	
 	public int vanillaItems = 0;
+	
+	public Map<UUID, PlayerProfile> profiles = new HashMap<>();
+	
+	public List<PostSlimefunLoadingHandler> postHandlers = new ArrayList<>();
 	
 	public Map<UUID, Boolean> jumpState = new HashMap<>();
 	public Set<UUID> damage = new HashSet<>();
