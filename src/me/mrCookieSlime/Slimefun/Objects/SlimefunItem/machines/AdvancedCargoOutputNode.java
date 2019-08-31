@@ -1,5 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import java.util.logging.Level;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -19,6 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
@@ -144,8 +147,8 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 						return false;
 					});
 					
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Inventory of an Advanced Cargo Output Node for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
 
 import org.bukkit.Bukkit;
@@ -86,8 +87,8 @@ public class ErrorReport {
 			System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, this message does not have to be included.");
 			System.err.println("[Slimefun] You can put the file on Pastebin and then post it here: https://github.com/TheBusyBiscuit/Slimefun4/issues");
 			System.err.println("[Slimefun] ");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (FileNotFoundException x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + Slimefun.getVersion(), x);
 		}
 	}
 	

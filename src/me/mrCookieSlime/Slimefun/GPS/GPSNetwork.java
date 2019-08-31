@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -92,8 +93,8 @@ public class GPSNetwork {
 		menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
 			try {
 				openWaypointControlPanel(pl);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while opening the 'Waypoint' Panel for Slimefun " + Slimefun.getVersion(), x);
 			}
 			return false;
 		});
@@ -104,9 +105,7 @@ public class GPSNetwork {
 			int slot = inventory[index];
 			
 			menu.addItem(slot, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&bGPS Transmitter", "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &7Signal Strength: &r" + l.getBlockY(), "&8\u21E8 &7Ping: &r" + DoubleHandler.fixDouble(1000D / l.getY()) + "ms"));
-			menu.addMenuClickHandler(slot,
-				(pl, slotn, item, action) -> false
-			);
+			menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> false);
 			
 			index++;
 		}
@@ -135,17 +134,15 @@ public class GPSNetwork {
 		ChestMenu menu = new ChestMenu("&9Control Panel");
 		
 		for (int slot: border) {
-			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-				(pl, slotn, item, action) -> false
-			);
+			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (pl, slotn, item, action) -> false);
 		}
 		
 		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7Transmitter Overview &r(Select)"));
 		menu.addMenuClickHandler(2, (pl, slot, item, action) -> {
 			try {
 				openTransmitterControlPanel(pl);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while opening the 'GPS Transmitters' Panel for Slimefun " + Slimefun.getVersion(), x);
 			}
 			return false;
 		});
@@ -173,8 +170,8 @@ public class GPSNetwork {
 				pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
 				try {
 					openWaypointControlPanel(pl);
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while opening the 'Waypoint Control' Panel for Slimefun " + Slimefun.getVersion(), x);
 				}
 				return false;
 			});
@@ -239,9 +236,7 @@ public class GPSNetwork {
 		for (OreGenResource resource: OreGenSystem.listResources()) {
 			int supply = OreGenSystem.getSupplies(resource, chunk, true);
 			
-			menu.addItem(index, new CustomItem(resource.getIcon(), "&7Resource: &e" + resource.getName(), "", "&7Scanned Chunk:", "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "&7Result: &e" + supply + " " + resource.getMeasurementUnit()),
-				(pl, slot, item, action) -> false
-			);
+			menu.addItem(index, new CustomItem(resource.getIcon(), "&7Resource: &e" + resource.getName(), "", "&7Scanned Chunk:", "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "&7Result: &e" + supply + " " + resource.getMeasurementUnit()), (pl, slot, item, action) -> false);
 			index++;
 		}
 		

@@ -1,5 +1,7 @@
 package me.mrCookieSlime.Slimefun.Lists;
 
+import java.util.logging.Level;
+
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -10,6 +12,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Built-in categories.
@@ -52,7 +55,7 @@ public final class Categories {
 			return CustomSkull.getItem(texture);
 		}
 		catch(Exception x) {
-			x.printStackTrace();
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while initializing the Categories for Slimefun " + Slimefun.getVersion(), x);
 			
 			return new ItemStack(Material.PLAYER_HEAD);
 		}

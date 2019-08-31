@@ -5,6 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class IntegerFormat {
 	
@@ -17,8 +20,8 @@ public final class IntegerFormat {
 	public static Date parseGitHubDate(String str) {
 		try {
 			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(str.replace("T", " ").replace("Z", ""));
-		} catch (ParseException e) {
-			e.printStackTrace();
+		} catch (ParseException x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a GitHub-Date for Slimefun " + Slimefun.getVersion(), x);
 			return null;
 		}
 	}

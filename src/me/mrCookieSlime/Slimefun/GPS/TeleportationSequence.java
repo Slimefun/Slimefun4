@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.GPS;
 
 import java.util.UUID;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,6 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class TeleportationSequence {
 	
@@ -58,7 +60,7 @@ public final class TeleportationSequence {
 				title.send(TitleType.TITLE, p);
 				subtitle.send(TitleType.SUBTITLE, p);
 			} catch(Exception x) {
-				x.printStackTrace();
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while cancelling a Teleportation Sequence for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 	}
@@ -97,8 +99,8 @@ public final class TeleportationSequence {
 					
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> updateProgress(uuid, speed, progress + speed, source, destination, resistance), 10L);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured during a Teleportation Sequence for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		else cancel(uuid, p);

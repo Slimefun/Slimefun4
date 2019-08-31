@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -137,8 +138,8 @@ public class ItemListener implements Listener {
 						b.setType(Material.PLAYER_HEAD);
 						try {
 							CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
-						} catch (Exception e1) {
-							e1.printStackTrace();
+						} catch (Exception x) {
+							Slimefun.getLogger().log(Level.SEVERE, "An Error occured while using the Debug-Fish for Slimefun " + Slimefun.getVersion(), x);
 						}
 					}
 					else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {

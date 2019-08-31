@@ -350,4 +350,8 @@ public class Slimefun {
 	public static List<GuideHandler> getGuideHandlers(int tier) {
 		return guideHandlers.containsKey(tier) ? guideHandlers.get(tier): new ArrayList<>();
 	}
+
+	public static String getVersion() {
+		return SlimefunPlugin.instance.getDescription().getVersion();
+	}
 }

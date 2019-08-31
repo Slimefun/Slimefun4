@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -108,8 +109,8 @@ public class SlimefunBackup {
 			}
 
 			System.out.println("[Slimefun] Backed up Blocks to " + file.getName());
-		} catch(IOException e) {
-			e.printStackTrace();
+		} catch(IOException x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a World-Backup for Slimefun " + Slimefun.getVersion(), x);
 		}
 	}
 
