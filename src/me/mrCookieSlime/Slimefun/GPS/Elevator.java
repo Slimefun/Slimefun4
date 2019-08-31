@@ -35,7 +35,7 @@ public final class Elevator {
 			pl.sendMessage("");
 			
 			MenuHelper.awaitChatInput(pl, (player, message) -> {
-				BlockStorage.addBlockInfo(b, "floor", message.replaceAll("&", "&"));
+				BlockStorage.addBlockInfo(b, "floor", message.replace(ChatColor.COLOR_CHAR, '&'));
 				
 				player.sendMessage("");
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &eSuccessfully named this Floor:"));
