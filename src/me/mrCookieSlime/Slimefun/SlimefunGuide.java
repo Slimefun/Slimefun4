@@ -716,7 +716,7 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-							menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), new String[] {"", "&rYou do not have Permission", "&rto access this Item"}));
+							menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), "", "&rYou do not have Permission", "&rto access this Item"));
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
 							index++;
 						}
