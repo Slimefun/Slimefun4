@@ -82,6 +82,7 @@ public class ErrorReport {
 			stream.println();
 			throwable.printStackTrace(stream);
 			
+			Slimefun.getLogger().log(Level.WARNING, "");
 			Slimefun.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
 			Slimefun.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/" + file.getName());
 			Slimefun.getLogger().log(Level.WARNING, "Please consider sending this File to the developer(s) of Slimefun, this message does not have to be included.");

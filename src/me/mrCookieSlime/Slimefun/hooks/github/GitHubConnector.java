@@ -33,8 +33,10 @@ public abstract class GitHubConnector {
 	public abstract void onFailure();
 
 	public void pullFile() {
-		if (SlimefunPlugin.getCfg().getBoolean("options.print-out-github-data-retrieving")) System.out.println("[Slimefun - GitHub] Retrieving '" + this.getFileName() + ".json' from GitHub...");
-
+		if (SlimefunPlugin.getCfg().getBoolean("options.print-out-github-data-retrieving")) {
+			Slimefun.getLogger().log(Level.INFO, "Retrieving '" + this.getFileName() + ".json' from GitHub...");
+		}
+	
 		try {
 			URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
 
@@ -50,7 +52,9 @@ public abstract class GitHubConnector {
 				}
 			}
 		} catch (IOException e) {
-			if (SlimefunPlugin.getCfg().getBoolean("options.print-out-github-data-retrieving")) System.err.println("[Slimefun - GitHub] ERROR - Could not connect to GitHub in time.");
+			if (SlimefunPlugin.getCfg().getBoolean("options.print-out-github-data-retrieving")) {
+				Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.");
+			}
 
 			if (hasData()) {
 				this.parseData();

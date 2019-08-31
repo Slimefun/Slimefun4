@@ -108,16 +108,13 @@ public class TickerTask implements Runnable {
 												// Generate a new Error-Report
 												new ErrorReport(x, this, l, item);
 												
-												System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
-												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-												
 												buggedBlocks.put(l, errors);
 											}
 											else if (errors == 4) {
-												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
-												System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
-												System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
-												System.err.println("[Slimefun] ");
+												Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
+												Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+												Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
+												Slimefun.getLogger().log(Level.SEVERE, " ");
 												
 												BlockStorage._integrated_removeBlockInfo(l, true);
 												
@@ -149,17 +146,13 @@ public class TickerTask implements Runnable {
 								if (errors == 1) {
 									// Generate a new Error-Report
 									new ErrorReport(x, this, l, item);
-									
-									System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
-									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-									
 									buggedBlocks.put(l, errors);
 								}
 								else if (errors == 4) {
-									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
-									System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
-									System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
-									System.err.println("[Slimefun] ");
+									Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
+									Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+									Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
+									Slimefun.getLogger().log(Level.SEVERE, " ");
 									
 									BlockStorage._integrated_removeBlockInfo(l, true);
 									

@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.GEO;
 
 import java.util.Collection;
+import java.util.logging.Level;
 
 import org.bukkit.Chunk;
 import org.bukkit.block.Biome;
@@ -8,6 +9,7 @@ import org.bukkit.block.Biome;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class OreGenSystem {
 	
@@ -19,7 +21,7 @@ public final class OreGenSystem {
 	
 	public static void registerResource(OreGenResource resource) {
 		SlimefunPlugin.getUtilities().resources.put(resource.getName(), resource);
-		System.out.println("[Slimefun - GEO] Registering Ore Gen: " + resource.getName());
+		Slimefun.getLogger().log(Level.INFO, "Registering Ore Gen: " + resource.getName());
 		
 		Config cfg = new Config("plugins/Slimefun/generators/" + resource.getName() + ".cfg");
 		for (Biome biome: Biome.values()) {

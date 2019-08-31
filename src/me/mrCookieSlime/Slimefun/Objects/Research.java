@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -303,7 +304,9 @@ public class Research {
 		this.enabled = SlimefunPlugin.getResearchCfg().getBoolean(this.getID() + ".enabled");
 
 		list.add(this);
-		if (SlimefunPlugin.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Research \"" + this.getName() + "\"");
+		if (SlimefunPlugin.getSettings().printOutLoading) {
+			Slimefun.getLogger().log(Level.INFO, "Loaded Research \"" + this.getName() + "\"");
+		}
 	}
 
 	/**

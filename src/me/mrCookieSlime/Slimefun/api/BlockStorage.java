@@ -81,8 +81,9 @@ public class BlockStorage {
 	public BlockStorage(final World w) {
 		if (SlimefunPlugin.getUtilities().worlds.containsKey(w.getName())) return;
 		this.world = w;
-		System.out.println("[Slimefun] Loading Blocks for World \"" + w.getName() + "\"");
-		System.out.println("[Slimefun] This may take a long time...");
+		
+		Slimefun.getLogger().log(Level.INFO, "Loading Blocks for World \"" + w.getName() + "\"");
+		Slimefun.getLogger().log(Level.INFO, "This may take a long time...");
 		
 		File f = new File(path_blocks + w.getName());
 		if (f.exists()) {
@@ -95,13 +96,14 @@ public class BlockStorage {
 			try {
 				for (File file: f.listFiles()) {
 					if (file.getName().equals("null.sfb")) {
-						System.err.println("[Slimefun] Corrupted file detected!");
-						System.err.println("[Slimefun] Slimefun will simply skip this File, but you");
-						System.err.println("[Slimefun] should probably look into it!");
+						Slimefun.getLogger().log(Level.WARNING, "Corrupted file detected!");
+						Slimefun.getLogger().log(Level.WARNING, "Slimefun will simply skip this File, but you");
+						Slimefun.getLogger().log(Level.WARNING, "should maybe look into it!");
+						Slimefun.getLogger().log(Level.WARNING, file.getPath());
 					}
 					else if (file.getName().endsWith(".sfb")) {
 						if (timestamp + SlimefunPlugin.getSettings().blocksInfoLoadingDelay < System.currentTimeMillis()) {
-							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F) + "% done (\"" + w.getName() + "\")");
+							Slimefun.getLogger().log(Level.INFO, "Loading Blocks... " + Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
 
@@ -118,9 +120,9 @@ public class BlockStorage {
 									// It should not be possible to have two blocks on the same location. Ignore the
 									// new entry if a block is already present and print an error to the console.
 
-									System.out.println("[Slimefun] Ignoring duplicate block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
-									System.out.println("[Slimefun] Old block data: " + serializeBlockInfo(storage.get(l)));
-									System.out.println("[Slimefun] New block data (" + key + "): " + json);
+									Slimefun.getLogger().log(Level.INFO, "Ignoring duplicate block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+									Slimefun.getLogger().log(Level.INFO, "Old block data: " + serializeBlockInfo(storage.get(l)));
+									Slimefun.getLogger().log(Level.INFO, "New block data (" + key + "): " + json);
 									continue;
 								}
 								storage.put(l, blockInfo);
@@ -129,7 +131,10 @@ public class BlockStorage {
 									Set<Location> locations = SlimefunPlugin.getUtilities().tickingChunks.getOrDefault(chunkString, new HashSet<>());
 									locations.add(l);
 									SlimefunPlugin.getUtilities().tickingChunks.put(chunkString, locations);
-									if (!SlimefunPlugin.getUtilities().loadedTickers.contains(chunkString)) SlimefunPlugin.getUtilities().loadedTickers.add(chunkString);
+									
+									if (!SlimefunPlugin.getUtilities().loadedTickers.contains(chunkString)) {
+										SlimefunPlugin.getUtilities().loadedTickers.add(chunkString);
+									}
 								}
 							} catch (Exception x) {
 								Slimefun.getLogger().log(Level.WARNING, "Failed to load " + file.getName() + "(" + key + ") for Slimefun " + Slimefun.getVersion(), x);
@@ -140,8 +145,8 @@ public class BlockStorage {
 				}
 			} finally {
 				long time = (System.currentTimeMillis() - start);
-				System.out.println("[Slimefun] Loading Blocks... 100% (FINISHED - " + time + "ms)");
-				System.out.println("[Slimefun] Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
+				Slimefun.getLogger().log(Level.INFO, "Loading Blocks... 100% (FINISHED - " + time + "ms)");
+				Slimefun.getLogger().log(Level.INFO, "Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
 				if (totalBlocks > 0) System.out.println("[Slimefun] Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
 			}
 		}
@@ -165,6 +170,7 @@ public class BlockStorage {
 			if (file.getName().startsWith(w.getName()) && file.getName().endsWith(".sfi")) {
 				Location l = deserializeLocation(file.getName().replace(".sfi", ""));
 				Config cfg = new Config(file);
+				
 				try {
 					BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
 					if (preset == null) {
@@ -222,7 +228,7 @@ public class BlockStorage {
 		if (computeChanges) computeChanges();
 		if (changes == 0) return;
 		
-		System.out.println("[Slimefun] Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Change(s) queued)");
+		Slimefun.getLogger().log(Level.INFO, "Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Change(s) queued)");
 		
 		Map<String, Config> cache = new HashMap<>(cache_blocks);
 		

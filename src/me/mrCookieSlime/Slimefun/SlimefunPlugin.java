@@ -122,27 +122,27 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 				// Looks like you are using an unsupported Minecraft Version
 				if (!compatibleVersion) {
-					System.err.println("### Slimefun failed to load!");
-					System.err.println("###");
-					System.err.println("### You are using the wrong Version of Minecraft!!!");
-					System.err.println("###");
-					System.err.println("### You are using Minecraft " + ReflectionUtils.getVersion());
-					System.err.println("### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
-					System.err.println("### Minecraft " + versions.toString());
-					System.err.println("###");
-					System.err.println("### Please use an older Version of Slimefun and disable auto-updating");
-					System.err.println("### or consider updating your Server Software.");
+					getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
+					getLogger().log(Level.SEVERE, "###");
+					getLogger().log(Level.SEVERE, "### You are using the wrong Version of Minecraft!");
+					getLogger().log(Level.SEVERE, "###");
+					getLogger().log(Level.SEVERE, "### You are using Minecraft " + ReflectionUtils.getVersion());
+					getLogger().log(Level.SEVERE, "### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
+					getLogger().log(Level.SEVERE, "### Minecraft " + versions.toString());
+					getLogger().log(Level.SEVERE, "###");
+					getLogger().log(Level.SEVERE, "### Please use an older Version of Slimefun and disable auto-updating");
+					getLogger().log(Level.SEVERE, "### or consider updating your Server Software.");
 					getServer().getPluginManager().disablePlugin(this);
 					return;
 				}
 			}
 
 			instance = this;
-			System.out.println("[Slimefun] Loading Files...");
+			getLogger().log(Level.INFO, "Loading Files...");
 			Files files = new Files();
 			files.cleanup();
 
-			System.out.println("[Slimefun] Loading Config...");
+			getLogger().log(Level.INFO, "Loading Config...");
 
 			PluginUtils utils = new PluginUtils(this);
 			utils.setupConfig();
@@ -181,7 +181,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			for (String s : storage) createDir("data-storage/Slimefun/" + s);
 			for (String s : general) createDir("plugins/Slimefun/" + s);
 
-			System.out.println("[Slimefun] Loading Items...");
+			getLogger().log(Level.INFO, "Loading Items...");
 			MiscSetup.setupItemSettings();
 			
 			try {
@@ -189,18 +189,19 @@ public final class SlimefunPlugin extends JavaPlugin {
 			} catch (Exception x) {
 				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + Slimefun.getVersion());
 			}
+			
 			MiscSetup.loadDescriptions();
 			
 			settings = new Settings(config);
 			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 			settings.smelteryFireBreakChance = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
-			System.out.println("[Slimefun] Loading Researches...");
+			getLogger().log(Level.INFO, "Loading Researches...");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
 
-			System.out.println("[Slimefun] Loading World Generators...");
+			getLogger().log(Level.INFO, "Loading World Generators...");
 
 			// Generating Oil as an OreGenResource (its a cool API)
 			OreGenSystem.registerResource(new OilResource());
@@ -310,7 +311,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);
 
 			// Hooray!
-			System.out.println("[Slimefun] Finished!");
+			getLogger().log(Level.INFO, "Finished!");
 			hooks = new SlimefunHooks(this);
 			
 			OreWasher.items = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};

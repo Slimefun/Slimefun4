@@ -1,5 +1,7 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
+import java.util.logging.Level;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;
@@ -7,6 +9,7 @@ import org.bukkit.event.world.WorldUnloadEvent;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class WorldListener implements Listener {
 
@@ -26,8 +29,12 @@ public class WorldListener implements Listener {
 	@EventHandler
 	public void onWorldUnload(WorldUnloadEvent e) {
 		BlockStorage storage = BlockStorage.getStorage(e.getWorld());
-		if (storage != null) storage.save(true);
-		else System.err.println("[Slimefun] Could not save Slimefun Blocks for World \"" + e.getWorld().getName() + "\"");
+		if (storage != null) {
+			storage.save(true);
+		}
+		else {
+			Slimefun.getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"" + e.getWorld().getName() + "\"");
+		}
 	}
 
 }

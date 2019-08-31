@@ -38,40 +38,38 @@ public class MultiBlock {
 	}
 	
 	public boolean isMultiBlock(SlimefunItem machine) {
-		if (machine == null) return false;
-		else if (!(machine instanceof SlimefunMachine)) return false;
-		else if (machine instanceof SlimefunMachine) {
-			MultiBlock mb = ((SlimefunMachine) machine).toMultiBlock();
-			if (trigger == mb.getTriggerBlock()) {
-				for (int i = 0; i < mb.getBuild().length; i++) {
-					if (mb.getBuild()[i] != null) {
-						if (MaterialHelper.isLog( mb.getBuild()[i])) {
-							if (!MaterialHelper.isLog(blocks[i])) return false;
-						}
-						else if (mb.getBuild()[i] != blocks[i]) return false;
-					}
-				}
-				return true;
-			}
-			else return false;
+		if (machine instanceof SlimefunMachine) {
+			return isMultiBlock(((SlimefunMachine) machine).toMultiBlock());
 		}
 		else return false;
 	}
 	
 	public boolean isMultiBlock(MultiBlock mb) {
 		if (mb == null) return false;
-		else if (trigger == mb.getTriggerBlock()) {
+		
+		if (trigger == mb.getTriggerBlock()) {
 			for (int i = 0; i < mb.getBuild().length; i++) {
-				if (mb.getBuild()[i] != null) {
-					if (MaterialHelper.isLog(mb.getBuild()[i])) {
-						if (!MaterialHelper.isLog(blocks[i])) return false;
-					}
-					else if (mb.getBuild()[i] != blocks[i]) return false;
-				}
+				if (!compareBlocks(blocks[i], mb.getBuild()[i])) return false;
 			}
+			
 			return true;
 		}
-		else return false;
+		
+		return false;
+	}
+
+	private boolean compareBlocks(Material a, Material b) {
+		if (b != null) {
+			if (MaterialHelper.isLog(b)) {
+				return MaterialHelper.isLog(a);
+			}
+			
+			if (b != a) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 }

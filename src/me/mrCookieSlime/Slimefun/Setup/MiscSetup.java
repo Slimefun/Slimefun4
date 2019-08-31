@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Setup;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
@@ -53,11 +54,11 @@ public final class MiscSetup {
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
 			if (item == null) {
-				System.err.println("[Slimefun] Removed bugged Item ('NULL?')");
+				Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
 				iterator.remove();
 			}
 			else if (item.getItem() == null) {
-				System.err.println("[Slimefun] Removed bugged Item ('" + item.getID() + "')");
+				Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('" + item.getID() + "')");
 				iterator.remove();
 			}
 		}

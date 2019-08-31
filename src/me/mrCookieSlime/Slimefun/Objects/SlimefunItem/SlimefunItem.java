@@ -259,7 +259,9 @@ public class SlimefunItem {
 					handlers.put(handler.toCodename(), handlerset);
 				}
 
-				if (SlimefunPlugin.getCfg().getBoolean("options.print-out-loading")) System.out.println("[Slimefun] Loaded Item \"" + this.id + "\"");
+				if (SlimefunPlugin.getSettings().printOutLoading) {
+					Slimefun.getLogger().log(Level.INFO, "Loaded Item \"" + this.id + "\"");
+				}
 			} 
 			else {
 				if (this instanceof VanillaItem) this.state = State.VANILLA;

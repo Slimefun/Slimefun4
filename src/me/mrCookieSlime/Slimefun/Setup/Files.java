@@ -1,6 +1,9 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
 import java.io.File;
+import java.util.logging.Level;
+
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class Files {
 	
@@ -12,17 +15,17 @@ public final class Files {
 	
 	public void cleanup() {
 		if (!researches.exists()) {
-			System.err.println("###############################################");
-			System.err.println("############## = -  INFO  - = #################");
-			System.err.println("###############################################");
-			System.err.println("      ");
-			System.err.println("Slimefun Warning:");
-			System.err.println("         ");
-			System.err.println("Slimefun has detected that your Files are either");
-			System.err.println("outdated or do not exist. We generated new Files");
-			System.err.println("instead otherwise Slimefun would not work. If you");
-			System.err.println("have used Slimefun before, your Settings are now");
-			System.err.println("gone. But therefore Slimefun works!");
+			Slimefun.getLogger().log(Level.WARNING, "###############################################");
+			Slimefun.getLogger().log(Level.WARNING, "############## = -  INFO  - = #################");
+			Slimefun.getLogger().log(Level.WARNING, "###############################################");
+			Slimefun.getLogger().log(Level.WARNING, "      ");
+			Slimefun.getLogger().log(Level.WARNING, "Slimefun Warning:");
+			Slimefun.getLogger().log(Level.WARNING, "         ");
+			Slimefun.getLogger().log(Level.WARNING, "Slimefun has detected that your Files are either");
+			Slimefun.getLogger().log(Level.WARNING, "outdated or do not exist. We generated new Files");
+			Slimefun.getLogger().log(Level.WARNING, "instead otherwise Slimefun would not work. If you");
+			Slimefun.getLogger().log(Level.WARNING, "have used Slimefun before, your Settings are now");
+			Slimefun.getLogger().log(Level.WARNING, "gone. But therefore Slimefun works!");
 			delete(new File("plugins/Slimefun"));
 			delete(new File("data-storage/Slimefun"));
 		}
