@@ -1,6 +1,9 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo;
 
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
+
+import java.util.logging.Level;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -19,6 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
@@ -63,6 +67,7 @@ public class CargoInputNode extends SlimefunItem {
 						Damageable dmg = (Damageable) is.getItemMeta();
 						dmg.setDamage(20);
 						is.setItemMeta((ItemMeta) dmg);
+						
 						menu.replaceExistingItem(16, new CustomItem(is, "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
 						menu.addMenuClickHandler(16, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "filter-durability", "true");
@@ -75,6 +80,7 @@ public class CargoInputNode extends SlimefunItem {
 						Damageable dmg = (Damageable) is.getItemMeta();
 						dmg.setDamage(20);
 						is.setItemMeta((ItemMeta) dmg);
+						
 						menu.replaceExistingItem(16, new CustomItem(is, "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
 						menu.addMenuClickHandler(16, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "filter-durability", "false");
@@ -160,8 +166,8 @@ public class CargoInputNode extends SlimefunItem {
 						return false;
 					});
 					
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a Cargo Input Node for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -196,6 +202,7 @@ public class CargoInputNode extends SlimefunItem {
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
+				
 				if (inv != null) {
 					for (int slot : getInputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
@@ -211,14 +218,10 @@ public class CargoInputNode extends SlimefunItem {
 	
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 
-		preset.addItem(2, new CustomItem(new ItemStack(Material.PAPER), "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"),
-			(p, slot, item, action) -> false
-		);
+		preset.addItem(2, new CustomItem(new ItemStack(Material.PAPER), "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"), (p, slot, item, action) -> false);
 	}
 	
 	public int[] getInputSlots() {

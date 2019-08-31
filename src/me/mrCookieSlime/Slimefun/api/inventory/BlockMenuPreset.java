@@ -105,7 +105,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public static BlockMenuPreset getPreset(String id) {
-		return presets.get(id);
+		return id == null ? null: presets.get(id);
 	}
 	
 	public static boolean isInventory(String id) {

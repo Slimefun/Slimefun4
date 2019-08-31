@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -74,9 +76,13 @@ public class BlockStorage {
 	
 	private static Location deserializeLocation(String l) {
 		try {
-			World w = Bukkit.getWorld(l.split(";")[0]);
-			if (w != null) return new Location(w, Integer.parseInt(l.split(";")[1]), Integer.parseInt(l.split(";")[2]), Integer.parseInt(l.split(";")[3]));
+			String[] components = l.split(";");
+			if (components.length != 4) return null;
+			
+			World w = Bukkit.getWorld(components[0]);
+			if (w != null) return new Location(w, Integer.parseInt(components[1]), Integer.parseInt(components[2]), Integer.parseInt(components[3]));
 		} catch (NumberFormatException x) {
+			Slimefun.getLogger().log(Level.WARNING, "Could not parse Number", x);
 		}
 		return null;
 	}
@@ -135,8 +141,7 @@ public class BlockStorage {
 									if (!loadedTickers.contains(chunkString)) loadedTickers.add(chunkString);
 								}
 							} catch (Exception x) {
-								System.err.println("[Slimefun] Failed to load " + file.getName() + "(ERR: " + key + ")");
-								x.printStackTrace();
+								Slimefun.getLogger().log(Level.WARNING, "Failed to load " + file.getName() + "(" + key + ") for Slimefun " + Slimefun.getVersion(), x);
 							}
 						}
 						done++;
@@ -158,8 +163,7 @@ public class BlockStorage {
 				try {
 					if (world.getName().equals(key.split(";")[0])) mapChunks.put(key, cfg.getString(key));
 				} catch (Exception x) {
-					System.err.println("[Slimefun] Failed to load " + chunks.getName() + " for World \"" + world.getName() + "\" (ERR: " + key + ")");
-					x.printStackTrace();
+					Slimefun.getLogger().log(Level.WARNING, "Failed to load " + chunks.getName() + " in World " + world.getName() + "(" + key + ") for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 		}
@@ -171,16 +175,17 @@ public class BlockStorage {
 				Location l = deserializeLocation(file.getName().replace(".sfi", ""));
 				Config cfg = new Config(file);
 				try {
-					if (cfg.getString("preset") != null) {
-						BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
-						inventories.put(l, new BlockMenu(preset, l, cfg));
+					BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
+					if (preset == null) {
+						preset = BlockMenuPreset.getPreset(checkID(l));
 					}
-					else {
-						BlockMenuPreset preset = BlockMenuPreset.getPreset(checkID(l));
+					
+					if (preset != null) {
 						inventories.put(l, new BlockMenu(preset, l, cfg));
 					}
 				}
 				catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while loading this Inventory: " + file.getName(), x);
 				}
 			}
 		}
@@ -240,10 +245,11 @@ public class BlockStorage {
 			else {
 				File tmpFile = new File(cfg.getFile().getParentFile(), cfg.getFile().getName() + ".tmp");
 				cfg.save(tmpFile);
+				
 				try {
 					Files.move(tmpFile.toPath(), cfg.getFile().toPath(), StandardCopyOption.ATOMIC_MOVE);
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (IOException x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while copying a temporary File for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 		}
@@ -340,13 +346,14 @@ public class BlockStorage {
 		try {
 			return new BlockInfoConfig(parseJSON(json));
 		} catch(Exception x) {
-			System.err.println(x.getClass().getName());
-			System.err.println("[Slimefun] Failed to parse BlockInfo for Block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
-			System.err.println(json);
-			System.err.println("[Slimefun] ");
-			System.err.println("[Slimefun] IGNORE THIS ERROR UNLESS IT IS SPAMMING");
-			System.err.println("[Slimefun] ");
-			x.printStackTrace();
+			Logger logger = Slimefun.getLogger();
+			logger.log(Level.WARNING, x.getClass().getName());
+			logger.log(Level.WARNING, "Failed to parse BlockInfo for Block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+			logger.log(Level.WARNING, json);
+			logger.log(Level.WARNING, "");
+			logger.log(Level.WARNING, "IGNORE THIS ERROR UNLESS IT IS SPAMMING");
+			logger.log(Level.WARNING, "");
+			logger.log(Level.SEVERE, "An Error occured while parsing Block Info for Slimefun " + Slimefun.getVersion(), x);
 			return null;
 		}
 	}

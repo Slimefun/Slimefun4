@@ -69,7 +69,7 @@ public final class GitHubSetup {
 				            	}
 				            }
 						} catch (Exception x) {
-							SlimefunPlugin.getUtilities().contributorHeads.put(name, null);
+							if (SlimefunPlugin.isActive()) SlimefunPlugin.getUtilities().contributorHeads.put(name, null);
 						} finally {
 							if (profileReader != null) {
 								try {

@@ -68,6 +68,7 @@ public class SlimefunItem {
 	private EnergyTicker energyTicker;
 	private String[] keys = null;
 	private Object[] values = null;
+	private String wiki = null;
 
 	/**
 	 * Defines whether a SlimefunItem is enabled, disabled or fall-back to its vanilla behavior.
@@ -528,7 +529,15 @@ public class SlimefunItem {
 	}
 
 	public void addWikipage(String page) {
-		Slimefun.addWikiPage(this.getID(), "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
+		wiki = "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page;
+	}
+	
+	public boolean hasWiki() {
+		return wiki != null;
+	}
+	
+	public String getWiki() {
+		return wiki;
 	}
 	
 	@Override

@@ -444,5 +444,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static TickerTask getTicker() {
 		return instance.ticker;
 	}
+	
+	public static boolean isActive() {
+		return instance != null;
+	}
 
 }

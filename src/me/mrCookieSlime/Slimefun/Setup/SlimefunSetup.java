@@ -3056,11 +3056,8 @@ public final class SlimefunSetup {
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
 				if (item == null || !item.getID().equals("GPS_CONTROL_PANEL")) return false;
 				e.setCancelled(true);
-				try {
-					Slimefun.getGPSNetwork().openTransmitterControlPanel(p);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+
+				Slimefun.getGPSNetwork().openTransmitterControlPanel(p);
 				return true;
 			}
 		});
@@ -3492,11 +3489,8 @@ public final class SlimefunSetup {
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
 				if (item == null || !item.getID().equals("GPS_GEO_SCANNER")) return false;
 				e.setCancelled(true);
-				try {
-					Slimefun.getGPSNetwork().scanChunk(p, e.getClickedBlock().getChunk());
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+				
+				Slimefun.getGPSNetwork().scanChunk(p, e.getClickedBlock().getChunk());
 				return true;
 			}
 		});

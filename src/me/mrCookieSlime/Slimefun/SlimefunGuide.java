@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -176,8 +177,8 @@ public final class SlimefunGuide {
 				pl.sendMessage("");
 				return false;
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Info-Panel for Slimefun " + Slimefun.getVersion(), x);
 		}
 		
 		menu.addItem(7, new CustomItem(new ItemStack(Material.REDSTONE), "&4Bug Tracker", "", "&7Unsolved Issues: &a" + issues, "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
@@ -229,8 +230,8 @@ public final class SlimefunGuide {
 			try {
 				String texture = contributor.getTexture();
 				if (texture != null) skull = CustomSkull.getItem(texture);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while fetching a Contributor Head for Slimefun " + Slimefun.getVersion(), x);
 			}
 			
 			SkullMeta meta = (SkullMeta) skull.getItemMeta();
@@ -884,18 +885,18 @@ public final class SlimefunGuide {
 		});
 		
 		if (sfItem != null) {
-			if (Slimefun.getItemConfig().contains(sfItem.getID() + ".wiki")) {
+			if (sfItem.hasWiki()) {
 				try {
 					menu.addItem(8, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY2OTJmOTljYzZkNzgyNDIzMDQxMTA1NTM1ODk0ODQyOThiMmU0YTAyMzNiNzY3NTNmODg4ZTIwN2VmNSJ9fX0="), "&rView this Item in our Wiki &7(Slimefun Wiki)", "", "&7\u21E8 Click to open"));
 					menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
 						pl.closeInventory();
 						pl.sendMessage("");
-						pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + Slimefun.getItemConfig().getString(sfItem.getID() + ".wiki")));
+						pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + sfItem.getWiki()));
 						pl.sendMessage("");
 						return false;
 					});
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while adding a Wiki Page for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 			
@@ -909,8 +910,8 @@ public final class SlimefunGuide {
 						pl.sendMessage("");
 						return false;
 					});
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while adding a Youtube Video for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 		}
