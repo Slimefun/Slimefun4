@@ -1,15 +1,11 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -20,10 +16,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 public final class SlimefunManager {
 	
 	private SlimefunManager() {}
-	
-	public static SlimefunPlugin plugin;
-	public static String prefix;
-	public static Map<EntityType, List<ItemStack>> drops = new EnumMap<>(EntityType.class);
 	
 	public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean special, boolean slimefun) {
 		String[] components = new String[] {"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};

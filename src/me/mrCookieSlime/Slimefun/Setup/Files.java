@@ -4,15 +4,13 @@ import java.io.File;
 
 public final class Files {
 	
-	private Files() {}
+	public final File researches = new File("plugins/Slimefun/Researches.yml");
+	public final File config = new File("plugins/Slimefun/config.yml");
+	public final File items = new File("plugins/Slimefun/Items.yml");
+	public final File database = new File("data-storage/Slimefun/Players");
+	public final File whitelist = new File("plugins/Slimefun/whitelist.yml");
 	
-	public static File researches = new File("plugins/Slimefun/Researches.yml");
-	public static File config = new File("plugins/Slimefun/config.yml");
-	public static File items = new File("plugins/Slimefun/Items.yml");
-	public static File database = new File("data-storage/Slimefun/Players");
-	public static File whitelist = new File("plugins/Slimefun/whitelist.yml");
-	
-	public static void cleanup() {
+	public void cleanup() {
 		if (!researches.exists()) {
 			System.err.println("###############################################");
 			System.err.println("############## = -  INFO  - = #################");
@@ -34,7 +32,7 @@ public final class Files {
 		}
 	}
 	
-	public static boolean delete(File folder) {
+	public boolean delete(File folder) {
 		File[] files = folder.listFiles();
 		if (files != null) {
 			for (File current: files) {

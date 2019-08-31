@@ -350,13 +350,14 @@ public class SlimefunItem {
 			if (recipeOutput != null) output = recipeOutput.clone();
 
 			if (recipeType.toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
+				String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(" ", "_");
 				try {
-					EntityType entity = EntityType.valueOf(ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(" ", "_"));
-					List<ItemStack> dropping = new ArrayList<>();
-					if (SlimefunManager.drops.containsKey(entity)) dropping = SlimefunManager.drops.get(entity);
+					EntityType entity = EntityType.valueOf(mob);
+					List<ItemStack> dropping = SlimefunPlugin.getUtilities().drops.getOrDefault(entity, new ArrayList<>());
 					dropping.add(output);
-					SlimefunManager.drops.put(entity, dropping);
+					SlimefunPlugin.getUtilities().drops.put(entity, dropping);
 				} catch(Exception x) {
+					Slimefun.getLogger().log(Level.WARNING, "An Exception occured when setting a Drop for the Mob: " + mob + " (" + x.getClass().getSimpleName() + ")");
 				}
 			}
 			else if (recipeType.toItem().isSimilar(RecipeType.ANCIENT_ALTAR.toItem())) {
@@ -365,9 +366,10 @@ public class SlimefunItem {
 			else if (recipeType.getMachine() != null && getByID(recipeType.getMachine().getID()) instanceof SlimefunMachine) {
 				((SlimefunMachine) getByID(recipeType.getMachine().getID())).addRecipe(recipe, output);
 			}
+			
 			install();
 		} catch(Exception x) {
-			System.err.println("[Slimefun] Item Initialization failed: " + id);
+			Slimefun.getLogger().log(Level.WARNING, "Item Setup failed: " + id + " (" + x.getClass().getSimpleName() + ")");
 		}
 	}
 
@@ -461,13 +463,14 @@ public class SlimefunItem {
 	public static void patchExistingItem(String id, ItemStack stack) {
 		SlimefunItem item = getByID(id);
 		if (item != null) {
-			System.out.println("[Slimefun] WARNING - Patching existing Item - " + id);
-			System.out.println("[Slimefun] This might take a while");
+			Slimefun.getLogger().log(Level.INFO, "WARNING - Patching existing Item - " + id);
+			Slimefun.getLogger().log(Level.INFO, "This might take a while");
 
 			final ItemStack old = item.getItem();
 			item.setItem(stack);
 			for (SlimefunItem sfi: list()) {
 				ItemStack[] recipe = sfi.getRecipe();
+				
 				for (int i = 0; i < 9; i++) {
 					if (SlimefunManager.isItemSimiliar(recipe[i], old, true)) recipe[i] = stack;
 				}

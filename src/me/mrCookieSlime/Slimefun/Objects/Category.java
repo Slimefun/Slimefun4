@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Statically handles categories.
@@ -76,11 +76,11 @@ public class Category {
 		Collections.sort(list, new CategorySorter());
 
 		if (this instanceof SeasonalCategory) {
-			if (((SeasonalCategory) this).isUnlocked()) Slimefun.currentCategories.add(this);
+			if (((SeasonalCategory) this).isUnlocked()) SlimefunPlugin.getUtilities().currentlyEnabledCategories.add(this);
 		}
-		else Slimefun.currentCategories.add(this);
+		else SlimefunPlugin.getUtilities().currentlyEnabledCategories.add(this);
 		
-		Collections.sort(Slimefun.currentCategories, new CategorySorter());
+		Collections.sort(SlimefunPlugin.getUtilities().currentlyEnabledCategories, new CategorySorter());
 	}
 
 	/**

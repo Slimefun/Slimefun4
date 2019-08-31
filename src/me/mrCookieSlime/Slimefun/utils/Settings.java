@@ -21,7 +21,7 @@ public final class Settings {
 	public boolean legacyOreGrinder;
 	public boolean legacyOreWasher;
 	
-	public int SMELTERY_FIRE_BREAK_CHANCE;
+	public int smelteryFireBreakChance;
 	
 	public Settings(Config cfg) {
 		researchesFreeInCreative = cfg.getBoolean("options.allow-free-creative-research");

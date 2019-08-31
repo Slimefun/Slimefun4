@@ -24,11 +24,6 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
  * @since 4.0
  */
 public class Slimefun {
-	
-	/**
-	 * Lists all the registered categories.
-	 */
-	public static List<Category> currentCategories = new ArrayList<>();
 
 	public static void registerGuideHandler(GuideHandler handler) {
 		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(handler.getTier(), new ArrayList<>());

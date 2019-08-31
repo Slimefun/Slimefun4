@@ -77,7 +77,7 @@ public class Smeltery extends MultiBlockMachine {
 
 						Hopper chamber = findHopper(dispBlock, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
-						if (new Random().nextInt(100) < SlimefunPlugin.getSettings().SMELTERY_FIRE_BREAK_CHANCE) {
+						if (new Random().nextInt(100) < SlimefunPlugin.getSettings().smelteryFireBreakChance) {
 							if (chamber != null) {
 								if (chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
 									ItemStack item = chamber.getInventory().getItem(chamber.getInventory().first(Material.FLINT_AND_STEEL));

@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,28 +45,16 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.IntegerFormat;
 
 public final class SlimefunGuide {
 	
 	private SlimefunGuide() {}
-	
-	public static int month = 0;
-	
-	public static int issues = 0;
-	public static int forks = 0;
-	/**
-	 * Represents the number of stars on the Slimefun4 GitHub repository.
-	 * @since 4.1.13
-	 */
-	public static int stars = 0;
-	public static int codeBytes = 0;
-	public static Date lastUpdate = new Date();
 	
 	private static final int category_size = 36;
 
@@ -169,7 +156,7 @@ public final class SlimefunGuide {
 		});
 		
 		try {
-			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(codeBytes), "&7Last Update: &a" + IntegerFormat.timeDelta(lastUpdate) + " ago", "&7Forks: &e" + forks, "&7Stars: &e" + stars, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(SlimefunPlugin.getUtilities().codeBytes), "&7Last Update: &a" + IntegerFormat.timeDelta(SlimefunPlugin.getUtilities().lastUpdate) + " ago", "&7Forks: &e" + SlimefunPlugin.getUtilities().forks, "&7Stars: &e" + SlimefunPlugin.getUtilities().stars, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
 			menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
 				pl.closeInventory();
 				pl.sendMessage("");
@@ -181,7 +168,7 @@ public final class SlimefunGuide {
 			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Info-Panel for Slimefun " + Slimefun.getVersion(), x);
 		}
 		
-		menu.addItem(7, new CustomItem(new ItemStack(Material.REDSTONE), "&4Bug Tracker", "", "&7Unsolved Issues: &a" + issues, "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
+		menu.addItem(7, new CustomItem(new ItemStack(Material.REDSTONE), "&4Bug Tracker", "", "&7Unsolved Issues: &a" + SlimefunPlugin.getUtilities().issues, "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
 		menu.addMenuClickHandler(7, (pl, slot, item, action) -> {
 			pl.closeInventory();
 			pl.sendMessage("");
@@ -417,7 +404,7 @@ public final class SlimefunGuide {
 				pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F)
 			);
 			
-			List<Category> categories = Slimefun.currentCategories;
+			List<Category> categories = SlimefunPlugin.getUtilities().currentlyEnabledCategories;
 			List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
 			
 			int index = 9;

@@ -139,7 +139,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			instance = this;
 			System.out.println("[Slimefun] Loading Files...");
-			Files.cleanup();
+			Files files = new Files();
+			files.cleanup();
 
 			System.out.println("[Slimefun] Loading Config...");
 
@@ -147,9 +148,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 			utils.setupConfig();
 
 			// Loading all extra configs
-			researches = new Config(Files.researches);
-			items = new Config(Files.items);
-			whitelist = new Config(Files.whitelist);
+			researches = new Config(files.researches);
+			items = new Config(files.items);
+			whitelist = new Config(files.whitelist);
 
 			// Setup Config and messages.yml
 			utils.setupLocalization();
@@ -180,8 +181,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 			for (String s : storage) createDir("data-storage/Slimefun/" + s);
 			for (String s : general) createDir("plugins/Slimefun/" + s);
 
-			SlimefunManager.plugin = this;
-
 			System.out.println("[Slimefun] Loading Items...");
 			MiscSetup.setupItemSettings();
 			
@@ -194,7 +193,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			
 			settings = new Settings(config);
 			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-			settings.SMELTERY_FIRE_BREAK_CHANCE = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
+			settings.smelteryFireBreakChance = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			System.out.println("[Slimefun] Loading Researches...");
 			ResearchSetup.setupResearches();
@@ -350,7 +349,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}
 		}
 		
-		for (UniversalBlockMenu menu: BlockStorage.universalInventories.values()) {
+		for (UniversalBlockMenu menu: utilities.universalInventories.values()) {
 			menu.save();
 		}
 		
@@ -358,11 +357,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 		// Prevent Memory Leaks
 		Messages.local = null;
-		Files.config = null;
-		Files.database = null;
-		Files.items = null;
-		Files.researches = null;
-		Files.whitelist = null;
 		MultiBlock.list = null;
 		Research.list = null;
 		SlimefunItem.all = null;
@@ -375,9 +369,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 		SlimefunCommand.tabs = null;
 		SlimefunItem.blockhandler = null;
 		BlockMenuPreset.presets = null;
-		BlockStorage.loadedTickers = null;
-		BlockStorage.tickingChunks = null;
-		BlockStorage.worlds = null;
 		ChargableBlock.capacitors = null;
 		ChargableBlock.maxCharges = null;
 		AContainer.processing = null;
@@ -386,7 +377,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 		EnergyNet.machinesOutput = null;
 		EnergyNet.machinesStorage = null;
 		CargoNet.faces = null;
-		BlockStorage.universalInventories = null;
 		OreWasher.items = null;
 
 		instance = null;

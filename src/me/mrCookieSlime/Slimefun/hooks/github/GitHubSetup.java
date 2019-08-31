@@ -10,7 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -119,10 +118,10 @@ public final class GitHubSetup {
 			@Override
 			public void onSuccess(JsonElement element) {
 				JsonObject object = element.getAsJsonObject();
-				SlimefunGuide.issues = object.get("open_issues_count").getAsInt();
-				SlimefunGuide.forks = object.get("forks").getAsInt();
-				SlimefunGuide.stars = object.get("stargazers_count").getAsInt();
-				SlimefunGuide.lastUpdate = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
+				SlimefunPlugin.getUtilities().issues = object.get("open_issues_count").getAsInt();
+				SlimefunPlugin.getUtilities().forks = object.get("forks").getAsInt();
+				SlimefunPlugin.getUtilities().stars = object.get("stargazers_count").getAsInt();
+				SlimefunPlugin.getUtilities().lastUpdate = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
 			}
 			
 			@Override
@@ -150,7 +149,7 @@ public final class GitHubSetup {
 			@Override
 			public void onSuccess(JsonElement element) {
 				JsonObject object = element.getAsJsonObject();
-				SlimefunGuide.codeBytes = object.get("Java").getAsInt();
+				SlimefunPlugin.getUtilities().codeBytes = object.get("Java").getAsInt();
 			}
 			
 			@Override

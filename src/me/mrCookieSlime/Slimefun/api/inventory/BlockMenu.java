@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.api.inventory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class BlockMenu extends DirtyChestMenu {
 	
@@ -93,7 +95,13 @@ public class BlockMenu extends DirtyChestMenu {
 	}
 	
 	public void delete(Location l) {
-		new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi").delete();
+		File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
+		
+		if (file.exists()) {
+			if (!file.delete()) {
+				Slimefun.getLogger().log(Level.WARNING, "Could not delete File: " + file.getName());
+			}
+		}
 	}
 	
 	public BlockMenuPreset getPreset() {

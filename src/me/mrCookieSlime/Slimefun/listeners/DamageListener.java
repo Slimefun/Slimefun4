@@ -75,8 +75,8 @@ public class DamageListener implements Listener {
             Player p = (Player) e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
 
-            if (SlimefunManager.drops.containsKey(e.getEntity().getType())) {
-                for (ItemStack drop : SlimefunManager.drops.get(e.getEntity().getType())) {
+            if (SlimefunPlugin.getUtilities().drops.containsKey(e.getEntity().getType())) {
+                for (ItemStack drop : SlimefunPlugin.getUtilities().drops.get(e.getEntity().getType())) {
                     if (Slimefun.hasUnlocked(p, item, true)) {
                         e.getDrops().add(drop);
                     }
