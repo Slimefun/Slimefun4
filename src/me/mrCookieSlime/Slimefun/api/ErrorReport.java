@@ -82,11 +82,11 @@ public class ErrorReport {
 			stream.println();
 			throwable.printStackTrace(stream);
 			
-			System.err.println("[Slimefun] Saved as: ");
-			System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + file.getName());
-			System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, this message does not have to be included.");
-			System.err.println("[Slimefun] You can put the file on Pastebin and then post it here: https://github.com/TheBusyBiscuit/Slimefun4/issues");
-			System.err.println("[Slimefun] ");
+			Slimefun.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
+			Slimefun.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/" + file.getName());
+			Slimefun.getLogger().log(Level.WARNING, "Please consider sending this File to the developer(s) of Slimefun, this message does not have to be included.");
+			Slimefun.getLogger().log(Level.WARNING, "You can put the file on Pastebin and then post it here: https://github.com/TheBusyBiscuit/Slimefun4/issues");
+			Slimefun.getLogger().log(Level.WARNING, "");
 		} catch (FileNotFoundException x) {
 			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + Slimefun.getVersion(), x);
 		}

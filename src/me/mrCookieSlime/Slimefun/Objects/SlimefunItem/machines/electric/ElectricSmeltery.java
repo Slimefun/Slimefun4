@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
 import java.util.Collections;

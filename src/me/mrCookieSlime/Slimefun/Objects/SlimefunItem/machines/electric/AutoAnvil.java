@@ -1,8 +1,7 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,41 +11,50 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineHelper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-public abstract class ElectricDustWasher extends AContainer {
-	
-	public ElectricDustWasher(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
+public abstract class AutoAnvil extends AContainer {
+
+	public AutoAnvil(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 	}
 
 	@Override
 	public String getInventoryTitle() {
-		return "&bElectric Dust Washer";
+		return "Auto-Anvil";
 	}
 
 	@Override
 	public ItemStack getProgressBar() {
-		return new ItemStack(Material.GOLDEN_SHOVEL);
+		return new ItemStack(Material.IRON_PICKAXE);
 	}
 	
-	public abstract int getSpeed();
-
+	@Override
+	public int getSpeed() {
+		return 1;
+	}
+	
+	@Override
+	public String getMachineIdentifier() {
+		return "AUTO_ANVIL";
+	}
+	
+	public abstract int getRepairFactor();
+	
 	@Override
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
-			if (timeleft > 0 && getSpeed() < 10) {
+			if (timeleft > 0) {
 				ItemStack item = getProgressBar().clone();
 				ItemMeta im = item.getItemMeta();
 				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
@@ -67,10 +75,7 @@ public abstract class ElectricDustWasher extends AContainer {
 				}
 				else progress.put(b, timeleft - 1);
 			}
-			else if (ChargableBlock.isChargable(b)) {
-				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-				ChargableBlock.addCharge(b, -getEnergyConsumption());
-
+			else {
 				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput());
 				
@@ -79,43 +84,37 @@ public abstract class ElectricDustWasher extends AContainer {
 			}
 		}
 		else {
+			BlockMenu menu = BlockStorage.getInventory(b);
+			MachineRecipe recipe = null;
+			
 			for (int slot: getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
-					if (!SlimefunPlugin.getSettings().legacyDustWasher) {
-						boolean emptySlot = false;
-            
-						for (int output_slot: getOutputSlots()) {
-							if (BlockStorage.getInventory(b).getItemInSlot(output_slot) == null) {
-								emptySlot = true;
-								break;
-							}
-						}
-						if (!emptySlot) return;
+				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
+				ItemStack item = menu.getItemInSlot(slot);
+				
+				if (item != null && item.getType().getMaxDurability() > 0 && ((Damageable) item.getItemMeta()).getDamage() > 0) {
+					if (SlimefunManager.isItemSimiliar(target, SlimefunItems.DUCT_TAPE, true)) {
+						ItemStack newItem = item.clone();
+						short durability = (short) (((Damageable) newItem.getItemMeta()).getDamage() - (item.getType().getMaxDurability() / getRepairFactor()));
+						if (durability < 0) durability = 0;
+						ItemMeta meta = newItem.getItemMeta();
+						((Damageable) meta).setDamage(durability);
+						newItem.setItemMeta(meta);
+						recipe = new MachineRecipe(30, new ItemStack[] {target, item}, new ItemStack[] {newItem});
 					}
-					
-					ItemStack adding = OreWasher.items[new Random().nextInt(OreWasher.items.length)];
-					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {adding});
-					if (SlimefunPlugin.getSettings().legacyDustWasher && !fits(b, r.getOutput())) return;
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
-					processing.put(b, r);
-					progress.put(b, r.getTicks());
-					break;
-				}
-				else if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
-					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER});
-					if (!fits(b, r.getOutput())) return;
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
-					processing.put(b, r);
-					progress.put(b, r.getTicks());
 					break;
 				}
 			}
+			
+			if (recipe != null) {
+				if (!fits(b, recipe.getOutput())) return;
+				
+				for (int slot: getInputSlots()) {
+					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+				}
+				processing.put(b, recipe);
+				progress.put(b, recipe.getTicks());
+			}
 		}
-	}
-	
-	@Override
-	public String getMachineIdentifier() {
-		return "ELECTRIC_DUST_WASHER";
 	}
 
 }

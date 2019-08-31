@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,20 +30,20 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-public class AutoEnchanter extends AContainer {
+public class AutoDisenchanter extends AContainer {
 
-	public AutoEnchanter(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
+	public AutoDisenchanter(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 	}
 
 	@Override
 	public String getInventoryTitle() {
-		return "&5Auto-Enchanter";
+		return "&5Auto-Disenchanter";
 	}
 
 	@Override
 	public ItemStack getProgressBar() {
-		return new ItemStack(Material.GOLDEN_CHESTPLATE);
+		return new ItemStack(Material.DIAMOND_CHESTPLATE);
 	}
 
 	@Override
@@ -85,56 +85,57 @@ public class AutoEnchanter extends AContainer {
 			}
 		}
 		else {
-			BlockMenu menu = BlockStorage.getInventory(b.getLocation());
+			BlockMenu menu = BlockStorage.getInventory(b);
 			MachineRecipe recipe = null;
+			Map<Enchantment, Integer> enchantments = new HashMap<>();
+			Set<ItemEnchantment> enchantments2 = new HashSet<>();
 			
 			for (int slot: getInputSlots()) {
 				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
-				// Check if enchantable
-				SlimefunItem sfTarget = SlimefunItem.getByItem(target);
-				if(sfTarget != null && !sfTarget.isEnchantable()) return;
-				
 				ItemStack item = menu.getItemInSlot(slot);
 				
-				// Enchant
-				if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
-					Map<Enchantment, Integer> enchantments = new HashMap<>();
-					Set<ItemEnchantment> enchantments2 = new HashSet<>();
+				// Check if disenchantable
+				SlimefunItem sfItem = null;
+				if ((item != null) && (item.getType() != Material.BOOK)) { // stops endless checks of getByItem for empty book stacks.
+					sfItem = SlimefunItem.getByItem(item);
+				}
+				if (sfItem != null && !sfItem.isDisenchantable()) return;
+				
+				// Disenchant
+				if (item != null && target != null && target.getType() == Material.BOOK) {
 					int amount = 0;
-					int specialAmount = 0;
-					EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-					
-					for (Map.Entry<Enchantment, Integer> e: meta.getStoredEnchants().entrySet()) {
-						if (e.getKey().canEnchantItem(target)) {
-							amount++;
-							enchantments.put(e.getKey(), e.getValue());
-						}
+
+					for (Map.Entry<Enchantment, Integer> e: item.getEnchantments().entrySet()) {
+						enchantments.put(e.getKey(), e.getValue());
+						amount++;
 					}
-					
 					if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
 						for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-							if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
-								amount++;
-								specialAmount++;
-								enchantments2.add(enchantment);
-							}
+							amount++;
+							enchantments2.add(enchantment);
 						}
-						specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
 					}
-					
-					if (amount > 0 && specialAmount <= SlimefunPlugin.getSettings().emeraldEnchantsLimit) {
-						ItemStack newItem = target.clone();
-						for (Map.Entry<Enchantment, Integer> e: enchantments.entrySet()) {
-							newItem.addUnsafeEnchantment(e.getKey(), e.getValue());
+					if (amount > 0) {
+						ItemStack newItem = item.clone();
+						newItem.setAmount(1);
+						ItemStack book = target.clone();
+						book.setAmount(1);
+						book.setType(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
+						for (Map.Entry<Enchantment,Integer> e: enchantments.entrySet()) {
+							newItem.removeEnchantment(e.getKey());
+							meta.addStoredEnchant(e.getKey(), e.getValue(), true);
 						}
-						
+						book.setItemMeta(meta);
+
 						for (ItemEnchantment e: enchantments2) {
-							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), e.getLevel());
+							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, e.getEnchantment(), e.getLevel());
+							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), 0);
 						}
 						
-						recipe = new MachineRecipe(75 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, new ItemStack(Material.BOOK)});
+						recipe = new MachineRecipe(100 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, book});
+						break;
 					}
-					break;
 				}
 			}
 
@@ -158,7 +159,7 @@ public class AutoEnchanter extends AContainer {
 
 	@Override
 	public String getMachineIdentifier() {
-		return "AUTO_ENCHANTER";
+		return "AUTO_DISENCHANTER";
 	}
 
 }

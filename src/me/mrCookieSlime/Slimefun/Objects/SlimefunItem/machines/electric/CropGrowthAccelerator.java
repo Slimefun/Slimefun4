@@ -1,13 +1,13 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -29,13 +29,24 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAcceleratorHologram;
 
-public class AnimalGrowthAccelerator extends SlimefunItem {
+public abstract class CropGrowthAccelerator extends SlimefunItem {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+	
+	public static final Map<Material, Integer> crops = new EnumMap<>(Material.class);
+	
+	static {
+		crops.put(Material.WHEAT, 7);
+		crops.put(Material.POTATOES, 7);
+		crops.put(Material.CARROTS, 7);
+		crops.put(Material.NETHER_WART, 3);
+		crops.put(Material.BEETROOTS, 3);
+		crops.put(Material.COCOA, 8);
+		crops.put(Material.SWEET_BERRY_BUSH, 3);
+	}
 
-	public AnimalGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
+	public CropGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
 		new BlockMenuPreset(name, "&bGrowth Accelerator") {
@@ -61,10 +72,9 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 			
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				AnimalGrowthAcceleratorHologram.remove(b);
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
-					for (int slot : getInputSlots()) {
+					for (int slot: getInputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -84,9 +94,9 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 		}
 	}
 	
-	public int getEnergyConsumption() {
-		return 14;
-	}
+	public abstract int getEnergyConsumption();
+	public abstract int getRadius();
+	public abstract int getSpeed();
 	
 	public int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
@@ -99,9 +109,9 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				try {
-					AnimalGrowthAccelerator.this.tick(b);
+					CropGrowthAccelerator.this.tick(b);
 				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking an Animal Growth Accelerator for Slimefun " + Slimefun.getVersion(), x);
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking a Crop Growth Accelerator for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -115,21 +125,42 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) throws Exception {
-		for (Entity n : AnimalGrowthAcceleratorHologram.getArmorStand(b, true).getNearbyEntities(3D, 3D, 3D)) {
-			if (n instanceof Ageable && !((Ageable) n).isAdult()) {
-				for (int slot: getInputSlots()) {
-					if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
-						if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-						ChargableBlock.addCharge(b, -getEnergyConsumption());
-						BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
-						((Ageable) n).setAge(((Ageable) n).getAge() + 2000);
-						if (((Ageable) n).getAge() > 0) ((Ageable) n).setAge(0);
-						n.getWorld().spawnParticle(Particle.VILLAGER_HAPPY,((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
-						return;
+		if (work(b) > 0) {
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					break;
+				}
+			}
+		}
+	}
+
+	private int work(Block b) {
+		int work = 0;
+		
+		for (int x = -getRadius(); x <= getRadius(); x++) {
+			for (int z = -getRadius(); z <= getRadius(); z++) {
+				Block block = b.getRelative(x, 0, z);
+				if (crops.containsKey(block.getType()) && ((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
+					for (int slot : getInputSlots()) {
+						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+							if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption()) return work;
+							ChargableBlock.addCharge(b, -getEnergyConsumption());
+
+							Ageable ageable = (Ageable) block.getBlockData();
+							ageable.setAge(ageable.getAge() + 1);
+							block.setBlockData(ageable);
+
+							block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
+							work++;
+							return work;
+						}
 					}
 				}
 			}
 		}
+		
+		return work;
 	}
 
 }

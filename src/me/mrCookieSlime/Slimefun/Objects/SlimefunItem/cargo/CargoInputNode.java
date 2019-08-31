@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo;
 
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import org.bukkit.Material;
