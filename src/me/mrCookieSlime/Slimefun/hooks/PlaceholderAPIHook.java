@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import org.bukkit.OfflinePlayer;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -15,7 +15,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 
 	@Override
 	public String getAuthor() {
-		return SlimefunStartup.instance.getDescription().getAuthors().toString();
+		return SlimefunPlugin.instance.getDescription().getAuthors().toString();
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 
 	@Override
 	public String getVersion() {
-		return SlimefunStartup.instance.getDescription().getVersion();
+		return SlimefunPlugin.instance.getDescription().getVersion();
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		}
 		
 		if (params.equals("timings_lag")) {
-			return SlimefunStartup.ticker.getTime() + "ms";
+			return SlimefunPlugin.getTicker().getTime() + "ms";
 		}
 		
 		return null;

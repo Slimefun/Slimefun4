@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -77,7 +77,7 @@ public class Smeltery extends MultiBlockMachine {
 
 						Hopper chamber = findHopper(dispBlock, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
-						if (new Random().nextInt(100) < SlimefunStartup.instance.getSettings().SMELTERY_FIRE_BREAK_CHANCE) {
+						if (new Random().nextInt(100) < SlimefunPlugin.getSettings().smelteryFireBreakChance) {
 							if (chamber != null) {
 								if (chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
 									ItemStack item = chamber.getInventory().getItem(chamber.getInventory().first(Material.FLINT_AND_STEEL));

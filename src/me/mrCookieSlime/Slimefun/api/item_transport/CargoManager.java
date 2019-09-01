@@ -15,7 +15,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
-public class CargoManager {
+public final class CargoManager {
+	
+	private CargoManager() {}
 	
 	public static ItemStack withdraw(Block node, BlockStorage storage, Block target, ItemStack template) {
 		if (storage.hasUniversalInventory(target)) {

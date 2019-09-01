@@ -4,31 +4,35 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 
-public class ChargableBlock {
+public final class ChargableBlock {
 	
-	public static Map<String, Integer> max_charges = new HashMap<>();
+	private ChargableBlock() {}
+	
+	public static Map<String, Integer> maxCharges = new HashMap<>();
 	public static Set<String> rechargeable = new HashSet<>();
 	public static Set<String> capacitors = new HashSet<>();
 	
 	public static void registerChargableBlock(String id, int capacity, boolean recharge) {
-		max_charges.put(id, capacity);
+		maxCharges.put(id, capacity);
 		if (recharge) rechargeable.add(id);
 	}
 	
 	public static void registerCapacitor(String id, int capacity) {
-		max_charges.put(id, capacity);
+		maxCharges.put(id, capacity);
 		rechargeable.add(id);
 		capacitors.add(id);
 	}
@@ -39,13 +43,13 @@ public class ChargableBlock {
 	
 	public static boolean isChargable(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return false;
-		return max_charges.containsKey(BlockStorage.checkID(l));
+		return maxCharges.containsKey(BlockStorage.checkID(l));
 	}
 	
 	public static boolean isRechargable(Block b) {
 		if (!BlockStorage.hasBlockInfo(b)) return false;
 		String id = BlockStorage.checkID(b);
-		return max_charges.containsKey(id) && rechargeable.contains(id);
+		return maxCharges.containsKey(id) && rechargeable.contains(id);
 	}
 	
 	public static boolean isCapacitor(Block b) {
@@ -63,7 +67,7 @@ public class ChargableBlock {
 	
 	public static int getDefaultCapacity(Location l) {
 		String id = BlockStorage.checkID(l);
-		return id == null ? 0: max_charges.get(id);
+		return id == null ? 0: maxCharges.get(id);
 	}
 	
 	public static int getCharge(Block b) {
@@ -96,17 +100,13 @@ public class ChargableBlock {
 		if (charge != getCharge(l)) {
 			BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
 			if (updateTexture) {
-				try {
-					updateTexture(l);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				updateTexture(l);
 			}
 		}
 	}
 	
-	private static void updateTexture(final Location l) throws Exception {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+	private static void updateTexture(final Location l) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			try {
 				Block b = l.getBlock();
 				int charge = getCharge(b);
@@ -117,8 +117,8 @@ public class ChargableBlock {
 					else if (charge < (int) (capacity * 0.75D)) CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU4NDQzMmFmNmYzODIxNjcxMjAyNThkMWVlZThjODdjNmU3NWQ5ZTQ3OWU3YjBkNGM3YjZhZDQ4Y2ZlZWYifX19");
 					else CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2EyNTY5NDE1YzE0ZTMxYzk4ZWM5OTNhMmY5OWU2ZDY0ODQ2ZGIzNjdhMTNiMTk5OTY1YWQ5OWM0MzhjODZjIn19fQ==");
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while updating a Capacitor Texture for Slimefun " + Slimefun.getVersion(), x);
 			}
 		});
 	}
@@ -145,21 +145,14 @@ public class ChargableBlock {
 				setCharge(l, getMaxCharge(l));
 			}
 			if (capacitors.contains(BlockStorage.checkID(l))) {
-				try {
-					updateTexture(l);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				updateTexture(l);
 			}
 		}
 		else if (charge < 0 && energy >= -charge) {
 			setCharge(l, energy + charge);
+			
 			if (capacitors.contains(BlockStorage.checkID(l))) {
-				try {
-					updateTexture(l);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				updateTexture(l);
 			}
 		}
 		return rest;

@@ -1,8 +1,10 @@
 package me.mrCookieSlime.Slimefun.autosave;
 
 import java.util.Iterator;
+import java.util.logging.Level;
 
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class PlayerAutoSaver implements Runnable {
 
@@ -23,7 +25,7 @@ public class PlayerAutoSaver implements Runnable {
 		}
 		
 		if (players > 0) {
-			System.out.println("[Slimefun] Auto-Saved Player Data for " + players + " Player(s)!");
+			Slimefun.getLogger().log(Level.INFO, "Auto-Saved Player Data for " + players + " Player(s)!");
 		}
 	}
 

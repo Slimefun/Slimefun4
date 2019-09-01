@@ -9,11 +9,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.logging.Level;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public abstract class GitHubConnector {
 
@@ -21,7 +23,7 @@ public abstract class GitHubConnector {
 
 	public GitHubConnector() {
 		this.file = new File("plugins/Slimefun/cache/github/" + this.getFileName() + ".json");
-		SlimefunStartup.instance.getUtilities().connectors.add(this);
+		SlimefunPlugin.getUtilities().connectors.add(this);
 	}
 
 	public abstract String getFileName();
@@ -31,8 +33,10 @@ public abstract class GitHubConnector {
 	public abstract void onFailure();
 
 	public void pullFile() {
-		if (SlimefunStartup.getCfg().getBoolean("options.print-out-github-data-retrieving")) System.out.println("[Slimefun - GitHub] Retrieving '" + this.getFileName() + ".json' from GitHub...");
-
+		if (SlimefunPlugin.getCfg().getBoolean("options.print-out-github-data-retrieving")) {
+			Slimefun.getLogger().log(Level.INFO, "Retrieving '" + this.getFileName() + ".json' from GitHub...");
+		}
+	
 		try {
 			URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
 
@@ -48,7 +52,9 @@ public abstract class GitHubConnector {
 				}
 			}
 		} catch (IOException e) {
-			if (SlimefunStartup.getCfg().getBoolean("options.print-out-github-data-retrieving")) System.err.println("[Slimefun - GitHub] ERROR - Could not connect to GitHub in time.");
+			if (SlimefunPlugin.getCfg().getBoolean("options.print-out-github-data-retrieving")) {
+				Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.");
+			}
 
 			if (hasData()) {
 				this.parseData();
@@ -79,8 +85,8 @@ public abstract class GitHubConnector {
 			JsonElement element = new JsonParser().parse(full);
 			this.onSuccess(element);
 		} 
-		catch (IOException e) {
-			e.printStackTrace();
+		catch (IOException x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing GitHub-Data for Slimefun " + Slimefun.getVersion(), x);
 			this.onFailure();
 		}
 	}

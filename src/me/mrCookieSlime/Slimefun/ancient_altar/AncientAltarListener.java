@@ -29,7 +29,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -39,10 +39,10 @@ public class AncientAltarListener implements Listener {
 	
 	private Utilities utilities;
 
-	public AncientAltarListener(SlimefunStartup plugin) {
+	public AncientAltarListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		
-		utilities = plugin.getUtilities();
+		utilities = SlimefunPlugin.getUtilities();
 	}
 
 	private List<Block> altars = new ArrayList<>();
@@ -73,9 +73,7 @@ public class AncientAltarListener implements Listener {
 					final UUID uuid = stack.getUniqueId();
 					removedItems.add(uuid);
 
-					SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-						removedItems.remove(uuid);
-					}, 30L);
+					SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> removedItems.remove(uuid), 30L);
 
 					stack.remove();
 					e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
@@ -112,7 +110,7 @@ public class AncientAltarListener implements Listener {
 								List<ItemStack> consumed = new ArrayList<>();
 								consumed.add(catalyst);
 								PlayerInventory.consumeItemInHand(e.getPlayer());
-								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
+								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
 							}
 							else {
 								altars.remove(e.getClickedBlock());
@@ -172,7 +170,7 @@ public class AncientAltarListener implements Listener {
 			String nametag = StringUtils.formatItemName(stack, false);
 			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "&5&dALTAR &3Probe - &e" + System.nanoTime()));
 			entity.setVelocity(new Vector(0, 0.1, 0));
-			entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunStartup.instance, "altar_item"));
+			entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
 			entity.setCustomNameVisible(true);
 			entity.setCustomName(nametag);
 			p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);

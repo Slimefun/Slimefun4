@@ -10,6 +10,7 @@ public final class Messages {
 	
 	public static void setup() {
 		local.setPrefix("&aSlimefun &7> ");
+
 		local.setDefault("commands.help", "Displays this Help Screen");
 		local.setDefault("commands.cheat", "Allows you to cheat Items");
 		local.setDefault("commands.give", "Give somebody some Slimefun Items");

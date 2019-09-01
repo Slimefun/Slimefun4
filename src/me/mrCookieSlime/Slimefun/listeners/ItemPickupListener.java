@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -17,7 +17,7 @@ import org.bukkit.event.inventory.InventoryPickupItemEvent;
  */
 public class ItemPickupListener implements Listener {
 
-	public ItemPickupListener(SlimefunStartup plugin) {
+	public ItemPickupListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 

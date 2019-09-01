@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,7 +18,7 @@ import org.bukkit.entity.Player;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
@@ -27,6 +28,7 @@ public class TickerTask implements Runnable {
 	
 	public Map<Location, Location> move = new HashMap<>();
 	public Map<Location, Boolean> delete = new HashMap<>();
+	public Map<Location, Long> blockTimings = new HashMap<>();
 	
 	private Set<BlockTicker> tickers = new HashSet<>();
 	
@@ -41,7 +43,6 @@ public class TickerTask implements Runnable {
 	private Map<String, Long> chunkTimings = new HashMap<>();
 	private Set<String> chunksSkipped = new HashSet<>();
 	private Map<Location, Integer> buggedBlocks = new HashMap<>();
-	public Map<Location, Long> blockTimings = new HashMap<>();
 	
 	@Override
 	public void run() {
@@ -85,7 +86,7 @@ public class TickerTask implements Runnable {
 								item.getBlockTicker().update();
 								
 								if (item.getBlockTicker().isSynchronized()) {
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 										try {
 											long timestamp3 = System.currentTimeMillis();
 											item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
@@ -107,22 +108,17 @@ public class TickerTask implements Runnable {
 												// Generate a new Error-Report
 												new ErrorReport(x, this, l, item);
 												
-												System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
-												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-												
 												buggedBlocks.put(l, errors);
 											}
 											else if (errors == 4) {
-												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
-												System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
-												System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
-												System.err.println("[Slimefun] ");
+												Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
+												Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+												Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
+												Slimefun.getLogger().log(Level.SEVERE, " ");
 												
 												BlockStorage._integrated_removeBlockInfo(l, true);
 												
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-													l.getBlock().setType(Material.AIR);
-												});
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
 											}
 											else {
 												buggedBlocks.put(l, errors);
@@ -148,23 +144,17 @@ public class TickerTask implements Runnable {
 								if (errors == 1) {
 									// Generate a new Error-Report
 									new ErrorReport(x, this, l, item);
-									
-									System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
-									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-									
 									buggedBlocks.put(l, errors);
 								}
 								else if (errors == 4) {
-									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
-									System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
-									System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
-									System.err.println("[Slimefun] ");
+									Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
+									Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+									Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
+									Slimefun.getLogger().log(Level.SEVERE, " ");
 									
 									BlockStorage._integrated_removeBlockInfo(l, true);
 									
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-										l.getBlock().setType(Material.AIR);
-									});
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
 								}
 								else {
 									buggedBlocks.put(l, errors);
@@ -231,8 +221,8 @@ public class TickerTask implements Runnable {
 			
 			try {
 				tellraw.send((Player) sender);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		else {
@@ -268,8 +258,8 @@ public class TickerTask implements Runnable {
 			
 			try {
 				tellraw.send((Player) sender);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		else {

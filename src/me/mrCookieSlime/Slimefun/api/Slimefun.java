@@ -2,15 +2,14 @@ package me.mrCookieSlime.Slimefun.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -24,30 +23,14 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
  *
  * @since 4.0
  */
-public class Slimefun {
+public final class Slimefun {
 
-	public static Map<Integer, List<GuideHandler>> guide_handlers = new HashMap<>();
-
-	/**
-	 * Instance of the GPSNetwork.
-	 */
-	private static GPSNetwork gps = new GPSNetwork();
+	private Slimefun() {}
 	
-	/**
-	 * Whether EmeraldEnchants is enabled or not.
-	 */
-	public static boolean emeraldenchants = false;
-	
-	/**
-	 * Lists all the registered categories.
-	 */
-	public static List<Category> current_categories = new ArrayList<>();
-
 	public static void registerGuideHandler(GuideHandler handler) {
-		List<GuideHandler> handlers = new ArrayList<>();
-		if (guide_handlers.containsKey(handler.getTier())) handlers = guide_handlers.get(handler.getTier());
+		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(handler.getTier(), new ArrayList<>());
 		handlers.add(handler);
-		guide_handlers.put(handler.getTier(), handlers);
+		SlimefunPlugin.getUtilities().guideHandlers.put(handler.getTier(), handlers);
 	}
 
 	/**
@@ -56,7 +39,11 @@ public class Slimefun {
 	 * @return the GPSNetwork instance.
 	 */
 	public static GPSNetwork getGPSNetwork() {
-		return gps;
+		return SlimefunPlugin.instance.gps;
+	}
+	
+	public static Logger getLogger() {
+		return SlimefunPlugin.instance.getLogger();
 	}
 
 	/**
@@ -91,7 +78,7 @@ public class Slimefun {
 	 * @return the Items.yml Config instance.
 	 */
 	public static Config getItemConfig() {
-		return SlimefunStartup.getItemCfg();
+		return SlimefunPlugin.getItemCfg();
 	}
 
 	/**
@@ -207,10 +194,10 @@ public class Slimefun {
 		String world = p.getWorld().getName();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem == null) return !SlimefunItem.isDisabled(item);
-		if (SlimefunStartup.getWhitelist().contains(world + ".enabled")) {
-			if (SlimefunStartup.getWhitelist().getBoolean(world + ".enabled")) {
-				if (!SlimefunStartup.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunStartup.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-				if (SlimefunStartup.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
+		if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
+			if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
+				if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
+				if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
 				else {
 					if (message) Messages.local.sendTranslation(p, "messages.disabled-in-world", true);
 					return false;
@@ -236,10 +223,10 @@ public class Slimefun {
 	 */
 	public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
 		String world = p.getWorld().getName();
-		if (SlimefunStartup.getWhitelist().contains(world + ".enabled")) {
-			if (SlimefunStartup.getWhitelist().getBoolean(world + ".enabled")) {
-				if (!SlimefunStartup.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunStartup.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-				if (SlimefunStartup.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
+		if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
+			if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
+				if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
+				if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
 				else {
 					if (message) Messages.local.sendTranslation(p, "messages.disabled-in-world", true);
 					return false;
@@ -270,7 +257,7 @@ public class Slimefun {
 	 * Returns a list of all the ItemStacks representing the registered categories.
 	 *
 	 * @return the list of the display items of all the registered categories.
-	 * @see #current_categories
+	 * @see #currentCategories
 	 */
 	public static List<ItemStack> listCategories() {
 		List<ItemStack> items = new ArrayList<>();
@@ -335,19 +322,11 @@ public class Slimefun {
 		addWikiPage(id, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
 	}
 
-	/**
-	 * Returns whether EmeraldEnchants is enabled or not.
-	 * <p>
-	 * It can be directly accessed by {@link #emeraldenchants}.
-	 *
-	 * @return <code>true</code> if EmeraldEnchants is enabled,
-	 *         <code>false</code> otherwise.
-	 */
-	public static boolean isEmeraldEnchantsInstalled() {
-		return emeraldenchants;
+	public static List<GuideHandler> getGuideHandlers(int tier) {
+		return SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(tier, new ArrayList<>());
 	}
 
-	public static List<GuideHandler> getGuideHandlers(int tier) {
-		return guide_handlers.containsKey(tier) ? guide_handlers.get(tier): new ArrayList<>();
+	public static String getVersion() {
+		return SlimefunPlugin.instance.getDescription().getVersion();
 	}
 }

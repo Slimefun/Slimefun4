@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
@@ -49,7 +49,7 @@ public class Crucible extends SlimefunGadget {
 
 									for (int i = 1; i < 9; i++) {
 										int j = 8 - i;
-										Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+										Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 											if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 												block.setType(Material.LAVA);
 												Levelled le = (Levelled) block.getBlockData();

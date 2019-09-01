@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,9 +42,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.MultiTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -52,6 +52,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
@@ -64,9 +65,9 @@ public class ItemListener implements Listener {
 	
 	private Utilities utilities;
 	
-	public ItemListener(SlimefunStartup plugin) {
+	public ItemListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		utilities = plugin.getUtilities();
+		utilities = SlimefunPlugin.getUtilities();
 	}
 
 	@EventHandler
@@ -87,14 +88,14 @@ public class ItemListener implements Listener {
 				e.setCancelled(true);
 
 
-			if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.BOOK), true))
+			if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
 				e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true))
+			else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
 				e.setCancelled(true);
 
-			if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.BOOK), true))
+			if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
 				e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true))
+			else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
 				e.setCancelled(true);
 		}
 	}
@@ -137,8 +138,8 @@ public class ItemListener implements Listener {
 						b.setType(Material.PLAYER_HEAD);
 						try {
 							CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
-						} catch (Exception e1) {
-							e1.printStackTrace();
+						} catch (Exception x) {
+							Slimefun.getLogger().log(Level.SEVERE, "An Error occured while using the Debug-Fish for Slimefun " + Slimefun.getVersion(), x);
 						}
 					}
 					else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
@@ -158,14 +159,14 @@ public class ItemListener implements Listener {
 						if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&2\u2714"));
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dAsync: &e" + (BlockStorage.check(e.getClickedBlock()).getBlockTicker().isSynchronized() ? "&4\u2718": "&2\u2714")));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTotal Timings: &e" + SlimefunStartup.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTotal Timings: &e" + SlimefunPlugin.getTicker().getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
 						}
 						else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&b~ &3(Indirect)"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock()) + "ms"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunStartup.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
 						}
 						else {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&4\u2718"));
@@ -209,15 +210,15 @@ public class ItemListener implements Listener {
 			}
 		}
 
-		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
+		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, true);
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, false);
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(BookDesign.CHEAT_SHEET), true)) {
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
 			else p.chat("/sf cheat");
 		}
@@ -361,7 +362,7 @@ public class ItemListener implements Listener {
 						// Remove the glass bottle once drunk
 						final int m = mode;
 
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 							if (m == 0) p.getEquipment().setItemInMainHand(null);
 							else if (m == 1) p.getEquipment().setItemInOffHand(null);
 							else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
@@ -418,32 +419,17 @@ public class ItemListener implements Listener {
 			
 			if (SlimefunManager.isItemSimiliar(slot0, SlimefunItems.ELYTRA, true)) return;
 			
-			if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			} 
-			else if (SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			}
+			if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0) ||
+					SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1) ||
 
+					SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true) ||
+					SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)||
 
-			if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			} 
-			else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			}
+					SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true) ||
+					SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
 
-			if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			} 
-			else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
-				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+						e.setCancelled(true);
+						Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
 			}
 		}
 	}

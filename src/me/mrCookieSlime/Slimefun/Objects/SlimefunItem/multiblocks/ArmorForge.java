@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -61,7 +61,7 @@ public class ArmorForge extends MultiBlockMachine {
 						
 						for (int j = 0; j < 4; j++) {
 							int current = j;
-							Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+							Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 								if (current < 3) {
 									p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
 								} 

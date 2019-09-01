@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class AltarRecipe {
 	
@@ -29,7 +29,7 @@ public class AltarRecipe {
 		
 		this.output = output;
 		
-		SlimefunStartup.instance.getUtilities().altarRecipes.add(this);
+		SlimefunPlugin.getUtilities().altarRecipes.add(this);
 	}
 	
 	public ItemStack getCatalyst() {

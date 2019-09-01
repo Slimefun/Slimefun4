@@ -9,7 +9,7 @@ import org.bukkit.entity.Entity;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class EnergyHologram {
 	
@@ -20,14 +20,14 @@ public final class EnergyHologram {
 	}
 	
 	public static void update(final Block b, final String name) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			ArmorStand hologram = getArmorStand(b, true);
 			hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
 		});
 	}	
 	
 	public static void remove(final Block b) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			ArmorStand hologram = getArmorStand(b, false);
 			if (hologram != null) hologram.remove();
 		});

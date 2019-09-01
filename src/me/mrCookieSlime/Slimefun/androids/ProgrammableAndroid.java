@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,7 +49,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -61,6 +62,7 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.androids.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -143,8 +145,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			public void init() {
 				try {
 					constructMenu(this);
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while constructing an Android Inventory for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -177,17 +179,13 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 					menu.replaceExistingItem(16, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&bMemory Core", "", "&8\u21E8 &7Click to open the Script Editor"));
 					menu.addMenuClickHandler(16, (p, slot, item, action) -> {
-						try {
-							BlockStorage.addBlockInfo(b, "paused", "true");
-							Messages.local.sendTranslation(p, "robot.stopped", true);
-							openScriptEditor(p, b);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						BlockStorage.addBlockInfo(b, "paused", "true");
+						Messages.local.sendTranslation(p, "robot.stopped", true);
+						openScriptEditor(p, b);
 						return false;
 					});
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a new Instance of an Android Inventory for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -240,11 +238,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	protected void tick(Block b) {
-		try {
-			if (!(b.getState() instanceof Skull)) {
-				return;
-			}
-		} catch (NullPointerException x) {
+		if (!(b.getState() instanceof Skull)) {
+			// The Android was destroyed or moved.
 			return;
 		}
 
@@ -279,28 +274,13 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					
 					switch (part) {
 						case GO_DOWN:
-							try {
-								Block block = b.getRelative(BlockFace.DOWN);
-								move(b, face, block);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							move(b, face, b.getRelative(BlockFace.DOWN));
 							break;
 						case GO_FORWARD:
-							try {
-								Block block = b.getRelative(face);
-								move(b, face, block);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							move(b, face, b.getRelative(face));
 							break;
 						case GO_UP:
-							try {
-								Block block = b.getRelative(BlockFace.UP);
-								move(b, face, block);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							move(b, face, b.getRelative(BlockFace.UP));
 							break;
 						case REPEAT:
 							BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
@@ -457,8 +437,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 				case NORTH:
 					if (n.getLocation().getZ() < b.getZ()) {
-						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
 
 						((LivingEntity) n).damage(damage);
 						return;
@@ -466,8 +446,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					break;
 				case EAST:
 					if (n.getLocation().getX() > b.getX()) {
-						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
 
 						((LivingEntity) n).damage(damage);
 						return;
@@ -475,8 +455,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					break;
 				case SOUTH:
 					if (n.getLocation().getZ() > b.getZ()) {
-						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
 
 						((LivingEntity) n).damage(damage);
 						return;
@@ -484,8 +464,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					break;
 				case WEST:
 					if (n.getLocation().getX() < b.getX()) {
-						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunStartup.instance);
-						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunStartup.instance, new AndroidObject(this, b)));
+						if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
+						n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
 
 						((LivingEntity) n).damage(damage);
 						return;
@@ -498,15 +478,19 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
-	private void move(Block b, BlockFace face, Block block) throws Exception {
-		if (block.getY() < 0 || block.getY() > block.getWorld().getMaxHeight())
-			return;
-		if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
+	private void move(Block b, BlockFace face, Block block) {
+		if (block.getY() > 0 && block.getY() < block.getWorld().getMaxHeight() && (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)) {
 			block.setType(Material.PLAYER_HEAD);
 			Rotatable blockData = (Rotatable) block.getBlockData();
 			blockData.setRotation(face.getOppositeFace());
 			block.setBlockData(blockData);
-			CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+			
+			try {
+				CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while moving an Android for Slimefun " + Slimefun.getVersion(), x);
+			}
+			
 			b.setType(Material.AIR);
 			BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
 		}
@@ -543,45 +527,49 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private void movedig(Block b, BlockFace face, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
-			try {
-				SlimefunItem item = BlockStorage.check(block);
-				if (item != null) {
-					if (fits(b, item.getItem()) && SlimefunItem.blockhandler.containsKey(item.getID()) && SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-						pushItems(b, BlockStorage.retrieve(block));
-						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-						block.setType(Material.PLAYER_HEAD);
-						Rotatable blockData = (Rotatable) block.getBlockData();
-						blockData.setRotation(face.getOppositeFace());
-						block.setBlockData(blockData);
+			SlimefunItem item = BlockStorage.check(block);
+			if (item != null) {
+				if (fits(b, item.getItem()) && SlimefunItem.blockhandler.containsKey(item.getID()) && SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+					pushItems(b, BlockStorage.retrieve(block));
+					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+					block.setType(Material.PLAYER_HEAD);
+					Rotatable blockData = (Rotatable) block.getBlockData();
+					blockData.setRotation(face.getOppositeFace());
+					block.setBlockData(blockData);
+					
+					try {
 						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-						b.setType(Material.AIR);
-						BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
+					} catch (Exception x) {
+						Slimefun.getLogger().log(Level.SEVERE, "An Error occured while moving an Android for Slimefun " + Slimefun.getVersion(), x);
 					}
+					
+					b.setType(Material.AIR);
+					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
 				}
-				else {
-					ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-					if (fits(b, items)) {
-						pushItems(b, items);
-						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-						block.setType(Material.PLAYER_HEAD);
-						Rotatable blockData = (Rotatable) block.getBlockData();
-						blockData.setRotation(face.getOppositeFace());
-						block.setBlockData(blockData);
+			}
+			else {
+				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
+				if (fits(b, items)) {
+					pushItems(b, items);
+					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+					block.setType(Material.PLAYER_HEAD);
+					Rotatable blockData = (Rotatable) block.getBlockData();
+					blockData.setRotation(face.getOppositeFace());
+					block.setBlockData(blockData);
+					
+					try {
 						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-						b.setType(Material.AIR);
-						BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
+					} catch (Exception x) {
+						Slimefun.getLogger().log(Level.SEVERE, "An Error occured while moving an Android for Slimefun " + Slimefun.getVersion(), x);
 					}
+					
+					b.setType(Material.AIR);
+					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
 				}
-			} catch (Exception x) {
-				x.printStackTrace();
 			}
 		}
 		else {
-			try {
-				move(b, face, block);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			move(b, face, block);
 		}
 	}
 
@@ -592,7 +580,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 	private void farm(Block b, Block block) {
 		switch (block.getType()) {
-			case WHEAT: {
+			case WHEAT:
 				if (isFullGrown(block)) {
 					ItemStack drop = new ItemStack(Material.WHEAT, CSCoreLib.randomizer().nextInt(3) + 1);
 					if (fits(b, drop)) {
@@ -604,8 +592,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 				}
 				break;
-			}
-			case POTATOES: {
+			case POTATOES:
 				if (isFullGrown(block)) {
 					ItemStack drop = new ItemStack(Material.POTATO, CSCoreLib.randomizer().nextInt(3) + 1);
 					if (fits(b, drop)) {
@@ -617,8 +604,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 				}
 				break;
-			}
-			case CARROTS: {
+			case CARROTS:
 				if (isFullGrown(block)) {
 					ItemStack drop = new ItemStack(Material.CARROT, CSCoreLib.randomizer().nextInt(3) + 1);
 					if (fits(b, drop)) {
@@ -630,8 +616,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 				}
 				break;
-			}
-			case BEETROOTS: {
+			case BEETROOTS:
 				if (isFullGrown(block)) {
 					ItemStack drop = new ItemStack(Material.BEETROOT, CSCoreLib.randomizer().nextInt(3) + 1);
 					if (fits(b, drop)) {
@@ -643,8 +628,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 				}
 				break;
-			}
-			case COCOA: {
+			case COCOA:
 				if (isFullGrown(block)) {
 					ItemStack drop = new ItemStack(Material.COCOA_BEANS, CSCoreLib.randomizer().nextInt(3) + 1);
 					if (fits(b, drop)) {
@@ -656,8 +640,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 				}
 				break;
-			}
-			case NETHER_WART: {
+			case NETHER_WART:
 				if (isFullGrown(block)) {
 					ItemStack drop = new ItemStack(Material.NETHER_WART, CSCoreLib.randomizer().nextInt(3) + 1);
 					if (fits(b, drop)) {
@@ -669,7 +652,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 					}
 				}
 				break;
-			}
 			default:
 				break;
 		}
@@ -677,7 +659,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 	private void exoticFarm(Block b, Block block) {
 		farm(b, block);
-		if (SlimefunStartup.instance.getHooks().isExoticGardenInstalled()) {
+		if (SlimefunPlugin.getHooks().isExoticGardenInstalled()) {
 			ItemStack drop = ExoticGarden.harvestPlant(block);
 			if (drop != null && fits(b, drop)) {
 				pushItems(b, drop);
@@ -730,57 +712,42 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		}
 	}
 
-	public void openScriptEditor(Player p, final Block b) throws Exception {
+	public void openScriptEditor(Player p, final Block b) {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
-
-		menu.addItem(1, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"),
-				(pl, slot, item, action) -> {
-					try {
-						openScript(pl, b, BlockStorage.getLocationInfo(b.getLocation(), "script"));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					return false;
-				}
-		);
-
-		menu.addItem(3, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"),
-				(pl, slot, item, action) -> {
-					try {
-						openScript(pl, b, "START-TURN_LEFT-REPEAT");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					return false;
-				}
-		);
-
-		menu.addItem(5, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAxNTg2ZTM5ZjZmZmE2M2I0ZmIzMDFiNjVjYTdkYThhOTJmNzM1M2FhYWI4OWQzODg2NTc5MTI1ZGZiYWY5In19fQ=="), "&6> Download a Script", "", "&eDownload a Script from the Server", "&eYou can edit or simply use it"),
-				(pl, slot, item, action) -> {
-					try {
-						openScriptDownloader(pl, b, 1);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					return false;
-				}
-		);
-
-		menu.addItem(8, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"),
-				(pl, slot, item, action) -> {
-					try {
-						BlockStorage.getInventory(b).open(p);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					return false;
-				}
-		);
+		
+		try {
+			menu.addItem(1, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"));
+			menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
+				openScript(pl, b, BlockStorage.getLocationInfo(b.getLocation(), "script"));
+				return false;
+			});
+	
+			menu.addItem(3, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"));
+			menu.addMenuClickHandler(3, (pl, slot, item, action) -> {
+				openScript(pl, b, "START-TURN_LEFT-REPEAT");
+				return false;
+			});
+	
+			menu.addItem(5, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAxNTg2ZTM5ZjZmZmE2M2I0ZmIzMDFiNjVjYTdkYThhOTJmNzM1M2FhYWI4OWQzODg2NTc5MTI1ZGZiYWY5In19fQ=="), "&6> Download a Script", "", "&eDownload a Script from the Server", "&eYou can edit or simply use it"));
+			menu.addMenuClickHandler(5, (pl, slot, item, action) -> {
+				openScriptDownloader(pl, b, 1);
+				return false;
+			});
+	
+			menu.addItem(8, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
+			menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
+				BlockStorage.getInventory(b).open(p);
+				return false;
+			});
+		}
+		catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Script Editor for Slimefun " + Slimefun.getVersion(), x);
+		}
 
 		menu.open(p);
 	}
 
-	public void openScript(final Player p, final Block b, final String script) throws Exception {
+	public void openScript(final Player p, final Block b, final String script) {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 		final String[] commands = script.split("-");
 
@@ -796,15 +763,16 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				int additional = commands.length == 54 ? 0: 1;
 
 				if (additional == 1) {
-					menu.addItem(i, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&7> Add new Command"));
-					menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
-						try {
+					try {
+						menu.addItem(i, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&7> Add new Command"));
+						menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 							openScriptComponentEditor(pl, b, script, index);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						return false;
-					});
+							return false;
+						});
+					}
+					catch (Exception x) {
+						Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Script Editor for Slimefun " + Slimefun.getVersion(), x);
+					}
 				}
 
 				menu.addItem(i + additional, new CustomItem(ScriptPart.REPEAT.toItemStack(), ScriptPart.REPEAT.toItemStack().getItemMeta().getDisplayName(), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
@@ -835,11 +803,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						builder.append("REPEAT");
 						BlockStorage.addBlockInfo(b, "script", builder.toString());
 
-						try {
-							openScript(pl, b, builder.toString());
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						openScript(pl, b, builder.toString());
 					}
 					else if (action.isRightClicked()) {
 						int j = 0;
@@ -850,18 +814,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						}
 						builder.append("REPEAT");
 						BlockStorage.addBlockInfo(b, "script", builder.toString());
-						try {
-							openScript(pl, b, builder.toString());
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+
+						openScript(pl, b, builder.toString());
 					}
 					else {
-						try {
-							openScriptComponentEditor(pl, b, script, index);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						openScriptComponentEditor(pl, b, script, index);
 					}
 					return false;
 				});
@@ -871,7 +828,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		menu.open(p);
 	}
 
-	private void openScriptDownloader(final Player p, final Block b, final int page) throws Exception {
+	private void openScriptDownloader(final Player p, final Block b, final int page) {
 		final ChestMenu menu = new ChestMenu("Android Scripts");
 
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F));
@@ -883,9 +840,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 		for (int i = 45; i < 54; i++) {
 			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-			menu.addMenuClickHandler(i,
-					(pl, slot, item, action) -> false
-			);
+			menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
 		}
 
 		menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 Previous Page", "", "&7(" + page + " / " + pages + ")"));
@@ -893,85 +848,75 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			int next = page - 1;
 			if (next < 1) next = pages;
 			if (next != page) {
-				try {
-					openScriptDownloader(pl, b, next);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				openScriptDownloader(pl, b, next);
 			}
 			return false;
 		});
-
-		menu.addItem(48, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
-		menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
-			final String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
-			int num = 1;
-
-			for (Config script: getUploadedScripts()) {
-				if (script.getString("author").equals(pl.getUniqueId().toString())) num++;
-				if (script.getString("code").equals(code)) {
-					Messages.local.sendTranslation(pl, "android.scripts.already-uploaded", true);
-					return false;
+		
+			try {
+	
+			menu.addItem(48, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
+			menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
+				final String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
+				int num = 1;
+	
+				for (Config script: getUploadedScripts()) {
+					if (script.getString("author").equals(pl.getUniqueId().toString())) num++;
+					if (script.getString("code").equals(code)) {
+						Messages.local.sendTranslation(pl, "android.scripts.already-uploaded", true);
+						return false;
+					}
 				}
-			}
-
-			final int id = num;
-
-			pl.closeInventory();
-			Messages.local.sendTranslation(pl, "android.scripts.enter-name", true);
-
-			MenuHelper.awaitChatInput(pl, (player, message) -> {
-				Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + "/" + p.getName() + " " + id + ".sfs");
-
-				script.setValue("author", player.getUniqueId().toString());
-				script.setValue("author_name", player.getName());
-				script.setValue("name", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', message)));
-				script.setValue("code", code);
-				script.setValue("downloads", 0);
-				script.setValue("android", getAndroidType().toString());
-				script.setValue("rating.positive", new ArrayList<String>());
-				script.setValue("rating.negative", new ArrayList<String>());
-				script.save();
-
-				try {
+	
+				final int id = num;
+	
+				pl.closeInventory();
+				Messages.local.sendTranslation(pl, "android.scripts.enter-name", true);
+	
+				MenuHelper.awaitChatInput(pl, (player, message) -> {
+					Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + "/" + p.getName() + " " + id + ".sfs");
+	
+					script.setValue("author", player.getUniqueId().toString());
+					script.setValue("author_name", player.getName());
+					script.setValue("name", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', message)));
+					script.setValue("code", code);
+					script.setValue("downloads", 0);
+					script.setValue("android", getAndroidType().toString());
+					script.setValue("rating.positive", new ArrayList<String>());
+					script.setValue("rating.negative", new ArrayList<String>());
+					script.save();
+	
 					Messages.local.sendTranslation(player, "android.uploaded", true);
 					openScriptDownloader(player, b, page);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+	
+					return false;
+				});
 				return false;
 			});
-			return false;
-		});
-
-		menu.addItem(50, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&rNext Page \u21E8", "", "&7(" + page + " / " + pages + ")"));
-		menu.addMenuClickHandler(50, (pl, slot, item, action) -> {
-			int next = page + 1;
-			if (next > pages) next = 1;
-			if (next != page) {
-				try {
+	
+			menu.addItem(50, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&rNext Page \u21E8", "", "&7(" + page + " / " + pages + ")"));
+			menu.addMenuClickHandler(50, (pl, slot, item, action) -> {
+				int next = page + 1;
+				if (next > pages) next = 1;
+				if (next != page) {
 					openScriptDownloader(pl, b, next);
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
-			}
-			return false;
-		});
-
-		menu.addItem(53, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
-		menu.addMenuClickHandler(53, (pl, slot, item, action) -> {
-			try {
+				return false;
+			});
+	
+			menu.addItem(53, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
+			menu.addMenuClickHandler(53, (pl, slot, item, action) -> {
 				openScriptEditor(pl, b);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return false;
-		});
+				return false;
+			});
+		}
+		catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Script Download Menu for Slimefun " + Slimefun.getVersion(), x);
+		}
 
-		int category_index = 45 * (page - 1);
+		int categoryIndex = 45 * (page - 1);
 		for (int i = 0; i < 45; i++) {
-			int target = category_index + i;
+			int target = categoryIndex + i;
 			if (target >= scripts.size()) break;
 			else {
 				final Config script = scripts.get(target);
@@ -1001,11 +946,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								script2.setValue("rating.negative", list);
 								script2.save();
 
-								try {
-									openScriptDownloader(pl, b, page);
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
+								openScriptDownloader(pl, b, page);
 							}
 							else {
 								Messages.local.sendTranslation(pl, "android.scripts.rating.already", true);
@@ -1019,11 +960,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 								script2.setValue("rating.positive", list);
 								script2.save();
 
-								try {
-									openScriptDownloader(pl, b, page);
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
+								openScriptDownloader(pl, b, page);
 							}
 							else {
 								Messages.local.sendTranslation(pl, "android.scripts.rating.already", true);
@@ -1031,15 +968,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 						}
 					}
 					else if (!action.isRightClicked()) {
-						try {
-							script2.setValue("downloads", script2.getInt("downloads") + 1);
-							script2.save();
+						script2.setValue("downloads", script2.getInt("downloads") + 1);
+						script2.save();
 
-							BlockStorage.addBlockInfo(b, "script", script2.getString("code"));
-							openScriptEditor(pl, b);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						BlockStorage.addBlockInfo(b, "script", script2.getString("code"));
+						openScriptEditor(pl, b);
 					}
 					return false;
 				});
@@ -1074,7 +1007,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		return progress;
 	}
 
-	protected void openScriptComponentEditor(Player p, final Block b, final String script, final int index) throws Exception {
+	protected void openScriptComponentEditor(Player p, final Block b, final String script, final int index) {
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 
 		final String[] commands = script.split("-");
@@ -1082,51 +1015,49 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		for (int i = 0; i < 9; i++) {
 			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (pl, slot, item, action) -> false);
 		}
+		
+		try {
+			menu.addItem(9, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"), (pl, slot, item, action) -> {
+				int i = 0;
+				StringBuilder builder = new StringBuilder("START-");
+				
+				for (String command : commands) {
+					if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
+					i++;
+				}
+				
+				builder.append("REPEAT");
+				BlockStorage.addBlockInfo(b, "script", builder.toString());
 
-		menu.addItem(9, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"), (pl, slot, item, action) -> {
-			int i = 0;
-			StringBuilder builder = new StringBuilder("START-");
-			
-			for (String command : commands) {
-				if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
-				i++;
-			}
-			
-			builder.append("REPEAT");
-			BlockStorage.addBlockInfo(b, "script", builder.toString());
-			
-			try {
 				openScript(p, b, builder.toString());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return false;
-		});
+				return false;
+			});
+		}
+		catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Script Editor for Slimefun " + Slimefun.getVersion(), x);
+		}
 
 		int i = 10;
 		for (final ScriptPart part : getAccessibleScriptParts()) {
-			menu.addItem(i, part.toItemStack(),
-					(pl, slot, item, action) -> {
-						int j = 0;
-						StringBuilder builder = new StringBuilder("START-");
-						for (String command : commands) {
-							if (j > 0) {
-								if (j == index) builder.append(part.toString() + "-");
-								else if (j < commands.length - 1) builder.append(command + "-");
-							}
-							j++;
-						}
-						builder.append("REPEAT");
-						BlockStorage.addBlockInfo(b, "script", builder.toString());
-
-						try {
-							openScript(pl, b, builder.toString());
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						return false;
+			menu.addItem(i, part.toItemStack());
+			menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
+				int j = 0;
+				StringBuilder builder = new StringBuilder("START-");
+				
+				for (String command : commands) {
+					if (j > 0) {
+						if (j == index) builder.append(part.toString() + "-");
+						else if (j < commands.length - 1) builder.append(command + "-");
 					}
-			);
+					j++;
+				}
+				
+				builder.append("REPEAT");
+				BlockStorage.addBlockInfo(b, "script", builder.toString());
+
+				openScript(pl, b, builder.toString());
+				return false;	
+			});
 			i++;
 		}
 

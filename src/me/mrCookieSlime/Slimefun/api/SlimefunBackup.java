@@ -10,13 +10,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
 
-public class SlimefunBackup {
+public final class SlimefunBackup {
 
+	private SlimefunBackup() {}
+	
 	public static void start() {
 		File folder = new File("data-storage/Slimefun/block-backups");
 		List<File> backups = Arrays.asList(folder.listFiles());
@@ -31,85 +34,88 @@ public class SlimefunBackup {
 			});
 
 			for (int i = backups.size() - 20; i > 0; i--) {
-				backups.get(i).delete();
+				if (!backups.get(i).delete()) {
+					Slimefun.getLogger().log(Level.WARNING, "Could not delete Backup: " + backups.get(i).getName());
+				}
 			}
 		}
 
 		File file = new File("data-storage/Slimefun/block-backups/" + Clock.format(new Date()) + ".zip");
 		byte[] buffer = new byte[1024];
 
-		if (file.exists()) {
-			file.delete();
-		}
+		if (!file.exists() || file.delete()) {
+			try {
+				if (file.createNewFile()) {
+					try (ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file))) {
+						for (File f1: new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
+							for (File f: f1.listFiles()) {
+								ZipEntry entry = new ZipEntry("stored-blocks/" + f1.getName() + "/" + f.getName());
+								output.putNextEntry(entry);
 
-		try {
-			file.createNewFile();
+								try (FileInputStream input = new FileInputStream(f)) {
+									int length;
+									while ((length = input.read(buffer)) > 0) {
+										output.write(buffer, 0, length);
+									}
+								}
 
-			try (ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file))) {
-				for (File f1: new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
-					for (File f: f1.listFiles()) {
-						ZipEntry entry = new ZipEntry("stored-blocks/" + f1.getName() + "/" + f.getName());
-						output.putNextEntry(entry);
-
-						try (FileInputStream input = new FileInputStream(f)) {
-							int length;
-							while ((length = input.read(buffer)) > 0) {
-								output.write(buffer, 0, length);
+								output.closeEntry();
 							}
 						}
 
-						output.closeEntry();
-					}
-				}
+						for (File f: new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
+							ZipEntry entry = new ZipEntry("universal-inventories/" + f.getName());
+							output.putNextEntry(entry);
 
-				for (File f: new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
-					ZipEntry entry = new ZipEntry("universal-inventories/" + f.getName());
-					output.putNextEntry(entry);
+							try (FileInputStream input = new FileInputStream(f)) {
+								int length;
+								while ((length = input.read(buffer)) > 0) {
+									output.write(buffer, 0, length);
+								}
+							}
 
-					try (FileInputStream input = new FileInputStream(f)) {
-						int length;
-						while ((length = input.read(buffer)) > 0) {
-							output.write(buffer, 0, length);
+							output.closeEntry();
+						}
+
+						for (File f: new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
+							ZipEntry entry = new ZipEntry("stored-inventories/" + f.getName());
+							output.putNextEntry(entry);
+
+							try (FileInputStream input = new FileInputStream(f)) {
+								int length;
+								while ((length = input.read(buffer)) > 0) {
+									output.write(buffer, 0, length);
+								}
+							}
+
+							output.closeEntry();
+						}
+
+						File chunks = new File("data-storage/Slimefun/stored-chunks/chunks.sfc");
+
+						if (chunks.exists()) {
+							ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
+							output.putNextEntry(entry);
+
+							try (FileInputStream input = new FileInputStream(chunks)) {
+								int length;
+								while ((length = input.read(buffer)) > 0) {
+									output.write(buffer, 0, length);
+								}
+							}
+
+							output.closeEntry();
 						}
 					}
 
-					output.closeEntry();
+					Slimefun.getLogger().log(Level.INFO, "Backed up Data to: " + file.getName());
 				}
-
-				for (File f: new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
-					ZipEntry entry = new ZipEntry("stored-inventories/" + f.getName());
-					output.putNextEntry(entry);
-
-					try (FileInputStream input = new FileInputStream(f)) {
-						int length;
-						while ((length = input.read(buffer)) > 0) {
-							output.write(buffer, 0, length);
-						}
-					}
-
-					output.closeEntry();
+				else {
+					Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: " + file.getName());
 				}
-
-				File chunks = new File("data-storage/Slimefun/stored-chunks/chunks.sfc");
-
-				if (chunks.exists()) {
-					ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
-					output.putNextEntry(entry);
-
-					try (FileInputStream input = new FileInputStream(chunks)) {
-						int length;
-						while ((length = input.read(buffer)) > 0) {
-							output.write(buffer, 0, length);
-						}
-					}
-
-					output.closeEntry();
-				}
+			} catch(IOException x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a World-Backup for Slimefun " + Slimefun.getVersion(), x);
 			}
-
-			System.out.println("[Slimefun] Backed up Blocks to " + file.getName());
-		} catch(IOException e) {
-			e.printStackTrace();
 		}
 	}
 

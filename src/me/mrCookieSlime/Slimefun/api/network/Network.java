@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.api.network;
 
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.List;
 import java.util.Queue;
 import java.util.HashSet;
@@ -10,14 +11,15 @@ import java.util.ArrayList;
 import org.bukkit.Location;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_13.ParticleEffect;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public abstract class Network {
 	
-	private static List<Network> NETWORK_LIST = new ArrayList<>();
+	private static List<Network> networkList = new ArrayList<>();
 	
 	public static<T extends Network> T getNetworkFromLocation(Location l, Class<T> type) {
-		for(Network n: NETWORK_LIST) {
+		for(Network n: networkList) {
 			if(type.isInstance(n) && n.connectsTo(l)) {
 				return type.cast(n);
 			}
@@ -27,7 +29,7 @@ public abstract class Network {
 
 	public static<T extends Network> List<T> getNetworksFromLocation(Location l, Class<T> type) {
 		List<T> ret = new ArrayList<>();
-		for(Network n: NETWORK_LIST) {
+		for(Network n: networkList) {
 			if(type.isInstance(n) && n.connectsTo(l)) {
 				ret.add(type.cast(n));
 			}
@@ -36,11 +38,11 @@ public abstract class Network {
 	}
 
 	public static void registerNetwork(Network n) {
-		NETWORK_LIST.add(n);
+		networkList.add(n);
 	}
 
 	public static void unregisterNetwork(Network n) {
-		NETWORK_LIST.remove(n);
+		networkList.remove(n);
 	}
 
 	public static void handleAllNetworkLocationUpdate(Location l) {
@@ -49,16 +51,9 @@ public abstract class Network {
 		}
 	}
 
-	public static enum Component {
-		CONNECTOR,
-		REGULATOR,
-		TERMINUS;
-	}
-
-
 	public abstract int getRange();
-	public abstract Component classifyLocation(Location l);
-	public abstract void locationClassificationChange(Location l, Component from, Component to);
+	public abstract NetworkComponent classifyLocation(Location l);
+	public abstract void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
 
 	protected Location regulator;
 	private Queue<Location> nodeQueue = new ArrayDeque<>();
@@ -94,15 +89,15 @@ public abstract class Network {
 		return connectedLocations.contains(l);
 	}
 
-	private Component getCurrentClassification(Location l) {
+	private NetworkComponent getCurrentClassification(Location l) {
 		if(regulatorNodes.contains(l)) {
-			return Component.REGULATOR;
+			return NetworkComponent.REGULATOR;
 		} 
 		else if(connectorNodes.contains(l)) {
-			return Component.CONNECTOR;
+			return NetworkComponent.CONNECTOR;
 		} 
 		else if(terminusNodes.contains(l)) {
-			return Component.TERMINUS;
+			return NetworkComponent.TERMINUS;
 		}
 		return null;
 	}
@@ -111,28 +106,28 @@ public abstract class Network {
 		int steps = 0;
 		while (nodeQueue.peek() != null) {
 			Location l = nodeQueue.poll();
-			Component currentAssignment = getCurrentClassification(l);
-			Component classification = classifyLocation(l);
+			NetworkComponent currentAssignment = getCurrentClassification(l);
+			NetworkComponent classification = classifyLocation(l);
 			
 			if (classification != currentAssignment) {
-				if (currentAssignment == Component.REGULATOR || currentAssignment == Component.CONNECTOR) {
+				if (currentAssignment == NetworkComponent.REGULATOR || currentAssignment == NetworkComponent.CONNECTOR) {
 					// Requires a complete rebuild of the network, so we just throw the current one away.
 					unregisterNetwork(this);
 					return;
 				} 
-				else if (currentAssignment == Component.TERMINUS) {
+				else if (currentAssignment == NetworkComponent.TERMINUS) {
 					terminusNodes.remove(l);
 				}
 				
-				if (classification == Component.REGULATOR) {
+				if (classification == NetworkComponent.REGULATOR) {
 					regulatorNodes.add(l);
 					discoverNeighbors(l);
 				} 
-				else if(classification == Component.CONNECTOR) {
+				else if(classification == NetworkComponent.CONNECTOR) {
 					connectorNodes.add(l);
 					discoverNeighbors(l);
 				} 
-				else if(classification == Component.TERMINUS) {
+				else if(classification == NetworkComponent.TERMINUS) {
 					terminusNodes.add(l);
 				}
 				
@@ -147,8 +142,8 @@ public abstract class Network {
 
 	private void discoverNeighbors(Location l, double xDiff, double yDiff, double zDiff) {
 		for(int i = getRange() + 1; i > 0; i --) {
-			Location new_location = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
-			addLocationToNetwork(new_location);
+			Location newLocation = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
+			addLocationToNetwork(newLocation);
 		}
 	}
 
@@ -162,12 +157,12 @@ public abstract class Network {
 	}
 
 	public void display() {
-		SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+		SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			for(Location l: connectedLocations) {
 				try {
 					ParticleEffect.REDSTONE.display(l.clone().add(0.5, 0.5, 0.5), 0, 0, 0, 1, 1);
-				} catch(Exception e) {
-					e.printStackTrace();
+				} catch(Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Network Animation for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 		});

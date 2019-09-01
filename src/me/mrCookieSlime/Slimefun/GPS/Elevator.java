@@ -15,7 +15,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -35,7 +35,7 @@ public final class Elevator {
 			pl.sendMessage("");
 			
 			MenuHelper.awaitChatInput(pl, (player, message) -> {
-				BlockStorage.addBlockInfo(b, "floor", message.replaceAll("&", "&"));
+				BlockStorage.addBlockInfo(b, "floor", message.replace(ChatColor.COLOR_CHAR, '&'));
 				
 				player.sendMessage("");
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &eSuccessfully named this Floor:"));
@@ -53,7 +53,7 @@ public final class Elevator {
 	}
 
 	public static void openDialogue(Player p, Block b) {
-		Set<UUID> elevatorUsers = SlimefunStartup.instance.getUtilities().elevatorUsers;
+		Set<UUID> elevatorUsers = SlimefunPlugin.getUtilities().elevatorUsers;
 		
 		if (elevatorUsers.contains(p.getUniqueId())) {
 			elevatorUsers.remove(p.getUniqueId());

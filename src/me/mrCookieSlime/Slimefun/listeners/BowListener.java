@@ -14,7 +14,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
@@ -24,9 +24,9 @@ public class BowListener implements Listener {
 	
 	private Utilities utilities;
 	
-	public BowListener(SlimefunStartup plugin) {
+	public BowListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		utilities = plugin.getUtilities();
+		utilities = SlimefunPlugin.getUtilities();
 	}
 	
 	@EventHandler
@@ -37,7 +37,7 @@ public class BowListener implements Listener {
 	
 	@EventHandler
 	public void onArrowHit(final ProjectileHitEvent e) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			if (!e.getEntity().isValid()) return;
 			if (utilities.arrows.containsKey(e.getEntity().getUniqueId())) utilities.arrows.remove(e.getEntity().getUniqueId());
 			if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
@@ -58,7 +58,7 @@ public class BowListener implements Listener {
 					n.remove();
 				}
 
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 					utilities.jumpState.remove(p.getUniqueId());
 					utilities.remove.remove(p.getUniqueId());
 				}, 20L);
@@ -71,15 +71,15 @@ public class BowListener implements Listener {
 				double g = -0.08D;
 				double d = arrow.getLocation().distance(l);
 				double t = d;
-				double v_x = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getX() - l.getX()) / t;
-				double v_y = (1.0D + 0.04D * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
-				double v_z = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
+				double vX = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getX() - l.getX()) / t;
+				double vY = (1.0D + 0.04D * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
+				double vZ = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
 
 				Vector v = p.getVelocity();
 
-				v.setX(v_x);
-				v.setY(v_y);
-				v.setZ(v_z);
+				v.setX(vX);
+				v.setY(vY);
+				v.setZ(vZ);
 
 				p.setVelocity(v);
 
@@ -87,7 +87,7 @@ public class BowListener implements Listener {
 					n.remove();
 				}
 
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 					utilities.jumpState.remove(p.getUniqueId());
 					utilities.remove.remove(p.getUniqueId());
 				}, 20L);

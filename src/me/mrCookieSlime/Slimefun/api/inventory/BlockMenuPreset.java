@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
@@ -50,10 +50,14 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public abstract void init();
-	public abstract void newInstance(BlockMenu menu, Block b);
 	public abstract boolean canOpen(Block b, Player p);
 	public abstract int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow);
 
+
+	public void newInstance(BlockMenu menu, Block b) {
+		// This method can optionally be overridden by implementations
+	}
+	
 	public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 		return this.getSlotsAccessedByItemTransport(flow);
 	}
@@ -101,7 +105,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public static BlockMenuPreset getPreset(String id) {
-		return presets.get(id);
+		return id == null ? null: presets.get(id);
 	}
 	
 	public static boolean isInventory(String id) {
@@ -157,9 +161,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public void newInstance(final BlockMenu menu, final Location l) {
-		Bukkit.getScheduler().runTask(SlimefunStartup.instance, () -> {
-			newInstance(menu, l.getBlock());
-		});
+		Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> newInstance(menu, l.getBlock()));
 	}
 
 }

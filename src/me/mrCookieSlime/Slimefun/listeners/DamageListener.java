@@ -27,7 +27,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
@@ -43,9 +43,9 @@ public class DamageListener implements Listener {
 	private Utilities utilities;
 	private Random random = new Random();
 
-    public DamageListener(SlimefunStartup plugin) {
+    public DamageListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        utilities = plugin.getUtilities();
+        utilities = SlimefunPlugin.getUtilities();
     }
 
     @EventHandler
@@ -75,8 +75,8 @@ public class DamageListener implements Listener {
             Player p = (Player) e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
 
-            if (SlimefunManager.drops.containsKey(e.getEntity().getType())) {
-                for (ItemStack drop : SlimefunManager.drops.get(e.getEntity().getType())) {
+            if (SlimefunPlugin.getUtilities().drops.containsKey(e.getEntity().getType())) {
+                for (ItemStack drop : SlimefunPlugin.getUtilities().drops.get(e.getEntity().getType())) {
                     if (Slimefun.hasUnlocked(p, item, true)) {
                         e.getDrops().add(drop);
                     }
@@ -159,7 +159,7 @@ public class DamageListener implements Listener {
             strippedItem.removeEnchantment(enchantment);
         }
 
-        if (Slimefun.isEmeraldEnchantsInstalled()) {
+        if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
             for(ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(itemStack)){
                 EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
             }

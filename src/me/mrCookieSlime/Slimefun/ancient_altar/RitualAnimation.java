@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 import org.bukkit.Effect;
@@ -33,7 +35,7 @@ public class RitualAnimation implements Runnable {
 	private boolean running;
 	private int stage;
 	
-	private Utilities utilities = SlimefunStartup.instance.getUtilities();
+	private Utilities utilities = SlimefunPlugin.getUtilities();
 
 	public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
 		this.l = drop;
@@ -72,7 +74,7 @@ public class RitualAnimation implements Runnable {
 		}
 		
 		this.stage += 1;
-		SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, this, 8);
+		SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, this, 8);
 	}
 
 	private boolean checkLockedItems() {
@@ -94,8 +96,8 @@ public class RitualAnimation implements Runnable {
 				l.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, l2,16, 0.3F, 0.2F, 0.3F);
 				l.getWorld().spawnParticle(Particle.CRIT_MAGIC,l2,8, 0.3F, 0.2F, 0.3F);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Ritual Animation for Slimefun " + Slimefun.getVersion(), x);
 		}
 	}
 
@@ -113,14 +115,14 @@ public class RitualAnimation implements Runnable {
 			try {
 				l.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,pedestal.getLocation().add(0.5, 1.5, 0.5),16, 0.3F, 0.2F, 0.3F);
 				l.getWorld().spawnParticle(Particle.CRIT_MAGIC,pedestal.getLocation().add(0.5, 1.5, 0.5), 8,0.3F, 0.2F, 0.3F);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Pedestal Animation for Slimefun " + Slimefun.getVersion(), x);
 			}
 			
 			itemLock.remove(item);
 			item.remove();
 			
-			pedestal.removeMetadata("item_placed", SlimefunStartup.instance);
+			pedestal.removeMetadata("item_placed", SlimefunPlugin.instance);
 		}
 	}
 

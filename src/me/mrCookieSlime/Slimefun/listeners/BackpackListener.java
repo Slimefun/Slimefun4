@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
@@ -33,9 +33,9 @@ public class BackpackListener implements Listener {
 	
 	private Utilities utilities;
 	
-	public BackpackListener(SlimefunStartup plugin) {
+	public BackpackListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		utilities = plugin.getUtilities();
+		utilities = SlimefunPlugin.getUtilities();
 	}
 	
 	@EventHandler
@@ -65,14 +65,18 @@ public class BackpackListener implements Listener {
 			if (e.getClick() == ClickType.NUMBER_KEY) {
 				ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
 				SlimefunItem sfItem = SlimefunItem.getByItem(hotbarItem);
-				if (hotbarItem != null && hotbarItem.getType().toString().contains("SHULKER_BOX"))  e.setCancelled(true);
-				else if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
+				if ((hotbarItem != null && hotbarItem.getType().toString().contains("SHULKER_BOX")) ||
+						sfItem instanceof SlimefunBackpack)
+
+							e.setCancelled(true);
 			}
 			else if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
 				SlimefunItem sfItem = SlimefunItem.getByItem(e.getCurrentItem());
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false) && !(sfItem instanceof Juice)) e.setCancelled(true);
-				else if (e.getCurrentItem().getType().toString().contains("SHULKER_BOX")) e.setCancelled(true);
-				else if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
+				if ((SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false) && !(sfItem instanceof Juice)) ||
+						e.getCurrentItem().getType().toString().contains("SHULKER_BOX") ||
+						sfItem instanceof SlimefunBackpack)
+
+							e.setCancelled(true);
 			}
 		}
 	}

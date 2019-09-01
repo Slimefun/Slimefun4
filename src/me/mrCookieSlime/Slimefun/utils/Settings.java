@@ -6,37 +6,41 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public final class Settings {
 	
-	public boolean RESEARCHES_ENABLED;
-	public boolean RESEARCHES_FREE_IN_CREATIVE;
-	public List<String> RESEARCHES_TITLES;
+	public boolean printOutLoading;
 	
-	public int BLOCK_LOADING_INFO_DELAY;
-	public int BLOCK_AUTO_SAVE_DELAY;
+	public boolean researchesEnabled;
+	public boolean researchesFreeInCreative;
+	public List<String> researchesTitles;
 	
-	public boolean GUIDE_SHOW_VANILLA_RECIPES;
+	public int blocksInfoLoadingDelay;
+	public int blocksAutoSaveDelay;
 	
-	public int EMERALD_ENCHANTS_LIMIT;
+	public boolean guideShowVanillaRecipes;
 	
-	public boolean DUST_WASHER_LEGACY;
-	public boolean ORE_GRINDER_LEGACY;
-	public boolean ORE_WASHER_LEGACY;
+	public int emeraldEnchantsLimit;
 	
-	public int SMELTERY_FIRE_BREAK_CHANCE;
+	public boolean legacyDustWasher;
+	public boolean legacyOreGrinder;
+	public boolean legacyOreWasher;
+	
+	public int smelteryFireBreakChance;
 	
 	public Settings(Config cfg) {
-		RESEARCHES_FREE_IN_CREATIVE = cfg.getBoolean("options.allow-free-creative-research");
-		RESEARCHES_TITLES = cfg.getStringList("research-ranks");
+		printOutLoading = cfg.getBoolean("options.print-out-loading");
 		
-		BLOCK_LOADING_INFO_DELAY = cfg.getInt("URID.info-delay");
-		BLOCK_AUTO_SAVE_DELAY = cfg.getInt("options.auto-save-delay-in-minutes");
+		researchesFreeInCreative = cfg.getBoolean("options.allow-free-creative-research");
+		researchesTitles = cfg.getStringList("research-ranks");
 		
-		GUIDE_SHOW_VANILLA_RECIPES = cfg.getBoolean("options.show-vanilla-recipes-in-guide");
+		blocksInfoLoadingDelay = cfg.getInt("URID.info-delay");
+		blocksAutoSaveDelay = cfg.getInt("options.auto-save-delay-in-minutes");
 		
-		EMERALD_ENCHANTS_LIMIT = cfg.getInt("options.emerald-enchantment-limit");
+		guideShowVanillaRecipes = cfg.getBoolean("options.show-vanilla-recipes-in-guide");
 		
-		DUST_WASHER_LEGACY = cfg.getBoolean("options.legacy-dust-washer");
-		ORE_WASHER_LEGACY = cfg.getBoolean("options.legacy-ore-washer");
-		ORE_GRINDER_LEGACY = cfg.getBoolean("options.legacy-ore-grinder");
+		emeraldEnchantsLimit = cfg.getInt("options.emerald-enchantment-limit");
+		
+		legacyDustWasher = cfg.getBoolean("options.legacy-dust-washer");
+		legacyOreWasher = cfg.getBoolean("options.legacy-ore-washer");
+		legacyOreGrinder = cfg.getBoolean("options.legacy-ore-grinder");
 	}
 
 }

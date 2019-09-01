@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,26 +28,26 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
 
-	public SlimefunStartup plugin;
+	public SlimefunPlugin plugin;
 
 	public static List<String> arguments = new ArrayList<>();
 	public static List<String> descriptions = new ArrayList<>();
 	public static List<String> tabs = new ArrayList<>();
 
-	public SlimefunCommand(SlimefunStartup plugin) {
+	public SlimefunCommand(SlimefunPlugin plugin) {
 		this.plugin = plugin;
 		
 		arguments.add("/sf help");
@@ -107,14 +108,14 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			}
 			else if (args[0].equalsIgnoreCase("guide")) {
 				if (sender instanceof Player) {
-					if (sender.hasPermission("slimefun.command.guide")) ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunStartup.getCfg().getBoolean("guide.default-view-book") ? BookDesign.BOOK : BookDesign.CHEST));
+					if (sender.hasPermission("slimefun.command.guide")) ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunPlugin.getCfg().getBoolean("guide.default-view-book") ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST));
 					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 				}
 				else Messages.local.sendTranslation(sender, "messages.only-players", true);
 			}
 			else if (args[0].equalsIgnoreCase("open_guide")) {
 				if (sender instanceof Player) { 
-					if (sender.hasPermission("slimefun.command.open_guide")) SlimefunGuide.openGuide((Player) sender, SlimefunStartup.getCfg().getBoolean("guide.default-view-book"));
+					if (sender.hasPermission("slimefun.command.open_guide")) SlimefunGuide.openGuide((Player) sender, SlimefunPlugin.getCfg().getBoolean("guide.default-view-book"));
 					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 				}
 				else Messages.local.sendTranslation(sender, "messages.only-players", true);
@@ -143,7 +144,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					double z = Integer.parseInt(args[3]) + 0.5D;
 					
 					if (BlockStorage.getLocationInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])).getLocation(), "floor") != null) {
-						plugin.getUtilities().elevatorUsers.add(((Player) sender).getUniqueId());
+						SlimefunPlugin.getUtilities().elevatorUsers.add(((Player) sender).getUniqueId());
 						float yaw = ((Player) sender).getEyeLocation().getYaw() + 180;
 						if (yaw > 180) yaw = -180 + (yaw - 180);
 						((Player) sender).teleport(new Location(((Player) sender).getWorld(), x, y, z, yaw, ((Player) sender).getEyeLocation().getPitch()));
@@ -153,15 +154,15 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 							
 							title.send(TitleType.TITLE, ((Player) sender));
 							subtitle.send(TitleType.SUBTITLE, ((Player) sender));
-						} catch (Exception x1) {
-							x1.printStackTrace();
+						} catch (Exception e) {
+							Slimefun.getLogger().log(Level.SEVERE, "An Error occured while a Player used an Elevator in Slimefun " + Slimefun.getVersion(), e);
 						}
 					}
 				}
 			}
 			else if (args[0].equalsIgnoreCase("timings")) {
 				if (sender.hasPermission("slimefun.command.timings")|| sender instanceof ConsoleCommandSender) {
-					SlimefunStartup.ticker.info(sender);
+					SlimefunPlugin.getTicker().info(sender);
 				}
 				else Messages.local.sendTranslation(sender, "messages.no-permission", true);
 			}
@@ -239,11 +240,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {
 						OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
 						if (player.getName() != null) {
-							try {
-								GPSNetwork.openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							GPSNetwork.openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
 						}
 						else sender.sendMessage("&4Unknown Player: &c" + args[1]);
 					}

@@ -8,14 +8,14 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class CargoHologram {
 	
 	private CargoHologram() {}
 	
 	public static void update(final Block b, final String name) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			ArmorStand hologram = getArmorStand(b, true);
 			hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
 		});

@@ -12,7 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -26,7 +26,7 @@ public class PressureChamber extends MultiBlockMachine {
 				Categories.MACHINES_1, 
 				SlimefunItems.PRESSURE_CHAMBER, 
 				"PRESSURE_CHAMBER",
-				new ItemStack[] {new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
+				new ItemStack[] {new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
 				new ItemStack[] {
 						SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND, 
 						SlimefunItems.RAW_CARBONADO, SlimefunItems.CARBONADO
@@ -40,6 +40,7 @@ public class PressureChamber extends MultiBlockMachine {
 		Block dispBlock = b.getRelative(BlockFace.UP).getRelative(BlockFace.UP);
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		final Inventory inv = disp.getInventory();
+		
 		for (ItemStack current: inv.getContents()) {
 			for (ItemStack convert: RecipeType.getRecipeInputs(this)) {
 				if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
@@ -52,7 +53,7 @@ public class PressureChamber extends MultiBlockMachine {
 						for (int i = 0; i < 4; i++) {
 							int j = i;
 							
-							Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+							Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 								p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
 								p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
 								p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
