@@ -70,5 +70,7 @@ public class GrapplingHook extends SlimefunItem {
 				else return false;
 			}
 		});
+
+		super.register(slimefun);
 	}
 }
