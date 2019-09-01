@@ -261,6 +261,8 @@ public class SlimefunItem {
 				if (this instanceof VanillaItem) this.state = State.VANILLA;
 				else this.state = State.DISABLED;
 			}
+
+			postRegister();
 		} catch(Exception x) {
 			Slimefun.getLogger().log(Level.WARNING, "Registering the Item '" + id + "' for Slimefun " + Slimefun.getVersion() + " has failed", x);
 		}
@@ -505,6 +507,8 @@ public class SlimefunItem {
 		EnergyNet.registerComponent(id, EnergyNetComponent.DISTRIBUTOR);
 		ChargableBlock.registerCapacitor(id, capacity);
 	}
+
+	public void postRegister() {}
 
 	protected void setItem(ItemStack stack) {
 		this.item = stack;

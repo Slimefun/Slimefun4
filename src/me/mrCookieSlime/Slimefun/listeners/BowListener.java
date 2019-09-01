@@ -28,7 +28,7 @@ public class BowListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		utilities = SlimefunPlugin.getUtilities();
 	}
-	
+
 	@EventHandler
 	public void onBowUse(EntityShootBowEvent e) {
 		if (!(e.getEntity() instanceof Player) || !(e.getProjectile() instanceof Arrow)) return;
@@ -39,7 +39,7 @@ public class BowListener implements Listener {
 	public void onArrowHit(final ProjectileHitEvent e) {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			if (!e.getEntity().isValid()) return;
-			if (utilities.arrows.containsKey(e.getEntity().getUniqueId())) utilities.arrows.remove(e.getEntity().getUniqueId());
+			utilities.arrows.remove(e.getEntity().getUniqueId());
 			if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
 		}, 4L);
 	}
@@ -55,7 +55,7 @@ public class BowListener implements Listener {
 				else p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
 
 				for (Entity n: utilities.remove.get(p.getUniqueId())) {
-					n.remove();
+					if (n.isValid()) n.remove();
 				}
 
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
@@ -84,7 +84,7 @@ public class BowListener implements Listener {
 				p.setVelocity(v);
 
 				for (Entity n: utilities.remove.get(p.getUniqueId())) {
-					n.remove();
+					if (n.isValid()) n.remove();
 				}
 
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
