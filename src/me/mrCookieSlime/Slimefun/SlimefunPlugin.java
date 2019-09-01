@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.updater.BukkitUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
@@ -86,6 +87,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private Config config;
 	
 	public GPSNetwork gps = new GPSNetwork();
+	private ProtectionManager protections;
 	private Utilities utilities = new Utilities();
 	private Settings settings;
 	private SlimefunHooks hooks;
@@ -186,7 +188,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			try {
 				SlimefunSetup.setupItems();
 			} catch (Exception x) {
-				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + Slimefun.getVersion());
+				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + Slimefun.getVersion(), x);
 			}
 			
 			MiscSetup.loadDescriptions();
@@ -240,6 +242,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+				protections = new ProtectionManager(getServer());
 				MiscSetup.loadItems(settings);
 
 				for (World world: Bukkit.getWorlds()) {
@@ -426,6 +429,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	public static boolean isActive() {
 		return instance != null;
+	}
+
+	public static ProtectionManager getProtectionManager() {
+		return instance.protections;
 	}
 
 }
