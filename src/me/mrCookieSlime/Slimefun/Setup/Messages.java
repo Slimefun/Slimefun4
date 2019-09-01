@@ -10,10 +10,7 @@ public final class Messages {
 	
 	public static void setup() {
 		local.setPrefix("&aSlimefun &7> ");
-		local.setDefault("messages.not-researched", "&4You do not have enough Knowledge to understand this");
-		local.setDefault("messages.not-enough-xp", "&4You do not have enough XP to unlock this");
-		local.setDefault("messages.unlocked", "&bYou have unlocked &7\"%research%\"");
-		local.setDefault("messages.fortune-cookie", "&7Help me, I am trapped in a Fortune Cookie Factory!", "&7You will die tomorrow...     by a Creeper", "&7At some Point in your Life something bad will happen!!!", "&7Next week you will notice that this is not the real World, you are in a kind of \"Matrix\" or lets call it Computer game. Yes you are in a Computer Game", "&7This Cookie will taste good in a few seconds", "&7You will die soon and the last word you will hear is gonna be \"EXTERMINATE!!!\"", "&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it's not worth it.");
+
 		local.setDefault("commands.help", "Displays this Help Screen");
 		local.setDefault("commands.cheat", "Allows you to cheat Items");
 		local.setDefault("commands.give", "Give somebody some Slimefun Items");
@@ -23,7 +20,14 @@ public final class Messages {
 		local.setDefault("commands.teleporter", "See other Player's Waypoints");
 		local.setDefault("commands.versions", "Lists all installed Addons");
 		local.setDefault("commands.open_guide", "Opens Slimefun's guide without using the book");
-		
+		local.setDefault("commands.stats", "Shows some Stats about a Player");
+		local.setDefault("commands.research.reset", "&cYou have reset %player%'s Knowledge");
+		local.setDefault("commands.research.reset-target", "&cYour Knowledge has been reset");
+
+		local.setDefault("messages.not-researched", "&4You do not have enough Knowledge to understand this");
+		local.setDefault("messages.not-enough-xp", "&4You do not have enough XP to unlock this");
+		local.setDefault("messages.unlocked", "&bYou have unlocked &7\"%research%\"");
+		local.setDefault("messages.fortune-cookie", "&7Help me, I am trapped in a Fortune Cookie Factory!", "&7You will die tomorrow...     by a Creeper", "&7At some Point in your Life something bad will happen!!!", "&7Next week you will notice that this is not the real World, you are in a kind of \"Matrix\" or lets call it Computer game. Yes you are in a Computer Game", "&7This Cookie will taste good in a few seconds", "&7You will die soon and the last word you will hear is gonna be \"EXTERMINATE!!!\"", "&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it's not worth it.");
 		local.setDefault("messages.only-players", "&4This Command is only for Players");
 		local.setDefault("messages.no-permission", "&4You do not have the required Permission to do this");
 		local.setDefault("messages.usage", "&4Usage: &c%usage%");
@@ -59,23 +63,30 @@ public final class Messages {
 		local.setDefault("messages.disabled-item", "&4&lThis Item has been disabled! How did you even get that?");
 		local.setDefault("messages.research.start", "&7The Ancient Spirits whisper mysterious Words into your Ear!");
 		local.setDefault("messages.research.progress", "&7You start to wonder about &b%research% &e(%progress%)");
-		local.setDefault("commands.stats", "Shows some Stats about a Player");
 		local.setDefault("messages.fire-extinguish", "&7You have extinguished yourself");
+		local.setDefault("messages.cannot-place" ,"&cYou cannot place that block there!");
+		local.setDefault("messages.no-pvp" ,"&cYou cannot pvp in here!");
+
 		local.setDefault("machines.pattern-not-found", "&eSorry, I could not recognize this Pattern. Please place the Items in the correct Pattern into the Dispenser.");
 		local.setDefault("machines.unknown-material", "&eSorry, I could not recognize the Item in my Dispenser. Please put something in that I know.");
 		local.setDefault("machines.wrong-item", "&eSorry, I could not recognize the Item you right clicked me with. Check the Recipes and see which Items you can use.");
 		local.setDefault("machines.full-inventory", "&eSorry, my Inventory is too full!");
-		local.setDefault("miner.no-ores", "&eSorry, I could not find any Ores nearby!");
-		local.setDefault("backpack.already-open", "&cSorry, this backpack is open somewhere else!");
-		local.setDefault("backpack.no-stack", "&cYou cannot stack Backpacks");
-		local.setDefault("workbench.not-enhanced", "&4You cannot use Slimefun Items in a normal Workbench");
-		local.setDefault("anvil.not-working", "&4You cannot use Slimefun Items in an Anvil");
-		local.setDefault("commands.research.reset", "&cYou have reset %player%'s Knowledge");
-		local.setDefault("commands.research.reset-target", "&cYour Knowledge has been reset");
 		local.setDefault("machines.in-use", "&cThis Block's Inventory is currently opened by a different Player.");
 		local.setDefault("machines.ignition-chamber-no-flint", "&cIgnition Chamber is missing Flint and Steel.");
-    		local.setDefault("messages.cannot-place" ,"&cYou cannot place that block there!");
-		
+		local.setDefault("anvil.not-working", "&4You cannot use Slimefun Items in an Anvil");
+		local.setDefault("backpack.already-open", "&cSorry, this backpack is open somewhere else!");
+		local.setDefault("backpack.no-stack", "&cYou cannot stack Backpacks");
+		local.setDefault("miner.no-ores", "&eSorry, I could not find any Ores nearby!");
+		local.setDefault("workbench.not-enhanced", "&4You cannot use Slimefun Items in a normal Workbench");
+
+		local.setDefault("machines.ANCIENT_ALTAR.not-enough-pedestals", "&4The Altar is not surrounded by the needed Amount of Pedestals &c(%pedestals% / 8)");
+		local.setDefault("machines.ANCIENT_ALTAR.unknown-catalyst", "&4Unknown Catalyst! &cUse the correct Recipe instead!");
+		local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe", "&4Unknown Recipe! &cUse the correct Recipe instead!");
+		local.setDefault("machines.ANCIENT_PEDESTAL.obstructed", "&4Pedestal is obstructed! &cRemove anything above the pedestal!");
+		local.setDefault("machines.HOLOGRAM_PROJECTOR.enter-text", "&7Please enter your desired Hologram Text in your Chat. &r(Color Codes are supported!)");
+		local.setDefault("machines.ELEVATOR.no-destinations", "&4No Destinations found");
+		local.setDefault("machines.CARGO_NODES.must-be-placed", "&4Must be placed onto a Chest or Machine");
+
 		local.setDefault("gps.waypoint.new", "&ePlease type in a Name for your new Waypoint in the Chat. &7(Color Codes supported!)");
 		local.setDefault("gps.waypoint.added", "&aSuccessfully added a new Waypoint");
 		local.setDefault("gps.waypoint.max", "&4You have reached the Maximum Amount of Waypoints");
@@ -85,14 +96,6 @@ public final class Messages {
 		local.setDefault("robot.started", "&7Your Robot resumed running its Script");
 		local.setDefault("robot.stopped", "&7Your Robot has paused its Script");
 		local.setDefault("inventory.no-access", "&4You are not permitted to access this Block");
-		
-		local.setDefault("machines.ANCIENT_ALTAR.not-enough-pedestals", "&4The Altar is not surrounded by the needed Amount of Pedestals &c(%pedestals% / 8)");
-		local.setDefault("machines.ANCIENT_ALTAR.unknown-catalyst", "&4Unknown Catalyst! &cUse the correct Recipe instead!");
-		local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe", "&4Unknown Recipe! &cUse the correct Recipe instead!");
-		local.setDefault("machines.ANCIENT_PEDESTAL.obstructed", "&4Pedestal is obstructed! &cRemove anything above the pedestal!");
-		local.setDefault("machines.HOLOGRAM_PROJECTOR.enter-text", "&7Please enter your desired Hologram Text in your Chat. &r(Color Codes are supported!)");
-		local.setDefault("machines.ELEVATOR.no-destinations", "&4No Destinations found");
-		local.setDefault("machines.CARGO_NODES.must-be-placed", "&4Must be placed onto a Chest or Machine");
 
 		local.setDefault("android.scripts.already-uploaded", "&4This Script has already been uploaded.");
 		local.setDefault("android.scripts.enter-name", "", "&ePlease type in a Name for your Script", "");

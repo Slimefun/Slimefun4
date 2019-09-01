@@ -68,6 +68,7 @@
     						<includes>
     							<include>**/cscorelib2/updater/**</include>
                                 <include>**/cscorelib2/materials/**</include>
+								<include>**/cscorelib2/protection/**</include>
     						</includes>
   						</filter>
       				</filters>

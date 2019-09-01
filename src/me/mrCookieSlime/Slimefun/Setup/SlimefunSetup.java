@@ -49,6 +49,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
@@ -866,6 +868,77 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_FIRE, "STAFF_ELEMENTAL_FIRE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, null, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, null})
 		.register(true);
+		
+		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_STORM, "STAFF_ELEMENTAL_STORM", RecipeType.ANCIENT_ALTAR,
+		new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.STAFF_WATER, SlimefunItems.MAGIC_SUGAR, SlimefunItems.STAFF_WIND, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
+		.register(true, new ItemInteractionHandler() {
+
+			@Override
+			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
+				//Not checking if lores equals because we need a special one for that.
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_STORM, false)) {
+
+					if (!item.hasItemMeta()) return false;
+					ItemMeta itemM = item.getItemMeta();
+					if (!itemM.hasLore()) return false;
+					List<String> itemML = itemM.getLore();
+
+					ItemStack SFitem = SlimefunItems.STAFF_STORM;
+					ItemMeta SFitemM = SFitem.getItemMeta();
+					List<String> SFitemML = SFitemM.getLore();
+					if (itemML.size() < 6) {
+						// Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
+						if (itemML.get(1).equals(SFitemML.get(1)) && itemML.get(3).equals(SFitemML.get(3))) {
+							if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
+								Location loc = p.getTargetBlock(null, 50).getLocation();
+								if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
+									if (new ProtectionManager(Bukkit.getServer()).hasPermission(p, loc, ProtectionModule.Action.PVP)) {
+										loc.getWorld().strikeLightning(loc);
+
+										if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
+											FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
+											Bukkit.getPluginManager().callEvent(event);
+											p.setFoodLevel(event.getFoodLevel());
+										}
+
+										if (ChatColor.translateAlternateColorCodes('&', "&e5 Uses &7left").equals(itemML.get(4))) {
+											itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e4 Uses &7left"));
+										} else if (ChatColor.translateAlternateColorCodes('&', "&e4 Uses &7left").equals(itemML.get(4))) {
+											itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e3 Uses &7left"));
+										} else if (ChatColor.translateAlternateColorCodes('&', "&e3 Uses &7left").equals(itemML.get(4))) {
+											itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e2 Uses &7left"));
+										} else if (ChatColor.translateAlternateColorCodes('&', "&e2 Uses &7left").equals(itemML.get(4))) {
+											itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left"));
+										} else if (ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left").equals(itemML.get(4))) {
+											e.setCancelled(true);
+											p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+											item.setAmount(0);
+											return true;
+										} else return false;
+
+										e.setCancelled(true);
+										// Saving the changes to lore and item.
+										itemM.setLore(itemML);
+										item.setItemMeta(itemM);
+										if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+											p.getInventory().setItemInMainHand(item);
+										} else {
+											p.getInventory().setItemInOffHand(item);
+										}
+									} else {
+										Messages.local.sendTranslation(p, "messages.no-pvp", true);
+									}
+								}
+							} else {
+								Messages.local.sendTranslation(p, "messages.hungry", true);
+							}
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+		});
 
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.AUTO_SMELT_PICKAXE, "SMELTERS_PICKAXE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
