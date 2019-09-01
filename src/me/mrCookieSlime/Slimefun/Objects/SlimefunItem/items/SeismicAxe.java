@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
 import java.util.List;
-import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -9,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
@@ -18,7 +16,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -27,8 +24,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.utils.DamageableItem;
 
-public class SeismicAxe extends SimpleSlimefunItem implements NotPlaceable {
+public class SeismicAxe extends SimpleSlimefunItem implements NotPlaceable, DamageableItem {
 
 	public SeismicAxe(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
@@ -73,17 +71,18 @@ public class SeismicAxe extends SimpleSlimefunItem implements NotPlaceable {
 				}
 
 				for (int i = 0; i < 4; i++) {
-					if (e.getPlayer().getInventory().getItemInMainHand() != null) {
-						if (e.getPlayer().getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.DURABILITY)) {
-							if (new Random().nextInt(100) <= (60 + 40 / (e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY) + 1))) PlayerInventory.damageItemInHand(e.getPlayer());
-						}
-						else PlayerInventory.damageItemInHand(e.getPlayer());
-					}
+					damageItem(p, item);
 				}
+				
 				return true;
 			}
 			else return false;
 		};
+	}
+
+	@Override
+	public boolean isDamageable() {
+		return true;
 	}
 
 }
