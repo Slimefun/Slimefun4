@@ -50,6 +50,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
@@ -884,58 +886,56 @@ public final class SlimefunSetup {
 					ItemMeta SFitemM = SFitem.getItemMeta();
 					List<String> SFitemML = SFitemM.getLore();
 					if (itemML.size() < 6) {
-					    // Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
-						if (!itemML.get(1).equals(SFitemML.get(1))) return false;
-						if (!itemML.get(3).equals(SFitemML.get(3))) return false;
-					} else return false;
+						// Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
+						if (itemML.get(1).equals(SFitemML.get(1)) && itemML.get(3).equals(SFitemML.get(3))) {
+							if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
+								Location loc = p.getTargetBlock(null, 50).getLocation();
+								if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
+									if (new ProtectionManager(Bukkit.getServer()).hasPermission(p, loc, ProtectionModule.Action.PVP)) {
+										loc.getWorld().strikeLightning(loc);
 
-					if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
-						Location loc = p.getTargetBlock(null, 50).getLocation();
-						if (loc.getWorld() == null) return false;
-						if (!loc.getChunk().isLoaded()) return false;
-						loc.getWorld().strikeLightning(loc);
+										if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
+											FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
+											Bukkit.getPluginManager().callEvent(event);
+											p.setFoodLevel(event.getFoodLevel());
+										}
 
-						if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
-							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
-							Bukkit.getPluginManager().callEvent(event);
-							p.setFoodLevel(event.getFoodLevel());
-						}
+										if (ChatColor.translateAlternateColorCodes('&', "&e5 Uses &7left").equals(itemML.get(4))) {
+											itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e4 Uses &7left"));
+										} else if (ChatColor.translateAlternateColorCodes('&', "&e4 Uses &7left").equals(itemML.get(4))) {
+											itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e3 Uses &7left"));
+										} else if (ChatColor.translateAlternateColorCodes('&', "&e3 Uses &7left").equals(itemML.get(4))) {
+											itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e2 Uses &7left"));
+										} else if (ChatColor.translateAlternateColorCodes('&', "&e2 Uses &7left").equals(itemML.get(4))) {
+											itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left"));
+										} else if (ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left").equals(itemML.get(4))) {
+											e.setCancelled(true);
+											p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+											item.setAmount(0);
+											return true;
+										} else return false;
 
-						if (ChatColor.translateAlternateColorCodes('&', "&e5 Uses &7left").equals(itemML.get(4))) {
-							itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e4 Uses &7left"));
-						}
-						else if (ChatColor.translateAlternateColorCodes('&', "&e4 Uses &7left").equals(itemML.get(4))) {
-							itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e3 Uses &7left"));
-						}
-						else if (ChatColor.translateAlternateColorCodes('&', "&e3 Uses &7left").equals(itemML.get(4))) {
-							itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e2 Uses &7left"));
-						}
-						else if (ChatColor.translateAlternateColorCodes('&', "&e2 Uses &7left").equals(itemML.get(4))) {
-							itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left"));
-						}
-						else if (ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left").equals(itemML.get(4))) {
-							e.setCancelled(true);
-							p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
-							item.setAmount(0);
+										e.setCancelled(true);
+										// Saving the changes to lore and item.
+										itemM.setLore(itemML);
+										item.setItemMeta(itemM);
+										if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+											p.getInventory().setItemInMainHand(item);
+										} else {
+											p.getInventory().setItemInOffHand(item);
+										}
+									} else {
+										Messages.local.sendTranslation(p, "messages.no-pvp", true);
+									}
+								}
+							} else {
+								Messages.local.sendTranslation(p, "messages.hungry", true);
+							}
 							return true;
 						}
-						else return false;
-
-						e.setCancelled(true);
-						// Saving the changes to lore and item.
-						itemM.setLore(itemML);
-						item.setItemMeta(itemM);
-						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
-							p.getInventory().setItemInMainHand(item);
-						}
-						else {
-							p.getInventory().setItemInOffHand(item);
-						}
-					} else {
-						Messages.local.sendTranslation(p, "messages.hungry", true);
 					}
-					return true;
-				} else return false;
+				}
+				return false;
 			}
 		});
 
