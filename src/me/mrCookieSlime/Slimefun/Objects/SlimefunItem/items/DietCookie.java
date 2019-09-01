@@ -28,10 +28,10 @@ public class DietCookie extends SimpleSlimefunItem {
 				int amount = item.getAmount();
 				if (amount <= 1) {
 					if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
-						p.getInventory().setItemInMainHand(null);
+						item.setAmount(0);
 					}
 					else {
-						p.getInventory().setItemInOffHand(null);
+						item.setAmount(0);
 					}
 				}
 				else {
