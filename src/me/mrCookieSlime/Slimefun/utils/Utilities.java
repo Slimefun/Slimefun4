@@ -17,6 +17,8 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -38,6 +40,10 @@ import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 public final class Utilities {
 	
 	public int vanillaItems = 0;
+
+	public Set<ItemStack> radioactiveItems = new HashSet<>();
+	public Map<String, Set<ItemHandler>> itemHandlers = new HashMap<>();
+	public Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 	
 	public List<Category> currentlyEnabledCategories = new ArrayList<>();
 	

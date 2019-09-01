@@ -35,17 +35,17 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
 
 	public SlimefunPlugin plugin;
 
-	public static List<String> arguments = new ArrayList<>();
-	public static List<String> descriptions = new ArrayList<>();
-	public static List<String> tabs = new ArrayList<>();
+	private List<String> arguments = new ArrayList<>();
+	private List<String> descriptions = new ArrayList<>();
+	private List<String> tabs = new ArrayList<>();
 
 	public SlimefunCommand(SlimefunPlugin plugin) {
 		this.plugin = plugin;
@@ -317,6 +317,10 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			CommandHelp.sendCommandHelp(e.getPlayer(), plugin, arguments, descriptions);
 			e.setCancelled(true);
 		}
+	}
+
+	public List<String> getTabArguments() {
+		return tabs;
 	}
 
 }

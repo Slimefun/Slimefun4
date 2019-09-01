@@ -11,11 +11,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 public class SlimefunTabCompleter implements TabCompleter {
+	
+	private SlimefunCommand command;
+	
+	public SlimefunTabCompleter(SlimefunCommand command) {
+		this.command = command;
+	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 1) {
-			return createReturnList(SlimefunCommand.tabs, args[0]);
+			return createReturnList(command.getTabArguments(), args[0]);
 		}
 		else if (args.length == 3) {
 			if (args[0].equalsIgnoreCase("give")) {

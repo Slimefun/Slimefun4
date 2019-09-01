@@ -1,5 +1,10 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
+import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -9,15 +14,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineHelpe
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AutoDrier extends AContainer {
 
@@ -40,19 +36,8 @@ public class AutoDrier extends AContainer {
         if (isProcessing(b)) {
             int timeleft = progress.get(b);
             if (timeleft > 0) {
-                ItemStack item = getProgressBar().clone();
-                ItemMeta im = item.getItemMeta();
-                ((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
-                im.setDisplayName(" ");
-                List<String> lore = new ArrayList<>();
-                lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
-                lore.add("");
-                lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-                im.setLore(lore);
-                item.setItemMeta(im);
-
-                BlockStorage.getInventory(b).replaceExistingItem(22, item);
-
+            	MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				
                 if (ChargableBlock.isChargable(b)) {
                     if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
                     ChargableBlock.addCharge(b, -getEnergyConsumption());

@@ -1,8 +1,5 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -55,18 +52,7 @@ public abstract class AutoAnvil extends AContainer {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
-				ItemStack item = getProgressBar().clone();
-				ItemMeta im = item.getItemMeta();
-				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
-				im.setDisplayName(" ");
-				List<String> lore = new ArrayList<>();
-				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
-				lore.add("");
-				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-				im.setLore(lore);
-				item.setItemMeta(im);
-				
-				BlockStorage.getInventory(b).replaceExistingItem(22, item);
+				MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;

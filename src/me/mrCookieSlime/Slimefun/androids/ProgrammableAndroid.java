@@ -529,7 +529,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
 			SlimefunItem item = BlockStorage.check(block);
 			if (item != null) {
-				if (fits(b, item.getItem()) && SlimefunItem.blockhandler.containsKey(item.getID()) && SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+				if (fits(b, item.getItem()) && SlimefunPlugin.getUtilities().blockHandlers.containsKey(item.getID()) && SlimefunPlugin.getUtilities().blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
 					pushItems(b, BlockStorage.retrieve(block));
 					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 					block.setType(Material.PLAYER_HEAD);

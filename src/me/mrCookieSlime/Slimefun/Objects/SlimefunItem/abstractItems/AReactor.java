@@ -1,9 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -18,7 +16,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -279,18 +276,7 @@ public abstract class AReactor extends SlimefunItem {
 								if (!l.getBlock().getRelative(cooling[new Random().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 							});
 
-							ItemStack item = getProgressBar().clone();
-							ItemMeta im = item.getItemMeta();
-							im.setDisplayName(" ");
-							List<String> lore = new ArrayList<>();
-							lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
-							lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
-							lore.add("");
-							lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-							im.setLore(lore);
-							item.setItemMeta(im);
-
-							BlockStorage.getInventory(l).replaceExistingItem(22, item);
+							MachineHelper.updateProgressbar(BlockStorage.getInventory(l), 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
 							if (needsCooling()) {
 								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;

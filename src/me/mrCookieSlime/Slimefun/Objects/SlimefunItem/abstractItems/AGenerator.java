@@ -1,9 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,8 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -169,18 +165,7 @@ public abstract class AGenerator extends SlimefunItem {
 				if (isProcessing(l)) {
 					int timeleft = progress.get(l);
 					if (timeleft > 0) {
-						ItemStack item = getProgressBar().clone();
-						ItemMeta im = item.getItemMeta();
-						((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(l).getTicks()));
-						im.setDisplayName(" ");
-						List<String> lore = new ArrayList<>();
-						lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
-						lore.add("");
-						lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-						im.setLore(lore);
-						item.setItemMeta(im);
-						
-						BlockStorage.getInventory(l).replaceExistingItem(22, item);
+						MachineHelper.updateProgressbar(BlockStorage.getInventory(l), 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 						
 						if (ChargableBlock.isChargable(l)) {
 							if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction()) {

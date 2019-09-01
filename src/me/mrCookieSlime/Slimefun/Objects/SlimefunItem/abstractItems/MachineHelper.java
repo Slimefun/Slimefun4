@@ -1,7 +1,14 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public final class MachineHelper {
 	
@@ -78,6 +85,21 @@ public final class MachineHelper {
 
 	public static short getDurability(ItemStack item, int timeleft, int max) {
 		return (short) ((item.getType().getMaxDurability() / max) * timeleft);
+	}
+	
+	public static void updateProgressbar(BlockMenu menu, int slot, int timeleft, int time, ItemStack indicator) {
+		ItemStack item = indicator.clone();
+		ItemMeta im = item.getItemMeta();
+		((Damageable) im).setDamage(getDurability(item, timeleft, time));
+		im.setDisplayName(" ");
+		List<String> lore = new ArrayList<>();
+		lore.add(getProgress(timeleft, time));
+		lore.add("");
+		lore.add(getTimeLeft(timeleft / 2));
+		im.setLore(lore);
+		item.setItemMeta(im);
+		
+		menu.replaceExistingItem(22, item);
 	}
 
 }

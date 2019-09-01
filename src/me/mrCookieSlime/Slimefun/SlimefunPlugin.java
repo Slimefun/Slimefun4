@@ -251,9 +251,11 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunPlugin) instance);
 			}, 0);
+			
+			SlimefunCommand command = new SlimefunCommand(this);
 
-			getCommand("slimefun").setExecutor(new SlimefunCommand(this));
-			getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter());
+			getCommand("slimefun").setExecutor(command);
+			getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter(command));
 
 			// Armor Update Task
 			if (config.getBoolean("options.enable-armor-effects")) {
@@ -273,7 +275,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 							}
 						}
 
-						for (ItemStack radioactive: SlimefunItem.radioactive) {
+						for (ItemStack radioactive: utilities.radioactiveItems) {
 							if (p.getInventory().containsAtLeast(radioactive, 1) || SlimefunManager.isItemSimiliar(p.getInventory().getItemInOffHand(), radioactive, true)) {
 								// Check if player is wearing the hazmat suit
 								// If so, break the loop
@@ -364,12 +366,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 		SlimefunItem.all = null;
 		SlimefunItem.items = null;
 		SlimefunItem.mapID = null;
-		SlimefunItem.handlers = null;
-		SlimefunItem.radioactive = null;
-		SlimefunCommand.arguments = null;
-		SlimefunCommand.descriptions = null;
-		SlimefunCommand.tabs = null;
-		SlimefunItem.blockhandler = null;
 		BlockMenuPreset.presets = null;
 		ChargableBlock.capacitors = null;
 		ChargableBlock.maxCharges = null;

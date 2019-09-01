@@ -1451,9 +1451,10 @@ public final class SlimefunSetup {
 									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 									SlimefunItem sfItem = BlockStorage.check(b);
 									boolean allow = false;
+									
 									if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-										if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
-											allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+										if (SlimefunPlugin.getUtilities().blockHandlers.containsKey(sfItem.getID())) {
+											allow = SlimefunPlugin.getUtilities().blockHandlers.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
 										}
 										if (allow) {
 											drops.add(BlockStorage.retrieve(e.getBlock()));
