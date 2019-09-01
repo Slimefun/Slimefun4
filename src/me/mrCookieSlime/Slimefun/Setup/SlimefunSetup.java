@@ -79,7 +79,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBow;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SolarHelmet;
@@ -99,6 +98,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoOutputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.DietCookie;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosivePickaxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosiveShovel;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GoldPan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GrapplingHook;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.InfernalBonemeal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicSugar;
@@ -357,7 +357,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.REDSTONE_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK)})
 		.register(true);
 
-		new SlimefunGadget(Categories.TOOLS, SlimefunItems.GOLD_PAN, "GOLD_PAN", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new GoldPan(Categories.TOOLS, SlimefunItems.GOLD_PAN, "GOLD_PAN", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.STONE), new ItemStack(Material.BOWL), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE)},
 		new ItemStack[] {new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE},
 		new String[] {"chance.FLINT", "chance.CLAY", "chance.SIFTED_ORE"}, new Integer[] {47, 28, 15})
