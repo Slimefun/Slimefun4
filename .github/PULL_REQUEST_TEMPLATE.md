@@ -10,5 +10,5 @@
 
 ## Testability
 <!-- Check the boxes below if - and only if - you tested your changes thoroughly -->
-[ ] I have fully tested the proposed changes and promise that they will not break everything into chaos.
-[ ] I have also tested the proposed changes in combination with various popular addons and can confirm my changes do not break them.
+- [ ] I have fully tested the proposed changes and promise that they will not break everything into chaos.
+- [ ] I have also tested the proposed changes in combination with various popular addons and can confirm my changes do not break them.
