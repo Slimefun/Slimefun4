@@ -16,12 +16,12 @@ public interface DamageableItem {
 			ItemMeta meta = item.getItemMeta();
 			
 			Damageable damageable = (Damageable) meta;
-			damageable.setDamage(damageable.getDamage() + 1);
 			
 			if (damageable.getDamage() >= item.getType().getMaxDurability()) {
 				item.setAmount(0);
 			}
 			else {
+				damageable.setDamage(damageable.getDamage() + 1);
 				item.setItemMeta(meta);
 			}
 		}
