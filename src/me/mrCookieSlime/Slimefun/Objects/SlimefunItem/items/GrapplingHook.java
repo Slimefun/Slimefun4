@@ -21,14 +21,14 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
-public class GrapplingHook extends SimpleSlimefunItem {
+public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
 
 	public GrapplingHook(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 	}
 
 	@Override
-	public ItemInteractionHandler onRightClick() {
+	public ItemInteractionHandler getItemHandler() {
 		Utilities utilities = SlimefunPlugin.getUtilities();
 		
 		return (e, p, item) -> {

@@ -9,7 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -49,7 +49,8 @@ public class ExplosivePickaxe extends SlimefunItem implements NotPlaceable, Dama
 						for (int y = -1; y <= 1; y++) {
 							for (int z = -1; z <= 1; z++) {
 								Block b = e.getBlock().getRelative(x, y, z);
-								if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), blacklist) && CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
+								
+								if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), blacklist) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Action.BREAK_BLOCK)) {
 									if (SlimefunPlugin.getHooks().isCoreProtectInstalled()) {
 										SlimefunPlugin.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 									}
@@ -94,8 +95,8 @@ public class ExplosivePickaxe extends SlimefunItem implements NotPlaceable, Dama
 		super.register(slimefun);
 		damageOnUse = ((Boolean) Slimefun.getItemValue(getID(), "damage-on-use"));
 
-		Object value = Slimefun.getItemValue(getID(), "unbreakable-blocks");
-		blacklist = ((List<?>) value).stream().toArray(String[]::new);
+		List<?> list = (List<?>) Slimefun.getItemValue(getID(), "unbreakable-blocks");
+		blacklist = list.toArray(new String[list.size()]);
 	}
 
 	@Override

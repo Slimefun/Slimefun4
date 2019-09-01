@@ -72,7 +72,7 @@ public class BlockPlacer extends SlimefunItem {
 		
 		super.register(slimefun);
 		
-		Object value = Slimefun.getItemValue(getID(), "unplaceable-blocks");
-		blacklist = ((List<?>) value).stream().toArray(String[]::new);
+		List<?> list = (List<?>) Slimefun.getItemValue(getID(), "unplaceable-blocks");
+		blacklist = list.toArray(new String[list.size()]);
 	}
 }

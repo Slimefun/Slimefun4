@@ -4,20 +4,28 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
-public abstract class SimpleSlimefunItem extends SlimefunItem {
+public abstract class SimpleSlimefunItem<T extends ItemHandler> extends SlimefunItem {
 
 	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 	}
 	
+	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+		super(category, item, id, recipeType, recipe, recipeOutput);
+	}
+	
+	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+		super(category, item, id, recipeType, recipe, keys, values);
+	}
+	
 	@Override
 	public void register(boolean slimefun) {
-		addItemHandler(onRightClick());
+		addItemHandler(getItemHandler());
 		super.register(slimefun);
 	}
 
-	public abstract ItemInteractionHandler onRightClick();
+	public abstract T getItemHandler();
 
 }

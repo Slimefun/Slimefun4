@@ -26,14 +26,14 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.utils.DamageableItem;
 
-public class SeismicAxe extends SimpleSlimefunItem implements NotPlaceable, DamageableItem {
+public class SeismicAxe extends SimpleSlimefunItem<ItemInteractionHandler> implements NotPlaceable, DamageableItem {
 
 	public SeismicAxe(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 	}
 
 	@Override
-	public ItemInteractionHandler onRightClick() {
+	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SEISMIC_AXE, true)) {
 				List<Block> blocks = p.getLineOfSight(null, 10);
@@ -48,9 +48,12 @@ public class SeismicAxe extends SimpleSlimefunItem implements NotPlaceable, Dama
 							}
 						}
 					}
+					
 					b.getWorld().playEffect(ground, Effect.STEP_SOUND, ground.getBlock().getType());
+					
 					if (ground.getBlock().getRelative(BlockFace.UP).getType() == null || ground.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR) {
-						FallingBlock block = ground.getWorld().spawnFallingBlock(ground.getBlock().getRelative(BlockFace.UP).getLocation(), ground.getBlock().getBlockData());
+						Location loc = ground.getBlock().getRelative(BlockFace.UP).getLocation().add(0.5, 0.0, 0.5);
+						FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlock().getBlockData());
 						block.setDropItem(false);
 						block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
 						SlimefunPlugin.getUtilities().blocks.add(block.getUniqueId());
