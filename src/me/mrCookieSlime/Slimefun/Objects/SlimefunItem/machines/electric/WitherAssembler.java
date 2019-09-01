@@ -41,7 +41,7 @@ public class WitherAssembler extends SlimefunItem {
 	public WitherAssembler(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(name, "&5Wither Assembler") {
 			
 			@Override
 			public void init() {
@@ -164,10 +164,6 @@ public class WitherAssembler extends SlimefunItem {
 		preset.addItem(13, new CustomItem(new ItemStack(Material.CLOCK), "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"),
 			(p, slot, item, action) -> false
 		);
-	}
-	
-	public String getInventoryTitle() {
-		return "&5Wither Assembler";
 	}
 
 	public int[] getInputSlots() {
