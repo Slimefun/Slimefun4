@@ -19,41 +19,37 @@ import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 public class EnergyNet extends Network {
 
 	private static final int RANGE = 6;
-
-	public static Set<String> machinesInput = new HashSet<>();
-	public static Set<String> machinesStorage = new HashSet<>();
-	public static Set<String> machinesOutput = new HashSet<>();
 	
 	public static EnergyNetComponent getComponent(Block b) {
 		return getComponent(b.getLocation());
 	}
 
 	public static EnergyNetComponent getComponent(String id) {
-		if (machinesInput.contains(id)) return EnergyNetComponent.SOURCE;
-		if (machinesStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
-		if (machinesOutput.contains(id)) return EnergyNetComponent.CONSUMER;
+		if (SlimefunPlugin.getUtilities().energyNetInput.contains(id)) return EnergyNetComponent.SOURCE;
+		if (SlimefunPlugin.getUtilities().energyNetStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+		if (SlimefunPlugin.getUtilities().energyNetOutput.contains(id)) return EnergyNetComponent.CONSUMER;
 		return EnergyNetComponent.NONE;
 	}
 
 	public static EnergyNetComponent getComponent(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponent.NONE;
 		String id = BlockStorage.checkID(l);
-		if (machinesInput.contains(id)) return EnergyNetComponent.SOURCE;
-		if (machinesStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
-		if (machinesOutput.contains(id)) return EnergyNetComponent.CONSUMER;
+		if (SlimefunPlugin.getUtilities().energyNetInput.contains(id)) return EnergyNetComponent.SOURCE;
+		if (SlimefunPlugin.getUtilities().energyNetStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+		if (SlimefunPlugin.getUtilities().energyNetOutput.contains(id)) return EnergyNetComponent.CONSUMER;
 		return EnergyNetComponent.NONE;
 	}
 
 	public static void registerComponent(String id, EnergyNetComponent component) {
 		switch (component) {
 		case CONSUMER:
-			machinesOutput.add(id);
+			SlimefunPlugin.getUtilities().energyNetOutput.add(id);
 			break;
 		case DISTRIBUTOR:
-			machinesStorage.add(id);
+			SlimefunPlugin.getUtilities().energyNetStorage.add(id);
 			break;
 		case SOURCE:
-			machinesInput.add(id);
+			SlimefunPlugin.getUtilities().energyNetInput.add(id);
 			break;
 		default:
 			break;

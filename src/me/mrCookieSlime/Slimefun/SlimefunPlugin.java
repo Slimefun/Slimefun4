@@ -43,10 +43,7 @@ import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
@@ -366,14 +363,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 		SlimefunItem.all = null;
 		SlimefunItem.items = null;
 		SlimefunItem.mapID = null;
-		BlockMenuPreset.presets = null;
-		ChargableBlock.capacitors = null;
-		ChargableBlock.maxCharges = null;
 		AContainer.processing = null;
 		AContainer.progress = null;
-		EnergyNet.machinesInput = null;
-		EnergyNet.machinesOutput = null;
-		EnergyNet.machinesStorage = null;
 		CargoNet.faces = null;
 		OreWasher.items = null;
 

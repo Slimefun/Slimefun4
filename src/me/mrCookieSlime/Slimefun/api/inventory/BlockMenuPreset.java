@@ -1,8 +1,6 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -16,8 +14,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
-	
-	public static Map<String, BlockMenuPreset> presets = new HashMap<>();
 	
 	private String title;
 	private Set<Integer> occupied = new HashSet<>();
@@ -33,7 +29,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		this.title = title;
 		this.init();
 		this.universal = false;
-		presets.put(id, this);
+		SlimefunPlugin.getUtilities().blockMenuPresets.put(id, this);
 	}
 	
 	public void registerEvent(ItemManipulationEvent event) {
@@ -46,7 +42,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		this.title = title;
 		this.init();
 		this.universal = universal;
-		presets.put(id, this);
+		SlimefunPlugin.getUtilities().blockMenuPresets.put(id, this);
 	}
 	
 	public abstract void init();
@@ -105,15 +101,16 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public static BlockMenuPreset getPreset(String id) {
-		return id == null ? null: presets.get(id);
+		return id == null ? null: SlimefunPlugin.getUtilities().blockMenuPresets.get(id);
 	}
 	
 	public static boolean isInventory(String id) {
-		return presets.containsKey(id);
+		return SlimefunPlugin.getUtilities().blockMenuPresets.containsKey(id);
 	}
 	
 	public static boolean isUniversalInventory(String id) {
-		return presets.containsKey(id) && presets.get(id).isUniversal();
+		BlockMenuPreset preset = SlimefunPlugin.getUtilities().blockMenuPresets.get(id);
+		return preset != null && preset.isUniversal();
 	}
 	
 	public boolean isUniversal() {

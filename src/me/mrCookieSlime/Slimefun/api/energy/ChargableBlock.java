@@ -1,10 +1,11 @@
 package me.mrCookieSlime.Slimefun.api.energy;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.Skull;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
@@ -13,28 +14,19 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.Skull;
-
 public final class ChargableBlock {
 	
 	private ChargableBlock() {}
 	
-	public static Map<String, Integer> maxCharges = new HashMap<>();
-	public static Set<String> rechargeable = new HashSet<>();
-	public static Set<String> capacitors = new HashSet<>();
-	
 	public static void registerChargableBlock(String id, int capacity, boolean recharge) {
-		maxCharges.put(id, capacity);
-		if (recharge) rechargeable.add(id);
+		SlimefunPlugin.getUtilities().blocksEnergyCapacity.put(id, capacity);
+		if (recharge) SlimefunPlugin.getUtilities().rechargeableItems.add(id);
 	}
 	
 	public static void registerCapacitor(String id, int capacity) {
-		maxCharges.put(id, capacity);
-		rechargeable.add(id);
-		capacitors.add(id);
+		SlimefunPlugin.getUtilities().blocksEnergyCapacity.put(id, capacity);
+		SlimefunPlugin.getUtilities().rechargeableItems.add(id);
+		SlimefunPlugin.getUtilities().capacitorIDs.add(id);
 	}
 	
 	public static boolean isChargable(Block b) {
@@ -43,13 +35,13 @@ public final class ChargableBlock {
 	
 	public static boolean isChargable(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return false;
-		return maxCharges.containsKey(BlockStorage.checkID(l));
+		return SlimefunPlugin.getUtilities().blocksEnergyCapacity.containsKey(BlockStorage.checkID(l));
 	}
 	
 	public static boolean isRechargable(Block b) {
 		if (!BlockStorage.hasBlockInfo(b)) return false;
 		String id = BlockStorage.checkID(b);
-		return maxCharges.containsKey(id) && rechargeable.contains(id);
+		return SlimefunPlugin.getUtilities().blocksEnergyCapacity.containsKey(id) && SlimefunPlugin.getUtilities().rechargeableItems.contains(id);
 	}
 	
 	public static boolean isCapacitor(Block b) {
@@ -58,7 +50,7 @@ public final class ChargableBlock {
 	
 	public static boolean isCapacitor(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return false;
-		return capacitors.contains(BlockStorage.checkID(l));
+		return SlimefunPlugin.getUtilities().capacitorIDs.contains(BlockStorage.checkID(l));
 	}
 	
 	public static int getDefaultCapacity(Block b) {
@@ -67,7 +59,7 @@ public final class ChargableBlock {
 	
 	public static int getDefaultCapacity(Location l) {
 		String id = BlockStorage.checkID(l);
-		return id == null ? 0: maxCharges.get(id);
+		return id == null ? 0: SlimefunPlugin.getUtilities().blocksEnergyCapacity.get(id);
 	}
 	
 	public static int getCharge(Block b) {
@@ -135,6 +127,7 @@ public final class ChargableBlock {
 		int energy = getCharge(l);
 		int space = getMaxCharge(l) - energy;
 		int rest = charge;
+		
 		if (space > 0 && charge > 0) {
 			if (space > charge) {
 				setCharge(l, energy + charge);
@@ -144,14 +137,15 @@ public final class ChargableBlock {
 				rest = charge - space;
 				setCharge(l, getMaxCharge(l));
 			}
-			if (capacitors.contains(BlockStorage.checkID(l))) {
+			
+			if (SlimefunPlugin.getUtilities().capacitorIDs.contains(BlockStorage.checkID(l))) {
 				updateTexture(l);
 			}
 		}
 		else if (charge < 0 && energy >= -charge) {
 			setCharge(l, energy + charge);
 			
-			if (capacitors.contains(BlockStorage.checkID(l))) {
+			if (SlimefunPlugin.getUtilities().capacitorIDs.contains(BlockStorage.checkID(l))) {
 				updateTexture(l);
 			}
 		}
@@ -164,11 +158,15 @@ public final class ChargableBlock {
 	
 	public static int getMaxCharge(Location l) {
 		Config cfg = BlockStorage.getLocationInfo(l);
+		
 		if (!cfg.contains("id")) {
 			BlockStorage.clearBlockInfo(l);
 			return 0;
 		}
-		if (cfg.contains("energy-capacity")) return Integer.parseInt(cfg.getString("energy-capacity"));
+		
+		if (cfg.contains("energy-capacity")) {
+			return Integer.parseInt(cfg.getString("energy-capacity"));
+		}
 		else {
 			BlockStorage.addBlockInfo(l, "energy-capacity", String.valueOf(getDefaultCapacity(l)), false);
 			return getDefaultCapacity(l);

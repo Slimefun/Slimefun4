@@ -208,6 +208,7 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.FOOD, SlimefunItems.DIET_COOKIE, "DIET_COOKIE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.COOKIE), SlimefunItems.ELYTRA_SCALE, null, null, null, null, null, null, null})
 		.register(true, new ItemInteractionHandler() {
+			
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DIET_COOKIE, true)) {

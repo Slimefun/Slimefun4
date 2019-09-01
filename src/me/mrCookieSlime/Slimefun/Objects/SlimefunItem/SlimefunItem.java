@@ -37,10 +37,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class SlimefunItem {
 
 	public static List<SlimefunItem> items = new ArrayList<>();
-
 	public static Map<String, SlimefunItem> mapID = new HashMap<>();
-	public static Set<String> tickers = new HashSet<>();
-
 	public static List<SlimefunItem> all = new ArrayList<>();
 
 	private String id;
@@ -404,7 +401,7 @@ public class SlimefunItem {
 		for (ItemHandler h: handler) {
 			if (h instanceof BlockTicker) {
 				this.ticking = true;
-				tickers.add(getID());
+				SlimefunPlugin.getUtilities().tickers.add(getID());
 				this.blockTicker = (BlockTicker) h;
 			}
 			else if (h instanceof EnergyTicker) {
@@ -514,7 +511,7 @@ public class SlimefunItem {
 	}
 
 	public static boolean isTicking(String item) {
-		return tickers.contains(item);
+		return SlimefunPlugin.getUtilities().tickers.contains(item);
 	}
 
 	public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
