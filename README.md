@@ -24,6 +24,9 @@ Release Candidates or "stable" builds will have a proper Version such as "4.1.18
   </a>
 </p>
 
+You can also find the most recent development builds for all my other Plugins (including Slimefun Addons) on here:
+https://thebusybiscuit.github.io/builds/
+
 ## Discord
 You can find Slimefun's community on Discord!
 Click the badge to join it for Suggestions/Questions or other discussions about this plugin.
