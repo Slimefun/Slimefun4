@@ -458,7 +458,7 @@ public final class SlimefunItems {
 	public static final ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6Elemental Staff &7- &b&oWind", "", "&7Element: &b&oWind", "", "&eRight Click&7 to launch yourself forward");
 	public static final ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6Elemental Staff &7- &c&oFire", "", "&7Element: &c&oFire");
 	public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6Elemental Staff &7- &1&oWater", "", "&7Element: &1&oWater", "", "&eRight Click&7 to extinguish yourself");
-	public static final ItemStack STAFF_STORM = new CustomItem(Material.STICK, "&6Elemental Staff &7- &8&oStorm", "", "&7Element: &8&oStorm", "", "&eRight Click&7 to summon a lightning", "&e5 Uses &7left");
+	public static final ItemStack STAFF_STORM = new CustomItem(Material.STICK, "&6Elemental Staff &7- &8&oStorm", "", "&7Element: &8&oStorm", "", "&eRight Click&7 to summon a lightning", "&eX Uses &7left");
 	
 	static {
 		STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK, 1);
@@ -530,6 +530,7 @@ public final class SlimefunItems {
 	public static final ItemStack RUNE_EARTH;
 	public static final ItemStack RUNE_ENDER;
 	public static final ItemStack RUNE_RAINBOW;
+	public static final ItemStack RUNE_LIGHTNING;
 	
 	static {
 		ItemStack itemB = new ItemStack(Material.FIREWORK_STAR);
@@ -580,6 +581,13 @@ public final class SlimefunItems {
 		imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
 		itemR.setItemMeta(imR);
 		RUNE_RAINBOW = itemR;
+		
+		ItemStack itemL = new ItemStack(Material.FIREWORK_STAR);
+		FireworkEffectMeta imL = (FireworkEffectMeta) itemL.getItemMeta();
+		imL.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.YELLOW).build());
+		imL.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&e&lLightning&8&l]"));
+		itemL.setItemMeta(imL);
+		RUNE_LIGHTNING = itemL;
 	}
 	
 	/*		Electricity			*/
