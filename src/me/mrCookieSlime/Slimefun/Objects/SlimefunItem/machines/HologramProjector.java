@@ -4,17 +4,17 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.holograms.HologramProjectorHologram;
 
-public class HologramProjector extends SlimefunItem {
+public class HologramProjector extends SimpleSlimefunItem<ItemInteractionHandler> {
 
 	public HologramProjector(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, id, recipeType, recipe, recipeOutput);
@@ -39,14 +39,12 @@ public class HologramProjector extends SlimefunItem {
 	}
 
 	@Override
-	public void register(boolean slimefun) {
-		addItemHandler(new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
-				if (e.getClickedBlock() == null) return false;
-				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getID().equals(getID())) return false;
+	public ItemInteractionHandler getItemHandler() {
+		return (e, p, item) -> {
+			if (e.getClickedBlock() == null) return false;
+			
+			String id = BlockStorage.checkID(e.getClickedBlock());
+			if (id != null && id.equals(getID())) {
 				e.setCancelled(true);
 
 				if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
@@ -55,8 +53,8 @@ public class HologramProjector extends SlimefunItem {
 
 				return true;
 			}
-		});
-		
-		super.register(slimefun);
+			
+			return false;
+		};
 	}
 }

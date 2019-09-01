@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -22,7 +21,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -104,6 +102,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.InfernalBonemeal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicSugar;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MonsterJerky;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfTheSeeker;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SeismicAxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
@@ -1334,7 +1333,7 @@ public final class SlimefunSetup {
 		
 		new ExplosivePickaxe(Categories.TOOLS, SlimefunItems.EXPLOSIVE_PICKAXE, "EXPLOSIVE_PICKAXE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.TNT), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.TNT), null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null},
-		new String[] {"unbreakable-blocks", "damage-on-use"}, new Object[] {Arrays.asList("BEDROCK", "BARRIER", "COMMAND", "COMMAND_CHAIN", "COMMAND_REPEATING"), Boolean.FALSE })
+		new String[] {"unbreakable-blocks", "damage-on-use"}, new Object[] {Stream.of(Material.BEDROCK, Material.END_PORTAL_FRAME, Material.END_PORTAL, Material.NETHER_PORTAL, Material.BARRIER, Material.STRUCTURE_BLOCK, Material.COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK).map(Material::toString).toArray(String[]::new), Boolean.FALSE })
 		.register(true);
 
 		new ExplosiveShovel(Categories.TOOLS, SlimefunItems.EXPLOSIVE_SHOVEL, "EXPLOSIVE_SHOVEL", RecipeType.MAGIC_WORKBENCH,
@@ -1661,29 +1660,12 @@ public final class SlimefunSetup {
 		
 		new BlockPlacer(Categories.MACHINES_1, SlimefunItems.BLOCK_PLACER, "BLOCK_PLACER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON), SlimefunItems.GOLD_4K, new ItemStack(Material.IRON_INGOT), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.IRON_INGOT), SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON), SlimefunItems.GOLD_4K}, 
-		new String[] {"unplaceable-blocks"}, Stream.of(Material.STRUCTURE_BLOCK, Material.COMMAND_BLOCK).map(Material::toString).toArray(Object[]::new))
+		new String[] {"unplaceable-blocks"}, new Object[] {Stream.of(Material.STRUCTURE_BLOCK, Material.COMMAND_BLOCK).map(Material::toString).toArray(String[]::new)})
 		.register(true);
 
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION, "SCROLL_OF_DIMENSIONAL_TELEPOSITION", RecipeType.MAGIC_WORKBENCH,
+		new TelepositionScroll(Categories.MAGIC, SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION, "SCROLL_OF_DIMENSIONAL_TELEPOSITION", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.ENDER_LUMP_3, null})
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION, true)) {
-					for (Entity n: p.getNearbyEntities(10.0, 10.0, 10.0)) {
-						if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !n.getUniqueId().equals(p.getUniqueId())) {
-							float yaw = n.getLocation().getYaw() + 180.0F;
-							if (yaw > 360.0F) yaw = yaw - 360.0F;
-							
-							n.teleport(new Location(n.getWorld(), n.getLocation().getX(), n.getLocation().getY(), n.getLocation().getZ(), yaw, n.getLocation().getPitch()));
-						}
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new SlimefunBow(SlimefunItems.EXPLOSIVE_BOW, "EXPLOSIVE_BOW",
 		new ItemStack[] {null, new ItemStack(Material.STICK), new ItemStack(Material.GUNPOWDER), SlimefunItems.STAFF_FIRE, null, SlimefunItems.SULFATE, null, new ItemStack(Material.STICK), new ItemStack(Material.GUNPOWDER)})
