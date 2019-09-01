@@ -6,13 +6,11 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -32,61 +30,57 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
 		super(category, item, id, recipeType, recipe);
 	}
 
-	@Override
-	public void register(boolean slimefun) {
-        addItemHandler(new ItemInteractionHandler() {
-            Utilities utilities = SlimefunPlugin.getUtilities();
+    @Override
+    public ItemInteractionHandler getItemHandler() {
+        Utilities utilities = SlimefunPlugin.getUtilities();
 
-            @Override
-            public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-                if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-                    UUID uuid = p.getUniqueId();
-                    if (e.getClickedBlock() == null && !utilities.jumpState.containsKey(uuid)) {
-                        e.setCancelled(true);
-                        if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
-                            // Cancel, to fix dupe #740
-                            return false;
-                        }
-                        utilities.jumpState.put(uuid, p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
-                        if (p.getInventory().getItemInMainHand().getType() == Material.LEAD)
-                            PlayerInventory.consumeItemInHand(p);
-
-                        Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
-                        Arrow arrow = p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Arrow.class);
-                        arrow.setShooter(p);
-                        arrow.setVelocity(direction);
-
-                        Bat b = (Bat) p.getWorld().spawnEntity(p.getLocation(), EntityType.BAT);
-                        b.setCanPickupItems(false);
-                        b.setAI(false);
-                        b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
-                        b.setLeashHolder(arrow);
-
-                        utilities.damage.add(uuid);
-                        utilities.remove.put(uuid, new Entity[]{b, arrow});
-
-                        // To fix issue #253
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-                            Utilities utilities = SlimefunPlugin.getUtilities();
-
-                            if (utilities.jumpState.containsKey(uuid)) {
-                                utilities.arrows.remove(uuid);
-
-                                for (Entity n : utilities.remove.get(uuid)) {
-                                    if (n.isValid()) n.remove();
-                                }
-
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-                                    utilities.damage.remove(uuid);
-                                    utilities.jumpState.remove(uuid);
-                                    utilities.remove.remove(uuid);
-                                }, 20L);
-                            }
-                        }, (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds") * 20);
+        return (e, p, item) -> {
+            if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
+                UUID uuid = p.getUniqueId();
+                if (e.getClickedBlock() == null && !utilities.jumpState.containsKey(uuid)) {
+                    e.setCancelled(true);
+                    if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
+                        // Cancel, to fix dupe #740
+                        return false;
                     }
-                    return true;
-                } else return false;
+                    utilities.jumpState.put(uuid, p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
+                    if (p.getInventory().getItemInMainHand().getType() == Material.LEAD)
+                        PlayerInventory.consumeItemInHand(p);
+
+                    Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
+                    Arrow arrow = p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Arrow.class);
+                    arrow.setShooter(p);
+                    arrow.setVelocity(direction);
+
+                    Bat b = (Bat) p.getWorld().spawnEntity(p.getLocation(), EntityType.BAT);
+                    b.setCanPickupItems(false);
+                    b.setAI(false);
+                    b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
+                    b.setLeashHolder(arrow);
+
+                    utilities.damage.add(uuid);
+                    utilities.remove.put(uuid, new Entity[]{b, arrow});
+
+                    // To fix issue #253
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+                        if (utilities.jumpState.containsKey(uuid)) {
+                            utilities.arrows.remove(uuid);
+
+                            for (Entity n : utilities.remove.get(uuid)) {
+                                if (n.isValid()) n.remove();
+                            }
+
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+                                utilities.damage.remove(uuid);
+                                utilities.jumpState.remove(uuid);
+                                utilities.remove.remove(uuid);
+                            }, 20L);
+                        }
+                    }, (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds") * 20);
+                }
+                return true;
             }
-        });
+            else return false;
+        };
     }
 }
