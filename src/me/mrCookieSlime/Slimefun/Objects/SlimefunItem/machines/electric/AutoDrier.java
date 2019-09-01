@@ -56,33 +56,36 @@ public class AutoDrier extends AContainer {
         else {
             MachineRecipe r = null;
             int inputSlot = -1;
+            
             for (int slot: getInputSlots()) {
                 ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
-                if (item == null) continue;
-
-                // Checking if dryable
-                Material mat = item.getType();
-                ItemStack output;
-                if (mat == Material.ROTTEN_FLESH) {
-                    output = new ItemStack(Material.LEATHER);
+                if (item != null) {
+                	// Checking if dryable
+                    Material mat = item.getType();
+                    ItemStack output = null;
+                    
+                    if (mat == Material.ROTTEN_FLESH) {
+                        output = new ItemStack(Material.LEATHER);
+                    }
+                    else if (mat == Material.WATER_BUCKET) {
+                        output = new ItemStack(Material.BUCKET);
+                    }
+                    else if (mat == Material.WET_SPONGE) {
+                        output = new ItemStack(Material.SPONGE);
+                    }
+                    else if (Tag.SAPLINGS.isTagged(mat) || Tag.LEAVES.isTagged(mat)) {
+                        output = new ItemStack(Material.STICK);
+                    }
+                    else if (mat.name().contains("POTION")) {
+                        output = new ItemStack(Material.GLASS_BOTTLE);
+                    }
+                    
+                    if (output != null) {
+                    	r = new MachineRecipe(5, new ItemStack[] {item}, new ItemStack[] {output});
+                        inputSlot = slot;
+                        break;
+                    }
                 }
-                else if (mat == Material.WATER_BUCKET) {
-                    output = new ItemStack(Material.BUCKET);
-                }
-                else if (mat == Material.WET_SPONGE) {
-                    output = new ItemStack(Material.SPONGE);
-                }
-                else if (Tag.SAPLINGS.isTagged(mat) || Tag.LEAVES.isTagged(mat)) {
-                    output = new ItemStack(Material.STICK);
-                }
-                else if (mat.name().contains("POTION")) {
-                    output = new ItemStack(Material.GLASS_BOTTLE);
-                }
-                else continue;
-
-                r = new MachineRecipe(5, new ItemStack[] {item}, new ItemStack[] {output});
-                inputSlot = slot;
-                break;
             }
 
             if (r != null) {

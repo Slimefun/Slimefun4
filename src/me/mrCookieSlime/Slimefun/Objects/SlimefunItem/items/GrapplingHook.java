@@ -90,6 +90,6 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
 
     @Override
     public void postRegister() {
-	    despawnTicks = (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds") * 20;
+	    despawnTicks = (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds") * 20L;
     }
 }

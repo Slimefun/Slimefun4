@@ -81,12 +81,16 @@ public class AutoDisenchanter extends AContainer {
 				
 				// Check if disenchantable
 				SlimefunItem sfItem = null;
-				if ((item != null) && (item.getType() != Material.BOOK)) { // stops endless checks of getByItem for empty book stacks.
+				
+				// stops endless checks of getByItem for empty book stacks.
+				if ((item != null) && (item.getType() != Material.BOOK)) {
 					sfItem = SlimefunItem.getByItem(item);
 				}
-				if (sfItem != null && !sfItem.isDisenchantable()) return;
+				if (sfItem != null && !sfItem.isDisenchantable()) {
+					return;
+				}
 				
-				// Disenchant
+				// Disenchanting
 				if (item != null && target != null && target.getType() == Material.BOOK) {
 					int amount = 0;
 
@@ -107,6 +111,7 @@ public class AutoDisenchanter extends AContainer {
 						book.setAmount(1);
 						book.setType(Material.ENCHANTED_BOOK);
 						EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
+						
 						for (Map.Entry<Enchantment,Integer> e: enchantments.entrySet()) {
 							newItem.removeEnchantment(e.getKey());
 							meta.addStoredEnchant(e.getKey(), e.getValue(), true);

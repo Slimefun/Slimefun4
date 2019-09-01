@@ -17,6 +17,7 @@ public class JetpackTask extends SlimefunTask {
 		this.thrust = thrust;
 	}
 	
+	@Override
 	public void setID(int id) {
 		this.id = id;
 	}

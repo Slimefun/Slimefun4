@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -25,7 +24,7 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 	
-	private final static int MAX_USES = 8;
+	private static final int MAX_USES = 8;
 	
 	public StormStaff(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe, getCraftedOutput());
@@ -50,17 +49,17 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 			if (SlimefunManager.isItemSimiliar(item, getItem(), false)) {
 
 				if (!item.hasItemMeta()) return false;
-				ItemMeta itemM = item.getItemMeta();
-				if (!itemM.hasLore()) return false;
-				List<String> itemML = itemM.getLore();
+				ItemMeta itemMeta = item.getItemMeta();
+				if (!itemMeta.hasLore()) return false;
+				List<String> itemLore = itemMeta.getLore();
 
-				ItemStack SFitem = getItem();
-				ItemMeta SFitemM = SFitem.getItemMeta();
-				List<String> SFitemML = SFitemM.getLore();
+				ItemStack sfItem = getItem();
+				ItemMeta sfItemMeta = sfItem.getItemMeta();
+				List<String> sfItemLore = sfItemMeta.getLore();
 				
-				if (itemML.size() < 6) {
+				if (itemLore.size() < 6) {
 					// Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
-					if (itemML.get(1).equals(SFitemML.get(1)) && itemML.get(3).equals(SFitemML.get(3))) {
+					if (itemLore.get(1).equals(sfItemLore.get(1)) && itemLore.get(3).equals(sfItemLore.get(3))) {
 						if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
 							// Get a target block with max. 30 blocks of distance
 							Location loc = p.getTargetBlock(null, 30).getLocation();
@@ -76,26 +75,19 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 									}
 									
 									for (int i = MAX_USES; i > 0; i--) {
-										if (i == 1 && ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left").equals(itemML.get(4))) {
+										if (i == 1 && ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left").equals(itemLore.get(4))) {
 											e.setCancelled(true);
 											p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
 											item.setAmount(0);
 											return true;
 										}
-										else if (ChatColor.translateAlternateColorCodes('&', "&e" + i + " Uses &7left").equals(itemML.get(4))) {
-											itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e" + (i - 1) + " " + (i > 2 ? "Uses": "Use") + " &7left"));
+										else if (ChatColor.translateAlternateColorCodes('&', "&e" + i + " Uses &7left").equals(itemLore.get(4))) {
+											itemLore.set(4, ChatColor.translateAlternateColorCodes('&', "&e" + (i - 1) + " " + (i > 2 ? "Uses": "Use") + " &7left"));
 											e.setCancelled(true);
 											
 											// Saving the changes to lore and item.
-											itemM.setLore(itemML);
-											item.setItemMeta(itemM);
-											
-											if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
-												p.getInventory().setItemInMainHand(item);
-											} 
-											else {
-												p.getInventory().setItemInOffHand(item);
-											}
+											itemMeta.setLore(itemLore);
+											item.setItemMeta(itemMeta);
 											
 											return true;
 										}

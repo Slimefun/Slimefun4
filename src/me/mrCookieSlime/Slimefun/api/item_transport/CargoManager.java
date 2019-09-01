@@ -196,7 +196,8 @@ public final class CargoManager {
 		String id = BlockStorage.checkID(block);
 		if (id.equals("CARGO_NODE_OUTPUT")) return true;
 
-		Config blockInfo = BlockStorage.getLocationInfo(block.getLocation()); // Store the returned Config instance to avoid heavy calls
+		// Store the returned Config instance to avoid heavy calls
+		Config blockInfo = BlockStorage.getLocationInfo(block.getLocation());
 
 		BlockMenu menu = BlockStorage.getInventory(block.getLocation());
 		boolean lore = blockInfo.getString("filter-lore").equals("true");

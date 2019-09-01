@@ -293,7 +293,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							b.setBlockData(rotatableLeft);
 							BlockStorage.addBlockInfo(b, "rotation", directions.get(indexLeft).toString());
 							break;
-						case TURN_RIGHT: {
+						case TURN_RIGHT:
 							int indexRight = directions.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) + 1;
 							if (indexRight == directions.size()) indexRight = 0;
 							Rotatable rotatableRight = (Rotatable) b.getBlockData();
@@ -301,7 +301,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							b.setBlockData(rotatableRight);
 							BlockStorage.addBlockInfo(b, "rotation", directions.get(indexRight).toString());
 							break;
-						}
 						case DIG_FORWARD:
 							mine(b, b.getRelative(face));
 							break;

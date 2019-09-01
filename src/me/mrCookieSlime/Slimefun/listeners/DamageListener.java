@@ -85,20 +85,20 @@ public class DamageListener implements Listener {
 
             if (item != null && Slimefun.hasUnlocked(p, item, true) && SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("SWORD_OF_BEHEADING"), true)) {
                 if (e.getEntity() instanceof Zombie) {
-                    if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE")) {
+                    if (random.nextInt(100) < (int) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE")) {
                         e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
                     }
                 }
                 else if (e.getEntity() instanceof WitherSkeleton) {
-                    if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON"))
+                    if (random.nextInt(100) < (int) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON"))
                         e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                 }
                 else if (e.getEntity() instanceof Skeleton) {
-                    if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON"))
+                    if (random.nextInt(100) < (int) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON"))
                         e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
                 }
                 else if (e.getEntity() instanceof Creeper) {
-                    if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER")) {
+                    if (random.nextInt(100) < (int) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER")) {
                         e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
                     }
                 }
@@ -126,7 +126,9 @@ public class DamageListener implements Listener {
             		for(ItemStack invItem : ((ChestedHorse) e.getEntity()).getInventory().getStorageContents()) {
             			e.getDrops().remove(invItem);
             		}
-            		e.getDrops().remove(new ItemStack(Material.CHEST)); //The chest is not included in getStorageContents()
+            		
+            		//The chest is not included in getStorageContents()
+            		e.getDrops().remove(new ItemStack(Material.CHEST));
             	}
             }
         }

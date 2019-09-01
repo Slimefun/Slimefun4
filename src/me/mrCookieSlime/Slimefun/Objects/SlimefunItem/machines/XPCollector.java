@@ -142,7 +142,7 @@ public class XPCollector extends SlimefunItem {
 		super.register(slimefun);
 	}
 	
-	protected void tick(Block b) throws Exception {
+	protected void tick(Block b) {
 		Iterator<Entity> iterator = XPCollectorHologram.getArmorStand(b, true).getNearbyEntities(4D, 4D, 4D).iterator();
 		while (iterator.hasNext()) {
 			Entity n = iterator.next();

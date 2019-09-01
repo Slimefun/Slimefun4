@@ -87,7 +87,8 @@ public class AncientAltarListener implements Listener {
 					return;
 				}
 				
-				utilities.altarinuse.add(b.getLocation());  // make altarinuse simply because that was the last block clicked.
+				// Make altarinuse simply because that was the last block clicked.
+				utilities.altarinuse.add(b.getLocation());
 				e.setCancelled(true);
 
 				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
@@ -118,7 +119,8 @@ public class AncientAltarListener implements Listener {
 								
 								pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
 								
-								utilities.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use.								
+								// Bad recipe, no longer in use.
+								utilities.altarinuse.remove(b.getLocation());
 							}
 						}
 						else {
@@ -127,13 +129,16 @@ public class AncientAltarListener implements Listener {
 							
 							pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
 							
-							utilities.altarinuse.remove(b.getLocation());  // unkown catalyst, no longer in use							
+							// Unknown catalyst, no longer in use
+							utilities.altarinuse.remove(b.getLocation());
 						}
 					}
 					else {
 						altars.remove(e.getClickedBlock());
 						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, new Variable("%pedestals%", String.valueOf(pedestals.size())));
-						utilities.altarinuse.remove(b.getLocation());  // not a valid altar so remove from inuse
+						
+						// Not a valid altar so remove from inuse
+						utilities.altarinuse.remove(b.getLocation());  
 					}
 				}
 			}

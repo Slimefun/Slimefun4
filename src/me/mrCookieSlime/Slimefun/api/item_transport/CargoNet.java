@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -27,6 +28,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.network.Network;
@@ -133,6 +135,8 @@ public class CargoNet extends Network {
 					break;
 				case "CT_EXPORT_BUS":
 					exports.add(l);
+					break;
+				default:
 					break;
 			}
 		}
@@ -529,8 +533,11 @@ public class CargoNet extends Network {
 	private static int getFrequency(Location l) {
 		int freq = 0;
 		try {
-			freq = Integer.parseInt(BlockStorage.getLocationInfo(l).getString("frequency"));
-		} catch (Exception e) {}
+			String str = BlockStorage.getLocationInfo(l).getString("frequency");
+			if (str != null) freq = Integer.parseInt(str);
+		} catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a Cargo Node Frequency", x);
+		}
 		return freq;
 	}
 

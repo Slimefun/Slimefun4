@@ -134,12 +134,13 @@ public class BlockListener implements Listener {
 			
 			if (!multiblocks.isEmpty()) {
 				e.setCancelled(true);
+				MultiBlock multiblock = multiblocks.get(multiblocks.size() - 1);
 				
 				for (ItemHandler handler: SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
-					if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblocks.get(multiblocks.size() - 1), b)) continue;
+					if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblock, b)) break;
 				}
 				
-				MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, multiblocks.get(multiblocks.size() - 1), b);
+				MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, multiblock, b);
 				Bukkit.getPluginManager().callEvent(event);
 			}
 		}

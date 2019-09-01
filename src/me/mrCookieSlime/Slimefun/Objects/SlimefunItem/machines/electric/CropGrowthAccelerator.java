@@ -124,7 +124,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 		super.register(slimefun);
 	}
 	
-	protected void tick(Block b) throws Exception {
+	protected void tick(Block b) {
 		if (work(b) > 0) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {

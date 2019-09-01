@@ -222,6 +222,7 @@ public class ItemListener implements Listener {
 			else p.chat("/sf cheat");
 		}
 		else if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
+			// Ignore the debug fish in here
 		}
 		else if (Slimefun.hasUnlocked(p, item, true)) {
 			for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
@@ -309,18 +310,11 @@ public class ItemListener implements Listener {
 					if (((ItemConsumptionHandler) handler).onConsume(e, p, item)) return;
 				}
 				
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.local.getTranslation("messages.fortune-cookie").get(CSCoreLib.randomizer().nextInt(Messages.local.getTranslation("messages.fortune-cookie").size()))));
-				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BEEF_JERKY, true)) p.setSaturation((Integer) Slimefun.getItemValue("BEEF_JERKY", "Saturation"));
-				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MEDICINE, true)) {
-					if (p.hasPotionEffect(PotionEffectType.POISON)) p.removePotionEffect(PotionEffectType.POISON);
-					if (p.hasPotionEffect(PotionEffectType.WITHER)) p.removePotionEffect(PotionEffectType.WITHER);
-					if (p.hasPotionEffect(PotionEffectType.SLOW)) p.removePotionEffect(PotionEffectType.SLOW);
-					if (p.hasPotionEffect(PotionEffectType.SLOW_DIGGING)) p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-					if (p.hasPotionEffect(PotionEffectType.WEAKNESS)) p.removePotionEffect(PotionEffectType.WEAKNESS);
-					if (p.hasPotionEffect(PotionEffectType.CONFUSION)) p.removePotionEffect(PotionEffectType.CONFUSION);
-					if (p.hasPotionEffect(PotionEffectType.BLINDNESS)) p.removePotionEffect(PotionEffectType.BLINDNESS);
-					
-					p.setFireTicks(0);
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) {
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.local.getTranslation("messages.fortune-cookie").get(CSCoreLib.randomizer().nextInt(Messages.local.getTranslation("messages.fortune-cookie").size()))));
+				}
+				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BEEF_JERKY, true)) {
+					p.setSaturation((int) Slimefun.getItemValue("BEEF_JERKY", "Saturation"));
 				}
 				else if (item.getType() == Material.POTION) {
 					SlimefunItem sfItem = SlimefunItem.getByItem(item);

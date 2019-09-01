@@ -41,7 +41,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
 
-	public SlimefunPlugin plugin;
+	private SlimefunPlugin plugin;
 
 	private List<String> arguments = new ArrayList<>();
 	private List<String> descriptions = new ArrayList<>();

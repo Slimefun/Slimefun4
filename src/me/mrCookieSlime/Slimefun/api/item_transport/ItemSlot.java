@@ -4,8 +4,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemSlot {
 	
-	public int slot;
-	public ItemStack item;
+	private int slot;
+	private ItemStack item;
 	
 	public ItemSlot(ItemStack item, int slot) {
 		this.slot = slot;

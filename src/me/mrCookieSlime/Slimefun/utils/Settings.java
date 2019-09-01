@@ -6,22 +6,22 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public final class Settings {
 	
-	public boolean printOutLoading;
+	public final boolean printOutLoading;
 	
 	public boolean researchesEnabled;
-	public boolean researchesFreeInCreative;
-	public List<String> researchesTitles;
+	public final boolean researchesFreeInCreative;
+	public final List<String> researchesTitles;
 	
-	public int blocksInfoLoadingDelay;
-	public int blocksAutoSaveDelay;
+	public final int blocksInfoLoadingDelay;
+	public final int blocksAutoSaveDelay;
 	
-	public boolean guideShowVanillaRecipes;
+	public final boolean guideShowVanillaRecipes;
 	
-	public int emeraldEnchantsLimit;
+	public final int emeraldEnchantsLimit;
 	
-	public boolean legacyDustWasher;
-	public boolean legacyOreGrinder;
-	public boolean legacyOreWasher;
+	public final boolean legacyDustWasher;
+	public final boolean legacyOreGrinder;
+	public final boolean legacyOreWasher;
 	
 	public int smelteryFireBreakChance;
 	

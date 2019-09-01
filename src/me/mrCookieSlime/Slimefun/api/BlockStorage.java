@@ -147,7 +147,10 @@ public class BlockStorage {
 				long time = (System.currentTimeMillis() - start);
 				Slimefun.getLogger().log(Level.INFO, "Loading Blocks... 100% (FINISHED - " + time + "ms)");
 				Slimefun.getLogger().log(Level.INFO, "Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
-				if (totalBlocks > 0) System.out.println("[Slimefun] Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
+				
+				if (totalBlocks > 0) {
+					Slimefun.getLogger().log(Level.INFO, "Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
+				}
 			}
 		}
 		else f.mkdirs();
@@ -622,7 +625,7 @@ public class BlockStorage {
 		if (menu != null) {
 			for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
 				// Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while holding an item
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> human.closeInventory());
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, human::closeInventory);
 			}
 
 			inventories.get(l).delete(l);

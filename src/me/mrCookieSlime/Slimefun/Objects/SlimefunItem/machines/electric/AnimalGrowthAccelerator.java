@@ -114,7 +114,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 		super.register(slimefun);
 	}
 	
-	protected void tick(Block b) throws Exception {
+	protected void tick(Block b) {
 		for (Entity n : AnimalGrowthAcceleratorHologram.getArmorStand(b, true).getNearbyEntities(3D, 3D, 3D)) {
 			if (n instanceof Ageable && !((Ageable) n).isAdult()) {
 				for (int slot: getInputSlots()) {

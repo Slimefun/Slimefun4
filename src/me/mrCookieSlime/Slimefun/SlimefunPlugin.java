@@ -295,7 +295,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
 									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
 									p.setFireTicks(400);
-									break; // Break the loop to save some calculations
+									break; 
+									// Break the loop to save some calculations
 								}
 							}
 						}

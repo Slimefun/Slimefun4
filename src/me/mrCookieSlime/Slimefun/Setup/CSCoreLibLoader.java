@@ -32,6 +32,7 @@ public class CSCoreLibLoader {
 		try {
 			this.url = new URL("https://api.curseforge.com/servermods/files?projectIds=88802");
 		} catch (MalformedURLException e) {
+			plugin.getLogger().log(Level.SEVERE, "The Auto-Updater URL is malformed!", e);
 		}
 	}
 	
@@ -97,18 +98,19 @@ public class CSCoreLibLoader {
 	            connection.setInstanceFollowRedirects(false);
 	            connection.setConnectTimeout(5000);
 	            connection.addRequestProperty("User-Agent", "Auto Updater (by mrCookieSlime)");
-
-	            switch (connection.getResponseCode()) {
-	                case HttpURLConnection.HTTP_MOVED_PERM:
-	                case HttpURLConnection.HTTP_MOVED_TEMP:
-	                    String loc = connection.getHeaderField("Location");
-	                    location = new URL(new URL(location), loc).toExternalForm();
-	                    continue;
+	            
+	            int response = connection.getResponseCode();
+	            
+	            if (response == HttpURLConnection.HTTP_MOVED_PERM || response == HttpURLConnection.HTTP_MOVED_TEMP) {
+	            	String loc = connection.getHeaderField("Location");
+                    location = new URL(new URL(location), loc).toExternalForm();
 	            }
-	            break;
+	            else {
+	            	break;
+	            }
 	        }
 	        
-	        return new URL(connection.getURL().toString().replaceAll(" ", "%20"));
+	        return new URL(connection.getURL().toString().replace(" ", "%20"));
 	}
 	
 	private void install() {
