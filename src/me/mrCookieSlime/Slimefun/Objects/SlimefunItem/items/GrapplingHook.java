@@ -20,10 +20,11 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Objects.tasks.GrapplingHookTask;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
+
+import java.util.UUID;
 
 public class GrapplingHook extends SlimefunItem {
 
@@ -39,13 +40,14 @@ public class GrapplingHook extends SlimefunItem {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-					if (e.getClickedBlock() == null && !utilities.jumpState.containsKey(p.getUniqueId())) {
+					UUID uuid = p.getUniqueId();
+					if (e.getClickedBlock() == null && !utilities.jumpState.containsKey(uuid)) {
 						e.setCancelled(true);
 						if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
 							// Cancel, to fix dupe #740
 							return false;
 						}
-						utilities.jumpState.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
+						utilities.jumpState.put(uuid, p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
 						if (p.getInventory().getItemInMainHand().getType() == Material.LEAD) PlayerInventory.consumeItemInHand(p);
 
 						Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -55,15 +57,31 @@ public class GrapplingHook extends SlimefunItem {
 
 						Bat b = (Bat) p.getWorld().spawnEntity(p.getLocation(), EntityType.BAT);
 						b.setCanPickupItems(false);
+						b.setAI(false);
 						b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
 						b.setLeashHolder(arrow);
 
-						utilities.damage.add(p.getUniqueId());
-						utilities.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
+						utilities.damage.add(uuid);
+						utilities.remove.put(uuid, new Entity[] {b, arrow});
 
 						// To fix issue #253
-						GrapplingHookTask task = new GrapplingHookTask(p);
-						task.setID(Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, task, (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds")));
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+							Utilities utilities = SlimefunPlugin.getUtilities();
+
+							if (utilities.jumpState.containsKey(uuid)) {
+								utilities.arrows.remove(uuid);
+
+								for (Entity n : utilities.remove.get(uuid)) {
+									if (n.isValid()) n.remove();
+								}
+
+								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+									utilities.damage.remove(uuid);
+									utilities.jumpState.remove(uuid);
+									utilities.remove.remove(uuid);
+								}, 20L);
+							}
+						}, (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds") * 20);
 					}
 					return true;
 				}
