@@ -26,8 +26,8 @@ import java.util.UUID;
 
 public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
 
-	public GrapplingHook(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public GrapplingHook(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+		super(category, item, id, recipeType, recipe, keys, values);
 	}
 
     @Override
