@@ -25,20 +25,15 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Bat;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
@@ -105,6 +100,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.AdvancedCargoOutputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoInputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoOutputNode;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.DietCookie;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GrapplingHook;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfTheSeeker;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SeismicAxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Composter;
@@ -170,7 +169,6 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
 import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public final class SlimefunSetup {
 	
@@ -206,38 +204,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.COOKIE), new ItemStack(Material.PAPER), null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.FOOD, SlimefunItems.DIET_COOKIE, "DIET_COOKIE", RecipeType.MAGIC_WORKBENCH,
+		new DietCookie(Categories.FOOD, SlimefunItems.DIET_COOKIE, "DIET_COOKIE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.COOKIE), SlimefunItems.ELYTRA_SCALE, null, null, null, null, null, null, null})
-		.register(true, new ItemInteractionHandler() {
-			
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DIET_COOKIE, true)) {
-					e.setCancelled(true);
-
-					int amount = item.getAmount();
-					if (amount <= 1) {
-						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
-							p.getInventory().setItemInMainHand(null);
-						}
-						else {
-							p.getInventory().setItemInOffHand(null);
-						}
-					}
-					else {
-						item.setAmount(amount - 1);
-					}
-
-					p.sendMessage(ChatColor.YELLOW + "You feel so light...");
-					p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
-
-					if (p.hasPotionEffect(PotionEffectType.LEVITATION)) p.removePotionEffect(PotionEffectType.LEVITATION);
-					p.addPotionEffect(PotionEffectType.LEVITATION.createEffect(60, 1));
-					return true;
-				}
-				return false;
-			}
-		});
+		.register(true);
 
 		new SlimefunItem(Categories.MACHINES_1, SlimefunItems.OUTPUT_CHEST, "OUTPUT_CHEST", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LEAD_INGOT, new ItemStack(Material.HOPPER), SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, new ItemStack(Material.CHEST), SlimefunItems.LEAD_INGOT, null, SlimefunItems.LEAD_INGOT, null})
@@ -442,7 +411,7 @@ public final class SlimefunSetup {
 		new PressureChamber().register();
 
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.BATTERY, "BATTERY", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] { null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT })
+		new ItemStack[] {null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT })
 		.register(true);
 
 		SlimefunManager.registerArmorSet(new ItemStack(Material.GLOWSTONE), new ItemStack[] {SlimefunItems.GLOWSTONE_HELMET, SlimefunItems.GLOWSTONE_CHESTPLATE, SlimefunItems.GLOWSTONE_LEGGINGS, SlimefunItems.GLOWSTONE_BOOTS}, "GLOWSTONE",
@@ -677,42 +646,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.TOOLS, SlimefunItems.GRAPPLING_HOOK, "GRAPPLING_HOOK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new GrapplingHook(Categories.TOOLS, SlimefunItems.GRAPPLING_HOOK, "GRAPPLING_HOOK", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.HOOK, SlimefunItems.HOOK, null, SlimefunItems.CHAIN, SlimefunItems.HOOK, SlimefunItems.CHAIN, null, null})
-		.register(true, new ItemInteractionHandler() {
-			
-			private Utilities variables = SlimefunPlugin.getUtilities();
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-					if (e.getClickedBlock() == null && !variables.jumpState.containsKey(p.getUniqueId())) {
-						e.setCancelled(true);
-						if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
-							// Cancel, to fix dupe #740
-							return false;
-						}
-						variables.jumpState.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
-						if (p.getInventory().getItemInMainHand().getType() == Material.LEAD) PlayerInventory.consumeItemInHand(p);
-
-						Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
-				    	Projectile projectile = p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Arrow.class);
-				    	projectile.setShooter(p);
-				    	projectile.setVelocity(direction);
-				    	Arrow arrow = (Arrow) projectile;
-				    	Bat b = (Bat) p.getWorld().spawnEntity(p.getLocation(), EntityType.BAT);
-				    	b.setCanPickupItems(false);
-				    	b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
-				    	b.setLeashHolder(arrow);
-
-				    	variables.damage.add(p.getUniqueId());
-				    	variables.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new MagicWorkbench().register();
 
@@ -1549,53 +1485,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, null, null, new ItemStack(Material.YELLOW_WOOL), null, new ItemStack(Material.YELLOW_WOOL), new ItemStack(Material.PISTON), null, new ItemStack(Material.PISTON)})
 		.register(true);
 
-		new SlimefunItem(Categories.TOOLS, SlimefunItems.PICKAXE_OF_THE_SEEKER, "PICKAXE_OF_THE_SEEKER", RecipeType.MAGIC_WORKBENCH,
+		new PickaxeOfTheSeeker(Categories.TOOLS, SlimefunItems.PICKAXE_OF_THE_SEEKER, "PICKAXE_OF_THE_SEEKER", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.COMPASS), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.COMPASS), null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_THE_SEEKER, true)) {
-					Block closest = null;
-
-					for (int x = -4; x <= 4; x++) {
-						for (int y = -4; y <= 4; y++) {
-							for (int z = -4; z <= 4; z++) {
-								if (p.getLocation().getBlock().getRelative(x, y, z).getType().toString().endsWith("_ORE")) {
-									if (closest == null || p.getLocation().distance(closest.getLocation()) < p.getLocation().distance(p.getLocation().getBlock().getRelative(x, y, z).getLocation()))
-									    closest = p.getLocation().getBlock().getRelative(x, y, z);
-								}
-							}
-						}
-					}
-
-					if (closest == null) Messages.local.sendTranslation(p, "miner.no-ores", true);
-					else {
-						double l = closest.getX() + 0.5 - p.getLocation().getX();
-						double w = closest.getZ() + 0.5 - p.getLocation().getZ();
-						float yaw;
-						float pitch;
-						double c = Math.sqrt(l * l + w * w);
-						double alpha1 = -Math.asin(l / c) / Math.PI * 180;
-						double alpha2 =  Math.acos(w / c) / Math.PI * 180;
-						if (alpha2 > 90) yaw = (float) (180 - alpha1);
-						else yaw = (float) alpha1;
-						pitch = (float) ((-Math.atan((closest.getY() - 0.5 - p.getLocation().getY()) / Math.sqrt(l * l + w * w))) * 180F / Math.PI);
-
-						p.teleport(new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ(), yaw, pitch));
-					}
-
-					if (e.getPlayer().getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.DURABILITY)) {
-						if (new Random().nextInt(100) <= (60 + 40 / (e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY) + 1))) PlayerInventory.damageItemInHand(e.getPlayer());
-					}
-					else PlayerInventory.damageItemInHand(e.getPlayer());
-
-					PlayerInventory.update(e.getPlayer());
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new SlimefunBackpack(9, Categories.PORTABLE, SlimefunItems.BACKPACK_SMALL, "SMALL_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.LEATHER), null, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_6K, new ItemStack(Material.CHEST), SlimefunItems.GOLD_6K, new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER)})
@@ -1717,60 +1609,9 @@ public final class SlimefunSetup {
 		0.45)
 		.register(true);
 
-		new ExcludedTool(Categories.WEAPONS, SlimefunItems.SEISMIC_AXE, "SEISMIC_AXE", RecipeType.MAGIC_WORKBENCH,
+		new SeismicAxe(Categories.WEAPONS, SlimefunItems.SEISMIC_AXE, "SEISMIC_AXE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.STAFF_ELEMENTAL, null, null, SlimefunItems.STAFF_ELEMENTAL, null})
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SEISMIC_AXE, true)) {
-					List<Block> blocks = p.getLineOfSight(null, 10);
-					for (int i = 0; i < blocks.size(); i++) {
-						Block b = blocks.get(i);
-						Location ground = b.getLocation();
-						if (b.getType() == null || b.getType() == Material.AIR) {
-							for (int y = ground.getBlockY(); y > 0; y--) {
-								if (b.getWorld().getBlockAt(b.getX(), y, b.getZ()) != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != Material.AIR) {
-									ground = new Location(b.getWorld(), b.getX(), y, b.getZ());
-									break;
-								}
-							}
-						}
-						b.getWorld().playEffect(ground, Effect.STEP_SOUND, ground.getBlock().getType());
-						if (ground.getBlock().getRelative(BlockFace.UP).getType() == null || ground.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR) {
-							FallingBlock block = ground.getWorld().spawnFallingBlock(ground.getBlock().getRelative(BlockFace.UP).getLocation(), ground.getBlock().getBlockData());
-							block.setDropItem(false);
-							block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-							SlimefunPlugin.getUtilities().blocks.add(block.getUniqueId());
-						}
-						for (Entity n: ground.getChunk().getEntities()) {
-							if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
-								Vector vector = n.getLocation().toVector().subtract(p.getLocation().toVector()).normalize().multiply(1.4);
-								vector.setY(0.9);
-								n.setVelocity(vector);
-								
-								if (p.getWorld().getPVP()) {
-									EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n, DamageCause.ENTITY_ATTACK, 6D);
-									Bukkit.getPluginManager().callEvent(event);
-									if (!event.isCancelled()) ((LivingEntity) n).damage(6D);
-								}
-							}
-						}
-					}
-
-					for (int i = 0; i < 4; i++) {
-						if (e.getPlayer().getInventory().getItemInMainHand() != null) {
-							if (e.getPlayer().getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.DURABILITY)) {
-								if (random.nextInt(100) <= (60 + 40 / (e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY) + 1))) PlayerInventory.damageItemInHand(e.getPlayer());
-							}
-							else PlayerInventory.damageItemInHand(e.getPlayer());
-						}
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.PICKAXE_OF_VEIN_MINING, "PICKAXE_OF_VEIN_MINING", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.EMERALD_ORE), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.EMERALD_ORE), null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
