@@ -14,13 +14,14 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.holograms.InfusedHopperHologram;
 
-public class InfusedHopper extends SlimefunItem {
+public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 
 	public InfusedHopper(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
@@ -39,10 +40,10 @@ public class InfusedHopper extends SlimefunItem {
 			}
 		});
 	}
-
+	
 	@Override
-	public void register(boolean slimefun) {
-		addItemHandler(new BlockTicker() {
+	public BlockTicker getItemHandler() {
+		return new BlockTicker() {
 
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
@@ -63,15 +64,15 @@ public class InfusedHopper extends SlimefunItem {
 					}
 				}
 				
-				if (sound) b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5F, 2F);
+				if (sound) {
+					b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5F, 2F);
+				}
 			}
 
 			@Override
 			public boolean isSynchronized() {
 				return true;
 			}
-		});
-		
-		super.register(slimefun);
+		};
 	}
 }

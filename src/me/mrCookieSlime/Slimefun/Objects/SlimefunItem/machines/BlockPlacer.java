@@ -21,15 +21,14 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class BlockPlacer extends SlimefunItem {
 	
+	private String[] blacklist;
+	
 	public BlockPlacer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		super(category, item, id, recipeType, recipe, keys, values);
 	}
 
 	@Override
 	public void register(boolean slimefun) {
-		Object value = Slimefun.getItemValue(getID(), "unplaceable-blocks");
-		String[] blacklist = ((List<?>) value).stream().toArray(String[]::new);
-		
 		addItemHandler(new AutonomousMachineHandler() {
 
 			@Override
@@ -72,5 +71,8 @@ public class BlockPlacer extends SlimefunItem {
 		});
 		
 		super.register(slimefun);
+		
+		List<?> list = (List<?>) Slimefun.getItemValue(getID(), "unplaceable-blocks");
+		blacklist = list.toArray(new String[list.size()]);
 	}
 }

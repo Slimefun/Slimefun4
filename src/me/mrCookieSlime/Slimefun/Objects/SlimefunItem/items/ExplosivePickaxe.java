@@ -1,19 +1,16 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
 import java.util.List;
-import java.util.Random;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -27,8 +24,9 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.utils.DamageableItem;
 
-public class ExplosivePickaxe extends SlimefunItem implements NotPlaceable {
+public class ExplosivePickaxe extends SlimefunItem implements NotPlaceable, DamageableItem {
 	
 	private String[] blacklist;
 	private boolean damageOnUse;
@@ -39,7 +37,6 @@ public class ExplosivePickaxe extends SlimefunItem implements NotPlaceable {
 	
 	@Override
 	public void register(boolean slimefun) {
-		Random random = new Random();
 		
 		addItemHandler(new BlockBreakHandler() {
 
@@ -52,7 +49,8 @@ public class ExplosivePickaxe extends SlimefunItem implements NotPlaceable {
 						for (int y = -1; y <= 1; y++) {
 							for (int z = -1; z <= 1; z++) {
 								Block b = e.getBlock().getRelative(x, y, z);
-								if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), blacklist) && CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
+								
+								if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), blacklist) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Action.BREAK_BLOCK)) {
 									if (SlimefunPlugin.getHooks().isCoreProtectInstalled()) {
 										SlimefunPlugin.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 									}
@@ -81,15 +79,13 @@ public class ExplosivePickaxe extends SlimefunItem implements NotPlaceable {
 										}
 										b.setType(Material.AIR);
 									}
-									if (damageOnUse && !item.getEnchantments().containsKey(Enchantment.DURABILITY) || random.nextInt(100) <= (60 + 40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
-										PlayerInventory.damageItemInHand(e.getPlayer());
-									}
+									
+									damageItem(e.getPlayer(), item);
 								}
 							}
 						}
 					}
-
-					PlayerInventory.update(e.getPlayer());
+					
 					return true;
 				}
 				else return false;
@@ -99,8 +95,13 @@ public class ExplosivePickaxe extends SlimefunItem implements NotPlaceable {
 		super.register(slimefun);
 		damageOnUse = ((Boolean) Slimefun.getItemValue(getID(), "damage-on-use"));
 
-		Object value = Slimefun.getItemValue(getID(), "unbreakable-blocks");
-		blacklist = ((List<?>) value).stream().toArray(String[]::new);
+		List<?> list = (List<?>) Slimefun.getItemValue(getID(), "unbreakable-blocks");
+		blacklist = list.toArray(new String[list.size()]);
+	}
+
+	@Override
+	public boolean isDamageable() {
+		return damageOnUse;
 	}
 
 }

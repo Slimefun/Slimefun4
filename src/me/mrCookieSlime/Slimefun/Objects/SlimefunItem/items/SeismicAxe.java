@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
 import java.util.List;
-import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -9,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
@@ -18,7 +16,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -27,15 +24,16 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.utils.DamageableItem;
 
-public class SeismicAxe extends SimpleSlimefunItem implements NotPlaceable {
+public class SeismicAxe extends SimpleSlimefunItem<ItemInteractionHandler> implements NotPlaceable, DamageableItem {
 
 	public SeismicAxe(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 	}
 
 	@Override
-	public ItemInteractionHandler onRightClick() {
+	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SEISMIC_AXE, true)) {
 				List<Block> blocks = p.getLineOfSight(null, 10);
@@ -50,9 +48,12 @@ public class SeismicAxe extends SimpleSlimefunItem implements NotPlaceable {
 							}
 						}
 					}
+					
 					b.getWorld().playEffect(ground, Effect.STEP_SOUND, ground.getBlock().getType());
+					
 					if (ground.getBlock().getRelative(BlockFace.UP).getType() == null || ground.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR) {
-						FallingBlock block = ground.getWorld().spawnFallingBlock(ground.getBlock().getRelative(BlockFace.UP).getLocation(), ground.getBlock().getBlockData());
+						Location loc = ground.getBlock().getRelative(BlockFace.UP).getLocation().add(0.5, 0.0, 0.5);
+						FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlock().getBlockData());
 						block.setDropItem(false);
 						block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
 						SlimefunPlugin.getUtilities().blocks.add(block.getUniqueId());
@@ -73,17 +74,18 @@ public class SeismicAxe extends SimpleSlimefunItem implements NotPlaceable {
 				}
 
 				for (int i = 0; i < 4; i++) {
-					if (e.getPlayer().getInventory().getItemInMainHand() != null) {
-						if (e.getPlayer().getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.DURABILITY)) {
-							if (new Random().nextInt(100) <= (60 + 40 / (e.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY) + 1))) PlayerInventory.damageItemInHand(e.getPlayer());
-						}
-						else PlayerInventory.damageItemInHand(e.getPlayer());
-					}
+					damageItem(p, item);
 				}
+				
 				return true;
 			}
 			else return false;
 		};
+	}
+
+	@Override
+	public boolean isDamageable() {
+		return true;
 	}
 
 }
