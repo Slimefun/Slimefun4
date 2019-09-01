@@ -23,17 +23,12 @@ public class GrapplingHookTask extends SlimefunTask {
         Utilities utilities = SlimefunPlugin.getUtilities();
         if (arrow != null && arrow.getShooter() instanceof Player && utilities.jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
 
-            final Player p = (Player) arrow.getShooter();
-            if (p.getGameMode() != GameMode.CREATIVE && utilities.jumpState.get(p.getUniqueId())) arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItem.getItem("GRAPPLING_HOOK"));
-
-            for (Entity n: utilities.remove.get(p.getUniqueId())) {
+            for (Entity n: utilities.remove.get(uuid)) {
                 n.remove();
             }
 
-            Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-                utilities.jumpState.remove(p.getUniqueId());
-                utilities.remove.remove(p.getUniqueId());
-            }, 20L);
+            utilities.jumpState.remove(uuid);
+            utilities.remove.remove(uuid);
         }
     }
 }
