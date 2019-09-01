@@ -40,6 +40,7 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemInteractionHandler> imple
 				for (int i = 0; i < blocks.size(); i++) {
 					Block b = blocks.get(i);
 					Location ground = b.getLocation();
+					
 					if (b.getType() == null || b.getType() == Material.AIR) {
 						for (int y = ground.getBlockY(); y > 0; y--) {
 							if (b.getWorld().getBlockAt(b.getX(), y, b.getZ()) != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != Material.AIR) {

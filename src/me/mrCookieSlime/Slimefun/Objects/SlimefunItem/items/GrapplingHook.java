@@ -1,5 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -11,10 +13,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
@@ -22,9 +22,8 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
-import java.util.UUID;
-
 public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
+	
     private long despawnTicks;
 
 	public GrapplingHook(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
@@ -36,17 +35,21 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
         Utilities utilities = SlimefunPlugin.getUtilities();
 
         return (e, p, item) -> {
-            if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
+            if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
                 UUID uuid = p.getUniqueId();
+                
                 if (e.getClickedBlock() == null && !utilities.jumpState.containsKey(uuid)) {
                     e.setCancelled(true);
+                    
                     if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
                         // Cancel, to fix dupe #740
                         return false;
                     }
                     utilities.jumpState.put(uuid, p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
-                    if (p.getInventory().getItemInMainHand().getType() == Material.LEAD)
-                        PlayerInventory.consumeItemInHand(p);
+                    
+                    if (item.getType() == Material.LEAD) {
+                    	item.setAmount(item.getAmount() - 1);
+                    }
 
                     Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
                     Arrow arrow = p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Arrow.class);

@@ -3,9 +3,9 @@ package me.mrCookieSlime.Slimefun.Setup;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
@@ -19,7 +19,6 @@ import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
-import org.bukkit.block.Container;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
@@ -31,7 +30,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -61,7 +59,6 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EnhancedFurnace;
@@ -99,12 +96,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosiveShovel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GoldPan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GrapplingHook;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.InfernalBonemeal;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeFlask;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeTome;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicSugar;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MonsterJerky;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfTheSeeker;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SeismicAxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Composter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Crucible;
@@ -162,7 +161,6 @@ import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.androids.AndroidType;
 import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
@@ -1334,7 +1332,7 @@ public final class SlimefunSetup {
 		
 		new ExplosivePickaxe(Categories.TOOLS, SlimefunItems.EXPLOSIVE_PICKAXE, "EXPLOSIVE_PICKAXE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.TNT), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.TNT), null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null},
-		new String[] {"unbreakable-blocks", "damage-on-use"}, new Object[] {Stream.of(Material.BEDROCK, Material.END_PORTAL_FRAME, Material.END_PORTAL, Material.NETHER_PORTAL, Material.BARRIER, Material.STRUCTURE_BLOCK, Material.COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK).map(Material::toString).toArray(String[]::new), Boolean.FALSE })
+		new String[] {"unbreakable-blocks", "damage-on-use"}, new Object[] {Stream.of(Material.BEDROCK, Material.END_PORTAL_FRAME, Material.END_PORTAL, Material.NETHER_PORTAL, Material.BARRIER, Material.STRUCTURE_BLOCK, Material.COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK).map(Material::toString).collect(Collectors.toList()), Boolean.FALSE })
 		.register(true);
 
 		new ExplosiveShovel(Categories.TOOLS, SlimefunItems.EXPLOSIVE_SHOVEL, "EXPLOSIVE_SHOVEL", RecipeType.MAGIC_WORKBENCH,
@@ -1661,7 +1659,7 @@ public final class SlimefunSetup {
 		
 		new BlockPlacer(Categories.MACHINES_1, SlimefunItems.BLOCK_PLACER, "BLOCK_PLACER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON), SlimefunItems.GOLD_4K, new ItemStack(Material.IRON_INGOT), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.IRON_INGOT), SlimefunItems.GOLD_4K, new ItemStack(Material.PISTON), SlimefunItems.GOLD_4K}, 
-		new String[] {"unplaceable-blocks"}, new Object[] {Stream.of(Material.STRUCTURE_BLOCK, Material.COMMAND_BLOCK).map(Material::toString).toArray(String[]::new)})
+		new String[] {"unplaceable-blocks"}, new Object[] {Stream.of(Material.STRUCTURE_BLOCK, Material.COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK).map(Material::toString).collect(Collectors.toList())})
 		.register(true);
 
 		new TelepositionScroll(Categories.MAGIC, SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION, "SCROLL_OF_DIMENSIONAL_TELEPOSITION", RecipeType.MAGIC_WORKBENCH,
@@ -1703,61 +1701,13 @@ public final class SlimefunSetup {
 			}
 		});
 
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, "TOME_OF_KNOWLEDGE_SHARING", RecipeType.MAGIC_WORKBENCH,
+		new KnowledgeTome(Categories.MAGIC, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, "TOME_OF_KNOWLEDGE_SHARING", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, new ItemStack(Material.FEATHER), null, new ItemStack(Material.INK_SAC), SlimefunItems.MAGICAL_BOOK_COVER, new ItemStack(Material.GLASS_BOTTLE), null, new ItemStack(Material.WRITABLE_BOOK), null})
-		.register(true, new ItemInteractionHandler() {
+		.register(true);
 
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, true)) {
-					List<String> lore = item.getItemMeta().getLore();
-					lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
-					lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
-					ItemMeta im = item.getItemMeta();
-					im.setLore(lore);
-					item.setItemMeta(im);
-					p.getEquipment().setItemInMainHand(item);
-					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
-					return true;
-				}
-				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, false)) {
-					PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
-					Set<Research> researches = PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)))).getResearches();
-					researches.forEach(research -> profile.setResearched(research, true));
-					
-					PlayerInventory.consumeItemInHand(p);
-					return true;
-				}
-				else return false;
-			}
-		});
-
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.FLASK_OF_KNOWLEDGE, "FLASK_OF_KNOWLEDGE", RecipeType.MAGIC_WORKBENCH,
+		new KnowledgeFlask(Categories.MAGIC, SlimefunItems.FLASK_OF_KNOWLEDGE, "FLASK_OF_KNOWLEDGE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, null, null, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.GLASS_PANE), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.MAGIC_LUMP_2, null}, new CustomItem(SlimefunItems.FLASK_OF_KNOWLEDGE, 8))
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FLASK_OF_KNOWLEDGE, true) && p.getLevel() >= 1) {
-					if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof Container)) {
-						p.setLevel(p.getLevel() - 1);
-						e.setCancelled(true);
-						p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
-						
-						p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
-						
-						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
-							p.getInventory().setItemInMainHand(InvUtils.decreaseItem(item, 1));
-						}
-						else {
-							p.getInventory().setItemInOffHand(InvUtils.decreaseItem(item, 1));
-						}
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new ExcludedBlock(Categories.BIRTHDAY, new CustomItem(new ItemStack(Material.CAKE), "&bBirthday Cake"), "BIRTHDAY_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.TORCH), null, new ItemStack(Material.SUGAR), new ItemStack(Material.CAKE), new ItemStack(Material.SUGAR), null, null, null})
