@@ -25,6 +25,7 @@ import me.mrCookieSlime.Slimefun.utils.Utilities;
 import java.util.UUID;
 
 public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
+    private long despawnTicks;
 
 	public GrapplingHook(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		super(category, item, id, recipeType, recipe, keys, values);
@@ -76,11 +77,16 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
                                 utilities.remove.remove(uuid);
                             }, 20L);
                         }
-                    }, (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds") * 20);
+                    }, despawnTicks);
                 }
                 return true;
             }
             else return false;
         };
+    }
+
+    @Override
+    public void postRegister() {
+	    despawnTicks = (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds") * 20;
     }
 }
