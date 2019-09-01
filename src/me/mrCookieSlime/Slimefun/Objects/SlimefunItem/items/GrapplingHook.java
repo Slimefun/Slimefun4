@@ -62,7 +62,7 @@ public class GrapplingHook extends SlimefunItem {
 						utilities.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
 
 						// To fix issue #253
-						GrapplingHookTask task = new GrapplingHookTask(p, arrow);
+						GrapplingHookTask task = new GrapplingHookTask(p);
 						task.setID(Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, task, (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds")));
 					}
 					return true;
