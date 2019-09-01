@@ -13,7 +13,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -30,9 +29,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
-public abstract class AContainer extends SlimefunItem {
+public abstract class AContainer extends SlimefunItem implements InventoryBlock {
 	
 	public static Map<Block, MachineRecipe> processing = new HashMap<>();
 	public static Map<Block, Integer> progress = new HashMap<>();
@@ -46,24 +45,7 @@ public abstract class AContainer extends SlimefunItem {
 	public AContainer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 		
-		new BlockMenuPreset(id, getInventoryTitle()) {
-			
-			@Override
-			public void init() {
-				constructMenu(this);
-			}
-
-			@Override
-			public boolean canOpen(Block b, Player p) {
-				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
-			}
-
-			@Override
-			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
-				else return getOutputSlots();
-			}
-		};
+		createPreset(id, getInventoryTitle(), this::constructMenu);
 		
 		registerBlockHandler(id, new SlimefunBlockHandler() {
 			
@@ -141,10 +123,12 @@ public abstract class AContainer extends SlimefunItem {
 		// Override this method to register your machine recipes
 	}
 	
+	@Override
 	public int[] getInputSlots() {
 		return new int[] {19, 20};
 	}
-	
+
+	@Override
 	public int[] getOutputSlots() {
 		return new int[] {24, 25};
 	}

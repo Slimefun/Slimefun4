@@ -15,7 +15,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.Vein;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -31,9 +30,9 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
-public class FluidPump extends SlimefunItem{
+public class FluidPump extends SlimefunItem implements InventoryBlock {
 	
 	public static Map<Block, MachineRecipe> processing = new HashMap<>();
 	public static Map<Block, Integer> progress = new HashMap<>();
@@ -45,41 +44,19 @@ public class FluidPump extends SlimefunItem{
 	public FluidPump(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, getInventoryTitle()) {
-			
-			@Override
-			public void init() {
-				constructMenu(this);
-			}
-
-			@Override
-			public boolean canOpen(Block b, Player p) {
-				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
-			}
-
-			@Override
-			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
-				else return getOutputSlots();
-			}
-		};
+		createPreset(getID(), "&9Fluid Pump", this::constructMenu);
 	}
 	
-	protected void constructMenu(BlockMenuPreset preset) {
+	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
+		
 		for (int i : border_in) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 		for (int i : border_out) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 		
 		for (int i : getOutputSlots()) {
@@ -97,17 +74,15 @@ public class FluidPump extends SlimefunItem{
 			});
 		}
 	}
-	
+
+	@Override
 	public int[] getInputSlots() {
 		return new int[] {19, 20};
 	}
-	
+
+	@Override
 	public int[] getOutputSlots() {
 		return new int[] {24, 25};
-	}
-
-	public String getInventoryTitle() {
-		return "&9Fluid Pump";
 	}
 	
 	protected void tick(Block b) {

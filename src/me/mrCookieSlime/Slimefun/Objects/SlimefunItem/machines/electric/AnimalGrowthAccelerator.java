@@ -11,7 +11,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
@@ -28,34 +27,16 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAcceleratorHologram;
+import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
-public class AnimalGrowthAccelerator extends SlimefunItem {
+public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBlock {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
 	public AnimalGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
-		new BlockMenuPreset(name, "&bGrowth Accelerator") {
-			
-			@Override
-			public void init() {
-				constructMenu(this);
-			}
-
-			@Override
-			public boolean canOpen(Block b, Player p) {
-				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
-			}
-
-			@Override
-			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
-				return new int[0];
-			}
-		};
+		createPreset(getID(), "&bGrowth Accelerator", this::constructMenu);
 		
 		registerBlockHandler(name, new SlimefunBlockHandler() {
 			
@@ -76,7 +57,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 		});
 	}
 	
-	protected void constructMenu(BlockMenuPreset preset) {
+	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
 				(p, slot, item, action) -> false
@@ -88,8 +69,14 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 		return 14;
 	}
 	
+	@Override
 	public int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
+	}
+	
+	@Override
+	public int[] getOutputSlots() {
+		return new int[0];
 	}
 	
 	@Override
