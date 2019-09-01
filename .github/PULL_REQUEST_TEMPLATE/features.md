@@ -1,6 +1,9 @@
 ## Description
 <!-- Please explain your changes -->
 
+## Changes
+<!-- Please list all the changes you have made -->
+
 ## How this benefits Slimefun
 <!-- Please explain why you think this should be added to Slimefun -->
 <!-- In other words: Why did you not make an Addon? -->
