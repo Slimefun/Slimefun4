@@ -716,10 +716,9 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-							if (Messages.local.getTranslation("messages.item-permission").get(1).isEmpty()) {
-								menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), "", Messages.local.getTranslation("messages.item-permission").get(0)));
-							} else {
-								menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), "", Messages.local.getTranslation("messages.item-permission").get(0), Messages.local.getTranslation("messages.item-permission").get(1)));
+							List<String> list = Messages.local.getTranslation("tooltips.item-permission");
+							for (int index1 = 0; index1 < list.size(); index1++) {
+								menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), "", list.get(index1)));
 							}
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
 							index++;
