@@ -30,7 +30,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
@@ -52,9 +51,9 @@ public class AncientAltarListener implements Listener {
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
-		SlimefunItem item = BlockStorage.check(b);
+		String item = BlockStorage.checkID(b);
 		if (item != null) {
-			if (item.getID().equals("ANCIENT_PEDESTAL")) {
+			if (item.equals("ANCIENT_PEDESTAL")) {
 				if (utilities.altarinuse.contains(b.getLocation())) {
 					e.setCancelled(true);
 					return;
@@ -81,7 +80,7 @@ public class AncientAltarListener implements Listener {
 					PlayerInventory.update(e.getPlayer());
 				}
 			}
-			else if (item.getID().equals("ANCIENT_ALTAR")) {
+			else if (item.equals("ANCIENT_ALTAR")) {
 				if (utilities.altarinuse.contains(b.getLocation())) {
 					e.setCancelled(true);
 					return;
@@ -185,9 +184,9 @@ public class AncientAltarListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Block b = e.getBlockPlaced().getRelative(0, -1, 0);
-		SlimefunItem item = BlockStorage.check(b);
-		if(item == null) return;
-		if(item.getID().equalsIgnoreCase("ANCIENT_PEDESTAL")) {
+		String item = BlockStorage.checkID(b);
+		
+		if (item != null && item.equalsIgnoreCase("ANCIENT_PEDESTAL")) {
 			Messages.local.sendTranslation(e.getPlayer(), "messages.cannot-place", true);
 			e.setCancelled(true);
 		}

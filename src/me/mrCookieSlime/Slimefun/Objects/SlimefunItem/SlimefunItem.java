@@ -391,13 +391,17 @@ public class SlimefunItem {
 	}
 
 	@Deprecated
-	public void install() {}
+	public void install() {
+		// Deprecated
+	}
 	
 	/**
 	 *  @deprecated Use {@link SlimefunItem#postRegister()} instead
 	 */
 	@Deprecated
-	public void create()  {}
+	public void create()  {
+		// Deprecated
+	}
 
 	/**
 	 * @deprecated Use {@link SlimefunItem#addItemHandler(ItemHandler...)} instead
@@ -524,7 +528,10 @@ public class SlimefunItem {
 		ChargableBlock.registerCapacitor(id, capacity);
 	}
 
-	public void postRegister() {}
+	public void postRegister() {
+		// Override this method to execute code after the Item has been registered
+		// Useful for calls to Slimefun.getItemValue(...)
+	}
 
 	protected void setItem(ItemStack stack) {
 		this.item = stack;

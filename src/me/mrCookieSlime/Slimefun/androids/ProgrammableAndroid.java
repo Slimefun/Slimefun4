@@ -498,7 +498,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	private void mine(Block b, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && CSCoreLib.getLib().getProtectionManager().canBuild(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), block)) {
-			SlimefunItem item = BlockStorage.check(block);
+			String item = BlockStorage.checkID(block);
 
 			if (item == null) {
 				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);

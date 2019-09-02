@@ -1026,14 +1026,13 @@ public final class SlimefunGuide {
 		getHistory().remove(uuid);
 	}
 	
-	private static String getTimeLeft(int l) {
+	private static String getTimeLeft(int seconds) {
 		String timeleft = "";
-        final int minutes = (int) (l / 60L);
+        final int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
             timeleft = String.valueOf(timeleft) + minutes + "m ";
         }
-        l -= minutes * 60;
-        final int seconds = (int)l;
+        seconds -= minutes * 60;
         timeleft = String.valueOf(timeleft) + seconds + "s";
         return "&7" + timeleft;
 	}

@@ -34,11 +34,12 @@ public class Composter extends SlimefunGadget {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, final Player p, ItemStack item) {
 				if (e.getClickedBlock() != null) {
-					SlimefunItem machine = BlockStorage.check(e.getClickedBlock());
-					if (machine != null && machine.getID().equals(getID())) {
+					String id = BlockStorage.checkID(e.getClickedBlock());
+					if (id != null && id.equals(getID())) {
 						if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
 							final ItemStack input = p.getInventory().getItemInMainHand();
 							final Block b = e.getClickedBlock();
+							SlimefunItem machine = SlimefunItem.getByID(id);
 							
 							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
 								if (convert != null && SlimefunManager.isItemSimiliar(input, convert, true)) {

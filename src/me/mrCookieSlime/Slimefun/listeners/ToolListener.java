@@ -251,13 +251,15 @@ public class ToolListener implements Listener {
 		
 		while (blocks.hasNext()) {
 			Block block = blocks.next();
-			SlimefunItem item = BlockStorage.check(block);
-    		if (item != null) {
+			String id = BlockStorage.checkID(block);
+    		if (id != null) {
     			blocks.remove();
-    			if (!item.getID().equalsIgnoreCase("HARDENED_GLASS") && !item.getID().equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !item.getID().equalsIgnoreCase("WITHER_PROOF_GLASS") && !item.getID().equalsIgnoreCase("FORCEFIELD_PROJECTOR") && !item.getID().equalsIgnoreCase("FORCEFIELD_RELAY")) {
+    			if (!id.equalsIgnoreCase("HARDENED_GLASS") && !id.equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !id.equalsIgnoreCase("WITHER_PROOF_GLASS") && !id.equalsIgnoreCase("FORCEFIELD_PROJECTOR") && !id.equalsIgnoreCase("FORCEFIELD_RELAY")) {
     				boolean success = true;
-    				if (utilities.blockHandlers.containsKey(item.getID())) {
-    					success = utilities.blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.EXPLODE);
+    				SlimefunItem item = SlimefunItem.getByID(id);
+    				
+    				if (utilities.blockHandlers.containsKey(id)) {
+    					success = utilities.blockHandlers.get(id).onBreak(null, block, item, UnregisterReason.EXPLODE);
     				}
     				if (success) {
     					BlockStorage.clearBlockInfo(block);

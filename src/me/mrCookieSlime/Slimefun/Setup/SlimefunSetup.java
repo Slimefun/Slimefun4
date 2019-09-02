@@ -2718,8 +2718,8 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
 				if (e.getClickedBlock() == null) return false;
-				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getID().equals("GPS_CONTROL_PANEL")) return false;
+				String item = BlockStorage.checkID(e.getClickedBlock());
+				if (item == null || !item.equals("GPS_CONTROL_PANEL")) return false;
 				e.setCancelled(true);
 
 				Slimefun.getGPSNetwork().openTransmitterControlPanel(p);
@@ -3137,8 +3137,8 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
 				if (e.getClickedBlock() == null) return false;
-				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getID().equals("GPS_GEO_SCANNER")) return false;
+				String item = BlockStorage.checkID(e.getClickedBlock());
+				if (item == null || !item.equals("GPS_GEO_SCANNER")) return false;
 				e.setCancelled(true);
 				
 				Slimefun.getGPSNetwork().scanChunk(p, e.getClickedBlock().getChunk());
@@ -3316,9 +3316,8 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(final ItemUseEvent e, Player p, ItemStack stack) {
 				if (e.getClickedBlock() == null) return false;
-				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null) return false;
-				if (!item.getID().equals("ELEVATOR_PLATE")) return false;
+				String item = BlockStorage.checkID(e.getClickedBlock());
+				if (item == null || !item.equals("ELEVATOR_PLATE")) return false;
 
 				if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) Elevator.openEditor(p, e.getClickedBlock());
 				return true;
@@ -3732,8 +3731,8 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
 				if (e.getClickedBlock() == null) return false;
-				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-				if (item == null || !item.getID().equals("CARGO_MANAGER")) return false;
+				String item = BlockStorage.checkID(e.getClickedBlock());
+				if (item == null || !item.equals("CARGO_MANAGER")) return false;
 				e.setCancelled(true);
 
 				if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "visualizer") == null) {

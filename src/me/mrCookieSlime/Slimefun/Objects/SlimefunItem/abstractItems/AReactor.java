@@ -63,7 +63,9 @@ public abstract class AReactor extends SlimefunItem {
 	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
 	private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
 	private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 50};
-	private static final int[] border_4 = {25, 34, 43}; // No coolant border
+	
+	// No coolant border
+	private static final int[] border_4 = {25, 34, 43}; 
 	private static final int infoSlot = 49;
 
 	public AReactor(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {

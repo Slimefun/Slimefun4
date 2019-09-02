@@ -71,8 +71,9 @@ public class DamageListener implements Listener {
             }
 
         }
+        
         if (e.getEntity().getKiller() instanceof Player) {
-            Player p = (Player) e.getEntity().getKiller();
+            Player p = e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
 
             if (SlimefunPlugin.getUtilities().drops.containsKey(e.getEntity().getType())) {

@@ -15,7 +15,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
 	
-	private String title;
+	private String inventoryTitle;
 	private Set<Integer> occupied = new HashSet<>();
 	private String id;
 	private int size = -1;
@@ -23,10 +23,10 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	
 	private ItemManipulationEvent event;
 	
-	public BlockMenuPreset(String id, String title) {
-		super(title);
+	public BlockMenuPreset(String id, String inventoryTitle) {
+		super(inventoryTitle);
 		this.id = id;
-		this.title = title;
+		this.inventoryTitle = inventoryTitle;
 		this.init();
 		this.universal = false;
 		SlimefunPlugin.getUtilities().blockMenuPresets.put(id, this);
@@ -36,10 +36,10 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		this.event = event;
 	}
 	
-	public BlockMenuPreset(String id, String title, boolean universal) {
-		super(title);
+	public BlockMenuPreset(String id, String inventoryTitle, boolean universal) {
+		super(inventoryTitle);
 		this.id = id;
-		this.title = title;
+		this.inventoryTitle = inventoryTitle;
 		this.init();
 		this.universal = universal;
 		SlimefunPlugin.getUtilities().blockMenuPresets.put(id, this);
@@ -74,11 +74,11 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public int getSize() {
-		return this.size;
+		return size;
 	}
 	
 	public String getTitle() {
-		return this.title;
+		return inventoryTitle;
 	}
 	
 	public Set<Integer> getPresetSlots() {
