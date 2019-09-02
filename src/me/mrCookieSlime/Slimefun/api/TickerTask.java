@@ -24,11 +24,11 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 public class TickerTask implements Runnable {
 	
-	public boolean halted = false;
+	private boolean halted = false;
 	
-	public Map<Location, Location> move = new HashMap<>();
-	public Map<Location, Boolean> delete = new HashMap<>();
-	public Map<Location, Long> blockTimings = new HashMap<>();
+	protected Map<Location, Location> move = new HashMap<>();
+	protected Map<Location, Boolean> delete = new HashMap<>();
+	protected Map<Location, Long> blockTimings = new HashMap<>();
 	
 	private Set<BlockTicker> tickers = new HashSet<>();
 	
@@ -284,6 +284,18 @@ public class TickerTask implements Runnable {
 	
 	public long getTimings(Chunk c) {
 		return chunkTimings.containsKey(c.toString()) ? chunkTimings.get(c.toString()): 0L;
+	}
+
+	public void addBlockTimings(Location l, long time) {
+		blockTimings.put(l, time);
+	}
+	
+	public boolean isHalted() {
+		return halted;
+	}
+	
+	public void halt() {
+		halted = true;
 	}
 	
 	@Override

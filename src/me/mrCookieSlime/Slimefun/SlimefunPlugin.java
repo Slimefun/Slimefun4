@@ -46,7 +46,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
@@ -86,7 +85,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private Config whitelist;
 	private Config config;
 	
-	public GPSNetwork gps = new GPSNetwork();
+	private final GPSNetwork gps = new GPSNetwork();
 	private ProtectionManager protections;
 	private Utilities utilities = new Utilities();
 	private Settings settings;
@@ -331,7 +330,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 		if (ticker != null) {
 			// Finishes all started movements/removals of block data
-			ticker.halted = true;
+			ticker.halt();
 			ticker.run();
 		}
 		
@@ -369,7 +368,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 		SlimefunItem.mapID = null;
 		AContainer.processing = null;
 		AContainer.progress = null;
-		CargoNet.faces = null;
 		OreWasher.items = null;
 
 		instance = null;
@@ -410,6 +408,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static boolean chance(int max, int percentage) {
 		if (max < 1) return false;
 		return CSCoreLib.randomizer().nextInt(max) <= percentage;
+	}
+
+	public GPSNetwork getGPS() {
+		return gps;
 	}
 
 	public static SlimefunHooks getHooks() {

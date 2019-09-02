@@ -39,7 +39,7 @@ public final class Slimefun {
 	 * @return the GPSNetwork instance.
 	 */
 	public static GPSNetwork getGPSNetwork() {
-		return SlimefunPlugin.instance.gps;
+		return SlimefunPlugin.instance.getGPS();
 	}
 	
 	public static Logger getLogger() {

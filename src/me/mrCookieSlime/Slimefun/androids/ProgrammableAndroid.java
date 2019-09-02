@@ -531,16 +531,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				if (fits(b, item.getItem()) && SlimefunPlugin.getUtilities().blockHandlers.containsKey(item.getID()) && SlimefunPlugin.getUtilities().blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
 					pushItems(b, BlockStorage.retrieve(block));
 					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-					block.setType(Material.PLAYER_HEAD);
-					Rotatable blockData = (Rotatable) block.getBlockData();
-					blockData.setRotation(face.getOppositeFace());
-					block.setBlockData(blockData);
 					
-					try {
-						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-					} catch (Exception x) {
-						Slimefun.getLogger().log(Level.SEVERE, "An Error occured while moving an Android for Slimefun " + Slimefun.getVersion(), x);
-					}
+					block.setType(Material.AIR);
+					move(b, face, block);
 					
 					b.setType(Material.AIR);
 					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
@@ -551,16 +544,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 				if (fits(b, items)) {
 					pushItems(b, items);
 					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-					block.setType(Material.PLAYER_HEAD);
-					Rotatable blockData = (Rotatable) block.getBlockData();
-					blockData.setRotation(face.getOppositeFace());
-					block.setBlockData(blockData);
 					
-					try {
-						CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-					} catch (Exception x) {
-						Slimefun.getLogger().log(Level.SEVERE, "An Error occured while moving an Android for Slimefun " + Slimefun.getVersion(), x);
-					}
+					block.setType(Material.AIR);
+					move(b, face, block);
 					
 					b.setType(Material.AIR);
 					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());

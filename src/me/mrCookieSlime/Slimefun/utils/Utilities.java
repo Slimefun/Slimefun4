@@ -42,7 +42,7 @@ import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 public final class Utilities {
 	
 	public int vanillaItems = 0;
-
+	
 	public final Set<ItemStack> radioactiveItems = new HashSet<>();
 	public final Map<String, Set<ItemHandler>> itemHandlers = new HashMap<>();
 	public final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();

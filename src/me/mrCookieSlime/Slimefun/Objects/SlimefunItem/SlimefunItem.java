@@ -151,7 +151,10 @@ public class SlimefunItem {
 	 * @since 4.1.11, rename of {@link #getName()}.
 	 */
 	public String getID()				{		return id;			}
+	
+	@Deprecated
 	public String getHash()				{		return hash;			}
+	
 	public State getState()				{		return state;			}
 	public ItemStack getItem()			{		return item;			}
 	public Category getCategory()			{		return category;		}
@@ -278,6 +281,7 @@ public class SlimefunItem {
 		this.research = r;
 	}
 
+	@Deprecated
 	public void setHash(String hash) {
 		this.hash = hash;
 	}
