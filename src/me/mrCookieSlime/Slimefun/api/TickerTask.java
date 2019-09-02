@@ -289,15 +289,15 @@ public class TickerTask implements Runnable {
 	@Override
 	public String toString() {
 		return "TickerTask {\n" 
-				+ "  HALTED = " + halted + "\n"
-				+ "  tickers = " + tickers + "\n"
-				+ "  move = " + move + "\n"
-				+ "  delete = " + delete + "\n"
-				+ "  chunks = " + chunkItemCount + "\n"
-				+ "  machines = " + machineCount + "\n"
-				+ "  machinetime = " + machineTimings + "\n"
-				+ "  chunktime = " + chunkTimings + "\n"
-				+ "  skipped = " + chunksSkipped + "\n"
+				+ "     HALTED = " + halted + "\n"
+				+ "     tickers = " + tickers + "\n"
+				+ "     move = " + move + "\n"
+				+ "     delete = " + delete + "\n"
+				+ "     chunks = " + chunkItemCount + "\n"
+				+ "     machines = " + machineCount + "\n"
+				+ "     machinetime = " + machineTimings + "\n"
+				+ "     chunktime = " + chunkTimings + "\n"
+				+ "     skipped = " + chunksSkipped + "\n"
 				+ "}";
 	}
 

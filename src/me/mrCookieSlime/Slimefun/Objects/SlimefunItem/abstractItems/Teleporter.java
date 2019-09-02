@@ -30,6 +30,6 @@ public abstract class Teleporter extends SlimefunItem {
 		});
 	}
 	
-	public abstract void onInteract(Player p, Block b) throws Exception;
+	public abstract void onInteract(Player p, Block b);
 
 }

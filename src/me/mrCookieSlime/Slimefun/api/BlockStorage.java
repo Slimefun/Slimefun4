@@ -43,7 +43,7 @@ public class BlockStorage {
 	private World world;
 	private Map<Location, Config> storage = new HashMap<>();
 	private Map<Location, BlockMenu> inventories = new HashMap<>();
-	private Map<String, Config> cache_blocks = new HashMap<>();
+	private Map<String, Config> blocksCache = new HashMap<>();
 	
 	public static BlockStorage getStorage(World world) {
 		return SlimefunPlugin.getUtilities().worlds.get(world.getName());
@@ -206,7 +206,7 @@ public class BlockStorage {
 	private int changes = 0;
 	
 	public void computeChanges() {
-		changes = cache_blocks.size() + chunkChanges;
+		changes = blocksCache.size() + chunkChanges;
 		
 		Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
 		for (Map.Entry<Location, BlockMenu> entry: inventories2.entrySet()) {
@@ -233,10 +233,10 @@ public class BlockStorage {
 		
 		Slimefun.getLogger().log(Level.INFO, "Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Change(s) queued)");
 		
-		Map<String, Config> cache = new HashMap<>(cache_blocks);
+		Map<String, Config> cache = new HashMap<>(blocksCache);
 		
 		for (Map.Entry<String, Config> entry: cache.entrySet()) {
-			cache_blocks.remove(entry.getKey());
+			blocksCache.remove(entry.getKey());
 			Config cfg = entry.getValue();
 			if (cfg.getKeys().isEmpty()) {
 				if (!cfg.getFile().delete()) {
@@ -526,9 +526,9 @@ public class BlockStorage {
 	}
 
 	private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
-		Config cfg = storage.cache_blocks.containsKey(key) ? storage.cache_blocks.get(key): new Config(path_blocks + l.getWorld().getName() + "/" + key + ".sfb");
+		Config cfg = storage.blocksCache.containsKey(key) ? storage.blocksCache.get(key): new Config(path_blocks + l.getWorld().getName() + "/" + key + ".sfb");
 		cfg.setValue(serializeLocation(l), value);
-		storage.cache_blocks.put(key, cfg);
+		storage.blocksCache.put(key, cfg);
 		
 		if (updateTicker) {
 			SlimefunItem item = SlimefunItem.getByID(key);

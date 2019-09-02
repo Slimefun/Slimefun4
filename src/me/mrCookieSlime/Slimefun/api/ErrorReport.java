@@ -25,72 +25,74 @@ public class ErrorReport {
 	private File file;
 	
 	public ErrorReport(Throwable throwable, Consumer<PrintStream> printer) {
-		String path = "plugins/Slimefun/error-reports/" + Clock.getFormattedTime();
-		file = new File(path + ".err");
-		
-		if (file.exists()) {
-			IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").err").exists());
-			int id = stream.findFirst().getAsInt();
+		SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+			String path = "plugins/Slimefun/error-reports/" + Clock.getFormattedTime();
+			file = new File(path + ".err");
 			
-			file = new File(path + " (" + id + ").err");
-		}
-		
-		try (PrintStream stream = new PrintStream(file)) {
-			stream.println();
-			stream.println("Java Environment:");
-			stream.println("  Operating System: " + System.getProperty("os.name"));
-			stream.println("  Java Version: " + System.getProperty("java.version"));
-			stream.println();
-			stream.println("Server Software: " + Bukkit.getName());
-			stream.println("  Build: " + Bukkit.getVersion());
-			stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
-			stream.println();
-			stream.println("Slimefun Environment:");
-			stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
-			stream.println("  Slimefun v" + SlimefunPlugin.instance.getDescription().getVersion());
-			stream.println();
-
-			List<String> plugins = new ArrayList<>();
-			List<String> addons = new ArrayList<>();
-			
-			for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
-				if (Bukkit.getPluginManager().isPluginEnabled(p)) {
-					plugins.add("  + " + p.getName() + " " + p.getDescription().getVersion());
-					if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
-						addons.add("  + " + p.getName() + " " + p.getDescription().getVersion());
-				}
-				else {
-					plugins.add("  - " + p.getName() + " " + p.getDescription().getVersion());
-					if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
-						addons.add("  - " + p.getName() + " " + p.getDescription().getVersion());
-				}
+			if (file.exists()) {
+				IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").err").exists());
+				int id = stream.findFirst().getAsInt();
+				
+				file = new File(path + " (" + id + ").err");
 			}
 			
-			stream.println("Installed Addons (" + addons.size() + ")");
-			addons.forEach(stream::println);
-			
-			stream.println();
-			
-			stream.println("Installed Plugins (" + plugins.size() + "):");
-			plugins.forEach(stream::println);
-			
-			stream.println();
-			
-			printer.accept(stream);
-			
-			stream.println("Stacktrace:");
-			stream.println();
-			throwable.printStackTrace(stream);
-			
-			Slimefun.getLogger().log(Level.WARNING, "");
-			Slimefun.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
-			Slimefun.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/" + file.getName());
-			Slimefun.getLogger().log(Level.WARNING, "Please consider sending this File to the developer(s) of Slimefun, this message does not have to be included.");
-			Slimefun.getLogger().log(Level.WARNING, "You can put the file on Pastebin and then post it here: https://github.com/TheBusyBiscuit/Slimefun4/issues");
-			Slimefun.getLogger().log(Level.WARNING, "");
-		} catch (FileNotFoundException x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + Slimefun.getVersion(), x);
-		}
+			try (PrintStream stream = new PrintStream(file)) {
+				stream.println();
+				stream.println("Java Environment:");
+				stream.println("  Operating System: " + System.getProperty("os.name"));
+				stream.println("  Java Version: " + System.getProperty("java.version"));
+				stream.println();
+				stream.println("Server Software: " + Bukkit.getName());
+				stream.println("  Build: " + Bukkit.getVersion());
+				stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
+				stream.println();
+				stream.println("Slimefun Environment:");
+				stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
+				stream.println("  Slimefun v" + SlimefunPlugin.instance.getDescription().getVersion());
+				stream.println();
+
+				List<String> plugins = new ArrayList<>();
+				List<String> addons = new ArrayList<>();
+				
+				for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
+					if (Bukkit.getPluginManager().isPluginEnabled(p)) {
+						plugins.add("  + " + p.getName() + " " + p.getDescription().getVersion());
+						if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
+							addons.add("  + " + p.getName() + " " + p.getDescription().getVersion());
+					}
+					else {
+						plugins.add("  - " + p.getName() + " " + p.getDescription().getVersion());
+						if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
+							addons.add("  - " + p.getName() + " " + p.getDescription().getVersion());
+					}
+				}
+				
+				stream.println("Installed Addons (" + addons.size() + ")");
+				addons.forEach(stream::println);
+				
+				stream.println();
+				
+				stream.println("Installed Plugins (" + plugins.size() + "):");
+				plugins.forEach(stream::println);
+				
+				stream.println();
+				
+				printer.accept(stream);
+				
+				stream.println("Stacktrace:");
+				stream.println();
+				throwable.printStackTrace(stream);
+				
+				Slimefun.getLogger().log(Level.WARNING, "");
+				Slimefun.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
+				Slimefun.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/" + file.getName());
+				Slimefun.getLogger().log(Level.WARNING, "Please consider sending this File to the developer(s) of Slimefun, this message does not have to be included.");
+				Slimefun.getLogger().log(Level.WARNING, "You can put the file on Pastebin and then post it here: https://github.com/TheBusyBiscuit/Slimefun4/issues");
+				Slimefun.getLogger().log(Level.WARNING, "");
+			} catch (FileNotFoundException x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + Slimefun.getVersion(), x);
+			}
+		});
 	}
 	
 	public ErrorReport(Throwable throwable, TickerTask task, Location l, SlimefunItem item) {

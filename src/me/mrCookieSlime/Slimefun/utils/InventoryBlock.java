@@ -45,7 +45,7 @@ public interface InventoryBlock {
 	
 	default Inventory inject(Block b) {
 		int size = getOutputSlots().length;
-		Inventory inv = Bukkit.createInventory(null, Calculator.formToLine(size));
+		Inventory inv = Bukkit.createInventory(null, Calculator.formToLine(size) * 9);
 		
 		for (int i = 0; i < inv.getSize(); i++) {
 			if (i < size) {
