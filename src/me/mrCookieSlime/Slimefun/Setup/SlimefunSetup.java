@@ -127,6 +127,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Electric
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricFurnace;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricGoldPan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricIngotFactory;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricIngotPulverizer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricSmeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectrifiedCrucible;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.EnergyRegulator;
@@ -2351,46 +2352,9 @@ public final class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 256);
 
-		new AContainer(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_INGOT_PULVERIZER, "ELECTRIC_INGOT_PULVERIZER", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, SlimefunItems.ELECTRIC_ORE_GRINDER, null, SlimefunItems.LEAD_INGOT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT}){
-			@Override
-			public String getInventoryTitle() {
-				return "&bElectric Ingot Pulverizer";
-			}
-
-			@Override
-			public ItemStack getProgressBar() {
-				return new ItemStack(Material.IRON_PICKAXE);
-			}
-
-			@Override
-			public void registerDefaultRecipes() {
-				registerRecipe(3, new ItemStack[]{SlimefunItems.ALUMINUM_INGOT}, new ItemStack[]{SlimefunItems.ALUMINUM_DUST});
-				registerRecipe(3, new ItemStack[]{SlimefunItems.COPPER_INGOT}, new ItemStack[]{SlimefunItems.COPPER_DUST});
-				registerRecipe(3, new ItemStack[]{SlimefunItems.GOLD_4K}, new ItemStack[]{SlimefunItems.GOLD_DUST});
-				registerRecipe(3, new ItemStack[]{new ItemStack(Material.IRON_INGOT)}, new ItemStack[]{SlimefunItems.IRON_DUST});
-				registerRecipe(3, new ItemStack[]{SlimefunItems.LEAD_INGOT}, new ItemStack[]{SlimefunItems.LEAD_DUST});
-				registerRecipe(3, new ItemStack[]{SlimefunItems.MAGNESIUM_INGOT}, new ItemStack[]{SlimefunItems.MAGNESIUM_DUST});
-				registerRecipe(3, new ItemStack[]{SlimefunItems.SILVER_INGOT}, new ItemStack[]{SlimefunItems.SILVER_DUST});
-				registerRecipe(3, new ItemStack[]{SlimefunItems.TIN_INGOT}, new ItemStack[]{SlimefunItems.TIN_DUST});
-				registerRecipe(3, new ItemStack[]{SlimefunItems.ZINC_INGOT}, new ItemStack[]{SlimefunItems.ZINC_DUST});
-			}
-
-			@Override
-			public int getEnergyConsumption() {
-				return 7;
-			}
-
-			@Override
-			public int getSpeed() {
-				return 1;
-			}
-
-			@Override
-			public String getMachineIdentifier() {
-				return "ELECTRIC_INGOT_PULVERIZER";
-			}
-		}.registerChargeableBlock(true, 512);
+		new ElectricIngotPulverizer(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_INGOT_PULVERIZER, "ELECTRIC_INGOT_PULVERIZER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {null, SlimefunItems.ELECTRIC_ORE_GRINDER, null, SlimefunItems.LEAD_INGOT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT})
+		.registerChargeableBlock(true, 512);
 
 		new AGenerator(Categories.ELECTRICITY, SlimefunItems.COAL_GENERATOR, "COAL_GENERATOR", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.HEATING_COIL, new ItemStack(Material.FURNACE), SlimefunItems.HEATING_COIL, SlimefunItems.NICKEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.NICKEL_INGOT, null, SlimefunItems.NICKEL_INGOT, null}) {

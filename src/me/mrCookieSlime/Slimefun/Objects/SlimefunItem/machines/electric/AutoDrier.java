@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -8,17 +11,46 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineHelper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.utils.RecipeDisplayItem;
 
-public class AutoDrier extends AContainer {
+public class AutoDrier extends AContainer implements RecipeDisplayItem {
+	
+	private final List<ItemStack> recipes = new ArrayList<>();
 
     public AutoDrier(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, id, recipeType, recipe);
+        
+        recipes.add(new ItemStack(Material.ROTTEN_FLESH));
+        recipes.add(new ItemStack(Material.LEATHER));
+        
+        recipes.add(new ItemStack(Material.WET_SPONGE));
+        recipes.add(new ItemStack(Material.SPONGE));
+        
+        recipes.add(new ItemStack(Material.KELP));
+        recipes.add(new ItemStack(Material.DRIED_KELP));
+        
+        recipes.add(new ItemStack(Material.COOKED_BEEF));
+        recipes.add(SlimefunItems.BEEF_JERKY);
+        
+        recipes.add(new ItemStack(Material.POTION));
+        recipes.add(new ItemStack(Material.GLASS_BOTTLE));
+        
+        recipes.add(new ItemStack(Material.OAK_SAPLING));
+        recipes.add(new ItemStack(Material.STICK, 2));
+        
+        recipes.add(new ItemStack(Material.OAK_LEAVES));
+        recipes.add(new ItemStack(Material.STICK));
+        
+        recipes.add(new ItemStack(Material.WATER_BUCKET));
+        recipes.add(new ItemStack(Material.BUCKET));
     }
 
     @Override
@@ -29,6 +61,11 @@ public class AutoDrier extends AContainer {
     @Override
     public ItemStack getProgressBar() {
         return new ItemStack(Material.FLINT_AND_STEEL);
+    }
+    
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+    	return recipes;
     }
 
     @Override
@@ -60,28 +97,27 @@ public class AutoDrier extends AContainer {
             for (int slot: getInputSlots()) {
                 ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
                 if (item != null) {
-                	// Checking if dryable
                     Material mat = item.getType();
                     ItemStack output = null;
                     
-                    if (mat == Material.ROTTEN_FLESH) {
-                        output = new ItemStack(Material.LEATHER);
+                    for (int i = 0; i < recipes.size(); i += 2) {
+                    	if (SlimefunManager.isItemSimiliar(item, recipes.get(i), true)) {
+                    		output = recipes.get(i + 1);
+                    	}
                     }
-                    else if (mat == Material.WATER_BUCKET) {
-                        output = new ItemStack(Material.BUCKET);
+                    
+                    if (Tag.SAPLINGS.isTagged(mat)) {
+                        output = new ItemStack(Material.STICK, 2);
                     }
-                    else if (mat == Material.WET_SPONGE) {
-                        output = new ItemStack(Material.SPONGE);
+                    else if (Tag.LEAVES.isTagged(mat)) {
+                        output = new ItemStack(Material.STICK, 1);
                     }
-                    else if (Tag.SAPLINGS.isTagged(mat) || Tag.LEAVES.isTagged(mat)) {
-                        output = new ItemStack(Material.STICK);
-                    }
-                    else if (mat.name().contains("POTION")) {
+                    else if (mat == Material.SPLASH_POTION || mat == Material.LINGERING_POTION) {
                         output = new ItemStack(Material.GLASS_BOTTLE);
                     }
                     
                     if (output != null) {
-                    	r = new MachineRecipe(5, new ItemStack[] {item}, new ItemStack[] {output});
+                    	r = new MachineRecipe(6, new ItemStack[] {item}, new ItemStack[] {output.clone()});
                         inputSlot = slot;
                         break;
                     }

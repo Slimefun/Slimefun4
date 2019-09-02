@@ -37,7 +37,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
@@ -51,6 +50,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.IntegerFormat;
+import me.mrCookieSlime.Slimefun.utils.RecipeDisplayItem;
 
 public final class SlimefunGuide {
 	
@@ -946,7 +946,7 @@ public final class SlimefunGuide {
 		});
 		
 		if (sfItem != null) {
-			if ((sfItem instanceof SlimefunMachine && !((SlimefunMachine) sfItem).getDisplayRecipes().isEmpty()) || (sfItem instanceof SlimefunGadget && !((SlimefunGadget) sfItem).getRecipes().isEmpty())) {
+			if (sfItem instanceof RecipeDisplayItem && !((RecipeDisplayItem) sfItem).getDisplayRecipes().isEmpty()) {
 				for (int i = 27; i < 36; i++) {
 					menu.addItem(i, new CustomItem(Material.LIME_STAINED_GLASS_PANE, SlimefunItem.getByItem(item) instanceof SlimefunMachine ? "&7\u21E9 Recipes made in this Machine \u21E9": " "));
 					menu.addMenuClickHandler(i,
@@ -954,7 +954,7 @@ public final class SlimefunGuide {
 					);
 				}
 				
-				List<ItemStack> recipes = SlimefunItem.getByItem(item) instanceof SlimefunMachine ? ((SlimefunMachine) SlimefunItem.getByItem(item)).getDisplayRecipes() : ((SlimefunGadget) SlimefunItem.getByItem(item)).getDisplayRecipes();
+				List<ItemStack> recipes = ((RecipeDisplayItem) SlimefunItem.getByItem(item)).getDisplayRecipes();
 				int recipeSize = recipes.size();
 				if (recipeSize > 18) recipeSize = 18;
 				int inputs = -1;
@@ -970,7 +970,7 @@ public final class SlimefunGuide {
 					
 					int addition = (i % 2 == 0 ? inputs: outputs);
 					
-					menu.addItem(slot + addition, recipes.get(i));
+					menu.addItem(slot + addition, recipes.get(i).clone());
 					menu.addMenuClickHandler(slot + addition, (pl, slotn, itemstack, action) -> {
 						displayItem(pl, itemstack, true, book, 0);
 						return false;

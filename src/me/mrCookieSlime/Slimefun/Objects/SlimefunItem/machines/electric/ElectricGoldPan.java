@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -16,9 +19,21 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.utils.RecipeDisplayItem;
 
-public abstract class ElectricGoldPan extends AContainer {
+public abstract class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
+	private final List<ItemStack> displayRecipes = Arrays.asList(
+		new ItemStack(Material.GRAVEL),
+		SlimefunItems.SIFTED_ORE,
+		
+		new ItemStack(Material.GRAVEL),
+		new ItemStack(Material.FLINT),
+		
+		new ItemStack(Material.GRAVEL),
+		new ItemStack(Material.CLAY_BALL)
+	);
+	
 	public ElectricGoldPan(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 	}
@@ -81,6 +96,11 @@ public abstract class ElectricGoldPan extends AContainer {
 	@Override
 	public String getMachineIdentifier() {
 		return "ELECTRIC_GOLD_PAN";
+	}
+	
+	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		return displayRecipes;
 	}
 
 }

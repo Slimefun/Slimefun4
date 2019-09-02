@@ -3,12 +3,13 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-
 import org.bukkit.inventory.ItemStack;
 
-public class SlimefunGadget extends SlimefunItem {
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.utils.RecipeDisplayItem;
+
+public class SlimefunGadget extends SlimefunItem implements RecipeDisplayItem {
 	
 	private List<ItemStack[]> recipes;
 	private List<ItemStack> displayRecipes;
@@ -40,6 +41,7 @@ public class SlimefunGadget extends SlimefunItem {
 		return this.recipes;
 	}
 	
+	@Override
 	public List<ItemStack> getDisplayRecipes() {
 		return this.displayRecipes;
 	}

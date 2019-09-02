@@ -11,8 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
+import me.mrCookieSlime.Slimefun.utils.RecipeDisplayItem;
 
-public class SlimefunMachine extends SlimefunItem {
+public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 	
 	private List<ItemStack[]> recipes;
 	private Material trigger;
@@ -44,16 +45,17 @@ public class SlimefunMachine extends SlimefunItem {
 	}
 	
 	public List<ItemStack[]> getRecipes() {
-		return this.recipes;
+		return recipes;
 	}
 	
+	@Override
 	public List<ItemStack> getDisplayRecipes() {
-		return this.shownRecipes;
+		return shownRecipes;
 	}
 	
 	public void addRecipe(ItemStack[] input, ItemStack output) {
-		this.recipes.add(input);
-		this.recipes.add(new ItemStack[] {output});
+		recipes.add(input);
+		recipes.add(new ItemStack[] {output});
 	}
 	
 	@Override
@@ -65,9 +67,9 @@ public class SlimefunMachine extends SlimefunItem {
 	public void install() {
 		for (ItemStack i: this.getDisplayRecipes()) {
 			SlimefunItem item = SlimefunItem.getByItem(i);
-			if (item == null || !SlimefunItem.isDisabled(i))
-
+			if (item == null || !SlimefunItem.isDisabled(i)) {
 				this.recipes.add(new ItemStack[] {i});
+			}
 		}
 	}
 	
