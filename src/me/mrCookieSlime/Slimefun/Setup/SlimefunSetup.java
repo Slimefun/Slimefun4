@@ -3563,7 +3563,7 @@ public final class SlimefunSetup {
 		}.registerChargeableBlock(true, 256);
 
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.REACTOR_COOLANT_CELL, "REACTOR_COOLANT_CELL", new RecipeType(SlimefunItems.FREEZER),
-		new ItemStack[] {new ItemStack(Material.PACKED_ICE), null, null, null, null, null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.NETHER_ICE_COOLANT_CELL, "NETHER_ICE_COOLANT_CELL", new RecipeType(SlimefunItems.HEATED_PRESSURE_CHAMBER),
