@@ -516,12 +516,12 @@ public final class SlimefunItems {
 	public static final ItemStack SOULBOUND_AXE = new CustomItem(Material.DIAMOND_AXE, "&cSoulbound Axe");
 	public static final ItemStack SOULBOUND_SHOVEL = new CustomItem(Material.DIAMOND_SHOVEL, "&cSoulbound Shovel");
 	public static final ItemStack SOULBOUND_HOE = new CustomItem(Material.DIAMOND_HOE, "&cSoulbound Hoe");
-	
+
 	public static final ItemStack SOULBOUND_HELMET = new CustomItem(Material.DIAMOND_HELMET, "&cSoulbound Helmet");
 	public static final ItemStack SOULBOUND_CHESTPLATE = new CustomItem(Material.DIAMOND_CHESTPLATE, "&cSoulbound Chestplate");
 	public static final ItemStack SOULBOUND_LEGGINGS = new CustomItem(Material.DIAMOND_LEGGINGS, "&cSoulbound Leggings");
 	public static final ItemStack SOULBOUND_BOOTS = new CustomItem(Material.DIAMOND_BOOTS, "&cSoulbound Boots");
-	
+
 	/*		Runes				*/
 	public static final ItemStack BLANK_RUNE;
 	public static final ItemStack RUNE_AIR;
@@ -531,6 +531,7 @@ public final class SlimefunItems {
 	public static final ItemStack RUNE_ENDER;
 	public static final ItemStack RUNE_RAINBOW;
 	public static final ItemStack RUNE_LIGHTNING;
+	public static final ItemStack RUNE_SOULBOUND;
 	
 	static {
 		ItemStack itemB = new ItemStack(Material.FIREWORK_STAR);
@@ -563,7 +564,7 @@ public final class SlimefunItems {
 		
 		ItemStack itemE = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imE = (FireworkEffectMeta) itemE.getItemMeta();
-		imE.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.ORANGE).build());
+		imE.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(112, 47, 7)).build());
 		imE.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&c&lEarth&8&l]"));
 		itemE.setItemMeta(imE);
 		RUNE_EARTH = itemE;
@@ -577,17 +578,24 @@ public final class SlimefunItems {
 		
 		ItemStack itemR = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imR = (FireworkEffectMeta) itemR.getItemMeta();
-		imR.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
+		imR.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.FUCHSIA).build());
 		imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
 		itemR.setItemMeta(imR);
 		RUNE_RAINBOW = itemR;
 		
 		ItemStack itemL = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imL = (FireworkEffectMeta) itemL.getItemMeta();
-		imL.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.YELLOW).build());
+		imL.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(255, 255, 95)).build());
 		imL.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&e&lLightning&8&l]"));
 		itemL.setItemMeta(imL);
 		RUNE_LIGHTNING = itemL;
+
+		ItemStack itemS = new ItemStack(Material.FIREWORK_STAR);
+		FireworkEffectMeta imS = (FireworkEffectMeta) itemS.getItemMeta();
+		imS.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(47, 0, 117)).build());
+		imS.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&5&lSoulbound&8&l]"));
+		itemS.setItemMeta(imS);
+		RUNE_SOULBOUND = itemS;
 	}
 	
 	/*		Electricity			*/

@@ -1,21 +1,11 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Effect;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.Tag;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
@@ -30,6 +20,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -152,13 +143,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.PressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.TableSaw;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.*;
 import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.androids.AndroidType;
@@ -3013,6 +2998,78 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_RAINBOW, "ANCIENT_RUNE_RAINBOW", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.CYAN_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_ENDER, new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.YELLOW_DYE), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.MAGENTA_DYE)})
 		.register(true);
+
+        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_SOULBOUND, "ANCIENT_RUNE_SOULBOUND", RecipeType.ANCIENT_ALTAR,
+        new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.ENDER_PEARL), SlimefunItems.RUNE_ENDER, new ItemStack(Material.ENDER_PEARL), SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.MAGIC_LUMP_3})
+        .register(true, new ItemDropHandler() {
+			@Override
+			public boolean onItemDrop(PlayerDropItemEvent e, Player p, Item i) {
+				ItemStack item = i.getItemStack();
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RUNE_SOULBOUND, true)) {
+
+					Location l = i.getLocation();
+					Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1D, 1D, 1D);
+					if (!entites.isEmpty()) {
+
+						ItemStack ench = null;
+						for (Entity entity : entites) {
+
+							if (!entity.isValid()) continue;
+							if (entity.getType() == EntityType.DROPPED_ITEM || entity instanceof Item) {
+
+								ItemStack dropped = ((Item) entity).getItemStack();
+								if (dropped.hasItemMeta()) {
+
+									ItemMeta droppedMeta = dropped.getItemMeta();
+									if (droppedMeta != null && droppedMeta.hasLore()) {
+
+										List<String> lore = droppedMeta.getLore();
+										if (lore != null && droppedMeta.getLore().contains(ChatColor.GRAY + "Soulbound"))
+											ench = dropped;
+									}
+								}
+								break;
+							}
+						}
+
+						if (ench != null) {
+							if (item.getType() == Material.AIR) return false;
+							else if (Slimefun.isSoulbound(item) || Slimefun.isSoulbound(ench)) {
+								Messages.local.sendTranslation(p, "messages.soulbound-rune.fail", true);
+								return false;
+							}
+							else {
+								e.setCancelled(true);
+
+								ItemStack finalEnch = ench;
+								ItemMeta enchMeta = finalEnch.getItemMeta();
+
+								List<String> lore = enchMeta.getLore();
+								if (lore == null) lore = new ArrayList<>();
+								List<String> finalLore = lore;
+
+								l.getWorld().strikeLightningEffect(l);
+								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+
+									l.getWorld().createExplosion(l, 0.0F);
+									l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
+
+									finalLore.add(ChatColor.GRAY + "Soulbound");
+
+									enchMeta.setLore(finalLore);
+									finalEnch.setItemMeta(enchMeta);
+
+									Messages.local.sendTranslation(p, "messages.soulbound-rune.success", true);
+								}, 10L);
+
+								return true;
+							}
+						}
+					}
+				}
+				return false;
+			}
+		});
 
 		new InfernalBonemeal(Categories.MAGIC, SlimefunItems.INFERNAL_BONEMEAL, "INFERNAL_BONEMEAL", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.NETHER_WART), SlimefunItems.RUNE_EARTH, new ItemStack(Material.NETHER_WART), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.BONE_MEAL), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.NETHER_WART), new ItemStack(Material.BLAZE_POWDER), new ItemStack(Material.NETHER_WART)}, new CustomItem(SlimefunItems.INFERNAL_BONEMEAL, 8))

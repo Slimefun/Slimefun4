@@ -58,6 +58,8 @@ public final class Messages {
 		local.setDefault("messages.talisman.wizard", "&a&oYour Talisman has given you a better Fortune Level but maybe also lowered some other Enchantment Levels");
 		local.setDefault("messages.broken-leg", "&c&oSeems like you broke your Leg, maybe a Splint could help?");
 		local.setDefault("messages.fixed-leg", "&a&oThe Splint helps. It feels better now.");
+		local.setDefault("messages.soulbound-rune.fail", "&cThis item is already soulbound enchanted.");
+		local.setDefault("messages.soulbound-rune.success", "&aSuccessfully enchanted this item.");
 		local.setDefault("messages.start-bleeding", "&c&oYou started to bleed. Maybe a Bandage could help?");
 		local.setDefault("messages.stop-bleeding", "&a&oThe Bandage helps. The Bleeding has stopped!");
 		local.setDefault("messages.disabled-item", "&4&lThis Item has been disabled! How did you even get that?");

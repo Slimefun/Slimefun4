@@ -5,18 +5,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
+import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem.State;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 
 /**
  * Provides a few convenience methods.
@@ -49,24 +61,24 @@ public final class Slimefun {
 	/**
 	 * Returns the value associated to this key for the SlimefunItem corresponding to this id.
 	 *
-	 * @param  id   the id of the SlimefunItem, not null
-	 * @param  key  the key of the value to get, not null
+	 * @param  id   the id of the SlimefunItem
+	 * @param  key  the key of the value to get
 	 *
 	 * @return the value associated to the key for the SlimefunItem corresponding to the id,
 	 *         or null if it doesn't exist.
 	 */
-	public static Object getItemValue(String id, String key) {
+	@Nullable public static Object getItemValue(@NotNull String id, @NotNull String key) {
 		return getItemConfig().getValue(id + "." + key);
 	}
 
 	/**
 	 * Sets a default value associated to this key for the SlimefunItem corresponding to this id.
 	 *
-	 * @param  id     the id of the SlimefunItem, not null
-	 * @param  key    the key of the value to set, not null
-	 * @param  value  the value to set, can be null
+	 * @param  id     the id of the SlimefunItem
+	 * @param  key    the key of the value to set
+	 * @param  value  the value to set
 	 */
-	public static void setItemVariable(String id, String key, Object value) {
+	public static void setItemVariable(@NotNull String id, @NotNull String key, @Nullable Object value) {
 		getItemConfig().setDefaultValue(id + "." + key, value);
 	}
 
@@ -96,10 +108,10 @@ public final class Slimefun {
 	 *     }*
 	 * </pre>
 
-	 * @param  research  the research to register, not null
-	 * @param  items     the items to bind, not null
+	 * @param  research  the research to register
+	 * @param  items     the items to bind
 	 */
-	public static void registerResearch(Research research, ItemStack... items) {
+	public static void registerResearch(@NotNull Research research, @NotNull ItemStack... items) {
 		for (ItemStack item: items) {
 			research.addItems(SlimefunItem.getByItem(item));
 		}
@@ -109,14 +121,14 @@ public final class Slimefun {
 	/**
 	 * Checks if this player can use this item.
 	 *
-	 * @param  p        the player to check, not null
-	 * @param  item     the item to check, not null
+	 * @param  p        the player to check
+	 * @param  item     the item to check
 	 * @param  message  whether a message should be sent to the player or not
 	 *
 	 * @return <code>true</code> if the item is a SlimefunItem, enabled, researched and if the player has the permission to use it,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean hasUnlocked(Player p, ItemStack item, boolean message) {
+	public static boolean hasUnlocked(@NotNull Player p, @NotNull ItemStack item, boolean message) {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		State state = SlimefunItem.getState(item);
 
@@ -141,14 +153,14 @@ public final class Slimefun {
 	/**
 	 * Checks if this player can use this item.
 	 *
-	 * @param  p        the player to check, not null
-	 * @param  sfItem   the item to check, not null
+	 * @param  p        the player to check
+	 * @param  sfItem   the item to check
 	 * @param  message  whether a message should be sent to the player or not
 	 *
 	 * @return <code>true</code> if the item is enabled, researched and the player has the permission to use it,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean hasUnlocked(Player p, SlimefunItem sfItem, boolean message) {
+	public static boolean hasUnlocked(@NotNull Player p, @NotNull SlimefunItem sfItem, boolean message) {
 		if (isEnabled(p, sfItem, message) && hasPermission(p, sfItem, message)) {
 			if (sfItem.getResearch() == null) return true;
 			else if (PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(sfItem.getResearch())) return true;
@@ -163,14 +175,14 @@ public final class Slimefun {
 	/**
 	 * Checks if this player has the permission to use this item.
 	 *
-	 * @param  p        the player to check, not null
+	 * @param  p        the player to check
 	 * @param  item     the item to check, null returns <code>true</code>
 	 * @param  message  whether a message should be sent to the player or not
 	 *
 	 * @return <code>true</code> if the item is not null and if the player has the permission to use it,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean hasPermission(Player p, SlimefunItem item, boolean message) {
+	public static boolean hasPermission(@NotNull Player p, @Nullable SlimefunItem item, boolean message) {
 		if (item == null) return true;
 		else if (item.getPermission().equalsIgnoreCase("")) return true;
 		else if (p.hasPermission(item.getPermission())) return true;
@@ -183,14 +195,14 @@ public final class Slimefun {
 	/**
 	 * Checks if this item is enabled in the world this player is in.
 	 *
-	 * @param  p        the player to get the world he is in, not null
-	 * @param  item     the item to check, not null
+	 * @param  p        the player to get the world he is in
+	 * @param  item     the item to check
 	 * @param  message  whether a message should be sent to the player or not
 	 *
 	 * @return <code>true</code> if the item is a SlimefunItem and is enabled in the world the player is in,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean isEnabled(Player p, ItemStack item, boolean message) {
+	public static boolean isEnabled(@NotNull Player p, @NotNull ItemStack item, boolean message) {
 		String world = p.getWorld().getName();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem == null) return !SlimefunItem.isDisabled(item);
@@ -214,14 +226,14 @@ public final class Slimefun {
 	/**
 	 * Checks if this item is enabled in the world this player is in.
 	 *
-	 * @param  p        the player to get the world he is in, not null
-	 * @param  sfItem   the item to check, not null
+	 * @param  p        the player to get the world he is in
+	 * @param  sfItem   the item to check
 	 * @param  message  whether a message should be sent to the player or not
 	 *
 	 * @return <code>true</code> if the item is enabled in the world the player is in,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
+	public static boolean isEnabled(@NotNull Player p, @NotNull SlimefunItem sfItem, boolean message) {
 		String world = p.getWorld().getName();
 		if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
 			if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
@@ -257,7 +269,6 @@ public final class Slimefun {
 	 * Returns a list of all the ItemStacks representing the registered categories.
 	 *
 	 * @return the list of the display items of all the registered categories.
-	 * @see #currentCategories
 	 */
 	public static List<ItemStack> listCategories() {
 		List<ItemStack> items = new ArrayList<>();
@@ -268,57 +279,66 @@ public final class Slimefun {
 	}
 
 	/**
+	 * Returns a list of all the registered SlimefunItem's.
+	 *
+	 * @return the list of all the registered SlimefunItem's.
+	 */
+	public static List<SlimefunItem> listSlimefunItems() {
+		return new ArrayList<>(SlimefunItem.list());
+	}
+
+	/**
 	 * Binds this description to the SlimefunItem corresponding to this id.
 	 *
-	 * @param  id           the id of the SlimefunItem, not null
-	 * @param  description  the description, not null
+	 * @param  id           the id of the SlimefunItem
+	 * @param  description  the description
 	 *
 	 * @deprecated As of 4.1.10, renamed to {@link #addHint(String, String...)} for better name convenience.
 	 */
 	@Deprecated
-	public static void addDescription(String id, String... description) {
+	public static void addDescription(@NotNull String id, @NotNull String... description) {
 		getItemConfig().setDefaultValue(id + ".description", Arrays.asList(description));
 	}
 
 	/**
 	 * Binds this hint to the SlimefunItem corresponding to this id.
 	 *
-	 * @param  id    the id of the SlimefunItem, not null
-	 * @param  hint  the hint, not null
+	 * @param  id    the id of the SlimefunItem
+	 * @param  hint  the hint
 	 *
 	 * @since 4.1.10, rename of {@link #addDescription(String, String...)}.
 	 */
-	public static void addHint(String id, String... hint) {
+	public static void addHint(@NotNull String id, @NotNull String... hint) {
 		getItemConfig().setDefaultValue(id + ".hint", Arrays.asList(hint));
 	}
 
 	/**
 	 * Binds this YouTube link to the SlimefunItem corresponding to this id.
 	 *
-	 * @param  id    the id of the SlimefunItem, not null
-	 * @param  link  the link of the YouTube video, not null
+	 * @param  id    the id of the SlimefunItem
+	 * @param  link  the link of the YouTube video
 	 */
-	public static void addYoutubeVideo(String id, String link) {
+	public static void addYoutubeVideo(@NotNull String id, @NotNull String link) {
 		getItemConfig().setDefaultValue(id + ".youtube", link);
 	}
 
 	/**
 	 * Binds this link as a Wiki page to the SlimefunItem corresponding to this id.
 	 *
-	 * @param  id    the id of the SlimefunItem, not null
-	 * @param  link  the link of the Wiki page, not null
+	 * @param  id    the id of the SlimefunItem
+	 * @param  link  the link of the Wiki page
 	 */
-	public static void addWikiPage(String id, String link) {
+	public static void addWikiPage(@NotNull String id, @NotNull String link) {
 		getItemConfig().setDefaultValue(id + ".wiki", link);
 	}
 
 	/**
 	 * Convenience method to simplify binding an official Wiki page to the SlimefunItem corresponding to this id.
 	 *
-	 * @param  id    the id of the SlimefunItem, not null
-	 * @param  page  the ending of the link corresponding to the page, not null
+	 * @param  id    the id of the SlimefunItem
+	 * @param  page  the ending of the link corresponding to the page
 	 */
-	public static void addOfficialWikiPage(String id, String page) {
+	public static void addOfficialWikiPage(@NotNull String id, @NotNull String page) {
 		addWikiPage(id, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
 	}
 
@@ -328,5 +348,43 @@ public final class Slimefun {
 
 	public static String getVersion() {
 		return SlimefunPlugin.instance.getDescription().getVersion();
+	}
+
+	/**
+	 * Convenience method to simply check if an itemstack is soulbound.
+	 *
+	 * @param  item  the item to check
+	 *
+	 * @return <code>true</code> if the item is a soulbound item,
+	 *         <code>false</code> otherwise.
+	 */
+	public static boolean isSoulbound(@NotNull ItemStack item) {
+		if (item == null || item.getType() == Material.AIR) return false;
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) return true;
+		else {
+
+			ItemStack strippedItem = item.clone();
+			for (Enchantment enchantment: strippedItem.getEnchantments().keySet()) {
+				strippedItem.removeEnchantment(enchantment);
+			}
+
+			if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+				for(ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(strippedItem)){
+					EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
+				}
+			}
+			if (SlimefunItem.getByItem(strippedItem) instanceof SoulboundItem) return true;
+
+			else {
+				if (item.hasItemMeta()) {
+					ItemMeta im = item.getItemMeta();
+					if (im != null && im.hasLore()) {
+						List<String> lore = im.getLore();
+						return lore != null && im.getLore().contains(ChatColor.GRAY + "Soulbound");
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
