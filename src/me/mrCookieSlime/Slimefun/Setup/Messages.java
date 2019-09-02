@@ -30,7 +30,6 @@ public final class Messages {
 		local.setDefault("messages.fortune-cookie", "&7Help me, I am trapped in a Fortune Cookie Factory!", "&7You will die tomorrow...     by a Creeper", "&7At some Point in your Life something bad will happen!!!", "&7Next week you will notice that this is not the real World, you are in a kind of \"Matrix\" or lets call it Computer game. Yes you are in a Computer Game", "&7This Cookie will taste good in a few seconds", "&7You will die soon and the last word you will hear is gonna be \"EXTERMINATE!!!\"", "&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it's not worth it.");
 		local.setDefault("messages.only-players", "&4This Command is only for Players");
 		local.setDefault("messages.no-permission", "&4You do not have the required Permission to do this");
-		local.setDefault("messages.item-permission", "&rYou do not have Permission", "&rto access this Item");
 		local.setDefault("messages.usage", "&4Usage: &c%usage%");
 		local.setDefault("messages.not-online", "&4%player% &cis not online!");
 		local.setDefault("messages.not-valid-item", "&4%item% &cis not a valid Item!");
@@ -67,6 +66,8 @@ public final class Messages {
 		local.setDefault("messages.fire-extinguish", "&7You have extinguished yourself");
 		local.setDefault("messages.cannot-place" ,"&cYou cannot place that block there!");
 		local.setDefault("messages.no-pvp" ,"&cYou cannot pvp in here!");
+
+		local.setDefault("tooltips.item-permission", "&rYou do not have Permission", "&rto access this Item");
 
 		local.setDefault("machines.pattern-not-found", "&eSorry, I could not recognize this Pattern. Please place the Items in the correct Pattern into the Dispenser.");
 		local.setDefault("machines.unknown-material", "&eSorry, I could not recognize the Item in my Dispenser. Please put something in that I know.");
