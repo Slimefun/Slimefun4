@@ -2,16 +2,12 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
@@ -22,6 +18,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -34,14 +31,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.api.item_transport.RecipeSorter;
+import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
-public abstract class AutomatedCraftingChamber extends SlimefunItem {
+public abstract class AutomatedCraftingChamber extends SlimefunItem implements InventoryBlock {
 	
 	private static final int[] border = {0, 1, 3, 4, 5, 7, 8, 13, 14, 15, 16, 17, 50, 51, 52, 53};
 	private static final int[] border_in = {9, 10, 11, 12, 13, 18, 22, 27, 31, 36, 40, 45, 46, 47, 48, 49};
 	private static final int[] border_out = {23, 24, 25, 26, 32, 35, 41, 42, 43, 44};
-	
-	public static Map<String, ItemStack> recipes = new HashMap<>();
 
 	public AutomatedCraftingChamber(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
@@ -164,41 +160,15 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 	}
 	
 	public abstract int getEnergyConsumption();
-	
+
+	@Override
 	public int[] getInputSlots() {
 		return new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 	}
 	
+	@Override
 	public int[] getOutputSlots() {
 		return new int[] {33, 34};
-	}
-	
-	private Inventory inject(Block b) {
-		int size = BlockStorage.getInventory(b).toInventory().getSize();
-		Inventory inv = Bukkit.createInventory(null, size);
-		
-		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
-		}
-		
-		for (int slot : getOutputSlots()) {
-			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
-		}
-		
-		return inv;
-	}
-	
-	protected boolean fits(Block b, ItemStack[] items) {
-		return inject(b).addItem(items).isEmpty();
-	}
-	
-	protected void pushItems(Block b, ItemStack[] items) {
-		Inventory inv = inject(b);
-		inv.addItem(items);
-		
-		for (int slot : getOutputSlots()) {
-			BlockStorage.getInventory(b).replaceExistingItem(slot, inv.getItem(slot));
-		}
 	}
 	
 	@Override
@@ -241,11 +211,11 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem {
 		
 		String input = builder.toString();
 		
-		if (recipes.containsKey(input)) {
-			ItemStack output = recipes.get(input).clone();
+		if (SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.containsKey(input)) {
+			ItemStack output = SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.get(input).clone();
 			
-			if (fits(b, new ItemStack[] {output})) {
-				pushItems(b, new ItemStack[] {output});
+			if (fits(b, output)) {
+				pushItems(b, output);
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
 				for (int j = 0; j < 9; j++) {
 					if (menu.getItemInSlot(getInputSlots()[j]) != null) menu.replaceExistingItem(getInputSlots()[j], InvUtils.decreaseItem(menu.getItemInSlot(getInputSlots()[j]), 1));

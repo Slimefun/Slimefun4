@@ -63,6 +63,8 @@ public final class Utilities {
 	
 	public final List<Category> currentlyEnabledCategories = new ArrayList<>();
 	
+	public final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
+	
 	public final Map<String, BlockStorage> worlds = new HashMap<>();
 	public final Set<String> loadedTickers = new HashSet<>();
 	

@@ -5,12 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -148,34 +146,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	
 	public void registerRecipe(int seconds, ItemStack[] input, ItemStack[] output) {
 		this.registerRecipe(new MachineRecipe(seconds, input, output));
-	}
-	
-	private Inventory inject(Block b) {
-		int size = BlockStorage.getInventory(b).toInventory().getSize();
-		Inventory inv = Bukkit.createInventory(null, size);
-		
-		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
-		}
-		
-		for (int slot : getOutputSlots()) {
-			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
-		}
-		
-		return inv;
-	}
-	
-	protected boolean fits(Block b, ItemStack[] items) {
-		return inject(b).addItem(items).isEmpty();
-	}
-	
-	protected void pushItems(Block b, ItemStack[] items) {
-		Inventory inv = inject(b);
-		inv.addItem(items);
-		
-		for (int slot : getOutputSlots()) {
-			BlockStorage.getInventory(b).replaceExistingItem(slot, inv.getItem(slot));
-		}
 	}
 	
 	@Override
