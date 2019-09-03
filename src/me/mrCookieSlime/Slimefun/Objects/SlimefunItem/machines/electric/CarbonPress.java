@@ -31,6 +31,14 @@ public abstract class CarbonPress extends AContainer implements RecipeDisplayIte
 		return "CARBON_PRESS";
 	}
 	
-	
+	@Override
+	public ItemStack getProgressBar() {
+		return new ItemStack(Material.DIAMOND_PICKAXE);
+	}
+
+	@Override
+	public String getInventoryTitle() {
+		return "&cCarbon Press";
+	}
 
 }

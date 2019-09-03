@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -28,6 +29,16 @@ public abstract class FoodComposter extends AContainer implements RecipeDisplayI
 	@Override
 	public String getMachineIdentifier() {
 		return "FOOD_COMPOSTER";
+	}
+	
+	@Override
+	public ItemStack getProgressBar() {
+		return new ItemStack(Material.GOLDEN_HOE);
+	}
+
+	@Override
+	public String getInventoryTitle() {
+		return "&cFood Composter";
 	}
 
 }
