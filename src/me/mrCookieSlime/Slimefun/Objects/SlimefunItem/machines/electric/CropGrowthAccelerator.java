@@ -82,7 +82,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -99,8 +99,6 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 				return true;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
 	protected void tick(Block b) {

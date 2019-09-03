@@ -151,7 +151,7 @@ public abstract class AGenerator extends SlimefunItem {
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new EnergyTicker() {
 			
 			@Override
@@ -210,8 +210,6 @@ public abstract class AGenerator extends SlimefunItem {
 				return false;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
 	private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {

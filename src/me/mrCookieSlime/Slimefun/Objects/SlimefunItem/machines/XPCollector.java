@@ -81,7 +81,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -98,8 +98,6 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 				return true;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
 	protected void tick(Block b) {

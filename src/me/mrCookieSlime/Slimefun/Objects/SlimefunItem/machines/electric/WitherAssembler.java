@@ -179,7 +179,7 @@ public class WitherAssembler extends SlimefunItem {
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -259,8 +259,6 @@ public class WitherAssembler extends SlimefunItem {
 				return false;
 			}
 		});
-
-		super.register(slimefun);
 	}
 
 	public int getEnergyConsumption() {

@@ -25,6 +25,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.BrewerInventory;
@@ -113,13 +114,14 @@ public class ItemListener implements Listener {
 			e.setCancelled(true);
 		}
 	}
+	
 	@EventHandler
 	public void debug(PlayerInteractEvent e) {
 		if (e.getAction() == Action.PHYSICAL || e.getHand() != EquipmentSlot.HAND) return;
 		
 		Player p = e.getPlayer();
 		
-		if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
+		if (SlimefunManager.isItemSimiliar(e.getItem(), SlimefunItems.DEBUG_FISH, true)) {
 			e.setCancelled(true);
 			if (p.isOp()) {
 				switch (e.getAction()) {
@@ -189,6 +191,15 @@ public class ItemListener implements Listener {
 			}
 		}
 	}
+	
+	@EventHandler
+	public void onBucketUse(PlayerBucketEmptyEvent e) {
+		// Fix for placing water on player heads
+		Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
+		if (BlockStorage.hasBlockInfo(l)) {
+			e.setCancelled(true);
+		}
+	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onRightClick(ItemUseEvent e) {
@@ -198,16 +209,6 @@ public class ItemListener implements Listener {
 
 		final Player p = e.getPlayer();
 		ItemStack item = e.getItem();
-
-		// Fix for placing water on player heads
-		if (e.getParentEvent().getAction() == Action.RIGHT_CLICK_BLOCK && item != null && item.getType() == Material.WATER_BUCKET) {
-			Location water = e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace()).getLocation();
-			if ((p.getWorld().getBlockAt(water).getType() == Material.PLAYER_HEAD || p.getWorld().getBlockAt(water).getType() == Material.PLAYER_WALL_HEAD) && BlockStorage.hasBlockInfo(water)) {
-				e.setCancelled(true);
-				p.getWorld().getBlockAt(water).getState().update(true, false);
-				return;
-			}
-		}
 
 		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
@@ -221,7 +222,7 @@ public class ItemListener implements Listener {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
 			else p.chat("/sf cheat");
 		}
-		else if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEBUG_FISH, true)) {
 			// Ignore the debug fish in here
 		}
 		else if (Slimefun.hasUnlocked(p, item, true)) {

@@ -128,7 +128,7 @@ public abstract class AFarm extends SlimefunItem {
 	}
 
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 
 			@Override
@@ -141,8 +141,6 @@ public abstract class AFarm extends SlimefunItem {
 				return true;
 			}
 		});
-
-		super.register(slimefun);
 	}
 
 	private Inventory inject(Block b) {

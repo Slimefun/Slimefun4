@@ -124,7 +124,7 @@ public class Talisman extends SlimefunItem {
     @Override
     public void create() {
         EnderTalisman talisman = new EnderTalisman(this);
-        talisman.register(true);
+        talisman.register(!isAddonItem());
     }
 
     @Override

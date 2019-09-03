@@ -154,7 +154,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -167,8 +167,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 				return false;
 			}
 		});
-
-		super.register(slimefun);
 	}
 
 	protected void tick(Block b) {

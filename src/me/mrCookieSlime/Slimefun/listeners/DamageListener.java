@@ -1,14 +1,11 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +21,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -78,27 +74,10 @@ public class DamageListener implements Listener {
                 }
             }
             
-            if (item != null && item.getType() != null && item.getType() != Material.AIR) {
+            if (item != null && item.getType() != null && item.getType() != Material.AIR && Slimefun.hasUnlocked(p, item, true)) {
             	for (ItemHandler handler : SlimefunItem.getHandlers("EntityKillHandler")) {
     				if (((EntityKillHandler) handler).onKill(e, e.getEntity(), p, item)) return;
     			}
-            }
-
-            if (!e.getEntity().getCanPickupItems() && Talisman.checkFor(e, SlimefunItem.getByID("HUNTER_TALISMAN")) && !(e.getEntity() instanceof Player)) {
-                List<ItemStack> extraDrops = new ArrayList<>(e.getDrops());
-                
-            	if (e.getEntity() instanceof ChestedHorse) {
-            		for (ItemStack invItem : ((ChestedHorse) e.getEntity()).getInventory().getStorageContents()) {
-            			extraDrops.remove(invItem);
-            		}
-            		
-            		//The chest is not included in getStorageContents()
-            		extraDrops.remove(new ItemStack(Material.CHEST));
-            	}
-            	
-                for (ItemStack drop: extraDrops) {
-                    e.getDrops().add(drop);
-                }
             }
         }
     }

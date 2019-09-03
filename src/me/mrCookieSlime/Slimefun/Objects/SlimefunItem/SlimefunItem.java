@@ -201,10 +201,12 @@ public class SlimefunItem {
 	public void register() {
 		register(false);
 	}
-
+	
 	public void register(boolean slimefun) {
 		this.addon = !slimefun;
 		try {
+			preRegister();
+			
 			if (SlimefunPlugin.getUtilities().itemIDs.containsKey(this.id)) {
 				throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
 			}
@@ -529,6 +531,11 @@ public class SlimefunItem {
 		this.register(slimefun);
 		EnergyNet.registerComponent(id, EnergyNetComponent.DISTRIBUTOR);
 		ChargableBlock.registerCapacitor(id, capacity);
+	}
+
+	public void preRegister() {
+		// Override this method to execute code before the Item has been registered
+		// Useful for calls to addItemHandler(...)
 	}
 
 	public void postRegister() {

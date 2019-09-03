@@ -172,7 +172,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -185,8 +185,6 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 				return false;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
 	protected void tick(Block b) {

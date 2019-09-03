@@ -246,7 +246,7 @@ public abstract class AReactor extends SlimefunItem {
 	}
 
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new EnergyTicker() {
 
 			private Set<Location> explode = new HashSet<>();
@@ -359,8 +359,6 @@ public abstract class AReactor extends SlimefunItem {
 				return explosion;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
 	private void restockCoolant(Location l, BlockMenu port) {

@@ -71,7 +71,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -88,8 +88,6 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 				return true;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
 	protected void tick(Block b) {
