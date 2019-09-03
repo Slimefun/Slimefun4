@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Setup;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
@@ -119,9 +120,11 @@ public final class SlimefunManager {
 		String string1 = "";
 		String string2 = "";
 		for (String string: lore) {
+			if (string.equals(ChatColor.GRAY + "Soulbound")) continue;
 			if (!string.startsWith("&e&e&7")) string1 = string1 + "-NEW LINE-" + string;
 		}
 		for (String string: lore2) {
+			if (string.equals(ChatColor.GRAY + "Soulbound")) continue;
 			if (!string.startsWith("&e&e&7")) string2 = string2 + "-NEW LINE-" + string;
 		}
 		return string1.equals(string2);

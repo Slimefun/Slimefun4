@@ -27,8 +27,8 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Provides a few convenience methods.
@@ -67,7 +67,7 @@ public final class Slimefun {
 	 * @return the value associated to the key for the SlimefunItem corresponding to the id,
 	 *         or null if it doesn't exist.
 	 */
-	@Nullable public static Object getItemValue(@NotNull String id, @NotNull String key) {
+	@Nullable public static Object getItemValue(@Nonnull String id, @Nonnull String key) {
 		return getItemConfig().getValue(id + "." + key);
 	}
 
@@ -78,7 +78,7 @@ public final class Slimefun {
 	 * @param  key    the key of the value to set
 	 * @param  value  the value to set
 	 */
-	public static void setItemVariable(@NotNull String id, @NotNull String key, @Nullable Object value) {
+	public static void setItemVariable(@Nonnull String id, @Nonnull String key, @Nullable Object value) {
 		getItemConfig().setDefaultValue(id + "." + key, value);
 	}
 
@@ -111,7 +111,7 @@ public final class Slimefun {
 	 * @param  research  the research to register
 	 * @param  items     the items to bind
 	 */
-	public static void registerResearch(@NotNull Research research, @NotNull ItemStack... items) {
+	public static void registerResearch(@Nonnull Research research, @Nonnull ItemStack... items) {
 		for (ItemStack item: items) {
 			research.addItems(SlimefunItem.getByItem(item));
 		}
@@ -128,7 +128,7 @@ public final class Slimefun {
 	 * @return <code>true</code> if the item is a SlimefunItem, enabled, researched and if the player has the permission to use it,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean hasUnlocked(@NotNull Player p, @NotNull ItemStack item, boolean message) {
+	public static boolean hasUnlocked(@Nonnull Player p, @Nonnull ItemStack item, boolean message) {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		State state = SlimefunItem.getState(item);
 
@@ -160,7 +160,7 @@ public final class Slimefun {
 	 * @return <code>true</code> if the item is enabled, researched and the player has the permission to use it,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean hasUnlocked(@NotNull Player p, @NotNull SlimefunItem sfItem, boolean message) {
+	public static boolean hasUnlocked(@Nonnull Player p, @Nonnull SlimefunItem sfItem, boolean message) {
 		if (isEnabled(p, sfItem, message) && hasPermission(p, sfItem, message)) {
 			if (sfItem.getResearch() == null) return true;
 			else if (PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(sfItem.getResearch())) return true;
@@ -182,7 +182,7 @@ public final class Slimefun {
 	 * @return <code>true</code> if the item is not null and if the player has the permission to use it,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean hasPermission(@NotNull Player p, @Nullable SlimefunItem item, boolean message) {
+	public static boolean hasPermission(@Nonnull Player p, @Nullable SlimefunItem item, boolean message) {
 		if (item == null) return true;
 		else if (item.getPermission().equalsIgnoreCase("")) return true;
 		else if (p.hasPermission(item.getPermission())) return true;
@@ -202,7 +202,7 @@ public final class Slimefun {
 	 * @return <code>true</code> if the item is a SlimefunItem and is enabled in the world the player is in,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean isEnabled(@NotNull Player p, @NotNull ItemStack item, boolean message) {
+	public static boolean isEnabled(@Nonnull Player p, @Nonnull ItemStack item, boolean message) {
 		String world = p.getWorld().getName();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem == null) return !SlimefunItem.isDisabled(item);
@@ -233,7 +233,7 @@ public final class Slimefun {
 	 * @return <code>true</code> if the item is enabled in the world the player is in,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean isEnabled(@NotNull Player p, @NotNull SlimefunItem sfItem, boolean message) {
+	public static boolean isEnabled(@Nonnull Player p, @Nonnull SlimefunItem sfItem, boolean message) {
 		String world = p.getWorld().getName();
 		if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
 			if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
@@ -296,7 +296,7 @@ public final class Slimefun {
 	 * @deprecated As of 4.1.10, renamed to {@link #addHint(String, String...)} for better name convenience.
 	 */
 	@Deprecated
-	public static void addDescription(@NotNull String id, @NotNull String... description) {
+	public static void addDescription(@Nonnull String id, @Nonnull String... description) {
 		getItemConfig().setDefaultValue(id + ".description", Arrays.asList(description));
 	}
 
@@ -308,7 +308,7 @@ public final class Slimefun {
 	 *
 	 * @since 4.1.10, rename of {@link #addDescription(String, String...)}.
 	 */
-	public static void addHint(@NotNull String id, @NotNull String... hint) {
+	public static void addHint(@Nonnull String id, @Nonnull String... hint) {
 		getItemConfig().setDefaultValue(id + ".hint", Arrays.asList(hint));
 	}
 
@@ -318,7 +318,7 @@ public final class Slimefun {
 	 * @param  id    the id of the SlimefunItem
 	 * @param  link  the link of the YouTube video
 	 */
-	public static void addYoutubeVideo(@NotNull String id, @NotNull String link) {
+	public static void addYoutubeVideo(@Nonnull String id, @Nonnull String link) {
 		getItemConfig().setDefaultValue(id + ".youtube", link);
 	}
 
@@ -328,7 +328,7 @@ public final class Slimefun {
 	 * @param  id    the id of the SlimefunItem
 	 * @param  link  the link of the Wiki page
 	 */
-	public static void addWikiPage(@NotNull String id, @NotNull String link) {
+	public static void addWikiPage(@Nonnull String id, @Nonnull String link) {
 		getItemConfig().setDefaultValue(id + ".wiki", link);
 	}
 
@@ -338,7 +338,7 @@ public final class Slimefun {
 	 * @param  id    the id of the SlimefunItem
 	 * @param  page  the ending of the link corresponding to the page
 	 */
-	public static void addOfficialWikiPage(@NotNull String id, @NotNull String page) {
+	public static void addOfficialWikiPage(@Nonnull String id, @Nonnull String page) {
 		addWikiPage(id, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
 	}
 
@@ -358,7 +358,7 @@ public final class Slimefun {
 	 * @return <code>true</code> if the item is a soulbound item,
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean isSoulbound(@NotNull ItemStack item) {
+	public static boolean isSoulbound(@Nonnull ItemStack item) {
 		if (item == null || item.getType() == Material.AIR) return false;
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) return true;
 		else {

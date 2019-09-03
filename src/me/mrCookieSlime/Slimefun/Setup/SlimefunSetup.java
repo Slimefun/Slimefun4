@@ -23,6 +23,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -3005,42 +3006,31 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onItemDrop(PlayerDropItemEvent e, Player p, Item i) {
 				ItemStack item = i.getItemStack();
+				boolean[] boo = {false};
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RUNE_SOULBOUND, true)) {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 
-					Location l = i.getLocation();
-					Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1D, 1D, 1D);
-					if (!entites.isEmpty()) {
+						Location l = i.getLocation();
+						Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1.5, 1.5, 1.5, (entity) -> entity.getType() == EntityType.DROPPED_ITEM);
+						if (!entites.isEmpty()) {
 
-						ItemStack ench = null;
-						for (Entity entity : entites) {
-
-							if (!entity.isValid()) continue;
-							if (entity.getType() == EntityType.DROPPED_ITEM || entity instanceof Item) {
+							ItemStack ench = null;
+							Item ent = null;
+							for (Entity entity: entites) {
 
 								ItemStack dropped = ((Item) entity).getItemStack();
-								if (dropped.hasItemMeta()) {
+								if (Slimefun.isSoulbound(dropped)) continue;
+								if (SlimefunManager.isItemSimiliar(dropped, SlimefunItems.RUNE_SOULBOUND, true)) continue;
 
-									ItemMeta droppedMeta = dropped.getItemMeta();
-									if (droppedMeta != null && droppedMeta.hasLore()) {
-
-										List<String> lore = droppedMeta.getLore();
-										if (lore != null && droppedMeta.getLore().contains(ChatColor.GRAY + "Soulbound"))
-											ench = dropped;
-									}
-								}
+								ench = dropped;
+								ent = (Item) entity;
 								break;
 							}
-						}
 
-						if (ench != null) {
-							if (item.getType() == Material.AIR) return false;
-							else if (Slimefun.isSoulbound(item) || Slimefun.isSoulbound(ench)) {
-								Messages.local.sendTranslation(p, "messages.soulbound-rune.fail", true);
-								return false;
-							}
-							else {
+							if (ench != null) {
 								e.setCancelled(true);
 
+								Item finalEnt = ent;
 								ItemStack finalEnch = ench;
 								ItemMeta enchMeta = finalEnch.getItemMeta();
 
@@ -3059,15 +3049,18 @@ public final class SlimefunSetup {
 									enchMeta.setLore(finalLore);
 									finalEnch.setItemMeta(enchMeta);
 
-									Messages.local.sendTranslation(p, "messages.soulbound-rune.success", true);
-								}, 10L);
+									finalEnt.remove();
+									i.remove();
+									l.getWorld().dropItemNaturally(l, finalEnch);
 
-								return true;
+									Messages.local.sendTranslation(p, "messages.soulbound-rune.success", true);
+									boo[0] = true;
+								}, 10L);
 							}
 						}
-					}
+					}, 20L);
 				}
-				return false;
+				return boo[0];
 			}
 		});
 
