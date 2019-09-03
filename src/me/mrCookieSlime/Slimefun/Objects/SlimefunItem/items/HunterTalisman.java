@@ -8,14 +8,13 @@ import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 
 public class HunterTalisman extends Talisman {
 
-	public HunterTalisman(ItemStack item, String id, ItemStack[] recipe, String messageSuffix) {
-		super(item, id, recipe, messageSuffix, 0);
+	public HunterTalisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance) {
+		super(item, id, recipe, consumable, cancelEvent, messageSuffix, chance);
 	}
 	
 	@Override
@@ -25,7 +24,7 @@ public class HunterTalisman extends Talisman {
 	
 	public EntityKillHandler getItemHandler() {
 		return (e, entity, killer, item) -> {
-			if (Talisman.checkFor(e, SlimefunItem.getByID("HUNTER_TALISMAN")) && !(e.getEntity() instanceof Player)) {
+			if (Talisman.checkFor(e, this) && !(e.getEntity() instanceof Player)) {
                 if (!e.getEntity().getCanPickupItems()) {
                 	List<ItemStack> extraDrops = new ArrayList<>(e.getDrops());
                     

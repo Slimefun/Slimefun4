@@ -26,31 +26,24 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Block.Vein;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
-import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
@@ -65,7 +58,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EnhancedFurnace;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedSoulboundTool;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.JetBoots;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Jetpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
@@ -96,13 +88,19 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosivePickaxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosiveShovel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GoldPan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GrapplingHook;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.HerculesPickaxe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.HunterTalisman;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.InfernalBonemeal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeFlask;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeTome;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.LumberAxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicSugar;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MonsterJerky;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfContainment;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfTheSeeker;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfVeinMining;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SeismicAxe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SmeltersPickaxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SwordOfBeheading;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
@@ -153,7 +151,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.PressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.TableSaw;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
@@ -775,34 +772,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.RUNE_LIGHTNING, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_LIGHTNING, SlimefunItems.STAFF_WATER, SlimefunItems.MAGIC_SUGAR, SlimefunItems.STAFF_WIND, SlimefunItems.RUNE_LIGHTNING, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_LIGHTNING})
 		.register(true);
 
-		new SlimefunItem(Categories.TOOLS, SlimefunItems.AUTO_SMELT_PICKAXE, "SMELTERS_PICKAXE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SmeltersPickaxe(Categories.TOOLS, SlimefunItems.AUTO_SMELT_PICKAXE, "SMELTERS_PICKAXE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
-		.register(true, new BlockBreakHandler() {
-
-			@Override
-			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.AUTO_SMELT_PICKAXE, true)) {
-					if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
-					if (e.getBlock().getType() == Material.PLAYER_HEAD) return true;
-
-					int j = -1;
-					List<ItemStack> dropsList = (List<ItemStack>) e.getBlock().getDrops();
-					for (int i = 0; i < dropsList.size(); i++) {
-						if (dropsList.get(i) != null) {
-							j++;
-							drops.add(e.getBlock().getType().toString().endsWith("_ORE") ? new CustomItem(dropsList.get(i), fortune): dropsList.get(i));
-							if (RecipeCalculator.getSmeltedOutput(drops.get(i).getType()) != null) {
-								e.getBlock().getWorld().playEffect(e.getBlock().getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-								drops.set(j, new CustomItem(RecipeCalculator.getSmeltedOutput(drops.get(i).getType()), drops.get(i).getAmount()));
-							}
-						}
-					}
-
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.TALISMAN, "COMMON_TALISMAN", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.EMERALD), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2},
@@ -819,7 +791,7 @@ public final class SlimefunSetup {
 		false, false, "miner", 20)
 		.register(true);
 
-		new Talisman(SlimefunItems.TALISMAN_HUNTER, "HUNTER_TALISMAN",
+		new HunterTalisman(SlimefunItems.TALISMAN_HUNTER, "HUNTER_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.TALISMAN, SlimefunItems.MONSTER_JERKY, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
 		false, false, "hunter", 20)
 		.register(true);
@@ -884,33 +856,9 @@ public final class SlimefunSetup {
 		false, false, "wizard", 60)
 		.register(true);
 		
-		new ExcludedTool(Categories.TOOLS, SlimefunItems.LUMBER_AXE, "LUMBER_AXE", RecipeType.MAGIC_WORKBENCH,
+		new LumberAxe(Categories.TOOLS, SlimefunItems.LUMBER_AXE, "LUMBER_AXE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.SYNTHETIC_DIAMOND, null, SlimefunItems.SYNTHETIC_EMERALD, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
-		.register(true, new BlockBreakHandler() {
-
-			@Override
-			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.LUMBER_AXE, true)) {
-					if (MaterialHelper.isLog( e.getBlock().getType())) {
-						List<Location> logs = new ArrayList<>();
-						TreeCalculator.getTree(e.getBlock().getLocation(), e.getBlock().getLocation(), logs);
-
-						if (logs.contains(e.getBlock().getLocation())) logs.remove(e.getBlock().getLocation());
-						for (Location b: logs) {
-							if (CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b.getBlock())) {
-								b.getWorld().playEffect(b, Effect.STEP_SOUND, b.getBlock().getType());
-								for (ItemStack drop: b.getBlock().getDrops()) {
-									b.getWorld().dropItemNaturally(b, drop);
-								}
-								b.getBlock().setType(Material.AIR);
-							}
-						}
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.SALT, "SALT", RecipeType.ORE_WASHER,
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.SAND, 4), null, null, null, null})
@@ -1090,63 +1038,13 @@ public final class SlimefunSetup {
 		new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 20)})
 		.register(true);
 
-		new SlimefunItem(Categories.TOOLS, SlimefunItems.PICKAXE_OF_CONTAINMENT, "PICKAXE_OF_CONTAINMENT", RecipeType.MAGIC_WORKBENCH,
+		new PickaxeOfContainment(Categories.TOOLS, SlimefunItems.PICKAXE_OF_CONTAINMENT, "PICKAXE_OF_CONTAINMENT", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
-		.register(true, new BlockBreakHandler() {
+		.register(true);
 
-			@Override
-			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
-					// Refactored it into this so we don't need to call e.getBlock() all the time.
-					Block b = e.getBlock(); 
-					if (b.getType() != Material.SPAWNER) return true; 
-					
-					// If the spawner's BlockStorage has BlockInfo, then it's not a vanilla spawner and shouldn't give a broken spawner.
-					ItemStack spawner = SlimefunItems.BROKEN_SPAWNER.clone();
-					if (BlockStorage.hasBlockInfo(b)) {
-						spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
-					}
-					
-					ItemMeta im = spawner.getItemMeta();
-					List<String> lore = im.getLore();
-					
-					for (int i = 0; i < lore.size(); i++) {
-						if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
-					}
-					
-					im.setLore(lore);
-					spawner.setItemMeta(im);
-					b.getLocation().getWorld().dropItemNaturally(b.getLocation(), spawner);
-					e.setExpToDrop(0);
-					e.setDropItems(false);
-					return true;
-				}
-				else {
-					if (e.getBlock().getType() == Material.SPAWNER) e.setDropItems(false);
-					return false;
-				}
-			}
-		});
-
-		new SlimefunItem(Categories.TOOLS, SlimefunItems.HERCULES_PICKAXE, "HERCULES_PICKAXE", RecipeType.MAGIC_WORKBENCH,
+		new HerculesPickaxe(Categories.TOOLS, SlimefunItems.HERCULES_PICKAXE, "HERCULES_PICKAXE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
-		.register(true, new BlockBreakHandler() {
-
-			@Override
-			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.HERCULES_PICKAXE, true) && e.getBlock().getType().toString().endsWith("_ORE")) {
-					if (e.getBlock().getType() == Material.IRON_ORE) drops.add(new CustomItem(SlimefunItems.IRON_DUST, 2));
-					else if (e.getBlock().getType() == Material.GOLD_ORE) drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
-					else {
-						for (ItemStack drop: e.getBlock().getDrops()) {
-							drops.add(new CustomItem(drop, 2));
-						}
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
                 
 		new TableSaw().register();
 		
@@ -1496,30 +1394,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.STAFF_ELEMENTAL, null, null, SlimefunItems.STAFF_ELEMENTAL, null})
 		.register(true);
 
-		new SlimefunItem(Categories.TOOLS, SlimefunItems.PICKAXE_OF_VEIN_MINING, "PICKAXE_OF_VEIN_MINING", RecipeType.MAGIC_WORKBENCH,
+		new PickaxeOfVeinMining(Categories.TOOLS, SlimefunItems.PICKAXE_OF_VEIN_MINING, "PICKAXE_OF_VEIN_MINING", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.EMERALD_ORE), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.EMERALD_ORE), null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
-		.register(true, new BlockBreakHandler() {
-
-			@Override
-			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.PICKAXE_OF_VEIN_MINING, true)) {
-					if (e.getBlock().getType().toString().endsWith("_ORE")) {
-						List<Location> blocks = new ArrayList<>();
-						Vein.calculate(e.getBlock().getLocation(), e.getBlock().getLocation(), blocks, 16);
-						for (Location block: blocks) {
-							Block b = block.getBlock();
-							b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-							for (ItemStack drop: b.getDrops()) {
-								b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop: new CustomItem(drop, fortune));
-							}
-							b.setType(Material.AIR);
-						}
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new SoulboundItem(Categories.WEAPONS, SlimefunItems.SOULBOUND_SWORD, "SOULBOUND_SWORD",
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_SWORD), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
