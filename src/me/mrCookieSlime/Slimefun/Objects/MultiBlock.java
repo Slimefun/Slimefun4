@@ -1,17 +1,15 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 
 import org.bukkit.Material;
 
+import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
+
 public class MultiBlock {
-	
-	public static List<MultiBlock> list = new ArrayList<>();
 	
 	private Material[] blocks;
 	private Material trigger;
@@ -30,11 +28,11 @@ public class MultiBlock {
 	}
 	
 	public void register() {
-		list.add(this);
+		SlimefunPlugin.getUtilities().allMultiblocks.add(this);
 	}
 	
 	public static List<MultiBlock> list() {
-		return list;
+		return SlimefunPlugin.getUtilities().allMultiblocks;
 	}
 	
 	public boolean isMultiBlock(SlimefunItem machine) {

@@ -17,6 +17,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -25,7 +26,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAcceleratorHologram;
-import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
 public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBlock {
 	
@@ -33,7 +33,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 
 	public AnimalGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		createPreset(getID(), "&bGrowth Accelerator", this::constructMenu);
+		createPreset(this, "&bGrowth Accelerator", this::constructMenu);
 		
 		registerBlockHandler(name, (p, b, tool, reason) -> {
 			AnimalGrowthAcceleratorHologram.remove(b);

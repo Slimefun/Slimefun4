@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.Objects;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -40,13 +39,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class Research {
 
 	private static final int[] research_progress = {23, 44, 57, 92};
-	
-	/**
-	 * Contains all the registered researches;
-	 * @since 4.0
-	 * @see ResearchSetup
-	 */
-	public static List<Research> list = new LinkedList<>();
 
 	private int id;
 	private String name;
@@ -116,7 +108,7 @@ public class Research {
 	 */
 	@Deprecated
 	public int getLevel() {
-		return cost;
+		return getCost();
 	}
 
 	/**
@@ -129,7 +121,7 @@ public class Research {
 	 */
 	@Deprecated
 	public void setLevel(int level) {
-		this.cost = level;
+		setCost(level);
 	}
 
 	/**
@@ -303,7 +295,7 @@ public class Research {
 		this.cost = SlimefunPlugin.getResearchCfg().getInt(this.getID() + ".cost");
 		this.enabled = SlimefunPlugin.getResearchCfg().getBoolean(this.getID() + ".enabled");
 
-		list.add(this);
+		SlimefunPlugin.getUtilities().allResearches.add(this);
 		if (SlimefunPlugin.getSettings().printOutLoading) {
 			Slimefun.getLogger().log(Level.INFO, "Loaded Research \"" + this.getName() + "\"");
 		}
@@ -318,7 +310,7 @@ public class Research {
 	 * @see ResearchSetup
 	 */
 	public static List<Research> list() {
-		return list;
+		return SlimefunPlugin.getUtilities().allResearches;
 	}
 
 	/**
@@ -388,7 +380,7 @@ public class Research {
 	 * @since 4.0
 	 */
 	public static Research getByID(int id) {
-		for (Research research: list) {
+		for (Research research: list()) {
 			if (research.getID() == id) return research;
 		}
 		return null;

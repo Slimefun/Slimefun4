@@ -1,9 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,18 +20,14 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
 public class FluidPump extends SlimefunItem implements InventoryBlock {
-	
-	public static Map<Block, MachineRecipe> processing = new HashMap<>();
-	public static Map<Block, Integer> progress = new HashMap<>();
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22};
 	private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
@@ -42,7 +36,7 @@ public class FluidPump extends SlimefunItem implements InventoryBlock {
 	public FluidPump(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		createPreset(getID(), "&9Fluid Pump", this::constructMenu);
+		createPreset(this, "&9Fluid Pump", this::constructMenu);
 	}
 	
 	private void constructMenu(BlockMenuPreset preset) {

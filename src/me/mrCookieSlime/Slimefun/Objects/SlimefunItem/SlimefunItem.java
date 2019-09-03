@@ -2,10 +2,8 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -37,7 +35,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class SlimefunItem {
 
 	public static List<SlimefunItem> items = new ArrayList<>();
-	public static Map<String, SlimefunItem> mapID = new HashMap<>();
 	public static List<SlimefunItem> all = new ArrayList<>();
 
 	private String id;
@@ -208,7 +205,9 @@ public class SlimefunItem {
 	public void register(boolean slimefun) {
 		this.addon = !slimefun;
 		try {
-			if (mapID.containsKey(this.id)) throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
+			if (SlimefunPlugin.getUtilities().itemIDs.containsKey(this.id)) {
+				throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
+			}
 			if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
 			all.add(this);
 
@@ -247,7 +246,7 @@ public class SlimefunItem {
 				this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
 				items.add(this);
 				if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
-				mapID.put(this.id, this);
+				SlimefunPlugin.getUtilities().itemIDs.put(this.id, this);
 				
 				create();
 				
@@ -312,14 +311,14 @@ public class SlimefunItem {
 	 */
 	@Deprecated
 	public static SlimefunItem getByName(String name) {
-		return mapID.get(name);
+		return getByID(name);
 	}
 
 	/**
 	 * @since 4.1.11, rename of {@link #getByName(String)}.
 	 */
 	public static SlimefunItem getByID(String id) {
-		return mapID.get(id);
+		return SlimefunPlugin.getUtilities().itemIDs.get(id);
 	}
 
 	public static SlimefunItem getByItem(ItemStack item) {

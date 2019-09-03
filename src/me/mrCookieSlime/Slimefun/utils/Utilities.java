@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,7 +18,10 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
+import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
@@ -42,6 +46,10 @@ import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 public final class Utilities {
 	
 	public int vanillaItems = 0;
+
+	public final Map<String, SlimefunItem> itemIDs = new HashMap<>();
+	public final List<MultiBlock> allMultiblocks = new LinkedList<>();
+	public final List<Research> allResearches = new LinkedList<>();
 	
 	public final Set<ItemStack> radioactiveItems = new HashSet<>();
 	public final Map<String, Set<ItemHandler>> itemHandlers = new HashMap<>();

@@ -19,13 +19,13 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
 public abstract class AContainer extends SlimefunItem implements InventoryBlock {
 	
@@ -41,7 +41,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	public AContainer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 		
-		createPreset(id, getInventoryTitle(), this::constructMenu);
+		createPreset(this, getInventoryTitle(), this::constructMenu);
 		
 		registerBlockHandler(id, (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);

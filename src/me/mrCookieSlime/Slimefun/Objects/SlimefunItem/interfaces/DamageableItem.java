@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.utils;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

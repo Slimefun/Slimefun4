@@ -17,6 +17,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -24,7 +25,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.holograms.XPCollectorHologram;
-import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
 public class XPCollector extends SlimefunItem implements InventoryBlock {
 	
@@ -32,7 +32,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 
 	public XPCollector(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		createPreset(getID(), "&aEXP Collector", this::constructMenu);
+		createPreset(this, "&aEXP Collector", this::constructMenu);
 		
 		registerBlockHandler(name, new SlimefunBlockHandler() {
 			

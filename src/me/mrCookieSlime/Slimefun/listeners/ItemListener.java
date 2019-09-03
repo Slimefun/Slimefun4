@@ -228,6 +228,7 @@ public class ItemListener implements Listener {
 			for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
 				if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
 			}
+			
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DURALUMIN_MULTI_TOOL, false)
 					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.SOLDER_MULTI_TOOL, false)
 					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.BILLON_MULTI_TOOL, false)
@@ -274,11 +275,21 @@ public class ItemListener implements Listener {
 
 					if (storage.hasUniversalInventory(id)) {
 						UniversalBlockMenu menu = storage.getUniversalInventory(id);
-						if (menu.canOpen(e.getClickedBlock(), p)) menu.open(p);
+						if (menu.canOpen(e.getClickedBlock(), p)) {
+							menu.open(p);
+						}
+						else {
+							Messages.local.sendTranslation(p, "inventory.no-access", true);
+						}
 					}
 					else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
 						BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
-						if (menu.canOpen(e.getClickedBlock(), p)) menu.open(p);
+						if (menu.canOpen(e.getClickedBlock(), p)) {
+							menu.open(p);
+						}
+						else {
+							Messages.local.sendTranslation(p, "inventory.no-access", true);
+						}
 					}
 				}
 			}

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.utils;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
 
 import java.util.List;
 

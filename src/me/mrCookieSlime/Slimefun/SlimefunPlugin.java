@@ -25,8 +25,6 @@ import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -361,11 +359,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 		// Prevent Memory Leaks
 		Messages.local = null;
-		MultiBlock.list = null;
-		Research.list = null;
 		SlimefunItem.all = null;
 		SlimefunItem.items = null;
-		SlimefunItem.mapID = null;
 		AContainer.processing = null;
 		AContainer.progress = null;
 		OreWasher.items = null;
