@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,30 +18,31 @@ import org.bukkit.entity.Player;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 public class TickerTask implements Runnable {
 	
-	public boolean HALTED = false;
+	private boolean halted = false;
 	
-	public Map<Location, Location> move = new HashMap<>();
-	public Map<Location, Boolean> delete = new HashMap<>();
+	protected Map<Location, Location> move = new HashMap<>();
+	protected Map<Location, Boolean> delete = new HashMap<>();
+	protected Map<Location, Long> blockTimings = new HashMap<>();
 	
 	private Set<BlockTicker> tickers = new HashSet<>();
 	
-	private int skipped = 0, chunks = 0, machines = 0;
+	private int skipped = 0;
+	private int chunks = 0;
+	private int machines = 0;
 	private long time = 0;
-	private Map<String, Integer> map_chunk = new HashMap<>();
-	private Map<String, Integer> map_machine = new HashMap<>();
-	private Map<String, Long> map_machinetime = new HashMap<>();
-	private Map<String, Long> map_chunktime = new HashMap<>();
-	private Set<String> skipped_chunks = new HashSet<>();
-
-	public static Map<Location, Long> block_timings = new HashMap<>();
 	
-	public static Map<Location, Integer> bugged_blocks = new HashMap<>();
+	private Map<String, Integer> chunkItemCount = new HashMap<>();
+	private Map<String, Integer> machineCount = new HashMap<>();
+	private Map<String, Long> machineTimings = new HashMap<>();
+	private Map<String, Long> chunkTimings = new HashMap<>();
+	private Set<String> chunksSkipped = new HashSet<>();
+	private Map<Location, Integer> buggedBlocks = new HashMap<>();
 	
 	@Override
 	public void run() {
@@ -49,16 +51,16 @@ public class TickerTask implements Runnable {
 		skipped = 0;
 		chunks = 0;
 		machines = 0;
-		map_chunk.clear();
-		map_machine.clear();
+		chunkItemCount.clear();
+		machineCount.clear();
 		time = 0;
-		map_chunktime.clear();
-		skipped_chunks.clear();
-		map_machinetime.clear();
-		block_timings.clear();
+		chunkTimings.clear();
+		chunksSkipped.clear();
+		machineTimings.clear();
+		blockTimings.clear();
 
-		final Map<Location, Integer> bugged = new HashMap<>(bugged_blocks);
-		bugged_blocks.clear();
+		final Map<Location, Integer> bugged = new HashMap<>(buggedBlocks);
+		buggedBlocks.clear();
 		
 		Map<Location, Boolean> remove = new HashMap<>(delete);
 
@@ -67,12 +69,11 @@ public class TickerTask implements Runnable {
 			delete.remove(entry.getKey());
 		}
 		
-		if (!HALTED) {
+		if (!halted) {
 			for (final String c: BlockStorage.getTickingChunks()) {
 				long timestamp2 = System.currentTimeMillis();
 				chunks++;
 				
-				blocks:
 				for (final Location l: BlockStorage.getTickingLocations(c)) {
 					if (l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4)) {
 						final Block b = l.getBlock();
@@ -85,19 +86,19 @@ public class TickerTask implements Runnable {
 								item.getBlockTicker().update();
 								
 								if (item.getBlockTicker().isSynchronized()) {
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 										try {
 											long timestamp3 = System.currentTimeMillis();
 											item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
 											
-											Long machinetime = map_machinetime.get(item.getID());
-											Integer chunk = map_chunk.get(c);
-											Integer machine = map_machine.get(item.getID());
+											Long machinetime = machineTimings.get(item.getID());
+											Integer chunk = chunkItemCount.get(c);
+											Integer machine = machineCount.get(item.getID());
 											
-											map_machinetime.put(item.getID(), (machinetime != null ? machinetime: 0) + (System.currentTimeMillis() - timestamp3));
-											map_chunk.put(c, (chunk != null ? chunk: 0) + 1);
-											map_machine.put(item.getID(), (machine != null ? machine: 0) + 1);
-											block_timings.put(l, System.currentTimeMillis() - timestamp3);
+											machineTimings.put(item.getID(), (machinetime != null ? machinetime: 0) + (System.currentTimeMillis() - timestamp3));
+											chunkItemCount.put(c, (chunk != null ? chunk: 0) + 1);
+											machineCount.put(item.getID(), (machine != null ? machine: 0) + 1);
+											blockTimings.put(l, System.currentTimeMillis() - timestamp3);
 										} catch (Exception x) {
 											int errors = 0;
 											if (bugged.containsKey(l)) errors = bugged.get(l);
@@ -105,31 +106,22 @@ public class TickerTask implements Runnable {
 											
 											if (errors == 1) {
 												// Generate a new Error-Report
-												ErrorReport report = new ErrorReport(this, l, item, x);
+												new ErrorReport(x, this, l, item);
 												
-												System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
-												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-												System.err.println("[Slimefun] Saved as: ");
-												System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + report.getFile().getName());
-												System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
-												System.err.println("[Slimefun] ");
-												
-												bugged_blocks.put(l, errors);
+												buggedBlocks.put(l, errors);
 											}
 											else if (errors == 4) {
-												System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
-												System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
-												System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
-												System.err.println("[Slimefun] ");
+												Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
+												Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+												Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
+												Slimefun.getLogger().log(Level.SEVERE, " ");
 												
 												BlockStorage._integrated_removeBlockInfo(l, true);
 												
-												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-													l.getBlock().setType(Material.AIR);
-												});
+												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
 											}
 											else {
-												bugged_blocks.put(l, errors);
+												buggedBlocks.put(l, errors);
 											}
 										}
 									});
@@ -138,10 +130,10 @@ public class TickerTask implements Runnable {
 									long timestamp3 = System.currentTimeMillis();
 									item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
 									
-									map_machinetime.put(item.getID(), (map_machinetime.containsKey(item.getID()) ? map_machinetime.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
-									map_chunk.put(c, (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + 1);
-									map_machine.put(item.getID(), (map_machine.containsKey(item.getID()) ? map_machine.get(item.getID()): 0) + 1);
-									block_timings.put(l, System.currentTimeMillis() - timestamp3);
+									machineTimings.put(item.getID(), (machineTimings.containsKey(item.getID()) ? machineTimings.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
+									chunkItemCount.put(c, (chunkItemCount.containsKey(c) ? chunkItemCount.get(c): 0) + 1);
+									machineCount.put(item.getID(), (machineCount.containsKey(item.getID()) ? machineCount.get(item.getID()): 0) + 1);
+									blockTimings.put(l, System.currentTimeMillis() - timestamp3);
 								}
 								tickers.add(item.getBlockTicker());
 							} catch (Exception x) {
@@ -151,31 +143,21 @@ public class TickerTask implements Runnable {
 								
 								if (errors == 1) {
 									// Generate a new Error-Report
-									ErrorReport report = new ErrorReport(this, l, item, x);
-									
-									System.err.println("[Slimefun] Exception caught while ticking a Block:" + x.getClass().getName());
-									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ());
-									System.err.println("[Slimefun] Saved as: ");
-									System.err.println("[Slimefun] /plugins/Slimefun/error-reports/" + report.getFile().getName());
-									System.err.println("[Slimefun] Please consider sending this File to the developer(s) of Slimefun, sending this Error won't get you any help though.");
-									System.err.println("[Slimefun] ");
-									
-									bugged_blocks.put(l, errors);
+									new ErrorReport(x, this, l, item);
+									buggedBlocks.put(l, errors);
 								}
 								else if (errors == 4) {
-									System.err.println("[Slimefun] X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
-									System.err.println("[Slimefun] has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
-									System.err.println("[Slimefun] Check your /plugins/Slimefun/error-reports/ folder for details.");
-									System.err.println("[Slimefun] ");
+									Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
+									Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+									Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
+									Slimefun.getLogger().log(Level.SEVERE, " ");
 									
 									BlockStorage._integrated_removeBlockInfo(l, true);
 									
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-										l.getBlock().setType(Material.AIR);
-									});
+									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
 								}
 								else {
-									bugged_blocks.put(l, errors);
+									buggedBlocks.put(l, errors);
 								}
 							}
 						}
@@ -183,13 +165,13 @@ public class TickerTask implements Runnable {
 					}
 					else {
 						skipped += BlockStorage.getTickingLocations(c).size();
-						skipped_chunks.add(c);
+						chunksSkipped.add(c);
 						chunks--;
-						break blocks;
+						break;
 					}
 				}
 				
-				map_chunktime.put(c, System.currentTimeMillis() - timestamp2);
+				chunkTimings.put(c, System.currentTimeMillis() - timestamp2);
 			}
 		}
 
@@ -200,7 +182,7 @@ public class TickerTask implements Runnable {
 		
 		Iterator<BlockTicker> iterator = tickers.iterator();
 		while (iterator.hasNext()) {
-			iterator.next().unique = true;
+			iterator.next().startNewTick();
 			iterator.remove();
 		}
 		
@@ -213,7 +195,7 @@ public class TickerTask implements Runnable {
 
 	public void info(CommandSender sender) {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2== &aSlimefun Diagnostic Tool &2=="));
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Halted: &e&l" + String.valueOf(HALTED).toUpperCase()));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Halted: &e&l" + String.valueOf(halted).toUpperCase()));
 		sender.sendMessage("");
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Impact: &e" + time + "ms / 50-750ms"));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Chunks: &e" + chunks));
@@ -227,24 +209,31 @@ public class TickerTask implements Runnable {
 			tellraw.addText("   &7&oHover for more Info");
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
-			for (String item: map_machine.keySet()) {
-				if (map_machinetime.get(item) > 0) hover.append("\n&c" + item + " - " + map_machine.get(item) + "x &7(" + map_machinetime.get(item) + "ms)");
+			
+			for (Map.Entry<String, Integer> entry: machineCount.entrySet()) {
+				long timings = machineTimings.get(entry.getKey());
+				if (timings > 0) hover.append("\n&c" + entry.getKey() + " - " + entry.getValue()+ "x &7(" + timings + "ms)");
 				else hidden++;
 			}
+			
 			hover.append("\n\n&c+ &4" + hidden + " Hidden");
 			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
+			
 			try {
 				tellraw.send((Player) sender);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		else {
 			int hidden = 0;
-			for (String item: map_machine.keySet()) {
-				if (map_machinetime.get(item) > 0) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &e" + item + " - " + map_machine.get(item) + "x &7(" + map_machinetime.get(item) + "ms)"));
+			
+			for (Map.Entry<String, Integer> entry: machineCount.entrySet()) {
+				long timings = machineTimings.get(entry.getKey());
+				if (timings > 0) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &e" + entry.getKey() + " - " + entry.getValue()+ "x &7(" + timings + "ms)"));
 				else hidden++;
 			}
+			
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
 		}
 		
@@ -256,26 +245,28 @@ public class TickerTask implements Runnable {
 			tellraw.addText("   &7&oHover for more Info");
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
-			for (String c: map_chunktime.keySet()) {
-				if (!skipped_chunks.contains(c)) {
-					if (map_chunktime.get(c) > 0) hover.append("\n&c" + c.replace("CraftChunk", "") + " - " + (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + "x &7(" + map_chunktime.get(c) + "ms)");
+			
+			for (Map.Entry<String, Long> entry: chunkTimings.entrySet()) {
+				if (!chunksSkipped.contains(entry.getKey())) {
+					if (entry.getValue() > 0) hover.append("\n&c" + entry.getKey().replace("CraftChunk", "") + " - " + (chunkItemCount.containsKey(entry.getKey()) ? chunkItemCount.get(entry.getKey()): 0) + "x &7(" + entry.getValue() + "ms)");
 					else hidden++;
 				}
 			}
+			
 			hover.append("\n\n&c+ &4" + hidden + " Hidden");
 			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
 			
 			try {
 				tellraw.send((Player) sender);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception x) {
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		else {
 			int hidden = 0;
-			for (String c: map_chunktime.keySet()) {
-				if (!skipped_chunks.contains(c)) {
-					if (map_chunktime.get(c) > 0) sender.sendMessage("  &c" + c.replace("CraftChunk", "") + " - " + (map_chunk.containsKey(c) ? map_chunk.get(c): 0) + "x &7(" + map_chunktime.get(c) + "ms)");
+			for (Map.Entry<String, Long> entry: chunkTimings.entrySet()) {
+				if (!chunksSkipped.contains(entry.getKey())) {
+					if (entry.getValue() > 0) sender.sendMessage("  &c" + entry.getKey().replace("CraftChunk", "") + " - " + (chunkItemCount.containsKey(entry.getKey()) ? chunkItemCount.get(entry.getKey()): 0) + "x &7(" + entry.getValue() + "ms)");
 					else hidden++;
 				}
 			}
@@ -284,29 +275,41 @@ public class TickerTask implements Runnable {
 	}
 	
 	public long getTimings(Block b) {
-		return block_timings.containsKey(b.getLocation()) ? block_timings.get(b.getLocation()): 0L;
+		return blockTimings.containsKey(b.getLocation()) ? blockTimings.get(b.getLocation()): 0L;
 	}
 	
 	public long getTimings(String item) {
-		return map_machinetime.containsKey(item) ? map_machinetime.get(item): 0L;
+		return machineTimings.containsKey(item) ? machineTimings.get(item): 0L;
 	}
 	
 	public long getTimings(Chunk c) {
-		return map_chunktime.containsKey(c.toString()) ? map_chunktime.get(c.toString()): 0L;
+		return chunkTimings.containsKey(c.toString()) ? chunkTimings.get(c.toString()): 0L;
+	}
+
+	public void addBlockTimings(Location l, long time) {
+		blockTimings.put(l, time);
+	}
+	
+	public boolean isHalted() {
+		return halted;
+	}
+	
+	public void halt() {
+		halted = true;
 	}
 	
 	@Override
 	public String toString() {
 		return "TickerTask {\n" 
-				+ "  HALTED = " + HALTED + "\n"
-				+ "  tickers = " + tickers + "\n"
-				+ "  move = " + move + "\n"
-				+ "  delete = " + delete + "\n"
-				+ "  chunks = " + map_chunk + "\n"
-				+ "  machines = " + map_machine + "\n"
-				+ "  machinetime = " + map_machinetime + "\n"
-				+ "  chunktime = " + map_chunktime + "\n"
-				+ "  skipped = " + skipped_chunks + "\n"
+				+ "     HALTED = " + halted + "\n"
+				+ "     tickers = " + tickers + "\n"
+				+ "     move = " + move + "\n"
+				+ "     delete = " + delete + "\n"
+				+ "     chunks = " + chunkItemCount + "\n"
+				+ "     machines = " + machineCount + "\n"
+				+ "     machinetime = " + machineTimings + "\n"
+				+ "     chunktime = " + chunkTimings + "\n"
+				+ "     skipped = " + chunksSkipped + "\n"
 				+ "}";
 	}
 

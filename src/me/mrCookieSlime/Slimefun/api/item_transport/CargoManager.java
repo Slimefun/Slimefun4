@@ -3,20 +3,21 @@ package me.mrCookieSlime.Slimefun.api.item_transport;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager.DataType;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-public class CargoManager {
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+
+public final class CargoManager {
+	
+	private CargoManager() {}
 	
 	public static ItemStack withdraw(Block node, BlockStorage storage, Block target, ItemStack template) {
 		if (storage.hasUniversalInventory(target)) {
@@ -195,14 +196,14 @@ public class CargoManager {
 		String id = BlockStorage.checkID(block);
 		if (id.equals("CARGO_NODE_OUTPUT")) return true;
 
-		Config blockInfo = BlockStorage.getLocationInfo(block.getLocation()); // Store the returned Config instance to avoid heavy calls
+		// Store the returned Config instance to avoid heavy calls
+		Config blockInfo = BlockStorage.getLocationInfo(block.getLocation());
 
 		BlockMenu menu = BlockStorage.getInventory(block.getLocation());
 		boolean lore = blockInfo.getString("filter-lore").equals("true");
-		boolean data = blockInfo.getString("filter-durability").equals("true");
 		
 		if (blockInfo.getString("filter-type").equals("whitelist")) {
-			List<ItemStack> items = new ArrayList<ItemStack>();
+			List<ItemStack> items = new ArrayList<>();
 			for (int slot: slots) {
 				ItemStack template = menu.getItemInSlot(slot);
 				if (template != null) items.add(new CustomItem(template, 1));
@@ -218,18 +219,18 @@ public class CargoManager {
 				
 				BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
 				
-				return SlimefunManager.isItemSimiliar(item, items.get(index), lore, data ? DataType.ALWAYS: DataType.NEVER);
+				return SlimefunManager.isItemSimiliar(item, items.get(index), lore);
 			}
 			else {
 				for (ItemStack stack: items) {
-					if (SlimefunManager.isItemSimiliar(item, stack, lore, data ? DataType.ALWAYS: DataType.NEVER)) return true;
+					if (SlimefunManager.isItemSimiliar(item, stack, lore)) return true;
 				}
 				return false;
 			}
 		}
 		else {
 			for (int slot: slots) {
-				if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimiliar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore, data ? DataType.ALWAYS: DataType.NEVER)) {
+				if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimiliar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
 					return false;
 				}
 			}

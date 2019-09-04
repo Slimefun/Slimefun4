@@ -5,20 +5,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
 
-public class IntegerFormat {
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
+public final class IntegerFormat {
 	
-	private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+	private IntegerFormat() {}
+	
 	public static String formatBigNumber(int i) {
 		return NumberFormat.getNumberInstance(Locale.US).format(i);
 	}
 	
 	public static Date parseGitHubDate(String str) {
 		try {
-			return date_format.parse(str.replace("T", " ").replace("Z", ""));
-		} catch (ParseException e) {
-			e.printStackTrace();
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(str.replace("T", " ").replace("Z", ""));
+		} catch (ParseException x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a GitHub-Date for Slimefun " + Slimefun.getVersion(), x);
 			return null;
 		}
 	}

@@ -16,12 +16,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Android.AndroidObject;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.androids.AndroidObject;
 
 public class AndroidKillingListener implements Listener {
 	
-	public AndroidKillingListener(SlimefunStartup plugin) {
+	public AndroidKillingListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
@@ -30,8 +30,9 @@ public class AndroidKillingListener implements Listener {
 		if (e.getEntity().hasMetadata("android_killer")) {
 			final AndroidObject obj = (AndroidObject) e.getEntity().getMetadata("android_killer").get(0).value();
 					
-			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 				List<ItemStack> items = new ArrayList<>();
+				
 				for (Entity n : e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
 					if (n instanceof Item && !n.hasMetadata("no_pickup")) {
 						items.add(((Item) n).getItemStack());
@@ -40,18 +41,15 @@ public class AndroidKillingListener implements Listener {
 				}
 				
 				switch (e.getEntityType()) {
-					case BLAZE: {
+					case BLAZE:
 						items.add(new ItemStack(Material.BLAZE_ROD, 1 + CSCoreLib.randomizer().nextInt(2)));
 						break;
-					}
-					case PIG_ZOMBIE: {
+					case PIG_ZOMBIE:
 						items.add(new ItemStack(Material.GOLD_NUGGET, 1 + CSCoreLib.randomizer().nextInt(3)));
 						break;
-					}
-					case WITHER_SKELETON: {
+					case WITHER_SKELETON:
 						if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
 						break;
-					}
 					default:
 						break;
 				}

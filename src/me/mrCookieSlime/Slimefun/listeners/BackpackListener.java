@@ -17,8 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
@@ -28,27 +27,31 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class BackpackListener implements Listener {
 	
-	public BackpackListener(SlimefunStartup plugin) {
+	private Utilities utilities;
+	
+	public BackpackListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		utilities = SlimefunPlugin.getUtilities();
 	}
 	
 	@EventHandler
 	public void onClose(InventoryCloseEvent e) {
-		if (Variables.enchanting.containsKey(e.getPlayer().getUniqueId())) Variables.enchanting.remove(e.getPlayer().getUniqueId());
+		if (utilities.enchanting.containsKey(e.getPlayer().getUniqueId())) utilities.enchanting.remove(e.getPlayer().getUniqueId());
 		
-		if (Variables.backpack.containsKey(e.getPlayer().getUniqueId())) {
+		if (utilities.backpack.containsKey(e.getPlayer().getUniqueId())) {
 			((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-			PlayerProfile.getBackpack(Variables.backpack.get(e.getPlayer().getUniqueId())).markDirty();
-			Variables.backpack.remove(e.getPlayer().getUniqueId());
+			PlayerProfile.getBackpack(utilities.backpack.get(e.getPlayer().getUniqueId())).markDirty();
+			utilities.backpack.remove(e.getPlayer().getUniqueId());
 		}
 	}
 	
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
-		if (Variables.backpack.containsKey(e.getPlayer().getUniqueId())){
+		if (utilities.backpack.containsKey(e.getPlayer().getUniqueId())){
 			ItemStack item = e.getItemDrop().getItemStack();
 			SlimefunItem sfItem = SlimefunItem.getByItem(item);
 			if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
@@ -57,22 +60,23 @@ public class BackpackListener implements Listener {
 	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
-		if (Variables.backpack.containsKey(e.getWhoClicked().getUniqueId())) {
-			ItemStack item = Variables.backpack.get(e.getWhoClicked().getUniqueId());
+		if (utilities.backpack.containsKey(e.getWhoClicked().getUniqueId())) {
+			ItemStack item = utilities.backpack.get(e.getWhoClicked().getUniqueId());
 			if (e.getClick() == ClickType.NUMBER_KEY) {
 				ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
 				SlimefunItem sfItem = SlimefunItem.getByItem(hotbarItem);
-				if (hotbarItem != null && hotbarItem.getType().toString().contains("SHULKER_BOX"))  e.setCancelled(true);
-				else if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
+				if ((hotbarItem != null && hotbarItem.getType().toString().contains("SHULKER_BOX")) ||
+						sfItem instanceof SlimefunBackpack)
+
+							e.setCancelled(true);
 			}
-			else {
+			else if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
 				SlimefunItem sfItem = SlimefunItem.getByItem(e.getCurrentItem());
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false)) {
-					if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR));
-					else if (!(sfItem instanceof Juice)) e.setCancelled(true);
-				}
-				else if (e.getCurrentItem() != null && e.getCurrentItem().getType().toString().contains("SHULKER_BOX")) e.setCancelled(true);
-				else if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
+				if ((SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false) && !(sfItem instanceof Juice)) ||
+						e.getCurrentItem().getType().toString().contains("SHULKER_BOX") ||
+						sfItem instanceof SlimefunBackpack)
+
+							e.setCancelled(true);
 			}
 		}
 	}
@@ -130,10 +134,10 @@ public class BackpackListener implements Listener {
 					}
 				}
 				
-				if(!Variables.backpack.containsValue(item)) {
+				if(!utilities.backpack.containsValue(item)) {
 					PlayerProfile.getBackpack(item).open(p);
 					p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-					Variables.backpack.put(p.getUniqueId(), item);
+					utilities.backpack.put(p.getUniqueId(), item);
 				}
 				else Messages.local.sendTranslation(p, "backpack.already-open", true);
 			}

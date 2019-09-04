@@ -10,14 +10,14 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EnhancedFurnace;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class FurnaceListener implements Listener {
 
-	public FurnaceListener(SlimefunStartup plugin) {
+	public FurnaceListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
@@ -25,9 +25,8 @@ public class FurnaceListener implements Listener {
 	public void onBurn(FurnaceBurnEvent e) {
 		SlimefunItem furnace = BlockStorage.check(e.getBlock());
 
-		if (furnace instanceof EnhancedFurnace) {
-			if (((EnhancedFurnace) furnace).getFuelEfficiency() > 0)
-				e.setBurnTime(((int) ((1 + 0.2 * ((EnhancedFurnace) furnace).getFuelEfficiency()) * e.getBurnTime())));
+		if (furnace instanceof EnhancedFurnace && ((EnhancedFurnace) furnace).getFuelEfficiency() > 0) {
+			e.setBurnTime(((int) ((1 + 0.2 * ((EnhancedFurnace) furnace).getFuelEfficiency()) * e.getBurnTime())));
 		}
 	}
 

@@ -1,8 +1,6 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -12,48 +10,50 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
 	
-	public static Map<String, BlockMenuPreset> presets = new HashMap<String, BlockMenuPreset>();
-	
-	private String title;
-	private Set<Integer> occupied = new HashSet<Integer>();
+	private String inventoryTitle;
+	private Set<Integer> occupied = new HashSet<>();
 	private String id;
 	private int size = -1;
 	private boolean universal;
 	
 	private ItemManipulationEvent event;
 	
-	public BlockMenuPreset(String id, String title) {
-		super(title);
+	public BlockMenuPreset(String id, String inventoryTitle) {
+		super(inventoryTitle);
 		this.id = id;
-		this.title = title;
+		this.inventoryTitle = inventoryTitle;
 		this.init();
 		this.universal = false;
-		presets.put(id, this);
+		SlimefunPlugin.getUtilities().blockMenuPresets.put(id, this);
 	}
 	
 	public void registerEvent(ItemManipulationEvent event) {
 		this.event = event;
 	}
 	
-	public BlockMenuPreset(String id, String title, boolean universal) {
-		super(title);
+	public BlockMenuPreset(String id, String inventoryTitle, boolean universal) {
+		super(inventoryTitle);
 		this.id = id;
-		this.title = title;
+		this.inventoryTitle = inventoryTitle;
 		this.init();
 		this.universal = universal;
-		presets.put(id, this);
+		SlimefunPlugin.getUtilities().blockMenuPresets.put(id, this);
 	}
 	
 	public abstract void init();
-	public abstract void newInstance(BlockMenu menu, Block b);
 	public abstract boolean canOpen(Block b, Player p);
 	public abstract int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow);
 
+
+	public void newInstance(BlockMenu menu, Block b) {
+		// This method can optionally be overridden by implementations
+	}
+	
 	public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 		return this.getSlotsAccessedByItemTransport(flow);
 	}
@@ -74,11 +74,11 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public int getSize() {
-		return this.size;
+		return size;
 	}
 	
 	public String getTitle() {
-		return this.title;
+		return inventoryTitle;
 	}
 	
 	public Set<Integer> getPresetSlots() {
@@ -86,7 +86,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public Set<Integer> getInventorySlots() {
-		Set<Integer> empty = new HashSet<Integer>();
+		Set<Integer> empty = new HashSet<>();
 		if (size > -1) {
 			for (int i = 0; i < size; i++) {
 				if (!occupied.contains(i)) empty.add(i);
@@ -101,15 +101,16 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public static BlockMenuPreset getPreset(String id) {
-		return presets.get(id);
+		return id == null ? null: SlimefunPlugin.getUtilities().blockMenuPresets.get(id);
 	}
 	
 	public static boolean isInventory(String id) {
-		return presets.containsKey(id);
+		return SlimefunPlugin.getUtilities().blockMenuPresets.containsKey(id);
 	}
 	
 	public static boolean isUniversalInventory(String id) {
-		return presets.containsKey(id) && presets.get(id).isUniversal();
+		BlockMenuPreset preset = SlimefunPlugin.getUtilities().blockMenuPresets.get(id);
+		return preset != null && preset.isUniversal();
 	}
 	
 	public boolean isUniversal() {
@@ -157,9 +158,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public void newInstance(final BlockMenu menu, final Location l) {
-		Bukkit.getScheduler().runTask(SlimefunStartup.instance, () -> {
-			newInstance(menu, l.getBlock());
-		});
+		Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> newInstance(menu, l.getBlock()));
 	}
 
 }

@@ -8,7 +8,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 
-public abstract class GuideHandler {
+public interface GuideHandler {
 	
 	public abstract void addEntry(List<String> texts, List<String> tooltips);
 	public abstract PlayerRunnable getRunnable();
@@ -17,11 +17,11 @@ public abstract class GuideHandler {
 
 	public abstract int next(Player p, int index, ChestMenu menu);
 
-	public PlayerRunnable getRunnable(boolean book) {
+	default PlayerRunnable getRunnable(boolean book) {
 		return this.getRunnable();
 	}
 	
-	public void run(Player p, boolean survival, boolean book) {
+	default void run(Player p, boolean survival, boolean book) {
 		this.getRunnable(book).run(p);
 		
 		if (survival && this.trackHistory()) {

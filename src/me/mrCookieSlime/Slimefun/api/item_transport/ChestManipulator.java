@@ -1,21 +1,20 @@
 package me.mrCookieSlime.Slimefun.api.item_transport;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-public class ChestManipulator {
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-	public static List<CargoTransportEvent> listeners = new ArrayList<>();
+public final class ChestManipulator {
+	
+	private ChestManipulator() {}
 	
 	public static void registerListener(CargoTransportEvent listener) {
-		listeners.add(listener);
+		SlimefunPlugin.getUtilities().cargoTransportEvents.add(listener);
 	}
 	
 	public static ItemStack trigger(Block b, int slot, ItemStack prev, ItemStack next) {
-		for (CargoTransportEvent listener: listeners) {
+		for (CargoTransportEvent listener: SlimefunPlugin.getUtilities().cargoTransportEvents) {
 			next = listener.onEvent(b, slot, prev, next);
 		}
 		

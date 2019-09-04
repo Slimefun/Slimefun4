@@ -7,12 +7,16 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 
 public class SlimefunBackpack extends SlimefunItem {
 	
-	public int size;
+	private int size;
 
 	public SlimefunBackpack(int size, Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 		
 		this.size = size;
+	}
+	
+	public int getSize() {
+		return size;
 	}
 
 }

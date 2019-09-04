@@ -1,39 +1,39 @@
 package me.mrCookieSlime.Slimefun.api;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
-
-import me.mrCookieSlime.Slimefun.Variables;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-@Deprecated
-public class Soul {
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+
+public final class Soul {
 	
-	public static void storeItem(UUID uuid, ItemStack drop) {
-		List<ItemStack> items = new ArrayList<>();
-		if (Variables.soulbound.containsKey(uuid)) items = Variables.soulbound.get(uuid);
-		items.add(drop);
-		Variables.soulbound.put(uuid, items);
+	private Soul() {}
+	
+	public static void storeItem(UUID uuid, int slot, ItemStack item) {
+		Map<Integer, ItemStack> items = SlimefunPlugin.getUtilities().soulbound.get(uuid);
+		
+		if (items == null) {
+			items = new HashMap<>();
+			SlimefunPlugin.getUtilities().soulbound.put(uuid, items);
+		}
+		
+		items.put(slot, item);
 	}
 	
 	public static void retrieveItems(Player p) {
-		if (Variables.soulbound.containsKey(p.getUniqueId())) {
-			for (ItemStack item: Variables.soulbound.get(p.getUniqueId())) {
-				if (item.equals(p.getInventory().getHelmet())) continue;
-				if (item.equals(p.getInventory().getChestplate())) continue;
-				if (item.equals(p.getInventory().getLeggings())) continue;
-				if (item.equals(p.getInventory().getBoots())) continue;
-				if (item.equals(p.getInventory().getItemInOffHand())) continue;
-
-				if(!p.getInventory().contains(item)) {
-					p.getInventory().addItem(item);
-				}
+		Map<Integer, ItemStack> items = SlimefunPlugin.getUtilities().soulbound.get(p.getUniqueId());
+		
+		if (items != null) {
+			for (Map.Entry<Integer, ItemStack> entry: items.entrySet()) {
+				p.getInventory().setItem(entry.getKey(), entry.getValue());
 			}
-			Variables.soulbound.remove(p.getUniqueId());
 		}
+		
+		SlimefunPlugin.getUtilities().soulbound.remove(p.getUniqueId());
 	}
 
 }

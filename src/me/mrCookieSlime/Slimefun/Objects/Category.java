@@ -2,14 +2,15 @@ package me.mrCookieSlime.Slimefun.Objects;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Statically handles categories.
@@ -20,16 +21,10 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @since 4.0
  *
  * @see LockedCategory
- * @see SeasonCategory
+ * @see SeasonalCategory
  */
 public class Category {
-	/**
-	 * List of the registered Categories.
-	 * @since 4.0
-	 * @see Categories
-	 */
-	public static List<Category> list = new ArrayList<>();
-
+	
 	private ItemStack item;
 	private List<SlimefunItem> items;
 	private int tier;
@@ -44,6 +39,11 @@ public class Category {
 	 */
 	public Category(ItemStack item) {
 		this.item = item;
+		
+		ItemMeta meta = item.getItemMeta();
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		this.item.setItemMeta(meta);
+		
 		this.items = new ArrayList<>();
 		this.tier = 3;
 	}
@@ -72,14 +72,19 @@ public class Category {
 	 * @since 4.0
 	 */
 	public void register() {
-		list.add(this);
-		Collections.sort(list, new CategorySorter());
+		SlimefunPlugin.getUtilities().allCategories.add(this);
+		Collections.sort(list(), SlimefunPlugin.getUtilities().categorySorter);
 
-		if (this instanceof SeasonCategory) {
-			if (((SeasonCategory) this).isUnlocked()) Slimefun.current_categories.add(this);
+		if (this instanceof SeasonalCategory) {
+			if (((SeasonalCategory) this).isUnlocked()) {
+				SlimefunPlugin.getUtilities().enabledCategories.add(this);
+			}
 		}
-		else Slimefun.current_categories.add(this);
-		Collections.sort(Slimefun.current_categories, new CategorySorter());
+		else {
+			SlimefunPlugin.getUtilities().enabledCategories.add(this);
+		}
+		
+		Collections.sort(SlimefunPlugin.getUtilities().enabledCategories, SlimefunPlugin.getUtilities().categorySorter);
 	}
 
 	/**
@@ -91,7 +96,7 @@ public class Category {
 	 * @see Categories
 	 */
 	public static List<Category> list() {
-		return list;
+		return SlimefunPlugin.getUtilities().allCategories;
 	}
 
 	/**
@@ -135,8 +140,9 @@ public class Category {
 	 * 
 	 * @since 4.0
 	 */
+	@Deprecated
 	public static Category getByItem(ItemStack item) {
-		for (Category c: list) {
+		for (Category c: list()) {
 			if (c.getItem().isSimilar(item)) return c;
 		}
 		return null;
@@ -151,21 +157,6 @@ public class Category {
 	 */
 	public int getTier() {
 		return tier;
-	}
-
-	/**
-	 * @since 4.0
-	 */
-	class CategorySorter implements Comparator<Category> {
-
-		/**
-		 * @since 4.0
-		 */
-		@Override
-		public int compare(Category c1, Category c2) {
-		    return Integer.compare(c1.getTier(), c2.getTier());
-		}
-
 	}
 
 }

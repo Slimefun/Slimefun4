@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers;
 
-public abstract class ItemHandler {
-	
-	public abstract String toCodename();
+@Deprecated
+public abstract class ItemHandler implements me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler {
+
 }

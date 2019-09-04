@@ -17,6 +17,7 @@ public class JetpackTask extends SlimefunTask {
 		this.thrust = thrust;
 	}
 	
+	@Override
 	public void setID(int id) {
 		this.id = id;
 	}
@@ -32,7 +33,7 @@ public class JetpackTask extends SlimefunTask {
 
 			p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, (float) 0.25, 1);
 			p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1, 1);
-			p.setFallDistance(0.0f);
+			p.setFallDistance(0F);
 			Vector vector = new Vector(0, 1, 0);
 			vector.multiply(thrust);
 			vector.add(p.getEyeLocation().getDirection().multiply(0.2F));

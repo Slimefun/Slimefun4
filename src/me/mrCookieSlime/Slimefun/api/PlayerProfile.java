@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
 
@@ -23,9 +25,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
  * @author TheBusyBiscuit
  *
  */
-public class PlayerProfile {
-	
-	public static Map<UUID, PlayerProfile> profiles = new HashMap<>();
+public final class PlayerProfile {
 	
 	private UUID uuid;
 	private Config cfg;
@@ -159,17 +159,19 @@ public class PlayerProfile {
 	}
 
 	public String getTitle() {
-		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0f) / Research.titles.size())))));
+		List<String> titles = SlimefunPlugin.getSettings().researchesTitles;
+		
+		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F)) / 100.0F) *  titles.size();
 		if (index > 0) index--;
-		return Research.titles.get(index);
+		return titles.get(index);
 	}
 	
 	public static PlayerProfile fromUUID(UUID uuid) {
-		PlayerProfile profile = profiles.get(uuid);
+		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
 		
 		if (profile == null) {
 			profile = new PlayerProfile(uuid);
-			profiles.put(uuid, profile);
+			SlimefunPlugin.getUtilities().profiles.put(uuid, profile);
 		}
 		else {
 			profile.markedForDeletion = false;
@@ -179,11 +181,11 @@ public class PlayerProfile {
 	}
 
 	public static boolean isLoaded(UUID uuid) {
-		return profiles.containsKey(uuid);
+		return SlimefunPlugin.getUtilities().profiles.containsKey(uuid);
 	}
 
 	public static Iterator<PlayerProfile> iterator() {
-		return profiles.values().iterator();
+		return SlimefunPlugin.getUtilities().profiles.values().iterator();
 	}
 	
 	public static BackpackInventory getBackpack(ItemStack item) {
@@ -209,6 +211,11 @@ public class PlayerProfile {
 		else {
 			return null;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "PlayerProfile {" + uuid + "}";
 	}
 
 }

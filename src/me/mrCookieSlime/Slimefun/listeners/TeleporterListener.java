@@ -1,10 +1,13 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
+import java.util.logging.Level;
 
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -15,21 +18,20 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class TeleporterListener implements Listener {
 	
-	BlockFace[] faces = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
+	private final BlockFace[] faces = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
 	
-	public TeleporterListener(SlimefunStartup plugin) {
+	public TeleporterListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled=true)
 	public void onStarve(PlayerInteractEvent e) {
-		if (!e.getAction().equals(Action.PHYSICAL)) return;
+		if (e.getAction() != Action.PHYSICAL || e.getClickedBlock() == null) return;
 		
-		if (e.getClickedBlock() == null) return;
-		SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-		if (item == null) return;
+		String id = BlockStorage.checkID(e.getClickedBlock());
+		if (id == null) return;
 		
-		if (item.getID().equals("GPS_ACTIVATION_DEVICE_SHARED")) {
+		if (id.equals("GPS_ACTIVATION_DEVICE_SHARED") || (id.equals("GPS_ACTIVATION_DEVICE_PERSONAL") && BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString()))) {
 			SlimefunItem teleporter = BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN));
 			
 			if (teleporter instanceof Teleporter) {
@@ -40,29 +42,11 @@ public class TeleporterListener implements Listener {
 				try {
 					((Teleporter) teleporter).onInteract(e.getPlayer(), e.getClickedBlock().getRelative(BlockFace.DOWN));
 				} catch (Exception x) {
-					x.printStackTrace();
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while interacting with a Teleporter", x);
 				}
 			}
 		}
-		else if (item.getID().equals("GPS_ACTIVATION_DEVICE_PERSONAL")) {
-			if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString())) {
-				SlimefunItem teleporter = BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN));
-				
-				if (teleporter instanceof Teleporter) {
-					for (BlockFace face: faces) {
-						if (!BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN).getRelative(face), "GPS_TELEPORTER_PYLON")) return;
-					}
-					
-					try {
-						((Teleporter) teleporter).onInteract(e.getPlayer(), e.getClickedBlock().getRelative(BlockFace.DOWN));
-					} catch (Exception x) {
-						x.printStackTrace();
-					}
-				}
-			}
-			else e.setCancelled(true);
-		}
-		else if (item.getID().equals("ELEVATOR_PLATE")) {
+		else if (id.equals("ELEVATOR_PLATE")) {
 			Elevator.openDialogue(e.getPlayer(), e.getClickedBlock());
 		}
 	}

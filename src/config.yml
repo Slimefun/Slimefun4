@@ -14,6 +14,7 @@ options:
   research-give-fireworks: true
   legacy-ore-washer: false
   legacy-dust-washer: false
+  legacy-ore-grinder: true
 guide:
   default-view-book: false
 URID:

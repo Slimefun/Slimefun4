@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import org.bukkit.OfflinePlayer;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -15,7 +15,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 
 	@Override
 	public String getAuthor() {
-		return SlimefunStartup.instance.getDescription().getAuthors().toString();
+		return SlimefunPlugin.instance.getDescription().getAuthors().toString();
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 
 	@Override
 	public String getVersion() {
-		return SlimefunStartup.instance.getDescription().getVersion();
+		return SlimefunPlugin.instance.getDescription().getVersion();
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 	public String onRequest(OfflinePlayer p, String params) {
 		if (params.equals("researches_total_xp_levels_spent")) {
 			Stream<Research> stream = PlayerProfile.fromUUID(p.getUniqueId()).getResearches().stream();
-			return String.valueOf(stream.mapToInt(r -> r.getCost()).sum());
+			return String.valueOf(stream.mapToInt(Research::getCost).sum());
 		}
 		
 		if (params.equals("researches_total_researches_unlocked")) {
@@ -56,7 +56,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		
 		if (params.equals("researches_percentage_researches_unlocked")) {
 			Set<Research> set = PlayerProfile.fromUUID(p.getUniqueId()).getResearches();
-			return String.valueOf(Math.round(((set.size() * 100.0f) / Research.list().size()) * 100.0f) / 100.0f);
+			return String.valueOf(Math.round(((set.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F);
 		}
 		
 		if (params.equals("researches_title")) {
@@ -68,7 +68,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		}
 		
 		if (params.equals("timings_lag")) {
-			return SlimefunStartup.ticker.getTime() + "ms";
+			return SlimefunPlugin.getTicker().getTime() + "ms";
 		}
 		
 		return null;

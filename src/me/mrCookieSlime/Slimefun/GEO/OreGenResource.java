@@ -5,16 +5,24 @@ import org.bukkit.inventory.ItemStack;
 
 public interface OreGenResource {
 	
-	// Returns the default supply of this resource in that biome
-	public int getDefaultSupply(Biome biome);
+	/**
+	 *  Returns the default supply of this resource in that biome
+	 */
+	int getDefaultSupply(Biome biome);
 	
-	// Name/ID e.g. "Oil"
-	public String getName();
+	/**
+	 *  Name/ID e.g. "Oil"
+	 */
+	String getName();
 	
-	// For the GEO-Scanner
-	public ItemStack getIcon();
+	/**
+	 *  For the GEO-Scanner
+	 */
+	ItemStack getIcon();
 	
-	// Measurement Unit e.g. "Buckets"
-	public String getMeasurementUnit();
+	/** 
+	 * Measurement Unit e.g. "Buckets"
+	 */
+	String getMeasurementUnit();
 
 }

@@ -1,12 +1,5 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.AutonomousMachineHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.AutonomousToolHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -16,9 +9,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
 public class AutonomousToolsListener implements Listener {
 	
-	public AutonomousToolsListener(SlimefunStartup plugin) {
+	public AutonomousToolsListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
@@ -37,13 +36,6 @@ public class AutonomousToolsListener implements Listener {
 			if (machine != null) {
 				for (ItemHandler handler: SlimefunItem.getHandlers("AutonomousMachineHandler")) {
 					if (((AutonomousMachineHandler) handler).onBlockDispense(e, dispenser, d, block, chest, machine)) break;
-				}
-			}
-			else {
-				for (int i = 0; i < d.getInventory().getContents().length; i++) {
-					for (ItemHandler handler: SlimefunItem.getHandlers("AutonomousToolHandler")) {
-						if (((AutonomousToolHandler) handler).onBlockDispense(e, dispenser, d, block, chest, i)) break;
-					}
 				}
 			}
 		}

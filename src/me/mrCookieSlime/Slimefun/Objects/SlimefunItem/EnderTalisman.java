@@ -1,36 +1,42 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
-import me.mrCookieSlime.Slimefun.Lists.Categories;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
+
+import me.mrCookieSlime.Slimefun.Lists.Categories;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * @since 4.0
  */
-public class EnderTalisman extends SlimefunItem {
-
-	private String suffix;
-	private boolean consumable;
-	private boolean cancel;
-	private PotionEffect[] effects;
-	private int chance;
+public class EnderTalisman extends Talisman {
 
 	public EnderTalisman(Talisman parent) {
-		super(Categories.TALISMANS_2, parent.upgrade(), "ENDER_" + parent.getID(), RecipeType.MAGIC_WORKBENCH, new ItemStack[] {SlimefunItem.getItem("ENDER_LUMP_3"), null, SlimefunItem.getItem("ENDER_LUMP_3"), null, parent.getItem(), null, SlimefunItem.getItem("ENDER_LUMP_3"), null, SlimefunItem.getItem("ENDER_LUMP_3")}, parent.upgrade());
-		this.consumable = parent.isConsumable();
-		this.cancel = parent.isEventCancelled();
-		this.suffix = parent.getSuffix();
-		this.effects = parent.getEffects();
-		this.chance = parent.getChance();
+		super(Categories.TALISMANS_2, parent.upgrade(), "ENDER_" + parent.getID(), new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, null, parent.getItem(), null, SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3});
+		
+		consumable = parent.isConsumable();
+        cancel = parent.isEventCancelled();
+        suffix = parent.getSuffix();
+        effects = parent.getEffects();
+        chance = parent.getChance();
+		
 		Slimefun.addHint("ENDER_" + parent.getID(), "&eEnder Talismans have the advantage", "&eof still working while they", "&eare in your Ender Chest");
 	}
-
-	public String getSuffix() 			{		return this.suffix;		}
-	public boolean isConsumable()	 	{		return this.consumable;	}
-	public boolean isEventCancelled() 	{		return this.cancel;		}
-	public PotionEffect[] getEffects()	{		return this.effects;	}
-	public int getChance()				{		return this.chance;		}
+	
+	@Override
+	public ItemStack upgrade() {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void install() {
+		// Let's override that, otherwise we would be creating Ender Talismans
+		// for every Ender Talisman
+	}
+	
+	@Override
+	public void create() {
+		// Let's override that, otherwise we would be creating Ender Talismans
+		// for every Ender Talisman
+	}
 }

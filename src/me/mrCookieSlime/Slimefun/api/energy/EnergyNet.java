@@ -1,69 +1,55 @@
 package me.mrCookieSlime.Slimefun.api.energy;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-
-import me.mrCookieSlime.Slimefun.api.network.Network;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.TickerTask;
-import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.network.Network;
+import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
+import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
+
 public class EnergyNet extends Network {
-	public enum NetworkComponent {
-		SOURCE,
-		DISTRIBUTOR,
-		CONSUMER,
-		NONE;
-	}
 
 	private static final int RANGE = 6;
-
-	public static Set<String> machines_input = new HashSet<String>();
-	public static Set<String> machines_storage = new HashSet<String>();
-	public static Set<String> machines_output = new HashSet<String>();
-
-	public static Map<String, EnergyFlowListener> listeners = new HashMap<String, EnergyFlowListener>();
-
-	public static NetworkComponent getComponent(Block b) {
+	
+	public static EnergyNetComponent getComponent(Block b) {
 		return getComponent(b.getLocation());
 	}
 
-	public static NetworkComponent getComponent(String id) {
-		if (machines_input.contains(id)) return NetworkComponent.SOURCE;
-		if (machines_storage.contains(id)) return NetworkComponent.DISTRIBUTOR;
-		if (machines_output.contains(id)) return NetworkComponent.CONSUMER;
-		return NetworkComponent.NONE;
+	public static EnergyNetComponent getComponent(String id) {
+		if (SlimefunPlugin.getUtilities().energyNetInput.contains(id)) return EnergyNetComponent.SOURCE;
+		if (SlimefunPlugin.getUtilities().energyNetStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+		if (SlimefunPlugin.getUtilities().energyNetOutput.contains(id)) return EnergyNetComponent.CONSUMER;
+		return EnergyNetComponent.NONE;
 	}
 
-	public static NetworkComponent getComponent(Location l) {
-		if (!BlockStorage.hasBlockInfo(l)) return NetworkComponent.NONE;
+	public static EnergyNetComponent getComponent(Location l) {
+		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponent.NONE;
 		String id = BlockStorage.checkID(l);
-		if (machines_input.contains(id)) return NetworkComponent.SOURCE;
-		if (machines_storage.contains(id)) return NetworkComponent.DISTRIBUTOR;
-		if (machines_output.contains(id)) return NetworkComponent.CONSUMER;
-		return NetworkComponent.NONE;
+		if (SlimefunPlugin.getUtilities().energyNetInput.contains(id)) return EnergyNetComponent.SOURCE;
+		if (SlimefunPlugin.getUtilities().energyNetStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+		if (SlimefunPlugin.getUtilities().energyNetOutput.contains(id)) return EnergyNetComponent.CONSUMER;
+		return EnergyNetComponent.NONE;
 	}
 
-	public static void registerComponent(String id, NetworkComponent component) {
+	public static void registerComponent(String id, EnergyNetComponent component) {
 		switch (component) {
 		case CONSUMER:
-			machines_output.add(id);
+			SlimefunPlugin.getUtilities().energyNetOutput.add(id);
 			break;
 		case DISTRIBUTOR:
-			machines_storage.add(id);
+			SlimefunPlugin.getUtilities().energyNetStorage.add(id);
 			break;
 		case SOURCE:
-			machines_input.add(id);
+			SlimefunPlugin.getUtilities().energyNetInput.add(id);
 			break;
 		default:
 			break;
@@ -75,17 +61,17 @@ public class EnergyNet extends Network {
 	}
 
 	public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
-		EnergyNet energy_network = getNetworkFromLocation(l);
-		if (energy_network == null) {
-			energy_network = new EnergyNet(l);
-			registerNetwork(energy_network);
+		EnergyNet energyNetwork = getNetworkFromLocation(l);
+		if (energyNetwork == null) {
+			energyNetwork = new EnergyNet(l);
+			registerNetwork(energyNetwork);
 		}
-		return energy_network;
+		return energyNetwork;
 	}
 
-	private Set<Location> input = new HashSet<Location>();
-	private Set<Location> storage = new HashSet<Location>();
-	private Set<Location> output = new HashSet<Location>();
+	private Set<Location> input = new HashSet<>();
+	private Set<Location> storage = new HashSet<>();
+	private Set<Location> output = new HashSet<>();
 
 	protected EnergyNet(Location l) {
 		super(l);
@@ -95,24 +81,25 @@ public class EnergyNet extends Network {
 		return RANGE;
 	}
 
-	public Network.Component classifyLocation(Location l) {
-		if (regulator.equals(l)) return Network.Component.REGULATOR;
+	public NetworkComponent classifyLocation(Location l) {
+		if (regulator.equals(l)) return NetworkComponent.REGULATOR;
 		switch (getComponent(l)) {
 			case DISTRIBUTOR:
-				return Network.Component.CONNECTOR;
+				return NetworkComponent.CONNECTOR;
 			case CONSUMER:
 			case SOURCE:
-				return Network.Component.TERMINUS;
+				return NetworkComponent.TERMINUS;
 			default:
 				return null;
 		}
 	}
 
-	public void locationClassificationChange(Location l, Network.Component from, Network.Component to) {
-		if (from == Network.Component.TERMINUS) {
+	public void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+		if (from == NetworkComponent.TERMINUS) {
 			input.remove(l);
 			output.remove(l);
 		}
+		
 		switch (getComponent(l)) {
 			case DISTRIBUTOR:
 				if (ChargableBlock.isCapacitor(l)) storage.add(l);
@@ -150,7 +137,7 @@ public class EnergyNet extends Network {
 				if (item.getEnergyTicker().explode(source)) {
 					exploded.add(source); 
 					BlockStorage.clearBlockInfo(source);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 						source.getBlock().setType(Material.LAVA);
 						source.getWorld().createExplosion(source, 0F, false);
 					});
@@ -158,7 +145,7 @@ public class EnergyNet extends Network {
 				else {
 					supply = supply + energy;
 				}
-				TickerTask.block_timings.put(source, System.currentTimeMillis() - timestamp);
+				SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);
 			}
 
 			input.removeAll(exploded);

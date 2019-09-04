@@ -1,15 +1,10 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -21,7 +16,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
@@ -78,10 +72,6 @@ public abstract class ADrill extends AContainer {
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
 			public boolean canOpen(Block b, Player p) {
 				if (!(p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true))) {
 					return false;
@@ -96,7 +86,7 @@ public abstract class ADrill extends AContainer {
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.INSERT)) return getInputSlots();
+				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
 				else return getOutputSlots();
 			}
 		};
@@ -109,23 +99,13 @@ public abstract class ADrill extends AContainer {
 
 	@Override
 	public void registerDefaultRecipes() {}
-	
+
+	@Override
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
-				ItemStack item = getProgressBar().clone();
-				ItemMeta im = item.getItemMeta();
-				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
-				im.setDisplayName(" ");
-				List<String> lore = new ArrayList<String>();
-				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
-				lore.add("");
-				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-				im.setLore(lore);
-				item.setItemMeta(im);
-				
-				BlockStorage.getInventory(b).replaceExistingItem(22, item);
+				MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());

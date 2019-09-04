@@ -1,17 +1,15 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import java.util.Iterator;
+import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -19,42 +17,22 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import me.mrCookieSlime.Slimefun.holograms.XPCollectorHologram;
 
-public class XPCollector extends SlimefunItem {
+public class XPCollector extends SlimefunItem implements InventoryBlock {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
 	public XPCollector(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
-		new BlockMenuPreset(name, "&aEXP Collector") {
-			
-			@Override
-			public void init() {
-				constructMenu(this);
-			}
-
-			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
-			public boolean canOpen(Block b, Player p) {
-				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
-			}
-
-			@Override
-			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.WITHDRAW)) return getOutputSlots();
-				return new int[0];
-			}
-		};
+		createPreset(this, "&aEXP Collector", this::constructMenu);
 		
 		registerBlockHandler(name, new SlimefunBlockHandler() {
 			
@@ -65,7 +43,7 @@ public class XPCollector extends SlimefunItem {
 			
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				me.mrCookieSlime.Slimefun.holograms.XPCollector.getArmorStand(b).remove();
+				XPCollectorHologram.remove(b);
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot: getOutputSlots()) {
@@ -79,32 +57,13 @@ public class XPCollector extends SlimefunItem {
 			}
 		});
 	}
-	
-	private Inventory inject(Block b) {
-		int size = BlockStorage.getInventory(b).toInventory().getSize();
-		Inventory inv = Bukkit.createInventory(null, size);
-		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
-		}
-		for (int slot : getOutputSlots()) {
-			inv.setItem(slot, BlockStorage.getInventory(b).getItemInSlot(slot));
-		}
-		return inv;
-	}
-	
-	protected boolean fits(Block b, ItemStack... items) {
-		return inject(b).addItem(items).isEmpty();
-	}
-	
-	protected void pushItems(Block b, ItemStack... items) {
-		Inventory inv = inject(b);
-		inv.addItem(items);
-		
-		for (int slot : getOutputSlots()) {
-			BlockStorage.getInventory(b).replaceExistingItem(slot, inv.getItem(slot));
-		}
+
+	@Override
+	public int[] getInputSlots() {
+		return new int[0];
 	}
 
+	@Override
 	public int[] getOutputSlots() {
 		return new int[] {12, 13, 14};
 	}
@@ -122,20 +81,16 @@ public class XPCollector extends SlimefunItem {
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				try {
 					XPCollector.this.tick(b);
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking an Exp Collector for Slimefun " + Slimefun.getVersion(), x);
 				}
-			}
-
-			@Override
-			public void uniqueTick() {
 			}
 
 			@Override
@@ -143,12 +98,10 @@ public class XPCollector extends SlimefunItem {
 				return true;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
-	protected void tick(Block b) throws Exception {
-		Iterator<Entity> iterator = me.mrCookieSlime.Slimefun.holograms.XPCollector.getArmorStand(b).getNearbyEntities(4D, 4D, 4D).iterator();
+	protected void tick(Block b) {
+		Iterator<Entity> iterator = XPCollectorHologram.getArmorStand(b, true).getNearbyEntities(4D, 4D, 4D).iterator();
 		while (iterator.hasNext()) {
 			Entity n = iterator.next();
 			if (n instanceof ExperienceOrb) {

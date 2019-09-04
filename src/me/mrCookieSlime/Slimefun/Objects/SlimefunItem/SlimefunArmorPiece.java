@@ -8,7 +8,7 @@ import org.bukkit.potion.PotionEffect;
 
 public class SlimefunArmorPiece extends SlimefunItem {
 	
-	PotionEffect[] effects;
+	private PotionEffect[] effects;
 
 	public SlimefunArmorPiece(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
 		super(category, item, id, recipeType, recipe);
@@ -20,6 +20,8 @@ public class SlimefunArmorPiece extends SlimefunItem {
 		this.effects = effects;
 	}
 	
-	public PotionEffect[] getEffects()		{		return this.effects;		}
+	public PotionEffect[] getEffects() {
+		return this.effects;
+	}
 
 }
