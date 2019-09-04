@@ -83,39 +83,6 @@ public class Talisman extends SlimefunItem {
         return this.chance;
     }
 
-    public static boolean checkFor(Event e, SlimefunItem item) {
-        if (!(item instanceof Talisman)) {
-            return false;
-        }
-
-        Talisman talisman = (Talisman) item;
-        if (new Random().nextInt(100) < talisman.getChance()) {
-            return false;
-        }
-
-        Player p = getPlayerByEventType(e);
-        if (p == null || !pass(p, talisman)) {
-            return false;
-        }
-
-        if (p.getInventory().containsAtLeast(talisman.getItem(), 1)) {
-            if (Slimefun.hasUnlocked(p, talisman.getItem(), true)) {
-                executeTalismanAttributes(e,p,talisman);
-                return true;
-            } 
-            else return false;
-        } 
-        else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
-            if (Slimefun.hasUnlocked(p, talisman.upgrade(), true)) {
-                executeTalismanAttributes(e,p,talisman);
-                return true;
-            } 
-            else return false;
-        } 
-        else return false;
-
-    }
-
     public ItemStack upgrade() {
         List<String> lore = new ArrayList<>();
         lore.add("&7&oEnder Infused");
@@ -146,6 +113,38 @@ public class Talisman extends SlimefunItem {
 
     private static boolean isTalismanMessage(Talisman talisman){
         return !("").equalsIgnoreCase(talisman.getSuffix());
+    }
+    
+    public static boolean checkFor(Event e, SlimefunItem item) {
+        if (!(item instanceof Talisman)) {
+            return false;
+        }
+
+        Talisman talisman = (Talisman) item;
+        if (new Random().nextInt(100) < talisman.getChance()) {
+            return false;
+        }
+
+        Player p = getPlayerByEventType(e);
+        if (p == null || !pass(p, talisman)) {
+            return false;
+        }
+
+        if (p.getInventory().containsAtLeast(talisman.getItem(), 1)) {
+            if (Slimefun.hasUnlocked(p, talisman.getItem(), true)) {
+                executeTalismanAttributes(e,p,talisman);
+                return true;
+            } 
+            else return false;
+        } 
+        else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
+            if (Slimefun.hasUnlocked(p, talisman.upgrade(), true)) {
+                executeTalismanAttributes(e,p,talisman);
+                return true;
+            } 
+            else return false;
+        } 
+        else return false;
     }
 
     private static void executeTalismanAttributes(Event e, Player p, Talisman talisman){

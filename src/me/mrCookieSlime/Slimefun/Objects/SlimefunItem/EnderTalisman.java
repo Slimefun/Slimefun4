@@ -22,4 +22,21 @@ public class EnderTalisman extends Talisman {
 		
 		Slimefun.addHint("ENDER_" + parent.getID(), "&eEnder Talismans have the advantage", "&eof still working while they", "&eare in your Ender Chest");
 	}
+	
+	@Override
+	public ItemStack upgrade() {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void install() {
+		// Let's override that, otherwise we would be creating Ender Talismans
+		// for every Ender Talisman
+	}
+	
+	@Override
+	public void create() {
+		// Let's override that, otherwise we would be creating Ender Talismans
+		// for every Ender Talisman
+	}
 }
