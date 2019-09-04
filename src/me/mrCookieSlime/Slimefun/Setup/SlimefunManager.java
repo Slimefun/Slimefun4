@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Setup;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
@@ -116,14 +117,21 @@ public final class SlimefunManager {
 	}
 	
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {
-		String string1 = "";
-		String string2 = "";
+		StringBuilder string1 = new StringBuilder();
+		StringBuilder string2 = new StringBuilder();
+		
 		for (String string: lore) {
-			if (!string.startsWith("&e&e&7")) string1 = string1 + "-NEW LINE-" + string;
+			if (!string.startsWith(ChatColor.translateAlternateColorCodes('&', "&e&e&7"))) {
+				string1.append("-NEW LINE-" + string);
+			}
 		}
+		
 		for (String string: lore2) {
-			if (!string.startsWith("&e&e&7")) string2 = string2 + "-NEW LINE-" + string;
+			if (!string.startsWith(ChatColor.translateAlternateColorCodes('&', "&e&e&7"))) {
+				string2.append("-NEW LINE-" + string);
+			}
 		}
-		return string1.equals(string2);
+		
+		return string1.toString().equals(string2.toString());
 	}
 }

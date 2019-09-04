@@ -23,7 +23,6 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -103,6 +102,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SmeltersPickaxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SwordOfBeheading;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AncientPedestal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Composter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Crucible;
@@ -162,7 +162,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
-import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.androids.AndroidType;
 import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -1732,23 +1731,9 @@ public final class SlimefunSetup {
 		new CustomItem(SlimefunItems.WITHER_PROOF_OBSIDIAN, 4))
 		.register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.ANCIENT_PEDESTAL, "ANCIENT_PEDESTAL", RecipeType.MAGIC_WORKBENCH,
+		new AncientPedestal(Categories.LUMPS_AND_MAGIC, SlimefunItems.ANCIENT_PEDESTAL, "ANCIENT_PEDESTAL", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN), null, new ItemStack(Material.STONE), null, new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN)}, new CustomItem(SlimefunItems.ANCIENT_PEDESTAL, 4))
 		.register(true);
-
-		SlimefunItem.registerBlockHandler("ANCIENT_PEDESTAL", new SlimefunBlockHandler() {
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Item stack = AncientAltarListener.findItem(b);
-				if (stack != null) { 
-					stack.removeMetadata("item_placed", SlimefunPlugin.instance);
-					b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
-					stack.remove();
-				}
-				return true;
-			}
-		});
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.ANCIENT_ALTAR, "ANCIENT_ALTAR", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, new ItemStack(Material.ENCHANTING_TABLE), null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN)})

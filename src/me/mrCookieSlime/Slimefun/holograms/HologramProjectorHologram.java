@@ -30,6 +30,10 @@ public final class HologramProjectorHologram {
 			if (n instanceof ArmorStand && n.getCustomName() != null && n.getCustomName().equals(nametag) && l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
 		}
 		
+		if (!createIfNoneExists) {
+			return null;
+		}
+		
 		ArmorStand hologram = ArmorStandFactory.createHidden(l);
 		hologram.setCustomName(nametag);
 		return hologram;

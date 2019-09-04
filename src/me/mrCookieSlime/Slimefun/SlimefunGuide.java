@@ -404,7 +404,7 @@ public final class SlimefunGuide {
 				pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F)
 			);
 			
-			List<Category> categories = SlimefunPlugin.getUtilities().currentlyEnabledCategories;
+			List<Category> categories = SlimefunPlugin.getUtilities().enabledCategories;
 			List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
 			
 			int index = 9;

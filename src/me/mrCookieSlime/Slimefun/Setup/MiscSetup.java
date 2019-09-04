@@ -49,7 +49,7 @@ public final class MiscSetup {
 	}
 	
 	public static void loadItems(Settings settings) {
-		Iterator<SlimefunItem> iterator = SlimefunItem.items.iterator();
+		Iterator<SlimefunItem> iterator = SlimefunItem.list().iterator();
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
 			if (item == null) {
