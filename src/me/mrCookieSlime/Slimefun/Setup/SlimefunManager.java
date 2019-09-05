@@ -4,15 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
+import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
+import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class SlimefunManager {
 	
@@ -119,19 +127,39 @@ public final class SlimefunManager {
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {
 		StringBuilder string1 = new StringBuilder();
 		StringBuilder string2 = new StringBuilder();
-		
+
+		String colors = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
 		for (String string: lore) {
-			if (!string.startsWith(ChatColor.translateAlternateColorCodes('&', "&e&e&7"))) {
-				string1.append("-NEW LINE-" + string);
-			}
+			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string1.append("-NEW LINE-").append(string);
 		}
 		
 		for (String string: lore2) {
-			if (!string.startsWith(ChatColor.translateAlternateColorCodes('&', "&e&e&7"))) {
-				string2.append("-NEW LINE-" + string);
-			}
+			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string2.append("-NEW LINE-").append(string);
 		}
-		
 		return string1.toString().equals(string2.toString());
+	}
+
+	public static boolean isItemSoulbound(ItemStack item) {
+		if (item == null || item.getType() == Material.AIR) return false;
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) return true;
+		else {
+			ItemStack strippedItem = item.clone();
+
+			for (Enchantment enchantment : item.getEnchantments().keySet()) {
+				strippedItem.removeEnchantment(enchantment);
+			}
+
+			if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+				for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)){
+					EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
+				}
+			}
+			if (SlimefunItem.getByItem(strippedItem) instanceof SoulboundItem) return true;
+			else if (item.hasItemMeta()) {
+				ItemMeta im = item.getItemMeta();
+				return (im.hasLore() && im.getLore().contains(ChatColor.GRAY + "Soulbound"));
+			}
+			return false;
+		}
 	}
 }
