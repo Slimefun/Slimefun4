@@ -56,6 +56,8 @@ public final class Messages {
 		local.setDefault("messages.talisman.knight", "&a&oYour Talisman gave you 5 Seconds of Regeneration");
 		local.setDefault("messages.talisman.whirlwind", "&a&oYour Talisman reflected the Projectile");
 		local.setDefault("messages.talisman.wizard", "&a&oYour Talisman has given you a better Fortune Level but maybe also lowered some other Enchantment Levels");
+		local.setDefault("messages.soulbound-rune.fail", "&cYou can only bind one item to your soul at a time.");
+		local.setDefault("messages.soulbound-rune.success", "&aYou have successfully bound this item to your soul! You will keep it when you die.");
 		local.setDefault("messages.broken-leg", "&c&oSeems like you broke your Leg, maybe a Splint could help?");
 		local.setDefault("messages.fixed-leg", "&a&oThe Splint helps. It feels better now.");
 		local.setDefault("messages.start-bleeding", "&c&oYou started to bleed. Maybe a Bandage could help?");
