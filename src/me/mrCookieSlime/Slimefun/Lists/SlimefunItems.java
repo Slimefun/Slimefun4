@@ -602,11 +602,13 @@ public final class SlimefunItems {
 		imS.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(47, 0, 117)).build());
 		imS.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&5&lSoulbound&8&l]"));
 		List<String> lore = new ArrayList<>();
-		lore.add("&eThrow this onto a dropped item to");
-		lore.add("&5bind &ethat item to your soul.");
+		lore.add(ChatColor.YELLOW + "Drop this rune onto a dropped item to");
+		lore.add(ChatColor.DARK_PURPLE + "bind " + ChatColor.YELLOW + "that item to your soul.");
 		lore.add(" ");
-		lore.add("&eIt is advised for you use this rune");
-		lore.add("&eon &6important &eitems.");
+		lore.add(ChatColor.YELLOW + "It is advised that you only use this rune");
+		lore.add(ChatColor.YELLOW + "on " + ChatColor.GOLD + "important " + ChatColor.YELLOW + "items.");
+		lore.add(" ");
+		lore.add(ChatColor.YELLOW + "Items bound to your soul won't drop on death.");
 		imS.setLore(lore);
 		itemS.setItemMeta(imS);
 		RUNE_SOULBOUND = itemS;
