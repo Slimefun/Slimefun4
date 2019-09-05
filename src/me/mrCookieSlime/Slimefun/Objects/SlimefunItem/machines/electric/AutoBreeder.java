@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
@@ -12,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.Animals;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -25,7 +25,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.holograms.AutoBreederHologram;
 
 public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 	
@@ -36,7 +35,6 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 		createPreset(this, "&6Auto Breeder", this::constructMenu);
 		
 		registerBlockHandler(name, (p, b, tool, reason) -> {
-			AutoBreederHologram.remove(b);
 			BlockMenu inv = BlockStorage.getInventory(b);
 			if (inv != null) {
 				for (int slot : getInputSlots()) {
@@ -91,17 +89,17 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 	}
 	
 	protected void tick(Block b) throws Exception {
-		for (Entity n : AutoBreederHologram.getArmorStand(b, true).getNearbyEntities(4D, 2D, 4D)) {
-			if (Animals.isFeedable(n)) {
-				for (int slot : getInputSlots()) {
-					if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
-						if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-						ChargableBlock.addCharge(b, -getEnergyConsumption());
-						BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
-						Animals.feed(n);
-						n.getWorld().spawnParticle(Particle.HEART,((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
-						return;
-					}
+		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, n -> n instanceof Animals && n.isValid() && ((Animals) n).isAdult() && !((Animals) n).isLoveMode())) {
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
+					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+					
+					ChargableBlock.addCharge(b, -getEnergyConsumption());
+					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					
+					((Animals) n).setLoveModeTicks(600);
+					n.getWorld().spawnParticle(Particle.HEART,((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
+					return;
 				}
 			}
 		}

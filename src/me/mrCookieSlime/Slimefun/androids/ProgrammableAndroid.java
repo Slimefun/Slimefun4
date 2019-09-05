@@ -67,7 +67,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.holograms.AndroidHologram;
 
 public abstract class ProgrammableAndroid extends SlimefunItem implements InventoryBlock {
 
@@ -239,7 +238,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							}
 						}
 					}
-					AndroidHologram.remove(b);
 				}
 
 				return allow;
@@ -448,34 +446,33 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	}
 	
 	private void killEntities(Block b, double damage, Predicate<Entity> predicate) {
-		for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
-			if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && predicate.test(n)) {
-				boolean attack = false;
-				
-				switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-				case NORTH:
-					attack = n.getLocation().getZ() < b.getZ();
-					break;
-				case EAST:
-					attack = n.getLocation().getX() > b.getX();
-					break;
-				case SOUTH:
-					attack = n.getLocation().getZ() > b.getZ();
-					break;
-				case WEST:
-					attack = n.getLocation().getX() < b.getX();
-					break;
-				default:
-					break;
-				}
-				
-				if (attack) {
-					if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
-					n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
+		double radius = 4.0 + getTier();
+		for (Entity n: b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.isValid() && predicate.test(n))) {
+			boolean attack = false;
+			
+			switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
+			case NORTH:
+				attack = n.getLocation().getZ() < b.getZ();
+				break;
+			case EAST:
+				attack = n.getLocation().getX() > b.getX();
+				break;
+			case SOUTH:
+				attack = n.getLocation().getZ() > b.getZ();
+				break;
+			case WEST:
+				attack = n.getLocation().getX() < b.getX();
+				break;
+			default:
+				break;
+			}
+			
+			if (attack) {
+				if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
+				n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
 
-					((LivingEntity) n).damage(damage);
-					break;
-				}
+				((LivingEntity) n).damage(damage);
+				break;
 			}
 		}
 	}

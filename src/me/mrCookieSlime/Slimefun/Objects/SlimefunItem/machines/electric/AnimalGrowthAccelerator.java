@@ -25,7 +25,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAcceleratorHologram;
 
 public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBlock {
 	
@@ -36,7 +35,6 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 		createPreset(this, "&bGrowth Accelerator", this::constructMenu);
 		
 		registerBlockHandler(name, (p, b, tool, reason) -> {
-			AnimalGrowthAcceleratorHologram.remove(b);
 			BlockMenu inv = BlockStorage.getInventory(b);
 			if (inv != null) {
 				for (int slot : getInputSlots()) {
@@ -91,18 +89,21 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 	}
 	
 	protected void tick(Block b) {
-		for (Entity n : AnimalGrowthAcceleratorHologram.getArmorStand(b, true).getNearbyEntities(3D, 3D, 3D)) {
-			if (n instanceof Ageable && !((Ageable) n).isAdult()) {
-				for (int slot: getInputSlots()) {
-					if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
-						if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-						ChargableBlock.addCharge(b, -getEnergyConsumption());
-						BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
-						((Ageable) n).setAge(((Ageable) n).getAge() + 2000);
-						if (((Ageable) n).getAge() > 0) ((Ageable) n).setAge(0);
-						n.getWorld().spawnParticle(Particle.VILLAGER_HAPPY,((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
-						return;
+		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 3.0, 3.0, 3.0, n -> n instanceof Ageable && n.isValid() && !((Ageable) n).isAdult())) {
+			for (int slot: getInputSlots()) {
+				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
+					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+					
+					ChargableBlock.addCharge(b, -getEnergyConsumption());
+					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					((Ageable) n).setAge(((Ageable) n).getAge() + 2000);
+					
+					if (((Ageable) n).getAge() > 0) {
+						((Ageable) n).setAge(0);
 					}
+					
+					n.getWorld().spawnParticle(Particle.VILLAGER_HAPPY,((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
+					return;
 				}
 			}
 		}
