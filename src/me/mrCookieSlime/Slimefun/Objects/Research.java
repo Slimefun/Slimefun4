@@ -421,6 +421,6 @@ public class Research {
 	
 	@Override
 	public String toString() {
-		return "Research {" + id + "," + name + "}";
+		return "Research {" + id + ',' + name + "}";
 	}
 }

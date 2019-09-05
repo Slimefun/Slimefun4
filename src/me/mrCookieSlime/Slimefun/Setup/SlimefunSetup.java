@@ -1471,26 +1471,22 @@ public final class SlimefunSetup {
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.REPAIRED_SPAWNER, "REINFORCED_SPAWNER", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.RUNE_ENDER})
-		.register(true, new BlockPlaceHandler() {
-
-			@Override
-			public boolean onBlockPlace(BlockPlaceEvent e, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
-					EntityType type = null;
-					for (String line: item.getItemMeta().getLore()) {
-						if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>"))
-							type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(" ", "_").toUpperCase());
-						
-					}
-					if (type != null) {
-						CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
-						spawner.setSpawnedType(type);
-						spawner.update(true, false);
-					}
-					return true;
+		.register(true, (BlockPlaceHandler) (e, item) -> {
+			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
+				EntityType type = null;
+				for (String line: item.getItemMeta().getLore()) {
+					if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>"))
+						type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "")
+							.replace(' ', '_').toUpperCase());
 				}
-				else return false;
+				if (type != null) {
+					CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
+					spawner.setSpawnedType(type);
+					spawner.update(true, false);
+				}
+				return true;
 			}
+			else return false;
 		});
 
 		new EnhancedFurnace(1, 1, 1, SlimefunItems.ENHANCED_FURNACE, "ENHANCED_FURNACE",

@@ -30,7 +30,7 @@ public class SlimefunTabCompleter implements TabCompleter {
 			else if (args[0].equalsIgnoreCase("research")) {
 				List<String> researches = new ArrayList<>();
 				for (Research res : Research.list()) {
-					researches.add(res.getName().toUpperCase().replace(" ", "_"));
+					researches.add(res.getName().toUpperCase().replace(' ', '_'));
 				}
 				researches.add("all");
 				researches.add("reset");

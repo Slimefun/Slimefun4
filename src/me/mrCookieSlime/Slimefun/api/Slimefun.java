@@ -56,7 +56,7 @@ public final class Slimefun {
 	 *         or null if it doesn't exist.
 	 */
 	public static Object getItemValue(String id, String key) {
-		return getItemConfig().getValue(id + "." + key);
+		return getItemConfig().getValue(id + '.' + key);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public final class Slimefun {
 	 * @param  value  the value to set, can be null
 	 */
 	public static void setItemVariable(String id, String key, Object value) {
-		getItemConfig().setDefaultValue(id + "." + key, value);
+		getItemConfig().setDefaultValue(id + '.' + key, value);
 	}
 
 	/**

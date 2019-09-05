@@ -82,7 +82,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 											return true;
 										}
 										else if (ChatColor.translateAlternateColorCodes('&', "&e" + i + " Uses &7left").equals(itemLore.get(4))) {
-											itemLore.set(4, ChatColor.translateAlternateColorCodes('&', "&e" + (i - 1) + " " + (i > 2 ? "Uses": "Use") + " &7left"));
+											itemLore.set(4, ChatColor.translateAlternateColorCodes('&', "&e" + (i - 1) + ' ' + (i > 2 ? "Uses": "Use") + " &7left"));
 											e.setCancelled(true);
 											
 											// Saving the changes to lore and item.

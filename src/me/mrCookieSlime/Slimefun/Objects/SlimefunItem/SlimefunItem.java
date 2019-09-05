@@ -219,7 +219,7 @@ public class SlimefunItem {
 			
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
-					SlimefunPlugin.getItemCfg().setDefaultValue(this.id + "." + this.keys[i], this.values[i]);
+					SlimefunPlugin.getItemCfg().setDefaultValue(this.id + '.' + this.keys[i], this.values[i]);
 				}
 			}
 
@@ -351,7 +351,8 @@ public class SlimefunItem {
 			if (recipeOutput != null) output = recipeOutput.clone();
 
 			if (recipeType.toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
-				String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(" ", "_");
+				String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase()
+					.replace(' ', '_');
 				try {
 					EntityType entity = EntityType.valueOf(mob);
 					List<ItemStack> dropping = SlimefunPlugin.getUtilities().drops.getOrDefault(entity, new ArrayList<>());
