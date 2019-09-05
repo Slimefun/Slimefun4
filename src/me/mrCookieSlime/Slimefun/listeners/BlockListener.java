@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Block.BlockAdjacents;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Events.MultiBlockInteractEvent;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
@@ -75,73 +74,15 @@ public class BlockListener implements Listener {
 	public void onRightClick(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (e.getHand() != EquipmentSlot.HAND) return;
-			Player p = e.getPlayer();
-			Block b = e.getClickedBlock();
-			List<MultiBlock> multiblocks = new ArrayList<>();
-			for (MultiBlock mb: MultiBlock.list()) {
-				if (mb.getTriggerBlock() == b.getType()) {
-					Material[] blocks = mb.getBuild();
-					
-					// Please.
-					// Someone please find a better way to do this...
-					
-					if ((
-						mb.getTriggerBlock() == blocks[1] &&
-						BlockAdjacents.hasMaterialOnSide(b, blocks[0]) &&
-						BlockAdjacents.hasMaterialOnSide(b, blocks[2]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN), blocks[4]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[3]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[5]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[7]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[6]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[8])
-						&&
-						blocks[0] != null && blocks[0] == blocks[2] 
-						&& BlockAdjacents.hasMaterialOnBothSides(b, blocks[0]) &&
-						blocks[3] != null && blocks[3] == blocks[5] 
-						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[5]) &&
-						blocks[6] != null && blocks[6] == blocks[8] 
-						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -2, 0), blocks[8])
-						) || (
-						mb.getTriggerBlock() == blocks[4] &&
-						BlockAdjacents.hasMaterialOnSide(b, blocks[3]) &&
-						BlockAdjacents.hasMaterialOnSide(b, blocks[5]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN), blocks[7]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[6]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[8]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[1]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[0]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[2])
-						&&
-						blocks[0] != null && blocks[0] == blocks[2]
-						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[0]) &&
-						blocks[3] != null && blocks[3] == blocks[5]
-						&& BlockAdjacents.hasMaterialOnBothSides(b, blocks[5]) &&
-						blocks[6] != null && blocks[6] == blocks[8]
-						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[8])
-						) || (
-						mb.getTriggerBlock() == blocks[7] &&
-						BlockAdjacents.hasMaterialOnSide(b, blocks[6]) &&
-						BlockAdjacents.hasMaterialOnSide(b, blocks[8]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[1]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[0]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[2]) &&
-						BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[4]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[3]) &&
-						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[5])
-						&& 
-						blocks[0] != null && blocks[0] == blocks[2]
-						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 2, 0), blocks[0]) &&
-						blocks[3] != null && blocks[3] == blocks[5]
-						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[5]) &&
-						blocks[6] != null && blocks[6] == blocks[8]
-						&& BlockAdjacents.hasMaterialOnBothSides(b, blocks[8])
-					)) {
-						multiblocks.add(mb);
-					}
+				Player p = e.getPlayer();
+				Block b = e.getClickedBlock();
+				List<MultiBlock> multiblocks = new ArrayList<>();
+				for (MultiBlock mb: MultiBlock.list()) {
+					Block center = b.getRelative(mb.getTriggerBlock());
+					if (compareMaterials(center, mb.getBuild(), mb.isSymmetric()))
+						multiblocks.add(mb);	
 				}
-			}
-			
+				
 			if (!multiblocks.isEmpty()) {
 				e.setCancelled(true);
 				MultiBlock multiblock = multiblocks.get(multiblocks.size() - 1);
@@ -154,5 +95,39 @@ public class BlockListener implements Listener {
 				Bukkit.getPluginManager().callEvent(event);
 			}
 		}
+	}
+	
+	protected boolean compareMaterials(Block b, Material[] materials, boolean onlyTwoWay)
+	{
+		return compareMaterials(b, materials[0], materials[1], materials[2], materials[3], materials[4], materials[5], materials[6], materials[7], materials[8], onlyTwoWay);
+	}
+	
+	protected boolean compareMaterials(Block b, Material mat1, Material mat2, Material mat3, Material mat4, Material mat5, Material mat6, Material mat7, Material mat8, Material mat9, boolean onlyTwoWay)
+	{
+		if (!compareMaterialsVertical(b, mat2, mat5, mat8))
+			return false;
+		
+		BlockFace[] directions = onlyTwoWay ? new BlockFace[] {BlockFace.NORTH, BlockFace.EAST} : new BlockFace[] {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
+		for (BlockFace direction : directions)
+		{
+			if (compareMaterialsVertical(b.getRelative(direction), mat1, mat4, mat7))
+				if (compareMaterialsVertical(b.getRelative(direction.getOppositeFace()), mat3, mat6, mat9))
+					return true;
+		}
+		return false;
+	}
+	
+	protected boolean compareMaterialsVertical(Block b, Material mat1, Material mat2, Material mat3)
+	{
+		if (mat2 != null && b.getType() != mat2)
+			return false;
+		
+		if (mat1 != null && b.getRelative(BlockFace.UP).getType() != mat1)
+			return false;
+		
+		if (mat3 != null && b.getRelative(BlockFace.DOWN).getType() != mat3)
+			return false;
+					
+		return true;
 	}
 }
