@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
+    private Research research = null;
 
     public SoulboundRune(Category category, ItemStack item, String id, RecipeType type, ItemStack[] recipe) {
         super(category, item, id, type, recipe);
@@ -35,12 +36,8 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
     public ItemDropHandler getItemHandler() {
         return (e, p, i) -> {
             ItemStack item = i.getItemStack();
-            // We are using a boolean array because we will change the boolean's value inside a lambda
-            // but you can't access non-final variables from outside the lambda inside the lambda.
-            final boolean[] boo = {false};
-
             if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RUNE_SOULBOUND, true)) {
-                if (!PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(Research.getByID(246))) {
+                if (!PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(research)) {
                     Messages.local.sendTranslation(p, "messages.not-researched", true);
                     return true;
                 }
@@ -61,10 +58,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                     // We do not use streams for foreach loops as they are more resource consuming.
                     for (Entity entity: entites) {
                         ItemStack dropped = ((Item) entity).getItemStack();
-                        if (SlimefunManager.isItemSoulbound(dropped)) {
-                            boo[0] = false;
-                            return;
-                        }
+                        if (SlimefunManager.isItemSoulbound(dropped)) return;
                         ench = ((Item) entity).getItemStack();
                         ent = (Item) entity;
                         break;
@@ -104,15 +98,20 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                                 l.getWorld().dropItemNaturally(l, finalEnch);
 
                                 Messages.local.sendTranslation(p, "messages.soulbound-rune.success", true);
-                                boo[0] = true;
                             }
                         }, 10L);
                     } else {
                         Messages.local.sendTranslation(p, "messages.soulbound-rune.fail", true);
                     }
                 }, 20L);
+                return true;
             }
-            return boo[0];
+            return false;
         };
+    }
+
+    @Override
+    public void postRegister() {
+        research = Research.getByID(246);
     }
 }

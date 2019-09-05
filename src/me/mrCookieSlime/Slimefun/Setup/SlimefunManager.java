@@ -129,12 +129,10 @@ public final class SlimefunManager {
 		StringBuilder string2 = new StringBuilder();
 		String colors = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
 		for (String string: lore) {
-			if (string.equals(ChatColor.GRAY + "Soulbound")) continue;
-			if (!string.startsWith(colors)) string1.append("-NEW LINE-").append(string);
+			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string1.append("-NEW LINE-").append(string);
 		}
 		for (String string: lore2) {
-			if (string.equals(ChatColor.GRAY + "Soulbound")) continue;
-			if (!string.startsWith(colors)) string2.append("-NEW LINE-").append(string);
+			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string2.append("-NEW LINE-").append(string);
 		}
 		return string1.toString().equals(string2.toString());
 	}
