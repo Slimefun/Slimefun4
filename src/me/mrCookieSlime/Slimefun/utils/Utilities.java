@@ -123,7 +123,7 @@ public final class Utilities {
 	public final Map<String, String> contributorHeads = new HashMap<>();
 	public final List<Contributor> contributors = new ArrayList<>();
 
-	public final Map<UUID, List<Object>> guideHistory = new HashMap<>();
+	public final Map<UUID, LinkedList<Object>> guideHistory = new HashMap<>();
 	
 	public final List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 	
