@@ -21,7 +21,7 @@ public class MultiBlock {
 		this.blocks = build;
 		this.isSymmetric = isSymmetric(build);
 		//Hacky, the other constructor should be used
-		for (int i = 1; i < 9; i *=3)
+		for (int i = 1; i < 9; i +=3)
 		{
 			if (trigger.equals(build[i]))
 			{
