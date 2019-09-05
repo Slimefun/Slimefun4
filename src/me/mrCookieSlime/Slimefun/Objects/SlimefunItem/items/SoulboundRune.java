@@ -13,20 +13,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
-    private Research research = null;
 
     public SoulboundRune(Category category, ItemStack item, String id, RecipeType type, ItemStack[] recipe) {
         super(category, item, id, type, recipe);
@@ -37,7 +35,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         return (e, p, i) -> {
             ItemStack item = i.getItemStack();
             if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RUNE_SOULBOUND, true)) {
-                if (!PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(research)) {
+                if (!Slimefun.hasUnlocked(p, SlimefunItems.RUNE_SOULBOUND, false)) {
                     Messages.local.sendTranslation(p, "messages.not-researched", true);
                     return true;
                 }
@@ -48,54 +46,47 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                     Location l = i.getLocation();
                     Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1.5, 1.5, 1.5,
-                            entity -> entity.getType() == EntityType.DROPPED_ITEM &&
-                                    !SlimefunManager.isItemSimiliar(((Item) entity).getItemStack(), SlimefunItems.RUNE_SOULBOUND, true)
+                            entity -> entity.getType() == EntityType.DROPPED_ITEM && entity instanceof Item &&
+                                    !SlimefunManager.isItemSimiliar(((Item) entity).getItemStack(), SlimefunItems.RUNE_SOULBOUND, true) &&
+                                    !SlimefunManager.isItemSoulbound(((Item) entity).getItemStack())
                     );
+                    if (entites.size() < 1) return;
 
-                    ItemStack ench = null;
-                    Item ent = null;
+                    ItemStack ench;
+                    Item ent;
                     // Collections do not have a #get method so we need to use a for loop.
                     // We do not use streams for foreach loops as they are more resource consuming.
-                    for (Entity entity: entites) {
-                        ItemStack dropped = ((Item) entity).getItemStack();
-                        if (SlimefunManager.isItemSoulbound(dropped)) return;
-                        ench = ((Item) entity).getItemStack();
-                        ent = (Item) entity;
-                        break;
-                    }
+                    Entity entity = entites.stream().findFirst().get();
+                    ench = ((Item) entity).getItemStack();
+                    ent = (Item) entity;
 
-                    if (ench == null || ench.getAmount() == 1) {
+                    if (ench.getAmount() == 1) {
                         e.setCancelled(true);
 
-                        Item finalEnt = ent;
-                        ItemStack finalEnch = ench;
+                        ItemMeta enchMeta = ench.getItemMeta();
 
-                        ItemMeta enchMeta = finalEnch.getItemMeta();
-                        if (enchMeta == null) enchMeta = Bukkit.getItemFactory().getItemMeta(finalEnch.getType());
-                        ItemMeta finalMeta = enchMeta;
-
-                        List<String> lore = finalMeta.getLore();
-                        if (lore == null) lore = new ArrayList<>();
-                        List<String> finalLore = lore;
+                        List<String> lore;
+                        if (enchMeta.hasLore()) lore = enchMeta.getLore();
+                        else lore = new ArrayList<>();
 
                         // This lightning is just an effect, it deals no damage.
                         l.getWorld().strikeLightningEffect(l);
                         Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 
                             // Being sure entities are still valid and not picked up or whatsoever.
-                            if (i.isValid() && finalEnt.isValid()) {
+                            if (i.isValid() && ent.isValid()) {
 
                                 l.getWorld().createExplosion(l, 0.0F);
                                 l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
 
-                                finalLore.add(ChatColor.GRAY + "Soulbound");
+                                lore.add(ChatColor.GRAY + "Soulbound");
 
-                                finalMeta.setLore(finalLore);
-                                finalEnch.setItemMeta(finalMeta);
+                                enchMeta.setLore(lore);
+                                ench.setItemMeta(enchMeta);
 
-                                finalEnt.remove();
+                                ent.remove();
                                 i.remove();
-                                l.getWorld().dropItemNaturally(l, finalEnch);
+                                l.getWorld().dropItemNaturally(l, ench);
 
                                 Messages.local.sendTranslation(p, "messages.soulbound-rune.success", true);
                             }
@@ -110,8 +101,4 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         };
     }
 
-    @Override
-    public void postRegister() {
-        research = Research.getByID(246);
-    }
 }
