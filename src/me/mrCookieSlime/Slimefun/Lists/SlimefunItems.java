@@ -601,6 +601,7 @@ public final class SlimefunItems {
 		imS.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&5&lSoulbound&8&l]"));
 		itemS.setItemMeta(imS);
 		RUNE_SOULBOUND = itemS;
+		Slimefun.addHint("ANCIENT_RUNE_SOULBOUND", "&eThrow this onto a dropped item to", "&5bind &ethat item to your soul.", "&eIt is advised for you use this rune", "&eon &6important &eitems.");
 	}
 	
 	/*		Electricity			*/

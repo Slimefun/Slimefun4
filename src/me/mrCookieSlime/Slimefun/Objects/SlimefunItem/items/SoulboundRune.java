@@ -46,7 +46,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                             entity -> entity instanceof Item && !SlimefunManager.isItemSoulbound(((Item) entity).getItemStack()) &&
                                     !SlimefunManager.isItemSimiliar(((Item) entity).getItemStack(), SlimefunItems.RUNE_SOULBOUND, true)
                     );
-                    if (entites.size() < 1) return;
+                    if (entites.isEmpty()) return;
 
                     Entity entity = entites.stream().findFirst().get();
                     ItemStack ench = ((Item) entity).getItemStack();
