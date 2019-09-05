@@ -59,7 +59,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 	}
 	
 	@Override
-	public void create() {
+	public void postRegister() {
 		this.toMultiBlock().register();
 	}
 	
@@ -80,6 +80,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 			else if (i.getType() == Material.FLINT_AND_STEEL) mats.add(Material.FIRE);
 			else mats.add(i.getType());
 		}
+		
 		Material[] build = mats.toArray(new Material[mats.size()]);
 		return new MultiBlock(build, this.trigger);
 	}
