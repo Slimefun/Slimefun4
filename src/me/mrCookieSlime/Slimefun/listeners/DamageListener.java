@@ -22,16 +22,13 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.Soul;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class DamageListener implements Listener {
 
     private SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");
-	private Utilities utilities;
 
     public DamageListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        utilities = SlimefunPlugin.getUtilities();
     }
 
     @EventHandler
@@ -80,9 +77,9 @@ public class DamageListener implements Listener {
 
 	@EventHandler
     public void onArrowHit(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && utilities.damage.contains(e.getEntity().getUniqueId())) {
+        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && SlimefunPlugin.getUtilities().damage.contains(e.getEntity().getUniqueId())) {
             e.setCancelled(true);
-            utilities.damage.remove(e.getEntity().getUniqueId());
+            SlimefunPlugin.getUtilities().damage.remove(e.getEntity().getUniqueId());
         }
     }
 

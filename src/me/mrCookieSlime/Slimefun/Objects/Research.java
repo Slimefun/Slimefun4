@@ -418,4 +418,9 @@ public class Research {
 	public static List<Research> getResearches(String uuid) {
 		return getResearches(UUID.fromString(uuid));
 	}
+	
+	@Override
+	public String toString() {
+		return "Research {" + id + "," + name + "}";
+	}
 }

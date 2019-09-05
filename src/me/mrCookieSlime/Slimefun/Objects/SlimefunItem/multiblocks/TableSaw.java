@@ -16,7 +16,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
 public class TableSaw extends MultiBlockMachine {
 	
-	private final List<ItemStack> displayRecipes = new ArrayList<ItemStack>();
+	private final List<ItemStack> displayRecipes = new ArrayList<>();
 
 	public TableSaw() {
 		super(

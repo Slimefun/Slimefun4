@@ -41,6 +41,16 @@ public abstract class Freezer extends AContainer implements RecipeDisplayItem {
 	}
 	
 	@Override
+	public ItemStack getProgressBar() {
+		return new ItemStack(Material.GOLDEN_PICKAXE);
+	}
+
+	@Override
+	public String getInventoryTitle() {
+		return "&bFreezer";
+	}
+	
+	@Override
 	public String getMachineIdentifier() {
 		return "FREEZER";
 	}

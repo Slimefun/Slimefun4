@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
@@ -28,26 +28,30 @@ public class CoolerListener implements Listener {
 		if (e.getFoodLevel() < ((Player) e.getEntity()).getFoodLevel()) {
 			Player p = (Player) e.getEntity();
 			for (ItemStack item: p.getInventory().getContents()) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("COOLER"), false)) {
+				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.COOLER, false)) {
 					BackpackInventory backpack = PlayerProfile.getBackpack(item);
 					if (backpack != null) {
 						Inventory inv = backpack.getInventory();
-						ItemStack drink = null;
+						int slot = -1;
 						
-						for (ItemStack i: inv.getContents()) {
-							if (i != null && i.getType() == Material.POTION && i.hasItemMeta()) {
-								drink = i;
+						for (int i = 0; i < inv.getSize(); i++) {
+							ItemStack stack = inv.getItem(i);
+							if (stack != null && stack.getType() == Material.POTION && stack.hasItemMeta() && stack.getItemMeta().hasDisplayName()) {
+								slot = i;
 								break;
 							}
 						}
-						if (drink != null) {
-							PotionMeta im = (PotionMeta) drink.getItemMeta();
+						
+						if (slot >= 0) {
+							PotionMeta im = (PotionMeta) inv.getItem(slot).getItemMeta();
+							
 							for (PotionEffect effect: im.getCustomEffects()) {
 								p.addPotionEffect(effect);
 							}
+							
 							p.setSaturation(6F);
 							p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_DRINK, 1F, 1F);
-							inv.removeItem(drink);
+							inv.setItem(slot, null);
 							backpack.markDirty();
 							break;
 						}

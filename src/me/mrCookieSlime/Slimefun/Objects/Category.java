@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.inventory.ItemFlag;
@@ -25,13 +24,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see SeasonalCategory
  */
 public class Category {
-	/**
-	 * List of the registered Categories.
-	 * @since 4.0
-	 * @see Categories
-	 */
-	public static List<Category> list = new ArrayList<>();
-
+	
 	private ItemStack item;
 	private List<SlimefunItem> items;
 	private int tier;
@@ -79,15 +72,19 @@ public class Category {
 	 * @since 4.0
 	 */
 	public void register() {
-		list.add(this);
-		Collections.sort(list, new CategorySorter());
+		SlimefunPlugin.getUtilities().allCategories.add(this);
+		Collections.sort(list(), SlimefunPlugin.getUtilities().categorySorter);
 
 		if (this instanceof SeasonalCategory) {
-			if (((SeasonalCategory) this).isUnlocked()) SlimefunPlugin.getUtilities().currentlyEnabledCategories.add(this);
+			if (((SeasonalCategory) this).isUnlocked()) {
+				SlimefunPlugin.getUtilities().enabledCategories.add(this);
+			}
 		}
-		else SlimefunPlugin.getUtilities().currentlyEnabledCategories.add(this);
+		else {
+			SlimefunPlugin.getUtilities().enabledCategories.add(this);
+		}
 		
-		Collections.sort(SlimefunPlugin.getUtilities().currentlyEnabledCategories, new CategorySorter());
+		Collections.sort(SlimefunPlugin.getUtilities().enabledCategories, SlimefunPlugin.getUtilities().categorySorter);
 	}
 
 	/**
@@ -99,7 +96,7 @@ public class Category {
 	 * @see Categories
 	 */
 	public static List<Category> list() {
-		return list;
+		return SlimefunPlugin.getUtilities().allCategories;
 	}
 
 	/**
@@ -143,8 +140,9 @@ public class Category {
 	 * 
 	 * @since 4.0
 	 */
+	@Deprecated
 	public static Category getByItem(ItemStack item) {
-		for (Category c: list) {
+		for (Category c: list()) {
 			if (c.getItem().isSimilar(item)) return c;
 		}
 		return null;
@@ -159,21 +157,6 @@ public class Category {
 	 */
 	public int getTier() {
 		return tier;
-	}
-
-	/**
-	 * @since 4.0
-	 */
-	class CategorySorter implements Comparator<Category> {
-
-		/**
-		 * @since 4.0
-		 */
-		@Override
-		public int compare(Category c1, Category c2) {
-		    return Integer.compare(c1.getTier(), c2.getTier());
-		}
-
 	}
 
 }

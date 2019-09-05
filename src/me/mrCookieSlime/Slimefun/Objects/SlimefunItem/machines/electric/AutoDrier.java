@@ -23,34 +23,34 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 
 public class AutoDrier extends AContainer implements RecipeDisplayItem {
 	
-	private final List<ItemStack> recipes = new ArrayList<>();
+	private final List<ItemStack> recipeList = new ArrayList<>();
 
     public AutoDrier(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, id, recipeType, recipe);
         
-        recipes.add(new ItemStack(Material.ROTTEN_FLESH));
-        recipes.add(new ItemStack(Material.LEATHER));
+        recipeList.add(new ItemStack(Material.ROTTEN_FLESH));
+        recipeList.add(new ItemStack(Material.LEATHER));
         
-        recipes.add(new ItemStack(Material.WET_SPONGE));
-        recipes.add(new ItemStack(Material.SPONGE));
+        recipeList.add(new ItemStack(Material.WET_SPONGE));
+        recipeList.add(new ItemStack(Material.SPONGE));
         
-        recipes.add(new ItemStack(Material.KELP));
-        recipes.add(new ItemStack(Material.DRIED_KELP));
+        recipeList.add(new ItemStack(Material.KELP));
+        recipeList.add(new ItemStack(Material.DRIED_KELP));
         
-        recipes.add(new ItemStack(Material.COOKED_BEEF));
-        recipes.add(SlimefunItems.BEEF_JERKY);
+        recipeList.add(new ItemStack(Material.COOKED_BEEF));
+        recipeList.add(SlimefunItems.BEEF_JERKY);
         
-        recipes.add(new ItemStack(Material.POTION));
-        recipes.add(new ItemStack(Material.GLASS_BOTTLE));
+        recipeList.add(new ItemStack(Material.POTION));
+        recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
         
-        recipes.add(new ItemStack(Material.OAK_SAPLING));
-        recipes.add(new ItemStack(Material.STICK, 2));
+        recipeList.add(new ItemStack(Material.OAK_SAPLING));
+        recipeList.add(new ItemStack(Material.STICK, 2));
         
-        recipes.add(new ItemStack(Material.OAK_LEAVES));
-        recipes.add(new ItemStack(Material.STICK));
+        recipeList.add(new ItemStack(Material.OAK_LEAVES));
+        recipeList.add(new ItemStack(Material.STICK));
         
-        recipes.add(new ItemStack(Material.WATER_BUCKET));
-        recipes.add(new ItemStack(Material.BUCKET));
+        recipeList.add(new ItemStack(Material.WATER_BUCKET));
+        recipeList.add(new ItemStack(Material.BUCKET));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
     
     @Override
     public List<ItemStack> getDisplayRecipes() {
-    	return recipes;
+    	return recipeList;
     }
 
     @Override
@@ -100,9 +100,9 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
                     Material mat = item.getType();
                     ItemStack output = null;
                     
-                    for (int i = 0; i < recipes.size(); i += 2) {
-                    	if (SlimefunManager.isItemSimiliar(item, recipes.get(i), true)) {
-                    		output = recipes.get(i + 1);
+                    for (int i = 0; i < recipeList.size(); i += 2) {
+                    	if (SlimefunManager.isItemSimiliar(item, recipeList.get(i), true)) {
+                    		output = recipeList.get(i + 1);
                     	}
                     }
                     

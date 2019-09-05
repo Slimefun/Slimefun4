@@ -82,8 +82,11 @@ public class BlockListener implements Listener {
 				if (mb.getTriggerBlock() == b.getType()) {
 					Material[] blocks = mb.getBuild();
 					
-					if (mb.getTriggerBlock() == blocks[1]) {
-						if (
+					// Please.
+					// Someone please find a better way to do this...
+					
+					if ((
+						mb.getTriggerBlock() == blocks[1] &&
 						BlockAdjacents.hasMaterialOnSide(b, blocks[0]) &&
 						BlockAdjacents.hasMaterialOnSide(b, blocks[2]) &&
 						BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN), blocks[4]) &&
@@ -92,42 +95,49 @@ public class BlockListener implements Listener {
 						BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[7]) &&
 						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[6]) &&
 						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN), blocks[8])
-						) {
-							if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[0]));
-							else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[5]));
-							else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -2, 0), blocks[8]));
-							else multiblocks.add(mb);
-						}
-					}
-					else if (mb.getTriggerBlock() == blocks[4] &&
-							BlockAdjacents.hasMaterialOnSide(b, blocks[3]) &&
-							BlockAdjacents.hasMaterialOnSide(b, blocks[5]) &&
-							BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN), blocks[7]) &&
-							BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[6]) &&
-							BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[8]) &&
-							BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[1]) &&
-							BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[0]) &&
-							BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[2])
-							) {
-								if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[0]));
-								else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[5]));
-								else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[8]));
-								else multiblocks.add(mb);
-					}
-					else if (mb.getTriggerBlock() == blocks[7] &&
-							BlockAdjacents.hasMaterialOnSide(b, blocks[6]) &&
-							BlockAdjacents.hasMaterialOnSide(b, blocks[8]) &&
-							BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[1]) &&
-							BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[0]) &&
-							BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[2]) &&
-							BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[4]) &&
-							BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[3]) &&
-							BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[5])
-							) {
-								if (blocks[0] != null && blocks[0] == blocks[2] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 2, 0), blocks[0]));
-								else if (blocks[3] != null && blocks[3] == blocks[5] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[5]));
-								else if (blocks[6] != null && blocks[6] == blocks[8] && !BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 0, 0), blocks[8]));
-								else multiblocks.add(mb);
+						&&
+						blocks[0] != null && blocks[0] == blocks[2] 
+						&& BlockAdjacents.hasMaterialOnBothSides(b, blocks[0]) &&
+						blocks[3] != null && blocks[3] == blocks[5] 
+						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[5]) &&
+						blocks[6] != null && blocks[6] == blocks[8] 
+						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -2, 0), blocks[8])
+						) || (
+						mb.getTriggerBlock() == blocks[4] &&
+						BlockAdjacents.hasMaterialOnSide(b, blocks[3]) &&
+						BlockAdjacents.hasMaterialOnSide(b, blocks[5]) &&
+						BlockAdjacents.isMaterial(b.getRelative(BlockFace.DOWN), blocks[7]) &&
+						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[6]) &&
+						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.DOWN), blocks[8]) &&
+						BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[1]) &&
+						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[0]) &&
+						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[2])
+						&&
+						blocks[0] != null && blocks[0] == blocks[2]
+						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[0]) &&
+						blocks[3] != null && blocks[3] == blocks[5]
+						&& BlockAdjacents.hasMaterialOnBothSides(b, blocks[5]) &&
+						blocks[6] != null && blocks[6] == blocks[8]
+						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, -1, 0), blocks[8])
+						) || (
+						mb.getTriggerBlock() == blocks[7] &&
+						BlockAdjacents.hasMaterialOnSide(b, blocks[6]) &&
+						BlockAdjacents.hasMaterialOnSide(b, blocks[8]) &&
+						BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[1]) &&
+						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[0]) &&
+						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP).getRelative(BlockFace.UP), blocks[2]) &&
+						BlockAdjacents.isMaterial(b.getRelative(BlockFace.UP), blocks[4]) &&
+						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[3]) &&
+						BlockAdjacents.hasMaterialOnSide(b.getRelative(BlockFace.UP), blocks[5])
+						&& 
+						blocks[0] != null && blocks[0] == blocks[2]
+						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 2, 0), blocks[0]) &&
+						blocks[3] != null && blocks[3] == blocks[5]
+						&& BlockAdjacents.hasMaterialOnBothSides(b.getRelative(0, 1, 0), blocks[5]) &&
+						blocks[6] != null && blocks[6] == blocks[8]
+						&& BlockAdjacents.hasMaterialOnBothSides(b, blocks[8])
+					)) {
+						multiblocks.add(mb);
 					}
 				}
 			}

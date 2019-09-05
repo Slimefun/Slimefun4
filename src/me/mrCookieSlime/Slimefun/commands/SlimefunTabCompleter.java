@@ -12,7 +12,7 @@ import org.bukkit.command.TabCompleter;
 
 public class SlimefunTabCompleter implements TabCompleter {
 	
-	private SlimefunCommand command;
+	private final SlimefunCommand command;
 	
 	public SlimefunTabCompleter(SlimefunCommand command) {
 		this.command = command;
