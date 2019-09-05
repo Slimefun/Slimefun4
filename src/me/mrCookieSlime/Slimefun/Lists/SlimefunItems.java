@@ -1,6 +1,8 @@
 package me.mrCookieSlime.Slimefun.Lists;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -599,9 +601,15 @@ public final class SlimefunItems {
 		FireworkEffectMeta imS = (FireworkEffectMeta) itemS.getItemMeta();
 		imS.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(47, 0, 117)).build());
 		imS.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&5&lSoulbound&8&l]"));
+		List<String> lore = new ArrayList<>();
+		lore.add("&eThrow this onto a dropped item to");
+		lore.add("&5bind &ethat item to your soul.");
+		lore.add(" ");
+		lore.add("&eIt is advised for you use this rune");
+		lore.add("&eon &6important &eitems.");
+		imS.setLore(lore);
 		itemS.setItemMeta(imS);
 		RUNE_SOULBOUND = itemS;
-		Slimefun.addHint("ANCIENT_RUNE_SOULBOUND", "&eThrow this onto a dropped item to", "&5bind &ethat item to your soul.", "&eIt is advised for you use this rune", "&eon &6important &eitems.");
 	}
 	
 	/*		Electricity			*/
