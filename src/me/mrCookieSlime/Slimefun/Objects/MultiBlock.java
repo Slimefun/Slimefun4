@@ -21,7 +21,7 @@ public class MultiBlock {
 		this.blocks = build;
 		this.isSymmetric = isSymmetric(build);
 		//Hacky, the other constructor should be used
-		for (int i = 0; i < 9; i++)
+		for (int i = 1; i < 9; i *=3)
 		{
 			if (trigger.equals(build[i]))
 			{
@@ -48,14 +48,11 @@ public class MultiBlock {
 		this.isSymmetric = isSymmetric(build);
 	}
 	
-	private boolean isSymmetric(Material[] blocks)
+	private static boolean isSymmetric(Material[] blocks)
 	{
-		if (blocks[0] == blocks[2]
+		return blocks[0] == blocks[2]
 			&& blocks[3] == blocks[5]
-			&& blocks[6] == blocks[8]) {
-			return true;
-		}
-		return false;
+			&& blocks[6] == blocks[8];
 	}
 	
 	public Material[] getBuild() {
