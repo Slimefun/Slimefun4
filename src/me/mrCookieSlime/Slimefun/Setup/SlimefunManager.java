@@ -127,10 +127,12 @@ public final class SlimefunManager {
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {
 		StringBuilder string1 = new StringBuilder();
 		StringBuilder string2 = new StringBuilder();
+
 		String colors = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
 		for (String string: lore) {
 			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string1.append("-NEW LINE-").append(string);
 		}
+		
 		for (String string: lore2) {
 			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string2.append("-NEW LINE-").append(string);
 		}

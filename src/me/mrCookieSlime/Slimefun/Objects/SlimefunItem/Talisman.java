@@ -19,6 +19,7 @@ import org.bukkit.potion.PotionEffect;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -28,11 +29,11 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class Talisman extends SlimefunItem {
 
-    private String suffix;
-    private boolean consumable = true;
-    private boolean cancel = true;
-    private PotionEffect[] effects;
-    private int chance = 100;
+    protected String suffix;
+    protected boolean consumable = true;
+    protected boolean cancel = true;
+    protected PotionEffect[] effects;
+    protected int chance = 100;
 
     public Talisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, PotionEffect... effects) {
         super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4 : 1));
@@ -52,10 +53,14 @@ public class Talisman extends SlimefunItem {
     }
 
     public Talisman(ItemStack item, String id, ItemStack[] recipe, String messageSuffix, int chance, PotionEffect... effects) {
-        super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, item);
+        super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
         this.suffix = messageSuffix;
         this.effects = effects;
         this.chance = chance;
+    }
+
+    protected Talisman(Category category, ItemStack item, String id, ItemStack[] recipe) {
+        super(category, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
     }
 
     public String getSuffix() {
@@ -76,39 +81,6 @@ public class Talisman extends SlimefunItem {
 
     public int getChance() {
         return this.chance;
-    }
-
-    public static boolean checkFor(Event e, SlimefunItem item) {
-        if (!(item instanceof Talisman)) {
-            return false;
-        }
-
-        Talisman talisman = (Talisman) item;
-        if (new Random().nextInt(100) < talisman.getChance()) {
-            return false;
-        }
-
-        Player p = getPlayerByEventType(e);
-        if (p == null || !pass(p, talisman)) {
-            return false;
-        }
-
-        if (p.getInventory().containsAtLeast(talisman.getItem(), 1)) {
-            if (Slimefun.hasUnlocked(p, talisman.getItem(), true)) {
-                executeTalismanAttributes(e,p,talisman);
-                return true;
-            } 
-            else return false;
-        } 
-        else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
-            if (Slimefun.hasUnlocked(p, talisman.upgrade(), true)) {
-                executeTalismanAttributes(e,p,talisman);
-                return true;
-            } 
-            else return false;
-        } 
-        else return false;
-
     }
 
     public ItemStack upgrade() {
@@ -141,6 +113,38 @@ public class Talisman extends SlimefunItem {
 
     private static boolean isTalismanMessage(Talisman talisman){
         return !("").equalsIgnoreCase(talisman.getSuffix());
+    }
+    
+    public static boolean checkFor(Event e, SlimefunItem item) {
+        if (!(item instanceof Talisman)) {
+            return false;
+        }
+
+        Talisman talisman = (Talisman) item;
+        if (new Random().nextInt(100) < talisman.getChance()) {
+            return false;
+        }
+
+        Player p = getPlayerByEventType(e);
+        if (p == null || !pass(p, talisman)) {
+            return false;
+        }
+
+        if (p.getInventory().containsAtLeast(talisman.getItem(), 1)) {
+            if (Slimefun.hasUnlocked(p, talisman.getItem(), true)) {
+                executeTalismanAttributes(e,p,talisman);
+                return true;
+            } 
+            else return false;
+        } 
+        else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
+            if (Slimefun.hasUnlocked(p, talisman.upgrade(), true)) {
+                executeTalismanAttributes(e,p,talisman);
+                return true;
+            } 
+            else return false;
+        } 
+        else return false;
     }
 
     private static void executeTalismanAttributes(Event e, Player p, Talisman talisman){

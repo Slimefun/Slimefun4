@@ -359,8 +359,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 		// Prevent Memory Leaks
 		Messages.local = null;
-		SlimefunItem.all = null;
-		SlimefunItem.items = null;
 		AContainer.processing = null;
 		AContainer.progress = null;
 		OreWasher.items = null;
