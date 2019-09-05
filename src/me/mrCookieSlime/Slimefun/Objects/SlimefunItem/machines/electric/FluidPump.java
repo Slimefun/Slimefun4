@@ -33,6 +33,8 @@ public class FluidPump extends SlimefunItem implements InventoryBlock {
 	private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
 	private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
+	protected int energyConsumption = 32;
+	
 	public FluidPump(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
@@ -82,13 +84,13 @@ public class FluidPump extends SlimefunItem implements InventoryBlock {
 		if (fluid.getType() == Material.LAVA) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					
 					ItemStack output = new ItemStack(Material.LAVA_BUCKET);
 					
 					if (!fits(b, output)) return;
 
-					ChargableBlock.addCharge(b, -getEnergyConsumption());
+					ChargableBlock.addCharge(b, -energyConsumption);
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					pushItems(b, output);
 					
@@ -104,13 +106,13 @@ public class FluidPump extends SlimefunItem implements InventoryBlock {
 		else if (fluid.getType() == Material.WATER) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					
 					ItemStack output = new ItemStack(Material.WATER_BUCKET);
 					
 					if (!fits(b, output)) return;
 
-					ChargableBlock.addCharge(b, -getEnergyConsumption());
+					ChargableBlock.addCharge(b, -energyConsumption);
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					pushItems(b, output);
 					
@@ -120,10 +122,6 @@ public class FluidPump extends SlimefunItem implements InventoryBlock {
 				}
 			}
 		}
-	}
-	
-	private int getEnergyConsumption() {
-		return 32;
 	}
 
 	@Override

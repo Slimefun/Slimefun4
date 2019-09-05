@@ -21,6 +21,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
@@ -91,12 +92,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		blockblacklist.add(Material.STRUCTURE_BLOCK);
 	}
 
-	private Set<MachineFuel> recipes = new HashSet<>();
-	private Random random = new Random();
-
-	public String getInventoryTitle() {
-		return "Programmable Android";
-	}
+	private final Set<MachineFuel> recipes = new HashSet<>();
+	private final Random random = new Random();
 	
 	@Override
 	public int[] getInputSlots() {
@@ -116,26 +113,23 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		super(category, item, name, recipeType, recipe);
 
 		if (getTier() == 1) {
-			registerFuel(new MachineFuel(80, new ItemStack(Material.COAL)));
-			registerFuel(new MachineFuel(80, new ItemStack(Material.CHARCOAL)));
 			registerFuel(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
 			registerFuel(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
 
+			// Coals
+			for (Material mat: Tag.ITEMS_COALS.getValues()) {
+				registerFuel(new MachineFuel(8, new ItemStack(mat)));
+			}
+			
 			// Logs
-			registerFuel(new MachineFuel(4, new ItemStack(Material.OAK_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.BIRCH_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.SPRUCE_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.JUNGLE_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.DARK_OAK_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.ACACIA_LOG)));
+			for (Material mat: Tag.LOGS.getValues()) {
+				registerFuel(new MachineFuel(2, new ItemStack(mat)));
+			}
 
 			// Wooden Planks
-			registerFuel(new MachineFuel(1, new ItemStack(Material.OAK_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.BIRCH_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.SPRUCE_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.JUNGLE_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.DARK_OAK_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.ACACIA_PLANKS)));
+			for (Material mat: Tag.PLANKS.getValues()) {
+				registerFuel(new MachineFuel(1, new ItemStack(mat)));
+			}
 		}
 		else if (getTier() == 2){
 			registerFuel(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
@@ -148,7 +142,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			registerFuel(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
 		}
 
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(name, "Programmable Android") {
 
 			@Override
 			public void init() {

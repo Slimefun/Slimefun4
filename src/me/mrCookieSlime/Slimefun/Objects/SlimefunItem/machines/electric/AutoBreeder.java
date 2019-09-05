@@ -30,6 +30,8 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
+	protected int energyConsumption = 60;
+	
 	public AutoBreeder(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		createPreset(this, "&6Auto Breeder", this::constructMenu);
@@ -52,10 +54,6 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
-	}
-	
-	public int getEnergyConsumption() {
-		return 60;
 	}
 	
 	@Override
@@ -92,9 +90,9 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, n -> n instanceof Animals && n.isValid() && ((Animals) n).isAdult() && !((Animals) n).isLoveMode())) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
-					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					
-					ChargableBlock.addCharge(b, -getEnergyConsumption());
+					ChargableBlock.addCharge(b, -energyConsumption);
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					
 					((Animals) n).setLoveModeTicks(600);

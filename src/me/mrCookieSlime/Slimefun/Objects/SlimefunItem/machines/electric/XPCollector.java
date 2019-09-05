@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -29,6 +29,8 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
+	protected int energyConsumption = 10;
+	
 	public XPCollector(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		createPreset(this, "&aEXP Collector", this::constructMenu);
@@ -74,10 +76,6 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 		}
 	}
 	
-	public int getEnergyConsumption() {
-		return 10;
-	}
-	
 	@Override
 	public void preRegister() {
 		addItemHandler(new BlockTicker() {
@@ -104,11 +102,11 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 		
 		while (iterator.hasNext() && xp == 0) {
 			Entity n = iterator.next();
-			if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+			if (ChargableBlock.getCharge(b) < energyConsumption) return;
 			
 			xp = getEXP(b) + ((ExperienceOrb) n).getExperience();
 			
-			ChargableBlock.addCharge(b, -getEnergyConsumption());
+			ChargableBlock.addCharge(b, -energyConsumption);
 			n.remove();
 			
 			int withdrawn = 0;

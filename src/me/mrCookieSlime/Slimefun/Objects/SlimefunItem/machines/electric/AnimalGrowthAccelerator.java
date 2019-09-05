@@ -30,6 +30,8 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
+	protected int energyConsumption = 14;
+	
 	public AnimalGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		createPreset(this, "&bGrowth Accelerator", this::constructMenu);
@@ -52,10 +54,6 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
-	}
-	
-	public int getEnergyConsumption() {
-		return 14;
 	}
 	
 	@Override
@@ -92,9 +90,9 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 3.0, 3.0, 3.0, n -> n instanceof Ageable && n.isValid() && !((Ageable) n).isAdult())) {
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
-					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					
-					ChargableBlock.addCharge(b, -getEnergyConsumption());
+					ChargableBlock.addCharge(b, -energyConsumption);
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					((Ageable) n).setAge(((Ageable) n).getAge() + 2000);
 					

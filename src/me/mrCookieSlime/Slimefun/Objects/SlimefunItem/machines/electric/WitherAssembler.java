@@ -38,6 +38,8 @@ public class WitherAssembler extends SlimefunItem {
 	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 37, 38};
 	private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 43, 44};
 
+	protected int energyConsumption = 4096;
+	
 	public WitherAssembler(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
@@ -186,7 +188,7 @@ public class WitherAssembler extends SlimefunItem {
 			public void tick(final Block b, SlimefunItem sf, Config data) {
 				if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
 				if (lifetime % 60 == 0) {
-					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					
 					int soulsand = 0;
 					int skulls = 0;
@@ -240,7 +242,7 @@ public class WitherAssembler extends SlimefunItem {
 							}
 						}
 						
-						ChargableBlock.addCharge(b, -getEnergyConsumption());
+						ChargableBlock.addCharge(b, -energyConsumption);
 						
 						final double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 						
@@ -259,10 +261,6 @@ public class WitherAssembler extends SlimefunItem {
 				return false;
 			}
 		});
-	}
-
-	public int getEnergyConsumption() {
-		return 4096;
 	}
 
 }
