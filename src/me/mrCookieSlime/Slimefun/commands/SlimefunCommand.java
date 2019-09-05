@@ -270,7 +270,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 							else {
 								Research research = null;
 								for (Research res : Research.list()) {
-									if (res.getName().toUpperCase().replace(" ", "_").equalsIgnoreCase(args[2])) {
+									if (res.getName().toUpperCase().replace(' ', '_').equalsIgnoreCase(args[2])) {
 										research = res;
 										break;
 									}

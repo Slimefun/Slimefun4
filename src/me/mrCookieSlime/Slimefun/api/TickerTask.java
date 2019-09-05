@@ -111,7 +111,7 @@ public class TickerTask implements Runnable {
 												buggedBlocks.put(l, errors);
 											}
 											else if (errors == 4) {
-												Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
+												Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + '(' + item.getID() + ")");
 												Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
 												Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
 												Slimefun.getLogger().log(Level.SEVERE, " ");
@@ -147,7 +147,7 @@ public class TickerTask implements Runnable {
 									buggedBlocks.put(l, errors);
 								}
 								else if (errors == 4) {
-									Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + "(" + item.getID() + ")");
+									Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + '(' + item.getID() + ")");
 									Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
 									Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
 									Slimefun.getLogger().log(Level.SEVERE, " ");

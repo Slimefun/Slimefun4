@@ -56,14 +56,14 @@ public class ErrorReport {
 				
 				for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
 					if (Bukkit.getPluginManager().isPluginEnabled(p)) {
-						plugins.add("  + " + p.getName() + " " + p.getDescription().getVersion());
+						plugins.add("  + " + p.getName() + ' ' + p.getDescription().getVersion());
 						if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
-							addons.add("  + " + p.getName() + " " + p.getDescription().getVersion());
+							addons.add("  + " + p.getName() + ' ' + p.getDescription().getVersion());
 					}
 					else {
-						plugins.add("  - " + p.getName() + " " + p.getDescription().getVersion());
+						plugins.add("  - " + p.getName() + ' ' + p.getDescription().getVersion());
 						if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
-							addons.add("  - " + p.getName() + " " + p.getDescription().getVersion());
+							addons.add("  - " + p.getName() + ' ' + p.getDescription().getVersion());
 					}
 				}
 				

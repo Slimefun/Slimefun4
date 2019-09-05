@@ -1033,10 +1033,10 @@ public final class SlimefunGuide {
 		String timeleft = "";
         final int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
-            timeleft = String.valueOf(timeleft) + minutes + "m ";
+            timeleft = timeleft + minutes + "m ";
         }
         seconds -= minutes * 60;
-        timeleft = String.valueOf(timeleft) + seconds + "s";
+        timeleft = timeleft + seconds + "s";
         return "&7" + timeleft;
 	}
 

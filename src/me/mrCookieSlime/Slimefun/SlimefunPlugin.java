@@ -109,9 +109,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 						compatibleVersion = true;
 					}
 
-					if (i == 0) versions.append(version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
-					else if (i == supported.length - 1) versions.append(" or " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
-					else versions.append(", " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
+					String s = version.substring(1).replaceFirst("_", ".").replace("_", ".X");
+					if (i == 0) versions.append(s);
+					else if (i == supported.length - 1) versions.append(" or ").append(s);
+					else versions.append(", ").append(s);
 
 					i++;
 				}
@@ -124,7 +125,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 					getLogger().log(Level.SEVERE, "###");
 					getLogger().log(Level.SEVERE, "### You are using Minecraft " + ReflectionUtils.getVersion());
 					getLogger().log(Level.SEVERE, "### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
-					getLogger().log(Level.SEVERE, "### Minecraft " + versions.toString());
+					getLogger().log(Level.SEVERE, "### Minecraft {0}", versions);
 					getLogger().log(Level.SEVERE, "###");
 					getLogger().log(Level.SEVERE, "### Please use an older Version of Slimefun and disable auto-updating");
 					getLogger().log(Level.SEVERE, "### or consider updating your Server Software.");

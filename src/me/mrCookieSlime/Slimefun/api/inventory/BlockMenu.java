@@ -21,7 +21,7 @@ public class BlockMenu extends DirtyChestMenu {
 	private ItemManipulationEvent event;
 	
 	private static String serializeLocation(Location l) {
-		return l.getWorld().getName() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ();
+		return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();
 	}
 	
 	public BlockMenu(BlockMenuPreset preset, Location l) {
