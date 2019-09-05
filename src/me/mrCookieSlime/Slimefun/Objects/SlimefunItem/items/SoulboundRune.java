@@ -35,10 +35,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         return (e, p, i) -> {
             ItemStack item = i.getItemStack();
             if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RUNE_SOULBOUND, true)) {
-                if (!Slimefun.hasUnlocked(p, SlimefunItems.RUNE_SOULBOUND, false)) {
-                    Messages.local.sendTranslation(p, "messages.not-researched", true);
-                    return true;
-                }
+                if (!Slimefun.hasUnlocked(p, SlimefunItems.RUNE_SOULBOUND, true)) return true;
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
                     // Being sure the entity is still valid and not picked up or whatsoever.
@@ -46,19 +43,14 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                     Location l = i.getLocation();
                     Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1.5, 1.5, 1.5,
-                            entity -> entity.getType() == EntityType.DROPPED_ITEM && entity instanceof Item &&
-                                    !SlimefunManager.isItemSimiliar(((Item) entity).getItemStack(), SlimefunItems.RUNE_SOULBOUND, true) &&
-                                    !SlimefunManager.isItemSoulbound(((Item) entity).getItemStack())
+                            entity -> entity instanceof Item && !SlimefunManager.isItemSoulbound(((Item) entity).getItemStack()) &&
+                                    !SlimefunManager.isItemSimiliar(((Item) entity).getItemStack(), SlimefunItems.RUNE_SOULBOUND, true)
                     );
                     if (entites.size() < 1) return;
 
-                    ItemStack ench;
-                    Item ent;
-                    // Collections do not have a #get method so we need to use a for loop.
-                    // We do not use streams for foreach loops as they are more resource consuming.
                     Entity entity = entites.stream().findFirst().get();
-                    ench = ((Item) entity).getItemStack();
-                    ent = (Item) entity;
+                    ItemStack ench = ((Item) entity).getItemStack();
+                    Item ent = (Item) entity;
 
                     if (ench.getAmount() == 1) {
                         e.setCancelled(true);
