@@ -9,8 +9,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -22,9 +23,20 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class GoldPan extends SlimefunGadget {
 	
 	private Random random = new Random();
+	
+	private int chanceSiftedOre;
+	private int chanceFlint;
+	private int chanceClay;
 
 	public GoldPan(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack[] machineRecipes, String[] keys, Object[] values) {
 		super(category, item, id, recipeType, recipe, machineRecipes, keys, values);
+	}
+	
+	@Override
+	public void postRegister() {
+		chanceSiftedOre = (int) Slimefun.getItemValue(getID(), "chance.SIFTED_ORE");
+		chanceClay = (int) Slimefun.getItemValue(getID(), "chance.CLAY");
+		chanceFlint = (int) Slimefun.getItemValue(getID(), "chance.FLINT");
 	}
 	
 	@Override
@@ -34,12 +46,12 @@ public class GoldPan extends SlimefunGadget {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GOLD_PAN, true)) {
-					if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.GRAVEL && CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), e.getClickedBlock(), true)) {
+					if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.GRAVEL && SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), Action.BREAK_BLOCK)) {
 						List<ItemStack> drops = new ArrayList<>();
 
-						if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE")) drops.add(SlimefunItems.SIFTED_ORE);
-						else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY")) drops.add(new ItemStack(Material.CLAY_BALL));
-						else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT")) drops.add(new ItemStack(Material.FLINT));
+						if (random.nextInt(100) < chanceSiftedOre) drops.add(SlimefunItems.SIFTED_ORE);
+						else if (random.nextInt(100) < chanceClay) drops.add(new ItemStack(Material.CLAY_BALL));
+						else if (random.nextInt(100) < chanceFlint) drops.add(new ItemStack(Material.FLINT));
 
 						e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, e.getClickedBlock().getType());
 						e.getClickedBlock().setType(Material.AIR);

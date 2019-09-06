@@ -9,7 +9,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -36,7 +36,7 @@ public class Composter extends SlimefunGadget {
 				if (e.getClickedBlock() != null) {
 					String id = BlockStorage.checkID(e.getClickedBlock());
 					if (id != null && id.equals(getID())) {
-						if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
+						if (p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), Action.ACCESS_INVENTORIES)) {
 							final ItemStack input = p.getInventory().getItemInMainHand();
 							final Block b = e.getClickedBlock();
 							SlimefunItem machine = SlimefunItem.getByID(id);
