@@ -117,7 +117,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -130,8 +130,6 @@ public abstract class HeatedPressureChamber extends AContainer {
 				return false;
 			}
 		});
-
-		super.register(slimefun);
 	}
 
 	@Override

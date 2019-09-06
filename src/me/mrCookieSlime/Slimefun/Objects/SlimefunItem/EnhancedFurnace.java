@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class EnhancedFurnace extends SlimefunItem {
+public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 	
 	private int speed;
 	private int efficiency;
@@ -24,8 +24,27 @@ public class EnhancedFurnace extends SlimefunItem {
 		this.speed = speed - 1;
 		this.efficiency = efficiency - 1;
 		this.fortune = fortune - 1;
-		
-		addItemHandler(new BlockTicker() {
+	}
+	
+	public int getSpeed() {
+		return speed;
+	}
+	
+	public int getFuelEfficiency() {
+		return efficiency;
+	}
+	
+	public int getOutput() {
+		int fortune = this.fortune;
+		fortune = new Random().nextInt(fortune + 2) - 1;
+		if (fortune <= 0) fortune = 0;
+		fortune++;
+		return fortune;
+	}
+
+	@Override
+	public BlockTicker getItemHandler() {
+		return new BlockTicker() {
 			
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
@@ -49,22 +68,6 @@ public class EnhancedFurnace extends SlimefunItem {
 			public boolean isSynchronized() {
 				return true;
 			}
-		});
-	}
-	
-	public int getSpeed() {
-		return speed;
-	}
-	
-	public int getFuelEfficiency() {
-		return efficiency;
-	}
-	
-	public int getOutput() {
-		int fortune = this.fortune;
-		fortune = new Random().nextInt(fortune + 2) - 1;
-		if (fortune <= 0) fortune = 0;
-		fortune++;
-		return fortune;
+		};
 	}
 }

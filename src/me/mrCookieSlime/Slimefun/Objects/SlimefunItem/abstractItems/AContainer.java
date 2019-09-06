@@ -18,16 +18,14 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
 public abstract class AContainer extends SlimefunItem implements InventoryBlock {
 	
@@ -43,33 +41,29 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	public AContainer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 		
-		createPreset(id, getInventoryTitle(), this::constructMenu);
+		createPreset(this, getInventoryTitle(), this::constructMenu);
 		
-		registerBlockHandler(id, new SlimefunBlockHandler() {
-			
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				BlockMenu inv = BlockStorage.getInventory(b);
-				if (inv != null) {
-					for (int slot : getInputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-					
-					for (int slot : getOutputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
+		registerBlockHandler(id, (p, b, tool, reason) -> {
+			BlockMenu inv = BlockStorage.getInventory(b);
+			if (inv != null) {
+				for (int slot : getInputSlots()) {
+					if (inv.getItemInSlot(slot) != null) {
+						b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+						inv.replaceExistingItem(slot, null);
 					}
 				}
 				
-				progress.remove(b);
-				processing.remove(b);
-				return true;
+				for (int slot : getOutputSlots()) {
+					if (inv.getItemInSlot(slot) != null) {
+						b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+						inv.replaceExistingItem(slot, null);
+					}
+				}
 			}
+			
+			progress.remove(b);
+			processing.remove(b);
+			return true;
 		});
 		
 		this.registerDefaultRecipes();
@@ -121,6 +115,17 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 		// Override this method to register your machine recipes
 	}
 	
+	public List<ItemStack> getDisplayRecipes() {
+		List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
+		
+		for (MachineRecipe recipe: recipes) {
+			displayRecipes.add(recipe.getInput()[0]);
+			displayRecipes.add(recipe.getOutput()[0]);
+		}
+		
+		return displayRecipes;
+	}
+	
 	@Override
 	public int[] getInputSlots() {
 		return new int[] {19, 20};
@@ -149,7 +154,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -162,8 +167,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 				return false;
 			}
 		});
-
-		super.register(slimefun);
 	}
 
 	protected void tick(Block b) {

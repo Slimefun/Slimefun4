@@ -21,9 +21,8 @@ public abstract class SimpleSlimefunItem<T extends ItemHandler> extends Slimefun
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(getItemHandler());
-		super.register(slimefun);
 	}
 
 	public abstract T getItemHandler();

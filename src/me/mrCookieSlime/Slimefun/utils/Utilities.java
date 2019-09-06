@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,8 +17,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
+import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
+import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
@@ -42,7 +47,23 @@ import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 public final class Utilities {
 	
 	public int vanillaItems = 0;
-
+	
+	public final List<SlimefunItem> allItems = new ArrayList<>();
+	public final List<SlimefunItem> enabledItems = new ArrayList<>();
+	public final Map<String, SlimefunItem> itemIDs = new HashMap<>();
+	
+	public final List<MultiBlock> allMultiblocks = new LinkedList<>();
+	public final List<Research> allResearches = new LinkedList<>();
+	
+	/**
+	 * List of the registered Categories.
+	 * @since 4.0
+	 * @see Categories
+	 */
+	public final List<Category> allCategories = new ArrayList<>();
+	public final List<Category> enabledCategories = new ArrayList<>();
+	public final CategorySorter categorySorter = new CategorySorter();
+	
 	public final Set<ItemStack> radioactiveItems = new HashSet<>();
 	public final Map<String, Set<ItemHandler>> itemHandlers = new HashMap<>();
 	public final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
@@ -60,8 +81,6 @@ public final class Utilities {
 	public final Set<ItemRequest> itemRequests = new HashSet<>();
 
 	public final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
-	
-	public final List<Category> currentlyEnabledCategories = new ArrayList<>();
 	
 	public final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 	
@@ -104,7 +123,7 @@ public final class Utilities {
 	public final Map<String, String> contributorHeads = new HashMap<>();
 	public final List<Contributor> contributors = new ArrayList<>();
 
-	public final Map<UUID, List<Object>> guideHistory = new HashMap<>();
+	public final Map<UUID, LinkedList<Object>> guideHistory = new HashMap<>();
 	
 	public final List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 	

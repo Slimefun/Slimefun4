@@ -19,6 +19,7 @@ import org.bukkit.potion.PotionEffect;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -28,11 +29,11 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class Talisman extends SlimefunItem {
 
-    private String suffix;
-    private boolean consumable = true;
-    private boolean cancel = true;
-    private PotionEffect[] effects;
-    private int chance = 100;
+    protected String suffix;
+    protected boolean consumable = true;
+    protected boolean cancel = true;
+    protected PotionEffect[] effects;
+    protected int chance = 100;
 
     public Talisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, PotionEffect... effects) {
         super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4 : 1));
@@ -52,10 +53,14 @@ public class Talisman extends SlimefunItem {
     }
 
     public Talisman(ItemStack item, String id, ItemStack[] recipe, String messageSuffix, int chance, PotionEffect... effects) {
-        super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, item);
+        super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
         this.suffix = messageSuffix;
         this.effects = effects;
         this.chance = chance;
+    }
+
+    protected Talisman(Category category, ItemStack item, String id, ItemStack[] recipe) {
+        super(category, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
     }
 
     public String getSuffix() {
@@ -78,6 +83,38 @@ public class Talisman extends SlimefunItem {
         return this.chance;
     }
 
+    public ItemStack upgrade() {
+        List<String> lore = new ArrayList<>();
+        lore.add("&7&oEnder Infused");
+        lore.add("");
+        for (String line : getItem().getItemMeta().getLore()) {
+            lore.add(line);
+        }
+        return new CustomItem(getItem().getType(), "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
+    }
+
+    @Override
+    public void create() {
+        EnderTalisman talisman = new EnderTalisman(this);
+        talisman.register(!isAddonItem());
+    }
+
+    @Override
+    public void install() {
+        EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(upgrade());
+        Research research = Research.getByID(112);
+        if (talisman != null) {
+            Slimefun.addOfficialWikiPage(talisman.getID(), "Talismans");
+            if (research != null) talisman.bindToResearch(research);
+        }
+
+        Slimefun.addOfficialWikiPage(getID(), "Talismans");
+    }
+
+    private static boolean isTalismanMessage(Talisman talisman){
+        return !("").equalsIgnoreCase(talisman.getSuffix());
+    }
+    
     public static boolean checkFor(Event e, SlimefunItem item) {
         if (!(item instanceof Talisman)) {
             return false;
@@ -108,39 +145,6 @@ public class Talisman extends SlimefunItem {
             else return false;
         } 
         else return false;
-
-    }
-
-    public ItemStack upgrade() {
-        List<String> lore = new ArrayList<>();
-        lore.add("&7&oEnder Infused");
-        lore.add("");
-        for (String line : getItem().getItemMeta().getLore()) {
-            lore.add(line);
-        }
-        return new CustomItem(getItem().getType(), "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
-    }
-
-    @Override
-    public void create() {
-        EnderTalisman talisman = new EnderTalisman(this);
-        talisman.register(true);
-    }
-
-    @Override
-    public void install() {
-        EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(upgrade());
-        Research research = Research.getByID(112);
-        if (talisman != null) {
-            Slimefun.addOfficialWikiPage(talisman.getID(), "Talismans");
-            if (research != null) talisman.bindToResearch(research);
-        }
-
-        Slimefun.addOfficialWikiPage(getID(), "Talismans");
-    }
-
-    private static boolean isTalismanMessage(Talisman talisman){
-        return !("").equalsIgnoreCase(talisman.getSuffix());
     }
 
     private static void executeTalismanAttributes(Event e, Player p, Talisman talisman){

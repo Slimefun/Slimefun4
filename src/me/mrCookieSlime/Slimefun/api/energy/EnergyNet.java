@@ -145,7 +145,7 @@ public class EnergyNet extends Network {
 				else {
 					supply = supply + energy;
 				}
-				SlimefunPlugin.getTicker().blockTimings.put(source, System.currentTimeMillis() - timestamp);
+				SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);
 			}
 
 			input.removeAll(exploded);

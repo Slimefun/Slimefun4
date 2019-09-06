@@ -49,7 +49,7 @@ public final class SlimefunBackup {
 					try (ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file))) {
 						for (File f1: new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
 							for (File f: f1.listFiles()) {
-								ZipEntry entry = new ZipEntry("stored-blocks/" + f1.getName() + "/" + f.getName());
+								ZipEntry entry = new ZipEntry("stored-blocks/" + f1.getName() + '/' + f.getName());
 								output.putNextEntry(entry);
 
 								try (FileInputStream input = new FileInputStream(f)) {

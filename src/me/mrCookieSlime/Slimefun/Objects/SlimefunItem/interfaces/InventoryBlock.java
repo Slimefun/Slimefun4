@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.utils;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
 
 import java.util.function.Consumer;
 
@@ -13,7 +13,9 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.Calculator;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
@@ -22,8 +24,8 @@ public interface InventoryBlock {
 	int[] getInputSlots();
 	int[] getOutputSlots();
 	
-	default void createPreset(String id, String title, Consumer<BlockMenuPreset> setup) {
-		new BlockMenuPreset(id, title) {
+	default void createPreset(SlimefunItem item, String title, Consumer<BlockMenuPreset> setup) {
+		new BlockMenuPreset(item.getID(), title) {
 			
 			@Override
 			public void init() {
@@ -38,7 +40,7 @@ public interface InventoryBlock {
 			
 			@Override
 			public boolean canOpen(Block b, Player p) {
-				return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), Action.ACCESS_INVENTORIES);
+				return p.hasPermission("slimefun.inventory.bypass") || (SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), Action.ACCESS_INVENTORIES) && Slimefun.hasUnlocked(p, item, false));
 			}
 		};
 	}

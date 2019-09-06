@@ -50,8 +50,10 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 		
 		if (input != null && input.getType() == Material.GRAVEL) {
 			PlayerInventory.consumeItemInHand(p);
+			
 			for (int i = 1; i < 7; i++) {
 				int j = i;
+				
 				Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 					b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
 					if (j == 6) {

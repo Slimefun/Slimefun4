@@ -54,15 +54,15 @@ public class BlockStorage {
 	}
 	
 	private static String serializeLocation(Location l) {
-		return l.getWorld().getName() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ();
+		return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();
 	}
 	
 	private static String serializeChunk(Chunk chunk) {
-		return chunk.getWorld().getName() + ";Chunk;" + chunk.getX() + ";" + chunk.getZ();
+		return chunk.getWorld().getName() + ";Chunk;" + chunk.getX() + ';' + chunk.getZ();
 	}
 
 	private static String locationToChunkString(Location l) {
-		return l.getWorld().getName() + ";Chunk;" + (l.getBlockX() >> 4) + ";" + (l.getBlockZ() >> 4);
+		return l.getWorld().getName() + ";Chunk;" + (l.getBlockX() >> 4) + ';' + (l.getBlockZ() >> 4);
 	}
 	
 	private static Location deserializeLocation(String l) {
@@ -137,7 +137,7 @@ public class BlockStorage {
 									}
 								}
 							} catch (Exception x) {
-								Slimefun.getLogger().log(Level.WARNING, "Failed to load " + file.getName() + "(" + key + ") for Slimefun " + Slimefun.getVersion(), x);
+								Slimefun.getLogger().log(Level.WARNING, "Failed to load " + file.getName() + '(' + key + ") for Slimefun " + Slimefun.getVersion(), x);
 							}
 						}
 						done++;
@@ -162,7 +162,7 @@ public class BlockStorage {
 				try {
 					if (world.getName().equals(key.split(";")[0])) SlimefunPlugin.getUtilities().mapChunks.put(key, cfg.getString(key));
 				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.WARNING, "Failed to load " + chunks.getName() + " in World " + world.getName() + "(" + key + ") for Slimefun " + Slimefun.getVersion(), x);
+					Slimefun.getLogger().log(Level.WARNING, "Failed to load " + chunks.getName() + " in World " + world.getName() + '(' + key + ") for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 		}
@@ -526,7 +526,7 @@ public class BlockStorage {
 	}
 
 	private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
-		Config cfg = storage.blocksCache.containsKey(key) ? storage.blocksCache.get(key): new Config(path_blocks + l.getWorld().getName() + "/" + key + ".sfb");
+		Config cfg = storage.blocksCache.containsKey(key) ? storage.blocksCache.get(key): new Config(path_blocks + l.getWorld().getName() + '/' + key + ".sfb");
 		cfg.setValue(serializeLocation(l), value);
 		storage.blocksCache.put(key, cfg);
 		

@@ -23,9 +23,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -67,29 +65,25 @@ public abstract class AGenerator extends SlimefunItem {
 			}
 		};
 		
-		registerBlockHandler(id, new SlimefunBlockHandler() {
-			
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				BlockMenu inv = BlockStorage.getInventory(b);
-				if (inv != null) {
-					for (int slot : getInputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-					for (int slot : getOutputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
+		registerBlockHandler(id, (p, b, tool, reason) -> {
+			BlockMenu inv = BlockStorage.getInventory(b);
+			if (inv != null) {
+				for (int slot : getInputSlots()) {
+					if (inv.getItemInSlot(slot) != null) {
+						b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+						inv.replaceExistingItem(slot, null);
 					}
 				}
-				progress.remove(b.getLocation());
-				processing.remove(b.getLocation());
-				return true;
+				for (int slot : getOutputSlots()) {
+					if (inv.getItemInSlot(slot) != null) {
+						b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+						inv.replaceExistingItem(slot, null);
+					}
+				}
 			}
+			progress.remove(b.getLocation());
+			processing.remove(b.getLocation());
+			return true;
 		});
 		
 		this.registerDefaultRecipes();
@@ -157,7 +151,7 @@ public abstract class AGenerator extends SlimefunItem {
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new EnergyTicker() {
 			
 			@Override
@@ -216,8 +210,6 @@ public abstract class AGenerator extends SlimefunItem {
 				return false;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
 	private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
