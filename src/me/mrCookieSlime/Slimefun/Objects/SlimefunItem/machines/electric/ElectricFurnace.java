@@ -39,5 +39,15 @@ public abstract class ElectricFurnace extends AContainer {
 	public String getMachineIdentifier() {
 		return "ELECTRIC_FURNACE";
 	}
+	
+	@Override
+	public ItemStack getProgressBar() {
+		return new ItemStack(Material.FLINT_AND_STEEL);
+	}
+
+	@Override
+	public String getInventoryTitle() {
+		return "&bElectric Furnace";
+	}
 
 }

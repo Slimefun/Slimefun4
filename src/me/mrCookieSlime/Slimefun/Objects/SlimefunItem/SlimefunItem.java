@@ -36,7 +36,7 @@ public class SlimefunItem {
 	
 	private String id;
 	private String hash;
-	private State state;
+	private ItemState state;
 	private ItemStack item;
 	private Category category;
 	private ItemStack[] recipe;
@@ -57,28 +57,6 @@ public class SlimefunItem {
 	private String[] keys = null;
 	private Object[] values = null;
 	private String wiki = null;
-
-	/**
-	 * Defines whether a SlimefunItem is enabled, disabled or fall-back to its vanilla behavior.
-	 *
-	 * @since 4.1.10
-	 */
-	public static enum State {
-		/**
-		 * This SlimefunItem is enabled.
-		 */
-		ENABLED,
-
-		/**
-		 * This SlimefunItem is disabled and is not a {@link VanillaItem}.
-		 */
-		DISABLED,
-
-		/**
-		 * This SlimefunItem is fall-back to its vanilla behavior, because it is disabled and is a {@link VanillaItem}.
-		 */
-		VANILLA
-	}
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		this.item = item;
@@ -149,7 +127,7 @@ public class SlimefunItem {
 	@Deprecated
 	public String getHash()				{		return hash;			}
 	
-	public State getState()				{		return state;			}
+	public ItemState getState()				{		return state;			}
 	public ItemStack getItem()			{		return item;			}
 	public Category getCategory()			{		return category;		}
 	public ItemStack[] getRecipe()			{		return recipe;			}
@@ -193,7 +171,7 @@ public class SlimefunItem {
 	public EnergyTicker getEnergyTicker()		{		return energyTicker;		}
 	public String[] listKeys()			{		return keys;			}
 	public Object[] listValues()			{		return values;			}
-	public boolean isDisabled()			{		return state != State.ENABLED;	}
+	public boolean isDisabled()			{		return state != ItemState.ENABLED;	}
 
 	public void register() {
 		register(false);
@@ -229,14 +207,14 @@ public class SlimefunItem {
 			}
 
 			if (this.ticking && !SlimefunPlugin.getCfg().getBoolean("URID.enable-tickers")) {
-				this.state = State.DISABLED;
+				this.state = ItemState.DISABLED;
 				return;
 			}
 
 			if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
 				if (!Category.list().contains(category)) category.register();
 
-				this.state = State.ENABLED;
+				this.state = ItemState.ENABLED;
 
 				this.replacing = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
 				this.hidden = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".hide-in-guide");
@@ -260,8 +238,12 @@ public class SlimefunItem {
 				}
 			} 
 			else {
-				if (this instanceof VanillaItem) this.state = State.VANILLA;
-				else this.state = State.DISABLED;
+				if (this instanceof VanillaItem) {
+					this.state = ItemState.VANILLA;
+				}
+				else {
+					this.state = ItemState.DISABLED;
+				}
 			}
 
 			postRegister();
@@ -375,13 +357,13 @@ public class SlimefunItem {
 		}
 	}
 
-	public static State getState(ItemStack item) {
+	public static ItemState getState(ItemStack item) {
 		for (SlimefunItem i: SlimefunPlugin.getUtilities().allItems) {
 			if (i.isItem(item)) {
 				return i.getState();
 			}
 		}
-		return State.ENABLED;
+		return ItemState.ENABLED;
 	}
 
 	public static boolean isDisabled(ItemStack item) {

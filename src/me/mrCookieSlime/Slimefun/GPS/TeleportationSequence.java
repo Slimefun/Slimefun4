@@ -44,9 +44,7 @@ public final class TeleportationSequence {
 	}
 	
 	private static boolean isValid(Player p, Location source) {
-		if (p == null) return false;
-		if (p.getLocation().distance(source) > 1.4) return false;
-		return true;
+		return p != null && p.getLocation().distanceSquared(source) < 2.0;
 	}
 	
 	private static void cancel(UUID uuid, Player p) {

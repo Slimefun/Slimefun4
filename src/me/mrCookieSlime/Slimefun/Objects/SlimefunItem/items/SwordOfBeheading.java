@@ -55,15 +55,13 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
                         e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
                     }
                 }
-                else if (e.getEntity() instanceof Player) {
-                	if (random.nextInt(100) < chancePlayer) {
-                        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-                        ItemMeta meta = skull.getItemMeta();
-                        ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());
-                        skull.setItemMeta(meta);
+                else if (e.getEntity() instanceof Player && random.nextInt(100) < chancePlayer) {
+                	ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+                    ItemMeta meta = skull.getItemMeta();
+                    ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());
+                    skull.setItemMeta(meta);
 
-                        e.getDrops().add(skull);
-                	}
+                    e.getDrops().add(skull);
                 }
 				return true;
 			}

@@ -21,6 +21,10 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class AutomatedPanningMachine extends MultiBlockMachine {
 
 	private Random random = new Random();
+	
+	private int chanceSiftedOre;
+	private int chanceFlint;
+	private int chanceClay;
 
 	public AutomatedPanningMachine() {
 		super(
@@ -38,17 +42,26 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 	}
 	
 	@Override
+	public void postRegister() {
+		super.postRegister();
+		
+		chanceSiftedOre = (int) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE");
+		chanceClay = (int) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY");
+		chanceFlint = (int) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT");
+	}
+	
+	@Override
 	public void onInteract(Player p, Block b) {
 		final ItemStack input = p.getInventory().getItemInMainHand();
 		ItemStack output = null;
 		
-		if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.SIFTED_ORE")) output = SlimefunItems.SIFTED_ORE;
-		else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.CLAY")) output = new ItemStack(Material.CLAY_BALL);
-		else if (random.nextInt(100) < (Integer) Slimefun.getItemValue("GOLD_PAN", "chance.FLINT")) output = new ItemStack(Material.FLINT);
+		if (random.nextInt(100) < chanceSiftedOre) output = SlimefunItems.SIFTED_ORE;
+		else if (random.nextInt(100) < chanceClay) output = new ItemStack(Material.CLAY_BALL);
+		else if (random.nextInt(100) < chanceFlint) output = new ItemStack(Material.FLINT);
 		
 		final ItemStack drop = output;
 		
-		if (input != null && input.getType() == Material.GRAVEL) {
+		if (input != null && input.getType() == Material.GRAVEL && (!input.hasItemMeta() || (input.hasItemMeta() && !input.getItemMeta().hasDisplayName()))) {
 			PlayerInventory.consumeItemInHand(p);
 			
 			for (int i = 1; i < 7; i++) {
@@ -56,12 +69,17 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 				
 				Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 					b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL);
+					
 					if (j == 6) {
 						if (drop != null) b.getWorld().dropItemNaturally(b.getLocation(), drop);
 						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 					}
+					
 				}, i * 30L);
+				
 			}
+			
+			return;
 		}
 		
 		Messages.local.sendTranslation(p, "machines.wrong-item", true);

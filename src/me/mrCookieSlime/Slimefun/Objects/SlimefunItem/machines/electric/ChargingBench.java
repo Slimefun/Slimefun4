@@ -44,8 +44,8 @@ public class ChargingBench extends AContainer {
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
 					float rest = ItemEnergy.addStoredEnergy(stack, getEnergyConsumption() / 2F);
 					if (rest > 0F) {
-						if (fits(b, new ItemStack[] {stack})) {
-							pushItems(b, new ItemStack[] {stack});
+						if (fits(b, stack)) {
+							pushItems(b, stack);
 							BlockStorage.getInventory(b).replaceExistingItem(slot, null);
 						}
 						else {
@@ -56,8 +56,8 @@ public class ChargingBench extends AContainer {
 						BlockStorage.getInventory(b).replaceExistingItem(slot, stack);
 					}
 				}
-				else if (fits(b, new ItemStack[] {stack})) {
-					pushItems(b, new ItemStack[] {stack});
+				else if (fits(b, stack)) {
+					pushItems(b, stack);
 					BlockStorage.getInventory(b).replaceExistingItem(slot, null);
 				}
 				else {

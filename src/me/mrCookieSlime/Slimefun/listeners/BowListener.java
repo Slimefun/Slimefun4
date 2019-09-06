@@ -15,6 +15,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
@@ -44,7 +45,11 @@ public class BowListener implements Listener {
 	private void handleGrapplingHook(Arrow arrow) {
 		if (arrow != null && arrow.getShooter() instanceof Player && SlimefunPlugin.getUtilities().jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
 			final Player p = (Player) arrow.getShooter();
-			if (p.getGameMode() != GameMode.CREATIVE && SlimefunPlugin.getUtilities().jumpState.get(p.getUniqueId())) arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItem.getItem("GRAPPLING_HOOK"));
+			
+			if (p.getGameMode() != GameMode.CREATIVE && (boolean) SlimefunPlugin.getUtilities().jumpState.get(p.getUniqueId())) {
+				arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItems.GRAPPLING_HOOK);
+			}
+			
 			if (p.getLocation().distance(arrow.getLocation()) < 3.0D) {
 				if (arrow.getLocation().getY() > p.getLocation().getY()) {
 					p.setVelocity(new Vector(0.0D, 0.25D, 0.0D));

@@ -15,7 +15,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
@@ -25,7 +24,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -46,7 +44,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
-import me.mrCookieSlime.Slimefun.GPS.NetworkStatus;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -73,7 +70,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
@@ -135,12 +131,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FluidPum
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodComposter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodFabricator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Freezer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.GPSTransmitter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.HeatedPressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.NetherDrill;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.OilPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Refinery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.XPCollector;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.BioGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.CoalGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.CombustionGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.LavaGenerator;
@@ -157,7 +155,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.PressureChambe
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.TableSaw;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
@@ -361,7 +358,7 @@ public final class SlimefunSetup {
 		new GoldPan(Categories.TOOLS, SlimefunItems.GOLD_PAN, "GOLD_PAN", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.STONE), new ItemStack(Material.BOWL), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE)},
 		new ItemStack[] {new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE},
-		new String[] {"chance.FLINT", "chance.CLAY", "chance.SIFTED_ORE"}, new Integer[] {47, 28, 15})
+		new String[] {"chance.FLINT", "chance.CLAY", "chance.SIFTED_ORE"}, new Integer[] {40, 25, 35})
 		.register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.SIFTED_ORE, "SIFTED_ORE", RecipeType.GOLD_PAN,
@@ -466,11 +463,11 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.RESOURCES, SlimefunItems.IRON_DUST, "IRON_DUST", RecipeType.ORE_CRUSHER,
-		new ItemStack[] {new ItemStack(Material.IRON_ORE), null, null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.IRON_DUST, (Boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1))
+		new ItemStack[] {new ItemStack(Material.IRON_ORE), null, null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.IRON_DUST, (boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1))
 		.register(true);
 
 		new SlimefunItem(Categories.RESOURCES, SlimefunItems.GOLD_DUST, "GOLD_DUST", RecipeType.ORE_CRUSHER,
-		new ItemStack[] {new ItemStack(Material.GOLD_ORE), null, null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.GOLD_DUST, (Boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1))
+		new ItemStack[] {new ItemStack(Material.GOLD_ORE), null, null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.GOLD_DUST, (boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1))
 		.register(true);
 
 		new SlimefunItem(Categories.RESOURCES, SlimefunItems.COPPER_DUST, "COPPER_DUST", RecipeType.ORE_WASHER,
@@ -1840,17 +1837,7 @@ public final class SlimefunSetup {
 
 		new ElectricFurnace(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_FURNACE, "ELECTRIC_FURNACE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.FURNACE), null, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON}) {
-
-			@Override
-			public ItemStack getProgressBar() {
-				return new ItemStack(Material.FLINT_AND_STEEL);
-			}
-
-			@Override
-			public String getInventoryTitle() {
-				return "&bElectric Furnace";
-			}
-
+			
 			@Override
 			public int getEnergyConsumption() {
 				return 2;
@@ -1867,16 +1854,6 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_FURNACE, SlimefunItems.GILDED_IRON, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON}) {
 
 			@Override
-			public ItemStack getProgressBar() {
-				return new ItemStack(Material.FLINT_AND_STEEL);
-			}
-
-			@Override
-			public String getInventoryTitle() {
-				return "&bElectric Furnace";
-			}
-
-			@Override
 			public int getEnergyConsumption() {
 				return 3;
 			}
@@ -1890,16 +1867,6 @@ public final class SlimefunSetup {
 
 		new ElectricFurnace(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_FURNACE_3, "ELECTRIC_FURNACE_3", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_FURNACE_2, SlimefunItems.STEEL_INGOT, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON}) {
-
-			@Override
-			public ItemStack getProgressBar() {
-				return new ItemStack(Material.FLINT_AND_STEEL);
-			}
-
-			@Override
-			public String getInventoryTitle() {
-				return "&bElectric Furnace";
-			}
 
 			@Override
 			public int getEnergyConsumption() {
@@ -1925,6 +1892,7 @@ public final class SlimefunSetup {
 			public int getSpeed() {
 				return 1;
 			}
+			
 		}.registerChargeableBlock(true, 128);
 
 		new ElectricGoldPan(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_GOLD_PAN_2, "ELECTRIC_GOLD_PAN_2", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1939,6 +1907,7 @@ public final class SlimefunSetup {
 			public int getSpeed() {
 				return 3;
 			}
+			
 		}.registerChargeableBlock(true, 128);
 
 		new ElectricGoldPan(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_GOLD_PAN_3, "ELECTRIC_GOLD_PAN_3", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1953,6 +1922,7 @@ public final class SlimefunSetup {
 			public int getSpeed() {
 				return 10;
 			}
+			
 		}.registerChargeableBlock(true, 512);
 
 		new ElectricDustWasher(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_DUST_WASHER, "ELECTRIC_DUST_WASHER", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1967,6 +1937,7 @@ public final class SlimefunSetup {
 			public int getSpeed() {
 				return 1;
 			}
+			
 		}.registerChargeableBlock(true, 128);
 
 		new ElectricDustWasher(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_DUST_WASHER_2, "ELECTRIC_DUST_WASHER_2", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1981,6 +1952,7 @@ public final class SlimefunSetup {
 			public int getSpeed() {
 				return 2;
 			}
+			
 		}.registerChargeableBlock(true, 128);
 
 		new ElectricDustWasher(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_DUST_WASHER_3, "ELECTRIC_DUST_WASHER_3", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1995,6 +1967,7 @@ public final class SlimefunSetup {
 			public int getSpeed() {
 				return 10;
 			}
+			
 		}.registerChargeableBlock(true, 512);
 
 		new ElectricIngotFactory(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_INGOT_FACTORY, "ELECTRIC_INGOT_FACTORY", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2171,61 +2144,8 @@ public final class SlimefunSetup {
 
 		}.registerUnrechargeableBlock(true, 256);
 
-		new AGenerator(Categories.ELECTRICITY, SlimefunItems.BIO_REACTOR, "BIO_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new BioGenerator(Categories.ELECTRICITY, SlimefunItems.BIO_REACTOR, "BIO_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.HEATING_COIL, SlimefunItems.COMPOSTER, SlimefunItems.HEATING_COIL, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}) {
-
-			@Override
-			public void registerDefaultRecipes() {
-				registerFuel(new MachineFuel(2, new ItemStack(Material.ROTTEN_FLESH)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.SPIDER_EYE)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.BONE)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.APPLE)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.MELON)));
-				registerFuel(new MachineFuel(27, new ItemStack(Material.MELON)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.PUMPKIN)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.PUMPKIN_SEEDS)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.MELON_SEEDS)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.WHEAT)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.WHEAT_SEEDS)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.CARROT)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.POTATO)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.SUGAR_CANE)));
-				registerFuel(new MachineFuel(3, new ItemStack(Material.NETHER_WART)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.RED_MUSHROOM)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.BROWN_MUSHROOM)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.VINE)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.CACTUS)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.LILY_PAD)));
-				registerFuel(new MachineFuel(8, new ItemStack(Material.CHORUS_FRUIT)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.KELP)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.DRIED_KELP)));
-				registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));
-				registerFuel(new MachineFuel(1, new ItemStack(Material.SEAGRASS)));
-				registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
-
-				// Leaves
-				for(Material m:Tag.LEAVES.getValues())
-						registerFuel(new MachineFuel(1, new ItemStack(m)));
-
-				// Saplings
-				for (Material m:Tag.SAPLINGS.getValues())
-						registerFuel(new MachineFuel(1, new ItemStack(m)));
-				
-				// Small Flowers (formally just dandelions and poppies.
-				for(Material m:Tag.SMALL_FLOWERS.getValues())
-					registerFuel(new MachineFuel(1, new ItemStack(m)));
-			}
-
-			@Override
-			public ItemStack getProgressBar() {
-				return new ItemStack(Material.GOLDEN_HOE);
-			}
-
-			@Override
-			public String getInventoryTitle() {
-				return "&2Bio Reactor";
-			}
 
 			@Override
 			public int getEnergyProduction() {
@@ -2304,147 +2224,66 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.BRASS_INGOT, new ItemStack(Material.ORANGE_STAINED_GLASS), SlimefunItems.BRASS_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.TIN_DUST, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BRASS_INGOT, new ItemStack(Material.ORANGE_STAINED_GLASS), SlimefunItems.BRASS_INGOT})
 		.register(true);
 
-		new SlimefunItem(Categories.GPS, SlimefunItems.GPS_TRANSMITTER, "GPS_TRANSMITTER", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.STEEL_INGOT, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT})
-		.registerChargeableBlock(true, 16, new BlockTicker() {
-
+		new GPSTransmitter(Categories.GPS, SlimefunItems.GPS_TRANSMITTER, "GPS_TRANSMITTER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {null, null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.STEEL_INGOT, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT}) {
+			
 			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				int charge = ChargableBlock.getCharge(b);
-				if (charge > 0) {
-					Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
-					ChargableBlock.setCharge(b.getLocation(), charge - 1);
-				}
-				else Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
+			public double getMultiplier(int y) {
+				return y;
 			}
 
 			@Override
-			public boolean isSynchronized() {
-				return false;
+			public int getEnergyConsumption() {
+				return 1;
 			}
-		});
+			
+		}
+		.registerChargeableBlock(true, 16);
 
-		SlimefunItem.registerBlockHandler("GPS_TRANSMITTER", new SlimefunBlockHandler() {
-
+		new GPSTransmitter(Categories.GPS, SlimefunItems.GPS_TRANSMITTER_2, "GPS_TRANSMITTER_2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.CARBON, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER}) {
+			
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
-				return true;
-			}
-		});
-
-		new SlimefunItem(Categories.GPS, SlimefunItems.GPS_TRANSMITTER_2, "GPS_TRANSMITTER_2", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.CARBON, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER})
-		.registerChargeableBlock(true, 64, new BlockTicker() {
-
-			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				int charge = ChargableBlock.getCharge(b.getLocation());
-				if (charge > 2) {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4.0 + 100, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
-					ChargableBlock.setCharge(b.getLocation(), charge - 3);
-				}
-				else {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4.0 + 100, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
-				}
+			public double getMultiplier(int y) {
+				return y * 4.0 + 100;
 			}
 
 			@Override
-			public boolean isSynchronized() {
-				return false;
+			public int getEnergyConsumption() {
+				return 3;
 			}
-		});
+			
+		}.registerChargeableBlock(true, 64);
 
-		SlimefunItem.registerBlockHandler("GPS_TRANSMITTER_2", new SlimefunBlockHandler() {
-
+		new GPSTransmitter(Categories.GPS, SlimefunItems.GPS_TRANSMITTER_3, "GPS_TRANSMITTER_3", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CARBONADO, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2}) {
+			
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4.0 + 100, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
-				return true;
-			}
-		});
-
-		new SlimefunItem(Categories.GPS, SlimefunItems.GPS_TRANSMITTER_3, "GPS_TRANSMITTER_3", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CARBONADO, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2})
-		.registerChargeableBlock(true, 256, new BlockTicker() {
-
-			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				int charge = ChargableBlock.getCharge(b.getLocation());
-				if (charge > 10) {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16.0 + 500, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
-					ChargableBlock.setCharge(b.getLocation(), charge - 11);
-				}
-				else {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16.0 + 500, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
-				}
+			public double getMultiplier(int y) {
+				return y * 16.0 + 500;
 			}
 
 			@Override
-			public boolean isSynchronized() {
-				return false;
+			public int getEnergyConsumption() {
+				return 11;
 			}
-		});
+			
+		}.registerChargeableBlock(true, 256);
 
-		SlimefunItem.registerBlockHandler("GPS_TRANSMITTER_3", new SlimefunBlockHandler() {
-
+		new GPSTransmitter(Categories.GPS, SlimefunItems.GPS_TRANSMITTER_4, "GPS_TRANSMITTER_4", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.NICKEL_INGOT, SlimefunItems.CARBONADO, SlimefunItems.NICKEL_INGOT, SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GPS_TRANSMITTER_3}) {
+			
 			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16.0 + 500, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
-				return true;
-			}
-		});
-
-		new SlimefunItem(Categories.GPS, SlimefunItems.GPS_TRANSMITTER_4, "GPS_TRANSMITTER_4", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.NICKEL_INGOT, SlimefunItems.CARBONADO, SlimefunItems.NICKEL_INGOT, SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GPS_TRANSMITTER_3})
-		.registerChargeableBlock(true, 1024, new BlockTicker() {
-
-			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				int charge = ChargableBlock.getCharge(b.getLocation());
-				if (charge > 45) {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64.0 + 800, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
-					ChargableBlock.setCharge(b.getLocation(), charge - 46);
-				}
-				else {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64.0 + 800, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
-				}
+			public double getMultiplier(int y) {
+				return y * 64.0 + 600;
 			}
 
 			@Override
-			public boolean isSynchronized() {
-				return false;
+			public int getEnergyConsumption() {
+				return 46;
 			}
-		});
-
-		SlimefunItem.registerBlockHandler("GPS_TRANSMITTER_4", new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64.0 + 800, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
-				return true;
-			}
-		});
+			
+		}.registerChargeableBlock(true, 1024);
 
 		new SlimefunItem(Categories.GPS, SlimefunItems.GPS_CONTROL_PANEL, "GPS_CONTROL_PANEL", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.COBALT_INGOT, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.COBALT_INGOT, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ALUMINUM_BRASS_INGOT})
