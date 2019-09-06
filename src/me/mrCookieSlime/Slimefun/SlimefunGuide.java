@@ -401,7 +401,7 @@ public final class SlimefunGuide {
 			
 			menu.setEmptySlotsClickable(false);
 			menu.addMenuOpeningHandler(
-				pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F)
+				pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, Float.MAX_VALUE, 0)
 			);
 			
 			List<Category> categories = SlimefunPlugin.getUtilities().currentlyEnabledCategories;
@@ -634,7 +634,7 @@ public final class SlimefunGuide {
 			final ChestMenu menu = new ChestMenu("Slimefun Guide");
 			
 			menu.setEmptySlotsClickable(false);
-			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
+			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, Float.MAX_VALUE, 0));
 			
 			int index = 9;
 			final int pages = (category.getItems().size() - 1) / category_size + 1;
@@ -780,7 +780,7 @@ public final class SlimefunGuide {
 		ChestMenu menu = new ChestMenu("Slimefun Guide");
 		
 		menu.setEmptySlotsClickable(false);
-		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
+		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, Float.MAX_VALUE, 0));
 
 		if (sfItem != null) {
 			recipe = sfItem.getRecipe();
