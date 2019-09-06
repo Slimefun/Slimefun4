@@ -400,9 +400,7 @@ public final class SlimefunGuide {
 			final ChestMenu menu = new ChestMenu("Slimefun Guide");
 			
 			menu.setEmptySlotsClickable(false);
-			menu.addMenuOpeningHandler(
-				pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, Float.MAX_VALUE, 0)
-			);
+			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, Float.MAX_VALUE, 0));
 			
 			List<Category> categories = SlimefunPlugin.getUtilities().currentlyEnabledCategories;
 			List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
