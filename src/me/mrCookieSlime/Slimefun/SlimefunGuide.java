@@ -396,7 +396,7 @@ public final class SlimefunGuide {
 			final ChestMenu menu = new ChestMenu("Slimefun Guide");
 			
 			menu.setEmptySlotsClickable(false);
-			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 0));
+			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1));
 			
 			List<Category> categories = SlimefunPlugin.getUtilities().enabledCategories;
 			List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
@@ -629,7 +629,7 @@ public final class SlimefunGuide {
 			final ChestMenu menu = new ChestMenu("Slimefun Guide");
 			
 			menu.setEmptySlotsClickable(false);
-			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 0));
+			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1));
 			
 			int index = 9;
 			final int pages = (category.getItems().size() - 1) / category_size + 1;
@@ -778,7 +778,7 @@ public final class SlimefunGuide {
 		ChestMenu menu = new ChestMenu("Slimefun Guide");
 		
 		menu.setEmptySlotsClickable(false);
-		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 0));
+		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1));
 
 		if (sfItem != null) {
 			recipe = sfItem.getRecipe();
