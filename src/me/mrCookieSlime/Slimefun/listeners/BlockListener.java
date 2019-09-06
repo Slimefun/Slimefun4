@@ -97,15 +97,15 @@ public class BlockListener implements Listener {
 	}
 	
 	protected boolean compareMaterials(Block b, Material[] blocks, boolean onlyTwoWay) {
-		if (!compareMaterialsVertical(b, blocks[2], blocks[5], blocks[8])) {
+		if (!compareMaterialsVertical(b, blocks[1], blocks[4], blocks[7])) {
 			return false;
 		}
 		
 		BlockFace[] directions = onlyTwoWay ? new BlockFace[] {BlockFace.NORTH, BlockFace.EAST} : new BlockFace[] {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
 		
 		for (BlockFace direction : directions) {
-			if (compareMaterialsVertical(b.getRelative(direction), blocks[1], blocks[4], blocks[7]) 
-				&& compareMaterialsVertical(b.getRelative(direction.getOppositeFace()), blocks[3], blocks[6], blocks[9])) {
+			if (compareMaterialsVertical(b.getRelative(direction), blocks[0], blocks[3], blocks[6]) 
+				&& compareMaterialsVertical(b.getRelative(direction.getOppositeFace()), blocks[2], blocks[5], blocks[8])) {
 				return true;
 			}
 		}
