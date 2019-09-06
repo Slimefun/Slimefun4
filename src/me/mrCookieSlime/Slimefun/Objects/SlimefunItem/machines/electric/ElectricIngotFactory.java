@@ -1,8 +1,5 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -11,7 +8,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.utils.RecipeDisplayItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 
 public abstract class ElectricIngotFactory extends AContainer implements RecipeDisplayItem {
 
@@ -33,20 +30,18 @@ public abstract class ElectricIngotFactory extends AContainer implements RecipeD
 	}
 	
 	@Override
-	public List<ItemStack> getDisplayRecipes() {
-		List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
-		
-		for (MachineRecipe recipe: recipes) {
-			displayRecipes.add(recipe.getInput()[0]);
-			displayRecipes.add(recipe.getOutput()[0]);
-		}
-		
-		return displayRecipes;
+	public String getMachineIdentifier() {
+		return "ELECTRIC_INGOT_FACTORY";
 	}
 	
 	@Override
-	public String getMachineIdentifier() {
-		return "ELECTRIC_INGOT_FACTORY";
+	public ItemStack getProgressBar() {
+		return new ItemStack(Material.FLINT_AND_STEEL);
+	}
+
+	@Override
+	public String getInventoryTitle() {
+		return "&cElectric Ingot Factory";
 	}
 
 }

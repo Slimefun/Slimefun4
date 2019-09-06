@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.api.item_transport;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,7 +14,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -40,14 +38,14 @@ public class CargoNet extends Network {
 	public static boolean extraChannels = false;
 
 	private static final int RANGE = 5;
-	public static List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 	
 	private static final int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
 	// Chest Terminal Stuff
-	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
-	private static final int TERMINAL_OUT_SLOT = 17;
+	public static final int TERMINAL_OUT_SLOT = 17;
+	
+	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = (p, slot, item, action) -> false;
 

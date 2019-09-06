@@ -21,12 +21,10 @@ import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
-import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
-import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
+import me.mrCookieSlime.Slimefun.GEO.resources.NetherIceResource;
+import me.mrCookieSlime.Slimefun.GEO.resources.OilResource;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -46,7 +44,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
@@ -86,7 +83,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private Config whitelist;
 	private Config config;
 	
-	public GPSNetwork gps = new GPSNetwork();
+	private final GPSNetwork gps = new GPSNetwork();
 	private ProtectionManager protections;
 	private Utilities utilities = new Utilities();
 	private Settings settings;
@@ -112,9 +109,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 						compatibleVersion = true;
 					}
 
-					if (i == 0) versions.append(version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
-					else if (i == supported.length - 1) versions.append(" or " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
-					else versions.append(", " + version.substring(1).replaceFirst("_", ".").replace("_", ".X"));
+					String s = version.substring(1).replaceFirst("_", ".").replace("_", ".X");
+					if (i == 0) versions.append(s);
+					else if (i == supported.length - 1) versions.append(" or ").append(s);
+					else versions.append(", ").append(s);
 
 					i++;
 				}
@@ -127,7 +125,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 					getLogger().log(Level.SEVERE, "###");
 					getLogger().log(Level.SEVERE, "### You are using Minecraft " + ReflectionUtils.getVersion());
 					getLogger().log(Level.SEVERE, "### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
-					getLogger().log(Level.SEVERE, "### Minecraft " + versions.toString());
+					getLogger().log(Level.SEVERE, "### Minecraft {0}", versions);
 					getLogger().log(Level.SEVERE, "###");
 					getLogger().log(Level.SEVERE, "### Please use an older Version of Slimefun and disable auto-updating");
 					getLogger().log(Level.SEVERE, "### or consider updating your Server Software.");
@@ -331,7 +329,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 		if (ticker != null) {
 			// Finishes all started movements/removals of block data
-			ticker.halted = true;
+			ticker.halt();
 			ticker.run();
 		}
 		
@@ -362,14 +360,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 		// Prevent Memory Leaks
 		Messages.local = null;
-		MultiBlock.list = null;
-		Research.list = null;
-		SlimefunItem.all = null;
-		SlimefunItem.items = null;
-		SlimefunItem.mapID = null;
 		AContainer.processing = null;
 		AContainer.progress = null;
-		CargoNet.faces = null;
 		OreWasher.items = null;
 
 		instance = null;
@@ -410,6 +402,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static boolean chance(int max, int percentage) {
 		if (max < 1) return false;
 		return CSCoreLib.randomizer().nextInt(max) <= percentage;
+	}
+
+	public GPSNetwork getGPS() {
+		return gps;
 	}
 
 	public static SlimefunHooks getHooks() {

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.GEO.Resources;
+package me.mrCookieSlime.Slimefun.GEO.resources;
 
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;

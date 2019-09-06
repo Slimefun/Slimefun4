@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.utils;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -13,7 +13,11 @@ public interface DamageableItem {
 	boolean isDamageable();
 	
 	default void damageItem(Player p, ItemStack item) {
-		if (item != null && item.getType() != null && item.getType() != Material.AIR && item.getAmount() > 0 && isDamageable() && item.getEnchantments().containsKey(Enchantment.DURABILITY) && Math.random() * 100 <= (60 + Math.floorDiv(40, (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))) {
+		if (item != null && item.getType() != null && item.getType() != Material.AIR && item.getAmount() > 0 && isDamageable()) {
+			if (item.getEnchantments().containsKey(Enchantment.DURABILITY) && Math.random() * 100 <= (60 + Math.floorDiv(40, (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))) {
+				return;
+			}
+			
 			ItemMeta meta = item.getItemMeta();
 			Damageable damageable = (Damageable) meta;
 			

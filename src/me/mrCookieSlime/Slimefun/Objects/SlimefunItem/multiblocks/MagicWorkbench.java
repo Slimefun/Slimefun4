@@ -107,7 +107,7 @@ public class MagicWorkbench extends MultiBlockMachine {
 								}
 							}
 
-							if (id.equals("")) {
+							if (id.isEmpty()) {
 								for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
 									if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 										int backpackID = PlayerProfile.fromUUID(p.getUniqueId()).createBackpack(size).getID();

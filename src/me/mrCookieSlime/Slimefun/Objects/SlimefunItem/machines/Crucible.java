@@ -29,7 +29,7 @@ public class Crucible extends SlimefunGadget {
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new ItemInteractionHandler() {
 
 			@Override
@@ -81,8 +81,6 @@ public class Crucible extends SlimefunGadget {
 				return false;
 			}
 		});
-		
-		super.register(slimefun);
 	}
 
 }

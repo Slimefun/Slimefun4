@@ -1,12 +1,12 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class FoodFabricator extends AContainer {
 
@@ -27,6 +27,16 @@ public abstract class FoodFabricator extends AContainer {
 	@Override
 	public String getMachineIdentifier() {
 		return "FOOD_FABRICATOR";
+	}
+	
+	@Override
+	public ItemStack getProgressBar() {
+		return new ItemStack(Material.GOLDEN_HOE);
+	}
+
+	@Override
+	public String getInventoryTitle() {
+		return "&cFood Fabricator";
 	}
 
 }

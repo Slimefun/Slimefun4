@@ -41,11 +41,11 @@ import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
 
-	private SlimefunPlugin plugin;
+	private final SlimefunPlugin plugin;
 
-	private List<String> arguments = new ArrayList<>();
-	private List<String> descriptions = new ArrayList<>();
-	private List<String> tabs = new ArrayList<>();
+	private final List<String> arguments = new ArrayList<>();
+	private final List<String> descriptions = new ArrayList<>();
+	private final List<String> tabs = new ArrayList<>();
 
 	public SlimefunCommand(SlimefunPlugin plugin) {
 		this.plugin = plugin;
@@ -270,7 +270,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 							else {
 								Research research = null;
 								for (Research res : Research.list()) {
-									if (res.getName().toUpperCase().replace(" ", "_").equalsIgnoreCase(args[2])) {
+									if (res.getName().toUpperCase().replace(' ', '_').equalsIgnoreCase(args[2])) {
 										research = res;
 										break;
 									}

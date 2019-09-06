@@ -12,7 +12,7 @@ import org.bukkit.command.TabCompleter;
 
 public class SlimefunTabCompleter implements TabCompleter {
 	
-	private SlimefunCommand command;
+	private final SlimefunCommand command;
 	
 	public SlimefunTabCompleter(SlimefunCommand command) {
 		this.command = command;
@@ -30,7 +30,7 @@ public class SlimefunTabCompleter implements TabCompleter {
 			else if (args[0].equalsIgnoreCase("research")) {
 				List<String> researches = new ArrayList<>();
 				for (Research res : Research.list()) {
-					researches.add(res.getName().toUpperCase().replace(" ", "_"));
+					researches.add(res.getName().toUpperCase().replace(' ', '_'));
 				}
 				researches.add("all");
 				researches.add("reset");
