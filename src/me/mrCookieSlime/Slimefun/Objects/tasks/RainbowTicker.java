@@ -49,7 +49,7 @@ public class RainbowTicker extends BlockTicker {
 
 	@Override
 	public void uniqueTick() {
-		index = ((index == queue[queue.length - 1]) ? 0: index + 1);
+		index = ((index >= queue.length - 1) ? 0: index + 1);
 		meta = queue[index];
 	}
 
