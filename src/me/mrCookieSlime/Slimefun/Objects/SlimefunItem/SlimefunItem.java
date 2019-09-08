@@ -50,6 +50,7 @@ public class SlimefunItem {
 	private boolean replacing = false;
 	private boolean addon = false;
 	private String permission = "";
+	private String[] permissionMessage = {"&4&lLOCKED", "", "&rYou do not have Permission", "&rto access this Item"};
 	private Set<ItemHandler> itemhandlers = new HashSet<>();
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
@@ -178,6 +179,7 @@ public class SlimefunItem {
 	 * @since 4.1.11
 	 */
 	public String getPermission() 			{		return permission;		}
+	public String[] getPermissionMessage()    {       return permissionMessage;       }
 	public Set<ItemHandler> getHandlers() 		{		return itemhandlers;		}
 	public boolean isTicking() 			{		return ticking;			}
 	/**
@@ -216,7 +218,8 @@ public class SlimefunItem {
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
-			
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".permission-message", this.permissionMessage);
+
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
 					SlimefunPlugin.getItemCfg().setDefaultValue(this.id + '.' + this.keys[i], this.values[i]);

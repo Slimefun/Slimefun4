@@ -69,8 +69,6 @@ public final class Messages {
 		local.setDefault("messages.cannot-place" ,"&cYou cannot place that block there!");
 		local.setDefault("messages.no-pvp" ,"&cYou cannot pvp in here!");
 
-		local.setDefault("tooltips.item-permission", "", "&rYou do not have Permission", "&rto access this Item");
-
 		local.setDefault("machines.pattern-not-found", "&eSorry, I could not recognize this Pattern. Please place the Items in the correct Pattern into the Dispenser.");
 		local.setDefault("machines.unknown-material", "&eSorry, I could not recognize the Item in my Dispenser. Please put something in that I know.");
 		local.setDefault("machines.wrong-item", "&eSorry, I could not recognize the Item you right clicked me with. Check the Recipes and see which Items you can use.");
