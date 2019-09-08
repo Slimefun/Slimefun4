@@ -19,8 +19,17 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class EasterEgg extends SimpleSlimefunItem<ItemInteractionHandler> {
 
+    private List<ItemStack> gifts = new ArrayList<>();
+
     public EasterEgg(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, id, recipeType, recipe, recipeOutput);
+
+        gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
+        gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
+        gifts.add(new ItemStack(Material.EMERALD));
+        gifts.add(new ItemStack(Material.CAKE));
+        gifts.add(new ItemStack(Material.RABBIT_FOOT));
+        gifts.add(new ItemStack(Material.GOLDEN_CARROT, 4));
     }
 
     @Override
@@ -30,17 +39,6 @@ public class EasterEgg extends SimpleSlimefunItem<ItemInteractionHandler> {
                 e.setCancelled(true);
                 PlayerInventory.consumeItemInHand(e.getPlayer());
                 FireworkShow.launchRandom(e.getPlayer(), 2);
-
-                List<ItemStack> gifts = new ArrayList<>();
-
-                for (int i = 0; i < 2; i++) {
-                    gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
-                    gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
-                    gifts.add(new ItemStack(Material.EMERALD));
-                    gifts.add(new ItemStack(Material.CAKE));
-                    gifts.add(new ItemStack(Material.RABBIT_FOOT));
-                    gifts.add(new ItemStack(Material.GOLDEN_CARROT, 4));
-                }
 
                 p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
                 return true;
