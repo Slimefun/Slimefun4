@@ -713,7 +713,7 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-							List<String> message = SlimefunPlugin.getItemCfg().getStringList(sfitem.getID() + ".permission-message");
+							List<String> message = SlimefunItem.getNoPermissionTooltip(sfitem.getItem());
 						    menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), message.toArray(new String[message.size()])));
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
 							index++;

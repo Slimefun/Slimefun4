@@ -50,6 +50,7 @@ public class SlimefunItem {
 	private boolean replacing = false;
 	private boolean addon = false;
 	private String permission = "";
+	private List<String> noPermissionTooltip;
 	private Set<ItemHandler> itemhandlers = new HashSet<>();
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
@@ -178,6 +179,7 @@ public class SlimefunItem {
 	 * @since 4.1.11
 	 */
 	public String getPermission() 			{		return permission;		}
+	public List<String> getNoPermissionTooltip()    {       return noPermissionTooltip;       }
 	public Set<ItemHandler> getHandlers() 		{		return itemhandlers;		}
 	public boolean isTicking() 			{		return ticking;			}
 	/**
@@ -244,6 +246,7 @@ public class SlimefunItem {
 				this.enchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-enchanting");
 				this.disenchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
 				this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
+				this.noPermissionTooltip = SlimefunPlugin.getItemCfg().getStringList(this.id + ".permission-message");
 				SlimefunPlugin.getUtilities().enabledItems.add(this);
 				if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
 				SlimefunPlugin.getUtilities().itemIDs.put(this.id, this);
@@ -334,6 +337,15 @@ public class SlimefunItem {
 		}
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
+		return null;
+	}
+
+	public static List<String> getNoPermissionTooltip(ItemStack item) {
+		for (SlimefunItem i: SlimefunPlugin.getUtilities().allItems) {
+			if (i.isItem(item)) {
+				return i.noPermissionTooltip;
+			}
+		}
 		return null;
 	}
 
