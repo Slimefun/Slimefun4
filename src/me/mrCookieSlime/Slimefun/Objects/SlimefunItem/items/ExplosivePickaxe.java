@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.Setup.Messages;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -76,8 +77,11 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 									}
 									b.setType(Material.AIR);
 								}
-								
+
 								damageItem(e.getPlayer(), item);
+							}
+							else {
+								Messages.local.sendTranslation(e.getPlayer(), "messages.cannot-break", true);
 							}
 						}
 					}

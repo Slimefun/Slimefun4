@@ -240,7 +240,7 @@ public class CargoNet extends Network {
 						}
 					}
 					
-											for (final Location terminal : terminals) {
+						for (final Location terminal : terminals) {
 							BlockMenu menu = BlockStorage.getInventory(terminal);
 
 							ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);

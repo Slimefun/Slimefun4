@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -66,7 +65,7 @@ public abstract class ElectricSmeltery extends AContainer {
 					return getInputSlots();
 				}
 				else {
-					Collections.sort(slots, new RecipeSorter(menu));
+					slots.sort(new RecipeSorter(menu));
 					
 					int[] array = new int[slots.size()];
 					
@@ -135,7 +134,7 @@ public abstract class ElectricSmeltery extends AContainer {
 
 				@Override
 				public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-					return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
+					return cursor == null || cursor.getType() == Material.AIR;
 				}
 			});
 		}

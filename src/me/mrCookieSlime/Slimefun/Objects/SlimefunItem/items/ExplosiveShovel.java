@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
+import me.mrCookieSlime.Slimefun.Setup.Messages;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -60,6 +61,9 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
 								b.setType(Material.AIR);
 								
 								damageItem(e.getPlayer(), item);
+							}
+							else {
+								Messages.local.sendTranslation(e.getPlayer(), "messages.cannot-break", true);
 							}
 						}
 					}

@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -24,14 +23,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -39,7 +35,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -61,7 +56,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBow;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SolarHelmet;
@@ -78,12 +72,16 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoInputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoManagerBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoOutputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.DietCookie;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.EasterEgg;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosiveBow;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosivePickaxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosiveShovel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GoldPan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GrapplingHook;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.HeadCracker;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.HerculesPickaxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.HunterTalisman;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.IcyBow;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.InfernalBonemeal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeFlask;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeTome;
@@ -99,6 +97,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SoulboundRune;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SwordOfBeheading;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.WindStaff;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AncientPedestal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Composter;
@@ -116,6 +115,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoEnch
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutomatedCraftingChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.CarbonPress;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ChargingBench;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricCompressor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.CropGrowthAccelerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricDustWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricFurnace;
@@ -155,7 +155,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.PressureChambe
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.TableSaw;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
@@ -620,32 +619,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.MAGIC_LUMP_3, null, new ItemStack(Material.STICK), SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.MAGIC_LUMP_3, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_WIND, "STAFF_ELEMENTAL_WIND", RecipeType.MAGIC_WORKBENCH,
+		new WindStaff(Categories.MAGIC, SlimefunItems.STAFF_WIND, "STAFF_ELEMENTAL_WIND", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, new ItemStack(Material.FEATHER), SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.STAFF_ELEMENTAL, new ItemStack(Material.FEATHER), SlimefunItems.STAFF_ELEMENTAL, null, null})
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_WIND, true)) {
-					if (p.getFoodLevel() >= 2) {
-						if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
-							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 2);
-							Bukkit.getPluginManager().callEvent(event);
-							p.setFoodLevel(event.getFoodLevel());
-						}
-						p.setVelocity(p.getEyeLocation().getDirection().multiply(4));
-						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
-						p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1);
-						p.setFallDistance(0F);
-					}
-					else {
-						Messages.local.sendTranslation(p, "messages.hungry", true);
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_WATER, "STAFF_ELEMENTAL_WATER", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, new ItemStack(Material.LILY_PAD), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.STAFF_ELEMENTAL, new ItemStack(Material.LILY_PAD), SlimefunItems.STAFF_ELEMENTAL, null, null})
@@ -1400,6 +1376,11 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.EMERALD_ORE), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.EMERALD_ORE), null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
 		.register(true);
 
+		new HeadCracker(Categories.TOOLS, SlimefunItems.HEAD_CRACKER, "HEAD_CRACKER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {new ItemStack(Material.IRON_BLOCK), SlimefunItems.CARBONADO, new ItemStack(Material.IRON_BLOCK), null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null},
+		new String[] {"damage-on-use"}, new Object[] {Boolean.TRUE})
+		.register(true);
+
 		new SoulboundItem(Categories.WEAPONS, SlimefunItems.SOULBOUND_SWORD, "SOULBOUND_SWORD",
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_SWORD), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
@@ -1563,40 +1544,13 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.ENDER_LUMP_3, null})
 		.register(true);
 
-		new SlimefunBow(SlimefunItems.EXPLOSIVE_BOW, "EXPLOSIVE_BOW",
+		new ExplosiveBow(SlimefunItems.EXPLOSIVE_BOW, "EXPLOSIVE_BOW",
 		new ItemStack[] {null, new ItemStack(Material.STICK), new ItemStack(Material.GUNPOWDER), SlimefunItems.STAFF_FIRE, null, SlimefunItems.SULFATE, null, new ItemStack(Material.STICK), new ItemStack(Material.GUNPOWDER)})
-		.register(true, new BowShootHandler() {
+		.register(true);
 
-			@Override
-			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(SlimefunPlugin.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.EXPLOSIVE_BOW, true)) {
-					Vector vector = n.getVelocity();
-					vector.setY(0.6);
-					n.setVelocity(vector);
-					n.getWorld().createExplosion(n.getLocation(), 0F);
-					n.getWorld().playSound(n.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
-					return true;
-				}
-				else return false;
-			}
-		});
-
-		new SlimefunBow(SlimefunItems.ICY_BOW, "ICY_BOW",
+		new IcyBow(SlimefunItems.ICY_BOW, "ICY_BOW",
 		new ItemStack[] {null, new ItemStack(Material.STICK), new ItemStack(Material.ICE), SlimefunItems.STAFF_WATER, null, new ItemStack(Material.PACKED_ICE), null, new ItemStack(Material.STICK), new ItemStack(Material.ICE)})
-		.register(true, new BowShootHandler() {
-
-			@Override
-			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(SlimefunPlugin.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.ICY_BOW, true)) {
-					n.getWorld().playEffect(n.getLocation(), Effect.STEP_SOUND, Material.ICE);
-					n.getWorld().playEffect(n.getEyeLocation(), Effect.STEP_SOUND, Material.ICE);
-					n.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 2, 10));
-					n.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * 2, -10));
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new KnowledgeTome(Categories.MAGIC, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, "TOME_OF_KNOWLEDGE_SHARING", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, new ItemStack(Material.FEATHER), null, new ItemStack(Material.INK_SAC), SlimefunItems.MAGICAL_BOOK_COVER, new ItemStack(Material.GLASS_BOTTLE), null, new ItemStack(Material.WRITABLE_BOOK), null})
@@ -1670,34 +1624,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 2))
 		.register(true);
 
-		new SlimefunItem(Categories.EASTER, SlimefunItems.EASTER_EGG, "EASTER_EGG", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new EasterEgg(Categories.EASTER, SlimefunItems.EASTER_EGG, "EASTER_EGG", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.LIME_DYE), new ItemStack(Material.EGG), new ItemStack(Material.PURPLE_DYE), null, null, null}, new CustomItem(SlimefunItems.EASTER_EGG, 2))
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.EASTER_EGG, true)) {
-					e.setCancelled(true);
-					PlayerInventory.consumeItemInHand(e.getPlayer());
-					FireworkShow.launchRandom(e.getPlayer(), 2);
-
-					List<ItemStack> gifts = new ArrayList<>();
-					
-					for (int i = 0; i < 2; i++) {
-						gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
-						gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
-						gifts.add(new ItemStack(Material.EMERALD));
-						gifts.add(new ItemStack(Material.CAKE));
-						gifts.add(new ItemStack(Material.RABBIT_FOOT));
-						gifts.add(new ItemStack(Material.GOLDEN_CARROT, 4));
-					}
-
-					p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(random.nextInt(gifts.size())));
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.REINFORCED_PLATE, "REINFORCED_PLATE", RecipeType.COMPRESSOR,
 		new ItemStack[] {new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), null, null, null, null, null, null, null, null})
@@ -1968,6 +1897,51 @@ public final class SlimefunSetup {
 				return 10;
 			}
 			
+		}.registerChargeableBlock(true, 512);
+
+		new ElectricCompressor(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_COMPRESSOR, "ELECTRIC_COMPRESSOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {null, new ItemStack(Material.PISTON), null, SlimefunItems.ELECTRO_MAGNET, new ItemStack(Material.OBSIDIAN), SlimefunItems.ELECTRO_MAGNET, SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.PISTON), SlimefunItems.REINFORCED_PLATE}) {
+
+			@Override
+			public int getEnergyConsumption() {
+				return 4;
+			}
+
+			@Override
+			public int getSpeed() {
+				return 1;
+			}
+
+		}.registerChargeableBlock(true, 128);
+
+		new ElectricCompressor(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_COMPRESSOR_2, "ELECTRIC_COMPRESSOR_2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.ELECTRO_MAGNET, SlimefunItems.REINFORCED_PLATE, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.ELECTRIC_COMPRESSOR, SlimefunItems.ADVANCED_CIRCUIT_BOARD, new ItemStack(Material.OBSIDIAN), SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.OBSIDIAN)}) {
+
+			@Override
+			public int getEnergyConsumption() {
+				return 8;
+			}
+
+			@Override
+			public int getSpeed() {
+				return 3;
+			}
+
+		}.registerChargeableBlock(true, 256);
+
+		new ElectricCompressor(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_COMPRESSOR_3, "ELECTRIC_COMPRESSOR_3", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.CARBONADO, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.CARBONADO, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.ELECTRIC_COMPRESSOR_2, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.CARBONADO, SlimefunItems.WITHER_PROOF_OBSIDIAN}) {
+
+			@Override
+			public int getEnergyConsumption() {
+				return 16;
+			}
+
+			@Override
+			public int getSpeed() {
+				return 10;
+			}
+
 		}.registerChargeableBlock(true, 512);
 
 		new ElectricIngotFactory(Categories.ELECTRICITY, SlimefunItems.ELECTRIC_INGOT_FACTORY, "ELECTRIC_INGOT_FACTORY", RecipeType.ENHANCED_CRAFTING_TABLE,

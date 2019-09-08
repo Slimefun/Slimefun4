@@ -244,5 +244,9 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(244, "Diet Cookie", 3), SlimefunItems.DIET_COOKIE);
 	    Slimefun.registerResearch(new Research(245, "Storm Staff", 30), SlimefunItems.STAFF_STORM);
 	    Slimefun.registerResearch(new Research(246, "Soulbound Rune", 60), SlimefunItems.RUNE_SOULBOUND);
+	    Slimefun.registerResearch(new Research(247, "Electrical Compression", 18), SlimefunItems.ELECTRIC_COMPRESSOR);
+	    Slimefun.registerResearch(new Research(248, "Faster Electrical Compression", 24), SlimefunItems.ELECTRIC_COMPRESSOR_2);
+	    Slimefun.registerResearch(new Research(249, "Super Fast Electrical Compression", 32), SlimefunItems.ELECTRIC_COMPRESSOR_3);
+	    Slimefun.registerResearch(new Research(250, "Head Cracker", 25), SlimefunItems.HEAD_CRACKER);
 	}
 }
