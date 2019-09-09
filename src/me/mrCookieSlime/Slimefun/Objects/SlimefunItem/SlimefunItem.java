@@ -218,7 +218,7 @@ public class SlimefunItem {
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
-			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".permission-message", new String[] {"&4&lLOCKED", "", "&rYou do not have Permission", "&rto access this Item"});
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".no-permission-tooltip", new String[] {"&4&lLOCKED", "", "&rYou do not have Permission", "&rto access this Item"});
 
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
@@ -246,7 +246,7 @@ public class SlimefunItem {
 				this.enchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-enchanting");
 				this.disenchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
 				this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
-				this.noPermissionTooltip = SlimefunPlugin.getItemCfg().getStringList(this.id + ".permission-message");
+				this.noPermissionTooltip = SlimefunPlugin.getItemCfg().getStringList(this.id + ".no-permission-tooltip");
 				SlimefunPlugin.getUtilities().enabledItems.add(this);
 				if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
 				SlimefunPlugin.getUtilities().itemIDs.put(this.id, this);
@@ -337,15 +337,6 @@ public class SlimefunItem {
 		}
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
-		return null;
-	}
-
-	public static List<String> getNoPermissionTooltip(ItemStack item) {
-		for (SlimefunItem i: SlimefunPlugin.getUtilities().allItems) {
-			if (i.isItem(item)) {
-				return i.noPermissionTooltip;
-			}
-		}
 		return null;
 	}
 
