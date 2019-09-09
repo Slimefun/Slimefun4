@@ -50,6 +50,7 @@ public class SlimefunItem {
 	private boolean replacing = false;
 	private boolean addon = false;
 	private String permission = "";
+	private List<String> noPermissionTooltip;
 	private Set<ItemHandler> itemhandlers = new HashSet<>();
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
@@ -156,6 +157,7 @@ public class SlimefunItem {
 	 * @since 4.1.11
 	 */
 	public String getPermission() 			{		return permission;		}
+	public List<String> getNoPermissionTooltip()    {       return noPermissionTooltip;       }
 	public Set<ItemHandler> getHandlers() 		{		return itemhandlers;		}
 	public boolean isTicking() 			{		return ticking;			}
 	/**
@@ -194,7 +196,8 @@ public class SlimefunItem {
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
-			
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".no-permission-tooltip", new String[] {"&4&lLOCKED", "", "&rYou do not have Permission", "&rto access this Item"});
+
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
 					SlimefunPlugin.getItemCfg().setDefaultValue(this.id + '.' + this.keys[i], this.values[i]);
@@ -221,6 +224,7 @@ public class SlimefunItem {
 				this.enchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-enchanting");
 				this.disenchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
 				this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
+				this.noPermissionTooltip = SlimefunPlugin.getItemCfg().getStringList(this.id + ".no-permission-tooltip");
 				SlimefunPlugin.getUtilities().enabledItems.add(this);
 				if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
 				SlimefunPlugin.getUtilities().itemIDs.put(this.id, this);
