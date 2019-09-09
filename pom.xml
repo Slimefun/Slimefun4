@@ -118,7 +118,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-    		<version>v1.6.1</version>
+    		<version>45909a0324</version>
     		<scope>provided</scope>
         </dependency>
         <dependency>

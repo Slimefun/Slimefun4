@@ -132,20 +132,18 @@ public class ToolListener implements Listener {
 			FireworkShow.launchRandom(e.getPlayer(), 3);
 			List<ItemStack> gifts = new ArrayList<>();
 			
-			for (int i = 0; i < 2; i++) {
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 8));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_PRESENT, 1));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_EGG_NOG, 1));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_MILK, 1));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
-				gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
-				gifts.add(new ItemStack(Material.EMERALD));
-			}
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 8));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_PRESENT, 1));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_EGG_NOG, 1));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_MILK, 1));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
+			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
+			gifts.add(new ItemStack(Material.EMERALD));
 			
 			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(random.nextInt(gifts.size())));
 		}

@@ -436,15 +436,17 @@ public class ItemListener implements Listener {
 		}
 	}
 
-	@EventHandler (ignoreCancelled = true)
+	@EventHandler(ignoreCancelled = true)
 	public void onPreBrew(InventoryClickEvent e) {
 		Inventory inventory = e.getInventory();
-		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand && e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
+		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand && e.getRawSlot() < inventory.getSize()) {
+			e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
+		}
 	}
 
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
-		for (ItemHandler handler : SlimefunItem.getHandlers("ItemDropHandler")) {
+		for (ItemHandler handler: SlimefunItem.getHandlers("ItemDropHandler")) {
 			if (((ItemDropHandler) handler).onItemDrop(e, e.getPlayer(), e.getItemDrop())) return;
 		}
 	}

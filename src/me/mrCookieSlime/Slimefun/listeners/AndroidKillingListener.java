@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,11 +16,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.androids.AndroidObject;
 
 public class AndroidKillingListener implements Listener {
+	
+	private final Random random = new Random();
 	
 	public AndroidKillingListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -42,13 +44,15 @@ public class AndroidKillingListener implements Listener {
 				
 				switch (e.getEntityType()) {
 					case BLAZE:
-						items.add(new ItemStack(Material.BLAZE_ROD, 1 + CSCoreLib.randomizer().nextInt(2)));
+						items.add(new ItemStack(Material.BLAZE_ROD, 1 + random.nextInt(2)));
 						break;
 					case PIG_ZOMBIE:
-						items.add(new ItemStack(Material.GOLD_NUGGET, 1 + CSCoreLib.randomizer().nextInt(3)));
+						items.add(new ItemStack(Material.GOLD_NUGGET, 1 + random.nextInt(3)));
 						break;
 					case WITHER_SKELETON:
-						if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+						if (random.nextInt(250) < 2) {
+							items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+						}
 						break;
 					default:
 						break;
@@ -56,7 +60,7 @@ public class AndroidKillingListener implements Listener {
 				
 				obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[items.size()]));
 				ExperienceOrb exp = (ExperienceOrb) e.getEntity().getWorld().spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
-				exp.setExperience(1 + CSCoreLib.randomizer().nextInt(6));
+				exp.setExperience(1 + random.nextInt(6));
 			}, 1L);
 		}
 	}
