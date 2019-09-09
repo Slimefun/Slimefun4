@@ -26,7 +26,7 @@ public class FurnaceListener implements Listener {
 		SlimefunItem furnace = BlockStorage.check(e.getBlock());
 
 		if (furnace instanceof EnhancedFurnace && ((EnhancedFurnace) furnace).getFuelEfficiency() > 0) {
-			e.setBurnTime(((int) ((1 + 0.2 * ((EnhancedFurnace) furnace).getFuelEfficiency()) * e.getBurnTime())));
+			e.setBurnTime(((EnhancedFurnace) furnace).getFuelEfficiency() * e.getBurnTime());
 		}
 	}
 
@@ -40,7 +40,7 @@ public class FurnaceListener implements Listener {
 			ItemStack result = f.getInventory().getResult() == null ? RecipeCalculator.getSmeltedOutput(f.getInventory().getSmelting().getType()) : f.getInventory().getResult().clone();
 
 			if (result != null) {
-				f.getInventory().setResult(new CustomItem(result, result.getAmount() + amount > result.getMaxStackSize() ? result.getMaxStackSize() : result.getAmount() + amount));
+				f.getInventory().setResult(new CustomItem(result, Math.min(result.getAmount() + amount, result.getMaxStackSize())));
 			}
 		}
 	}
