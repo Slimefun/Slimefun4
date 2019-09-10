@@ -1,11 +1,15 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -23,7 +27,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class SlimefunManager {
-	
+
+	private static final Set<String> IGNORED_LORE_LINES = ImmutableSet.of(
+		ChatColor.GRAY + "Soulbound"
+	);
+
 	private SlimefunManager() {}
 	
 	public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean special, boolean slimefun) {
@@ -78,7 +86,7 @@ public final class SlimefunManager {
 	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore) {
 		if (item == null) return sfitem == null;
 		if (sfitem == null) return false;
-		
+
 		if (item.getType() == sfitem.getType() && item.getAmount() >= sfitem.getAmount()) {
 			if (item.hasItemMeta() && sfitem.hasItemMeta()) {
 				if (item.getItemMeta().hasDisplayName() && sfitem.getItemMeta().hasDisplayName()) {
@@ -123,20 +131,33 @@ public final class SlimefunManager {
 	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore, DataType data) {
 		return isItemSimiliar(item, sfitem, lore);
 	}
+
+	public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
+		if (inventory == null || itemStack == null) return false;
+
+		for (ItemStack is : inventory.getStorageContents()) {
+			if (is == null || is.getType() == Material.AIR) continue;
+			if (isItemSimiliar(is, itemStack, checkLore))
+				return true;
+		}
+
+		return false;
+	}
 	
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {
-		StringBuilder string1 = new StringBuilder();
-		StringBuilder string2 = new StringBuilder();
+		Iterator<String> original = lore.iterator();
+		Iterator<String> comparator = lore2.iterator();
 
-		String colors = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
-		for (String string: lore) {
-			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string1.append("-NEW LINE-").append(string);
+		while (original.hasNext() && comparator.hasNext()) {
+			String line = original.next();
+			String comparison = comparator.next();
+			if (IGNORED_LORE_LINES.contains(line) || IGNORED_LORE_LINES.contains(comparison))
+				continue;
+
+			if (!line.equals(comparison))
+				return false;
 		}
-		
-		for (String string: lore2) {
-			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string2.append("-NEW LINE-").append(string);
-		}
-		return string1.toString().equals(string2.toString());
+		return true;
 	}
 
 	public static boolean isItemSoulbound(ItemStack item) {

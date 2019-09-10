@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.JetBoots;
@@ -57,11 +58,10 @@ public class GearListener implements Listener {
 					}
 				}
 			}
-			if (p.getInventory().containsAtLeast(SlimefunItems.INFUSED_MAGNET, 1)) {
+			if (SlimefunManager.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
 				MagnetTask task = new MagnetTask(p);
 				task.setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(SlimefunPlugin.instance, task, 0L, 8L));
 			}
 		}
 	}
-
 }
