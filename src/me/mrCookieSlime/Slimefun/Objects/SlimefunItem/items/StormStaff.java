@@ -90,7 +90,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 										usageKey, PersistentDataType.INTEGER, --currentUses
 									);
 									itemLore.set(4, ChatColor.translateAlternateColorCodes('&',
-										"&e" + currentUses + ' ' + (currentUses == 1 ? "Uses": "Use") + " &7left"));
+										"&e" + currentUses + ' ' + (currentUses > 1 ? "Uses": "Use") + " &7left"));
 									itemMeta.setLore(itemLore);
 									item.setItemMeta(itemMeta);
 								}
