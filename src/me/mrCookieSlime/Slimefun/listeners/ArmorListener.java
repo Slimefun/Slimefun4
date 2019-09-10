@@ -42,21 +42,20 @@ public class ArmorListener implements Listener {
 				SlimefunItem item = SlimefunItem.getByItem(armor);
 				if (item != null) {
 					if (item.getID().equals("ENDER_BOOTS")
-						&& Slimefun.hasUnlocked(p, SlimefunItems.ENDER_BOOTS, true)
+						&& Slimefun.hasUnlocked(p, item, true)
 						&& e instanceof EntityDamageByEntityEvent
 						&& ((EntityDamageByEntityEvent) e).getDamager() instanceof EnderPearl
 					) {
 						e.setCancelled(true);
 					}
 					else if (item.getID().equals("SLIME_BOOTS")
-						&& Slimefun.hasUnlocked(p, SlimefunItems.SLIME_BOOTS, true)
+						&& Slimefun.hasUnlocked(p, item, true)
 						&& e.getCause() == DamageCause.FALL
 					) {
 						e.setCancelled(true);
 					}
 					else if (item.getID().equals("BOOTS_OF_THE_STOMPER")
-						&& Slimefun.hasUnlocked(p,
-						SlimefunItems.BOOTS_OF_THE_STOMPER, true)
+						&& Slimefun.hasUnlocked(p, item, true)
 						&& e.getCause() == DamageCause.FALL
 					) {
 						e.setCancelled(true);
@@ -84,7 +83,7 @@ public class ArmorListener implements Listener {
 						}
 					}
 					else if (item.getID().equals("SLIME_STEEL_BOOTS")
-						&& Slimefun.hasUnlocked(p, SlimefunItems.SLIME_BOOTS_STEEL, true)
+						&& Slimefun.hasUnlocked(p, item, true)
 						&& e.getCause() == DamageCause.FALL
 					)
 						e.setCancelled(true);
