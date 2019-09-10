@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
