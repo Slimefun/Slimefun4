@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.Vein;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -34,7 +34,7 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
 					Vein.calculate(e.getBlock().getLocation(), e.getBlock().getLocation(), blocks, 16);
 					
 					for (Location block: blocks) {
-						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), block, Action.BREAK_BLOCK)) {
+						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), block, ProtectableAction.BREAK_BLOCK)) {
 							Block b = block.getBlock();
 							b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 							

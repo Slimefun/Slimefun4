@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -43,7 +43,7 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 	protected MultiBlockInteractionHandler getInteractionHandler() {
 		return (p, mb, b) -> {
 			if (mb.isMultiBlock(this)) {
-				if (!isDisabled() && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), Action.ACCESS_INVENTORIES) && Slimefun.hasUnlocked(p, this, true)) {
+				if (!isDisabled() && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES) && Slimefun.hasUnlocked(p, this, true)) {
 					onInteract(p, b);
 				}
 				

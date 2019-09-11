@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -35,7 +35,7 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
 
 					if (logs.contains(e.getBlock().getLocation())) logs.remove(e.getBlock().getLocation());
 					for (Location b: logs) {
-						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, Action.BREAK_BLOCK)) {
+						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
 							b.getWorld().playEffect(b, Effect.STEP_SOUND, b.getBlock().getType());
 							
 							for (ItemStack drop: b.getBlock().getDrops()) {

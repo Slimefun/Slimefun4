@@ -3,7 +3,9 @@ package me.mrCookieSlime.Slimefun.api;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -16,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -26,7 +27,7 @@ public class ErrorReport {
 	
 	public ErrorReport(Throwable throwable, Consumer<PrintStream> printer) {
 		SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-			String path = "plugins/Slimefun/error-reports/" + Clock.getFormattedTime();
+			String path = "plugins/Slimefun/error-reports/" + new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
 			file = new File(path + ".err");
 			
 			if (file.exists()) {

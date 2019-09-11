@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -48,7 +48,7 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
 								}
 							}
 							
-							if (correctType && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Action.BREAK_BLOCK)) {
+							if (correctType && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 								if (SlimefunPlugin.getHooks().isCoreProtectInstalled()) {
 									SlimefunPlugin.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 								}

@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -46,7 +46,7 @@ public class GoldPan extends SlimefunGadget {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GOLD_PAN, true)) {
-					if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.GRAVEL && SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), Action.BREAK_BLOCK)) {
+					if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.GRAVEL && SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), ProtectableAction.BREAK_BLOCK)) {
 						List<ItemStack> drops = new ArrayList<>();
 
 						if (random.nextInt(100) < chanceSiftedOre) drops.add(SlimefunItems.SIFTED_ORE);

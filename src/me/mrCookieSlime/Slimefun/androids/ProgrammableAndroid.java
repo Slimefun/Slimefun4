@@ -38,7 +38,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
@@ -401,7 +401,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 									Collection<ItemStack> drops = log.getDrops();
 									log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 									
-									if (!drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), log.getLocation(), Action.BREAK_BLOCK)) {
+									if (!drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), log.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 										ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
 										
 										if (fits(b, items)) {
@@ -491,7 +491,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 	private void mine(Block b, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
-		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), Action.BREAK_BLOCK)) {
+		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			String item = BlockStorage.checkID(block);
 
 			if (item == null) {
@@ -519,7 +519,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 	private void movedig(Block b, BlockFace face, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
-		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), Action.BREAK_BLOCK)) {
+		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			SlimefunItem item = BlockStorage.check(block);
 			if (item != null) {
 				if (fits(b, item.getItem()) && SlimefunPlugin.getUtilities().blockHandlers.containsKey(item.getID()) && SlimefunPlugin.getUtilities().blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {

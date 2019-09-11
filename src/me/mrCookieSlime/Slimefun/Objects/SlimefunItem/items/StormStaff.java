@@ -12,7 +12,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -64,7 +64,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 						Location loc = p.getTargetBlock(null, 30).getLocation();
 						
 						if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
-							if (loc.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(p, loc, ProtectionModule.Action.PVP)) {
+							if (loc.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(p, loc, ProtectableAction.PVP)) {
 								loc.getWorld().strikeLightning(loc);
 
 								if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {

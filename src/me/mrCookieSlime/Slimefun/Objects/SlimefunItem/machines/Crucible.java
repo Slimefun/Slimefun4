@@ -9,7 +9,7 @@ import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -37,7 +37,7 @@ public class Crucible extends SlimefunGadget {
 				if (e.getClickedBlock() != null) {
 					String id = BlockStorage.checkID(e.getClickedBlock());
 					if (id != null && id.equals("CRUCIBLE")) {
-						if (p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), Action.ACCESS_INVENTORIES)) {
+						if (p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), ProtectableAction.ACCESS_INVENTORIES)) {
 							final ItemStack input = p.getInventory().getItemInMainHand();
 							final Block block = e.getClickedBlock().getRelative(BlockFace.UP);
 							SlimefunItem machine = SlimefunItem.getByID(id);
