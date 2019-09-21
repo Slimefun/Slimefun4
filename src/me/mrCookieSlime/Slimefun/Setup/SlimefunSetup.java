@@ -639,7 +639,7 @@ public final class SlimefunSetup {
 						p.setFallDistance(0F);
 					}
 					else {
-						Messages.local.sendTranslation(p, "messages.hungry", true);
+						SlimefunPlugin.getLocal().sendMessage(p, "messages.hungry", true);
 					}
 					return true;
 				}
@@ -655,7 +655,7 @@ public final class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_WATER, true)) {
 					p.setFireTicks(0);
-					Messages.local.sendTranslation(p, "messages.fire-extinguish", true);
+					SlimefunPlugin.getLocal().sendMessage(p, "messages.fire-extinguish", true);
 					return true;
 				}
 				else return false;
@@ -1141,9 +1141,9 @@ public final class SlimefunSetup {
 									}, i*20L);
 								}
 							}
-							else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+							else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 						}
-						else Messages.local.sendTranslation(p, "miner.no-ores", true);
+						else SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores", true);
 					}
 					return true;
 				}
@@ -1212,9 +1212,9 @@ public final class SlimefunSetup {
 									}, i*20L);
 								}
 							}
-							else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+							else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 						}
-						else Messages.local.sendTranslation(p, "miner.no-ores", true);
+						else SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores", true);
 					}
 					return true;
 				}

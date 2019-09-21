@@ -17,7 +17,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -64,7 +63,7 @@ public class Composter extends SlimefunGadget {
 									return true;
 								}
 							}
-							Messages.local.sendTranslation(p, "machines.wrong-item", true);
+							SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
 							return true;
 						}
 						return true;

@@ -11,10 +11,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class Juicer extends MultiBlockMachine {
@@ -55,14 +55,14 @@ public class Juicer extends MultiBlockMachine {
 						p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
 					}
-					else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 					
 					return;
 				}
 			}
 		}
 		
-		Messages.local.sendTranslation(p, "machines.unknown-material", true);
+		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
 	}
 
 }

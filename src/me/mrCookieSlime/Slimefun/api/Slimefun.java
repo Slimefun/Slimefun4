@@ -16,7 +16,6 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 
 /**
  * Provides a few convenience methods.
@@ -122,7 +121,7 @@ public final class Slimefun {
 
 		if (sfItem == null) {
 			if (state != ItemState.ENABLED) {
-				if (message && state != ItemState.VANILLA) Messages.local.sendTranslation(p, "messages.disabled-item", true);
+				if (message && state != ItemState.VANILLA) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
 				return false;
 			}
 			else return true;
@@ -131,7 +130,7 @@ public final class Slimefun {
 			if (sfItem.getResearch() == null) return true;
 			else if (PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(sfItem.getResearch())) return true;
 			else {
-				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.not-researched", true);
+				if (message && !(sfItem instanceof VanillaItem)) SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
 				return false;
 			}
 		}
@@ -153,7 +152,7 @@ public final class Slimefun {
 			if (sfItem.getResearch() == null) return true;
 			else if (PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(sfItem.getResearch())) return true;
 			else {
-				if (message && !(sfItem instanceof VanillaItem)) Messages.local.sendTranslation(p, "messages.not-researched", true);
+				if (message && !(sfItem instanceof VanillaItem)) SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
 				return false;
 			}
 		}
@@ -175,7 +174,7 @@ public final class Slimefun {
 		else if (item.getPermission().equalsIgnoreCase("")) return true;
 		else if (p.hasPermission(item.getPermission())) return true;
 		else {
-			if (message) Messages.local.sendTranslation(p, "messages.no-permission", true);
+			if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.no-permission", true);
 			return false;
 		}
 	}
@@ -199,12 +198,12 @@ public final class Slimefun {
 				if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
 				if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
 				else {
-					if (message) Messages.local.sendTranslation(p, "messages.disabled-in-world", true);
+					if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
 					return false;
 				}
 			}
 			else {
-				if (message) Messages.local.sendTranslation(p, "messages.disabled-in-world", true);
+				if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
 				return false;
 			}
 		}
@@ -228,12 +227,12 @@ public final class Slimefun {
 				if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
 				if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
 				else {
-					if (message) Messages.local.sendTranslation(p, "messages.disabled-in-world", true);
+					if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
 					return false;
 				}
 			}
 			else {
-				if (message) Messages.local.sendTranslation(p, "messages.disabled-in-world", true);
+				if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
 				return false;
 			}
 		}

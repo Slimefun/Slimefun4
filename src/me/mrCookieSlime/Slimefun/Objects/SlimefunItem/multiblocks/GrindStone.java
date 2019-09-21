@@ -10,10 +10,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class GrindStone extends MultiBlockMachine {
@@ -60,14 +60,14 @@ public class GrindStone extends MultiBlockMachine {
 						p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
 					}
 					else {
-						Messages.local.sendTranslation(p, "machines.full-inventory", true);
+						SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 					}
 					
 					return;
 				}
 			}
 		}
-		Messages.local.sendTranslation(p, "machines.unknown-material", true);
+		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
 	}
 
 }

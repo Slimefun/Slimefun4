@@ -14,7 +14,6 @@ import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -79,7 +78,7 @@ public abstract class ADrill extends AContainer {
 				}
 				
 				if (!OreGenSystem.wasResourceGenerated(getOreGenResource(), b.getChunk())) {
-					Messages.local.sendTranslation(p, "gps.geo.scan-required", true);
+					SlimefunPlugin.getLocal().sendMessage(p, "gps.geo.scan-required", true);
 					return false;
 				}
 				return true;

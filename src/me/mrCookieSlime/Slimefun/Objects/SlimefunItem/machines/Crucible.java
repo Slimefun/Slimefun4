@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
@@ -18,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -47,10 +47,10 @@ public class Crucible extends SlimefunGadget {
 									e.setCancelled(true);
 									ItemStack removing = input.clone();
 									removing.setAmount(convert.getAmount());
-									p.getInventory().removeItem(removing);
+		
+																	p.getInventory().removeItem(removing);
 
-									for (int i = 1; i < 9; i++) {
-										int j = 8 - i;
+									for (int i = 1; i < 9; i++) {int j = 8 - i;
 										Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 											if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
 												block.setType(Material.LAVA);
@@ -59,7 +59,7 @@ public class Crucible extends SlimefunGadget {
 												block.setBlockData(le, false);
 												block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
 											} 
-											else if (MaterialHelper.isLeavesBlock(input.getType())) {
+											else if (Tag.LEAVES.isTagged(input.getType())) {
 												block.setType(Material.WATER);
 												Levelled le = (Levelled) block.getBlockData();
 												le.setLevel(j);
@@ -72,7 +72,7 @@ public class Crucible extends SlimefunGadget {
 									return true;
 								}
 							}
-							Messages.local.sendTranslation(p, "machines.wrong-item", true);
+							SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
 							return true;
 						}
 						return true;

@@ -21,7 +21,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -93,7 +92,7 @@ public class Smeltery extends MultiBlockMachine {
 									p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
 								}
 								else {
-									Messages.local.sendTranslation(p, "machines.ignition-chamber-no-flint", true);
+									SlimefunPlugin.getLocal().sendMessage(p, "machines.ignition-chamber-no-flint", true);
 
 									Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
 									fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
@@ -107,13 +106,13 @@ public class Smeltery extends MultiBlockMachine {
 							}
 						}
 					}
-					else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 				}
 				
 				return;
 			}
 		}
-		Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
+		SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
 	}
 	
 	private Hopper findHopper(Block b, BlockFace... faces) {

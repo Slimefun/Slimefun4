@@ -16,7 +16,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public final class Elevator {
@@ -81,7 +80,7 @@ public final class Elevator {
 			}
 		}
 		if (index > 2) new CustomBookOverlay("Elevator", "Slimefun", tellraw).open(p);
-		else Messages.local.sendTranslation(p, "machines.ELEVATOR.no-destinations", true);
+		else SlimefunPlugin.getLocal().sendMessage(p, "machines.ELEVATOR.no-destinations", true);
 	}
 
 }

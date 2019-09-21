@@ -12,6 +12,7 @@ import org.bukkit.Sound;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -20,9 +21,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import org.bukkit.persistence.PersistentDataType;
 
 public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 	
@@ -96,12 +95,12 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 								return true;
 							}
 							else {
-								Messages.local.sendTranslation(p, "messages.no-pvp", true);
+								SlimefunPlugin.getLocal().sendMessage(p, "messages.no-pvp", true);
 							}
 						}
 					}
 					else {
-						Messages.local.sendTranslation(p, "messages.hungry", true);
+						SlimefunPlugin.getLocal().sendMessage(p, "messages.hungry", true);
 					}
 					return true;
 				}

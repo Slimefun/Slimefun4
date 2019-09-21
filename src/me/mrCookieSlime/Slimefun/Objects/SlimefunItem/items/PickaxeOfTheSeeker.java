@@ -4,12 +4,12 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.DamageableItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemInteractionHandler> implements DamageableItem {
@@ -35,7 +35,7 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemInteractionHandle
 				}
 
 				if (closest == null) {
-					Messages.local.sendTranslation(p, "miner.no-ores", true);
+					SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores", true);
 				}
 				else {
 					double l = closest.getX() + 0.5 - p.getLocation().getX();

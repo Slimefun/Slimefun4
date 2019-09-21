@@ -44,7 +44,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
@@ -561,7 +560,7 @@ public final class SlimefunGuide {
 													Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openCategory(p, category, survival, selected_page, book), 103L);
 												}
 											}
-										} else Messages.local.sendTranslation(p, "messages.not-enough-xp", true);
+										} else SlimefunPlugin.getLocal().sendMessage(p, "messages.not-enough-xp", true);
 									}
 								}
 							});
@@ -705,7 +704,7 @@ public final class SlimefunGuide {
 											}
 										}
 									} 
-									else Messages.local.sendTranslation(pl, "messages.not-enough-xp", true);
+									else SlimefunPlugin.getLocal().sendMessage(pl, "messages.not-enough-xp", true);
 								}
 								return false;
 							});

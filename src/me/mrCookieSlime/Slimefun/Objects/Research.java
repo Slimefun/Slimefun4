@@ -15,12 +15,10 @@ import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Events.ResearchUnlockEvent;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -220,7 +218,7 @@ public class Research {
 	@Deprecated
 	public void lock(Player p) {
 		PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, false);
-		Messages.local.sendTranslation(p, "commands.research.reset-target", true);
+		SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset-target", true);
 	}
 
 	/**
@@ -238,7 +236,7 @@ public class Research {
 			
 			Runnable runnable = () -> {
 				PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, true);
-				Messages.local.sendTranslation(p, "messages.unlocked", true, new Variable("%research%", getName()));
+				SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName()));
 				
 				if (SlimefunPlugin.getCfg().getBoolean("options.research-unlock-fireworks")) {
 					FireworkShow.launchRandom(p, 1);
@@ -249,14 +247,14 @@ public class Research {
 				if (instant) runnable.run();
 				else if (!SlimefunPlugin.getUtilities().researching.contains(p.getUniqueId())){
 					SlimefunPlugin.getUtilities().researching.add(p.getUniqueId());
-					Messages.local.sendTranslation(p, "messages.research.start", true, new Variable("%research%", getName()));
+					SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName()));
 					
 					for (int i = 1; i < research_progress.length + 1; i++) {
 						int j = i;
 						
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 							p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-							Messages.local.sendTranslation(p, "messages.research.progress", true, new Variable("%research%", getName()), new Variable("%progress%", research_progress[j - 1] + "%"));
+							SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", research_progress[j - 1] + "%"));
 						}, i * 20L);
 					}
 					

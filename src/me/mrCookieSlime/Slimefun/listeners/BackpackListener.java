@@ -22,7 +22,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -137,10 +136,10 @@ public class BackpackListener implements Listener {
 					p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
 					SlimefunPlugin.getUtilities().backpack.put(p.getUniqueId(), item);
 				}
-				else Messages.local.sendTranslation(p, "backpack.already-open", true);
+				else SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
 			}
 		}
-		else Messages.local.sendTranslation(p, "backpack.no-stack", true);
+		else SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);
 	}
 
 }

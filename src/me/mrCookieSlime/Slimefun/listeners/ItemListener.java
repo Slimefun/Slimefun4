@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -37,8 +38,6 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
@@ -51,7 +50,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -66,6 +64,7 @@ import me.mrCookieSlime.Slimefun.utils.Utilities;
 public class ItemListener implements Listener {
 	
 	private Utilities utilities;
+	private Random random = new Random();
 	
 	public ItemListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -247,8 +246,9 @@ public class ItemListener implements Listener {
 						break;
 					}
 				}
-				if (tool != null) {
-					List<Integer> modes = ((MultiTool) SlimefunItem.getByItem(tool)).getModes();
+				if (tool != null && tool.getType() != Material.AIR) {
+					SlimefunItem sfItem = SlimefunItem.getByItem(tool);
+					List<Integer> modes = ((MultiTool) sfItem).getModes();
 					int index = 0;
 					if (utilities.mode.containsKey(p.getUniqueId())) index = utilities.mode.get(p.getUniqueId());
 
@@ -257,13 +257,15 @@ public class ItemListener implements Listener {
 						float cost = 0.3F;
 						if (charge >= cost) {
 							p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
-							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getID(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
+							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(sfItem.getID(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
 						}
 					}
 					else {
 						index++;
 						if (index == modes.size()) index = 0;
-						Messages.local.sendTranslation(p, "messages.mode-change", true, new Variable("%device%", "Multi Tool"), new Variable("%mode%", (String) Slimefun.getItemValue(SlimefunItem.getByItem(tool).getID(), "mode." + modes.get(index) + ".name")));
+						
+						final int finalIndex = index;
+						SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", (String) Slimefun.getItemValue(sfItem.getID(), "mode." + modes.get(finalIndex) + ".name")));
 						utilities.mode.put(p.getUniqueId(), index);
 					}
 				}
@@ -282,7 +284,7 @@ public class ItemListener implements Listener {
 							menu.open(p);
 						}
 						else {
-							Messages.local.sendTranslation(p, "inventory.no-access", true);
+							SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
 						}
 					}
 					else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
@@ -291,7 +293,7 @@ public class ItemListener implements Listener {
 							menu.open(p);
 						}
 						else {
-							Messages.local.sendTranslation(p, "inventory.no-access", true);
+							SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
 						}
 					}
 				}
@@ -325,7 +327,10 @@ public class ItemListener implements Listener {
 				}
 				
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) {
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.local.getTranslation("messages.fortune-cookie").get(CSCoreLib.randomizer().nextInt(Messages.local.getTranslation("messages.fortune-cookie").size()))));
+					List<String> messages = SlimefunPlugin.getLocal().getMessages("messages.fortune-cookie");
+					String message = messages.get(random.nextInt(messages.size()));
+					
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
 				}
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BEEF_JERKY, true)) {
 					p.setSaturation((int) Slimefun.getItemValue("BEEF_JERKY", "Saturation"));
@@ -381,7 +386,7 @@ public class ItemListener implements Listener {
 		for (ItemStack item : e.getInventory().getContents()) {
 			if (SlimefunItem.getByItem(item) != null && !(SlimefunItem.getByItem(item).isReplacing())) {
 				e.setCancelled(true);
-				Messages.local.sendTranslation((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
+				SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
 				break;
 			}
 		}
@@ -431,7 +436,7 @@ public class ItemListener implements Listener {
 					SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
 
 						e.setCancelled(true);
-						Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
+						SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
 			}
 		}
 	}

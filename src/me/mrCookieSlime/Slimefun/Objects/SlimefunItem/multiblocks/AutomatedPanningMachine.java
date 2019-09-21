@@ -15,7 +15,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class AutomatedPanningMachine extends MultiBlockMachine {
@@ -82,7 +81,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 			return;
 		}
 		
-		Messages.local.sendTranslation(p, "machines.wrong-item", true);
+		SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
 	}
 
 }

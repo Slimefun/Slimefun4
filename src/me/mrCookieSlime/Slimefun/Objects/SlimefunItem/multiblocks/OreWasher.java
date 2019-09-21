@@ -16,7 +16,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class OreWasher extends MultiBlockMachine {
@@ -75,7 +74,7 @@ public class OreWasher extends MultiBlockMachine {
 						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
 						if (InvUtils.fits(outputInv, SlimefunItems.STONE_CHUNK)) outputInv.addItem(SlimefunItems.STONE_CHUNK);
 					}
-					else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 					
 					return;
 				}
@@ -91,7 +90,7 @@ public class OreWasher extends MultiBlockMachine {
 						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
 						p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
 					}
-					else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 
 					return;
 				}
@@ -107,13 +106,13 @@ public class OreWasher extends MultiBlockMachine {
 						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
 						p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
 					}
-					else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 
 					return;
 				}
 			}
 		}
-		Messages.local.sendTranslation(p, "machines.unknown-material", true);
+		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
 	}
 
 }

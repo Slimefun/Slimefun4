@@ -19,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -80,12 +79,12 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                                 i.remove();
                                 l.getWorld().dropItemNaturally(l, ench);
 
-                                Messages.local.sendTranslation(p, "messages.soulbound-rune.success", true);
+                                SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.success", true);
                             }
                         }, 10L);
                     } 
                     else {
-                        Messages.local.sendTranslation(p, "messages.soulbound-rune.fail", true);
+                        SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.fail", true);
                     }
                 }, 20L);
                 

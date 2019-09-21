@@ -17,11 +17,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -167,7 +167,7 @@ public class Talisman extends SlimefunItem {
 
     private static void sendMessage(Player p, Talisman talisman){
         if (isTalismanMessage(talisman))
-            Messages.local.sendTranslation(p, "messages.talisman." + talisman.getSuffix(), true);
+            SlimefunPlugin.getLocal().sendMessage(p, "messages.talisman." + talisman.getSuffix(), true);
     }
 
     private static void consumeItem(Player p, Talisman talisman){

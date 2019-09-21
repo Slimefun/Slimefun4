@@ -15,7 +15,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class Compressor extends MultiBlockMachine {
@@ -65,13 +64,13 @@ public class Compressor extends MultiBlockMachine {
 							}, i*20L);
 						}
 					}
-					else Messages.local.sendTranslation(p, "machines.full-inventory", true);
+					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 					
 					return;
 				}
 			}
 		}
-		Messages.local.sendTranslation(p, "machines.unknown-material", true);
+		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
 	}
 
 }

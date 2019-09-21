@@ -20,7 +20,6 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.Plugin;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.CommandHelp;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.Players;
@@ -33,7 +32,6 @@ import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -52,43 +50,43 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		
 		arguments.add("/sf help");
 		tabs.add("help");
-		descriptions.add(Messages.local.getTranslation("commands.help").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.help"));
 		
 		arguments.add("/sf versions");
 		tabs.add("versions");
-		descriptions.add(Messages.local.getTranslation("commands.versions").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.versions"));
 		
 		arguments.add("/sf cheat");
 		tabs.add("cheat");
-		descriptions.add(Messages.local.getTranslation("commands.cheat").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.cheat"));
 		
 		arguments.add("/sf give");
 		tabs.add("give");
-		descriptions.add(Messages.local.getTranslation("commands.give").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.give"));
 		
 		arguments.add("/sf research");
 		tabs.add("research");
-		descriptions.add(Messages.local.getTranslation("commands.research.desc").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.research.desc"));
 		
 		arguments.add("/sf guide");
 		tabs.add("guide");
-		descriptions.add(Messages.local.getTranslation("commands.guide").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.guide"));
 		
 		arguments.add("/sf stats");
 		tabs.add("stats");
-		descriptions.add(Messages.local.getTranslation("commands.stats").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.stats"));
 		
 		arguments.add("/sf timings");
 		tabs.add("timings");
-		descriptions.add(Messages.local.getTranslation("commands.timings").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.timings"));
 		
 		arguments.add("/sf teleporter");
 		tabs.add("teleporter");
-		descriptions.add(Messages.local.getTranslation("commands.teleporter").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.teleporter"));
 		
 		arguments.add("/sf open_guide");
 		tabs.add("open_guide");
-		descriptions.add(Messages.local.getTranslation("commands.open_guide").get(0));
+		descriptions.add(SlimefunPlugin.getLocal().getMessage("commands.open_guide"));
 		
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -102,40 +100,48 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			if (args[0].equalsIgnoreCase("cheat")) {
 				if (sender instanceof Player) {
 					if (sender.hasPermission("slimefun.cheat.items")) SlimefunGuide.openCheatMenu((Player) sender);
-					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+					else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 				}
-				else Messages.local.sendTranslation(sender, "messages.only-players", true);
+				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
 			}
 			else if (args[0].equalsIgnoreCase("guide")) {
 				if (sender instanceof Player) {
 					if (sender.hasPermission("slimefun.command.guide")) ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunPlugin.getCfg().getBoolean("guide.default-view-book") ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST));
-					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+					else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 				}
-				else Messages.local.sendTranslation(sender, "messages.only-players", true);
+				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
 			}
 			else if (args[0].equalsIgnoreCase("open_guide")) {
 				if (sender instanceof Player) { 
 					if (sender.hasPermission("slimefun.command.open_guide")) SlimefunGuide.openGuide((Player) sender, SlimefunPlugin.getCfg().getBoolean("guide.default-view-book"));
-					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+					else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 				}
-				else Messages.local.sendTranslation(sender, "messages.only-players", true);
+				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
 			}
 			else if (args[0].equalsIgnoreCase("debug_fish")) {
 				if (sender instanceof Player && sender.isOp()) {
 					((Player) sender).getInventory().addItem(SlimefunItems.DEBUG_FISH);
 				}
-				else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 			}
 			else if (args[0].equalsIgnoreCase("stats")) {
 				if (args.length > 1) {
 					if (sender.hasPermission("slimefun.stats.others") || sender instanceof ConsoleCommandSender) {
-						if (Players.isOnline(args[1])) Research.sendStats(sender, Bukkit.getPlayer(args[1]));
-						else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+						if (Players.isOnline(args[1])) {
+							Research.sendStats(sender, Bukkit.getPlayer(args[1]));
+						}
+						else {
+							SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
+						}
 					}
-					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+					else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 				}
-				else if (sender instanceof Player) Research.sendStats((Player) sender, (Player) sender);
-				else Messages.local.sendTranslation(sender, "messages.only-players", true);
+				else if (sender instanceof Player) {
+					Research.sendStats((Player) sender, (Player) sender);
+				}
+				else {
+					SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
+				}
 			}
 			else if (args[0].equalsIgnoreCase("elevator")) {
 				if (sender instanceof Player && args.length == 4) {
@@ -164,7 +170,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 				if (sender.hasPermission("slimefun.command.timings")|| sender instanceof ConsoleCommandSender) {
 					SlimefunPlugin.getTicker().info(sender);
 				}
-				else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 			}
 			else if (args[0].equalsIgnoreCase("versions")) {
 				if (sender.hasPermission("slimefun.command.versions")|| sender instanceof ConsoleCommandSender) {
@@ -194,7 +200,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					}
 				}
 				else {
-					Messages.local.sendTranslation(sender, "messages.no-permission", true);
+					SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 				}
 			}
 			else if (args[0].equalsIgnoreCase("give")) {
@@ -203,13 +209,13 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 						if (Players.isOnline(args[1])) {
 							if (Slimefun.listIDs().contains(args[2].toUpperCase())) {
 								Player p = Bukkit.getPlayer(args[1]);
-								Messages.local.sendTranslation(p, "messages.given-item", true, new Variable("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", "1"));
+								SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()).replace("%amount%", "1"));
 								p.getInventory().addItem(SlimefunItem.getByID(args[2].toUpperCase()).getItem());
-								Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", "1"));
+								SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace("%player%", args[1]).replace("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()).replace("%amount%", "1"));
 							}
-							else Messages.local.sendTranslation(sender, "messages.not-valid-item", true, new Variable("%item%", args[2]));
+							else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace("%item%", args[2]));
 						}
-						else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+						else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
 					}
 			        else if (args.length == 4){
 			            if (Players.isOnline(args[1])) {
@@ -218,22 +224,22 @@ public class SlimefunCommand implements CommandExecutor, Listener {
                                      int amount = Integer.parseInt(args[3]);
                                      
                                      if (amount > 0) {
-                                         Messages.local.sendTranslation(Bukkit.getPlayer(args[1]), "messages.given-item", true, new Variable("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", String.valueOf(amount)));
+                                         SlimefunPlugin.getLocal().sendMessage(Bukkit.getPlayer(args[1]), "messages.given-item", true, msg -> msg.replace("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()).replace("%amount%", String.valueOf(amount)));
                                          Bukkit.getPlayer(args[1]).getInventory().addItem(new CustomItem(SlimefunItem.getByID(args[2].toUpperCase()).getItem(), amount));
-                                         Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", String.valueOf(amount)));
+                                         SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace("%player%", args[1]).replace("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()).replace("%amount%", String.valueOf(amount)));
                                      }
-                                     else Messages.local.sendTranslation(sender, "messages.not-valid-amount", true, new Variable("%amount%", String.valueOf(amount)));
+                                     else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace("%amount%", String.valueOf(amount)));
                                 } catch (NumberFormatException e){
-                                    Messages.local.sendTranslation(sender, "messages.not-valid-amount", true, new Variable("%amount%", args[3]));
+                                    SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace("%amount%", args[3]));
                                 }
                             }
-                            else Messages.local.sendTranslation(sender, "messages.not-valid-item", true, new Variable("%item%", args[2]));
+                            else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace("%item%", args[2]));
                         }
-                        else Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+                        else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
 			        }
-			        else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
+			        else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
 				}
-				else  Messages.local.sendTranslation(sender, "messages.no-permission", true);
+				else  SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 			}
 			else if (args[0].equalsIgnoreCase("teleporter")) {
 				if (args.length == 2) {
@@ -244,9 +250,9 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 						}
 						else sender.sendMessage("&4Unknown Player: &c" + args[1]);
 					}
-					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+					else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 				}
-				else Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf teleporter <Player>"));
+				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf teleporter <Player>"));
 			}
 			else if (args[0].equalsIgnoreCase("research")) {
 				if (args.length == 3) {
@@ -257,7 +263,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 							
 							if (args[2].equalsIgnoreCase("all")) {
 								for (Research res : Research.list()) {
-									if (!profile.hasUnlocked(res)) Messages.local.sendTranslation(sender, "messages.give-research", true, new Variable("%player%", p.getName()), new Variable("%research%", res.getName()));
+									if (!profile.hasUnlocked(res)) SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace("%player%", p.getName()).replace("%research%", res.getName()));
 									res.unlock(p, true);
 								}
 							}
@@ -265,7 +271,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 								for (Research res : Research.list()) {
 									profile.setResearched(res, false);
 								}
-								Messages.local.sendTranslation(p, "commands.research.reset", true, new Variable("%player%", args[1]));
+								SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace("%player%", args[1]));
 							}
 							else {
 								Research research = null;
@@ -278,21 +284,22 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 								
 								if (research != null) {
 									research.unlock(p, true);
-									Messages.local.sendTranslation(sender, "messages.give-research", true, new Variable("%player%", p.getName()), new Variable("%research%", research.getName()));
+									final Research r = research;
+									SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace("%player%", p.getName()).replace("%research%", r.getName()));
 								}
 								else {
-									Messages.local.sendTranslation(sender, "messages.not-valid-research", true, new Variable("%research%", args[2]));
+									SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace("%research%", args[2]));
 								}
 							}
 						}
 						else {
-							Messages.local.sendTranslation(sender, "messages.not-online", true, new Variable("%player%", args[1]));
+							SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
 						}
 					}
-					else Messages.local.sendTranslation(sender, "messages.no-permission", true);
+					else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 				}
 				else {
-					Messages.local.sendTranslation(sender, "messages.usage", true, new Variable("%usage%", "/sf research <Player> <all/reset/Research>"));
+					SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf research <Player> <all/reset/Research>"));
 				}
 			}
 			else {

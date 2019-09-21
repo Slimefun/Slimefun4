@@ -14,7 +14,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public final class HologramProjectorHologram {
@@ -50,7 +50,7 @@ public final class HologramProjectorHologram {
 		menu.addItem(0, new CustomItem(new ItemStack(Material.NAME_TAG), "&7Text &e(Click to edit)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
 		menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
 			pl.closeInventory();
-			Messages.local.sendTranslation(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
+			SlimefunPlugin.getLocal().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
 			MenuHelper.awaitChatInput(pl, (player, message) -> {
 				ArmorStand hologram = getArmorStand(projector, true);
 				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', message));

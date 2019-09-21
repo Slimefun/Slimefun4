@@ -25,12 +25,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
@@ -63,7 +61,7 @@ public class AncientAltarListener implements Listener {
 				if (stack == null) {
 					if(e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) return;
 					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
-						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
+						SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
 						return;
 					}
 					insertItem(e.getPlayer(), b);
@@ -114,7 +112,7 @@ public class AncientAltarListener implements Listener {
 							}
 							else {
 								altars.remove(e.getClickedBlock());
-								Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
+								SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
 								
 								pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
 								
@@ -124,7 +122,7 @@ public class AncientAltarListener implements Listener {
 						}
 						else {
 							altars.remove(e.getClickedBlock());
-							Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
+							SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 							
 							pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
 							
@@ -134,7 +132,7 @@ public class AncientAltarListener implements Listener {
 					}
 					else {
 						altars.remove(e.getClickedBlock());
-						Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, new Variable("%pedestals%", String.valueOf(pedestals.size())));
+						SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
 						
 						// Not a valid altar so remove from inuse
 						utilities.altarinuse.remove(b.getLocation());  
@@ -187,7 +185,7 @@ public class AncientAltarListener implements Listener {
 		String item = BlockStorage.checkID(b);
 		
 		if (item != null && item.equalsIgnoreCase("ANCIENT_PEDESTAL")) {
-			Messages.local.sendTranslation(e.getPlayer(), "messages.cannot-place", true);
+			SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.cannot-place", true);
 			e.setCancelled(true);
 		}
 	}

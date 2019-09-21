@@ -66,6 +66,7 @@
       					<filter>
     						<artifact>com.github.thebusybiscuit:CS-CoreLib2</artifact>
     						<includes>
+    							<include>**/cscorelib2/config/**</include>
     							<include>**/cscorelib2/updater/**</include>
                                 <include>**/cscorelib2/materials/**</include>
 								<include>**/cscorelib2/protection/**</include>

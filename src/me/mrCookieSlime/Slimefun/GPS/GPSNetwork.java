@@ -19,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
@@ -28,7 +27,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class GPSNetwork {
@@ -194,10 +192,10 @@ public class GPSNetwork {
 	
 	public void addWaypoint(Player p, final Location l) {
 		if ((getWaypoints(p.getUniqueId()).size() + 2) > inventory.length) {
-			Messages.local.sendTranslation(p, "gps.waypoint.max", true);
+			SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.max", true);
 			return;
 		}
-		Messages.local.sendTranslation(p, "gps.waypoint.new", true);
+		SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.new", true);
 		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
 		MenuHelper.awaitChatInput(p, (pl, message) -> {
 			addWaypoint(pl, message, l);
@@ -207,7 +205,7 @@ public class GPSNetwork {
 	
 	public void addWaypoint(Player p, String name, Location l) {
 		if ((getWaypoints(p.getUniqueId()).size() + 2) > inventory.length) {
-			Messages.local.sendTranslation(p, "gps.waypoint.max", true);
+			SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.max", true);
 			return;
 		}
 		Config cfg = new Config("data-storage/Slimefun/waypoints/" + p.getUniqueId().toString() + ".yml");
@@ -217,7 +215,7 @@ public class GPSNetwork {
 		cfg.setValue(id + ".name", name);
 		cfg.save();
 		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
-		Messages.local.sendTranslation(p, "gps.waypoint.added", true);
+		SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.added", true);
 	}
 
 	public Set<Location> getTransmitters(UUID uuid) {
@@ -226,7 +224,7 @@ public class GPSNetwork {
 
 	public void scanChunk(Player p, Chunk chunk) {
 		if (getNetworkComplexity(p.getUniqueId()) < 600) {
-			Messages.local.sendTranslation(p, "gps.insufficient-complexity", true, new Variable("%complexity%", String.valueOf(600)));
+			SlimefunPlugin.getLocal().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));
 			return;
 		}
 		ChestMenu menu = new ChestMenu("&4Scan Results");

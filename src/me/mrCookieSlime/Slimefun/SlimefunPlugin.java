@@ -31,9 +31,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
@@ -78,6 +78,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static SlimefunPlugin instance;
 
 	private TickerTask ticker;
+	private SlimefunLocalization local;
 	private Config researches;
 	private Config items;
 	private Config whitelist;
@@ -153,9 +154,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			whitelist = new Config(files.whitelist);
 
 			// Setup messages.yml
-			utils.setupLocalization();
-			Messages.local = utils.getLocalization();
-			Messages.setup();
+			local = new SlimefunLocalization(this);
 			
 			// Setting up bStats
 			new Metrics(this);
@@ -359,7 +358,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 		SlimefunBackup.start();
 
 		// Prevent Memory Leaks
-		Messages.local = null;
 		AContainer.processing = null;
 		AContainer.progress = null;
 		OreWasher.items = null;
@@ -430,6 +428,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static ProtectionManager getProtectionManager() {
 		return instance.protections;
+	}
+
+	public static SlimefunLocalization getLocal() {
+		return instance.local;
 	}
 
 }

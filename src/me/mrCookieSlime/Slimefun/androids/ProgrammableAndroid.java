@@ -60,7 +60,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.androids.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -157,7 +156,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			public boolean canOpen(Block b, Player p) {
 				boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
 				if (!open) {
-					Messages.local.sendTranslation(p, "inventory.no-access", true);
+					SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
 				}
 				return open;
 			}
@@ -167,7 +166,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				try {
 					menu.replaceExistingItem(15, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTAxYzdiNTcyNjE3ODk3NGIzYjNhMDFiNDJhNTkwZTU0MzY2MDI2ZmQ0MzgwOGYyYTc4NzY0ODg0M2E3ZjVhIn19fQ=="), "&aStart/Continue"));
 					menu.addMenuClickHandler(15, (p, slot, item, action) -> {
-						Messages.local.sendTranslation(p, "robot.started", true);
+						SlimefunPlugin.getLocal().sendMessage(p, "robot.started", true);
 						BlockStorage.addBlockInfo(b, "paused", "false");
 						p.closeInventory();
 						return false;
@@ -176,14 +175,14 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 					menu.replaceExistingItem(17, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&4Pause"));
 					menu.addMenuClickHandler(17, (p, slot, item, action) -> {
 						BlockStorage.addBlockInfo(b, "paused", "true");
-						Messages.local.sendTranslation(p, "robot.stopped", true);
+						SlimefunPlugin.getLocal().sendMessage(p, "robot.stopped", true);
 						return false;
 					});
 
 					menu.replaceExistingItem(16, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&bMemory Core", "", "&8\u21E8 &7Click to open the Script Editor"));
 					menu.addMenuClickHandler(16, (p, slot, item, action) -> {
 						BlockStorage.addBlockInfo(b, "paused", "true");
-						Messages.local.sendTranslation(p, "robot.stopped", true);
+						SlimefunPlugin.getLocal().sendMessage(p, "robot.stopped", true);
 						openScriptEditor(p, b);
 						return false;
 					});
@@ -793,7 +792,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				for (Config script: getUploadedScripts()) {
 					if (script.getString("author").equals(pl.getUniqueId().toString())) num++;
 					if (script.getString("code").equals(code)) {
-						Messages.local.sendTranslation(pl, "android.scripts.already-uploaded", true);
+						SlimefunPlugin.getLocal().sendMessage(pl, "android.scripts.already-uploaded", true);
 						return false;
 					}
 				}
@@ -801,7 +800,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				final int id = num;
 	
 				pl.closeInventory();
-				Messages.local.sendTranslation(pl, "android.scripts.enter-name", true);
+				SlimefunPlugin.getLocal().sendMessages(pl, "android.scripts.enter-name");
 	
 				MenuHelper.awaitChatInput(pl, (player, message) -> {
 					Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + '/' + p.getName() + ' ' + id + ".sfs");
@@ -816,7 +815,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 					script.setValue("rating.negative", new ArrayList<String>());
 					script.save();
 	
-					Messages.local.sendTranslation(player, "android.uploaded", true);
+					SlimefunPlugin.getLocal().sendMessages(player, "android.scripts.uploaded");
 					openScriptDownloader(player, b, page);
 	
 					return false;
@@ -867,7 +866,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 					if (action.isShiftClicked()) {
 						if (script2.getString("author").equals(pl.getUniqueId().toString())) {
-							Messages.local.sendTranslation(pl, "android.scripts.rating.own", true);
+							SlimefunPlugin.getLocal().sendMessage(pl, "android.scripts.rating.own", true);
 						}
 						else if (action.isRightClicked()) {
 							if (!script2.getStringList("rating.negative").contains(pl.getUniqueId().toString()) && !script2.getStringList("rating.positive").contains(pl.getUniqueId().toString())) {
@@ -880,7 +879,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 								openScriptDownloader(pl, b, page);
 							}
 							else {
-								Messages.local.sendTranslation(pl, "android.scripts.rating.already", true);
+								SlimefunPlugin.getLocal().sendMessage(pl, "android.scripts.rating.already", true);
 							}
 						}
 						else {
@@ -894,7 +893,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 								openScriptDownloader(pl, b, page);
 							}
 							else {
-								Messages.local.sendTranslation(pl, "android.scripts.rating.already", true);
+								SlimefunPlugin.getLocal().sendMessage(pl, "android.scripts.rating.already", true);
 							}
 						}
 					}
