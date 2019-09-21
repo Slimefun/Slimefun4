@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.bukkit.plugin.Plugin;
 
@@ -36,25 +37,31 @@ public class CSCoreLibLoader {
 		}
 	}
 	
-	public boolean load() {
-		if (plugin.getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) return true;
+	public boolean load(Logger logger) {
+		if (plugin.getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+			return true;
+		}
 		else {
-			Slimefun.getLogger().log(Level.INFO, " ");
-			Slimefun.getLogger().log(Level.INFO, "#################### - INFO - ####################");
-			Slimefun.getLogger().log(Level.INFO, " ");
-			Slimefun.getLogger().log(Level.INFO, plugin.getName() + " could not be loaded.");
-			Slimefun.getLogger().log(Level.INFO, "It appears that you have not installed CS-CoreLib");
-			Slimefun.getLogger().log(Level.INFO, "Your Server will now try to download and install");
-			Slimefun.getLogger().log(Level.INFO, "CS-CoreLib for you.");
-			Slimefun.getLogger().log(Level.INFO, "You will be asked to restart your Server when it's finished.");
-			Slimefun.getLogger().log(Level.INFO, "If this somehow fails, please download and install CS-CoreLib manually:");
-			Slimefun.getLogger().log(Level.INFO, "https://dev.bukkit.org/projects/cs-corelib");
-			Slimefun.getLogger().log(Level.INFO, " ");
-			Slimefun.getLogger().log(Level.INFO, "#################### - INFO - ####################");
-			Slimefun.getLogger().log(Level.INFO, " ");
+			logger.log(Level.INFO, " ");
+			logger.log(Level.INFO, "#################### - INFO - ####################");
+			logger.log(Level.INFO, " ");
+			logger.log(Level.INFO, plugin.getName() + " could not be loaded (yet).");
+			logger.log(Level.INFO, "It appears that you have not installed CS-CoreLib.");
+			logger.log(Level.INFO, "Your Server will now try to download and install");
+			logger.log(Level.INFO, "CS-CoreLib for you.");
+			logger.log(Level.INFO, "You will be asked to restart your Server when it's finished.");
+			logger.log(Level.INFO, "If this somehow fails, please download and install CS-CoreLib manually:");
+			logger.log(Level.INFO, "https://dev.bukkit.org/projects/cs-corelib");
+			logger.log(Level.INFO, " ");
+			logger.log(Level.INFO, "#################### - INFO - ####################");
+			logger.log(Level.INFO, " ");
+			
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-				if (connect()) install();
+				if (connect()) {
+					install();
+				}
 			}, 10L);
+			
 			return false;
 		}
 	}

@@ -58,8 +58,7 @@ public class BlockInfoConfig extends Config {
 
 	@Override
 	public Object getValue(String path) {
-		checkPath(path);
-		return data.get(path);
+		return getString(path);
 	}
 
 	@Override

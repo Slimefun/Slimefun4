@@ -142,9 +142,9 @@ public class TalismanListener implements Listener {
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		int fortune = 1;
 
-		if (item != null) {
+		if (item.getType() != Material.AIR && item.getAmount() > 0) {
 			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-				fortune =random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
+				fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
 				if (fortune <= 0) fortune = 1;
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
 			}

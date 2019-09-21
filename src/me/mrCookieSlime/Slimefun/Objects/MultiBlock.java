@@ -21,35 +21,32 @@ public class MultiBlock {
 		this.blocks = build;
 		this.isSymmetric = isSymmetric(build);
 		//Hacky, the other constructor should be used
-		for (int i = 1; i < 9; i +=3)
-		{
-			if (trigger.equals(build[i]))
-			{
+		for (int i = 1; i < 9; i +=3) {
+			if (trigger == build[i]) {
 				switch (i) {
 					case 1:
 						this.trigger = BlockFace.DOWN;
-						break;
+						return;
 					case 4:
 						this.trigger = BlockFace.SELF;
-						break;
+						return;
 					case 7:
 						this.trigger = BlockFace.UP;
+						return;
+					default:
 						break;
 				}
-				break;
 			}
 		}
 	}
 	
-	public MultiBlock(Material[] build, BlockFace trigger)
-	{
+	public MultiBlock(Material[] build, BlockFace trigger) {
 		this.blocks = build;
 		this.trigger = trigger;
 		this.isSymmetric = isSymmetric(build);
 	}
 	
-	private static boolean isSymmetric(Material[] blocks)
-	{
+	private static boolean isSymmetric(Material[] blocks) {
 		return blocks[0] == blocks[2]
 			&& blocks[3] == blocks[5]
 			&& blocks[6] == blocks[8];
@@ -106,8 +103,7 @@ public class MultiBlock {
 		return true;
 	}
 	
-	public boolean isSymmetric()
-	{
+	public boolean isSymmetric() {
 		return this.isSymmetric;
 	}
 

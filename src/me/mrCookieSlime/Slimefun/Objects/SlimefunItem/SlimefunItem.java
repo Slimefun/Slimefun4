@@ -35,7 +35,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class SlimefunItem {
 	
 	private String id;
-	private String hash;
 	private ItemState state;
 	private ItemStack item;
 	private Category category;
@@ -111,34 +110,16 @@ public class SlimefunItem {
 	 *
 	 * @return the identifier of this SlimefunItem
 	 *
-	 * @since 4.0
-	 * @deprecated As of 4.1.11, renamed to {@link #getID()} for better name convenience.
-	 */
-	@Deprecated
-	public String getName()				{		return id;			}
-	/**
-	 * Returns the identifier of this SlimefunItem.
-	 *
-	 * @return the identifier of this SlimefunItem
-	 *
 	 * @since 4.1.11, rename of {@link #getName()}.
 	 */
 	public String getID()				{		return id;			}
-	
-	@Deprecated
-	public String getHash()				{		return hash;			}
 	
 	public ItemState getState()				{		return state;			}
 	public ItemStack getItem()			{		return item;			}
 	public Category getCategory()			{		return category;		}
 	public ItemStack[] getRecipe()			{		return recipe;			}
 	public RecipeType getRecipeType()		{		return recipeType;		}
-	/**
-	 * @since 4.0
-	 * @deprecated As of 4.1.11, renamed to {@link #getRecipeOutput()} for better name convenience.
-	 */
-	@Deprecated
-	public ItemStack getCustomOutput()		{		return recipeOutput;		}
+	
 	/**
 	 * @since 4.1.11, rename of {@link #getCustomOutput()}.
 	 */
@@ -160,12 +141,7 @@ public class SlimefunItem {
 	public List<String> getNoPermissionTooltip()    {       return noPermissionTooltip;       }
 	public Set<ItemHandler> getHandlers() 		{		return itemhandlers;		}
 	public boolean isTicking() 			{		return ticking;			}
-	/**
-	 * @since 4.0
-	 * @deprecated As of 4.1.11, renamed to {@link #getBlockTicker()} for better name convenience.
-	 */
-	@Deprecated
-	public BlockTicker getTicker()			{		return blockTicker;		}
+
 	/**
 	 * @since 4.1.11, rename of {@link #getTicker()}.
 	 */
@@ -263,11 +239,6 @@ public class SlimefunItem {
 	public void bindToResearch(Research r) {
 		if (r != null) r.getAffectedItems().add(this);
 		this.research = r;
-	}
-
-	@Deprecated
-	public void setHash(String hash) {
-		this.hash = hash;
 	}
 
 	public void setRecipe(ItemStack[] recipe) {

@@ -1,7 +1,5 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
-import java.util.logging.Level;
-
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -21,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -72,11 +69,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
-				try {
-					AutoBreeder.this.tick(b);
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking an Auto Breeder for Slimefun " + Slimefun.getVersion(), x);
-				}
+				AutoBreeder.this.tick(b);
 			}
 
 			@Override
@@ -86,7 +79,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 		});
 	}
 	
-	protected void tick(Block b) throws Exception {
+	protected void tick(Block b) {
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, n -> n instanceof Animals && n.isValid() && ((Animals) n).isAdult() && !((Animals) n).isLoveMode())) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {

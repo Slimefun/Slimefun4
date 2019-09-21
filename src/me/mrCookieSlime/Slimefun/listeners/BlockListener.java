@@ -46,7 +46,7 @@ public class BlockListener implements Listener {
 
 	@EventHandler
 	public void onPistonExtend(BlockPistonExtendEvent e) {
-		for (Block b : e.getBlocks()) {
+		for (Block b: e.getBlocks()) {
 			if (BlockStorage.hasBlockInfo(b) || b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
 				e.setCancelled(true);
 				return;
@@ -57,7 +57,7 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void onPistonRetract(BlockPistonRetractEvent e) {
 		if (e.isSticky()) {
-			for (Block b : e.getBlocks()) {
+			for (Block b: e.getBlocks()) {
 				if (BlockStorage.hasBlockInfo(b) || b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
 					e.setCancelled(true);
 					return;
@@ -68,31 +68,32 @@ public class BlockListener implements Listener {
 	
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent e) {
+		if (e.getHand() != EquipmentSlot.HAND) return;
+		
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (e.getHand() != EquipmentSlot.HAND) return;
-				Player p = e.getPlayer();
-				Block b = e.getClickedBlock();
-				LinkedList<MultiBlock> multiblocks = new LinkedList<>();
+			Player p = e.getPlayer();
+			Block b = e.getClickedBlock();
+			LinkedList<MultiBlock> multiblocks = new LinkedList<>();
+			
+			for (MultiBlock mb: MultiBlock.list()) {
+				Block center = b.getRelative(mb.getTriggerBlock());
 				
-				for (MultiBlock mb: MultiBlock.list()) {
-					Block center = b.getRelative(mb.getTriggerBlock());
-					
-					if (compareMaterials(center, mb.getBuild(), mb.isSymmetric())) {
-						multiblocks.add(mb);	
-					}
+				if (compareMaterials(center, mb.getBuild(), mb.isSymmetric())) {
+					multiblocks.add(mb);	
+				}
+			}
+			
+			if (!multiblocks.isEmpty()) {
+				e.setCancelled(true);
+				MultiBlock multiblock = multiblocks.getLast();
+				
+				for (ItemHandler handler: SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
+					if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblock, b)) break;
 				}
 				
-				if (!multiblocks.isEmpty()) {
-					e.setCancelled(true);
-					MultiBlock multiblock = multiblocks.getLast();
-					
-					for (ItemHandler handler: SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
-						if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblock, b)) break;
-					}
-					
-					MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, multiblock, b);
-					Bukkit.getPluginManager().callEvent(event);
-				}
+				MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, multiblock, b);
+				Bukkit.getPluginManager().callEvent(event);
+			}
 		}
 	}
 	

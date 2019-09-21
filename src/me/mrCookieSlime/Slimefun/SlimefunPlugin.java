@@ -84,9 +84,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private Config whitelist;
 	private Config config;
 	
-	private final GPSNetwork gps = new GPSNetwork();
+	private GPSNetwork gps;
 	private ProtectionManager protections;
-	private Utilities utilities = new Utilities();
+	private Utilities utilities;
 	private Settings settings;
 	private SlimefunHooks hooks;
 	
@@ -95,8 +95,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		CSCoreLibLoader loader = new CSCoreLibLoader(this);
-		if (loader.load()) {
+		if (new CSCoreLibLoader(this).load(getLogger())) {
 
 			String currentVersion = ReflectionUtils.getVersion();
 
@@ -155,6 +154,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Setup messages.yml
 			local = new SlimefunLocalization(this);
+			
+			// Setting up other stuff
+			utilities = new Utilities();
+			gps = new GPSNetwork();
 			
 			// Setting up bStats
 			new Metrics(this);
@@ -319,6 +322,13 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Do not show /sf elevator command in our Log, it could get quite spammy
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
+		}
+		else {
+			getCommand("slimefun").setExecutor((sender, cmd, label, args) -> {
+				sender.sendMessage("You have forgotten to install CS-CoreLib! Slimefun is disabled.");
+				sender.sendMessage("https://dev.bukkit.org/projects/cs-corelib");
+				return true;
+			});
 		}
 	}
 
