@@ -2,12 +2,12 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -23,6 +23,8 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 
 public abstract class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
+	private Random random = new Random();
+	
 	private final List<ItemStack> displayRecipes = Arrays.asList(
 		new ItemStack(Material.GRAVEL),
 		SlimefunItems.SIFTED_ORE,
@@ -79,8 +81,8 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
 					ItemStack output = SlimefunItems.SIFTED_ORE;
-					if (CSCoreLib.randomizer().nextInt(100) < 16) output = new ItemStack(Material.FLINT);
-					if (CSCoreLib.randomizer().nextInt(100) < 16) output = new ItemStack(Material.CLAY_BALL);
+					if (random.nextInt(100) < 16) output = new ItemStack(Material.FLINT);
+					if (random.nextInt(100) < 16) output = new ItemStack(Material.CLAY_BALL);
 					
 					MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
 					if (!fits(b, r.getOutput())) return;

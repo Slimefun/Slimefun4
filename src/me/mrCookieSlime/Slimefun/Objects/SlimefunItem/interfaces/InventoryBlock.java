@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.Calculator;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -47,7 +46,7 @@ public interface InventoryBlock {
 	
 	default Inventory inject(Block b) {
 		int size = getOutputSlots().length;
-		Inventory inv = Bukkit.createInventory(null, Calculator.formToLine(size) * 9);
+		Inventory inv = Bukkit.createInventory(null, ((int) Math.ceil(size / 9F)) * 9);
 		
 		for (int i = 0; i < inv.getSize(); i++) {
 			if (i < size) {

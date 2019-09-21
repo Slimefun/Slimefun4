@@ -7,8 +7,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -64,7 +64,7 @@ public class CargoOutputNode extends SlimefunItem {
 						);
 					}
 					else {
-						menu.replaceExistingItem(13, new CustomItem(new ItemStack(MaterialHelper.WoolColours[channel]), "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(13, new CustomItem(new ItemStack(MaterialCollections.getAllWools()[channel]), "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(13,
 							(p, slot, item, action) -> false
 						);

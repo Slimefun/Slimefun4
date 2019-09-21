@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -14,8 +15,6 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Clock;
-
 public final class SlimefunBackup {
 
 	private SlimefunBackup() {}
@@ -23,11 +22,12 @@ public final class SlimefunBackup {
 	public static void start() {
 		File folder = new File("data-storage/Slimefun/block-backups");
 		List<File> backups = Arrays.asList(folder.listFiles());
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 
 		if (backups.size() > 20) {
 			Collections.sort(backups, (a, b) -> {
 				try {
-					return (int) (new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(a.getName().replace(".zip", "")).getTime() - new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(b.getName().replace(".zip", "")).getTime());
+					return (int) (format.parse(a.getName().replace(".zip", "")).getTime() - new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(b.getName().replace(".zip", "")).getTime());
 				} catch (ParseException e) {
 					return 0;
 				}
@@ -40,7 +40,7 @@ public final class SlimefunBackup {
 			}
 		}
 
-		File file = new File("data-storage/Slimefun/block-backups/" + Clock.format(new Date()) + ".zip");
+		File file = new File("data-storage/Slimefun/block-backups/" + format.format(new Date()) + ".zip");
 		byte[] buffer = new byte[1024];
 
 		if (!file.exists() || file.delete()) {
