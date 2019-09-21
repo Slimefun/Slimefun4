@@ -14,9 +14,10 @@ It adds a whole new Layer of Survival to your Server by adding more than 400+ ne
 Slimefun 4 is licensed under 
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
-## Download: Development Builds
-Click on the badge below to go to our "development" build page, where you can download the latest Slimefun versions before they are released to the public. But keep in mind: These builds are still in development and not guaranteed to work or to be stable.
-Release Candidates or "stable" builds will have a proper Version such as "4.1.18", builds that are still in development will only have a number assigned to them.
+## Download Slimefun 4
+Click on the badge below to go to our "development" build page, where you can download the latest Slimefun versions before they are released to the public. 
+But keep in mind: These builds are pretty stable but still under development, so use them at your own risk.
+Release Candidates or "very stable" builds will have a proper Version such as "4.1.18", builds that are still in development will only have a number assigned to them.
 
 <p align="center">
   <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">

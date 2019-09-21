@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -63,17 +64,15 @@ public final class SlimefunManager {
 			}
 		}
 	}
-
-	//ToDO: ALl all
-	//Charcoal=coal?
-//	public static List<Material> data_safe = Arrays.asList(Material.WHITE_WOOL,
-//			Material.WHITE_CARPET,
-//			Material.WHITE_TERRACOTTA,
-//			Material.WHITE_STAINED_GLASS,
-//			Material.WHITE_STAINED_GLASS_PANE,
-//			Material.INK_SAC,
-//			Material.STONE,
-//			Material.COAL, Material.SKULL_ITEM, Material.RAW_FISH, Material.COOKED_FISH);
+	
+	@Deprecated
+	public static enum DataType {
+		
+		ALWAYS,
+		NEVER,
+		IF_COLORED;
+		
+	}
 	
 	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore) {
 		if (item == null) return sfitem == null;
@@ -108,20 +107,21 @@ public final class SlimefunManager {
 		}
 		else return false;
 	}
-	
-	
-	@Deprecated
-	public static enum DataType {
-		
-		ALWAYS,
-		NEVER,
-		IF_COLORED;
-		
-	}
 
 	@Deprecated
 	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore, DataType data) {
 		return isItemSimiliar(item, sfitem, lore);
+	}
+	
+	public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
+		if (inventory == null || itemStack == null) return false;
+
+		for (ItemStack is : inventory.getStorageContents()) {
+			if (is == null || is.getType() == Material.AIR) continue;
+			if (isItemSimiliar(is, itemStack, checkLore)) return true;
+		}
+
+		return false;
 	}
 	
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {
