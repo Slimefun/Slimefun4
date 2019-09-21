@@ -21,7 +21,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
@@ -39,10 +38,6 @@ import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
@@ -947,94 +942,78 @@ public final class SlimefunGuide {
 			return false;
 		});
 		
-		if (sfItem != null) {
-			if (sfItem instanceof RecipeDisplayItem && !((RecipeDisplayItem) sfItem).getDisplayRecipes().isEmpty()) {
-				for (int i = 27; i < 36; i++) {
-					menu.addItem(i, new CustomItem(Material.LIME_STAINED_GLASS_PANE, SlimefunItem.getByItem(item) instanceof SlimefunMachine ? "&7\u21E9 Recipes made in this Machine \u21E9": " "));
-					menu.addMenuClickHandler(i,
-						(pl, slot, itemstack, action) -> false
-					);
-				}
-				
-				List<ItemStack> recipes = ((RecipeDisplayItem) SlimefunItem.getByItem(item)).getDisplayRecipes();
-				int recipeSize = recipes.size();
-				if (recipeSize > 18) recipeSize = 18;
-				int inputs = -1;
-				int outputs = -1;
-				
-				for (int i = 0; i < recipeSize; i++) {
-					int slot = 36;
-					if (i % 2 == 1) {
-						slot = slot + 9;
-						outputs++;
-					}
-					else inputs++;
-					
-					int addition = (i % 2 == 0 ? inputs: outputs);
-					
-					menu.addItem(slot + addition, recipes.get(i).clone());
-					menu.addMenuClickHandler(slot + addition, (pl, slotn, itemstack, action) -> {
-						displayItem(pl, itemstack, true, book, 0);
-						return false;
-					});
-				}
-			}
-			else if (sfItem instanceof AGenerator) {
-				int slot = 27;
-				for (MachineFuel fuel: ((AGenerator) sfItem).getFuelTypes()) {
-					if (slot >= 54) break;
-					ItemStack fItem = fuel.getInput().clone();
-					ItemMeta im = fItem.getItemMeta();
-					List<String> lore = new ArrayList<>();
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + (((AGenerator) sfItem).getEnergyProduction() * 2) + " J/s"));
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * ((AGenerator) sfItem).getEnergyProduction()) + " J in total"));
-					im.setLore(lore);
-					fItem.setItemMeta(im);
-					menu.addItem(slot, fItem);
-					menu.addMenuClickHandler(slot,
-						(pl, slotn, itemstack, action) -> false
-					);
-					slot++;
-				}
-			}
-			else if (sfItem instanceof AReactor) {
-				int slot = 27;
-				for (MachineFuel fuel: ((AReactor) sfItem).getFuelTypes()) {
-					if (slot >= 54) break;
-					ItemStack fItem = fuel.getInput().clone();
-					ItemMeta im = fItem.getItemMeta();
-					List<String> lore = new ArrayList<>();
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + (((AReactor) sfItem).getEnergyProduction() * 2) + " J/s"));
-					lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * ((AReactor) sfItem).getEnergyProduction()) + " J in total"));
-					im.setLore(lore);
-					fItem.setItemMeta(im);
-					menu.addItem(slot, fItem);
-					menu.addMenuClickHandler(slot, (pl, slotn, itemstack, action) -> false);
-					slot++;
-				}
-			}
+		if (sfItem instanceof RecipeDisplayItem) {
+			displayRecipes(menu, (RecipeDisplayItem) sfItem, 0);
 		}
 		
 		menu.open(p);
 	}
 	
+	private static void displayRecipes(ChestMenu menu, RecipeDisplayItem sfItem, int page) {
+		List<ItemStack> recipes = sfItem.getDisplayRecipes();
+		
+		if (!recipes.isEmpty()) {
+			menu.addItem(53, null);
+			
+			if (page == 0) {
+				for (int i = 27; i < 36; i++) {
+					menu.replaceExistingItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, sfItem.getRecipeSectionLabel()));
+					menu.addMenuClickHandler(i, (pl, slot, itemstack, action) -> false);
+				}
+			}
+			else {
+				menu.replaceExistingItem(28, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&a\u21E6 Previous Page"));
+				menu.addMenuClickHandler(28, (pl, slot, itemstack, action) -> {
+					displayRecipes(menu, sfItem, page - 1);
+					pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
+					return false;
+				});
+			}
+			
+			if (recipes.size() > (18 * (page + 1))) {
+				menu.replaceExistingItem(34, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&aNext Page \u21E8"));
+				menu.addMenuClickHandler(34, (pl, slot, itemstack, action) -> {
+					displayRecipes(menu, sfItem, page + 1);
+					pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
+					return false;
+				});
+			}
+			else {
+				menu.replaceExistingItem(34, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, sfItem.getRecipeSectionLabel()));
+				menu.addMenuClickHandler(34, (pl, slot, itemstack, action) -> false);
+			}
+			
+			int inputs = 36;
+			int outputs = 45;
+			
+			for (int i = 0; i < 18; i++) {
+				int slot = i % 2 == 0 ? inputs++: outputs++;
+				
+				if ((i + (page * 18)) < recipes.size()) {
+					if (page == 0) {
+						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)));
+						menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
+							displayItem(pl, itemstack, true, false, 0);
+							return false;
+						});
+					}
+					else {
+						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)));
+					}
+				}
+				else {
+					menu.replaceExistingItem(slot, null);
+					menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> false);
+				}
+			}
+		}
+	}
+
 	private static Map<UUID, LinkedList<Object>> getHistory() {
 		return SlimefunPlugin.getUtilities().guideHistory;
 	}
 	
 	public static void clearHistory(UUID uuid) {
 		getHistory().remove(uuid);
-	}
-	
-	private static String getTimeLeft(int seconds) {
-		String timeleft = "";
-        final int minutes = (int) (seconds / 60L);
-        if (minutes > 0) {
-            timeleft += minutes + "m ";
-        }
-        seconds -= minutes * 60;
-        return "&7" + timeleft + seconds + "s";
 	}
 }
