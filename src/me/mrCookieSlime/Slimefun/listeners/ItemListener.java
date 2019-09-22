@@ -42,7 +42,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
@@ -59,6 +58,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class ItemListener implements Listener {
 
@@ -71,10 +71,8 @@ public class ItemListener implements Listener {
 
     @EventHandler
     public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
-        if (e.getInitiator().getHolder() instanceof Hopper) {
-            if (BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
-                e.setCancelled(true);
-            }
+        if (e.getInitiator().getHolder() instanceof Hopper && BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
+            e.setCancelled(true);
         }
     }
 
@@ -117,7 +115,7 @@ public class ItemListener implements Listener {
     }
     @EventHandler
     public void debug(PlayerInteractEvent e) {
-        if (e.getAction().equals(Action.PHYSICAL) || !e.getHand().equals(EquipmentSlot.HAND)) return;
+        if (e.getAction() == Action.PHYSICAL || e.getHand() != EquipmentSlot.HAND) return;
 
         Player p = e.getPlayer();
 
@@ -196,7 +194,7 @@ public class ItemListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onRightClick(ItemUseEvent e) {
-        if (e.getParentEvent() != null && !e.getParentEvent().getHand().equals(EquipmentSlot.HAND)) {
+        if (e.getParentEvent() != null && e.getParentEvent().getHand() != EquipmentSlot.HAND) {
             return;
         }
 
@@ -224,22 +222,6 @@ public class ItemListener implements Listener {
         else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(BookDesign.CHEAT_SHEET), true)) {
             if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
             else p.chat("/sf cheat");
-        }
-        else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getDeprecatedItem(true), true)) {
-            item = SlimefunGuide.getItem(BookDesign.BOOK);
-            p.getInventory().setItemInMainHand(item);
-            PlayerInventory.update(p);
-
-            if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
-            else SlimefunGuide.openGuide(p, true);
-        }
-        else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getDeprecatedItem(false), true)) {
-            item = SlimefunGuide.getItem(BookDesign.CHEST);
-            p.getInventory().setItemInMainHand(item);
-            PlayerInventory.update(p);
-
-            if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
-            else SlimefunGuide.openGuide(p, false);
         }
         else if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
         }
@@ -313,7 +295,7 @@ public class ItemListener implements Listener {
     }
 
     private boolean canPlaceBlock(Player p, Block relative) {
-        return p.isSneaking() && relative.getType().equals(Material.AIR);
+        return p.isSneaking() && relative.getType() == Material.AIR;
     }
 
     @EventHandler
@@ -463,9 +445,7 @@ public class ItemListener implements Listener {
     @EventHandler (ignoreCancelled = true)
     public void onPreBrew(InventoryClickEvent e) {
         Inventory inventory = e.getInventory();
-        if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand) {
-            if (e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
-        }
+        if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand && e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
     }
 
 }

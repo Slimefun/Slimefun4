@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.androids;
 import java.io.File;
 import java.util.*;
 
+import me.mrCookieSlime.Slimefun.holograms.AndroidHologram;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -55,7 +56,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.holograms.AndroidStatusHologram;
 
 public abstract class ProgrammableAndroid extends SlimefunItem {
 
@@ -204,7 +204,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				boolean allow =  reason.equals(UnregisterReason.PLAYER_BREAK) && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
+                boolean allow =  reason == UnregisterReason.PLAYER_BREAK && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
 
 				if (allow) {
 					BlockMenu inv = BlockStorage.getInventory(b);
@@ -220,7 +220,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 							}
 						}
 					}
-					AndroidStatusHologram.remove(b);
+					AndroidHologram.remove(b);
 				}
 
 				return allow;
@@ -335,7 +335,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                         }
                         case CATCH_FISH: {
                             Block block = b.getRelative(BlockFace.DOWN);
-                            if (block.getType().equals(Material.WATER)) {
+                            if (block.getType() == Material.WATER) {
                                 block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
                                 if (CSCoreLib.randomizer().nextInt(100) < 10 * getTier()) {
                                     ItemStack drop = fish[CSCoreLib.randomizer().nextInt(fish.length)];
@@ -464,7 +464,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                             double damage = getTier() < 2 ? 20D : 4D * getTier();
 
                             entities:
-                            for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+                            for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
                                 switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
                                     case NORTH: {
                                         if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.getLocation().getZ() < b.getZ()) {
@@ -516,7 +516,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                             double damage = getTier() < 2 ? 20D : 4D * getTier();
 
                             entities:
-                            for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+                            for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
                                 if (n instanceof Animals) continue;
                                 switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
                                     case NORTH: {
@@ -570,7 +570,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                             double damage = getTier() < 2 ? 20D : 4D * getTier();
 
                             entities:
-                            for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+                            for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
                                 if (n instanceof Monster) continue;
                                 switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
                                     case NORTH: {
@@ -624,7 +624,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
                             double damage = getTier() < 2 ? 20D : 4D * getTier();
 
                             entities:
-                            for (Entity n: AndroidStatusHologram.getNearbyEntities(b, 4D + getTier())) {
+                            for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
                                 if (n instanceof Monster) continue;
                                 if (n instanceof org.bukkit.entity.Ageable && !((org.bukkit.entity.Ageable) n).isAdult()) continue;
                                 switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
@@ -730,20 +730,16 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
             try {
                 SlimefunItem item = BlockStorage.check(block);
                 if (item != null) {
-                    if (fits(b, item.getItem())) {
-                        if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-                            if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-                                pushItems(b, BlockStorage.retrieve(block));
-                                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-                                block.setType(Material.PLAYER_HEAD);
-                                Rotatable blockData = (Rotatable) block.getBlockData();
-                                blockData.setRotation(face.getOppositeFace());
-                                block.setBlockData(blockData);
-                                CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-                                b.setType(Material.AIR);
-                                BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
-                            }
-                        }
+                    if (fits(b, item.getItem()) && SlimefunItem.blockhandler.containsKey(item.getID()) && SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+                        pushItems(b, BlockStorage.retrieve(block));
+                        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+                        block.setType(Material.PLAYER_HEAD);
+                        Rotatable blockData = (Rotatable) block.getBlockData();
+                        blockData.setRotation(face.getOppositeFace());
+                        block.setBlockData(blockData);
+                        CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
+                        b.setType(Material.AIR);
+                        BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
                     }
                 }
                 else {
@@ -865,7 +861,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 
     private void exoticFarm(Block b, Block block) {
 		farm(b, block);
-        if (SlimefunStartup.instance.isExoticGardenInstalled()) {
+        if (SlimefunStartup.instance.getHooks().isExoticGardenInstalled()) {
             ItemStack drop = ExoticGarden.harvestPlant(block);
             if (drop != null && fits(b, drop)) {
                 pushItems(b, drop);
@@ -919,7 +915,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	public void openScriptEditor(Player p, final Block b) throws Exception {
-		ChestMenu menu = new ChestMenu("&eScript Editor");
+		ChestMenu menu = new ChestMenu("&e脚本编辑器");
 
 		menu.addItem(1, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> 编辑脚本", "", "&a编辑你现有的脚本"),
 			(pl, slot, item, action) -> {
@@ -1060,11 +1056,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 	}
 
 	private void openScriptDownloader(final Player p, final Block b, final int page) throws Exception {
-		final ChestMenu menu = new ChestMenu("Android Scripts");
+		final ChestMenu menu = new ChestMenu("机器人脚本");
 
-		menu.addMenuOpeningHandler(
-			(pl) -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F)
-		);
+        menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F));
 
 		List<Config> scripts = getUploadedScripts();
 
@@ -1078,7 +1072,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			);
 		}
 
-		menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 Previous Page", "", "&7(" + page + " / " + pages + ")"));
+		menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 上一页", "", "&7(" + page + " / " + pages + ")"));
 		menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
 			int next = page - 1;
 			if (next < 1) next = pages;
@@ -1386,7 +1380,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 			if (script.getName().endsWith("sfs")) scripts.add(new Config(script));
 		}
 
-		if (!this.getAndroidType().equals(AndroidType.NONE)) {
+		if (this.getAndroidType() != AndroidType.NONE) {
 			File directory2 = new File("plugins/Slimefun/scripts/NONE");
 			if (!directory2.exists()) directory2.mkdirs();
 
@@ -1404,7 +1398,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem {
 		List<ScriptPart> list = new ArrayList<ScriptPart>();
 
 		for (final ScriptPart part : ScriptPart.values()) {
-			if (!part.equals(ScriptPart.START) && !part.equals(ScriptPart.REPEAT) && getAndroidType().isType(part.getRequiredType())) {
+            if (part != ScriptPart.START && part != ScriptPart.REPEAT && getAndroidType().isType(part.getRequiredType())) {
 				list.add(part);
 			}
 		}

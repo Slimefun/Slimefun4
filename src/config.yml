@@ -4,6 +4,7 @@
 options:
   # 自动更新
   auto-update: false
+  # 装备状态更新周期
   armor-update-interval: 10
   # 是否在玩家第一次进入服务器时自动赠送粘液科技指南? 
   give-guide-on-first-join: true
@@ -31,6 +32,7 @@ options:
   legacy-ore-washer: false
   # 是否使用除尘机旧的工作方式
   legacy-dust-washer: false
+  legacy-ore-grinder: false
 guide:
   # 是否默认使用书与笔进行GUI的展示
   default-view-book: false

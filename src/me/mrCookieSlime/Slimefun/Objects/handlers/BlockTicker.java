@@ -6,24 +6,27 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.bukkit.block.Block;
 
 public abstract class BlockTicker implements ItemHandler {
-	
-	public boolean unique = true;
 
-	public void update() {
-		if (unique) {
-			uniqueTick();
-			unique = false;
-		}
-	}
-	
+    protected boolean unique = true;
 
-	public abstract boolean isSynchronized();
-	public abstract void uniqueTick();
-	public abstract void tick(Block b, SlimefunItem item, Config data);
+    public void update() {
+        if (unique) {
+            uniqueTick();
+            unique = false;
+        }
+    }
 
-	@Override
-	public String toCodename() {
-		return "BlockTicker";
-	}
 
+    public abstract boolean isSynchronized();
+    public abstract void uniqueTick();
+    public abstract void tick(Block b, SlimefunItem item, Config data);
+
+    @Override
+    public String toCodename() {
+        return "BlockTicker";
+    }
+
+    public void startNewTick() {
+        unique = true;
+    }
 }

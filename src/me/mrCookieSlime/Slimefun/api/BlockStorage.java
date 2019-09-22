@@ -45,8 +45,6 @@ public class BlockStorage {
 	
 	private Map<String, Config> cache_blocks = new HashMap<>();
 	
-	public static int info_delay;
-	
 	public static BlockStorage getStorage(World world) {
 		return worlds.get(world.getName());
 	}
@@ -95,7 +93,7 @@ public class BlockStorage {
                         System.err.println("[Slimefun] 但是你应该去看看它们!");
                     }
                     else if (file.getName().endsWith(".sfb")) {
-						if (timestamp + info_delay < System.currentTimeMillis()) {
+						if (timestamp + SlimefunStartup.instance.getSettings().BLOCK_LOADING_INFO_DELAY < System.currentTimeMillis()) {
 							System.out.println("[Slimefun] 正在读取粘液科技方块... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% 已完成 (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}

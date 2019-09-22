@@ -353,12 +353,10 @@ public abstract class AReactor extends SlimefunItem {
 						refill:
 							for (int slot: getFuelSlots()) {
 								for (MachineFuel recipe: recipes) {
-									if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true)) {
-										if (pushItems(l, new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots()) == null) {
-											port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
-											break refill;
-										}
-									}
+                                    if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true) && pushItems(l, new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots()) == null) {
+                                        port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
+                                        break refill;
+                                    }
 								}
 							}
 					}
@@ -391,9 +389,7 @@ public abstract class AReactor extends SlimefunItem {
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
 
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-						ReactorHologram.remove(l);
-					}, 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> ReactorHologram.remove(l), 0);
 
 					explode.remove(l);
 					processing.remove(l);

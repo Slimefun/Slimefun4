@@ -40,18 +40,15 @@ public class AndroidKillingListener implements Listener {
                 }
 
                 switch (e.getEntityType()) {
-                    case BLAZE: {
+                    case BLAZE:
                         items.add(new ItemStack(Material.BLAZE_ROD, 1 + CSCoreLib.randomizer().nextInt(2)));
                         break;
-                    }
-                    case PIG_ZOMBIE: {
+                    case PIG_ZOMBIE:
                         items.add(new ItemStack(Material.GOLD_NUGGET, 1 + CSCoreLib.randomizer().nextInt(3)));
                         break;
-                    }
-                    case WITHER_SKELETON: {
+                    case WITHER_SKELETON:
                         if (CSCoreLib.randomizer().nextInt(250) < 2) items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                         break;
-                    }
                     default:
                         break;
                 }

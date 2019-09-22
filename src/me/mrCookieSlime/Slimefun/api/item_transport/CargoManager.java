@@ -217,19 +217,19 @@ public class CargoManager {
 				if (index > (items.size() - 1)) index = 0;
 				
 				BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
-				
-				return SlimefunManager.isItemSimiliar(item, items.get(index), lore, data ? DataType.ALWAYS: DataType.NEVER);
+
+                return SlimefunManager.isItemSimiliar(item, items.get(index), lore);
 			}
 			else {
 				for (ItemStack stack: items) {
-					if (SlimefunManager.isItemSimiliar(item, stack, lore, data ? DataType.ALWAYS: DataType.NEVER)) return true;
+                    if (SlimefunManager.isItemSimiliar(item, stack, lore)) return true;
 				}
 				return false;
 			}
 		}
 		else {
 			for (int slot: slots) {
-				if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimiliar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore, data ? DataType.ALWAYS: DataType.NEVER)) {
+                if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimiliar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
 					return false;
 				}
 			}

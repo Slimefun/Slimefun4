@@ -41,28 +41,11 @@ public class Research {
     private static final int[] research_progress = {23, 44, 57, 92};
 
     /**
-     * Whether researching is enabled or not;
-     * @since 4.0
-     */
-    public static boolean enableResearching;
-
-    /**
      * Contains all the registered researches;
      * @since 4.0
      * @see ResearchSetup
      */
     public static List<Research> list = new LinkedList<>();
-
-    /**
-     * Contains all Research Titles
-     */
-    public static List<String> titles;
-
-    /**
-     * Whether researching in creative is free.
-     * @since 4.0
-     */
-    public static boolean creative_research = true;
 
     private int id;
     private String name;
@@ -97,7 +80,7 @@ public class Research {
     }
 
     public boolean isEnabled() {
-        return enableResearching && enabled;
+        return SlimefunStartup.instance.getSettings().RESEARCHES_ENABLED && enabled;
     }
 
     /**
@@ -231,7 +214,7 @@ public class Research {
      */
     public boolean canUnlock(Player p) {
         if (!isEnabled()) return true;
-        return (p.getGameMode() == GameMode.CREATIVE && creative_research) || p.getLevel() >= this.cost;
+        return (p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE) || p.getLevel() >= this.cost;
     }
 
     /**
@@ -390,9 +373,7 @@ public class Research {
      */
     @Deprecated
     public static String getTitle(Player p, Collection<Research> researched) {
-        int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researched.size() * 100.0F) / list().size()) * 100.0F) / 100.0F)) / 100.0F) * titles.size();
-        if (index > 0) index--;
-        return titles.get(index);
+        return PlayerProfile.fromUUID(p.getUniqueId()).getTitle();
     }
 
     /**

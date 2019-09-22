@@ -7,7 +7,7 @@ import java.util.Map;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
-import me.mrCookieSlime.Slimefun.Utilities;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;

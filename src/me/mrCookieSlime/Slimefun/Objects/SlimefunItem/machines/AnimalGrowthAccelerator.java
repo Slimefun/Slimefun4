@@ -34,7 +34,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 	public AnimalGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "&bGrowth Accelerator") {
+		new BlockMenuPreset(name, "&b生长加速机") {
 			
 			@Override
 			public void init() {
@@ -52,7 +52,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.INSERT)) return getInputSlots();
+				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
 				return new int[0];
 			}
 		};

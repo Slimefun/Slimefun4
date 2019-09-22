@@ -3,7 +3,9 @@ package me.mrCookieSlime.Slimefun.Setup;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
+import me.mrCookieSlime.Slimefun.utils.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -46,7 +48,7 @@ public final class MiscSetup {
 		SlimefunItem.setRadioactive(SlimefunItems.ENRICHED_NETHER_ICE);
 	}
 	
-	public static void loadItems() {
+	public static void loadItems(Settings settings) {
 		
 		Iterator<SlimefunItem> iterator = SlimefunItem.items.iterator();
 		while (iterator.hasNext()) {
@@ -155,7 +157,14 @@ public final class MiscSetup {
 		}
 
         // Favour 8 Cobblestone -> 1 Sand Recipe over 1 Cobblestone -> 1 Gravel Recipe
-        grinder_recipes.stream().sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount())).forEach(recipe -> SlimefunRecipes.registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {recipe[0]}, new ItemStack[] {recipe[1]}));
+        Stream<ItemStack[]> stream = grinder_recipes.stream();
+
+
+        if (!settings.ORE_GRINDER_LEGACY) {
+            stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
+        }
+
+        stream.forEach(recipe -> SlimefunRecipes.registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {recipe[0]}, new ItemStack[] {recipe[1]}));
 
 		SlimefunItem smeltery = SlimefunItem.getByID("SMELTERY");
 		if (smeltery != null) {

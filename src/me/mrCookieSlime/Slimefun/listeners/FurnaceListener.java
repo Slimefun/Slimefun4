@@ -24,10 +24,9 @@ public class FurnaceListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBurn(FurnaceBurnEvent e) {
 		SlimefunItem furnace = BlockStorage.check(e.getBlock());
-		if (furnace instanceof EnhancedFurnace) {
-			if (((EnhancedFurnace) furnace).getFuelEfficiency() > 0)
-				e.setBurnTime(((int) ((1 + 0.2 * ((EnhancedFurnace) furnace).getFuelEfficiency()) * e.getBurnTime())));
-		}
+        if (furnace instanceof EnhancedFurnace && ((EnhancedFurnace) furnace).getFuelEfficiency() > 0) {
+            e.setBurnTime(((int) ((1 + 0.2 * ((EnhancedFurnace) furnace).getFuelEfficiency()) * e.getBurnTime())));
+        }
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

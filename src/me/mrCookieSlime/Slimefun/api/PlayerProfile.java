@@ -1,15 +1,10 @@
 package me.mrCookieSlime.Slimefun.api;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.IntStream;
 
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -159,9 +154,11 @@ public final class PlayerProfile {
     }
 
     public String getTitle() {
-        int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0f) / Research.titles.size())))));
+        List<String> titles = SlimefunStartup.instance.getSettings().RESEARCHES_TITLES;
+
+        int index = Math.round(Float.parseFloat(String.valueOf(Math.round(((researches.size() * 100.0F) / titles.size())))));
         if (index > 0) index--;
-        return Research.titles.get(index);
+        return titles.get(index);
     }
 
     public static PlayerProfile fromUUID(UUID uuid) {

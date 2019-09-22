@@ -64,7 +64,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.INSERT)) return getInputSlots();
+				if (flow ==ItemTransportFlow.INSERT) return getInputSlots();
 				return new int[0];
 			}
 		};
@@ -132,43 +132,41 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 
 		super.register(slimefun);
 	}
-	
-	protected void tick(Block b) throws Exception {
-		int work = 0;
-		master:
-		for (int x = -getRadius(); x <= getRadius(); x++) {
-			for (int z = -getRadius(); z <= getRadius(); z++) {
-				Block block = b.getRelative(x, 0, z);
-				if (crops.containsKey(block.getType())) {
-					if (((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
-						for (int slot : getInputSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-								if (work > (getSpeed() - 1)) break master;
-								if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
-								ChargableBlock.addCharge(b, -getEnergyConsumption());
-								
-								Ageable ageable = (Ageable) block.getBlockData();
-								ageable.setAge(ageable.getAge() + 1);
-								block.setBlockData(ageable);
 
-								block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
-								work++;
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		if (work > 0) {
-			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
-					break;
-				}
-			}
-		}
-	}
+    protected void tick(Block b) throws Exception {
+        int work = 0;
+        master:
+        for (int x = -getRadius(); x <= getRadius(); x++) {
+            for (int z = -getRadius(); z <= getRadius(); z++) {
+                Block block = b.getRelative(x, 0, z);
+                if (crops.containsKey(block.getType()) && ((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
+                    for (int slot : getInputSlots()) {
+                        if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+                            if (work > (getSpeed() - 1)) break master;
+                            if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
+                            ChargableBlock.addCharge(b, -getEnergyConsumption());
+
+                            Ageable ageable = (Ageable) block.getBlockData();
+                            ageable.setAge(ageable.getAge() + 1);
+                            block.setBlockData(ageable);
+
+                            block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
+                            work++;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (work > 0) {
+            for (int slot : getInputSlots()) {
+                if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+                    BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+                    break;
+                }
+            }
+        }
+    }
 
 }

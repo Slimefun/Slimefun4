@@ -104,7 +104,7 @@ public final class ResearchSetup {
         Slimefun.registerResearch(new Research(98, "Advanced Mining 101", 42), SlimefunItems.ADVANCED_DIGITAL_MINER);
         Slimefun.registerResearch(new Research(99, "Composting Dirt", 3), SlimefunItems.COMPOSTER);
         Slimefun.registerResearch(new Research(100, "Farmer Shoes", 4), SlimefunItems.FARMER_SHOES);
-        Slimefun.registerResearch(new Research(101, "Explosive Pickaxe", 28), SlimefunItems.EXPLOSIVE_PICKAXE);
+        Slimefun.registerResearch(new Research(101, "Explosive Tools", 30), SlimefunItems.EXPLOSIVE_PICKAXE, SlimefunItems.EXPLOSIVE_SHOVEL);
         Slimefun.registerResearch(new Research(102, "Automated Gold Pan", 17), SlimefunItems.AUTOMATED_PANNING_MACHINE);
         Slimefun.registerResearch(new Research(103, "Boots of the Stomper", 19), SlimefunItems.BOOTS_OF_THE_STOMPER);
         Slimefun.registerResearch(new Research(104, "Pickaxe of the Seeker", 19), SlimefunItems.PICKAXE_OF_THE_SEEKER);
@@ -240,5 +240,7 @@ public final class ResearchSetup {
         Slimefun.registerResearch(new Research(241, "Thinned-down Conductivity", 15), SlimefunItems.COPPER_WIRE);
         Slimefun.registerResearch(new Research(242, "Wither Bow", 30), SlimefunItems.WITHER_BOW);
         Slimefun.registerResearch(new Research(243, "Radiant Backpack", 25), SlimefunItems.RADIANT_BACKPACK);
+        Slimefun.registerResearch(new Research(244, "A Dry Day", 15), SlimefunItems.AUTO_DRIER);
+        Slimefun.registerResearch(new Research(245, "Diet Cookie", 3), SlimefunItems.DIET_COOKIE);
     }
 }

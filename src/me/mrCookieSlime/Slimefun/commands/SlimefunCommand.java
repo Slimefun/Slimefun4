@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -132,7 +133,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
                     }
                     else Messages.local.sendTranslation(sender, "messages.no-permission", true);
                 }
-                else if (sender instanceof Player) Research.sendStats((Player) sender, (Player) sender);
+                else if (sender instanceof Player) Research.sendStats(sender, (Player) sender);
                 else Messages.local.sendTranslation(sender, "messages.only-players", true);
             }
             else if (args[0].equalsIgnoreCase("elevator")) {
@@ -200,8 +201,9 @@ public class SlimefunCommand implements CommandExecutor, Listener {
                     if (args.length == 3) {
                         if (Players.isOnline(args[1])) {
                             if (Slimefun.listIDs().contains(args[2].toUpperCase())) {
-                                Messages.local.sendTranslation(Bukkit.getPlayer(args[1]), "messages.given-item", true, new Variable("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", "1"));
-                                Bukkit.getPlayer(args[1]).getInventory().addItem(SlimefunItem.getByID(args[2].toUpperCase()).getItem());
+                                Player p = Bukkit.getPlayer(args[1]);
+                                Messages.local.sendTranslation(p, "messages.given-item", true, new Variable("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", "1"));
+                                p.getInventory().addItem(SlimefunItem.getByID(args[2].toUpperCase()).getItem());
                                 Messages.local.sendTranslation(sender, "messages.give-item", true, new Variable("%player%", args[1]), new Variable("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()), new Variable("%amount%", "1"));
                             }
                             else Messages.local.sendTranslation(sender, "messages.not-valid-item", true, new Variable("%item%", args[2]));
@@ -254,15 +256,16 @@ public class SlimefunCommand implements CommandExecutor, Listener {
                     if (sender.hasPermission("slimefun.cheat.researches") || !(sender instanceof Player)) {
                         if (Players.isOnline(args[1])) {
                             Player p = Bukkit.getPlayer(args[1]);
+                            PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
                             if (args[2].equalsIgnoreCase("all")) {
                                 for (Research res : Research.list()) {
-                                    if (!res.hasUnlocked(p)) Messages.local.sendTranslation(sender, "messages.give-research", true, new Variable("%player%", p.getName()), new Variable("%research%", res.getName()));
+                                    if (!profile.hasUnlocked(res)) Messages.local.sendTranslation(sender, "messages.give-research", true, new Variable("%player%", p.getName()), new Variable("%research%", res.getName()));
                                     res.unlock(p, true);
                                 }
                             }
                             else if (args[2].equalsIgnoreCase("reset")) {
                                 for (Research res : Research.list()) {
-                                    res.lock(p);
+                                    profile.setResearched(res, false);
                                 }
                                 Messages.local.sendTranslation(p, "commands.research.reset", true, new Variable("%player%", args[1]));
                             }

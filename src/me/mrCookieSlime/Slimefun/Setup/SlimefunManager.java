@@ -34,8 +34,11 @@ public final class SlimefunManager {
         recipes.add(new ItemStack[] {baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
         recipes.add(new ItemStack[] {null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
         for (int i = 0; i < 4; i++) {
-            if ((effects.length - 1) >= i) if (effects[i].length > 0) new SlimefunArmorPiece(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(slimefun);
-            else new SlimefunItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
+            if ((effects.length - 1) >= i) if (effects[i].length > 0) {
+                new SlimefunArmorPiece(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(slimefun);
+            } else {
+                new SlimefunItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
+            }
         }
     }
 
@@ -68,9 +71,10 @@ public final class SlimefunManager {
 //			Material.COAL, Material.SKULL_ITEM, Material.RAW_FISH, Material.COOKED_FISH);
 
     public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore) {
-        return isItemSimiliar(item, SFitem, lore, DataType.IF_COLORED);
+        if (item == null) return SFitem == null;
+        if (SFitem == null) return false;
+        else return false;
     }
-
 
     @Deprecated
     public static enum DataType {
@@ -83,37 +87,7 @@ public final class SlimefunManager {
 
     @Deprecated
     public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore, DataType data) {
-        if (item == null) return SFitem == null;
-        if (SFitem == null) return false;
-
-        if (item.getType() == SFitem.getType() && item.getAmount() >= SFitem.getAmount()) {
-            if (item.hasItemMeta() && SFitem.hasItemMeta()) {
-                if (item.getItemMeta().hasDisplayName() && SFitem.getItemMeta().hasDisplayName()) {
-                    if (item.getItemMeta().getDisplayName().equals(SFitem.getItemMeta().getDisplayName())) {
-                        if (lore) {
-                            if (item.getItemMeta().hasLore() && SFitem.getItemMeta().hasLore()) {
-                                return equalsLore(item.getItemMeta().getLore(), SFitem.getItemMeta().getLore());
-                            }
-                            else return !item.getItemMeta().hasLore() && !SFitem.getItemMeta().hasLore();
-                        }
-                        else return true;
-                    }
-                    else return false;
-                }
-                else if (!item.getItemMeta().hasDisplayName() && !SFitem.getItemMeta().hasDisplayName()) {
-                    if (lore) {
-                        if (item.getItemMeta().hasLore() && SFitem.getItemMeta().hasLore()) {
-                            return equalsLore(item.getItemMeta().getLore(), SFitem.getItemMeta().getLore());
-                        }
-                        else return !item.getItemMeta().hasLore() && !SFitem.getItemMeta().hasLore();
-                    }
-                    else return true;
-                }
-                else return false;
-            }
-            else return !item.hasItemMeta() && !SFitem.hasItemMeta();
-        }
-        else return false;
+        return isItemSimiliar(item, SFitem, lore);
     }
 
     private static boolean equalsLore(List<String> lore, List<String> lore2) {

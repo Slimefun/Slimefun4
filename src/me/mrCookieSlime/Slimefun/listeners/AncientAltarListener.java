@@ -30,7 +30,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Utilities;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 import me.mrCookieSlime.Slimefun.ancient_altar.Pedestals;
 import me.mrCookieSlime.Slimefun.ancient_altar.RitualAnimation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -64,7 +64,7 @@ public class AncientAltarListener implements Listener {
                 e.setCancelled(true);
                 Item stack = findItem(b);
                 if (stack == null) {
-                    if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
+                    if(e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) return;
                     if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
                         Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
                         return;
@@ -100,11 +100,9 @@ public class AncientAltarListener implements Listener {
                 if (!altars.contains(e.getClickedBlock())) {
                     altars.add(e.getClickedBlock());
                     if (pedestals.size() == 8) {
-                        pedestals.forEach((pblock)->{
-                            utilities.altarinuse.add(pblock.getLocation());
-                        });
+                        pedestals.forEach(pblock -> utilities.altarinuse.add(pblock.getLocation()));
 
-                        if (catalyst != null && !catalyst.getType().equals(Material.AIR)) {
+                        if (catalyst != null && catalyst.getType() != Material.AIR) {
                             List<ItemStack> input = new ArrayList<>();
                             for (Block pedestal: pedestals) {
                                 Item stack = findItem(pedestal);
@@ -122,9 +120,7 @@ public class AncientAltarListener implements Listener {
                                 altars.remove(e.getClickedBlock());
                                 Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
 
-                                pedestals.forEach((pblock)->{
-                                    utilities.altarinuse.remove(pblock.getLocation());
-                                });
+                                pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
 
                                 utilities.altarinuse.remove(b.getLocation());  // bad recipe, no longer in use.
                             }
@@ -133,9 +129,7 @@ public class AncientAltarListener implements Listener {
                             altars.remove(e.getClickedBlock());
                             Messages.local.sendTranslation(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 
-                            pedestals.forEach((pblock)->{
-                                utilities.altarinuse.remove(pblock.getLocation());
-                            });
+                            pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
 
                             utilities.altarinuse.remove(b.getLocation());  // unkown catalyst, no longer in use
                         }
@@ -168,9 +162,7 @@ public class AncientAltarListener implements Listener {
 
     public static Item findItem(Block b) {
         for (Entity n: b.getChunk().getEntities()) {
-            if (n instanceof Item) {
-                if (b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) return (Item) n;
-            }
+            if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) return (Item) n;
         }
         return null;
     }
