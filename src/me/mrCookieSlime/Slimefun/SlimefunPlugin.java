@@ -23,6 +23,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.resources.OilResource;
+import me.mrCookieSlime.Slimefun.GEO.resources.UraniumResource;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
@@ -206,6 +207,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			// Generating Oil as an OreGenResource (its a cool API)
 			OreGenSystem.registerResource(new OilResource());
 			OreGenSystem.registerResource(new NetherIceResource());
+			OreGenSystem.registerResource(new UraniumResource());
 
 			// Setting up GitHub Connectors...
 

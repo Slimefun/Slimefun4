@@ -24,5 +24,10 @@ public interface OreGenResource {
 	 * Measurement Unit e.g. "Buckets"
 	 */
 	String getMeasurementUnit();
+	
+	/**
+	 * Returns whether this Resource is considered a fluid
+	 */
+	boolean isLiquid();
 
 }

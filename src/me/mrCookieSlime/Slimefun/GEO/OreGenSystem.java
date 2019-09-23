@@ -20,14 +20,18 @@ public final class OreGenSystem {
 	}
 	
 	public static void registerResource(OreGenResource resource) {
-		SlimefunPlugin.getUtilities().resources.put(resource.getName(), resource);
-		Slimefun.getLogger().log(Level.INFO, "Registering Ore Gen: " + resource.getName());
-		
-		Config cfg = new Config("plugins/Slimefun/generators/" + resource.getName() + ".cfg");
+		Config cfg = new Config("plugins/Slimefun/generators/" + resource.getName() + ".yml");
+		cfg.setDefaultValue("enabled", true);
 		for (Biome biome: Biome.values()) {
-			cfg.setDefaultValue(biome.toString(), resource.getDefaultSupply(biome));
+			cfg.setDefaultValue("spawn-rates." + biome.toString(), resource.getDefaultSupply(biome));
 		}
 		cfg.save();
+		
+		if (cfg.getBoolean("enabled")) {
+			Slimefun.getLogger().log(Level.INFO, "Registering Ore Gen: " + resource.getName());
+			SlimefunPlugin.getUtilities().resources.put(resource.getName(), resource);
+			SlimefunPlugin.getUtilities().resource_configs.put(resource.getName(), cfg);
+		}
 	}
 	
 	public static OreGenResource getResource(String name) {
@@ -35,25 +39,31 @@ public final class OreGenSystem {
 	}
 	
 	private static int getDefault(OreGenResource resource, Biome biome) {
-		if (resource == null) return 0;
-		Config cfg = new Config("plugins/Slimefun/generators/" + resource.getName() + ".cfg");
-		return cfg.getInt(biome.toString());
+		if (resource == null) {
+			return 0;
+		}
+		else {
+			return SlimefunPlugin.getUtilities().resource_configs.get(resource.getName()).getInt("spawn-rates." + biome.toString());
+		}
 	}
 	
 	public static void setSupplies(OreGenResource resource, Chunk chunk, int amount) {
-		if (resource == null) return;
-		BlockStorage.setChunkInfo(chunk, "resources_" + resource.getName().toUpperCase(), String.valueOf(amount));
+		if (resource != null) {
+			BlockStorage.setChunkInfo(chunk, "resources_" + resource.getName().toUpperCase(), String.valueOf(amount));
+		}
 	}
 	
 	public static int generateSupplies(OreGenResource resource, Chunk chunk) {
 		if (resource == null) return 0;
-		int supplies = getDefault(resource, chunk.getBlock(5, 50, 5).getBiome());
+		
+		int supplies = getDefault(resource, chunk.getBlock(7, 60, 7).getBiome());
 		BlockStorage.setChunkInfo(chunk, "resources_" + resource.getName().toUpperCase(), String.valueOf(supplies));
 		return supplies;
 	}
 
 	public static int getSupplies(OreGenResource resource, Chunk chunk, boolean generate) {
 		if (resource == null) return 0;
+		
 		if (BlockStorage.hasChunkInfo(chunk, "resources_" + resource.getName().toUpperCase())) {
 			return Integer.parseInt(BlockStorage.getChunkInfo(chunk, "resources_" + resource.getName().toUpperCase()));
 		}

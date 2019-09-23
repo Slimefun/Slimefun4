@@ -9,7 +9,6 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,15 +24,13 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
-import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class GPSNetwork {
 	
 	private Map<UUID, Set<Location>> transmitters = new HashMap<>();
-	private int[] border = new int[] {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-	private int[] inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
+	private static final int[] border = new int[] {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+	private static final int[] inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
 	private static final int[] teleporter_border = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private static final int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
@@ -158,8 +155,7 @@ public class GPSNetwork {
 				
 				menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &cClick to delete"));
 				menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
-					String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey()))
-						.toUpperCase().replace(' ', '_');
+					String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(' ', '_');
 					Config cfg = new Config("data-storage/Slimefun/waypoints/" + pl.getUniqueId().toString() + ".yml");
 					cfg.setValue(id, null);
 					cfg.save();
@@ -220,25 +216,6 @@ public class GPSNetwork {
 
 	public Set<Location> getTransmitters(UUID uuid) {
 		return transmitters.containsKey(uuid) ? transmitters.get(uuid): new HashSet<>();
-	}
-
-	public void scanChunk(Player p, Chunk chunk) {
-		if (getNetworkComplexity(p.getUniqueId()) < 600) {
-			SlimefunPlugin.getLocal().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));
-			return;
-		}
-		ChestMenu menu = new ChestMenu("&4Scan Results");
-		
-		int index = 0;
-		
-		for (OreGenResource resource: OreGenSystem.listResources()) {
-			int supply = OreGenSystem.getSupplies(resource, chunk, true);
-			
-			menu.addItem(index, new CustomItem(resource.getIcon(), "&7Resource: &e" + resource.getName(), "", "&7Scanned Chunk:", "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "&7Result: &e" + supply + ' ' + resource.getMeasurementUnit()), (pl, slot, item, action) -> false);
-			index++;
-		}
-		
-		menu.open(p);
 	}
 	
 	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) {

@@ -1,31 +1,44 @@
 package me.mrCookieSlime.Slimefun.GEO.resources;
 
+import java.util.Random;
+
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
-public class NetherIceResource implements OreGenResource {
+public class UraniumResource implements OreGenResource {
+	
+	private final Random random = new Random();
 	
 	@Override
 	public int getDefaultSupply(Biome biome) {
-		return biome == Biome.NETHER ? 32: 0;
+		switch (biome) {
+			case THE_END:
+			case END_BARRENS:
+			case END_MIDLANDS:
+			case SMALL_END_ISLANDS:
+			case NETHER:
+				return 0;
+			default:
+				return random.nextInt(5) + 1;
+		}
 	}
 
 	@Override
 	public String getName() {
-		return "Nether Ice";
+		return "Small Chunks of Uranium";
 	}
 
 	@Override
 	public ItemStack getIcon() {
-		return SlimefunItems.NETHER_ICE.clone();
+		return SlimefunItems.SMALL_URANIUM.clone();
 	}
 
 	@Override
 	public String getMeasurementUnit() {
-		return "Blocks";
+		return "Pieces";
 	}
 
 	@Override

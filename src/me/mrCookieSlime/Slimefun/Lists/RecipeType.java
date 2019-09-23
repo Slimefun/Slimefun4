@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class RecipeType {
 	
-	public static final RecipeType MULTIBLOCK = new RecipeType(new CustomItem(Material.BRICK, "&bMultiBlock", "", "&a&oBuild it in the World"));
+	public static final RecipeType MULTIBLOCK = new RecipeType(new CustomItem(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
 	public static final RecipeType ARMOR_FORGE = new RecipeType(new CustomItem(Material.ANVIL, "&bArmor Forge", "", "&a&oCraft it in an Armor Forge"), "ARMOR_FORGE");
 	public static final RecipeType GRIND_STONE = new RecipeType(new CustomItem(Material.DISPENSER, "&bGrind Stone", "", "&a&oGrind it using the Grind Stone"), "GRIND_STONE");
 	public static final RecipeType MOB_DROP = new RecipeType(new CustomItem(Material.IRON_SWORD, "&bMob Drop", "", "&a&oKill the specified Mob to obtain this Item"));

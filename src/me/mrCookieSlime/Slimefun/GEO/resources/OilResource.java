@@ -81,4 +81,9 @@ public class OilResource implements OreGenResource {
 		return "Buckets";
 	}
 
+	@Override
+	public boolean isLiquid() {
+		return true;
+	}
+
 }

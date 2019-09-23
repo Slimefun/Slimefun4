@@ -16,6 +16,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -118,6 +119,7 @@ public final class Utilities {
 	public final Set<UUID> teleporterUsers = new HashSet<>();
 	
 	public final Map<String, OreGenResource> resources = new HashMap<>();
+	public final Map<String, Config> resource_configs = new HashMap<>();
 	
 	public final Set<GitHubConnector> connectors = new HashSet<>();
 	public final Map<String, String> contributorHeads = new HashMap<>();

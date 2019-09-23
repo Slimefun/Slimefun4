@@ -93,6 +93,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MonsterJerky;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfContainment;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfTheSeeker;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfVeinMining;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PortableGEOScanner;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SeismicAxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SmeltersPickaxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SoulboundRune;
@@ -131,6 +132,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FluidPum
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodComposter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodFabricator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Freezer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.GEOScannerBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.GPSTransmitter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.HeatedPressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.NetherDrill;
@@ -2302,7 +2304,7 @@ public final class SlimefunSetup {
 		});
 
 		new SlimefunItem(Categories.GPS, SlimefunItems.GPS_MARKER_TOOL, "GPS_MARKER_TOOL", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, null, SlimefunItems.ELECTRO_MAGNET, new ItemStack(Material.LAPIS_LAZULI), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.LAPIS_LAZULI), new ItemStack(Material.REDSTONE), SlimefunItems.REDSTONE_ALLOY, new ItemStack(Material.REDSTONE)})
+		new ItemStack[] {null, SlimefunItems.ELECTRO_MAGNET, null, new ItemStack(Material.LAPIS_LAZULI), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.LAPIS_LAZULI), new ItemStack(Material.REDSTONE), SlimefunItems.REDSTONE_ALLOY, new ItemStack(Material.REDSTONE)})
 		.register(true);
 
 		new SlimefunItem(Categories.GPS, SlimefunItems.GPS_EMERGENCY_TRANSMITTER, "GPS_EMERGENCY_TRANSMITTER", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2706,23 +2708,14 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.LEAD_INGOT, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.HARDENED_GLASS, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.LEAD_INGOT, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.LEAD_INGOT},
 		new CustomItem(SlimefunItems.WITHER_PROOF_GLASS, 4))
 		.register(true);
-
-
-		new SlimefunItem(Categories.GPS, SlimefunItems.GPS_GEO_SCANNER, "GPS_GEO_SCANNER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		
+		new GEOScannerBlock(Categories.GPS, SlimefunItems.GPS_GEO_SCANNER, "GPS_GEO_SCANNER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, SlimefunItems.ELECTRO_MAGNET, null, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ELECTRO_MAGNET})
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
-				if (e.getClickedBlock() == null) return false;
-				String item = BlockStorage.checkID(e.getClickedBlock());
-				if (item == null || !item.equals("GPS_GEO_SCANNER")) return false;
-				e.setCancelled(true);
-				
-				Slimefun.getGPSNetwork().scanChunk(p, e.getClickedBlock().getChunk());
-				return true;
-			}
-		});
+		.register(true);
+		
+		new PortableGEOScanner(Categories.GPS, SlimefunItems.PORTABLE_GEO_SCANNER, "PORTABLE_GEO_SCANNER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.ELECTRO_MAGNET, new ItemStack(Material.COMPASS), SlimefunItems.ELECTRO_MAGNET, SlimefunItems.STEEL_INGOT, SlimefunItems.GPS_MARKER_TOOL, SlimefunItems.STEEL_INGOT, SlimefunItems.SOLDER_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.SOLDER_INGOT})
+		.register(true);
 
 		new OilPump(Categories.GPS, SlimefunItems.OIL_PUMP, "OIL_PUMP", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.STEEL_INGOT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT, null, new ItemStack(Material.BUCKET), null}) {
@@ -2741,6 +2734,7 @@ public final class SlimefunSetup {
 
 		new NetherDrill(Categories.GPS, SlimefunItems.NETHER_DRILL, "NETHER_DRILL", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[]{SlimefunItems.LEAD_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.OIL_PUMP, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.BIG_CAPACITOR, SlimefunItems.LEAD_INGOT}){
+			
 			@Override
 			public int getSpeed() {
 				return 1;
@@ -2750,6 +2744,7 @@ public final class SlimefunSetup {
 			public int getEnergyConsumption() {
 				return 51;
 			}
+			
 		}.registerChargeableBlock(true, 1024);
 
 		new SlimefunItem(Categories.RESOURCES, SlimefunItems.BUCKET_OF_OIL, "BUCKET_OF_OIL", new RecipeType(SlimefunItems.OIL_PUMP),
