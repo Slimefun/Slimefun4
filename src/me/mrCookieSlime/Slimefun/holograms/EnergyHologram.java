@@ -33,14 +33,14 @@ public final class EnergyHologram {
 		});
 	}
 	
-	private static ArmorStand getArmorStand(Block b, boolean createIfNonExists) {
+	private static ArmorStand getArmorStand(Block b, boolean createIfNoneExists) {
 		Location l = new Location(b.getWorld(), b.getX() + 0.5, b.getY() + 0.7F, b.getZ() + 0.5);
 		
 		for (Entity n : l.getChunk().getEntities()) {
 			if (n instanceof ArmorStand && n.getCustomName() != null && l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
 		}
 		
-		if (!createIfNonExists) return null;
+		if (!createIfNoneExists) return null;
 		else return ArmorStandFactory.createHidden(l);
 	}
 

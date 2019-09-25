@@ -31,7 +31,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
-import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
+import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
 
 public class CargoNet extends Network {
 	
@@ -142,15 +142,15 @@ public class CargoNet extends Network {
 
 	public void tick(final Block b) {
 		if (!regulator.equals(b.getLocation())) {
-			CargoHologram.update(b, "&4Multiple Cargo Regulators connected");
+			SimpleHologram.update(b, "&4Multiple Cargo Regulators connected");
 			return;
 		}
 		super.tick();
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-			CargoHologram.update(b, "&7Status: &4&lOFFLINE");
+			SimpleHologram.update(b, "&7Status: &4&lOFFLINE");
 		}
 		else {
-			CargoHologram.update(b, "&7Status: &a&lONLINE");
+			SimpleHologram.update(b, "&7Status: &a&lONLINE");
 
 
 			final Map<Integer, List<Location>> output = new HashMap<>();
