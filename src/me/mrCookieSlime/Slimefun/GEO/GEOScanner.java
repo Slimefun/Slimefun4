@@ -42,7 +42,7 @@ public final class GEOScanner {
 		for (OreGenResource resource: OreGenSystem.listResources()) {
 			int supply = OreGenSystem.getSupplies(resource, chunk, true);
 			
-			ItemStack item = new CustomItem(resource.getIcon(), "&r" + resource.getName(), "&8\u21E8 &e" + supply + ' ' + resource.getMeasurementUnit());
+			ItemStack item = new CustomItem(resource.getItem(), "&r" + resource.getName(), "&8\u21E8 &e" + supply + ' ' + resource.getMeasurementUnit());
 			if (supply > 1) {
 				item.setAmount(supply > item.getMaxStackSize() ? item.getMaxStackSize(): supply);
 			}
