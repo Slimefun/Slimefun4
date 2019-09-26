@@ -18,9 +18,9 @@ public final class Files {
 			Slimefun.getLogger().log(Level.WARNING, "###############################################");
 			Slimefun.getLogger().log(Level.WARNING, "############## = -  INFO  - = #################");
 			Slimefun.getLogger().log(Level.WARNING, "###############################################");
-			Slimefun.getLogger().log(Level.WARNING, "      ");
+			Slimefun.getLogger().log(Level.WARNING, " ");
 			Slimefun.getLogger().log(Level.WARNING, "Slimefun Warning:");
-			Slimefun.getLogger().log(Level.WARNING, "         ");
+			Slimefun.getLogger().log(Level.WARNING, " ");
 			Slimefun.getLogger().log(Level.WARNING, "Slimefun has detected that your Files are either");
 			Slimefun.getLogger().log(Level.WARNING, "outdated or do not exist. We generated new Files");
 			Slimefun.getLogger().log(Level.WARNING, "instead otherwise Slimefun would not work. If you");

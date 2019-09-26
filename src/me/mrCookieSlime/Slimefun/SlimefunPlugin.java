@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun;
 import java.io.File;
 import java.util.logging.Level;
 
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -36,6 +35,7 @@ import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunMetrics;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -161,7 +161,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			gps = new GPSNetwork();
 			
 			// Setting up bStats
-			new Metrics(this);
+			new SlimefunMetrics(this);
 
 			// Setting up the Auto-Updater
 			Updater updater;

@@ -2,7 +2,7 @@ name: Slimefun
 version: ${project.version}
 author: The Slimefun 4 Community
 description: Slimefun basically turns your entire Server into a FTB modpack without installing a single mod
-website: http://TheBusyBiscuit.github.io/
+website: https://github.com/TheBusyBiscuit/Slimefun4
 
 main: me.mrCookieSlime.Slimefun.SlimefunPlugin
 softdepend: [CS-CoreLib, PlaceholderAPI]
