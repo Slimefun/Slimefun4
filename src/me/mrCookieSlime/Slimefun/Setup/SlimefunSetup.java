@@ -132,11 +132,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FluidPum
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodComposter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodFabricator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Freezer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.GEOScannerBlock;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.GPSTransmitter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.HeatedPressureChamber;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.NetherDrill;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.OilPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Refinery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.XPCollector;
@@ -144,6 +140,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generato
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.CoalGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.CombustionGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.LavaGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.GEOScannerBlock;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.NetherDrill;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.OilPump;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.GPSTransmitter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.ArmorForge;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.AutomatedPanningMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Compressor;

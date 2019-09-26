@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -10,6 +10,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.ADrill;
 
+@Deprecated
 public abstract class NetherDrill extends ADrill {
 
 	public NetherDrill(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
