@@ -166,13 +166,17 @@ public final class SlimefunPlugin extends JavaPlugin {
 			// Setting up the Auto-Updater
 			Updater updater;
 
-			if (!getDescription().getVersion().startsWith("DEV - ")) {
-				// We are using an official build, use the BukkitDev Updater
-				updater = new BukkitUpdater(this, getFile(), 53485);
-			}
-			else {
+			if (getDescription().getVersion().startsWith("DEV - ")) {
 				// If we are using a development build, we want to switch to our custom 
 				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
+			}
+			else if (getDescription().getVersion().startsWith("RC - ")) {
+				// If we are using a development build, we want to switch to our custom 
+				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/stable");
+			}
+			else {
+				// We are using an official build, use the BukkitDev Updater
+				updater = new BukkitUpdater(this, getFile(), 53485);
 			}
 
 			if (config.getBoolean("options.auto-update")) updater.start();
