@@ -45,7 +45,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
 				// Spawn the hologram
-				SimpleHologram.update(b, "&7Waiting...");
+				SimpleHologram.update(b, "&7Idling...");
 			}
 
 			@Override
@@ -110,7 +110,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 		List<ItemStack> displayRecipes = new LinkedList<>();
 		for (OreGenResource resource: OreGenSystem.listResources()) {
 			if (!resource.isLiquid()) {
-				displayRecipes.add(new CustomItem(resource.getIcon(), "&r" + resource.getName()));
+				displayRecipes.add(new CustomItem(resource.getItem(), "&r" + resource.getName()));
 			}
 		}
 		
@@ -176,26 +176,26 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 				if (!resource.isLiquid()) {
 					if (!OreGenSystem.wasResourceGenerated(resource, chunk)) {
 						SimpleHologram.update(b, "&4GEO-Scan required!");
-						break;
+						return;
 					}
 					else {
 						int supplies = OreGenSystem.getSupplies(resource, chunk, false);
 						if (supplies > 0) {
-							MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[] {resource.getIcon().clone()});
+							MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[] {resource.getItem().clone()});
 							if (!fits(b, r.getOutput())) return;
 							
 							processing.put(b, r);
 							progress.put(b, r.getTicks());
 							OreGenSystem.setSupplies(resource, b.getChunk(), supplies - 1);
 							SimpleHologram.update(b, "&7Mining: &r" + resource.getName());
-							break;
+							return;
 						}
 					}
 						
 				}
 			}
 			
-			SimpleHologram.update(b, "&7Idling");
+			SimpleHologram.update(b, "&7Finished");
 		}
 	}
 	
