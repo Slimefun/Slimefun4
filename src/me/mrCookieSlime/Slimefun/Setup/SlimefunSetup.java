@@ -242,7 +242,7 @@ public final class SlimefunSetup {
 		new Compressor().register();
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.MAGIC_LUMP_1, "MAGIC_LUMP_1", RecipeType.GRIND_STONE,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_WART), null, null, null, null}, new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2))
+		new ItemStack[] {new ItemStack(Material.NETHER_WART), null, null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2))
 		.register(true);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.MAGIC_LUMP_2, "MAGIC_LUMP_2", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -538,7 +538,7 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.WHEAT_FLOUR, "WHEAT_FLOUR", RecipeType.GRIND_STONE,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.WHEAT), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.WHEAT), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.STEEL_PLATE, "STEEL_PLATE", RecipeType.COMPRESSOR,
@@ -1446,23 +1446,23 @@ public final class SlimefunSetup {
 		new Juicer().register();
 
 		new Juice(Categories.FOOD, SlimefunItems.APPLE_JUICE, "APPLE_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.APPLE), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.APPLE), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new Juice(Categories.FOOD, SlimefunItems.CARROT_JUICE, "CARROT_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.CARROT), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.CARROT), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new Juice(Categories.FOOD, SlimefunItems.MELON_JUICE, "MELON_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.MELON), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.MELON), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new Juice(Categories.FOOD, SlimefunItems.PUMPKIN_JUICE, "PUMPKIN_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.PUMPKIN), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.PUMPKIN), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new Juice(Categories.FOOD, SlimefunItems.GOLDEN_APPLE_JUICE, "GOLDEN_APPLE_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.GOLDEN_APPLE), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.GOLDEN_APPLE), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.BROKEN_SPAWNER, "BROKEN_SPAWNER", new RecipeType(SlimefunItems.PICKAXE_OF_CONTAINMENT),
