@@ -20,7 +20,22 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 	private BlockFace trigger;
 
 	protected List<ItemStack> shownRecipes;
-
+	
+	@Deprecated
+	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger) {
+		this(category, item, id, recipe, machineRecipes, convertTriggerMaterial(recipe, trigger));
+	}
+	
+	@Deprecated
+	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, boolean ghost) {
+		this(category, item, id, recipe, machineRecipes, convertTriggerMaterial(recipe, trigger), ghost);
+	}
+	
+	@Deprecated
+	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, String[] keys, Object[] values) {
+		this(category, item, id, recipe, machineRecipes, convertTriggerMaterial(recipe, trigger), keys, values);
+	}
+	
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe);
 		this.recipes = new ArrayList<>();
@@ -73,21 +88,28 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 			}
 		}
 	}
-	
-	public MultiBlock toMultiBlock() {
+
+	private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
 		List<Material> mats = new ArrayList<>();
-		for (ItemStack i: this.getRecipe()) {
+		for (ItemStack i: items) {
 			if (i == null) mats.add(null);
 			else if (i.getType() == Material.FLINT_AND_STEEL) mats.add(Material.FIRE);
 			else mats.add(i.getType());
 		}
 		
-		Material[] build = mats.toArray(new Material[mats.size()]);
-		return new MultiBlock(build, this.trigger);
+		return mats.toArray(new Material[mats.size()]);
+	}
+	
+	public MultiBlock toMultiBlock() {
+		return new MultiBlock(convertItemStacksToMaterial(this.getRecipe()), this.trigger);
 	}
 	
 	public Iterator<ItemStack[]> recipeIterator() {
 		return this.recipes.iterator();
 	}
 	
+	@Deprecated
+	private static BlockFace convertTriggerMaterial(ItemStack[] recipe, Material trigger) {
+		return MultiBlock.convertTriggerMaterialToBlockFace(convertItemStacksToMaterial(recipe), trigger);
+	}
 }
