@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -34,6 +37,11 @@ public class Compressor extends MultiBlockMachine {
 				},
 				Material.NETHER_BRICK_FENCE
 		);
+	}
+	
+	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
 	}
 	
 	@Override

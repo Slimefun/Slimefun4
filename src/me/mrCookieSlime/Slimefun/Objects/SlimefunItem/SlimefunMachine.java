@@ -15,7 +15,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayIt
 
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 	
-	private List<ItemStack[]> recipes;
+	protected List<ItemStack[]> recipes;
 	private Material trigger;
 
 	protected List<ItemStack> shownRecipes;
@@ -65,7 +65,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 	
 	@Override
 	public void install() {
-		for (ItemStack i: this.getDisplayRecipes()) {
+		for (ItemStack i: shownRecipes) {
 			SlimefunItem item = SlimefunItem.getByItem(i);
 			if (item == null || !SlimefunItem.isDisabled(i)) {
 				this.recipes.add(new ItemStack[] {i});
