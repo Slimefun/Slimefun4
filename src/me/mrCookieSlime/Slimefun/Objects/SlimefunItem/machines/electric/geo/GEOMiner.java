@@ -36,8 +36,6 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	private static final int[] BORDER = {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 53};
 	private static final int[] BORDER_OUT = {19, 20, 21, 22, 23, 24, 25, 28, 34, 37, 43, 46, 47, 48, 49, 50, 51, 52};
 	private static final int[] OUTPUT_SLOTS = {29, 30, 31, 32, 33, 38, 39, 40, 41, 42};
-
-	public abstract int getProcessingTime();
 	
 	public GEOMiner(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
@@ -103,12 +101,16 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 		return OUTPUT_SLOTS;
 	}
 	
+	public int getProcessingTime() {
+		return 18;
+	}
+	
 	@Override
 	public List<ItemStack> getDisplayRecipes() {
 		List<ItemStack> displayRecipes = new LinkedList<>();
 		for (OreGenResource resource: OreGenSystem.listResources()) {
 			if (!resource.isLiquid()) {
-				displayRecipes.add(resource.getIcon().clone());
+				displayRecipes.add(new CustomItem(resource.getIcon(), "&r" + resource.getName()));
 			}
 		}
 		
