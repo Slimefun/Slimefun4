@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps;
 
 import java.util.UUID;
 

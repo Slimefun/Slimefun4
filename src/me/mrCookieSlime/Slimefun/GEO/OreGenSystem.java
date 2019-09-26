@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.GEO;
 
 import java.util.Collection;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
 import org.bukkit.Chunk;
@@ -43,7 +44,8 @@ public final class OreGenSystem {
 			return 0;
 		}
 		else {
-			return SlimefunPlugin.getUtilities().resource_configs.get(resource.getName()).getInt("spawn-rates." + biome.toString());
+			int supply = SlimefunPlugin.getUtilities().resource_configs.get(resource.getName()).getInt("spawn-rates." + biome.toString());
+			return supply > 0 ? (supply + ThreadLocalRandom.current().nextInt(3)): 0;
 		}
 	}
 	

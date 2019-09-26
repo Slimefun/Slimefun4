@@ -34,9 +34,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	
 	protected List<MachineRecipe> recipes = new ArrayList<>();
 	
-	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
-	private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
-	private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
+	private static final int[] BORDER = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
+	private static final int[] BORDER_IN = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
+	private static final int[] BORDER_OUT = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
 	public AContainer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
@@ -75,15 +75,15 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i : border) {
+		for (int i : BORDER) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 		
-		for (int i : border_in) {
+		for (int i : BORDER_IN) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 		
-		for (int i : border_out) {
+		for (int i : BORDER_OUT) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 		

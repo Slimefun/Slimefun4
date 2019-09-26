@@ -15,10 +15,12 @@ public interface OreGenResource {
 	 */
 	String getName();
 	
-	/**
-	 *  For the GEO-Scanner
-	 */
+	@Deprecated
 	ItemStack getIcon();
+	
+	default ItemStack getItem() {
+		return getIcon();
+	}
 	
 	/** 
 	 * Measurement Unit e.g. "Buckets"

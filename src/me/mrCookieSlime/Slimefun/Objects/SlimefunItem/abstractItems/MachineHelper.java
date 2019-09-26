@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -89,6 +90,7 @@ public final class MachineHelper {
 	public static void updateProgressbar(BlockMenu menu, int slot, int timeleft, int time, ItemStack indicator) {
 		ItemStack item = indicator.clone();
 		ItemMeta im = item.getItemMeta();
+		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		((Damageable) im).setDamage(getDurability(item, timeleft, time));
 		im.setDisplayName(" ");
 		List<String> lore = new ArrayList<>();

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
 import org.bukkit.inventory.ItemStack;
 
