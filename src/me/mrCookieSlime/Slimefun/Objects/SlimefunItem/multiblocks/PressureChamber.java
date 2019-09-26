@@ -30,7 +30,7 @@ public class PressureChamber extends MultiBlockMachine {
 						SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND, 
 						SlimefunItems.RAW_CARBONADO, SlimefunItems.CARBONADO
 				},
-				Material.CAULDRON
+				BlockFace.UP
 		);
 	}
 	

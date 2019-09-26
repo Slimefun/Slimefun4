@@ -36,7 +36,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 					new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), 
 					new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE
 				}, 
-				Material.OAK_TRAPDOOR
+				BlockFace.SELF
 		);
 	}
 	

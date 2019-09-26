@@ -36,7 +36,7 @@ public class OreCrusher extends MultiBlockMachine {
 						new ItemStack(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST, 
 						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST
 				},
-				Material.NETHER_BRICK_FENCE
+				BlockFace.SELF
 		);
 	}
 	

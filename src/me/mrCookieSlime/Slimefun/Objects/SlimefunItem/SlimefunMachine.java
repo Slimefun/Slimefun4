@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -16,11 +17,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayIt
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 	
 	private List<ItemStack[]> recipes;
-	private Material trigger;
+	private BlockFace trigger;
 
 	protected List<ItemStack> shownRecipes;
 
-	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger) {
+	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe);
 		this.recipes = new ArrayList<>();
 		this.shownRecipes = new ArrayList<>();
@@ -28,7 +29,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 		this.trigger = trigger;
 	}
 	
-	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, boolean ghost) {
+	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, boolean ghost) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe, ghost);
 		this.recipes = new ArrayList<>();
 		this.shownRecipes = new ArrayList<>();
@@ -36,7 +37,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 		this.trigger = trigger;
 	}
 	
-	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, String[] keys, Object[] values) {
+	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe, keys, values);
 		this.recipes = new ArrayList<>();
 		this.shownRecipes = new ArrayList<>();

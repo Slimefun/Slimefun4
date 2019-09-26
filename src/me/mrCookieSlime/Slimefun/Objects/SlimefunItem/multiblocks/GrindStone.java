@@ -36,7 +36,7 @@ public class GrindStone extends MultiBlockMachine {
 						new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), 
 						new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4)
 				},
-				Material.OAK_FENCE
+				BlockFace.SELF
 		);
 	}
 	

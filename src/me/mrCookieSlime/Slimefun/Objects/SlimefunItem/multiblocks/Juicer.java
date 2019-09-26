@@ -32,7 +32,7 @@ public class Juicer extends MultiBlockMachine {
 						new ItemStack(Material.PUMPKIN), SlimefunItems.PUMPKIN_JUICE,
 						new ItemStack(Material.GOLDEN_APPLE), SlimefunItems.GOLDEN_APPLE_JUICE
 				},
-				Material.NETHER_BRICK_FENCE
+				BlockFace.SELF
 		);
 	}
 	
