@@ -45,6 +45,11 @@ public class Juicer extends MultiBlockMachine {
 	}
 	
 	@Override
+	public void install() {
+		// Do nothing to prevent double-registration of recipes
+	}
+	
+	@Override
 	public void onInteract(Player p, Block b) {
 		Block dispBlock = b.getRelative(BlockFace.DOWN);
 		Dispenser disp = (Dispenser) dispBlock.getState();
