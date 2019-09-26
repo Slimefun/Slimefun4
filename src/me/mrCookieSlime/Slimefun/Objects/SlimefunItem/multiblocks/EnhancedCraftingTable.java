@@ -35,7 +35,7 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 				"ENHANCED_CRAFTING_TABLE",
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null}, 
 				new ItemStack[0], 
-				Material.CRAFTING_TABLE
+				BlockFace.SELF
 		);
 	}
 	

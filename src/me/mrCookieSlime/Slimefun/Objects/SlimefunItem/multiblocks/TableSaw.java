@@ -7,6 +7,7 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -25,7 +26,7 @@ public class TableSaw extends MultiBlockMachine {
 				"TABLE_SAW",
 				new ItemStack[] {null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null},
 				new ItemStack[0], 
-				Material.STONECUTTER
+				BlockFace.SELF
 		);
 		
 		for (Material log: Tag.LOGS.getValues()) {

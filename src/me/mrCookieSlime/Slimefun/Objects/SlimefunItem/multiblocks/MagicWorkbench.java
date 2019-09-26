@@ -9,6 +9,7 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -35,7 +36,7 @@ public class MagicWorkbench extends MultiBlockMachine {
 				"MAGIC_WORKBENCH",
 				new ItemStack[] {null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER)},
 				new ItemStack[0], 
-				Material.CRAFTING_TABLE
+				BlockFace.UP
 		);
 	}
 	

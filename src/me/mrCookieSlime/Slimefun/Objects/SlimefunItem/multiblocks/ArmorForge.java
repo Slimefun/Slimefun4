@@ -29,7 +29,7 @@ public class ArmorForge extends MultiBlockMachine {
 				"ARMOR_FORGE",
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 				new ItemStack[0],
-				Material.ANVIL
+				BlockFace.SELF
 		);
 	}
 	

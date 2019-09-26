@@ -39,7 +39,7 @@ public class OreWasher extends MultiBlockMachine {
 						SlimefunItems.SIFTED_ORE, SlimefunItems.LEAD_DUST, 
 						SlimefunItems.SIFTED_ORE, SlimefunItems.SILVER_DUST
 				},
-				Material.OAK_FENCE
+				BlockFace.SELF
 		);
 	}
 	

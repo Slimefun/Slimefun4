@@ -1061,7 +1061,7 @@ public final class SlimefunSetup {
 		*/
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.SAW_MILL, "SAW_MILL",
 		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.OAK_LOG)},
-		new ItemStack[] {}, Material.CRAFTING_TABLE)
+		new ItemStack[] {}, BlockFace.UP)
 		.register(true, new MultiBlockInteractionHandler() {
 
 			@Override
@@ -1098,7 +1098,7 @@ public final class SlimefunSetup {
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.DIGITAL_MINER, "DIGITAL_MINER",
 		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.DISPENSER), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.HOPPER), new ItemStack(Material.IRON_BLOCK)},
-		new ItemStack[0], Material.DISPENSER)
+		new ItemStack[0], BlockFace.SELF)
 		.register(true, new MultiBlockInteractionHandler() {
 
 			@Override
@@ -1156,7 +1156,7 @@ public final class SlimefunSetup {
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ADVANCED_DIGITAL_MINER, "ADVANCED_DIGITAL_MINER",
 		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.DISPENSER), SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.HOPPER), SlimefunItems.GOLD_24K_BLOCK},
-		new ItemStack[0], Material.DISPENSER)
+		new ItemStack[0], BlockFace.SELF)
 		.register(true, new MultiBlockInteractionHandler() {
 
 			@Override

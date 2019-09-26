@@ -35,7 +35,7 @@ public class Compressor extends MultiBlockMachine {
 						new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE), 
 						new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE
 				},
-				Material.NETHER_BRICK_FENCE
+				BlockFace.SELF
 		);
 	}
 	
