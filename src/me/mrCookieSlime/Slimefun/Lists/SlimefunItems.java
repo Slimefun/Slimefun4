@@ -484,8 +484,7 @@ public final class SlimefunItems {
 	public static final ItemStack PRESSURE_CHAMBER = new CustomItem(Material.GLASS, "&bPressure Chamber", "", "&a&oCompresses Items even more");
 	public static final ItemStack MAGIC_WORKBENCH = new CustomItem(Material.CRAFTING_TABLE, "&6Magic Workbench", "Infuses Items with magical Energy");
 	public static final ItemStack ORE_WASHER = new CustomItem(Material.CAULDRON, "&6Ore Washer", "", "&a&oWashes Sifted Ore to filter Ores", "&a&oand gives you small Stone Chunks");
-	public static final ItemStack TABLE_SAW = new CustomItem(Material.STONECUTTER, "&6Table Saw", "", "&a&oAllows you get 8 planks from 1 Log", "&a&o(Works with all log types)");
-	public static final ItemStack SAW_MILL = new CustomItem(Material.BARRIER, "&6Saw Mill", "", "&cObsolete! Use the Table Saw instead");
+	public static final ItemStack TABLE_SAW = new CustomItem(Material.STONECUTTER, "&6Table Saw", "", "&a&oAllows you to get 8 planks from 1 Log", "&a&o(Works with all log types)");
 	public static final ItemStack COMPOSTER = new CustomItem(Material.CAULDRON, "&aComposter", "", "&a&oCan convert various Materials over Time...");
 	public static final ItemStack ENHANCED_CRAFTING_TABLE = new CustomItem(Material.CRAFTING_TABLE, "&eEnhanced Crafting Table", "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power...");
 	public static final ItemStack CRUCIBLE = new CustomItem(Material.CAULDRON, "&cCrucible", "", "&a&oUsed to smelt Items into Liquids");
