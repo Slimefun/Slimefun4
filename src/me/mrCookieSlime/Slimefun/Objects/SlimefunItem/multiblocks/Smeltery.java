@@ -36,7 +36,7 @@ public class Smeltery extends MultiBlockMachine {
 				new ItemStack[] {
 						SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)
 				}, 
-				BlockFace.UP,
+				BlockFace.DOWN,
 				new String[] {"chance.fireBreak"}, new Integer[] {34}
 		);
 	}
