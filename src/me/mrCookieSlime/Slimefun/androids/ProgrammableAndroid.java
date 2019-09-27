@@ -38,9 +38,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -390,7 +391,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							exoticFarm(b, b.getRelative(BlockFace.DOWN));
 							break;
 						case CHOP_TREE:
-							if (MaterialHelper.isLog(b.getRelative(face).getType())) {
+							if (MaterialCollections.contains(b.getRelative(face).getType(), MaterialCollections.getAllLogs())) {
 								List<Location> list = new ArrayList<>();
 								list.add(b.getRelative(face).getLocation());
 								TreeCalculator.getTree(b.getRelative(face).getLocation(), b.getRelative(face).getLocation(), list);
@@ -408,7 +409,10 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 											log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 											
 											if (log.getY() == b.getRelative(face).getY()) {
-												log.setType(MaterialHelper.getSaplingFromLog(log.getType()));
+												Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
+												if (sapling.isPresent()) {
+													log.setType(sapling.get());
+												}
 											}
 											else log.setType(Material.AIR);
 										}

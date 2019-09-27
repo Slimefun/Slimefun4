@@ -70,6 +70,7 @@
     							<include>**/cscorelib2/updater/**</include>
                                 <include>**/cscorelib2/materials/**</include>
 								<include>**/cscorelib2/protection/**</include>
+								<include>**/cscorelib2/item/**</include>
     						</includes>
   						</filter>
       				</filters>
@@ -125,7 +126,7 @@
         <dependency>
   			<groupId>com.github.thebusybiscuit</groupId>
   			<artifactId>CS-CoreLib2</artifactId>
-  			<version>0.5.1</version>
+  			<version>0.5.2</version>
   			<scope>compile</scope>
 		</dependency>
 		<dependency>

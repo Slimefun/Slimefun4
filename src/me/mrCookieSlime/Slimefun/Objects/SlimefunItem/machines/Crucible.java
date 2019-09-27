@@ -10,8 +10,8 @@ import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -52,7 +52,7 @@ public class Crucible extends SlimefunGadget {
 
 									for (int i = 1; i < 9; i++) {int j = 8 - i;
 										Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
-											if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
+											if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialCollections.contains(input.getType(), MaterialCollections.getAllTerracottaColors())) {
 												block.setType(Material.LAVA);
 												Levelled le = (Levelled) block.getBlockData();
 												le.setLevel(j);

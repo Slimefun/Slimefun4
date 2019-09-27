@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -11,7 +12,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
@@ -30,8 +31,12 @@ public class TableSaw extends MultiBlockMachine {
 		);
 		
 		for (Material log: Tag.LOGS.getValues()) {
-			displayRecipes.add(new ItemStack(log));
-			displayRecipes.add(new ItemStack(MaterialHelper.getWoodFromLog(log), 8));
+			Optional<Material> planks = MaterialConverter.getPlanksFromLog(log);
+			
+			if (planks.isPresent()) {
+				displayRecipes.add(new ItemStack(log));
+				displayRecipes.add(new ItemStack(planks.get(), 8));
+			}
 		}
 	}
 	
@@ -44,15 +49,16 @@ public class TableSaw extends MultiBlockMachine {
 	public void onInteract(Player p, Block b) {
 		ItemStack log = p.getInventory().getItemInMainHand();
 
-		ItemStack item =  new ItemStack(MaterialHelper.getWoodFromLog(log.getType()), 8);
-		if(item == null || item.getType() == Material.AIR) return;
+		Optional<Material> planks = MaterialConverter.getPlanksFromLog(log.getType());
 		
-		b.getWorld().dropItemNaturally(b.getLocation(), item);
-		b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
-		log.setAmount(log.getAmount() -1);
-		
-		if(log.getAmount() <= 0) {
-			p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+		if (planks.isPresent()) {
+			b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(planks.get(), 8));
+			b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
+			log.setAmount(log.getAmount() -1);
+			
+			if(log.getAmount() <= 0) {
+				p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+			}
 		}
 	}
 

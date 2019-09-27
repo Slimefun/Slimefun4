@@ -3,9 +3,9 @@ package me.mrCookieSlime.Slimefun.Objects;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.BlockFace;
 
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
@@ -74,8 +74,8 @@ public class MultiBlock {
 
 	private boolean compareBlocks(Material a, Material b) {
 		if (b != null) {
-			if (MaterialHelper.isLog(b)) {
-				return MaterialHelper.isLog(a);
+			if (Tag.LOGS.isTagged(b)) {
+				return Tag.LOGS.isTagged(a);
 			}
 			
 			if (b != a) {

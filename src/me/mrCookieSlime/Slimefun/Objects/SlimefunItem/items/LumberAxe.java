@@ -8,8 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -29,7 +29,7 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
 			if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), getItem(), true)) {
-				if (MaterialHelper.isLog( e.getBlock().getType())) {
+				if (MaterialCollections.contains(e.getBlock().getType(), MaterialCollections.getAllLogs())) {
 					List<Location> logs = new ArrayList<>();
 					TreeCalculator.getTree(e.getBlock().getLocation(), e.getBlock().getLocation(), logs);
 
