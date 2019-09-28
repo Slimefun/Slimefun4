@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.Slimefun.listeners.SearchListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -89,7 +90,7 @@ public final class SlimefunGuide {
 		menu.addMenuOpeningHandler(
 				pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F)
 		);
-		
+
 		for (int i: slots) {
 			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 			menu.addMenuClickHandler(i,
@@ -251,7 +252,7 @@ public final class SlimefunGuide {
 		}
 		else {
 			Object last = getLastEntry(p, false);
-			handleHistory(book, p, last);
+			handleHistory(p, last, book, false);
 		}
 	}
 
@@ -659,7 +660,7 @@ public final class SlimefunGuide {
 				if (Slimefun.isEnabled(p, sfitem, false)) {
 					if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
 						if (Slimefun.hasPermission(p, sfitem, false)) {
-						    final Research research = sfitem.getResearch();
+							final Research research = sfitem.getResearch();
 						    
 							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + StringUtils.formatItemName(sfitem.getItem(), false), "&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"));
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
@@ -678,18 +679,18 @@ public final class SlimefunGuide {
 											if (pl.getGameMode() == GameMode.CREATIVE) {
 												research.unlock(pl, SlimefunPlugin.getSettings().researchesFreeInCreative);
 												openCategory(pl, category, survival, selected_page, book);
-											} 
+											}
 											else {
 												research.unlock(pl, false);
 												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openCategory(pl, category, survival, selected_page, book), 103L);
 											}
 										}
-									} 
+									}
 									else SlimefunPlugin.getLocal().sendMessage(pl, "messages.not-enough-xp", true);
 								}
 								return false;
 							});
-							
+
 							index++;
 						}
 						else {
@@ -712,11 +713,51 @@ public final class SlimefunGuide {
 			}
 			
 			menu.open(p);
-		}		
+		}
 
 		if (survival) {
 			addToHistory(p, category);
 		}
+	}
+
+	public static void openSearch(Player player, String searchTerm, boolean cheat, boolean addToHistory) {
+		final ChestMenu menu = new ChestMenu("Slimefun Guide Search");
+
+		menu.setEmptySlotsClickable(false);
+
+		fillInv(menu);
+
+		addBackButton(menu, player, false, cheat);
+
+		searchTerm = searchTerm.toLowerCase();
+
+		int index = 9;
+		// Find items and add them
+		for (SlimefunItem item : SlimefunItem.list()) {
+			final String itemName = ChatColor.stripColor(item.getItem().getItemMeta().getDisplayName()).toLowerCase();
+
+			if (itemName.isEmpty()) continue;
+
+			if (index == 44) break;
+
+			if (itemName.equals(searchTerm) || itemName.contains(searchTerm)) {
+				menu.addItem(index, item.getItem());
+				menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
+					if (cheat)
+						pl.getInventory().addItem(itm);
+					else
+						displayItem(pl, itm, true, false, 0);
+					return false;
+				});
+
+				index++;
+			}
+		}
+
+		if (addToHistory)
+			addToHistory(player, searchTerm);
+
+		menu.open(player);
 	}
 
 	private static void fillInv(ChestMenu menu) {
@@ -725,13 +766,24 @@ public final class SlimefunGuide {
 			menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 		}
 
+		// Search feature!
+		menu.addItem(7, new CustomItem(Material.NAME_TAG, "&7Search",
+			"&7Search directly for items"));
+		menu.addMenuClickHandler(7, (player, i, itemStack, clickAction) -> {
+			player.closeInventory();
+			player.sendMessage(ChatColor.AQUA + "What would you like to search for?");
+			SearchListener.addSearchingPlayer(player.getUniqueId());
+
+			return false;
+		});
+
 		for (int i = 45; i < 54; i++) {
 			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 			menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 		}
 	}
 
-	private static void addBackButton(ChestMenu menu, Player player, boolean book) {
+	private static void addBackButton(ChestMenu menu, Player player, boolean book, boolean cheat) {
 		List<Object> playerHistory = getHistory().getOrDefault(player.getUniqueId(), new LinkedList<>());
 		if (playerHistory != null && playerHistory.size() > 1) {
 			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
@@ -743,10 +795,7 @@ public final class SlimefunGuide {
 				if (action.isShiftClicked()) openMainMenu(pl, true, false, 1);
 				else {
 					Object last = getLastEntry(pl, true);
-					if (last instanceof Category) openCategory(pl, (Category) last, true, 1, book);
-					else if (last instanceof SlimefunItem) displayItem(pl, ((SlimefunItem) last).getItem(), false, book, 0);
-					else if (last instanceof GuideHandler) ((GuideHandler) last).run(pl, true, book);
-					else displayItem(pl, (ItemStack) last, false, book, 0);
+					handleHistory(pl, last, book, cheat);
 				}
 				return false;
 			});
@@ -847,7 +896,7 @@ public final class SlimefunGuide {
 		
 		if (addToHistory) addToHistory(p, sfItem != null ? sfItem: item);
 
-		addBackButton(menu, p, book);
+		addBackButton(menu, p, book, false);
 		
 		LinkedList<Object> history = getHistory().get(p.getUniqueId());
 		
@@ -857,7 +906,7 @@ public final class SlimefunGuide {
 				if (action.isShiftClicked()) openMainMenu(p, true, book, 1);
 				else {
 					Object last = getLastEntry(pl, true);
-					handleHistory(book, pl, last);
+					handleHistory(pl, last, book, false);
 				}
 				return false;
 			});
@@ -969,10 +1018,11 @@ public final class SlimefunGuide {
 		menu.open(p);
 	}
 
-	private static void handleHistory(boolean book, Player pl, Object last) {
+	private static void handleHistory(Player pl, Object last, boolean book, boolean cheat) {
 		if (last instanceof Category) openCategory(pl, (Category) last, true, 1, book);
 		else if (last instanceof SlimefunItem) displayItem(pl, ((SlimefunItem) last).getItem(), false, book, 0);
 		else if (last instanceof GuideHandler) ((GuideHandler) last).run(pl, true, book);
+		else if (last instanceof String) openSearch(pl, (String) last, cheat, true);
 		else displayItem(pl, (ItemStack) last, false, book, 0);
 	}
 
