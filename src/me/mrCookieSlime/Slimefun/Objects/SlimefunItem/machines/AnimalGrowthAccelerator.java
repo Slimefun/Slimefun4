@@ -66,7 +66,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 			
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAccelerator.getArmorStand(b).remove();
+				me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAcceleratorHologram.getArmorStand(b, true).remove();
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot : getInputSlots()) {
@@ -124,7 +124,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) throws Exception {
-		for (Entity n : me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAccelerator.getArmorStand(b).getNearbyEntities(3D, 3D, 3D)) {
+		for (Entity n : me.mrCookieSlime.Slimefun.holograms.AnimalGrowthAcceleratorHologram.getArmorStand(b, true).getNearbyEntities(3D, 3D, 3D)) {
 			if (n instanceof Ageable && !((Ageable) n).isAdult()) {
 				for (int slot: getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {

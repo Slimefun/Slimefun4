@@ -65,7 +65,7 @@ public class XPCollector extends SlimefunItem {
 			
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				me.mrCookieSlime.Slimefun.holograms.XPCollector.getArmorStand(b).remove();
+				me.mrCookieSlime.Slimefun.holograms.XPCollectorHologram.getArmorStand(b, true).remove();
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot: getOutputSlots()) {
@@ -148,7 +148,7 @@ public class XPCollector extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) throws Exception {
-		Iterator<Entity> iterator = me.mrCookieSlime.Slimefun.holograms.XPCollector.getArmorStand(b).getNearbyEntities(4D, 4D, 4D).iterator();
+		Iterator<Entity> iterator = me.mrCookieSlime.Slimefun.holograms.XPCollectorHologram.getArmorStand(b, true).getNearbyEntities(4D, 4D, 4D).iterator();
 		while (iterator.hasNext()) {
 			Entity n = iterator.next();
 			if (n instanceof ExperienceOrb) {

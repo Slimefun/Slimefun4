@@ -65,7 +65,7 @@ public class AutoBreeder extends SlimefunItem {
 			
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				me.mrCookieSlime.Slimefun.holograms.AutoBreeder.getArmorStand(b).remove();
+				me.mrCookieSlime.Slimefun.holograms.AutoBreederHologram.getArmorStand(b, true).remove();
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot : getInputSlots()) {
@@ -123,7 +123,7 @@ public class AutoBreeder extends SlimefunItem {
 	}
 	
 	protected void tick(Block b) throws Exception {
-		for (Entity n : me.mrCookieSlime.Slimefun.holograms.AutoBreeder.getArmorStand(b).getNearbyEntities(4D, 2D, 4D)) {
+		for (Entity n : me.mrCookieSlime.Slimefun.holograms.AutoBreederHologram.getArmorStand(b, true).getNearbyEntities(4D, 2D, 4D)) {
 			if (Animals.isFeedable(n)) {
 				for (int slot : getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
