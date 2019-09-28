@@ -329,7 +329,7 @@ public class ItemListener implements Listener {
                 }
                 else if (item.getType() == Material.POTION) {
                     SlimefunItem sfItem = SlimefunItem.getByItem(item);
-                    if (sfItem != null && sfItem instanceof Juice) {
+                    if (sfItem instanceof Juice) {
                         // Fix for Saturation on potions is no longer working
                         for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
                             if (effect.getType().equals(PotionEffectType.SATURATION)) {
@@ -401,10 +401,10 @@ public class ItemListener implements Listener {
             }
         }
         else if (e.getEntity() instanceof Wither) {
-            SlimefunItem item = BlockStorage.check(e.getBlock());
-            if (item != null) {
-                if (item.getID().equals("WITHER_PROOF_OBSIDIAN")) e.setCancelled(true);
-                else if (item.getID().equals("WITHER_PROOF_GLASS")) e.setCancelled(true);
+            String id = BlockStorage.checkID(e.getBlock());
+            if (id != null) {
+                if (id.equals("WITHER_PROOF_OBSIDIAN")) e.setCancelled(true);
+                else if (id.equals("WITHER_PROOF_GLASS")) e.setCancelled(true);
             }
         }
     }

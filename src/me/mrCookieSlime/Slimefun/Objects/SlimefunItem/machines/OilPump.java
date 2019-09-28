@@ -83,7 +83,8 @@ public abstract class OilPump extends AContainer {
 
 	@Override
 	public void registerDefaultRecipes() {}
-	
+
+	@Override
 	protected void tick(Block b) {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);

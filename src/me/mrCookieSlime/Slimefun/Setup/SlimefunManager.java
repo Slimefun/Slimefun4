@@ -1,9 +1,6 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +20,7 @@ public final class SlimefunManager {
 
     public static SlimefunStartup plugin;
     public static String PREFIX;
-    public static Map<EntityType, List<ItemStack>> drops = new HashMap<>();
+    public static Map<EntityType, List<ItemStack>> drops = new EnumMap<>(EntityType.class);
 
     public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean special, boolean slimefun) {
         String[] components = new String[] {"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
@@ -34,7 +31,7 @@ public final class SlimefunManager {
         recipes.add(new ItemStack[] {baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
         recipes.add(new ItemStack[] {null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
         for (int i = 0; i < 4; i++) {
-            if ((effects.length - 1) >= i) if (effects[i].length > 0) {
+            if (i < effects.length && effects[i].length > 0) {
                 new SlimefunArmorPiece(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(slimefun);
             } else {
                 new SlimefunItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);

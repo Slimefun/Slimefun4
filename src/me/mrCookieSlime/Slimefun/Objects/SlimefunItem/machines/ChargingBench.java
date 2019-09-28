@@ -62,7 +62,8 @@ public class ChargingBench extends AContainer {
 
 	@Override
 	public void registerDefaultRecipes() {}
-	
+
+	@Override
 	protected void tick(Block b) {
 		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 		

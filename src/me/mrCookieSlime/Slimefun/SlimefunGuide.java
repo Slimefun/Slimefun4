@@ -435,7 +435,7 @@ public final class SlimefunGuide {
 			menu.addMenuOpeningHandler(p1 -> p1.playSound(p1.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
 
 			List<Category> categories = Slimefun.current_categories;
-            List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(list -> list.stream()).collect(Collectors.toList());
+            List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
 
 			int index = 9;
 			int pages = 1;

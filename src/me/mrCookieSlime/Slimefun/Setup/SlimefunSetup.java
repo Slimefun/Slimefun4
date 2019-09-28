@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -42,6 +41,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -124,8 +124,7 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
-import me.mrCookieSlime.Slimefun.holograms.InfusedHopper;
-import me.mrCookieSlime.Slimefun.holograms.Projector;
+import me.mrCookieSlime.Slimefun.holograms.*;
 import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 
@@ -164,8 +163,17 @@ public final class SlimefunSetup {
                     if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DIET_COOKIE, true)) {
                         e.setCancelled(true);
                         int amount = item.getAmount();
-                        if (amount <= 1) item.setType(Material.AIR);
-                        item.setAmount(amount - 1);
+                        if (amount <= 1) {
+                            if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+                                p.getInventory().setItemInMainHand(null);
+                            }
+                            else {
+                                p.getInventory().setItemInOffHand(null);
+                            }
+                        }
+                        else {
+                            item.setAmount(amount - 1);
+                        }
 
                         p.sendMessage(ChatColor.YELLOW + "你感觉变轻了...");
                         p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
@@ -833,38 +841,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CHAIN, null, SlimefunItems.CHAIN, null, null, null})
 		.register(true);
 
-        new SlimefunItem(Categories.TECH, SlimefunItems.HOLOGRAM_PROJECTOR, "HOLOGRAM_PROJECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+        new HologramProjector(Categories.TECH, SlimefunItems.HOLOGRAM_PROJECTOR, "HOLOGRAM_PROJECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, SlimefunItems.POWER_CRYSTAL, null, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}, new CustomItem(SlimefunItems.HOLOGRAM_PROJECTOR, 3))
-                .register(true, (ItemInteractionHandler) (e, p, stack) -> {
-                    if (e.getClickedBlock() == null) return false;
-                    SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-                    if (item == null || !item.getID().equals("HOLOGRAM_PROJECTOR")) return false;
-                    e.setCancelled(true);
-
-                    if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
-                        Projector.openEditor(p, e.getClickedBlock());
-                    }
-
-                    return true;
-                });
-
-        SlimefunItem.registerBlockHandler("HOLOGRAM_PROJECTOR", new SlimefunBlockHandler() {
-
-            @Override
-            public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, "text", "&b你好! 我是一个全息图像, 右键投影仪以修改文本~");
-                BlockStorage.addBlockInfo(b, "offset", "-0.5");
-                BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-
-                Projector.getArmorStand(b);
-            }
-
-            @Override
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-                Projector.getArmorStand(b).remove();
-                return true;
-            }
-        });
+                .register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.CHAIN, "CHAIN", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, null}, new CustomItem(SlimefunItems.CHAIN, 8))
@@ -932,7 +911,7 @@ public final class SlimefunSetup {
 						p.setVelocity(p.getEyeLocation().getDirection().multiply(4));
 						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
 						p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1);
-						p.setFallDistance(0.0f);
+						p.setFallDistance(0F);
 					}
 					else {
 						Messages.local.sendTranslation(p, "messages.hungry", true);
@@ -2076,7 +2055,7 @@ public final class SlimefunSetup {
                                 SlimefunStartup.instance.getUtilities().blocks.add(block.getUniqueId());
                             }
                             for (Entity n: ground.getChunk().getEntities()) {
-                                if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && n.getUniqueId() != p.getUniqueId()) {
+                                if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
                                     Vector vector = n.getLocation().toVector().subtract(p.getLocation().toVector()).normalize().multiply(1.4);
                                     vector.setY(0.9);
                                     n.setVelocity(vector);
@@ -2385,7 +2364,7 @@ public final class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION, true)) {
 					for (Entity n: p.getNearbyEntities(10.0, 10.0, 10.0)) {
-						if (n instanceof LivingEntity && !(n instanceof ArmorStand) &&n.getUniqueId() != p.getUniqueId()) {
+                        if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !n.getUniqueId().equals(p.getUniqueId())) {
 							float yaw = n.getLocation().getYaw() + 180.0F;
 							if (yaw > 360.0F) yaw = yaw - 360.0F;
 							n.teleport(new Location(n.getWorld(), n.getLocation().getX(), n.getLocation().getY(), n.getLocation().getZ(), yaw, n.getLocation().getPitch()));
@@ -4140,55 +4119,9 @@ public final class SlimefunSetup {
 			}
 		});
 
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.INFUSED_HOPPER, "INFUSED_HOPPER", RecipeType.ANCIENT_ALTAR,
+		new InfusedHopper(Categories.MAGIC, SlimefunItems.INFUSED_HOPPER, "INFUSED_HOPPER", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.OBSIDIAN), SlimefunItems.RUNE_EARTH, new ItemStack(Material.HOPPER), SlimefunItems.RUNE_ENDER, SlimefunItems.INFUSED_MAGNET, SlimefunItems.RUNE_ENDER, new ItemStack(Material.HOPPER), SlimefunItems.RUNE_EARTH, new ItemStack(Material.OBSIDIAN)})
-		.register(true, new BlockTicker() {
-
-			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				if (b.getType() != Material.HOPPER) {
-					// we're no longer a hopper, we were probably destroyed. skipping this tick.
-                    BlockStorage.clearBlockInfo(b);
-					return;
-				}
-				ArmorStand hologram = InfusedHopper.getArmorStand(b, true);
-				boolean sound = false;
-				for (Entity n: hologram.getNearbyEntities(3.5D, 3.5D, 3.5D)) {
-					if (n instanceof Item && !n.hasMetadata("no_pickup") && n.getLocation().distance(hologram.getLocation()) > 0.4D) {
-						n.setVelocity(new Vector(0, 0.1, 0));
-						n.teleport(hologram);
-						sound = true;
-					}
-				}
-				if (sound) b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5F, 2F);
-			}
-
-			@Override
-			public boolean isSynchronized() {
-				return true;
-			}
-		});
-
-		SlimefunItem.registerBlockHandler("INFUSED_HOPPER", new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				InfusedHopper.getArmorStand(b, true);
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				final ArmorStand hologram = InfusedHopper.getArmorStand(b, false);
-				if (hologram != null) {
-					hologram.remove();
-				}
-				return true;
-			}
-		});
+		.register(true);
 
 		new SlimefunItem(Categories.RESOURCES, SlimefunItems.BLISTERING_INGOT, "BLISTERING_INGOT", RecipeType.HEATED_PRESSURE_CHAMBER,
 		new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.URANIUM, null, null, null, null, null, null, null})
@@ -4585,7 +4518,7 @@ public final class SlimefunSetup {
 			@Override
             public void extraTick(final Location l) {
                 Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-                    for (Entity entity : ReactorHologram.getArmorStand(l).getNearbyEntities(5, 5, 5)) {
+                    for (Entity entity : ReactorHologram.getArmorStand(l, true).getNearbyEntities(5, 5, 5)) {
                         if (entity instanceof LivingEntity) {
                             ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
                         }

@@ -40,21 +40,18 @@ public class HologramProjector extends SlimefunItem {
 
     @Override
     public void register(boolean slimefun) {
-        super.register(slimefun, new ItemInteractionHandler() {
+        addItemHandler((ItemInteractionHandler) (e, p, stack) -> {
+            if (e.getClickedBlock() == null) return false;
+            SlimefunItem item = BlockStorage.check(e.getClickedBlock());
+            if (item == null || !item.getID().equals(getID())) return false;
+            e.setCancelled(true);
 
-            @Override
-            public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
-                if (e.getClickedBlock() == null) return false;
-                SlimefunItem item = BlockStorage.check(e.getClickedBlock());
-                if (item == null || !item.getID().equals(getID())) return false;
-                e.setCancelled(true);
-
-                if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
-                    HologramProjectorHologram.openEditor(p, e.getClickedBlock());
-                }
-
-                return true;
+            if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
+                HologramProjectorHologram.openEditor(p, e.getClickedBlock());
             }
+
+            return true;
         });
+        super.register(slimefun);
     }
 }

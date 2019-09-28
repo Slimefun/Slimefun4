@@ -45,7 +45,7 @@ public class JetBootsTask implements Runnable {
 				
 				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_TNT_PRIMED, (float) 0.25, 1);
 				p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1, 1);
-				p.setFallDistance(0.0f);
+				p.setFallDistance(0F);
 				double gravity = 0.04;
 				double offset = new Random().nextInt(2) == 1 ? accuracy: -accuracy;
 				Vector vector = new Vector(p.getEyeLocation().getDirection().getX() * speed + offset, gravity, p.getEyeLocation().getDirection().getZ() * speed  - offset);

@@ -42,7 +42,7 @@ public class InfusedHopper extends SlimefunItem {
 
     @Override
     public void register(boolean slimefun) {
-        super.register(slimefun, new BlockTicker() {
+        addItemHandler(new BlockTicker() {
 
             @Override
             public void uniqueTick() {
@@ -76,5 +76,6 @@ public class InfusedHopper extends SlimefunItem {
                 return true;
             }
         });
+        super.register(slimefun);
     }
 }
