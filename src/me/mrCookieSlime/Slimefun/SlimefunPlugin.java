@@ -172,7 +172,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}
 			else if (getDescription().getVersion().startsWith("RC - ")) {
 				// If we are using a development build, we want to switch to our custom 
-				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/stable");
+				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/stable", "RC - ");
 			}
 			else {
 				// We are using an official build, use the BukkitDev Updater
