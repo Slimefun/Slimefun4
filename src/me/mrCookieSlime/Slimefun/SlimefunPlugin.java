@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun;
 import java.io.File;
 import java.util.logging.Level;
 
-import me.mrCookieSlime.Slimefun.listeners.SearchListener;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
