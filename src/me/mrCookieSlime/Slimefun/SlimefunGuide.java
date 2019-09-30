@@ -772,8 +772,7 @@ public final class SlimefunGuide {
 			SlimefunPlugin.getLocal().getMessages("guide.search.lore").toArray(new String[0])));
 		menu.addMenuClickHandler(7, (player, i, itemStack, clickAction) -> {
 			player.closeInventory();
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-				SlimefunPlugin.getLocal().getMessage("search.message")));
+			SlimefunPlugin.getLocal().sendMessage(player, "search.message");
 			MenuHelper.awaitChatInput(player, (p, s) -> {
 				openSearch(p, s, cheat, true);
 				return true; // ?
