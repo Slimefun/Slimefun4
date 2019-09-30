@@ -232,7 +232,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 			new AndroidKillingListener(this);
 			new NetworkListener(this);
 			new ItemPickupListener(this);
-			getServer().getPluginManager().registerEvents(new SearchListener(), this);
 
 			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);
@@ -379,8 +378,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 		AContainer.processing = null;
 		AContainer.progress = null;
 		OreWasher.items = null;
-
-		SearchListener.cleanUp();
 
 		instance = null;
 

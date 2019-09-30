@@ -10,7 +10,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import me.mrCookieSlime.Slimefun.listeners.SearchListener;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -393,7 +393,7 @@ public final class SlimefunGuide {
 			int index = 9;
 			int pages = 1;
 
-			fillInv(menu);
+			fillInv(menu, !survival);
 
 			int target = (CATEGORY_SIZE * (selected_page - 1)) - 1;
 			
@@ -725,7 +725,7 @@ public final class SlimefunGuide {
 
 		menu.setEmptySlotsClickable(false);
 
-		fillInv(menu);
+		fillInv(menu, cheat);
 
 		addBackButton(menu, player, false, cheat);
 
@@ -760,7 +760,7 @@ public final class SlimefunGuide {
 		menu.open(player);
 	}
 
-	private static void fillInv(ChestMenu menu) {
+	private static void fillInv(ChestMenu menu, boolean cheat) {
 		for (int i = 0; i < 9; i++) {
 			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 			menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
@@ -772,7 +772,10 @@ public final class SlimefunGuide {
 		menu.addMenuClickHandler(7, (player, i, itemStack, clickAction) -> {
 			player.closeInventory();
 			player.sendMessage(ChatColor.AQUA + "What would you like to search for?");
-			SearchListener.addSearchingPlayer(player.getUniqueId());
+			MenuHelper.awaitChatInput(player, (p, s) -> {
+				openSearch(p, s, cheat, true);
+				return true; // ?
+			});
 
 			return false;
 		});
