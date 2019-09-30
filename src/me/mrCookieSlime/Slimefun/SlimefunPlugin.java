@@ -96,7 +96,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		if (new CSCoreLibLoader(this).load(getLogger())) {
+		if (new CSCoreLibLoader(this).load()) {
 
 			String currentVersion = ReflectionUtils.getVersion();
 
@@ -340,6 +340,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		// CS-CoreLib wasn't loaded, just disabling
+		if (instance == null) return;
+		
 		Bukkit.getScheduler().cancelTasks(this);
 
 		if (ticker != null) {
