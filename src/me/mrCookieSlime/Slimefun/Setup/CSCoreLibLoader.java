@@ -11,15 +11,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.bukkit.plugin.Plugin;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class CSCoreLibLoader {
 	
@@ -37,24 +34,24 @@ public class CSCoreLibLoader {
 		}
 	}
 	
-	public boolean load(Logger logger) {
+	public boolean load() {
 		if (plugin.getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
 			return true;
 		}
 		else {
-			logger.log(Level.INFO, " ");
-			logger.log(Level.INFO, "#################### - INFO - ####################");
-			logger.log(Level.INFO, " ");
-			logger.log(Level.INFO, plugin.getName() + " could not be loaded (yet).");
-			logger.log(Level.INFO, "It appears that you have not installed CS-CoreLib.");
-			logger.log(Level.INFO, "Your Server will now try to download and install");
-			logger.log(Level.INFO, "CS-CoreLib for you.");
-			logger.log(Level.INFO, "You will be asked to restart your Server when it's finished.");
-			logger.log(Level.INFO, "If this somehow fails, please download and install CS-CoreLib manually:");
-			logger.log(Level.INFO, "https://dev.bukkit.org/projects/cs-corelib");
-			logger.log(Level.INFO, " ");
-			logger.log(Level.INFO, "#################### - INFO - ####################");
-			logger.log(Level.INFO, " ");
+			plugin.getLogger().log(Level.INFO, " ");
+			plugin.getLogger().log(Level.INFO, "#################### - INFO - ####################");
+			plugin.getLogger().log(Level.INFO, " ");
+			plugin.getLogger().log(Level.INFO, plugin.getName() + " could not be loaded (yet).");
+			plugin.getLogger().log(Level.INFO, "It appears that you have not installed CS-CoreLib.");
+			plugin.getLogger().log(Level.INFO, "Your Server will now try to download and install");
+			plugin.getLogger().log(Level.INFO, "CS-CoreLib for you.");
+			plugin.getLogger().log(Level.INFO, "You will be asked to restart your Server when it's finished.");
+			plugin.getLogger().log(Level.INFO, "If this somehow fails, please download and install CS-CoreLib manually:");
+			plugin.getLogger().log(Level.INFO, "https://dev.bukkit.org/projects/cs-corelib");
+			plugin.getLogger().log(Level.INFO, " ");
+			plugin.getLogger().log(Level.INFO, "#################### - INFO - ####################");
+			plugin.getLogger().log(Level.INFO, " ");
 			
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
 				if (connect()) {
@@ -82,15 +79,15 @@ public class CSCoreLibLoader {
             
             return true;
         } catch (IOException e) {
-        	Slimefun.getLogger().log(Level.WARNING, " ");
-        	Slimefun.getLogger().log(Level.WARNING, "#################### - WARNING - ####################");
-			Slimefun.getLogger().log(Level.WARNING, " ");
-			Slimefun.getLogger().log(Level.WARNING, "Could not connect to BukkitDev.");
-			Slimefun.getLogger().log(Level.WARNING, "Please download & install CS-CoreLib manually:");
-			Slimefun.getLogger().log(Level.WARNING, "https://dev.bukkit.org/projects/cs-corelib");
-			Slimefun.getLogger().log(Level.WARNING, " ");
-			Slimefun.getLogger().log(Level.WARNING, "#################### - WARNING - ####################");
-			Slimefun.getLogger().log(Level.WARNING, " ");
+        	plugin.getLogger().log(Level.WARNING, " ");
+        	plugin.getLogger().log(Level.WARNING, "#################### - WARNING - ####################");
+			plugin.getLogger().log(Level.WARNING, " ");
+			plugin.getLogger().log(Level.WARNING, "Could not connect to BukkitDev.");
+			plugin.getLogger().log(Level.WARNING, "Please download & install CS-CoreLib manually:");
+			plugin.getLogger().log(Level.WARNING, "https://dev.bukkit.org/projects/cs-corelib");
+			plugin.getLogger().log(Level.WARNING, " ");
+			plugin.getLogger().log(Level.WARNING, "#################### - WARNING - ####################");
+			plugin.getLogger().log(Level.WARNING, " ");
             return false;
         }
     }
@@ -133,29 +130,29 @@ public class CSCoreLibLoader {
                 output.write(data, 0, read);
             }
         } catch (Exception ex) {
-        	Slimefun.getLogger().log(Level.WARNING, " ");
-        	Slimefun.getLogger().log(Level.WARNING, "#################### - WARNING - ####################");
-			Slimefun.getLogger().log(Level.WARNING, " ");
-			Slimefun.getLogger().log(Level.WARNING, "Failed to download CS-CoreLib");
-			Slimefun.getLogger().log(Level.WARNING, "Please download & install CS-CoreLib manually:");
-			Slimefun.getLogger().log(Level.WARNING, "https://dev.bukkit.org/projects/cs-corelib");
-			Slimefun.getLogger().log(Level.WARNING, " ");
-			Slimefun.getLogger().log(Level.WARNING, "#################### - WARNING - ####################");
-			Slimefun.getLogger().log(Level.WARNING, " ");
+        	plugin.getLogger().log(Level.WARNING, " ");
+        	plugin.getLogger().log(Level.WARNING, "#################### - WARNING - ####################");
+			plugin.getLogger().log(Level.WARNING, " ");
+			plugin.getLogger().log(Level.WARNING, "Failed to download CS-CoreLib");
+			plugin.getLogger().log(Level.WARNING, "Please download & install CS-CoreLib manually:");
+			plugin.getLogger().log(Level.WARNING, "https://dev.bukkit.org/projects/cs-corelib");
+			plugin.getLogger().log(Level.WARNING, " ");
+			plugin.getLogger().log(Level.WARNING, "#################### - WARNING - ####################");
+			plugin.getLogger().log(Level.WARNING, " ");
         } finally {
             try {
                 if (input != null) input.close();
                 if (output != null) output.close();
-                Slimefun.getLogger().log(Level.INFO, " ");
-                Slimefun.getLogger().log(Level.INFO, "#################### - INFO - ####################");
-                Slimefun.getLogger().log(Level.INFO, " ");
-                Slimefun.getLogger().log(Level.INFO, "Please restart your Server to finish the Installation");
-                Slimefun.getLogger().log(Level.INFO, "of " + plugin.getName() + " and CS-CoreLib");
-                Slimefun.getLogger().log(Level.INFO, " ");
-                Slimefun.getLogger().log(Level.INFO, "#################### - INFO - ####################");
-                Slimefun.getLogger().log(Level.INFO, " ");
+                plugin.getLogger().log(Level.INFO, " ");
+                plugin.getLogger().log(Level.INFO, "#################### - INFO - ####################");
+                plugin.getLogger().log(Level.INFO, " ");
+                plugin.getLogger().log(Level.INFO, "Please restart your Server to finish the Installation");
+                plugin.getLogger().log(Level.INFO, "of " + plugin.getName() + " and CS-CoreLib");
+                plugin.getLogger().log(Level.INFO, " ");
+                plugin.getLogger().log(Level.INFO, "#################### - INFO - ####################");
+                plugin.getLogger().log(Level.INFO, " ");
             } catch (IOException x) {
-            	Slimefun.getLogger().log(Level.SEVERE, "An Error occured while closing the Download Stream for CS-CoreLib", x);
+            	plugin.getLogger().log(Level.SEVERE, "An Error occured while closing the Download Stream for CS-CoreLib", x);
             } 
         }
 	}

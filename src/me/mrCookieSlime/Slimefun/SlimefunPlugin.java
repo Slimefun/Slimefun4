@@ -96,7 +96,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		if (new CSCoreLibLoader(this).load(getLogger())) {
+		if (new CSCoreLibLoader(this).load()) {
 
 			String currentVersion = ReflectionUtils.getVersion();
 
