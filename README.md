@@ -2,7 +2,7 @@
 Slimefun is a plugin which aims to basically turn your Bukkit Server into a modpack like FTB without installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks!
 It also adds an API allowing you guys to easily install/code Addons for this.
 You own a Server which is not only minigame based and your players got bored of playing Survival?
-Then you will absolutely love this Plugin! 
+Then you will absolutely cherish this Plugin! 
 It adds a whole new layer of survival to your server by adding more than 400+ new Items!
 
 <p align="center">
