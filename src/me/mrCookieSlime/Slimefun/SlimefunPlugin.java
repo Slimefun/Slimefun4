@@ -340,6 +340,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		// CS-CoreLib wasn't loaded, just disabling
+		if (instance == null) return;
+		
 		Bukkit.getScheduler().cancelTasks(this);
 
 		if (ticker != null) {
