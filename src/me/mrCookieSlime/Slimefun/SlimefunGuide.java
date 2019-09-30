@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -767,11 +768,12 @@ public final class SlimefunGuide {
 		}
 
 		// Search feature!
-		menu.addItem(7, new CustomItem(Material.NAME_TAG, "&7Search",
-			"&7Search directly for items"));
+		menu.addItem(7, new CustomItem(Material.NAME_TAG, SlimefunPlugin.getLocal().getMessage("guide.search.name"),
+			SlimefunPlugin.getLocal().getMessages("guide.search.lore").toArray(new String[0])));
 		menu.addMenuClickHandler(7, (player, i, itemStack, clickAction) -> {
 			player.closeInventory();
-			player.sendMessage(ChatColor.AQUA + "What would you like to search for?");
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+				SlimefunPlugin.getLocal().getMessage("search.message")));
 			MenuHelper.awaitChatInput(player, (p, s) -> {
 				openSearch(p, s, cheat, true);
 				return true; // ?
