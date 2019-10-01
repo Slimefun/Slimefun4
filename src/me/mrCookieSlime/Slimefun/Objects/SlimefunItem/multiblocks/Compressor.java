@@ -28,13 +28,7 @@ public class Compressor extends MultiBlockMachine {
 				SlimefunItems.COMPRESSOR, 
 				"COMPRESSOR",
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON)},
-				new ItemStack[] {
-						new ItemStack(Material.COAL, 8), SlimefunItems.CARBON, 
-						new CustomItem(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE, 
-						new CustomItem(SlimefunItems.CARBON, 4), SlimefunItems.COMPRESSED_CARBON, 
-						new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE), 
-						new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE
-				},
+				new ItemStack[] {new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE)},
 				BlockFace.SELF
 		);
 	}
@@ -42,11 +36,6 @@ public class Compressor extends MultiBlockMachine {
 	@Override
 	public List<ItemStack> getDisplayRecipes() {
 		return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
-	}
-	
-	@Override
-	public void install() {
-		// Do nothing to prevent double-registration of recipes
 	}
 	
 	@Override
