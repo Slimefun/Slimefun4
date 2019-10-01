@@ -151,7 +151,7 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(151, "Ancient Altar", 15), SlimefunItems.ANCIENT_PEDESTAL, SlimefunItems.ANCIENT_ALTAR);
 	    Slimefun.registerResearch(new Research(152, "Wither-Proof Obsidian", 21), SlimefunItems.WITHER_PROOF_OBSIDIAN);
 	    Slimefun.registerResearch(new Research(154, "Upgraded Solar Cells", 26), SlimefunItems.SOLAR_ARRAY);
-	    Slimefun.registerResearch(new Research(155, "Elemental Runes", 15), SlimefunItems.BLANK_RUNE, SlimefunItems.RUNE_EARTH, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_FIRE);
+	    Slimefun.registerResearch(new Research(155, "Elemental Runes", 15), SlimefunItems.BLANK_RUNE, SlimefunItems.RUNE_LIGHTNING, SlimefunItems.RUNE_EARTH, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_FIRE);
 	    Slimefun.registerResearch(new Research(156, "Purple Runes", 18), SlimefunItems.RUNE_ENDER, SlimefunItems.RUNE_RAINBOW);
 	    Slimefun.registerResearch(new Research(157, "Infernal Bonemeal", 12), SlimefunItems.INFERNAL_BONEMEAL);
 	    Slimefun.registerResearch(new Research(158, "Rainbow Blocks", 24), SlimefunItems.RAINBOW_CLAY, SlimefunItems.RAINBOW_GLASS, SlimefunItems.RAINBOW_GLASS_PANE, SlimefunItems.RAINBOW_WOOL);
