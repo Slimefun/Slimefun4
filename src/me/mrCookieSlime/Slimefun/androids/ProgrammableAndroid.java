@@ -38,6 +38,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
@@ -47,7 +48,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
@@ -806,11 +806,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				pl.closeInventory();
 				SlimefunPlugin.getLocal().sendMessages(pl, "android.scripts.enter-name");
 	
-				MenuHelper.awaitChatInput(pl, (player, message) -> {
+				ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, message -> {
 					Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + '/' + p.getName() + ' ' + id + ".sfs");
 	
-					script.setValue("author", player.getUniqueId().toString());
-					script.setValue("author_name", player.getName());
+					script.setValue("author", pl.getUniqueId().toString());
+					script.setValue("author_name", pl.getName());
 					script.setValue("name", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', message)));
 					script.setValue("code", code);
 					script.setValue("downloads", 0);
@@ -819,10 +819,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 					script.setValue("rating.negative", new ArrayList<String>());
 					script.save();
 	
-					SlimefunPlugin.getLocal().sendMessages(player, "android.scripts.uploaded");
-					openScriptDownloader(player, b, page);
-	
-					return false;
+					SlimefunPlugin.getLocal().sendMessages(pl, "android.scripts.uploaded");
+					openScriptDownloader(pl, b, page);
 				});
 				return false;
 			});
