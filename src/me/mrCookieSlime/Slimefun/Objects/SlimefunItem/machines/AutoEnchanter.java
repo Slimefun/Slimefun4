@@ -103,7 +103,7 @@ public class AutoEnchanter extends AContainer {
 					Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
 					Set<ItemEnchantment> enchantments2 = new HashSet<ItemEnchantment>();
 					int amount = 0;
-					int special_amount = 0;
+					int specialAmount = 0;
 					EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 					for (Map.Entry<Enchantment, Integer> e: meta.getStoredEnchants().entrySet()) {
 						if (e.getKey().canEnchantItem(target)) {
@@ -115,13 +115,13 @@ public class AutoEnchanter extends AContainer {
 						for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
 							if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
 								amount++;
-								special_amount++;
+								specialAmount++;
 								enchantments2.add(enchantment);
 							}
 						}
-						special_amount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
+						specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
 					}
-					if (amount > 0 && special_amount <= SlimefunStartup.instance.getSettings().EMERALD_ENCHANTS_LIMIT) {
+					if (amount > 0 && specialAmount <= SlimefunStartup.instance.getSettings().EMERALD_ENCHANTS_LIMIT) {
 						ItemStack newItem = target.clone();
 						for (Map.Entry<Enchantment, Integer> e: enchantments.entrySet()) {
 							newItem.addUnsafeEnchantment(e.getKey(), e.getValue());

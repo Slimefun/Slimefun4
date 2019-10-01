@@ -19,7 +19,7 @@ public final class SlimefunManager {
     private SlimefunManager(){}
 
     public static SlimefunStartup plugin;
-    public static String PREFIX;
+    public static String prefix;
     public static Map<EntityType, List<ItemStack>> drops = new EnumMap<>(EntityType.class);
 
     public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean special, boolean slimefun) {
@@ -67,9 +67,9 @@ public final class SlimefunManager {
 //			Material.STONE,
 //			Material.COAL, Material.SKULL_ITEM, Material.RAW_FISH, Material.COOKED_FISH);
 
-    public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore) {
-        if (item == null) return SFitem == null;
-        if (SFitem == null) return false;
+    public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore) {
+        if (item == null) return sfitem == null;
+        if (sfitem == null) return false;
         else return false;
     }
 
@@ -83,8 +83,8 @@ public final class SlimefunManager {
     }
 
     @Deprecated
-    public static boolean isItemSimiliar(ItemStack item, ItemStack SFitem, boolean lore, DataType data) {
-        return isItemSimiliar(item, SFitem, lore);
+    public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore, DataType data) {
+        return isItemSimiliar(item, sfitem, lore);
     }
 
     private static boolean equalsLore(List<String> lore, List<String> lore2) {

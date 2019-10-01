@@ -58,26 +58,18 @@ public abstract class AFarm extends SlimefunItem {
 			}
 		};
 
-		registerBlockHandler(id, new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				BlockMenu inv = BlockStorage.getInventory(b);
-				if (inv != null) {
-					for (int slot : getOutputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-				}
-				return true;
-			}
-		});
+		registerBlockHandler(id, (p, b, item1, reason) -> {
+            BlockMenu inv = BlockStorage.getInventory(b);
+            if (inv != null) {
+                for (int slot : getOutputSlots()) {
+                    if (inv.getItemInSlot(slot) != null) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        inv.replaceExistingItem(slot, null);
+                    }
+                }
+            }
+            return true;
+        });
 	}
 
 	public AFarm(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -106,26 +98,18 @@ public abstract class AFarm extends SlimefunItem {
 			}
 		};
 
-		registerBlockHandler(id, new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				BlockMenu inv = BlockStorage.getInventory(b);
-				if (inv != null) {
-					for (int slot: getOutputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-				}
-				return true;
-			}
-		});
+		registerBlockHandler(id, (p, b, item1, reason) -> {
+            BlockMenu inv = BlockStorage.getInventory(b);
+            if (inv != null) {
+                for (int slot: getOutputSlots()) {
+                    if (inv.getItemInSlot(slot) != null) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        inv.replaceExistingItem(slot, null);
+                    }
+                }
+            }
+            return true;
+        });
 	}
 
 	private void constructMenu(BlockMenuPreset preset) {

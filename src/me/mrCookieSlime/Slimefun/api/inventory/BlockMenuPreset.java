@@ -17,10 +17,10 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
 	
-	public static Map<String, BlockMenuPreset> presets = new HashMap<String, BlockMenuPreset>();
+	public static Map<String, BlockMenuPreset> presets = new HashMap<>();
 	
 	private String title;
-	private Set<Integer> occupied = new HashSet<Integer>();
+	private Set<Integer> occupied = new HashSet<>();
 	private String id;
 	private int size = -1;
 	private boolean universal;
@@ -50,9 +50,12 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 	
 	public abstract void init();
-	public abstract void newInstance(BlockMenu menu, Block b);
 	public abstract boolean canOpen(Block b, Player p);
 	public abstract int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow);
+
+    public void newInstance(BlockMenu menu, Block b) {
+        // This method can optionally be overridden by implementations
+    }
 
 	public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 		return this.getSlotsAccessedByItemTransport(flow);

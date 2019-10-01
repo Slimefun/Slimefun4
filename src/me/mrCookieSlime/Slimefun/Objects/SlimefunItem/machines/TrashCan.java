@@ -31,10 +31,6 @@ public class TrashCan extends SlimefunItem {
 			}
 
 			@Override
-			public void newInstance(final BlockMenu menu, final Block b) {
-			}
-
-			@Override
 			public boolean canOpen(Block b, Player p) {
 				return true;
 			}

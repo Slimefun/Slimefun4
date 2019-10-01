@@ -34,7 +34,7 @@ public final class MiscSetup {
 
     private MiscSetup(){}
 	
-	public static List<PostSlimefunLoadingHandler> post_handlers = new ArrayList<>();
+	public static List<PostSlimefunLoadingHandler> postHandlers = new ArrayList<>();
 	
 	public static void setupMisc() {
 		if (SlimefunItem.getByID("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
@@ -127,7 +127,7 @@ public final class MiscSetup {
 			
 		}
 
-        List<ItemStack[]> grinder_recipes = new ArrayList<>();
+        List<ItemStack[]> grinderRecipes = new ArrayList<>();
 
 		SlimefunItem grinder = SlimefunItem.getByID("GRIND_STONE");
 		if (grinder != null) {
@@ -136,7 +136,7 @@ public final class MiscSetup {
 				if (input == null) input = recipe;
 				else {
 					if (input[0] != null && recipe[0] != null) {
-                        grinder_recipes.add(new ItemStack[] {input[0], recipe[0]});
+                        grinderRecipes.add(new ItemStack[] {input[0], recipe[0]});
 					}
 					input = null;
 				}
@@ -150,7 +150,7 @@ public final class MiscSetup {
 				if (input == null) input = recipe;
 				else {
 					if (input[0] != null && recipe[0] != null) {
-                        grinder_recipes.add(new ItemStack[] {input[0], recipe[0]});
+                        grinderRecipes.add(new ItemStack[] {input[0], recipe[0]});
 					}
 					input = null;
 				}
@@ -158,7 +158,7 @@ public final class MiscSetup {
 		}
 
         // Favour 8 Cobblestone -> 1 Sand Recipe over 1 Cobblestone -> 1 Gravel Recipe
-        Stream<ItemStack[]> stream = grinder_recipes.stream();
+        Stream<ItemStack[]> stream = grinderRecipes.stream();
 
 
         if (!settings.ORE_GRINDER_LEGACY) {
@@ -204,7 +204,7 @@ public final class MiscSetup {
 		CommandSender sender = Bukkit.getConsoleSender();
 		ChatColor color = Colors.getRandom();
 		
-		for (PostSlimefunLoadingHandler handler: post_handlers) {
+		for (PostSlimefunLoadingHandler handler: postHandlers) {
 			handler.run(pre, init, post);
 		}
 		

@@ -56,10 +56,6 @@ public abstract class AContainer extends SlimefunItem {
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
 			public boolean canOpen(Block b, Player p) {
 				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
 			}
@@ -71,34 +67,26 @@ public abstract class AContainer extends SlimefunItem {
 			}
 		};
 		
-		registerBlockHandler(id, new SlimefunBlockHandler() {
-			
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-			}
-			
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				BlockMenu inv = BlockStorage.getInventory(b);
-				if (inv != null) {
-					for (int slot : getInputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-					for (int slot : getOutputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-				}
-				progress.remove(b);
-				processing.remove(b);
-				return true;
-			}
-		});
+		registerBlockHandler(id, (p, b, item1, reason) -> {
+            BlockMenu inv = BlockStorage.getInventory(b);
+            if (inv != null) {
+                for (int slot : getInputSlots()) {
+                    if (inv.getItemInSlot(slot) != null) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        inv.replaceExistingItem(slot, null);
+                    }
+                }
+                for (int slot : getOutputSlots()) {
+                    if (inv.getItemInSlot(slot) != null) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        inv.replaceExistingItem(slot, null);
+                    }
+                }
+            }
+            progress.remove(b);
+            processing.remove(b);
+            return true;
+        });
 		
 		this.registerDefaultRecipes();
 	}
@@ -141,7 +129,6 @@ public abstract class AContainer extends SlimefunItem {
 	
 	public abstract String getInventoryTitle();
 	public abstract ItemStack getProgressBar();
-	public abstract void registerDefaultRecipes();
 	public abstract int getEnergyConsumption();
 	public abstract int getSpeed();
 	public abstract String getMachineIdentifier();
@@ -166,6 +153,10 @@ public abstract class AContainer extends SlimefunItem {
 		recipe.setTicks(recipe.getTicks() / getSpeed());
 		this.recipes.add(recipe);
 	}
+
+    public void registerDefaultRecipes() {
+        // Override this method to register your machine recipes
+    }
 	
 	public void registerRecipe(int seconds, ItemStack[] input, ItemStack[] output) {
 		this.registerRecipe(new MachineRecipe(seconds, input, output));

@@ -76,10 +76,10 @@ public class Category {
         Collections.sort(list, new CategorySorter());
 
         if (this instanceof SeasonalCategory) {
-            if (((SeasonalCategory) this).isUnlocked()) Slimefun.current_categories.add(this);
+            if (((SeasonalCategory) this).isUnlocked()) Slimefun.currentCategories.add(this);
         }
-        else Slimefun.current_categories.add(this);
-        Collections.sort(Slimefun.current_categories, new CategorySorter());
+        else Slimefun.currentCategories.add(this);
+        Collections.sort(Slimefun.currentCategories, new CategorySorter());
     }
 
     /**

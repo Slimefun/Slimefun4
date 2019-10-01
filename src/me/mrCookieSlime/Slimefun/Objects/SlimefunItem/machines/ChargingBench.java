@@ -29,10 +29,6 @@ public class ChargingBench extends AContainer {
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
 			public boolean canOpen(Block b, Player p) {
 				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
 			}
@@ -59,9 +55,6 @@ public class ChargingBench extends AContainer {
 	public int getEnergyConsumption() {
 		return 10;
 	}
-
-	@Override
-	public void registerDefaultRecipes() {}
 
 	@Override
 	protected void tick(Block b) {

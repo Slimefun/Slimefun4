@@ -26,7 +26,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager.DataType;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
@@ -34,11 +33,11 @@ import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
 
 public class CargoNet extends Network {
-	public static boolean EXTRA_CHANNELS = false;
+	public static boolean extraChannels = false;
 
 	private static final int RANGE = 5;
 	public static List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-	public static Map<Location, Integer> round_robin = new HashMap<>();
+	public static Map<Location, Integer> roundRobin = new HashMap<>();
 	public static Set<ItemRequest> requests = new HashSet<>();
 
 	private static int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
@@ -55,12 +54,12 @@ public class CargoNet extends Network {
 	}
 
 	public static CargoNet getNetworkFromLocationOrCreate(Location l) {
-		CargoNet cargo_network = getNetworkFromLocation(l);
-		if (cargo_network == null) {
-			cargo_network = new CargoNet(l);
-			registerNetwork(cargo_network);
+		CargoNet cargoNetwork = getNetworkFromLocation(l);
+		if (cargoNetwork == null) {
+			cargoNetwork = new CargoNet(l);
+			registerNetwork(cargoNetwork);
 		}
-		return cargo_network;
+		return cargoNetwork;
 	}
 
 	@Deprecated
@@ -68,8 +67,8 @@ public class CargoNet extends Network {
 		return getNetworkFromLocation(b.getLocation()) != null;
 	}
 
-	private Set<Location> inputNodes = new HashSet<Location>();
-	private Set<Location> outputNodes = new HashSet<Location>();
+	private Set<Location> inputNodes = new HashSet<>();
+	private Set<Location> outputNodes = new HashSet<>();
 	private Set<Location> advancedOutputNodes = new HashSet<Location>();
 
 
@@ -192,7 +191,7 @@ public class CargoNet extends Network {
 					self.display();
 				}
 				//Chest Terminal Code
-				if (EXTRA_CHANNELS) {
+				if (extraChannels) {
 					for (Location bus : imports) {
 						BlockMenu menu = BlockStorage.getInventory(bus);
 
@@ -240,9 +239,9 @@ public class CargoNet extends Network {
 					} for (final Location terminal : terminals) {
                         BlockMenu menu = BlockStorage.getInventory(terminal);
 
-                        ItemStack sending_item = menu.getItemInSlot(TERMINAL_OUT_SLOT);
-                        if (sending_item != null) {
-                            requests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sending_item, ItemTransportFlow.INSERT));
+                        ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);
+                        if (sendingItem != null) {
+                            requests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sendingItem, ItemTransportFlow.INSERT));
                         }
                     }
 
@@ -339,23 +338,23 @@ public class CargoNet extends Network {
 						List<Location> outputlist = new ArrayList<Location>(output.get(frequency));
 
 						if (roundrobin) {
-							if (!round_robin.containsKey(input)) {
-								round_robin.put(input, 0);
+							if (!roundRobin.containsKey(input)) {
+								roundRobin.put(input, 0);
 							}
 
-							int c_index = round_robin.get(input);
+							int cIndex = roundRobin.get(input);
 
-							if (c_index < outputlist.size()) {
-								for (int i = 0; i < c_index; i++) {
+							if (cIndex < outputlist.size()) {
+								for (int i = 0; i < cIndex; i++) {
 									final Location temp = outputlist.get(0);
 									outputlist.remove(temp);
 									outputlist.add(temp);
 								}
-								c_index++;
+								cIndex++;
 							}
-							else c_index = 1;
+							else cIndex = 1;
 
-							round_robin.put(input, c_index);
+							roundRobin.put(input, cIndex);
 						}
 
 
@@ -384,7 +383,7 @@ public class CargoNet extends Network {
 					}
 				}
 				//Chest Terminal Code
-				if (EXTRA_CHANNELS) {
+				if (extraChannels) {
 					List<StoredItem> items = new ArrayList<StoredItem>();
 					for (Location l: providers) {
 						Block target = getAttachedBlock(l.getBlock());

@@ -139,7 +139,6 @@ public class BlockListener implements Listener {
 
             if (!multiblocks.isEmpty()) {
                 e.setCancelled(true);
-                System.out.println(Arrays.toString(multiblocks.get(multiblocks.size() - 1).getBuild()));
                 for (ItemHandler handler: SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
                     if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblocks.get(multiblocks.size() - 1), b)) continue;
                 }

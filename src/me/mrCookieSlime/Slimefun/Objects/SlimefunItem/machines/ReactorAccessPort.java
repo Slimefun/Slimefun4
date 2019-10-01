@@ -43,11 +43,6 @@ public class ReactorAccessPort extends SlimefunItem {
             }
 
             @Override
-            public void newInstance(BlockMenu menu, Block b) {
-
-            }
-
-            @Override
             public boolean canOpen(Block b, Player p) {
                 if(p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(),b,true)) {
                     AReactor reactor = getReactor(b.getLocation());
@@ -101,41 +96,32 @@ public class ReactorAccessPort extends SlimefunItem {
             }
         };
 
-        registerBlockHandler(name, new SlimefunBlockHandler() {
+        registerBlockHandler(name, (p, b, item1, reason) -> {
+            BlockMenu inv = BlockStorage.getInventory(b);
 
-            @Override
-            public void onPlace(Player p, Block b, SlimefunItem item) {
-
-            }
-
-            @Override
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    for (int slot : getFuelSlots()) {
-                        if (inv.getItemInSlot(slot) != null) {
-                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                            inv.replaceExistingItem(slot, null);
-                        }
-                    }
-
-                    for (int slot : getCoolantSlots()) {
-                        if (inv.getItemInSlot(slot) != null) {
-                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                            inv.replaceExistingItem(slot, null);
-                        }
-                    }
-
-                    for (int slot : getOutputSlots()) {
-                        if (inv.getItemInSlot(slot) != null) {
-                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                            inv.replaceExistingItem(slot, null);
-                        }
+            if (inv != null) {
+                for (int slot : getFuelSlots()) {
+                    if (inv.getItemInSlot(slot) != null) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        inv.replaceExistingItem(slot, null);
                     }
                 }
-                return true;
+
+                for (int slot : getCoolantSlots()) {
+                    if (inv.getItemInSlot(slot) != null) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        inv.replaceExistingItem(slot, null);
+                    }
+                }
+
+                for (int slot : getOutputSlots()) {
+                    if (inv.getItemInSlot(slot) != null) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                        inv.replaceExistingItem(slot, null);
+                    }
+                }
             }
+            return true;
         });
     }
 

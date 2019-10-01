@@ -39,9 +39,6 @@ public abstract class ElectricDustWasher extends AContainer {
 	public ItemStack getProgressBar() {
 		return new ItemStack(Material.GOLDEN_SHOVEL);
 	}
-
-	@Override
-	public void registerDefaultRecipes() {}
 	
 	public abstract int getSpeed();
 
@@ -85,14 +82,14 @@ public abstract class ElectricDustWasher extends AContainer {
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
 					if (!SlimefunStartup.instance.getSettings().DUST_WASHER_LEGACY) {
-						boolean empty_slot = false;
+						boolean emptySlot = false;
 						for (int output_slot: getOutputSlots()) {
 							if (BlockStorage.getInventory(b).getItemInSlot(output_slot) == null) {
-								empty_slot = true;
+								emptySlot = true;
 								break;
 							}
 						}
-						if (!empty_slot) return;
+						if (!emptySlot) return;
 					}
 					
 					ItemStack adding = OreWasher.items[new Random().nextInt(OreWasher.items.length)];

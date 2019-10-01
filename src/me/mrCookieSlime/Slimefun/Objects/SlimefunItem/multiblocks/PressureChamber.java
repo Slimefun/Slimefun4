@@ -26,7 +26,7 @@ public class PressureChamber extends MultiBlockMachine {
                 Categories.MACHINES_1,
                 SlimefunItems.PRESSURE_CHAMBER,
                 "PRESSURE_CHAMBER",
-                new ItemStack[] {new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
+                new ItemStack[] {new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
                 new ItemStack[] {
                         SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND,
                         SlimefunItems.RAW_CARBONADO, SlimefunItems.CARBONADO

@@ -67,8 +67,8 @@ public final class SlimefunGuide {
 	 * @since 4.1.13
 	 */
 	public static int stars = 0;
-	public static int code_bytes = 0;
-	public static Date last_update = new Date();
+	public static int codeBytes = 0;
+	public static Date lastUpdate = new Date();
 
 	private static final int category_size = 36;
 
@@ -182,7 +182,7 @@ public final class SlimefunGuide {
         });
 
 		try {
-			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&e源码", "&7代码大小: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7上次更新于: &a" + IntegerFormat.timeDelta(last_update) + " 前", "&7分支: &e" + forks, "&7点赞数: &e" + stars, "", "&7&oSlimefun 4 是一个社区性的项目,", "&7&o其源码公开于 Github 上", "&7&o如果你有 Java 编程经验,", "&7&o请考虑为此项目做出贡献", "", "&7\u21E8 单击前往 Github 页面"));
+			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&e源码", "&7代码大小: &6" + IntegerFormat.formatBigNumber(codeBytes), "&7上次更新于: &a" + IntegerFormat.timeDelta(lastUpdate) + " 前", "&7分支: &e" + forks, "&7点赞数: &e" + stars, "", "&7&oSlimefun 4 是一个社区性的项目,", "&7&o其源码公开于 Github 上", "&7&o如果你有 Java 编程经验,", "&7&o请考虑为此项目做出贡献", "", "&7\u21E8 单击前往 Github 页面"));
 			menu.addMenuClickHandler(4, (p13, arg1, arg2, arg3) -> {
                 p13.closeInventory();
                 p13.sendMessage("");
@@ -432,8 +432,8 @@ public final class SlimefunGuide {
 			menu.setEmptySlotsClickable(false);
 			menu.addMenuOpeningHandler(p1 -> p1.playSound(p1.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
 
-			List<Category> categories = Slimefun.current_categories;
-            List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
+			List<Category> categories = Slimefun.currentCategories;
+            List<GuideHandler> handlers = Slimefun.guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
 
 			int index = 9;
 			int pages = 1;
@@ -698,9 +698,9 @@ public final class SlimefunGuide {
                 return false;
             });
 
-			int category_index = category_size * (selected_page - 1);
+			int categoryIndex = category_size * (selected_page - 1);
 			for (int i = 0; i < category_size; i++) {
-				int target = category_index + i;
+				int target = categoryIndex + i;
 				if (target >= category.getItems().size()) break;
 				final SlimefunItem sfitem = category.getItems().get(target);
 				if (Slimefun.isEnabled(p, sfitem, false)) {
@@ -979,11 +979,11 @@ public final class SlimefunGuide {
 				}
 
 				List<ItemStack> recipes = SlimefunItem.getByItem(item) instanceof SlimefunMachine ? ((SlimefunMachine) SlimefunItem.getByItem(item)).getDisplayRecipes(): ((SlimefunGadget) SlimefunItem.getByItem(item)).getDisplayRecipes();
-				int recipe_size = recipes.size();
-				if (recipe_size > 18) recipe_size = 18;
+				int recipeSize = recipes.size();
+				if (recipeSize > 18) recipeSize = 18;
 				int inputs = -1, outputs = -1;
 
-				for (int i = 0; i < recipe_size; i++) {
+				for (int i = 0; i < recipeSize; i++) {
 					int slot = 36;
 					if (i % 2 == 1) {
 						slot = slot + 9;

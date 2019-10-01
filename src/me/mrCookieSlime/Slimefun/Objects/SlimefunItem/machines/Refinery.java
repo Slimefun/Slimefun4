@@ -36,9 +36,6 @@ public abstract class Refinery extends AContainer {
 	public ItemStack getProgressBar() {
 		return new ItemStack(Material.FLINT_AND_STEEL);
 	}
-
-	@Override
-	public void registerDefaultRecipes() {}
 	
 	@Override
 	public String getMachineIdentifier() {
