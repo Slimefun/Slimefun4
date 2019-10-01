@@ -1,15 +1,15 @@
 package me.mrCookieSlime.Slimefun.Objects.tasks;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
+
 public class JetpackTask extends SlimefunTask {
+	
 	private double thrust;
 	
 	public JetpackTask(Player p, double thrust) {
@@ -29,8 +29,7 @@ public class JetpackTask extends SlimefunTask {
 		float charge = ItemEnergy.getStoredEnergy(p.getInventory().getChestplate());
 		if (charge >= cost) {
 			p.getInventory().setChestplate(ItemEnergy.chargeItem(p.getInventory().getChestplate(), -cost));
-			PlayerInventory.update(p);
-
+			
 			p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, (float) 0.25, 1);
 			p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1, 1);
 			p.setFallDistance(0F);

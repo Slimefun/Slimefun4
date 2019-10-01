@@ -9,7 +9,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
 public class JetBootsTask extends SlimefunTask {
@@ -28,7 +27,6 @@ public class JetBootsTask extends SlimefunTask {
 		double accuracy = Double.parseDouble(new DecimalFormat("##.##").format(speed - 0.7).replace(',', '.'));
 		if (charge >= cost) {
 			p.getInventory().setBoots(ItemEnergy.chargeItem(p.getInventory().getBoots(), -cost));
-			PlayerInventory.update(p);
 
 			p.getWorld().playSound(p.getLocation(), Sound.ENTITY_TNT_PRIMED, (float) 0.25, 1);
 			p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1, 1);

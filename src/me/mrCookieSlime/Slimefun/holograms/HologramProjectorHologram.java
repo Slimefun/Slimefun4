@@ -9,8 +9,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
@@ -51,12 +51,11 @@ public final class HologramProjectorHologram {
 		menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
 			pl.closeInventory();
 			SlimefunPlugin.getLocal().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
-			MenuHelper.awaitChatInput(pl, (player, message) -> {
+			ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, message -> {
 				ArmorStand hologram = getArmorStand(projector, true);
 				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', message));
 				BlockStorage.addBlockInfo(projector, "text", hologram.getCustomName());
-				openEditor(player, projector);
-				return false;
+				openEditor(pl, projector);
 			});
 			return false;
 		});

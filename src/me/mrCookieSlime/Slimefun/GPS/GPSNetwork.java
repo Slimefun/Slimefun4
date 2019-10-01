@@ -17,9 +17,9 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
@@ -193,10 +193,10 @@ public class GPSNetwork {
 		}
 		SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.new", true);
 		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
-		MenuHelper.awaitChatInput(p, (pl, message) -> {
-			addWaypoint(pl, message, l);
-			return false;
-		});
+		
+		ChatInput.waitForPlayer(SlimefunPlugin.instance, p, message ->
+			addWaypoint(p, message, l)
+		);
 	}
 	
 	public void addWaypoint(Player p, String name, Location l) {

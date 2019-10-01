@@ -10,8 +10,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -25,6 +23,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
@@ -768,15 +767,15 @@ public final class SlimefunGuide {
 		}
 
 		// Search feature!
-		menu.addItem(7, new CustomItem(Material.NAME_TAG, SlimefunPlugin.getLocal().getMessage("guide.search.name"),
-			SlimefunPlugin.getLocal().getMessages("guide.search.lore").toArray(new String[0])));
+		menu.addItem(7, new CustomItem(Material.NAME_TAG, SlimefunPlugin.getLocal().getMessage("guide.search.name"), SlimefunPlugin.getLocal().getMessagesArray("guide.search.lore")));
+		
 		menu.addMenuClickHandler(7, (player, i, itemStack, clickAction) -> {
 			player.closeInventory();
 			SlimefunPlugin.getLocal().sendMessage(player, "search.message");
-			MenuHelper.awaitChatInput(player, (p, s) -> {
-				openSearch(p, s, cheat, true);
-				return true; // ?
-			});
+			
+			ChatInput.waitForPlayer(SlimefunPlugin.instance, player, msg -> 
+				openSearch(player, msg, cheat, true)
+			);
 
 			return false;
 		});
@@ -790,11 +789,13 @@ public final class SlimefunGuide {
 	private static void addBackButton(ChestMenu menu, Player player, boolean book, boolean cheat) {
 		List<Object> playerHistory = getHistory().getOrDefault(player.getUniqueId(), new LinkedList<>());
 		if (playerHistory != null && playerHistory.size() > 1) {
+			
 			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
 				"&7\u21E6 Back", "",
 				"&rLeft Click: &7Go back to previous Page",
 				"&rShift + left Click: &7Go back to Main Menu")
 			);
+			
 			menu.addMenuClickHandler(0, (pl, slot, item118, action) -> {
 				if (action.isShiftClicked()) openMainMenu(pl, true, false, 1);
 				else {
@@ -803,11 +804,12 @@ public final class SlimefunGuide {
 				}
 				return false;
 			});
-		} else {
-			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
-				"&7\u21E6 Back", "", "&rLeft Click: &7Go back to Main Menu"));
-			menu.addMenuClickHandler(0, (p117, slot, item117, action) -> {
-				openMainMenu(p117, true, book, 1);
+			
+		} 
+		else {
+			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to Main Menu"));
+			menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
+				openMainMenu(pl, true, book, 1);
 				return false;
 			});
 		}
