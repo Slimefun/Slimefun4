@@ -1,5 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -39,6 +41,22 @@ public class Smeltery extends MultiBlockMachine {
 				BlockFace.DOWN,
 				new String[] {"chance.fireBreak"}, new Integer[] {34}
 		);
+	}
+	
+	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		List<ItemStack> items = new ArrayList<>();
+		
+		for (int i = 0; i < recipes.size() - 1; i += 2) {
+			if (Arrays.stream(recipes.get(i)).skip(1).anyMatch(item -> item != null)) {
+				continue;
+			}
+			
+			items.add(recipes.get(i)[0]);
+			items.add(recipes.get(i + 1)[0]);
+		}
+		
+		return items;
 	}
 	
 	@Override
