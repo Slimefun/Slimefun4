@@ -23,6 +23,12 @@ public class SlimefunLocalization extends Localization {
 		setDefaultMessage("commands.research.reset", "&cYou have reset %player%'s Knowledge");
 		setDefaultMessage("commands.research.reset-target", "&cYour Knowledge has been reset");
 
+		setDefaultMessage("guide.search.name", "&7Search");
+		setDefaultMessages("guide.search.lore",
+			"&bWhat would you like to search for?", "&7Type your search term into chat");
+
+		setDefaultMessage("search.message", "&bWhat would you like to search for?");
+
 		setDefaultMessage("messages.not-researched", "&4You do not have enough Knowledge to understand this");
 		setDefaultMessage("messages.not-enough-xp", "&4You do not have enough XP to unlock this");
 		setDefaultMessage("messages.unlocked", "&bYou have unlocked &7\"%research%\"");

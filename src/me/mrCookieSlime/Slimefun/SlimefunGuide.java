@@ -10,6 +10,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -51,7 +53,7 @@ public final class SlimefunGuide {
 	
 	private SlimefunGuide() {}
 	
-	private static final int category_size = 36;
+	private static final int CATEGORY_SIZE = 36;
 	private static final int[] slots = new int[] {0, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 	
 	@Deprecated
@@ -89,7 +91,7 @@ public final class SlimefunGuide {
 		menu.addMenuOpeningHandler(
 				pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F)
 		);
-		
+
 		for (int i: slots) {
 			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 			menu.addMenuClickHandler(i,
@@ -251,10 +253,7 @@ public final class SlimefunGuide {
 		}
 		else {
 			Object last = getLastEntry(p, false);
-			if (last instanceof Category) openCategory(p, (Category) last, true, 1, book);
-			else if (last instanceof SlimefunItem) displayItem(p, ((SlimefunItem) last).getItem(), false, book, 0);
-			else if (last instanceof GuideHandler) ((GuideHandler) last).run(p, true, book);
-			else displayItem(p, (ItemStack) last, false, book, 0);
+			handleHistory(p, last, book, false);
 		}
 	}
 
@@ -282,10 +281,7 @@ public final class SlimefunGuide {
 					}
 				}
 				
-				if (locked) {
-					// Don't display that Category...
-				}
-				else {
+				if (!locked) {
 					if (tier < category.getTier()) {
 						if (survival) {
 							for (final GuideHandler handler: Slimefun.getGuideHandlers(tier)) {
@@ -397,21 +393,13 @@ public final class SlimefunGuide {
 			
 			int index = 9;
 			int pages = 1;
-			
-			for (int i = 0; i < 9; i++) {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
-			}
-			
-			for (int i = 45; i < 54; i++) {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
-			}
-			
-			int target = (category_size * (selected_page - 1)) - 1;
+
+			fillInv(menu, !survival);
+
+			int target = (CATEGORY_SIZE * (selected_page - 1)) - 1;
 			
 			while (target < (categories.size() + handlers.size() - 1)) {
-				if (index >= category_size + 9) {
+				if (index >= CATEGORY_SIZE + 9) {
 					pages++;
 					break;
 				}
@@ -626,7 +614,7 @@ public final class SlimefunGuide {
 			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1));
 			
 			int index = 9;
-			final int pages = (category.getItems().size() - 1) / category_size + 1;
+			final int pages = (category.getItems().size() - 1) / CATEGORY_SIZE + 1;
 			for (int i = 0; i < 4; i++) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
@@ -664,8 +652,8 @@ public final class SlimefunGuide {
 				return false;
 			});
 			
-			int categoryIndex = category_size * (selected_page - 1);
-			for (int i = 0; i < category_size; i++) {
+			int categoryIndex = CATEGORY_SIZE * (selected_page - 1);
+			for (int i = 0; i < CATEGORY_SIZE; i++) {
 				int target = categoryIndex + i;
 				if (target >= category.getItems().size()) break;
 				final SlimefunItem sfitem = category.getItems().get(target);
@@ -673,7 +661,7 @@ public final class SlimefunGuide {
 				if (Slimefun.isEnabled(p, sfitem, false)) {
 					if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
 						if (Slimefun.hasPermission(p, sfitem, false)) {
-						    final Research research = sfitem.getResearch();
+							final Research research = sfitem.getResearch();
 						    
 							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + StringUtils.formatItemName(sfitem.getItem(), false), "&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"));
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
@@ -692,18 +680,18 @@ public final class SlimefunGuide {
 											if (pl.getGameMode() == GameMode.CREATIVE) {
 												research.unlock(pl, SlimefunPlugin.getSettings().researchesFreeInCreative);
 												openCategory(pl, category, survival, selected_page, book);
-											} 
+											}
 											else {
 												research.unlock(pl, false);
 												Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openCategory(pl, category, survival, selected_page, book), 103L);
 											}
 										}
-									} 
+									}
 									else SlimefunPlugin.getLocal().sendMessage(pl, "messages.not-enough-xp", true);
 								}
 								return false;
 							});
-							
+
 							index++;
 						}
 						else {
@@ -726,21 +714,107 @@ public final class SlimefunGuide {
 			}
 			
 			menu.open(p);
-		}		
+		}
 
 		if (survival) {
 			addToHistory(p, category);
 		}
 	}
 
-	public static void addToHistory(Player p, Object obj) {
-		LinkedList<Object> list = getHistory().get(p.getUniqueId());
-		
-		if (list == null) {
-			list = new LinkedList<>();
-			getHistory().put(p.getUniqueId(), list);
+	public static void openSearch(Player player, String searchTerm, boolean cheat, boolean addToHistory) {
+		final ChestMenu menu = new ChestMenu("Slimefun Guide Search");
+
+		menu.setEmptySlotsClickable(false);
+
+		fillInv(menu, cheat);
+
+		addBackButton(menu, player, false, cheat);
+
+		searchTerm = searchTerm.toLowerCase();
+
+		int index = 9;
+		// Find items and add them
+		for (SlimefunItem item : SlimefunItem.list()) {
+			final String itemName = ChatColor.stripColor(item.getItem().getItemMeta().getDisplayName()).toLowerCase();
+
+			if (itemName.isEmpty()) continue;
+
+			if (index == 44) break;
+
+			if (itemName.equals(searchTerm) || itemName.contains(searchTerm)) {
+				menu.addItem(index, item.getItem());
+				menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
+					if (cheat)
+						pl.getInventory().addItem(itm);
+					else
+						displayItem(pl, itm, true, false, 0);
+					return false;
+				});
+
+				index++;
+			}
 		}
-		
+
+		if (addToHistory)
+			addToHistory(player, searchTerm);
+
+		menu.open(player);
+	}
+
+	private static void fillInv(ChestMenu menu, boolean cheat) {
+		for (int i = 0; i < 9; i++) {
+			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
+			menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
+		}
+
+		// Search feature!
+		menu.addItem(7, new CustomItem(Material.NAME_TAG, SlimefunPlugin.getLocal().getMessage("guide.search.name"),
+			SlimefunPlugin.getLocal().getMessages("guide.search.lore").toArray(new String[0])));
+		menu.addMenuClickHandler(7, (player, i, itemStack, clickAction) -> {
+			player.closeInventory();
+			SlimefunPlugin.getLocal().sendMessage(player, "search.message");
+			MenuHelper.awaitChatInput(player, (p, s) -> {
+				openSearch(p, s, cheat, true);
+				return true; // ?
+			});
+
+			return false;
+		});
+
+		for (int i = 45; i < 54; i++) {
+			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
+			menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
+		}
+	}
+
+	private static void addBackButton(ChestMenu menu, Player player, boolean book, boolean cheat) {
+		List<Object> playerHistory = getHistory().getOrDefault(player.getUniqueId(), new LinkedList<>());
+		if (playerHistory != null && playerHistory.size() > 1) {
+			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
+				"&7\u21E6 Back", "",
+				"&rLeft Click: &7Go back to previous Page",
+				"&rShift + left Click: &7Go back to Main Menu")
+			);
+			menu.addMenuClickHandler(0, (pl, slot, item118, action) -> {
+				if (action.isShiftClicked()) openMainMenu(pl, true, false, 1);
+				else {
+					Object last = getLastEntry(pl, true);
+					handleHistory(pl, last, book, cheat);
+				}
+				return false;
+			});
+		} else {
+			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
+				"&7\u21E6 Back", "", "&rLeft Click: &7Go back to Main Menu"));
+			menu.addMenuClickHandler(0, (p117, slot, item117, action) -> {
+				openMainMenu(p117, true, book, 1);
+				return false;
+			});
+		}
+	}
+
+	public static void addToHistory(Player p, Object obj) {
+		LinkedList<Object> list = getHistory().computeIfAbsent(p.getUniqueId(), k -> new LinkedList<>());
 		list.add(obj);
 	}
 
@@ -825,6 +899,8 @@ public final class SlimefunGuide {
 		}
 		
 		if (addToHistory) addToHistory(p, sfItem != null ? sfItem: item);
+
+		addBackButton(menu, p, book, false);
 		
 		LinkedList<Object> history = getHistory().get(p.getUniqueId());
 		
@@ -834,10 +910,7 @@ public final class SlimefunGuide {
 				if (action.isShiftClicked()) openMainMenu(p, true, book, 1);
 				else {
 					Object last = getLastEntry(pl, true);
-					if (last instanceof Category) openCategory(pl, (Category) last, true, 1, book);
-					else if (last instanceof SlimefunItem) displayItem(pl, ((SlimefunItem) last).getItem(), false, book, 0);
-					else if (last instanceof GuideHandler) ((GuideHandler) last).run(pl, true, book);
-					else displayItem(pl, (ItemStack) last, false, book, 0);
+					handleHistory(pl, last, book, false);
 				}
 				return false;
 			});
@@ -948,7 +1021,15 @@ public final class SlimefunGuide {
 		
 		menu.open(p);
 	}
-	
+
+	private static void handleHistory(Player pl, Object last, boolean book, boolean cheat) {
+		if (last instanceof Category) openCategory(pl, (Category) last, true, 1, book);
+		else if (last instanceof SlimefunItem) displayItem(pl, ((SlimefunItem) last).getItem(), false, book, 0);
+		else if (last instanceof GuideHandler) ((GuideHandler) last).run(pl, true, book);
+		else if (last instanceof String) openSearch(pl, (String) last, cheat, true);
+		else displayItem(pl, (ItemStack) last, false, book, 0);
+	}
+
 	private static void displayRecipes(ChestMenu menu, RecipeDisplayItem sfItem, int page) {
 		List<ItemStack> recipes = sfItem.getDisplayRecipes();
 		
