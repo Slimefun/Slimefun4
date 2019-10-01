@@ -18,7 +18,7 @@ public class PlayerQuitListener implements Listener {
 		SlimefunPlugin.getUtilities().guideHistory.remove(e.getPlayer().getUniqueId());
 		
 		if (PlayerProfile.isLoaded(e.getPlayer().getUniqueId())) {
-			PlayerProfile.fromUUID(e.getPlayer().getUniqueId()).markForDeletion();
+			PlayerProfile.get(e.getPlayer()).markForDeletion();
 		}
 	}
 

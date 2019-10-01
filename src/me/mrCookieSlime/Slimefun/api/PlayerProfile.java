@@ -11,7 +11,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -27,6 +30,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
  */
 public final class PlayerProfile {
 	
+	private String name;
 	private UUID uuid;
 	private Config cfg;
 	private boolean dirty = false;
@@ -35,8 +39,20 @@ public final class PlayerProfile {
 	private Set<Research> researches = new HashSet<>();
 	private Map<Integer, BackpackInventory> backpacks = new HashMap<>();
 	
+	private PlayerProfile(OfflinePlayer p) {
+		this.uuid = p.getUniqueId();
+		this.name = p.getName();
+		
+		cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
+		
+		for (Research research: Research.list()) {
+			if (cfg.contains("researches." + research.getID())) researches.add(research);
+		}
+	}
+	
 	private PlayerProfile(UUID uuid) {
 		this.uuid = uuid;
+		this.name = Bukkit.getOfflinePlayer(uuid).getName();
 		cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
 		
 		for (Research research: Research.list()) {
@@ -166,12 +182,46 @@ public final class PlayerProfile {
 		return titles.get(index);
 	}
 	
+	public void sendStats(CommandSender sender) {
+		Set<Research> researched = getResearches();
+		int levels = researched.stream().mapToInt(Research::getCost).sum();
+		
+		String progress = String.valueOf(Math.round(((researched.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F);
+		if (Float.parseFloat(progress) < 16.0F) progress = "&4" + progress + " &r% ";
+		else if (Float.parseFloat(progress) < 32.0F) progress = "&c" + progress + " &r% ";
+		else if (Float.parseFloat(progress) < 48.0F) progress = "&6" + progress + " &r% ";
+		else if (Float.parseFloat(progress) < 64.0F) progress = "&e" + progress + " &r% ";
+		else if (Float.parseFloat(progress) < 80.0F) progress = "&2" + progress + " &r% ";
+		else progress = "&a" + progress + " &r% ";
+
+		sender.sendMessage("");
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Statistics for Player: &b" + name));
+		sender.sendMessage("");
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Title: &b" + getTitle()));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Research Progress: " + progress + "&e(" + researched.size() + " / " + Research.list().size() + ")"));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Total XP Levels spent: &b" + levels));
+	}
+	
 	public static PlayerProfile fromUUID(UUID uuid) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
 		
 		if (profile == null) {
 			profile = new PlayerProfile(uuid);
 			SlimefunPlugin.getUtilities().profiles.put(uuid, profile);
+		}
+		else {
+			profile.markedForDeletion = false;
+		}
+		
+		return profile;
+	}
+	
+	public static PlayerProfile get(OfflinePlayer p) {
+		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
+		
+		if (profile == null) {
+			profile = new PlayerProfile(p);
+			SlimefunPlugin.getUtilities().profiles.put(p.getUniqueId(), profile);
 		}
 		else {
 			profile.markedForDeletion = false;

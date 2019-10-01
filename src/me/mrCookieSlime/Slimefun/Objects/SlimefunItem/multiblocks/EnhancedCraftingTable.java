@@ -104,7 +104,7 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 							if (id.equals("")) {
 								for (int line = 0; line < adding.getItemMeta().getLore().size(); line++) {
 									if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-										int backpackID = PlayerProfile.fromUUID(p.getUniqueId()).createBackpack(size).getID();
+										int backpackID = PlayerProfile.get(p).createBackpack(size).getID();
 
 										ItemMeta im = adding.getItemMeta();
 										List<String> lore = im.getLore();

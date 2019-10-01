@@ -9,8 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-
 public final class ItemEnergy {
 	
 	private ItemEnergy() {}
@@ -100,8 +98,6 @@ public final class ItemEnergy {
 		p.getInventory().setChestplate(chargeItem(p.getInventory().getChestplate(), energy));
 		p.getInventory().setLeggings(chargeItem(p.getInventory().getLeggings(), energy));
 		p.getInventory().setBoots(chargeItem(p.getInventory().getBoots(), energy));
-		
-		PlayerInventory.update(p);
 	}
 
 }

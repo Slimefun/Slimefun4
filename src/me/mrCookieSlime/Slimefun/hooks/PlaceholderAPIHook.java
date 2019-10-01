@@ -41,12 +41,12 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 	@Override
 	public String onRequest(OfflinePlayer p, String params) {
 		if (params.equals("researches_total_xp_levels_spent")) {
-			Stream<Research> stream = PlayerProfile.fromUUID(p.getUniqueId()).getResearches().stream();
+			Stream<Research> stream = PlayerProfile.get(p).getResearches().stream();
 			return String.valueOf(stream.mapToInt(Research::getCost).sum());
 		}
 		
 		if (params.equals("researches_total_researches_unlocked")) {
-			Set<Research> set = PlayerProfile.fromUUID(p.getUniqueId()).getResearches();
+			Set<Research> set = PlayerProfile.get(p).getResearches();
 			return String.valueOf(set.size());
 		}
 		
@@ -55,12 +55,12 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		}
 		
 		if (params.equals("researches_percentage_researches_unlocked")) {
-			Set<Research> set = PlayerProfile.fromUUID(p.getUniqueId()).getResearches();
+			Set<Research> set = PlayerProfile.get(p).getResearches();
 			return String.valueOf(Math.round(((set.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F);
 		}
 		
 		if (params.equals("researches_title")) {
-			return PlayerProfile.fromUUID(p.getUniqueId()).getTitle();
+			return PlayerProfile.get(p).getTitle();
 		}
 		
 		if (params.equals("gps_complexity")) {

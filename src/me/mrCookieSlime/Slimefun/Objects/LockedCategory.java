@@ -112,7 +112,7 @@ public class LockedCategory extends Category {
 	 * @since 4.0
 	 */
 	public boolean hasUnlocked(Player p) {
-		PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
+		PlayerProfile profile = PlayerProfile.get(p);
 		
 		for (Category category: parents) {
 			for (SlimefunItem item: category.getItems()) {

@@ -66,10 +66,14 @@
       					<filter>
     						<artifact>com.github.thebusybiscuit:CS-CoreLib2</artifact>
     						<includes>
+    							<include>**/cscorelib2/chat/**</include>
     							<include>**/cscorelib2/config/**</include>
     							<include>**/cscorelib2/updater/**</include>
                                 <include>**/cscorelib2/materials/**</include>
+    							<include>**/cscorelib2/math/**</include>
 								<include>**/cscorelib2/protection/**</include>
+    							<include>**/cscorelib2/players/**</include>
+								<include>**/cscorelib2/reflection/**</include>
 								<include>**/cscorelib2/item/**</include>
     						</includes>
   						</filter>
@@ -120,13 +124,13 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-    		<version>45909a0324</version>
+    		<version>6e17183656</version>
     		<scope>provided</scope>
         </dependency>
         <dependency>
   			<groupId>com.github.thebusybiscuit</groupId>
   			<artifactId>CS-CoreLib2</artifactId>
-  			<version>0.5.3</version>
+  			<version>0.5.4</version>
   			<scope>compile</scope>
 		</dependency>
 		<dependency>

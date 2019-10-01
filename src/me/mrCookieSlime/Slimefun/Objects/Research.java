@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
@@ -217,7 +215,7 @@ public class Research {
 	 */
 	@Deprecated
 	public void lock(Player p) {
-		PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, false);
+		PlayerProfile.get(p).setResearched(this, false);
 		SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset-target", true);
 	}
 
@@ -235,7 +233,7 @@ public class Research {
 			Bukkit.getPluginManager().callEvent(event);
 			
 			Runnable runnable = () -> {
-				PlayerProfile.fromUUID(p.getUniqueId()).setResearched(this, true);
+				PlayerProfile.get(p).setResearched(this, true);
 				SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName()));
 				
 				if (SlimefunPlugin.getCfg().getBoolean("options.research-unlock-fireworks")) {
@@ -334,24 +332,7 @@ public class Research {
 	 */
 	@Deprecated
 	public static void sendStats(CommandSender sender, Player p) {
-		PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
-		Set<Research> researched = profile.getResearches();
-		int levels = researched.stream().mapToInt(Research::getCost).sum();
-		
-		String progress = String.valueOf(Math.round(((researched.size() * 100.0F) / list().size()) * 100.0F) / 100.0F);
-		if (Float.parseFloat(progress) < 16.0F) progress = "&4" + progress + " &r% ";
-		else if (Float.parseFloat(progress) < 32.0F) progress = "&c" + progress + " &r% ";
-		else if (Float.parseFloat(progress) < 48.0F) progress = "&6" + progress + " &r% ";
-		else if (Float.parseFloat(progress) < 64.0F) progress = "&e" + progress + " &r% ";
-		else if (Float.parseFloat(progress) < 80.0F) progress = "&2" + progress + " &r% ";
-		else progress = "&a" + progress + " &r% ";
-
-		sender.sendMessage("");
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Statistics for Player: &b" + p.getName()));
-		sender.sendMessage("");
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Title: &b" + getTitle(p, researched)));
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Research Progress: " + progress + "&e(" + researched.size() + " / " + list().size() + ")"));
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Total XP Levels spent: &b" + levels));
+		PlayerProfile.get(p).sendStats(sender);
 	}
 
 	/**
@@ -366,7 +347,7 @@ public class Research {
 	 */
 	@Deprecated
 	public static String getTitle(Player p, Collection<Research> researched) {
-		return PlayerProfile.fromUUID(p.getUniqueId()).getTitle();
+		return PlayerProfile.get(p).getTitle();
 	}
 
 	/**

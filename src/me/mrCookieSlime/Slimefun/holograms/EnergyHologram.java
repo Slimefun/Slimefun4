@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
+import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 

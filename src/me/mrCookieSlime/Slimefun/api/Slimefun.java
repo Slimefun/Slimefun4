@@ -128,7 +128,7 @@ public final class Slimefun {
 		}
 		else if (isEnabled(p, item, message) && hasPermission(p, sfItem, message)) {
 			if (sfItem.getResearch() == null) return true;
-			else if (PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(sfItem.getResearch())) return true;
+			else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) return true;
 			else {
 				if (message && !(sfItem instanceof VanillaItem)) SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
 				return false;
@@ -150,7 +150,7 @@ public final class Slimefun {
 	public static boolean hasUnlocked(Player p, SlimefunItem sfItem, boolean message) {
 		if (isEnabled(p, sfItem, message) && hasPermission(p, sfItem, message)) {
 			if (sfItem.getResearch() == null) return true;
-			else if (PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(sfItem.getResearch())) return true;
+			else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) return true;
 			else {
 				if (message && !(sfItem instanceof VanillaItem)) SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
 				return false;

@@ -116,7 +116,7 @@ public class BackpackListener implements Listener {
 		
 		if (item.getAmount() == 1) {
 			if (Slimefun.hasUnlocked(p, sfItem, true)) {
-				PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
+				PlayerProfile profile = PlayerProfile.get(p);
 				
 				for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
 					if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {

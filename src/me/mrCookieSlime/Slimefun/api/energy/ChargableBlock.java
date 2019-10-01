@@ -7,8 +7,8 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 
+import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;

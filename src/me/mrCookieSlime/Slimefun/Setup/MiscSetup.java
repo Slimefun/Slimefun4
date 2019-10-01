@@ -14,7 +14,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.Colors;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -201,16 +200,15 @@ public final class MiscSetup {
 		}
 		
 		CommandSender sender = Bukkit.getConsoleSender();
-		ChatColor color = Colors.getRandom();
 		
 		for (PostSlimefunLoadingHandler handler: SlimefunPlugin.getUtilities().postHandlers) {
 			handler.run(pre, init, post);
 		}
 		
-		sender.sendMessage(color + "###################### - Slimefun - ######################");
-		sender.sendMessage(color + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
-		sender.sendMessage(color + "( " + SlimefunPlugin.getUtilities().vanillaItems + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunPlugin.getUtilities().vanillaItems) + " Items from Addons )");
-		sender.sendMessage(color + "##########################################################");
+		sender.sendMessage(ChatColor.GREEN + "###################### - Slimefun - ######################");
+		sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
+		sender.sendMessage(ChatColor.GREEN + "( " + SlimefunPlugin.getUtilities().vanillaItems + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunPlugin.getUtilities().vanillaItems) + " Items from Addons )");
+		sender.sendMessage(ChatColor.GREEN + "##########################################################");
 		SlimefunPlugin.getItemCfg().save();
 		SlimefunPlugin.getResearchCfg().save();
 		SlimefunPlugin.getWhitelist().save();

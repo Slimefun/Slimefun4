@@ -534,7 +534,7 @@ public final class SlimefunGuide {
 								public void run(final Player p) {
 									if (!Research.isResearching(p)) {
 										if (research.canUnlock(p)) {
-											PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
+											PlayerProfile profile = PlayerProfile.get(p);
 											
 											if (profile.hasUnlocked(research)) {
 												openCategory(p, category, true, selected_page, book);
@@ -679,7 +679,7 @@ public final class SlimefunGuide {
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 								if (!Research.isResearching(pl)) {
 									if (research.canUnlock(pl)) {
-										PlayerProfile profile = PlayerProfile.fromUUID(p.getUniqueId());
+										PlayerProfile profile = PlayerProfile.get(p);
 										
 										if (profile.hasUnlocked(research)) {
 											openCategory(p, category, true, selected_page, book);
