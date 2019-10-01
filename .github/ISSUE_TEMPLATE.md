@@ -1,15 +1,8 @@
-## Description (Required)
-Describe your Issue AS DETAILED AS POSSIBLE.
+## 描述 (必填)
+描述你所遇到的问题，越详细越好:
 
-## Server Log
-All Error files/messages need to be provided via http://pastebin.com/
+## 服务器 Log
+请尽量使用 http://pastebin.com/ 发送服务器 Log, 不要直接发:
 
-## Evidence / Proof (Required)
-Attach as many Screenshots or Videos if possible.
-Anything that helps us understand the Issue better, is gonna get your Issue fixed even faster.
-
-## Environment (Required)
-We need the EXACT VERSIONS of the Software you are using.
-This includes your Minecraft Version, your CS-CoreLib version and your Slimefun Version.
-If you cannot figure out what versions you are running, then please run /sf versions and
-show us the output of that command.
+## 服务器环境 (必填)
+填写你的服务器版本, 粘液科技版本, CS-Corelib 版本等. 可以截图 /sf versions 的内容:
