@@ -123,7 +123,7 @@ public class ItemListener implements Listener {
             e.setCancelled(true);
             if (p.isOp()) {
                 switch (e.getAction()) {
-                    case LEFT_CLICK_BLOCK: {
+                    case LEFT_CLICK_BLOCK:
                         if (p.isSneaking()) {
                             if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
                                 BlockStorage.clearBlockInfo(e.getClickedBlock());
@@ -131,8 +131,7 @@ public class ItemListener implements Listener {
                         }
                         else e.setCancelled(false);
                         break;
-                    }
-                    case RIGHT_CLICK_BLOCK: {
+                    case RIGHT_CLICK_BLOCK:
                         if (p.isSneaking()) {
                             Block b = e.getClickedBlock().getRelative(e.getBlockFace());
                             b.setType(Material.PLAYER_HEAD);
@@ -183,7 +182,6 @@ public class ItemListener implements Listener {
                             p.sendMessage(" ");
                         }
                         break;
-                    }
                     default:
                         break;
 
@@ -269,29 +267,31 @@ public class ItemListener implements Listener {
 
             if (e.getClickedBlock() != null && BlockStorage.hasBlockInfo(e.getClickedBlock())) {
                 String id = BlockStorage.checkID(e.getClickedBlock());
-                if (BlockMenuPreset.isInventory(id)) {
-                    if (canPlaceBlock(p, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, true));
-                    else if (canPlaceBlock(p, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT, true));
-                    else if (canPlaceBlock(p, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
-                    else if (canPlaceBlock(p, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, true));
-                    else if (canPlaceBlock(p, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_EXPORT_BUS, true));
-                    else if (!p.isSneaking() || item == null || item.getType() == Material.AIR) {
-                        e.setCancelled(true);
-                        BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
+                if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && (!p.isSneaking() || item == null || item.getType() == Material.AIR)) {
+                    e.setCancelled(true);
+                    BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
 
-                        if (storage.hasUniversalInventory(id)) {
-                            UniversalBlockMenu menu = storage.getUniversalInventory(id);
-                            if (menu.canOpen(e.getClickedBlock(), p)) menu.open(p);
-                        }
-                        else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
-                            BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
-                            if (menu.canOpen(e.getClickedBlock(), p)) menu.open(p);
-                        }
+                    if (storage.hasUniversalInventory(id)) {
+                        UniversalBlockMenu menu = storage.getUniversalInventory(id);
+                        if (menu.canOpen(e.getClickedBlock(), p)) menu.open(p);
+                    }
+                    else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
+                        BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
+                        if (menu.canOpen(e.getClickedBlock(), p)) menu.open(p);
                     }
                 }
             }
         }
         else e.setCancelled(true);
+    }
+
+    private boolean canPlaceCargoNodes(Player p, ItemStack item, Block b) {
+        if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, true)) return true;
+        else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT, true)) return true;
+        else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true)) return true;
+        else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, true)) return true;
+        else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_EXPORT_BUS, true)) return true;
+        else return false;
     }
 
     private boolean canPlaceBlock(Player p, Block relative) {
@@ -329,6 +329,7 @@ public class ItemListener implements Listener {
                 }
                 else if (item.getType() == Material.POTION) {
                     SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
                     if (sfItem instanceof Juice) {
                         // Fix for Saturation on potions is no longer working
                         for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
@@ -414,11 +415,14 @@ public class ItemListener implements Listener {
         if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
             ItemStack slot0 = e.getInventory().getContents()[0];
             ItemStack slot1 = e.getInventory().getContents()[1];
+
             if (SlimefunManager.isItemSimiliar(slot0, SlimefunItems.ELYTRA, true)) return;
+
             if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0)) {
                 e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-            } else if (SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1)) {
+            }
+            else if (SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1)) {
                 e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
@@ -427,7 +431,8 @@ public class ItemListener implements Listener {
             if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
                 e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-            } else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
+            }
+            else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
                 e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
@@ -435,7 +440,8 @@ public class ItemListener implements Listener {
             if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
                 e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-            } else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
+            }
+            else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
                 e.setCancelled(true);
                 Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
             }

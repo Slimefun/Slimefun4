@@ -1,8 +1,6 @@
 package me.mrCookieSlime.Slimefun.api.energy;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import me.mrCookieSlime.Slimefun.api.network.Network;
@@ -19,7 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 public class EnergyNet extends Network {
-	public enum NetworkComponent {
+	public static enum NetworkComponent {
 		SOURCE,
 		DISTRIBUTOR,
 		CONSUMER,
@@ -156,7 +154,7 @@ public class EnergyNet extends Network {
 				else {
 					supply = supply + energy;
 				}
-				TickerTask.block_timings.put(source, System.currentTimeMillis() - timestamp);
+                SlimefunStartup.ticker.blockTimings.put(source, System.currentTimeMillis() - timestamp);
 			}
 
             input.removeAll(exploded);

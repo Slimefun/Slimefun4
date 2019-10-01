@@ -1,7 +1,11 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -24,7 +28,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
@@ -32,6 +35,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.Soul;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class DamageListener implements Listener {
 
@@ -52,19 +56,18 @@ public class DamageListener implements Listener {
                 Slimefun.getGPSNetwork().addWaypoint(p, "&4Deathpoint &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
             }
 
+            for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
+                ItemStack item = p.getInventory().getItem(slot);
+
+                if (isSoulbound(item)) {
+                    Soul.storeItem(p.getUniqueId(), slot, item);
+                }
+            }
+
             Iterator<ItemStack> drops = e.getDrops().iterator();
             while (drops.hasNext()) {
                 ItemStack item = drops.next();
-                if (item != null) {
-                    if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) {
-                        Soul.storeItem(e.getEntity().getUniqueId(), item);
-                        drops.remove();
-                    }
-                    else if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) {
-                        Soul.storeItem(e.getEntity().getUniqueId(), item);
-                        drops.remove();
-                    }
-                }
+                if (isSoulbound(item)) drops.remove();
             }
 
         }
@@ -129,6 +132,12 @@ public class DamageListener implements Listener {
         }
     }
 
+    private boolean isSoulbound(ItemStack item) {
+        if (item == null || item.getType() == null || item.getType() == Material.AIR) return false;
+        else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) return true;
+        else if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) return true;
+        else return false;
+    }
 
     @EventHandler
     public void onArrowHit(EntityDamageEvent e) {

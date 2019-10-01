@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.*;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -16,13 +18,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.CreatureSpawner;
-import org.bukkit.block.Dispenser;
+import org.bukkit.block.*;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.Levelled;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Arrow;
@@ -76,29 +73,6 @@ import me.mrCookieSlime.Slimefun.Misc.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EnhancedFurnace;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedSoulboundTool;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedTool;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.JetBoots;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Jetpack;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.MultiTool;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBow;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SolarHelmet;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundBackpack;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
@@ -119,14 +93,11 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
-import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
-import me.mrCookieSlime.Slimefun.holograms.*;
 import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
-import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
+import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
 
 public final class SlimefunSetup {
 
@@ -207,193 +178,13 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_BEEF), null, null, null, null, null, null, null}, new String[] {"使你获得饱和效果"}, new Integer[] {20})
 		.register(true);
 
-        new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.GRIND_STONE, "GRIND_STONE",
-                new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "发射器 (面朝正面)", 0), null},
-                new ItemStack[] {new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4), new ItemStack(Material.BONE), new ItemStack(Material.BONE_MEAL, 4), new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), new ItemStack(Material.NETHER_WART), new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2), new ItemStack(Material.ENDER_EYE), new CustomItem(SlimefunItems.ENDER_LUMP_1, 2), new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL), new ItemStack(Material.WHEAT), SlimefunItems.WHEAT_FLOUR, new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK, new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4)},
-                Material.OAK_FENCE)
-                .register(true, (MultiBlockInteractionHandler) (p, mb, b) -> {
+        new GrindStone().register();
 
-                    SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("GRIND_STONE");
+        new ArmorForge().register();
 
-                    if (mb.isMultiBlock(machine)) {
-                        if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-                            Block dispBlock = b.getRelative(BlockFace.DOWN);
-                            Dispenser disp = (Dispenser) dispBlock.getState();
-                            Inventory inv = disp.getInventory();
-                            for (ItemStack current: inv.getContents()) {
-                                for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-                                    if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-                                        ItemStack output = RecipeType.getRecipeOutput(machine, convert);
-                                        Inventory outputInv = SlimefunMachine.findValidOutputInv(output, dispBlock, inv);
-                                        if (outputInv != null) {
-                                            ItemStack removing = current.clone();
-                                            removing.setAmount(1);
-                                            inv.removeItem(removing);
-                                            outputInv.addItem(output);
-                                            p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
-                                        }
-                                        else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-                                        return true;
-                                    }
-                                }
-                            }
-                            Messages.local.sendTranslation(p, "machines.unknown-material", true);
-                        }
-                        return true;
-                    }
-                    else return false;
-                });
+        new OreCrusher().register();
 
-		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ARMOR_FORGE, "ARMOR_FORGE",
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItem(Material.DISPENSER, "发射器 (面朝正面)", 0), null},
-		new ItemStack[] {},
-		Material.ANVIL)
-		.register(true, new MultiBlockInteractionHandler() {
-
-			@Override
-			public boolean onInteract(final Player p, MultiBlock mb, Block b) {
-
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ARMOR_FORGE");
-
-                if (mb.isMultiBlock(machine)) {
-                    if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-                        Block dispBlock = b.getRelative(BlockFace.DOWN);
-                        Dispenser disp = (Dispenser) dispBlock.getState();
-                        Inventory inv = disp.getInventory();
-                        List<ItemStack[]> inputs = RecipeType.getRecipeInputList(machine);
-
-                        for (int i = 0; i < inputs.size(); i++) {
-                            boolean craft = true;
-                            for (int j = 0; j < inv.getContents().length; j++) {
-                                if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
-                                    craft = false;
-                                    break;
-                                }
-                            }
-
-                            if (craft) {
-                                final ItemStack adding = RecipeType.getRecipeOutputList(machine, inputs.get(i)).clone();
-                                if (Slimefun.hasUnlocked(p, adding, true)) {
-                                    Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-                                    if (outputInv != null) {
-                                        for (ItemStack removing: inputs.get(i)) {
-                                            if (removing != null) inv.removeItem(removing);
-                                        }
-                                        for (int j = 0; j < 4; j++) {
-                                            int current = j;
-                                            Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-                                                if (current < 3) {
-                                                    p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
-                                                } else {
-                                                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                                                    outputInv.addItem(adding);
-                                                }
-                                            }, j*20L);
-                                        }
-                                    }
-                                    else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-                                }
-                                return true;
-                            }
-                        }
-                        Messages.local.sendTranslation(p, "machines.pattern-not-found", true);
-                    }
-                    return true;
-                }
-                else return false;
-            }
-        });
-
-		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ORE_CRUSHER, "ORE_CRUSHER",
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "发射器 (面朝正面)", 0), new ItemStack(Material.IRON_BARS)},
-		new ItemStack[] {new ItemStack(Material.IRON_ORE), new CustomItem(SlimefunItems.IRON_DUST, (Boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1), new ItemStack(Material.GOLD_ORE), new CustomItem(SlimefunItems.GOLD_DUST, (Boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1), new ItemStack(Material.NETHERRACK, 16), SlimefunItems.SULFATE, SlimefunItems.SIFTED_ORE, SlimefunItems.CRUSHED_ORE, SlimefunItems.CRUSHED_ORE, SlimefunItems.PULVERIZED_ORE, SlimefunItems.PURE_ORE_CLUSTER, SlimefunItems.TINY_URANIUM, new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), new ItemStack(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST},
-		Material.NETHER_BRICK_FENCE)
-		.register(true, new MultiBlockInteractionHandler() {
-
-            @Override
-            public boolean onInteract(Player p, MultiBlock mb, Block b) {
-
-                SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ORE_CRUSHER");
-
-                if (mb.isMultiBlock(machine)) {
-                    if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-                        Block dispBlock = b.getRelative(BlockFace.DOWN);
-                        Dispenser disp = (Dispenser) dispBlock.getState();
-                        Inventory inv = disp.getInventory();
-                        for (ItemStack current: inv.getContents()) {
-                            for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-                                if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-                                    ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-                                    Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-                                    if (outputInv != null) {
-                                        ItemStack removing = current.clone();
-                                        removing.setAmount(convert.getAmount());
-                                        inv.removeItem(removing);
-                                        outputInv.addItem(adding);
-                                        p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);
-                                    }
-                                    else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-                                    return true;
-                                }
-                            }
-                        }
-                        Messages.local.sendTranslation(p, "machines.unknown-material", true);
-                    }
-                    return true;
-                }
-                else return false;
-            }
-        });
-
-        new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.COMPRESSOR, "COMPRESSOR",
-                new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "发射器 (面朝上面)"), new ItemStack(Material.PISTON)},
-                new ItemStack[] {new ItemStack(Material.COAL, 8), SlimefunItems.CARBON, new CustomItem(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE, new CustomItem(SlimefunItems.CARBON, 4), SlimefunItems.COMPRESSED_CARBON, new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE), new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE},
-                Material.NETHER_BRICK_FENCE)
-                .register(true, new MultiBlockInteractionHandler() {
-
-                    @Override
-                    public boolean onInteract(final Player p, MultiBlock mb, Block b) {
-
-                        SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("COMPRESSOR");
-
-                        if (mb.isMultiBlock(machine)) {
-                            if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-                                Block dispBlock = b.getRelative(BlockFace.DOWN);
-                                Dispenser disp = (Dispenser) dispBlock.getState();
-                                Inventory inv = disp.getInventory();
-                                for (ItemStack current: inv.getContents()) {
-                                    for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-                                        if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-                                            final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-                                            Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-                                            if (outputInv != null) {
-                                                ItemStack removing = current.clone();
-                                                removing.setAmount(convert.getAmount());
-                                                inv.removeItem(removing);
-                                                for (int i = 0; i < 4; i++) {
-                                                    int j = i;
-                                                    Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-                                                        if (j < 3) {
-                                                            p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
-                                                        } else {
-                                                            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                                                            outputInv.addItem(adding);
-                                                        }
-                                                    }, i*20L);
-                                                }
-                                            }
-                                            else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-                                            return true;
-                                        }
-                                    }
-                                }
-                                Messages.local.sendTranslation(p, "machines.unknown-material", true);
-                            }
-                            return true;
-                        }
-                        else return false;
-                    }
-                });
+        new Compressor().register();
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.MAGIC_LUMP_1, "MAGIC_LUMP_1", RecipeType.GRIND_STONE,
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_WART), null, null, null, null}, new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2))
@@ -419,7 +210,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ENDER_LUMP_2, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.PORTABLE, SlimefunItems.ENDER_BACKPACK, "ENDER_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SlimefunItem(Categories.MAGIC, SlimefunItems.ENDER_BACKPACK, "ENDER_BACKPACK", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.LEATHER), SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.LEATHER), new ItemStack(Material.CHEST), new ItemStack(Material.LEATHER), SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.LEATHER), SlimefunItems.ENDER_LUMP_2})
 		.register(true, new ItemInteractionHandler() {
 
@@ -562,60 +353,8 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.MACHINES_1, SlimefunItems.IGNITION_CHAMBER, "IGNITION_CHAMBER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.STEEL_PLATE, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.STEEL_PLATE, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_PLATE, SlimefunItems.ELECTRIC_MOTOR, null, new ItemStack(Material.HOPPER), null})
 		.register(true);
-		
-		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.PRESSURE_CHAMBER, "PRESSURE_CHAMBER",
-		new ItemStack[] {new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "发射器 (面朝下面)", 0), new ItemStack(Material.STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
-		new ItemStack[] {SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.RAW_CARBONADO, SlimefunItems.CARBONADO},
-		Material.CAULDRON)
-                .register(true, new MultiBlockInteractionHandler() {
 
-                    @Override
-                    public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
-
-                        SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("PRESSURE_CHAMBER");
-
-                        if (mb.isMultiBlock(machine)) {
-                            if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, machine.getItem(), true)) {
-                                Block dispBlock = b.getRelative(BlockFace.UP).getRelative(BlockFace.UP);
-                                Dispenser disp = (Dispenser) dispBlock.getState();
-                                final Inventory inv = disp.getInventory();
-                                for (ItemStack current: inv.getContents()) {
-                                    for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-                                        if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-                                            final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-                                            Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-                                            if (outputInv != null) {
-                                                ItemStack removing = current.clone();
-                                                removing.setAmount(convert.getAmount());
-                                                inv.removeItem(removing);
-                                                for (int i = 0; i < 4; i++) {
-                                                    int j = i;
-                                                    Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-                                                        p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
-                                                        p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-                                                        p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-                                                        p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
-                                                        if (j < 3) {
-                                                            p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1F, 1F);
-                                                        } else {
-                                                            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                                                            outputInv.addItem(adding);
-                                                        }
-                                                    }, i*20L);
-                                                }
-                                            }
-                                            else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-                                            return true;
-                                        }
-                                    }
-                                }
-                                Messages.local.sendTranslation(p, "machines.unknown-material", true);
-                            }
-                            return true;
-                        }
-                        else return false;
-                    }
-                });
+        new PressureChamber().register();
 
 		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.BATTERY, "BATTERY", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] { null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT })
@@ -1043,6 +782,89 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, null, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, null})
 		.register(true);
 
+        new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_STORM, "STAFF_ELEMENTAL_STORM", RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] {SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.STAFF_WATER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_SUGAR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR})
+                .register(true, new ItemInteractionHandler() {
+
+                    @Override
+                    public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
+                        //Not checking if lores equals because we need a special one for that.
+                        if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_STORM, false)) {
+
+                            ItemMeta itemM = item.getItemMeta();
+                            List<String> itemML = itemM.getLore();
+                            if (itemML == null) return false;
+
+                            ItemStack SFitem = SlimefunItems.STAFF_STORM;
+                            ItemMeta SFitemM = SFitem.getItemMeta();
+                            List<String> SFitemML = SFitemM.getLore();
+                            if (itemML.size() < 6) {
+                                // Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
+                                if (!itemML.get(1).equals(SFitemML.get(1))) return false;
+                                if (!itemML.get(3).equals(SFitemML.get(3))) return false;
+                            } else return false;
+
+                            if (p.getFoodLevel() >= 4) {
+                                Location loc = p.getTargetBlock(null, 50).getLocation();
+                                if (loc.getWorld() == null) return false;
+                                if (!loc.getChunk().isLoaded()) return false;
+                                loc.getWorld().strikeLightning(loc);
+
+                                if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
+                                    FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
+                                    Bukkit.getPluginManager().callEvent(event);
+                                    p.setFoodLevel(event.getFoodLevel());
+                                }
+
+                                for (int i = 0; i < itemML.size(); i++) {
+                                    boolean correctLore = false;
+                                    switch (itemML.get(i)) {
+                                        case "&e可使用次数剩余 &75 &e次":
+                                            itemML.set(i, "&e可使用次数剩余 &74 &e次");
+                                            correctLore = true;
+                                            break;
+                                        case "&e可使用次数剩余 &74 &e次":
+                                            itemML.set(i, "&e可使用次数剩余 &73 &e次");
+                                            correctLore = true;
+                                            break;
+                                        case "&e可使用次数剩余 &73 &e次":
+                                            itemML.set(i, "&e可使用次数剩余 &72 &e次");
+                                            correctLore = true;
+                                            break;
+                                        case "&e可使用次数剩余 &72 &e次":
+                                            itemML.set(i, "&e可使用次数剩余 &71 &e次");
+                                            correctLore = true;
+                                            break;
+                                        case "&e可使用次数剩余 &71 &e次":
+                                            if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+                                                p.getInventory().setItemInMainHand(null);
+                                            } else {
+                                                p.getInventory().setItemInOffHand(null);
+                                            }
+                                            p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+                                            correctLore = true;
+                                            break;
+                                    }
+                                    if (correctLore) break;
+                                }
+                                // Saving the changes to lore and item.
+                                itemM.setLore(itemML);
+                                item.setItemMeta(itemM);
+                                if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+                                    p.getInventory().setItemInMainHand(item);
+                                } else {
+                                    p.getInventory().setItemInOffHand(item);
+                                }
+                                PlayerInventory.update(p);
+
+                            } else {
+                                Messages.local.sendTranslation(p, "messages.hungry", true);
+                            }
+                            return true;
+                        } else return false;
+                    }
+                });
+
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.AUTO_SMELT_PICKAXE, "SMELTERS_PICKAXE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
 		.register(true, new BlockBreakHandler() {
@@ -1116,12 +938,6 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.TALISMAN, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3},
 		false, false, "magician", 80, new PotionEffect[0])
 		.register(true);
-
-		for (Enchantment e : Enchantment.values()) {
-			for (int i = 1; i <= e.getMaxLevel(); i++) {
-				Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + e.getKey().getKey() + ".level." + i, true);
-			}
-		}
 
 		new Talisman(SlimefunItems.TALISMAN_TRAVELLER, "TRAVELLER_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.STAFF_WIND, SlimefunItems.TALISMAN_ANGEL, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
@@ -1438,25 +1254,13 @@ public final class SlimefunSetup {
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.SAW_MILL, "SAW_MILL",
 		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.OAK_LOG)},
 		new ItemStack[] {}, Material.CRAFTING_TABLE)
-		.register(true, new MultiBlockInteractionHandler() {
-
-			@Override
-			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-                if (mb.isMultiBlock(SlimefunItem.getByID("SAW_MILL"))) {
-                    if (CSCoreLib.getLib().getProtectionManager().canBuild(p.getUniqueId(), b.getRelative(BlockFace.UP), true) && Slimefun.hasUnlocked(p, SlimefunItems.SAW_MILL, true) && MaterialHelper.isLog(b.getRelative(BlockFace.UP).getType())) {
-                        Block log = b.getRelative(BlockFace.UP);
-                        if (!BlockStorage.hasBlockInfo(log)) {
-                            ItemStack item =  new ItemStack(MaterialHelper.getWoodFromLog(log.getType()), 8);
-                            log.getWorld().dropItemNaturally(log.getLocation(), item);
-                            log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
-                            log.setType(Material.AIR);
-                        }
-                    }
-                    return true;
-                }
-                else return false;
-			}
-		});
+		.register(true, (MultiBlockInteractionHandler) (p, mb, b) -> {
+if (mb.isMultiBlock(SlimefunItem.getByID("SAW_MILL"))) {
+p.sendMessage(ChatColor.RED + "此物品已被弃用! 请使用新的台锯!");
+return true;
+}
+else return false;
+        });
 
 		new SlimefunItem(Categories.MAGIC_ARMOR, SlimefunItems.SLIME_HELMET_STEEL, "SLIME_STEEL_HELMET", RecipeType.ARMOR_FORGE,
 		new ItemStack[] {new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), null, null, null})
@@ -1602,7 +1406,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K})
 		.register(true);
 
-		new SlimefunGadget(Categories.MACHINES_1, SlimefunItems.COMPOSTER, "COMPOSTER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new Composter(Categories.MACHINES_1, SlimefunItems.COMPOSTER, "COMPOSTER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), new ItemStack(Material.CAULDRON), new ItemStack(Material.OAK_SLAB)},
 		new ItemStack[] {
 				new CustomItem(Material.OAK_LEAVES, 0, 8), new ItemStack(Material.DIRT), 
@@ -1622,41 +1426,7 @@ public final class SlimefunSetup {
 				new ItemStack(Material.STONE, 4), new ItemStack(Material.NETHERRACK), 
 				new ItemStack(Material.SAND, 2), new ItemStack(Material.SOUL_SAND), 
 				new ItemStack(Material.WHEAT, 4), new ItemStack(Material.NETHER_WART)
-        }).register(true, (ItemInteractionHandler) (e, p, item) -> {
-            if (e.getClickedBlock() != null) {
-                SlimefunItem machine = BlockStorage.check(e.getClickedBlock());
-                if (machine != null && machine.getID().equals("COMPOSTER")) {
-                    if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
-                        final ItemStack input = p.getInventory().getItemInMainHand();
-                        final Block b = e.getClickedBlock();
-                        for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-                            if (convert != null && SlimefunManager.isItemSimiliar(input, convert, true)) {
-                                ItemStack removing = input.clone();
-                                removing.setAmount(convert.getAmount());
-                                p.getInventory().removeItem(removing);
-                                final ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-
-                                for (int i = 1; i < 12; i++) {
-                                    int j = i;
-                                    Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-                                        if (j < 11) {
-                                            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType().isBlock() ? input.getType() : Material.HAY_BLOCK);
-                                        } else {
-                                            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                                            b.getWorld().dropItemNaturally(b.getRelative(BlockFace.UP).getLocation(), adding);
-                                        }
-                                    }, i*30L);
-                                } return true;
-                            }
-                        }
-                        Messages.local.sendTranslation(p, "machines.wrong-item", true);
-                        return true;
-                    }
-                    return true;
-                }
-            }
-            return false;
-        });
+        }).register(true);
 
 		new SlimefunItem(Categories.MAGIC_ARMOR, SlimefunItems.FARMER_SHOES, "FARMER_SHOES", RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK), new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK)})
@@ -1669,58 +1439,54 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.TOOLS, SlimefunItems.EXPLOSIVE_PICKAXE, "EXPLOSIVE_PICKAXE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.TNT), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.TNT), null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null},
                 new String[] {"unbreakable-blocks", "damage-on-use"}, new Object[] {Arrays.asList("BEDROCK", "BARRIER", "COMMAND", "COMMAND_CHAIN", "COMMAND_REPEATING"), Boolean.FALSE })
-		.register(true, new BlockBreakHandler() {
+                .register(true, (BlockBreakHandler) (e, item, fortune, drops) -> {
+                    if (SlimefunManager.isItemSimiliar(item, SlimefunItems.EXPLOSIVE_PICKAXE, true)) {
+                        e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
+                        e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+                        for (int x = -1; x <= 1; x++) {
+                            for (int y = -1; y <= 1; y++) {
+                                for (int z = -1; z <= 1; z++) {
+                                    Block b = e.getBlock().getRelative(x, y, z);
+                                    if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), explosiveblacklist) && CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
+                                        if (SlimefunStartup.instance.getHooks().isCoreProtectInstalled()) {
+                                            SlimefunStartup.instance.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
+                                        }
 
-			@Override
-			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.EXPLOSIVE_PICKAXE, true)) {
-					e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
-					e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
-					for (int x = -1; x <= 1; x++) {
-						for (int y = -1; y <= 1; y++) {
-							for (int z = -1; z <= 1; z++) {
-								Block b = e.getBlock().getRelative(x, y, z);
-                                if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), explosiveblacklist) && CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
-                                    if (SlimefunStartup.instance.getHooks().isCoreProtectInstalled()) {
-                                        SlimefunStartup.instance.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
-                                    }
-
-                                    b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-                                    SlimefunItem sfItem = BlockStorage.check(b);
-                                    boolean allow = false;
-                                    if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-                                        if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
-                                            allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+                                        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+                                        SlimefunItem sfItem = BlockStorage.check(b);
+                                        boolean allow = false;
+                                        if (sfItem != null && !(sfItem instanceof HandledBlock)) {
+                                            if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
+                                                allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+                                            }
+                                            if (allow) {
+                                                drops.add(BlockStorage.retrieve(e.getBlock()));
+                                            }
                                         }
-                                        if (allow) {
-                                            drops.add(BlockStorage.retrieve(e.getBlock()));
+                                        else if (b.getType() == Material.PLAYER_HEAD) {
+                                            b.breakNaturally();
+                                        }
+                                        else if (b.getType().name().endsWith("_SHULKER_BOX")) {
+                                            b.breakNaturally();
+                                        }
+                                        else {
+                                            for (ItemStack drop: b.getDrops()) {
+                                                b.getWorld().dropItemNaturally(b.getLocation(), (b.getType().toString().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE) ? new CustomItem(drop, fortune): drop);
+                                            }
+                                            b.setType(Material.AIR);
+                                        }
+                                        if (damageOnUse && !item.getEnchantments().containsKey(Enchantment.DURABILITY) || random.nextInt(100) <= (60 + 40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
+                                            PlayerInventory.damageItemInHand(e.getPlayer());
                                         }
                                     }
-                                    else if (b.getType() == Material.PLAYER_HEAD) {
-                                        b.breakNaturally();
-                                    }
-                                    else if (b.getType().name().endsWith("_SHULKER_BOX")) {
-                                        b.breakNaturally();
-                                    }
-                                    else {
-                                        for (ItemStack drop: b.getDrops()) {
-                                            b.getWorld().dropItemNaturally(b.getLocation(), (b.getType().toString().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE) ? new CustomItem(drop, fortune): drop);
-                                        }
-                                        b.setType(Material.AIR);
-                                    }
-                                    if (damageOnUse && !item.getEnchantments().containsKey(Enchantment.DURABILITY) || random.nextInt(100) <= (60 + 40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
-                                        PlayerInventory.damageItemInHand(e.getPlayer());
-                                    }
-								}
-							}
-						}
-					}
-                    PlayerInventory.update(e.getPlayer());
-					return true;
-				}
-				else return false;
-			}
-		});
+                                }
+                            }
+                        }
+                        PlayerInventory.update(e.getPlayer());
+                        return true;
+                    }
+                    else return false;
+                });
 
         new SlimefunItem(Categories.TOOLS, SlimefunItems.EXPLOSIVE_SHOVEL, "EXPLOSIVE_SHOVEL", RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[] {null, SlimefunItems.SYNTHETIC_DIAMOND, null, null, new ItemStack(Material.TNT), null, null, SlimefunItems.FERROSILICON, null},
@@ -1882,82 +1648,37 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.CLOTH, null, SlimefunItems.CLOTH, SlimefunItems.GOLD_16K, SlimefunItems.BACKPACK_LARGE, SlimefunItems.GOLD_16K, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH})
 		.register(true);
 
-		new SlimefunGadget(Categories.MACHINES_1, SlimefunItems.CRUCIBLE, "CRUCIBLE", RecipeType.ENHANCED_CRAFTING_TABLE,
-				new ItemStack [] {new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.TERRACOTTA)},
-				new ItemStack [] {
-						new ItemStack(Material.COBBLESTONE, 16), new ItemStack(Material.LAVA_BUCKET), 
-						
-						new ItemStack(Material.OAK_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-						new ItemStack(Material.BIRCH_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-						new ItemStack(Material.SPRUCE_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-						new ItemStack(Material.JUNGLE_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-						new ItemStack(Material.ACACIA_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-						new ItemStack(Material.DARK_OAK_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-						
-						new ItemStack(Material.WHITE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.ORANGE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.MAGENTA_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.LIGHT_BLUE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.YELLOW_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.LIME_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.PINK_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.GRAY_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.LIGHT_GRAY_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.CYAN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.PURPLE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.BROWN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.GREEN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.RED_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-						new ItemStack(Material.BLACK_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET)
-				})
-		.register(true, new ItemInteractionHandler() {
+        new Crucible(Categories.MACHINES_1, SlimefunItems.CRUCIBLE, "CRUCIBLE", RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack [] {new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.TERRACOTTA)},
+                new ItemStack [] {
+                        new ItemStack(Material.COBBLESTONE, 16), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.STONE, 12), new ItemStack(Material.LAVA_BUCKET),
 
-			@Override
-			public boolean onRightClick(ItemUseEvent e, final Player p, ItemStack item) {
-				if (e.getClickedBlock() != null) {
-					SlimefunItem machine = BlockStorage.check(e.getClickedBlock());
-					if (machine != null && machine.getID().equals("CRUCIBLE")) {
-						if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
-							final ItemStack input = p.getInventory().getItemInMainHand();
-							final Block block = e.getClickedBlock().getRelative(BlockFace.UP);
-							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-								if (input != null) {
-                                    if (input != null && SlimefunManager.isItemSimiliar(input, convert, true)) {
-                                        e.setCancelled(true);
-                                        ItemStack removing = input.clone();
-                                        removing.setAmount(convert.getAmount());
-                                        p.getInventory().removeItem(removing);
+                        new ItemStack(Material.OAK_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
+                        new ItemStack(Material.BIRCH_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
+                        new ItemStack(Material.SPRUCE_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
+                        new ItemStack(Material.JUNGLE_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
+                        new ItemStack(Material.ACACIA_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
+                        new ItemStack(Material.DARK_OAK_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
 
-                                        for (int i = 1; i < 9; i++) {
-                                            int j = 8 - i;
-                                            Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-                                                if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
-                                                    block.setType(Material.LAVA);
-                                                    Levelled le = (Levelled) block.getBlockData();
-                                                    le.setLevel(j);
-                                                    block.setBlockData(le, false);
-                                                    block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-                                                } else if (MaterialHelper.isLeavesBlock(input.getType())) {
-                                                    block.setType(Material.WATER);
-                                                    Levelled le = (Levelled) block.getBlockData();
-                                                    le.setLevel(j);
-                                                    block.setBlockData(le, false);
-                                                    block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-                                                }
-                                            }, i*50L);
-                                        } return true;
-                                    }
-								}
-							}
-							Messages.local.sendTranslation(p, "machines.wrong-item", true);
-							return true;
-						}
-						return true;
-					}
-				}
-				return false;
-			}
-		});
+                        new ItemStack(Material.TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.WHITE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.ORANGE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.MAGENTA_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.LIGHT_BLUE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.YELLOW_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.LIME_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.PINK_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.GRAY_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.LIGHT_GRAY_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.CYAN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.PURPLE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.BROWN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.GREEN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.RED_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.BLACK_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET)
+                })
+                .register(true);
 
 		new SlimefunBackpack(45, Categories.PORTABLE, SlimefunItems.GILDED_BACKPACK, "GILDED_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_22K, null, SlimefunItems.GOLD_22K, new ItemStack(Material.LEATHER), SlimefunItems.WOVEN_BACKPACK, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_22K, null, SlimefunItems.GOLD_22K})
@@ -2146,50 +1867,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_BOOTS), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.JUICER, "JUICER",
-		new ItemStack[] {null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)", 0), null},
-		new ItemStack[] {
-				new ItemStack(Material.APPLE), SlimefunItems.APPLE_JUICE,
-				new ItemStack(Material.MELON), SlimefunItems.MELON_JUICE,
-				new ItemStack(Material.CARROT), SlimefunItems.CARROT_JUICE,
-				new ItemStack(Material.PUMPKIN), SlimefunItems.PUMPKIN_JUICE},
-		Material.NETHER_BRICK_FENCE)
-		.register(true, new MultiBlockInteractionHandler() {
-
-			@Override
-			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-				SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("JUICER");
-
-                if (mb.isMultiBlock(machine)) {
-                    if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, SlimefunItems.JUICER, true)) {
-                        Block dispBlock = b.getRelative(BlockFace.DOWN);
-                        Dispenser disp = (Dispenser) dispBlock.getState();
-                        Inventory inv = disp.getInventory();
-                        for (ItemStack current: inv.getContents()) {
-                            for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-                                if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
-                                    ItemStack adding = RecipeType.getRecipeOutput(machine, convert);
-                                    Inventory outputInv = SlimefunMachine.findValidOutputInv(adding, dispBlock, inv);
-                                    if (outputInv != null) {
-                                        ItemStack removing = current.clone();
-                                        removing.setAmount(1);
-                                        inv.removeItem(removing);
-                                        outputInv.addItem(adding);
-                                        p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-                                        p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-                                    }
-                                    else Messages.local.sendTranslation(p, "machines.full-inventory", true);
-                                    return true;
-                                }
-                            }
-                        }
-                        Messages.local.sendTranslation(p, "machines.unknown-material", true);
-                    }
-                    return true;
-                }
-                else return false;
-			}
-		});
+        new Juicer().register();
 
 		new Juice(Categories.FOOD, SlimefunItems.APPLE_JUICE, "APPLE_JUICE", RecipeType.JUICER,
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.APPLE), null, null, null, null})
@@ -2333,9 +2011,7 @@ public final class SlimefunSetup {
                                 block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
                                 if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
                                 else {
-                                    Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-                                        d.getInventory().removeItem(e.getItem());
-                                    }, 2L);
+                                    Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
                                 }
                             }
                         }
@@ -2344,9 +2020,7 @@ public final class SlimefunSetup {
                             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
                             if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
                             else {
-                                Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
-                                    d.getInventory().removeItem(e.getItem());
-                                }, 2L);
+                                Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
                             }
                         }
                     }
@@ -2461,21 +2135,30 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.FLASK_OF_KNOWLEDGE, "FLASK_OF_KNOWLEDGE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, null, null, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.GLASS_PANE), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.MAGIC_LUMP_2, null}, new CustomItem(SlimefunItems.FLASK_OF_KNOWLEDGE, 8))
 		.register(true, new ItemInteractionHandler() {
-
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FLASK_OF_KNOWLEDGE, true) && p.getLevel() >= 1) {
-					p.setLevel(p.getLevel() - 1);
-					p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶", 0));
-					PlayerInventory.consumeItemInHand(p);
-					PlayerInventory.update(p);
-					return true;
-				}
-				else return false;
+                if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FLASK_OF_KNOWLEDGE, true) && p.getLevel() >= 1) {
+                    if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof Container)) {
+                        p.setLevel(p.getLevel() - 1);
+                        e.setCancelled(true);
+                        p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"));
+
+                        p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
+
+                        if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
+                            p.getInventory().setItemInMainHand(InvUtils.decreaseItem(item, 1));
+                        }
+                        else {
+                            p.getInventory().setItemInOffHand(InvUtils.decreaseItem(item, 1));
+                        }
+                    }
+                    return true;
+                }
+                else return false;
 			}
 		});
 
-		new SlimefunItem(Categories.BIRTHDAY, new CustomItem(new ItemStack(Material.CAKE), "&b生日蛋糕"), "BIRTHDAY_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ExcludedBlock(Categories.BIRTHDAY, new CustomItem(new ItemStack(Material.CAKE), "&b生日蛋糕"), "BIRTHDAY_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.TORCH), null, new ItemStack(Material.SUGAR), new ItemStack(Material.CAKE), new ItemStack(Material.SUGAR), null, null, null})
 		.register(true);
 
@@ -2553,21 +2236,15 @@ public final class SlimefunSetup {
 					List<ItemStack> gifts = new ArrayList<ItemStack>();
 					for (int i = 0; i < 2; i++) {
 						gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
-						gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
-						gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
+                        gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
+                        gifts.add(new ItemStack(Material.EMERALD));
+                        gifts.add(new ItemStack(Material.CAKE));
+                        gifts.add(new ItemStack(Material.RABBIT_FOOT));
+                        gifts.add(new ItemStack(Material.GOLDEN_CARROT, 4));
 					}
-
-					gifts.add(new SkullItem("TheBusyBiscuit"));
-					gifts.add(new SkullItem("timtower"));
-					gifts.add(new SkullItem("bwfcwalshy"));
-					gifts.add(new SkullItem("jadedcat"));
-					gifts.add(new SkullItem("ZeldoKavira"));
-					gifts.add(new SkullItem("eyamaz"));
-					gifts.add(new SkullItem("Kaelten"));
-					gifts.add(new SkullItem("Myrathi"));
 					gifts.add(new SkullItem("StarWish_Sama"));
 
-					p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(random.nextInt(gifts.size())));
+                    p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(random.nextInt(gifts.size())));
 					return true;
 				}
 				else return false;
@@ -2628,37 +2305,9 @@ public final class SlimefunSetup {
 
 		// Slimefun 4
 
-		new SlimefunItem(Categories.ELECTRICITY, SlimefunItems.ENERGY_REGULATOR, "ENERGY_REGULATOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new EnergyRegulator(Categories.ELECTRICITY, SlimefunItems.ENERGY_REGULATOR, "ENERGY_REGULATOR", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT})
-		.register(true, new BlockTicker() {
-
-			@Override
-			public boolean isSynchronized() {
-				return false;
-			}
-
-			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				EnergyNet.getNetworkFromLocationOrCreate(b.getLocation()).tick(b);
-			}
-		});
-
-		SlimefunItem.registerBlockHandler("ENERGY_REGULATOR", new SlimefunBlockHandler() {
-
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-			}
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				EnergyHologram.remove(b);
-				return true;
-			}
-		});
+		.register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.DUCT_TAPE, "DUCT_TAPE", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_DUST, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.PAPER), new ItemStack(Material.PAPER), new ItemStack(Material.PAPER)}, new CustomItem(SlimefunItems.DUCT_TAPE, 2))
@@ -3378,10 +3027,6 @@ public final class SlimefunSetup {
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
 			public boolean isSynchronized() {
 				return false;
 			}
@@ -3415,10 +3060,6 @@ public final class SlimefunSetup {
 				else {
                     Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4.0 + 100, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 				}
-			}
-
-			@Override
-			public void uniqueTick() {
 			}
 
 			@Override
@@ -3458,10 +3099,6 @@ public final class SlimefunSetup {
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
 			public boolean isSynchronized() {
 				return false;
 			}
@@ -3495,10 +3132,6 @@ public final class SlimefunSetup {
 				else {
                     Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64.0 + 800, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 				}
-			}
-
-			@Override
-			public void uniqueTick() {
 			}
 
 			@Override
@@ -4545,11 +4178,6 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.CARGO, SlimefunItems.CARGO_MANAGER, "CARGO_MANAGER", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.HOLOGRAM_PROJECTOR, null, SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARGO_MOTOR, SlimefunItems.REINFORCED_PLATE, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.ALUMINUM_BRONZE_INGOT})
 		.register(true, new BlockTicker() {
-
-			@Override
-			public void uniqueTick() {
-			}
-
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
 				CargoNet.getNetworkFromLocationOrCreate(b.getLocation()).tick(b);

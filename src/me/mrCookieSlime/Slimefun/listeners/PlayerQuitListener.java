@@ -16,7 +16,7 @@ public class PlayerQuitListener implements Listener {
 
 	@EventHandler
 	public void onDisconnect(PlayerQuitEvent e) {
-		SlimefunGuide.history.remove(e.getPlayer().getUniqueId());
+        SlimefunStartup.instance.getUtilities().guideHistory.remove(e.getPlayer().getUniqueId());
 
         if (PlayerProfile.isLoaded(e.getPlayer().getUniqueId())) {
             PlayerProfile.fromUUID(e.getPlayer().getUniqueId()).markForDeletion();

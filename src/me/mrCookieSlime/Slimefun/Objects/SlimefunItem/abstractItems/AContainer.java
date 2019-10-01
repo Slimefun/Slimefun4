@@ -209,10 +209,6 @@ public abstract class AContainer extends SlimefunItem {
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
 			public boolean isSynchronized() {
 				return false;
 			}
@@ -258,11 +254,10 @@ public abstract class AContainer extends SlimefunItem {
             Map<Integer, Integer> found = new HashMap<>();
 			for (MachineRecipe recipe: recipes) {
 				for (ItemStack input: recipe.getInput()) {
-					slots:
 					for (int slot: getInputSlots()) {
 						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), input, true)) {
 							found.put(slot, input.getAmount());
-							break slots;
+							break;
 						}
 					}
 				}

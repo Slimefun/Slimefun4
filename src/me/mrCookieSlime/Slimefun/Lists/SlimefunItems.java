@@ -446,11 +446,13 @@ public final class SlimefunItems {
     public static final ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6元素法杖 &7- &b&o风", "", "&7元素: &b&o风", "", "&7&e右键&7 以将你吹飞");
     public static final ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6元素法杖 &7- &c&o火", "", "&7元素: &c&o火","", "&c让火焰净化一切!");
     public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6元素法杖 &7- &1&o水", "", "&7元素: &1&o水", "", "&7&e右键&7 以灭掉你身上的火");
+    public static final ItemStack STAFF_STORM = new CustomItem(Material.STICK, "&6元素法杖 &7- &8&o风暴", "", "&7元素: &8&o风暴", "", "&e右键&7 召唤一道闪电", "&e可使用次数剩余 &75 &e次");
 
     static {
         STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK, 1);
         STAFF_FIRE.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 5);
         STAFF_WATER.addUnsafeEnchantment(Enchantment.WATER_WORKER, 1);
+        STAFF_STORM.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
     }
 
     /*	   	 机器 		*/

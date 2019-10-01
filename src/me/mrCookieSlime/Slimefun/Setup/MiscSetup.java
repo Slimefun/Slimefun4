@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.Colors;
@@ -209,7 +210,7 @@ public final class MiscSetup {
 		
 		sender.sendMessage(color + "###################### - Slimefun - ######################");
 		sender.sendMessage(color + "成功载入了 " + SlimefunItem.list().size() + " 个物品 (" + Research.list().size() + " 个研究)");
-		sender.sendMessage(color + "( " + SlimefunItem.vanilla + " 个物品来自 Slimefun, " + (SlimefunItem.list().size() - SlimefunItem.vanilla) + " 个物品来自扩展 )");
+		sender.sendMessage(color + "( " + SlimefunStartup.instance.getUtilities().vanillaItems + " 个物品来自 Slimefun, " + (SlimefunItem.list().size() - SlimefunStartup.instance.getUtilities().vanillaItems) + " 个物品来自扩展 )");
 		sender.sendMessage(color + "##########################################################");
 		SlimefunStartup.getItemCfg().save();
 		SlimefunStartup.getResearchCfg().save();
@@ -221,6 +222,12 @@ public final class MiscSetup {
 			SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
 		}
 		Slimefun.setItemVariable("ORE_CRUSHER", "double-ores", true);
+
+        for (Enchantment e : Enchantment.values()) {
+            for (int i = 1; i <= e.getMaxLevel(); i++) {
+                Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + e.getKey().getKey() + ".level." + i, true);
+            }
+        }
 	}
 	
 	public static void loadDescriptions() {

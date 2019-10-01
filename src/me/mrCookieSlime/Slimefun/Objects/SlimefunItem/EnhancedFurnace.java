@@ -6,6 +6,7 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +27,11 @@ public class EnhancedFurnace extends SlimefunItem {
 		addItemHandler(new BlockTicker() {
             @Override
             public void tick(Block b, SlimefunItem item, Config data) {
-                if (b.getState() instanceof Furnace && ((Furnace) b.getState()).getCookTime() > 0) {
+                if (!(b.getState() instanceof Furnace)) {
+                    // The Furnace has been destroyed, we can clear the block data
+                    BlockStorage.clearBlockInfo(b);
+                }
+                else if (((Furnace) b.getState()).getCookTime() > 0) {
                     Furnace furnace = (Furnace) b.getState();
 
                     int newCookTime = furnace.getCookTime() + getSpeed() * 10;
@@ -37,10 +42,6 @@ public class EnhancedFurnace extends SlimefunItem {
                     furnace.update(true, false);
                 }
             }
-
-			@Override
-			public void uniqueTick() {
-			}
 
 			@Override
 			public boolean isSynchronized() {

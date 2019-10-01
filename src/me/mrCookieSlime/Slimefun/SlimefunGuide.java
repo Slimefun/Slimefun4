@@ -3,13 +3,13 @@ package me.mrCookieSlime.Slimefun;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -43,7 +43,6 @@ import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SeasonCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
@@ -59,7 +58,6 @@ public final class SlimefunGuide {
 
     private SlimefunGuide(){}
 
-    public static Map<UUID, List<Object>> history = new HashMap<>();
 	public static int month = 0;
 
 	public static int issues = 0;
@@ -282,7 +280,7 @@ public final class SlimefunGuide {
 	public static void openGuide(Player p, boolean book) {
 		if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
 		if (!SlimefunStartup.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
-		if (!history.containsKey(p.getUniqueId())) openMainMenu(p, true, book, 1);
+		if (!getHistory().containsKey(p.getUniqueId())) openMainMenu(p, true, book, 1);
 		else {
             Object last = getLastEntry(p, false);
             if (last instanceof Category) openCategory(p, (Category) last, true, 1, book);
@@ -358,8 +356,8 @@ public final class SlimefunGuide {
 						tooltips.add(parents.toString());
 						actions.add(null);
 					}
-					else if (category instanceof SeasonCategory) {
-						if (((SeasonCategory) category).isUnlocked()) {
+					else if (category instanceof SeasonalCategory) {
+						if (((SeasonalCategory) category).isUnlocked()) {
 							texts.add(ChatColor.translateAlternateColorCodes('&', shorten("&a", StringUtils.formatItemName(category.getItem(), false))));
 							tooltips.add(ChatColor.translateAlternateColorCodes('&', "&e单击打开以下类别: \n" + StringUtils.formatItemName(category.getItem(), false)));
 							actions.add(new PlayerRunnable(1) {
@@ -480,7 +478,7 @@ public final class SlimefunGuide {
 						// Dont display that Category...
 					}
 					else if (!(category instanceof LockedCategory)) {
-						if (!(category instanceof SeasonCategory)) {
+						if (!(category instanceof SeasonalCategory)) {
 							menu.addItem(index, category.getItem());
 							menu.addMenuClickHandler(index, (p12, slot, item, action) -> {
                                 openCategory(p12, category, survival, 1, book);
@@ -489,7 +487,7 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-							if (((SeasonCategory) category).isUnlocked()) {
+							if (((SeasonalCategory) category).isUnlocked()) {
 								menu.addItem(index, category.getItem());
 								menu.addMenuClickHandler(index, (p14, slot, item, action) -> {
                                     openCategory(p14, category, survival, 1, book);
@@ -768,20 +766,20 @@ public final class SlimefunGuide {
 
 	public static void addToHistory(Player p, Object obj) {
 		List<Object> list = new ArrayList<>();
-		if (history.containsKey(p.getUniqueId())) list = history.get(p.getUniqueId());
+		if (getHistory().containsKey(p.getUniqueId())) list = getHistory().get(p.getUniqueId());
 		list.add(obj);
-		history.put(p.getUniqueId(), list);
+		getHistory().put(p.getUniqueId(), list);
 	}
 
 	private static Object getLastEntry(Player p, boolean remove) {
 		List<Object> list = new ArrayList<>();
-		if (history.containsKey(p.getUniqueId())) list = history.get(p.getUniqueId());
+		if (getHistory().containsKey(p.getUniqueId())) list = getHistory().get(p.getUniqueId());
         if (remove && !list.isEmpty()) {
             Object obj = list.get(list.size() - 1);
             list.remove(obj);
 		}
-		if (list.isEmpty()) history.remove(p.getUniqueId());
-		else history.put(p.getUniqueId(), list);
+		if (list.isEmpty()) getHistory().remove(p.getUniqueId());
+		else getHistory().put(p.getUniqueId(), list);
 		return list.isEmpty() ? null: list.get(list.size() - 1);
 	}
 
@@ -856,7 +854,7 @@ public final class SlimefunGuide {
 
         if (addToHistory) addToHistory(p, sfItem != null ? sfItem: item);
 
-		if (history.containsKey(p.getUniqueId()) && history.get(p.getUniqueId()).size() > 1) {
+		if (getHistory().containsKey(p.getUniqueId()) && getHistory().get(p.getUniqueId()).size() > 1) {
 			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 返回", "", "&r左键: &7返回上一页", "&rShift +左键: &7返回主菜单"));
 			menu.addMenuClickHandler(0, (p13, slot, item1, action) -> {
                 if (action.isShiftClicked()) openMainMenu(p13, true, book, 1);
@@ -1041,8 +1039,13 @@ public final class SlimefunGuide {
 		menu.open(p);
 	}
 
-	public static void clearHistory(UUID uuid) {
-		history.remove(uuid);
+    private static Map<UUID, List<Object>> getHistory() {
+        return SlimefunStartup.instance.getUtilities().guideHistory;
+    }
+
+
+    public static void clearHistory(UUID uuid) {
+        getHistory().remove(uuid);
 	}
 
 	private static String getTimeLeft(int l) {

@@ -253,26 +253,24 @@ public class CargoNet extends Network {
 							BlockMenu menu = BlockStorage.getInventory(request.getTerminal());
 
 							switch (request.getDirection()) {
-							case INSERT: {
-								ItemStack stack = request.getItem();
-								nodes:
+							case INSERT:
+								ItemStack requestedItem = request.getItem();
 								for (Location l: destinations) {
 									Block target = getAttachedBlock(l.getBlock());
-									stack = CargoManager.insert(l.getBlock(), storage, target, stack, -1);
-									if (stack == null) {
+									requestedItem = CargoManager.insert(l.getBlock(), storage, target, requestedItem, -1);
+									if (requestedItem == null) {
 										menu.replaceExistingItem(request.getSlot(), null);
-										break nodes;
+										break;
 									}
 								}
 
-								if (stack != null) {
-									menu.replaceExistingItem(request.getSlot(), stack);
+								if (requestedItem != null) {
+									menu.replaceExistingItem(request.getSlot(), requestedItem);
 								}
 
 								iterator.remove();
 								break;
-							}
-							case WITHDRAW: {
+							case WITHDRAW:
 								int slot = request.getSlot();
 								ItemStack prevStack = menu.getItemInSlot(slot);
 								if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunManager.isItemSimiliar(prevStack, new CustomItem(request.getItem(), 1), true)))) {
@@ -282,7 +280,6 @@ public class CargoNet extends Network {
 
 								ItemStack stack = null;
 								ItemStack requested = request.getItem();
-								nodes:
 								for (Location l : providers) {
 									Block target = getAttachedBlock(l.getBlock());
 									ItemStack is = CargoManager.withdraw(l.getBlock(), storage, target, requested);
@@ -295,7 +292,7 @@ public class CargoNet extends Network {
 										}
 
 										if (is.getAmount() == requested.getAmount()) {
-											break nodes;
+											break;
 										}
 										else {
 											requested = new CustomItem(requested, requested.getAmount() - is.getAmount());
@@ -312,10 +309,8 @@ public class CargoNet extends Network {
 
 								iterator.remove();
 								break;
-							}
-							default: {
+							default:
 								break;
-							}
 							}
 						}
 					}
@@ -363,12 +358,12 @@ public class CargoNet extends Network {
 							round_robin.put(input, c_index);
 						}
 
-						destinations:
+
 						for (Location out : outputlist) {
 							Block target = getAttachedBlock(out.getBlock());
 							if (target != null) {
 								stack = CargoManager.insert(out.getBlock(), storage, target, stack, -1);
-								if (stack == null) break destinations;
+								if (stack == null) break;
 							}
 						}
 					}

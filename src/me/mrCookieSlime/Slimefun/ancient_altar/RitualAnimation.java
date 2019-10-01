@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 import org.bukkit.Effect;

@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OreWasher;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.api.*;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
@@ -15,7 +15,7 @@ import io.github.thebusybiscuit.cscorelib2.updater.Updater;
 
 import java.io.File;
 
-import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
+import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
 import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
@@ -319,7 +319,7 @@ public final class SlimefunStartup extends JavaPlugin {
 
         if (ticker != null) {
             // Finishes all started movements/removals of block data
-            ticker.HALTED = true;
+            ticker.halted = true;
             ticker.run();
         }
 
@@ -366,7 +366,6 @@ public final class SlimefunStartup extends JavaPlugin {
 		SlimefunItem.map_id = null;
 		SlimefunItem.handlers = null;
 		SlimefunItem.radioactive = null;
-		SlimefunGuide.history = null;
 		SlimefunCommand.arguments = null;
 		SlimefunCommand.descriptions = null;
 		SlimefunCommand.tabs = null;
@@ -385,7 +384,6 @@ public final class SlimefunStartup extends JavaPlugin {
 		EnergyNet.machines_storage = null;
 		CargoNet.faces = null;
 		BlockStorage.universal_inventories = null;
-		TickerTask.block_timings = null;
         PlayerProfile.profiles = null;
         OreWasher.items = null;
 

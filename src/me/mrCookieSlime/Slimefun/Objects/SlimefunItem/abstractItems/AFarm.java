@@ -200,10 +200,6 @@ public abstract class AFarm extends SlimefunItem {
 			}
 
 			@Override
-			public void uniqueTick() {
-			}
-
-			@Override
 			public boolean isSynchronized() {
 				return true;
 			}
