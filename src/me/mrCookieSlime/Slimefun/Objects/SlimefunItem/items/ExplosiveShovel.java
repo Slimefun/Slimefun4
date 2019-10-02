@@ -41,7 +41,7 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
 							Block b = e.getBlock().getRelative(x, y, z);
 							boolean correctType = false;
 							
-							for (Material mat : MaterialTools.getShovelItems()) {
+							for (Material mat : MaterialTools.getBreakableByShovel().getAsArray()) {
 								if (b.getType() == mat) {
 									correctType = true;
 									break;

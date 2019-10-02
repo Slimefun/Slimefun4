@@ -384,17 +384,20 @@ public class ItemListener implements Listener {
 	@EventHandler
 	public void onCraft(CraftItemEvent e) {
 		for (ItemStack item : e.getInventory().getContents()) {
-			if (SlimefunItem.getByItem(item) != null && !(SlimefunItem.getByItem(item).isReplacing())) {
+			SlimefunItem sfItem = SlimefunItem.getByItem(item);
+			if (sfItem != null && !sfItem.isUseableInWorkbench()) {
 				e.setCancelled(true);
 				SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
 				break;
 			}
 		}
 	}
+	
 	@EventHandler
 	public void onPrepareCraft(PrepareItemCraftEvent e) {
 		for (ItemStack item : e.getInventory().getContents()) {
-			if (SlimefunItem.getByItem(item) != null && !(SlimefunItem.getByItem(item).isReplacing())) {
+			SlimefunItem sfItem = SlimefunItem.getByItem(item);
+			if (sfItem != null && !sfItem.isUseableInWorkbench()) {
 				e.getInventory().setResult(null);
 				break;
 			}

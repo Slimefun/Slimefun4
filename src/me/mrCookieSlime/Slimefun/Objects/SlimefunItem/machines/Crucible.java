@@ -47,12 +47,12 @@ public class Crucible extends SlimefunGadget {
 									e.setCancelled(true);
 									ItemStack removing = input.clone();
 									removing.setAmount(convert.getAmount());
-		
-																	p.getInventory().removeItem(removing);
+									
+									p.getInventory().removeItem(removing);
 
 									for (int i = 1; i < 9; i++) {int j = 8 - i;
 										Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
-											if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialCollections.contains(input.getType(), MaterialCollections.getAllTerracottaColors())) {
+											if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialCollections.getAllTerracottaColors().contains(input.getType())) {
 												block.setType(Material.LAVA);
 												Levelled le = (Levelled) block.getBlockData();
 												le.setLevel(j);

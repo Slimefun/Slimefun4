@@ -27,5 +27,6 @@ public class VanillaItem extends SlimefunItem {
 	 */
 	public VanillaItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
+		useableInWorkbench = true;
 	}
 }

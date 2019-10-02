@@ -14,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -42,11 +43,12 @@ public class SlimefunItem {
 	private RecipeType recipeType;
 	protected ItemStack recipeOutput = null;
 	private Research research;
-	private int month = -1;
-	private boolean enchantable = true;
-	private boolean disenchantable = true;
-	private boolean hidden = false;
-	private boolean replacing = false;
+	
+	protected boolean enchantable = true;
+	protected boolean disenchantable = true;
+	protected boolean hidden = false;
+	protected boolean useableInWorkbench = false;
+	
 	private boolean addon = false;
 	private String permission = "";
 	private List<String> noPermissionTooltip;
@@ -125,14 +127,15 @@ public class SlimefunItem {
 	 */
 	public ItemStack getRecipeOutput()		{		return recipeOutput;		}
 	public Research getResearch()			{		return research;		}
-	public int getMonth()	 			{		return month;			}
 	public boolean isEnchantable() 			{		return enchantable;		}
 	public boolean isDisenchantable() 		{		return disenchantable;		}
 	/**
 	 * @since 4.1.11
 	 */
 	public boolean isHidden() 			{		return hidden;			}
-	public boolean isReplacing() 			{		return replacing;		}
+
+	@Deprecated
+	public boolean isReplacing() 			{		return useableInWorkbench;		}
 	public boolean isAddonItem() 			{		return addon;			}
 	/**
 	 * @since 4.1.11
@@ -167,7 +170,7 @@ public class SlimefunItem {
 			SlimefunPlugin.getUtilities().allItems.add(this);
 
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".enabled", true);
-			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.replacing);
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.useableInWorkbench);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".hide-in-guide", this.hidden);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
@@ -195,7 +198,7 @@ public class SlimefunItem {
 
 				this.state = ItemState.ENABLED;
 
-				this.replacing = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
+				this.useableInWorkbench = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
 				this.hidden = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".hide-in-guide");
 				this.enchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-enchanting");
 				this.disenchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
@@ -256,18 +259,14 @@ public class SlimefunItem {
 	public void setRecipeOutput(ItemStack output) {
 		this.recipeOutput = output;
 	}
-
-	public void setReplacing(boolean replacing) {
-		this.replacing = replacing;
-	}
-
-	/**
-	 * @since 4.0
-	 * @deprecated As of 4.1.11, renamed to {@link #getByID(String)} for better name convenience.
-	 */
+	
 	@Deprecated
-	public static SlimefunItem getByName(String name) {
-		return getByID(name);
+	public void setReplacing(boolean replacing) {
+		this.useableInWorkbench = replacing;
+	}
+	
+	public boolean isUseableInWorkbench() {
+		return useableInWorkbench;
 	}
 
 	/**
@@ -529,6 +528,10 @@ public class SlimefunItem {
 	
 	public String getWiki() {
 		return wiki;
+	}
+	
+	public String getItemName() {
+		return ItemUtils.getItemName(item);
 	}
 	
 	@Override

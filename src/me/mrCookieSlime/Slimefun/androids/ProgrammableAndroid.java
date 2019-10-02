@@ -17,7 +17,6 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -38,12 +37,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Block.TreeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -391,13 +390,12 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							exoticFarm(b, b.getRelative(BlockFace.DOWN));
 							break;
 						case CHOP_TREE:
-							if (MaterialCollections.contains(b.getRelative(face).getType(), MaterialCollections.getAllLogs())) {
-								List<Location> list = new ArrayList<>();
-								list.add(b.getRelative(face).getLocation());
-								TreeCalculator.getTree(b.getRelative(face).getLocation(), b.getRelative(face).getLocation(), list);
+							if (MaterialCollections.getAllLogs().contains(b.getRelative(face).getType())) {
+								List<Block> list = Vein.find(b.getRelative(face), 100, block -> MaterialCollections.getAllLogs().contains(block.getType()));
+								list.add(0, b.getRelative(face));
 								if (!list.isEmpty()) {
 									refresh = false;
-									Block log = list.get(list.size() - 1).getBlock();
+									Block log = list.get(list.size() - 1);
 									Collection<ItemStack> drops = log.getDrops();
 									log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 									

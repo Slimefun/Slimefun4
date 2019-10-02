@@ -19,7 +19,7 @@ public abstract class ElectrifiedCrucible extends AContainer {
 		registerRecipe(10, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(Material.COBBLESTONE, 16)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
 		registerRecipe(8, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(Material.TERRACOTTA, 12)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
 		
-		for (Material coloured_terracotta : MaterialCollections.getAllTerracottaColors()){
+		for (Material coloured_terracotta : MaterialCollections.getAllTerracottaColors().getAsArray()){
 		    registerRecipe(8, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(coloured_terracotta, 12)}, new ItemStack[]{new ItemStack(Material.LAVA_BUCKET)});
         }
 		

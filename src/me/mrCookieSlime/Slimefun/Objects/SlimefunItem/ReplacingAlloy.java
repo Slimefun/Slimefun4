@@ -6,6 +6,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 
 import org.bukkit.inventory.ItemStack;
 
+@Deprecated
 public class ReplacingAlloy extends ReplacingItem {
 
 	public ReplacingAlloy(ItemStack item, String id, ItemStack[] recipe) {

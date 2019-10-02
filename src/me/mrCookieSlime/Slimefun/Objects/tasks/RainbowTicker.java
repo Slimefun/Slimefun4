@@ -26,15 +26,15 @@ public class RainbowTicker extends BlockTicker {
 
 	@Override
 	public void tick(Block b, SlimefunItem item, Config data) {
-		if (MaterialCollections.contains(b.getType(), MaterialCollections.getAllWools())) {
-			b.setType(MaterialCollections.getAllWools()[meta], false);
+		if (MaterialCollections.getAllWools().contains(b.getType())) {
+			b.setType(MaterialCollections.getAllWools().getAsArray()[meta], false);
 		} 
-		else if (MaterialCollections.contains(b.getType(), MaterialCollections.getAllStainedGlassColors())) {
-			b.setType(MaterialCollections.getAllStainedGlassColors()[meta], false);
+		else if (MaterialCollections.getAllStainedGlassColors().contains(b.getType())) {
+			b.setType(MaterialCollections.getAllStainedGlassColors().getAsArray()[meta], false);
 		} 
-		else if (MaterialCollections.contains(b.getType(), MaterialCollections.getAllStainedGlassPaneColors())){
+		else if (MaterialCollections.getAllStainedGlassPaneColors().contains(b.getType())){
 			boolean waterlogged = ((Waterlogged) b.getBlockData()).isWaterlogged();
-			b.setType(MaterialCollections.getAllStainedGlassPaneColors()[meta], true);
+			b.setType(MaterialCollections.getAllStainedGlassPaneColors().getAsArray()[meta], true);
 			
 			if (waterlogged) {
 				Waterlogged block = (Waterlogged) b.getBlockData();
@@ -42,8 +42,8 @@ public class RainbowTicker extends BlockTicker {
 				b.setBlockData(block);
 			}
 		} 
-		else if (MaterialCollections.contains(b.getType(), MaterialCollections.getAllTerracottaColors())){
-			b.setType(MaterialCollections.getAllTerracottaColors()[meta], false);
+		else if (MaterialCollections.getAllTerracottaColors().contains(b.getType())){
+			b.setType(MaterialCollections.getAllTerracottaColors().getAsArray()[meta], false);
 		}
 	}
 
