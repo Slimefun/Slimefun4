@@ -62,41 +62,40 @@ public class SlimefunItem {
 	private String wiki = null;
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		this.item = item;
-		this.category = category;
-		this.id = id;
-		this.recipeType = recipeType;
-		this.recipe = recipe;
+		this(category, item, id, recipeType, recipe, null);
 	}
 
 	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
-		
-		this.item = item;
-		this.category = category;
-		this.id = ((SlimefunItemStack) item).getItemID();
-		this.recipeType = recipeType;
-		this.recipe = recipe;
+		this(category, item, recipeType, recipe, null);
 	}
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		this.item = item;
-		this.category = category;
-		this.id = id;
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.recipeOutput = recipeOutput;
+		this(category, item, id, recipeType, recipe, recipeOutput, null, null);
 	}
 
 	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+		this(category, item, recipeType, recipe, recipeOutput, null, null);
+	}
+
+	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+		this(category, item, recipeType, recipe, null, keys, values);
+	}
+
+	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+		this(category, item, id, recipeType, recipe, null, keys, values);
+	}
+
+	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean hidden) {
+		this(category, item, id, recipeType, recipe);
+		this.hidden = hidden;
+	}
+
+	// Root constructors
+	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
+		this(category, item, null, recipeType, recipe, recipeOutput, keys, values); // Call the other root
+
 		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
-		
-		this.item = item;
-		this.category = category;
 		this.id = ((SlimefunItemStack) item).getItemID();
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.recipeOutput = recipeOutput;
 	}
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
@@ -108,37 +107,6 @@ public class SlimefunItem {
 		this.recipeOutput = recipeOutput;
 		this.keys = keys;
 		this.values = values;
-	}
-
-	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
-		
-		this.item = item;
-		this.category = category;
-		this.id = ((SlimefunItemStack) item).getItemID();
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.keys = keys;
-		this.values = values;
-	}
-
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		this.item = item;
-		this.category = category;
-		this.id = id;
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.keys = keys;
-		this.values = values;
-	}
-
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean hidden) {
-		this.item = item;
-		this.category = category;
-		this.id = id;
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.hidden = hidden;
 	}
 
 	/**
