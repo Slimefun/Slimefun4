@@ -113,7 +113,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(106, "Woven Backpack", 19), SlimefunItems.WOVEN_BACKPACK);
 	    Slimefun.registerResearch(new Research(107, "Crucible", 13), SlimefunItems.CRUCIBLE);
 	    Slimefun.registerResearch(new Research(108, "Gilded Backpack", 22), SlimefunItems.GILDED_BACKPACK);
-	    Slimefun.registerResearch(new Research(110, "Being a Tank", 28), SlimefunItems.HEAVY_METAL_HELMET, SlimefunItems.HEAVY_METAL_CHESTPLATE, SlimefunItems.HEAVY_METAL_LEGGINGS, SlimefunItems.HEAVY_METAL_BOOTS);
 	    Slimefun.registerResearch(new Research(111, "Armored Jetpack", 27), SlimefunItems.ARMORED_JETPACK);
 	    Slimefun.registerResearch(new Research(112, "Ender Talismans", 28));
 	    Slimefun.registerResearch(new Research(115, "Even more Ores", 10), SlimefunItems.NICKEL_INGOT, SlimefunItems.COBALT_INGOT);
