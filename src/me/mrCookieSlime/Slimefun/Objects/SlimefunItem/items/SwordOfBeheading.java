@@ -18,6 +18,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
 
@@ -29,8 +30,8 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
 	private int chanceWitherSkeleton;
 	private int chancePlayer;
 	
-	public SwordOfBeheading(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, id, recipeType, recipe, keys, values);
+	public SwordOfBeheading(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+		super(category, item, recipeType, recipe, keys, values);
 	}
 
 	@Override
@@ -71,11 +72,11 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
 	
 	@Override
 	public void postRegister() {
-		chanceZombie = (int) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE");
-		chanceSkeleton = (int) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON");
-		chanceCreeper = (int) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER");
-		chanceWitherSkeleton = (int) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON");
-		chancePlayer = (int) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.PLAYER");
+		chanceZombie = (int) Slimefun.getItemValue(getID(), "chance.ZOMBIE");
+		chanceSkeleton = (int) Slimefun.getItemValue(getID(), "chance.SKELETON");
+		chanceCreeper = (int) Slimefun.getItemValue(getID(), "chance.CREEPER");
+		chanceWitherSkeleton = (int) Slimefun.getItemValue(getID(), "chance.WITHER_SKELETON");
+		chancePlayer = (int) Slimefun.getItemValue(getID(), "chance.PLAYER");
 	}
 
 }

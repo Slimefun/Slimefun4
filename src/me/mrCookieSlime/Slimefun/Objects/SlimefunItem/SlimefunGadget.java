@@ -9,6 +9,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 
+@Deprecated
 public class SlimefunGadget extends SlimefunItem implements RecipeDisplayItem {
 	
 	private List<ItemStack[]> recipes;

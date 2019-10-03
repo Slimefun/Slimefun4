@@ -20,14 +20,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
 	
     private long despawnTicks;
 
-	public GrapplingHook(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, id, recipeType, recipe, keys, values);
+	public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+		super(category, item, recipeType, recipe, keys, values);
 	}
 
     @Override
@@ -90,6 +91,6 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
 
     @Override
     public void postRegister() {
-	    despawnTicks = (int) Slimefun.getItemValue("GRAPPLING_HOOK", "despawn-seconds") * 20L;
+	    despawnTicks = (int) Slimefun.getItemValue(getID(), "despawn-seconds") * 20L;
     }
 }

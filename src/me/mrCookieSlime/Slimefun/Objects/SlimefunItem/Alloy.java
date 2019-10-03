@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -33,7 +34,7 @@ public class Alloy extends SlimefunItem {
 	 * @param  item    the item corresponding to this Alloy
 	 * @param  recipe  the recipe to obtain this Alloy in the Smeltery
 	 */
-	public Alloy(ItemStack item, ItemStack[] recipe) {
+	public Alloy(SlimefunItemStack item, ItemStack[] recipe) {
 		super(Categories.RESOURCES, item, RecipeType.SMELTERY, recipe);
 	}
 

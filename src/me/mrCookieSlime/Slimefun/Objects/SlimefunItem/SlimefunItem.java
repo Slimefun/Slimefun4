@@ -69,12 +69,10 @@ public class SlimefunItem {
 		this.recipe = recipe;
 	}
 
-	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
-		
+	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		this.item = item;
 		this.category = category;
-		this.id = ((SlimefunItemStack) item).getItemID();
+		this.id = item.getItemID();
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 	}
@@ -88,12 +86,10 @@ public class SlimefunItem {
 		this.recipeOutput = recipeOutput;
 	}
 
-	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
-		
+	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		this.item = item;
 		this.category = category;
-		this.id = ((SlimefunItemStack) item).getItemID();
+		this.id = item.getItemID();
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = recipeOutput;
@@ -110,12 +106,10 @@ public class SlimefunItem {
 		this.values = values;
 	}
 
-	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
-		
+	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		this.item = item;
 		this.category = category;
-		this.id = ((SlimefunItemStack) item).getItemID();
+		this.id = item.getItemID();
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.keys = keys;

@@ -12,12 +12,13 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.holograms.HologramProjectorHologram;
 
 public class HologramProjector extends SimpleSlimefunItem<ItemInteractionHandler> {
 
-	public HologramProjector(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, id, recipeType, recipe, recipeOutput);
+	public HologramProjector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+		super(category, item, recipeType, recipe, recipeOutput);
 		
 		SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
 
