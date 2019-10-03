@@ -44,7 +44,7 @@ public class SlimefunItem {
 	private Category category;
 	private ItemStack[] recipe;
 	private RecipeType recipeType;
-	protected ItemStack recipeOutput = null;
+	protected ItemStack recipeOutput;
 	private Research research;
 	
 	protected boolean enchantable = true;
@@ -59,8 +59,8 @@ public class SlimefunItem {
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
-	private String[] keys = null;
-	private Object[] values = null;
+	private String[] keys;
+	private Object[] values;
 	private String wiki = null;
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
@@ -318,7 +318,7 @@ public class SlimefunItem {
 		if (item.getItemMeta() != null && this.item.getItemMeta() != null) {
 			String thisId = PersistentDataAPI.getString(this.item.getItemMeta(), Constants.SF_ITEM);
 			String comparingId = PersistentDataAPI.getString(item.getItemMeta(), Constants.SF_ITEM);
-			if (id != null && comparingId != null) return thisId.equals(comparingId);
+			if (thisId != null && comparingId != null) return thisId.equals(comparingId);
 		}
 
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
