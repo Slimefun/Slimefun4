@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -11,7 +12,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -19,7 +20,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class AutomatedPanningMachine extends MultiBlockMachine {
 
-	private Random random = new Random();
+	private final Random random = new Random();
 	
 	private int chanceSiftedOre;
 	private int chanceFlint;
@@ -61,7 +62,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 		final ItemStack drop = output;
 		
 		if (input != null && input.getType() == Material.GRAVEL && (!input.hasItemMeta() || (input.hasItemMeta() && !input.getItemMeta().hasDisplayName()))) {
-			PlayerInventory.consumeItemInHand(p);
+			if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(input, false);
 			
 			for (int i = 1; i < 7; i++) {
 				int j = i;

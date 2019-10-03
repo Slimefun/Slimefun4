@@ -5,11 +5,12 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -43,7 +44,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 				Set<Research> researches = PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)))).getResearches();
 				researches.forEach(research -> profile.setResearched(research, true));
 				
-				PlayerInventory.consumeItemInHand(p);
+				if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 				return true;
 			}
 			else return false;

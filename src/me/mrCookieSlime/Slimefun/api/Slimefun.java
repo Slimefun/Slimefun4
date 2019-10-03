@@ -16,6 +16,7 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 
 /**
  * Provides a few convenience methods.
@@ -327,5 +328,9 @@ public final class Slimefun {
 
 	public static String getVersion() {
 		return SlimefunPlugin.instance.getDescription().getVersion();
+	}
+	
+	public static SlimefunLocalization getLocal() {
+		return SlimefunPlugin.getLocal();
 	}
 }

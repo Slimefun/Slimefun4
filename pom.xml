@@ -78,6 +78,7 @@
     							<include>**/cscorelib2/players/**</include>
 								<include>**/cscorelib2/reflection/**</include>
 								<include>**/cscorelib2/item/**</include>
+								<include>**/cscorelib2/inventory/**</include>
     						</includes>
   						</filter>
       				</filters>

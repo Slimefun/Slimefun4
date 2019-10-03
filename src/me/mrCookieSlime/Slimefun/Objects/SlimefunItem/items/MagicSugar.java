@@ -1,11 +1,12 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -24,7 +25,8 @@ public class MagicSugar extends SimpleSlimefunItem<ItemInteractionHandler> {
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MAGIC_SUGAR, true)) {
-				PlayerInventory.consumeItemInHand(p);
+				if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
+				
 				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
 				p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 600, (Integer) Slimefun.getItemValue("MAGIC_SUGAR", "effects.SPEED")));
 				return true;

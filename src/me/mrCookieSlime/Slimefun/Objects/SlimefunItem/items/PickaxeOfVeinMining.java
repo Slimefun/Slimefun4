@@ -1,16 +1,15 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Effect;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Block.Vein;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -29,13 +28,11 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
 			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
-				if (e.getBlock().getType().toString().endsWith("_ORE")) {
-					List<Location> blocks = new ArrayList<>();
-					Vein.calculate(e.getBlock().getLocation(), e.getBlock().getLocation(), blocks, 16);
+				if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
+					List<Block> blocks = Vein.find(e.getBlock(), 16, MaterialCollections.getAllOres());
 					
-					for (Location block: blocks) {
-						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), block, ProtectableAction.BREAK_BLOCK)) {
-							Block b = block.getBlock();
+					for (Block b: blocks) {
+						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 							b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 							
 							for (ItemStack drop: b.getDrops()) {

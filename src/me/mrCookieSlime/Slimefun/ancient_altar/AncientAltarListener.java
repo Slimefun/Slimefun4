@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -25,8 +26,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -106,7 +107,11 @@ public class AncientAltarListener implements Listener {
 							if (result != null) {
 								List<ItemStack> consumed = new ArrayList<>();
 								consumed.add(catalyst);
-								PlayerInventory.consumeItemInHand(e.getPlayer());
+								
+								if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+									ItemUtils.consumeItem(e.getPlayer().getInventory().getItemInMainHand(), false);
+								}
+								
 								Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
 							}
 							else {
@@ -167,7 +172,10 @@ public class AncientAltarListener implements Listener {
 	private void insertItem(Player p, Block b) {
 		final ItemStack stack = p.getInventory().getItemInMainHand();
 		if (stack != null) {
-			PlayerInventory.consumeItemInHand(p);
+			if (p.getGameMode() != GameMode.CREATIVE) {
+				ItemUtils.consumeItem(stack, false);
+			}
+			
 			String nametag = StringUtils.formatItemName(stack, false);
 			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "&5&dALTAR &3Probe - &e" + System.nanoTime()));
 			entity.setVelocity(new Vector(0, 0.1, 0));

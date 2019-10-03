@@ -33,14 +33,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
@@ -273,7 +273,7 @@ public final class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MAGIC_EYE_OF_ENDER, true)) {
 					e.getParentEvent().setCancelled(true);
-					PlayerInventory.update(p);
+					
 					if (p.getInventory().getHelmet() != null && p.getInventory().getChestplate() != null && p.getInventory().getLeggings() != null && p.getInventory().getBoots() != null && SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.ENDER_HELMET, true) && SlimefunManager.isItemSimiliar(p.getInventory().getChestplate(), SlimefunItems.ENDER_CHESTPLATE, true) && SlimefunManager.isItemSimiliar(p.getInventory().getLeggings(), SlimefunItems.ENDER_LEGGINGS, true) && SlimefunManager.isItemSimiliar(p.getInventory().getBoots(), SlimefunItems.ENDER_BOOTS, true)) {
 						p.launchProjectile(EnderPearl.class);
 						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
@@ -908,7 +908,7 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RAG, true)) {
-					PlayerInventory.consumeItemInHand(p);
+					if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 					p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, Material.WHITE_WOOL);
 					p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0));
 					p.setFireTicks(0);
@@ -926,7 +926,7 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BANDAGE, true)) {
-					PlayerInventory.consumeItemInHand(p);
+					if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 					p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, Material.WHITE_WOOL);
 					p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
 					p.setFireTicks(0);
@@ -944,7 +944,7 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SPLINT, true)) {
-					PlayerInventory.consumeItemInHand(p);
+					if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_SKELETON_HURT, 1, 1);
 					p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0));
 					return true;
@@ -964,7 +964,7 @@ public final class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.VITAMINS, true)) {
-					PlayerInventory.consumeItemInHand(p);
+					if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
 					if (p.hasPotionEffect(PotionEffectType.POISON)) p.removePotionEffect(PotionEffectType.POISON);
 					if (p.hasPotionEffect(PotionEffectType.WITHER)) p.removePotionEffect(PotionEffectType.WITHER);
@@ -1626,7 +1626,7 @@ public final class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.EASTER_EGG, true)) {
 					e.setCancelled(true);
-					PlayerInventory.consumeItemInHand(e.getPlayer());
+					if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 					FireworkShow.launchRandom(e.getPlayer(), 2);
 
 					List<ItemStack> gifts = new ArrayList<>();
