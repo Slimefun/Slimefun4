@@ -132,7 +132,7 @@ public class RitualAnimation implements Runnable {
     
 		// This should re-enable altar blocks on craft failure.
 		utilities.altarinuse.remove(altar.getLocation());
-		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 5F, 1F);
+		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1F, 1F);
 		itemLock.clear();
 		altars.remove(altar);
 	}
