@@ -8,6 +8,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
+import me.mrCookieSlime.Slimefun.utils.Christmas;
 
 /**
  * Built-in categories.
@@ -42,7 +43,7 @@ public final class Categories {
 	public static final Category TOOLS = new Category(new CustomItem(Material.GOLDEN_PICKAXE, "&7Tools", "", LORE), 1);
 	
 	// Seasonal Categories
-	public static final SeasonalCategory CHRISTMAS = new SeasonalCategory(12, 1, new CustomItem(Material.NETHER_STAR, "&aC&ch&ar&ci&as&ct&am&ca&as", "", "&c> Click to help &aSanta"));
+	public static final SeasonalCategory CHRISTMAS = new SeasonalCategory(12, 1, new CustomItem(Material.NETHER_STAR, Christmas.color("Christmas"), "", "&c> Click to help &aSanta"));
 	public static final SeasonalCategory VALENTINES_DAY = new SeasonalCategory(2, 2, new CustomItem(Material.POPPY, "&dValentine's Day", "", "&d> Click to celebrate Love"));
 	public static final SeasonalCategory EASTER = new SeasonalCategory(4, 2, new CustomItem(Material.EGG, "&6Easter", "", "&a> Click to paint some Eggs"));
 	public static final SeasonalCategory BIRTHDAY = new SeasonalCategory(10, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)", "", "&a> Click to celebrate with me"));

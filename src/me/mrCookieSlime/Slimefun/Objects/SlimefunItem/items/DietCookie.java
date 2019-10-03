@@ -13,8 +13,8 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
-	public DietCookie(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public DietCookie(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 	
 	@Override

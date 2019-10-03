@@ -16,6 +16,14 @@ public abstract class SimpleSlimefunItem<T extends ItemHandler> extends Slimefun
 		super(category, item, id, recipeType, recipe, recipeOutput);
 	}
 	
+	public SimpleSlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
+	}
+	
+	public SimpleSlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+		super(category, item, recipeType, recipe, recipeOutput);
+	}
+	
 	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		super(category, item, id, recipeType, recipe, keys, values);
 	}

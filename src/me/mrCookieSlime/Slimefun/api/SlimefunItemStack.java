@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.api;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,6 +17,12 @@ public class SlimefunItemStack extends CustomItem {
 
 	public SlimefunItemStack(String id, Material type, String name, String... lore) {
 		super(type, name, lore);
+		
+		this.id = id;
+	}
+
+	public SlimefunItemStack(String id, Material type, Color color, String name, String... lore) {
+		super(new ItemStack(type), color, name, lore);
 		
 		this.id = id;
 	}

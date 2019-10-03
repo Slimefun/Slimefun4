@@ -14,6 +14,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 
+@Deprecated
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
 	protected List<ItemStack[]> recipes;

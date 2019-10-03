@@ -40,6 +40,7 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
@@ -704,7 +705,14 @@ public final class SlimefunGuide {
 						menu.addItem(index, sfitem.getItem());
 						menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 							if (survival) displayItem(pl, item, true, book, 0);
-							else pl.getInventory().addItem(item);
+							else {
+								if (sfitem instanceof MultiBlockMachine) {
+									SlimefunPlugin.getLocal().sendMessage(pl, "guide.cheat.no-multiblocks");
+								}
+								else {
+									pl.getInventory().addItem(item);
+								}
+							}
 							return false;
 						});
 						index++;

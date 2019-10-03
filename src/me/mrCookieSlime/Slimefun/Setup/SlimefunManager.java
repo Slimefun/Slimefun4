@@ -13,15 +13,15 @@ import org.bukkit.potion.PotionEffect;
 
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.Soulbound;
 
 public final class SlimefunManager {
 	
@@ -141,7 +141,9 @@ public final class SlimefunManager {
 
 	public static boolean isItemSoulbound(ItemStack item) {
 		if (item == null || item.getType() == Material.AIR) return false;
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) return true;
+		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) {
+			return true;
+		}
 		else {
 			ItemStack strippedItem = item.clone();
 
@@ -154,7 +156,9 @@ public final class SlimefunManager {
 					EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
 				}
 			}
-			if (SlimefunItem.getByItem(strippedItem) instanceof SoulboundItem) return true;
+			if (SlimefunItem.getByItem(strippedItem) instanceof Soulbound) {
+				return true;
+			}
 			else if (item.hasItemMeta()) {
 				ItemMeta im = item.getItemMeta();
 				return (im.hasLore() && im.getLore().contains(ChatColor.GRAY + "Soulbound"));

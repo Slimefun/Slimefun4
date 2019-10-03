@@ -28,6 +28,16 @@ public class Alloy extends SlimefunItem {
 	}
 
 	/**
+	 * Constructs an Alloy bound to {@code Categories.RESOURCES}.
+	 *
+	 * @param  item    the item corresponding to this Alloy
+	 * @param  recipe  the recipe to obtain this Alloy in the Smeltery
+	 */
+	public Alloy(ItemStack item, ItemStack[] recipe) {
+		super(Categories.RESOURCES, item, RecipeType.SMELTERY, recipe);
+	}
+
+	/**
 	 * Constructs an Alloy with a definable {@link Category}.
 	 *
 	 * @param  category  the category to bind this Alloy to

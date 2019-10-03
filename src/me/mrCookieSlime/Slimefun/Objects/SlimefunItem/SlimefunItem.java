@@ -27,6 +27,7 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
@@ -68,10 +69,31 @@ public class SlimefunItem {
 		this.recipe = recipe;
 	}
 
+	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
+		
+		this.item = item;
+		this.category = category;
+		this.id = ((SlimefunItemStack) item).getItemID();
+		this.recipeType = recipeType;
+		this.recipe = recipe;
+	}
+
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		this.item = item;
 		this.category = category;
 		this.id = id;
+		this.recipeType = recipeType;
+		this.recipe = recipe;
+		this.recipeOutput = recipeOutput;
+	}
+
+	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
+		
+		this.item = item;
+		this.category = category;
+		this.id = ((SlimefunItemStack) item).getItemID();
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = recipeOutput;
@@ -84,6 +106,18 @@ public class SlimefunItem {
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = recipeOutput;
+		this.keys = keys;
+		this.values = values;
+	}
+
+	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
+		
+		this.item = item;
+		this.category = category;
+		this.id = ((SlimefunItemStack) item).getItemID();
+		this.recipeType = recipeType;
+		this.recipe = recipe;
 		this.keys = keys;
 		this.values = values;
 	}
