@@ -291,7 +291,13 @@ public class SlimefunItem {
 	}
 
 	public static SlimefunItem getByItem(ItemStack item) {
-		if (item == null) return null;		
+		if (item == null) return null;
+
+		if (item.getItemMeta() != null) {
+			String id = PersistentDataAPI.getString(item.getItemMeta(), Constants.SF_ITEM);
+			if (id != null) return getByID(id);
+		}
+
 		for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
 			if ((sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
 					(sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
@@ -308,6 +314,13 @@ public class SlimefunItem {
 
 	public boolean isItem(ItemStack item) {
 		if (item == null) return false;
+
+		if (item.getItemMeta() != null && this.item.getItemMeta() != null) {
+			String thisId = PersistentDataAPI.getString(this.item.getItemMeta(), Constants.SF_ITEM);
+			String comparingId = PersistentDataAPI.getString(item.getItemMeta(), Constants.SF_ITEM);
+			if (id != null && comparingId != null) return thisId.equals(comparingId);
+		}
+
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
