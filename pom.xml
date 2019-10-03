@@ -71,7 +71,8 @@
     							<include>**/cscorelib2/blocks/**</include>
     							<include>**/cscorelib2/chat/**</include>
     							<include>**/cscorelib2/config/**</include>
-    							<include>**/cscorelib2/updater/**</include>
+                                <include>**/cscorelib2/data/**</include>
+                                <include>**/cscorelib2/updater/**</include>
                                 <include>**/cscorelib2/materials/**</include>
     							<include>**/cscorelib2/math/**</include>
 								<include>**/cscorelib2/protection/**</include>

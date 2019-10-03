@@ -14,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -33,6 +34,7 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.utils.Constants;
 
 public class SlimefunItem {
 	
@@ -92,21 +94,31 @@ public class SlimefunItem {
 
 	// Root constructors
 	public SlimefunItem(Category category, ItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
-		this(category, item, null, recipeType, recipe, recipeOutput, keys, values); // Call the other root
-
 		if (!(item instanceof SlimefunItemStack)) throw new IllegalArgumentException("item must be of Type SlimefunItemStack!");
+
+		this.category = category;
+		this.item = item;
 		this.id = ((SlimefunItemStack) item).getItemID();
+		this.recipeType = recipeType;
+		this.recipe = recipe;
+		this.recipeOutput = recipeOutput;
+		this.keys = keys;
+		this.values = values;
+
+		PersistentDataAPI.setString(this.item.getItemMeta(), Constants.SF_ITEM, this.id);
 	}
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
-		this.item = item;
 		this.category = category;
+		this.item = item;
 		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
 		this.recipeOutput = recipeOutput;
 		this.keys = keys;
 		this.values = values;
+
+		PersistentDataAPI.setString(this.item.getItemMeta(), Constants.SF_ITEM, this.id);
 	}
 
 	/**

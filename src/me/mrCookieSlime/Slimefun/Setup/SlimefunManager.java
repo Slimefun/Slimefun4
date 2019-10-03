@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Setup;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -22,11 +24,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.Soulbound;
+import me.mrCookieSlime.Slimefun.utils.Constants;
 
 public final class SlimefunManager {
-	
+
 	private SlimefunManager() {}
-	
+
 	public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean special, boolean slimefun) {
 		String[] components = new String[] {"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
 		Category cat = special ? Categories.MAGIC_ARMOR: Categories.ARMOR;
@@ -35,17 +38,17 @@ public final class SlimefunManager {
 		recipes.add(new ItemStack[] {baseComponent, null, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent});
 		recipes.add(new ItemStack[] {baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
 		recipes.add(new ItemStack[] {null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
-		
+
 		for (int i = 0; i < 4; i++) {
 			if (i < effects.length && effects[i].length > 0) {
 				new SlimefunArmorPiece(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(slimefun);
-			} 
+			}
 			else {
 				new SlimefunItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
 			}
 		}
 	}
-	
+
 	public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean slimefun, boolean vanilla) {
 		String[] components = new String[] {"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
 		Category cat = Categories.ARMOR;
@@ -54,30 +57,36 @@ public final class SlimefunManager {
 		recipes.add(new ItemStack[] {baseComponent, null, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent});
 		recipes.add(new ItemStack[] {baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
 		recipes.add(new ItemStack[] {null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
-		
+
 		for (int i = 0; i < 4; i++) {
 			if (vanilla) {
 				new VanillaItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
-			} 
+			}
 			else {
 				new SlimefunItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
 			}
 		}
 	}
-	
+
 	@Deprecated
 	public static enum DataType {
-		
+
 		ALWAYS,
 		NEVER,
 		IF_COLORED;
-		
+
 	}
-	
+
 	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore) {
 		if (item == null) return sfitem == null;
 		if (sfitem == null) return false;
-		
+
+		if (item.getItemMeta() != null && sfitem.getItemMeta() != null) {
+		    String itemId = PersistentDataAPI.getString(item.getItemMeta(), Constants.SF_ITEM);
+		    String sfItemId = PersistentDataAPI.getString(sfitem.getItemMeta(), Constants.SF_ITEM);
+		    if (itemId != null && sfItemId != null) return itemId.equals(sfItemId);
+		}
+
 		if (item.getType() == sfitem.getType() && item.getAmount() >= sfitem.getAmount()) {
 			if (item.hasItemMeta() && sfitem.hasItemMeta()) {
 				if (item.getItemMeta().hasDisplayName() && sfitem.getItemMeta().hasDisplayName()) {
@@ -102,7 +111,7 @@ public final class SlimefunManager {
 					else return true;
 				}
 				else return false;
-			} 
+			}
 			else return !item.hasItemMeta() && !sfitem.hasItemMeta();
 		}
 		else return false;
@@ -112,7 +121,7 @@ public final class SlimefunManager {
 	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore, DataType data) {
 		return isItemSimiliar(item, sfitem, lore);
 	}
-	
+
 	public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
 		if (inventory == null || itemStack == null) return false;
 
@@ -123,7 +132,7 @@ public final class SlimefunManager {
 
 		return false;
 	}
-	
+
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {
 		StringBuilder string1 = new StringBuilder();
 		StringBuilder string2 = new StringBuilder();
@@ -132,7 +141,7 @@ public final class SlimefunManager {
 		for (String string: lore) {
 			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string1.append("-NEW LINE-").append(string);
 		}
-		
+
 		for (String string: lore2) {
 			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string2.append("-NEW LINE-").append(string);
 		}
