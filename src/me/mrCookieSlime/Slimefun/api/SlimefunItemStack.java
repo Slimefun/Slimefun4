@@ -55,7 +55,9 @@ public class SlimefunItemStack extends CustomItem {
 
 	private void setId(String id) {
 		this.id = id;
-		PersistentDataAPI.setString(getItemMeta(), Constants.SF_ITEM, id);
+		ItemMeta im = getItemMeta();
+		PersistentDataAPI.setString(im, Constants.SF_ITEM, id);
+		setItemMeta(im);
 	}
 	
 	private static ItemStack getSkull(String texture) {

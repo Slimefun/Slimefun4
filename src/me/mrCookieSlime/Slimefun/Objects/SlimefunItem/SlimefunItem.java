@@ -35,6 +35,7 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.utils.Constants;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SlimefunItem {
 	
@@ -104,8 +105,6 @@ public class SlimefunItem {
 		this.recipeOutput = recipeOutput;
 		this.keys = keys;
 		this.values = values;
-
-		PersistentDataAPI.setString(this.item.getItemMeta(), Constants.SF_ITEM, this.id);
 	}
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
@@ -117,8 +116,6 @@ public class SlimefunItem {
 		this.recipeOutput = recipeOutput;
 		this.keys = keys;
 		this.values = values;
-
-		PersistentDataAPI.setString(this.item.getItemMeta(), Constants.SF_ITEM, this.id);
 	}
 
 	/**
@@ -315,10 +312,9 @@ public class SlimefunItem {
 	public boolean isItem(ItemStack item) {
 		if (item == null) return false;
 
-		if (item.getItemMeta() != null && this.item.getItemMeta() != null) {
-			String thisId = PersistentDataAPI.getString(this.item.getItemMeta(), Constants.SF_ITEM);
+		if (item.getItemMeta() != null) {
 			String comparingId = PersistentDataAPI.getString(item.getItemMeta(), Constants.SF_ITEM);
-			if (thisId != null && comparingId != null) return thisId.equals(comparingId);
+			if (comparingId != null) return getID().equals(comparingId);
 		}
 
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
