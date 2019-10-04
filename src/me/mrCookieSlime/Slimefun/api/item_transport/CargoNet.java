@@ -164,7 +164,7 @@ public class CargoNet extends Network {
 				Integer frequency = getFrequency(outputNode);
 				list.add(outputNode);
 
-				if (frequency != lastFrequency) {
+				if (frequency != lastFrequency && lastFrequency != -1) {
 					output.merge(frequency, list, (list1, list2) -> {
 						list1.addAll(list2);
 						return list1;
@@ -174,6 +174,11 @@ public class CargoNet extends Network {
 
 				lastFrequency = frequency;
 			}
+			if (!list.isEmpty())
+				output.merge(lastFrequency, list, (list1, list2) -> {
+					list1.addAll(list2);
+					return list1;
+				});
 
 			//Chest Terminal Stuff
 			final Set<Location> providers = new HashSet<>();
