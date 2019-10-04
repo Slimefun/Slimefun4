@@ -1383,6 +1383,10 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.PUMPKIN), null, null, null, null, null, null, null, null})
 		.register(true);
 
+		new Juice(Categories.FOOD, SlimefunItems.SWEET_BERRY_JUICE, "SWEET_BERRY_JUICE", RecipeType.JUICER,
+		new ItemStack[] {new ItemStack(Material.SWEET_BERRIES), null, null, null, null, null, null, null, null})
+		.register(true);
+
 		new Juice(Categories.FOOD, SlimefunItems.GOLDEN_APPLE_JUICE, "GOLDEN_APPLE_JUICE", RecipeType.JUICER,
 		new ItemStack[] {new ItemStack(Material.GOLDEN_APPLE), null, null, null, null, null, null, null, null})
 		.register(true);

@@ -28,13 +28,7 @@ public class Juicer extends MultiBlockMachine {
 				SlimefunItems.JUICER, 
 				"JUICER",
 				new ItemStack[] {null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
-				new ItemStack[] {
-						new ItemStack(Material.APPLE), SlimefunItems.APPLE_JUICE,
-						new ItemStack(Material.MELON), SlimefunItems.MELON_JUICE,
-						new ItemStack(Material.CARROT), SlimefunItems.CARROT_JUICE,
-						new ItemStack(Material.PUMPKIN), SlimefunItems.PUMPKIN_JUICE,
-						new ItemStack(Material.GOLDEN_APPLE), SlimefunItems.GOLDEN_APPLE_JUICE
-				},
+				new ItemStack[0],
 				BlockFace.SELF
 		);
 	}
@@ -42,11 +36,6 @@ public class Juicer extends MultiBlockMachine {
 	@Override
 	public List<ItemStack> getDisplayRecipes() {
 		return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
-	}
-	
-	@Override
-	public void install() {
-		// Do nothing to prevent double-registration of recipes
 	}
 	
 	@Override

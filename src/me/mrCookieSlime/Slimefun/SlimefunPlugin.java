@@ -79,7 +79,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static SlimefunPlugin instance;
 
-	private NamespacedKey itemDataKey = new NamespacedKey(this, "slimefun_item");
+	private final NamespacedKey itemDataKey = new NamespacedKey(this, "slimefun_item");
 	
 	private TickerTask ticker;
 	private SlimefunLocalization local;
