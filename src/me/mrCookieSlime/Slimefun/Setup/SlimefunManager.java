@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -78,15 +77,6 @@ public final class SlimefunManager {
 	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore) {
 		if (item == null) return sfitem == null;
 		if (sfitem == null) return false;
-
-		if (item.getItemMeta() != null && sfitem.getItemMeta() != null) {
-		    String itemId = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
-		    String sfItemId = PersistentDataAPI.getString(sfitem.getItemMeta(), SlimefunPlugin.getItemDataKey());
-		    
-		    if (itemId != null && sfItemId != null) {
-		    	return itemId.equals(sfItemId);
-		    }
-		}
 
 		if (item.getType() == sfitem.getType() && item.getAmount() >= sfitem.getAmount()) {
 			if (item.hasItemMeta() && sfitem.hasItemMeta()) {
