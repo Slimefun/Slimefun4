@@ -45,7 +45,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 				}
 				
 				if (sound) {
-					b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 5F, 2F);
+					b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
 				}
 			}
 

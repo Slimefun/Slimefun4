@@ -57,8 +57,8 @@ public class BackpackListener implements Listener {
 	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
-		if (SlimefunPlugin.getUtilities().backpack.containsKey(e.getWhoClicked().getUniqueId())) {
-			ItemStack item = SlimefunPlugin.getUtilities().backpack.get(e.getWhoClicked().getUniqueId());
+		ItemStack item = SlimefunPlugin.getUtilities().backpack.get(e.getWhoClicked().getUniqueId());
+		if (item != null) {
 			if (e.getClick() == ClickType.NUMBER_KEY) {
 				ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
 				SlimefunItem sfItem = SlimefunItem.getByItem(hotbarItem);

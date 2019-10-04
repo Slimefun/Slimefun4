@@ -36,14 +36,11 @@ public class GPSNetwork {
 	private static final int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
 	public void updateTransmitter(Location l, UUID uuid, NetworkStatus status) {
-		Set<Location> set = new HashSet<>();
-		if (transmitters.containsKey(uuid)) set = transmitters.get(uuid);
-		
+		Set<Location> set = transmitters.getOrDefault(uuid, new HashSet<>());
+
 		if (status == NetworkStatus.ONLINE) {
-			if (!set.contains(l)) {
-				set.add(l);
+			if (set.add(l))
 				transmitters.put(uuid, set);
-			}
 		}
 		else {
 			set.remove(l);
@@ -215,7 +212,7 @@ public class GPSNetwork {
 	}
 
 	public Set<Location> getTransmitters(UUID uuid) {
-		return transmitters.containsKey(uuid) ? transmitters.get(uuid): new HashSet<>();
+		return transmitters.getOrDefault(uuid, new HashSet<>());
 	}
 	
 	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) {
@@ -258,7 +255,7 @@ public class GPSNetwork {
 			}
 		} 
 		catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a Teleporter Menu for Slimefun " + Slimefun.getVersion(), x);
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while creating a Teleporter Menu for Slimefun " + Slimefun.getVersion(), x);
 		}
 		
 		menu.open(p);

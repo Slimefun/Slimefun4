@@ -155,30 +155,38 @@ public class CargoNet extends Network {
 
 			final Map<Integer, List<Location>> output = new HashMap<>();
 
+			Set<Location> combinedOutputNodes = outputNodes;
+			combinedOutputNodes.addAll(advancedOutputNodes);
 
-			for (Location outputNode: outputNodes) {
+			List<Location> list = new ArrayList<>();
+			int lastFrequency = -1;
+			for (Location outputNode: combinedOutputNodes) {
 				Integer frequency = getFrequency(outputNode);
-				if (!output.containsKey(frequency)) {
-					output.put(frequency, new ArrayList<Location>());
+				list.add(outputNode);
+
+				if (frequency != lastFrequency && lastFrequency != -1) {
+					output.merge(frequency, list, (list1, list2) -> {
+						list1.addAll(list2);
+						return list1;
+					});
+					list.clear();
 				}
-				output.get(frequency).add(outputNode);
+
+				lastFrequency = frequency;
 			}
-			for (Location outputNode: advancedOutputNodes) {
-				Integer frequency = getFrequency(outputNode);
-				if (!output.containsKey(frequency)) {
-					output.put(frequency, new ArrayList<Location>());
-				}
-				output.get(frequency).add(outputNode);
-			}
+			if (!list.isEmpty())
+				output.merge(lastFrequency, list, (list1, list2) -> {
+					list1.addAll(list2);
+					return list1;
+				});
 
 			//Chest Terminal Stuff
 			final Set<Location> providers = new HashSet<>();
-			final Set<Location> destinations;
-			if (output.containsKey(16)) {
-				destinations = new HashSet<>(output.get(16));
-			} else {
-				destinations = new HashSet<>();
-			}
+			final Set<Location> destinations = new HashSet<>();
+			List<Location> output16 = output.get(16);
+			if (output16 != null)
+				destinations.addAll(output16);
+
 			for (Location inputNode: inputNodes) {
 				int frequency = getFrequency(inputNode);
 				if (frequency == 16) {
@@ -346,11 +354,7 @@ public class CargoNet extends Network {
 						List<Location> outputlist = new ArrayList<>(output.get(frequency));
 
 						if (roundrobin) {
-							if (!SlimefunPlugin.getUtilities().roundRobin.containsKey(input)) {
-								SlimefunPlugin.getUtilities().roundRobin.put(input, 0);
-							}
-
-							int cIndex = SlimefunPlugin.getUtilities().roundRobin.get(input);
+							int cIndex = SlimefunPlugin.getUtilities().roundRobin.getOrDefault(input, 0);
 
 							if (cIndex < outputlist.size()) {
 								for (int i = 0; i < cIndex; i++) {
@@ -398,19 +402,7 @@ public class CargoNet extends Network {
 							UniversalBlockMenu menu = storage.getUniversalInventory(target);
 							for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 								ItemStack is = menu.getItemInSlot(slot);
-								if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
-									boolean add = true;
-									for (StoredItem item: items) {
-										if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
-											add = false;
-											item.add(is.getAmount());
-										}
-									}
-
-									if (add) {
-										items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
-									}
-								}
+								filter(is, items, l);
 							}
 						}
 						else if (storage.hasInventory(target.getLocation())) {
@@ -435,40 +427,13 @@ public class CargoNet extends Network {
 								}
 							}
 							else {
-								for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
-									ItemStack is = menu.getItemInSlot(slot);
-									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
-										boolean add = true;
-										for (StoredItem item: items) {
-											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
-												add = false;
-												item.add(is.getAmount());
-											}
-										}
-
-										if (add) {
-											items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
-										}
-									}
-								}
+								handleWithdraw(menu, items, l);
 							}
 						}
 						else if (target.getState() instanceof InventoryHolder) {
 							Inventory inv = ((InventoryHolder) target.getState()).getInventory();
 							for (ItemStack is: inv.getContents()) {
-								if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
-									boolean add = true;
-									for (StoredItem item: items) {
-										if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
-											add = false;
-											item.add(is.getAmount());
-										}
-									}
-
-									if (add) {
-										items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
-									}
-								}
+								filter(is, items, l);
 							}
 						}
 					}
@@ -495,17 +460,19 @@ public class CargoNet extends Network {
 								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
 								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
 								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
+
 								lore.add("");
-								if (im.hasLore()) {
-									for (String line: im.getLore()) {
-										lore.add(line);
-									}
+								if (im.getLore() != null) {
+									lore.addAll(im.getLore());
 								}
+
 								im.setLore(lore);
 								stack.setItemMeta(im);
 								menu.replaceExistingItem(slot, stack);
 								menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
-									SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
+									int amount = item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getAmount();
+									SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(l, 44,
+											new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
 									return false;
 								});
 
@@ -539,4 +506,26 @@ public class CargoNet extends Network {
 		return freq;
 	}
 
+	private void handleWithdraw(BlockMenu menu, List<StoredItem> items, Location l) {
+		for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+			ItemStack is = menu.getItemInSlot(slot);
+			filter(is, items, l);
+		}
+	}
+
+	private void filter(ItemStack is,  List<StoredItem> items, Location l) {
+		if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
+			boolean add = true;
+			for (StoredItem item: items) {
+				if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
+					add = false;
+					item.add(is.getAmount());
+				}
+			}
+
+			if (add) {
+				items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
+			}
+		}
+	}
 }
