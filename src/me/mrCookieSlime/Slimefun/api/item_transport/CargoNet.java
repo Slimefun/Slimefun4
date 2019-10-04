@@ -455,17 +455,19 @@ public class CargoNet extends Network {
 								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
 								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
 								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
+
 								lore.add("");
-								if (im.hasLore()) {
-									for (String line: im.getLore()) {
-										lore.add(line);
-									}
+								if (im.getLore() != null) {
+									lore.addAll(im.getLore());
 								}
+
 								im.setLore(lore);
 								stack.setItemMeta(im);
 								menu.replaceExistingItem(slot, stack);
 								menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
-									SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
+									int amount = item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getAmount();
+									SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(l, 44,
+											new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
 									return false;
 								});
 
