@@ -22,6 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 	
@@ -29,8 +30,8 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 
 	private static final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance, "stormstaff_usage");
 
-	public StormStaff(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe, getCraftedOutput());
+	public StormStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe, getCraftedOutput());
 	}
 	
 	private static ItemStack getCraftedOutput() {

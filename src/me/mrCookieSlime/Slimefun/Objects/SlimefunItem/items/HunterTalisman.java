@@ -10,11 +10,12 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class HunterTalisman extends Talisman {
 
-	public HunterTalisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance) {
-		super(item, id, recipe, consumable, cancelEvent, messageSuffix, chance);
+	public HunterTalisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance) {
+		super(item, recipe, consumable, cancelEvent, messageSuffix, chance);
 	}
 	
 	@Override

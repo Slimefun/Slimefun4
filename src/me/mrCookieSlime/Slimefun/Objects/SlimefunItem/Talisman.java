@@ -23,28 +23,30 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * @since 4.0
  */
 public class Talisman extends SlimefunItem {
 
-    protected String suffix;
-    protected boolean consumable = true;
-    protected boolean cancel = true;
-    protected PotionEffect[] effects;
-    protected int chance = 100;
+    protected final String suffix;
+    protected final boolean consumable;
+    protected final boolean cancel;
+    protected final PotionEffect[] effects;
+    protected final int chance;
 
-    public Talisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, PotionEffect... effects) {
-        super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4 : 1));
-        this.consumable = consumable;
-        this.cancel = cancelEvent;
-        this.suffix = messageSuffix;
-        this.effects = effects;
+    public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, PotionEffect... effects) {
+        this(item, recipe, consumable, cancelEvent, messageSuffix, 100, effects);
     }
 
-    public Talisman(ItemStack item, String id, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
-        super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4 : 1));
+    public Talisman(SlimefunItemStack item, ItemStack[] recipe, String messageSuffix, int chance, PotionEffect... effects) {
+    	this(item, recipe, true, true, messageSuffix, chance, effects);
+    }
+
+    public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
+        super(Categories.TALISMANS_1, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4 : 1));
+        
         this.consumable = consumable;
         this.cancel = cancelEvent;
         this.suffix = messageSuffix;
@@ -52,15 +54,8 @@ public class Talisman extends SlimefunItem {
         this.chance = chance;
     }
 
-    public Talisman(ItemStack item, String id, ItemStack[] recipe, String messageSuffix, int chance, PotionEffect... effects) {
-        super(Categories.TALISMANS_1, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
-        this.suffix = messageSuffix;
-        this.effects = effects;
-        this.chance = chance;
-    }
-
-    protected Talisman(Category category, ItemStack item, String id, ItemStack[] recipe) {
-        super(category, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
+    protected Talisman(Category category, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
+    	this(item, recipe, consumable, cancelEvent, messageSuffix, chance, effects);
     }
 
     public String getSuffix() {
@@ -83,14 +78,16 @@ public class Talisman extends SlimefunItem {
         return this.chance;
     }
 
-    public ItemStack upgrade() {
+    public SlimefunItemStack upgrade() {
         List<String> lore = new ArrayList<>();
         lore.add("&7&oEnder Infused");
         lore.add("");
+        
         for (String line : getItem().getItemMeta().getLore()) {
             lore.add(line);
         }
-        return new CustomItem(getItem().getType(), "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
+        
+        return new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
     }
 
     @Override

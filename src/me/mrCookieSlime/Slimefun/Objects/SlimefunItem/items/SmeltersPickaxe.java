@@ -14,11 +14,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 
-	public SmeltersPickaxe(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public SmeltersPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 	
 	@Override
@@ -34,9 +35,10 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 					if (dropsList.get(i) != null) {
 						j++;
 						drops.add(e.getBlock().getType().toString().endsWith("_ORE") ? new CustomItem(dropsList.get(i), fortune): dropsList.get(i));
-						if (RecipeCalculator.getSmeltedOutput(drops.get(i).getType()) != null) {
+						ItemStack output = RecipeCalculator.getSmeltedOutput(drops.get(i).getType());
+						if (output != null) {
 							e.getBlock().getWorld().playEffect(e.getBlock().getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-							drops.set(j, new CustomItem(RecipeCalculator.getSmeltedOutput(drops.get(i).getType()), drops.get(i).getAmount()));
+							drops.set(j, new CustomItem(output, drops.get(i).getAmount()));
 						}
 					}
 				}
