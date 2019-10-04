@@ -27,6 +27,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
@@ -42,9 +43,9 @@ import me.mrCookieSlime.Slimefun.utils.Utilities;
 public class ToolListener implements Listener {
 	
 	// Materials that require a Block under it, e.g. Pressure Plates
-	private Set<Material> sensitiveMaterials = new HashSet<>();
-	private Random random = new Random();
-	private Utilities utilities;
+	private final Set<Material> sensitiveMaterials = new HashSet<>();
+	private final Random random = new Random();
+	private final Utilities utilities;
 	
 	public ToolListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -53,8 +54,8 @@ public class ToolListener implements Listener {
 		sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
 		sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
 		sensitiveMaterials.add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
-		Tag.SAPLINGS.getValues().forEach(mat -> sensitiveMaterials.add(mat));
-		Tag.WOODEN_PRESSURE_PLATES.getValues().forEach(mat -> sensitiveMaterials.add(mat));
+		Tag.SAPLINGS.getValues().forEach(sensitiveMaterials::add);
+		Tag.WOODEN_PRESSURE_PLATES.getValues().forEach(sensitiveMaterials::add);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -68,14 +69,20 @@ public class ToolListener implements Listener {
 		
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem != null && !sfItem.isDisabled() && !(sfItem instanceof NotPlaceable)) {
-			BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
-			
-			if (utilities.blockHandlers.containsKey(sfItem.getID())) {
-				utilities.blockHandlers.get(sfItem.getID()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
-			} 
+			if (Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
+				e.setCancelled(true);
+			}
 			else {
-				for (ItemHandler handler : SlimefunItem.getHandlers("BlockPlaceHandler")) {
-					if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) break;
+				BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
+				
+				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+				if (blockHandler != null) {
+					blockHandler.onPlace(e.getPlayer(), e.getBlock(), sfItem);
+				} 
+				else {
+					for (ItemHandler handler : SlimefunItem.getHandlers("BlockPlaceHandler")) {
+						if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) break;
+					}
 				}
 			}
 		}
@@ -128,7 +135,11 @@ public class ToolListener implements Listener {
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
 			e.setCancelled(true);
-			if (e.getPlayer().getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
+			
+			if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+				ItemUtils.consumeItem(item, false);
+			}
+			
 			FireworkShow.launchRandom(e.getPlayer(), 3);
 			List<ItemStack> gifts = new ArrayList<>();
 			
@@ -184,9 +195,11 @@ public class ToolListener implements Listener {
 			SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
 			
 			if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-				if (utilities.blockHandlers.containsKey(sfItem.getID())) {
-					allow = utilities.blockHandlers.get(sfItem.getID()).onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
-				}
+				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+				if (blockHandler != null) {
+					allow = blockHandler.onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
+				} 
+				
 				if (allow) {
 					block2.getWorld().dropItemNaturally(block2.getLocation(), BlockStorage.retrieve(block2));
 					block2.setType(Material.AIR);
@@ -201,8 +214,9 @@ public class ToolListener implements Listener {
 		SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 		
 		if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-			if (utilities.blockHandlers.containsKey(sfItem.getID())) {
-				allow = utilities.blockHandlers.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+			SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+			if (blockHandler != null) {
+				allow = blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
 			} 
 			else {
 				// Walk over all registered block break handlers until one says that it'll handle it.
@@ -254,10 +268,11 @@ public class ToolListener implements Listener {
     			blocks.remove();
     			if (!id.equalsIgnoreCase("HARDENED_GLASS") && !id.equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !id.equalsIgnoreCase("WITHER_PROOF_GLASS") && !id.equalsIgnoreCase("FORCEFIELD_PROJECTOR") && !id.equalsIgnoreCase("FORCEFIELD_RELAY")) {
     				boolean success = true;
-    				SlimefunItem item = SlimefunItem.getByID(id);
+    				SlimefunItem sfItem = SlimefunItem.getByID(id);
     				
-    				if (utilities.blockHandlers.containsKey(id)) {
-    					success = utilities.blockHandlers.get(id).onBreak(null, block, item, UnregisterReason.EXPLODE);
+    				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+    				if (blockHandler != null) {
+    					success = blockHandler.onBreak(null, block, sfItem, UnregisterReason.EXPLODE);
     				}
     				if (success) {
     					BlockStorage.clearBlockInfo(block);
@@ -272,7 +287,7 @@ public class ToolListener implements Listener {
 	@EventHandler
 	public void onLiquidFlow(BlockFromToEvent e) {
 		Block block = e.getToBlock();
-		SlimefunItem item = BlockStorage.check(block);
+		String item = BlockStorage.checkID(block);
 		if (item != null) e.setCancelled(true);
 	}
 
