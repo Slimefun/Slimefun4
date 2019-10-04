@@ -71,6 +71,7 @@
     							<include>**/cscorelib2/blocks/**</include>
     							<include>**/cscorelib2/chat/**</include>
     							<include>**/cscorelib2/config/**</include>
+    							<include>**/cscorelib2/collections/**</include>
     							<include>**/cscorelib2/data/**</include>
     							<include>**/cscorelib2/updater/**</include>
                                 <include>**/cscorelib2/materials/**</include>
@@ -135,7 +136,7 @@
         <dependency>
   			<groupId>com.github.thebusybiscuit</groupId>
   			<artifactId>CS-CoreLib2</artifactId>
-  			<version>0.5.8</version>
+  			<version>0.6</version>
   			<scope>compile</scope>
 		</dependency>
 		<dependency>

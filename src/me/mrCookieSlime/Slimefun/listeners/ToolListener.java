@@ -69,7 +69,7 @@ public class ToolListener implements Listener {
 		
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem != null && !sfItem.isDisabled() && !(sfItem instanceof NotPlaceable)) {
-			if (Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
+			if (!Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
 				e.setCancelled(true);
 			}
 			else {
