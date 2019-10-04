@@ -255,7 +255,7 @@ public class GPSNetwork {
 			}
 		} 
 		catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a Teleporter Menu for Slimefun " + Slimefun.getVersion(), x);
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while creating a Teleporter Menu for Slimefun " + Slimefun.getVersion(), x);
 		}
 		
 		menu.open(p);
