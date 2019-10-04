@@ -155,30 +155,35 @@ public class CargoNet extends Network {
 
 			final Map<Integer, List<Location>> output = new HashMap<>();
 
-			Set<Location> combinedOutputNodes = outputNodes;
+			Set<Location> combinedOutputNodes = new HashSet<>();
+			combinedOutputNodes.addAll(outputNodes);
 			combinedOutputNodes.addAll(advancedOutputNodes);
 
 			List<Location> list = new ArrayList<>();
 			int lastFrequency = -1;
+			
 			for (Location outputNode: combinedOutputNodes) {
 				Integer frequency = getFrequency(outputNode);
 				list.add(outputNode);
 
 				if (frequency != lastFrequency && lastFrequency != -1) {
-					output.merge(frequency, list, (list1, list2) -> {
-						list1.addAll(list2);
-						return list1;
+					output.merge(lastFrequency, list, (prev, next) -> {
+						prev.addAll(next);
+						return prev;
 					});
+					
 					list.clear();
 				}
 
 				lastFrequency = frequency;
 			}
-			if (!list.isEmpty())
-				output.merge(lastFrequency, list, (list1, list2) -> {
-					list1.addAll(list2);
-					return list1;
+			
+			if (!list.isEmpty()) {
+				output.merge(lastFrequency, list, (prev, next) -> {
+					prev.addAll(next);
+					return prev;
 				});
+			}
 
 			//Chest Terminal Stuff
 			final Set<Location> providers = new HashSet<>();
