@@ -44,8 +44,17 @@ public class TickerTask implements Runnable {
 	private Set<String> chunksSkipped = new HashSet<>();
 	private Map<Location, Integer> buggedBlocks = new HashMap<>();
 	
+	private boolean running = false;
+	
+	public void abortTick() {
+		running = false;
+	}
+	
 	@Override
 	public void run() {
+		if (running) return;
+		
+		running = true;
 		long timestamp = System.currentTimeMillis();
 		
 		skipped = 0;
@@ -187,6 +196,7 @@ public class TickerTask implements Runnable {
 		}
 		
 		time = System.currentTimeMillis() - timestamp;
+		running = false;
 	}
 	
 	public long getTime() {

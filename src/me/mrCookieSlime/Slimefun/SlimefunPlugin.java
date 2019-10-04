@@ -319,7 +319,15 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Starting all ASYNC Tasks
 			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, settings.blocksAutoSaveDelay * 60L * 20L);
-			getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
+			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+				try {
+					ticker.run();
+				}
+				catch(Throwable x) {
+					getLogger().log(Level.SEVERE, "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + Slimefun.getVersion(), x);
+					ticker.abortTick();
+				}
+			}, 100L, config.getInt("URID.custom-ticker-delay"));
 
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);
 
