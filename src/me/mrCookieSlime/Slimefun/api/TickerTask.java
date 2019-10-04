@@ -129,18 +129,17 @@ public class TickerTask implements Runnable {
 								else {
 									long timestamp3 = System.currentTimeMillis();
 									item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
-									
-									machineTimings.put(item.getID(), (machineTimings.containsKey(item.getID()) ? machineTimings.get(item.getID()): 0) + (System.currentTimeMillis() - timestamp3));
-									chunkItemCount.put(c, (chunkItemCount.containsKey(c) ? chunkItemCount.get(c): 0) + 1);
-									machineCount.put(item.getID(), (machineCount.containsKey(item.getID()) ? machineCount.get(item.getID()): 0) + 1);
+
+									machineTimings.merge(item.getID(), (System.currentTimeMillis() - timestamp3), Long::sum);
+									chunkItemCount.put(c, (chunkItemCount.getOrDefault(c, 0)) + 1);
+									machineCount.put(item.getID(), (machineCount.getOrDefault(item.getID(), 0)) + 1);
 									blockTimings.put(l, System.currentTimeMillis() - timestamp3);
 								}
 								tickers.add(item.getBlockTicker());
 							} catch (Exception x) {
-								int errors = 0;
-								if (bugged.containsKey(l)) errors = bugged.get(l);
+								int errors = bugged.getOrDefault(l, 0);
 								errors++;
-								
+
 								if (errors == 1) {
 									// Generate a new Error-Report
 									new ErrorReport(x, this, l, item);
@@ -248,7 +247,7 @@ public class TickerTask implements Runnable {
 			
 			for (Map.Entry<String, Long> entry: chunkTimings.entrySet()) {
 				if (!chunksSkipped.contains(entry.getKey())) {
-					if (entry.getValue() > 0) hover.append("\n&c" + entry.getKey().replace("CraftChunk", "") + " - " + (chunkItemCount.containsKey(entry.getKey()) ? chunkItemCount.get(entry.getKey()): 0) + "x &7(" + entry.getValue() + "ms)");
+					if (entry.getValue() > 0) hover.append("\n&c" + entry.getKey().replace("CraftChunk", "") + " - " + (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x &7(" + entry.getValue() + "ms)");
 					else hidden++;
 				}
 			}
@@ -266,7 +265,8 @@ public class TickerTask implements Runnable {
 			int hidden = 0;
 			for (Map.Entry<String, Long> entry: chunkTimings.entrySet()) {
 				if (!chunksSkipped.contains(entry.getKey())) {
-					if (entry.getValue() > 0) sender.sendMessage("  &c" + entry.getKey().replace("CraftChunk", "") + " - " + (chunkItemCount.containsKey(entry.getKey()) ? chunkItemCount.get(entry.getKey()): 0) + "x &7(" + entry.getValue() + "ms)");
+					if (entry.getValue() > 0) sender.sendMessage("  &c" + entry.getKey().replace("CraftChunk", "") + " - "
+							+ (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x &7(" + entry.getValue() + "ms)");
 					else hidden++;
 				}
 			}
@@ -275,15 +275,15 @@ public class TickerTask implements Runnable {
 	}
 	
 	public long getTimings(Block b) {
-		return blockTimings.containsKey(b.getLocation()) ? blockTimings.get(b.getLocation()): 0L;
+		return blockTimings.getOrDefault(b.getLocation(), 0L);
 	}
 	
 	public long getTimings(String item) {
-		return machineTimings.containsKey(item) ? machineTimings.get(item): 0L;
+		return machineTimings.getOrDefault(item, 0L);
 	}
 	
 	public long getTimings(Chunk c) {
-		return chunkTimings.containsKey(c.toString()) ? chunkTimings.get(c.toString()): 0L;
+		return chunkTimings.getOrDefault(c.toString(), 0L);
 	}
 
 	public void addBlockTimings(Location l, long time) {

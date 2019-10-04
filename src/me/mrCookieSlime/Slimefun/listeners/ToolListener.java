@@ -54,8 +54,8 @@ public class ToolListener implements Listener {
 		sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
 		sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
 		sensitiveMaterials.add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
-		Tag.SAPLINGS.getValues().forEach(sensitiveMaterials::add);
-		Tag.WOODEN_PRESSURE_PLATES.getValues().forEach(sensitiveMaterials::add);
+		sensitiveMaterials.addAll(Tag.SAPLINGS.getValues());
+		sensitiveMaterials.addAll(Tag.WOODEN_PRESSURE_PLATES.getValues());
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -97,11 +97,9 @@ public class ToolListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent e) {
 		ItemStack item = e.getItemInHand();
 		
-		if (utilities.cancelPlace.contains(e.getPlayer().getUniqueId())) {
+		if (utilities.cancelPlace.remove(e.getPlayer().getUniqueId()))
 			e.setCancelled(true);
-			utilities.cancelPlace.remove(e.getPlayer().getUniqueId());
-		}
-		
+
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
 
@@ -187,7 +185,7 @@ public class ToolListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent e) {
 		boolean allow = true;
 		List<ItemStack> drops = new ArrayList<>();
-		ItemStack item = e.getPlayer().getEquipment().getItemInMainHand();
+		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		int fortune = 1;
 		
 		Block block2 = e.getBlock().getRelative(BlockFace.UP);

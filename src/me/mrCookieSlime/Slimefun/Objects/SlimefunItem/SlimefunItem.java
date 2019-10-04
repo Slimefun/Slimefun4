@@ -436,8 +436,7 @@ public class SlimefunItem {
 	}
 
 	public static Set<ItemHandler> getHandlers(String codeid) {
-		if (SlimefunPlugin.getUtilities().itemHandlers.containsKey(codeid)) return SlimefunPlugin.getUtilities().itemHandlers.get(codeid);
-		else return new HashSet<>();
+		return SlimefunPlugin.getUtilities().itemHandlers.getOrDefault(codeid, new HashSet<>());
 	}
 
 	public static void setRadioactive(ItemStack item) {

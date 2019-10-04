@@ -45,7 +45,7 @@ public class BlockInfoConfig extends Config {
 
 	
 	private void checkPath(String path) {
-		if (path.contains(".")) {
+		if (path.indexOf('.') != -1) {
 			throw new UnsupportedOperationException("BlockInfoConfig only supports Map<String,String> (path: " + path + ")");
 		}
 	}

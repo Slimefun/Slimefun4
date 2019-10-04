@@ -155,30 +155,30 @@ public class CargoNet extends Network {
 
 			final Map<Integer, List<Location>> output = new HashMap<>();
 
+			Set<Location> combinedOutputNodes = outputNodes;
+			outputNodes.addAll(advancedOutputNodes);
 
-			for (Location outputNode: outputNodes) {
+			List<Location> list = new ArrayList<>();
+			int lastFrequency = -1;
+			for (Location outputNode: combinedOutputNodes) {
 				Integer frequency = getFrequency(outputNode);
-				if (!output.containsKey(frequency)) {
-					output.put(frequency, new ArrayList<Location>());
+				list.add(outputNode);
+
+				if (frequency != lastFrequency) {
+					output.merge(frequency, list, (list1, list2) -> { list1.addAll(list2); return list1; });
+					list.clear();
 				}
-				output.get(frequency).add(outputNode);
-			}
-			for (Location outputNode: advancedOutputNodes) {
-				Integer frequency = getFrequency(outputNode);
-				if (!output.containsKey(frequency)) {
-					output.put(frequency, new ArrayList<Location>());
-				}
-				output.get(frequency).add(outputNode);
+
+				lastFrequency = frequency;
 			}
 
 			//Chest Terminal Stuff
 			final Set<Location> providers = new HashSet<>();
-			final Set<Location> destinations;
-			if (output.containsKey(16)) {
-				destinations = new HashSet<>(output.get(16));
-			} else {
-				destinations = new HashSet<>();
-			}
+			final Set<Location> destinations = new HashSet<>();
+			List<Location> output16 = output.get(16);
+			if (output16 != null)
+				destinations.addAll(output16);
+
 			for (Location inputNode: inputNodes) {
 				int frequency = getFrequency(inputNode);
 				if (frequency == 16) {
