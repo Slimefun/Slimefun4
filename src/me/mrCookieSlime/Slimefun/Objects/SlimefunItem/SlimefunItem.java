@@ -14,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -42,7 +43,7 @@ public class SlimefunItem {
 	private Category category;
 	private ItemStack[] recipe;
 	private RecipeType recipeType;
-	protected ItemStack recipeOutput = null;
+	protected ItemStack recipeOutput;
 	private Research research;
 	
 	protected boolean enchantable = true;
@@ -57,82 +58,53 @@ public class SlimefunItem {
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
-	private String[] keys = null;
-	private Object[] values = null;
+	private String[] keys;
+	private Object[] values;
 	private String wiki = null;
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		this.item = item;
-		this.category = category;
-		this.id = id;
-		this.recipeType = recipeType;
-		this.recipe = recipe;
+		this(category, item, id, recipeType, recipe, null);
 	}
 
 	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		this.item = item;
-		this.category = category;
-		this.id = item.getItemID();
-		this.recipeType = recipeType;
-		this.recipe = recipe;
+		this(category, item, recipeType, recipe, null);
 	}
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		this.item = item;
-		this.category = category;
-		this.id = id;
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.recipeOutput = recipeOutput;
+		this(category, item, id, recipeType, recipe, recipeOutput, null, null);
 	}
 
 	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		this.item = item;
-		this.category = category;
-		this.id = item.getItemID();
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.recipeOutput = recipeOutput;
-	}
-
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
-		this.item = item;
-		this.category = category;
-		this.id = id;
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.recipeOutput = recipeOutput;
-		this.keys = keys;
-		this.values = values;
+		this(category, item, recipeType, recipe, recipeOutput, null, null);
 	}
 
 	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		this.item = item;
-		this.category = category;
-		this.id = item.getItemID();
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.keys = keys;
-		this.values = values;
+		this(category, item, recipeType, recipe, null, keys, values);
 	}
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		this.item = item;
-		this.category = category;
-		this.id = id;
-		this.recipeType = recipeType;
-		this.recipe = recipe;
-		this.keys = keys;
-		this.values = values;
+		this(category, item, id, recipeType, recipe, null, keys, values);
 	}
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean hidden) {
-		this.item = item;
+		this(category, item, id, recipeType, recipe);
+		this.hidden = hidden;
+	}
+
+	// Root constructors
+	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
+		this(category, item, item.getItemID(), recipeType, recipe, recipeOutput, keys, values);
+	}
+
+	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
 		this.category = category;
+		this.item = item;
 		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
-		this.hidden = hidden;
+		this.recipeOutput = recipeOutput;
+		this.keys = keys;
+		this.values = values;
 	}
 
 	/**
@@ -305,7 +277,13 @@ public class SlimefunItem {
 	}
 
 	public static SlimefunItem getByItem(ItemStack item) {
-		if (item == null) return null;		
+		if (item == null) return null;
+
+		if (item.getItemMeta() != null) {
+			String id = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
+			if (id != null) return getByID(id);
+		}
+
 		for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
 			if ((sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
 					(sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
@@ -322,6 +300,12 @@ public class SlimefunItem {
 
 	public boolean isItem(ItemStack item) {
 		if (item == null) return false;
+
+		if (item.getItemMeta() != null) {
+			String comparingId = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
+			if (comparingId != null) return getID().equals(comparingId);
+		}
+
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;

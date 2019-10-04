@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -78,6 +79,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static SlimefunPlugin instance;
 
+	private NamespacedKey itemDataKey = new NamespacedKey(this, "slimefun_item");
+	
 	private TickerTask ticker;
 	private SlimefunLocalization local;
 	private Config researches;
@@ -451,6 +454,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static SlimefunLocalization getLocal() {
 		return instance.local;
+	}
+	
+	public static NamespacedKey getItemDataKey() {
+		return instance.itemDataKey;
 	}
 
 }
