@@ -156,7 +156,7 @@ public class CargoNet extends Network {
 			final Map<Integer, List<Location>> output = new HashMap<>();
 
 			Set<Location> combinedOutputNodes = outputNodes;
-			outputNodes.addAll(advancedOutputNodes);
+			combinedOutputNodes.addAll(advancedOutputNodes);
 
 			List<Location> list = new ArrayList<>();
 			int lastFrequency = -1;
