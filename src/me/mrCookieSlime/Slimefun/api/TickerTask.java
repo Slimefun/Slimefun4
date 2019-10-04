@@ -26,8 +26,8 @@ public class TickerTask implements Runnable {
 	
 	private boolean halted = false;
 
-	final Map<Location, Location> move = new HashMap<>();
-	final Map<Location, Boolean> delete = new HashMap<>();
+	protected final Map<Location, Location> move = new HashMap<>();
+	protected final Map<Location, Boolean> delete = new HashMap<>();
 	private final Map<Location, Long> blockTimings = new HashMap<>();
 	
 	private final Set<BlockTicker> tickers = new HashSet<>();
