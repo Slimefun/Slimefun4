@@ -59,7 +59,7 @@ public class ArmorListener implements Listener {
 						&& e.getCause() == DamageCause.FALL
 					) {
 						e.setCancelled(true);
-						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 2F, 2F);
+						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 2F);
 						p.setVelocity(new Vector(0.0, 0.7, 0.0));
 						for (Entity n: p.getNearbyEntities(4, 4, 4)) {
 							if (n instanceof LivingEntity && !n.getUniqueId().equals(p.getUniqueId())) {
