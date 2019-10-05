@@ -28,7 +28,7 @@ public final class HashedArmorpiece {
 	}
 	
 	public boolean hasDiverged(ItemStack stack) {
-		return stack == null ? hash == 0: stack.hashCode() == hash;
+		return stack == null ? hash != 0: stack.hashCode() != hash;
 	}
 	
 	public Optional<SlimefunArmorPiece> getItem() {

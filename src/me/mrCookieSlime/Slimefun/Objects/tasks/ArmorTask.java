@@ -44,7 +44,7 @@ public class ArmorTask implements Runnable {
 					armorpiece.update(item == null ? 0: item.hashCode(), sfItem);
 				}
 				
-				if (armorpiece.getItem().isPresent()) {
+				if (item != null && armorpiece.getItem().isPresent()) {
 					for (PotionEffect effect: armorpiece.getItem().get().getEffects()) {
 						p.removePotionEffect(effect.getType());
 						p.addPotionEffect(effect);
