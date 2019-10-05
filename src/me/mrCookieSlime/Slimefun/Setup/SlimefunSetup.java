@@ -708,7 +708,7 @@ public final class SlimefunSetup {
 		new String[] {"charge-amount"}, new Double[] {0.1})
 		.register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.LAVA_CRYSTAL, "LAVA_CRYSTAL", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.LUMPS_AND_MAGIC, (SlimefunItemStack) SlimefunItems.LAVA_CRYSTAL, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.RUNE_FIRE, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1})
 		.register(true);
 
@@ -981,40 +981,40 @@ public final class SlimefunSetup {
 			}
 		});
 
-		new SlimefunArmorPiece(Categories.TECH, SlimefunItems.NIGHT_VISION_GOGGLES, "NIGHT_VISION_GOGGLES", RecipeType.ARMOR_FORGE,
+		new SlimefunArmorPiece(Categories.TECH, (SlimefunItemStack) SlimefunItems.NIGHT_VISION_GOGGLES, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.LIME_STAINED_GLASS_PANE), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.LIME_STAINED_GLASS_PANE), new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)},
 		new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 20)})
 		.register(true);
 
-		new PickaxeOfContainment(Categories.TOOLS, SlimefunItems.PICKAXE_OF_CONTAINMENT, "PICKAXE_OF_CONTAINMENT", RecipeType.MAGIC_WORKBENCH,
+		new PickaxeOfContainment(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.PICKAXE_OF_CONTAINMENT, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
 		.register(true);
 
-		new HerculesPickaxe(Categories.TOOLS, SlimefunItems.HERCULES_PICKAXE, "HERCULES_PICKAXE", RecipeType.MAGIC_WORKBENCH,
+		new HerculesPickaxe(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.HERCULES_PICKAXE, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
 		.register(true);
                 
 		new TableSaw().register();
 
-		new SlimefunItem(Categories.MAGIC_ARMOR, SlimefunItems.SLIME_HELMET_STEEL, "SLIME_STEEL_HELMET", RecipeType.ARMOR_FORGE,
+		new SlimefunItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SLIME_HELMET_STEEL, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MAGIC_ARMOR, SlimefunItems.SLIME_CHESTPLATE_STEEL, "SLIME_STEEL_CHESTPLATE", RecipeType.ARMOR_FORGE,
+		new SlimefunItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SLIME_CHESTPLATE_STEEL, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL)})
 		.register(true);
 
-		new SlimefunArmorPiece(Categories.MAGIC_ARMOR, SlimefunItems.SLIME_LEGGINGS_STEEL, "SLIME_STEEL_LEGGINGS", RecipeType.ARMOR_FORGE,
+		new SlimefunArmorPiece(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SLIME_LEGGINGS_STEEL, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL)},
 		new PotionEffect[] {new PotionEffect(PotionEffectType.SPEED, 300, 2)})
 		.register(true);
 
-		new SlimefunArmorPiece(Categories.MAGIC_ARMOR, SlimefunItems.SLIME_BOOTS_STEEL, "SLIME_STEEL_BOOTS", RecipeType.ARMOR_FORGE,
+		new SlimefunArmorPiece(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SLIME_BOOTS_STEEL, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL)},
 		new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)})
 		.register(true);
 
-		new SlimefunItem(Categories.WEAPONS, SlimefunItems.BLADE_OF_VAMPIRES, "BLADE_OF_VAMPIRES", RecipeType.MAGIC_WORKBENCH,
+		new SlimefunItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.BLADE_OF_VAMPIRES, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, new ItemStack(Material.WITHER_SKELETON_SKULL), null, null, new ItemStack(Material.WITHER_SKELETON_SKULL), null, null, new ItemStack(Material.BLAZE_ROD), null})
 		.register(true);
 
@@ -1147,11 +1147,11 @@ public final class SlimefunSetup {
 			}
 		});
 
-		new SlimefunItem(Categories.MISC, SlimefunItems.GOLD_24K_BLOCK, "GOLD_24K_BLOCK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.GOLD_24K_BLOCK, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K})
 		.register(true);
 
-		new Composter(Categories.MACHINES_1, SlimefunItems.COMPOSTER, "COMPOSTER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new Composter(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.COMPOSTER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), new ItemStack(Material.CAULDRON), new ItemStack(Material.OAK_SLAB)},
 		new ItemStack[] {
 				new ItemStack(Material.OAK_LEAVES, 8), new ItemStack(Material.DIRT), 
@@ -1173,47 +1173,47 @@ public final class SlimefunSetup {
 				new ItemStack(Material.WHEAT, 4), new ItemStack(Material.NETHER_WART)
 		}).register(true);
 
-		new SlimefunItem(Categories.MAGIC_ARMOR, SlimefunItems.FARMER_SHOES, "FARMER_SHOES", RecipeType.ARMOR_FORGE,
+		new SlimefunItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.FARMER_SHOES, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK), new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK)})
 		.register(true);
 		
-		new ExplosivePickaxe(Categories.TOOLS, SlimefunItems.EXPLOSIVE_PICKAXE, "EXPLOSIVE_PICKAXE", RecipeType.MAGIC_WORKBENCH,
+		new ExplosivePickaxe(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.EXPLOSIVE_PICKAXE, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.TNT), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.TNT), null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null},
 		new String[] {"unbreakable-blocks", "damage-on-use"}, new Object[] {Stream.of(Material.BEDROCK, Material.END_PORTAL_FRAME, Material.END_PORTAL, Material.NETHER_PORTAL, Material.BARRIER, Material.STRUCTURE_BLOCK, Material.COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK).map(Material::toString).collect(Collectors.toList()), Boolean.FALSE })
 		.register(true);
 
-		new ExplosiveShovel(Categories.TOOLS, SlimefunItems.EXPLOSIVE_SHOVEL, "EXPLOSIVE_SHOVEL", RecipeType.MAGIC_WORKBENCH,
+		new ExplosiveShovel(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.EXPLOSIVE_SHOVEL, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.SYNTHETIC_DIAMOND, null, null, new ItemStack(Material.TNT), null, null, SlimefunItems.FERROSILICON, null},
 		new String[] {"damage-on-use"}, new Object[] {Boolean.FALSE })
 		.register(true);
 
 		new AutomatedPanningMachine().register();
 
-		new SlimefunItem(Categories.MAGIC_ARMOR, SlimefunItems.BOOTS_OF_THE_STOMPER, "BOOTS_OF_THE_STOMPER", RecipeType.ARMOR_FORGE,
+		new SlimefunItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.BOOTS_OF_THE_STOMPER, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.YELLOW_WOOL), null, new ItemStack(Material.YELLOW_WOOL), new ItemStack(Material.PISTON), null, new ItemStack(Material.PISTON)})
 		.register(true);
 
-		new PickaxeOfTheSeeker(Categories.TOOLS, SlimefunItems.PICKAXE_OF_THE_SEEKER, "PICKAXE_OF_THE_SEEKER", RecipeType.MAGIC_WORKBENCH,
+		new PickaxeOfTheSeeker(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.PICKAXE_OF_THE_SEEKER, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.COMPASS), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.COMPASS), null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
 		.register(true);
 
-		new SlimefunBackpack(9, Categories.PORTABLE, SlimefunItems.BACKPACK_SMALL, "SMALL_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunBackpack(9, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.BACKPACK_SMALL, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.LEATHER), null, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_6K, new ItemStack(Material.CHEST), SlimefunItems.GOLD_6K, new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER)})
 		.register(true);
 
-		new SlimefunBackpack(18, Categories.PORTABLE, SlimefunItems.BACKPACK_MEDIUM, "MEDIUM_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunBackpack(18, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.BACKPACK_MEDIUM, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.LEATHER), null, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_10K, SlimefunItems.BACKPACK_SMALL, SlimefunItems.GOLD_10K, new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER)})
 		.register(true);
 
-		new SlimefunBackpack(27, Categories.PORTABLE, SlimefunItems.BACKPACK_LARGE, "LARGE_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunBackpack(27, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.BACKPACK_LARGE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.LEATHER), null, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_14K, SlimefunItems.BACKPACK_MEDIUM, SlimefunItems.GOLD_14K, new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER)})
 		.register(true);
 
-		new SlimefunBackpack(36, Categories.PORTABLE, SlimefunItems.WOVEN_BACKPACK, "WOVEN_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunBackpack(36, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.WOVEN_BACKPACK, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CLOTH, null, SlimefunItems.CLOTH, SlimefunItems.GOLD_16K, SlimefunItems.BACKPACK_LARGE, SlimefunItems.GOLD_16K, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH})
 		.register(true);
 
-		new Crucible(Categories.MACHINES_1, SlimefunItems.CRUCIBLE, "CRUCIBLE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new Crucible(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.CRUCIBLE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack [] {new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.TERRACOTTA)},
 		new ItemStack [] {
 			new ItemStack(Material.COBBLESTONE, 16), new ItemStack(Material.LAVA_BUCKET), 
@@ -1245,35 +1245,35 @@ public final class SlimefunSetup {
 		})
 		.register(true);
 
-		new SlimefunBackpack(45, Categories.PORTABLE, SlimefunItems.GILDED_BACKPACK, "GILDED_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunBackpack(45, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.GILDED_BACKPACK, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_22K, null, SlimefunItems.GOLD_22K, new ItemStack(Material.LEATHER), SlimefunItems.WOVEN_BACKPACK, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_22K, null, SlimefunItems.GOLD_22K})
 		.register(true);
 
-		new SlimefunBackpack(54, Categories.PORTABLE, SlimefunItems.RADIANT_BACKPACK, "RADIANT_BACKPACK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunBackpack(54, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.RADIANT_BACKPACK, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_24K, null, SlimefunItems.GOLD_24K, new ItemStack(Material.LEATHER), SlimefunItems.GILDED_BACKPACK, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_24K, null, SlimefunItems.GOLD_24K})
 		.register(true);
 
-		new Alloy(Categories.TECH_MISC, SlimefunItems.MAGNET, "MAGNET",
+		new Alloy(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.MAGNET,
 		new ItemStack[] {SlimefunItems.NICKEL_INGOT, SlimefunItems.ALUMINUM_DUST, SlimefunItems.IRON_DUST, SlimefunItems.COBALT_INGOT, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.INFUSED_MAGNET, "INFUSED_MAGNET", RecipeType.MAGIC_WORKBENCH,
+		new SlimefunItem(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.INFUSED_MAGNET, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ENDER_LUMP_2, SlimefunItems.MAGNET, SlimefunItems.ENDER_LUMP_2, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3})
 		.register(true);
 
-		new SlimefunItem(Categories.TOOLS, SlimefunItems.COBALT_PICKAXE, "COBALT_PICKAXE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.COBALT_PICKAXE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.COBALT_INGOT, SlimefunItems.COBALT_INGOT, SlimefunItems.COBALT_INGOT, null, SlimefunItems.NICKEL_INGOT, null, null, SlimefunItems.NICKEL_INGOT, null})
 		.register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.NECROTIC_SKULL, "NECROTIC_SKULL", RecipeType.MAGIC_WORKBENCH,
+		new SlimefunItem(Categories.LUMPS_AND_MAGIC, (SlimefunItemStack) SlimefunItems.NECROTIC_SKULL, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, null, new ItemStack(Material.WITHER_SKELETON_SKULL), null, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3})
 		.register(true);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.ESSENCE_OF_AFTERLIFE, "ESSENCE_OF_AFTERLIFE", RecipeType.ANCIENT_ALTAR,
+		new SlimefunItem(Categories.LUMPS_AND_MAGIC, (SlimefunItemStack) SlimefunItems.ESSENCE_OF_AFTERLIFE, RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_AIR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_EARTH, SlimefunItems.NECROTIC_SKULL, SlimefunItems.RUNE_FIRE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3})
 		.register(true);
 
-		new SoulboundBackpack(36, Categories.PORTABLE, SlimefunItems.BOUND_BACKPACK, "BOUND_BACKPACK",
+		new SoulboundBackpack(36, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.BOUND_BACKPACK,
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.RADIANT_BACKPACK, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2})
 		.register(true);
 
@@ -1317,51 +1317,51 @@ public final class SlimefunSetup {
 		0.45)
 		.register(true);
 
-		new SeismicAxe(Categories.WEAPONS, SlimefunItems.SEISMIC_AXE, "SEISMIC_AXE", RecipeType.MAGIC_WORKBENCH,
+		new SeismicAxe(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SEISMIC_AXE, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.STAFF_ELEMENTAL, null, null, SlimefunItems.STAFF_ELEMENTAL, null})
 		.register(true);
 
-		new PickaxeOfVeinMining(Categories.TOOLS, SlimefunItems.PICKAXE_OF_VEIN_MINING, "PICKAXE_OF_VEIN_MINING", RecipeType.MAGIC_WORKBENCH,
+		new PickaxeOfVeinMining(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.PICKAXE_OF_VEIN_MINING, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {new ItemStack(Material.EMERALD_ORE), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.EMERALD_ORE), null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
 		.register(true);
 
-		new SoulboundItem(Categories.WEAPONS, SlimefunItems.SOULBOUND_SWORD, "SOULBOUND_SWORD",
+		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_SWORD,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_SWORD), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new SoulboundItem(Categories.WEAPONS, SlimefunItems.SOULBOUND_BOW, "SOULBOUND_BOW",
+		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_BOW,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.BOW), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new SoulboundItem(Categories.TOOLS, SlimefunItems.SOULBOUND_PICKAXE, "SOULBOUND_PICKAXE",
+		new SoulboundItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_PICKAXE,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_PICKAXE), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new ExcludedSoulboundTool(Categories.TOOLS, SlimefunItems.SOULBOUND_AXE, "SOULBOUND_AXE",
+		new ExcludedSoulboundTool(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_AXE,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_AXE), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new ExcludedSoulboundTool(Categories.TOOLS, SlimefunItems.SOULBOUND_SHOVEL, "SOULBOUND_SHOVEL",
+		new ExcludedSoulboundTool(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_SHOVEL,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_SHOVEL), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new ExcludedSoulboundTool(Categories.TOOLS, SlimefunItems.SOULBOUND_HOE, "SOULBOUND_HOE",
+		new ExcludedSoulboundTool(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_HOE,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_HOE), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new SoulboundItem(Categories.MAGIC_ARMOR, SlimefunItems.SOULBOUND_HELMET, "SOULBOUND_HELMET",
+		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_HELMET,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_HELMET), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new SoulboundItem(Categories.MAGIC_ARMOR, SlimefunItems.SOULBOUND_CHESTPLATE, "SOULBOUND_CHESTPLATE",
+		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_CHESTPLATE,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_CHESTPLATE), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new SoulboundItem(Categories.MAGIC_ARMOR, SlimefunItems.SOULBOUND_LEGGINGS, "SOULBOUND_LEGGINGS",
+		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_LEGGINGS,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_LEGGINGS), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
-		new SoulboundItem(Categories.MAGIC_ARMOR, SlimefunItems.SOULBOUND_BOOTS, "SOULBOUND_BOOTS",
+		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_BOOTS,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_BOOTS), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
 
@@ -1645,7 +1645,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.ICE), new ItemStack(Material.ICE), new ItemStack(Material.ICE), SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.ICE), new ItemStack(Material.ICE), new ItemStack(Material.ICE)})
 		.register(true);
 
-		new SlimefunBackpack(27, Categories.PORTABLE, SlimefunItems.COOLER, "COOLER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunBackpack(27, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.COOLER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.COOLING_UNIT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT})
 		.register(true);
 

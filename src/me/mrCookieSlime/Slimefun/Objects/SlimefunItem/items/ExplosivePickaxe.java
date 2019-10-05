@@ -13,7 +13,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -22,23 +21,23 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.DamageableItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
 	
 	private String[] blacklist;
 	private boolean damageOnUse;
 	
-	public ExplosivePickaxe(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, id, recipeType, recipe, keys, values);
+	public ExplosivePickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+		super(category, item, recipeType, recipe, keys, values);
 	}
 	
 	@Override
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
-			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.EXPLOSIVE_PICKAXE, true)) {
+			if (isItem(item)) {
 				e.setCancelled(true);
 				e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
 				e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);

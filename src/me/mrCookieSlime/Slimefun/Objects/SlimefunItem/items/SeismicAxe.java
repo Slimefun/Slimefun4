@@ -18,24 +18,23 @@ import org.bukkit.util.Vector;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.DamageableItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SeismicAxe extends SimpleSlimefunItem<ItemInteractionHandler> implements NotPlaceable, DamageableItem {
 
-	public SeismicAxe(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public SeismicAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SEISMIC_AXE, true)) {
+			if (isItem(item)) {
 				List<Block> blocks = p.getLineOfSight(null, 10);
 				for (int i = 0; i < blocks.size(); i++) {
 					Block b = blocks.get(i);

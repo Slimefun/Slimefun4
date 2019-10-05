@@ -16,18 +16,18 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
 
-	public PickaxeOfVeinMining(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public PickaxeOfVeinMining(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 	
 	@Override
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
+			if (isItem(item)) {
 				if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
 					List<Block> blocks = Vein.find(e.getBlock(), 16, MaterialCollections.getAllOres());
 					

@@ -10,18 +10,18 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.DamageableItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemInteractionHandler> implements DamageableItem {
 
-	public PickaxeOfTheSeeker(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public PickaxeOfTheSeeker(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
+			if (isItem(item)) {
 				Block closest = null;
 
 				for (int x = -4; x <= 4; x++) {

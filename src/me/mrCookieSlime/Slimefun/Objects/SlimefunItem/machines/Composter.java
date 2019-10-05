@@ -19,11 +19,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Composter extends SlimefunGadget {
 
-	public Composter(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack[] machineRecipes) {
-		super(category, item, id, recipeType, recipe, machineRecipes);
+	public Composter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack[] machineRecipes) {
+		super(category, item, recipeType, recipe, machineRecipes);
 	}
 	
 	@Override
