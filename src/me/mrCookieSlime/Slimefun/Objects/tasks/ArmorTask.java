@@ -70,8 +70,12 @@ public class ArmorTask implements Runnable {
 				}
 			}
 			
-			if (SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) && Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) && (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850 && p.getEyeLocation().getBlock().getLightFromSky() == 15)) {
-				ItemEnergy.chargeInventory(p, Float.valueOf(String.valueOf(Slimefun.getItemValue("SOLAR_HELMET", "charge-amount"))));
+			if (SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) 
+				&& Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) 
+				&& (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) 
+				&& p.getEyeLocation().getBlock().getLightFromSky() == 15) 
+			{
+				ItemEnergy.chargeInventory(p, ((Double) Slimefun.getItemValue("SOLAR_HELMET", "charge-amount")).floatValue());
 			}
 
 			for (ItemStack radioactive: utilities.radioactiveItems) {
