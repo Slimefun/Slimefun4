@@ -36,8 +36,14 @@ public final class PlayerProfile {
 	private boolean dirty = false;
 	private boolean markedForDeletion = false;
 	
-	private Set<Research> researches = new HashSet<>();
-	private Map<Integer, BackpackInventory> backpacks = new HashMap<>();
+	private final Set<Research> researches = new HashSet<>();
+	private final Map<Integer, BackpackInventory> backpacks = new HashMap<>();
+	private final HashedArmorpiece[] armor = {
+		new HashedArmorpiece(0, null),
+		new HashedArmorpiece(0, null),
+		new HashedArmorpiece(0, null),
+		new HashedArmorpiece(0, null)
+	};
 	
 	private PlayerProfile(OfflinePlayer p) {
 		this.uuid = p.getUniqueId();
@@ -58,6 +64,10 @@ public final class PlayerProfile {
 		for (Research research: Research.list()) {
 			if (cfg.contains("researches." + research.getID())) researches.add(research);
 		}
+	}
+	
+	public HashedArmorpiece[] getArmor() {
+		return armor;
 	}
 	
 	public Config getConfig() {

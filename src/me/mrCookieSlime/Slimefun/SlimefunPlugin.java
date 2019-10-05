@@ -9,8 +9,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
@@ -26,16 +24,15 @@ import me.mrCookieSlime.Slimefun.GEO.resources.OilResource;
 import me.mrCookieSlime.Slimefun.GEO.resources.UraniumResource;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
+import me.mrCookieSlime.Slimefun.Objects.tasks.ArmorTask;
 import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunMetrics;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
@@ -44,7 +41,6 @@ import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
-import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
@@ -268,49 +264,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Armor Update Task
 			if (config.getBoolean("options.enable-armor-effects")) {
-				getServer().getScheduler().runTaskTimer(this, () -> {
-					for (Player p: Bukkit.getOnlinePlayers()) {
-						for (ItemStack armor: p.getInventory().getArmorContents()) {
-							if (armor != null && Slimefun.hasUnlocked(p, armor, true)) {
-								if (SlimefunItem.getByItem(armor) instanceof SlimefunArmorPiece) {
-									for (PotionEffect effect: ((SlimefunArmorPiece) SlimefunItem.getByItem(armor)).getEffects()) {
-										p.removePotionEffect(effect.getType());
-										p.addPotionEffect(effect);
-									}
-								}
-								if (SlimefunManager.isItemSimiliar(armor, SlimefunItem.getItem("SOLAR_HELMET"), false) && p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850 && p.getEyeLocation().getBlock().getLightFromSky() == 15) {
-									ItemEnergy.chargeInventory(p, Float.valueOf(String.valueOf(Slimefun.getItemValue("SOLAR_HELMET", "charge-amount"))));
-								}
-							}
-						}
-
-						for (ItemStack radioactive: utilities.radioactiveItems) {
-							if (p.getInventory().containsAtLeast(radioactive, 1) || SlimefunManager.isItemSimiliar(p.getInventory().getItemInOffHand(), radioactive, true)) {
-								// Check if player is wearing the hazmat suit
-								// If so, break the loop
-								if (SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
-										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
-										SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
-										SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
-									break;
-								}
-
-								// If the item is enabled in the world, then make radioactivity do its job
-								if (Slimefun.isEnabled(p, radioactive, false)) {
-									p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
-									p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
-									p.setFireTicks(400);
-									break; 
-									// Break the loop to save some calculations
-								}
-							}
-						}
-					}
-				}, 0L, config.getInt("options.armor-update-interval") * 20L);
+				getServer().getScheduler().runTaskTimer(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
 			}
 
 			ticker = new TickerTask();
