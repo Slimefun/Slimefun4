@@ -14,7 +14,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -279,10 +278,10 @@ public class SlimefunItem {
 	public static SlimefunItem getByItem(ItemStack item) {
 		if (item == null) return null;
 
-		if (item.getItemMeta() != null) {
-			String id = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
-			if (id != null) return getByID(id);
-		}
+//		if (item.getItemMeta() != null) {
+//			String id = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
+//			if (id != null) return getByID(id);
+//		}
 
 		for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
 			if ((sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
@@ -301,10 +300,10 @@ public class SlimefunItem {
 	public boolean isItem(ItemStack item) {
 		if (item == null) return false;
 
-		if (item.getItemMeta() != null) {
-			String comparingId = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
-			if (comparingId != null) return getID().equals(comparingId);
-		}
+//		if (item.getItemMeta() != null) {
+//			String comparingId = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
+//			if (comparingId != null) return getID().equals(comparingId);
+//		}
 
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;

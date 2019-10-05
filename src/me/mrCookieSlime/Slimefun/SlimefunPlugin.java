@@ -271,9 +271,11 @@ public final class SlimefunPlugin extends JavaPlugin {
 				getServer().getScheduler().runTaskTimer(this, () -> {
 					for (Player p: Bukkit.getOnlinePlayers()) {
 						for (ItemStack armor: p.getInventory().getArmorContents()) {
-							if (armor != null && Slimefun.hasUnlocked(p, armor, true)) {
-								if (SlimefunItem.getByItem(armor) instanceof SlimefunArmorPiece) {
-									for (PotionEffect effect: ((SlimefunArmorPiece) SlimefunItem.getByItem(armor)).getEffects()) {
+							SlimefunItem armorItem = SlimefunItem.getByItem(armor);
+
+							if (armorItem != null && Slimefun.hasUnlocked(p, armorItem, true)) {
+								if (armorItem instanceof SlimefunArmorPiece) {
+									for (PotionEffect effect: ((SlimefunArmorPiece) armorItem).getEffects()) {
 										p.removePotionEffect(effect.getType());
 										p.addPotionEffect(effect);
 									}
