@@ -78,6 +78,10 @@ public class MultiBlock {
 				return Tag.LOGS.isTagged(a);
 			}
 			
+			if (Tag.WOODEN_FENCES.isTagged(b)) {
+				return Tag.WOODEN_FENCES.isTagged(a);
+			}
+			
 			if (b != a) {
 				return false;
 			}
