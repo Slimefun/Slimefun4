@@ -14,7 +14,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -64,6 +63,8 @@ public abstract class ElectricDustWasher extends AContainer {
 			}
 		}
 		else {
+			ItemStack[] items = SlimefunPlugin.getUtilities().oreWasherOutputs;
+			
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
 					if (!SlimefunPlugin.getSettings().legacyDustWasher) {
@@ -78,7 +79,7 @@ public abstract class ElectricDustWasher extends AContainer {
 						if (!emptySlot) return;
 					}
 					
-					ItemStack adding = OreWasher.items[new Random().nextInt(OreWasher.items.length)];
+					ItemStack adding = items[new Random().nextInt(items.length)];
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {adding});
 					if (SlimefunPlugin.getSettings().legacyDustWasher && !fits(b, r.getOutput())) return;
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));

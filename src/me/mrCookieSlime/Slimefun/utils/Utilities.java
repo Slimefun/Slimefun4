@@ -128,6 +128,8 @@ public final class Utilities {
 	public final Map<UUID, LinkedList<Object>> guideHistory = new HashMap<>();
 	
 	public final List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
+
+	public ItemStack[] oreWasherOutputs;
 	
 	/**
 	 * Contains all the players (UUIDs) that are currently unlocking a research.

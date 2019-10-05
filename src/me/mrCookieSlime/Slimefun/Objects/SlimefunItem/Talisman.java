@@ -45,17 +45,17 @@ public class Talisman extends SlimefunItem {
     }
 
     public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
-        super(Categories.TALISMANS_1, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4 : 1));
+    	this(Categories.TALISMANS_1, item, recipe, consumable, cancelEvent, messageSuffix, chance, effects);
+    }
+
+    protected Talisman(Category category, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
+    	super(category, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4 : 1));
         
         this.consumable = consumable;
         this.cancel = cancelEvent;
         this.suffix = messageSuffix;
         this.effects = effects;
         this.chance = chance;
-    }
-
-    protected Talisman(Category category, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
-    	this(item, recipe, consumable, cancelEvent, messageSuffix, chance, effects);
     }
 
     public String getSuffix() {

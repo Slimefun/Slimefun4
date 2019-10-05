@@ -62,7 +62,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 				BlockFace.NORTH_WEST
 		};
 
-	private Set<MachineFuel> recipes = new HashSet<>();
+	private final Set<MachineFuel> recipes = new HashSet<>();
 
 	private static final int[] border = {0, 1, 2, 3, 5, 6, 7, 8, 12, 13, 14, 21, 23};
 	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
@@ -71,7 +71,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	
 	// No coolant border
 	private static final int[] border_4 = {25, 34, 43}; 
-	private static final int infoSlot = 49;
+	private static final int INFO_SLOT = 49;
 
 	public AReactor(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
@@ -109,8 +109,8 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 					
 					BlockMenu port = getAccessPort(b.getLocation());
 					if (port != null) {
-						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
-						menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
+						menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
+						menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
 							port.open(p);
 							newInstance(menu, b);
 
@@ -118,8 +118,8 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 						});
 					} 
 					else {
-						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
-						menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
+						menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
+						menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
 							newInstance(menu, b);
 							menu.open(p);
 							return false;

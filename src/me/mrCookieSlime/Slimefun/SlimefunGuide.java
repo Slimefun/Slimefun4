@@ -24,6 +24,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
@@ -54,7 +55,7 @@ public final class SlimefunGuide {
 	private SlimefunGuide() {}
 	
 	private static final int CATEGORY_SIZE = 36;
-	private static final int[] slots = new int[] {0, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
+	private static final int[] SLOTS = new int[] {0, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 	
 	@Deprecated
 	public static ItemStack getItem() {
@@ -92,11 +93,9 @@ public final class SlimefunGuide {
 				pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F)
 		);
 
-		for (int i: slots) {
+		for (int i: SLOTS) {
 			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-			menu.addMenuClickHandler(i,
-				(pl, slot, item, action) -> false
-			);
+			menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
 		}
 		
 		
@@ -214,7 +213,6 @@ public final class SlimefunGuide {
 
 			if (contributor.getCommits() > 0) {
 				double percentage = DoubleHandler.fixDouble((contributor.getCommits() * 100.0) / total, 2);
-				
 				meta.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&7Role: &r" + contributor.getJob()), ChatColor.translateAlternateColorCodes('&', "&7Contributions: &r" + contributor.getCommits() + " commits &7(&r" + percentage + "%&7)"), "", ChatColor.translateAlternateColorCodes('&', "&7\u21E8 Click to view my GitHub profile")));
 			}
 			else {
@@ -271,7 +269,6 @@ public final class SlimefunGuide {
 			int tier = 0;
 			
 			for (final Category category: Category.list()) {
-				
 				boolean locked = true;
 				
 				for (SlimefunItem item: category.getItems()) {
@@ -380,7 +377,7 @@ public final class SlimefunGuide {
 				pages.add(page);
 			}
 			
-			new CustomBookOverlay("Slimefun Guide", "mrCookieSlime", pages.toArray(new TellRawMessage[pages.size()])).open(p);
+			new CustomBookOverlay("Slimefun Guide", "TheBusyBiscuit", pages.toArray(new TellRawMessage[pages.size()])).open(p);
 		}
 		else {
 			final ChestMenu menu = new ChestMenu("Slimefun Guide");
@@ -410,10 +407,11 @@ public final class SlimefunGuide {
 					if (!survival) {
 						break;
 					}
+					
 					index = handlers.get(target - categories.size()).next(p, index, menu);
 				}
 				else {
-					final Category category = categories.get(target);
+					Category category = categories.get(target);
 					boolean locked = true;
 					
 					for (SlimefunItem item: category.getItems()) {
@@ -605,7 +603,7 @@ public final class SlimefunGuide {
 				pages.add(page);
 			}
 			
-			new CustomBookOverlay("Slimefun Guide", "mrCookieSlime", pages.toArray(new TellRawMessage[pages.size()])).open(p);
+			new CustomBookOverlay("Slimefun Guide", "TheBusyBiscuit", pages.toArray(new TellRawMessage[pages.size()])).open(p);
 		}
 		else {
 			final ChestMenu menu = new ChestMenu("Slimefun Guide");
@@ -652,6 +650,8 @@ public final class SlimefunGuide {
 				return false;
 			});
 			
+			PlayerProfile profile = PlayerProfile.get(p);
+			
 			int categoryIndex = CATEGORY_SIZE * (selected_page - 1);
 			for (int i = 0; i < CATEGORY_SIZE; i++) {
 				int target = categoryIndex + i;
@@ -659,15 +659,13 @@ public final class SlimefunGuide {
 				final SlimefunItem sfitem = category.getItems().get(target);
 				
 				if (Slimefun.isEnabled(p, sfitem, false)) {
-					if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
+					final Research research = sfitem.getResearch();
+					if (survival && research != null && !profile.hasUnlocked(research)) {
 						if (Slimefun.hasPermission(p, sfitem, false)) {
-							final Research research = sfitem.getResearch();
-						    
-							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + StringUtils.formatItemName(sfitem.getItem(), false), "&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"));
+							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"));
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 								if (!Research.isResearching(pl)) {
 									if (research.canUnlock(pl)) {
-										PlayerProfile profile = PlayerProfile.get(p);
 										
 										if (profile.hasUnlocked(research)) {
 											openCategory(p, category, true, selected_page, book);
@@ -732,9 +730,7 @@ public final class SlimefunGuide {
 		final ChestMenu menu = new ChestMenu("Slimefun Guide Search");
 
 		menu.setEmptySlotsClickable(false);
-
 		fillInv(menu, cheat);
-
 		addBackButton(menu, player, false, cheat);
 
 		searchTerm = searchTerm.toLowerCase();
@@ -745,16 +741,18 @@ public final class SlimefunGuide {
 			final String itemName = ChatColor.stripColor(item.getItem().getItemMeta().getDisplayName()).toLowerCase();
 
 			if (itemName.isEmpty()) continue;
-
 			if (index == 44) break;
 
 			if (itemName.equals(searchTerm) || itemName.contains(searchTerm)) {
 				menu.addItem(index, item.getItem());
 				menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
-					if (cheat)
+					if (cheat) {
 						pl.getInventory().addItem(itm);
-					else
+					}
+					else {
 						displayItem(pl, itm, true, false, 0);
+					}
+					
 					return false;
 				});
 
@@ -762,8 +760,9 @@ public final class SlimefunGuide {
 			}
 		}
 
-		if (addToHistory)
+		if (addToHistory) {
 			addToHistory(player, searchTerm);
+		}
 
 		menu.open(player);
 	}
@@ -933,19 +932,19 @@ public final class SlimefunGuide {
 			});
 		}
 		
-		menu.addItem(3, Slimefun.hasUnlocked(p, recipe[0], false) ? recipe[0]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[0], false), "&4&lLOCKED", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[0]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(3, getDisplayItem(p, sfItem != null, recipe[0]));
 		menu.addMenuClickHandler(3, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(4, Slimefun.hasUnlocked(p, recipe[1], false) ? recipe[1]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[1], false), "&4&lLOCKED", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[1]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(4, getDisplayItem(p, sfItem != null, recipe[1]));
 		menu.addMenuClickHandler(4, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(5, Slimefun.hasUnlocked(p, recipe[2], false) ? recipe[2]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[2], false), "&4&lLOCKED", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[2]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(5, getDisplayItem(p, sfItem != null, recipe[2]));
 		menu.addMenuClickHandler(5, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
@@ -986,19 +985,19 @@ public final class SlimefunGuide {
 		menu.addItem(10, recipeType);
 		menu.addMenuClickHandler(10, (pl, slot, itemstack, action) -> false);
 		
-		menu.addItem(12, Slimefun.hasUnlocked(p, recipe[3], false) ? recipe[3]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[3], false), "&4&lLOCKED", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[3]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(12, getDisplayItem(p, sfItem != null, recipe[3]));
 		menu.addMenuClickHandler(12, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(13, Slimefun.hasUnlocked(p, recipe[4], false) ? recipe[4]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[4], false), "&4&lLOCKED", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[4]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(13, getDisplayItem(p, sfItem != null, recipe[4]));
 		menu.addMenuClickHandler(13, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(14, Slimefun.hasUnlocked(p, recipe[5], false) ? recipe[5]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[5], false), "&4&lLOCKED", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[5]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(14, getDisplayItem(p, sfItem != null, recipe[5]));
 		menu.addMenuClickHandler(14, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
@@ -1007,19 +1006,19 @@ public final class SlimefunGuide {
 		menu.addItem(16, recipeOutput);
 		menu.addMenuClickHandler(16, (pl, slot, itemstack, action) -> false);
 		
-		menu.addItem(21, Slimefun.hasUnlocked(p, recipe[6], false) ? recipe[6]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[6], false), "&4&lLOCKED", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[6]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(21, getDisplayItem(p, sfItem != null, recipe[6]));
 		menu.addMenuClickHandler(21, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(22, Slimefun.hasUnlocked(p, recipe[7], false) ? recipe[7]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[7], false), "&4&lLOCKED", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[7]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(22, getDisplayItem(p, sfItem != null, recipe[7]));
 		menu.addMenuClickHandler(22, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(23, Slimefun.hasUnlocked(p, recipe[8], false) ? recipe[8]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[8], false), "&4&lLOCKED", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[8]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(23, getDisplayItem(p, sfItem != null, recipe[8]));
 		menu.addMenuClickHandler(23, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
@@ -1030,6 +1029,19 @@ public final class SlimefunGuide {
 		}
 		
 		menu.open(p);
+	}
+
+	private static ItemStack getDisplayItem(Player p, boolean isSlimefunRecipe, ItemStack item) {
+		if (isSlimefunRecipe) {
+			SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+			if (slimefunItem == null) return item;
+			
+			String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission";
+			return Slimefun.hasUnlocked(p, slimefunItem, false) ? item: new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&lLOCKED", "", lore);
+		}
+		else {
+			return item;
+		}
 	}
 
 	private static void handleHistory(Player pl, Object last, boolean book, boolean cheat) {

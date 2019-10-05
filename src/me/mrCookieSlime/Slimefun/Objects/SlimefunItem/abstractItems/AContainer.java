@@ -33,7 +33,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	public static Map<Block, MachineRecipe> processing = new HashMap<>();
 	public static Map<Block, Integer> progress = new HashMap<>();
 	
-	protected List<MachineRecipe> recipes = new ArrayList<>();
+	protected final List<MachineRecipe> recipes = new ArrayList<>();
 	
 	private static final int[] BORDER = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
 	private static final int[] BORDER_IN = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};

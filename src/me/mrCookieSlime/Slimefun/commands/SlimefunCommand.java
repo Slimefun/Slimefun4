@@ -122,7 +122,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 	}
 
 	public List<String> getTabArguments() {
-		return commands.stream().map(cmd -> cmd.getName()).collect(Collectors.toList());
+		return commands.stream().map(SubCommand::getName).collect(Collectors.toList());
 	}
 
 }

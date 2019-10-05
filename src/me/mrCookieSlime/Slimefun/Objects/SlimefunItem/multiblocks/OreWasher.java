@@ -19,8 +19,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class OreWasher extends MultiBlockMachine {
-	
-	public static ItemStack[] items;
 
 	public OreWasher() {
 		super(
@@ -48,6 +46,7 @@ public class OreWasher extends MultiBlockMachine {
 		Block dispBlock = b.getRelative(BlockFace.UP);
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		Inventory inv = disp.getInventory();
+		ItemStack[] items = SlimefunPlugin.getUtilities().oreWasherOutputs;
 
 		for (ItemStack current: inv.getContents()) {
 			if (current != null) {

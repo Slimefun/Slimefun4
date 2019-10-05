@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import org.bukkit.Effect;
@@ -49,7 +50,7 @@ public class Smeltery extends MultiBlockMachine {
 		List<ItemStack> items = new ArrayList<>();
 		
 		for (int i = 0; i < recipes.size() - 1; i += 2) {
-			if (Arrays.stream(recipes.get(i)).skip(1).anyMatch(item -> item != null)) {
+			if (Arrays.stream(recipes.get(i)).skip(1).anyMatch(Objects::nonNull)) {
 				continue;
 			}
 			
