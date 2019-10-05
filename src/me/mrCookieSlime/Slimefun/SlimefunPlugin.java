@@ -264,7 +264,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Armor Update Task
 			if (config.getBoolean("options.enable-armor-effects")) {
-				getServer().getScheduler().runTaskTimer(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
+				getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
 			}
 
 			ticker = new TickerTask();

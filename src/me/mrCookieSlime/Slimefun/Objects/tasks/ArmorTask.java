@@ -45,14 +45,16 @@ public class ArmorTask implements Runnable {
 				}
 				
 				if (item != null && armorpiece.getItem().isPresent()) {
-					for (PotionEffect effect: armorpiece.getItem().get().getEffects()) {
-						p.removePotionEffect(effect.getType());
-						p.addPotionEffect(effect);
-					}
+					Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> {
+						for (PotionEffect effect: armorpiece.getItem().get().getEffects()) {
+							p.removePotionEffect(effect.getType());
+							p.addPotionEffect(effect);
+						}
+					});
 				}
 			}
 			
-			if (SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, false) && Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) && (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850 && p.getEyeLocation().getBlock().getLightFromSky() == 15)) {
+			if (SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) && Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) && (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850 && p.getEyeLocation().getBlock().getLightFromSky() == 15)) {
 				ItemEnergy.chargeInventory(p, Float.valueOf(String.valueOf(Slimefun.getItemValue("SOLAR_HELMET", "charge-amount"))));
 			}
 
@@ -69,15 +71,17 @@ public class ArmorTask implements Runnable {
 
 					// If the item is enabled in the world, then make radioactivity do its job
 					if (Slimefun.isEnabled(p, radioactive, false)) {
-						p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
-						p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
-						p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
-						p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
-						p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
-						p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
-						p.setFireTicks(400);
-						break; 
-						// Break the loop to save some calculations
+						Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> {
+							p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
+							p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
+							p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
+							p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
+							p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
+							p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
+							p.setFireTicks(400);
+						});
+						
+						break;
 					}
 				}
 			}
