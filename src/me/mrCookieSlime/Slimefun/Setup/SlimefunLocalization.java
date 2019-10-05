@@ -72,6 +72,7 @@ public class SlimefunLocalization extends Localization {
 		setDefaultMessage("messages.fire-extinguish", "&7You have extinguished yourself");
 		setDefaultMessage("messages.cannot-place" ,"&cYou cannot place that block there!");
 		setDefaultMessage("messages.no-pvp" ,"&cYou cannot pvp in here!");
+		setDefaultMessage("messages.radiation" ,"&4You have been exposed to deadly radiation! &cGet rid of the radioactive item or equip the complete hazmat suit!");
 
 		setDefaultMessage("machines.pattern-not-found", "&eSorry, I could not recognize this Pattern. Please place the Items in the correct Pattern into the Dispenser.");
 		setDefaultMessage("machines.unknown-material", "&eSorry, I could not recognize the Item in my Dispenser. Please put something in that I know.");
