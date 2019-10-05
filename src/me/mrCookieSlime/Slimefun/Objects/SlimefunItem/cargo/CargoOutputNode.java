@@ -64,7 +64,7 @@ public class CargoOutputNode extends SlimefunItem {
 						);
 					}
 					else {
-						menu.replaceExistingItem(13, new CustomItem(new ItemStack(MaterialCollections.getAllWools().getAsArray()[channel]), "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(13, new CustomItem(new ItemStack(MaterialCollections.getAllWoolColors().get(channel)), "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(13,
 							(p, slot, item, action) -> false
 						);

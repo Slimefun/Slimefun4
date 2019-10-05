@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
@@ -86,8 +87,11 @@ public class Smeltery extends MultiBlockMachine {
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 					if (outputInv != null) {
 						for (ItemStack removing: inputs.get(i)) {
-							if (removing != null) inv.removeItem(removing);
+							if (removing != null) {
+								InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunManager.isItemSimiliar(stack, removing, true));
+							}
 						}
+						
 						outputInv.addItem(adding);
 						p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
 						p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);

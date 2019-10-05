@@ -143,7 +143,7 @@ public class CargoInputNode extends SlimefunItem {
 						);
 					}
 					else {
-						menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWools().getAsArray()[channel]), "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWoolColors().get(channel)), "&bChannel ID: &3" + (channel + 1)));
 						menu.addMenuClickHandler(42,
 							(p, slot, item, action) -> false
 						);
