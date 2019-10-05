@@ -1,5 +1,9 @@
 package me.mrCookieSlime.Slimefun.Objects.tasks;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +24,18 @@ import me.mrCookieSlime.Slimefun.utils.Utilities;
 public class ArmorTask implements Runnable {
 	
 	private final Utilities utilities = SlimefunPlugin.getUtilities();
+	private final Set<PotionEffect> radiationEffects;
+	
+	public ArmorTask() {
+		Set<PotionEffect> effects = new HashSet<>();
+		effects.add(new PotionEffect(PotionEffectType.WITHER, 400, 2));
+		effects.add(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
+		effects.add(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
+		effects.add(new PotionEffect(PotionEffectType.WEAKNESS, 400, 2));
+		effects.add(new PotionEffect(PotionEffectType.SLOW, 400, 1));
+		effects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
+		radiationEffects = Collections.unmodifiableSet(effects);
+	}
 
 	@Override
 	public void run() {
@@ -71,13 +87,9 @@ public class ArmorTask implements Runnable {
 
 					// If the item is enabled in the world, then make radioactivity do its job
 					if (Slimefun.isEnabled(p, radioactive, false)) {
+						SlimefunPlugin.getLocal().sendMessage(p, "messages.radiation");
 						Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> {
-							p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 400, 3));
-							p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
-							p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
-							p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 3));
-							p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
-							p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
+							p.addPotionEffects(radiationEffects);
 							p.setFireTicks(400);
 						});
 						
