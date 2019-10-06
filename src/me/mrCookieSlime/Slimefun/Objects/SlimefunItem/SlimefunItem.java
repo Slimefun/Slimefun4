@@ -279,7 +279,7 @@ public class SlimefunItem {
 	public static SlimefunItem getByItem(ItemStack item) {
 		if (item == null) return null;
 
-		if (item.getItemMeta() != null) {
+		if (item.hasItemMeta()) {
 			String id = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
 			if (id != null) return getByID(id);
 		}
@@ -301,7 +301,7 @@ public class SlimefunItem {
 	public boolean isItem(ItemStack item) {
 		if (item == null) return false;
 
-		if (item.getItemMeta() != null) {
+		if (item.hasItemMeta()) {
 			String comparingId = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
 			if (comparingId != null) return getID().equals(comparingId);
 		}
@@ -319,8 +319,7 @@ public class SlimefunItem {
 			if (recipeOutput != null) output = recipeOutput.clone();
 
 			if (recipeType.toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
-				String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase()
-					.replace(' ', '_');
+				String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
 				try {
 					EntityType entity = EntityType.valueOf(mob);
 					List<ItemStack> dropping = SlimefunPlugin.getUtilities().drops.getOrDefault(entity, new ArrayList<>());

@@ -16,13 +16,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 	
 	private String[] blacklist;
 	
-	public BlockPlacer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, id, recipeType, recipe, keys, values);
+	public BlockPlacer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+		super(category, item, recipeType, recipe, keys, values);
 	}
 	
 	@Override

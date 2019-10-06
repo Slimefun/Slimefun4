@@ -11,6 +11,7 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 	
@@ -18,8 +19,8 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 	private int efficiency;
 	private int fortune;
 	
-	public EnhancedFurnace(int speed, int efficiency, int fortune, ItemStack item, String id, ItemStack[] recipe) {
-		super(Categories.MACHINES_1, item, id, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+	public EnhancedFurnace(int speed, int efficiency, int fortune, SlimefunItemStack item, ItemStack[] recipe) {
+		super(Categories.MACHINES_1, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
 		
 		this.speed = speed - 1;
 		this.efficiency = efficiency - 1;
