@@ -277,7 +277,6 @@ public class SlimefunItem {
 	}
 
 	public static SlimefunItem getByItem(ItemStack item) {
-		System.out.println(item);
 		if (item == null) return null;
 
 		if (item.hasItemMeta()) {
