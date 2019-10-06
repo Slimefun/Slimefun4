@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.holograms;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -7,7 +8,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 public final class ReactorHologram {
 	
@@ -29,7 +29,7 @@ public final class ReactorHologram {
     }
     
     public static void update(final Location l, final String name) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 			ArmorStand hologram = getArmorStand(l, true);
 			if (!hologram.isCustomNameVisible()) hologram.setCustomNameVisible(true);
 			hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
@@ -37,7 +37,7 @@ public final class ReactorHologram {
 	}
 
     public static void remove(Location l) {
-    	Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+    	Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
             ArmorStand hologram = getArmorStand(l, false);
             if (hologram != null) hologram.remove();
 		});

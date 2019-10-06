@@ -10,7 +10,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.plugin.Plugin;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -34,18 +36,18 @@ public class CSCoreLibLoader {
 	public boolean load() {
 		if (plugin.getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) return true;
 		else {
-			System.err.println(" ");
-			System.err.println("#################### - INFO - ####################");
-			System.err.println(" ");
+			Slimefun.getLogger().log(Level.INFO, " ");
+			Slimefun.getLogger().log(Level.INFO, "#################### - INFO - ####################");
+			Slimefun.getLogger().log(Level.INFO, " ");
 			System.err.println(plugin.getName() + " 无法被加载.");
-			System.err.println("你的服务器可能没有安装前置 CS-CoreLib,");
-			System.err.println("我们正在自动为你下载.");
-			System.err.println("在下载完成后, 请重启服务器以安装前置插件");
-			System.err.println("如果无法自动下载, 你可以打开这个链接尝试重新下载:");
-			System.err.println("https://dev.bukkit.org/projects/cs-corelib");
-			System.err.println(" ");
-			System.err.println("#################### - INFO - ####################");
-			System.err.println(" ");
+			Slimefun.getLogger().log(Level.INFO, "你的服务器可能没有安装前置 CS-CoreLib,");
+			Slimefun.getLogger().log(Level.INFO, "我们正在自动为你下载.");
+			Slimefun.getLogger().log(Level.INFO, "在下载完成后, 请重启服务器以安装前置插件");
+			Slimefun.getLogger().log(Level.INFO, "如果无法自动下载, 你可以打开这个链接尝试重新下载:");
+			Slimefun.getLogger().log(Level.INFO, "https://dev.bukkit.org/projects/cs-corelib");
+			Slimefun.getLogger().log(Level.INFO, " ");
+			Slimefun.getLogger().log(Level.INFO, "#################### - INFO - ####################");
+			Slimefun.getLogger().log(Level.INFO, " ");
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
 				if (connect()) install();
 			}, 10L);
@@ -69,15 +71,15 @@ public class CSCoreLibLoader {
             
             return true;
         } catch (IOException e) {
-        	System.err.println(" ");
-        	System.err.println("#################### - WARNING - ####################");
-			System.err.println(" ");
-			System.err.println("无法连接至 BukkitDev.");
-			System.err.println("请手动下载并安装 CS-CoreLib:");
-			System.err.println("https://dev.bukkit.org/projects/cs-corelib");
-			System.err.println(" ");
-			System.err.println("#################### - WARNING - ####################");
-			System.err.println(" ");
+        	Slimefun.getLogger().log(Level.INFO, " ");
+        	Slimefun.getLogger().log(Level.INFO, "#################### - WARNING - ####################");
+			Slimefun.getLogger().log(Level.INFO, " ");
+			Slimefun.getLogger().log(Level.INFO, "无法连接至 BukkitDev.");
+			Slimefun.getLogger().log(Level.INFO, "请手动下载并安装 CS-CoreLib:");
+			Slimefun.getLogger().log(Level.INFO, "https://dev.bukkit.org/projects/cs-corelib");
+			Slimefun.getLogger().log(Level.INFO, " ");
+			Slimefun.getLogger().log(Level.INFO, "#################### - WARNING - ####################");
+			Slimefun.getLogger().log(Level.INFO, " ");
             return false;
         }
     }
@@ -119,28 +121,28 @@ public class CSCoreLibLoader {
                 output.write(data, 0, read);
             }
         } catch (Exception ex) {
-        	System.err.println(" ");
-        	System.err.println("#################### - WARNING - ####################");
-			System.err.println(" ");
-            System.err.println("无法连接至 BukkitDev.");
-            System.err.println("请手动下载并安装 CS-CoreLib:");
-			System.err.println("https://dev.bukkit.org/projects/cs-corelib");
-			System.err.println(" ");
-			System.err.println("#################### - WARNING - ####################");
-			System.err.println(" ");
+        	Slimefun.getLogger().log(Level.INFO, " ");
+        	Slimefun.getLogger().log(Level.INFO, "#################### - WARNING - ####################");
+			Slimefun.getLogger().log(Level.INFO, " ");
+            Slimefun.getLogger().log(Level.INFO, "无法连接至 BukkitDev.");
+            Slimefun.getLogger().log(Level.INFO, "请手动下载并安装 CS-CoreLib:");
+			Slimefun.getLogger().log(Level.INFO, "https://dev.bukkit.org/projects/cs-corelib");
+			Slimefun.getLogger().log(Level.INFO, " ");
+			Slimefun.getLogger().log(Level.INFO, "#################### - WARNING - ####################");
+			Slimefun.getLogger().log(Level.INFO, " ");
         } finally {
             try {
                 if (input != null) input.close();
                 if (output != null) output.close();
-                System.err.println(" ");
-                System.err.println("####################### - INFO - #######################");
-                System.err.println(" ");
-                System.err.println("请重启服务器完成 " + plugin.getName() + " 和 CS-CoreLib 的安装");
-                System.err.println(" ");
-                System.err.println("####################### - INFO - #######################");
-                System.err.println(" ");
-            } catch (IOException e) {
-            	e.printStackTrace();
+                Slimefun.getLogger().log(Level.INFO, " ");
+                Slimefun.getLogger().log(Level.INFO, "####################### - INFO - #######################");
+                Slimefun.getLogger().log(Level.INFO, " ");
+                Slimefun.getLogger().log(Level.INFO, "请重启服务器完成 " + plugin.getName() + " 和 CS-CoreLib 的安装");
+                Slimefun.getLogger().log(Level.INFO, " ");
+                Slimefun.getLogger().log(Level.INFO, "####################### - INFO - #######################");
+                Slimefun.getLogger().log(Level.INFO, " ");
+            } catch (IOException x) {
+                Slimefun.getLogger().log(Level.SEVERE, "An Error occured while closing the Download Stream for CS-CoreLib", x);
             } 
         }
 	}

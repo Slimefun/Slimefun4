@@ -11,8 +11,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 
-public class ItemEnergy {
-	
+public final class ItemEnergy {
+
+    private ItemEnergy() {}
+
 //	"&c&o&8\u21E8 &e\u26A1 &70 / 50 J"
 	
 	public static float getStoredEnergy(ItemStack item) {

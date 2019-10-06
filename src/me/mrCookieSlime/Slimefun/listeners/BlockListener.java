@@ -1,18 +1,9 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Block.BlockAdjacents;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Events.MultiBlockInteractEvent;
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,9 +20,17 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Block.BlockAdjacents;
+import me.mrCookieSlime.Slimefun.Events.MultiBlockInteractEvent;
+import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
 public class BlockListener implements Listener {
 
-    public BlockListener(SlimefunStartup plugin) {
+    public BlockListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -49,11 +48,9 @@ public class BlockListener implements Listener {
     @EventHandler
     public void onPistonExtend(BlockPistonExtendEvent e) {
         for (Block b : e.getBlocks()) {
-            if (BlockStorage.hasBlockInfo(b)) {
-                e.setCancelled(true);
-                return;
-            }
-            else if (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+            if (BlockStorage.hasBlockInfo(b) ||
+                    b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+
                 e.setCancelled(true);
                 return;
             }
@@ -64,11 +61,9 @@ public class BlockListener implements Listener {
     public void onPistonRetract(BlockPistonRetractEvent e) {
         if (e.isSticky()) {
             for (Block b : e.getBlocks()) {
-                if (BlockStorage.hasBlockInfo(b)) {
-                    e.setCancelled(true);
-                    return;
-                }
-                else if (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+                if (BlockStorage.hasBlockInfo(b) ||
+                        b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+
                     e.setCancelled(true);
                     return;
                 }
@@ -139,6 +134,7 @@ public class BlockListener implements Listener {
 
             if (!multiblocks.isEmpty()) {
                 e.setCancelled(true);
+
                 for (ItemHandler handler: SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
                     if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblocks.get(multiblocks.size() - 1), b)) continue;
                 }

@@ -78,10 +78,6 @@ public abstract class ADrill extends AContainer {
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
 			public boolean canOpen(Block b, Player p) {
 				if (!(p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true))) {
 					return false;
@@ -115,18 +111,7 @@ public abstract class ADrill extends AContainer {
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
-				ItemStack item = getProgressBar().clone();
-				ItemMeta im = item.getItemMeta();
-				((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(b).getTicks()));
-				im.setDisplayName(" ");
-				List<String> lore = new ArrayList<String>();
-				lore.add(MachineHelper.getProgress(timeleft, processing.get(b).getTicks()));
-				lore.add("");
-				lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-				im.setLore(lore);
-				item.setItemMeta(im);
-				
-				BlockStorage.getInventory(b).replaceExistingItem(22, item);
+                MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());

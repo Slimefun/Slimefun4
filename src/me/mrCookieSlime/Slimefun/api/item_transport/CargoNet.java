@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,7 +26,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -85,28 +86,28 @@ public class CargoNet extends Network {
 		return RANGE;
 	}
 
-	public Network.Component classifyLocation(Location l) {
+	public NetworkComponent classifyLocation(Location l) {
 		String id = BlockStorage.checkID(l);
 		if (id == null) return null;
 		switch(id) {
 			case "CARGO_MANAGER":
-				return Component.REGULATOR;
+				return NetworkComponent.REGULATOR;
 			case "CARGO_NODE":
-				return Component.CONNECTOR;
+				return NetworkComponent.CONNECTOR;
 			case "CARGO_NODE_INPUT":
 			case "CARGO_NODE_OUTPUT":
 			case "CARGO_NODE_OUTPUT_ADVANCED":
 			case "CT_IMPORT_BUS":
 			case "CT_EXPORT_BUS":
 			case "CHEST_TERMINAL":
-				return Component.TERMINUS;
+				return NetworkComponent.TERMINUS;
 			default:
 				return null;
 		}
 	}
 
-	public void locationClassificationChange(Location l, Component from, Component to) {
-		if (from == Component.TERMINUS) {
+	public void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+		if (from == NetworkComponent.TERMINUS) {
 			inputNodes.remove(l);
 			outputNodes.remove(l);
 			advancedOutputNodes.remove(l);
@@ -114,7 +115,7 @@ public class CargoNet extends Network {
 			imports.remove(l);
 			exports.remove(l);
 		}
-		if (to == Component.TERMINUS) {
+		if (to == NetworkComponent.TERMINUS) {
 			switch(BlockStorage.checkID(l)) {
 				case "CARGO_NODE_INPUT":
 					inputNodes.add(l);
@@ -186,7 +187,7 @@ public class CargoNet extends Network {
 
 			CargoNet self = this;
 			final BlockStorage storage = BlockStorage.getStorage(b.getWorld());
-			SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+			SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 				if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
 					self.display();
 				}

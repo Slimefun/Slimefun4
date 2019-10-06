@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
@@ -17,7 +17,7 @@ import org.bukkit.event.block.BlockDispenseEvent;
 
 public class AutonomousToolsListener implements Listener {
 	
-	public AutonomousToolsListener(SlimefunStartup plugin) {
+	public AutonomousToolsListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	

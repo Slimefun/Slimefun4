@@ -1,17 +1,15 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
@@ -46,7 +44,7 @@ public class Composter extends SlimefunGadget {
 
                                 for (int i = 1; i < 12; i++) {
                                     int j = i;
-                                    Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+                                    Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
                                         if (j < 11) {
                                             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType().isBlock() ? input.getType() : Material.HAY_BLOCK);
                                         }

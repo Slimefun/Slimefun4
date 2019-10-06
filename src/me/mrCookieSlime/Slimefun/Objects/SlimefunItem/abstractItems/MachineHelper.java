@@ -1,10 +1,17 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
-public class MachineHelper {
-	
+import java.util.ArrayList;
+import java.util.List;
+
+public final class MachineHelper {
+	private MachineHelper() {}
+
 	public static String getTimeLeft(int l) {
 		String timeleft = "";
         final int minutes = (int) (l / 60L);
@@ -78,4 +85,18 @@ public class MachineHelper {
 		return (short) ((item.getType().getMaxDurability() / max) * timeleft);
 	}
 
+    public static void updateProgressbar(BlockMenu menu, int slot, int timeleft, int time, ItemStack indicator) {
+        ItemStack item = indicator.clone();
+        ItemMeta im = item.getItemMeta();
+        ((Damageable) im).setDamage(getDurability(item, timeleft, time));
+        im.setDisplayName(" ");
+        List<String> lore = new ArrayList<>();
+        lore.add(getProgress(timeleft, time));
+        lore.add("");
+        lore.add(getTimeLeft(timeleft / 2));
+        im.setLore(lore);
+        item.setItemMeta(im);
+
+        menu.replaceExistingItem(22, item);
+    }
 }

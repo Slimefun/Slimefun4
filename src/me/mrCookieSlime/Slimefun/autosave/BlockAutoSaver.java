@@ -2,11 +2,13 @@ package me.mrCookieSlime.Slimefun.autosave;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class BlockAutoSaver implements Runnable {
@@ -27,7 +29,7 @@ public class BlockAutoSaver implements Runnable {
 		}
 		
 		if (!worlds.isEmpty()) {
-			System.out.println("[Slimefun] 正在自动保存数据... (下一次自动保存将在 " + SlimefunStartup.getCfg().getInt("options.auto-save-delay-in-minutes") + "分钟后)");
+            Slimefun.getLogger().log(Level.INFO, "正在自动保存数据... (下一次自动保存将在 " + SlimefunPlugin.getCfg().getInt("options.auto-save-delay-in-minutes") + "分钟后)");
 			
 			for (BlockStorage storage: worlds) {
 				storage.save(false);

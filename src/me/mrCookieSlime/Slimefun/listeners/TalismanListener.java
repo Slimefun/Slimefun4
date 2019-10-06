@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -31,7 +32,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -41,7 +41,7 @@ public class TalismanListener implements Listener {
 
     private Random random = new Random();
 
-    public TalismanListener(SlimefunStartup plugin) {
+    public TalismanListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -97,7 +97,7 @@ public class TalismanListener implements Listener {
             item.setItemMeta(meta);
 
             final int itemSlot = slot;
-            SlimefunStartup.instance.getServer().getScheduler().runTaskLater(SlimefunStartup.instance, () -> inv.setItem(itemSlot, item), 1L);
+            SlimefunPlugin.instance.getServer().getScheduler().runTaskLater(SlimefunPlugin.instance, () -> inv.setItem(itemSlot, item), 1L);
         }
     }
 

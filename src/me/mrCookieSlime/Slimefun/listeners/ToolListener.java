@@ -20,7 +20,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
@@ -42,9 +42,9 @@ public class ToolListener implements Listener {
     private Random random = new Random();
     private Utilities utilities;
 
-    public ToolListener(SlimefunStartup plugin) {
+    public ToolListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        utilities = plugin.getUtilities();
+        utilities = SlimefunPlugin.getUtilities();
 
         sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
         sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
@@ -66,8 +66,8 @@ public class ToolListener implements Listener {
         if (sfItem != null && !sfItem.isDisabled() && !(sfItem instanceof NotPlaceable)) {
             BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
 
-            if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
-                SlimefunItem.blockhandler.get(sfItem.getID()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
+            if (utilities.blockHandlers.containsKey(sfItem.getID())) {
+                utilities.blockHandlers.get(sfItem.getID()).onPlace(e.getPlayer(), e.getBlock(), sfItem);
             }
             else {
                 for (ItemHandler handler : SlimefunItem.getHandlers("BlockPlaceHandler")) {
@@ -181,8 +181,8 @@ public class ToolListener implements Listener {
             SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
 
             if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-                if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
-                    allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
+                if (utilities.blockHandlers.containsKey(sfItem.getID())) {
+                    allow = utilities.blockHandlers.get(sfItem.getID()).onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
                 }
                 if (allow) {
                     block2.getWorld().dropItemNaturally(block2.getLocation(), BlockStorage.retrieve(block2));
@@ -198,8 +198,8 @@ public class ToolListener implements Listener {
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
         if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-            if (SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
-                allow = SlimefunItem.blockhandler.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+            if (utilities.blockHandlers.containsKey(sfItem.getID())) {
+                allow = utilities.blockHandlers.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
             }
             else {
                 // Walk over all registered block break handlers until one says that it'll handle it.
@@ -249,8 +249,8 @@ public class ToolListener implements Listener {
                 blocks.remove();
                 if (!item.getID().equalsIgnoreCase("HARDENED_GLASS") && !item.getID().equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !item.getID().equalsIgnoreCase("WITHER_PROOF_GLASS") && !item.getID().equalsIgnoreCase("FORCEFIELD_PROJECTOR") && !item.getID().equalsIgnoreCase("FORCEFIELD_RELAY")) {
                     boolean success = true;
-                    if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-                        success = SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.EXPLODE);
+                    if (utilities.blockHandlers.containsKey(item.getID())) {
+                        success = utilities.blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.EXPLODE);
                     }
                     if (success) {
                         BlockStorage.clearBlockInfo(block);

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 import org.bukkit.Effect;
@@ -33,7 +33,7 @@ public class RitualAnimation implements Runnable {
     private boolean running;
     private int stage;
 
-    private Utilities utilities = SlimefunStartup.instance.getUtilities();
+    private Utilities utilities = SlimefunPlugin.instance.getUtilities();
 
     public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
         this.l = drop;
@@ -72,7 +72,7 @@ public class RitualAnimation implements Runnable {
         }
 
         this.stage += 1;
-        SlimefunStartup.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, this, 8);
+        SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, this, 8);
     }
 
     private boolean checkLockedItems() {
@@ -120,7 +120,7 @@ public class RitualAnimation implements Runnable {
             itemLock.remove(item);
             item.remove();
 
-            pedestal.removeMetadata("item_placed", SlimefunStartup.instance);
+            pedestal.removeMetadata("item_placed", SlimefunPlugin.instance);
         }
     }
 

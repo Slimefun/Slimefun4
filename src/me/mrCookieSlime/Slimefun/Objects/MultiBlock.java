@@ -10,68 +10,66 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import org.bukkit.Material;
 
 public class MultiBlock {
-	
-	public static List<MultiBlock> list = new ArrayList<MultiBlock>();
-	
-	private Material[] blocks;
-	private Material trigger;
-	
-	public MultiBlock(Material[] build, Material trigger) {
-		this.blocks = build;
-		this.trigger = trigger;
-	}
-	
-	public Material[] getBuild() {
-		return this.blocks;
-	}
-	
-	public Material getTriggerBlock() {
-		return this.trigger;
-	}
-	
-	public void register() {
-		list.add(this);
-	}
-	
-	public static List<MultiBlock> list() {
-		return list;
-	}
-	
-	public boolean isMultiBlock(SlimefunItem machine) {
-		if (machine == null) return false;
-		else if (!(machine instanceof SlimefunMachine)) return false;
-		else if (machine instanceof SlimefunMachine) {
-			MultiBlock mb = ((SlimefunMachine) machine).toMultiBlock();
-			if (trigger == mb.getTriggerBlock()) {
-				for (int i = 0; i < mb.getBuild().length; i++) {
-					if (mb.getBuild()[i] != null) {
-						if (MaterialHelper.isLog( mb.getBuild()[i])) {
-							if (!MaterialHelper.isLog(blocks[i])) return false;
-						}
-						else if (mb.getBuild()[i] != blocks[i]) return false;
-					}
-				}
-				return true;
-			}
-			else return false;
-		}
-		else return false;
-	}
-	
-	public boolean isMultiBlock(MultiBlock mb) {
-		if (mb == null) return false;
-		else if (trigger == mb.getTriggerBlock()) {
-			for (int i = 0; i < mb.getBuild().length; i++) {
-				if (mb.getBuild()[i] != null) {
-					if (MaterialHelper.isLog(mb.getBuild()[i])) {
-						if (!MaterialHelper.isLog(blocks[i])) return false;
-					}
-					else if (mb.getBuild()[i] != blocks[i]) return false;
-				}
-			}
-			return true;
-		}
-		else return false;
-	}
+
+    public static List<MultiBlock> list = new ArrayList<>();
+
+    private Material[] blocks;
+    private Material trigger;
+
+    public MultiBlock(Material[] build, Material trigger) {
+        this.blocks = build;
+        this.trigger = trigger;
+    }
+
+    public Material[] getBuild() {
+        return this.blocks;
+    }
+
+    public Material getTriggerBlock() {
+        return this.trigger;
+    }
+
+    public void register() {
+        list.add(this);
+    }
+
+    public static List<MultiBlock> list() {
+        return list;
+    }
+
+    public boolean isMultiBlock(SlimefunItem machine) {
+        if (machine instanceof SlimefunMachine) {
+            return isMultiBlock(((SlimefunMachine) machine).toMultiBlock());
+        }
+        else return false;
+    }
+
+    public boolean isMultiBlock(MultiBlock mb) {
+        if (mb == null) return false;
+
+        if (trigger == mb.getTriggerBlock()) {
+            for (int i = 0; i < mb.getBuild().length; i++) {
+                if (!compareBlocks(blocks[i], mb.getBuild()[i])) return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean compareBlocks(Material a, Material b) {
+        if (b != null) {
+            if (MaterialHelper.isLog(b)) {
+                return MaterialHelper.isLog(a);
+            }
+
+            if (b != a) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 }

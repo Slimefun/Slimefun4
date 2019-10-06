@@ -60,10 +60,6 @@ public abstract class AGenerator extends SlimefunItem {
 			}
 
 			@Override
-			public void newInstance(BlockMenu menu, Block b) {
-			}
-
-			@Override
 			public boolean canOpen(Block b, Player p) {
 				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
 			}
@@ -169,18 +165,7 @@ public abstract class AGenerator extends SlimefunItem {
 				if (isProcessing(l)) {
 					int timeleft = progress.get(l);
 					if (timeleft > 0) {
-						ItemStack item = getProgressBar().clone();
-						ItemMeta im = item.getItemMeta();
-						((Damageable) im).setDamage(MachineHelper.getDurability(item, timeleft, processing.get(l).getTicks()));
-						im.setDisplayName(" ");
-						List<String> lore = new ArrayList<>();
-						lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
-						lore.add("");
-						lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-						im.setLore(lore);
-						item.setItemMeta(im);
-						
-						BlockStorage.getInventory(l).replaceExistingItem(22, item);
+                        MachineHelper.updateProgressbar(BlockStorage.getInventory(l), 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 						
 						if (ChargableBlock.isChargable(l)) {
 							if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction()) {

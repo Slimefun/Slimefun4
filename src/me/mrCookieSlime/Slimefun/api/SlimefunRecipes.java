@@ -5,7 +5,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
 import org.bukkit.inventory.ItemStack;
 
-public class SlimefunRecipes {
+public final class SlimefunRecipes {
+    private SlimefunRecipes() {}
 
 	public static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
 		for (SlimefunItem item: SlimefunItem.all) {

@@ -3,8 +3,10 @@ package me.mrCookieSlime.Slimefun.Setup;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Stream;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.utils.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.Colors;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Misc.PostSlimefunLoadingHandler;
@@ -26,7 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCraftingChamber;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutomatedCraftingChamber;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 
@@ -55,11 +56,11 @@ public final class MiscSetup {
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
 			if (item == null) {
-				System.err.println("[Slimefun] 已移除有问题的物品 ('NULL?')");
+                Slimefun.getLogger().log(Level.WARNING, "[Slimefun] 已移除有问题的物品 ('NULL?')");
 				iterator.remove();
 			}
 			else if (item.getItem() == null) {
-				System.err.println("[Slimefun] 已移除有问题的物品 ('" + item.getID() + "')");
+                Slimefun.getLogger().log(Level.WARNING, "[Slimefun] 已移除有问题的物品 ('" + item.getID() + "')");
 				iterator.remove();
 			}
 		}
@@ -161,7 +162,7 @@ public final class MiscSetup {
         Stream<ItemStack[]> stream = grinderRecipes.stream();
 
 
-        if (!settings.ORE_GRINDER_LEGACY) {
+        if (!settings.legacyOreGrinder) {
             stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
         }
 
@@ -210,16 +211,16 @@ public final class MiscSetup {
 		
 		sender.sendMessage(color + "###################### - Slimefun - ######################");
 		sender.sendMessage(color + "成功载入了 " + SlimefunItem.list().size() + " 个物品 (" + Research.list().size() + " 个研究)");
-		sender.sendMessage(color + "( " + SlimefunStartup.instance.getUtilities().vanillaItems + " 个物品来自 Slimefun, " + (SlimefunItem.list().size() - SlimefunStartup.instance.getUtilities().vanillaItems) + " 个物品来自扩展 )");
+		sender.sendMessage(color + "( " + SlimefunPlugin.instance.getUtilities().vanillaItems + " 个物品来自 Slimefun, " + (SlimefunItem.list().size() - SlimefunPlugin.instance.getUtilities().vanillaItems) + " 个物品来自扩展 )");
 		sender.sendMessage(color + "##########################################################");
-		SlimefunStartup.getItemCfg().save();
-		SlimefunStartup.getResearchCfg().save();
-		SlimefunStartup.getWhitelist().save();
+		SlimefunPlugin.getItemCfg().save();
+		SlimefunPlugin.getResearchCfg().save();
+		SlimefunPlugin.getWhitelist().save();
 	}
 
 	public static void setupItemSettings() {
 		for (World world: Bukkit.getWorlds()) {
-			SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
+			SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
 		}
 		Slimefun.setItemVariable("ORE_CRUSHER", "double-ores", true);
 

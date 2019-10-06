@@ -3,12 +3,12 @@
 # 选项中设为 true 以启用, false 以关闭 
 options:
   # 自动更新
-  auto-update: false
+  auto-update: true
   # 装备状态更新周期
   armor-update-interval: 10
   # 是否在玩家第一次进入服务器时自动赠送粘液科技指南? 
   give-guide-on-first-join: true
-  # 是否在控制台完全输出加载过程的日志 (?)
+  # 是否在控制台输出插件加载过程的日志
   print-out-loading: false
   # 是否在控制台完全输出与 Github 的数据检索过程
   print-out-github-data-retrieving: false
@@ -32,6 +32,7 @@ options:
   legacy-ore-washer: false
   # 是否使用除尘机旧的工作方式
   legacy-dust-washer: false
+  # 是否使用碎矿机旧的工作方式
   legacy-ore-grinder: false
 guide:
   # 是否默认使用书与笔进行GUI的展示

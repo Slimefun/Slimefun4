@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Lists.Categories;
@@ -76,10 +77,10 @@ public class Category {
         Collections.sort(list, new CategorySorter());
 
         if (this instanceof SeasonalCategory) {
-            if (((SeasonalCategory) this).isUnlocked()) Slimefun.currentCategories.add(this);
+            if (((SeasonalCategory) this).isUnlocked()) SlimefunPlugin.getUtilities().currentlyEnabledCategories.add(this);
         }
-        else Slimefun.currentCategories.add(this);
-        Collections.sort(Slimefun.currentCategories, new CategorySorter());
+        else SlimefunPlugin.getUtilities().currentlyEnabledCategories.add(this);
+        Collections.sort(SlimefunPlugin.getUtilities().currentlyEnabledCategories, new CategorySorter());
     }
 
     /**

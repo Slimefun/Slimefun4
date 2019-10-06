@@ -10,10 +10,6 @@ public final class Messages {
 	
 	public static void setup() {
         local.setPrefix("&aSlimefun &7> ");
-        local.setDefault("messages.not-researched",   "&4你没有足够的学识来理解它" );
-        local.setDefault("messages.not-enough-xp",   "&4你没有足够的经验来解锁这个研究" );
-        local.setDefault("messages.unlocked",   "&b你已解锁了 &7\"%research%\"" );
-        local.setDefault("messages.fortune-cookie",   "&7救救我! 我被困在了幸运饼干工厂里!", "&7你明天将会死于...     苦力怕的手下!", "&7在你人生的某时某刻将会有坏事发生!!!", "&7下周你将会发现你不是在现实世界, 而是在游戏里.", "&7这块曲奇将在几秒内变得好吃", "&你很快将会死亡而且你最后听到的词将会是 \"毁灭!!!\"", "&7无论你要做什么, 不要拥抱苦力怕... 我试过了. 感觉不错, 但不值得." );
         local.setDefault("commands.help",   "展示这个帮助界面" );
         local.setDefault("commands.cheat",   "允许你通过作弊获取粘液科技物品" );
         local.setDefault("commands.give",   "给某人粘液科技物品" );
@@ -23,6 +19,9 @@ public final class Messages {
         local.setDefault("commands.teleporter",   "看看其他玩家的路径点" );
         local.setDefault("commands.versions",   "显示粘液科技的版本号" );
         local.setDefault("commands.open_guide",   "不用粘液科技指南书就能打开指南" );
+        local.setDefault("commands.research.reset",   "&c你已重置了 %player% 的所有研究" );
+        local.setDefault("commands.research.reset-target",   "&c你的所有研究已被重置" );
+        local.setDefault("commands.stats",   "展示一个玩家的统计表" );
 
         local.setDefault("messages.only-players",   "&4这个指令只能在游戏内使用" );
         local.setDefault("messages.no-permission",   "&4你没有足够的权限去做这个" );
@@ -58,22 +57,13 @@ public final class Messages {
         local.setDefault("messages.disabled-item",   "&4&l这个物品已被禁用了! 你是怎么得到它的?" );
         local.setDefault("messages.research.start",   "&7古老的灵魂正向你诉说神秘的话语!" );
         local.setDefault("messages.research.progress",   "&7你开始慢慢理解 &b%research% &e(%progress%)" );
-        local.setDefault("commands.stats",   "展示一个玩家的统计表" );
         local.setDefault("messages.fire-extinguish",   "&7你灭掉了你身上的火" );
-        local.setDefault("machines.pattern-not-found",   "&e抱歉, 你记错合成表了吧. 这不是一个正确的合成方式." );
-        local.setDefault("machines.unknown-material",   "&e抱歉, 我无法识别你摆放的合成表. 请使用正确的合成表!" );
-        local.setDefault("machines.wrong-item",   "&e抱歉, 我无法识别你右键的物品. 检查合成表看看哪些物品可以使用." );
-        local.setDefault("machines.full-inventory",   "&e抱歉, 我的背包已经满了!" );
-        local.setDefault("miner.no-ores",   "&e抱歉, 周围找不到矿石了!" );
-        local.setDefault("backpack.already-open",   "&c抱歉, 这个背包已在别处打开了!" );
-        local.setDefault("backpack.no-stack",   "&c你不能将背包堆积起来" );
-        local.setDefault("workbench.not-enhanced",   "&4你不能在原版工作台使用粘液科技物品" );
-        local.setDefault("anvil.not-working",   "&4你不能在铁砧里使用粘液科技物品" );
-        local.setDefault("commands.research.reset",   "&c你已重置了 %player% 的所有研究" );
-        local.setDefault("commands.research.reset-target",   "&c你的所有研究已被重置" );
-        local.setDefault("machines.in-use",   "&c这个机器正在被其他玩家使用." );
-		local.setDefault("machines.ignition-chamber-no-flint", "&c自动点火机缺少打火石.");
+        local.setDefault("messages.not-researched",   "&4你没有足够的学识来理解它" );
+        local.setDefault("messages.not-enough-xp",   "&4你没有足够的经验来解锁这个研究" );
+        local.setDefault("messages.unlocked",   "&b你已解锁了 &7\"%research%\"" );
+        local.setDefault("messages.fortune-cookie",   "&7救救我! 我被困在了幸运饼干工厂里!", "&7你明天将会死于...     苦力怕的手下!", "&7在你人生的某时某刻将会有坏事发生!!!", "&7下周你将会发现你不是在现实世界, 而是在游戏里.", "&7这块曲奇将在几秒内变得好吃", "&你很快将会死亡而且你最后听到的词将会是 \"毁灭!!!\"", "&7无论你要做什么, 不要拥抱苦力怕... 我试过了. 感觉不错, 但不值得." );
     	local.setDefault("messages.cannot-place","&c你不能在这里放置方块!");
+        local.setDefault("messages.no-pvp" ,"&c你不能在这里 PVP!");
 
         local.setDefault("gps.waypoint.new",   "&e请为你的路径点起名 &7(支持彩色代码!)" );
         local.setDefault("gps.waypoint.added",   "&a成功新增了新的路径点" );
@@ -83,8 +73,13 @@ public final class Messages {
 
         local.setDefault("robot.started",   "&7你的机器人重新运行了它的脚本" );
         local.setDefault("robot.stopped",   "&7你的机器人暂停了它的脚本" );
-        local.setDefault("inventory.no-access",   "&4你不允许使用这个方块" );
 
+        local.setDefault("machines.pattern-not-found",   "&e抱歉, 你记错合成表了吧. 这不是一个正确的合成方式." );
+        local.setDefault("machines.unknown-material",   "&e抱歉, 我无法识别你摆放的合成表. 请使用正确的合成表!" );
+        local.setDefault("machines.wrong-item",   "&e抱歉, 我无法识别你右键的物品. 检查合成表看看哪些物品可以使用." );
+        local.setDefault("machines.full-inventory",   "&e抱歉, 我的背包已经满了!" );
+        local.setDefault("machines.in-use",   "&c这个机器正在被其他玩家使用." );
+        local.setDefault("machines.ignition-chamber-no-flint", "&c自动点火机缺少打火石.");
         local.setDefault("machines.ANCIENT_ALTAR.not-enough-pedestals",   "&4基座不足. 目前已摆放的基座: &c(%pedestals% / 8)" );
         local.setDefault("machines.ANCIENT_ALTAR.unknown-catalyst",   "&4无效的合成配方! &c请先摆放其他物品再右键!" );
         local.setDefault("machines.ANCIENT_ALTAR.unknown-recipe",   "&4未知合成表! &c请使用正确的合成方式! 如果确认没错请将摆放的物品旋转 90 度重试." );
@@ -98,6 +93,15 @@ public final class Messages {
         local.setDefault("android.scripts.rating.own",   "&4你不能评价你自己的脚本!" );
         local.setDefault("android.scripts.rating.already",   "&4你已为这个脚本留下评价了!" );
 
+
+        local.setDefault("miner.no-ores",   "&e抱歉, 周围找不到矿石了!" );
+
+        local.setDefault("backpack.already-open",   "&c抱歉, 这个背包已在别处打开了!" );
+        local.setDefault("backpack.no-stack",   "&c你不能将背包堆积起来" );
+
+        local.setDefault("workbench.not-enhanced",   "&4你不能在原版工作台使用粘液科技物品" );
+        local.setDefault("anvil.not-working",   "&4你不能在铁砧里使用粘液科技物品" );
+        local.setDefault("inventory.no-access",   "&4你不允许使用这个方块" );
 		local.save();
 	}
 }

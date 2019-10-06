@@ -6,6 +6,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomPotion;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.Christmas;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -20,6 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 @SuppressWarnings("deprecation")
 public final class SlimefunItems {
@@ -766,7 +768,7 @@ public final class SlimefunItems {
         try {
             return CustomSkull.getItem(texture);
         } catch (Exception x) {
-            x.printStackTrace();
+            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while initializing the Items for Slimefun " + Slimefun.getVersion(), x);
             return new ItemStack(Material.PLAYER_HEAD);
         }
     }

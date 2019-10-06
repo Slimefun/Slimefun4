@@ -3,215 +3,217 @@ package me.mrCookieSlime.Slimefun.api.energy;
 import java.util.HashSet;
 import java.util.Set;
 
-import me.mrCookieSlime.Slimefun.api.network.Network;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.TickerTask;
-import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.network.Network;
+import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
+import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
+
 public class EnergyNet extends Network {
-	private static final int RANGE = 6;
 
-	public static Set<String> machinesInput = new HashSet<>();
-	public static Set<String> machinesStorage = new HashSet<>();
-	public static Set<String> machinesOutput = new HashSet<String>();
+    private static final int RANGE = 6;
 
-	public static EnergyNetComponent getComponent(Block b) {
-		return getComponent(b.getLocation());
-	}
+    public static Set<String> machinesInput = new HashSet<>();
+    public static Set<String> machinesStorage = new HashSet<>();
+    public static Set<String> machinesOutput = new HashSet<>();
 
-	public static EnergyNetComponent getComponent(String id) {
-		if (machinesInput.contains(id)) return EnergyNetComponent.SOURCE;
-		if (machinesStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
-		if (machinesOutput.contains(id)) return EnergyNetComponent.CONSUMER;
-		return EnergyNetComponent.NONE;
-	}
+    public static EnergyNetComponent getComponent(Block b) {
+        return getComponent(b.getLocation());
+    }
 
-	public static EnergyNetComponent getComponent(Location l) {
-		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponent.NONE;
-		String id = BlockStorage.checkID(l);
-		if (machinesInput.contains(id)) return EnergyNetComponent.SOURCE;
-		if (machinesStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
-		if (machinesOutput.contains(id)) return EnergyNetComponent.CONSUMER;
-		return EnergyNetComponent.NONE;
-	}
+    public static EnergyNetComponent getComponent(String id) {
+        if (machinesInput.contains(id)) return EnergyNetComponent.SOURCE;
+        if (machinesStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+        if (machinesOutput.contains(id)) return EnergyNetComponent.CONSUMER;
+        return EnergyNetComponent.NONE;
+    }
 
-	public static void registerComponent(String id, EnergyNetComponent component) {
-		switch (component) {
-		case CONSUMER:
-			machinesOutput.add(id);
-			break;
-		case DISTRIBUTOR:
-			machinesStorage.add(id);
-			break;
-		case SOURCE:
-			machinesInput.add(id);
-			break;
-		default:
-			break;
-		}
-	}
+    public static EnergyNetComponent getComponent(Location l) {
+        if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponent.NONE;
+        String id = BlockStorage.checkID(l);
+        if (machinesInput.contains(id)) return EnergyNetComponent.SOURCE;
+        if (machinesStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+        if (machinesOutput.contains(id)) return EnergyNetComponent.CONSUMER;
+        return EnergyNetComponent.NONE;
+    }
 
-	public static EnergyNet getNetworkFromLocation(Location l) {
-		return getNetworkFromLocation(l, EnergyNet.class);
-	}
+    public static void registerComponent(String id, EnergyNetComponent component) {
+        switch (component) {
+            case CONSUMER:
+                machinesOutput.add(id);
+                break;
+            case DISTRIBUTOR:
+                machinesStorage.add(id);
+                break;
+            case SOURCE:
+                machinesInput.add(id);
+                break;
+            default:
+                break;
+        }
+    }
 
-	public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
-		EnergyNet energyNetwork = getNetworkFromLocation(l);
-		if (energyNetwork == null) {
-			energyNetwork = new EnergyNet(l);
-			registerNetwork(energyNetwork);
-		}
-		return energyNetwork;
-	}
+    public static EnergyNet getNetworkFromLocation(Location l) {
+        return getNetworkFromLocation(l, EnergyNet.class);
+    }
 
-	private Set<Location> input = new HashSet<>();
-	private Set<Location> storage = new HashSet<>();
-	private Set<Location> output = new HashSet<>();
+    public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
+        EnergyNet energyNetwork = getNetworkFromLocation(l);
+        if (energyNetwork == null) {
+            energyNetwork = new EnergyNet(l);
+            registerNetwork(energyNetwork);
+        }
+        return energyNetwork;
+    }
 
-	protected EnergyNet(Location l) {
-		super(l);
-	}
+    private Set<Location> input = new HashSet<>();
+    private Set<Location> storage = new HashSet<>();
+    private Set<Location> output = new HashSet<>();
 
-	public int getRange() {
-		return RANGE;
-	}
+    protected EnergyNet(Location l) {
+        super(l);
+    }
 
-	public Network.Component classifyLocation(Location l) {
-		if (regulator.equals(l)) return Network.Component.REGULATOR;
-		switch (getComponent(l)) {
-			case DISTRIBUTOR:
-				return Network.Component.CONNECTOR;
-			case CONSUMER:
-			case SOURCE:
-				return Network.Component.TERMINUS;
-			default:
-				return null;
-		}
-	}
+    public int getRange() {
+        return RANGE;
+    }
 
-	public void locationClassificationChange(Location l, Network.Component from, Network.Component to) {
-		if (from == Network.Component.TERMINUS) {
-			input.remove(l);
-			output.remove(l);
-		}
-		switch (getComponent(l)) {
-			case DISTRIBUTOR:
-				if (ChargableBlock.isCapacitor(l)) storage.add(l);
-				break;
-			case CONSUMER:
-				output.add(l);
-				break;
-			case SOURCE:
-				input.add(l);
-				break;
-			default:
-				break;
-		}
-	}
+    public NetworkComponent classifyLocation(Location l) {
+        if (regulator.equals(l)) return NetworkComponent.REGULATOR;
+        switch (getComponent(l)) {
+            case DISTRIBUTOR:
+                return NetworkComponent.CONNECTOR;
+            case CONSUMER:
+            case SOURCE:
+                return NetworkComponent.TERMINUS;
+            default:
+                return null;
+        }
+    }
 
-	public void tick(Block b) {
-		if (!regulator.equals(b.getLocation())) {
-			EnergyHologram.update(b, "&4Multiple Energy Regulators connected");
-			return;
-		}
-		super.tick();
-		double supply = 0.0D;
-		double demand = 0.0D;
+    public void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+        if (from == NetworkComponent.TERMINUS) {
+            input.remove(l);
+            output.remove(l);
+        }
 
-		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-			EnergyHologram.update(b, "&4找不到能源网络");
-		}
-		else {
+        switch (getComponent(l)) {
+            case DISTRIBUTOR:
+                if (ChargableBlock.isCapacitor(l)) storage.add(l);
+                break;
+            case CONSUMER:
+                output.add(l);
+                break;
+            case SOURCE:
+                input.add(l);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void tick(Block b) {
+        if (!regulator.equals(b.getLocation())) {
+            EnergyHologram.update(b, "&4Multiple Energy Regulators connected");
+            return;
+        }
+        super.tick();
+        double supply = 0.0D;
+        double demand = 0.0D;
+
+        if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
+            EnergyHologram.update(b, "&4找不到能源网络");
+        }
+        else {
             Set<Location> exploded = new HashSet<>();
-			for (final Location source: input) {
-				long timestamp = System.currentTimeMillis();
-				SlimefunItem item = BlockStorage.check(source);
-				double energy = item.getEnergyTicker().generateEnergy(source, item, BlockStorage.getLocationInfo(source));
+            for (final Location source: input) {
+                long timestamp = System.currentTimeMillis();
+                SlimefunItem item = BlockStorage.check(source);
+                double energy = item.getEnergyTicker().generateEnergy(source, item, BlockStorage.getLocationInfo(source));
 
-				if (item.getEnergyTicker().explode(source)) {
+                if (item.getEnergyTicker().explode(source)) {
                     exploded.add(source);
                     BlockStorage.clearBlockInfo(source);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-						source.getBlock().setType(Material.LAVA);
-						source.getWorld().createExplosion(source, 0F, false);
-					});
-				}
-				else {
-					supply = supply + energy;
-				}
-                SlimefunStartup.ticker.blockTimings.put(source, System.currentTimeMillis() - timestamp);
-			}
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+                        source.getBlock().setType(Material.LAVA);
+                        source.getWorld().createExplosion(source, 0F, false);
+                    });
+                }
+                else {
+                    supply = supply + energy;
+                }
+                SlimefunPlugin.getTicker().blockTimings.put(source, System.currentTimeMillis() - timestamp);
+            }
 
             input.removeAll(exploded);
 
-			for (Location battery: storage) {
-				supply = supply + ChargableBlock.getCharge(battery);
-			}
+            for (Location battery: storage) {
+                supply = supply + ChargableBlock.getCharge(battery);
+            }
 
-			int available = (int) DoubleHandler.fixDouble(supply);
+            int available = (int) DoubleHandler.fixDouble(supply);
 
-			for (Location destination: output) {
-				int capacity = ChargableBlock.getMaxCharge(destination);
-				int charge = ChargableBlock.getCharge(destination);
-				if (charge < capacity) {
-					int rest = capacity - charge;
-					demand = demand + rest;
-					if (available > 0) {
-						if (available > rest) {
-							ChargableBlock.setUnsafeCharge(destination, capacity, false);
-							available = available - rest;
-						}
-						else {
-							ChargableBlock.setUnsafeCharge(destination, charge + available, false);
-							available = 0;
-						}
-					}
-				}
-			}
+            for (Location destination: output) {
+                int capacity = ChargableBlock.getMaxCharge(destination);
+                int charge = ChargableBlock.getCharge(destination);
+                if (charge < capacity) {
+                    int rest = capacity - charge;
+                    demand = demand + rest;
+                    if (available > 0) {
+                        if (available > rest) {
+                            ChargableBlock.setUnsafeCharge(destination, capacity, false);
+                            available = available - rest;
+                        }
+                        else {
+                            ChargableBlock.setUnsafeCharge(destination, charge + available, false);
+                            available = 0;
+                        }
+                    }
+                }
+            }
 
-			for (Location battery: storage) {
-				if (available > 0) {
-					int capacity = ChargableBlock.getMaxCharge(battery);
+            for (Location battery: storage) {
+                if (available > 0) {
+                    int capacity = ChargableBlock.getMaxCharge(battery);
 
-					if (available > capacity) {
-						ChargableBlock.setUnsafeCharge(battery, capacity, true);
-						available = available - capacity;
-					}
-					else {
-						ChargableBlock.setUnsafeCharge(battery, available, true);
-						available = 0;
-					}
-				}
-				else ChargableBlock.setUnsafeCharge(battery, 0, true);
-			}
+                    if (available > capacity) {
+                        ChargableBlock.setUnsafeCharge(battery, capacity, true);
+                        available = available - capacity;
+                    }
+                    else {
+                        ChargableBlock.setUnsafeCharge(battery, available, true);
+                        available = 0;
+                    }
+                }
+                else ChargableBlock.setUnsafeCharge(battery, 0, true);
+            }
 
-			for (Location source: input) {
-				if (ChargableBlock.isChargable(source)) {
-					if (available > 0) {
-						int capacity = ChargableBlock.getMaxCharge(source);
+            for (Location source: input) {
+                if (ChargableBlock.isChargable(source)) {
+                    if (available > 0) {
+                        int capacity = ChargableBlock.getMaxCharge(source);
 
-						if (available > capacity) {
-							ChargableBlock.setUnsafeCharge(source, capacity, false);
-							available = available - capacity;
-						}
-						else {
-							ChargableBlock.setUnsafeCharge(source, available, false);
-							available = 0;
-						}
-					}
-					else ChargableBlock.setUnsafeCharge(source, 0, false);
-				}
-			}
+                        if (available > capacity) {
+                            ChargableBlock.setUnsafeCharge(source, capacity, false);
+                            available = available - capacity;
+                        }
+                        else {
+                            ChargableBlock.setUnsafeCharge(source, available, false);
+                            available = 0;
+                        }
+                    }
+                    else ChargableBlock.setUnsafeCharge(source, 0, false);
+                }
+            }
 
-			EnergyHologram.update(b, supply, demand);
-		}
-	}
+            EnergyHologram.update(b, supply, demand);
+        }
+    }
 }

@@ -7,10 +7,13 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.logging.Level;
 
 /**
  * Built-in categories.
@@ -53,7 +56,7 @@ public final class Categories {
         try {
             return CustomSkull.getItem(texture);
         } catch (Exception x) {
-            x.printStackTrace();
+            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while initializing the Categories for Slimefun " + Slimefun.getVersion(), x);
             return new ItemStack(Material.PLAYER_HEAD);
         }
     }

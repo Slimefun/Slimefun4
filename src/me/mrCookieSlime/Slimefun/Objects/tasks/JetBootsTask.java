@@ -5,7 +5,6 @@ import java.util.Random;
 import java.util.UUID;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
 import org.bukkit.Bukkit;

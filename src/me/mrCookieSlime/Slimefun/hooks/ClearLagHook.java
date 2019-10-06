@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.hooks;
 import java.util.Iterator;
 
 import me.minebuilders.clearlag.events.EntityRemoveEvent;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 
 public class ClearLagHook implements Listener {
 	
-	public ClearLagHook(SlimefunStartup plugin) {
+	public ClearLagHook(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	

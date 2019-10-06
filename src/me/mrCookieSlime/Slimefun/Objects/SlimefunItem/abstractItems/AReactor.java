@@ -1,7 +1,10 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
 import java.util.*;
+import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,13 +20,10 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -92,11 +92,11 @@ public abstract class AReactor extends SlimefunItem {
 							return false;
 						});
 					}
-					BlockMenu ap = getAccessPort(b.getLocation());
-					if(ap != null) {
+					BlockMenu port = getAccessPort(b.getLocation());
+					if (port != null) {
 						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
 						menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
-							ap.open(p);
+							port.open(p);
 							newInstance(menu, b);
 
 							return false;
@@ -111,6 +111,7 @@ public abstract class AReactor extends SlimefunItem {
 					}
 
 				} catch(Exception x) {
+                    Slimefun.getLogger().log(Level.SEVERE, "An Error occured when creating a Reactor Menu for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -269,22 +270,11 @@ public abstract class AReactor extends SlimefunItem {
 						if (space >= produced || !BlockStorage.getLocationInfo(l, "reactor-mode").equals("generator")) {
 							progress.put(l, timeleft - 1);
 
-							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
+							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
                                 if (!l.getBlock().getRelative(cooling[new Random().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 							});
 
-							ItemStack item = getProgressBar().clone();
-							ItemMeta im = item.getItemMeta();
-							im.setDisplayName(" ");
-							List<String> lore = new ArrayList<String>();
-							lore.add(MachineHelper.getProgress(timeleft, processing.get(l).getTicks()));
-							lore.add(MachineHelper.getCoolant(timeleft, processing.get(l).getTicks()));
-							lore.add("");
-							lore.add(MachineHelper.getTimeLeft(timeleft / 2));
-							im.setLore(lore);
-							item.setItemMeta(im);
-
-							BlockStorage.getInventory(l).replaceExistingItem(22, item);
+                            MachineHelper.updateProgressbar(BlockStorage.getInventory(l), 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
 							if (needsCooling()) {
 								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
@@ -361,7 +351,7 @@ public abstract class AReactor extends SlimefunItem {
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
 
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> ReactorHologram.remove(l), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> ReactorHologram.remove(l), 0);
 
 					explode.remove(l);
 					processing.remove(l);

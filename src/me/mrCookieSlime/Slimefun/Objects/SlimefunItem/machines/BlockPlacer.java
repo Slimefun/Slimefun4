@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -11,7 +12,6 @@ import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -46,13 +46,13 @@ public class BlockPlacer extends SlimefunItem {
 
                         SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
                         if (sfItem != null) {
-                            if (!SlimefunItem.blockhandler.containsKey(sfItem.getID())) {
+                            if (!SlimefunPlugin.getUtilities().blockHandlers.containsKey(sfItem.getID())) {
                                 block.setType(e.getItem().getType());
                                 BlockStorage.store(block, sfItem.getID());
                                 block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
                                 if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
                                 else {
-                                    Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
+                                    Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
                                 }
                             }
                         }
@@ -61,7 +61,7 @@ public class BlockPlacer extends SlimefunItem {
                             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
                             if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
                             else {
-                                Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
+                                Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
                             }
                         }
                     }

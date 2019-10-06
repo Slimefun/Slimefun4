@@ -7,7 +7,8 @@ import org.bukkit.entity.Entity;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
 
-public class InfusedHopperHologram {
+public final class InfusedHopperHologram {
+    private InfusedHopperHologram() {}
 	
 	private static final double offset = 1.2;
 	

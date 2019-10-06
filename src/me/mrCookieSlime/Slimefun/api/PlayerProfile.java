@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.IntStream;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -154,7 +154,7 @@ public final class PlayerProfile {
     }
 
     public String getTitle() {
-        List<String> titles = SlimefunStartup.instance.getSettings().RESEARCHES_TITLES;
+        List<String> titles = SlimefunPlugin.instance.getSettings().researchesTitles;
 
         int index = Math.round(Float.parseFloat(String.valueOf(Math.round(((researches.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F)) / 100.0F) *  titles.size();
         if (index > 0) index--;

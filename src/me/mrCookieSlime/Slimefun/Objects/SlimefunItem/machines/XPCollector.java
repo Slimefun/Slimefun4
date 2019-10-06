@@ -1,7 +1,9 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import java.util.Iterator;
+import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -125,8 +127,8 @@ public class XPCollector extends SlimefunItem {
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				try {
 					XPCollector.this.tick(b);
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception x) {
+                    Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking an Exp Collector for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 

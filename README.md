@@ -18,21 +18,3 @@ Slimefun 4 使用的开源协议为:
   </a>
 </p>
 
-## Contributions
-
-You are allowed, even encouraged, to contribute to Slimefun 4 by making Pull Requests.
-These Pull Requests can be Fixes, Changes or even Additions, but please keep in mind that
-if you add too much content to Slimefun 4, you should rather make an Addon for it instead.
-
-Check the license for more Info on redistributing and modifying Slimefun 4.
-
-### Contributors
-
-[Here is a list of all people who contributed to Slimefun 4 by submitting Code.](https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors)
-
-## Wiki
-
-Slimefun has a (detailed and well-maintained) Wiki for new Users, maybe also consider
-applying as Wiki Staff to help grow our Community and help out new Users of this Project.
-https://github.com/TheBusyBiscuit/Slimefun4/wiki
-

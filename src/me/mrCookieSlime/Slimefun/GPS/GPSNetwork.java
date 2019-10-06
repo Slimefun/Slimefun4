@@ -5,8 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -21,11 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuCloseHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper.ChatHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
@@ -71,40 +68,44 @@ public class GPSNetwork {
 		else return transmitters.get(uuid).size();
 	}
 	
-	public void openTransmitterControlPanel(Player p) throws Exception {
+	public void openTransmitterControlPanel(Player p){
 		ChestMenu menu = new ChestMenu("&9控制面板");
 		
 		for (int slot: border) {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
                     (arg0, arg1, arg2, arg3) -> false);
 		}
-		
-		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7信号发射机概览 &e(已选中)"));
-		menu.addMenuClickHandler(2, (arg0, arg1, arg2, arg3) -> false);
-		
-		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7GPS网络信息", "", "&8\u21E8 &7状态: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&l在线": "&4&l离线"), "&8\u21E8 &7复杂度: &r" + getNetworkComplexity(p.getUniqueId())));
-		menu.addMenuClickHandler(4, (arg0, arg1, arg2, arg3) -> false);
-		
-		menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7路径点概览 &r(单击选择)"));
-		menu.addMenuClickHandler(6, (arg0, arg1, arg2, arg3) -> {
-            try {
-                openWaypointControlPanel(arg0);
-            } catch (Exception e) {
-                e.printStackTrace();
+
+        try {
+            menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7信号发射机概览 &e(已选中)"));
+            menu.addMenuClickHandler(2, (pl, slot, item, action) -> false);
+
+            menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7GPS网络信息", "", "&8\u21E8 &7状态: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&l在线" : "&4&l离线"), "&8\u21E8 &7复杂度: &r" + getNetworkComplexity(p.getUniqueId())));
+            menu.addMenuClickHandler(4, (pl, slot, item, action) -> false);
+
+            menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7路径点概览 &r(单击选择)"));
+            menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
+                try {
+                    openWaypointControlPanel(pl);
+                } catch (Exception x) {
+                    Slimefun.getLogger().log(Level.SEVERE, "An Error occured while opening the 'Waypoint' Panel for Slimefun " + Slimefun.getVersion(), x);
+                }
+                return false;
+            });
+
+            int index = 0;
+            for (Location l : getTransmitters(p.getUniqueId())) {
+                if (index >= inventory.length) break;
+                int slot = inventory[index];
+
+                menu.addItem(slot, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&bGPS 信号发射机", "&8\u21E8 &7世界: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &7信号强度: &r" + l.getBlockY(), "&8\u21E8 &7延迟: &r" + DoubleHandler.fixDouble(1000D / l.getY()) + "ms"));
+                menu.addMenuClickHandler(slot, (arg0, arg1, arg2, arg3) -> false);
+
+                index++;
             }
-            return false;
-        });
-		
-		int index = 0;
-		for (Location l: getTransmitters(p.getUniqueId())) {
-			if (index >= inventory.length) break;
-			int slot = inventory[index];
-			
-			menu.addItem(slot, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&bGPS 信号发射机", "&8\u21E8 &7世界: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &7信号强度: &r" + l.getBlockY(), "&8\u21E8 &7延迟: &r" + DoubleHandler.fixDouble(1000D / l.getY()) + "ms"));
-			menu.addMenuClickHandler(slot, (arg0, arg1, arg2, arg3) -> false);
-			
-			index++;
-		}
+        } catch (Exception x) {
+            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the GPS Transmitter Panel for Slimefun " + Slimefun.getVersion(), x);
+        }
 		
 		menu.open(p);
 	}
@@ -125,55 +126,59 @@ public class GPSNetwork {
 		}
 	}
 	
-	public void openWaypointControlPanel(Player p) throws Exception {
+	public void openWaypointControlPanel(Player p){
 		ChestMenu menu = new ChestMenu("&9控制面板");
 		
 		for (int slot: border) {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
                     (arg0, arg1, arg2, arg3) -> false);
 		}
-		
-		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7信号发射机概览 &r(单击选择)"));
-		menu.addMenuClickHandler(2, (arg0, arg1, arg2, arg3) -> {
-            try {
-                openTransmitterControlPanel(arg0);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return false;
-        });
-		
-		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7GPS网络信息", "", "&8\u21E8 &7状态: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&l在线": "&4&l离线"), "&8\u21E8 &7复杂度: &r" + getNetworkComplexity(p.getUniqueId())));
-		menu.addMenuClickHandler(4, (arg0, arg1, arg2, arg3) -> false);
-		
-		menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7路径点概览 &e(已选中)"));
-		menu.addMenuClickHandler(6, (arg0, arg1, arg2, arg3) -> false);
-		
-		int index = 0;
-		for (final Map.Entry<String, Location> entry: getWaypoints(p.getUniqueId()).entrySet()) {
-			if (index >= inventory.length) break;
-			int slot = inventory[index];
-			
-			Location l = entry.getValue();
-			ItemStack globe = getPlanet(entry);
-			
-			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7世界: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &c单击删除"));
-			menu.addMenuClickHandler(slot, (arg0, arg1, arg2, arg3) -> {
-                String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(" ", "_");
-                Config cfg = new Config("data-storage/Slimefun/waypoints/" + arg0.getUniqueId().toString() + ".yml");
-                cfg.setValue(id, null);
-                cfg.save();
-                arg0.playSound(arg0.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
+
+        try {
+            menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7信号发射机概览 &r(单击选择)"));
+            menu.addMenuClickHandler(2, (pl, slot, item, action) -> {
                 try {
-                    openWaypointControlPanel(arg0);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    openTransmitterControlPanel(pl);
+                } catch (Exception x) {
+                    Slimefun.getLogger().log(Level.SEVERE, "An Error occured while opening the 'GPS Transmitters' Panel for Slimefun " + Slimefun.getVersion(), x);
                 }
                 return false;
             });
-			
-			index++;
-		}
+
+            menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7GPS网络信息", "", "&8\u21E8 &7状态: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&l在线" : "&4&l离线"), "&8\u21E8 &7复杂度: &r" + getNetworkComplexity(p.getUniqueId())));
+            menu.addMenuClickHandler(4, (arg0, arg1, arg2, arg3) -> false);
+
+            menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7路径点概览 &e(已选中)"));
+            menu.addMenuClickHandler(6, (arg0, arg1, arg2, arg3) -> false);
+
+            int index = 0;
+            for (final Map.Entry<String, Location> entry : getWaypoints(p.getUniqueId()).entrySet()) {
+                if (index >= inventory.length) break;
+                int slot = inventory[index];
+
+                Location l = entry.getValue();
+                ItemStack globe = getPlanet(entry);
+
+                menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7世界: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &c单击删除"));
+                menu.addMenuClickHandler(slot, (arg0, arg1, arg2, arg3) -> {
+                    String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(" ", "_");
+                    Config cfg = new Config("data-storage/Slimefun/waypoints/" + arg0.getUniqueId().toString() + ".yml");
+                    cfg.setValue(id, null);
+                    cfg.save();
+                    arg0.playSound(arg0.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
+                    try {
+                        openWaypointControlPanel(arg0);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                });
+
+                index++;
+            }
+        } catch (Exception x){
+            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the GPS Waypoint Panel for Slimefun " + Slimefun.getVersion(), x);
+        }
 		
 		menu.open(p);
 	}
@@ -233,49 +238,53 @@ public class GPSNetwork {
 			int supply = OreGenSystem.getSupplies(resource, chunk, true);
 			
 			menu.addItem(index, new CustomItem(resource.getIcon(), "&7资源: &e" + resource.getName(), "", "&7已扫描的区块:", "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "&7结果: &e" + supply + " " + resource.getMeasurementUnit()),
-                    (arg0, arg1, arg2, arg3) -> false);
+                    (pl, slot, item, action) -> false);
 			index++;
 		}
 		
 		menu.open(p);
 	}
 
-	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) throws Exception {
-		if (SlimefunStartup.instance.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
+	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) {
+		if (SlimefunPlugin.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
 		
 		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-        SlimefunStartup.instance.getUtilities().teleporterUsers.add(p.getUniqueId());
+        SlimefunPlugin.getUtilities().teleporterUsers.add(p.getUniqueId());
 		
 		ChestMenu menu = new ChestMenu("&3传送机");
 		
-		menu.addMenuCloseHandler(p12 -> SlimefunStartup.instance.getUtilities().teleporterUsers.remove(p12.getUniqueId()));
+		menu.addMenuCloseHandler(p12 -> SlimefunPlugin.getUtilities().teleporterUsers.remove(p12.getUniqueId()));
 		
 		for (int slot: teleporter_border) {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
                     (arg0, arg1, arg2, arg3) -> false);
 		}
-		
-		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7路径点概览 &e(选择目的地)"));
-		menu.addMenuClickHandler(4, (arg0, arg1, arg2, arg3) -> false);
-		
-		final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
-		int index = 0;
-		for (final Map.Entry<String, Location> entry: Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
-			if (index >= teleporter_inventory.length) break;
-			int slot = teleporter_inventory[index];
-			
-			final Location l = entry.getValue();
-			ItemStack globe = getPlanet(entry);
-			
-			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7世界: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7传送耗时: &r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &c单击选中"));
-			menu.addMenuClickHandler(slot, (p1, arg1, arg2, arg3) -> {
-                p1.closeInventory();
-                TeleportationSequence.start(p1.getUniqueId(), complexity, source, l, false);
-                return false;
-            });
-			
-			index++;
-		}
+
+        try {
+            menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7路径点概览 &e(选择目的地)"));
+            menu.addMenuClickHandler(4, (arg0, arg1, arg2, arg3) -> false);
+
+            final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
+            int index = 0;
+            for (final Map.Entry<String, Location> entry : Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
+                if (index >= teleporter_inventory.length) break;
+                int slot = teleporter_inventory[index];
+
+                final Location l = entry.getValue();
+                ItemStack globe = getPlanet(entry);
+
+                menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7世界: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7传送耗时: &r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &c单击选中"));
+                menu.addMenuClickHandler(slot, (p1, arg1, arg2, arg3) -> {
+                    p1.closeInventory();
+                    TeleportationSequence.start(p1.getUniqueId(), complexity, source, l, false);
+                    return false;
+                });
+
+                index++;
+            }
+        } catch (Exception x){
+            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a Teleporter Menu for Slimefun " + Slimefun.getVersion(), x);
+        }
 		
 		menu.open(p);
 	}

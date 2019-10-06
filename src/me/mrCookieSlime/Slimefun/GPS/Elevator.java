@@ -1,11 +1,9 @@
 package me.mrCookieSlime.Slimefun.GPS;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,11 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper.ChatHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -40,7 +35,7 @@ public final class Elevator {
             pl.sendMessage("");
 
             MenuHelper.awaitChatInput(pl, (player, message) -> {
-                BlockStorage.addBlockInfo(b, "floor", message.replaceAll("&", "&"));
+                BlockStorage.addBlockInfo(b, "floor", message.replace(ChatColor.COLOR_CHAR, '&'));
 
                 player.sendMessage("");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &e成功地将此层命名为:"));
@@ -58,7 +53,7 @@ public final class Elevator {
     }
 
 	public static void openDialogue(Player p, Block b) {
-        Set<UUID> elevatorUsers = SlimefunStartup.instance.getUtilities().elevatorUsers;
+        Set<UUID> elevatorUsers = SlimefunPlugin.instance.getUtilities().elevatorUsers;
 
         if (elevatorUsers.contains(p.getUniqueId())) {
             elevatorUsers.remove(p.getUniqueId());

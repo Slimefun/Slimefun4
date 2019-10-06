@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;

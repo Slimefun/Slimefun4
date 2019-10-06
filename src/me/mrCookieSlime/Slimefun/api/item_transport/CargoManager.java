@@ -16,8 +16,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-public class CargoManager {
-	
+public final class CargoManager {
+
+    private CargoManager() {}
+
 	public static ItemStack withdraw(Block node, BlockStorage storage, Block target, ItemStack template) {
 		if (storage.hasUniversalInventory(target)) {
 			UniversalBlockMenu menu = storage.getUniversalInventory(target);
