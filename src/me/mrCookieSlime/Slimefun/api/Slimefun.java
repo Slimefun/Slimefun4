@@ -191,24 +191,9 @@ public final class Slimefun {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean isEnabled(Player p, ItemStack item, boolean message) {
-		String world = p.getWorld().getName();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		if (sfItem == null) return !SlimefunItem.isDisabled(item);
-		if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
-			if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
-				if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-				if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
-				else {
-					if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
-					return false;
-				}
-			}
-			else {
-				if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
-				return false;
-			}
-		}
-		else return true;
+		else return isEnabled(p, sfItem, message);
 	}
 
 	/**

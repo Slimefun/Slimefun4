@@ -18,7 +18,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
@@ -38,56 +37,54 @@ public class ArmorListener implements Listener {
 	public void onDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player && !e.isCancelled()) {
 			Player p = (Player) e.getEntity();
-			for (ItemStack armor: p.getInventory().getArmorContents()) {
-				SlimefunItem item = SlimefunItem.getByItem(armor);
-				if (item != null) {
-					if (item.getID().equals("ENDER_BOOTS")
-						&& Slimefun.hasUnlocked(p, item, true)
-						&& e instanceof EntityDamageByEntityEvent
-						&& ((EntityDamageByEntityEvent) e).getDamager() instanceof EnderPearl
-					) {
-						e.setCancelled(true);
-					}
-					else if (item.getID().equals("SLIME_BOOTS")
-						&& Slimefun.hasUnlocked(p, item, true)
-						&& e.getCause() == DamageCause.FALL
-					) {
-						e.setCancelled(true);
-					}
-					else if (item.getID().equals("BOOTS_OF_THE_STOMPER")
-						&& Slimefun.hasUnlocked(p, item, true)
-						&& e.getCause() == DamageCause.FALL
-					) {
-						e.setCancelled(true);
-						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 2F);
-						p.setVelocity(new Vector(0.0, 0.7, 0.0));
-						for (Entity n: p.getNearbyEntities(4, 4, 4)) {
-							if (n instanceof LivingEntity && !n.getUniqueId().equals(p.getUniqueId())) {
-								n.setVelocity(n.getLocation().toVector().subtract(p.getLocation().toVector())
-									.normalize().multiply(1.4));
-								if (p.getWorld().getPVP()
-									&& SlimefunPlugin.getProtectionManager()
-									.hasPermission(p, n.getLocation(), ProtectableAction.PVP)
-								) {
-									EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n,
-										DamageCause.ENTITY_ATTACK, e.getDamage() / 2);
-									Bukkit.getPluginManager().callEvent(event);
-									if (!event.isCancelled()) ((LivingEntity) n).damage(e.getDamage() / 2);
-								}
+			SlimefunItem item = SlimefunItem.getByItem(p.getInventory().getBoots());
+			if (item != null) {
+				if (item.getID().equals("ENDER_BOOTS")
+					&& Slimefun.hasUnlocked(p, item, true)
+					&& e instanceof EntityDamageByEntityEvent
+					&& ((EntityDamageByEntityEvent) e).getDamager() instanceof EnderPearl
+				) {
+					e.setCancelled(true);
+				}
+				else if (item.getID().equals("SLIME_BOOTS")
+					&& Slimefun.hasUnlocked(p, item, true)
+					&& e.getCause() == DamageCause.FALL
+				) {
+					e.setCancelled(true);
+				}
+				else if (item.getID().equals("BOOTS_OF_THE_STOMPER")
+					&& Slimefun.hasUnlocked(p, item, true)
+					&& e.getCause() == DamageCause.FALL
+				) {
+					e.setCancelled(true);
+					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 2F);
+					p.setVelocity(new Vector(0.0, 0.7, 0.0));
+					for (Entity n: p.getNearbyEntities(4, 4, 4)) {
+						if (n instanceof LivingEntity && !n.getUniqueId().equals(p.getUniqueId())) {
+							n.setVelocity(n.getLocation().toVector().subtract(p.getLocation().toVector())
+								.normalize().multiply(1.4));
+							if (p.getWorld().getPVP()
+								&& SlimefunPlugin.getProtectionManager()
+								.hasPermission(p, n.getLocation(), ProtectableAction.PVP)
+							) {
+								EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n,
+									DamageCause.ENTITY_ATTACK, e.getDamage() / 2);
+								Bukkit.getPluginManager().callEvent(event);
+								if (!event.isCancelled()) ((LivingEntity) n).damage(e.getDamage() / 2);
 							}
 						}
-
-						for (BlockFace face: BlockFace.values()) {
-							Block b = p.getLocation().getBlock().getRelative(BlockFace.DOWN).getRelative(face);
-							p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-						}
 					}
-					else if (item.getID().equals("SLIME_STEEL_BOOTS")
-						&& Slimefun.hasUnlocked(p, item, true)
-						&& e.getCause() == DamageCause.FALL
-					)
-						e.setCancelled(true);
+
+					for (BlockFace face: BlockFace.values()) {
+						Block b = p.getLocation().getBlock().getRelative(BlockFace.DOWN).getRelative(face);
+						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+					}
 				}
+				else if (item.getID().equals("SLIME_STEEL_BOOTS")
+					&& Slimefun.hasUnlocked(p, item, true)
+					&& e.getCause() == DamageCause.FALL
+				)
+					e.setCancelled(true);
 			}
 		}
 	}

@@ -156,6 +156,7 @@ public final class SlimefunManager {
 					EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
 				}
 			}
+			
 			if (SlimefunItem.getByItem(strippedItem) instanceof Soulbound) {
 				return true;
 			}

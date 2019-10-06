@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -152,20 +153,17 @@ public class CargoNet extends Network {
 		}
 		else {
 			SimpleHologram.update(b, "&7Status: &a&lONLINE");
-
-
 			final Map<Integer, List<Location>> output = new HashMap<>();
 
 			Set<Location> combinedOutputNodes = new HashSet<>();
 			combinedOutputNodes.addAll(outputNodes);
 			combinedOutputNodes.addAll(advancedOutputNodes);
 
-			List<Location> list = new ArrayList<>();
+			List<Location> list = new LinkedList<>();
 			int lastFrequency = -1;
 
 			for (Location outputNode: combinedOutputNodes) {
-				Integer frequency = getFrequency(outputNode);
-				list.add(outputNode);
+				int frequency = getFrequency(outputNode);
 
 				if (frequency != lastFrequency && lastFrequency != -1) {
 					output.merge(lastFrequency, list, (prev, next) -> {
@@ -173,9 +171,10 @@ public class CargoNet extends Network {
 						return prev;
 					});
 
-					list.clear();
+					list = new LinkedList<>();
 				}
-
+				
+				list.add(outputNode);
 				lastFrequency = frequency;
 			}
 
@@ -202,6 +201,7 @@ public class CargoNet extends Network {
 
 			CargoNet self = this;
 			final BlockStorage storage = BlockStorage.getStorage(b.getWorld());
+			
 			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 
 				if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
