@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,10 +28,37 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Crucible extends SlimefunGadget {
 
-	public Crucible(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack[] machineRecipes) {
-		super(category, item, recipeType, recipe, machineRecipes);
+	public Crucible(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe, getMachineRecipes());
 	}
 	
+	private static ItemStack[] getMachineRecipes() {
+		List<ItemStack> items = new LinkedList<>();
+
+		items.add(new ItemStack(Material.COBBLESTONE, 16));
+		items.add(new ItemStack(Material.LAVA_BUCKET));
+
+		items.add(new ItemStack(Material.NETHERRACK, 16));
+		items.add(new ItemStack(Material.LAVA_BUCKET));
+
+		items.add(new ItemStack(Material.STONE, 12));
+		items.add(new ItemStack(Material.LAVA_BUCKET));
+
+		items.add(new ItemStack(Material.OBSIDIAN, 1));
+		items.add(new ItemStack(Material.LAVA_BUCKET));
+		
+		for (Material leave: MaterialCollections.getAllLeaves()) {
+			items.add(new ItemStack(leave, 16));
+			items.add(new ItemStack(Material.WATER_BUCKET));
+		}
+		
+		for (Material sapling: MaterialCollections.getAllTerracottaColors()) {
+			items.add(new ItemStack(sapling, 12));
+			items.add(new ItemStack(Material.LAVA_BUCKET));
+		}
+		
+		return items.toArray(new ItemStack[0]);
+	}
 	@Override
 	public void preRegister() {
 		addItemHandler(new ItemInteractionHandler() {

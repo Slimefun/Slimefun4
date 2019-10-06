@@ -64,27 +64,6 @@
     			<version>3.2.1</version>
 
     			<configuration>
-    				<filters>
-      					<filter>
-    						<artifact>com.github.thebusybiscuit:CS-CoreLib2</artifact>
-    						<includes>
-    							<include>**/cscorelib2/blocks/**</include>
-    							<include>**/cscorelib2/chat/**</include>
-    							<include>**/cscorelib2/config/**</include>
-    							<include>**/cscorelib2/collections/**</include>
-    							<include>**/cscorelib2/data/**</include>
-    							<include>**/cscorelib2/updater/**</include>
-                                <include>**/cscorelib2/materials/**</include>
-    							<include>**/cscorelib2/math/**</include>
-								<include>**/cscorelib2/protection/**</include>
-    							<include>**/cscorelib2/players/**</include>
-								<include>**/cscorelib2/reflection/**</include>
-								<include>**/cscorelib2/item/**</include>
-								<include>**/cscorelib2/inventory/**</include>
-    						</includes>
-  						</filter>
-      				</filters>
-      					
       				<relocations>
       					<relocation>
             				<pattern>org.bstats</pattern>
@@ -124,7 +103,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-    		<version>1.14.2-R0.1-SNAPSHOT</version>
+    		<version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

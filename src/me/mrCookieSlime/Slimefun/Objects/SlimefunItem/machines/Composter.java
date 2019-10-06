@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -9,6 +12,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -23,10 +27,35 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Composter extends SlimefunGadget {
 
-	public Composter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack[] machineRecipes) {
-		super(category, item, recipeType, recipe, machineRecipes);
+	public Composter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe, getMachineRecipes());
 	}
 	
+	private static ItemStack[] getMachineRecipes() {
+		List<ItemStack> items = new LinkedList<>();
+		
+		for (Material leave: MaterialCollections.getAllLeaves()) {
+			items.add(new ItemStack(leave, 8));
+			items.add(new ItemStack(Material.DIRT));
+		}
+		
+		for (Material sapling: MaterialCollections.getAllSaplings()) {
+			items.add(new ItemStack(sapling, 8));
+			items.add(new ItemStack(Material.DIRT));
+		}
+		
+		items.add(new ItemStack(Material.STONE, 4));
+		items.add(new ItemStack(Material.NETHERRACK));
+		
+		items.add(new ItemStack(Material.SAND, 2));
+		items.add(new ItemStack(Material.SOUL_SAND));
+		
+		items.add(new ItemStack(Material.WHEAT, 4));
+		items.add(new ItemStack(Material.NETHER_WART));
+		
+		return items.toArray(new ItemStack[0]);
+	}
+
 	@Override
 	public void preRegister() {
 		addItemHandler(new ItemInteractionHandler() {

@@ -19,7 +19,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -88,6 +87,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.InfernalBonemeal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeFlask;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeTome;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.LumberAxe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicEyeOfEnder;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicSugar;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MonsterJerky;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfContainment;
@@ -266,24 +266,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, null, null, SlimefunItems.ENDER_LUMP_1, null, SlimefunItems.ENDER_LUMP_1, new ItemStack(Material.OBSIDIAN), null, new ItemStack(Material.OBSIDIAN)})
 		.register(true);
 
-		new SlimefunItem(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.MAGIC_EYE_OF_ENDER, RecipeType.MAGIC_WORKBENCH,
+		new MagicEyeOfEnder(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.MAGIC_EYE_OF_ENDER, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.ENDER_PEARL), new ItemStack(Material.ENDER_EYE), new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_2})
-		.register(true, new ItemInteractionHandler() {
-
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MAGIC_EYE_OF_ENDER, true)) {
-					e.getParentEvent().setCancelled(true);
-					
-					if (p.getInventory().getHelmet() != null && p.getInventory().getChestplate() != null && p.getInventory().getLeggings() != null && p.getInventory().getBoots() != null && SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.ENDER_HELMET, true) && SlimefunManager.isItemSimiliar(p.getInventory().getChestplate(), SlimefunItems.ENDER_CHESTPLATE, true) && SlimefunManager.isItemSimiliar(p.getInventory().getLeggings(), SlimefunItems.ENDER_LEGGINGS, true) && SlimefunManager.isItemSimiliar(p.getInventory().getBoots(), SlimefunItems.ENDER_BOOTS, true)) {
-						p.launchProjectile(EnderPearl.class);
-						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
+		.register(true);
 
 		new MagicSugar(Categories.FOOD, (SlimefunItemStack) SlimefunItems.MAGIC_SUGAR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.REDSTONE), new ItemStack(Material.GLOWSTONE_DUST), null, null, null, null, null, null}, new String[] {"effects.SPEED"}, new Integer[] {4})
@@ -1152,26 +1137,8 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new Composter(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.COMPOSTER, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), new ItemStack(Material.CAULDRON), new ItemStack(Material.OAK_SLAB)},
-		new ItemStack[] {
-				new ItemStack(Material.OAK_LEAVES, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.BIRCH_LEAVES, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.SPRUCE_LEAVES, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.JUNGLE_LEAVES, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.ACACIA_LEAVES, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.DARK_OAK_LEAVES, 8), new ItemStack(Material.DIRT), 
-				
-				new ItemStack(Material.OAK_SAPLING, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.BIRCH_SAPLING, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.SPRUCE_SAPLING, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.JUNGLE_SAPLING, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.ACACIA_SAPLING, 8), new ItemStack(Material.DIRT), 
-				new ItemStack(Material.DARK_OAK_SAPLING, 8), new ItemStack(Material.DIRT), 
-				
-				new ItemStack(Material.STONE, 4), new ItemStack(Material.NETHERRACK), 
-				new ItemStack(Material.SAND, 2), new ItemStack(Material.SOUL_SAND), 
-				new ItemStack(Material.WHEAT, 4), new ItemStack(Material.NETHER_WART)
-		}).register(true);
+		new ItemStack[] {new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), new ItemStack(Material.CAULDRON), new ItemStack(Material.OAK_SLAB)})
+		.register(true);
 
 		new SlimefunItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.FARMER_SHOES, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK), new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK)})
@@ -1214,35 +1181,7 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new Crucible(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.CRUCIBLE, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack [] {new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.TERRACOTTA)},
-		new ItemStack [] {
-			new ItemStack(Material.COBBLESTONE, 16), new ItemStack(Material.LAVA_BUCKET), 
-			new ItemStack(Material.STONE, 12), new ItemStack(Material.LAVA_BUCKET), 
-						
-			new ItemStack(Material.OAK_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-			new ItemStack(Material.BIRCH_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-			new ItemStack(Material.SPRUCE_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-			new ItemStack(Material.JUNGLE_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-			new ItemStack(Material.ACACIA_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-			new ItemStack(Material.DARK_OAK_LEAVES, 16), new ItemStack(Material.WATER_BUCKET),
-
-			new ItemStack(Material.TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.WHITE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.ORANGE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.MAGENTA_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.LIGHT_BLUE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.YELLOW_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.LIME_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.PINK_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.GRAY_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.LIGHT_GRAY_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.CYAN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.PURPLE_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.BROWN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.GREEN_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.RED_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET),
-			new ItemStack(Material.BLACK_TERRACOTTA, 12), new ItemStack(Material.LAVA_BUCKET)
-		})
+		new ItemStack [] {new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), null, new ItemStack(Material.TERRACOTTA), new ItemStack(Material.TERRACOTTA), new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.TERRACOTTA)})
 		.register(true);
 
 		new SlimefunBackpack(45, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.GILDED_BACKPACK, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1400,19 +1339,24 @@ public final class SlimefunSetup {
 		.register(true, (BlockPlaceHandler) (e, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
 				EntityType type = null;
+				
 				for (String line: item.getItemMeta().getLore()) {
-					if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>"))
-						type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "")
-							.replace(' ', '_').toUpperCase());
+					if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>")) {
+						type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(' ', '_').toUpperCase());
+					}
 				}
+				
 				if (type != null) {
 					CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
 					spawner.setSpawnedType(type);
 					spawner.update(true, false);
 				}
+				
 				return true;
 			}
-			else return false;
+			else {
+				return false;
+			}
 		});
 
 		new EnhancedFurnace(1, 1, 1, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE,

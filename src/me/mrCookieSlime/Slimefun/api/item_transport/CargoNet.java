@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,17 +35,17 @@ import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
 import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
 
 public class CargoNet extends Network {
-	
+
 	public static boolean extraChannels = false;
 
 	private static final int RANGE = 5;
-	
+
 	private static final int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
 	// Chest Terminal Stuff
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
 	public static final int TERMINAL_OUT_SLOT = 17;
-	
+
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = (p, slot, item, action) -> false;
@@ -89,19 +90,19 @@ public class CargoNet extends Network {
 		String id = BlockStorage.checkID(l);
 		if (id == null) return null;
 		switch(id) {
-			case "CARGO_MANAGER":
-				return NetworkComponent.REGULATOR;
-			case "CARGO_NODE":
-				return NetworkComponent.CONNECTOR;
-			case "CARGO_NODE_INPUT":
-			case "CARGO_NODE_OUTPUT":
-			case "CARGO_NODE_OUTPUT_ADVANCED":
-			case "CT_IMPORT_BUS":
-			case "CT_EXPORT_BUS":
-			case "CHEST_TERMINAL":
-				return NetworkComponent.TERMINUS;
-			default:
-				return null;
+		case "CARGO_MANAGER":
+			return NetworkComponent.REGULATOR;
+		case "CARGO_NODE":
+			return NetworkComponent.CONNECTOR;
+		case "CARGO_NODE_INPUT":
+		case "CARGO_NODE_OUTPUT":
+		case "CARGO_NODE_OUTPUT_ADVANCED":
+		case "CT_IMPORT_BUS":
+		case "CT_EXPORT_BUS":
+		case "CHEST_TERMINAL":
+			return NetworkComponent.TERMINUS;
+		default:
+			return null;
 		}
 	}
 
@@ -116,26 +117,26 @@ public class CargoNet extends Network {
 		}
 		if (to == NetworkComponent.TERMINUS) {
 			switch(BlockStorage.checkID(l)) {
-				case "CARGO_NODE_INPUT":
-					inputNodes.add(l);
-					break;
-				case "CARGO_NODE_OUTPUT":
-					outputNodes.add(l);
-					break;
-				case "CARGO_NODE_OUTPUT_ADVANCED":
-					advancedOutputNodes.add(l);
-					break;
-				case "CHEST_TERMINAL":
-					terminals.add(l);
-					break;
-				case "CT_IMPORT_BUS":
-					imports.add(l);
-					break;
-				case "CT_EXPORT_BUS":
-					exports.add(l);
-					break;
-				default:
-					break;
+			case "CARGO_NODE_INPUT":
+				inputNodes.add(l);
+				break;
+			case "CARGO_NODE_OUTPUT":
+				outputNodes.add(l);
+				break;
+			case "CARGO_NODE_OUTPUT_ADVANCED":
+				advancedOutputNodes.add(l);
+				break;
+			case "CHEST_TERMINAL":
+				terminals.add(l);
+				break;
+			case "CT_IMPORT_BUS":
+				imports.add(l);
+				break;
+			case "CT_EXPORT_BUS":
+				exports.add(l);
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -161,7 +162,7 @@ public class CargoNet extends Network {
 
 			List<Location> list = new ArrayList<>();
 			int lastFrequency = -1;
-			
+
 			for (Location outputNode: combinedOutputNodes) {
 				Integer frequency = getFrequency(outputNode);
 				list.add(outputNode);
@@ -171,13 +172,13 @@ public class CargoNet extends Network {
 						prev.addAll(next);
 						return prev;
 					});
-					
+
 					list.clear();
 				}
 
 				lastFrequency = frequency;
 			}
-			
+
 			if (!list.isEmpty()) {
 				output.merge(lastFrequency, list, (prev, next) -> {
 					prev.addAll(next);
@@ -188,9 +189,9 @@ public class CargoNet extends Network {
 			//Chest Terminal Stuff
 			final Set<Location> providers = new HashSet<>();
 			final Set<Location> destinations = new HashSet<>();
+
 			List<Location> output16 = output.get(16);
-			if (output16 != null)
-				destinations.addAll(output16);
+			if (output16 != null) destinations.addAll(output16);
 
 			for (Location inputNode: inputNodes) {
 				int frequency = getFrequency(inputNode);
@@ -201,10 +202,12 @@ public class CargoNet extends Network {
 
 			CargoNet self = this;
 			final BlockStorage storage = BlockStorage.getStorage(b.getWorld());
-			SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+
 				if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
 					self.display();
 				}
+
 				//Chest Terminal Code
 				if (extraChannels) {
 					for (Location bus : imports) {
@@ -252,26 +255,28 @@ public class CargoNet extends Network {
 							}
 						}
 					}
-					
-											for (final Location terminal : terminals) {
-							BlockMenu menu = BlockStorage.getInventory(terminal);
 
-							ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);
-							if (sendingItem != null) {
-								SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sendingItem, ItemTransportFlow.INSERT));
-							}
+					for (final Location terminal : terminals) {
+						BlockMenu menu = BlockStorage.getInventory(terminal);
+
+						ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);
+
+						if (sendingItem != null) {
+							SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sendingItem, ItemTransportFlow.INSERT));
 						}
+					}
 
 					Iterator<ItemRequest> iterator = SlimefunPlugin.getUtilities().itemRequests.iterator();
 					while (iterator.hasNext()) {
 						ItemRequest request = iterator.next();
+						
 						if (terminals.contains(request.getTerminal()) || imports.contains(request.getTerminal()) || exports.contains(request.getTerminal())) {
 							BlockMenu menu = BlockStorage.getInventory(request.getTerminal());
 
 							switch (request.getDirection()) {
 							case INSERT:
 								ItemStack requestedItem = request.getItem();
-								
+
 								for (Location l: destinations) {
 									Block target = getAttachedBlock(l.getBlock());
 									requestedItem = CargoManager.insert(l.getBlock(), storage, target, requestedItem, -1);
@@ -290,6 +295,7 @@ public class CargoNet extends Network {
 							case WITHDRAW:
 								int slot = request.getSlot();
 								ItemStack prevStack = menu.getItemInSlot(slot);
+								
 								if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunManager.isItemSimiliar(prevStack, new CustomItem(request.getItem(), 1), true)))) {
 									iterator.remove();
 									break;
@@ -297,7 +303,7 @@ public class CargoNet extends Network {
 
 								ItemStack stack = null;
 								ItemStack requested = request.getItem();
-								
+
 								for (Location l : providers) {
 									Block target = getAttachedBlock(l.getBlock());
 									ItemStack is = CargoManager.withdraw(l.getBlock(), storage, target, requested);
@@ -333,19 +339,20 @@ public class CargoNet extends Network {
 						}
 					}
 				}
+				
 				// All operations happen here: Everything gets iterated from the Input Nodes. (Apart from ChestTerminal Buses)
 				for (Location input: inputNodes) {
 					Integer frequency = getFrequency(input);
-					
+
 					if (frequency < 0 || frequency > 15) {
 						continue;
 					}
-					
+
 					Block inputTarget = getAttachedBlock(input.getBlock());
 					ItemStack stack = null;
 					int previousSlot = -1;
 
-					boolean roundrobin = BlockStorage.getLocationInfo(input, "round-robin").equals("true");
+					boolean roundrobin = "true".equals(BlockStorage.getLocationInfo(input, "round-robin"));
 
 					if (inputTarget != null) {
 						ItemSlot slot = CargoManager.withdraw(input.getBlock(), storage, inputTarget, Integer.parseInt(BlockStorage.getLocationInfo(input, "index")));
@@ -373,7 +380,7 @@ public class CargoNet extends Network {
 
 							SlimefunPlugin.getUtilities().roundRobin.put(input, cIndex);
 						}
-						
+
 						for (Location out : outputlist) {
 							Block target = getAttachedBlock(out.getBlock());
 							if (target != null) {
@@ -448,6 +455,7 @@ public class CargoNet extends Network {
 					for (final Location l: terminals) {
 						BlockMenu menu = BlockStorage.getInventory(l);
 						int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
+						
 						if (!items.isEmpty() && items.size() < (page - 1) * terminal_slots.length + 1) {
 							page = 1;
 							BlockStorage.addBlockInfo(l, "page", String.valueOf(1));
@@ -467,7 +475,7 @@ public class CargoNet extends Network {
 								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
 
 								lore.add("");
-								if (im.getLore() != null) {
+								if (im.hasLore()) {
 									lore.addAll(im.getLore());
 								}
 
@@ -476,8 +484,7 @@ public class CargoNet extends Network {
 								menu.replaceExistingItem(slot, stack);
 								menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
 									int amount = item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getAmount();
-									SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(l, 44,
-											new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
+									SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
 									return false;
 								});
 
@@ -513,8 +520,7 @@ public class CargoNet extends Network {
 
 	private void handleWithdraw(BlockMenu menu, List<StoredItem> items, Location l) {
 		for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
-			ItemStack is = menu.getItemInSlot(slot);
-			filter(is, items, l);
+			filter(menu.getItemInSlot(slot), items, l);
 		}
 	}
 
