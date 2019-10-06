@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -146,10 +145,6 @@ public final class SlimefunManager {
 		}
 		else {
 			ItemStack strippedItem = item.clone();
-
-			for (Enchantment enchantment : item.getEnchantments().keySet()) {
-				strippedItem.removeEnchantment(enchantment);
-			}
 
 			if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
 				for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)){

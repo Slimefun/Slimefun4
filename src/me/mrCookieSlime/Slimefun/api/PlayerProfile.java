@@ -39,10 +39,10 @@ public final class PlayerProfile {
 	private final Set<Research> researches = new HashSet<>();
 	private final Map<Integer, BackpackInventory> backpacks = new HashMap<>();
 	private final HashedArmorpiece[] armor = {
-		new HashedArmorpiece(0, null),
-		new HashedArmorpiece(0, null),
-		new HashedArmorpiece(0, null),
-		new HashedArmorpiece(0, null)
+		new HashedArmorpiece(),
+		new HashedArmorpiece(),
+		new HashedArmorpiece(),
+		new HashedArmorpiece()
 	};
 	
 	private PlayerProfile(OfflinePlayer p) {

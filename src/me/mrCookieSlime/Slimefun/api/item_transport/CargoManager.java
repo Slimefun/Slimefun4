@@ -200,10 +200,11 @@ public final class CargoManager {
 		Config blockInfo = BlockStorage.getLocationInfo(block.getLocation());
 
 		BlockMenu menu = BlockStorage.getInventory(block.getLocation());
-		boolean lore = blockInfo.getString("filter-lore").equals("true");
+		boolean lore = "true".equals(blockInfo.getString("filter-lore"));
 		
-		if (blockInfo.getString("filter-type").equals("whitelist")) {
+		if ("whitelist".equals(blockInfo.getString("filter-type"))) {
 			List<ItemStack> items = new ArrayList<>();
+			
 			for (int slot: slots) {
 				ItemStack template = menu.getItemInSlot(slot);
 				if (template != null) items.add(new CustomItem(template, 1));

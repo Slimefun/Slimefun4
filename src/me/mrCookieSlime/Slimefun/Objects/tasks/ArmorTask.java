@@ -57,7 +57,7 @@ public class ArmorTask implements Runnable {
 						sfItem = null;
 					}
 					
-					armorpiece.update(item == null ? 0: item.hashCode(), sfItem);
+					armorpiece.update(item, sfItem);
 				}
 				
 				if (item != null && armorpiece.getItem().isPresent()) {

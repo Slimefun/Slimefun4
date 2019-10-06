@@ -463,7 +463,7 @@ public final class SlimefunGuide {
 							parents.add(parent.getItem().getItemMeta().getDisplayName());
 						}
 						
-						menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem().getItemMeta().getDisplayName(), parents.toArray(new String[parents.size()])));
+						menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem().getItemMeta().getDisplayName(), parents.toArray(new String[0])));
 						menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
 						index++;
 					}

@@ -14,12 +14,22 @@ public final class HashedArmorpiece {
 	private int hash;
 	private Optional<SlimefunArmorPiece> item;
 	
-	protected HashedArmorpiece(int hash, SlimefunArmorPiece item) {
-		this.update(hash, item);
+	protected HashedArmorpiece() {
+		this.hash = 0;
+		this.item = Optional.empty();
 	}
 	
-	public void update(int hash, SlimefunItem item) {
-		this.hash = hash;
+	public void update(ItemStack stack, SlimefunItem item) {
+		if (stack == null) {
+			this.hash = 0;
+		}
+		else {
+			ItemStack copy = stack.clone();
+			ItemMeta meta = copy.getItemMeta();
+			((Damageable) meta).setDamage(0);
+			copy.setItemMeta(meta);
+			this.hash = copy.hashCode();
+		}
 		
 		if (item instanceof SlimefunArmorPiece) {
 			this.item = Optional.of((SlimefunArmorPiece) item);

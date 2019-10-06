@@ -71,7 +71,6 @@ public class CargoNet extends Network {
 
 	private Set<Location> inputNodes = new HashSet<>();
 	private Set<Location> outputNodes = new HashSet<>();
-	private Set<Location> advancedOutputNodes = new HashSet<>();
 
 
 	//Chest Terminal Stuff
@@ -111,7 +110,6 @@ public class CargoNet extends Network {
 		if (from == NetworkComponent.TERMINUS) {
 			inputNodes.remove(l);
 			outputNodes.remove(l);
-			advancedOutputNodes.remove(l);
 			terminals.remove(l);
 			imports.remove(l);
 			exports.remove(l);
@@ -122,10 +120,8 @@ public class CargoNet extends Network {
 				inputNodes.add(l);
 				break;
 			case "CARGO_NODE_OUTPUT":
-				outputNodes.add(l);
-				break;
 			case "CARGO_NODE_OUTPUT_ADVANCED":
-				advancedOutputNodes.add(l);
+				outputNodes.add(l);
 				break;
 			case "CHEST_TERMINAL":
 				terminals.add(l);
@@ -155,14 +151,10 @@ public class CargoNet extends Network {
 			SimpleHologram.update(b, "&7Status: &a&lONLINE");
 			final Map<Integer, List<Location>> output = new HashMap<>();
 
-			Set<Location> combinedOutputNodes = new HashSet<>();
-			combinedOutputNodes.addAll(outputNodes);
-			combinedOutputNodes.addAll(advancedOutputNodes);
-
 			List<Location> list = new LinkedList<>();
 			int lastFrequency = -1;
 
-			for (Location outputNode: combinedOutputNodes) {
+			for (Location outputNode: outputNodes) {
 				int frequency = getFrequency(outputNode);
 
 				if (frequency != lastFrequency && lastFrequency != -1) {
@@ -250,7 +242,6 @@ public class CargoNet extends Network {
 								if (index > (items.size() - 1)) index = 0;
 
 								BlockStorage.addBlockInfo(bus, "index", String.valueOf(index));
-
 								SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
 							}
 						}
@@ -258,7 +249,6 @@ public class CargoNet extends Network {
 
 					for (final Location terminal : terminals) {
 						BlockMenu menu = BlockStorage.getInventory(terminal);
-
 						ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);
 
 						if (sendingItem != null) {
@@ -342,7 +332,7 @@ public class CargoNet extends Network {
 				
 				// All operations happen here: Everything gets iterated from the Input Nodes. (Apart from ChestTerminal Buses)
 				for (Location input: inputNodes) {
-					Integer frequency = getFrequency(input);
+					int frequency = getFrequency(input);
 
 					if (frequency < 0 || frequency > 15) {
 						continue;
@@ -362,30 +352,33 @@ public class CargoNet extends Network {
 						}
 					}
 
-					if (stack != null && output.containsKey(frequency)) {
-						List<Location> outputlist = new ArrayList<>(output.get(frequency));
+					if (stack != null) {
+						List<Location> outputs = output.get(frequency);
+						if (outputs != null) {
+							List<Location> outputlist = new ArrayList<>(outputs);
 
-						if (roundrobin) {
-							int cIndex = SlimefunPlugin.getUtilities().roundRobin.getOrDefault(input, 0);
+							if (roundrobin) {
+								int cIndex = SlimefunPlugin.getUtilities().roundRobin.getOrDefault(input, 0);
 
-							if (cIndex < outputlist.size()) {
-								for (int i = 0; i < cIndex; i++) {
-									final Location temp = outputlist.get(0);
-									outputlist.remove(temp);
-									outputlist.add(temp);
+								if (cIndex < outputlist.size()) {
+									for (int i = 0; i < cIndex; i++) {
+										final Location temp = outputlist.get(0);
+										outputlist.remove(temp);
+										outputlist.add(temp);
+									}
+									cIndex++;
 								}
-								cIndex++;
+								else cIndex = 1;
+
+								SlimefunPlugin.getUtilities().roundRobin.put(input, cIndex);
 							}
-							else cIndex = 1;
 
-							SlimefunPlugin.getUtilities().roundRobin.put(input, cIndex);
-						}
-
-						for (Location out : outputlist) {
-							Block target = getAttachedBlock(out.getBlock());
-							if (target != null) {
-								stack = CargoManager.insert(out.getBlock(), storage, target, stack, -1);
-								if (stack == null) break;
+							for (Location out : outputlist) {
+								Block target = getAttachedBlock(out.getBlock());
+								if (target != null) {
+									stack = CargoManager.insert(out.getBlock(), storage, target, stack, -1);
+									if (stack == null) break;
+								}
 							}
 						}
 					}
@@ -524,7 +517,7 @@ public class CargoNet extends Network {
 		}
 	}
 
-	private void filter(ItemStack is,  List<StoredItem> items, Location l) {
+	private void filter(ItemStack is, List<StoredItem> items, Location l) {
 		if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 			boolean add = true;
 			for (StoredItem item: items) {
