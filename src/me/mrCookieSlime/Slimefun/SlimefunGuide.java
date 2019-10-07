@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,7 @@ import java.util.stream.Collectors;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -30,11 +30,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
@@ -44,7 +41,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
@@ -718,9 +714,14 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-							menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), "", "&r你没有权限", "&r与此物品交互"));
-							menu.addMenuClickHandler(index, (arg0, arg1, arg2, arg3) -> false);
-							index++;
+                            List<String> list = Messages.local.getTranslation("tooltips.item-permission");
+                            StringBuilder sb = new StringBuilder(65536);
+                            for (String strings : list) {
+                                sb.append("\n").append(strings);
+                                menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), "", sb.toString()));
+                            }
+                            menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
+                            index++;
 						}
 					}
 					else {
@@ -950,15 +951,14 @@ public final class SlimefunGuide {
         });
 
 		if (sfItem != null) {
-
-            if ((sfItem instanceof SlimefunMachine && !((SlimefunMachine) sfItem).getDisplayRecipes().isEmpty()) || (sfItem instanceof SlimefunGadget && !((SlimefunGadget) sfItem).getRecipes().isEmpty())) {
+            if (sfItem instanceof RecipeDisplayItem && !((RecipeDisplayItem) sfItem).getDisplayRecipes().isEmpty()) {
                 for (int i = 27; i < 36; i++) {
 					menu.addItem(i, new CustomItem(Material.LIME_STAINED_GLASS_PANE, SlimefunItem.getByItem(item) instanceof SlimefunMachine ? "&7\u21E9 此机器可用的合成配方 \u21E9": " ", 7));
 					menu.addMenuClickHandler(i, (arg0, arg1, arg2, arg3) -> false);
 				}
 
-				List<ItemStack> recipes = SlimefunItem.getByItem(item) instanceof SlimefunMachine ? ((SlimefunMachine) SlimefunItem.getByItem(item)).getDisplayRecipes(): ((SlimefunGadget) SlimefunItem.getByItem(item)).getDisplayRecipes();
-				int recipeSize = recipes.size();
+                List<ItemStack> recipes = ((RecipeDisplayItem) SlimefunItem.getByItem(item)).getDisplayRecipes();
+                int recipeSize = recipes.size();
 				if (recipeSize > 18) recipeSize = 18;
 				int inputs = -1, outputs = -1;
 
@@ -972,9 +972,9 @@ public final class SlimefunGuide {
 
 					int addition = (i % 2 == 0 ? inputs: outputs);
 
-					menu.addItem(slot + addition, recipes.get(i));
-					menu.addMenuClickHandler(slot + addition, (p117, slot1, item115, action) -> {
-                        displayItem(p117, item115, true, book, 0);
+                    menu.addItem(slot + addition, recipes.get(i).clone());
+					menu.addMenuClickHandler(slot + addition, (pl, slotn, itemstack, action) -> {
+                        displayItem(pl, itemstack, true, book, 0);
                         return false;
                     });
 				}
@@ -1027,14 +1027,13 @@ public final class SlimefunGuide {
         getHistory().remove(uuid);
 	}
 
-	private static String getTimeLeft(int l) {
+	private static String getTimeLeft(int seconds) {
 		String timeleft = "";
-        final int minutes = (int) (l / 60L);
+        final int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
             timeleft = timeleft + minutes + "m ";
         }
-        l -= minutes * 60;
-        final int seconds = l;
+        seconds -= minutes * 60;
         timeleft = timeleft + seconds + "s";
         return "&7" + timeleft;
 	}

@@ -448,7 +448,7 @@ public final class SlimefunItems {
     public static final ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6元素法杖 &7- &b&o风", "", "&7元素: &b&o风", "", "&7&e右键&7 以将你吹飞");
     public static final ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6元素法杖 &7- &c&o火", "", "&7元素: &c&o火","", "&c让火焰净化一切!");
     public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6元素法杖 &7- &1&o水", "", "&7元素: &1&o水", "", "&7&e右键&7 以灭掉你身上的火");
-    public static final ItemStack STAFF_STORM = new CustomItem(Material.STICK, "&6元素法杖 &7- &8&o风暴", "", "&7元素: &8&o风暴", "", "&e右键&7 召唤一道闪电", "&e可使用次数剩余 &75 &e次");
+    public static final ItemStack STAFF_STORM = new CustomItem(Material.STICK, "&6元素法杖 &7- &8&o风暴", "", "&7元素: &8&o风暴", "", "&e右键&7 召唤一道闪电", "&7剩余 &eX &7次");
 
     static {
         STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK, 1);
@@ -513,13 +513,14 @@ public final class SlimefunItems {
     public static final ItemStack SOULBOUND_BOOTS = new CustomItem(Material.DIAMOND_BOOTS, "&c灵魂绑定靴子", 0);
 
     /*		Runes				*/
-    public static ItemStack BLANK_RUNE;
-    public static ItemStack RUNE_AIR;
-    public static ItemStack RUNE_WATER;
-    public static ItemStack RUNE_FIRE;
-    public static ItemStack RUNE_EARTH;
-    public static ItemStack RUNE_ENDER;
-    public static  ItemStack RUNE_RAINBOW;
+    public static final ItemStack BLANK_RUNE;
+    public static final ItemStack RUNE_AIR;
+    public static final ItemStack RUNE_WATER;
+    public static final ItemStack RUNE_FIRE;
+    public static final ItemStack RUNE_EARTH;
+    public static final ItemStack RUNE_ENDER;
+    public static final ItemStack RUNE_RAINBOW;
+    public static final ItemStack RUNE_LIGHTNING;
 
     static {
         ItemStack itemB = new ItemStack(Material.FIREWORK_STAR);
@@ -570,6 +571,13 @@ public final class SlimefunItems {
         imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&d&l虹&8&l]"));
         itemR.setItemMeta(imR);
         RUNE_RAINBOW = itemR;
+
+        ItemStack itemL = new ItemStack(Material.FIREWORK_STAR);
+        FireworkEffectMeta imL = (FireworkEffectMeta) itemL.getItemMeta();
+        imL.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.YELLOW).build());
+        imL.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&e&l雷&8&l]"));
+        itemL.setItemMeta(imL);
+        RUNE_LIGHTNING = itemL;
     }
 
     /*		Electricity			*/

@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,12 +24,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import java.util.logging.Level;
 
 public class WitherAssembler extends SlimefunItem {
 
@@ -41,7 +41,7 @@ public class WitherAssembler extends SlimefunItem {
     public WitherAssembler(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, name, recipeType, recipe);
 
-        new BlockMenuPreset(name, getInventoryTitle()) {
+        new BlockMenuPreset(name, "&5Wither Assembler") {
 
             @Override
             public void init() {
@@ -68,11 +68,11 @@ public class WitherAssembler extends SlimefunItem {
                         });
                     }
 
-                    double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F: Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
+                    double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 
                     menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
                     menu.addMenuClickHandler(31, (p, slot, item, action) -> {
-                        double offsetv = DoubleHandler.fixDouble(Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
+                        double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
                         BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
                         newInstance(menu, b);
                         return false;
@@ -166,10 +166,6 @@ public class WitherAssembler extends SlimefunItem {
         );
     }
 
-    public String getInventoryTitle() {
-        return "&5Wither Assembler";
-    }
-
     public int[] getInputSlots() {
         return new int[] {19, 28, 25, 34};
     }
@@ -183,7 +179,7 @@ public class WitherAssembler extends SlimefunItem {
     }
 
     @Override
-    public void register(boolean slimefun) {
+    public void preRegister() {
         addItemHandler(new BlockTicker() {
 
             @Override
@@ -263,8 +259,6 @@ public class WitherAssembler extends SlimefunItem {
                 return false;
             }
         });
-
-        super.register(slimefun);
     }
 
     public int getEnergyConsumption() {

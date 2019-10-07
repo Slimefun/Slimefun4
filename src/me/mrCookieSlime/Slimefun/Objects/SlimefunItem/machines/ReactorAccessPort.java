@@ -10,14 +10,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule.Action;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -44,7 +43,7 @@ public class ReactorAccessPort extends SlimefunItem {
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                if(p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(),b,true)) {
+                if(p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), Action.ACCESS_INVENTORIES)) {
                     AReactor reactor = getReactor(b.getLocation());
                     if (reactor != null) {
                         boolean empty = true;
@@ -96,7 +95,7 @@ public class ReactorAccessPort extends SlimefunItem {
             }
         };
 
-        registerBlockHandler(name, (p, b, item1, reason) -> {
+        registerBlockHandler(name, (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
@@ -179,11 +178,8 @@ public class ReactorAccessPort extends SlimefunItem {
     public BlockMenu getReactorMenu(Location l) {
         Location reactorL = new Location(l.getWorld(), l.getX(), l.getY() - 3, l.getZ());
 
-        String id = BlockStorage.checkID(reactorL);
-
-        if(id.equals("NUCLEAR_REACTOR") || id.equals("NETHERSTAR_REACTOR")) {
-            return BlockStorage.getInventory(reactorL);
-        }
+        SlimefunItem item = BlockStorage.check(reactorL.getBlock());
+        if (item instanceof AReactor) return BlockStorage.getInventory(l);
 
         return null;
     }

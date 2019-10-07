@@ -1,6 +1,11 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -17,16 +22,14 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Interfaces.NotPlaceable;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
@@ -34,6 +37,7 @@ import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class ToolListener implements Listener {
 
@@ -90,6 +94,7 @@ public class ToolListener implements Listener {
             e.setCancelled(true);
             utilities.cancelPlace.remove(e.getPlayer().getUniqueId());
         }
+
         if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
         else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
 
@@ -126,6 +131,7 @@ public class ToolListener implements Listener {
             PlayerInventory.consumeItemInHand(e.getPlayer());
             FireworkShow.launchRandom(e.getPlayer(), 3);
             List<ItemStack> gifts = new ArrayList<>();
+
             for (int i = 0; i < 2; i++) {
                 gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
                 gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
@@ -140,7 +146,6 @@ public class ToolListener implements Listener {
                 gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
                 gifts.add(new ItemStack(Material.EMERALD));
             }
-            gifts.add(new SkullItem("StarWish_Sama"));
 
             e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(random.nextInt(gifts.size())));
         }
@@ -163,8 +168,8 @@ public class ToolListener implements Listener {
             }
         }
         else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, false) && e.getBlock().getY() != e.getBlockAgainst().getY()) {
-                Messages.local.sendTranslation(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
-                e.setCancelled(true);
+            Messages.local.sendTranslation(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
+            e.setCancelled(true);
         }
 
     }
@@ -229,12 +234,14 @@ public class ToolListener implements Listener {
 
         if (!drops.isEmpty()) {
             e.getBlock().setType(Material.AIR);
-            if(e.isDropItems())
-                for (ItemStack drop : drops) {
-                    if (drop != null)
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
 
+            if (e.isDropItems()) {
+                for (ItemStack drop : drops) {
+                    if (drop != null) {
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+                    }
                 }
+            }
         }
     }
 
@@ -244,13 +251,15 @@ public class ToolListener implements Listener {
 
         while (blocks.hasNext()) {
             Block block = blocks.next();
-            SlimefunItem item = BlockStorage.check(block);
-            if (item != null) {
+            String id = BlockStorage.checkID(block);
+            if (id != null) {
                 blocks.remove();
-                if (!item.getID().equalsIgnoreCase("HARDENED_GLASS") && !item.getID().equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !item.getID().equalsIgnoreCase("WITHER_PROOF_GLASS") && !item.getID().equalsIgnoreCase("FORCEFIELD_PROJECTOR") && !item.getID().equalsIgnoreCase("FORCEFIELD_RELAY")) {
+                if (!id.equalsIgnoreCase("HARDENED_GLASS") && !id.equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !id.equalsIgnoreCase("WITHER_PROOF_GLASS") && !id.equalsIgnoreCase("FORCEFIELD_PROJECTOR") && !id.equalsIgnoreCase("FORCEFIELD_RELAY")) {
                     boolean success = true;
-                    if (utilities.blockHandlers.containsKey(item.getID())) {
-                        success = utilities.blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.EXPLODE);
+                    SlimefunItem item = SlimefunItem.getByID(id);
+
+                    if (utilities.blockHandlers.containsKey(id)) {
+                        success = utilities.blockHandlers.get(id).onBreak(null, block, item, UnregisterReason.EXPLODE);
                     }
                     if (success) {
                         BlockStorage.clearBlockInfo(block);

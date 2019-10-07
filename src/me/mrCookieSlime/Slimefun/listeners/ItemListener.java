@@ -3,8 +3,6 @@ package me.mrCookieSlime.Slimefun.listeners;
 import java.util.List;
 import java.util.logging.Level;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -23,10 +21,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.BrewerInventory;
@@ -40,20 +39,21 @@ import org.bukkit.potion.PotionEffectType;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Variable;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.MultiTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -120,7 +120,7 @@ public class ItemListener implements Listener {
 
         Player p = e.getPlayer();
 
-        if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
+        if (SlimefunManager.isItemSimiliar(e.getItem(), SlimefunItems.DEBUG_FISH, true)) {
             e.setCancelled(true);
             if (p.isOp()) {
                 switch (e.getAction()) {
@@ -159,14 +159,14 @@ public class ItemListener implements Listener {
                             if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&2\u2714"));
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dAsync: &e" + (BlockStorage.check(e.getClickedBlock()).getBlockTicker().isSynchronized() ? "&4\u2718": "&2\u2714")));
-                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunPlugin.ticker.getTimings(e.getClickedBlock()) + "ms"));
-                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTotal Timings: &e" + SlimefunPlugin.ticker.getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
-                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunPlugin.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTotal Timings: &e" + SlimefunPlugin.getTicker().getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
                             }
                             else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&b~ &3(Indirect)"));
-                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunPlugin.ticker.getTimings(e.getClickedBlock()) + "ms"));
-                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunPlugin.ticker.getTimings(e.getClickedBlock().getChunk()) + "ms"));
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
                             }
                             else {
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&4\u2718"));
@@ -191,6 +191,15 @@ public class ItemListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onBucketUse(PlayerBucketEmptyEvent e) {
+        // Fix for placing water on player heads
+        Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
+        if (BlockStorage.hasBlockInfo(l)) {
+            e.setCancelled(true);
+        }
+    }
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void onRightClick(ItemUseEvent e) {
         if (e.getParentEvent() != null && e.getParentEvent().getHand() != EquipmentSlot.HAND) {
@@ -199,16 +208,6 @@ public class ItemListener implements Listener {
 
         final Player p = e.getPlayer();
         ItemStack item = e.getItem();
-
-        // Fix for placing water on player heads
-        if (e.getParentEvent().getAction() == Action.RIGHT_CLICK_BLOCK && item != null && item.getType() == Material.WATER_BUCKET) {
-            Location water = e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace()).getLocation();
-            if ((p.getWorld().getBlockAt(water).getType() == Material.PLAYER_HEAD || p.getWorld().getBlockAt(water).getType() == Material.PLAYER_WALL_HEAD) && BlockStorage.hasBlockInfo(water)) {
-                e.setCancelled(true);
-                p.getWorld().getBlockAt(water).getState().update(true, false);
-                return;
-            }
-        }
 
         if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
             if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
@@ -222,12 +221,14 @@ public class ItemListener implements Listener {
             if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
             else p.chat("/sf cheat");
         }
-        else if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), SlimefunItems.DEBUG_FISH, true) || SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInOffHand(), SlimefunItems.DEBUG_FISH, true)) {
+        else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEBUG_FISH, true)) {
+            // Ignore the debug fish in here
         }
         else if (Slimefun.hasUnlocked(p, item, true)) {
             for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
                 if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
             }
+
             if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DURALUMIN_MULTI_TOOL, false)
                     || SlimefunManager.isItemSimiliar(item, SlimefunItems.SOLDER_MULTI_TOOL, false)
                     || SlimefunManager.isItemSimiliar(item, SlimefunItems.BILLON_MULTI_TOOL, false)
@@ -274,11 +275,21 @@ public class ItemListener implements Listener {
 
                     if (storage.hasUniversalInventory(id)) {
                         UniversalBlockMenu menu = storage.getUniversalInventory(id);
-                        if (menu.canOpen(e.getClickedBlock(), p)) menu.open(p);
+                        if (menu.canOpen(e.getClickedBlock(), p)) {
+                            menu.open(p);
+                        }
+                        else {
+                            Messages.local.sendTranslation(p, "inventory.no-access", true);
+                        }
                     }
                     else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
                         BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
-                        if (menu.canOpen(e.getClickedBlock(), p)) menu.open(p);
+                        if (menu.canOpen(e.getClickedBlock(), p)) {
+                            menu.open(p);
+                        }
+                        else {
+                            Messages.local.sendTranslation(p, "inventory.no-access", true);
+                        }
                     }
                 }
             }
@@ -304,29 +315,17 @@ public class ItemListener implements Listener {
         if (e.getItem() != null) {
             final Player p = e.getPlayer();
             ItemStack item = e.getItem();
+
             if (Slimefun.hasUnlocked(p, item, true)) {
-                if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MONSTER_JERKY, true)) {
-                    e.setCancelled(true);
-                    if (SlimefunManager.isItemSimiliar(p.getInventory().getItemInOffHand(), SlimefunItems.MONSTER_JERKY, true)) {
-                        p.getInventory().setItemInOffHand(InvUtils.decreaseItem(p.getInventory().getItemInOffHand(), 1));
-                    }
-                    else{
-                        p.getInventory().setItemInMainHand(InvUtils.decreaseItem(p.getInventory().getItemInMainHand(), 1));
-                    }
-                    PlayerInventory.update(p);
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 5, 0));
+                for (ItemHandler handler : SlimefunItem.getHandlers("ItemConsumptionHandler")) {
+                    if (((ItemConsumptionHandler) handler).onConsume(e, p, item)) return;
                 }
-                else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.local.getTranslation("messages.fortune-cookie").get(CSCoreLib.randomizer().nextInt(Messages.local.getTranslation("messages.fortune-cookie").size()))));
-                else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BEEF_JERKY, true)) p.setSaturation((Integer) Slimefun.getItemValue("BEEF_JERKY", "Saturation"));
-                else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MEDICINE, true)) {
-                    if (p.hasPotionEffect(PotionEffectType.POISON)) p.removePotionEffect(PotionEffectType.POISON);
-                    if (p.hasPotionEffect(PotionEffectType.WITHER)) p.removePotionEffect(PotionEffectType.WITHER);
-                    if (p.hasPotionEffect(PotionEffectType.SLOW)) p.removePotionEffect(PotionEffectType.SLOW);
-                    if (p.hasPotionEffect(PotionEffectType.SLOW_DIGGING)) p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-                    if (p.hasPotionEffect(PotionEffectType.WEAKNESS)) p.removePotionEffect(PotionEffectType.WEAKNESS);
-                    if (p.hasPotionEffect(PotionEffectType.CONFUSION)) p.removePotionEffect(PotionEffectType.CONFUSION);
-                    if (p.hasPotionEffect(PotionEffectType.BLINDNESS)) p.removePotionEffect(PotionEffectType.BLINDNESS);
-                    p.setFireTicks(0);
+
+                if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) {
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.local.getTranslation("messages.fortune-cookie").get(CSCoreLib.randomizer().nextInt(Messages.local.getTranslation("messages.fortune-cookie").size()))));
+                }
+                else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BEEF_JERKY, true)) {
+                    p.setSaturation((int) Slimefun.getItemValue("BEEF_JERKY", "Saturation"));
                 }
                 else if (item.getType() == Material.POTION) {
                     SlimefunItem sfItem = SlimefunItem.getByItem(item);
@@ -363,8 +362,8 @@ public class ItemListener implements Listener {
                         final int m = mode;
 
                         Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-                            if (m == 0) p.getEquipment().setItemInMainHand(null);
-                            else if (m == 1) p.getEquipment().setItemInOffHand(null);
+                            if (m == 0) p.getEquipment().getItemInMainHand().setAmount(0);
+                            else if (m == 1) p.getEquipment().getItemInOffHand().setAmount(0);
                             else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
                         }, 0L);
                     }

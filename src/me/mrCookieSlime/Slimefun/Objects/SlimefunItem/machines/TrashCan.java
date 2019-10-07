@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -14,69 +13,52 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 
-public class TrashCan extends SlimefunItem {
-	
-	private static final int[] border = {0, 1, 2, 3, 5, 4, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+public class TrashCan extends SlimefunItem implements InventoryBlock {
 
-	public TrashCan(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
-		
-		new BlockMenuPreset(name, getInventoryTitle()) {
-			
-			@Override
-			public void init() {
-				constructMenu(this);
-			}
+    private static final int[] border = {0, 1, 2, 3, 5, 4, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
-			@Override
-			public boolean canOpen(Block b, Player p) {
-				return true;
-			}
+    public TrashCan(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, name, recipeType, recipe);
+        createPreset(this, "&4垃圾桶", this::constructMenu);
+    }
 
-			@Override
-			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow.equals(ItemTransportFlow.INSERT)) return getInputSlots();
-				return new int[0];
-			}
-		};
-	}
-	
-	private void constructMenu(BlockMenuPreset preset) {
-		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
-		}
-	}
-	
-	public String getInventoryTitle() {
-		return "&4Trash Can";
-	}
+    private void constructMenu(BlockMenuPreset preset) {
+        for (int i : border) {
+            preset.addItem(i, new CustomItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), " "),
+                    (p, slot, item, action) -> false
+            );
+        }
+    }
 
-	public int[] getInputSlots() {
-		return new int[] {10, 11, 12, 13, 14, 15, 16};
-	}
-	
-	@Override
-	public void register(boolean slimefun) {
-		addItemHandler(new BlockTicker() {
-			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				BlockMenu menu = BlockStorage.getInventory(b);
-				for (int slot: getInputSlots()) {
-					menu.replaceExistingItem(slot, null);
-				}
-			}
-			
-			@Override
-			public boolean isSynchronized() {
-				return false;
-			}
-		});
+    @Override
+    public int[] getInputSlots() {
+        return new int[] {10, 11, 12, 13, 14, 15, 16};
+    }
 
-		super.register(slimefun);
-	}
+    @Override
+    public int[] getOutputSlots() {
+        return new int[0];
+    }
+
+    @Override
+    public void preRegister() {
+        addItemHandler(new BlockTicker() {
+
+            @Override
+            public void tick(Block b, SlimefunItem item, Config data) {
+                BlockMenu menu = BlockStorage.getInventory(b);
+                for (int slot: getInputSlots()) {
+                    menu.replaceExistingItem(slot, null);
+                }
+            }
+
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
+        });
+    }
 
 }

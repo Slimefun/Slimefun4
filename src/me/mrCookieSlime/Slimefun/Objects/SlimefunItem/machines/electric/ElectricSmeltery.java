@@ -32,11 +32,6 @@ import me.mrCookieSlime.Slimefun.api.item_transport.RecipeSorter;
 
 public abstract class ElectricSmeltery extends AContainer {
 	
-	public static Map<Block, MachineRecipe> processing = new HashMap<Block, MachineRecipe>();
-	public static Map<Block, Integer> progress = new HashMap<Block, Integer>();
-	
-	protected List<MachineRecipe> recipes = new ArrayList<MachineRecipe>();
-	
 	private static final int[] border = {4, 5, 6, 7, 8, 13, 31, 40, 41, 42, 43, 44};
 	private static final int[] border_in = {0, 1, 2, 3, 9, 12, 18, 21, 27, 30, 36, 37, 38, 39};
 	private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
@@ -63,9 +58,9 @@ public abstract class ElectricSmeltery extends AContainer {
 
 			@Override
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
-				if (flow ==ItemTransportFlow.WITHDRAW) return getOutputSlots();
+				if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
 				
-				List<Integer> slots = new ArrayList<Integer>();
+				List<Integer> slots = new ArrayList<>();
 				
 				for (int slot : getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), item, true)) {
@@ -89,8 +84,8 @@ public abstract class ElectricSmeltery extends AContainer {
 				}
 			}
 		};
-		
-		registerBlockHandler(name, (p, b, item1, reason) -> {
+
+        registerBlockHandler(name, (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
             if (inv != null) {
                 for (int slot : getInputSlots()) {

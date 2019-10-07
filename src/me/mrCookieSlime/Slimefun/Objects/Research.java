@@ -46,8 +46,6 @@ public class Research {
      * @since 4.0
      * @see ResearchSetup
      */
-    public static List<Research> list = new LinkedList<>();
-
     private int id;
     private String name;
     private List<SlimefunItem> items;
@@ -116,7 +114,7 @@ public class Research {
      */
     @Deprecated
     public int getLevel() {
-        return cost;
+        return getCost();
     }
 
     /**
@@ -129,7 +127,7 @@ public class Research {
      */
     @Deprecated
     public void setLevel(int level) {
-        this.cost = level;
+        setCost(level);
     }
 
     /**
@@ -303,8 +301,8 @@ public class Research {
         this.cost = SlimefunPlugin.getResearchCfg().getInt(this.getID() + ".cost");
         this.enabled = SlimefunPlugin.getResearchCfg().getBoolean(this.getID() + ".enabled");
 
-        list.add(this);
-        if (SlimefunPlugin.getCfg().getBoolean("options.print-out-loading")) Slimefun.getLogger().log(Level.INFO, "Loaded Research \"" + this.getName() + "\"");
+        SlimefunPlugin.getUtilities().allResearches.add(this);
+        if (SlimefunPlugin.getCfg().getBoolean("options.print-out-loading")) Slimefun.getLogger().log(Level.INFO, "已加载研究 \"" + this.getName() + "\"");
     }
 
     /**
@@ -316,7 +314,7 @@ public class Research {
      * @see ResearchSetup
      */
     public static List<Research> list() {
-        return list;
+        return SlimefunPlugin.getUtilities().allResearches;
     }
 
     /**
@@ -328,7 +326,7 @@ public class Research {
      * @since 4.0
      */
     public static boolean isResearching(Player p) {
-        return SlimefunPlugin.instance.getUtilities().researching.contains(p.getUniqueId());
+        return SlimefunPlugin.getUtilities().researching.contains(p.getUniqueId());
     }
 
     /**
@@ -386,7 +384,7 @@ public class Research {
      * @since 4.0
      */
     public static Research getByID(int id) {
-        for (Research research: list) {
+        for (Research research: list()) {
             if (research.getID() == id) return research;
         }
         return null;

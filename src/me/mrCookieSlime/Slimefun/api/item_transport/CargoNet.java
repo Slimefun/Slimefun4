@@ -9,8 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -37,9 +39,6 @@ public class CargoNet extends Network {
 	public static boolean extraChannels = false;
 
 	private static final int RANGE = 5;
-	public static List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-	public static Map<Location, Integer> roundRobin = new HashMap<>();
-	public static Set<ItemRequest> requests = new HashSet<>();
 
 	private static int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
@@ -135,6 +134,8 @@ public class CargoNet extends Network {
 				case "CT_EXPORT_BUS":
 					exports.add(l);
 					break;
+                default:
+                    break;
 			}
 		}
 	}
@@ -206,7 +207,7 @@ public class CargoNet extends Network {
 						}
 
 						if (menu.getItemInSlot(17) != null) {
-							requests.add(new ItemRequest(bus, 17, menu.getItemInSlot(17), ItemTransportFlow.INSERT));
+							SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(bus, 17, menu.getItemInSlot(17), ItemTransportFlow.INSERT));
 						}
 					}
 
@@ -234,7 +235,7 @@ public class CargoNet extends Network {
 
 								BlockStorage.addBlockInfo(bus, "index", String.valueOf(index));
 
-								requests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
+								SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
 							}
 						}
 					} for (final Location terminal : terminals) {
@@ -242,11 +243,11 @@ public class CargoNet extends Network {
 
                         ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);
                         if (sendingItem != null) {
-                            requests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sendingItem, ItemTransportFlow.INSERT));
+                            SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sendingItem, ItemTransportFlow.INSERT));
                         }
                     }
 
-					Iterator<ItemRequest> iterator = requests.iterator();
+					Iterator<ItemRequest> iterator = SlimefunPlugin.getUtilities().itemRequests.iterator();
 					while (iterator.hasNext()) {
 						ItemRequest request = iterator.next();
 						if (terminals.contains(request.getTerminal()) || imports.contains(request.getTerminal()) || exports.contains(request.getTerminal())) {
@@ -325,7 +326,7 @@ public class CargoNet extends Network {
 					ItemStack stack = null;
 					int previousSlot = -1;
 
-					boolean roundrobin = BlockStorage.getLocationInfo(input, "round-robin").equals("true");
+					boolean roundRobin = BlockStorage.getLocationInfo(input, "round-robin").equals("true");
 
 					if (inputTarget != null) {
 						ItemSlot slot = CargoManager.withdraw(input.getBlock(), storage, inputTarget, Integer.parseInt(BlockStorage.getLocationInfo(input, "index")));
@@ -338,12 +339,12 @@ public class CargoNet extends Network {
 					if (stack != null && output.containsKey(frequency)) {
 						List<Location> outputlist = new ArrayList<Location>(output.get(frequency));
 
-						if (roundrobin) {
-							if (!roundRobin.containsKey(input)) {
-								roundRobin.put(input, 0);
+						if (roundRobin) {
+							if (!SlimefunPlugin.getUtilities().roundRobin.containsKey(input)) {
+								SlimefunPlugin.getUtilities().roundRobin.put(input, 0);
 							}
 
-							int cIndex = roundRobin.get(input);
+							int cIndex = SlimefunPlugin.getUtilities().roundRobin.get(input);
 
 							if (cIndex < outputlist.size()) {
 								for (int i = 0; i < cIndex; i++) {
@@ -355,7 +356,7 @@ public class CargoNet extends Network {
 							}
 							else cIndex = 1;
 
-							roundRobin.put(input, cIndex);
+							SlimefunPlugin.getUtilities().roundRobin.put(input, cIndex);
 						}
 
 
@@ -499,7 +500,7 @@ public class CargoNet extends Network {
 								stack.setItemMeta(im);
 								menu.replaceExistingItem(slot, stack);
 								menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
-									requests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
+									SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? (item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize(): item.getAmount()): 1), ItemTransportFlow.WITHDRAW));
 									return false;
 								});
 
@@ -525,8 +526,11 @@ public class CargoNet extends Network {
 	private static int getFrequency(Location l) {
 		int freq = 0;
 		try {
-			freq = Integer.parseInt(BlockStorage.getLocationInfo(l).getString("frequency"));
-		} catch (Exception e) {}
+            String str = BlockStorage.getLocationInfo(l).getString("frequency");
+            if (str != null) freq = Integer.parseInt(str);
+		} catch (Exception x) {
+            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a Cargo Node Frequency", x);
+        }
 		return freq;
 	}
 

@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +11,12 @@ import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TableSaw extends MultiBlockMachine {
+
+    private final List<ItemStack> displayRecipes = new ArrayList<ItemStack>();
 
     public TableSaw() {
         super(
@@ -21,6 +27,17 @@ public class TableSaw extends MultiBlockMachine {
                 new ItemStack[0],
                 Material.STONECUTTER
         );
+
+        for (Material log: Tag.LOGS.getValues()) {
+            displayRecipes.add(new ItemStack(log));
+            displayRecipes.add(new ItemStack(MaterialHelper.getWoodFromLog(log), 8));
+        }
+    }
+
+
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        return displayRecipes;
     }
 
     @Override

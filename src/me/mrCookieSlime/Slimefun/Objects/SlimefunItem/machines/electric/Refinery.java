@@ -12,11 +12,15 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class Refinery extends AContainer {
+import java.util.Arrays;
+import java.util.List;
+
+public abstract class Refinery extends AContainer implements RecipeDisplayItem {
 
 	public Refinery(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
@@ -36,6 +40,11 @@ public abstract class Refinery extends AContainer {
 	public String getMachineIdentifier() {
 		return "REFINERY";
 	}
+
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        return Arrays.asList(SlimefunItems.BUCKET_OF_OIL, SlimefunItems.BUCKET_OF_FUEL);
+    }
 
 	@Override
 	protected void tick(Block b) {

@@ -7,11 +7,10 @@ import me.mrCookieSlime.CSCoreLibPlugin.compatibility.MaterialHelper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 
 public class MultiBlock {
-
-    public static List<MultiBlock> list = new ArrayList<>();
 
     private Material[] blocks;
     private Material trigger;
@@ -30,11 +29,11 @@ public class MultiBlock {
     }
 
     public void register() {
-        list.add(this);
+        SlimefunPlugin.getUtilities().allMultiblocks.add(this);
     }
 
     public static List<MultiBlock> list() {
-        return list;
+        return SlimefunPlugin.getUtilities().allMultiblocks;
     }
 
     public boolean isMultiBlock(SlimefunItem machine) {

@@ -123,7 +123,7 @@ public final class MiscSetup {
 					i++;
 				}
 
-                    AutomatedCraftingChamber.recipes.put(builder.toString(), RecipeType.getRecipeOutputList(machine, inputs));
+                    SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.put(builder.toString(), RecipeType.getRecipeOutputList(machine, inputs));
 			}
 			
 		}

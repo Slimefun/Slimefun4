@@ -29,58 +29,54 @@ public class Crucible extends SlimefunGadget {
     }
 
     @Override
-    public void register(boolean slimefun) {
-        addItemHandler(new ItemInteractionHandler() {
+    public void preRegister() {
+        addItemHandler((ItemInteractionHandler) (e, p, item) -> {
+            if (e.getClickedBlock() != null) {
+                String id = BlockStorage.checkID(e.getClickedBlock());
+                if (id != null && id.equals("CRUCIBLE")) {
+                    if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
+                        final ItemStack input = p.getInventory().getItemInMainHand();
+                        final Block block = e.getClickedBlock().getRelative(BlockFace.UP);
+                        SlimefunItem machine = SlimefunItem.getByID(id);
 
-            @Override
-            public boolean onRightClick(ItemUseEvent e, final Player p, ItemStack item) {
-                if (e.getClickedBlock() != null) {
-                    SlimefunItem machine = BlockStorage.check(e.getClickedBlock());
-                    if (machine != null && machine.getID().equals("CRUCIBLE")) {
-                        if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), e.getClickedBlock(), true)) {
-                            final ItemStack input = p.getInventory().getItemInMainHand();
-                            final Block block = e.getClickedBlock().getRelative(BlockFace.UP);
-                            for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-                                if (input != null && SlimefunManager.isItemSimiliar(input, convert, true)) {
-                                    e.setCancelled(true);
-                                    ItemStack removing = input.clone();
-                                    removing.setAmount(convert.getAmount());
-                                    p.getInventory().removeItem(removing);
+                        for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+                            if (input != null && SlimefunManager.isItemSimiliar(input, convert, true)) {
+                                e.setCancelled(true);
+                                ItemStack removing = input.clone();
+                                removing.setAmount(convert.getAmount());
+                                p.getInventory().removeItem(removing);
 
-                                    for (int i = 1; i < 9; i++) {
-                                        int j = 8 - i;
-                                        Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
-                                            if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
-                                                block.setType(Material.LAVA);
-                                                Levelled le = (Levelled) block.getBlockData();
-                                                le.setLevel(j);
-                                                block.setBlockData(le, false);
-                                                block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
-                                            }
-                                            else if (MaterialHelper.isLeavesBlock(input.getType())) {
-                                                block.setType(Material.WATER);
-                                                Levelled le = (Levelled) block.getBlockData();
-                                                le.setLevel(j);
-                                                block.setBlockData(le, false);
-                                                block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-                                            }
-                                        }, i*50L);
-                                    }
-
-                                    return true;
+                                for (int i = 1; i < 9; i++) {
+                                    int j = 8 - i;
+                                    Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+                                        if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialHelper.isTerracotta(input.getType())) {
+                                            block.setType(Material.LAVA);
+                                            Levelled le = (Levelled) block.getBlockData();
+                                            le.setLevel(j);
+                                            block.setBlockData(le, false);
+                                            block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_POP, 1F, 1F);
+                                        }
+                                        else if (MaterialHelper.isLeavesBlock(input.getType())) {
+                                            block.setType(Material.WATER);
+                                            Levelled le = (Levelled) block.getBlockData();
+                                            le.setLevel(j);
+                                            block.setBlockData(le, false);
+                                            block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+                                        }
+                                    }, i*50L);
                                 }
+
+                                return true;
                             }
-                            Messages.local.sendTranslation(p, "machines.wrong-item", true);
-                            return true;
                         }
+                        Messages.local.sendTranslation(p, "machines.wrong-item", true);
                         return true;
                     }
+                    return true;
                 }
-                return false;
             }
+            return false;
         });
-
-        super.register(slimefun);
     }
 
 }

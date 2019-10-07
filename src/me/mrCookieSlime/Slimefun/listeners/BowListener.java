@@ -1,6 +1,6 @@
+
 package me.mrCookieSlime.Slimefun.listeners;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -15,10 +15,11 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.Slimefun.utils.Utilities;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class BowListener implements Listener {
 
@@ -39,7 +40,7 @@ public class BowListener implements Listener {
     public void onArrowHit(final ProjectileHitEvent e) {
         Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
             if (!e.getEntity().isValid()) return;
-            if (utilities.arrows.containsKey(e.getEntity().getUniqueId())) utilities.arrows.remove(e.getEntity().getUniqueId());
+            utilities.arrows.remove(e.getEntity().getUniqueId());
             if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
         }, 4L);
     }
@@ -55,7 +56,7 @@ public class BowListener implements Listener {
                 else p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
 
                 for (Entity n: utilities.remove.get(p.getUniqueId())) {
-                    n.remove();
+                    if (n.isValid()) n.remove();
                 }
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
@@ -84,7 +85,7 @@ public class BowListener implements Listener {
                 p.setVelocity(v);
 
                 for (Entity n: utilities.remove.get(p.getUniqueId())) {
-                    n.remove();
+                    if (n.isValid()) n.remove();
                 }
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {

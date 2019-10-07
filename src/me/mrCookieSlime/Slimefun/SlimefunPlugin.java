@@ -1,5 +1,7 @@
 package me.mrCookieSlime.Slimefun;
 
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
+import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.api.*;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
@@ -52,13 +54,11 @@ import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
-import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
-import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
+import me.mrCookieSlime.Slimefun.GEO.resources.NetherIceResource;
+import me.mrCookieSlime.Slimefun.GEO.resources.OilResource;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -68,11 +68,7 @@ import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 
 public final class SlimefunPlugin extends JavaPlugin {
 
@@ -84,6 +80,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static TickerTask ticker;
 
+    private final GPSNetwork gps = new GPSNetwork();
+    private ProtectionManager protections;
     private Utilities utilities = new Utilities();
     private Settings settings;
     private SlimefunHooks hooks;
@@ -182,7 +180,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			try {
 				SlimefunSetup.setupItems();
 			} catch (Exception x) {
-				x.printStackTrace();
+                getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + Slimefun.getVersion(), x);
 			}
 			MiscSetup.loadDescriptions();
 
@@ -236,6 +234,7 @@ public final class SlimefunPlugin extends JavaPlugin {
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
             getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
                 Slimefun.emeraldenchants = getServer().getPluginManager().isPluginEnabled("EmeraldEnchants");
+                protections = new ProtectionManager(getServer());
                 MiscSetup.loadItems(settings);
 
                 for (World world: Bukkit.getWorlds()) {
@@ -287,7 +286,8 @@ public final class SlimefunPlugin extends JavaPlugin {
                                     p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 1));
                                     p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
                                     p.setFireTicks(400);
-                                    break; // Break the loop to save some calculations
+                                    break;
+                                    // Break the loop to save some calculations
                                 }
                             }
                         }
@@ -322,7 +322,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
         if (ticker != null) {
             // Finishes all started movements/removals of block data
-            ticker.halted = true;
+            ticker.halt();
             ticker.run();
         }
 
@@ -352,20 +352,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 
         // Prevent Memory Leaks
         Messages.local = null;
-        MultiBlock.list = null;
-        Research.list = null;
         SlimefunItem.all = null;
         SlimefunItem.items = null;
-        SlimefunItem.mapID = null;
-        BlockMenuPreset.presets = null;
-        ChargableBlock.capacitors = null;
-        ChargableBlock.maxCharges = null;
         AContainer.processing = null;
         AContainer.progress = null;
-        EnergyNet.machinesInput = null;
-        EnergyNet.machinesOutput = null;
-        EnergyNet.machinesStorage = null;
-        CargoNet.faces = null;
         OreWasher.items = null;
 
         instance = null;
@@ -408,6 +398,10 @@ public final class SlimefunPlugin extends JavaPlugin {
         return CSCoreLib.randomizer().nextInt(max) <= percentage;
     }
 
+    public GPSNetwork getGPS() {
+        return gps;
+    }
+
     public static SlimefunHooks getHooks() {
         return instance.hooks;
     }
@@ -426,5 +420,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 
     public static boolean isActive() {
         return instance != null;
+    }
+
+    public static ProtectionManager getProtectionManager() {
+        return instance.protections;
     }
 }

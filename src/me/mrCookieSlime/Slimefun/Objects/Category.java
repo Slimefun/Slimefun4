@@ -6,11 +6,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Statically handles categories.
@@ -45,6 +47,11 @@ public class Category {
      */
     public Category(ItemStack item) {
         this.item = item;
+
+        ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        this.item.setItemMeta(meta);
+
         this.items = new ArrayList<>();
         this.tier = 3;
     }

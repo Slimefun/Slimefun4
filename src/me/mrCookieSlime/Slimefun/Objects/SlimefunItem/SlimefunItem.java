@@ -2,10 +2,8 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -37,10 +35,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class SlimefunItem {
 
     public static List<SlimefunItem> items = new ArrayList<>();
-
-    public static Map<String, SlimefunItem> mapID = new HashMap<>();
-    public static Set<String> tickers = new HashSet<>();
-
     public static List<SlimefunItem> all = new ArrayList<>();
 
     private String id;
@@ -154,7 +148,10 @@ public class SlimefunItem {
      * @since 4.1.11, rename of {@link #getName()}.
      */
     public String getID()				{		return id;			}
+
+    @Deprecated
     public String getHash()				{		return hash;			}
+
     public State getState()				{		return state;			}
     public ItemStack getItem()			{		return item;			}
     public Category getCategory()			{		return category;		}
@@ -208,7 +205,11 @@ public class SlimefunItem {
     public void register(boolean slimefun) {
         this.addon = !slimefun;
         try {
-            if (mapID.containsKey(this.id)) throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
+            preRegister();
+
+            if (SlimefunPlugin.getUtilities().itemIDs.containsKey(this.id)) {
+                throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
+            }
             if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
             all.add(this);
 
@@ -247,8 +248,9 @@ public class SlimefunItem {
                 this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
                 items.add(this);
                 if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
-                mapID.put(this.id, this);
-                this.create();
+                SlimefunPlugin.getUtilities().itemIDs.put(this.id, this);
+
+                create();
 
                 for (ItemHandler handler: itemhandlers) {
                     Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
@@ -264,6 +266,8 @@ public class SlimefunItem {
                 if (this instanceof VanillaItem) this.state = State.VANILLA;
                 else this.state = State.DISABLED;
             }
+
+            postRegister();
         } catch(Exception x) {
             Slimefun.getLogger().log(Level.WARNING, "Registering the Item '" + id + "' for Slimefun " + Slimefun.getVersion() + " has failed", x);
         }
@@ -278,6 +282,7 @@ public class SlimefunItem {
         this.research = r;
     }
 
+    @Deprecated
     public void setHash(String hash) {
         this.hash = hash;
     }
@@ -308,14 +313,14 @@ public class SlimefunItem {
      */
     @Deprecated
     public static SlimefunItem getByName(String name) {
-        return mapID.get(name);
+        return getByID(name);
     }
 
     /**
      * @since 4.1.11, rename of {@link #getByName(String)}.
      */
     public static SlimefunItem getByID(String id) {
-        return mapID.get(id);
+        return SlimefunPlugin.getUtilities().itemIDs.get(id);
     }
 
     public static SlimefunItem getByItem(ItemStack item) {
@@ -390,9 +395,22 @@ public class SlimefunItem {
         return false;
     }
 
-    public void install() {}
-    public void create()  {}
+    @Deprecated
+    public void install() {
+        // Deprecated
+    }
 
+    /**
+     *  @deprecated Use {@link SlimefunItem#postRegister()} instead
+     */
+    @Deprecated
+    public void create()  {
+        // Deprecated
+    }
+
+    /**
+     * @deprecated Use {@link SlimefunItem#addItemHandler(ItemHandler...)} instead
+     */
     @Deprecated
     public void addItemHandler(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handler) {
         addItemHandler((ItemHandler[]) handler);
@@ -404,7 +422,7 @@ public class SlimefunItem {
         for (ItemHandler h: handler) {
             if (h instanceof BlockTicker) {
                 this.ticking = true;
-                tickers.add(getID());
+                SlimefunPlugin.getUtilities().tickers.add(getID());
                 this.blockTicker = (BlockTicker) h;
             }
             else if (h instanceof EnergyTicker) {
@@ -424,12 +442,18 @@ public class SlimefunItem {
         register(false);
     }
 
+    /**
+     * @deprecated Use {@link SlimefunItem#register(boolean, ItemHandler...)} instead
+     */
     @Deprecated
     public void register(boolean vanilla, me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
         addItemHandler(handlers);
         register(vanilla);
     }
 
+    /**
+     * @deprecated Use {@link SlimefunItem#register(ItemHandler...)} instead
+     */
     @Deprecated
     public void register(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
         register((ItemHandler[]) handlers);
@@ -509,12 +533,23 @@ public class SlimefunItem {
         ChargableBlock.registerCapacitor(id, capacity);
     }
 
+    public void preRegister() {
+        // Override this method to execute code before the Item has been registered
+        // Useful for calls to addItemHandler(...)
+    }
+
+
+    public void postRegister() {
+        // Override this method to execute code after the Item has been registered
+        // Useful for calls to Slimefun.getItemValue(...)
+    }
+
     protected void setItem(ItemStack stack) {
         this.item = stack;
     }
 
     public static boolean isTicking(String item) {
-        return tickers.contains(item);
+        return SlimefunPlugin.getUtilities().tickers.contains(item);
     }
 
     public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {

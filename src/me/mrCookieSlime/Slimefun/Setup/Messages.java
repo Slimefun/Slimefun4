@@ -24,7 +24,7 @@ public final class Messages {
         local.setDefault("commands.stats",   "展示一个玩家的统计表" );
 
         local.setDefault("messages.only-players",   "&4这个指令只能在游戏内使用" );
-        local.setDefault("messages.no-permission",   "&4你没有足够的权限去做这个" );
+        local.setDefault("messages.no-permission",   "&4你没有权限去做这个" );
         local.setDefault("messages.usage",   "&4例子: &c%usage%" );
         local.setDefault("messages.not-online",   "&4%player% &c不在线!" );
         local.setDefault("messages.not-valid-item",   "&4%item% &c不是一个粘液科技物品!" );
@@ -102,6 +102,9 @@ public final class Messages {
         local.setDefault("workbench.not-enhanced",   "&4你不能在原版工作台使用粘液科技物品" );
         local.setDefault("anvil.not-working",   "&4你不能在铁砧里使用粘液科技物品" );
         local.setDefault("inventory.no-access",   "&4你不允许使用这个方块" );
+
+        local.setDefault("tooltips.item-permission", "&r你没有权限", "&r使用这个物品");
+
 		local.save();
 	}
 }

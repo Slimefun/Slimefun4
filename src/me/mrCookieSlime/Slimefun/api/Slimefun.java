@@ -32,10 +32,6 @@ public final class Slimefun {
     public static Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
 
     /**
-     * Instance of the GPSNetwork.
-     */
-    private static GPSNetwork gps = new GPSNetwork();
-    /**
      * Whether EmeraldEnchants is enabled or not.
      */
     public static boolean emeraldenchants = false;
@@ -53,7 +49,7 @@ public final class Slimefun {
      * @return the GPSNetwork instance.
      */
     public static GPSNetwork getGPSNetwork() {
-        return gps;
+        return SlimefunPlugin.instance.getGPS();
     }
 
     public static Logger getLogger() {

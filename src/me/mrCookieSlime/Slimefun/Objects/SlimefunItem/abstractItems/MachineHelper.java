@@ -12,14 +12,13 @@ import java.util.List;
 public final class MachineHelper {
 	private MachineHelper() {}
 
-	public static String getTimeLeft(int l) {
+	public static String getTimeLeft(int seconds) {
 		String timeleft = "";
-        final int minutes = (int) (l / 60L);
+        final int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
             timeleft = timeleft + minutes + "m ";
         }
-        l -= minutes * 60;
-        final int seconds = (int) l;
+        seconds -= minutes * 60;
         timeleft = timeleft + seconds + "s";
         return ChatColor.translateAlternateColorCodes('&', "&7" + timeleft + " left");
 	}
