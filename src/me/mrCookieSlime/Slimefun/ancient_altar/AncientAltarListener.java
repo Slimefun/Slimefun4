@@ -60,11 +60,13 @@ public class AncientAltarListener implements Listener {
 				e.setCancelled(true);
 				Item stack = findItem(b);
 				if (stack == null) {
-					if(e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) return;
-					if(b.getRelative(0, 1, 0).getType() != Material.AIR) {
+					if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) return;
+					
+					if (b.getRelative(0, 1, 0).getType() != Material.AIR) {
 						SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
 						return;
 					}
+					
 					insertItem(e.getPlayer(), b);
 				}
 				else if (!removedItems.contains(stack.getUniqueId())) {
@@ -170,20 +172,20 @@ public class AncientAltarListener implements Listener {
 	}
 
 	private void insertItem(Player p, Block b) {
-		final ItemStack stack = p.getInventory().getItemInMainHand();
-		if (stack != null) {
-			if (p.getGameMode() != GameMode.CREATIVE) {
-				ItemUtils.consumeItem(stack, false);
-			}
-			
-			String nametag = StringUtils.formatItemName(stack, false);
-			Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(new CustomItem(stack, 1), "&5&dALTAR &3Probe - &e" + System.nanoTime()));
-			entity.setVelocity(new Vector(0, 0.1, 0));
-			entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
-			entity.setCustomNameVisible(true);
-			entity.setCustomName(nametag);
-			p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
+		ItemStack hand = p.getInventory().getItemInMainHand();
+		ItemStack stack = new CustomItem(hand, 1);
+		
+		if (p.getGameMode() != GameMode.CREATIVE) {
+			ItemUtils.consumeItem(hand, false);
 		}
+		
+		String nametag = StringUtils.formatItemName(stack, false);
+		Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
+		entity.setVelocity(new Vector(0, 0.1, 0));
+		entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
+		entity.setCustomNameVisible(true);
+		entity.setCustomName(nametag);
+		p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
