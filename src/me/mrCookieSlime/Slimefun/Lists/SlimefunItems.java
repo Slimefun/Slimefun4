@@ -812,6 +812,8 @@ public final class SlimefunItems {
 	public static final ItemStack ELYTRA_SCALE = new CustomItem(Material.FEATHER, "&bElytra Scale");
 	public static final ItemStack INFUSED_ELYTRA = new CustomItem(ELYTRA, "&5Infused Elytra");
 	public static final ItemStack SOULBOUND_ELYTRA = new CustomItem(ELYTRA, "&cSoulbound Elytra");
+
+	public static final ItemStack TOTEM_OF_UNDYING = new ItemStack(Material.TOTEM_OF_UNDYING);
 	
 	static {
 		INFUSED_ELYTRA.addUnsafeEnchantment(Enchantment.MENDING, 1);
