@@ -244,5 +244,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(245, "Storm Staff", 30), SlimefunItems.STAFF_STORM);
 	    Slimefun.registerResearch(new Research(246, "Soulbound Rune", 60), SlimefunItems.RUNE_SOULBOUND);
 	    Slimefun.registerResearch(new Research(247, "GEO-Miner", 24), SlimefunItems.GEO_MINER);
+	    Slimefun.registerResearch(new Research(248, "Lightning Rune", 24), SlimefunItems.RUNE_LIGHTNING);
 	}
 }
