@@ -11,15 +11,16 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 public class EnergyRegulator extends SlimefunItem {
 
-	public EnergyRegulator(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public EnergyRegulator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		
-		SlimefunItem.registerBlockHandler("ENERGY_REGULATOR", new SlimefunBlockHandler() {
+		SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
 
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {

@@ -10,18 +10,18 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class KnowledgeFlask extends SimpleSlimefunItem<ItemInteractionHandler> {
 
-	public KnowledgeFlask(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, id, recipeType, recipe, recipeOutput);
+	public KnowledgeFlask(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+		super(category, item, recipeType, recipe, recipeOutput);
 	}
 
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true) && p.getLevel() >= 1) {
+			if (isItem(item) && p.getLevel() >= 1) {
 				if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof Container)) {
 					p.setLevel(p.getLevel() - 1);
 					e.setCancelled(true);

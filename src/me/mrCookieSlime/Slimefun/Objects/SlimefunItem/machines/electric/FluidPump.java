@@ -1,9 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -11,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Block.Vein;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
@@ -94,10 +92,8 @@ public class FluidPump extends SlimefunItem implements InventoryBlock {
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					pushItems(b, output);
 					
-					List<Location> list = new ArrayList<>();
-		        	list.add(fluid.getLocation());
-		        	Vein.calculate(fluid.getLocation(), fluid.getLocation(), list, 64);
-		        	list.get(list.size() - 1).getBlock().setType(Material.AIR);
+					List<Block> list = Vein.find(fluid, 50, block -> block.isLiquid() && block.getType() == fluid.getType());
+		        	list.get(list.size() - 1).setType(Material.AIR);
 					
 					return;
 				}

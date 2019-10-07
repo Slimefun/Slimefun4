@@ -22,6 +22,7 @@ public class TeleporterCommand extends SubCommand {
 		return "teleporter";
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {
 		if (args.length == 2) {
