@@ -1,18 +1,13 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionModule;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.AdvancedCargoOutputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoInputNode;
@@ -21,35 +16,19 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.*;
 import me.mrCookieSlime.Slimefun.Objects.handlers.*;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Effect;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.Tag;
+import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.block.data.Ageable;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Bat;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -73,15 +52,12 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.GPS.NetworkStatus;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Misc.PostSlimefunLoadingHandler;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
@@ -93,7 +69,6 @@ import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
 import me.mrCookieSlime.Slimefun.androids.AndroidType;
 import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
@@ -1722,32 +1697,29 @@ public final class SlimefunSetup {
 
 		new SlimefunItem(Categories.EASTER, SlimefunItems.EASTER_EGG, "EASTER_EGG", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.LIME_DYE), new ItemStack(Material.EGG), new ItemStack(Material.PURPLE_DYE), null, null, null}, new CustomItem(SlimefunItems.EASTER_EGG, 2))
-		.register(true, new ItemInteractionHandler() {
+                .register(true, (ItemInteractionHandler) (e, p, item) -> {
+                    if (SlimefunManager.isItemSimiliar(item, SlimefunItems.EASTER_EGG, true)) {
+                        e.setCancelled(true);
+                        PlayerInventory.consumeItemInHand(e.getPlayer());
+                        FireworkShow.launchRandom(e.getPlayer(), 2);
 
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.EASTER_EGG, true)) {
-					e.setCancelled(true);
-					PlayerInventory.consumeItemInHand(e.getPlayer());
-					FireworkShow.launchRandom(e.getPlayer(), 2);
+                        List<ItemStack> gifts = new ArrayList<ItemStack>();
+                        for (int i = 0; i < 2; i++) {
+                            gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
+                            gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
+                            gifts.add(new ItemStack(Material.EMERALD));
+                            gifts.add(new ItemStack(Material.CAKE));
+                            gifts.add(new ItemStack(Material.RABBIT_FOOT));
+                            gifts.add(new ItemStack(Material.GOLDEN_CARROT, 4));
+                        }
 
-					List<ItemStack> gifts = new ArrayList<ItemStack>();
-					for (int i = 0; i < 2; i++) {
-						gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
-                        gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
-                        gifts.add(new ItemStack(Material.EMERALD));
-                        gifts.add(new ItemStack(Material.CAKE));
-                        gifts.add(new ItemStack(Material.RABBIT_FOOT));
-                        gifts.add(new ItemStack(Material.GOLDEN_CARROT, 4));
-					}
-					gifts.add(new SkullItem("StarWish_Sama"));
+                        gifts.add(new SkullItem(Bukkit.getOfflinePlayer("StarWish_Sama")));
 
-                    p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(random.nextInt(gifts.size())));
-					return true;
-				}
-				else return false;
-			}
-		});
+                        p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(random.nextInt(gifts.size())));
+                        return true;
+                    }
+                    else return false;
+                });
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.REINFORCED_PLATE, "REINFORCED_PLATE", RecipeType.COMPRESSOR,
 		new ItemStack[] {new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), null, null, null, null, null, null, null, null})
@@ -3599,26 +3571,22 @@ public final class SlimefunSetup {
 			public boolean isSynchronized() {
 				return false;
 			}
-		}, new ItemInteractionHandler() {
+		}, (ItemInteractionHandler) (e, p, stack) -> {
+            if (e.getClickedBlock() == null) return false;
+            String item = BlockStorage.checkID(e.getClickedBlock());
+            if (item == null || !item.equals("CARGO_MANAGER")) return false;
+            e.setCancelled(true);
 
-			@Override
-			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack stack) {
-				if (e.getClickedBlock() == null) return false;
-                String item = BlockStorage.checkID(e.getClickedBlock());
-                if (item == null || !item.equals("CARGO_MANAGER")) return false;
-				e.setCancelled(true);
-
-				if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "visualizer") == null) {
-					BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", "disabled");
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
-				}
-				else {
-					BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", null);
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
-				}
-				return true;
-			}
-		});
+            if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "visualizer") == null) {
+                BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", "disabled");
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
+            }
+            else {
+                BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", null);
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
+            }
+            return true;
+        });
 
 		SlimefunItem.registerBlockHandler("CARGO_MANAGER", (p, b, item, reason) -> {
             CargoHologram.remove(b);
@@ -3783,9 +3751,9 @@ public final class SlimefunSetup {
 		.registerChargeableBlock(true, 4096);
 
 	}
-	
-	public static void registerPostHandler(PostSlimefunLoadingHandler handler) {
-		MiscSetup.postHandlers.add(handler);
-	}
+
+    public static void registerPostHandler(PostSlimefunLoadingHandler handler) {
+        SlimefunPlugin.getUtilities().postHandlers.add(handler);
+    }
 
 }

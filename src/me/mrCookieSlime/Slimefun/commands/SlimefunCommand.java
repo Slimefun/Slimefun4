@@ -162,7 +162,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
             }
             else if (args[0].equalsIgnoreCase("timings")) {
                 if (sender.hasPermission("slimefun.command.timings")|| sender instanceof ConsoleCommandSender) {
-                    SlimefunPlugin.ticker.info(sender);
+                    SlimefunPlugin.getTicker().info(sender);
                 }
                 else Messages.local.sendTranslation(sender, "messages.no-permission", true);
             }

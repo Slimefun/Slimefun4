@@ -21,7 +21,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSeriali
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Misc.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
@@ -34,8 +33,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 public final class MiscSetup {
 
     private MiscSetup(){}
-	
-	public static List<PostSlimefunLoadingHandler> postHandlers = new ArrayList<>();
 	
 	public static void setupMisc() {
 		if (SlimefunItem.getByID("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
@@ -205,7 +202,7 @@ public final class MiscSetup {
 		CommandSender sender = Bukkit.getConsoleSender();
 		ChatColor color = Colors.getRandom();
 		
-		for (PostSlimefunLoadingHandler handler: postHandlers) {
+		for (PostSlimefunLoadingHandler handler: SlimefunPlugin.getUtilities().postHandlers) {
 			handler.run(pre, init, post);
 		}
 		

@@ -68,7 +68,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
         }
 
         if (params.equals("timings_lag")) {
-            return SlimefunPlugin.ticker.getTime() + "ms";
+            return SlimefunPlugin.getTicker().getTime() + "ms";
         }
 
         return null;
