@@ -1,10 +1,11 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 public class PlayerQuitListener implements Listener {
 
@@ -14,12 +15,11 @@ public class PlayerQuitListener implements Listener {
 
 	@EventHandler
 	public void onDisconnect(PlayerQuitEvent e) {
-        SlimefunPlugin.instance.getUtilities().guideHistory.remove(e.getPlayer().getUniqueId());
-
-        if (PlayerProfile.isLoaded(e.getPlayer().getUniqueId())) {
-            PlayerProfile.fromUUID(e.getPlayer().getUniqueId()).markForDeletion();
-        }
+		SlimefunPlugin.getUtilities().guideHistory.remove(e.getPlayer().getUniqueId());
+		
+		if (PlayerProfile.isLoaded(e.getPlayer().getUniqueId())) {
+			PlayerProfile.fromUUID(e.getPlayer().getUniqueId()).markForDeletion();
+		}
 	}
-
 
 }

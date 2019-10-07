@@ -1,4 +1,3 @@
-
 package me.mrCookieSlime.Slimefun.listeners;
 
 import org.bukkit.Bukkit;
@@ -22,92 +21,92 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class BowListener implements Listener {
+	
+	private Utilities utilities;
+	
+	public BowListener(SlimefunPlugin plugin) {
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		utilities = SlimefunPlugin.getUtilities();
+	}
 
-    private Utilities utilities;
+	@EventHandler
+	public void onBowUse(EntityShootBowEvent e) {
+		if (!(e.getEntity() instanceof Player) || !(e.getProjectile() instanceof Arrow)) return;
+		if (SlimefunItem.getByItem(e.getBow()) != null) utilities.arrows.put(e.getProjectile().getUniqueId(), e.getBow());
+	}
+	
+	@EventHandler
+	public void onArrowHit(final ProjectileHitEvent e) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+			if (!e.getEntity().isValid()) return;
+			utilities.arrows.remove(e.getEntity().getUniqueId());
+			if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
+		}, 4L);
+	}
+	
+	private void handleGrapplingHook(Arrow arrow) {
+		if (arrow != null && arrow.getShooter() instanceof Player && utilities.jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
+			final Player p = (Player) arrow.getShooter();
+			if (p.getGameMode() != GameMode.CREATIVE && utilities.jumpState.get(p.getUniqueId())) arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItem.getItem("GRAPPLING_HOOK"));
+			if (p.getLocation().distance(arrow.getLocation()) < 3.0D) {
+				if (arrow.getLocation().getY() > p.getLocation().getY()) {
+					p.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
+				}
+				else p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
 
-    public BowListener(SlimefunPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        utilities = SlimefunPlugin.getUtilities();
-    }
+				for (Entity n: utilities.remove.get(p.getUniqueId())) {
+					if (n.isValid()) n.remove();
+				}
 
-    @EventHandler
-    public void onBowUse(EntityShootBowEvent e) {
-        if (!(e.getEntity() instanceof Player) || !(e.getProjectile() instanceof Arrow)) return;
-        if (SlimefunItem.getByItem(e.getBow()) != null) utilities.arrows.put(e.getProjectile().getUniqueId(), e.getBow());
-    }
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+					utilities.jumpState.remove(p.getUniqueId());
+					utilities.remove.remove(p.getUniqueId());
+				}, 20L);
+			}
+			else {
+				Location l = p.getLocation();
+				l.setY(l.getY() + 0.5D);
+				p.teleport(l);
 
-    @EventHandler
-    public void onArrowHit(final ProjectileHitEvent e) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-            if (!e.getEntity().isValid()) return;
-            utilities.arrows.remove(e.getEntity().getUniqueId());
-            if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
-        }, 4L);
-    }
+				double g = -0.08D;
+				double d = arrow.getLocation().distance(l);
+				double t = d;
+				double vX = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getX() - l.getX()) / t;
+				double vY = (1.0D + 0.04D * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
+				double vZ = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
 
-    private void handleGrapplingHook(Arrow arrow) {
-        if (arrow != null && arrow.getShooter() instanceof Player && utilities.jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
-            final Player p = (Player) arrow.getShooter();
-            if (p.getGameMode() != GameMode.CREATIVE && utilities.jumpState.get(p.getUniqueId())) arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItem.getItem("GRAPPLING_HOOK"));
-            if (p.getLocation().distance(arrow.getLocation()) < 3.0D) {
-                if (arrow.getLocation().getY() > p.getLocation().getY()) {
-                    p.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
-                }
-                else p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
+				Vector v = p.getVelocity();
 
-                for (Entity n: utilities.remove.get(p.getUniqueId())) {
-                    if (n.isValid()) n.remove();
-                }
+				v.setX(vX);
+				v.setY(vY);
+				v.setZ(vZ);
 
-                Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-                    utilities.jumpState.remove(p.getUniqueId());
-                    utilities.remove.remove(p.getUniqueId());
-                }, 20L);
-            }
-            else {
-                Location l = p.getLocation();
-                l.setY(l.getY() + 0.5D);
-                p.teleport(l);
+				p.setVelocity(v);
 
-                double g = -0.08D;
-                double d = arrow.getLocation().distance(l);
-                double t = d;
-                double vX = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getX() - l.getX()) / t;
-                double vY = (1.0D + 0.04D * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
-                double vZ = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
+				for (Entity n: utilities.remove.get(p.getUniqueId())) {
+					if (n.isValid()) n.remove();
+				}
 
-                Vector v = p.getVelocity();
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+					utilities.jumpState.remove(p.getUniqueId());
+					utilities.remove.remove(p.getUniqueId());
+				}, 20L);
+			}
+		}
+	}
 
-                v.setX(vX);
-                v.setY(vY);
-                v.setZ(vZ);
-
-                p.setVelocity(v);
-
-                for (Entity n: utilities.remove.get(p.getUniqueId())) {
-                    if (n.isValid()) n.remove();
-                }
-
-                Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-                    utilities.jumpState.remove(p.getUniqueId());
-                    utilities.remove.remove(p.getUniqueId());
-                }, 20L);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Arrow) {
-            if (utilities.arrows.containsKey(e.getDamager().getUniqueId()) && e.getEntity() instanceof LivingEntity) {
-                for (ItemHandler handler: SlimefunItem.getHandlers("BowShootHandler")) {
-                    if (((BowShootHandler) handler).onHit(e, (LivingEntity) e.getEntity())) break;
-                }
-                utilities.arrows.remove(e.getDamager().getUniqueId());
-            }
-
-            handleGrapplingHook((Arrow) e.getDamager());
-        }
-    }
+	@EventHandler
+	public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
+		if (e.getDamager() instanceof Arrow) {
+			if (utilities.arrows.containsKey(e.getDamager().getUniqueId()) && e.getEntity() instanceof LivingEntity) {
+				 for (ItemHandler handler: SlimefunItem.getHandlers("BowShootHandler")) {
+					 if (((BowShootHandler) handler).onHit(e, (LivingEntity) e.getEntity())) break;
+				 }
+				 utilities.arrows.remove(e.getDamager().getUniqueId());
+			}
+			
+			handleGrapplingHook((Arrow) e.getDamager());
+		}
+	}
 
 }
