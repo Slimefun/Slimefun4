@@ -57,11 +57,11 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 					}
 					else {
 						block.setType(e.getItem().getType());
-						if(e.getItem().hasItemMeta() && (e.getItem().getItemMeta() instanceof BlockStateMeta)) {
+						if (e.getItem().getItemMeta() instanceof BlockStateMeta) {
 							BlockState itemBlockState = ((BlockStateMeta) e.getItem().getItemMeta()).getBlockState();
 							BlockState blockState = block.getState();
 							
-							if((blockState instanceof Nameable) && e.getItem().getItemMeta().hasDisplayName()) {
+							if ((blockState instanceof Nameable) && e.getItem().getItemMeta().hasDisplayName()) {
 								((Nameable) blockState).setCustomName(e.getItem().getItemMeta().getDisplayName());
 							}
 							
@@ -69,8 +69,9 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 							blockState.update();
 							
 							//Changing the inventory of the block based on the inventory of the block's itemstack (Currently only applies to shulker boxes)
-							if(blockState instanceof BlockInventoryHolder) {
-								((BlockInventoryHolder) blockState).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());;
+							//Inventory has to be changed after blockState.update() as updating it will create a different Inventory for the object
+							if (block.getState() instanceof BlockInventoryHolder) {
+								((BlockInventoryHolder) block.getState()).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());;
 							}
 							
 						}
