@@ -57,7 +57,7 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 					}
 					else {
 						block.setType(e.getItem().getType());
-						if (e.getItem().getItemMeta() instanceof BlockStateMeta) {
+						if (e.getItem().hasItemMeta() && e.getItem().getItemMeta() instanceof BlockStateMeta) {
 							BlockState itemBlockState = ((BlockStateMeta) e.getItem().getItemMeta()).getBlockState();
 							BlockState blockState = block.getState();
 							
