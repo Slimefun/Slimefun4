@@ -5,7 +5,11 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.Nameable;
+import org.bukkit.block.BlockState;
+import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -53,6 +57,24 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 					}
 					else {
 						block.setType(e.getItem().getType());
+						if (e.getItem().hasItemMeta() && e.getItem().getItemMeta() instanceof BlockStateMeta) {
+							BlockState itemBlockState = ((BlockStateMeta) e.getItem().getItemMeta()).getBlockState();
+							BlockState blockState = block.getState();
+							
+							if ((blockState instanceof Nameable) && e.getItem().getItemMeta().hasDisplayName()) {
+								((Nameable) blockState).setCustomName(e.getItem().getItemMeta().getDisplayName());
+							}
+							
+							//Update block state after changing name
+							blockState.update();
+							
+							//Changing the inventory of the block based on the inventory of the block's itemstack (Currently only applies to shulker boxes)
+							//Inventory has to be changed after blockState.update() as updating it will create a different Inventory for the object
+							if (block.getState() instanceof BlockInventoryHolder) {
+								((BlockInventoryHolder) block.getState()).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());;
+							}
+							
+						}
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
 						if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
 						else {
