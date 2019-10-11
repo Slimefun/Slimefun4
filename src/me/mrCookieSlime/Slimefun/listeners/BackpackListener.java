@@ -116,30 +116,33 @@ public class BackpackListener implements Listener {
 		
 		if (item.getAmount() == 1) {
 			if (Slimefun.hasUnlocked(p, sfItem, true)) {
-				PlayerProfile profile = PlayerProfile.get(p);
-				
-				for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-					if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-						BackpackInventory backpack = profile.createBackpack(size);
-						
-						ItemMeta im = item.getItemMeta();
-						List<String> lore = im.getLore();
-						lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + backpack.getID()));
-						im.setLore(lore);
-						item.setItemMeta(im);
-						break;
-					}
-				}
-				
-				if(!SlimefunPlugin.getUtilities().backpack.containsValue(item)) {
-					PlayerProfile.getBackpack(item).open(p);
-					p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-					SlimefunPlugin.getUtilities().backpack.put(p.getUniqueId(), item);
-				}
-				else SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
+				PlayerProfile.get(p, profile -> {
+                    for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
+                        if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+                            BackpackInventory backpack = profile.createBackpack(size);
+
+                            setBackpackId(p, item, line, backpack.getID());
+                            break;
+                        }
+                    }
+
+                    if(!SlimefunPlugin.getUtilities().backpack.containsValue(item)) {
+                        PlayerProfile.getBackpack(item).open(p);
+                        p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+                        SlimefunPlugin.getUtilities().backpack.put(p.getUniqueId(), item);
+                    }
+                    else SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
+				});
 			}
 		}
 		else SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);
 	}
 
+    public static void setBackpackId(Player p, ItemStack item, int line, int id) {
+        ItemMeta im = item.getItemMeta();
+        List<String> lore = im.getLore();
+        lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + id));
+        im.setLore(lore);
+        item.setItemMeta(im);
+    }
 }

@@ -7,6 +7,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -113,10 +114,19 @@ public class LockedCategory extends Category {
 	 */
 	public boolean hasUnlocked(Player p) {
 		PlayerProfile profile = PlayerProfile.get(p);
-		
+
+		return hasUnlocked(p, profile);
+	}
+
+	public boolean hasUnlocked(Player p, PlayerProfile profile) {
 		for (Category category: parents) {
 			for (SlimefunItem item: category.getItems()) {
-				if (Slimefun.isEnabled(p, item, false) && Slimefun.hasPermission(p, item, false) && item.getResearch() != null && !profile.hasUnlocked(item.getResearch())) return false;
+				if (Slimefun.isEnabled(p, item, false)
+						&& Slimefun.hasPermission(p, item, false)
+						&& item.getResearch() != null
+						&& !profile.hasUnlocked(item.getResearch())
+				)
+					return false;
 			}
 		}
 		return true;

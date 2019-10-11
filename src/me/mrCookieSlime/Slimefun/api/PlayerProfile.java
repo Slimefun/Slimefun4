@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import org.bukkit.Bukkit;
@@ -48,22 +49,16 @@ public final class PlayerProfile {
 	private PlayerProfile(OfflinePlayer p) {
 		this.uuid = p.getUniqueId();
 		this.name = p.getName();
-		
+
 		cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
-		
+
 		for (Research research: Research.list()) {
 			if (cfg.contains("researches." + research.getID())) researches.add(research);
 		}
 	}
 	
 	private PlayerProfile(UUID uuid) {
-		this.uuid = uuid;
-		this.name = Bukkit.getOfflinePlayer(uuid).getName();
-		cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
-		
-		for (Research research: Research.list()) {
-			if (cfg.contains("researches." + research.getID())) researches.add(research);
-		}
+		this(Bukkit.getOfflinePlayer(uuid));
 	}
 	
 	public HashedArmorpiece[] getArmor() {
@@ -225,7 +220,15 @@ public final class PlayerProfile {
 		
 		return profile;
 	}
-	
+
+	/**
+	 * This is now deprecated, use {@link #get(OfflinePlayer, Consumer)} instead
+	 *
+	 * @param p The player's profile you wish to retrieve
+	 * @return The PlayerProfile of this player
+	 * @deprecated Use {@link #get(OfflinePlayer, Consumer)}
+	 */
+	@Deprecated
 	public static PlayerProfile get(OfflinePlayer p) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
 		
@@ -238,6 +241,20 @@ public final class PlayerProfile {
 		}
 		
 		return profile;
+	}
+
+	public static void get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
+		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
+		if (profile != null) {
+			callback.accept(profile);
+			return;
+		}
+
+		Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+			PlayerProfile pp = new PlayerProfile(p);
+			SlimefunPlugin.getUtilities().profiles.put(p.getUniqueId(), pp);
+			callback.accept(pp);
+		});
 	}
 
 	public static boolean isLoaded(UUID uuid) {
