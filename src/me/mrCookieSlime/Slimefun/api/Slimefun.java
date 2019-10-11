@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -322,5 +323,9 @@ public final class Slimefun {
 	
 	public static SlimefunLocalization getLocal() {
 		return SlimefunPlugin.getLocal();
+	}
+
+	public static void runSync(Runnable r) {
+		Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
 	}
 }

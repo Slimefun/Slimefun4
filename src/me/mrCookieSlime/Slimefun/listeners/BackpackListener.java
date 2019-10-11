@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.listeners;
 import java.util.List;
 
 import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -33,7 +34,7 @@ public class BackpackListener implements Listener {
 	public BackpackListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler
 	public void onClose(InventoryCloseEvent e) {
 		if (SlimefunPlugin.getUtilities().enchanting.containsKey(e.getPlayer().getUniqueId())) {
@@ -82,62 +83,61 @@ public class BackpackListener implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			ItemStack item = e.getItem();
 			Player p = e.getPlayer();
-			
-			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_SMALL, false)) {
-				openBackpack(SlimefunItems.BACKPACK_SMALL, 9, e, p, item);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_MEDIUM, false)) {
-				openBackpack(SlimefunItems.BACKPACK_MEDIUM, 18, e, p, item);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_LARGE, false)) {
-				openBackpack(SlimefunItems.BACKPACK_LARGE, 27, e, p, item);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.WOVEN_BACKPACK, false)) {
-				openBackpack(SlimefunItems.WOVEN_BACKPACK, 36, e, p, item);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GILDED_BACKPACK, false)) {
-				openBackpack(SlimefunItems.GILDED_BACKPACK, 45, e, p, item);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RADIANT_BACKPACK, false)) {
-				openBackpack(SlimefunItems.RADIANT_BACKPACK, 54, e, p, item);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) {
-				openBackpack(SlimefunItems.BOUND_BACKPACK, 36, e, p, item);
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.COOLER, false)) {
-				openBackpack(SlimefunItems.COOLER, 27, e, p, item);
-			}
+			ItemStack item = e.getItem();
+			SlimefunItem sfItem = SlimefunItem.getByItem(item);
+			if (sfItem == null) return;
+
+			// Surely this can be even simpler?
+			if (sfItem.isItem(SlimefunItems.BACKPACK_SMALL))
+				openBackpack(SlimefunItems.BACKPACK_SMALL, 9, e, p);
+			else if (sfItem.isItem(SlimefunItems.BACKPACK_MEDIUM))
+				openBackpack(SlimefunItems.BACKPACK_MEDIUM, 18, e, p);
+			else if (sfItem.isItem(SlimefunItems.BACKPACK_LARGE))
+				openBackpack(SlimefunItems.BACKPACK_LARGE, 27, e, p);
+			else if (sfItem.isItem(SlimefunItems.WOVEN_BACKPACK))
+				openBackpack(SlimefunItems.WOVEN_BACKPACK, 36, e, p);
+			else if (sfItem.isItem(SlimefunItems.GILDED_BACKPACK))
+				openBackpack(SlimefunItems.GILDED_BACKPACK, 45, e, p);
+			else if (sfItem.isItem(SlimefunItems.RADIANT_BACKPACK))
+				openBackpack(SlimefunItems.RADIANT_BACKPACK, 54, e, p);
+			else if (sfItem.isItem(SlimefunItems.BOUND_BACKPACK))
+				openBackpack(SlimefunItems.BOUND_BACKPACK, 36, e, p);
+			else if (sfItem.isItem(SlimefunItems.COOLER))
+				openBackpack(SlimefunItems.COOLER, 27, e, p);
 		}
 	}
 
-	private void openBackpack(ItemStack sfItem, int size, PlayerInteractEvent e, Player p, ItemStack item) {
+	private void openBackpack(ItemStack item, int size, PlayerInteractEvent e, Player p) {
 		e.setCancelled(true);
-		
+
 		if (item.getAmount() == 1) {
-			if (Slimefun.hasUnlocked(p, sfItem, true)) {
-				Slimefun.getLocal().sendMessage(p, "messages.opening-backpack");
-				PlayerProfile.get(p, profile -> {
-                    for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-                        if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-                            BackpackInventory backpack = profile.createBackpack(size);
-
-                            setBackpackId(p, item, line, backpack.getID());
-                            break;
-                        }
-                    }
-
-                    if(!SlimefunPlugin.getUtilities().backpack.containsValue(item)) {
-                        PlayerProfile.getBackpack(item).open(p);
-                        p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-                        SlimefunPlugin.getUtilities().backpack.put(p.getUniqueId(), item);
-                    }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
-				});
+			if (Slimefun.hasUnlocked(p, item, true)) {
+				if (!PlayerProfile.get(p, profile -> openBackpack(item, profile, size)))
+					Slimefun.getLocal().sendMessage(p, "messages.opening-backpack");
 			}
 		}
 		else SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);
+	}
+
+	private void openBackpack(ItemStack item, PlayerProfile profile, int size) {
+		Player p = profile.getPlayer();
+		for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
+			if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+				BackpackInventory backpack = profile.createBackpack(size);
+
+				setBackpackId(p, item, line, backpack.getID());
+				break;
+			}
+		}
+
+		if(!SlimefunPlugin.getUtilities().backpack.containsValue(item)) {
+			p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+			SlimefunPlugin.getUtilities().backpack.put(p.getUniqueId(), item);
+
+			Slimefun.runSync(() -> PlayerProfile.getBackpack(item).open(p));
+		}
+		else SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
 	}
 
     public static void setBackpackId(Player p, ItemStack item, int line, int id) {

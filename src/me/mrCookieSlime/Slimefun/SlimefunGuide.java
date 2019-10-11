@@ -255,10 +255,8 @@ public final class SlimefunGuide {
 	}
 
 	private static void openMainMenuAsync(final Player player, final boolean survival, final boolean book, final int selected_page) {
-		Slimefun.getLocal().sendMessage(player, "messages.opening-guide");
-		PlayerProfile.get(player, profile ->
-				Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> openMainMenu(profile, survival, book, selected_page))
-		);
+		if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, survival, book, selected_page))))
+			Slimefun.getLocal().sendMessage(player, "messages.opening-guide");
 	}
 
 	private static void openMainMenu(final PlayerProfile profile, final boolean survival, final boolean book, final int selected_page) {
@@ -735,7 +733,7 @@ public final class SlimefunGuide {
 		}
 	}
 
-	private static void openSearch(Player player, String searchTerm, boolean cheat, boolean addToHistory) {
+	public static void openSearch(Player player, String searchTerm, boolean cheat, boolean addToHistory) {
 		final ChestMenu menu = new ChestMenu("Slimefun Guide Search");
 
 		menu.setEmptySlotsClickable(false);

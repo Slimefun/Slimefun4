@@ -16,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -206,6 +207,10 @@ public final class PlayerProfile {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Research Progress: " + progress + "&e(" + researched.size() + " / " + Research.list().size() + ")"));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Total XP Levels spent: &b" + levels));
 	}
+
+	public Player getPlayer() {
+		return Bukkit.getPlayer(getUUID());
+	}
 	
 	public static PlayerProfile fromUUID(UUID uuid) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
@@ -243,11 +248,18 @@ public final class PlayerProfile {
 		return profile;
 	}
 
-	public static void get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
+	/**
+	 * Get the PlayerProfile for a player asynchronously.
+	 *
+	 * @param p 	   The player who's profile to retrieve
+	 * @param callback The callback with the PlayerProfile
+	 * @return If the player was cached or not.
+	 */
+	public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
 		if (profile != null) {
 			callback.accept(profile);
-			return;
+			return true;
 		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
@@ -255,6 +267,7 @@ public final class PlayerProfile {
 			SlimefunPlugin.getUtilities().profiles.put(p.getUniqueId(), pp);
 			callback.accept(pp);
 		});
+		return false;
 	}
 
 	public static boolean isLoaded(UUID uuid) {
