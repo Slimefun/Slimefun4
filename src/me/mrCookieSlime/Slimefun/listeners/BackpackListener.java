@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -116,6 +117,7 @@ public class BackpackListener implements Listener {
 		
 		if (item.getAmount() == 1) {
 			if (Slimefun.hasUnlocked(p, sfItem, true)) {
+				Slimefun.getLocal().sendMessage(p, "messages.opening-backpack");
 				PlayerProfile.get(p, profile -> {
                     for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
                         if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {

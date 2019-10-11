@@ -255,7 +255,7 @@ public final class SlimefunGuide {
 	}
 
 	private static void openMainMenuAsync(final Player player, final boolean survival, final boolean book, final int selected_page) {
-		player.sendMessage(ChatColor.AQUA + "Opening guide...");
+		Slimefun.getLocal().sendMessage(player, "messages.opening-guide");
 		PlayerProfile.get(player, profile ->
 				Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> openMainMenu(profile, survival, book, selected_page))
 		);
