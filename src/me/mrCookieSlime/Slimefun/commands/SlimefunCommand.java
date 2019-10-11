@@ -27,6 +27,7 @@ import me.mrCookieSlime.Slimefun.commands.subcommands.GuideCommand;
 import me.mrCookieSlime.Slimefun.commands.subcommands.HelpCommand;
 import me.mrCookieSlime.Slimefun.commands.subcommands.OpenGuideCommand;
 import me.mrCookieSlime.Slimefun.commands.subcommands.ResearchCommand;
+import me.mrCookieSlime.Slimefun.commands.subcommands.SearchCommand;
 import me.mrCookieSlime.Slimefun.commands.subcommands.StatsCommand;
 import me.mrCookieSlime.Slimefun.commands.subcommands.TeleporterCommand;
 import me.mrCookieSlime.Slimefun.commands.subcommands.TimingsCommand;
@@ -47,6 +48,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		commands.add(new TimingsCommand(plugin, this));
 		commands.add(new TeleporterCommand(plugin, this));
 		commands.add(new OpenGuideCommand(plugin, this));
+		commands.add(new SearchCommand(plugin, this));
 		
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}

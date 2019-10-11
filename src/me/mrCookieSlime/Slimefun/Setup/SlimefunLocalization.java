@@ -18,6 +18,7 @@ public class SlimefunLocalization extends Localization {
 		setDefaultMessage("commands.timings", "Lag-Info about your Server");
 		setDefaultMessage("commands.teleporter", "See other Player's Waypoints");
 		setDefaultMessage("commands.versions", "Lists all installed Addons");
+		setDefaultMessage("commands.search", "Searches your Guide for the given term");
 		setDefaultMessage("commands.open_guide", "Opens Slimefun's guide without using the book");
 		setDefaultMessage("commands.stats", "Shows some Stats about a Player");
 		setDefaultMessage("commands.research.reset", "&cYou have reset %player%'s Knowledge");
