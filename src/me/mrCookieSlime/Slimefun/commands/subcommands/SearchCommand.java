@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.commands.subcommands;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,7 +26,7 @@ public class SearchCommand extends SubCommand {
 		if (sender instanceof Player) {
 			if (sender.hasPermission("slimefun.command.search")) {
 				if (args.length > 1) {
-					String query = Arrays.stream(args).skip(1).collect(Collectors.joining(" "));
+					String query = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 					SlimefunGuide.openSearch((Player) sender, query, false, false);
 				}
 				else {
