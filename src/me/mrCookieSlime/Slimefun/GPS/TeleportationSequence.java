@@ -22,7 +22,7 @@ public final class TeleportationSequence {
     private TeleportationSequence() {}
 
     public static void start(UUID uuid, int complexity, Location source, Location destination, boolean resistance) {
-        SlimefunPlugin.instance.getUtilities().teleporterUsers.add(uuid);
+        SlimefunPlugin.getUtilities().teleporterUsers.add(uuid);
 
         updateProgress(uuid, getSpeed(complexity, source, destination), 1, source, destination, resistance);
     }
@@ -50,7 +50,7 @@ public final class TeleportationSequence {
     }
 
     private static void cancel(UUID uuid, Player p) {
-        SlimefunPlugin.instance.getUtilities().teleporterUsers.remove(uuid);
+        SlimefunPlugin.getUtilities().teleporterUsers.remove(uuid);
 
         if (p != null) {
             try {
@@ -85,7 +85,7 @@ public final class TeleportationSequence {
 
                     destination.getWorld().spawnParticle(Particle.PORTAL,new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()),progress * 2, 0.2F, 0.8F, 0.2F );
                     destination.getWorld().playSound(destination, Sound.ENTITY_BLAZE_DEATH, 2F, 1.4F);
-                    SlimefunPlugin.instance.getUtilities().teleporterUsers.remove(uuid);
+                    SlimefunPlugin.getUtilities().teleporterUsers.remove(uuid);
                 }
                 else {
                     TitleBuilder title = (TitleBuilder) new TitleBuilder(0, 60, 0).addText(ChatColor.translateAlternateColorCodes('&', "&3Teleporting..."));

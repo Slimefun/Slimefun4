@@ -208,4 +208,9 @@ public final class PlayerProfile {
         }
     }
 
+    @Override
+    public String toString() {
+        return "PlayerProfile {" + uuid + "}";
+    }
+
 }

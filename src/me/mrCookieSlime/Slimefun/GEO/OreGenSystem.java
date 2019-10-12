@@ -17,11 +17,11 @@ public final class OreGenSystem {
 
 
     public static Collection<OreGenResource> listResources() {
-        return SlimefunPlugin.instance.getUtilities().resources.values();
+        return SlimefunPlugin.getUtilities().resources.values();
     }
 
     public static void registerResource(OreGenResource resource) {
-        SlimefunPlugin.instance.getUtilities().resources.put(resource.getName(), resource);
+        SlimefunPlugin.getUtilities().resources.put(resource.getName(), resource);
         Slimefun.getLogger().log(Level.INFO, "正在注册资源 " + resource.getName());
 
         Config cfg = new Config("plugins/Slimefun/generators/" + resource.getName() + ".cfg");
@@ -32,7 +32,7 @@ public final class OreGenSystem {
     }
 
     public static OreGenResource getResource(String name) {
-        return SlimefunPlugin.instance.getUtilities().resources.get(name);
+        return SlimefunPlugin.getUtilities().resources.get(name);
     }
 
     private static int getDefault(OreGenResource resource, Biome biome) {

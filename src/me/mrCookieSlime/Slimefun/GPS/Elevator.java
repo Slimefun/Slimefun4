@@ -53,7 +53,7 @@ public final class Elevator {
     }
 
 	public static void openDialogue(Player p, Block b) {
-        Set<UUID> elevatorUsers = SlimefunPlugin.instance.getUtilities().elevatorUsers;
+        Set<UUID> elevatorUsers = SlimefunPlugin.getUtilities().elevatorUsers;
 
         if (elevatorUsers.contains(p.getUniqueId())) {
             elevatorUsers.remove(p.getUniqueId());

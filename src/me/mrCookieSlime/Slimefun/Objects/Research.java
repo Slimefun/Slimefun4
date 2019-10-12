@@ -79,7 +79,7 @@ public class Research {
     }
 
     public boolean isEnabled() {
-        return SlimefunPlugin.instance.getSettings().researchesEnabled && enabled;
+        return SlimefunPlugin.getSettings().researchesEnabled && enabled;
     }
 
     /**
@@ -213,7 +213,7 @@ public class Research {
      */
     public boolean canUnlock(Player p) {
         if (!isEnabled()) return true;
-        return (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.instance.getSettings().researchesFreeInCreative) || p.getLevel() >= this.cost;
+        return (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative) || p.getLevel() >= this.cost;
     }
 
     /**
@@ -253,8 +253,8 @@ public class Research {
 
             if (!event.isCancelled()) {
                 if (instant) runnable.run();
-                else if (!SlimefunPlugin.instance.getUtilities().researching.contains(p.getUniqueId())){
-                    SlimefunPlugin.instance.getUtilities().researching.add(p.getUniqueId());
+                else if (!SlimefunPlugin.getUtilities().researching.contains(p.getUniqueId())){
+                    SlimefunPlugin.getUtilities().researching.add(p.getUniqueId());
                     Messages.local.sendTranslation(p, "messages.research.start", true, new Variable("%research%", getName()));
 
                     for (int i = 1; i < research_progress.length + 1; i++) {
@@ -268,7 +268,7 @@ public class Research {
 
                     Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
                         runnable.run();
-                        SlimefunPlugin.instance.getUtilities().researching.remove(p.getUniqueId());
+                        SlimefunPlugin.getUtilities().researching.remove(p.getUniqueId());
                     }, (research_progress.length + 1) * 20L);
                 }
             }
@@ -421,5 +421,10 @@ public class Research {
     @Deprecated
     public static List<Research> getResearches(String uuid) {
         return getResearches(UUID.fromString(uuid));
+    }
+
+    @Override
+    public String toString() {
+        return "Research {" + id + "," + name + "}";
     }
 }

@@ -15,7 +15,7 @@ public final class Messages {
         local.setDefault("commands.give",   "给某人粘液科技物品" );
         local.setDefault("commands.research.desc",   "为某位玩家解锁一个研究" );
         local.setDefault("commands.guide",   "给你自己一本粘液科技指南" );
-        local.setDefault("commands.timings",   "关于服务器的延迟信息" );
+        local.setDefault("commands.timings",   "关于 Slimefun 的耗能信息" );
         local.setDefault("commands.teleporter",   "看看其他玩家的路径点" );
         local.setDefault("commands.versions",   "显示粘液科技的版本号" );
         local.setDefault("commands.open_guide",   "不用粘液科技指南书就能打开指南" );
@@ -38,8 +38,8 @@ public final class Messages {
         local.setDefault("messages.mode-change",   "&b%device% 的模式已切换至: &9%mode%" );
         local.setDefault("messages.disabled-in-world",   "&4&l这个物品在此世界已被禁用" );
         local.setDefault("messages.talisman.anvil",   "&a&o你的护身符拯救了你的工具免于损坏" );
-        local.setDefault("messages.talisman.miner",   "&a&o你的护身符双倍掉落了矿物" );
-        local.setDefault("messages.talisman.hunter",   "&a&o你的护身符双倍掉落了掉落物" );
+        local.setDefault("messages.talisman.miner",   "&a&o你的护身符使矿物双倍掉落了" );
+        local.setDefault("messages.talisman.hunter",   "&a&o你的护身符使掉落物双倍掉落了" );
         local.setDefault("messages.talisman.lava",   "&a&o你的护身符将你从岩浆中救了出来" );
         local.setDefault("messages.talisman.water",   "&a&o你的护身符将你从溺水中救了出来" );
         local.setDefault("messages.talisman.angel",   "&a&o你的护身符将你从信仰之跃中救了出来" );
@@ -49,7 +49,9 @@ public final class Messages {
         local.setDefault("messages.talisman.warrior",   "&a&o你的护身符使你在一段时间内变得很强" );
         local.setDefault("messages.talisman.knight",   "&a&o你的护身符给予了你 5 秒的生命恢复" );
         local.setDefault("messages.talisman.whirlwind",   "&a&o你的护身符抵挡了所有的弹射物" );
-        local.setDefault("messages.talisman.wizard",   "&a&o你的护身符提升了一个更好附魔的等级, 但同时其他附魔等级将会下降." );
+        local.setDefault("messages.talisman.wizard",   "&a&o你的护身符使一个更好的附魔的等级提高了, 但同时其他附魔等级将会下降." );
+        local.setDefault("messages.soulbound-rune.fail", "&c你一次只能绑定一个物品.");
+        local.setDefault("messages.soulbound-rune.success", "&a物品绑定成功.");
         local.setDefault("messages.broken-leg",   "&c&o看起来你摔断了你的腿, 也许夹板能够帮助你?" );
         local.setDefault("messages.fixed-leg",   "&a&o有了夹板的帮助. 感觉好多了." );
         local.setDefault("messages.start-bleeding",   "&c&o你开始流血了. 也许绷带能够帮助你?" );
@@ -103,7 +105,7 @@ public final class Messages {
         local.setDefault("anvil.not-working",   "&4你不能在铁砧里使用粘液科技物品" );
         local.setDefault("inventory.no-access",   "&4你不允许使用这个方块" );
 
-        local.setDefault("tooltips.item-permission", "&r你没有权限", "&r使用这个物品");
+        local.setDefault("tooltips.item-permission", "", "&r你没有权限", "&r使用这个物品");
 
 		local.save();
 	}

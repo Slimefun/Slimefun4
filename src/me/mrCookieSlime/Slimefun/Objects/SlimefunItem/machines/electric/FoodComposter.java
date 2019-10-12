@@ -6,6 +6,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 
@@ -31,4 +32,13 @@ public abstract class FoodComposter extends AContainer implements RecipeDisplayI
 		return "FOOD_COMPOSTER";
 	}
 
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.GOLDEN_HOE);
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&cFood Composter";
+    }
 }

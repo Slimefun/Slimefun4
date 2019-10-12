@@ -8,7 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public final class ResearchSetup {
-    private ResearchSetup(){}
+
+    private ResearchSetup() {}
 
     public static void setupResearches() {
         Slimefun.registerResearch(new Research(0, "Walking Sticks", 1), SlimefunItems.GRANDMAS_WALKING_STICK, SlimefunItems.GRANDPAS_WALKING_STICK);
@@ -95,7 +96,7 @@ public final class ResearchSetup {
         Slimefun.registerResearch(new Research(89, "Night Vision Goggles", 10), SlimefunItems.NIGHT_VISION_GOGGLES);
         Slimefun.registerResearch(new Research(90, "Pickaxe of Containment", 14), SlimefunItems.PICKAXE_OF_CONTAINMENT, SlimefunItems.BROKEN_SPAWNER);
         Slimefun.registerResearch(new Research(91, "Hercules Pickaxe", 28), SlimefunItems.HERCULES_PICKAXE);
-        Slimefun.registerResearch(new Research(92, "Table Saw", 2), SlimefunItems.TABLE_SAW);
+        Slimefun.registerResearch(new Research(92, "Table Saw", 2), SlimefunItems.SAW_MILL, SlimefunItems.TABLE_SAW);
         Slimefun.registerResearch(new Research(93, "Slimy Steel Armor", 27), SlimefunItems.SLIME_HELMET_STEEL, SlimefunItems.SLIME_CHESTPLATE_STEEL, SlimefunItems.SLIME_LEGGINGS_STEEL, SlimefunItems.SLIME_BOOTS_STEEL);
         Slimefun.registerResearch(new Research(94, "Blade of Vampires", 26), SlimefunItems.BLADE_OF_VAMPIRES);
         Slimefun.registerResearch(new Research(95, "Lazy Mining", 40), SlimefunItems.DIGITAL_MINER);
@@ -238,10 +239,11 @@ public final class ResearchSetup {
         Slimefun.registerResearch(new Research(239, "Automatic Ignition Chamber", 12), SlimefunItems.IGNITION_CHAMBER);
         Slimefun.registerResearch(new Research(240, "Basic machinery output chest", 20), SlimefunItems.OUTPUT_CHEST);
         Slimefun.registerResearch(new Research(241, "Thinned-down Conductivity", 15), SlimefunItems.COPPER_WIRE);
-        Slimefun.registerResearch(new Research(242, "Wither Bow", 30), SlimefunItems.WITHER_BOW);
-        Slimefun.registerResearch(new Research(243, "Radiant Backpack", 25), SlimefunItems.RADIANT_BACKPACK);
-        Slimefun.registerResearch(new Research(244, "A Dry Day", 15), SlimefunItems.AUTO_DRIER);
-        Slimefun.registerResearch(new Research(245, "Diet Cookie", 3), SlimefunItems.DIET_COOKIE);
-        Slimefun.registerResearch(new Research(246, "Storm Staff", 30), SlimefunItems.STAFF_STORM);
+        Slimefun.registerResearch(new Research(242, "Radiant Backpack", 25), SlimefunItems.RADIANT_BACKPACK);
+        Slimefun.registerResearch(new Research(243, "A Dry Day", 15), SlimefunItems.AUTO_DRIER);
+        Slimefun.registerResearch(new Research(244, "Diet Cookie", 3), SlimefunItems.DIET_COOKIE);
+        Slimefun.registerResearch(new Research(245, "Storm Staff", 30), SlimefunItems.STAFF_STORM);
+        Slimefun.registerResearch(new Research(246, "Soulbound Rune", 60), SlimefunItems.RUNE_SOULBOUND);
+        Slimefun.registerResearch(new Research(999, "Wither Bow", 45), SlimefunItems.WITHER_BOW);
     }
 }

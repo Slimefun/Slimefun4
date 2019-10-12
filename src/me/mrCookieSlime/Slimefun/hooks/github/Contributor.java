@@ -69,6 +69,6 @@ public class Contributor {
      * @return A Base64-Head Texture
      */
     public String getTexture() {
-        return SlimefunPlugin.instance.getUtilities().contributorHeads.get(name);
+        return SlimefunPlugin.getUtilities().contributorHeads.get(name);
     }
 }

@@ -33,4 +33,14 @@ public abstract class ElectricIngotFactory extends AContainer implements RecipeD
     public String getMachineIdentifier() {
         return "ELECTRIC_INGOT_FACTORY";
     }
+
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.FLINT_AND_STEEL);
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&c电力铸铁机";
+    }
 }

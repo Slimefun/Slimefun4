@@ -70,7 +70,7 @@ public abstract class ElectricDustWasher extends AContainer {
 		else {
 			for (int slot: getInputSlots()) {
 				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
-					if (!SlimefunPlugin.instance.getSettings().legacyDustWasher) {
+					if (!SlimefunPlugin.getSettings().legacyDustWasher) {
 						boolean emptySlot = false;
 						for (int output_slot: getOutputSlots()) {
 							if (BlockStorage.getInventory(b).getItemInSlot(output_slot) == null) {
@@ -83,7 +83,7 @@ public abstract class ElectricDustWasher extends AContainer {
 					
 					ItemStack adding = OreWasher.items[new Random().nextInt(OreWasher.items.length)];
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {adding});
-					if (SlimefunPlugin.instance.getSettings().legacyDustWasher && !fits(b, r.getOutput())) return;
+					if (SlimefunPlugin.getSettings().legacyDustWasher && !fits(b, r.getOutput())) return;
 					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
 					processing.put(b, r);
 					progress.put(b, r.getTicks());

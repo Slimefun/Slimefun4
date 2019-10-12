@@ -474,11 +474,17 @@ public final class SlimefunItems {
     public static final ItemStack CRUCIBLE = new CustomItem(Material.CAULDRON, "&c坩埚", 0, new String[] {"", "&a&o用来把物品变为液体"});
     public static final ItemStack JUICER = new CustomItem(Material.GLASS_BOTTLE, "&a榨汁机", 0, new String[] {"", "&a&o让你创造美味的果汁"});
 
-    public static final ItemStack SOLAR_PANEL = new CustomItem(Material.DAYLIGHT_DETECTOR, "&b太阳能板", 0, new String[] {"", "&a&o将阳光变为能量"});
-    public static final ItemStack SOLAR_ARRAY = new CustomItem(Material.DAYLIGHT_DETECTOR, "&b太阳能阵列", 0, new String[] {"", "&a&o将阳光变为能量"});
-    public static final ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&b挖矿机", 0, new String[] {"", "&a&o挖出所有东西!"});
-    public static final ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6高级挖矿机", 0, new String[] {"", "&a&o挖出所有东西!", "&a&o自动粉碎挖到的矿物"});
-    public static final ItemStack AUTOMATED_PANNING_MACHINE = new CustomItem(Material.BOWL, "&a自动淘金机", 0, new String[] {"", "&a&o升级版淘金筛"});
+    public static final ItemStack SOLAR_PANEL = new CustomItem(Material.DAYLIGHT_DETECTOR, "&b太阳能板", "", "&a&o将阳光变为能量");
+    public static final ItemStack SOLAR_ARRAY = new CustomItem(Material.DAYLIGHT_DETECTOR, "&b太阳能阵列", "", "&a&o将阳光变为能量");
+
+    @Deprecated
+    public static final ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&b挖矿机", "", "&4已过时", "&c这个物品即将被移除!");
+
+    @Deprecated
+    public static final ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6高级挖矿机", "", "&4已过时", "&c这个物品即将被移除!");
+
+
+    public static final ItemStack AUTOMATED_PANNING_MACHINE = new CustomItem(Material.BOWL, "&a自动淘金机", "", "&a&o升级版淘金筛");
     public static final ItemStack OUTPUT_CHEST = new CustomItem(Material.CHEST, "&4物品输出箱", "", "&c&o这个机器会将箱子里的物品", "&c&o放入邻近的发射器");
     public static final ItemStack HOLOGRAM_PROJECTOR = new CustomItem(new MaterialData(Material.QUARTZ_SLAB), "&b全息投影仪", "", "&r投影出可编辑的全息文字");
 
@@ -521,6 +527,7 @@ public final class SlimefunItems {
     public static final ItemStack RUNE_ENDER;
     public static final ItemStack RUNE_RAINBOW;
     public static final ItemStack RUNE_LIGHTNING;
+    public static final ItemStack RUNE_SOULBOUND;
 
     static {
         ItemStack itemB = new ItemStack(Material.FIREWORK_STAR);
@@ -553,7 +560,7 @@ public final class SlimefunItems {
 
         ItemStack itemE = new ItemStack(Material.FIREWORK_STAR);
         FireworkEffectMeta imE = (FireworkEffectMeta) itemE.getItemMeta();
-        imE.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.ORANGE).build());
+        imE.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(112, 47, 7)).build());
         imE.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&c&l地&8&l]"));
         itemE.setItemMeta(imE);
         RUNE_EARTH = itemE;
@@ -567,17 +574,24 @@ public final class SlimefunItems {
 
         ItemStack itemR = new ItemStack(Material.FIREWORK_STAR);
         FireworkEffectMeta imR = (FireworkEffectMeta) itemR.getItemMeta();
-        imR.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
+        imR.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.FUCHSIA).build());
         imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&d&l虹&8&l]"));
         itemR.setItemMeta(imR);
         RUNE_RAINBOW = itemR;
 
         ItemStack itemL = new ItemStack(Material.FIREWORK_STAR);
         FireworkEffectMeta imL = (FireworkEffectMeta) itemL.getItemMeta();
-        imL.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.YELLOW).build());
+        imL.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(255, 255, 95)).build());
         imL.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&e&l雷&8&l]"));
         itemL.setItemMeta(imL);
         RUNE_LIGHTNING = itemL;
+
+        ItemStack itemS = new ItemStack(Material.FIREWORK_STAR);
+        FireworkEffectMeta imS = (FireworkEffectMeta) itemS.getItemMeta();
+        imS.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(47, 0, 117)).build());
+        imS.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&5&l灵魂绑定&8&l]"));
+        itemS.setItemMeta(imS);
+        RUNE_SOULBOUND = itemS;
     }
 
     /*		Electricity			*/
@@ -587,7 +601,9 @@ public final class SlimefunItems {
     public static final ItemStack SOLAR_GENERATOR_4 = new CustomItem(new ItemStack(Material.DAYLIGHT_DETECTOR), "&e充能太阳能发电机", "", "&9可以在夜间工作", "", "&4终极发电机", "&8\u21E8 &e\u26A1 &70 J 可储存", "&8\u21E8 &e\u26A1 &7256 J/s (日间)", "&8\u21E8 &e\u26A1 &7128 J/s (夜间)");
 
     public static final ItemStack COAL_GENERATOR = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&c煤发电机", "", "&6普通 发电机", "&8\u21E8 &e\u26A1 &764 J 可储存", "&8\u21E8 &e\u26A1 &716 J/s");
+    public static final ItemStack COAL_GENERATOR_2 = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&c煤发电机 &7(&eII&7)", "", "&6进阶发电机", "&8\u21E8 &e\u26A1 &7可储存 256 J", "&8\u21E8 &e\u26A1 &730 J/s");
     public static final ItemStack LAVA_GENERATOR = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&4岩浆发电机", "", "&6普通发电机", "&8\u21E8 &e\u26A1 &7512 J 可储存", "&8\u21E8 &e\u26A1 &720 J/s");
+    public static final ItemStack LAVA_GENERATOR_2 = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&4岩浆发电机 &7&eII&7)", "", "&6进阶发电机", "&8\u21E8 &e\u26A1 &7可储存 1024 J", "&8\u21E8 &e\u26A1 &740 J/s");
 
     public static final ItemStack ELECTRIC_FURNACE = new CustomItem(new ItemStack(Material.FURNACE), "&c电炉", "", "&e基础机器", "&8\u21E8 &7速度: 1x", "&8\u21E8 &e\u26A1 &74 J/s");
     public static final ItemStack ELECTRIC_FURNACE_2 = new CustomItem(new ItemStack(Material.FURNACE), "&c电炉 &7- &eII", "", "&a中级机器", "&8\u21E8 &7速度: 2x", "&8\u21E8 &e\u26A1 &76 J/s");

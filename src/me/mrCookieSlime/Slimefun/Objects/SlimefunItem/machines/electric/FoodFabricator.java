@@ -29,4 +29,13 @@ public abstract class FoodFabricator extends AContainer {
 		return "FOOD_FABRICATOR";
 	}
 
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.GOLDEN_HOE);
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&cFood Fabricator";
+    }
 }

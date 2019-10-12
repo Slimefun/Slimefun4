@@ -13,18 +13,18 @@ public final class Soul {
     private Soul() {}
 
     public static void storeItem(UUID uuid, int slot, ItemStack item) {
-        Map<Integer, ItemStack> items = SlimefunPlugin.instance.getUtilities().soulbound.get(uuid);
+        Map<Integer, ItemStack> items = SlimefunPlugin.getUtilities().soulbound.get(uuid);
 
         if (items == null) {
             items = new HashMap<>();
-            SlimefunPlugin.instance.getUtilities().soulbound.put(uuid, items);
+            SlimefunPlugin.getUtilities().soulbound.put(uuid, items);
         }
 
         items.put(slot, item);
     }
 
     public static void retrieveItems(Player p) {
-        Map<Integer, ItemStack> items = SlimefunPlugin.instance.getUtilities().soulbound.get(p.getUniqueId());
+        Map<Integer, ItemStack> items = SlimefunPlugin.getUtilities().soulbound.get(p.getUniqueId());
 
         if (items != null) {
             for (Map.Entry<Integer, ItemStack> entry: items.entrySet()) {
@@ -32,7 +32,7 @@ public final class Soul {
             }
         }
 
-        SlimefunPlugin.instance.getUtilities().soulbound.remove(p.getUniqueId());
+        SlimefunPlugin.getUtilities().soulbound.remove(p.getUniqueId());
     }
 
 }

@@ -29,7 +29,7 @@ public class AltarRecipe {
 
         this.output = output;
 
-        SlimefunPlugin.instance.getUtilities().altarRecipes.add(this);
+        SlimefunPlugin.getUtilities().altarRecipes.add(this);
     }
 
     public ItemStack getCatalyst() {

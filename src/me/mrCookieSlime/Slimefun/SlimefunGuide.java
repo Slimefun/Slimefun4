@@ -144,7 +144,7 @@ public final class SlimefunGuide {
             });
 		}
 
-		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&a制作人员", "", "&7目前版本: &a" + SlimefunPlugin.instance.getDescription().getVersion(), "&7贡献者: &e" + SlimefunPlugin.instance.getUtilities().contributors.size(), "", "&7\u21E8 单击查看在插件背后工作的人们"));
+		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&a制作人员", "", "&7目前版本: &a" + SlimefunPlugin.instance.getDescription().getVersion(), "&7贡献者: &e" + SlimefunPlugin.getUtilities().contributors.size(), "", "&7\u21E8 单击查看在插件背后工作的人们"));
 		menu.addMenuClickHandler(1, (p14, arg1, arg2, arg3) -> {
             openCredits(p14, guide);
             return false;
@@ -551,7 +551,7 @@ public final class SlimefunGuide {
                                                 openCategory(p, category, true, selected_page, book);
                                             }
 											else {
-												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.instance.getSettings().researchesFreeInCreative)) {
+												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative)) {
 													p.setLevel(p.getLevel() - research.getCost());
 												}
 
@@ -692,12 +692,12 @@ public final class SlimefunGuide {
                                             openCategory(p, category, true, selected_page, book);
                                         }
                                         else {
-                                            if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.instance.getSettings().researchesFreeInCreative)) {
+                                            if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative)) {
                                                 pl.setLevel(pl.getLevel() - research.getCost());
                                             }
 
                                             if (pl.getGameMode() == GameMode.CREATIVE) {
-                                                research.unlock(pl, SlimefunPlugin.instance.getSettings().researchesFreeInCreative);
+                                                research.unlock(pl, SlimefunPlugin.getSettings().researchesFreeInCreative);
                                                 openCategory(pl, category, survival, selected_page, book);
                                             }
                                             else {
@@ -715,11 +715,9 @@ public final class SlimefunGuide {
 						}
 						else {
                             List<String> list = Messages.local.getTranslation("tooltips.item-permission");
-                            StringBuilder sb = new StringBuilder(65536);
-                            for (String strings : list) {
-                                sb.append("\n").append(strings);
-                                menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), "", sb.toString()));
-                            }
+                            String[] strings = list.toArray(new String[list.size()]);
+                            CustomItem display = new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false),  strings);
+                            menu.addItem(index, display);
                             menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
                             index++;
 						}
@@ -768,7 +766,7 @@ public final class SlimefunGuide {
 		if (item == null || item.getType() == Material.AIR) return;
 
 		final SlimefunItem sfItem = SlimefunItem.getByItem(item);
-        if (sfItem == null && !SlimefunPlugin.instance.getSettings().guideShowVanillaRecipes) return;
+        if (sfItem == null && !SlimefunPlugin.getSettings().guideShowVanillaRecipes) return;
 
 		ItemStack[] recipe = new ItemStack[9];
 		ItemStack recipeType = null;
@@ -1019,7 +1017,7 @@ public final class SlimefunGuide {
 	}
 
     private static Map<UUID, List<Object>> getHistory() {
-        return SlimefunPlugin.instance.getUtilities().guideHistory;
+        return SlimefunPlugin.getUtilities().guideHistory;
     }
 
 

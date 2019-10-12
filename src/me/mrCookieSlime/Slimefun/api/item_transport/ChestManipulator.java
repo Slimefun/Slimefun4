@@ -9,11 +9,11 @@ public final class ChestManipulator {
 	private ChestManipulator() {}
 	
 	public static void registerListener(CargoTransportEvent listener) {
-        SlimefunPlugin.instance.getUtilities().cargoTransportEvents.add(listener);
+        SlimefunPlugin.getUtilities().cargoTransportEvents.add(listener);
 	}
 	
 	public static ItemStack trigger(Block b, int slot, ItemStack prev, ItemStack next) {
-		for (CargoTransportEvent listener: SlimefunPlugin.instance.getUtilities().cargoTransportEvents) {
+		for (CargoTransportEvent listener: SlimefunPlugin.getUtilities().cargoTransportEvents) {
 			next = listener.onEvent(b, slot, prev, next);
 		}
 		
