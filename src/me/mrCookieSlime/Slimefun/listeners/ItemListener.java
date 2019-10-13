@@ -227,7 +227,7 @@ public class ItemListener implements Listener {
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEBUG_FISH, true)) {
 			// Ignore the debug fish in here
 		}
-		else if (Slimefun.hasUnlocked(p, slimefunItem, true)) {
+		else if (slimefunItem != null && Slimefun.hasUnlocked(p, slimefunItem, true)) {
 			for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
 				if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
 			}
