@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.List;
 import java.util.UUID;
 
+import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -106,13 +107,8 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 									if (adding.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 										int backpackID = PlayerProfile.get(p).createBackpack(size).getID();
 
-										ItemMeta im = adding.getItemMeta();
-										List<String> lore = im.getLore();
-										lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + backpackID));
-										im.setLore(lore);
-										adding.setItemMeta(im);
-										break;
-									}
+                                        BackpackListener.setBackpackId(p, adding, line, backpackID);
+                                    }
 								}
 							}
 							else {

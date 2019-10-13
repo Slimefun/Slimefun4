@@ -27,7 +27,7 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemInteractionHandle
 				for (int x = -4; x <= 4; x++) {
 					for (int y = -4; y <= 4; y++) {
 						for (int z = -4; z <= 4; z++) {
-							if (p.getLocation().getBlock().getRelative(x, y, z).getType().toString().endsWith("_ORE") && closest == null || p.getLocation().distance(closest.getLocation()) < p.getLocation().distance(p.getLocation().getBlock().getRelative(x, y, z).getLocation())) {
+							if (p.getLocation().getBlock().getRelative(x, y, z).getType().toString().endsWith("_ORE") && (closest == null || p.getLocation().distanceSquared(closest.getLocation()) > p.getLocation().distanceSquared(p.getLocation().getBlock().getRelative(x, y, z).getLocation()))) {
 								closest = p.getLocation().getBlock().getRelative(x, y, z);
 							}
 						}
