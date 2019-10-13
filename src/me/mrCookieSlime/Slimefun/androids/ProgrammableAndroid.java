@@ -392,6 +392,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 						case CHOP_TREE:
 							if (MaterialCollections.getAllLogs().contains(b.getRelative(face).getType())) {
 								List<Block> list = Vein.find(b.getRelative(face), 100, block -> MaterialCollections.getAllLogs().contains(block.getType()));
+								list.removeIf(block -> block.equals(b.getRelative(face)));
 								list.add(0, b.getRelative(face));
 								if (!list.isEmpty()) {
 									refresh = false;
