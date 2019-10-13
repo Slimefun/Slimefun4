@@ -526,9 +526,8 @@ public class BlockStorage {
 	}
 
 	private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
-		Config cfg = storage.blocksCache.getOrDefault(key, new Config(path_blocks + l.getWorld().getName() + '/' + key + ".sfb"));
+		Config cfg = storage.blocksCache.computeIfAbsent(key, k -> new Config(path_blocks + l.getWorld().getName() + '/' + key + ".sfb"));
 		cfg.setValue(serializeLocation(l), value);
-		storage.blocksCache.put(key, cfg);
 		
 		if (updateTicker) {
 			SlimefunItem item = SlimefunItem.getByID(key);
