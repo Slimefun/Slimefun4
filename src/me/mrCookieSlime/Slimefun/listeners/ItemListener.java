@@ -211,8 +211,6 @@ public class ItemListener implements Listener {
 		final Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 
-		if (slimefunItem == null) return;
-
 		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, true);
