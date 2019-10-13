@@ -44,63 +44,65 @@ public class ArmorTask implements Runnable {
 				continue;
 			}
 			
-			ItemStack[] armor = p.getInventory().getArmorContents();
-			HashedArmorpiece[] cachedArmor = PlayerProfile.get(p).getArmor();
-			
-			for (int slot = 0; slot < 4; slot++) {
-				ItemStack item = armor[slot];
-				HashedArmorpiece armorpiece = cachedArmor[slot];
+			PlayerProfile.get(p, profile -> {
+				ItemStack[] armor = p.getInventory().getArmorContents();
+				HashedArmorpiece[] cachedArmor = profile.getArmor();
 				
-				if (armorpiece.hasDiverged(item)) {
-					SlimefunItem sfItem = SlimefunItem.getByItem(item);
-					if (!(sfItem instanceof SlimefunArmorPiece) || !Slimefun.hasUnlocked(p, sfItem, true)) {
-						sfItem = null;
+				for (int slot = 0; slot < 4; slot++) {
+					ItemStack item = armor[slot];
+					HashedArmorpiece armorpiece = cachedArmor[slot];
+					
+					if (armorpiece.hasDiverged(item)) {
+						SlimefunItem sfItem = SlimefunItem.getByItem(item);
+						if (!(sfItem instanceof SlimefunArmorPiece) || !Slimefun.hasUnlocked(p, sfItem, true)) {
+							sfItem = null;
+						}
+						
+						armorpiece.update(item, sfItem);
 					}
 					
-					armorpiece.update(item, sfItem);
+					if (item != null && armorpiece.getItem().isPresent()) {
+						Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> {
+							for (PotionEffect effect: armorpiece.getItem().get().getEffects()) {
+								p.removePotionEffect(effect.getType());
+								p.addPotionEffect(effect);
+							}
+						});
+					}
 				}
 				
-				if (item != null && armorpiece.getItem().isPresent()) {
-					Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> {
-						for (PotionEffect effect: armorpiece.getItem().get().getEffects()) {
-							p.removePotionEffect(effect.getType());
-							p.addPotionEffect(effect);
+				if (SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) 
+					&& Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) 
+					&& (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) 
+					&& p.getEyeLocation().getBlock().getLightFromSky() == 15) 
+				{
+					ItemEnergy.chargeInventory(p, ((Double) Slimefun.getItemValue("SOLAR_HELMET", "charge-amount")).floatValue());
+				}
+
+				for (ItemStack radioactive: utilities.radioactiveItems) {
+					if (SlimefunManager.containsSimilarItem(p.getInventory(), radioactive, true)) {
+						// Check if player is wearing the hazmat suit
+						// If so, break the loop
+						if (SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
+								SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
+								SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
+								SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
+							break;
 						}
-					});
-				}
-			}
-			
-			if (SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) 
-				&& Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) 
-				&& (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) 
-				&& p.getEyeLocation().getBlock().getLightFromSky() == 15) 
-			{
-				ItemEnergy.chargeInventory(p, ((Double) Slimefun.getItemValue("SOLAR_HELMET", "charge-amount")).floatValue());
-			}
 
-			for (ItemStack radioactive: utilities.radioactiveItems) {
-				if (SlimefunManager.containsSimilarItem(p.getInventory(), radioactive, true)) {
-					// Check if player is wearing the hazmat suit
-					// If so, break the loop
-					if (SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
-							SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
-							SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
-							SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
-						break;
-					}
-
-					// If the item is enabled in the world, then make radioactivity do its job
-					if (Slimefun.isEnabled(p, radioactive, false)) {
-						SlimefunPlugin.getLocal().sendMessage(p, "messages.radiation");
-						Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> {
-							p.addPotionEffects(radiationEffects);
-							p.setFireTicks(400);
-						});
-						
-						break;
+						// If the item is enabled in the world, then make radioactivity do its job
+						if (Slimefun.isEnabled(p, radioactive, false)) {
+							SlimefunPlugin.getLocal().sendMessage(p, "messages.radiation");
+							Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> {
+								p.addPotionEffects(radiationEffects);
+								p.setFireTicks(400);
+							});
+							
+							break;
+						}
 					}
 				}
-			}
+			});
 		}
 	}
 
