@@ -90,29 +90,29 @@ public class BackpackListener implements Listener {
 
 			// Surely this can be even simpler?
 			if (sfItem.isItem(SlimefunItems.BACKPACK_SMALL))
-				openBackpack(SlimefunItems.BACKPACK_SMALL, 9, e, p);
+				openBackpack(SlimefunItems.BACKPACK_SMALL, sfItem, 9, e, p);
 			else if (sfItem.isItem(SlimefunItems.BACKPACK_MEDIUM))
-				openBackpack(SlimefunItems.BACKPACK_MEDIUM, 18, e, p);
+				openBackpack(SlimefunItems.BACKPACK_MEDIUM, sfItem, 18, e, p);
 			else if (sfItem.isItem(SlimefunItems.BACKPACK_LARGE))
-				openBackpack(SlimefunItems.BACKPACK_LARGE, 27, e, p);
+				openBackpack(SlimefunItems.BACKPACK_LARGE, sfItem, 27, e, p);
 			else if (sfItem.isItem(SlimefunItems.WOVEN_BACKPACK))
-				openBackpack(SlimefunItems.WOVEN_BACKPACK, 36, e, p);
+				openBackpack(SlimefunItems.WOVEN_BACKPACK, sfItem, 36, e, p);
 			else if (sfItem.isItem(SlimefunItems.GILDED_BACKPACK))
-				openBackpack(SlimefunItems.GILDED_BACKPACK, 45, e, p);
+				openBackpack(SlimefunItems.GILDED_BACKPACK, sfItem, 45, e, p);
 			else if (sfItem.isItem(SlimefunItems.RADIANT_BACKPACK))
-				openBackpack(SlimefunItems.RADIANT_BACKPACK, 54, e, p);
+				openBackpack(SlimefunItems.RADIANT_BACKPACK, sfItem, 54, e, p);
 			else if (sfItem.isItem(SlimefunItems.BOUND_BACKPACK))
-				openBackpack(SlimefunItems.BOUND_BACKPACK, 36, e, p);
+				openBackpack(SlimefunItems.BOUND_BACKPACK, sfItem, 36, e, p);
 			else if (sfItem.isItem(SlimefunItems.COOLER))
-				openBackpack(SlimefunItems.COOLER, 27, e, p);
+				openBackpack(SlimefunItems.COOLER, sfItem, 27, e, p);
 		}
 	}
 
-	private void openBackpack(ItemStack item, int size, PlayerInteractEvent e, Player p) {
+	private void openBackpack(ItemStack item, SlimefunItem sfItem, int size, PlayerInteractEvent e, Player p) {
 		e.setCancelled(true);
 
 		if (item.getAmount() == 1) {
-			if (Slimefun.hasUnlocked(p, item, true)) {
+			if (Slimefun.hasUnlocked(p, sfItem, true)) {
 				if (!PlayerProfile.get(p, profile -> openBackpack(item, profile, size)))
 					Slimefun.getLocal().sendMessage(p, "messages.opening-backpack");
 			}
@@ -131,7 +131,7 @@ public class BackpackListener implements Listener {
 			}
 		}
 
-		if(!SlimefunPlugin.getUtilities().backpack.containsValue(item)) {
+		if (!SlimefunPlugin.getUtilities().backpack.containsValue(item)) {
 			p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
 			SlimefunPlugin.getUtilities().backpack.put(p.getUniqueId(), item);
 
