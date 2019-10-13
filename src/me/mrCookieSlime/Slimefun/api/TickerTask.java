@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -206,15 +207,17 @@ public class TickerTask implements Runnable {
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
 
-			Map<String, Long> timings = machineCount.entrySet().stream()
-					.sorted(Comparator.comparingLong(machineTimings::get).reversed())
-					.collect(Collectors.toMap(Map.Entry::getKey, machineTimings::get, (e1, e2) -> e1, LinkedHashMap::new));
+			Map<String, Long> timings = machineCount.keySet().stream()
+					.map(key -> new AbstractMap.SimpleEntry<>(key, machineTimings.getOrDefault(key, 0L)))
+					.sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue()))
+					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
 			for (Map.Entry<String, Long> entry : timings.entrySet()) {
+				int count = machineCount.getOrDefault(entry.getKey(), 0);
 				if (entry.getValue() > 0)
 				    hover.append("\n&c").append(entry.getKey()).append(" - ")
-						.append(entry.getValue()).append("x &7(").append(entry.getValue()).append("ms, ")
-			            .append(entry.getValue() / machineCount.get(entry.getKey())).append("ms avg/machine)");
+						.append(count).append("x &7(").append(entry.getValue()).append("ms, ")
+			            .append(entry.getValue() / count).append("ms avg/machine)");
 				else
 				    hidden++;
 			}
