@@ -9,8 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public final class MachineHelper {
@@ -103,27 +101,6 @@ public final class MachineHelper {
 		item.setItemMeta(im);
 		
 		menu.replaceExistingItem(slot, item);
-	}
-	
-	public static boolean fits(BlockMenu menu, ItemStack item, int... slots) {
-		return InvUtils.fits(menu.toInventory(), item, slots);
-	}
-	
-	public static void pushItems(BlockMenu menu, ItemStack item, int... slots) {
-		int amount = item.getAmount();
-		for (int slot: slots) {
-			if (amount <= 0) break;
-			
-			ItemStack stack = menu.getItemInSlot(slot);
-			if (stack == null) {
-				menu.replaceExistingItem(slot, item);
-				return;
-			}
-			else if (stack.getAmount() < stack.getMaxStackSize() && ItemUtils.canStack(item, stack)) {
-				amount -= (stack.getMaxStackSize() - stack.getAmount());
-				stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), stack.getMaxStackSize()));
-			}
-		}
 	}
 
 }

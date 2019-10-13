@@ -10,7 +10,10 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class BlockMenu extends DirtyChestMenu {
@@ -123,6 +126,34 @@ public class BlockMenu extends DirtyChestMenu {
 		}
 		super.replaceExistingItem(slot, item);
 		markDirty();
+	}
+	
+	public boolean fits(ItemStack item, int... slots) {
+		return InvUtils.fits(toInventory(), item, slots);
+	}
+	
+	public ItemStack pushItem(ItemStack item, int... slots) {
+		int amount = item.getAmount();
+		for (int slot: slots) {
+			if (amount <= 0) break;
+			
+			ItemStack stack = getItemInSlot(slot);
+			if (stack == null) {
+				replaceExistingItem(slot, item);
+				return null;
+			}
+			else if (stack.getAmount() < stack.getMaxStackSize() && ItemUtils.canStack(item, stack)) {
+				amount -= (stack.getMaxStackSize() - stack.getAmount());
+				stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), stack.getMaxStackSize()));
+			}
+		}
+		
+		if (amount > 0) {
+			return new CustomItem(item, amount);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public void close() {

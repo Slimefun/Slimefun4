@@ -1,13 +1,9 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
-import java.util.Map;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
@@ -178,32 +174,6 @@ public class ReactorAccessPort extends SlimefunItem {
 		if (item instanceof AReactor) return BlockStorage.getInventory(l);
 
 		return null;
-	}
-
-	private static Inventory inject(Location l) {
-		int size = BlockStorage.getInventory(l).toInventory().getSize();
-		Inventory inv = Bukkit.createInventory(null, size);
-		
-		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
-		}
-		
-		for (int slot : getOutputSlots()) {
-			inv.setItem(slot, BlockStorage.getInventory(l).getItemInSlot(slot));
-		}
-		
-		return inv;
-	}
-
-	public static ItemStack pushItems(Location l, ItemStack item) {
-		Inventory inv = inject(l);
-		Map<Integer, ItemStack> map = inv.addItem(item);
-
-		for (int slot: getOutputSlots()) {
-			BlockStorage.getInventory(l).replaceExistingItem(slot, inv.getItem(slot));
-		}
-		
-		return map.values().stream().findAny().orElse(null);
 	}
 
 }

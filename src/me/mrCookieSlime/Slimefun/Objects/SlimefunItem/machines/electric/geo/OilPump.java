@@ -88,7 +88,7 @@ public abstract class OilPump extends AContainer {
 			}
 			else {
 				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				pushItems(b, processing.get(b).getOutput());
+				inv.pushItem(SlimefunItems.BUCKET_OF_OIL, getOutputSlots());
 				
 				progress.remove(b);
 				processing.remove(b);
@@ -101,7 +101,7 @@ public abstract class OilPump extends AContainer {
 				for (int slot: getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
-						if (!fits(b, r.getOutput())) return;
+						if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) return;
 						inv.replaceExistingItem(slot, InvUtils.decreaseItem(inv.getItemInSlot(slot), 1));
 						processing.put(b, r);
 						progress.put(b, r.getTicks());

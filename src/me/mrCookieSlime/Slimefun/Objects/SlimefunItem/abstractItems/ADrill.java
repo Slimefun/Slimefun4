@@ -16,6 +16,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
@@ -104,10 +105,11 @@ public abstract class ADrill extends AContainer {
 
 	@Override
 	protected void tick(Block b) {
+		BlockMenu menu = BlockStorage.getInventory(b);
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -115,8 +117,8 @@ public abstract class ADrill extends AContainer {
 				progress.put(b, timeleft - 1);
 			}
 			else {
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				pushItems(b, processing.get(b).getOutput());
+				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
 				
 				progress.remove(b);
 				processing.remove(b);
@@ -124,7 +126,7 @@ public abstract class ADrill extends AContainer {
 		}
 		else if (OreGenSystem.getSupplies(getOreGenResource(), b.getChunk(), false) > 0) {
 			MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], this.getOutputItems());
-			if (!fits(b, r.getOutput())) return;
+			if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
 			processing.put(b, r);
 			progress.put(b, r.getTicks());
 			OreGenSystem.setSupplies(getOreGenResource(), b.getChunk(), OreGenSystem.getSupplies(getOreGenResource(), b.getChunk(), false) - 1);

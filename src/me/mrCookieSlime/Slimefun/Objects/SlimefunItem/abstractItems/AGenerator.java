@@ -7,14 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -188,7 +186,7 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 						if (SlimefunManager.isItemSimiliar(fuel, new ItemStack(Material.LAVA_BUCKET), true)
 								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_FUEL, true)
 								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
-							pushItems(inv, new ItemStack(Material.BUCKET));
+							inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
 						}
 						inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 						
@@ -235,27 +233,6 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 
 	public Set<MachineFuel> getFuelTypes() {
 		return this.recipes;
-	}
-	
-	private Inventory inject(BlockMenu menu) {
-		int size = menu.toInventory().getSize();
-		Inventory inv = Bukkit.createInventory(null, size);
-		for (int i = 0; i < size; i++) {
-			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
-		}
-		for (int slot: getOutputSlots()) {
-			inv.setItem(slot, menu.getItemInSlot(slot));
-		}
-		return inv;
-	}
-	 
-	protected void pushItems(BlockMenu menu, ItemStack... items) {
-		Inventory inv = inject(menu);
-		inv.addItem(items);
-		
-		for (int slot : getOutputSlots()) {
-			menu.replaceExistingItem(slot, inv.getItem(slot));
-		}
 	}
 	
 	@Override

@@ -148,10 +148,12 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 
 	@Override
 	protected void tick(Block b) {
+		BlockMenu menu = BlockStorage.getInventory(b);
+		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 4, timeleft, processing.get(b).getTicks(), getProgressBar());
+				MachineHelper.updateProgressbar(menu, 4, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -159,8 +161,8 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 				progress.put(b, timeleft - 1);
 			}
 			else {
-				BlockStorage.getInventory(b).replaceExistingItem(4, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				pushItems(b, processing.get(b).getOutput());
+				menu.replaceExistingItem(4, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
 				
 				progress.remove(b);
 				processing.remove(b);
@@ -182,7 +184,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 						int supplies = OreGenSystem.getSupplies(resource, chunk, false);
 						if (supplies > 0) {
 							MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[] {resource.getItem().clone()});
-							if (!fits(b, r.getOutput())) return;
+							if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
 							
 							processing.put(b, r);
 							progress.put(b, r.getTicks());
