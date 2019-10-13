@@ -245,17 +245,19 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		}
 
 		if (BlockStorage.getLocationInfo(b.getLocation(), "paused").equals("false")) {
+			BlockMenu menu = BlockStorage.getInventory(b);
 			float fuel = Float.parseFloat(BlockStorage.getLocationInfo(b.getLocation(), "fuel"));
+			
 			if (fuel < 0.001) {
-				ItemStack item = BlockStorage.getInventory(b).getItemInSlot(43);
+				ItemStack item = menu.getItemInSlot(43);
 				
 				if (item != null) {
 					for (MachineFuel recipe: recipes) {
 						if (SlimefunManager.isItemSimiliar(item, recipe.getInput(), true)) {
-							BlockStorage.getInventory(b).replaceExistingItem(43, InvUtils.decreaseItem(item, 1));
+							menu.replaceExistingItem(43, InvUtils.decreaseItem(item, 1));
 							
 							if (getTier() == 2) {
-								pushItems(b, new ItemStack(Material.BUCKET));
+								menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
 							}
 							
 							BlockStorage.addBlockInfo(b, "fuel", String.valueOf((int) (recipe.getTicks() * this.getFuelEfficiency())));
@@ -321,7 +323,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 								water.getWorld().playSound(water.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 								if (random.nextInt(100) < 10 * getTier()) {
 									ItemStack drop = fish[random.nextInt(fish.length)];
-									if (fits(b, drop)) pushItems(b, drop);
+									if (menu.fits(drop, getOutputSlots())) {
+										menu.pushItem(drop, getOutputSlots());
+									}
 								}
 
 							}
@@ -339,15 +343,16 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							if (BlockStorage.check(b.getRelative(face), "ANDROID_INTERFACE_ITEMS") && b.getRelative(face).getState() instanceof Dispenser) {
 								Dispenser d = (Dispenser) b.getRelative(face).getState();
 								for (int slot: getOutputSlots()) {
-									ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);
+									ItemStack stack = menu.getItemInSlot(slot);
+									
 									if (stack != null) {
 										Optional<ItemStack> optional = d.getInventory().addItem(stack).values().stream().findFirst();
 										
 										if (optional.isPresent()) {
-											BlockStorage.getInventory(b).replaceExistingItem(slot, optional.get());
+											menu.replaceExistingItem(slot, optional.get());
 										}
 										else {
-											BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+											menu.replaceExistingItem(slot, null);
 										}
 									}
 								}
@@ -358,17 +363,19 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 								Dispenser d = (Dispenser) b.getRelative(face).getState();
 								for (int slot = 0; slot < 9; slot++) {
 									ItemStack item = d.getInventory().getItem(slot);
+									
 									if (item != null) {
-										if (BlockStorage.getInventory(b).getItemInSlot(43) == null) {
-											BlockStorage.getInventory(b).replaceExistingItem(43, item);
+										if (menu.getItemInSlot(43) == null) {
+											menu.replaceExistingItem(43, item);
 											d.getInventory().setItem(slot, null);
 											break;
 										}
-										else if (SlimefunManager.isItemSimiliar(item, BlockStorage.getInventory(b).getItemInSlot(43), true)) {
-											int rest = item.getType().getMaxStackSize() - BlockStorage.getInventory(b).getItemInSlot(43).getAmount();
+										else if (SlimefunManager.isItemSimiliar(item, menu.getItemInSlot(43), true)) {
+											int rest = item.getType().getMaxStackSize() - menu.getItemInSlot(43).getAmount();
+											
 											if (rest > 0) {
 												int amt = item.getAmount() > rest ? rest: item.getAmount();
-												BlockStorage.getInventory(b).replaceExistingItem(43, new CustomItem(item, BlockStorage.getInventory(b).getItemInSlot(43).getAmount() + amt));
+												menu.replaceExistingItem(43, new CustomItem(item, menu.getItemInSlot(43).getAmount() + amt));
 												d.getInventory().setItem(slot, InvUtils.decreaseItem(item, amt));
 											}
 											break;
@@ -378,32 +385,31 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							}
 							break;
 						case FARM_FORWARD:
-							farm(b, b.getRelative(face));
+							farm(b, menu, b.getRelative(face));
 							break;
 						case FARM_DOWN:
-							farm(b, b.getRelative(BlockFace.DOWN));
+							farm(b, menu, b.getRelative(BlockFace.DOWN));
 							break;
 						case FARM_EXOTIC_FORWARD:
-							exoticFarm(b, b.getRelative(face));
+							exoticFarm(b, menu, b.getRelative(face));
 							break;
 						case FARM_EXOTIC_DOWN:
-							exoticFarm(b, b.getRelative(BlockFace.DOWN));
+							exoticFarm(b, menu, b.getRelative(BlockFace.DOWN));
 							break;
 						case CHOP_TREE:
 							if (MaterialCollections.getAllLogs().contains(b.getRelative(face).getType())) {
-								List<Block> list = Vein.find(b.getRelative(face), 100, block -> MaterialCollections.getAllLogs().contains(block.getType()));
+								List<Block> list = Vein.find(b.getRelative(face), 180, block -> MaterialCollections.getAllLogs().contains(block.getType()));
 								list.add(0, b.getRelative(face));
 								if (!list.isEmpty()) {
 									refresh = false;
 									Block log = list.get(list.size() - 1);
-									Collection<ItemStack> drops = log.getDrops();
 									log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 									
-									if (!drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), log.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-										ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
+									if (SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), log.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+										ItemStack drop = new ItemStack(log.getType());
 										
-										if (fits(b, items)) {
-											pushItems(b, items);
+										if (menu.fits(drop, getOutputSlots())) {
+											menu.pushItem(drop, getOutputSlots());
 											log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 											
 											if (log.getY() == b.getRelative(face).getY()) {
@@ -522,19 +528,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			SlimefunItem item = BlockStorage.check(block);
-			if (item != null) {
-				if (fits(b, item.getItem()) && SlimefunPlugin.getUtilities().blockHandlers.containsKey(item.getID()) && SlimefunPlugin.getUtilities().blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-					pushItems(b, BlockStorage.retrieve(block));
-					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-					
-					block.setType(Material.AIR);
-					move(b, face, block);
-					
-					b.setType(Material.AIR);
-					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
-				}
-			}
-			else {
+			if (item == null) {
 				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
 				if (fits(b, items)) {
 					pushItems(b, items);
@@ -546,7 +540,21 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 					b.setType(Material.AIR);
 					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
 				}
+				
 			}
+			/*
+			else {
+				if (fits(b, item.getItem()) && SlimefunPlugin.getUtilities().blockHandlers.containsKey(item.getID()) && SlimefunPlugin.getUtilities().blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
+					pushItems(b, BlockStorage.retrieve(block));
+					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+					
+					block.setType(Material.AIR);
+					move(b, face, block);
+					
+					b.setType(Material.AIR);
+					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
+				}
+			}*/
 		}
 		else {
 			move(b, face, block);
@@ -559,7 +567,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		return ageable.getAge() >= ageable.getMaximumAge();
 	}
 
-	private void farm(Block b, Block block) {
+	private void farm(Block b, BlockMenu menu, Block block) {
 		if (isFullGrown(block)) {
 			ItemStack drop = null;
 			switch (block.getType()) {
@@ -588,8 +596,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				break;
 			}
 			
-			if (drop != null && fits(b, drop)) {
-				pushItems(b, drop);
+			if (drop != null && menu.fits(drop, getOutputSlots())) {
+				menu.pushItem(drop, getOutputSlots());
 				Ageable ageable = (Ageable) block.getBlockData();
 				ageable.setAge(0);
 				block.setBlockData(ageable);
@@ -598,12 +606,12 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		}
 	}
 
-	private void exoticFarm(Block b, Block block) {
-		farm(b, block);
+	private void exoticFarm(Block b, BlockMenu menu, Block block) {
+		farm(b, menu, block);
 		if (SlimefunPlugin.getHooks().isExoticGardenInstalled()) {
 			ItemStack drop = ExoticGarden.harvestPlant(block);
-			if (drop != null && fits(b, drop)) {
-				pushItems(b, drop);
+			if (drop != null && menu.fits(drop, getOutputSlots())) {
+				menu.pushItem(drop, getOutputSlots());
 				block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 			}
 		}
