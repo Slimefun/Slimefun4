@@ -211,13 +211,9 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	}
 
 	public abstract String getInventoryTitle();
-
 	public abstract void registerDefaultRecipes();
-
 	public abstract int getEnergyProduction();
-
 	public abstract void extraTick(Location l);
-
 	public abstract ItemStack getCoolant();
 
 	public boolean needsCooling() {

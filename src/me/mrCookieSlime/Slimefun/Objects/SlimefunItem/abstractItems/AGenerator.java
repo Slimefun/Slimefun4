@@ -164,10 +164,11 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 			
 			@Override
 			public double generateEnergy(Location l, SlimefunItem sf, Config data) {
+				BlockMenu inv = BlockStorage.getInventory(l);
 				if (isProcessing(l)) {
 					int timeleft = progress.get(l);
 					if (timeleft > 0) {
-						MachineHelper.updateProgressbar(BlockStorage.getInventory(l), 22, timeleft, processing.get(l).getTicks(), getProgressBar());
+						MachineHelper.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 						
 						if (ChargableBlock.isChargable(l)) {
 							if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction()) {
@@ -187,9 +188,9 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 						if (SlimefunManager.isItemSimiliar(fuel, new ItemStack(Material.LAVA_BUCKET), true)
 								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_FUEL, true)
 								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
-							pushItems(l, new ItemStack(Material.BUCKET));
+							pushItems(inv, new ItemStack(Material.BUCKET));
 						}
-						BlockStorage.getInventory(l).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+						inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 						
 						progress.remove(l);
 						processing.remove(l);
@@ -197,13 +198,12 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 					}
 				}
 				else {
-					BlockMenu menu = BlockStorage.getInventory(l);
 					Map<Integer, Integer> found = new HashMap<>();
-					MachineFuel fuel = findRecipe(menu, found);
+					MachineFuel fuel = findRecipe(inv, found);
 					
 					if (fuel != null) {
 						for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
-							menu.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(menu.getItemInSlot(entry.getKey()), entry.getValue()));
+							inv.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(inv.getItemInSlot(entry.getKey()), entry.getValue()));
 						}
 						
 						processing.put(l, fuel);
@@ -237,24 +237,24 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 		return this.recipes;
 	}
 	
-	private Inventory inject(Location l) {
-		int size = BlockStorage.getInventory(l).toInventory().getSize();
+	private Inventory inject(BlockMenu menu) {
+		int size = menu.toInventory().getSize();
 		Inventory inv = Bukkit.createInventory(null, size);
 		for (int i = 0; i < size; i++) {
 			inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
 		}
 		for (int slot: getOutputSlots()) {
-			inv.setItem(slot, BlockStorage.getInventory(l).getItemInSlot(slot));
+			inv.setItem(slot, menu.getItemInSlot(slot));
 		}
 		return inv;
 	}
 	 
-	protected void pushItems(Location l, ItemStack... items) {
-		Inventory inv = inject(l);
+	protected void pushItems(BlockMenu menu, ItemStack... items) {
+		Inventory inv = inject(menu);
 		inv.addItem(items);
 		
 		for (int slot : getOutputSlots()) {
-			BlockStorage.getInventory(l).replaceExistingItem(slot, inv.getItem(slot));
+			menu.replaceExistingItem(slot, inv.getItem(slot));
 		}
 	}
 	

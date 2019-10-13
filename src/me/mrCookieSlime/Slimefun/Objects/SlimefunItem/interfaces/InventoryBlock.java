@@ -44,6 +44,7 @@ public interface InventoryBlock {
 		};
 	}
 	
+	@Deprecated
 	default Inventory inject(Block b) {
 		int size = getOutputSlots().length;
 		Inventory inv = Bukkit.createInventory(null, ((int) Math.ceil(size / 9F)) * 9);
@@ -59,11 +60,13 @@ public interface InventoryBlock {
 		
 		return inv;
 	}
-	
+
+	@Deprecated
 	default boolean fits(Block b, ItemStack... items) {
 		return inject(b).addItem(items).isEmpty();
 	}
-	
+
+	@Deprecated
 	default void pushItems(Block b, ItemStack... items) {
 		Inventory inv = inject(b);
 		inv.addItem(items);

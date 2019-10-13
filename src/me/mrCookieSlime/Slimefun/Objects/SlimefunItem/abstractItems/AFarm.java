@@ -97,7 +97,7 @@ public abstract class AFarm extends SlimefunItem {
 	public abstract int getEnergyConsumption();
 	public abstract boolean canHarvest(Block b);
 	public abstract ItemStack harvest(Block b);
-	public abstract int getSize();
+	public abstract int getRadius();
 
 	public int[] getOutputSlots() {
 		return new int[] {19, 20, 21, 22, 23, 24, 25};
@@ -106,10 +106,10 @@ public abstract class AFarm extends SlimefunItem {
 	protected void tick(Block b) {
 		if (ChargableBlock.isChargable(b)) {
 			if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-			int i = getSize() / 2;
+			int radius = getRadius();
 			
-			for (int x = -i; x <= i; x++) {
-				for (int z = -i; z <= i; z++) {
+			for (int x = -radius; x <= radius; x++) {
+				for (int z = -radius; z <= radius; z++) {
 					Block block = new Location(b.getWorld(), b.getX() + (double) x, b.getY() + 2.0, b.getZ() + (double) z).getBlock();
 					if (canHarvest(block)) {
 						ItemStack item = harvest(block);

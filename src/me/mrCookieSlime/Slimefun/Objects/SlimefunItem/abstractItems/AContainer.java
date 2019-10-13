@@ -171,10 +171,12 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	}
 
 	protected void tick(Block b) {
+		BlockMenu inv = BlockStorage.getInventory(b);
+		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				MachineHelper.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -184,7 +186,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 				else progress.put(b, timeleft - 1);
 			}
 			else {
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput().clone());
 				
 				progress.remove(b);
@@ -198,7 +200,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			for (MachineRecipe recipe: recipes) {
 				for (ItemStack input: recipe.getInput()) {
 					for (int slot: getInputSlots()) {
-						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), input, true)) {
+						if (SlimefunManager.isItemSimiliar(inv.getItemInSlot(slot), input, true)) {
 							found.put(slot, input.getAmount());
 							break;
 						}
@@ -215,7 +217,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 				if (!fits(b, r.getOutput())) return;
 				
 				for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
-					BlockStorage.getInventory(b).replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(entry.getKey()), entry.getValue()));
+					inv.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(inv.getItemInSlot(entry.getKey()), entry.getValue()));
 				}
 				
 				processing.put(b, r);
