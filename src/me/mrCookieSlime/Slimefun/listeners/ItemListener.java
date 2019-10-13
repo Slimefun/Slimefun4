@@ -210,6 +210,7 @@ public class ItemListener implements Listener {
 
 		final Player p = e.getPlayer();
 		ItemStack item = e.getItem();
+		SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 
 		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
@@ -226,11 +227,11 @@ public class ItemListener implements Listener {
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEBUG_FISH, true)) {
 			// Ignore the debug fish in here
 		}
-		else if (Slimefun.hasUnlocked(p, item, true)) {
+		else if (Slimefun.hasUnlocked(p, slimefunItem, true)) {
 			for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
 				if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
 			}
-			
+
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DURALUMIN_MULTI_TOOL, false)
 					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.SOLDER_MULTI_TOOL, false)
 					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.BILLON_MULTI_TOOL, false)
@@ -249,8 +250,7 @@ public class ItemListener implements Listener {
 				if (tool != null && tool.getType() != Material.AIR) {
 					SlimefunItem sfItem = SlimefunItem.getByItem(tool);
 					List<Integer> modes = ((MultiTool) sfItem).getModes();
-					int index = 0;
-					if (utilities.mode.containsKey(p.getUniqueId())) index = utilities.mode.get(p.getUniqueId());
+					int index = utilities.mode.getOrDefault(p.getUniqueId(), 0);
 
 					if (!p.isSneaking()) {
 						float charge = ItemEnergy.getStoredEnergy(item);
@@ -263,7 +263,7 @@ public class ItemListener implements Listener {
 					else {
 						index++;
 						if (index == modes.size()) index = 0;
-						
+
 						final int finalIndex = index;
 						SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", (String) Slimefun.getItemValue(sfItem.getID(), "mode." + modes.get(finalIndex) + ".name")));
 						utilities.mode.put(p.getUniqueId(), index);

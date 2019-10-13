@@ -9,12 +9,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -48,22 +50,16 @@ public final class PlayerProfile {
 	private PlayerProfile(OfflinePlayer p) {
 		this.uuid = p.getUniqueId();
 		this.name = p.getName();
-		
+
 		cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
-		
+
 		for (Research research: Research.list()) {
 			if (cfg.contains("researches." + research.getID())) researches.add(research);
 		}
 	}
 	
 	private PlayerProfile(UUID uuid) {
-		this.uuid = uuid;
-		this.name = Bukkit.getOfflinePlayer(uuid).getName();
-		cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
-		
-		for (Research research: Research.list()) {
-			if (cfg.contains("researches." + research.getID())) researches.add(research);
-		}
+		this(Bukkit.getOfflinePlayer(uuid));
 	}
 	
 	public HashedArmorpiece[] getArmor() {
@@ -211,6 +207,10 @@ public final class PlayerProfile {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Research Progress: " + progress + "&e(" + researched.size() + " / " + Research.list().size() + ")"));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Total XP Levels spent: &b" + levels));
 	}
+
+	public Player getPlayer() {
+		return Bukkit.getPlayer(getUUID());
+	}
 	
 	public static PlayerProfile fromUUID(UUID uuid) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
@@ -225,7 +225,15 @@ public final class PlayerProfile {
 		
 		return profile;
 	}
-	
+
+	/**
+	 * This is now deprecated, use {@link #get(OfflinePlayer, Consumer)} instead
+	 *
+	 * @param p The player's profile you wish to retrieve
+	 * @return The PlayerProfile of this player
+	 * @deprecated Use {@link #get(OfflinePlayer, Consumer)}
+	 */
+	@Deprecated
 	public static PlayerProfile get(OfflinePlayer p) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
 		
@@ -238,6 +246,28 @@ public final class PlayerProfile {
 		}
 		
 		return profile;
+	}
+
+	/**
+	 * Get the PlayerProfile for a player asynchronously.
+	 *
+	 * @param p 	   The player who's profile to retrieve
+	 * @param callback The callback with the PlayerProfile
+	 * @return If the player was cached or not.
+	 */
+	public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
+		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
+		if (profile != null) {
+			callback.accept(profile);
+			return true;
+		}
+
+		Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+			PlayerProfile pp = new PlayerProfile(p);
+			SlimefunPlugin.getUtilities().profiles.put(p.getUniqueId(), pp);
+			callback.accept(pp);
+		});
+		return false;
 	}
 
 	public static boolean isLoaded(UUID uuid) {
