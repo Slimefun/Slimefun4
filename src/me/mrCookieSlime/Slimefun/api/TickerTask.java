@@ -1,11 +1,14 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -202,20 +205,27 @@ public class TickerTask implements Runnable {
 			tellraw.addText("   &7&oHover for more Info");
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
-			
-			for (Map.Entry<String, Integer> entry: machineCount.entrySet()) {
-				long timings = machineTimings.get(entry.getKey());
-				if (timings > 0) hover.append("\n&c").append(entry.getKey()).append(" - ").append(entry.getValue()).append("x &7(").append(timings).append("ms)");
-				else hidden++;
+
+			Map<String, Long> timings = chunkTimings.entrySet().stream()
+					.sorted(Comparator.comparingLong(machineTimings::get).reversed())
+					.collect(Collectors.toMap(Map.Entry::getKey, machineTimings::get, (e1, e2) -> e1, LinkedHashMap::new));
+
+			for (Map.Entry<String, Long> entry : timings.entrySet()) {
+				if (entry.getValue() > 0)
+				    hover.append("\n&c").append(entry.getKey()).append(" - ")
+						.append(entry.getValue()).append("x &7(").append(entry.getValue()).append("ms, ")
+			            .append(entry.getValue() / machineCount.get(entry.getKey())).append("ms avg/machine)");
+				else
+				    hidden++;
 			}
-			
+
 			hover.append("\n\n&c+ &4").append(hidden).append(" Hidden");
 			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
-			
+
 			try {
 				tellraw.send((Player) sender);
 			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		else {
@@ -238,14 +248,19 @@ public class TickerTask implements Runnable {
 			tellraw.addText("   &7&oHover for more Info");
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
-			
-			for (Map.Entry<String, Long> entry: chunkTimings.entrySet()) {
+
+			Map<String, Long> timings = chunkTimings.entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+			for (Map.Entry<String, Long> entry: timings.entrySet()) {
 				if (!chunksSkipped.contains(entry.getKey())) {
 					if (entry.getValue() > 0)
 						hover.append("\n&c").append(entry.getKey().replace("CraftChunk", "")).append(" - ")
 								.append(chunkItemCount.getOrDefault(entry.getKey(), 0))
 								.append("x &7(").append(entry.getValue()).append("ms)");
-					else hidden++;
+					else
+					    hidden++;
 				}
 			}
 			
@@ -255,7 +270,7 @@ public class TickerTask implements Runnable {
 			try {
 				tellraw.send((Player) sender);
 			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		else {
