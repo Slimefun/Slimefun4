@@ -206,7 +206,7 @@ public class TickerTask implements Runnable {
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
 
-			Map<String, Long> timings = chunkTimings.entrySet().stream()
+			Map<String, Long> timings = machineCount.entrySet().stream()
 					.sorted(Comparator.comparingLong(machineTimings::get).reversed())
 					.collect(Collectors.toMap(Map.Entry::getKey, machineTimings::get, (e1, e2) -> e1, LinkedHashMap::new));
 
