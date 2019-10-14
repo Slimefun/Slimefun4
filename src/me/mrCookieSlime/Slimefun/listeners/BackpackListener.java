@@ -2,8 +2,6 @@ package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
 
-import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -86,25 +84,10 @@ public class BackpackListener implements Listener {
 			Player p = e.getPlayer();
 			ItemStack item = e.getItem();
 			SlimefunItem sfItem = SlimefunItem.getByItem(item);
-			if (sfItem == null) return;
-
-			// Surely this can be even simpler?
-			if (sfItem.isItem(SlimefunItems.BACKPACK_SMALL))
-				openBackpack(SlimefunItems.BACKPACK_SMALL, sfItem, 9, e, p);
-			else if (sfItem.isItem(SlimefunItems.BACKPACK_MEDIUM))
-				openBackpack(SlimefunItems.BACKPACK_MEDIUM, sfItem, 18, e, p);
-			else if (sfItem.isItem(SlimefunItems.BACKPACK_LARGE))
-				openBackpack(SlimefunItems.BACKPACK_LARGE, sfItem, 27, e, p);
-			else if (sfItem.isItem(SlimefunItems.WOVEN_BACKPACK))
-				openBackpack(SlimefunItems.WOVEN_BACKPACK, sfItem, 36, e, p);
-			else if (sfItem.isItem(SlimefunItems.GILDED_BACKPACK))
-				openBackpack(SlimefunItems.GILDED_BACKPACK, sfItem, 45, e, p);
-			else if (sfItem.isItem(SlimefunItems.RADIANT_BACKPACK))
-				openBackpack(SlimefunItems.RADIANT_BACKPACK, sfItem, 54, e, p);
-			else if (sfItem.isItem(SlimefunItems.BOUND_BACKPACK))
-				openBackpack(SlimefunItems.BOUND_BACKPACK, sfItem, 36, e, p);
-			else if (sfItem.isItem(SlimefunItems.COOLER))
-				openBackpack(SlimefunItems.COOLER, sfItem, 27, e, p);
+			
+			if (sfItem instanceof SlimefunBackpack) {
+				openBackpack(item, sfItem, ((SlimefunBackpack) sfItem).getSize(), e, p);
+			}
 		}
 	}
 
