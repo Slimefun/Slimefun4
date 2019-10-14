@@ -227,29 +227,15 @@ public class ItemListener implements Listener {
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEBUG_FISH, true)) {
 			// Ignore the debug fish in here
 		}
-		else if (slimefunItem != null && Slimefun.hasUnlocked(p, slimefunItem, true)) {
-			for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
-				if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
-			}
-
-			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DURALUMIN_MULTI_TOOL, false)
-					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.SOLDER_MULTI_TOOL, false)
-					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.BILLON_MULTI_TOOL, false)
-					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.STEEL_MULTI_TOOL, false)
-					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL, false)
-					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL, false)
-					|| SlimefunManager.isItemSimiliar(item, SlimefunItems.CARBONADO_MULTI_TOOL, false)) {
-				e.setCancelled(true);
-				ItemStack tool = null;
-				for (ItemStack mTool : new ItemStack[] {SlimefunItems.DURALUMIN_MULTI_TOOL, SlimefunItems.SOLDER_MULTI_TOOL, SlimefunItems.BILLON_MULTI_TOOL, SlimefunItems.STEEL_MULTI_TOOL, SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL, SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL, SlimefunItems.CARBONADO_MULTI_TOOL}) {
-					if (mTool.getItemMeta().getLore().get(0).equalsIgnoreCase(item.getItemMeta().getLore().get(0))) {
-						tool = mTool;
-						break;
-					}
+		else if (slimefunItem != null) {
+			if (Slimefun.hasUnlocked(p, slimefunItem, true)) {
+				for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
+					if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
 				}
-				if (tool != null && tool.getType() != Material.AIR) {
-					SlimefunItem sfItem = SlimefunItem.getByItem(tool);
-					List<Integer> modes = ((MultiTool) sfItem).getModes();
+				if (slimefunItem instanceof MultiTool) {
+					e.setCancelled(true);
+					
+					List<Integer> modes = ((MultiTool) slimefunItem).getModes();
 					int index = utilities.mode.getOrDefault(p.getUniqueId(), 0);
 
 					if (!p.isSneaking()) {
@@ -257,7 +243,7 @@ public class ItemListener implements Listener {
 						float cost = 0.3F;
 						if (charge >= cost) {
 							p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
-							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(sfItem.getID(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
+							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
 						}
 					}
 					else {
@@ -265,41 +251,43 @@ public class ItemListener implements Listener {
 						if (index == modes.size()) index = 0;
 
 						final int finalIndex = index;
-						SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", (String) Slimefun.getItemValue(sfItem.getID(), "mode." + modes.get(finalIndex) + ".name")));
+						SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", (String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(finalIndex) + ".name")));
 						utilities.mode.put(p.getUniqueId(), index);
 					}
 				}
-			}
-			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.HEAVY_CREAM, true)) e.setCancelled(true);
+				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.HEAVY_CREAM, true)) e.setCancelled(true);
 
-			if (e.getClickedBlock() != null && BlockStorage.hasBlockInfo(e.getClickedBlock())) {
-				String id = BlockStorage.checkID(e.getClickedBlock());
-				if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && (!p.isSneaking() || item == null || item.getType() == Material.AIR)) {
-					e.setCancelled(true);
-					BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
+				if (e.getClickedBlock() != null && BlockStorage.hasBlockInfo(e.getClickedBlock())) {
+					String id = BlockStorage.checkID(e.getClickedBlock());
+					if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && (!p.isSneaking() || item == null || item.getType() == Material.AIR)) {
+						e.setCancelled(true);
+						BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
 
-					if (storage.hasUniversalInventory(id)) {
-						UniversalBlockMenu menu = storage.getUniversalInventory(id);
-						if (menu.canOpen(e.getClickedBlock(), p)) {
-							menu.open(p);
+						if (storage.hasUniversalInventory(id)) {
+							UniversalBlockMenu menu = storage.getUniversalInventory(id);
+							if (menu.canOpen(e.getClickedBlock(), p)) {
+								menu.open(p);
+							}
+							else {
+								SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+							}
 						}
-						else {
-							SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
-						}
-					}
-					else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
-						BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
-						if (menu.canOpen(e.getClickedBlock(), p)) {
-							menu.open(p);
-						}
-						else {
-							SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+						else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
+							BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
+							if (menu.canOpen(e.getClickedBlock(), p)) {
+								menu.open(p);
+							}
+							else {
+								SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+							}
 						}
 					}
 				}
 			}
+			else {
+				e.setCancelled(true);
+			}
 		}
-		else e.setCancelled(true);
 	}
 
 	private boolean canPlaceCargoNodes(Player p, ItemStack item, Block b) {
