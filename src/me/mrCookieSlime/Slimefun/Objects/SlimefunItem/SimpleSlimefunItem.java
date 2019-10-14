@@ -34,6 +34,11 @@ public abstract class SimpleSlimefunItem<T extends ItemHandler> extends Slimefun
 	}
 	
 	@Override
+	protected boolean areItemHandlersPrivate() {
+		return true;
+	}
+	
+	@Override
 	public void preRegister() {
 		addItemHandler(getItemHandler());
 	}

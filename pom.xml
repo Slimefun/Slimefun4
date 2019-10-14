@@ -21,16 +21,16 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
             <id>worldedit-worldguard-repo</id>
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
             <id>coreprotect-repo</id>
             <url>https://maven.playpro.com/</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
         </repository>
         <repository>
   			<id>CodeMC</id>

@@ -738,7 +738,7 @@ public final class SlimefunGuide {
 
 		menu.setEmptySlotsClickable(false);
 		fillInv(menu, cheat);
-		addBackButton(menu, player, false, cheat);
+		addBackButton(menu, 1, player, false, cheat);
 
 		searchTerm = searchTerm.toLowerCase();
 
@@ -800,17 +800,17 @@ public final class SlimefunGuide {
 		}
 	}
 
-	private static void addBackButton(ChestMenu menu, Player player, boolean book, boolean cheat) {
+	private static void addBackButton(ChestMenu menu, int slot, Player player, boolean book, boolean cheat) {
 		List<Object> playerHistory = getHistory().getOrDefault(player.getUniqueId(), new LinkedList<>());
 		if (playerHistory != null && playerHistory.size() > 1) {
 
-			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
+			menu.addItem(slot, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
 				"&7\u21E6 Back", "",
 				"&rLeft Click: &7Go back to previous Page",
 				"&rShift + left Click: &7Go back to Main Menu")
 			);
 
-			menu.addMenuClickHandler(0, (pl, slot, item118, action) -> {
+			menu.addMenuClickHandler(0, (pl, s, is, action) -> {
 				if (action.isShiftClicked()) openMainMenuAsync(pl, true, false, 1);
 				else {
 					Object last = getLastEntry(pl, true);
@@ -822,7 +822,7 @@ public final class SlimefunGuide {
 		}
 		else {
 			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to Main Menu"));
-			menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
+			menu.addMenuClickHandler(0, (pl, s, is, action) -> {
 				openMainMenuAsync(pl, true, book, 1);
 				return false;
 			});
@@ -916,7 +916,7 @@ public final class SlimefunGuide {
 
 		if (addToHistory) addToHistory(p, sfItem != null ? sfItem: item);
 
-		addBackButton(menu, p, book, false);
+		addBackButton(menu, 0, p, book, false);
 
 		LinkedList<Object> history = getHistory().get(p.getUniqueId());
 

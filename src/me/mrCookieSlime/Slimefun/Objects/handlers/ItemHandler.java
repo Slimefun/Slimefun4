@@ -4,4 +4,8 @@ package me.mrCookieSlime.Slimefun.Objects.handlers;
 public interface ItemHandler {
 	
 	String toCodename();
+
+	default boolean isPrivate() {
+		return false;
+	}
 }

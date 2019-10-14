@@ -33,6 +33,11 @@ public class ElevatorPlate extends SimpleSlimefunItem<ItemInteractionHandler> {
 			}
 		});
 	}
+	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 
 	@Override
 	public ItemInteractionHandler getItemHandler() {

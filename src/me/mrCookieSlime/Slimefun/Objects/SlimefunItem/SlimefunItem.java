@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -142,7 +143,6 @@ public class SlimefunItem {
 	 */
 	public String getPermission() 			{		return permission;		}
 	public List<String> getNoPermissionTooltip()    {       return noPermissionTooltip;       }
-	public Set<ItemHandler> getHandlers() 		{		return itemhandlers;		}
 	public boolean isTicking() 			{		return ticking;			}
 
 	/**
@@ -210,9 +210,12 @@ public class SlimefunItem {
 				
 				create();
 				
-				for (ItemHandler handler: itemhandlers) {
+				for (ItemHandler handler : itemhandlers) {
+					if (areItemHandlersPrivate()) continue;
+					
 					Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
 					handlerset.add(handler);
+					
 					SlimefunPlugin.getUtilities().itemHandlers.put(handler.toCodename(), handlerset);
 				}
 
@@ -542,6 +545,18 @@ public class SlimefunItem {
 	
 	public String getItemName() {
 		return ItemUtils.getItemName(item);
+	}
+
+	public Set<ItemHandler> getHandlers() {
+		return itemhandlers;
+	}
+
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
+	
+	public <T extends ItemHandler> void callItemHandler(Class<T> c, Consumer<T> callable) {
+		itemhandlers.stream().filter(c::isInstance).map(c::cast).forEach(callable);
 	}
 	
 	@Override

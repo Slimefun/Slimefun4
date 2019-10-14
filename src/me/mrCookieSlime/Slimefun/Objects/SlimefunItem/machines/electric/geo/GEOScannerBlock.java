@@ -14,6 +14,11 @@ public class GEOScannerBlock extends SimpleSlimefunItem<ItemInteractionHandler> 
 	public GEOScannerBlock(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 	}
+	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 
 	@Override
 	public ItemInteractionHandler getItemHandler() {

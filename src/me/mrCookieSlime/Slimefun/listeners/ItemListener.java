@@ -211,7 +211,6 @@ public class ItemListener implements Listener {
 
 		final Player p = e.getPlayer();
 		ItemStack item = e.getItem();
-		SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 
 		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
@@ -228,46 +227,56 @@ public class ItemListener implements Listener {
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEBUG_FISH, true)) {
 			// Ignore the debug fish in here
 		}
-		else if (slimefunItem != null) {
-			if (Slimefun.hasUnlocked(p, slimefunItem, true)) {
+		else {
+			SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+			
+			if (slimefunItem != null) {
+				if (Slimefun.hasUnlocked(p, slimefunItem, true)) {
+					slimefunItem.callItemHandler(ItemInteractionHandler.class, handler ->
+						handler.onRightClick(e, p, item)
+					);
+					
+					// Open the Backpack (also includes Coolers)
+					if (slimefunItem instanceof SlimefunBackpack) {
+						e.setCancelled(true);
+						BackpackListener.openBackpack(p, item, (SlimefunBackpack) slimefunItem);
+					}
+					else if (slimefunItem instanceof MultiTool) {
+						e.setCancelled(true);
+						
+						List<Integer> modes = ((MultiTool) slimefunItem).getModes();
+						int index = utilities.mode.getOrDefault(p.getUniqueId(), 0);
+
+						if (!p.isSneaking()) {
+							float charge = ItemEnergy.getStoredEnergy(item);
+							float cost = 0.3F;
+							if (charge >= cost) {
+								p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
+								Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
+							}
+						}
+						else {
+							index++;
+							if (index == modes.size()) index = 0;
+
+							final int finalIndex = index;
+							SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", (String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(finalIndex) + ".name")));
+							utilities.mode.put(p.getUniqueId(), index);
+						}
+					}
+					else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.HEAVY_CREAM, true)) e.setCancelled(true);
+				}
+				else {
+					e.setCancelled(true);
+				}
+			}
+			else {
 				for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
 					if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
 				}
-				
-				// Open the Backpack (also includes Coolers)
-				if (slimefunItem instanceof SlimefunBackpack) {
-					e.setCancelled(true);
-					BackpackListener.openBackpack(p, item, (SlimefunBackpack) slimefunItem);
-				}
-				else if (slimefunItem instanceof MultiTool) {
-					e.setCancelled(true);
-					
-					List<Integer> modes = ((MultiTool) slimefunItem).getModes();
-					int index = utilities.mode.getOrDefault(p.getUniqueId(), 0);
-
-					if (!p.isSneaking()) {
-						float charge = ItemEnergy.getStoredEnergy(item);
-						float cost = 0.3F;
-						if (charge >= cost) {
-							p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
-							Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item")).getItem(), e.getClickedBlock()));
-						}
-					}
-					else {
-						index++;
-						if (index == modes.size()) index = 0;
-
-						final int finalIndex = index;
-						SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", (String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(finalIndex) + ".name")));
-						utilities.mode.put(p.getUniqueId(), index);
-					}
-				}
-				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.HEAVY_CREAM, true)) e.setCancelled(true);
-			}
-			else {
-				e.setCancelled(true);
 			}
 		}
+		
 		
 		if (e.getClickedBlock() != null && BlockStorage.hasBlockInfo(e.getClickedBlock())) {
 			String id = BlockStorage.checkID(e.getClickedBlock());

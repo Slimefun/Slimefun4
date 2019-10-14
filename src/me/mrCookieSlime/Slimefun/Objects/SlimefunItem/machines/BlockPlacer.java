@@ -31,6 +31,11 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 	}
 	
 	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
+	
+	@Override
 	public AutonomousMachineHandler getItemHandler() {
 		return (e, dispenser, d, block, chest, machine) -> {
 			if (machine.getID().equalsIgnoreCase(getID())) {

@@ -24,8 +24,8 @@ public class HologramProjector extends SimpleSlimefunItem<ItemInteractionHandler
 
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "text", "&bHi, I am a Hologram, &3configure me using the Projector");
-				BlockStorage.addBlockInfo(b, "offset", "-0.5");
+				BlockStorage.addBlockInfo(b, "text", "Edit me via the Projector");
+				BlockStorage.addBlockInfo(b, "offset", "0.5");
 				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
 
 				HologramProjectorHologram.getArmorStand(b, true);
@@ -37,6 +37,11 @@ public class HologramProjector extends SimpleSlimefunItem<ItemInteractionHandler
 				return true;
 			}
 		});
+	}
+	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
 	}
 
 	@Override

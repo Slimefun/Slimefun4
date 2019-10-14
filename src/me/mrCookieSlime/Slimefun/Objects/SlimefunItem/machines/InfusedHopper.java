@@ -24,6 +24,11 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 	}
 	
 	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
+	
+	@Override
 	public BlockTicker getItemHandler() {
 		return new BlockTicker() {
 
