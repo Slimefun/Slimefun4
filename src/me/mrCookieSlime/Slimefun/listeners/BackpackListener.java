@@ -85,6 +85,7 @@ public class BackpackListener implements Listener {
 			ItemStack item = e.getItem();
 			SlimefunItem sfItem = SlimefunItem.getByItem(item);
 			
+			// Open the Backpack (also includes Coolers)
 			if (sfItem instanceof SlimefunBackpack) {
 				openBackpack(item, sfItem, ((SlimefunBackpack) sfItem).getSize(), e, p);
 			}
