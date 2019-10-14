@@ -256,36 +256,36 @@ public class ItemListener implements Listener {
 					}
 				}
 				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.HEAVY_CREAM, true)) e.setCancelled(true);
-
-				if (e.getClickedBlock() != null && BlockStorage.hasBlockInfo(e.getClickedBlock())) {
-					String id = BlockStorage.checkID(e.getClickedBlock());
-					if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && (!p.isSneaking() || item == null || item.getType() == Material.AIR)) {
-						e.setCancelled(true);
-						BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
-
-						if (storage.hasUniversalInventory(id)) {
-							UniversalBlockMenu menu = storage.getUniversalInventory(id);
-							if (menu.canOpen(e.getClickedBlock(), p)) {
-								menu.open(p);
-							}
-							else {
-								SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
-							}
-						}
-						else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
-							BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
-							if (menu.canOpen(e.getClickedBlock(), p)) {
-								menu.open(p);
-							}
-							else {
-								SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
-							}
-						}
-					}
-				}
 			}
 			else {
 				e.setCancelled(true);
+			}
+		}
+		
+		if (e.getClickedBlock() != null && BlockStorage.hasBlockInfo(e.getClickedBlock())) {
+			String id = BlockStorage.checkID(e.getClickedBlock());
+			if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && (!p.isSneaking() || item == null || item.getType() == Material.AIR)) {
+				e.setCancelled(true);
+				BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
+
+				if (storage.hasUniversalInventory(id)) {
+					UniversalBlockMenu menu = storage.getUniversalInventory(id);
+					if (menu.canOpen(e.getClickedBlock(), p)) {
+						menu.open(p);
+					}
+					else {
+						SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+					}
+				}
+				else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
+					BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
+					if (menu.canOpen(e.getClickedBlock(), p)) {
+						menu.open(p);
+					}
+					else {
+						SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+					}
+				}
 			}
 		}
 	}
