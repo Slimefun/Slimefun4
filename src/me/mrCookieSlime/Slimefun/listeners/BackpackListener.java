@@ -8,12 +8,10 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -77,34 +75,18 @@ public class BackpackListener implements Listener {
 			}
 		}
 	}
-	
-	@EventHandler
-	public void onInteract(PlayerInteractEvent e) {
-		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			Player p = e.getPlayer();
-			ItemStack item = e.getItem();
-			SlimefunItem sfItem = SlimefunItem.getByItem(item);
-			
-			// Open the Backpack (also includes Coolers)
-			if (sfItem instanceof SlimefunBackpack) {
-				openBackpack(item, sfItem, ((SlimefunBackpack) sfItem).getSize(), e, p);
-			}
-		}
-	}
 
-	private void openBackpack(ItemStack item, SlimefunItem sfItem, int size, PlayerInteractEvent e, Player p) {
-		e.setCancelled(true);
-
+	public static void openBackpack(Player p, ItemStack item, SlimefunBackpack backpack) {
 		if (item.getAmount() == 1) {
-			if (Slimefun.hasUnlocked(p, sfItem, true)) {
-				if (!PlayerProfile.get(p, profile -> openBackpack(item, profile, size)))
+			if (Slimefun.hasUnlocked(p, backpack, true)) {
+				if (!PlayerProfile.get(p, profile -> openBackpack(item, profile, backpack.getSize())))
 					Slimefun.getLocal().sendMessage(p, "messages.opening-backpack");
 			}
 		}
 		else SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);
 	}
 
-	private void openBackpack(ItemStack item, PlayerProfile profile, int size) {
+	private static void openBackpack(ItemStack item, PlayerProfile profile, int size) {
 		Player p = profile.getPlayer();
 		for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
 			if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {

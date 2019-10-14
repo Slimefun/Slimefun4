@@ -45,6 +45,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.MultiTool;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
@@ -232,7 +233,13 @@ public class ItemListener implements Listener {
 				for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
 					if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
 				}
-				if (slimefunItem instanceof MultiTool) {
+				
+				// Open the Backpack (also includes Coolers)
+				if (slimefunItem instanceof SlimefunBackpack) {
+					e.setCancelled(true);
+					BackpackListener.openBackpack(p, item, (SlimefunBackpack) slimefunItem);
+				}
+				else if (slimefunItem instanceof MultiTool) {
 					e.setCancelled(true);
 					
 					List<Integer> modes = ((MultiTool) slimefunItem).getModes();
