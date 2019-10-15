@@ -47,10 +47,6 @@ public class GoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implemen
 		chanceFlint = (int) Slimefun.getItemValue(getID(), "chance.FLINT");
 	}
 	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
-	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GOLD_PAN, true)) {
