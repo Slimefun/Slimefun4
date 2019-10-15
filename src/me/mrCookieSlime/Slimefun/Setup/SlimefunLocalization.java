@@ -115,6 +115,9 @@ public class SlimefunLocalization extends Localization {
 
 		setDefaultMessage("item.rainbow_wool.name", "&5Rainbow Wool");
 		setDefaultMessages("item.rainbow_wool.lore", "", "&dCycles through all Colors of the Rainbow!");
+		setDefaultMessage("item.rainbow_glass.name"), "&5Rainbow Glass");
+		setDefaultMessages("item.rainbow_glass.lore"), "&dCycles through all Colors of the Rainbow!");
+
 		save();
 	}
 	
