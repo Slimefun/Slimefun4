@@ -7,7 +7,7 @@ public class SlimefunLocalization extends Localization {
 
 	public SlimefunLocalization(SlimefunPlugin plugin) {
 		super(plugin);
-		
+
 		setPrefix("&aSlimefun 4 &7> ");
 
 		setDefaultMessage("commands.help", "Displays this Help Screen");
@@ -102,7 +102,7 @@ public class SlimefunLocalization extends Localization {
 		setDefaultMessage("gps.waypoint.max", "&4You have reached the Maximum Amount of Waypoints");
 		setDefaultMessages("gps.insufficient-complexity", "&4Insufficient GPS Network Complexity: &c%complexity%", "&4a) You do not have a GPS Network setup yet", "&4b) Your GPS Network is not complex enough");
 		setDefaultMessage("gps.geo.scan-required", "&4GEO-Scan required! &cScan this Chunk using a GEO-Scanner first!");
-		
+
 		setDefaultMessage("robot.started", "&7Your Robot resumed running its Script");
 		setDefaultMessage("robot.stopped", "&7Your Robot has paused its Script");
 		setDefaultMessage("inventory.no-access", "&4You are not permitted to access this Block");
@@ -112,7 +112,9 @@ public class SlimefunLocalization extends Localization {
 		setDefaultMessages("android.scripts.uploaded", "&bUploading...", "&aSuccessfully uploaded your Script!");
 		setDefaultMessage("android.scripts.rating.own", "&4You cannot rate your own Script!");
 		setDefaultMessage("android.scripts.rating.already", "&4You have already left a Rating for this Script!");
-		
+
+		setDefaultMessage("item.rainbow_wool.name", "&5Rainbow Wool");
+		setDefaultMessages("item.rainbow_wool.lore", "", "&dCycles through all Colors of the Rainbow!");
 		save();
 	}
 	
