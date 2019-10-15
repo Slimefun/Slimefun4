@@ -19,10 +19,6 @@ public class InfernalBonemeal extends SimpleSlimefunItem<ItemInteractionHandler>
 		super(category, item, id, recipeType, recipe, recipeOutput);
 	}
 	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
-	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
