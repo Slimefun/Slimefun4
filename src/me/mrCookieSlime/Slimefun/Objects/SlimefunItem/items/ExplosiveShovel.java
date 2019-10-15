@@ -25,7 +25,10 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
 	public ExplosiveShovel(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		super(category, item, recipeType, recipe, keys, values);
 	}
-	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 	@Override
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {

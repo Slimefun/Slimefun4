@@ -17,7 +17,10 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemInteractionHandler> {
 	public KnowledgeFlask(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, recipeType, recipe, recipeOutput);
 	}
-
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {

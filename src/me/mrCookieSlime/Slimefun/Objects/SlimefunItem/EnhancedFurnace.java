@@ -42,7 +42,10 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 		fortune++;
 		return fortune;
 	}
-
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 	@Override
 	public BlockTicker getItemHandler() {
 		return new BlockTicker() {

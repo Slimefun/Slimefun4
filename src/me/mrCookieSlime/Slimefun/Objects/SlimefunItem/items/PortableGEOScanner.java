@@ -14,7 +14,10 @@ public class PortableGEOScanner extends SimpleSlimefunItem<ItemInteractionHandle
 	public PortableGEOScanner(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 	}
-	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {

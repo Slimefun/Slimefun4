@@ -21,7 +21,10 @@ public class WindStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 	public WindStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
-	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {

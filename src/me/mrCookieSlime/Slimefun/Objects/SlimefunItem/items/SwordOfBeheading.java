@@ -33,7 +33,10 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
 	public SwordOfBeheading(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		super(category, item, recipeType, recipe, keys, values);
 	}
-
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 	@Override
 	public EntityKillHandler getItemHandler() {
 		return (e, entity, killer, item) -> {

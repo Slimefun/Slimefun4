@@ -21,7 +21,10 @@ public class MagicSugar extends SimpleSlimefunItem<ItemInteractionHandler> {
 	public MagicSugar(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		super(category, item, recipeType, recipe, keys, values);
 	}
-
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
