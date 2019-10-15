@@ -31,10 +31,6 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
 		super(category, item, recipeType, recipe, keys, values);
 	}
     @Override
-    protected boolean areItemHandlersPrivate() {
-        return false;
-    }
-    @Override
     public ItemInteractionHandler getItemHandler() {
         Utilities utilities = SlimefunPlugin.getUtilities();
 
