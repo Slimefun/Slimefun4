@@ -13,10 +13,9 @@ public class PlayerQuitListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onDisconnect(PlayerQuitEvent e) {
-		SlimefunPlugin.getUtilities().guideHistory.remove(e.getPlayer().getUniqueId());
-		
 		if (PlayerProfile.isLoaded(e.getPlayer().getUniqueId())) {
 			PlayerProfile.get(e.getPlayer()).markForDeletion();
 		}

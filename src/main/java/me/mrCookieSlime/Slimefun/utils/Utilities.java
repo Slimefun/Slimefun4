@@ -124,8 +124,6 @@ public final class Utilities {
 	public final Set<GitHubConnector> connectors = new HashSet<>();
 	public final Map<String, String> contributorHeads = new HashMap<>();
 	public final List<Contributor> contributors = new ArrayList<>();
-
-	public final Map<UUID, LinkedList<Object>> guideHistory = new HashMap<>();
 	
 	public final List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 

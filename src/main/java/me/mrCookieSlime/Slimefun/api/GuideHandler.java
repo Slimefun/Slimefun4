@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
 
 public interface GuideHandler {
 	
@@ -25,7 +24,7 @@ public interface GuideHandler {
 		this.getRunnable(book).run(p);
 		
 		if (survival && this.trackHistory()) {
-			SlimefunGuide.addToHistory(p, this);
+			PlayerProfile.get(p, profile -> profile.getGuideHistory().add(this));
 		}
 	}
 

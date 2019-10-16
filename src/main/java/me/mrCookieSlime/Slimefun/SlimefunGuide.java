@@ -5,8 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -246,7 +245,12 @@ public final class SlimefunGuide {
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
 
-		Object last = getLastEntry(p, false);
+		Object last = null;
+		
+		Optional<PlayerProfile> profile = PlayerProfile.find(p);
+		if (profile.isPresent()) {
+			last = getLastEntry(profile.get(), false);
+		}
 
 		if (last == null)
 			openMainMenuAsync(p, true, book, 1);
@@ -264,7 +268,7 @@ public final class SlimefunGuide {
 		if (p == null) return;
 
 		if (survival) {
-			clearHistory(p.getUniqueId());
+			profile.getGuideHistory().clear();
 		}
 
 		if (book) {
@@ -729,49 +733,51 @@ public final class SlimefunGuide {
 		}
 
 		if (survival) {
-			addToHistory(p, category);
+			PlayerProfile.get(p, profile -> profile.getGuideHistory().add(category));
 		}
 	}
 
-	public static void openSearch(Player player, String searchTerm, boolean cheat, boolean addToHistory) {
-		final ChestMenu menu = new ChestMenu("Slimefun Guide Search");
+	public static void openSearch(Player player, String input, boolean cheat, boolean addToHistory) {
+		PlayerProfile.get(player, profile -> {
+			final ChestMenu menu = new ChestMenu("Slimefun Guide Search");
+			
+			menu.setEmptySlotsClickable(false);
+			fillInv(menu, cheat);
+			addBackButton(menu, 1, profile, false, cheat);
 
-		menu.setEmptySlotsClickable(false);
-		fillInv(menu, cheat);
-		addBackButton(menu, 1, player, false, cheat);
+			String searchTerm = input.toLowerCase();
 
-		searchTerm = searchTerm.toLowerCase();
+			int index = 9;
+			// Find items and add them
+			for (SlimefunItem item : SlimefunItem.list()) {
+				final String itemName = ChatColor.stripColor(item.getItem().getItemMeta().getDisplayName()).toLowerCase();
 
-		int index = 9;
-		// Find items and add them
-		for (SlimefunItem item : SlimefunItem.list()) {
-			final String itemName = ChatColor.stripColor(item.getItem().getItemMeta().getDisplayName()).toLowerCase();
+				if (itemName.isEmpty()) continue;
+				if (index == 44) break;
 
-			if (itemName.isEmpty()) continue;
-			if (index == 44) break;
+				if (itemName.equals(searchTerm) || itemName.contains(searchTerm)) {
+					menu.addItem(index, item.getItem());
+					menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
+						if (cheat) {
+							pl.getInventory().addItem(itm);
+						}
+						else {
+							displayItem(pl, itm, true, false, 0);
+						}
 
-			if (itemName.equals(searchTerm) || itemName.contains(searchTerm)) {
-				menu.addItem(index, item.getItem());
-				menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
-					if (cheat) {
-						pl.getInventory().addItem(itm);
-					}
-					else {
-						displayItem(pl, itm, true, false, 0);
-					}
+						return false;
+					});
 
-					return false;
-				});
-
-				index++;
+					index++;
+				}
 			}
-		}
 
-		if (addToHistory) {
-			addToHistory(player, searchTerm);
-		}
+			if (addToHistory) {
+				profile.getGuideHistory().add(searchTerm);
+			}
 
-		menu.open(player);
+			menu.open(player);
+		});
 	}
 
 	private static void fillInv(ChestMenu menu, boolean cheat) {
@@ -800,8 +806,8 @@ public final class SlimefunGuide {
 		}
 	}
 
-	private static void addBackButton(ChestMenu menu, int slot, Player player, boolean book, boolean cheat) {
-		List<Object> playerHistory = getHistory().getOrDefault(player.getUniqueId(), new LinkedList<>());
+	private static void addBackButton(ChestMenu menu, int slot, PlayerProfile profile, boolean book, boolean cheat) {
+		List<Object> playerHistory = profile.getGuideHistory();
 		if (playerHistory != null && playerHistory.size() > 1) {
 
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
@@ -813,7 +819,7 @@ public final class SlimefunGuide {
 			menu.addMenuClickHandler(0, (pl, s, is, action) -> {
 				if (action.isShiftClicked()) openMainMenuAsync(pl, true, false, 1);
 				else {
-					Object last = getLastEntry(pl, true);
+					Object last = getLastEntry(profile, true);
 					handleHistory(pl, last, book, cheat);
 				}
 				return false;
@@ -829,23 +835,14 @@ public final class SlimefunGuide {
 		}
 	}
 
-	public static void addToHistory(Player p, Object obj) {
-		LinkedList<Object> list = getHistory().computeIfAbsent(p.getUniqueId(), k -> new LinkedList<>());
-		list.add(obj);
-	}
+	private static Object getLastEntry(PlayerProfile profile, boolean remove) {
+		LinkedList<Object> history = profile.getGuideHistory();
 
-	private static Object getLastEntry(Player p, boolean remove) {
-		LinkedList<Object> history = getHistory().get(p.getUniqueId());
-
-		if (remove && history != null && !history.isEmpty()) {
+		if (remove && !history.isEmpty()) {
 			history.removeLast();
 		}
 
-		if (history != null && history.isEmpty()) {
-			getHistory().remove(p.getUniqueId());
-		}
-
-		return history == null || history.isEmpty() ? null: history.getLast();
+		return history.isEmpty() ? null: history.getLast();
 	}
 
 	private static void displayItem(Player p, final ItemStack item, boolean addToHistory, final boolean book, final int page) {
@@ -913,19 +910,23 @@ public final class SlimefunGuide {
 				recipeOutput = r.getResult();
 			}
 		}
+		
+		PlayerProfile profile = PlayerProfile.get(p);
 
-		if (addToHistory) addToHistory(p, sfItem != null ? sfItem: item);
+		addBackButton(menu, 0, profile, book, false);
 
-		addBackButton(menu, 0, p, book, false);
+		LinkedList<Object> history = profile.getGuideHistory();
 
-		LinkedList<Object> history = getHistory().get(p.getUniqueId());
+		if (addToHistory) {
+			history.add(sfItem != null ? sfItem: item);
+		}
 
 		if (history != null && history.size() > 1) {
 			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to previous Page", "&rShift + left Click: &7Go back to Main Menu"));
 			menu.addMenuClickHandler(0, (pl, slot, itemstack, action) -> {
 				if (action.isShiftClicked()) openMainMenuAsync(p, true, book, 1);
 				else {
-					Object last = getLastEntry(pl, true);
+					Object last = getLastEntry(profile, true);
 					handleHistory(pl, last, book, false);
 				}
 				return false;
@@ -1117,13 +1118,5 @@ public final class SlimefunGuide {
 				}
 			}
 		}
-	}
-
-	private static Map<UUID, LinkedList<Object>> getHistory() {
-		return SlimefunPlugin.getUtilities().guideHistory;
-	}
-
-	private static void clearHistory(UUID uuid) {
-		getHistory().remove(uuid);
 	}
 }

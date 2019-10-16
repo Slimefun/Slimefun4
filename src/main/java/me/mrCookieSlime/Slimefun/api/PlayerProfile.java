@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,6 +41,8 @@ public final class PlayerProfile {
 	
 	private final Set<Research> researches = new HashSet<>();
 	private final Map<Integer, BackpackInventory> backpacks = new HashMap<>();
+	private final LinkedList<Object> guideHistory = new LinkedList<>();
+	
 	private final HashedArmorpiece[] armor = {
 		new HashedArmorpiece(),
 		new HashedArmorpiece(),
@@ -211,6 +214,10 @@ public final class PlayerProfile {
 	public Player getPlayer() {
 		return Bukkit.getPlayer(getUUID());
 	}
+
+	public LinkedList<Object> getGuideHistory() {
+		return guideHistory;
+	}
 	
 	public static PlayerProfile fromUUID(UUID uuid) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
@@ -272,6 +279,10 @@ public final class PlayerProfile {
 
 	public static boolean isLoaded(UUID uuid) {
 		return SlimefunPlugin.getUtilities().profiles.containsKey(uuid);
+	}
+
+	public static Optional<PlayerProfile> find(OfflinePlayer p) {
+		return Optional.ofNullable(SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId()));
 	}
 
 	public static Iterator<PlayerProfile> iterator() {
