@@ -739,7 +739,7 @@ public final class SlimefunGuide {
 
 	public static void openSearch(Player player, String input, boolean cheat, boolean addToHistory) {
 		PlayerProfile.get(player, profile -> {
-			final ChestMenu menu = new ChestMenu("Slimefun Guide Search");
+			final ChestMenu menu = new ChestMenu("Searching for: " + shorten("", input));
 			
 			menu.setEmptySlotsClickable(false);
 			fillInv(menu, cheat);
@@ -808,7 +808,7 @@ public final class SlimefunGuide {
 
 	private static void addBackButton(ChestMenu menu, int slot, PlayerProfile profile, boolean book, boolean cheat) {
 		List<Object> playerHistory = profile.getGuideHistory();
-		if (playerHistory != null && playerHistory.size() > 1) {
+		if (!playerHistory.isEmpty()) {
 
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
 				"&7\u21E6 Back", "",
@@ -1053,10 +1053,10 @@ public final class SlimefunGuide {
 	}
 
 	private static void handleHistory(Player pl, Object last, boolean book, boolean cheat) {
-		if (last instanceof Category) openCategory(pl, (Category) last, true, 1, book);
+		if (last instanceof Category) openCategory(pl, (Category) last, !cheat, 1, book);
 		else if (last instanceof SlimefunItem) displayItem(pl, ((SlimefunItem) last).getItem(), false, book, 0);
 		else if (last instanceof GuideHandler) ((GuideHandler) last).run(pl, true, book);
-		else if (last instanceof String) openSearch(pl, (String) last, cheat, true);
+		else if (last instanceof String) openSearch(pl, (String) last, cheat, false);
 		else displayItem(pl, (ItemStack) last, false, book, 0);
 	}
 
