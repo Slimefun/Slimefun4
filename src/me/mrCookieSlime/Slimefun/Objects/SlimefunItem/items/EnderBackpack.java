@@ -16,10 +16,7 @@ public class EnderBackpack extends SimpleSlimefunItem<ItemInteractionHandler> {
 	public EnderBackpack(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 90f3141aecfc6ed000810afedc0ac791aa8b6ace
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {

@@ -19,14 +19,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-<<<<<<< HEAD
-=======
-@Override
-protected boolean areItemHandlersPrivate() {
-	return false;
-	}
-
->>>>>>> 90f3141aecfc6ed000810afedc0ac791aa8b6ace
 public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable {
 
 	public LumberAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
