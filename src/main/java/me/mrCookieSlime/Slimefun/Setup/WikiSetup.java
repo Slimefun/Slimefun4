@@ -20,6 +20,7 @@ public final class WikiSetup {
 	
 	public static void addWikiPages(Class<?> c) {
 		JsonParser parser = new JsonParser();
+		Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
 		
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(c.getResourceAsStream("/wiki.json")))) {
             JsonElement element = parser.parse(reader.lines().collect(Collectors.joining("")));
