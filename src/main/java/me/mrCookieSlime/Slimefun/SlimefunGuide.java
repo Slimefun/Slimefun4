@@ -817,7 +817,7 @@ public final class SlimefunGuide {
 				"&rShift + left Click: &7Go back to Main Menu")
 			);
 
-			menu.addMenuClickHandler(0, (pl, s, is, action) -> {
+			menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
 				if (action.isShiftClicked()) openMainMenuAsync(pl, true, false, 1);
 				else {
 					Object last = getLastEntry(profile, true);
@@ -828,7 +828,7 @@ public final class SlimefunGuide {
 
 		}
 		else {
-			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to Main Menu"));
+			menu.addItem(slot, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to Main Menu"));
 			menu.addMenuClickHandler(0, (pl, s, is, action) -> {
 				openMainMenuAsync(pl, true, book, 1);
 				return false;
