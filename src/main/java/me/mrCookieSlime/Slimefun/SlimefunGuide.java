@@ -808,7 +808,8 @@ public final class SlimefunGuide {
 
 	private static void addBackButton(ChestMenu menu, int slot, PlayerProfile profile, boolean book, boolean cheat) {
 		List<Object> playerHistory = profile.getGuideHistory();
-		if (!playerHistory.isEmpty()) {
+		
+		if (playerHistory.size() > 1) {
 
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
 				"&7\u21E6 Back", "",
@@ -921,7 +922,7 @@ public final class SlimefunGuide {
 			history.add(sfItem != null ? sfItem: item);
 		}
 
-		if (history != null && history.size() > 1) {
+		if (history.size() > 1) {
 			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to previous Page", "&rShift + left Click: &7Go back to Main Menu"));
 			menu.addMenuClickHandler(0, (pl, slot, itemstack, action) -> {
 				if (action.isShiftClicked()) openMainMenuAsync(p, true, book, 1);
