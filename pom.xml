@@ -43,7 +43,7 @@
     </repositories>
     
     <build>
-        <sourceDirectory>${project.basedir}/src</sourceDirectory>
+        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <finalName>${project.name} v${project.version}</finalName>
         <plugins>
             <plugin>
@@ -90,11 +90,10 @@
         
         <resources>
             <resource>
-                <directory>${basedir}/src</directory>
+                <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>plugin.yml</include>
-                    <include>config.yml</include>
+                    <include>*</include>
                 </includes>
             </resource>
         </resources>
