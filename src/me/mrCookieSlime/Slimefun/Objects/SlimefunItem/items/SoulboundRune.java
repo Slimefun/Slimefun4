@@ -27,7 +27,10 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
     public SoulboundRune(Category category, ItemStack item, String id, RecipeType type, ItemStack[] recipe) {
         super(category, item, id, type, recipe);
     }
-
+    @Override
+    protected boolean areItemHandlersPrivate() {
+        return false;
+    }
     @Override
     public ItemDropHandler getItemHandler() {
         return (e, p, i) -> {

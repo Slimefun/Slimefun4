@@ -22,7 +22,10 @@ public class HunterTalisman extends Talisman {
 	public void preRegister() {
 		addItemHandler(getItemHandler());
 	}
-	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 	public EntityKillHandler getItemHandler() {
 		return (e, entity, killer, item) -> {
 			if (Talisman.checkFor(e, this) && !(e.getEntity() instanceof Player)) {

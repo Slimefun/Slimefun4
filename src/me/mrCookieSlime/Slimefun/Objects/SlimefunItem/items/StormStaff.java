@@ -45,7 +45,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 		item.setItemMeta(im);
 		return item;
 	}
-	
+
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {

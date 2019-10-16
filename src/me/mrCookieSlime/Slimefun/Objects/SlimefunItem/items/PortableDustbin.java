@@ -18,7 +18,7 @@ public class PortableDustbin extends SimpleSlimefunItem<ItemInteractionHandler> 
 	public PortableDustbin(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
-	
+
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {

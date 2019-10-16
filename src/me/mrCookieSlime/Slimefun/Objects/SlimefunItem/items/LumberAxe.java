@@ -24,7 +24,10 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
 	public LumberAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
-	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
 	@Override
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {

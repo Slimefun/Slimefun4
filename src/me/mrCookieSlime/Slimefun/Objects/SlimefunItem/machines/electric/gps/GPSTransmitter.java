@@ -45,7 +45,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> {
 	@Override
 	public BlockTicker getItemHandler() {
 		return new BlockTicker() {
-			
+
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
 				int charge = ChargableBlock.getCharge(b);

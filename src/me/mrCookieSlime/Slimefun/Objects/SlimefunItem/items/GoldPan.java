@@ -46,7 +46,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implemen
 		chanceClay = (int) Slimefun.getItemValue(getID(), "chance.CLAY");
 		chanceFlint = (int) Slimefun.getItemValue(getID(), "chance.FLINT");
 	}
-	
+
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
