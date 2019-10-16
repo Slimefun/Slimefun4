@@ -17,10 +17,6 @@ public class PortableCrafter extends SimpleSlimefunItem<ItemInteractionHandler> 
 		super(category, item, recipeType, recipe);
 	}
 	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
-	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PORTABLE_CRAFTER, true)) {
