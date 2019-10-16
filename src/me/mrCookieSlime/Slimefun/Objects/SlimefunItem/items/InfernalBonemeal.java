@@ -18,7 +18,10 @@ public class InfernalBonemeal extends SimpleSlimefunItem<ItemInteractionHandler>
 	public InfernalBonemeal(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, id, recipeType, recipe, recipeOutput);
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 90f3141aecfc6ed000810afedc0ac791aa8b6ace
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
