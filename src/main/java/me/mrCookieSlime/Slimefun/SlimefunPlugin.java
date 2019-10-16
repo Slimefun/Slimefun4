@@ -36,6 +36,7 @@ import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunMetrics;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
+import me.mrCookieSlime.Slimefun.Setup.WikiSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
@@ -205,6 +206,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
+			WikiSetup.addWikiPages(getClass());
 
 			getLogger().log(Level.INFO, "Loading World Generators...");
 
