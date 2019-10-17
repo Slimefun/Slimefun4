@@ -30,11 +30,6 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<BlockBreakHandler> 
 	}
 
 	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
-
-	@Override
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
 			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {

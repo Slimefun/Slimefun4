@@ -19,11 +19,6 @@ public class HunterTalisman extends Talisman {
 	}
 
 	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
-
-	@Override
 	public void preRegister() {
 		addItemHandler(getItemHandler());
 	}
