@@ -38,7 +38,12 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> {
 			}
 		});
 	}
-	
+
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
+
 	public abstract double getMultiplier(int y);
 	public abstract int getEnergyConsumption();
 

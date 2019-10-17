@@ -17,7 +17,12 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 	public HerculesPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
-	
+
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
+
 	@Override
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
