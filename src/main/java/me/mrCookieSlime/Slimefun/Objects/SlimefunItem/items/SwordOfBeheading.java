@@ -35,6 +35,11 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
 	}
 
 	@Override
+	protected boolean areItemHandlersPrivate() {
+		return false;
+	}
+
+	@Override
 	public EntityKillHandler getItemHandler() {
 		return (e, entity, killer, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {

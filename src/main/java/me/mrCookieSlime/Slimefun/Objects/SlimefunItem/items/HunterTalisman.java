@@ -17,7 +17,7 @@ public class HunterTalisman extends Talisman {
 	public HunterTalisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance) {
 		super(item, recipe, consumable, cancelEvent, messageSuffix, chance);
 	}
-	
+
 	@Override
 	public void preRegister() {
 		addItemHandler(getItemHandler());
