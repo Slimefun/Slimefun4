@@ -432,11 +432,28 @@ public final class SlimefunGuide {
 						}
 					}
 
-					if (locked) {
-						// Dont display that Category...
-					}
-					else if (!(category instanceof LockedCategory)) {
-						if (!(category instanceof SeasonalCategory)) {
+					if (!locked) {
+						if (!(category instanceof LockedCategory)) {
+							if (!(category instanceof SeasonalCategory)) {
+								menu.addItem(index, category.getItem());
+								menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
+									openCategory(pl, category, survival, 1, book);
+									return false;
+								});
+								index++;
+							}
+							else {
+								if (((SeasonalCategory) category).isUnlocked()) {
+									menu.addItem(index, category.getItem());
+									menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
+										openCategory(pl, category, survival, 1, book);
+										return false;
+									});
+									index++;
+								}
+							}
+						}
+						else if (!survival || ((LockedCategory) category).hasUnlocked(p, profile)) {
 							menu.addItem(index, category.getItem());
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 								openCategory(pl, category, survival, 1, book);
@@ -445,38 +462,20 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-							if (((SeasonalCategory) category).isUnlocked()) {
-								menu.addItem(index, category.getItem());
-								menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-									openCategory(pl, category, survival, 1, book);
-									return false;
-								});
-								index++;
+							List<String> parents = new ArrayList<>();
+							parents.add("");
+							parents.add(ChatColor.translateAlternateColorCodes('&', "&rYou need to unlock all Items"));
+							parents.add(ChatColor.translateAlternateColorCodes('&', "&rfrom the following Categories first:"));
+							parents.add("");
+
+							for (Category parent : ((LockedCategory) category).getParents()) {
+								parents.add(parent.getItem().getItemMeta().getDisplayName());
 							}
-						}
-					}
-					else if (((LockedCategory) category).hasUnlocked(p, profile)) {
-						menu.addItem(index, category.getItem());
-						menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-							openCategory(pl, category, survival, 1, book);
-							return false;
-						});
-						index++;
-					}
-					else {
-						List<String> parents = new ArrayList<>();
-						parents.add("");
-						parents.add(ChatColor.translateAlternateColorCodes('&', "&rYou need to unlock all Items"));
-						parents.add(ChatColor.translateAlternateColorCodes('&', "&rfrom the following Categories first:"));
-						parents.add("");
 
-						for (Category parent : ((LockedCategory) category).getParents()) {
-							parents.add(parent.getItem().getItemMeta().getDisplayName());
+							menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem().getItemMeta().getDisplayName(), parents.toArray(new String[0])));
+							menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
+							index++;
 						}
-
-						menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem().getItemMeta().getDisplayName(), parents.toArray(new String[0])));
-						menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
-						index++;
 					}
 				}
 			}
