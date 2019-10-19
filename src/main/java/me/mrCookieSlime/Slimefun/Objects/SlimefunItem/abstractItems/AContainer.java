@@ -23,6 +23,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -73,6 +74,10 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	public AContainer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		this(category, item, id, recipeType, recipe);
 		this.recipeOutput = recipeOutput;
+	}
+
+	public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		this(category, item, item.getItemID(), recipeType, recipe);
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {

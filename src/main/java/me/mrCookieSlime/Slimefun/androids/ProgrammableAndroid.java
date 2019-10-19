@@ -309,13 +309,13 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							BlockStorage.addBlockInfo(b, "rotation", directions.get(indexRight).toString());
 							break;
 						case DIG_FORWARD:
-							mine(b, b.getRelative(face));
+							mine(b, menu, b.getRelative(face));
 							break;
 						case DIG_UP:
-							mine(b, b.getRelative(BlockFace.UP));
+							mine(b, menu, b.getRelative(BlockFace.UP));
 							break;
 						case DIG_DOWN:
-							mine(b, b.getRelative(BlockFace.DOWN));
+							mine(b, menu, b.getRelative(BlockFace.DOWN));
 							break;
 						case CATCH_FISH:
 							Block water = b.getRelative(BlockFace.DOWN);
@@ -331,13 +331,13 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							}
 							break;
 						case MOVE_AND_DIG_FORWARD:
-							movedig(b, face, b.getRelative(face));
+							movedig(b, menu, face, b.getRelative(face));
 							break;
 						case MOVE_AND_DIG_UP:
-							movedig(b, face, b.getRelative(BlockFace.UP));
+							movedig(b, menu, face, b.getRelative(BlockFace.UP));
 							break;
 						case MOVE_AND_DIG_DOWN:
-							movedig(b, face, b.getRelative(BlockFace.DOWN));
+							movedig(b, menu, face, b.getRelative(BlockFace.DOWN));
 							break;
 						case INTERFACE_ITEMS:
 							if (BlockStorage.check(b.getRelative(face), "ANDROID_INTERFACE_ITEMS") && b.getRelative(face).getState() instanceof Dispenser) {
@@ -496,17 +496,18 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		}
 	}
 
-	private void mine(Block b, Block block) {
+	private void mine(Block b, BlockMenu menu, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			String item = BlockStorage.checkID(block);
 
 			if (item == null) {
-				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-				if (fits(b, items)) {
-					pushItems(b, items);
-					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-					block.setType(Material.AIR);
+				for (ItemStack drop: drops) {
+					if (menu.fits(drop, getOutputSlots())) {
+						menu.pushItem(drop, getOutputSlots());
+						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+						block.setType(Material.AIR);
+					}
 				}
 			}
 			/*
@@ -524,23 +525,23 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	}
 
 
-	private void movedig(Block b, BlockFace face, Block block) {
+	private void movedig(Block b, BlockMenu menu, BlockFace face, Block block) {
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			SlimefunItem item = BlockStorage.check(block);
 			if (item == null) {
-				ItemStack[] items = drops.toArray(new ItemStack[drops.size()]);
-				if (fits(b, items)) {
-					pushItems(b, items);
-					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-					
-					block.setType(Material.AIR);
-					move(b, face, block);
-					
-					b.setType(Material.AIR);
-					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
+				for (ItemStack drop: drops) {
+					if (menu.fits(drop, getOutputSlots())) {
+						menu.pushItem(drop, getOutputSlots());
+						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+						
+						block.setType(Material.AIR);
+						move(b, face, block);
+						
+						b.setType(Material.AIR);
+						BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
+					}
 				}
-				
 			}
 			/*
 			else {
@@ -1003,7 +1004,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	}
 
 	public void addItems(Block b, ItemStack... items) {
-		this.pushItems(b, items);
+		for (ItemStack item: items) {
+			BlockStorage.getInventory(b).pushItem(item, getOutputSlots());
+		}
 	}
 
 	@Override

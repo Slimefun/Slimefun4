@@ -21,11 +21,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
-    public SoulboundRune(Category category, ItemStack item, String id, RecipeType type, ItemStack[] recipe) {
-        super(category, item, id, type, recipe);
+    public SoulboundRune(Category category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
+        super(category, item, type, recipe);
     }
 
     @Override

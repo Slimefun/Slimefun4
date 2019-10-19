@@ -29,7 +29,7 @@ public class StatsCommand extends SubCommand {
 			if (sender.hasPermission("slimefun.stats.others") || sender instanceof ConsoleCommandSender) {
 				Optional<Player> player = PlayerList.findByName(args[1]);
 				if (player.isPresent()) {
-					PlayerProfile.get(player.get()).sendStats(sender);
+					PlayerProfile.get(player.get(), profile -> profile.sendStats(sender));
 				}
 				else {
 					SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
@@ -38,7 +38,7 @@ public class StatsCommand extends SubCommand {
 			else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 		}
 		else if (sender instanceof Player) {
-			PlayerProfile.get((Player) sender).sendStats(sender);
+			PlayerProfile.get((Player) sender, profile -> profile.sendStats(sender));
 		}
 		else {
 			SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
