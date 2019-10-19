@@ -264,7 +264,7 @@ public final class SlimefunGuide {
 	}
 
 	private static void openMainMenu(final PlayerProfile profile, final boolean survival, final boolean book, final int selected_page) {
-		Player p = Bukkit.getPlayer(profile.getUUID());
+		Player p = profile.getPlayer();
 		if (p == null) return;
 
 		if (survival) {
@@ -742,7 +742,7 @@ public final class SlimefunGuide {
 			
 			menu.setEmptySlotsClickable(false);
 			fillInv(menu, cheat);
-			addBackButton(menu, 1, profile, false, cheat);
+			addBackButton(menu, 1, profile, cheat);
 
 			String searchTerm = input.toLowerCase();
 
@@ -805,7 +805,7 @@ public final class SlimefunGuide {
 		}
 	}
 
-	private static void addBackButton(ChestMenu menu, int slot, PlayerProfile profile, boolean book, boolean cheat) {
+	private static void addBackButton(ChestMenu menu, int slot, PlayerProfile profile, boolean cheat) {
 		List<Object> playerHistory = profile.getGuideHistory();
 		
 		if (playerHistory.size() > 1) {
@@ -817,10 +817,12 @@ public final class SlimefunGuide {
 			);
 
 			menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
-				if (action.isShiftClicked()) openMainMenuAsync(pl, true, false, 1);
+				if (action.isShiftClicked()) {
+					openMainMenu(profile, !cheat, false, 0);
+				}
 				else {
 					Object last = getLastEntry(profile, true);
-					handleHistory(pl, last, book, cheat);
+					handleHistory(pl, last, false, cheat);
 				}
 				return false;
 			});
@@ -829,7 +831,7 @@ public final class SlimefunGuide {
 		else {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to Main Menu"));
 			menu.addMenuClickHandler(0, (pl, s, is, action) -> {
-				openMainMenuAsync(pl, true, book, 1);
+				openMainMenu(profile, !cheat, false, 0);
 				return false;
 			});
 		}
@@ -913,7 +915,7 @@ public final class SlimefunGuide {
 		
 		PlayerProfile profile = PlayerProfile.get(p);
 
-		addBackButton(menu, 0, profile, book, false);
+		addBackButton(menu, 0, profile, false);
 
 		LinkedList<Object> history = profile.getGuideHistory();
 
