@@ -1,10 +1,12 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
+import java.util.List;
+import java.util.Random;
 
+import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
+
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -12,9 +14,11 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
+public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
-	public DietCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+	private final Random random = new Random();
+	
+	public FortuneCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
 
@@ -22,12 +26,10 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
-				p.sendMessage(ChatColor.YELLOW + "You feel so light...");
-				p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
-
-				if (p.hasPotionEffect(PotionEffectType.LEVITATION)) p.removePotionEffect(PotionEffectType.LEVITATION);
-				p.addPotionEffect(PotionEffectType.LEVITATION.createEffect(60, 1));
+				List<String> messages = SlimefunPlugin.getLocal().getMessages("messages.fortune-cookie");
+				String message = messages.get(random.nextInt(messages.size()));
 				
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
 				return true;
 			}
 			return false;

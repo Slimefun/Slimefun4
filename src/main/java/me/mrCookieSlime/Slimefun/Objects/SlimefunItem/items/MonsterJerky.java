@@ -19,11 +19,6 @@ public class MonsterJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	}
 
 	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
-
-	@Override
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {

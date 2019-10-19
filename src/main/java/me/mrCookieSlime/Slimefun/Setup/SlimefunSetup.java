@@ -79,6 +79,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.DietCookie;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.EnderBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosivePickaxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosiveShovel;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.FortuneCookie;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GoldPan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GrapplingHook;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.HerculesPickaxe;
@@ -89,6 +90,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeTome;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.LumberAxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicEyeOfEnder;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicSugar;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MeatJerky;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MonsterJerky;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfContainment;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfTheSeeker;
@@ -195,7 +197,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.BOOK), new ItemStack(Material.CRAFTING_TABLE), null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.FOOD, (SlimefunItemStack) SlimefunItems.FORTUNE_COOKIE, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new FortuneCookie(Categories.FOOD, (SlimefunItemStack) SlimefunItems.FORTUNE_COOKIE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.COOKIE), new ItemStack(Material.PAPER), null, null, null, null, null, null, null})
 		.register(true);
 
@@ -213,8 +215,28 @@ public final class SlimefunSetup {
 		new ItemStack[] {new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT)})
 		.register(true);
 
-		new SlimefunItem(Categories.FOOD, (SlimefunItemStack) SlimefunItems.BEEF_JERKY, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_BEEF), null, null, null, null, null, null, null}, new String[] {"Saturation"}, new Integer[] {20})
+		new MeatJerky(Categories.FOOD, (SlimefunItemStack) SlimefunItems.BEEF_JERKY, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_BEEF), null, null, null, null, null, null, null})
+		.register(true);
+
+		new MeatJerky(Categories.FOOD, (SlimefunItemStack) SlimefunItems.PORK_JERKY, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_PORKCHOP), null, null, null, null, null, null, null})
+		.register(true);
+
+		new MeatJerky(Categories.FOOD, (SlimefunItemStack) SlimefunItems.CHICKEN_JERKY, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_CHICKEN), null, null, null, null, null, null, null})
+		.register(true);
+
+		new MeatJerky(Categories.FOOD, (SlimefunItemStack) SlimefunItems.MUTTON_JERKY, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_MUTTON), null, null, null, null, null, null, null})
+		.register(true);
+
+		new MeatJerky(Categories.FOOD, (SlimefunItemStack) SlimefunItems.RABBIT_JERKY, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_RABBIT), null, null, null, null, null, null, null})
+		.register(true);
+
+		new MeatJerky(Categories.FOOD, (SlimefunItemStack) SlimefunItems.FISH_JERKY, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_COD), null, null, null, null, null, null, null})
 		.register(true);
 
 		new GrindStone().register();

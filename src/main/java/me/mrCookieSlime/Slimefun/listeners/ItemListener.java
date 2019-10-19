@@ -321,67 +321,56 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onEat(PlayerItemConsumeEvent e) {
-		if (e.getItem() != null) {
-			final Player p = e.getPlayer();
-			ItemStack item = e.getItem();
-			
-			if (Slimefun.hasUnlocked(p, item, true)) {
-				for (ItemHandler handler : SlimefunItem.getHandlers("ItemConsumptionHandler")) {
-					if (((ItemConsumptionHandler) handler).onConsume(e, p, item)) return;
-				}
-				
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FORTUNE_COOKIE, true)) {
-					List<String> messages = SlimefunPlugin.getLocal().getMessages("messages.fortune-cookie");
-					String message = messages.get(random.nextInt(messages.size()));
-					
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-				}
-				else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BEEF_JERKY, true)) {
-					p.setSaturation((int) Slimefun.getItemValue("BEEF_JERKY", "Saturation"));
-				}
-				else if (item.getType() == Material.POTION) {
-					SlimefunItem sfItem = SlimefunItem.getByItem(item);
-					
-					if (sfItem instanceof Juice) {
-						// Fix for Saturation on potions is no longer working
-						for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
-							if (effect.getType().equals(PotionEffectType.SATURATION)) {
-								p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, effect.getDuration(), effect.getAmplifier()));
-								break;
-							}
-						}
-
-						// Determine from which hand the juice is being drunk, and its amount
-						int mode = 0;
-						if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInMainHand(), true)) {
-							if (p.getInventory().getItemInMainHand().getAmount() == 1) {
-								mode = 0;
-							}
-							else {
-								mode = 2;
-							}
-						}
-						else if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInOffHand(), true)) {
-							if (p.getInventory().getItemInOffHand().getAmount() == 1) {
-								mode = 1;
-							}
-							else {
-								mode = 2;
-							}
-						}
-
-						// Remove the glass bottle once drunk
-						final int m = mode;
-
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-							if (m == 0) p.getEquipment().getItemInMainHand().setAmount(0);
-							else if (m == 1) p.getEquipment().getItemInOffHand().setAmount(0);
-							else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
-						}, 0L);
+		final Player p = e.getPlayer();
+		ItemStack item = e.getItem();
+		SlimefunItem sfItem = SlimefunItem.getByItem(item);
+		
+		if (sfItem != null && Slimefun.hasUnlocked(p, sfItem, true)) {
+			if (sfItem instanceof Juice) {
+				// Fix for Saturation on potions is no longer working
+				for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
+					if (effect.getType().equals(PotionEffectType.SATURATION)) {
+						p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, effect.getDuration(), effect.getAmplifier()));
+						break;
 					}
 				}
+
+				// Determine from which hand the juice is being drunk, and its amount
+				int mode = 0;
+				if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInMainHand(), true)) {
+					if (p.getInventory().getItemInMainHand().getAmount() == 1) {
+						mode = 0;
+					}
+					else {
+						mode = 2;
+					}
+				}
+				else if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInOffHand(), true)) {
+					if (p.getInventory().getItemInOffHand().getAmount() == 1) {
+						mode = 1;
+					}
+					else {
+						mode = 2;
+					}
+				}
+
+				// Remove the glass bottle once drunk
+				final int m = mode;
+
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+					if (m == 0) p.getEquipment().getItemInMainHand().setAmount(0);
+					else if (m == 1) p.getEquipment().getItemInOffHand().setAmount(0);
+					else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
+				}, 0L);
 			}
-			else e.setCancelled(true);
+			else {
+				sfItem.callItemHandler(ItemConsumptionHandler.class, handler ->
+					handler.onConsume(e, p, item)
+				);
+			}
+		}
+		else {
+			e.setCancelled(true);
 		}
 	}
 
@@ -418,9 +407,8 @@ public class ItemListener implements Listener {
 		}
 		else if (e.getEntity() instanceof Wither) {
 			String id = BlockStorage.checkID(e.getBlock());
-			if (id != null) {
-				if (id.equals("WITHER_PROOF_OBSIDIAN")) e.setCancelled(true);
-				else if (id.equals("WITHER_PROOF_GLASS")) e.setCancelled(true);
+			if (id != null && id.startsWith("WITHER_PROOF_")) {
+				e.setCancelled(true);
 			}
 		}
 	}
