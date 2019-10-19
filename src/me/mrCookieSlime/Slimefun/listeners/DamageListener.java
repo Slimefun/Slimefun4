@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,24 +15,24 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
+import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.Soul;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class DamageListener implements Listener {
 
     private SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");
-    private Utilities utilities;
 
     public DamageListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        utilities = SlimefunPlugin.getUtilities();
     }
 
     @EventHandler
@@ -45,7 +46,7 @@ public class DamageListener implements Listener {
             for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
                 ItemStack item = p.getInventory().getItem(slot);
 
-                if (SlimefunManager.isItemSoulbound(item)) {
+                if (isSoulbound(item)) {
                     Soul.storeItem(p.getUniqueId(), slot, item);
                 }
             }
@@ -53,7 +54,7 @@ public class DamageListener implements Listener {
             Iterator<ItemStack> drops = e.getDrops().iterator();
             while (drops.hasNext()) {
                 ItemStack item = drops.next();
-                if (SlimefunManager.isItemSoulbound(item)) drops.remove();
+                if (isSoulbound(item)) drops.remove();
             }
 
         }
@@ -78,16 +79,38 @@ public class DamageListener implements Listener {
         }
     }
 
+    private boolean isSoulbound(ItemStack item) {
+        if (item == null || item.getType() == null || item.getType() == Material.AIR) return false;
+        else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) return true;
+        else if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) return true;
+        else return false;
+    }
+
     @EventHandler
     public void onArrowHit(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && utilities.damage.contains(e.getEntity().getUniqueId())) {
+        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && SlimefunPlugin.getUtilities().damage.contains(e.getEntity().getUniqueId())) {
             e.setCancelled(true);
-            utilities.damage.remove(e.getEntity().getUniqueId());
+            SlimefunPlugin.getUtilities().damage.remove(e.getEntity().getUniqueId());
         }
     }
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e) {
         Soul.retrieveItems(e.getPlayer());
+    }
+
+    private ItemStack removeEnchantments(ItemStack itemStack) {
+        ItemStack strippedItem = itemStack.clone();
+
+        for (Enchantment enchantment : itemStack.getEnchantments().keySet()) {
+            strippedItem.removeEnchantment(enchantment);
+        }
+
+        if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+            for(ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(itemStack)){
+                EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
+            }
+        }
+        return strippedItem;
     }
 }

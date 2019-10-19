@@ -19,7 +19,9 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -590,8 +592,15 @@ public final class SlimefunItems {
         FireworkEffectMeta imS = (FireworkEffectMeta) itemS.getItemMeta();
         imS.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(47, 0, 117)).build());
         imS.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&5&l灵魂绑定&8&l]"));
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.YELLOW + "Throw this onto a dropped item to");
+        lore.add(ChatColor.DARK_PURPLE + "bind " + ChatColor.YELLOW + "that item to your soul.");
+        lore.add(" ");
+        lore.add(ChatColor.YELLOW + "建议使用在" + ChatColor.GOLD + " 重要物品 "  + ChatColor.YELLOW + "上.");
+        imS.setLore(lore);
         itemS.setItemMeta(imS);
         RUNE_SOULBOUND = itemS;
+
     }
 
     /*		Electricity			*/

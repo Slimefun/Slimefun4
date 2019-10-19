@@ -34,9 +34,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class SlimefunItem {
 
-    public static List<SlimefunItem> items = new ArrayList<>();
-    public static List<SlimefunItem> all = new ArrayList<>();
-
     private String id;
     private String hash;
     private State state;
@@ -211,7 +208,7 @@ public class SlimefunItem {
                 throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
             }
             if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
-            all.add(this);
+            SlimefunPlugin.getUtilities().allItems.add(this);
 
             SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".enabled", true);
             SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.replacing);
@@ -222,7 +219,7 @@ public class SlimefunItem {
 
             if (this.keys != null && this.values != null) {
                 for (int i = 0; i < this.keys.length; i++) {
-                    SlimefunPlugin.getItemCfg().setDefaultValue(this.id + "." + this.keys[i], this.values[i]);
+                    SlimefunPlugin.getItemCfg().setDefaultValue(this.id + '.' + this.keys[i], this.values[i]);
                 }
             }
 
@@ -246,7 +243,7 @@ public class SlimefunItem {
                 this.enchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-enchanting");
                 this.disenchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
                 this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
-                items.add(this);
+                SlimefunPlugin.getUtilities().enabledItems.add(this);
                 if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
                 SlimefunPlugin.getUtilities().itemIDs.put(this.id, this);
 
@@ -274,7 +271,7 @@ public class SlimefunItem {
     }
 
     public static List<SlimefunItem> list() {
-        return items;
+        return SlimefunPlugin.getUtilities().enabledItems;
     }
 
     public void bindToResearch(Research r) {
@@ -325,7 +322,7 @@ public class SlimefunItem {
 
     public static SlimefunItem getByItem(ItemStack item) {
         if (item == null) return null;
-        for (SlimefunItem sfi: items) {
+        for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
             if ((sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
                     (sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
                     (sfi instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
@@ -354,7 +351,8 @@ public class SlimefunItem {
             if (recipeOutput != null) output = recipeOutput.clone();
 
             if (recipeType.toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
-                String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(" ", "_");
+                String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase()
+                        .replace(' ', '_');
                 try {
                     EntityType entity = EntityType.valueOf(mob);
                     List<ItemStack> dropping = SlimefunPlugin.getUtilities().drops.getOrDefault(entity, new ArrayList<>());
@@ -378,7 +376,7 @@ public class SlimefunItem {
     }
 
     public static State getState(ItemStack item) {
-        for (SlimefunItem i: all) {
+        for (SlimefunItem i: SlimefunPlugin.getUtilities().allItems) {
             if (i.isItem(item)) {
                 return i.getState();
             }
@@ -387,7 +385,7 @@ public class SlimefunItem {
     }
 
     public static boolean isDisabled(ItemStack item) {
-        for (SlimefunItem i: all) {
+        for (SlimefunItem i: SlimefunPlugin.getUtilities().allItems) {
             if (i.isItem(item)) {
                 return i.isDisabled();
             }
@@ -537,7 +535,6 @@ public class SlimefunItem {
         // Override this method to execute code before the Item has been registered
         // Useful for calls to addItemHandler(...)
     }
-
 
     public void postRegister() {
         // Override this method to execute code after the Item has been registered

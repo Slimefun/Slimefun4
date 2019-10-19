@@ -113,7 +113,7 @@ public class TalismanListener implements Listener {
 			List<String> enchantments = new ArrayList<>();
 			for (Enchantment en : Enchantment.values()) {
 				for (int i = 1; i <= en.getMaxLevel(); i++) {
-					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i) && en.canEnchantItem(e.getItem())) enchantments.add(en.getKey().getKey() + "-" + i);
+					if ((Boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i) && en.canEnchantItem(e.getItem())) enchantments.add(en.getKey().getKey() + '-' + i);
 				}
 			}
 			String enchant = enchantments.get(random.nextInt(enchantments.size()));

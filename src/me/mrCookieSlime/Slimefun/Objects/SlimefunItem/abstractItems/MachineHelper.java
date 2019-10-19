@@ -96,6 +96,6 @@ public final class MachineHelper {
         im.setLore(lore);
         item.setItemMeta(im);
 
-        menu.replaceExistingItem(22, item);
+        menu.replaceExistingItem(slot, item);
     }
 }

@@ -1,11 +1,6 @@
 package me.mrCookieSlime.Slimefun;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -56,6 +51,7 @@ public final class SlimefunGuide {
 
     private SlimefunGuide(){}
 	private static final int category_size = 36;
+    private static final int[] slots = new int[] {0, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 
 	@Deprecated
 	public static ItemStack getItem() {
@@ -84,8 +80,6 @@ public final class SlimefunGuide {
 	public static ItemStack getDeprecatedItem(boolean book) {
 		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&e粘液科技指南 &7(右键打开)", (book ? "": "&2"), "&r这是粘液科技的基础指南", "&r指南内可以查看粘液科技的所有物品", "&r以及扩展的物品和更多信息");
 	}
-
-	private static final int[] slots = new int[] {0, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 
 	public static void openSettings(Player p, final ItemStack guide) {
 		final ChestMenu menu = new ChestMenu("设置 / 关于");
@@ -201,11 +195,7 @@ public final class SlimefunGuide {
         }
 
         int index = 9;
-        double total = 0;
-
-        for (Contributor contributor : SlimefunPlugin.getUtilities().contributors) {
-            total += contributor.getCommits();
-        }
+        double total = 1.0 * SlimefunPlugin.getUtilities().contributors.stream().mapToInt(Contributor::getCommits).sum();
 
         for (final Contributor contributor: SlimefunPlugin.getUtilities().contributors) {
             ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
@@ -255,7 +245,9 @@ public final class SlimefunGuide {
     public static void openGuide(Player p, boolean book) {
         if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
         if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
-        if (!getHistory().containsKey(p.getUniqueId())) openMainMenu(p, true, book, 1);
+        if (!getHistory().containsKey(p.getUniqueId())) {
+            openMainMenu(p, true, book, 1);
+        }
         else {
             Object last = getLastEntry(p, false);
             if (last instanceof Category) openCategory(p, (Category) last, true, 1, book);
@@ -407,7 +399,7 @@ public final class SlimefunGuide {
 			menu.setEmptySlotsClickable(false);
 			menu.addMenuOpeningHandler(p1 -> p1.playSound(p1.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
 
-            List<Category> categories = SlimefunPlugin.getUtilities().currentlyEnabledCategories;
+            List<Category> categories = SlimefunPlugin.getUtilities().enabledCategories;
             List<GuideHandler> handlers = Slimefun.guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
 
 			int index = 9;
@@ -714,10 +706,8 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-                            List<String> list = Messages.local.getTranslation("tooltips.item-permission");
-                            String[] strings = list.toArray(new String[list.size()]);
-                            CustomItem display = new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false),  strings);
-                            menu.addItem(index, display);
+                            List<String> tooltip = Messages.local.getTranslation("tooltips.item-permission");
+                            menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), tooltip.toArray(new String[tooltip.size()])));
                             menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
                             index++;
 						}
@@ -743,22 +733,26 @@ public final class SlimefunGuide {
 	}
 
 	public static void addToHistory(Player p, Object obj) {
-		List<Object> list = new ArrayList<>();
-		if (getHistory().containsKey(p.getUniqueId())) list = getHistory().get(p.getUniqueId());
-		list.add(obj);
-		getHistory().put(p.getUniqueId(), list);
+        LinkedList<Object> list = getHistory().get(p.getUniqueId());
+        if (list == null) {
+            list = new LinkedList<>();
+            getHistory().put(p.getUniqueId(), list);
+        }
+        list.add(obj);
 	}
 
 	private static Object getLastEntry(Player p, boolean remove) {
-		List<Object> list = new ArrayList<>();
-		if (getHistory().containsKey(p.getUniqueId())) list = getHistory().get(p.getUniqueId());
-        if (remove && !list.isEmpty()) {
-            Object obj = list.get(list.size() - 1);
-            list.remove(obj);
-		}
-		if (list.isEmpty()) getHistory().remove(p.getUniqueId());
-		else getHistory().put(p.getUniqueId(), list);
-		return list.isEmpty() ? null: list.get(list.size() - 1);
+        LinkedList<Object> history = getHistory().get(p.getUniqueId());
+
+        if (remove && history != null && !history.isEmpty()) {
+            history.removeLast();
+        }
+
+        if (history != null && history.isEmpty()) {
+            getHistory().remove(p.getUniqueId());
+        }
+
+        return history == null || history.isEmpty() ? null: history.getLast();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -832,7 +826,8 @@ public final class SlimefunGuide {
 
         if (addToHistory) addToHistory(p, sfItem != null ? sfItem: item);
 
-		if (getHistory().containsKey(p.getUniqueId()) && getHistory().get(p.getUniqueId()).size() > 1) {
+        LinkedList<Object> history = getHistory().get(p.getUniqueId());
+        if (history != null && history.size() > 1) {
 			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 返回", "", "&r左键: &7返回上一页", "&rShift +左键: &7返回主菜单"));
 			menu.addMenuClickHandler(0, (p13, slot, item1, action) -> {
                 if (action.isShiftClicked()) openMainMenu(p13, true, book, 1);
@@ -1016,7 +1011,7 @@ public final class SlimefunGuide {
 		menu.open(p);
 	}
 
-    private static Map<UUID, List<Object>> getHistory() {
+    private static Map<UUID, LinkedList<Object>> getHistory() {
         return SlimefunPlugin.getUtilities().guideHistory;
     }
 

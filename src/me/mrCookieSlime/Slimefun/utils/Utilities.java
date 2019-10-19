@@ -38,9 +38,22 @@ public final class Utilities {
 
     public int vanillaItems = 0;
 
+    public final List<SlimefunItem> allItems = new ArrayList<>();
+    public final List<SlimefunItem> enabledItems = new ArrayList<>();
+
     public final Map<String, SlimefunItem> itemIDs = new HashMap<>();
+
     public final List<MultiBlock> allMultiblocks = new LinkedList<>();
     public final List<Research> allResearches = new LinkedList<>();
+
+    /**
+     * List of the registered Categories.
+     * @since 4.0
+     * @see Categories
+     */
+    public final List<Category> allCategories = new ArrayList<>();
+    public final List<Category> enabledCategories = new ArrayList<>();
+    public final CategorySorter categorySorter = new CategorySorter();
 
     public final Set<ItemStack> radioactiveItems = new HashSet<>();
     public final Map<String, Set<ItemHandler>> itemHandlers = new HashMap<>();
@@ -60,7 +73,6 @@ public final class Utilities {
 
     public final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
 
-    public final List<Category> currentlyEnabledCategories = new ArrayList<>();
     public final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
     public final Map<String, BlockStorage> worlds = new HashMap<>();
@@ -102,7 +114,7 @@ public final class Utilities {
     public final Map<String, String> contributorHeads = new HashMap<>();
     public final List<Contributor> contributors = new ArrayList<>();
 
-    public final Map<UUID, List<Object>> guideHistory = new HashMap<>();
+    public final Map<UUID, LinkedList<Object>> guideHistory = new HashMap<>();
 
     public final List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 

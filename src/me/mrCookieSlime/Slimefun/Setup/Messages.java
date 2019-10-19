@@ -51,7 +51,7 @@ public final class Messages {
         local.setDefault("messages.talisman.whirlwind",   "&a&o你的护身符抵挡了所有的弹射物" );
         local.setDefault("messages.talisman.wizard",   "&a&o你的护身符使一个更好的附魔的等级提高了, 但同时其他附魔等级将会下降." );
         local.setDefault("messages.soulbound-rune.fail", "&c你一次只能绑定一个物品.");
-        local.setDefault("messages.soulbound-rune.success", "&a物品绑定成功.");
+        local.setDefault("messages.soulbound-rune.success", "&a物品绑定成功! 在你死亡后物品将不会掉落.");
         local.setDefault("messages.broken-leg",   "&c&o看起来你摔断了你的腿, 也许夹板能够帮助你?" );
         local.setDefault("messages.fixed-leg",   "&a&o有了夹板的帮助. 感觉好多了." );
         local.setDefault("messages.start-bleeding",   "&c&o你开始流血了. 也许绷带能够帮助你?" );
@@ -106,6 +106,8 @@ public final class Messages {
         local.setDefault("inventory.no-access",   "&4你不允许使用这个方块" );
 
         local.setDefault("tooltips.item-permission", "", "&r你没有权限", "&r使用这个物品");
+
+        local.setDefault("translated.by", "Namelessssss");
 
 		local.save();
 	}

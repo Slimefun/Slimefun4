@@ -833,7 +833,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			Messages.local.sendTranslation(pl, "android.scripts.enter-name", true);
 
 			MenuHelper.awaitChatInput(pl, (player, message) -> {
-				Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + "/" + p.getName() + " " + id + ".sfs");
+				Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + '/' + p.getName() + ' ' + id + ".sfs");
 
 				script.setValue("author", player.getUniqueId().toString());
 				script.setValue("author_name", player.getName());

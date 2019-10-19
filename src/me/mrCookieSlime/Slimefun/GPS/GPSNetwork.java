@@ -161,7 +161,8 @@ public class GPSNetwork {
 
                 menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7世界: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &c单击删除"));
                 menu.addMenuClickHandler(slot, (arg0, arg1, arg2, arg3) -> {
-                    String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(" ", "_");
+                    String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey()))
+                            .toUpperCase().replace(' ', '_');
                     Config cfg = new Config("data-storage/Slimefun/waypoints/" + arg0.getUniqueId().toString() + ".yml");
                     cfg.setValue(id, null);
                     cfg.save();
@@ -213,7 +214,8 @@ public class GPSNetwork {
 			return;
 		}
 		Config cfg = new Config("data-storage/Slimefun/waypoints/" + p.getUniqueId().toString() + ".yml");
-		String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', name)).toUpperCase().replace(" ", "_");
+		String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', name)).toUpperCase()
+                .replace(' ', '_');
 		cfg.setValue(id, l);
 		cfg.setValue(id + ".name", name);
 		cfg.save();
@@ -237,7 +239,7 @@ public class GPSNetwork {
 		for (OreGenResource resource: OreGenSystem.listResources()) {
 			int supply = OreGenSystem.getSupplies(resource, chunk, true);
 			
-			menu.addItem(index, new CustomItem(resource.getIcon(), "&7资源: &e" + resource.getName(), "", "&7已扫描的区块:", "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "&7结果: &e" + supply + " " + resource.getMeasurementUnit()),
+			menu.addItem(index, new CustomItem(resource.getIcon(), "&7资源: &e" + resource.getName(), "", "&7已扫描的区块:", "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "&7结果: &e" + supply + ' ' + resource.getMeasurementUnit()),
                     (pl, slot, item, action) -> false);
 			index++;
 		}

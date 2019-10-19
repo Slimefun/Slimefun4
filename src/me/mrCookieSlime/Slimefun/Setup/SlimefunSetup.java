@@ -1349,7 +1349,7 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new Juice(Categories.FOOD, SlimefunItems.GOLDEN_APPLE_JUICE, "GOLDEN_APPLE_JUICE", RecipeType.JUICER,
-		new ItemStack[] {new ItemStack(Material.GOLDEN_APPLE), null, null, null, null, null, null, null, null})
+		new ItemStack[] {null, null, null, null, new ItemStack(Material.GOLDEN_APPLE), null, null, null, null})
 		.register(true);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.BROKEN_SPAWNER, "BROKEN_SPAWNER", new RecipeType(SlimefunItems.PICKAXE_OF_CONTAINMENT),
@@ -1357,27 +1357,25 @@ public final class SlimefunSetup {
 		.register(true);
 
 		// Need notice
-		new SlimefunItem(Categories.MAGIC, SlimefunItems.REPAIRED_SPAWNER, "REINFORCED_SPAWNER", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶", 0), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶", 0), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶", 0), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶", 0), SlimefunItems.RUNE_ENDER})
-		.register(true, new BlockPlaceHandler() {
-
-			@Override
-			public boolean onBlockPlace(BlockPlaceEvent e, ItemStack item) {
-                if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
-                    EntityType type = null;
-                    for (String line : item.getItemMeta().getLore()) {
-                        if (ChatColor.stripColor(line).startsWith("类型: "))
-                            type = EntityType.valueOf(ChatColor.stripColor(line).replace("类型: ", "").replace(" ", "_").toUpperCase());
+        new SlimefunItem(Categories.MAGIC, SlimefunItems.REPAIRED_SPAWNER, "REINFORCED_SPAWNER", RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.RUNE_ENDER})
+                .register(true, (BlockPlaceHandler) (e, item) -> {
+                    if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
+                        EntityType type = null;
+                        for (String line: item.getItemMeta().getLore()) {
+                            if (ChatColor.stripColor(line).startsWith("类型: ") && !line.contains("<类型>"))
+                                type = EntityType.valueOf(ChatColor.stripColor(line).replace("类型: ", "")
+                                        .replace(' ', '_').toUpperCase());
+                        }
+                        if (type != null) {
+                            CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
+                            spawner.setSpawnedType(type);
+                            spawner.update(true, false);
+                        }
+                        return true;
                     }
-                    if (type != null) {
-                        CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
-                        spawner.setSpawnedType(type);
-                        spawner.update(true, false);
-                    }
-                    return true;
-                } else return false;
-            }
-		});
+                    else return false;
+                });
 
 		new EnhancedFurnace(1, 1, 1, SlimefunItems.ENHANCED_FURNACE, "ENHANCED_FURNACE",
 		new ItemStack[] {null, SlimefunItems.BASIC_CIRCUIT_BOARD, null, SlimefunItems.HEATING_COIL, new ItemStack(Material.FURNACE), SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
@@ -1625,19 +1623,9 @@ public final class SlimefunSetup {
 		new CustomItem(SlimefunItems.WITHER_PROOF_OBSIDIAN, 4))
 		.register(true);
 
-        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.ANCIENT_PEDESTAL, "ANCIENT_PEDESTAL", RecipeType.MAGIC_WORKBENCH,
+        new AncientPedestal(Categories.LUMPS_AND_MAGIC, SlimefunItems.ANCIENT_PEDESTAL, "ANCIENT_PEDESTAL", RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[] {new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN), null, new ItemStack(Material.STONE), null, new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN)}, new CustomItem(SlimefunItems.ANCIENT_PEDESTAL, 4))
                 .register(true);
-
-        SlimefunItem.registerBlockHandler("ANCIENT_PEDESTAL", (p, b, item, reason) -> {
-            Item stack = AncientAltarListener.findItem(b);
-            if (stack != null) {
-                stack.removeMetadata("item_placed", SlimefunPlugin.instance);
-                b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
-                stack.remove();
-            }
-            return true;
-        });
 
         new SlimefunItem(Categories.MAGIC, SlimefunItems.ANCIENT_ALTAR, "ANCIENT_ALTAR", RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[] {null, new ItemStack(Material.ENCHANTING_TABLE), null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN)})
@@ -2678,7 +2666,7 @@ public final class SlimefunSetup {
                 .register(true);
 
         new SoulboundRune(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_SOULBOUND, "ANCIENT_RUNE_SOULBOUND", RecipeType.ANCIENT_ALTAR,
-                new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.ENDER_PEARL), SlimefunItems.RUNE_ENDER, new ItemStack(Material.ENDER_PEARL), SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.MAGIC_LUMP_3})
+                new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_ENDER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.MAGIC_LUMP_3})
                 .register(true);
 
         new InfernalBonemeal(Categories.MAGIC, SlimefunItems.INFERNAL_BONEMEAL, "INFERNAL_BONEMEAL", RecipeType.ANCIENT_ALTAR,

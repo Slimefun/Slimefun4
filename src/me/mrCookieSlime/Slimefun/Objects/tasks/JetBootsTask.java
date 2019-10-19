@@ -37,8 +37,8 @@ public class JetBootsTask implements Runnable {
 			Player p = Bukkit.getPlayer(uuid);
 			float cost = 0.075F;
 			float charge = ItemEnergy.getStoredEnergy(p.getInventory().getBoots());
-			double accuracy = Double.parseDouble(new DecimalFormat("##.##").format(speed - 0.7).replace(",", "."));
-			if (charge >= cost) {
+            double accuracy = Double.parseDouble(new DecimalFormat("##.##").format(speed - 0.7).replace(',', '.'));
+            if (charge >= cost) {
 				p.getInventory().setBoots(ItemEnergy.chargeItem(p.getInventory().getBoots(), -cost));
 				PlayerInventory.update(p);
 				

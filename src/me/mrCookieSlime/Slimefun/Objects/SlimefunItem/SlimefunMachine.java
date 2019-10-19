@@ -59,7 +59,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
     }
 
     @Override
-    public void create() {
+    public void postRegister() {
         this.toMultiBlock().register();
     }
 

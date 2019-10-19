@@ -13,13 +13,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,15 +34,8 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
     public ItemDropHandler getItemHandler() {
         return (e, p, i) -> {
             ItemStack item = i.getItemStack();
-            // We are using a boolean array because we will change the boolean's value inside a lambda
-            // but you can't access non-final variables from outside the lambda inside the lambda.
-            final boolean[] boo = {false};
-
             if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RUNE_SOULBOUND, true)) {
-                if (!PlayerProfile.fromUUID(p.getUniqueId()).hasUnlocked(Research.getByID(246))) {
-                    Messages.local.sendTranslation(p, "messages.not-researched", true);
-                    return true;
-                }
+                if (!Slimefun.hasUnlocked(p, SlimefunItems.RUNE_SOULBOUND, true)) return true;
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
                     // Being sure the entity is still valid and not picked up or whatsoever.
@@ -51,68 +43,54 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                     Location l = i.getLocation();
                     Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1.5, 1.5, 1.5,
-                            entity -> entity.getType() == EntityType.DROPPED_ITEM &&
+                            entity -> entity instanceof Item && !SlimefunManager.isItemSoulbound(((Item) entity).getItemStack()) &&
                                     !SlimefunManager.isItemSimiliar(((Item) entity).getItemStack(), SlimefunItems.RUNE_SOULBOUND, true)
                     );
+                    if (entites.isEmpty()) return;
 
-                    ItemStack ench = null;
-                    Item ent = null;
-                    // Collections do not have a #get method so we need to use a for loop.
-                    // We do not use streams for foreach loops as they are more resource consuming.
-                    for (Entity entity: entites) {
-                        ItemStack dropped = ((Item) entity).getItemStack();
-                        if (SlimefunManager.isItemSoulbound(dropped)) {
-                            boo[0] = false;
-                            return;
-                        }
-                        ench = ((Item) entity).getItemStack();
-                        ent = (Item) entity;
-                        break;
-                    }
+                    Entity entity = entites.stream().findFirst().get();
+                    ItemStack ench = ((Item) entity).getItemStack();
+                    Item ent = (Item) entity;
 
-                    if (ench == null || ench.getAmount() == 1) {
+                    if (ench.getAmount() == 1) {
                         e.setCancelled(true);
 
-                        Item finalEnt = ent;
-                        ItemStack finalEnch = ench;
+                        ItemMeta enchMeta = ench.getItemMeta();
 
-                        ItemMeta enchMeta = finalEnch.getItemMeta();
-                        if (enchMeta == null) enchMeta = Bukkit.getItemFactory().getItemMeta(finalEnch.getType());
-                        ItemMeta finalMeta = enchMeta;
-
-                        List<String> lore = finalMeta.getLore();
-                        if (lore == null) lore = new ArrayList<>();
-                        List<String> finalLore = lore;
+                        List<String> lore;
+                        if (enchMeta.hasLore()) lore = enchMeta.getLore();
+                        else lore = new ArrayList<>();
 
                         // This lightning is just an effect, it deals no damage.
                         l.getWorld().strikeLightningEffect(l);
                         Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 
                             // Being sure entities are still valid and not picked up or whatsoever.
-                            if (i.isValid() && finalEnt.isValid()) {
+                            if (i.isValid() && ent.isValid()) {
 
                                 l.getWorld().createExplosion(l, 0.0F);
                                 l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
 
-                                finalLore.add(ChatColor.GRAY + "Soulbound");
+                                lore.add(ChatColor.GRAY + "灵魂绑定");
 
-                                finalMeta.setLore(finalLore);
-                                finalEnch.setItemMeta(finalMeta);
+                                enchMeta.setLore(lore);
+                                ench.setItemMeta(enchMeta);
 
-                                finalEnt.remove();
+                                ent.remove();
                                 i.remove();
-                                l.getWorld().dropItemNaturally(l, finalEnch);
+                                l.getWorld().dropItemNaturally(l, ench);
 
                                 Messages.local.sendTranslation(p, "messages.soulbound-rune.success", true);
-                                boo[0] = true;
                             }
                         }, 10L);
                     } else {
                         Messages.local.sendTranslation(p, "messages.soulbound-rune.fail", true);
                     }
                 }, 20L);
+                return true;
             }
-            return boo[0];
+            return false;
         };
     }
+
 }
