@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -65,7 +64,6 @@ import me.mrCookieSlime.Slimefun.utils.Utilities;
 public class ItemListener implements Listener {
 	
 	private Utilities utilities;
-	private Random random = new Random();
 	
 	public ItemListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -325,52 +323,54 @@ public class ItemListener implements Listener {
 		ItemStack item = e.getItem();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		
-		if (sfItem != null && Slimefun.hasUnlocked(p, sfItem, true)) {
-			if (sfItem instanceof Juice) {
-				// Fix for Saturation on potions is no longer working
-				for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
-					if (effect.getType().equals(PotionEffectType.SATURATION)) {
-						p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, effect.getDuration(), effect.getAmplifier()));
-						break;
+		if (sfItem != null) {
+			if (Slimefun.hasUnlocked(p, sfItem, true)) {
+				if (sfItem instanceof Juice) {
+					// Fix for Saturation on potions is no longer working
+					for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
+						if (effect.getType().equals(PotionEffectType.SATURATION)) {
+							p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, effect.getDuration(), effect.getAmplifier()));
+							break;
+						}
 					}
-				}
 
-				// Determine from which hand the juice is being drunk, and its amount
-				int mode = 0;
-				if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInMainHand(), true)) {
-					if (p.getInventory().getItemInMainHand().getAmount() == 1) {
-						mode = 0;
+					// Determine from which hand the juice is being drunk, and its amount
+					int mode = 0;
+					if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInMainHand(), true)) {
+						if (p.getInventory().getItemInMainHand().getAmount() == 1) {
+							mode = 0;
+						}
+						else {
+							mode = 2;
+						}
 					}
-					else {
-						mode = 2;
+					else if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInOffHand(), true)) {
+						if (p.getInventory().getItemInOffHand().getAmount() == 1) {
+							mode = 1;
+						}
+						else {
+							mode = 2;
+						}
 					}
-				}
-				else if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInOffHand(), true)) {
-					if (p.getInventory().getItemInOffHand().getAmount() == 1) {
-						mode = 1;
-					}
-					else {
-						mode = 2;
-					}
-				}
 
-				// Remove the glass bottle once drunk
-				final int m = mode;
+					// Remove the glass bottle once drunk
+					final int m = mode;
 
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-					if (m == 0) p.getEquipment().getItemInMainHand().setAmount(0);
-					else if (m == 1) p.getEquipment().getItemInOffHand().setAmount(0);
-					else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
-				}, 0L);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+						if (m == 0) p.getEquipment().getItemInMainHand().setAmount(0);
+						else if (m == 1) p.getEquipment().getItemInOffHand().setAmount(0);
+						else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
+					}, 0L);
+				}
+				else {
+					sfItem.callItemHandler(ItemConsumptionHandler.class, handler ->
+						handler.onConsume(e, p, item)
+					);
+				}
 			}
 			else {
-				sfItem.callItemHandler(ItemConsumptionHandler.class, handler ->
-					handler.onConsume(e, p, item)
-				);
+				e.setCancelled(true);
 			}
-		}
-		else {
-			e.setCancelled(true);
 		}
 	}
 
