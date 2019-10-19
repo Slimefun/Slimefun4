@@ -830,7 +830,7 @@ public final class SlimefunGuide {
 		}
 		else {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to Main Menu"));
-			menu.addMenuClickHandler(0, (pl, s, is, action) -> {
+			menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
 				openMainMenu(profile, !cheat, false, 0);
 				return false;
 			});
