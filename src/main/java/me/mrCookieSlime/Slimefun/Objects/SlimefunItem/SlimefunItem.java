@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
@@ -27,14 +26,12 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class SlimefunItem {
 	
@@ -55,7 +52,7 @@ public class SlimefunItem {
 	private boolean addon = false;
 	private String permission = "";
 	private List<String> noPermissionTooltip;
-	private Set<ItemHandler> itemhandlers = new HashSet<>();
+	private final Set<ItemHandler> itemhandlers = new HashSet<>();
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
@@ -527,30 +524,64 @@ public class SlimefunItem {
 		registerChargeableBlock(vanilla, capacity);
 	}
 
-	public BlockMenu getBlockMenu(Block b) {
-		return BlockStorage.getInventory(b);
-	}
-
+	/**
+	 * This method will assign the given wiki page to this Item.
+	 * Note that you only need to provide the page name itself,
+	 * the URL to our wiki is prepended automatically.
+	 * 
+	 * @param page	The associated wiki page
+	 */
 	public void addWikipage(String page) {
 		wiki = "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page;
 	}
 	
+	/**
+	 * This method returns whether this item has been assigned a wiki page.
+	 * @see SlimefunItem#addWikipage(String)
+	 * 
+	 * @return	Whether this Item has a wiki page
+	 */
 	public boolean hasWiki() {
 		return wiki != null;
 	}
 	
+	/**
+	 * This method returns the wiki page that has been asigned to this item.
+	 * It will return null, if no wiki page was found.
+	 * @see SlimefunItem#addWikipage(String)
+	 * 
+	 * @return	This item's wiki page
+	 */
 	public String getWiki() {
 		return wiki;
 	}
 	
-	public String getItemName() {
+	/**
+	 * This method will return this Item's Name (The name that is displayed when
+	 * hovering over this Item in an Inventory).
+	 * 
+	 * @return	This item's name in ItemStack form
+	 */
+	public final String getItemName() {
 		return ItemUtils.getItemName(item);
 	}
 
+	/**
+	 * This method returns a Set of item handlers associated with this Item.
+	 * 
+	 * @return	The Set of item handlers
+	 */
 	public Set<ItemHandler> getHandlers() {
 		return itemhandlers;
 	}
 
+	/**
+	 * Override this method if you don't want to add your Item Handler to the global list.
+	 * Only use this method if you absolutely know what you are doing and can make sure that the
+	 * Item handler is handled somewhere else.
+	 * 
+	 * @return	Whether this Item handler is handled directly by the Item itself
+	 */
 	protected boolean areItemHandlersPrivate() {
 		return false;
 	}
