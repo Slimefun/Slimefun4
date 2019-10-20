@@ -3,11 +3,14 @@ package me.mrCookieSlime.Slimefun.api;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -327,5 +330,16 @@ public final class Slimefun {
 
 	public static void runSync(Runnable r) {
 		Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
+	}
+
+	public static void runSync(Runnable r, long delay) {
+		Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
+	}
+
+	public static Set<Plugin> getInstalledAddons() {
+		return Arrays.stream(SlimefunPlugin.instance.getServer().getPluginManager().getPlugins())
+				.filter(Plugin::isEnabled)
+				.filter(plugin -> plugin.getDescription().getDepend().contains("Slimefun") || plugin.getDescription().getSoftDepend().contains("Slimefun"))
+				.collect(Collectors.toSet());
 	}
 }

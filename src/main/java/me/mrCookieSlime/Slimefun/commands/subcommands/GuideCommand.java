@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SubCommand;
+import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 
 public class GuideCommand extends SubCommand {
 

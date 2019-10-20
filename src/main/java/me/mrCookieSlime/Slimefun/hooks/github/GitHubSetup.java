@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.hooks.github;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.logging.Level;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -11,9 +10,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class GitHubSetup {
+	
+	private static final String REPOSITORY = "TheBusyBiscuit/Slimefun4";
+	
+	private static final String ROLE_AUTHOR = "&cAuthor";
 	
 	private GitHubSetup() {}
 	
@@ -29,12 +31,11 @@ public final class GitHubSetup {
 			    	JsonObject object = array.get(i).getAsJsonObject();
 			    	
 			    	String name = object.get("login").getAsString();
-			    	String job = "&cAuthor";
 			    	int commits = object.get("contributions").getAsInt();
 			    	String profile = object.get("html_url").getAsString();
 			    	
 			    	if (!name.equals("invalid-email-address")) {
-			    		Contributor contributor = new Contributor(name, job, commits);
+			    		Contributor contributor = new Contributor(name, ROLE_AUTHOR, commits);
 			    		contributor.setProfile(profile);
 			    		SlimefunPlugin.getUtilities().contributors.add(contributor);
 			    	}
@@ -49,40 +50,22 @@ public final class GitHubSetup {
 							continue;
 						}
 						
-						InputStreamReader profileReader = null;
-						InputStreamReader sessionReader = null;
-						
-						try {
-							URL profile = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
-							profileReader = new InputStreamReader(profile.openStream());
+						try (InputStreamReader profileReader = new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream())) {
 							String uuid = new JsonParser().parse(profileReader).getAsJsonObject().get("id").getAsString();
 							
-							URL session = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false");
-				            sessionReader = new InputStreamReader(session.openStream());
-				            JsonArray properties = new JsonParser().parse(sessionReader).getAsJsonObject().get("properties").getAsJsonArray();
-				            
-				            for (JsonElement el: properties) {
-				            	if (el.isJsonObject() && el.getAsJsonObject().get("name").getAsString().equals("textures")) {
-				            		SlimefunPlugin.getUtilities().contributorHeads.put(name, el.getAsJsonObject().get("value").getAsString());
-									break;
-				            	}
-				            }
-						} catch (Exception x) {
-							if (SlimefunPlugin.isActive()) SlimefunPlugin.getUtilities().contributorHeads.put(name, null);
-						} finally {
-							if (profileReader != null) {
-								try {
-									profileReader.close();
-								} catch (IOException x) {
-									Slimefun.getLogger().log(Level.SEVERE, "An Error occured while closing GitHub-Stream for Slimefun " + Slimefun.getVersion(), x);
-								}
+							try (InputStreamReader sessionReader = new InputStreamReader(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false").openStream())) {
+								JsonArray properties = new JsonParser().parse(sessionReader).getAsJsonObject().get("properties").getAsJsonArray();
+					            
+					            for (JsonElement el: properties) {
+					            	if (el.isJsonObject() && el.getAsJsonObject().get("name").getAsString().equals("textures")) {
+					            		SlimefunPlugin.getUtilities().contributorHeads.put(name, el.getAsJsonObject().get("value").getAsString());
+										break;
+					            	}
+					            }
 							}
-							if (sessionReader != null) {
-								try {
-									sessionReader.close();
-								} catch (IOException x) {
-									Slimefun.getLogger().log(Level.SEVERE, "An Error occured while closing GitHub-Stream for Slimefun " + Slimefun.getVersion(), x);
-								}
+						} catch (IOException | IllegalStateException x) {
+							if (SlimefunPlugin.isActive()) {
+								SlimefunPlugin.getUtilities().contributorHeads.put(name, null);
 							}
 						}
 					}
@@ -92,14 +75,13 @@ public final class GitHubSetup {
 			@Override
 			public void onFailure() {
 				SlimefunPlugin.getUtilities().contributors.clear();
-				SlimefunPlugin.getUtilities().contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
-				SlimefunPlugin.getUtilities().contributors.add(new Contributor("John000708", "&cAuthor", 2));
+				SlimefunPlugin.getUtilities().contributors.add(new Contributor("TheBusyBiscuit", ROLE_AUTHOR, 1));
 				SlimefunPlugin.getUtilities().contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
 			}
 			
 			@Override
 			public String getRepository() {
-				return "TheBusyBiscuit/Slimefun4";
+				return REPOSITORY;
 			}
 			
 			@Override
@@ -118,7 +100,6 @@ public final class GitHubSetup {
 			@Override
 			public void onSuccess(JsonElement element) {
 				JsonObject object = element.getAsJsonObject();
-				SlimefunPlugin.getUtilities().issues = object.get("open_issues_count").getAsInt();
 				SlimefunPlugin.getUtilities().forks = object.get("forks").getAsInt();
 				SlimefunPlugin.getUtilities().stars = object.get("stargazers_count").getAsInt();
 				SlimefunPlugin.getUtilities().lastUpdate = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
@@ -131,7 +112,7 @@ public final class GitHubSetup {
 			
 			@Override
 			public String getRepository() {
-				return "TheBusyBiscuit/Slimefun4";
+				return REPOSITORY;
 			}
 			
 			@Override
@@ -142,6 +123,46 @@ public final class GitHubSetup {
 			@Override
 			public String getURLSuffix() {
 				return "";
+			}
+		};
+		
+		new GitHubConnector() {
+			
+			@Override
+			public void onSuccess(JsonElement element) {
+				JsonArray array = element.getAsJsonArray();
+				
+				int issues = 0;
+				int prs = 0;
+				
+				for (JsonElement elem: array) {
+					JsonObject obj = elem.getAsJsonObject();
+					if (obj.has("pull_request")) prs++;
+					else issues++;
+				}
+				
+				SlimefunPlugin.getUtilities().issues = issues;
+				SlimefunPlugin.getUtilities().prs = prs;
+			}
+			
+			@Override
+			public void onFailure() {
+				// We don't have to do anything on failure
+			}
+			
+			@Override
+			public String getRepository() {
+				return REPOSITORY;
+			}
+			
+			@Override
+			public String getFileName() {
+				return "issues";
+			}
+
+			@Override
+			public String getURLSuffix() {
+				return "/issues";
 			}
 		};
 		
@@ -160,7 +181,7 @@ public final class GitHubSetup {
 			
 			@Override
 			public String getRepository() {
-				return "TheBusyBiscuit/Slimefun4";
+				return REPOSITORY;
 			}
 			
 			@Override

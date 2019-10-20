@@ -34,6 +34,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemRequest;
+import me.mrCookieSlime.Slimefun.guides.ISlimefunGuide;
+import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 
@@ -55,6 +57,8 @@ public final class Utilities {
 	
 	public final List<MultiBlock> allMultiblocks = new LinkedList<>();
 	public final List<Research> allResearches = new LinkedList<>();
+	
+	public final Map<SlimefunGuideLayout, ISlimefunGuide> guideLayouts = new HashMap<>();
 	
 	/**
 	 * List of the registered Categories.
@@ -145,6 +149,11 @@ public final class Utilities {
 	 * @since 4.1.13
 	 */
 	public int issues = 0;
+	
+	/**
+	 * Represents the number of pending Pull Requests on the Slimefun4 GitHub repository.
+	 */
+	public int prs = 0;
 	
 	/**
 	 * Represents the number of Forks of the Slimefun4 GitHub repository.

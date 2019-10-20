@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.SlimefunGuideLayout;
+import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 
 public class GuideOnJoinListener implements Listener {
 

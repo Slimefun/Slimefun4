@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SubCommand;
 
@@ -27,7 +28,7 @@ public class SearchCommand extends SubCommand {
 			if (sender.hasPermission("slimefun.command.search")) {
 				if (args.length > 1) {
 					String query = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-					SlimefunGuide.openSearch((Player) sender, query, false, false);
+					PlayerProfile.get((Player) sender, profile -> SlimefunGuide.openSearch(profile, query, true, true));
 				}
 				else {
 					SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf search <SearchTerm>"));
