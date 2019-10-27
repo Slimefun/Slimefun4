@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.List;
 import java.util.UUID;
 
-import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
@@ -26,6 +26,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
 
 public class EnhancedCraftingTable extends MultiBlockMachine {
 
@@ -127,10 +128,9 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 
 
 						for (int j = 0; j < 9; j++) {
-							if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR) {
-								if (inv.getContents()[j].getType().toString().endsWith("_BUCKET")) inv.setItem(j, new ItemStack(Material.BUCKET));
-								else if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-								else inv.setItem(j, null);
+							ItemStack item = inv.getContents()[j];
+							if (item != null && item.getType() != Material.AIR) {
+								ItemUtils.consumeItem(item, true);
 							}
 						}
 						p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
