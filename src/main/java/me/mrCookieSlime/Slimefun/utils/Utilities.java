@@ -27,6 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
+import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
@@ -92,7 +93,7 @@ public final class Utilities {
 	public final Map<String, BlockStorage> worlds = new HashMap<>();
 	public final Set<String> loadedTickers = new HashSet<>();
 	
-	public final Map<String, String> mapChunks = new HashMap<>();
+	public final Map<String, BlockInfoConfig> mapChunks = new HashMap<>();
 	public final Map<String, Set<Location>> tickingChunks = new HashMap<>();
 	public final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
 	

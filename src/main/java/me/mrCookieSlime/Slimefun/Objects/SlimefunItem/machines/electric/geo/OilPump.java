@@ -98,11 +98,16 @@ public abstract class OilPump extends AContainer {
 		else {
 			OreGenResource oil = OreGenSystem.getResource("Oil");
 			int supplies = OreGenSystem.getSupplies(oil, b.getChunk(), false);
+			
 			if (supplies > 0) {
 				for (int slot: getInputSlots()) {
 					if (SlimefunManager.isItemSimiliar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
-						if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) return;
+						
+						if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
+							return;
+						}
+						
 						inv.replaceExistingItem(slot, InvUtils.decreaseItem(inv.getItemInSlot(slot), 1));
 						processing.put(b, r);
 						progress.put(b, r.getTicks());

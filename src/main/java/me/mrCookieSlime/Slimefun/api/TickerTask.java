@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import java.text.DecimalFormat;
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -28,6 +29,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 public class TickerTask implements Runnable {
+	
+	private static final DecimalFormat decimalFormat = new DecimalFormat("#.###");
 	
 	private boolean halted = false;
 
@@ -60,7 +63,7 @@ public class TickerTask implements Runnable {
 		if (running) return;
 		
 		running = true;
-		long timestamp = System.currentTimeMillis();
+		long timestamp = System.nanoTime();
 		
 		skipped = 0;
 		chunks = 0;
@@ -85,7 +88,7 @@ public class TickerTask implements Runnable {
 		
 		if (!halted) {
 			for (final String c: BlockStorage.getTickingChunks()) {
-				long timestamp2 = System.currentTimeMillis();
+				long timestamp2 = System.nanoTime();
 				chunks++;
 				
 				for (final Location l: BlockStorage.getTickingLocations(c)) {
@@ -102,17 +105,17 @@ public class TickerTask implements Runnable {
 								if (item.getBlockTicker().isSynchronized()) {
 									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 										try {
-											long timestamp3 = System.currentTimeMillis();
+											long timestamp3 = System.nanoTime();
 											item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
 											
 											Long machinetime = machineTimings.get(item.getID());
 											Integer chunk = chunkItemCount.get(c);
 											Integer machine = machineCount.get(item.getID());
 											
-											machineTimings.put(item.getID(), (machinetime != null ? machinetime: 0) + (System.currentTimeMillis() - timestamp3));
+											machineTimings.put(item.getID(), (machinetime != null ? machinetime: 0) + (System.nanoTime() - timestamp3));
 											chunkItemCount.put(c, (chunk != null ? chunk: 0) + 1);
 											machineCount.put(item.getID(), (machine != null ? machine: 0) + 1);
-											blockTimings.put(l, System.currentTimeMillis() - timestamp3);
+											blockTimings.put(l, System.nanoTime() - timestamp3);
 										} catch (Exception x) {
 											int errors = bugged.getOrDefault(l, 0);
 											reportErrors(l, item, x, errors);
@@ -120,13 +123,13 @@ public class TickerTask implements Runnable {
 									});
 								}
 								else {
-									long timestamp3 = System.currentTimeMillis();
+									long timestamp3 = System.nanoTime();
 									item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
 
-									machineTimings.merge(item.getID(), (System.currentTimeMillis() - timestamp3), Long::sum);
+									machineTimings.merge(item.getID(), (System.nanoTime() - timestamp3), Long::sum);
 									chunkItemCount.merge(c, 1, Integer::sum);
 									machineCount.merge(item.getID(), 1, Integer::sum);
-									blockTimings.put(l, System.currentTimeMillis() - timestamp3);
+									blockTimings.put(l, System.nanoTime() - timestamp3);
 								}
 								tickers.add(item.getBlockTicker());
 							} catch (Exception x) {
@@ -144,7 +147,7 @@ public class TickerTask implements Runnable {
 					}
 				}
 				
-				chunkTimings.put(c, System.currentTimeMillis() - timestamp2);
+				chunkTimings.put(c, System.nanoTime() - timestamp2);
 			}
 		}
 
@@ -159,7 +162,7 @@ public class TickerTask implements Runnable {
 			iterator.remove();
 		}
 		
-		time = System.currentTimeMillis() - timestamp;
+		time = System.nanoTime() - timestamp;
 		running = false;
 	}
 
@@ -187,15 +190,15 @@ public class TickerTask implements Runnable {
 		}
 	}
 
-	public long getTime() {
-		return time;
+	public String getTime() {
+		return toMillis(time);
 	}
 
 	public void info(CommandSender sender) {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2== &aSlimefun Diagnostic Tool &2=="));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Halted: &e&l" + String.valueOf(halted).toUpperCase()));
 		sender.sendMessage("");
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Impact: &e" + time + "ms / 50-750ms"));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Impact: &e" + toMillis(time)));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Chunks: &e" + chunks));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Machines: &e" + machines));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Skipped Machines: &e" + skipped));
@@ -215,10 +218,10 @@ public class TickerTask implements Runnable {
 
 			for (Map.Entry<String, Long> entry : timings) {
 				int count = machineCount.get(entry.getKey());
-				if (entry.getValue() > 0)
+				if (entry.getValue() > 500_000)
 				    hover.append("\n&c").append(entry.getKey()).append(" - ")
-						.append(count).append("x &7(").append(entry.getValue()).append("ms, ")
-			            .append(entry.getValue() / count).append("ms avg/machine)");
+						.append(count).append("x &7(").append(toMillis(entry.getValue())).append(", ")
+			            .append(toMillis(entry.getValue() / count)).append(" avg/machine)");
 				else
 				    hidden++;
 			}
@@ -237,11 +240,10 @@ public class TickerTask implements Runnable {
 
 			for (Map.Entry<String, Long> entry: timings) {
 				int count = machineCount.get(entry.getKey());
-				if (entry.getValue() > 0)
-					sender.sendMessage(ChatColors.color("  &e" + entry.getKey() + " - " + count + "x &7(" + entry.getValue() + "ms"
-					+ ", " + (entry.getValue() / count) + "ms avg/machine)"));
-				else
-					hidden++;
+				if (entry.getValue() > 500_000) {
+					sender.sendMessage(ChatColors.color("  &e" + entry.getKey() + " - " + count + "x &7(" + toMillis(entry.getValue()) + ", " + toMillis(entry.getValue() / count) + " avg/machine)"));
+				}	
+				else hidden++;
 			}
 
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
@@ -265,7 +267,7 @@ public class TickerTask implements Runnable {
 					if (entry.getValue() > 0)
 						hover.append("\n&c").append(entry.getKey().replace("CraftChunk", "")).append(" - ")
 								.append(chunkItemCount.getOrDefault(entry.getKey(), 0))
-								.append("x &7(").append(entry.getValue()).append("ms)");
+								.append("x &7(").append(toMillis(entry.getValue())).append(")");
 					else
 					    hidden++;
 				}
@@ -285,7 +287,7 @@ public class TickerTask implements Runnable {
 			for (Map.Entry<String, Long> entry: timings) {
 				if (!chunksSkipped.contains(entry.getKey())) {
 					if (entry.getValue() > 0) sender.sendMessage("  &c" + entry.getKey().replace("CraftChunk", "") + " - "
-							+ (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x &7(" + entry.getValue() + "ms)");
+							+ (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x &7(" + toMillis(entry.getValue()) + ")");
 					else hidden++;
 				}
 			}
@@ -315,6 +317,10 @@ public class TickerTask implements Runnable {
 	
 	public void halt() {
 		halted = true;
+	}
+
+	private String toMillis(long time) {
+		return decimalFormat.format(time / 1000000F) + "ms";
 	}
 	
 	@Override

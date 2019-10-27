@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+import com.google.gson.GsonBuilder;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public class BlockInfoConfig extends Config {
@@ -134,6 +136,10 @@ public class BlockInfoConfig extends Config {
 	@Override
 	public void reload() {
 		throw new UnsupportedOperationException();
+	}
+
+	public String toJSON() {
+		return new GsonBuilder().create().toJson(data);
 	}
 
 }
