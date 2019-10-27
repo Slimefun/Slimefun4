@@ -4,19 +4,25 @@
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
     <version>4.2</version>
+    
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    
     <repositories>
         <repository>
             <id>paper-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
         </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>worldedit-worldguard-repo</id>
@@ -27,21 +33,17 @@
             <url>https://maven.playpro.com/</url>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>CodeMC</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
-        </repository>
-        <repository>
+  			<id>CodeMC</id>
+  			<url>https://repo.codemc.org/repository/maven-public</url>
+		</repository>
+		<repository>
             <id>placeholderapi-repo</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
     </repositories>
-
+    
     <build>
-        <sourceDirectory>${project.basedir}/src</sourceDirectory>
+        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <finalName>${project.name} v${project.version}</finalName>
         <plugins>
             <plugin>
@@ -56,54 +58,42 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+              <plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-shade-plugin</artifactId>
+    			<version>3.2.1</version>
 
-                <configuration>
-                    <filters>
-                        <filter>
-                            <artifact>com.github.thebusybiscuit:CS-CoreLib2</artifact>
-                            <includes>
-                                <include>**/cscorelib2/updater/**</include>
-                                <include>**/cscorelib2/materials/**</include>
-                                <include>**/cscorelib2/protection/**</include>
-                            </includes>
-                        </filter>
-                    </filters>
+    			<configuration>
+      				<relocations>
+      					<relocation>
+            				<pattern>org.bstats</pattern>
+            				<shadedPattern>me.mrCookieSlime.Slimefun.bstats</shadedPattern>
+          				</relocation>
+          				
+        				<relocation>
+          					<pattern>io.github.thebusybiscuit.cscorelib2</pattern>
+          					<shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
+      					</relocation>
+      				</relocations>
+    			</configuration>
 
-                    <relocations>
-                        <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>me.mrCookieSlime.Slimefun.bstats</shadedPattern>
-                        </relocation>
-
-                        <relocation>
-                            <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
-                            <shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+    			<executions>
+      				<execution>
+        				<phase>package</phase>
+        				<goals>
+         					<goal>shade</goal>
+        				</goals>
+      				</execution>
+    			</executions>
+  			</plugin>
         </plugins>
-
+        
         <resources>
             <resource>
-                <directory>${basedir}/src</directory>
+                <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>plugin.yml</include>
-                    <include>config.yml</include>
+                    <include>*</include>
                 </includes>
             </resource>
         </resources>
@@ -112,65 +102,65 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.14.2-R0.1-SNAPSHOT</version>
+    		<version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <version>v1.6.1</version>
-            <scope>provided</scope>
+    		<version>6e17183656</version>
+    		<scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.thebusybiscuit</groupId>
-            <artifactId>CS-CoreLib2</artifactId>
-            <version>0.4.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>1.5</version>
-            <scope>compile</scope>
-        </dependency>
+  			<groupId>com.github.thebusybiscuit</groupId>
+  			<artifactId>CS-CoreLib2</artifactId>
+  			<version>0.6.2</version>
+  			<scope>compile</scope>
+		</dependency>
+		<dependency>
+  			<groupId>org.bstats</groupId>
+  			<artifactId>bstats-bukkit</artifactId>
+  			<version>1.5</version>
+  			<scope>compile</scope>
+		</dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.0.1</version>
+    		<version>7.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>2.10.3</version>
-            <scope>provided</scope>
+        	<groupId>me.clip</groupId>
+          	<artifactId>placeholderapi</artifactId>
+          	<version>2.10.4</version>
+         	<scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
-            <version>2.9.7</version>
+    		<version>2.9.7</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.coreprotect</groupId>
             <artifactId>coreprotect</artifactId>
-            <version>2.16.3</version>
-            <scope>provided</scope>
+    		<version>2.16.3</version>
+    		<scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
             <artifactId>EmeraldEnchants</artifactId>
-            <version>2.0</version>
+    		<version>2.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/EmeraldEnchants v2.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
             <artifactId>ExoticGarden</artifactId>
-            <version>1.7.0</version>
+    		<version>1.2.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ExoticGarden v1.7.0.jar</systemPath>
+            <systemPath>${project.basedir}/lib/ExoticGarden v1.2.0.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

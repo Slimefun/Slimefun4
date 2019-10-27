@@ -1,0 +1,56 @@
+name: Slimefun
+version: ${project.version}
+author: The Slimefun 4 Community
+description: Slimefun basically turns your entire Server into a FTB modpack without installing a single mod
+website: https://github.com/TheBusyBiscuit/Slimefun4
+
+main: me.mrCookieSlime.Slimefun.SlimefunPlugin
+softdepend: [CS-CoreLib, PlaceholderAPI]
+
+api-version: 1.14
+
+commands:
+  slimefun:
+    description: basic Slimefun command
+    aliases: sf
+    usage: /sf <argument>
+permissions:
+  slimefun.cheat.items:
+    description: Allows you to cheat Items
+    default: op
+  slimefun.cheat.researches:
+    description: Allows you to cheat Researches
+    default: op
+  slimefun.stats.others:
+    description: Allows you to see the Stats from other Players
+    default: op
+  slimefun.android.upload-script:
+    description: Allows you to upload an Android Script
+    default: op
+  slimefun.command.timings:
+    description: Allows you to do /sf timings
+    default: op
+  slimefun.command.teleporter:
+    description: Allows you to do /sf teleporter
+    default: op
+  slimefun.command.versions:
+    description: Allows you to do /sf versions
+    default: op
+  slimefun.command.guide:
+    description: Allows you to obtain the Slimefun guide book
+    default: true
+  slimefun.command.search:
+    description: Allows you to do /sf search
+    default: true
+  slimefun.command.open_guide:
+    description: Allows you to open the SF guide without the book
+    default: op
+  slimefun.android.bypass:
+    description: Allows you to edit other Players Androids
+    default: op
+  slimefun.cargo.bypass:
+    description: Allows you to edit other Players Cargo Blocks
+    default: op
+  slimefun.inventory.bypass:
+    description: Allows you to open all Slimefun Machines
+    default: op

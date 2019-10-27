@@ -1,0 +1,432 @@
+package me.mrCookieSlime.Slimefun;
+
+import java.io.File;
+import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
+import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
+import io.github.thebusybiscuit.cscorelib2.updater.BukkitUpdater;
+import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
+import io.github.thebusybiscuit.cscorelib2.updater.Updater;
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
+import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
+import me.mrCookieSlime.Slimefun.GEO.resources.NetherIceResource;
+import me.mrCookieSlime.Slimefun.GEO.resources.OilResource;
+import me.mrCookieSlime.Slimefun.GEO.resources.UraniumResource;
+import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
+import me.mrCookieSlime.Slimefun.Objects.tasks.ArmorTask;
+import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
+import me.mrCookieSlime.Slimefun.Setup.Files;
+import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
+import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunMetrics;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
+import me.mrCookieSlime.Slimefun.Setup.WikiSetup;
+import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
+import me.mrCookieSlime.Slimefun.api.TickerTask;
+import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
+import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
+import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
+import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
+import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
+import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
+import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
+import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
+import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
+import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
+import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
+import me.mrCookieSlime.Slimefun.listeners.BlockListener;
+import me.mrCookieSlime.Slimefun.listeners.BowListener;
+import me.mrCookieSlime.Slimefun.listeners.CoolerListener;
+import me.mrCookieSlime.Slimefun.listeners.DamageListener;
+import me.mrCookieSlime.Slimefun.listeners.FurnaceListener;
+import me.mrCookieSlime.Slimefun.listeners.GearListener;
+import me.mrCookieSlime.Slimefun.listeners.GuideOnJoinListener;
+import me.mrCookieSlime.Slimefun.listeners.ItemListener;
+import me.mrCookieSlime.Slimefun.listeners.ItemPickupListener;
+import me.mrCookieSlime.Slimefun.listeners.NetworkListener;
+import me.mrCookieSlime.Slimefun.listeners.PlayerQuitListener;
+import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
+import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
+import me.mrCookieSlime.Slimefun.listeners.ToolListener;
+import me.mrCookieSlime.Slimefun.listeners.WorldListener;
+import me.mrCookieSlime.Slimefun.utils.Settings;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
+
+public final class SlimefunPlugin extends JavaPlugin {
+
+	public static SlimefunPlugin instance;
+
+	private final NamespacedKey itemDataKey = new NamespacedKey(this, "slimefun_item");
+	
+	private TickerTask ticker;
+	private SlimefunLocalization local;
+	private Config researches;
+	private Config items;
+	private Config whitelist;
+	private Config config;
+	
+	private GPSNetwork gps;
+	private ProtectionManager protections;
+	private Utilities utilities;
+	private Settings settings;
+	private SlimefunHooks hooks;
+	
+	// Supported Versions of Minecraft
+	private final String[] supported = {"v1_14_"};
+
+	@Override
+	public void onEnable() {
+		if (new CSCoreLibLoader(this).load()) {
+
+			String currentVersion = ReflectionUtils.getVersion();
+
+			if (currentVersion.startsWith("v")) {
+				boolean compatibleVersion = false;
+				StringBuilder versions = new StringBuilder();
+
+				int i = 0;
+				for (String version: supported) {
+					if (currentVersion.startsWith(version)) {
+						compatibleVersion = true;
+					}
+
+					String s = version.substring(1).replaceFirst("_", ".").replace("_", ".X");
+					if (i == 0) versions.append(s);
+					else if (i == supported.length - 1) versions.append(" or ").append(s);
+					else versions.append(", ").append(s);
+
+					i++;
+				}
+
+				// Looks like you are using an unsupported Minecraft Version
+				if (!compatibleVersion) {
+					getLogger().log(Level.SEVERE, "### Slimefun 没有被正确安装!");
+					getLogger().log(Level.SEVERE, "###");
+					getLogger().log(Level.SEVERE, "### 你正在使用 Slimefun 不支持的 Minecraft 版本 + " + ReflectionUtils.getVersion() +"!");
+					getLogger().log(Level.SEVERE, "###");
+					getLogger().log(Level.SEVERE, "### 但 Slimefun v" + getDescription().getVersion() + " 需要你使用");
+					getLogger().log(Level.SEVERE, "### Minecraft {0}", versions);
+					getLogger().log(Level.SEVERE, "###");
+					getLogger().log(Level.SEVERE, "### 如果你想继续使用 Slimefun, ");
+					getLogger().log(Level.SEVERE, "### 请下载旧版本关闭自动更新使用.");
+					getServer().getPluginManager().disablePlugin(this);
+					return;
+				}
+			}
+
+			instance = this;
+			getLogger().log(Level.INFO, "加载文件中...");
+			Files files = new Files();
+			files.cleanup();
+
+			getLogger().log(Level.INFO, "加载配置中...");
+
+			// Setup config.yml
+			PluginUtils utils = new PluginUtils(this);
+			utils.setupConfig();
+			config = utils.getConfig();
+			settings = new Settings(config);
+
+			// Loading all extra configs
+			researches = new Config(files.researches);
+			items = new Config(files.items);
+			whitelist = new Config(files.whitelist);
+
+			// Setup messages.yml
+			local = new SlimefunLocalization(this);
+			
+			// Setting up other stuff
+			utilities = new Utilities();
+			gps = new GPSNetwork();
+			
+			// Setting up bStats
+			new SlimefunMetrics(this);
+
+			// Setting up the Auto-Updater
+			Updater updater;
+
+			if (getDescription().getVersion().startsWith("DEV - ")) {
+				// If we are using a development build, we want to switch to our custom 
+				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
+			}
+			else if (getDescription().getVersion().startsWith("RC - ")) {
+				// If we are using a development build, we want to switch to our custom 
+				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/stable", "RC - ");
+			}
+			else {
+				// We are using an official build, use the BukkitDev Updater
+				updater = new BukkitUpdater(this, getFile(), 53485);
+			}
+
+			if (config.getBoolean("options.auto-update")) updater.start();
+
+			// Creating all necessary Folders
+			String[] storage = {"blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
+			String[] general = {"scripts", "generators", "error-reports", "cache/github"};
+			for (String s : storage) createDir("data-storage/Slimefun/" + s);
+			for (String s : general) createDir("plugins/Slimefun/" + s);
+
+			getLogger().log(Level.INFO, "加载物品中...");
+			MiscSetup.setupItemSettings();
+			
+			try {
+				SlimefunSetup.setupItems();
+			} catch (Exception x) {
+				getLogger().log(Level.SEVERE, "在实例化 Slimefun 物品时出现了问题, Slimefun 版本为 " + Slimefun.getVersion(), x);
+			}
+			
+			MiscSetup.loadDescriptions();
+			
+			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
+			settings.smelteryFireBreakChance = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
+
+			getLogger().log(Level.INFO, "加载研究中...");
+			ResearchSetup.setupResearches();
+
+			MiscSetup.setupMisc();
+			WikiSetup.addWikiPages(getClass());
+
+			getLogger().log(Level.INFO, "加载世界生成器...");
+
+			// Generating Oil as an OreGenResource (its a cool API)
+			OreGenSystem.registerResource(new OilResource());
+			OreGenSystem.registerResource(new NetherIceResource());
+			OreGenSystem.registerResource(new UraniumResource());
+
+			// Setting up GitHub Connectors...
+
+			GitHubSetup.setup();
+
+			// All Slimefun Listeners
+			new ArmorListener(this);
+			new ItemListener(this);
+			new BlockListener(this);
+			new GearListener(this);
+			new AutonomousToolsListener(this);
+			new DamageListener(this);
+			new BowListener(this);
+			new ToolListener(this);
+			new FurnaceListener(this);
+			new TeleporterListener(this);
+			new AndroidKillingListener(this);
+			new NetworkListener(this);
+			new ItemPickupListener(this);
+
+			// Toggleable Listeners for performance
+			if (config.getBoolean("items.talismans")) new TalismanListener(this);
+			if (config.getBoolean("items.backpacks")) new BackpackListener(this);
+			if (config.getBoolean("items.coolers")) new CoolerListener(this);
+
+			// Handle Slimefun Guide being given on Join
+			if (config.getBoolean("options.give-guide-on-first-join")) new GuideOnJoinListener(this);
+
+			// Load/Unload Worlds in Slimefun
+			new WorldListener(this);
+
+			// Clear the Slimefun Guide History upon Player Leaving
+			new PlayerQuitListener(this);
+
+			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
+			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+				protections = new ProtectionManager(getServer());
+				MiscSetup.loadItems(settings);
+
+				for (World world: Bukkit.getWorlds()) {
+					new BlockStorage(world);
+				}
+
+				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunPlugin) instance);
+			}, 0);
+			
+			SlimefunCommand command = new SlimefunCommand(this);
+
+			getCommand("slimefun").setExecutor(command);
+			getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter(command));
+
+			// Armor Update Task
+			if (config.getBoolean("options.enable-armor-effects")) {
+				getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
+			}
+
+			ticker = new TickerTask();
+
+			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, settings.blocksAutoSaveDelay * 60L * 20L);
+
+			// Starting all ASYNC Tasks
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, settings.blocksAutoSaveDelay * 60L * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+				try {
+					ticker.run();
+				}
+				catch(Throwable x) {
+					getLogger().log(Level.SEVERE, "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + Slimefun.getVersion(), x);
+					ticker.abortTick();
+				}
+			}, 100L, config.getInt("URID.custom-ticker-delay"));
+
+			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);
+
+			// Hooray!
+			getLogger().log(Level.INFO, "启动完成! 汉化 by Namelessssss");
+			hooks = new SlimefunHooks(this);
+			
+			utilities.oreWasherOutputs = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};
+
+			// Do not show /sf elevator command in our Log, it could get quite spammy
+			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
+		}
+		else {
+			getCommand("slimefun").setExecutor((sender, cmd, label, args) -> {
+				sender.sendMessage("你忘记安装前置 CS-CoreLib 了! Slimefun 已被禁用");
+				sender.sendMessage("https://dev.bukkit.org/projects/cs-corelib");
+				return true;
+			});
+		}
+	}
+
+	@Override
+	public void onDisable() {
+		// CS-CoreLib wasn't loaded, just disabling
+		if (instance == null) return;
+		
+		Bukkit.getScheduler().cancelTasks(this);
+
+		if (ticker != null) {
+			// Finishes all started movements/removals of block data
+			ticker.halt();
+			ticker.run();
+		}
+		
+		PlayerProfile.iterator().forEachRemaining(profile -> {
+			if (profile.isDirty()) profile.save();
+		});
+		
+		for (World world: Bukkit.getWorlds()) {
+			try {
+				BlockStorage storage = BlockStorage.getStorage(world);
+				
+				if (storage != null) {
+					storage.save(true);
+				}
+				else {
+					getLogger().log(Level.SEVERE, "无法在世界 \"" + world.getName() + "\" 保存方块.");
+				}
+			} catch (Exception x) {
+				getLogger().log(Level.SEVERE, "在世界 '" + world.getName() + "' 中保存方块出现了问题, Slimefun 版本 " + Slimefun.getVersion());
+			}
+		}
+		
+		for (UniversalBlockMenu menu: utilities.universalInventories.values()) {
+			menu.save();
+		}
+		
+		SlimefunBackup.start();
+
+		// Prevent Memory Leaks
+		AContainer.processing = null;
+		AContainer.progress = null;
+		
+		AGenerator.processing = null;
+		AGenerator.progress = null;
+		
+		AReactor.processing = null;
+		AReactor.progress = null;
+
+		instance = null;
+
+		for (Player p: Bukkit.getOnlinePlayers()) {
+			p.closeInventory();
+		}
+	}
+
+	private void createDir(String path) {
+		File file = new File(path);
+		if (!file.exists()) file.mkdirs();
+	}
+
+	public static Config getCfg() {
+		return instance.config;
+	}
+
+	public static Config getResearchCfg() {
+		return instance.researches;
+	}
+
+	public static Config getItemCfg() {
+		return instance.items;
+	}
+
+	public static Config getWhitelist() {
+		return instance.whitelist;
+	}
+
+	@Deprecated
+	public static int randomize(int max) {
+		if (max < 1) return 0;
+		return CSCoreLib.randomizer().nextInt(max);
+	}
+
+	@Deprecated
+	public static boolean chance(int max, int percentage) {
+		if (max < 1) return false;
+		return CSCoreLib.randomizer().nextInt(max) <= percentage;
+	}
+
+	public GPSNetwork getGPS() {
+		return gps;
+	}
+
+	public static SlimefunHooks getHooks() {
+		return instance.hooks;
+	}
+	
+	public static Utilities getUtilities() {
+		return instance.utilities;
+	}
+	
+	public static Settings getSettings() {
+		return instance.settings;
+	}
+	
+	public static TickerTask getTicker() {
+		return instance.ticker;
+	}
+	
+	public static boolean isActive() {
+		return instance != null;
+	}
+
+	public static ProtectionManager getProtectionManager() {
+		return instance.protections;
+	}
+
+	public static SlimefunLocalization getLocal() {
+		return instance.local;
+	}
+	
+	public static NamespacedKey getItemDataKey() {
+		return instance.itemDataKey;
+	}
+
+}
