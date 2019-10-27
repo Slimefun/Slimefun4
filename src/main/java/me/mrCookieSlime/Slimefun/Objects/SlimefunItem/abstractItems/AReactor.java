@@ -336,7 +336,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 					MachineFuel fuel = findRecipe(menu, found);
 
 					if (port != null) {
-						restockCoolant(menu, port);
+						restockFuel(menu, port);
 					}
 
 					if (fuel != null) {
@@ -368,11 +368,11 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 		});
 	}
 	
-	private void restockCoolant(BlockMenu menu, BlockMenu port) {
+	private void restockFuel(BlockMenu menu, BlockMenu port) {
 		for (int slot: getFuelSlots()) {
 			for (MachineFuel recipe: recipes) {
 				if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true) && menu.fits(new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots())) {
-					port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
+					port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getFuelSlots()));
 					return;
 				}
 			}
