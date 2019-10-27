@@ -228,41 +228,50 @@ public class Research {
 	 * @since 4.0
 	 */
 	public void unlock(final Player p, boolean instant) {
-		if (!hasUnlocked(p)) {
-			ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
-			Bukkit.getPluginManager().callEvent(event);
-			
-			Runnable runnable = () -> {
-				PlayerProfile.get(p).setResearched(this, true);
-				SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName()));
+		Slimefun.runSync(() -> {
+			p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
+			SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", "0%"));
+		}, 10L);
+		
+		PlayerProfile.get(p, profile -> {
+			if (!profile.hasUnlocked(this)) {
+				ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
+				Bukkit.getPluginManager().callEvent(event);
 				
-				if (SlimefunPlugin.getCfg().getBoolean("options.research-unlock-fireworks")) {
-					FireworkShow.launchRandom(p, 1);
-				}
-			};
-			
-			if (!event.isCancelled()) {
-				if (instant) runnable.run();
-				else if (!SlimefunPlugin.getUtilities().researching.contains(p.getUniqueId())){
-					SlimefunPlugin.getUtilities().researching.add(p.getUniqueId());
-					SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName()));
+				Runnable runnable = () -> {
+					profile.setResearched(this, true);
+					SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName()));
 					
-					for (int i = 1; i < research_progress.length + 1; i++) {
-						int j = i;
-						
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-							p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-							SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", research_progress[j - 1] + "%"));
-						}, i * 20L);
+					if (SlimefunPlugin.getCfg().getBoolean("options.research-unlock-fireworks")) {
+						FireworkShow.launchRandom(p, 1);
 					}
-					
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+				};
+				
+				if (!event.isCancelled()) {
+					if (instant) {
 						runnable.run();
-						SlimefunPlugin.getUtilities().researching.remove(p.getUniqueId());
-					}, (research_progress.length + 1) * 20L);
+					}
+					else if (!SlimefunPlugin.getUtilities().researching.contains(p.getUniqueId())){
+						SlimefunPlugin.getUtilities().researching.add(p.getUniqueId());
+						SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName()));
+						
+						for (int i = 1; i < research_progress.length + 1; i++) {
+							int j = i;
+							
+							Slimefun.runSync(() -> {
+								p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
+								SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", research_progress[j - 1] + "%"));
+							}, i * 20L);
+						}
+						
+						Slimefun.runSync(() -> {
+							runnable.run();
+							SlimefunPlugin.getUtilities().researching.remove(p.getUniqueId());
+						}, (research_progress.length + 1) * 20L);
+					}
 				}
 			}
-		}
+		});
 	}
 
 	/**

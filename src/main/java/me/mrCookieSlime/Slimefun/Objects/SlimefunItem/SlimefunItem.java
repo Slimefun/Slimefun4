@@ -13,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -285,13 +286,15 @@ public class SlimefunItem {
 		}
 
 		for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
-			if ((sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					(sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					(sfi instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					(sfi instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					SlimefunManager.isItemSimiliar(item, sfi.getItem(), true))
-
-						return sfi;
+			if (sfi.isItem(item)) {
+				// If we have to loop all items for the given item, then at least
+				// set the id via PersistenDataAPI for future performance boosts
+				ItemMeta im = item.getItemMeta();
+				PersistentDataAPI.setString(im, SlimefunPlugin.getItemDataKey(), sfi.getID());
+				item.setItemMeta(im);
+				
+				return sfi;
+			}
 		}
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
@@ -309,6 +312,7 @@ public class SlimefunItem {
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
+		else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else return SlimefunManager.isItemSimiliar(item, this.item, true);		
 	}
 
