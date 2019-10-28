@@ -13,6 +13,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.CookingRecipe;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -390,11 +391,15 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			recipeType = RecipeType.SHAPELESS_RECIPE;
 			result = r.getResult();
 		}
-		else if (r instanceof FurnaceRecipe) {
-			recipe[4] = ((FurnaceRecipe) r).getInput();
+		else if (r instanceof CookingRecipe) {
+			recipe[4] = ((CookingRecipe<?>) r).getInput();
 
 			recipeType = RecipeType.FURNACE;
 			result = r.getResult();
+		}
+		
+		if (recipeType == null) {
+			return;
 		}
 		
 		ChestMenu menu = create();
