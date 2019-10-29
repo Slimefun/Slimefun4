@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
+import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.cscorelib2.updater.BukkitUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
@@ -77,6 +78,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static SlimefunPlugin instance;
 
+	private RecipeSnapshot recipeSnapshot;
 	private final NamespacedKey itemDataKey = new NamespacedKey(this, "slimefun_item");
 	
 	private TickerTask ticker;
@@ -250,6 +252,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+				recipeSnapshot = new RecipeSnapshot(this);
 				protections = new ProtectionManager(getServer());
 				MiscSetup.loadItems(settings);
 
@@ -424,6 +427,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static SlimefunLocalization getLocal() {
 		return instance.local;
+	}
+	
+	public static RecipeSnapshot getMinecraftRecipes() {
+		return instance.recipeSnapshot;
 	}
 	
 	public static NamespacedKey getItemDataKey() {
