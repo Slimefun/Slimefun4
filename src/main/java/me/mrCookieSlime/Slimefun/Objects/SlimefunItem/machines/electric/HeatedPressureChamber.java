@@ -25,6 +25,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -34,10 +35,10 @@ import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class HeatedPressureChamber extends AContainer {
 
-	public HeatedPressureChamber(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public HeatedPressureChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(getID(), getInventoryTitle()) {
 			
 			@Override
 			public void init() {
@@ -135,11 +136,13 @@ public abstract class HeatedPressureChamber extends AContainer {
 
 	@Override
 	protected void tick(Block b) {
+		BlockMenu menu = BlockStorage.getInventory(b);
+		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -149,7 +152,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 				else progress.put(b, timeleft - 1);
 			}
 			else {
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput());
 				
 				progress.remove(b);
@@ -157,7 +160,6 @@ public abstract class HeatedPressureChamber extends AContainer {
 			}
 		}
 		else {
-			BlockMenu menu = BlockStorage.getInventory(b.getLocation());
 			Map<Integer, Integer> found = new HashMap<>();
 			MachineRecipe recipe = findRecipe(menu, found);
 			

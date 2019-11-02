@@ -16,13 +16,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class ElectricDustWasher extends AContainer {
 	
-	public ElectricDustWasher(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public ElectricDustWasher(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 
 	@Override
@@ -39,10 +41,11 @@ public abstract class ElectricDustWasher extends AContainer {
 
 	@Override
 	protected void tick(Block b) {
+		BlockMenu menu = BlockStorage.getInventory(b);
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
 			if (timeleft > 0 && getSpeed() < 10) {
-				MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -55,7 +58,7 @@ public abstract class ElectricDustWasher extends AContainer {
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
 
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput());
 				
 				progress.remove(b);
@@ -66,12 +69,12 @@ public abstract class ElectricDustWasher extends AContainer {
 			ItemStack[] items = SlimefunPlugin.getUtilities().oreWasherOutputs;
 			
 			for (int slot: getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
+				if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
 					if (!SlimefunPlugin.getSettings().legacyDustWasher) {
 						boolean emptySlot = false;
             
 						for (int output_slot: getOutputSlots()) {
-							if (BlockStorage.getInventory(b).getItemInSlot(output_slot) == null) {
+							if (menu.getItemInSlot(output_slot) == null) {
 								emptySlot = true;
 								break;
 							}
@@ -82,15 +85,15 @@ public abstract class ElectricDustWasher extends AContainer {
 					ItemStack adding = items[new Random().nextInt(items.length)];
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {adding});
 					if (SlimefunPlugin.getSettings().legacyDustWasher && !fits(b, r.getOutput())) return;
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;
 				}
-				else if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
+				else if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER});
 					if (!fits(b, r.getOutput())) return;
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;

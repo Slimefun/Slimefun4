@@ -38,9 +38,9 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 		ItemStack item = SlimefunItems.STAFF_STORM.clone();
 		ItemMeta im = item.getItemMeta();
 		List<String> lore = im.getLore();
-		
-		lore.set(4, ChatColor.translateAlternateColorCodes('&', "&7剩余 &e" + MAX_USES + " 次"));
-		
+
+        lore.set(4, ChatColor.translateAlternateColorCodes('&', "&7剩余 &e" + MAX_USES + " 次"));
+
 		im.setLore(lore);
 		item.setItemMeta(im);
 		return item;
@@ -88,8 +88,8 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 									itemMeta.getPersistentDataContainer().set(
 										usageKey, PersistentDataType.INTEGER, --currentUses
 									);
-									itemLore.set(4, ChatColor.translateAlternateColorCodes('&',
-										"&7剩余 &e" + currentUses + ' ' + " 次"));
+                                    itemLore.set(4, ChatColor.translateAlternateColorCodes('&',
+                                            "&7剩余 &e" + currentUses + ' ' + " 次"));
 									itemMeta.setLore(itemLore);
 									item.setItemMeta(itemMeta);
 								}

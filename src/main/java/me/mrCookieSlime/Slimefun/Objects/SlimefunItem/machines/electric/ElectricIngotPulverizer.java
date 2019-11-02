@@ -12,11 +12,12 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ElectricIngotPulverizer extends AContainer implements RecipeDisplayItem {
 
-	public ElectricIngotPulverizer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public ElectricIngotPulverizer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 	
 	@Override

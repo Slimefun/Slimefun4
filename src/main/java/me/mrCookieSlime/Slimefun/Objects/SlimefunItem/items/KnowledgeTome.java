@@ -31,7 +31,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
 				List<String> lore = item.getItemMeta().getLore();
-				lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7主人: &b" + p.getName()));
+				lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
 				lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
 				ItemMeta im = item.getItemMeta();
 				im.setLore(lore);

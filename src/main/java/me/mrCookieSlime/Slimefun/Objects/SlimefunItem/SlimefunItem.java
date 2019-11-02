@@ -32,6 +32,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SlimefunItem {
 	
@@ -284,15 +285,17 @@ public class SlimefunItem {
 			if (id != null) return getByID(id);
 		}
 
-		for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
-			if ((sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					(sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					(sfi instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					(sfi instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					SlimefunManager.isItemSimiliar(item, sfi.getItem(), true))
+        for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
+            if (sfi.isItem(item)) {
+                // If we have to loop all items for the given item, then at least
+                // set the id via PersistenDataAPI for future performance boosts
+                ItemMeta im = item.getItemMeta();
+                PersistentDataAPI.setString(im, SlimefunPlugin.getItemDataKey(), sfi.getID());
+                item.setItemMeta(im);
 
-						return sfi;
-		}
+                return sfi;
+            }
+        }
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
 		return null;
@@ -309,6 +312,7 @@ public class SlimefunItem {
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
+        else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else return SlimefunManager.isItemSimiliar(item, this.item, true);		
 	}
 

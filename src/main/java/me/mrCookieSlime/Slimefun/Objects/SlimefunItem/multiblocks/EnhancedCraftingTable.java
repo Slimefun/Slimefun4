@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.List;
 import java.util.UUID;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -127,10 +128,9 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 
 
 						for (int j = 0; j < 9; j++) {
-							if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR) {
-								if (inv.getContents()[j].getType().toString().endsWith("_BUCKET")) inv.setItem(j, new ItemStack(Material.BUCKET));
-								else if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-								else inv.setItem(j, null);
+                            ItemStack item = inv.getContents()[j];
+                            if (item != null && item.getType() != Material.AIR) {
+                                ItemUtils.consumeItem(item, true);
 							}
 						}
 						p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);

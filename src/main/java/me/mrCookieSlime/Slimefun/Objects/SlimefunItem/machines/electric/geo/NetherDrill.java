@@ -19,7 +19,7 @@ public abstract class NetherDrill extends ADrill {
 
 	@Override
 	public OreGenResource getOreGenResource() {
-		return OreGenSystem.getResource("下界冰");
+		return OreGenSystem.getResource("Nether Ice");
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public abstract class NetherDrill extends ADrill {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&4下界钻头";
+		return "&4Nether Drill";
 	}
 
 	@Override

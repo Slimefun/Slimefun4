@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import java.util.List;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -54,8 +55,11 @@ public class ArmorForge extends MultiBlockMachine {
 				if (Slimefun.hasUnlocked(p, adding, true)) {
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 					if (outputInv != null) {
-						for (ItemStack removing: inputs.get(i)) {
-							if (removing != null) inv.removeItem(removing);
+						for (int j = 0; j < 9; j++) {
+                            ItemStack item = inv.getContents()[j];
+                            if (item != null && item.getType() != Material.AIR) {
+                                ItemUtils.consumeItem(item, true);
+                            }
 						}
 						
 						for (int j = 0; j < 4; j++) {
