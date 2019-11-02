@@ -2,7 +2,7 @@
 
 欢迎来到 Slimefun 4 的汉化版页面
 
-Slimefun 4 是 [Slimefun](http://dev.bukkit.org/bukkit-plugins/slimefun/) 这个改变了Minecraft玩法的插件的第四代
+Slimefun 4 是 [Slimefun](http://dev.bukkit.org/bukkit-plugins/slimefun/) 改变了Minecraft玩法的插件
 
 Slimefun 4 使用的开源协议为: 
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
