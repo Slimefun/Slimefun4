@@ -279,6 +279,10 @@ public class SlimefunItem {
 
 	public static SlimefunItem getByItem(ItemStack item) {
 		if (item == null) return null;
+		
+		if (item instanceof SlimefunItemStack) {
+			return getByID(((SlimefunItemStack) item).getItemID());
+		}
 
 		if (item.hasItemMeta()) {
 			String id = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());

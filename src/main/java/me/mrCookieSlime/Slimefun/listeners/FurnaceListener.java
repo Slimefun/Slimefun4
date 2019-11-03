@@ -1,5 +1,7 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
+import java.util.Optional;
+
 import org.bukkit.block.Furnace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,8 +10,8 @@ import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EnhancedFurnace;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -37,10 +39,15 @@ public class FurnaceListener implements Listener {
 		if (furnace instanceof EnhancedFurnace) {
 			Furnace f = (Furnace) e.getBlock().getState();
 			int amount = f.getInventory().getSmelting().getType().toString().endsWith("_ORE") ? ((EnhancedFurnace) furnace).getOutput() : 1;
-			ItemStack result = f.getInventory().getResult() == null ? RecipeCalculator.getSmeltedOutput(f.getInventory().getSmelting().getType()) : f.getInventory().getResult().clone();
+			Optional<ItemStack> result = Optional.ofNullable(f.getInventory().getResult());
+			
+			if (!result.isPresent()) {
+				result = SlimefunPlugin.getMinecraftRecipes().getRecipeOutput(MinecraftRecipe.FURNACE, f.getInventory().getSmelting());
+			}
 
-			if (result != null) {
-				f.getInventory().setResult(new CustomItem(result, Math.min(result.getAmount() + amount, result.getMaxStackSize())));
+			if (result.isPresent()) {
+				ItemStack item = result.get();
+				f.getInventory().setResult(new CustomItem(item, Math.min(item.getAmount() + amount, item.getMaxStackSize())));
 			}
 		}
 	}

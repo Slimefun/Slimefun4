@@ -13,13 +13,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
 
 public class CargoManagerBlock extends SlimefunItem {
 
-	public CargoManagerBlock(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public CargoManagerBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			SimpleHologram.remove(b);

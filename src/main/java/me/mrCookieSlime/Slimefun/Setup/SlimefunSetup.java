@@ -2760,7 +2760,7 @@ public final class SlimefunSetup {
 		new CustomItem(SlimefunItems.ELEVATOR, 2))
 		.register(true);
 
-		new FoodFabricator(Categories.ELECTRICITY, SlimefunItems.FOOD_FABRICATOR, "FOOD_FABRICATOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new FoodFabricator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.FOOD_FABRICATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BILLON_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.BILLON_INGOT, SlimefunItems.CAN, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.CAN, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
 			@Override
@@ -2775,7 +2775,7 @@ public final class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 256);
 
-		new FoodFabricator(Categories.ELECTRICITY, SlimefunItems.FOOD_FABRICATOR_2, "FOOD_FABRICATOR_2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new FoodFabricator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.FOOD_FABRICATOR_2, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.ELECTRO_MAGNET, null}) {
 			
 			@Override
@@ -2826,15 +2826,15 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.GOLD_18K, SlimefunItems.CAN, SlimefunItems.GOLD_18K, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.HAY_BLOCK), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.LEAD_INGOT})
 		.registerChargeableBlock(true, 1024);
 
-		new AnimalGrowthAccelerator(Categories.ELECTRICITY, SlimefunItems.ANIMAL_GROWTH_ACCELERATOR, "ANIMAL_GROWTH_ACCELERATOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new AnimalGrowthAccelerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.ANIMAL_GROWTH_ACCELERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.WHEAT_ORGANIC_FOOD, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.AUTO_BREEDER, SlimefunItems.REINFORCED_ALLOY_INGOT})
 		.registerChargeableBlock(true, 1024);
 
-		new XPCollector(Categories.ELECTRICITY, SlimefunItems.XP_COLLECTOR, "XP_COLLECTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new XPCollector(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.XP_COLLECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.AUTO_ENCHANTER, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRONZE_INGOT})
 		.registerChargeableBlock(true, 1024);
 
-		new FoodComposter(Categories.ELECTRICITY, SlimefunItems.FOOD_COMPOSTER, "FOOD_COMPOSTER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new FoodComposter(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.FOOD_COMPOSTER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.CAN, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.CAN, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 			
 			@Override
@@ -2849,7 +2849,7 @@ public final class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 256);
 
-		new FoodComposter(Categories.ELECTRICITY, SlimefunItems.FOOD_COMPOSTER_2, "FOOD_COMPOSTER_2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new FoodComposter(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.FOOD_COMPOSTER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.FOOD_COMPOSTER, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.ELECTRO_MAGNET, null}) {
 
 			@Override
@@ -2896,7 +2896,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new CropGrowthAccelerator(Categories.ELECTRICITY, SlimefunItems.CROP_GROWTH_ACCELERATOR, "CROP_GROWTH_ACCELERATOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new CropGrowthAccelerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.CROP_GROWTH_ACCELERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.PROGRAMMABLE_ANDROID_FARMER, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ANIMAL_GROWTH_ACCELERATOR, SlimefunItems.ELECTRO_MAGNET}) {
 
 			@Override
@@ -2916,7 +2916,7 @@ public final class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 1024);
 
-		new CropGrowthAccelerator(Categories.ELECTRICITY, SlimefunItems.CROP_GROWTH_ACCELERATOR_2, "CROP_GROWTH_ACCELERATOR_2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new CropGrowthAccelerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.CROP_GROWTH_ACCELERATOR_2, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CROP_GROWTH_ACCELERATOR, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.ELECTRO_MAGNET}) {
 
 			@Override
@@ -2936,7 +2936,7 @@ public final class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 1024);
 
-		new Freezer(Categories.ELECTRICITY, SlimefunItems.FREEZER, "FREEZER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new Freezer(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.FREEZER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.SILVER_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PACKED_ICE), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COOLING_UNIT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.COOLING_UNIT}) {
 			
 			@Override
@@ -2951,7 +2951,7 @@ public final class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 256);
 
-		new Freezer(Categories.ELECTRICITY, SlimefunItems.FREEZER_2, "FREEZER_2", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new Freezer(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.FREEZER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.SILVER_INGOT, null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.FREEZER, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.COOLING_UNIT, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.COOLING_UNIT}) {
 
 			@Override
@@ -2966,33 +2966,33 @@ public final class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 256);
 
-		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.REACTOR_COOLANT_CELL, "REACTOR_COOLANT_CELL", new RecipeType(SlimefunItems.FREEZER),
+		new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.REACTOR_COOLANT_CELL, new RecipeType(SlimefunItems.FREEZER),
 		new ItemStack[] {new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.TECH_MISC, SlimefunItems.NETHER_ICE_COOLANT_CELL, "NETHER_ICE_COOLANT_CELL", new RecipeType(SlimefunItems.HEATED_PRESSURE_CHAMBER),
+		new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.NETHER_ICE_COOLANT_CELL, new RecipeType(SlimefunItems.HEATED_PRESSURE_CHAMBER),
 		new ItemStack[]{SlimefunItems.ENRICHED_NETHER_ICE, null, null, null, null, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.RESOURCES, SlimefunItems.NEPTUNIUM, "NEPTUNIUM", new RecipeType(SlimefunItems.NUCLEAR_REACTOR),
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.NEPTUNIUM, new RecipeType(SlimefunItems.NUCLEAR_REACTOR),
 		new ItemStack[] {SlimefunItems.URANIUM, null, null, null, null, null, null, null, null})
 		.register(true);
 
 		SlimefunItem.setRadioactive(SlimefunItems.NEPTUNIUM);
 
-		new SlimefunItem(Categories.RESOURCES, SlimefunItems.PLUTONIUM, "PLUTONIUM", new RecipeType(SlimefunItems.NUCLEAR_REACTOR),
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.PLUTONIUM, new RecipeType(SlimefunItems.NUCLEAR_REACTOR),
 		new ItemStack[] {SlimefunItems.NEPTUNIUM, null, null, null, null, null, null, null, null})
 		.register(true);
 
 		SlimefunItem.setRadioactive(SlimefunItems.PLUTONIUM);
 
-		new SlimefunItem(Categories.RESOURCES, SlimefunItems.BOOSTED_URANIUM, "BOOSTED_URANIUM", RecipeType.HEATED_PRESSURE_CHAMBER,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.BOOSTED_URANIUM, RecipeType.HEATED_PRESSURE_CHAMBER,
 		new ItemStack[] {SlimefunItems.PLUTONIUM, SlimefunItems.URANIUM, null, null, null, null, null, null, null})
 		.register(true);
 
 		SlimefunItem.setRadioactive(SlimefunItems.BOOSTED_URANIUM);
 
-		new AReactor(Categories.ELECTRICITY, SlimefunItems.NUCLEAR_REACTOR, "NUCLEAR_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new AReactor(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.NUCLEAR_REACTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.CARBONADO_EDGED_CAPACITOR, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.REINFORCED_PLATE, SlimefunItems.COOLING_UNIT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT}){
 
             @Override
@@ -3035,7 +3035,7 @@ public final class SlimefunSetup {
 		}
 		.registerChargeableBlock(true, 16384);
 
-		new AReactor(Categories.ELECTRICITY, SlimefunItems.NETHERSTAR_REACTOR, "NETHERSTAR_REACTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new AReactor(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.NETHERSTAR_REACTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[]{SlimefunItems.BOOSTED_URANIUM, SlimefunItems.CARBONADO_EDGED_CAPACITOR, SlimefunItems.BOOSTED_URANIUM, SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.NETHER_STAR), SlimefunItems.REINFORCED_PLATE, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.CORINTHIAN_BRONZE_INGOT}){
 
 			@Override
@@ -3076,15 +3076,15 @@ public final class SlimefunSetup {
 
 		}.registerChargeableBlock(true, 32768);
 
-		new SlimefunItem(Categories.CARGO, SlimefunItems.CARGO_MOTOR, "CARGO_MOTOR", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CARGO, (SlimefunItemStack) SlimefunItems.CARGO_MOTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.HARDENED_GLASS, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.HARDENED_GLASS, SlimefunItems.SILVER_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.SILVER_INGOT, SlimefunItems.HARDENED_GLASS, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.HARDENED_GLASS}, new CustomItem(SlimefunItems.CARGO_MOTOR, 4))
 		.register(true);
 
-		new CargoManagerBlock(Categories.CARGO, SlimefunItems.CARGO_MANAGER, "CARGO_MANAGER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new CargoManagerBlock(Categories.CARGO, (SlimefunItemStack) SlimefunItems.CARGO_MANAGER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.HOLOGRAM_PROJECTOR, null, SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARGO_MOTOR, SlimefunItems.REINFORCED_PLATE, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.ALUMINUM_BRONZE_INGOT})
 		.register(true);
 
-		new SlimefunItem(Categories.CARGO, SlimefunItems.CARGO_NODE, "CARGO_NODE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CARGO, (SlimefunItemStack) SlimefunItems.CARGO_NODE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BRONZE_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.BRONZE_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.CARGO_MOTOR, SlimefunItems.SILVER_INGOT, SlimefunItems.BRONZE_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.BRONZE_INGOT}, new CustomItem(SlimefunItems.CARGO_NODE, 4))
 		.register(true, new ItemInteractionHandler() {
 

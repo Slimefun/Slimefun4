@@ -21,6 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -31,11 +32,11 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 
 	protected int energyConsumption = 10;
 	
-	public XPCollector(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public XPCollector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		createPreset(this, "&aEXP Collector", this::constructMenu);
 		
-		registerBlockHandler(name, new SlimefunBlockHandler() {
+		registerBlockHandler(getID(), new SlimefunBlockHandler() {
 			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
@@ -110,10 +111,11 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			n.remove();
 			
 			int withdrawn = 0;
+			BlockMenu menu = BlockStorage.getInventory(b);
 			for (int level = 0; level < getEXP(b); level = level + 10) {
-				if (fits(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"))) {
+				if (menu.fits(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), getOutputSlots())) {
 					withdrawn = withdrawn + 10;
-					pushItems(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
+					menu.pushItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), getOutputSlots());
 				}
 			}
 			BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));

@@ -35,6 +35,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -71,10 +72,10 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	private static final int[] border_4 = {25, 34, 43}; 
 	private static final int INFO_SLOT = 49;
 
-	public AReactor(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public AReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 
-		new BlockMenuPreset(id, getInventoryTitle()) {
+		new BlockMenuPreset(getID(), getInventoryTitle()) {
 
 			@Override
 			public void init() {
@@ -141,7 +142,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 			}
 		};
 
-		registerBlockHandler(id, (p, b, tool, reason) -> {
+		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
 			if (inv != null) {
 				for (int slot : getFuelSlots()) {

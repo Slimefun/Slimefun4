@@ -212,11 +212,11 @@ public class ItemListener implements Listener {
 
 		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
-			else SlimefunGuide.openGuide(p, true);
+			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.BOOK);
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
-			else SlimefunGuide.openGuide(p, false);
+			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.CHEST);
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
 			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);

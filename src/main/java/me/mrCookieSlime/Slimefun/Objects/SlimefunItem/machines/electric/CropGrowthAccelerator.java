@@ -22,6 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -41,11 +42,11 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 		crops.put(Material.SWEET_BERRY_BUSH, 3);
 	}
 
-	public CropGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public CropGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		createPreset(this, "&bGrowth Accelerator", this::constructMenu);
 		
-		registerBlockHandler(name, (p, b, tool, reason) -> {
+		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
 			if (inv != null) {
 				for (int slot: getInputSlots()) {
