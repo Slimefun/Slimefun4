@@ -1,26 +1,25 @@
 package me.mrCookieSlime.Slimefun.guides;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.CookingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.RecipeChoice;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
@@ -35,7 +34,6 @@ import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -354,47 +352,36 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			return;
 		}
 		
-		Recipe r = null;
-		Iterator<Recipe> iterator = Bukkit.recipeIterator();
-		while (iterator.hasNext()) {
-			Recipe current = iterator.next();
-			if (SlimefunManager.isItemSimiliar(new CustomItem(current.getResult(), 1), item, true)) {
-				r = current;
-				break;
-			}
-		}
-
-		if (r == null) {
-			return;
-		}
+		Set<Recipe> recipes = SlimefunPlugin.getMinecraftRecipes().getRecipesFor(item.getType());
 		
 		ItemStack[] recipe = new ItemStack[9];
 		RecipeType recipeType = null;
 		ItemStack result = null;
-
-		if (r instanceof ShapedRecipe) {
-			String[] shape = ((ShapedRecipe) r).getShape();
-			for (int i = 0; i < shape.length; i++) {
-	            for (int j = 0; j < shape[i].length(); j++) {
-	            	recipe[i * 3 + j] = ((ShapedRecipe) r).getIngredientMap().get(shape[i].charAt(j));
-	            }
-	        }
-			recipeType = RecipeType.SHAPED_RECIPE;
-			result = r.getResult();
-		}
-		else if (r instanceof ShapelessRecipe) {
-	        List<ItemStack> ingredients = ((ShapelessRecipe) r).getIngredientList();
-			for (int i = 0; i < ingredients.size(); i++) {
-				recipe[i] = ingredients.get(i);
-	        }
-			recipeType = RecipeType.SHAPELESS_RECIPE;
-			result = r.getResult();
-		}
-		else if (r instanceof CookingRecipe) {
-			recipe[4] = ((CookingRecipe<?>) r).getInput();
-
-			recipeType = RecipeType.FURNACE;
-			result = r.getResult();
+		
+		for (Recipe r : recipes) {
+			Optional<MinecraftRecipe<? super Recipe>> optional = MinecraftRecipe.of(r);
+			
+			if (optional.isPresent()) {
+				MinecraftRecipe<?> mcRecipe = optional.get();
+				
+				RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipes().getRecipeInput(r);
+				
+				if (choices.length == 1) {
+					recipe[4] = choices[0].getItemStack();
+				}
+				else {
+					for (int i = 0; i < choices.length; i++) {
+						if (choices[i] != null) {
+							recipe[i] = choices[i].getItemStack();
+						}
+					}
+				}
+				
+				recipeType = new RecipeType(mcRecipe);
+				result = r.getResult();
+				
+				break;
+			}
 		}
 		
 		if (recipeType == null) {
