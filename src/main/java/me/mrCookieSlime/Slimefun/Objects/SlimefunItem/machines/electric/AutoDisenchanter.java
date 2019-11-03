@@ -117,8 +117,8 @@ public class AutoDisenchanter extends AContainer {
 
 						ItemMeta itemMeta = newItem.getItemMeta();
 						ItemMeta bookMeta = book.getItemMeta();
-						((Repairable) itemMeta).setRepairCost(0);
 						((Repairable) bookMeta).setRepairCost(((Repairable) itemMeta).getRepairCost());
+						((Repairable) itemMeta).setRepairCost(0);
 						newItem.setItemMeta(itemMeta);
 						book.setItemMeta(bookMeta);
 
