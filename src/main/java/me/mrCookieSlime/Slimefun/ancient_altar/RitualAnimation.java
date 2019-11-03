@@ -141,7 +141,7 @@ public class RitualAnimation implements Runnable {
 		if (running) {
 			l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 			l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
-			l.getWorld().dropItemNaturally(l.add(0, 1, 0), output);
+			l.getWorld().dropItemNaturally(l.add(0, -0.5, 0), output);
       
 			pedestals.forEach(b -> utilities.altarinuse.remove(b.getLocation()));
 			
