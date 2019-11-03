@@ -30,12 +30,17 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class AncientAltarListener implements Listener {
 	
 	private Utilities utilities;
+
+	private final List<Block> altars = new ArrayList<>();
+	private final Set<UUID> removedItems = new HashSet<>();
 
 	public AncientAltarListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -43,14 +48,12 @@ public class AncientAltarListener implements Listener {
 		utilities = SlimefunPlugin.getUtilities();
 	}
 
-	private List<Block> altars = new ArrayList<>();
-	private Set<UUID> removedItems = new HashSet<>();
-
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
 		String item = BlockStorage.checkID(b);
+		
 		if (item != null) {
 			if (item.equals("ANCIENT_PEDESTAL")) {
 				if (utilities.altarinuse.contains(b.getLocation())) {
@@ -81,7 +84,7 @@ public class AncientAltarListener implements Listener {
 				}
 			}
 			else if (item.equals("ANCIENT_ALTAR")) {
-				if (utilities.altarinuse.contains(b.getLocation())) {
+				if (Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR, true) || utilities.altarinuse.contains(b.getLocation())) {
 					e.setCancelled(true);
 					return;
 				}
@@ -98,7 +101,7 @@ public class AncientAltarListener implements Listener {
 					if (pedestals.size() == 8) {
 						pedestals.forEach(block -> utilities.altarinuse.add(block.getLocation()));
 						
-						if (catalyst != null && catalyst.getType() != Material.AIR) {
+						if (catalyst.getType() != Material.AIR) {
 							List<ItemStack> input = new ArrayList<>();
 							for (Block pedestal: pedestals) {
 								Item stack = findItem(pedestal);

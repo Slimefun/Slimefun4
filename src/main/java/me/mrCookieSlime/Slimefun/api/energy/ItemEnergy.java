@@ -16,7 +16,7 @@ public final class ItemEnergy {
 	//	"&c&o&8\u21E8 &e\u26A1 &70 / 50 J"
 	
 	public static float getStoredEnergy(ItemStack item) {
-		if (item == null || item.getType() == null || item.getType() == Material.AIR) return 0F;
+		if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return 0F;
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
 		
 		for (String line: item.getItemMeta().getLore()) {
@@ -29,7 +29,7 @@ public final class ItemEnergy {
 	}
 
 	public static float getMaxEnergy(ItemStack item) {
-		if (item == null || item.getType() == null || item.getType() == Material.AIR) return 0F;
+		if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return 0F;
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
 
 		for (String line: item.getItemMeta().getLore()) {
@@ -42,7 +42,7 @@ public final class ItemEnergy {
 	}
 
 	public static float addStoredEnergy(ItemStack item, float energy) {
-		if (item == null || item.getType() == null || item.getType() == Material.AIR) return 0F;
+		if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return 0F;
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
 
 		float rest = 0F;
