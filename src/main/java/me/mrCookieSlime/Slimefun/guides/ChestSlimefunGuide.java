@@ -19,9 +19,9 @@ import org.bukkit.inventory.RecipeChoice;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
@@ -377,7 +377,16 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 					}
 				}
 				
-				recipeType = new RecipeType(mcRecipe);
+				if (mcRecipe == MinecraftRecipe.SHAPED_CRAFTING) {
+					recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shaped Recipe"));
+				}
+				else if (mcRecipe == MinecraftRecipe.SHAPELESS_CRAFTING) {
+					recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shapeless Recipe"));
+				}
+				else {
+					recipeType = new RecipeType(mcRecipe);
+				}
+				
 				result = r.getResult();
 				
 				break;
