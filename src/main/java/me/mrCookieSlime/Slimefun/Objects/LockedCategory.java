@@ -3,13 +3,12 @@ package me.mrCookieSlime.Slimefun.Objects;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents a {@link Category} that cannot be opened until the parent category/categories
@@ -112,10 +111,9 @@ public class LockedCategory extends Category {
 	 * 
 	 * @since 4.0
 	 */
+	@SuppressWarnings("deprecation")
 	public boolean hasUnlocked(Player p) {
-		PlayerProfile profile = PlayerProfile.get(p);
-
-		return hasUnlocked(p, profile);
+		return hasUnlocked(p, PlayerProfile.get(p));
 	}
 
 	public boolean hasUnlocked(Player p, PlayerProfile profile) {
