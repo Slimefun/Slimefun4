@@ -50,17 +50,18 @@ public class ReactorAccessPort extends SlimefunItem {
 				if (reactor != null) {
 					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Reactor", "", "&6Detected", "", "&7> Click to view Reactor"));
 					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
-						reactor.open(p);
+						if(reactor != null) {
+							reactor.open(p);
+						}
 						newInstance(menu, b);
 
 						return false;
 					});
 				} 
 				else {
-					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Reactor", "", "&cNot detected", "", "&7Reactor must be", "&7placed 3 blocks below", "&7a access port!"));
+					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Reactor", "", "&cNot detected", "", "&7Reactor must be", "&7placed 3 blocks below", "&7the access port!"));
 					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
 						newInstance(menu, b);
-						menu.open(p);
 						return false;
 					});
 				}
