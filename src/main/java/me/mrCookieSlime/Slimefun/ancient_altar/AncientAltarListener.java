@@ -84,7 +84,7 @@ public class AncientAltarListener implements Listener {
 				}
 			}
 			else if (item.equals("ANCIENT_ALTAR")) {
-				if (Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR, true) || utilities.altarinuse.contains(b.getLocation())) {
+				if (!Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR, true) || utilities.altarinuse.contains(b.getLocation())) {
 					e.setCancelled(true);
 					return;
 				}
