@@ -168,7 +168,13 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Setting up the Auto-Updater
 			Updater updater;
-
+			
+			if (getDescription().getVersion().equals("UNOFFICIAL")) {
+				// This Server is using a modified build that is not a public release.
+				getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
+				getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
+				getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun.");
+			}
 			if (getDescription().getVersion().startsWith("DEV - ")) {
 				// If we are using a development build, we want to switch to our custom 
 				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
@@ -182,7 +188,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 				updater = new BukkitUpdater(this, getFile(), 53485);
 			}
 
-			if (config.getBoolean("options.auto-update")) updater.start();
+			if (updater != null && config.getBoolean("options.auto-update")) {
+				updater.start();
+			}
 
 			// Creating all necessary Folders
 			String[] storage = {"blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
