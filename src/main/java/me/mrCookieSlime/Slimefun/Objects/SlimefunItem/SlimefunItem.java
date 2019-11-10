@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -13,9 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -164,7 +163,11 @@ public class SlimefunItem {
 			if (SlimefunPlugin.getUtilities().itemIDs.containsKey(this.id)) {
 				throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
 			}
-			if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
+			
+			if (this.recipe.length < 9) {
+				this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
+			}
+			
 			SlimefunPlugin.getUtilities().allItems.add(this);
 
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".enabled", true);
@@ -192,7 +195,10 @@ public class SlimefunItem {
 			}
 
 			if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
-				if (!Category.list().contains(category)) category.register();
+				
+				if (!Category.list().contains(category)) {
+					category.register();
+				}
 
 				this.state = ItemState.ENABLED;
 
@@ -202,8 +208,13 @@ public class SlimefunItem {
 				this.disenchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
 				this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
 				this.noPermissionTooltip = SlimefunPlugin.getItemCfg().getStringList(this.id + ".no-permission-tooltip");
+				
 				SlimefunPlugin.getUtilities().enabledItems.add(this);
-				if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
+				
+				if (slimefun) {
+					SlimefunPlugin.getUtilities().vanillaItems++;
+				}
+				
 				SlimefunPlugin.getUtilities().itemIDs.put(this.id, this);
 				
 				create();
@@ -285,17 +296,18 @@ public class SlimefunItem {
 		}
 
 		if (item.hasItemMeta()) {
-			String id = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
-			if (id != null) return getByID(id);
+			Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+			
+			if (itemID.isPresent()) {
+				return getByID(itemID.get());
+			}
 		}
 
 		for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
 			if (sfi.isItem(item)) {
 				// If we have to loop all items for the given item, then at least
 				// set the id via PersistenDataAPI for future performance boosts
-				ItemMeta im = item.getItemMeta();
-				PersistentDataAPI.setString(im, SlimefunPlugin.getItemDataKey(), sfi.getID());
-				item.setItemMeta(im);
+				SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
 				
 				return sfi;
 			}
@@ -309,8 +321,10 @@ public class SlimefunItem {
 		if (item == null) return false;
 
 		if (item.hasItemMeta()) {
-			String comparingId = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
-			if (comparingId != null) return getID().equals(comparingId);
+			Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+			if (itemID.isPresent()) {
+				return getID().equals(itemID.get());
+			}
 		}
 
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;

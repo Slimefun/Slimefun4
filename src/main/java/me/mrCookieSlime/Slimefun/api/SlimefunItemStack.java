@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -56,9 +55,12 @@ public class SlimefunItemStack extends CustomItem {
 	private void setID(String id) {
 		this.id = id;
 		
-		ItemMeta im = getItemMeta();
-		PersistentDataAPI.setString(im, SlimefunPlugin.getItemDataKey(), id);
-		setItemMeta(im);
+		ItemMeta meta = getItemMeta();
+		
+		SlimefunPlugin.getItemDataService().setItemData(meta, id);
+		SlimefunPlugin.getItemTextureService().setTexture(meta, id);
+		
+		setItemMeta(meta);
 	}
 	
 	private static ItemStack getSkull(String texture) {
