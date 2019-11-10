@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -52,13 +55,21 @@ public class TableSaw extends MultiBlockMachine {
 		Optional<Material> planks = MaterialConverter.getPlanksFromLog(log.getType());
 		
 		if (planks.isPresent()) {
-			b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(planks.get(), 8));
-			b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
-			log.setAmount(log.getAmount() -1);
-			
-			if(log.getAmount() <= 0) {
-				p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+			if (p.getGameMode() != GameMode.CREATIVE) {
+				ItemUtils.consumeItem(log, true);
 			}
+			
+			ItemStack output = new ItemStack(planks.get(), 8);
+			Inventory outputChest = findOutputChest(b, output);
+			
+			if (outputChest != null) {
+				outputChest.addItem(output);
+			}
+			else {
+				b.getWorld().dropItemNaturally(b.getLocation(), output);
+			}
+			
+			b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
 		}
 	}
 
