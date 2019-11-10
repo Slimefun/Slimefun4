@@ -43,18 +43,20 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
 			if (isItem(item)) {
-				e.setCancelled(true);
 				e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
 				e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
+				
 				for (int x = -1; x <= 1; x++) {
 					for (int y = -1; y <= 1; y++) {
 						for (int z = -1; z <= 1; z++) {
+							if (x == 0 && y == 0 && z == 0) {
+								continue;
+							}
+							
 							Block b = e.getBlock().getRelative(x, y, z);
 							
 							if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), blacklist) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-								if (SlimefunPlugin.getHooks().isCoreProtectInstalled()) {
-									SlimefunPlugin.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
-								}
+								SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK);
 
 								b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 								SlimefunItem sfItem = BlockStorage.check(b);

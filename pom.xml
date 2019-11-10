@@ -29,10 +29,6 @@
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
-            <id>coreprotect-repo</id>
-            <url>https://maven.playpro.com/</url>
-        </repository>
-        <repository>
   			<id>CodeMC</id>
   			<url>https://repo.codemc.org/repository/maven-public</url>
 		</repository>
@@ -114,7 +110,7 @@
         <dependency>
   			<groupId>com.github.thebusybiscuit</groupId>
   			<artifactId>CS-CoreLib2</artifactId>
-  			<version>0.7.2</version>
+  			<version>0.7.3</version>
   			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -141,12 +137,6 @@
     		<version>2.9.7</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>net.coreprotect</groupId>
-            <artifactId>coreprotect</artifactId>
-    		<version>2.16.3</version>
-    		<scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.mrCookieSlime</groupId>
