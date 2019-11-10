@@ -25,7 +25,7 @@ public class PlayerAutoSaver implements Runnable {
 		}
 		
 		if (players > 0) {
-			Slimefun.getLogger().log(Level.INFO, "Auto-Saved Player Data for " + players + " Player(s)!");
+			Slimefun.getLogger().log(Level.INFO, "Auto-Saved Player Data for {0} Player(s)!", players);
 		}
 	}
 

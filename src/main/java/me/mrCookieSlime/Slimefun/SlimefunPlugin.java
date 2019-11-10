@@ -34,7 +34,6 @@ import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunMetrics;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.Setup.WikiSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
@@ -72,6 +71,7 @@ import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
 import me.mrCookieSlime.Slimefun.services.CustomItemDataService;
 import me.mrCookieSlime.Slimefun.services.CustomTextureService;
+import me.mrCookieSlime.Slimefun.services.MetricsService;
 import me.mrCookieSlime.Slimefun.utils.Settings;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
@@ -167,7 +167,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			gps = new GPSNetwork();
 			
 			// Setting up bStats
-			new SlimefunMetrics(this);
+			new MetricsService(this);
 
 			// Setting up the Auto-Updater
 			Updater updater;
