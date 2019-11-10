@@ -38,7 +38,8 @@ public class CustomTextureService {
 	}
 
 	public void setTexture(ItemMeta im, String id) {
-		im.setCustomModelData(getModelData(id));
+		int data = getModelData(id);
+		im.setCustomModelData(data == 0 ? null: data);
 	}
 
 }
