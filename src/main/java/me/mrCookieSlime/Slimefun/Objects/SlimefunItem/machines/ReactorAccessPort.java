@@ -25,7 +25,9 @@ public class ReactorAccessPort extends SlimefunItem {
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 21, 23};
 	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
 	private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
-	private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 49, 50};
+	private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 50};
+	
+	private static final int INFO_SLOT = 49;
 
 	public ReactorAccessPort(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
@@ -39,39 +41,30 @@ public class ReactorAccessPort extends SlimefunItem {
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
-				if(p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES)) {
-					AReactor reactor = getReactor(b.getLocation());
-					if (reactor != null) {
-						boolean empty = true;
-						BlockMenu bm = getReactorMenu(b.getLocation());
-						
-						if (bm != null) {
-							for (int slot: reactor.getCoolantSlots()) {
-								if (bm.getItemInSlot(slot) != null) {
-									empty = false;
-								}
-							}
-							
-							for (int slot: reactor.getFuelSlots()) {
-								if (bm.getItemInSlot(slot) != null) {
-									empty = false;
-								}
-							}
-
-							if(!empty || !p.isSneaking()) {
-								//reactor is not empty, lets view it's inventory instead.
-								bm.open(p);
-								return false;
-							}
-							
+				return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES);
+			}
+			
+			@Override
+			public void newInstance(final BlockMenu menu, final Block b) {
+				BlockMenu reactor = getReactorMenu(b.getLocation());
+				if (reactor != null) {
+					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Reactor", "", "&6Detected", "", "&7> Click to view Reactor"));
+					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
+						if(reactor != null) {
+							reactor.open(p);
 						}
-						
-						return true;
+						newInstance(menu, b);
 
-					} 
+						return false;
+					});
+				} 
+				else {
+					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Reactor", "", "&cNot detected", "", "&7Reactor must be", "&7placed 3 blocks below", "&7the access port!"));
+					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
+						newInstance(menu, b);
+						return false;
+					});
 				}
-
-				return false;
 			}
 
 			@Override
@@ -171,7 +164,7 @@ public class ReactorAccessPort extends SlimefunItem {
 		Location reactorL = new Location(l.getWorld(), l.getX(), l.getY() - 3, l.getZ());
 
 		SlimefunItem item = BlockStorage.check(reactorL.getBlock());
-		if (item instanceof AReactor) return BlockStorage.getInventory(l);
+		if (item instanceof AReactor) return BlockStorage.getInventory(reactorL);
 
 		return null;
 	}

@@ -39,9 +39,6 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
         recipeList.add(new ItemStack(Material.KELP));
         recipeList.add(new ItemStack(Material.DRIED_KELP));
         
-        recipeList.add(new ItemStack(Material.COOKED_BEEF));
-        recipeList.add(SlimefunItems.BEEF_JERKY);
-        
         recipeList.add(new ItemStack(Material.POTION));
         recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
         
@@ -53,6 +50,24 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
         
         recipeList.add(new ItemStack(Material.WATER_BUCKET));
         recipeList.add(new ItemStack(Material.BUCKET));
+        
+        recipeList.add(new ItemStack(Material.COOKED_BEEF));
+        recipeList.add(SlimefunItems.BEEF_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_PORKCHOP));
+        recipeList.add(SlimefunItems.PORK_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_CHICKEN));
+        recipeList.add(SlimefunItems.CHICKEN_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_MUTTON));
+        recipeList.add(SlimefunItems.MUTTON_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_RABBIT));
+        recipeList.add(SlimefunItems.RABBIT_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_COD));
+        recipeList.add(SlimefunItems.FISH_JERKY);
     }
 
     @Override

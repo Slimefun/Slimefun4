@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,7 +34,6 @@ import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunMetrics;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.Setup.WikiSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
@@ -71,6 +69,9 @@ import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
+import me.mrCookieSlime.Slimefun.services.CustomItemDataService;
+import me.mrCookieSlime.Slimefun.services.CustomTextureService;
+import me.mrCookieSlime.Slimefun.services.MetricsService;
 import me.mrCookieSlime.Slimefun.utils.Settings;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
@@ -79,7 +80,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static SlimefunPlugin instance;
 
 	private RecipeSnapshot recipeSnapshot;
-	private final NamespacedKey itemDataKey = new NamespacedKey(this, "slimefun_item");
+	
+	private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
+	private final CustomTextureService textureService = new CustomTextureService(this);
 	
 	private TickerTask ticker;
 	private SlimefunLocalization local;
@@ -164,11 +167,17 @@ public final class SlimefunPlugin extends JavaPlugin {
 			gps = new GPSNetwork();
 			
 			// Setting up bStats
-			new SlimefunMetrics(this);
+			new MetricsService(this);
 
 			// Setting up the Auto-Updater
 			Updater updater;
-
+			
+			if (getDescription().getVersion().equals("UNOFFICIAL")) {
+				// This Server is using a modified build that is not a public release.
+				getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
+				getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
+				getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun.");
+			}
 			if (getDescription().getVersion().startsWith("DEV - ")) {
 				// If we are using a development build, we want to switch to our custom 
 				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
@@ -182,7 +191,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 				updater = new BukkitUpdater(this, getFile(), 53485);
 			}
 
-			if (config.getBoolean("options.auto-update")) updater.start();
+			if (updater != null && config.getBoolean("options.auto-update")) {
+				updater.start();
+			}
 
 			// Creating all necessary Folders
 			String[] storage = {"blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
@@ -202,13 +213,14 @@ public final class SlimefunPlugin extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 			
 			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-			settings.smelteryFireBreakChance = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
+			settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			getLogger().log(Level.INFO, "Loading Researches...");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
-			WikiSetup.addWikiPages(getClass());
+			WikiSetup.addWikiPages(this);
+			textureService.setup(utilities.allItems);
 
 			getLogger().log(Level.INFO, "Loading World Generators...");
 
@@ -433,8 +445,12 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.recipeSnapshot;
 	}
 	
-	public static NamespacedKey getItemDataKey() {
-		return instance.itemDataKey;
+	public static CustomItemDataService getItemDataService() {
+		return instance.itemDataService;
+	}
+	
+	public static CustomTextureService getItemTextureService() {
+		return instance.textureService;
 	}
 
 }

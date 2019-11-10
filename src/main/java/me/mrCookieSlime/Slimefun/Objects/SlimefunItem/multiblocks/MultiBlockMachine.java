@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
@@ -73,25 +73,33 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 	}
 	
 	protected Inventory findOutputInventory(ItemStack product, Block dispBlock, Inventory dispInv, Inventory placeCheckerInv) {
-		Inventory outputInv = null;
+		Inventory outputInv = findOutputChest(dispBlock, product);
 		
+		// This if-clause will trigger if no suitable output chest was found. It's functionally the same as the old fit check for the dispenser, only refactored.
+		if (outputInv == null && InvUtils.fits(placeCheckerInv, product)) {
+			return dispInv;	
+		}
+		else {
+			return outputInv;
+		}
+	}
+	
+	protected Inventory findOutputChest(Block b, ItemStack output) {
 		for (BlockFace face : outputFaces) {
-			Block potentialOutput = dispBlock.getRelative(face);
+			Block potentialOutput = b.getRelative(face);
 			String id = BlockStorage.checkID(potentialOutput);
+			
 			if (id != null && id.equals("OUTPUT_CHEST")) {
 				// Found the output chest! Now, let's check if we can fit the product in it.
 				Inventory inv = ((Container) potentialOutput.getState()).getInventory();
-				if (InvUtils.fits(inv, product)) {
-					// It fits! Let's set the inventory to that now.
-					outputInv = inv;
-					break;
+				
+				if (InvUtils.fits(inv, output)) {
+					return inv;
 				}
 			}
 		}
-		// This if-clause will trigger if no suitable output chest was found. It's functionally the same as the old fit check for the dispenser, only refactored.
-		if (outputInv == null && InvUtils.fits(placeCheckerInv, product)) outputInv = dispInv;	
 		
-		return outputInv;
+		return null;
 	}
 
 }
