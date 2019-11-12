@@ -41,7 +41,7 @@ public class BlockStorage {
 	private static final String path_chunks = "data-storage/Slimefun/stored-chunks/";
 	
 	private World world;
-	private Map<Location, Config> storage = new HashMap<>();
+	private Map<Location, BlockInfoConfig> storage = new HashMap<>();
 	private Map<Location, BlockMenu> inventories = new HashMap<>();
 	private Map<String, Config> blocksCache = new HashMap<>();
 	
@@ -114,7 +114,7 @@ public class BlockStorage {
 							try {
 								totalBlocks++;
 								String json = cfg.getString(key);
-								Config blockInfo = parseBlockInfo(l, json);
+								BlockInfoConfig blockInfo = parseBlockInfo(l, json);
 								if (blockInfo == null || !blockInfo.contains("id")) continue;
 								if (storage.containsKey(l)) {
 									// It should not be possible to have two blocks on the same location. Ignore the
@@ -329,8 +329,8 @@ public class BlockStorage {
 
 	public static Config getLocationInfo(Location l) {
 		BlockStorage storage = getStorage(l.getWorld());
-		Config cfg = storage.storage.get(l);
-		return cfg == null ? new BlockInfoConfig() : cfg;
+		BlockInfoConfig cfg = storage.storage.get(l);
+		return cfg == null ? new BlockInfoConfig() : cfg.lazyClone();
 	}
 	
 	private static Map<String, String> parseJSON(String json) {
@@ -348,7 +348,9 @@ public class BlockStorage {
 
 	private static BlockInfoConfig parseBlockInfo(Location l, String json){
 		try {
-			return new BlockInfoConfig(parseJSON(json));
+			BlockInfoConfig cfg = new BlockInfoConfig(parseJSON(json));
+			cfg.setReadOnly();
+			return cfg;
 		} catch(Exception x) {
 			Logger logger = Slimefun.getLogger();
 			logger.log(Level.WARNING, x.getClass().getName());
@@ -420,23 +422,52 @@ public class BlockStorage {
 		setBlockInfo(block.getLocation(), cfg, updateTicker);
 	}
 
+	private static BlockInfoConfig readOnlyCopy(Config cfg) {
+
+		BlockInfoConfig copy; 
+		if (cfg instanceof BlockInfoConfig) {
+			copy = ((BlockInfoConfig) cfg).clone();
+		} else {
+			copy = new BlockInfoConfig();
+			for (String key : cfg.getKeys()) {
+				copy.setValue(key, cfg.getString(key));
+			}
+		}
+		copy.setReadOnly();
+		return copy;
+	}
+
 	public static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
 		BlockStorage storage = getStorage(l.getWorld());
-		storage.storage.put(l, cfg);
-		if (BlockMenuPreset.isInventory(cfg.getString("id"))) {
-			if (BlockMenuPreset.isUniversalInventory(cfg.getString("id"))) {
-				if (!SlimefunPlugin.getUtilities().universalInventories.containsKey(cfg.getString("id"))) {
-					storage.loadUniversalInventory(BlockMenuPreset.getPreset(cfg.getString("id")));
+		BlockInfoConfig newCfg = readOnlyCopy(cfg);
+		String typeId = newCfg.getString("id");
+
+		BlockInfoConfig oldCfg = storage.storage.put(l, newCfg);
+
+		// Handle changing ids
+		if (oldCfg != null) {
+			String oldId = oldCfg.getString("id");
+			if (oldId != null && !oldId.equals(typeId)) {
+				// We need to remove the entry associated with the old id from the blocksCache
+				refreshCache(storage, l, oldId, null, false);
+			}
+		}
+
+		if (BlockMenuPreset.isInventory(typeId)) {
+			if (BlockMenuPreset.isUniversalInventory(typeId)) {
+				if (!SlimefunPlugin.getUtilities().universalInventories.containsKey(typeId)) {
+					storage.loadUniversalInventory(BlockMenuPreset.getPreset(typeId));
 				}
 			}
 			else if (!storage.hasInventory(l)) {
 				File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
 				
-				if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(cfg.getString("id")), l, new Config(file)));
-				else storage.loadInventory(l, BlockMenuPreset.getPreset(cfg.getString("id")));
+				if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(typeId), l, new Config(file)));
+				else storage.loadInventory(l, BlockMenuPreset.getPreset(typeId));
 			}
 		}
-		refreshCache(getStorage(l.getWorld()), l, cfg.getString("id"), serializeBlockInfo(cfg), updateTicker);
+
+		refreshCache(getStorage(l.getWorld()), l, typeId, serializeBlockInfo(newCfg), updateTicker);
 	}
 	
 	public static void setBlockInfo(Block b, String json, boolean updateTicker) {

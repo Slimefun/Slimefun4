@@ -13,22 +13,46 @@ import com.google.gson.GsonBuilder;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public class BlockInfoConfig extends Config {
-	
+
 	private Map<String, String> data;
-	
+	private boolean isMapShared;
+	private boolean readOnly = false;
+
 	public BlockInfoConfig() {
-		this(new HashMap<>());
+		this(new HashMap<>(), false);
 	}
-	
+
 	public BlockInfoConfig(Map<String, String> data) {
+		this(data, false);
+	}
+
+	private BlockInfoConfig(Map<String, String> data, boolean isMapShared) {
 		super(null, null);
 		this.data = data;
+		this.isMapShared = isMapShared;
 	}
-	
+
+	public void setReadOnly() {
+		this.readOnly = true;
+	}
 	public Map<String, String> getMap(){
 		return data;
 	}
-	
+
+	@Override
+	public BlockInfoConfig clone() {
+		return new BlockInfoConfig(new HashMap<>(this.data), false);
+	}
+
+	/**
+	 * Creates a "lazy" clone of a read-only BlockInfoConfig
+	 */
+	public BlockInfoConfig lazyClone() {
+		if (!this.readOnly)
+			throw new IllegalStateException("Cannot lazy clone a BlockInfoConfig that isn't read-only");
+		return new BlockInfoConfig(this.data, true);
+	}
+
 	@Override
 	protected void store(String path, Object value) {
 		if (value != null && !(value instanceof String)) {
@@ -37,6 +61,12 @@ public class BlockInfoConfig extends Config {
 		
 		checkPath(path);
 		
+		if (this.readOnly)
+			throw new IllegalStateException("Cannot write to a BlockInfoConfig after it's been marked read-only");
+		if (this.isMapShared) {
+			this.data = new HashMap<>(this.data);
+			this.isMapShared = false;
+		}
 		if (value == null) {
 			data.remove(path);
 		} 
@@ -45,7 +75,7 @@ public class BlockInfoConfig extends Config {
 		}
 	}
 
-	
+
 	private void checkPath(String path) {
 		if (path.indexOf('.') != -1) {
 			throw new UnsupportedOperationException("BlockInfoConfig only supports Map<String,String> (path: " + path + ")");
@@ -73,11 +103,11 @@ public class BlockInfoConfig extends Config {
 	public Set<String> getKeys() {
 		return data.keySet();
 	}
-	
+
 	private UnsupportedOperationException invalidType(String path) {
 		return new UnsupportedOperationException("Can't get \"" + path + "\" because BlockInfoConfig only supports String values");
 	}
-	
+
 	@Override
 	public int getInt(String path) {
 		throw invalidType(path);
