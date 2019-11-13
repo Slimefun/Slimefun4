@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -18,8 +19,8 @@ import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
 
 public class CargoManagerBlock extends SlimefunItem {
 
-	public CargoManagerBlock(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+    public CargoManagerBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			SimpleHologram.remove(b);

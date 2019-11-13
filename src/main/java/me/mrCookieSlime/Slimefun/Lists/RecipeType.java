@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Lists;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -34,20 +35,23 @@ public class RecipeType {
     public static final RecipeType SHAPED_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&e有序合成配方", "", "&a&o原版工作台中的合成配方"));
     public static final RecipeType SHAPELESS_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&e无序合成配方", "", "&a&o原版工作台中的合成配方"));
     public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&e在熔炉中冶炼", "", "&a&o把它放在熔炉里烧"));
-    public static final RecipeType NULL = new RecipeType(null);
+    public static final RecipeType NULL = new RecipeType((ItemStack) null);
 	
 	private ItemStack item;
 	private String machine;
-	
-	public RecipeType(ItemStack item) {
-		this.item = item;
-		this.machine = "";
-	}
-	
+
 	public RecipeType(ItemStack item, String machine) {
 		this.item = item;
 		this.machine = machine;
 	}
+
+    public RecipeType(ItemStack item) {
+        this(item, "");
+    }
+
+    public RecipeType(MinecraftRecipe<?> recipe) {
+        this(new ItemStack(recipe.getMachine()));
+    }
 	
 	public RecipeType(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
 		this.machine = machine;

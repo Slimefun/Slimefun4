@@ -10,13 +10,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayIt
 import java.util.ArrayList;
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class Freezer extends AContainer implements RecipeDisplayItem {
 
-	public Freezer(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public Freezer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 	
 	@Override

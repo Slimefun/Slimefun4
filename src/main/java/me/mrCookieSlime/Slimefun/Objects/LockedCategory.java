@@ -112,10 +112,10 @@ public class LockedCategory extends Category {
 	 * 
 	 * @since 4.0
 	 */
-	public boolean hasUnlocked(Player p) {
-		PlayerProfile profile = PlayerProfile.get(p);
 
-		return hasUnlocked(p, profile);
+    @SuppressWarnings("deprecation")
+	public boolean hasUnlocked(Player p) {
+        return hasUnlocked(p, PlayerProfile.get(p));
 	}
 
 	public boolean hasUnlocked(Player p, PlayerProfile profile) {

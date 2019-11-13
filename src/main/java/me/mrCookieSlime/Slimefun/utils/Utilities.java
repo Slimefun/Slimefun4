@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -92,7 +93,7 @@ public final class Utilities {
 	public final Map<String, BlockStorage> worlds = new HashMap<>();
 	public final Set<String> loadedTickers = new HashSet<>();
 	
-	public final Map<String, String> mapChunks = new HashMap<>();
+	public final Map<String, BlockInfoConfig> mapChunks = new HashMap<>();
 	public final Map<String, Set<Location>> tickingChunks = new HashMap<>();
 	public final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
 	

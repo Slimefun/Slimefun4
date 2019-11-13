@@ -1,23 +1,17 @@
 package me.mrCookieSlime.Slimefun.guides;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.*;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -51,7 +45,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 	@Override
 	public ItemStack getItem() {
-		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Chest GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&a粘液科技指南 &7(箱子界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开设置菜单");
 	}
 
 	@Override
@@ -338,69 +332,69 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 	@Override
 	public void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
-		Player p = profile.getPlayer();
-		if (p == null) return;
-		
-		if (item == null || item.getType() == Material.AIR) return;
+        Player p = profile.getPlayer();
+        if (p == null) return;
 
-		final SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		
-		if (sfItem != null) {
-			displayItem(profile, sfItem, addToHistory);
-			return;
-		}
+        if (item == null || item.getType() == Material.AIR) return;
 
-		if (!SlimefunPlugin.getSettings().guideShowVanillaRecipes) {
-			return;
-		}
-		
-		Recipe r = null;
-		Iterator<Recipe> iterator = Bukkit.recipeIterator();
-		while (iterator.hasNext()) {
-			Recipe current = iterator.next();
-			if (SlimefunManager.isItemSimiliar(new CustomItem(current.getResult(), 1), item, true)) {
-				r = current;
-				break;
-			}
-		}
+        final SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-		if (r == null) {
-			return;
-		}
-		
-		ItemStack[] recipe = new ItemStack[9];
-		RecipeType recipeType = null;
-		ItemStack result = null;
+        if (sfItem != null) {
+            displayItem(profile, sfItem, addToHistory);
+            return;
+        }
 
-		if (r instanceof ShapedRecipe) {
-			String[] shape = ((ShapedRecipe) r).getShape();
-			for (int i = 0; i < shape.length; i++) {
-	            for (int j = 0; j < shape[i].length(); j++) {
-	            	recipe[i * 3 + j] = ((ShapedRecipe) r).getIngredientMap().get(shape[i].charAt(j));
-	            }
-	        }
-			recipeType = RecipeType.SHAPED_RECIPE;
-			result = r.getResult();
-		}
-		else if (r instanceof ShapelessRecipe) {
-	        List<ItemStack> ingredients = ((ShapelessRecipe) r).getIngredientList();
-			for (int i = 0; i < ingredients.size(); i++) {
-				recipe[i] = ingredients.get(i);
-	        }
-			recipeType = RecipeType.SHAPELESS_RECIPE;
-			result = r.getResult();
-		}
-		else if (r instanceof FurnaceRecipe) {
-			recipe[4] = ((FurnaceRecipe) r).getInput();
+        if (!SlimefunPlugin.getSettings().guideShowVanillaRecipes) {
+            return;
+        }
 
-			recipeType = RecipeType.FURNACE;
-			result = r.getResult();
-		}
-		
-		ChestMenu menu = create();
-		displayItem(menu, profile, p, item, result, recipeType, recipe, addToHistory);
-		menu.open(p);
-	}
+        Set<Recipe> recipes = SlimefunPlugin.getMinecraftRecipes().getRecipesFor(item.getType());
+
+        ItemStack[] recipe = new ItemStack[9];
+        RecipeType recipeType = null;
+        ItemStack result = null;
+
+        for (Recipe r : recipes) {
+            Optional<MinecraftRecipe<? super Recipe>> optional = MinecraftRecipe.of(r);
+
+            if (optional.isPresent()) {
+                MinecraftRecipe<?> mcRecipe = optional.get();
+
+                RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipes().getRecipeInput(r);
+
+                if (choices.length == 1) {
+                    recipe[4] = choices[0].getItemStack();
+                } else {
+                    for (int i = 0; i < choices.length; i++) {
+                        if (choices[i] != null) {
+                            recipe[i] = choices[i].getItemStack();
+                        }
+                    }
+                }
+
+                if (mcRecipe == MinecraftRecipe.SHAPED_CRAFTING) {
+                    recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shaped Recipe"));
+                }
+                else if (mcRecipe == MinecraftRecipe.SHAPELESS_CRAFTING) {
+                    recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shapeless Recipe"));
+                }
+                else {
+                    recipeType = new RecipeType(mcRecipe);
+                }
+                result = r.getResult();
+
+                break;
+            }
+        }
+
+        if (recipeType == null) {
+            return;
+        }
+
+        ChestMenu menu = create();
+        displayItem(menu, profile, p, item, result, recipeType, recipe, addToHistory);
+        menu.open(p);
+    }
 	
 	@Override
 	public void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {

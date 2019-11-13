@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun;
 import java.io.File;
 import java.util.logging.Level;
 
+import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -77,6 +78,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static SlimefunPlugin instance;
 
+    private RecipeSnapshot recipeSnapshot;
 	private final NamespacedKey itemDataKey = new NamespacedKey(this, "slimefun_item");
 	
 	private TickerTask ticker;
@@ -166,6 +168,12 @@ public final class SlimefunPlugin extends JavaPlugin {
 			// Setting up the Auto-Updater
 			Updater updater;
 
+            if (getDescription().getVersion().equals("UNOFFICIAL")) {
+                // This Server is using a modified build that is not a public release.
+                getLogger().log(Level.INFO, "你正在使用汉化版, 已关闭自动更新! Translated by Namelessssss");
+                getLogger().log(Level.INFO, "发现问题请先不要到官方 Issues 反馈 Bug,");
+                getLogger().log(Level.INFO, "请在这里反馈: https://github.com/StarWishsama/Slimefun4/issues");
+            }
 			if (getDescription().getVersion().startsWith("DEV - ")) {
 				// If we are using a development build, we want to switch to our custom 
 				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
@@ -179,7 +187,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 				updater = new BukkitUpdater(this, getFile(), 53485);
 			}
 
-			if (config.getBoolean("options.auto-update")) updater.start();
+            if (updater != null && config.getBoolean("options.auto-update")) {
+                updater.start();
+            }
 
 			// Creating all necessary Folders
 			String[] storage = {"blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
@@ -424,7 +434,11 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static SlimefunLocalization getLocal() {
 		return instance.local;
 	}
-	
+
+    public static RecipeSnapshot getMinecraftRecipes() {
+	    return instance.recipeSnapshot;
+    }
+
 	public static NamespacedKey getItemDataKey() {
 		return instance.itemDataKey;
 	}

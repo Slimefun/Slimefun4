@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 import java.util.Iterator;
 import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -31,11 +32,11 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 
 	protected int energyConsumption = 10;
 	
-	public XPCollector(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
-		createPreset(this, "&aEXP Collector", this::constructMenu);
+	public XPCollector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
+		createPreset(this, "&a经验收集机", this::constructMenu);
 		
-		registerBlockHandler(name, new SlimefunBlockHandler() {
+		registerBlockHandler(getID(), new SlimefunBlockHandler() {
 			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {

@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -41,11 +42,11 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 		crops.put(Material.SWEET_BERRY_BUSH, 3);
 	}
 
-	public CropGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+    public CropGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		createPreset(this, "&bGrowth Accelerator", this::constructMenu);
 		
-		registerBlockHandler(name, (p, b, tool, reason) -> {
+		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
 			if (inv != null) {
 				for (int slot: getInputSlots()) {

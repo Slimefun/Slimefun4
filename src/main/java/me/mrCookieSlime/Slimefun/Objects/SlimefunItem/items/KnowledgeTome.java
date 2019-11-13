@@ -31,7 +31,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
 				List<String> lore = item.getItemMeta().getLore();
-				lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
+				lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7主人: &b" + p.getName()));
 				lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
 				ItemMeta im = item.getItemMeta();
 				im.setLore(lore);
@@ -40,14 +40,17 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
 				return true;
 			}
-			else if (SlimefunManager.isItemSimiliar(item, getItem(), false)) {
-				PlayerProfile profile = PlayerProfile.get(p);
-				Set<Research> researches = PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)))).getResearches();
-				researches.forEach(research -> profile.setResearched(research, true));
-				
-				if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
-				return true;
-			}
+            else if (SlimefunManager.isItemSimiliar(item, getItem(), false)) {
+                PlayerProfile.get(p, profile -> {
+                    PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1))), owner -> {
+                        Set<Research> researches = owner.getResearches();
+                        researches.forEach(research -> profile.setResearched(research, true));
+                    });
+                });
+
+                if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
+                return true;
+            }
 			else return false;
 		};
 	}
