@@ -65,7 +65,7 @@ public abstract class OilPump extends AContainer {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&4Oil Pump";
+		return "&4油泵";
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public abstract class OilPump extends AContainer {
 			}
 		}
 		else {
-			OreGenResource oil = OreGenSystem.getResource("Oil");
+			OreGenResource oil = OreGenSystem.getResource("石油");
 			int supplies = OreGenSystem.getSupplies(oil, b.getChunk(), false);
 			if (supplies > 0) {
 				for (int slot: getInputSlots()) {
