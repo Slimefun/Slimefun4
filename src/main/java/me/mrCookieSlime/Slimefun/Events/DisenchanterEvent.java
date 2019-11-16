@@ -9,7 +9,7 @@ public class DisenchanterEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 
-	private ItemStack sfItem;
+	private final ItemStack sfItem;
 	private boolean cancelled;
 
 	public HandlerList getHandlers() {
