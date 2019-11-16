@@ -12,7 +12,7 @@ public class AutoDisenchantEvent extends Event implements Cancellable {
 	private final ItemStack item;
 	private boolean cancelled;
 
-	public AutoDisenchantEvent(ItemStack item){
+	public AutoDisenchantEvent(ItemStack item) {
 		super(true);
 		this.item = item;
 	}
