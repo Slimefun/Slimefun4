@@ -9,7 +9,7 @@ public class AutoDisenchantEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 
-	private final ItemStack sfItem;
+	private final ItemStack item;
 	private boolean cancelled;
 
 	public HandlerList getHandlers() {
@@ -20,13 +20,13 @@ public class AutoDisenchantEvent extends Event implements Cancellable {
         return handlers;
     }
 	
-	public AutoDisenchantEvent(ItemStack sfitem){
+	public AutoDisenchantEvent(ItemStack item){
 		super(true);
-		this.sfItem = sfitem;
+		this.item = item;
 	}
 	
-	public ItemStack getSfItem() {
-		return this.sfItem;
+	public ItemStack getItem() {
+		return this.item;
 	}
 
 	@Override
