@@ -5,9 +5,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import me.mrCookieSlime.Slimefun.Events.AutoDisenchantEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
@@ -91,6 +94,12 @@ public class AutoDisenchanter extends AContainer {
 					sfItem = SlimefunItem.getByItem(item);
 				}
 				if (sfItem != null && !sfItem.isDisenchantable()) {
+					return;
+				}
+
+				AutoDisenchantEvent event = new AutoDisenchantEvent(item);
+				Bukkit.getPluginManager().callEvent(event);
+				if (event.isCancelled()) {
 					return;
 				}
 
