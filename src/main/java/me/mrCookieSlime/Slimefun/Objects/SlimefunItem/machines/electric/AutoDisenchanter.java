@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import me.mrCookieSlime.Slimefun.Events.DisenchanterEvent;
+import me.mrCookieSlime.Slimefun.Events.AutoDisenchantEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -97,7 +97,7 @@ public class AutoDisenchanter extends AContainer {
 					return;
 				}
 
-				DisenchanterEvent event = new DisenchanterEvent(item);
+				AutoDisenchantEvent event = new AutoDisenchantEvent(item);
 				Bukkit.getPluginManager().callEvent(event);
 				if (event.isCancelled()) {
 					return;
