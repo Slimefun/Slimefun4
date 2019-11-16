@@ -5,7 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-public class DisenchanterEvent extends Event implements Cancellable {
+public class AutoDisenchantEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 
@@ -20,7 +20,7 @@ public class DisenchanterEvent extends Event implements Cancellable {
         return handlers;
     }
 	
-	public DisenchanterEvent(ItemStack sfitem){
+	public AutoDisenchantEvent(ItemStack sfitem){
 		super(true);
 		this.sfItem = sfitem;
 	}
