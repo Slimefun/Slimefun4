@@ -157,6 +157,15 @@ public final class SlimefunGuide {
 			return false;
 		});
 
+		menu.addItem(22, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&eSlimefun Wiki", "", "&7\u21E8 Click to go to the Slimefun Wiki"));
+		menu.addMenuClickHandler(22, (pl, slot, item, action) -> {
+			pl.closeInventory();
+			pl.sendMessage("");
+			pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4/wiki"));
+			pl.sendMessage("");
+			return false;
+		});
+
 		menu.open(p);
 	}
 
