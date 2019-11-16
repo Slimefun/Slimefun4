@@ -1,0 +1,9 @@
+version: "1"
+rules:
+  - base: master
+    upstream: TheBusyBiscuit:master
+    mergeMethod: hardreset
+  - base: explosives-blockbreakevent
+    upstream: TheBusyBiscuit:master
+    assignees:
+      - js6pak
