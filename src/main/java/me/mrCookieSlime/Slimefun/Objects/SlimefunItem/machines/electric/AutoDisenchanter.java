@@ -99,7 +99,7 @@ public class AutoDisenchanter extends AContainer {
 
 				DisenchanterEvent event = new DisenchanterEvent(item);
 				Bukkit.getPluginManager().callEvent(event);
-				if ((event).isCancelled()) {
+				if event.isCancelled()) {
 					return;
 				}
 
