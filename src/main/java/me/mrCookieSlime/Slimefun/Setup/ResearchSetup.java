@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Setup;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -188,14 +189,14 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(189, "Top Tier Transmitter", 44), SlimefunItems.GPS_TRANSMITTER_4);
 	    Slimefun.registerResearch(new Research(190, "Energy Networks 101", 6), SlimefunItems.ENERGY_REGULATOR);
 	    Slimefun.registerResearch(new Research(191, "Butcher Androids", 32), SlimefunItems.PROGRAMMABLE_ANDROID_BUTCHER);
-	    Slimefun.registerResearch(new Research(192, "Organic Food", 25), SlimefunItems.FOOD_FABRICATOR, SlimefunItems.WHEAT_ORGANIC_FOOD, SlimefunItems.CARROT_ORGANIC_FOOD, SlimefunItems.POTATO_ORGANIC_FOOD, SlimefunItems.SEEDS_ORGANIC_FOOD, SlimefunItems.BEETROOT_ORGANIC_FOOD, SlimefunItems.MELON_ORGANIC_FOOD, SlimefunItems.APPLE_ORGANIC_FOOD);
+	    Slimefun.registerResearch(new Research(192, "Organic Food", 25), SlimefunItems.FOOD_FABRICATOR, SlimefunItems.WHEAT_ORGANIC_FOOD, SlimefunItems.CARROT_ORGANIC_FOOD, SlimefunItems.POTATO_ORGANIC_FOOD, SlimefunItems.SEEDS_ORGANIC_FOOD, SlimefunItems.BEETROOT_ORGANIC_FOOD, SlimefunItems.MELON_ORGANIC_FOOD, SlimefunItems.APPLE_ORGANIC_FOOD, SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD);
 	    Slimefun.registerResearch(new Research(193, "Automated Feeding", 25), SlimefunItems.AUTO_BREEDER);
 	    Slimefun.registerResearch(new Research(194, "Advanced Androids", 60), SlimefunItems.PROGRAMMABLE_ANDROID_2);
 	    Slimefun.registerResearch(new Research(195, "Advanced Androids - Butcher", 30), SlimefunItems.PROGRAMMABLE_ANDROID_2_BUTCHER);
 	    Slimefun.registerResearch(new Research(196, "Advanced Androids - Fisherman", 30), SlimefunItems.PROGRAMMABLE_ANDROID_2_FISHERMAN);
 	    Slimefun.registerResearch(new Research(197, "Animal Growth Manipulation", 32), SlimefunItems.ANIMAL_GROWTH_ACCELERATOR);
 	    Slimefun.registerResearch(new Research(198, "Exp Collector", 36), SlimefunItems.XP_COLLECTOR);
-	    Slimefun.registerResearch(new Research(199, "Organic Fertilizer", 36), SlimefunItems.FOOD_COMPOSTER, SlimefunItems.WHEAT_FERTILIZER, SlimefunItems.CARROT_FERTILIZER, SlimefunItems.POTATO_FERTILIZER, SlimefunItems.SEEDS_FERTILIZER, SlimefunItems.BEETROOT_FERTILIZER, SlimefunItems.MELON_FERTILIZER, SlimefunItems.APPLE_FERTILIZER);
+	    Slimefun.registerResearch(new Research(199, "Organic Fertilizer", 36), SlimefunItems.FOOD_COMPOSTER, SlimefunItems.WHEAT_FERTILIZER, SlimefunItems.CARROT_FERTILIZER, SlimefunItems.POTATO_FERTILIZER, SlimefunItems.SEEDS_FERTILIZER, SlimefunItems.BEETROOT_FERTILIZER, SlimefunItems.MELON_FERTILIZER, SlimefunItems.APPLE_FERTILIZER, SlimefunItems.SWEET_BERRIES_FERTILIZER);
 	    Slimefun.registerResearch(new Research(200, "Crop Growth Acceleration", 40), SlimefunItems.CROP_GROWTH_ACCELERATOR);
 	    Slimefun.registerResearch(new Research(201, "Upgraded Crop Growth Accelerator", 44), SlimefunItems.CROP_GROWTH_ACCELERATOR_2);
 	    Slimefun.registerResearch(new Research(202, "Reactor Essentials", 36), SlimefunItems.REACTOR_COOLANT_CELL, SlimefunItems.NEPTUNIUM, SlimefunItems.PLUTONIUM);
@@ -246,5 +247,10 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(247, "GEO-Miner", 24), SlimefunItems.GEO_MINER);
 	    Slimefun.registerResearch(new Research(248, "Lightning Rune", 24), SlimefunItems.RUNE_LIGHTNING);
 	    Slimefun.registerResearch(new Research(249, "Totem of Undying", 36), SlimefunItems.TOTEM_OF_UNDYING);
+		Slimefun.registerResearch(new Research(250, "Pork Jerky", 2), SlimefunItems.PORK_JERKY);
+		Slimefun.registerResearch(new Research(251, "Chicken Jerky", 2), SlimefunItems.CHICKEN_JERKY);
+		Slimefun.registerResearch(new Research(252, "Mutton Jerky", 2), SlimefunItems.MUTTON_JERKY);
+		Slimefun.registerResearch(new Research(253, "Rabbit Jerky", 2), SlimefunItems.RABBIT_JERKY);
+		Slimefun.registerResearch(new Research(254, "Fish Jerky", 2), SlimefunItems.FISH_JERKY);
 	}
 }
