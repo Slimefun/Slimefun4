@@ -11,13 +11,13 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public final class ResearchSetup {
 	
 	private ResearchSetup() {}
-	
+
 	public static void setupResearches() {
 	    Slimefun.registerResearch(new Research(0, "Walking Sticks", 1), SlimefunItems.GRANDMAS_WALKING_STICK, SlimefunItems.GRANDPAS_WALKING_STICK);
 	    Slimefun.registerResearch(new Research(1, "Portable Crafter", 1), SlimefunItems.PORTABLE_CRAFTER);
 	    Slimefun.registerResearch(new Research(2, "Fortune Cookie", 1), SlimefunItems.FORTUNE_COOKIE);
 	    Slimefun.registerResearch(new Research(4, "Portable Dustbin", 2), SlimefunItems.PORTABLE_DUSTBIN);
-	    Slimefun.registerResearch(new Research(5, "Beef Jerky", 2), SlimefunItems.BEEF_JERKY);
+	    Slimefun.registerResearch(new Research(5, "Beef Jerky", 2), SlimefunItems.BEEF_JERKY, SlimefunItems.FISH_JERKY, SlimefunItems.RABBIT_JERKY, SlimefunItems.MUTTON_JERKY, SlimefunItems.CHICKEN_JERKY, SlimefunItems.PORK_JERKY);
 	    Slimefun.registerResearch(new Research(6, "Armor Crafting", 2), SlimefunItems.ARMOR_FORGE);
 	    Slimefun.registerResearch(new Research(8, "Lumps and Magic", 3), SlimefunItems.MAGIC_LUMP_1, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ENDER_LUMP_1, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ENDER_LUMP_3);
 	    Slimefun.registerResearch(new Research(9, "Ender Backpack", 4), SlimefunItems.ENDER_BACKPACK);
@@ -247,10 +247,5 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(247, "GEO-Miner", 24), SlimefunItems.GEO_MINER);
 	    Slimefun.registerResearch(new Research(248, "Lightning Rune", 24), SlimefunItems.RUNE_LIGHTNING);
 	    Slimefun.registerResearch(new Research(249, "Totem of Undying", 36), SlimefunItems.TOTEM_OF_UNDYING);
-		Slimefun.registerResearch(new Research(250, "Pork Jerky", 2), SlimefunItems.PORK_JERKY);
-		Slimefun.registerResearch(new Research(251, "Chicken Jerky", 2), SlimefunItems.CHICKEN_JERKY);
-		Slimefun.registerResearch(new Research(252, "Mutton Jerky", 2), SlimefunItems.MUTTON_JERKY);
-		Slimefun.registerResearch(new Research(253, "Rabbit Jerky", 2), SlimefunItems.RABBIT_JERKY);
-		Slimefun.registerResearch(new Research(254, "Fish Jerky", 2), SlimefunItems.FISH_JERKY);
 	}
 }
