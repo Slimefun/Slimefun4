@@ -12,18 +12,19 @@ public class AutoDisenchantEvent extends Event implements Cancellable {
 	private final ItemStack item;
 	private boolean cancelled;
 
-	public HandlerList getHandlers() {
-	    return handlers;
-	}
-	
-	public static HandlerList getHandlerList() {
-        return handlers;
-    }
-	
 	public AutoDisenchantEvent(ItemStack item){
 		super(true);
 		this.item = item;
 	}
+
+	public HandlerList getHandlers() {
+	    return handlers;
+	}
+
+	public static HandlerList getHandlerList() {
+        return handlers;
+    }
+    
 	
 	public ItemStack getItem() {
 		return this.item;
