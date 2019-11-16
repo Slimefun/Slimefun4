@@ -1,20 +1,15 @@
 package me.mrCookieSlime.Slimefun.Events;
 
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 
 public class DisenchanterEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
-	
 
-	private SlimefunItem sfItem;
+	private ItemStack sfItem;
 	private boolean cancelled;
 
 	public HandlerList getHandlers() {
@@ -25,11 +20,12 @@ public class DisenchanterEvent extends Event implements Cancellable {
         return handlers;
     }
 	
-	public DisenchanterEvent(SlimefunItem sfItem) {
-		this.sfItem = sfItem;
+	public DisenchanterEvent(ItemStack sfitem){
+		super(true);
+		this.sfItem = sfitem;
 	}
 	
-	public SlimefunItem getSfItem() {
+	public ItemStack getSfItem() {
 		return this.sfItem;
 	}
 
