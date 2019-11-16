@@ -97,9 +97,9 @@ public class AutoDisenchanter extends AContainer {
 					return;
 				}
 
-				final Object ev = new DisenchanterEvent(sfItem);
-				Bukkit.getPluginManager().callEvent((Event)ev);
-				if (((DisenchanterEvent)ev).isCancelled()) {
+				DisenchanterEvent event = new DisenchanterEvent(item);
+				Bukkit.getPluginManager().callEvent(event);
+				if ((event).isCancelled()) {
 					return;
 				}
 
