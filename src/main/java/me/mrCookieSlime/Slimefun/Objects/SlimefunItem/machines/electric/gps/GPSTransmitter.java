@@ -39,7 +39,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> {
 		});
 	}
 	
-	public abstract double getMultiplier(int y);
+	public abstract int getMultiplier(int y);
 	public abstract int getEnergyConsumption();
 
 	@Override
@@ -50,7 +50,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> {
 			public void tick(Block b, SlimefunItem item, Config data) {
 				int charge = ChargableBlock.getCharge(b);
 				if (charge >= getEnergyConsumption()) {
-					Slimefun.getGPSNetwork().updateTransmitter(b.getLocation().add(0.0, getMultiplier(b.getY()), 0.0), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
+					Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
 					ChargableBlock.setCharge(b.getLocation(), charge - getEnergyConsumption());
 				}
 				else {

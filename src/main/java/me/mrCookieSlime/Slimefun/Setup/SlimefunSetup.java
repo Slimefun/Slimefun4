@@ -2105,7 +2105,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.STEEL_INGOT, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT}) {
 			
 			@Override
-			public double getMultiplier(int y) {
+			public int getMultiplier(int y) {
 				return y;
 			}
 
@@ -2121,8 +2121,8 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.CARBON, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER}) {
 			
 			@Override
-			public double getMultiplier(int y) {
-				return y * 4.0 + 100;
+			public int getMultiplier(int y) {
+				return y * 4 + 100;
 			}
 
 			@Override
@@ -2136,8 +2136,8 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CARBONADO, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2}) {
 			
 			@Override
-			public double getMultiplier(int y) {
-				return y * 16.0 + 500;
+			public int getMultiplier(int y) {
+				return y * 16 + 500;
 			}
 
 			@Override
@@ -2151,8 +2151,8 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.NICKEL_INGOT, SlimefunItems.CARBONADO, SlimefunItems.NICKEL_INGOT, SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GPS_TRANSMITTER_3}) {
 			
 			@Override
-			public double getMultiplier(int y) {
-				return y * 64.0 + 600;
+			public int getMultiplier(int y) {
+				return y * 64 + 600;
 			}
 
 			@Override
