@@ -4,8 +4,9 @@ import java.io.File;
 import java.util.logging.Level;
 
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
+import me.mrCookieSlime.Slimefun.services.CustomItemDataService;
+import me.mrCookieSlime.Slimefun.services.CustomTextureService;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,7 +36,7 @@ import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunMetrics;
+import me.mrCookieSlime.Slimefun.services.MetricsService;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.Setup.WikiSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
@@ -79,7 +80,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static SlimefunPlugin instance;
 
     private RecipeSnapshot recipeSnapshot;
-	private final NamespacedKey itemDataKey = new NamespacedKey(this, "slimefun_item");
+    private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
+    private final CustomTextureService textureService = new CustomTextureService(this);
 	
 	private TickerTask ticker;
 	private SlimefunLocalization local;
@@ -163,7 +165,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			gps = new GPSNetwork();
 			
 			// Setting up bStats
-			new SlimefunMetrics(this);
+			new MetricsService(this);
 
 			// Setting up the Auto-Updater
 			Updater updater;
@@ -209,13 +211,14 @@ public final class SlimefunPlugin extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 			
 			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-			settings.smelteryFireBreakChance = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
+			settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			getLogger().log(Level.INFO, "加载研究中...");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
-			WikiSetup.addWikiPages(getClass());
+            WikiSetup.addWikiPages(this);
+            textureService.setup(utilities.allItems);
 
 			getLogger().log(Level.INFO, "加载世界生成器...");
 
@@ -439,8 +442,12 @@ public final class SlimefunPlugin extends JavaPlugin {
 	    return instance.recipeSnapshot;
     }
 
-	public static NamespacedKey getItemDataKey() {
-		return instance.itemDataKey;
-	}
+    public static CustomItemDataService getItemDataService() {
+        return instance.itemDataService;
+    }
+
+    public static CustomTextureService getItemTextureService() {
+        return instance.textureService;
+    }
 
 }

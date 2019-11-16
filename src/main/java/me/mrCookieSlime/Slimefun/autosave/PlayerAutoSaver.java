@@ -25,7 +25,7 @@ public class PlayerAutoSaver implements Runnable {
 		}
 		
 		if (players > 0) {
-			Slimefun.getLogger().log(Level.INFO, "已自动保存 " + players + " 个玩家的数据!");
+			Slimefun.getLogger().log(Level.INFO, "已自动保存 {0} 个玩家的数据!", players);
 		}
 	}
 
