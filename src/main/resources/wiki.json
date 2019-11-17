@@ -1,5 +1,24 @@
 {
 	"GOLD_PAN": "Gold-Pan",
 	"SIFTED_ORE": "Sifted-Ore",
-	"SMELTERY": "Smeltery"
+	"SMELTERY": "Smeltery",
+	"DIET_COOKIE": "Diet-Cookie",
+	"ENHANCED_CRAFTING_TABLE": "Enhanced-Crafting-Table",
+	"FORTUNE_COOKIE": "Fortune-Cookie",
+	"TABLE_SAW": "Table-Saw",
+	"APPLE_JUICE": "Juices",
+	"GOLDEN_APPLE_JUICE": "Juices",
+	"CARROT_JUICE": "Juices",
+	"MELON_JUICE": "Juices",
+	"PUMPKIN_JUICE": "Juices",
+	"SWEET_BERRY_JUICE": "Juices",
+	"MAGIC_SUGAR": "Magic-Sugar",
+	"MONSTER_JERKY": "Monster-Jerky",
+	"OUTPUT_CHEST": "Output-Chest",
+	"BEEF_JERKY": "Meat-Jerky",
+	"PORK_JERKY": "Meat-Jerky",
+	"CHICKEN_JERKY": "Meat-Jerky",
+	"MUTTON_JERKY": "Meat-Jerky",
+	"RABBIT_JERKY": "Meat-Jerky",
+	"FISH_JERKY": "Meat-Jerky"
 }
