@@ -139,9 +139,7 @@ public final class SlimefunGuide {
 			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(SlimefunPlugin.getUtilities().codeBytes), "&7Last Update: &a" + IntegerFormat.timeDelta(SlimefunPlugin.getUtilities().lastUpdate) + " ago", "&7Forks: &e" + SlimefunPlugin.getUtilities().forks, "&7Stars: &e" + SlimefunPlugin.getUtilities().stars, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
 			menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
 				pl.closeInventory();
-				pl.sendMessage("");
-				pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4"));
-				pl.sendMessage("");
+				pl.sendMessage(ChatColor.GRAY.toString() + ChatColor.ITALIC + "https://github.com/TheBusyBiscuit/Slimefun4");
 				return false;
 			});
 		} catch (Exception x) {
@@ -151,9 +149,14 @@ public final class SlimefunGuide {
 		menu.addItem(7, new CustomItem(new ItemStack(Material.REDSTONE), "&4Bug Tracker", "", "&7Open Issues: &a" + SlimefunPlugin.getUtilities().issues, "&7Pending Pull Requests: &a" + SlimefunPlugin.getUtilities().prs, "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
 		menu.addMenuClickHandler(7, (pl, slot, item, action) -> {
 			pl.closeInventory();
-			pl.sendMessage("");
-			pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&ohttps://github.com/TheBusyBiscuit/Slimefun4/issues"));
-			pl.sendMessage("");
+			pl.sendMessage(ChatColor.GRAY.toString() + ChatColor.ITALIC + "https://github.com/TheBusyBiscuit/Slimefun4/issues");
+			return false;
+		});
+
+		menu.addItem(22, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&eSlimefun Wiki", "", "&7\u21E8 Click to go to the Slimefun Wiki"));
+		menu.addMenuClickHandler(22, (pl, slot, item, action) -> {
+			pl.closeInventory();
+			pl.sendMessage(ChatColor.GRAY.toString() + ChatColor.ITALIC + "https://github.com/TheBusyBiscuit/Slimefun4/wiki");
 			return false;
 		});
 
@@ -219,9 +222,7 @@ public final class SlimefunGuide {
 			menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 				if (contributor.getCommits() > 0) {
 					pl.closeInventory();
-					pl.sendMessage("");
-					pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&o" + contributor.getProfile()));
-					pl.sendMessage("");
+					pl.sendMessage(ChatColor.GRAY.toString() + ChatColor.ITALIC + contributor.getProfile());
 				}
 				return false;
 			});
