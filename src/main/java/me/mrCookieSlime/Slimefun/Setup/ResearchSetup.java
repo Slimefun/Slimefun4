@@ -214,7 +214,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(214, "Upgraded Freezer", 29), SlimefunItems.FREEZER_2);
 	    Slimefun.registerResearch(new Research(215, "Never-Ending Circle", 30), SlimefunItems.BOOSTED_URANIUM);
 	    Slimefun.registerResearch(new Research(216, "Trash", 8), SlimefunItems.TRASH_CAN);
-	    Slimefun.registerResearch(new Research(216, "Charging Bench", 8), SlimefunItems.CHARGING_BENCH);
 	    Slimefun.registerResearch(new Research(217, "Advanced Output Node", 24), SlimefunItems.CARGO_OUTPUT_ADVANCED);
 	    Slimefun.registerResearch(new Research(218, "Carbon Press", 28), SlimefunItems.CARBON_PRESS);
 	    Slimefun.registerResearch(new Research(219, "Electric Smeltery", 28), SlimefunItems.ELECTRIC_SMELTERY);
@@ -247,5 +246,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(247, "GEO-Miner", 24), SlimefunItems.GEO_MINER);
 	    Slimefun.registerResearch(new Research(248, "Lightning Rune", 24), SlimefunItems.RUNE_LIGHTNING);
 	    Slimefun.registerResearch(new Research(249, "Totem of Undying", 36), SlimefunItems.TOTEM_OF_UNDYING);
+		Slimefun.registerResearch(new Research(250, "Charging Bench", 8), SlimefunItems.CHARGING_BENCH); 
 	}
 }
