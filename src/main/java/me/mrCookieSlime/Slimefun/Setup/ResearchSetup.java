@@ -16,7 +16,7 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(1, "Portable Crafter", 1), SlimefunItems.PORTABLE_CRAFTER);
 	    Slimefun.registerResearch(new Research(2, "Fortune Cookie", 1), SlimefunItems.FORTUNE_COOKIE);
 	    Slimefun.registerResearch(new Research(4, "Portable Dustbin", 2), SlimefunItems.PORTABLE_DUSTBIN);
-	    Slimefun.registerResearch(new Research(5, "Jerky's", 2), SlimefunItems.BEEF_JERKY, SlimefunItems.FISH_JERKY, SlimefunItems.RABBIT_JERKY, SlimefunItems.MUTTON_JERKY, SlimefunItems.CHICKEN_JERKY, SlimefunItems.PORK_JERKY);
+	    Slimefun.registerResearch(new Research(5, "Jerkys", 2), SlimefunItems.BEEF_JERKY, SlimefunItems.FISH_JERKY, SlimefunItems.RABBIT_JERKY, SlimefunItems.MUTTON_JERKY, SlimefunItems.CHICKEN_JERKY, SlimefunItems.PORK_JERKY);
 	    Slimefun.registerResearch(new Research(6, "Armor Crafting", 2), SlimefunItems.ARMOR_FORGE);
 	    Slimefun.registerResearch(new Research(8, "Lumps and Magic", 3), SlimefunItems.MAGIC_LUMP_1, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ENDER_LUMP_1, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ENDER_LUMP_3);
 	    Slimefun.registerResearch(new Research(9, "Ender Backpack", 4), SlimefunItems.ENDER_BACKPACK);
