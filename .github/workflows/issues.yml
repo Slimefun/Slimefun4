@@ -1,6 +1,7 @@
 name: Respost - Write comment to new Issue event
 on: 
-  issues: [closed]
+  issues: 
+    types: [closed]
 
 jobs:
   comment:
