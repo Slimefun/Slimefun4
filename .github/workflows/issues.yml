@@ -1,0 +1,14 @@
+name: Respost - Write comment to new Issue event
+on: 
+  issues: [closed]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rytswd/respost@v0.1.0
+        with:
+          title: Your issue has been closed!
+          body: "Hi, this is a test message.<br>Hello world..."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
