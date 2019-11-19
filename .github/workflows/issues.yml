@@ -21,5 +21,7 @@ jobs:
             * You are using an unsupported version of Minecraft. We only provide support for the latest version of Minecraft, old versions are not supported anymore.
             * You are using a \"stable\" version of Slimefun (prefixed with \"RC - \"), your issue may have been fixed in a development build, so we only accept bug reports from those.
             * You are on the wrong issue tracker. We would like to remind you that this Issue Tracker is **only for Slimefun**, to report bugs on any addons, head to the corresponding issue tracker.
+            
+            Make sure to check out our article on [How to report bugs](https://github.com/TheBusyBiscuit/Slimefun4/wiki/How-to-report-bugs) for even more information.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
