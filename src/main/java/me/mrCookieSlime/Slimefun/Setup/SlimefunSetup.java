@@ -698,9 +698,9 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.RUNE_LIGHTNING, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_LIGHTNING, SlimefunItems.STAFF_WATER, SlimefunItems.MAGIC_SUGAR, SlimefunItems.STAFF_WIND, SlimefunItems.RUNE_LIGHTNING, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_LIGHTNING})
 		.register(true);
 
-		new SmeltersPickaxe(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.AUTO_SMELT_PICKAXE, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
-		.register(true);
+        new SmeltersPickaxe(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.AUTO_SMELT_PICKAXE, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
+                .register(true);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, (SlimefunItemStack) SlimefunItems.TALISMAN, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.EMERALD), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2},

@@ -4,12 +4,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 
@@ -28,8 +25,6 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -330,8 +325,8 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		menu.open(p);
 	}
 
-	@Override
-	public void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
+    @Override
+    public void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
         Player p = profile.getPlayer();
         if (p == null) return;
 
@@ -348,43 +343,47 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
             return;
         }
 
-        Set<Recipe> recipes = SlimefunPlugin.getMinecraftRecipes().getRecipesFor(item.getType());
+        Recipe r = null;
+        Iterator<Recipe> iterator = Bukkit.recipeIterator();
+        while (iterator.hasNext()) {
+            Recipe current = iterator.next();
+            if (SlimefunManager.isItemSimiliar(new CustomItem(current.getResult(), 1), item, true)) {
+                r = current;
+                break;
+            }
+        }
+
+        if (r == null) {
+            return;
+        }
 
         ItemStack[] recipe = new ItemStack[9];
         RecipeType recipeType = null;
         ItemStack result = null;
 
-        for (Recipe r : recipes) {
-            Optional<MinecraftRecipe<? super Recipe>> optional = MinecraftRecipe.of(r);
-
-            if (optional.isPresent()) {
-                MinecraftRecipe<?> mcRecipe = optional.get();
-
-                RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipes().getRecipeInput(r);
-
-                if (choices.length == 1) {
-                    recipe[4] = choices[0].getItemStack();
-                } else {
-                    for (int i = 0; i < choices.length; i++) {
-                        if (choices[i] != null) {
-                            recipe[i] = choices[i].getItemStack();
-                        }
-                    }
+        if (r instanceof ShapedRecipe) {
+            String[] shape = ((ShapedRecipe) r).getShape();
+            for (int i = 0; i < shape.length; i++) {
+                for (int j = 0; j < shape[i].length(); j++) {
+                    recipe[i * 3 + j] = ((ShapedRecipe) r).getIngredientMap().get(shape[i].charAt(j));
                 }
-
-                if (mcRecipe == MinecraftRecipe.SHAPED_CRAFTING) {
-                    recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shaped Recipe"));
-                }
-                else if (mcRecipe == MinecraftRecipe.SHAPELESS_CRAFTING) {
-                    recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shapeless Recipe"));
-                }
-                else {
-                    recipeType = new RecipeType(mcRecipe);
-                }
-                result = r.getResult();
-
-                break;
             }
+            recipeType = RecipeType.SHAPED_RECIPE;
+            result = r.getResult();
+        }
+        else if (r instanceof ShapelessRecipe) {
+            List<ItemStack> ingredients = ((ShapelessRecipe) r).getIngredientList();
+            for (int i = 0; i < ingredients.size(); i++) {
+                recipe[i] = ingredients.get(i);
+            }
+            recipeType = RecipeType.SHAPELESS_RECIPE;
+            result = r.getResult();
+        }
+        else if (r instanceof CookingRecipe) {
+            recipe[4] = ((CookingRecipe<?>) r).getInput();
+
+            recipeType = RecipeType.FURNACE;
+            result = r.getResult();
         }
 
         if (recipeType == null) {
