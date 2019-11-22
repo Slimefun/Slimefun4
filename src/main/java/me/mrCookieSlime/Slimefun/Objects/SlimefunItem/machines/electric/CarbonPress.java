@@ -21,6 +21,7 @@ public abstract class CarbonPress extends AContainer implements RecipeDisplayIte
 		registerRecipe(15, new ItemStack[] {new CustomItem(new ItemStack(Material.CHARCOAL), 4)}, new ItemStack[] {new ItemStack(Material.COAL)});
 		registerRecipe(20, new ItemStack[] {new CustomItem(new ItemStack(Material.COAL), 8)}, new ItemStack[] {SlimefunItems.CARBON});
 		registerRecipe(30, new ItemStack[] {new CustomItem(SlimefunItems.CARBON, 4)}, new ItemStack[] {SlimefunItems.COMPRESSED_CARBON});
+		registerRecipe(30, new ItemStack[] {new CustomItem(new ItemStack(Material.FLINT), 6)}, new ItemStack[] {new ItemStack(Material.COBBLESTONE)});
 		registerRecipe(60, new ItemStack[] {SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND}, new ItemStack[] {SlimefunItems.RAW_CARBONADO});
 		registerRecipe(60, new ItemStack[] {SlimefunItems.CARBON_CHUNK}, new ItemStack[] {SlimefunItems.SYNTHETIC_DIAMOND});
 		registerRecipe(90, new ItemStack[] {SlimefunItems.RAW_CARBONADO}, new ItemStack[] {SlimefunItems.CARBONADO});
