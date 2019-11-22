@@ -18,6 +18,8 @@ public class CustomTextureService {
 	}
 	
 	public void setup(Collection<SlimefunItem> items) {
+		config.setDefaultValue("SLIMEFUN_GUIDE", 0);
+		
 		for (SlimefunItem item : items) {
 			if (item != null && item.getID() != null) {
 				config.setDefaultValue(item.getID(), 0);

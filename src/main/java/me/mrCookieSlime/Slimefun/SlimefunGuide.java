@@ -1,6 +1,8 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -10,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
@@ -46,18 +49,33 @@ public final class SlimefunGuide {
 	public static ItemStack getItem() {
 		return getItem(SlimefunGuideLayout.CHEST);
 	}
-
+	
 	public static ItemStack getItem(SlimefunGuideLayout design) {
+		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
+		ItemMeta meta = item.getItemMeta();
+		List<String> lore = new LinkedList<>();
+		lore.addAll(Arrays.asList("&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits"));
+		
 		switch (design) {
 		case BOOK:
-			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Book GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+			meta.setDisplayName("&aSlimefun Guide &7(Book GUI)");
+			break;
 		case CHEAT_SHEET:
-			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&cSlimefun Guide &4(Cheat Sheet)", "", "&4&lOnly openable by Admins", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+			meta.setDisplayName("&cSlimefun Guide &4(Cheat Sheet)");
+			lore.add(0, "&4&lOnly openable by Admins");
+			lore.add(0, "");
+			break;
 		case CHEST:
-			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Chest GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+			meta.setDisplayName("&aSlimefun Guide &7(Chest GUI)");
+			break;
 		default:
 			return null;
 		}
+		
+		meta.setLore(lore);
+		SlimefunPlugin.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
+		item.setItemMeta(meta);
+		return item;
 	}
 
 	@Deprecated
