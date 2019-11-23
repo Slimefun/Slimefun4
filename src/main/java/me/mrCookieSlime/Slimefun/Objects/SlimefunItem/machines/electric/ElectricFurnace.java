@@ -30,9 +30,10 @@ public abstract class ElectricFurnace extends AContainer {
 			}
 		}
 		
-		//Bukkit Recipe Iterator does not seem to include _LOG's of any type for charcoal... Manually adding them all.
+		//Bukkit Recipe Iterator does not seem to include _LOG's of any type for charcoal nor sand to glass... Manually adding them all.
 		for (Material mat:Tag.LOGS.getValues()) {
 			registerRecipe(4, new ItemStack[] {new ItemStack(mat,1)}, new ItemStack[] {new ItemStack(Material.CHARCOAL, 1)});
+		registerRecipe(4, new ItemStack[] {new ItemStack(Material.SAND, 1)}, new ItemStack[] {new ItemStack(Material.GLASS, 1)});
 		}
 	}
 	
