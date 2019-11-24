@@ -58,6 +58,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+import me.mrCookieSlime.Slimefun.guides.GuideSettings;
 import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
@@ -211,15 +212,15 @@ public class ItemListener implements Listener {
 		ItemStack item = e.getItem();
 
 		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
-			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
+			if (p.isSneaking()) GuideSettings.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.BOOK);
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
-			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
+			if (p.isSneaking()) GuideSettings.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.CHEST);
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
+			if (p.isSneaking()) GuideSettings.openSettings(p, item);
 			else p.chat("/sf cheat");
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEBUG_FISH, true)) {

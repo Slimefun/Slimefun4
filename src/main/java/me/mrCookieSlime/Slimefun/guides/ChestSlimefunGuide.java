@@ -529,14 +529,14 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			menu.addMenuClickHandler(i, (pl, s, itemstack, action) -> false);
 		}
 
-		/*
 		// Settings Panel
-		menu.addItem(1, new CustomItem(Material.ENCHANTED_BOOK, "&eSettings / Info", "", "&7\u21E8 Click to see more"));
+		menu.addItem(1, new CustomItem(SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), "&eSettings / Info", "", "&7\u21E8 Click to see more"));
 		menu.addMenuClickHandler(1, (player, i, itemStack, clickAction) -> {
-			SlimefunGuide.openSettings(player, getItem());
+			GuideSettings.openSettings(player, player.getInventory().getItemInMainHand());
 			return false;
 		});
 
+		/*
 		// Stats
 		menu.addItem(4, new CustomItem(SkullItem.fromPlayer(p), "&7Player Stats: &e" + p.getName(), "", "&7Progress: &a" + Math.round(((profile.getResearches().size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F + "% &e(" + profile.getResearches().size() + " / " + Research.list().size() + ")", "", "&7\u21E8 Click for a full summary"));
 		menu.addMenuClickHandler(4, (player, i, itemStack, clickAction) -> {

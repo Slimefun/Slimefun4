@@ -1,6 +1,8 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -9,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
+import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount.TooManyRequestsException;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
@@ -48,6 +52,7 @@ import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
+import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
@@ -295,13 +300,36 @@ public final class SlimefunPlugin extends JavaPlugin {
 				try {
 					ticker.run();
 				}
-				catch(Throwable x) {
+				catch(Exception x) {
 					getLogger().log(Level.SEVERE, "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + Slimefun.getVersion(), x);
 					ticker.abortTick();
 				}
 			}, 100L, config.getInt("URID.custom-ticker-delay"));
 
-			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+				utilities.connectors.forEach(GitHubConnector::pullFile);
+				
+				for (Contributor contributor: utilities.contributors.values()) {
+					if (!contributor.hasTexture()) {
+						String name = contributor.getName();
+						
+						try {
+							Optional<UUID> uuid = MinecraftAccount.getUUID(name);
+							
+							if (uuid.isPresent()) {
+								Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
+								contributor.setTexture(skin);
+							}
+							else {
+								contributor.setTexture(Optional.empty());
+							}
+						}
+						catch(TooManyRequestsException x) {
+							break;
+						}
+					}
+				}
+			}, 80L, 60 * 60 * 20L);
 
 			// Hooray!
 			getLogger().log(Level.INFO, "Finished!");

@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -127,8 +129,7 @@ public final class Utilities {
 	public final Map<String, Config> resource_configs = new HashMap<>();
 	
 	public final Set<GitHubConnector> connectors = new HashSet<>();
-	public final Map<String, String> contributorHeads = new HashMap<>();
-	public final List<Contributor> contributors = new ArrayList<>();
+	public final ConcurrentMap<String, Contributor> contributors = new ConcurrentHashMap<>();
 	
 	public final List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 
