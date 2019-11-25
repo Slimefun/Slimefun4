@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -21,12 +22,19 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class AutomatedPanningMachine extends MultiBlockMachine {
-
-	private final Random random = new Random();
 	
+	// Gold Pan
 	private int chanceSiftedOre;
 	private int chanceFlint;
 	private int chanceClay;
+	
+	// Nether Gold Pan
+	private int chanceQuartz;
+	private int chanceGoldNuggets;
+	private int chanceNetherWart;
+	private int chanceBlazePowder;
+	private int chanceGlowstoneDust;
+	private int chanceGhastTear;
 
 	public AutomatedPanningMachine() {
 		super(
@@ -48,24 +56,34 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 		super.postRegister();
 		
 		String goldPan = "GOLD_PAN";
+		String netherGoldPan = "NETHER_GOLD_PAN";
 		
 		chanceSiftedOre = (int) Slimefun.getItemValue(goldPan, "chance.SIFTED_ORE");
 		chanceClay = (int) Slimefun.getItemValue(goldPan, "chance.CLAY");
 		chanceFlint = (int) Slimefun.getItemValue(goldPan, "chance.FLINT");
+
+		chanceQuartz = (int) Slimefun.getItemValue(netherGoldPan, "chance.QUARTZ");
+		chanceGoldNuggets = (int) Slimefun.getItemValue(netherGoldPan, "chance.GOLD_NUGGET");
+		chanceNetherWart = (int) Slimefun.getItemValue(netherGoldPan, "chance.NETHER_WART");
+		chanceBlazePowder = (int) Slimefun.getItemValue(netherGoldPan, "chance.BLAZE_POWDER");
+		chanceGlowstoneDust = (int) Slimefun.getItemValue(netherGoldPan, "chance.GLOWSTONE_DUST");
+		chanceGhastTear = (int) Slimefun.getItemValue(netherGoldPan, "chance.GHAST_TEAR");
 	}
 	
 	@Override
 	public void onInteract(Player p, Block b) {
 		final ItemStack input = p.getInventory().getItemInMainHand();
 		
-		if (SlimefunManager.isItemSimiliar(input, new ItemStack(Material.GRAVEL), true)) {
+		if (SlimefunManager.isItemSimiliar(input, new ItemStack(Material.GRAVEL), true) || SlimefunManager.isItemSimiliar(input, new ItemStack(Material.SOUL_SAND), true)) {
+			final Material block = input.getType();
+			
 			if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(input, false);
 			
-			ItemStack output = getRandomDrop();
+			ItemStack output = getRandomDrop(ThreadLocalRandom.current(), block);
 			TaskQueue queue = new TaskQueue();
 			
 			queue.thenRepeatEvery(20, 5, () ->
-				b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, Material.GRAVEL)
+				b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, block)
 			);
 			
 			queue.thenRun(20, () -> {
@@ -93,17 +111,38 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 		}
 	}
 
-	private ItemStack getRandomDrop() {
-		if (random.nextInt(100) < chanceSiftedOre) {
-			return SlimefunItems.SIFTED_ORE;
+	private ItemStack getRandomDrop(Random random, Material input) {
+		if (input == Material.GRAVEL) {
+			if (random.nextInt(100) < chanceSiftedOre) {
+				return SlimefunItems.SIFTED_ORE;
+			}
+			else if (random.nextInt(100) < chanceClay) {
+				return new ItemStack(Material.CLAY_BALL);
+			}
+			else if (random.nextInt(100) < chanceFlint) {
+				return new ItemStack(Material.FLINT);
+			}
 		}
-		else if (random.nextInt(100) < chanceClay) {
-			return new ItemStack(Material.CLAY_BALL);
+		else if (input == Material.SOUL_SAND) {
+			if (random.nextInt(100) < chanceQuartz) {
+				return new ItemStack(Material.QUARTZ);
+			}
+			else if (random.nextInt(100) < chanceGoldNuggets)  {
+				return new ItemStack(Material.GOLD_NUGGET);
+			}
+			else if (random.nextInt(100) < chanceNetherWart)  {
+				return new ItemStack(Material.NETHER_WART);
+			}
+			else if (random.nextInt(100) < chanceBlazePowder)  {
+				return new ItemStack(Material.BLAZE_POWDER);
+			}
+			else if (random.nextInt(100) < chanceGlowstoneDust)  {
+				return new ItemStack(Material.GLOWSTONE_DUST);
+			}
+			else if (random.nextInt(100) < chanceGhastTear)  {
+				return new ItemStack(Material.GHAST_TEAR);
+			}
 		}
-		else if (random.nextInt(100) < chanceFlint) {
-			return new ItemStack(Material.FLINT);
-		}
-		
 		return null;
 	}
 
