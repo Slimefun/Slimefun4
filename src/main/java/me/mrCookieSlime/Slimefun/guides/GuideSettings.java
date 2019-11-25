@@ -188,6 +188,8 @@ public final class GuideSettings {
 				lore.add(ChatColors.color(entry.getKey() + " &7(" + entry.getValue() + " Commit" + (entry.getValue() > 1 ? "s": "") + ")"));
 			}
 			
+			lore.add("");
+			lore.add("&7\u21E8 Click to visit " + contributor.getName() + "'s profile");
 			meta.setLore(lore);
 			skull.setItemMeta(meta);
 

@@ -28,14 +28,16 @@ public class GoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implemen
 	private int chanceSiftedOre;
 	private int chanceFlint;
 	private int chanceClay;
+	private int chanceIronNuggets;
 
 	public GoldPan(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe, new String[] {"chance.FLINT", "chance.CLAY", "chance.SIFTED_ORE"}, new Integer[] {40, 25, 35});
+		super(category, item, recipeType, recipe, new String[] {"chance.FLINT", "chance.CLAY", "chance.SIFTED_ORE", "chance.IRON_NUGGET"}, new Integer[] {40, 20, 35, 5});
 		
 		recipes = Arrays.asList(
 			new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), 
 			new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), 
-			new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE
+			new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE,
+			new ItemStack(Material.GRAVEL), new ItemStack(Material.IRON_NUGGET)
 		);
 	}
 	
@@ -44,6 +46,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implemen
 		chanceSiftedOre = (int) Slimefun.getItemValue(getID(), "chance.SIFTED_ORE");
 		chanceClay = (int) Slimefun.getItemValue(getID(), "chance.CLAY");
 		chanceFlint = (int) Slimefun.getItemValue(getID(), "chance.FLINT");
+		chanceIronNuggets = (int) Slimefun.getItemValue(getID(), "chance.IRON_NUGGET");
 	}
 	
 	@Override
@@ -57,6 +60,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implemen
 					if (random.nextInt(100) < chanceSiftedOre) drops.add(SlimefunItems.SIFTED_ORE);
 					else if (random.nextInt(100) < chanceClay) drops.add(new ItemStack(Material.CLAY_BALL));
 					else if (random.nextInt(100) < chanceFlint) drops.add(new ItemStack(Material.FLINT));
+					else if (random.nextInt(100) < chanceIronNuggets) drops.add(new ItemStack(Material.IRON_NUGGET));
 
 					e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, e.getClickedBlock().getType());
 					e.getClickedBlock().setType(Material.AIR);

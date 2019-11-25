@@ -27,6 +27,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 	private int chanceSiftedOre;
 	private int chanceFlint;
 	private int chanceClay;
+	private int chanceIronNuggets;
 	
 	// Nether Gold Pan
 	private int chanceQuartz;
@@ -61,6 +62,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 		chanceSiftedOre = (int) Slimefun.getItemValue(goldPan, "chance.SIFTED_ORE");
 		chanceClay = (int) Slimefun.getItemValue(goldPan, "chance.CLAY");
 		chanceFlint = (int) Slimefun.getItemValue(goldPan, "chance.FLINT");
+		chanceIronNuggets = (int) Slimefun.getItemValue(goldPan, "chance.IRON_NUGGET");
 
 		chanceQuartz = (int) Slimefun.getItemValue(netherGoldPan, "chance.QUARTZ");
 		chanceGoldNuggets = (int) Slimefun.getItemValue(netherGoldPan, "chance.GOLD_NUGGET");
@@ -121,6 +123,9 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 			}
 			else if (random.nextInt(100) < chanceFlint) {
 				return new ItemStack(Material.FLINT);
+			}
+			else if (random.nextInt(100) < chanceIronNuggets) {
+				return new ItemStack(Material.IRON_NUGGET);
 			}
 		}
 		else if (input == Material.SOUL_SAND) {
