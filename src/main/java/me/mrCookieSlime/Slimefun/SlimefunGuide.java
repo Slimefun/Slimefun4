@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -143,7 +144,15 @@ public final class SlimefunGuide {
 			});
 		}
 
-		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&aCredits", "", "&7Version: &a" + SlimefunPlugin.instance.getDescription().getVersion(), "&7Contributors: &e" + SlimefunPlugin.getUtilities().contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
+		menu.addItem(1, new CustomItem(new ItemStack(Material.WRITABLE_BOOK),
+				"&aCredits",
+				"",
+				"&7Slimefun Version: &a" + SlimefunPlugin.instance.getDescription().getVersion(),
+				"&7CSCore-Lib Version: &a" + CSCoreLib.getLib().getDescription().getVersion(),
+				"&7Contributors: &e" + SlimefunPlugin.getUtilities().contributors.size(),
+				"",
+				"&7\u21E8 Click to see the people behind this Plugin"
+		));
 		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 			openCredits(pl, guide);
 			return false;
@@ -159,7 +168,7 @@ public final class SlimefunGuide {
 				return false;
 			});
 		} catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Info-Panel for Slimefun " + Slimefun.getVersion(), x);
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while creating the Info-Panel for Slimefun " + Slimefun.getVersion(), x);
 		}
 
 		menu.addItem(7, new CustomItem(new ItemStack(Material.REDSTONE), "&4Bug Tracker", "", "&7Unsolved Issues: &a" + SlimefunPlugin.getUtilities().issues, "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
@@ -204,7 +213,7 @@ public final class SlimefunGuide {
 				String texture = contributor.getTexture();
 				if (texture != null) skull = CustomSkull.getItem(texture);
 			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while fetching a Contributor Head for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while fetching a Contributor Head for Slimefun " + Slimefun.getVersion(), x);
 			}
 
 			SkullMeta meta = (SkullMeta) skull.getItemMeta();
@@ -388,7 +397,7 @@ public final class SlimefunGuide {
 				pages.add(page);
 			}
 
-			new CustomBookOverlay("Slimefun Guide", "TheBusyBiscuit", pages.toArray(new TellRawMessage[pages.size()])).open(p);
+			new CustomBookOverlay("Slimefun Guide", "TheBusyBiscuit", pages.toArray(new TellRawMessage[0])).open(p);
 		}
 		else {
 			final ChestMenu menu = new ChestMenu("Slimefun Guide");
@@ -971,7 +980,7 @@ public final class SlimefunGuide {
 						return false;
 					});
 				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while adding a Wiki Page for Slimefun " + Slimefun.getVersion(), x);
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while adding a Wiki Page for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -986,7 +995,7 @@ public final class SlimefunGuide {
 						return false;
 					});
 				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while adding a Youtube Video for Slimefun " + Slimefun.getVersion(), x);
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while adding a Youtube Video for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 		}
