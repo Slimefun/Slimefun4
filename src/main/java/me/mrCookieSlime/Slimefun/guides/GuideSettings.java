@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -99,7 +100,7 @@ public final class GuideSettings {
 				"&aCredits",
 				"",
 				"&7Slimefun Version: &a" + Slimefun.getVersion(),
-				"&7CSCore-Lib Version: &a" + CSCoreLib.getLib().getDescription().getVersion(),
+				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion(),
 				"&7Installed Addons: &b" + Slimefun.getInstalledAddons().size(),
 				"&7Contributors: &e" + SlimefunPlugin.getUtilities().contributors.size(),
 				"",
