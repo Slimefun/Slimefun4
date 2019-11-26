@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -94,7 +95,16 @@ public final class GuideSettings {
 			});
 		}
 
-		menu.addItem(3, new CustomItem(new ItemStack(Material.WRITABLE_BOOK), "&aCredits", "", "&7Version: &a" + Slimefun.getVersion(), "&7Installed Addons: &b" + Slimefun.getInstalledAddons().size(), "&7Contributors: &e" + SlimefunPlugin.getUtilities().contributors.size(), "", "&7\u21E8 Click to see the people behind this Plugin"));
+		menu.addItem(3, new CustomItem(new ItemStack(Material.WRITABLE_BOOK),
+				"&aCredits",
+				"",
+				"&7Slimefun Version: &a" + Slimefun.getVersion(),
+				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion(),
+				"&7Installed Addons: &b" + Slimefun.getInstalledAddons().size(),
+				"&7Contributors: &e" + SlimefunPlugin.getUtilities().contributors.size(),
+				"",
+				"&7\u21E8 Click to see the people behind this Plugin"
+		));
 		menu.addMenuClickHandler(3, (pl, slot, item, action) -> {
 			openCredits(pl, 0);
 			return false;
