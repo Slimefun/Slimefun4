@@ -86,6 +86,10 @@ public class MultiBlock {
 				return Tag.WOODEN_SLABS.isTagged(a);
 			}
 			
+			if (Tag.WOODEN_TRAPDOORS.isTagged(b)) {
+				return Tag.WOODEN_TRAPDOORS.isTagged(a);
+			}
+			
 			if (b != a) {
 				return false;
 			}

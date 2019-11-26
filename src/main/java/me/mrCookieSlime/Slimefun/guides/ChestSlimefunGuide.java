@@ -424,7 +424,9 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 					return false;
 				});
 			} catch (Exception x) {
+
 				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while adding a Wiki Page for Slimefun " + Slimefun.getVersion(), x);
+
 			}
 		}
 
@@ -439,7 +441,9 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 					return false;
 				});
 			} catch (Exception x) {
+
 				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while adding a Youtube Video for Slimefun " + Slimefun.getVersion(), x);
+
 			}
 		}
 		

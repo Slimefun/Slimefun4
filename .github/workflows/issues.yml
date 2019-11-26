@@ -1,0 +1,27 @@
+name: Issue Response
+on: 
+  issues: 
+    types: [closed]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rytswd/respost@v0.1.0
+        with:
+          title: Your issue has been closed!
+          body: |-
+            If your issue was closed **and not resolved** by one of our developers it may fall under one or more of these categories:
+            
+            * You did not follow our template. Please follow the Issue template to help us identify your issue more quickly.
+            * You did not provide any information about your versions (We absolutely need your exact versions, \"latest\" is not helpful)
+            * Your issue was already reported, it is a duplicate. Check the other open issues first before posting!
+            * Your issue has already been fixed in a later version of Slimefun or CS-CoreLib, you should update.
+            * You are using an outdated version of Slimefun / CS-CoreLib, again, you should update.
+            * You are using an unsupported version of Minecraft. We only provide support for the latest version of Minecraft, old versions are not supported anymore.
+            * You are using a \"stable\" version of Slimefun (prefixed with \"RC - \"), your issue may have been fixed in a development build, so we only accept bug reports from those.
+            * You are on the wrong issue tracker. We would like to remind you that this Issue Tracker is **only for Slimefun**, to report bugs on any addons, head to the corresponding issue tracker.
+            
+            Make sure to check out our article on [How to report bugs](https://github.com/TheBusyBiscuit/Slimefun4/wiki/How-to-report-bugs) for even more information.
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}

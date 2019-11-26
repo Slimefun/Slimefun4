@@ -4,8 +4,6 @@ import java.util.logging.Level;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import net.coreprotect.CoreProtect;
-import net.coreprotect.CoreProtectAPI;
 
 public final class SlimefunHooks {
 	
@@ -17,8 +15,6 @@ public final class SlimefunHooks {
 	private boolean clearLag = false;
 	private boolean worldEdit = false;
 	private boolean placeHolderAPI = false;
-	
-	private CoreProtectAPI coreProtectAPI;
 	
 	public SlimefunHooks(SlimefunPlugin plugin) {
 		this.plugin = plugin;
@@ -41,10 +37,6 @@ public final class SlimefunHooks {
 			
 			exoticGarden = isPluginInstalled("ExoticGarden");
 			emeraldEnchants = isPluginInstalled("EmeraldEnchants");
-			
-			if (isPluginInstalled("CoreProtect")) {
-				coreProtectAPI = ((CoreProtect) plugin.getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
-			}
 
 			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
 			if (isPluginInstalled("WorldEdit")) {
@@ -92,10 +84,6 @@ public final class SlimefunHooks {
 
 	public boolean isPlaceholderAPIInstalled() {
 		return placeHolderAPI;
-	}
-	
-	public CoreProtectAPI getCoreProtectAPI() {
-		return coreProtectAPI;
 	}
 	
 }

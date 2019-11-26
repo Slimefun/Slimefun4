@@ -8,28 +8,33 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class MagicSugar extends SimpleSlimefunItem<ItemInteractionHandler> {
 
+	private int speed;
+	
 	public MagicSugar(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		super(category, item, recipeType, recipe, keys, values);
+	}
+	
+	@Override
+	public void postRegister() {
+		speed = (int) Slimefun.getItemValue("MAGIC_SUGAR", "effects.SPEED");
 	}
 
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.MAGIC_SUGAR, true)) {
+			if (isItem(item)) {
 				if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 				
 				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
-				p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 600, (Integer) Slimefun.getItemValue("MAGIC_SUGAR", "effects.SPEED")));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 600, speed));
 				return true;
 			}
 			else return false;

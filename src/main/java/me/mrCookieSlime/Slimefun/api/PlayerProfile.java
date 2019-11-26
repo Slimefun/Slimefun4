@@ -185,9 +185,10 @@ public final class PlayerProfile {
 
 	public String getTitle() {
 		List<String> titles = SlimefunPlugin.getSettings().researchesTitles;
-		
-		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F)) / 100.0F) *  titles.size();
-		if (index > 0) index--;
+
+		float fraction = (float) researches.size() / Research.list().size();
+		int index = (int) (fraction * (titles.size() -1));
+
 		return titles.get(index);
 	}
 	
@@ -218,7 +219,16 @@ public final class PlayerProfile {
 	public LinkedList<Object> getGuideHistory() {
 		return guideHistory;
 	}
-	
+
+	/**
+	 * This is now deprecated, use {@link #fromUUID(UUID, Consumer)} instead
+	 *
+	 * @param uuid The UUID of the profile you are trying to retrieve.
+	 * @return The PlayerProfile of this player
+	 * 
+	 * @deprecated Use {@link #fromUUID(UUID, Consumer)}
+	 */
+	@Deprecated
 	public static PlayerProfile fromUUID(UUID uuid) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
 		
@@ -231,6 +241,22 @@ public final class PlayerProfile {
 		}
 		
 		return profile;
+	}
+	
+	public static boolean fromUUID(UUID uuid, Consumer<PlayerProfile> callback) {
+		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
+		
+		if (profile != null) {
+			callback.accept(profile);
+			return true;
+		}
+
+		Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+			PlayerProfile pp = new PlayerProfile(uuid);
+			SlimefunPlugin.getUtilities().profiles.put(uuid, pp);
+			callback.accept(pp);
+		});
+		return false;
 	}
 
 	/**

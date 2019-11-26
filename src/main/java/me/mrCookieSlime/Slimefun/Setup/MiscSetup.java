@@ -34,8 +34,9 @@ public final class MiscSetup {
 	private MiscSetup() {}
 	
 	public static void setupMisc() {
-		if (SlimefunItem.getByID("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
-			SlimefunItem.getByID("COMMON_TALISMAN").setRecipe(new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2});
+		SlimefunItem talisman = SlimefunItem.getByID("COMMON_TALISMAN");
+		if (talisman != null && (boolean) Slimefun.getItemValue(talisman.getID(), "recipe-requires-nether-stars")) {
+			talisman.setRecipe(new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2});
 		}
 		
 		SlimefunItem.setRadioactive(SlimefunItems.URANIUM);

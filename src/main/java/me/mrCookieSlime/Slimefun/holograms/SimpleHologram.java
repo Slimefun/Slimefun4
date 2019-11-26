@@ -6,8 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class SimpleHologram {
@@ -36,7 +36,19 @@ public final class SimpleHologram {
 		}
 		
 		if (!createIfNoneExists) return null;
-		else return ArmorStandFactory.createHidden(l);
+		else return create(l);
+	}
+	
+	public static ArmorStand create(Location l) {
+		ArmorStand armorStand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
+		armorStand.setVisible(false);
+		armorStand.setSilent(true);
+		armorStand.setMarker(true);
+		armorStand.setGravity(false);
+		armorStand.setBasePlate(false);
+		armorStand.setCustomNameVisible(true);
+		armorStand.setRemoveWhenFarAway(false);
+		return armorStand;
 	}
 
 }

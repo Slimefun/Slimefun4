@@ -66,8 +66,9 @@ public final class OreGenSystem {
 	public static int getSupplies(OreGenResource resource, Chunk chunk, boolean generate) {
 		if (resource == null) return 0;
 		
-		if (BlockStorage.hasChunkInfo(chunk, "resources_" + resource.getName().toUpperCase())) {
-			return Integer.parseInt(BlockStorage.getChunkInfo(chunk, "resources_" + resource.getName().toUpperCase()));
+		String supply = BlockStorage.getChunkInfo(chunk, "resources_" + resource.getName().toUpperCase());
+		if (supply != null) {
+			return Integer.parseInt(supply);
 		}
 		else if (!generate) {
 			return 0;

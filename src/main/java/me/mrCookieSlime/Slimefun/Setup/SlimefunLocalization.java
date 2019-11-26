@@ -26,6 +26,7 @@ public class SlimefunLocalization extends Localization {
 
 		setDefaultMessage("guide.search.name", "&7Search");
 		setDefaultMessages("guide.search.lore", "&bWhat would you like to search for?", "&7Type your search term into chat");
+		
 		setDefaultMessage("search.message", "&bWhat would you like to search for?");
 		setDefaultMessage("guide.cheat.no-multiblocks", "&4You cannot cheat in Multiblocks, you have to build them!");
 

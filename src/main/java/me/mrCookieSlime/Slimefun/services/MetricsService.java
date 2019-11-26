@@ -1,12 +1,12 @@
-package me.mrCookieSlime.Slimefun.Setup;
+package me.mrCookieSlime.Slimefun.services;
 
 import org.bstats.bukkit.Metrics;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-public class SlimefunMetrics extends Metrics {
+public class MetricsService extends Metrics {
 
-	public SlimefunMetrics(SlimefunPlugin plugin) {
+	public MetricsService(SlimefunPlugin plugin) {
 		super(plugin);
 		
 		addCustomChart(new SimplePie("auto_updates", () -> SlimefunPlugin.getCfg().getBoolean("options.auto-update") ? "enabled": "disabled"));

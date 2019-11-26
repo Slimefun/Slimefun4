@@ -35,6 +35,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -71,10 +72,10 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	private static final int[] border_4 = {25, 34, 43}; 
 	private static final int INFO_SLOT = 49;
 
-	public AReactor(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public AReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 
-		new BlockMenuPreset(id, getInventoryTitle()) {
+		new BlockMenuPreset(getID(), getInventoryTitle()) {
 
 			@Override
 			public void init() {
@@ -141,7 +142,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 			}
 		};
 
-		registerBlockHandler(id, (p, b, tool, reason) -> {
+		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
 			if (inv != null) {
 				for (int slot : getFuelSlots()) {
@@ -336,7 +337,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 					MachineFuel fuel = findRecipe(menu, found);
 
 					if (port != null) {
-						restockCoolant(menu, port);
+						restockFuel(menu, port);
 					}
 
 					if (fuel != null) {
@@ -368,11 +369,11 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 		});
 	}
 	
-	private void restockCoolant(BlockMenu menu, BlockMenu port) {
+	private void restockFuel(BlockMenu menu, BlockMenu port) {
 		for (int slot: getFuelSlots()) {
 			for (MachineFuel recipe: recipes) {
 				if (SlimefunManager.isItemSimiliar(port.getItemInSlot(slot), recipe.getInput(), true) && menu.fits(new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots())) {
-					port.replaceExistingItem(slot, InvUtils.decreaseItem(port.getItemInSlot(slot), 1));
+					port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getFuelSlots()));
 					return;
 				}
 			}

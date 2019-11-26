@@ -24,23 +24,29 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.GPSTransmitter;
 
 public class GPSNetwork {
 	
-	private Map<UUID, Set<Location>> transmitters = new HashMap<>();
-	private static final int[] border = new int[] {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-	private static final int[] inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
+	private static final String DIRECTORY = "data-storage/Slimefun/waypoints/";
+	private final Map<UUID, Set<Location>> transmitters = new HashMap<>();
 	
-	private static final int[] teleporter_border = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-	private static final int[] teleporter_inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
+	private final int[] border = new int[] {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+	private final int[] inventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
+	
+	private final int[] teleporterBorder = new int[] {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+	private final int[] teleporterInventory = new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
 	public void updateTransmitter(Location l, UUID uuid, NetworkStatus status) {
 		Set<Location> set = transmitters.getOrDefault(uuid, new HashSet<>());
 
 		if (status == NetworkStatus.ONLINE) {
-			if (set.add(l))
+			if (set.add(l)) {
 				transmitters.put(uuid, set);
+			}
 		}
 		else {
 			set.remove(l);
@@ -49,11 +55,17 @@ public class GPSNetwork {
 	}
 	
 	public int getNetworkComplexity(UUID uuid) {
-		if (!transmitters.containsKey(uuid)) return 0;
+		if (!transmitters.containsKey(uuid)) {
+			return 0;
+		}
+		
 		int level = 0;
 		for (Location l : transmitters.get(uuid)) {
-			level = level + l.getBlockY();
+			SlimefunItem sfi = BlockStorage.check(l);
+			if (sfi instanceof GPSTransmitter)
+				level += ((GPSTransmitter) sfi).getMultiplier(l.getBlockY());
 		}
+		
 		return level;
 	}
 	
@@ -76,8 +88,9 @@ public class GPSNetwork {
 			menu.addMenuClickHandler(2,
 				(pl, slot, item, action) -> false
 			);
-			
-			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Network Info", "", "&8\u21E8 &7Status: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&lONLINE": "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + getNetworkComplexity(p.getUniqueId())));
+
+			int complexity = getNetworkComplexity(p.getUniqueId());
+			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Network Info", "", "&8\u21E8 &7Status: " + (complexity > 0 ? "&2&lONLINE": "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + complexity));
 			menu.addMenuClickHandler(4,
 				(pl, slot, item, action) -> false
 			);
@@ -91,9 +104,13 @@ public class GPSNetwork {
 			int index = 0;
 			for (Location l : getTransmitters(p.getUniqueId())) {
 				if (index >= inventory.length) break;
+
+				SlimefunItem sfi = BlockStorage.check(l);
+				if (!(sfi instanceof GPSTransmitter)) continue;
+
 				int slot = inventory[index];
 				
-				menu.addItem(slot, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&bGPS Transmitter", "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &7Signal Strength: &r" + l.getBlockY(), "&8\u21E8 &7Ping: &r" + DoubleHandler.fixDouble(1000D / l.getY()) + "ms"));
+				menu.addItem(slot, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&bGPS Transmitter", "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &7Signal Strength: &r" + ((GPSTransmitter) sfi).getMultiplier(l.getBlockY()), "&8\u21E8 &7Ping: &r" + DoubleHandler.fixDouble(1000D / l.getY()) + "ms"));
 				menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> false);
 				
 				index++;
@@ -135,8 +152,9 @@ public class GPSNetwork {
 				openTransmitterControlPanel(pl);
 				return false;
 			});
-			
-			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Network Info", "", "&8\u21E8 &7Status: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&lONLINE": "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + getNetworkComplexity(p.getUniqueId())));
+
+			int complexity = getNetworkComplexity(p.getUniqueId());
+			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Network Info", "", "&8\u21E8 &7Status: " + (complexity > 0 ? "&2&lONLINE": "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + complexity));
 			menu.addMenuClickHandler(4, (pl, slot, item, action) -> false);
 			
 			menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &e(Selected)"));
@@ -153,7 +171,7 @@ public class GPSNetwork {
 				menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &cClick to delete"));
 				menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
 					String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(' ', '_');
-					Config cfg = new Config("data-storage/Slimefun/waypoints/" + pl.getUniqueId().toString() + ".yml");
+					Config cfg = new Config(DIRECTORY + pl.getUniqueId().toString() + ".yml");
 					cfg.setValue(id, null);
 					cfg.save();
 					pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
@@ -174,12 +192,14 @@ public class GPSNetwork {
 
 	public Map<String, Location> getWaypoints(UUID uuid) {
 		Map<String, Location> map = new HashMap<>();
-		Config cfg = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
-		for (String key: cfg.getKeys()) {
+		Config cfg = new Config(DIRECTORY + uuid.toString() + ".yml");
+		
+		for (String key : cfg.getKeys()) {
 			if (cfg.contains(key + ".world") && Bukkit.getWorld(cfg.getString(key + ".world")) != null) {
 				map.put(cfg.getString(key + ".name"), cfg.getLocation(key));
 			}
 		}
+		
 		return map;
 	}
 	
@@ -188,6 +208,7 @@ public class GPSNetwork {
 			SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.max", true);
 			return;
 		}
+		
 		SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.new", true);
 		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
 		
@@ -201,12 +222,14 @@ public class GPSNetwork {
 			SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.max", true);
 			return;
 		}
-		Config cfg = new Config("data-storage/Slimefun/waypoints/" + p.getUniqueId().toString() + ".yml");
-		String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', name)).toUpperCase()
-			.replace(' ', '_');
+		
+		Config cfg = new Config(DIRECTORY + p.getUniqueId().toString() + ".yml");
+		String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', name)).toUpperCase().replace(' ', '_');
+		
 		cfg.setValue(id, l);
 		cfg.setValue(id + ".name", name);
 		cfg.save();
+		
 		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
 		SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.added", true);
 	}
@@ -215,17 +238,18 @@ public class GPSNetwork {
 		return transmitters.getOrDefault(uuid, new HashSet<>());
 	}
 	
-	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) {
-		if (SlimefunPlugin.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
+	public void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) {
+		if (SlimefunPlugin.getUtilities().teleporterUsers.contains(p.getUniqueId())) {
+			return;
+		}
 		
 		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
 		SlimefunPlugin.getUtilities().teleporterUsers.add(p.getUniqueId());
 		
 		ChestMenu menu = new ChestMenu("&3Teleporter");
-		
 		menu.addMenuCloseHandler(pl -> SlimefunPlugin.getUtilities().teleporterUsers.remove(pl.getUniqueId()));
 		
-		for (int slot : teleporter_border) {
+		for (int slot : teleporterBorder) {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
 				(pl, slotn, item, action) -> false
 			);
@@ -237,9 +261,10 @@ public class GPSNetwork {
 			
 			final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
 			int index = 0;
-			for (final Map.Entry<String, Location> entry: Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
-				if (index >= teleporter_inventory.length) break;
-				int slot = teleporter_inventory[index];
+			
+			for (final Map.Entry<String, Location> entry : Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
+				if (index >= teleporterInventory.length) break;
+				int slot = teleporterInventory[index];
 				
 				final Location l = entry.getValue();
 				ItemStack globe = getPlanet(entry);

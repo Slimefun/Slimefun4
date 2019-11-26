@@ -8,7 +8,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class EnergyHologram {
@@ -41,7 +40,7 @@ public final class EnergyHologram {
 		}
 		
 		if (!createIfNoneExists) return null;
-		else return ArmorStandFactory.createHidden(l);
+		else return SimpleHologram.create(l);
 	}
 
 }

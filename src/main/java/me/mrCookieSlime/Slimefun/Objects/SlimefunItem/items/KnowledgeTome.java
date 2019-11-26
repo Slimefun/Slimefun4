@@ -41,9 +41,12 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 				return true;
 			}
 			else if (SlimefunManager.isItemSimiliar(item, getItem(), false)) {
-				PlayerProfile profile = PlayerProfile.get(p);
-				Set<Research> researches = PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)))).getResearches();
-				researches.forEach(research -> profile.setResearched(research, true));
+				PlayerProfile.get(p, profile -> {
+					PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1))), owner -> {
+						Set<Research> researches = owner.getResearches();
+						researches.forEach(research -> profile.setResearched(research, true));
+					});
+				});
 				
 				if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 				return true;

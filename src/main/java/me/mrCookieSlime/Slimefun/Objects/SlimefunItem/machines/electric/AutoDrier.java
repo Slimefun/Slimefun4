@@ -18,15 +18,17 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public class AutoDrier extends AContainer implements RecipeDisplayItem {
 	
 	private final List<ItemStack> recipeList = new ArrayList<>();
 
-    public AutoDrier(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, id, recipeType, recipe);
+    public AutoDrier(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
         
         recipeList.add(new ItemStack(Material.ROTTEN_FLESH));
         recipeList.add(new ItemStack(Material.LEATHER));
@@ -36,9 +38,6 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
         
         recipeList.add(new ItemStack(Material.KELP));
         recipeList.add(new ItemStack(Material.DRIED_KELP));
-        
-        recipeList.add(new ItemStack(Material.COOKED_BEEF));
-        recipeList.add(SlimefunItems.BEEF_JERKY);
         
         recipeList.add(new ItemStack(Material.POTION));
         recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
@@ -51,6 +50,24 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
         
         recipeList.add(new ItemStack(Material.WATER_BUCKET));
         recipeList.add(new ItemStack(Material.BUCKET));
+        
+        recipeList.add(new ItemStack(Material.COOKED_BEEF));
+        recipeList.add(SlimefunItems.BEEF_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_PORKCHOP));
+        recipeList.add(SlimefunItems.PORK_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_CHICKEN));
+        recipeList.add(SlimefunItems.CHICKEN_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_MUTTON));
+        recipeList.add(SlimefunItems.MUTTON_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_RABBIT));
+        recipeList.add(SlimefunItems.RABBIT_JERKY);
+        
+        recipeList.add(new ItemStack(Material.COOKED_COD));
+        recipeList.add(SlimefunItems.FISH_JERKY);
     }
 
     @Override
@@ -70,10 +87,12 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected void tick(Block b) {
+    	BlockMenu menu = BlockStorage.getInventory(b);
+    	
         if (isProcessing(b)) {
             int timeleft = progress.get(b);
             if (timeleft > 0) {
-            	MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+            	MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
                 if (ChargableBlock.isChargable(b)) {
                     if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -83,8 +102,8 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
                 else progress.put(b, timeleft - 1);
             }
             else {
-                BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-                pushItems(b, processing.get(b).getOutput());
+            	menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+            	menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
 
                 progress.remove(b);
                 processing.remove(b);
@@ -95,7 +114,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
             int inputSlot = -1;
             
             for (int slot: getInputSlots()) {
-                ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
+                ItemStack item = menu.getItemInSlot(slot);
                 if (item != null) {
                     Material mat = item.getType();
                     ItemStack output = null;
@@ -126,8 +145,8 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
 
             if (r != null) {
                 if (inputSlot == -1) return;
-                if (!fits(b, r.getOutput())) return;
-                BlockStorage.getInventory(b).replaceExistingItem(inputSlot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(inputSlot), 1));
+                if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
+                menu.replaceExistingItem(inputSlot, InvUtils.decreaseItem(menu.getItemInSlot(inputSlot), 1));
                 processing.put(b, r);
                 progress.put(b, r.getTicks());
             }

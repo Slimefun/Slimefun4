@@ -17,7 +17,7 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	public DietCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
-	
+
 	@Override
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {

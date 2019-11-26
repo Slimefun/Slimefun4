@@ -8,13 +8,15 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class ChargingBench extends AContainer {
 
-	public ChargingBench(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public ChargingBench(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 
 	@Override
@@ -36,32 +38,33 @@ public class ChargingBench extends AContainer {
 	protected void tick(Block b) {
 		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 		
+		BlockMenu menu = BlockStorage.getInventory(b);
 		for (int slot: getInputSlots()) {
-			ItemStack stack = BlockStorage.getInventory(b).getItemInSlot(slot);
+			ItemStack stack = menu.getItemInSlot(slot);
 			if (ItemEnergy.getMaxEnergy(stack) > 0) {
 				if (ItemEnergy.getStoredEnergy(stack) < ItemEnergy.getMaxEnergy(stack)) {
 
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
 					float rest = ItemEnergy.addStoredEnergy(stack, getEnergyConsumption() / 2F);
 					if (rest > 0F) {
-						if (fits(b, stack)) {
-							pushItems(b, stack);
-							BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+						if (menu.fits(stack, getOutputSlots())) {
+							menu.pushItem(stack, getOutputSlots());
+							menu.replaceExistingItem(slot, null);
 						}
 						else {
-							BlockStorage.getInventory(b).replaceExistingItem(slot, stack);
+							menu.replaceExistingItem(slot, stack);
 						}
 					}
 					else {
-						BlockStorage.getInventory(b).replaceExistingItem(slot, stack);
+						menu.replaceExistingItem(slot, stack);
 					}
 				}
-				else if (fits(b, stack)) {
-					pushItems(b, stack);
-					BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+				else if (menu.fits(stack, getOutputSlots())) {
+					menu.pushItem(stack, getOutputSlots());
+					menu.replaceExistingItem(slot, null);
 				}
 				else {
-					BlockStorage.getInventory(b).replaceExistingItem(slot, stack);
+					menu.replaceExistingItem(slot, stack);
 				}
 				return;
 			}

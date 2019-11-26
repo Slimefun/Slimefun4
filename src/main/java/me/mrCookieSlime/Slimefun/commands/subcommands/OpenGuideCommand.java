@@ -7,6 +7,7 @@ import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SubCommand;
+import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 
 public class OpenGuideCommand extends SubCommand {
 
@@ -23,7 +24,8 @@ public class OpenGuideCommand extends SubCommand {
 	public void onExecute(CommandSender sender, String[] args) {
 		if (sender instanceof Player) { 
 			if (sender.hasPermission("slimefun.command.open_guide")) {
-				SlimefunGuide.openGuide((Player) sender, SlimefunPlugin.getCfg().getBoolean("guide.default-view-book"));
+				boolean book = SlimefunPlugin.getCfg().getBoolean("guide.default-view-book");
+				SlimefunGuide.openGuide((Player) sender, book ? SlimefunGuideLayout.BOOK: SlimefunGuideLayout.CHEST);
 			}
 			else {
 				SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);

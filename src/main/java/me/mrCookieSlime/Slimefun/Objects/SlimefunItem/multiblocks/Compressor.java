@@ -28,7 +28,10 @@ public class Compressor extends MultiBlockMachine {
 				SlimefunItems.COMPRESSOR, 
 				"COMPRESSOR",
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON)},
-				new ItemStack[] {new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE)},
+				new ItemStack[] {
+					new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE),
+					new ItemStack(Material.FLINT, 8), new ItemStack(Material.COBBLESTONE)
+				},
 				BlockFace.SELF
 		);
 	}

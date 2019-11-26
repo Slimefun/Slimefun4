@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class ReactorHologram {
@@ -22,7 +21,7 @@ public final class ReactorHologram {
         
         if (!createIfNoneExists) return null;
 
-        ArmorStand hologram = ArmorStandFactory.createHidden(l);
+        ArmorStand hologram = SimpleHologram.create(l);
         hologram.setCustomNameVisible(false);
         hologram.setCustomName(null);
         return hologram;

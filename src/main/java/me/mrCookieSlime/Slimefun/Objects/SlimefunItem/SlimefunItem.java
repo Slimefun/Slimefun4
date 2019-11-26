@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -11,11 +12,9 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -27,14 +26,12 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class SlimefunItem {
 	
@@ -55,7 +52,7 @@ public class SlimefunItem {
 	private boolean addon = false;
 	private String permission = "";
 	private List<String> noPermissionTooltip;
-	private Set<ItemHandler> itemhandlers = new HashSet<>();
+	private final Set<ItemHandler> itemhandlers = new HashSet<>();
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
@@ -166,7 +163,11 @@ public class SlimefunItem {
 			if (SlimefunPlugin.getUtilities().itemIDs.containsKey(this.id)) {
 				throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
 			}
-			if (this.recipe.length < 9) this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
+			
+			if (this.recipe.length < 9) {
+				this.recipe = new ItemStack[] {null, null, null, null, null, null, null, null, null};
+			}
+			
 			SlimefunPlugin.getUtilities().allItems.add(this);
 
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".enabled", true);
@@ -194,7 +195,10 @@ public class SlimefunItem {
 			}
 
 			if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
-				if (!Category.list().contains(category)) category.register();
+				
+				if (!Category.list().contains(category)) {
+					category.register();
+				}
 
 				this.state = ItemState.ENABLED;
 
@@ -204,8 +208,13 @@ public class SlimefunItem {
 				this.disenchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
 				this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
 				this.noPermissionTooltip = SlimefunPlugin.getItemCfg().getStringList(this.id + ".no-permission-tooltip");
+				
 				SlimefunPlugin.getUtilities().enabledItems.add(this);
-				if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
+				
+				if (slimefun) {
+					SlimefunPlugin.getUtilities().vanillaItems++;
+				}
+				
 				SlimefunPlugin.getUtilities().itemIDs.put(this.id, this);
 				
 				create();
@@ -281,20 +290,27 @@ public class SlimefunItem {
 
 	public static SlimefunItem getByItem(ItemStack item) {
 		if (item == null) return null;
+		
+		if (item instanceof SlimefunItemStack) {
+			return getByID(((SlimefunItemStack) item).getItemID());
+		}
 
 		if (item.hasItemMeta()) {
-			String id = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
-			if (id != null) return getByID(id);
+			Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+			
+			if (itemID.isPresent()) {
+				return getByID(itemID.get());
+			}
 		}
 
 		for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
-			if ((sfi instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					(sfi instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					(sfi instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					(sfi instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, sfi.getItem(), false)) ||
-					SlimefunManager.isItemSimiliar(item, sfi.getItem(), true))
-
-						return sfi;
+			if (sfi.isItem(item)) {
+				// If we have to loop all items for the given item, then at least
+				// set the id via PersistenDataAPI for future performance boosts
+				SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
+				
+				return sfi;
+			}
 		}
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
 		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
@@ -305,13 +321,16 @@ public class SlimefunItem {
 		if (item == null) return false;
 
 		if (item.hasItemMeta()) {
-			String comparingId = PersistentDataAPI.getString(item.getItemMeta(), SlimefunPlugin.getItemDataKey());
-			if (comparingId != null) return getID().equals(comparingId);
+			Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+			if (itemID.isPresent()) {
+				return getID().equals(itemID.get());
+			}
 		}
 
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
+		else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
 		else return SlimefunManager.isItemSimiliar(item, this.item, true);		
 	}
 
@@ -527,30 +546,64 @@ public class SlimefunItem {
 		registerChargeableBlock(vanilla, capacity);
 	}
 
-	public BlockMenu getBlockMenu(Block b) {
-		return BlockStorage.getInventory(b);
-	}
-
+	/**
+	 * This method will assign the given wiki page to this Item.
+	 * Note that you only need to provide the page name itself,
+	 * the URL to our wiki is prepended automatically.
+	 * 
+	 * @param page	The associated wiki page
+	 */
 	public void addWikipage(String page) {
 		wiki = "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page;
 	}
 	
+	/**
+	 * This method returns whether this item has been assigned a wiki page.
+	 * @see SlimefunItem#addWikipage(String)
+	 * 
+	 * @return	Whether this Item has a wiki page
+	 */
 	public boolean hasWiki() {
 		return wiki != null;
 	}
 	
+	/**
+	 * This method returns the wiki page that has been asigned to this item.
+	 * It will return null, if no wiki page was found.
+	 * @see SlimefunItem#addWikipage(String)
+	 * 
+	 * @return	This item's wiki page
+	 */
 	public String getWiki() {
 		return wiki;
 	}
 	
-	public String getItemName() {
+	/**
+	 * This method will return this Item's Name (The name that is displayed when
+	 * hovering over this Item in an Inventory).
+	 * 
+	 * @return	This item's name in ItemStack form
+	 */
+	public final String getItemName() {
 		return ItemUtils.getItemName(item);
 	}
 
+	/**
+	 * This method returns a Set of item handlers associated with this Item.
+	 * 
+	 * @return	The Set of item handlers
+	 */
 	public Set<ItemHandler> getHandlers() {
 		return itemhandlers;
 	}
 
+	/**
+	 * Override this method if you don't want to add your Item Handler to the global list.
+	 * Only use this method if you absolutely know what you are doing and can make sure that the
+	 * Item handler is handled somewhere else.
+	 * 
+	 * @return	Whether this Item handler is handled directly by the Item itself
+	 */
 	protected boolean areItemHandlersPrivate() {
 		return false;
 	}

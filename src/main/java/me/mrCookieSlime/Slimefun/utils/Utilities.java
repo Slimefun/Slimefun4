@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -27,6 +29,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
+import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
@@ -34,6 +37,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemRequest;
+import me.mrCookieSlime.Slimefun.guides.ISlimefunGuide;
+import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 
@@ -55,6 +60,8 @@ public final class Utilities {
 	
 	public final List<MultiBlock> allMultiblocks = new LinkedList<>();
 	public final List<Research> allResearches = new LinkedList<>();
+	
+	public final Map<SlimefunGuideLayout, ISlimefunGuide> guideLayouts = new HashMap<>();
 	
 	/**
 	 * List of the registered Categories.
@@ -88,7 +95,7 @@ public final class Utilities {
 	public final Map<String, BlockStorage> worlds = new HashMap<>();
 	public final Set<String> loadedTickers = new HashSet<>();
 	
-	public final Map<String, String> mapChunks = new HashMap<>();
+	public final Map<String, BlockInfoConfig> mapChunks = new HashMap<>();
 	public final Map<String, Set<Location>> tickingChunks = new HashMap<>();
 	public final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
 	
@@ -122,8 +129,7 @@ public final class Utilities {
 	public final Map<String, Config> resource_configs = new HashMap<>();
 	
 	public final Set<GitHubConnector> connectors = new HashSet<>();
-	public final Map<String, String> contributorHeads = new HashMap<>();
-	public final List<Contributor> contributors = new ArrayList<>();
+	public final ConcurrentMap<String, Contributor> contributors = new ConcurrentHashMap<>();
 	
 	public final List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 
@@ -145,6 +151,11 @@ public final class Utilities {
 	 * @since 4.1.13
 	 */
 	public int issues = 0;
+	
+	/**
+	 * Represents the number of pending Pull Requests on the Slimefun4 GitHub repository.
+	 */
+	public int prs = 0;
 	
 	/**
 	 * Represents the number of Forks of the Slimefun4 GitHub repository.

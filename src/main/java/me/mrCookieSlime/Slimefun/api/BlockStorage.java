@@ -160,7 +160,9 @@ public class BlockStorage {
 			FileConfiguration cfg = YamlConfiguration.loadConfiguration(chunks);
 			for (String key: cfg.getKeys(false)) {
 				try {
-					if (world.getName().equals(key.split(";")[0])) SlimefunPlugin.getUtilities().mapChunks.put(key, cfg.getString(key));
+					if (world.getName().equals(key.split(";")[0])) {
+						SlimefunPlugin.getUtilities().mapChunks.put(key, new BlockInfoConfig(parseJSON(cfg.getString(key))));
+					}
 				} catch (Exception x) {
 					Slimefun.getLogger().log(Level.WARNING, "Failed to load " + chunks.getName() + " in World " + world.getName() + '(' + key + ") for Slimefun " + Slimefun.getVersion(), x);
 				}
@@ -238,6 +240,7 @@ public class BlockStorage {
 		for (Map.Entry<String, Config> entry: cache.entrySet()) {
 			blocksCache.remove(entry.getKey());
 			Config cfg = entry.getValue();
+			
 			if (cfg.getKeys().isEmpty()) {
 				if (!cfg.getFile().delete()) {
 					Slimefun.getLogger().log(Level.WARNING, "Could not delete File: " + cfg.getFile().getName());
@@ -269,10 +272,10 @@ public class BlockStorage {
 		
 		if (chunkChanges > 0) {
 			File chunks = new File(path_chunks + "chunks.sfc");
-			Config cfg = new Config("data-storage/Slimefun/temp.yml");
+			Config cfg = new Config(path_chunks + "chunks.temp");
 			
-			for (Map.Entry<String, String> entry: SlimefunPlugin.getUtilities().mapChunks.entrySet()) {
-				cfg.setValue(entry.getKey(), entry.getValue());
+			for (Map.Entry<String, BlockInfoConfig> entry: SlimefunPlugin.getUtilities().mapChunks.entrySet()) {
+				cfg.setValue(entry.getKey(), entry.getValue().toJSON());
 			}
 			
 			cfg.save(chunks);
@@ -369,7 +372,7 @@ public class BlockStorage {
 	
 	private static String getJSONData(Chunk chunk) {
 		if (chunk == null) return null;
-		return SlimefunPlugin.getUtilities().mapChunks.get(serializeChunk(chunk));
+		return SlimefunPlugin.getUtilities().mapChunks.get(serializeChunk(chunk)).toJSON();
 	}
 
 	@Deprecated
@@ -422,7 +425,9 @@ public class BlockStorage {
 		storage.storage.put(l, cfg);
 		if (BlockMenuPreset.isInventory(cfg.getString("id"))) {
 			if (BlockMenuPreset.isUniversalInventory(cfg.getString("id"))) {
-				if (!SlimefunPlugin.getUtilities().universalInventories.containsKey(cfg.getString("id"))) storage.loadUniversalInventory(BlockMenuPreset.getPreset(cfg.getString("id")));
+				if (!SlimefunPlugin.getUtilities().universalInventories.containsKey(cfg.getString("id"))) {
+					storage.loadUniversalInventory(BlockMenuPreset.getPreset(cfg.getString("id")));
+				}
 			}
 			else if (!storage.hasInventory(l)) {
 				File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
@@ -433,9 +438,11 @@ public class BlockStorage {
 		}
 		refreshCache(getStorage(l.getWorld()), l, cfg.getString("id"), serializeBlockInfo(cfg), updateTicker);
 	}
+	
 	public static void setBlockInfo(Block b, String json, boolean updateTicker) {
 		setBlockInfo(b.getLocation(), json, updateTicker);
 	}
+	
 	public static void setBlockInfo(Location l, String json, boolean updateTicker) {
 		Config blockInfo = json == null ? new BlockInfoConfig() : parseBlockInfo(l, json);
 		if (blockInfo == null) return;
@@ -666,17 +673,11 @@ public class BlockStorage {
 
 	public static Config getChunkInfo(Chunk chunk) {
 		try {
-			Config cfg = new Config("data-storage/Slimefun/temp.yml");
-			if (!SlimefunPlugin.getUtilities().mapChunks.containsKey(serializeChunk(chunk))) return cfg;
-			
-			for (Map.Entry<String, String> entry: parseJSON(getJSONData(chunk)).entrySet()) {
-				cfg.setValue(entry.getKey(), entry.getValue());
-			}
-			
-			return cfg;
+			BlockInfoConfig cfg = SlimefunPlugin.getUtilities().mapChunks.get(serializeChunk(chunk));
+			return cfg == null ? new BlockInfoConfig() : cfg;
 		} catch (Exception x) {
 			Slimefun.getLogger().log(Level.SEVERE, "Failed to parse ChunkInfo for Chunk: " + (chunk == null ? "?": chunk.getX()) + ", " + (chunk == null ? "?": chunk.getZ()) + " (" + getJSONData(chunk) + ") for Slimefun " + Slimefun.getVersion(), x);
-			return new Config("data-storage/Slimefun/temp.yml");
+			return new BlockInfoConfig();
 		}
 	}
 	
@@ -685,16 +686,14 @@ public class BlockStorage {
 	}
 	
 	public static void setChunkInfo(Chunk chunk, String key, String value) {
-		Config cfg = new Config("data-storage/Slimefun/temp.yml");
-		if (hasChunkInfo(chunk)) cfg = getChunkInfo(chunk);
-		cfg.setValue(key, value);
+		BlockInfoConfig cfg = SlimefunPlugin.getUtilities().mapChunks.get(serializeChunk(chunk));
 		
-		JsonObject json = new JsonObject();
-		for (String path: cfg.getKeys()) {
-			json.add(path, new JsonPrimitive(cfg.getString(path)));
+		if (cfg == null) {
+			cfg = new BlockInfoConfig();
+			SlimefunPlugin.getUtilities().mapChunks.put(serializeChunk(chunk), cfg);
 		}
 		
-		SlimefunPlugin.getUtilities().mapChunks.put(serializeChunk(chunk), json.toString());
+		cfg.setValue(key, value);
 		
 		chunkChanges++;
 	}

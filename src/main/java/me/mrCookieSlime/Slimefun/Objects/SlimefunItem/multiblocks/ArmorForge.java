@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
@@ -54,8 +55,11 @@ public class ArmorForge extends MultiBlockMachine {
 				if (Slimefun.hasUnlocked(p, adding, true)) {
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 					if (outputInv != null) {
-						for (ItemStack removing: inputs.get(i)) {
-							if (removing != null) inv.removeItem(removing);
+						for (int j = 0; j < 9; j++) {
+							ItemStack item = inv.getContents()[j];
+							if (item != null && item.getType() != Material.AIR) {
+								ItemUtils.consumeItem(item, true);
+							}
 						}
 						
 						for (int j = 0; j < 4; j++) {

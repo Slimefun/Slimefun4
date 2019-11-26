@@ -158,5 +158,10 @@ public class Category {
 	public int getTier() {
 		return tier;
 	}
+	
+	@Override
+	public String toString() {
+		return "Slimefun Category {" + item.getItemMeta().getDisplayName() + ",tier=" + tier + "}";
+	}
 
 }
