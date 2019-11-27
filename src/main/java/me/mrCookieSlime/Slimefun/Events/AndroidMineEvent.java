@@ -24,6 +24,9 @@ public class AndroidMineEvent extends Event implements Cancellable {
         return handlers;
     }
 
+    /**
+     * @return the broken block
+     */
     public Block getBlock() {
         return this.block;
     }
