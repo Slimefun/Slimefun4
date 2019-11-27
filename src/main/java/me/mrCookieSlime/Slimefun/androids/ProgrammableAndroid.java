@@ -533,6 +533,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			SlimefunItem item = BlockStorage.check(block);
+			AndroidMineEvent event = new AndroidMineEvent(block);
+			Bukkit.getPluginManager().callEvent(event);
+			if (event.isCancelled()) {
+				return;
+			}
 			if (item == null) {
 				for (ItemStack drop: drops) {
 					if (menu.fits(drop, getOutputSlots())) {
