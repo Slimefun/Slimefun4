@@ -235,9 +235,6 @@ public class Research {
 		
 		PlayerProfile.get(p, profile -> {
 			if (!profile.hasUnlocked(this)) {
-				ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
-				Bukkit.getPluginManager().callEvent(event);
-				
 				Runnable runnable = () -> {
 					profile.setResearched(this, true);
 					SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName()));
@@ -247,29 +244,34 @@ public class Research {
 					}
 				};
 				
-				if (!event.isCancelled()) {
-					if (instant) {
-						runnable.run();
-					}
-					else if (!SlimefunPlugin.getUtilities().researching.contains(p.getUniqueId())){
-						SlimefunPlugin.getUtilities().researching.add(p.getUniqueId());
-						SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName()));
-						
-						for (int i = 1; i < research_progress.length + 1; i++) {
-							int j = i;
+				Slimefun.runSync(() -> {
+					ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
+					Bukkit.getPluginManager().callEvent(event);
+					
+					if (!event.isCancelled()) {
+						if (instant) {
+							runnable.run();
+						}
+						else if (!SlimefunPlugin.getUtilities().researching.contains(p.getUniqueId())){
+							SlimefunPlugin.getUtilities().researching.add(p.getUniqueId());
+							SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName()));
+							
+							for (int i = 1; i < research_progress.length + 1; i++) {
+								int j = i;
+								
+								Slimefun.runSync(() -> {
+									p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
+									SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", research_progress[j - 1] + "%"));
+								}, i * 20L);
+							}
 							
 							Slimefun.runSync(() -> {
-								p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-								SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", research_progress[j - 1] + "%"));
-							}, i * 20L);
+								runnable.run();
+								SlimefunPlugin.getUtilities().researching.remove(p.getUniqueId());
+							}, (research_progress.length + 1) * 20L);
 						}
-						
-						Slimefun.runSync(() -> {
-							runnable.run();
-							SlimefunPlugin.getUtilities().researching.remove(p.getUniqueId());
-						}, (research_progress.length + 1) * 20L);
 					}
-				}
+				});
 			}
 		});
 	}
