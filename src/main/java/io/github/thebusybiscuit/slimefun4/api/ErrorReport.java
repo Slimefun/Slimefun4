@@ -30,16 +30,8 @@ public class ErrorReport {
 	private File file;
 	
 	public ErrorReport(Throwable throwable, Consumer<PrintStream> printer) {
-		SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-			String path = "plugins/Slimefun/error-reports/" + new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
-			file = new File(path + ".err");
-			
-			if (file.exists()) {
-				IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").err").exists());
-				int id = stream.findFirst().getAsInt();
-				
-				file = new File(path + " (" + id + ").err");
-			}
+		Slimefun.runSync(() -> {
+			file = getNewFile();
 			
 			try (PrintStream stream = new PrintStream(file)) {
 				stream.println();
@@ -99,7 +91,7 @@ public class ErrorReport {
 			}
 		});
 	}
-	
+
 	public ErrorReport(Throwable throwable, TickerTask task, Location l, SlimefunItem item) {
 		this(throwable, stream -> {
 			stream.println("Block Info:");
@@ -157,6 +149,20 @@ public class ErrorReport {
 			stream.println(SlimefunItem.getByItem(p.getInventory().getBoots()));
 			stream.println();
 		});
+	}
+	
+	private File getNewFile() {
+		String path = "plugins/Slimefun/error-reports/" + new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
+		File file = new File(path + ".err");
+		
+		if (file.exists()) {
+			IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").err").exists());
+			int id = stream.findFirst().getAsInt();
+			
+			file = new File(path + " (" + id + ").err");
+		}
+		
+		return file;
 	}
 
 	public File getFile() {

@@ -23,12 +23,12 @@ public abstract class JsonDataHolder {
 		dirty = true;
 	}
 	
-	public boolean isDirty() {
-		return dirty;
-	}
-	
 	public void markClean() {
 		dirty = false;
+	}
+	
+	public boolean isDirty() {
+		return dirty;
 	}
 
 	// Setters
@@ -128,10 +128,7 @@ public abstract class JsonDataHolder {
 	protected <T> Optional<T[]> getArray(String key, IntFunction<T[]> constructor, Function<JsonElement, T> getter) {
 		JsonElement element = data.get(key);
 		
-		if (element == null || !(element instanceof JsonArray)) {
-			return Optional.empty();
-		}
-		else {
+		if (element instanceof JsonArray) {
 			JsonArray json = (JsonArray) element;
 			T[] array = constructor.apply(json.size());
 			
@@ -141,16 +138,19 @@ public abstract class JsonDataHolder {
 			
 			return Optional.of(array);
 		}
+		else {
+			return Optional.empty();
+		}
 	}
 	
 	protected <T> Optional<T> getPrimitive(String key, Function<JsonElement, T> getter) {
 		JsonElement element = data.get(key);
 		
-		if (element == null || !(element instanceof JsonPrimitive)) {
-			return Optional.empty();
+		if (element instanceof JsonPrimitive) {
+			return Optional.of(getter.apply(element));
 		}
 		else {
-			return Optional.of(getter.apply(element));
+			return Optional.empty();
 		}
 	}
 
