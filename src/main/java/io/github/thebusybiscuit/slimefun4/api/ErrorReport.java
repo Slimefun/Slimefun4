@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api;
+package io.github.thebusybiscuit.slimefun4.api;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +20,10 @@ import org.bukkit.plugin.Plugin;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.TickerTask;
 
 public class ErrorReport {
 	
