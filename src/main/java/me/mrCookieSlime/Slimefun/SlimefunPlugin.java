@@ -216,12 +216,12 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}
 			
 			MiscSetup.loadDescriptions();
-			
-			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-			settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			getLogger().log(Level.INFO, "Loading Researches...");
 			ResearchSetup.setupResearches();
+			
+			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
+			settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			MiscSetup.setupMisc();
 			WikiSetup.addWikiPages(this);
