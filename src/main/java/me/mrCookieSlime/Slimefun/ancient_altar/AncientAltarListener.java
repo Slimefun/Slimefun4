@@ -71,7 +71,6 @@ public class AncientAltarListener implements Listener {
 					}
 					
 					insertItem(e.getPlayer(), b);
-					Bukkit.getLogger().info("ancientaltar");
 				}
 				else if (!removedItems.contains(stack.getUniqueId())) {
 					final UUID uuid = stack.getUniqueId();
