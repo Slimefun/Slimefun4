@@ -45,8 +45,15 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null},
 				new ItemStack[] {
 					new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), 
+					new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE, 
 					new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), 
-					new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE
+					new ItemStack(Material.GRAVEL), new ItemStack(Material.IRON_NUGGET), 
+					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.QUARTZ), 
+					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GOLD_NUGGET), 
+					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.NETHER_WART), 
+					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.BLAZE_POWDER), 
+					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GLOWSTONE_DUST), 
+					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GHAST_TEAR)
 				}, 
 				BlockFace.SELF
 		);
