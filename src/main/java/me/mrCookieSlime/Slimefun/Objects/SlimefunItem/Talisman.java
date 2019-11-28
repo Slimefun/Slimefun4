@@ -123,7 +123,7 @@ public class Talisman extends SlimefunItem {
         }
 
         Talisman talisman = (Talisman) item;
-        if (ThreadLocalRandom.current().nextInt(100) < talisman.getChance()) {
+        if (ThreadLocalRandom.current().nextInt(100) > talisman.getChance()) {
             return false;
         }
 

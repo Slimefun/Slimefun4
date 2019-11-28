@@ -48,16 +48,31 @@ public final class SlimefunGuide {
 	}
 
     public static ItemStack getItem(SlimefunGuideLayout design) {
+		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
+		ItemMeta meta = item.getItemMeta();
+		List<String> lore = new LinkedList<>();
+		lore.addAll(Arrays.asList("&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开设置菜单"));
+
         switch (design) {
             case BOOK:
-                return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&a粘液科技指南 &7(书与笔界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开设置菜单");
+                meta.setDisplayName("&a粘液科技指南 &7(书与笔界面)");
+				break;
             case CHEAT_SHEET:
-                return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&c粘液科技指南 &4(作弊模式)", "", "&4&l仅限管理员使用", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开设置菜单");
+                meta.setDisplayName("&c粘液科技指南 &4(作弊模式)");
+				lore.add(0, "&4&l仅限管理员使用");
+		    	lore.add(0, "");
+				break;
             case CHEST:
-                return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&a粘液科技指南 &7(箱子界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开设置菜单");
+                meta.setDisplayName("&a粘液科技指南 &7(箱子界面)");
+				break;
             default:
                 return null;
         }
+
+		meta.setLore(lore);
+		SlimefunPlugin.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
+		item.setItemMeta(meta);
+		return item;
     }
 
 	@Deprecated
