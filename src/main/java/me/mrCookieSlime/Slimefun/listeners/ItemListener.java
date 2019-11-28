@@ -227,6 +227,7 @@ public class ItemListener implements Listener {
 			// Ignore the debug fish in here
 		}
 		else {
+			Bukkit.getLogger().info("itemuseeent - " + e.isCancelled());
 			SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 			
 			if (slimefunItem != null) {

@@ -48,7 +48,7 @@ public class AncientAltarListener implements Listener {
 		utilities = SlimefunPlugin.getUtilities();
 	}
 
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		Block b = e.getClickedBlock();
@@ -71,6 +71,7 @@ public class AncientAltarListener implements Listener {
 					}
 					
 					insertItem(e.getPlayer(), b);
+					Bukkit.getLogger().info("ancientaltar");
 				}
 				else if (!removedItems.contains(stack.getUniqueId())) {
 					final UUID uuid = stack.getUniqueId();
