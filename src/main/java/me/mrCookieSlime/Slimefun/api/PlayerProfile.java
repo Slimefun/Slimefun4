@@ -264,9 +264,7 @@ public final class PlayerProfile {
 	 *
 	 * @param p The player's profile you wish to retrieve
 	 * @return The PlayerProfile of this player
-	 * @deprecated Use {@link #get(OfflinePlayer, Consumer)}
 	 */
-	@Deprecated
 	public static PlayerProfile get(OfflinePlayer p) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
 		
