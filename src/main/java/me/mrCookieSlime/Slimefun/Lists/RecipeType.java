@@ -95,7 +95,7 @@ public class RecipeType {
 	
 	public static ItemStack getRecipeOutput(SlimefunItem machine, ItemStack input) {
 		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
-		return recipes.get(((getRecipeInputs(machine).indexOf(input) * 2) + 1))[0];
+		return recipes.get(((getRecipeInputs(machine).indexOf(input) * 2) + 1))[0].clone();
 	}
 	
 	public static ItemStack getRecipeOutputList(SlimefunItem machine, ItemStack[] input) {
