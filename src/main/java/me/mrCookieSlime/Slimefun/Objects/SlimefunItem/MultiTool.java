@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -47,13 +46,14 @@ public class MultiTool extends DamagableChargableItem {
 	public void postRegister() {
 		List<Integer> list = new ArrayList<>();
 		
-		IntStream.iterate(1, i -> i + 1)
-		.filter(i -> Slimefun.getItemValue(this.getID(), PREFIX + i + ".enabled") != null)
-		.forEach(i -> {
+		int i = 0;
+		
+		while (Slimefun.getItemValue(this.getID(), PREFIX + i + ".enabled") != null) {
 			if ((boolean) Slimefun.getItemValue(this.getID(), PREFIX + i + ".enabled")) {
 				list.add(i);
 			}
-		});
+			i++;
+		}
 		
 		this.modes = list;
 	}
