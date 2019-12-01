@@ -652,6 +652,9 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 				if ((i + (page * 18)) < recipes.size()) {
 					if (page == 0) {
+						if (recipes.get(i + (page * 18)) == null) {
+							continue;
+						}
 						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
 						menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
 							displayItem(profile, itemstack, true);
