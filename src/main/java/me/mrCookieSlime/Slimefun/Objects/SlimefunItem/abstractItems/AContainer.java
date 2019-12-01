@@ -125,6 +125,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 		List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
 		
 		for (MachineRecipe recipe: recipes) {
+			if (recipe.getInput().length != 1) continue;
+			
 			displayRecipes.add(recipe.getInput()[0]);
 			displayRecipes.add(recipe.getOutput()[0]);
 		}
