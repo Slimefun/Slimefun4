@@ -16,6 +16,7 @@ jobs:
             * You did not follow our template. Please follow the Issue template to help us identify your issue more quickly.
             * You did not provide any information about your versions (We absolutely need your exact versions, \"latest\" is not helpful)
             * Your issue was already reported, it is a duplicate. Check the other open issues first before posting!
+            * You posted an error without using pastebin. Please always post errors via pastebin.
             * Your issue has already been fixed in a later version of Slimefun or CS-CoreLib, you should update.
             * You are using an outdated version of Slimefun / CS-CoreLib, again, you should update.
             * You are using an unsupported version of Minecraft. We only provide support for the latest version of Minecraft, old versions are not supported anymore.

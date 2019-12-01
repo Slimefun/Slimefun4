@@ -424,7 +424,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 					return false;
 				});
 			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while adding a Wiki Page for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while adding a Wiki Page for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 
@@ -439,7 +439,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 					return false;
 				});
 			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while adding a Youtube Video for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while adding a Youtube Video for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		
@@ -652,14 +652,14 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 				if ((i + (page * 18)) < recipes.size()) {
 					if (page == 0) {
-						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)));
+						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
 						menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
 							displayItem(profile, itemstack, true);
 							return false;
 						});
 					}
 					else {
-						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)));
+						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
 					}
 				}
 				else {
