@@ -417,7 +417,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 					return false;
 				});
 			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while adding a Wiki Page for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while adding a Wiki Page for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 
@@ -432,7 +432,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 					return false;
 				});
 			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while adding a Youtube Video for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while adding a Youtube Video for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		
@@ -522,14 +522,15 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			menu.addMenuClickHandler(i, (pl, s, itemstack, action) -> false);
 		}
 
-		/*
+
 		// Settings Panel
-		menu.addItem(1, new CustomItem(Material.ENCHANTED_BOOK, "&eSettings / Info", "", "&7\u21E8 Click to see more"));
+        menu.addItem(1, new CustomItem(SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), "&e设置 / 关于", "", "&7\u21E8 单击查看更多"));
 		menu.addMenuClickHandler(1, (player, i, itemStack, clickAction) -> {
-			SlimefunGuide.openSettings(player, getItem());
+            GuideSettings.openSettings(player, player.getInventory().getItemInMainHand());
 			return false;
 		});
 
+		/*
 		// Stats
 		menu.addItem(4, new CustomItem(SkullItem.fromPlayer(p), "&7Player Stats: &e" + p.getName(), "", "&7Progress: &a" + Math.round(((profile.getResearches().size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F + "% &e(" + profile.getResearches().size() + " / " + Research.list().size() + ")", "", "&7\u21E8 Click for a full summary"));
 		menu.addMenuClickHandler(4, (player, i, itemStack, clickAction) -> {
@@ -645,14 +646,14 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 				if ((i + (page * 18)) < recipes.size()) {
 					if (page == 0) {
-						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)));
+						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
 						menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
 							displayItem(profile, itemstack, true);
 							return false;
 						});
 					}
 					else {
-						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)));
+						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
 					}
 				}
 				else {
