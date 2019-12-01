@@ -107,6 +107,7 @@ public final class Slimefun {
 		for (ItemStack item: items) {
 			research.addItems(SlimefunItem.getByItem(item));
 		}
+		
 		research.register();
 	}
 

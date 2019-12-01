@@ -129,6 +129,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Electric
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricIngotFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricIngotPulverizer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricOreGrinder;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricPress;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricSmeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectrifiedCrucible;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElevatorPlate;
@@ -2056,6 +2057,36 @@ public final class SlimefunSetup {
 		new AutoDrier(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.AUTO_DRIER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, SlimefunItems.HEATING_COIL, new ItemStack(Material.SMOKER), SlimefunItems.HEATING_COIL, null, new ItemStack(Material.CAMPFIRE), null})
 		.registerChargeableBlock(true, 128);
+
+		new ElectricPress(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.ELECTRIC_PRESS, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PISTON), null, SlimefunItems.MEDIUM_CAPACITOR, null, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT}) {
+
+			@Override
+			public int getEnergyConsumption() {
+				return 8;
+			}
+
+			@Override
+			public int getSpeed() {
+				return 1;
+			}
+
+		}.registerChargeableBlock(true, 256);
+
+		new ElectricPress(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.ELECTRIC_PRESS_2, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {new ItemStack(Material.STICKY_PISTON), SlimefunItems.ELECTRIC_PRESS, new ItemStack(Material.STICKY_PISTON), SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.BIG_CAPACITOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT}) {
+
+			@Override
+			public int getEnergyConsumption() {
+				return 20;
+			}
+
+			@Override
+			public int getSpeed() {
+				return 3;
+			}
+
+		}.registerChargeableBlock(true, 1024);
 
 		new AutoEnchanter(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.AUTO_ENCHANTER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.ENCHANTING_TABLE), null, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN})

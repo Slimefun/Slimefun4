@@ -247,5 +247,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(249, "Totem of Undying", 36), SlimefunItems.TOTEM_OF_UNDYING);
 	    Slimefun.registerResearch(new Research(250, "Charging Bench", 8), SlimefunItems.CHARGING_BENCH);
 	    Slimefun.registerResearch(new Research(251, "Nether Gold Pan", 8), SlimefunItems.NETHER_GOLD_PAN);
+	    Slimefun.registerResearch(new Research(252, "Electric Press", 16), SlimefunItems.ELECTRIC_PRESS, SlimefunItems.ELECTRIC_PRESS_2);
 	}
 }
