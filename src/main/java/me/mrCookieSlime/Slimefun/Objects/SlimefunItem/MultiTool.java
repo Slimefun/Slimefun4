@@ -47,10 +47,10 @@ public class MultiTool extends DamagableChargableItem {
 	public void postRegister() {
 		List<Integer> list = new ArrayList<>();
 		
-		IntStream.iterate(1, i -> i + 1).forEach(i -> {
-			Object value = Slimefun.getItemValue(this.getID(), PREFIX + i + ".enabled");
-			
-			if (value != null && (boolean) value) {
+		IntStream.iterate(1, i -> i + 1)
+		.filter(i -> Slimefun.getItemValue(this.getID(), PREFIX + i + ".enabled") != null)
+		.forEach(i -> {
+			if ((boolean) Slimefun.getItemValue(this.getID(), PREFIX + i + ".enabled")) {
 				list.add(i);
 			}
 		});
