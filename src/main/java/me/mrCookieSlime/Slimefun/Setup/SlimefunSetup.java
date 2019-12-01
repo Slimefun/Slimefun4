@@ -306,9 +306,12 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new GoldPan(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.GOLD_PAN, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, null, null, new ItemStack(Material.STONE), new ItemStack(Material.BOWL), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE)},
-		new String[] {"chance.FLINT", "chance.CLAY", "chance.SIFTED_ORE"}, new Integer[] {40, 25, 35})
+        new ItemStack[] {null, null, null, new ItemStack(Material.STONE), new ItemStack(Material.BOWL), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE)})
 		.register(true);
+
+        new NetherGoldPan(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.NETHER_GOLD_PAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null, null, null, new ItemStack(Material.NETHER_BRICK), SlimefunItems.GOLD_PAN, new ItemStack(Material.NETHER_BRICK), new ItemStack(Material.NETHER_BRICK), new ItemStack(Material.NETHER_BRICK), new ItemStack(Material.NETHER_BRICK)})
+        .register(true);
 
 		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.SIFTED_ORE, RecipeType.GOLD_PAN,
 		new ItemStack[] {new ItemStack(Material.GRAVEL), null, null, null, null, null, null, null, null})

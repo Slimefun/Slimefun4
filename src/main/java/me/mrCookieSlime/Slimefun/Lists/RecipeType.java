@@ -8,6 +8,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 
 import org.bukkit.Material;
@@ -93,8 +94,8 @@ public class RecipeType {
 	}
 	
 	public static ItemStack getRecipeOutput(SlimefunItem machine, ItemStack input) {
-		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
-		return recipes.get(((getRecipeInputs(machine).indexOf(input) * 2) + 1))[0];
+        List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
+		return recipes.get(((getRecipeInputs(machine).indexOf(input) * 2) + 1))[0].clone();
 	}
 	
 	public static ItemStack getRecipeOutputList(SlimefunItem machine, ItemStack[] input) {

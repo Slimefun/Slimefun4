@@ -185,9 +185,10 @@ public final class PlayerProfile {
 
 	public String getTitle() {
 		List<String> titles = SlimefunPlugin.getSettings().researchesTitles;
-		
-		int index = Math.round(Float.valueOf(String.valueOf(Math.round(((researches.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F)) / 100.0F) *  titles.size();
-		if (index > 0) index--;
+
+        float fraction = (float) researches.size() / Research.list().size();
+        int index = (int) (fraction * (titles.size() -1));
+
 		return titles.get(index);
 	}
 	
@@ -263,9 +264,8 @@ public final class PlayerProfile {
 	 *
 	 * @param p The player's profile you wish to retrieve
 	 * @return The PlayerProfile of this player
-	 * @deprecated Use {@link #get(OfflinePlayer, Consumer)}
 	 */
-	@Deprecated
+
 	public static PlayerProfile get(OfflinePlayer p) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
 		

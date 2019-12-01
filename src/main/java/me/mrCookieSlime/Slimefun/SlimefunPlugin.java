@@ -1,9 +1,13 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.logging.Level;
 
+import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
+import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.services.CustomItemDataService;
 import me.mrCookieSlime.Slimefun.services.CustomTextureService;
 import org.bukkit.Bukkit;
@@ -209,12 +213,12 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}
 			
 			MiscSetup.loadDescriptions();
-			
-			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-			settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			getLogger().log(Level.INFO, "加载研究中...");
 			ResearchSetup.setupResearches();
+
+            settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
+            settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			MiscSetup.setupMisc();
             WikiSetup.addWikiPages(this);
@@ -292,13 +296,36 @@ public final class SlimefunPlugin extends JavaPlugin {
 				try {
 					ticker.run();
 				}
-				catch(Throwable x) {
+				catch(Exception x) {
 					getLogger().log(Level.SEVERE, "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + Slimefun.getVersion(), x);
 					ticker.abortTick();
 				}
 			}, 100L, config.getInt("URID.custom-ticker-delay"));
 
-			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);
+            getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+                utilities.connectors.forEach(GitHubConnector::pullFile);
+
+                for (Contributor contributor: utilities.contributors.values()) {
+                    if (!contributor.hasTexture()) {
+                        String name = contributor.getName();
+
+                        try {
+                            Optional<UUID> uuid = MinecraftAccount.getUUID(name);
+
+                            if (uuid.isPresent()) {
+                                Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
+                                contributor.setTexture(skin);
+                            }
+                            else {
+                                contributor.setTexture(Optional.empty());
+                            }
+                        }
+                        catch(MinecraftAccount.TooManyRequestsException x) {
+                            break;
+                        }
+                    }
+                }
+            }, 80L, 60 * 60 * 20L);
 
 			// Hooray!
 			getLogger().log(Level.INFO, "启动完成! 汉化 by Namelessssss");
