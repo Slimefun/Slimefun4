@@ -46,7 +46,7 @@ public class ContributionsConnector extends GitHubConnector {
 
 	@Override
 	public String getURLSuffix() {
-		return "/contributors";
+		return "/contributors?per_page=100";
 	}
 
 	private void computeContributors(JsonArray array) {
