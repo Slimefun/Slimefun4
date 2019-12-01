@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.listeners;
 import java.util.List;
 import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.guides.GuideSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -211,15 +212,15 @@ public class ItemListener implements Listener {
 		ItemStack item = e.getItem();
 
 		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
-			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
+			if (p.isSneaking()) GuideSettings.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.BOOK);
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
-			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
+			if (p.isSneaking()) GuideSettings.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.CHEST);
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-			if (p.isSneaking()) SlimefunGuide.openSettings(p, item);
+			if (p.isSneaking()) GuideSettings.openSettings(p, item);
 			else p.chat("/sf cheat");
 		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEBUG_FISH, true)) {
