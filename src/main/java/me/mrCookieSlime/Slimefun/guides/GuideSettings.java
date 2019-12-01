@@ -203,8 +203,8 @@ public final class GuideSettings {
 			meta.setLore(lore);
 			skull.setItemMeta(meta);
 
-			menu.addItem(i + 9, skull);
-			menu.addMenuClickHandler(i + 9, (pl, slot, item, action) -> {
+			menu.addItem(i - page * 36 + 9, skull);
+			menu.addMenuClickHandler(i - page * 36 + 9, (pl, slot, item, action) -> {
 				pl.closeInventory();
 				ChatUtils.sendURL(pl, contributor.getProfile());
 				return false;
