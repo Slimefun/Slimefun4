@@ -260,8 +260,7 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 			item.setItemMeta(im);
 			list.add(item);
 		}
-		
-		if (list.size() % 2 != 0) list.add(null);
+
 		return list;
 	}
 	
