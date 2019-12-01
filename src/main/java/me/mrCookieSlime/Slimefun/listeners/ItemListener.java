@@ -249,6 +249,7 @@ public class ItemListener implements Listener {
 						if (!p.isSneaking()) {
 							float charge = ItemEnergy.getStoredEnergy(item);
 							float cost = 0.3F;
+							
 							if (charge >= cost) {
 								p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
 								Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item")).getItem().clone(), e.getClickedBlock()));
@@ -257,9 +258,10 @@ public class ItemListener implements Listener {
 						else {
 							index++;
 							if (index == modes.size()) index = 0;
-
-							final int finalIndex = index;
-							SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", (String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(finalIndex) + ".name")));
+							
+							SlimefunItem selectedItem = SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item"));
+							String itemName = selectedItem != null ? selectedItem.getItemName(): "Unknown";
+							SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
 							utilities.mode.put(p.getUniqueId(), index);
 						}
 					}
