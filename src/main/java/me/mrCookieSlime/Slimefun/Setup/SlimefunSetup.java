@@ -1240,7 +1240,7 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new SoulboundBackpack(36, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.BOUND_BACKPACK,
-		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.RADIANT_BACKPACK, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2})
+		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.WOVEN_BACKPACK, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2})
 		.register(true);
 
 		new JetBoots((SlimefunItemStack) SlimefunItems.DURALUMIN_JETBOOTS,
