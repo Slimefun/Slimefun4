@@ -426,8 +426,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 			item.setItemMeta(im);
 			list.add(item);
 		}
-		
-		if (list.size() % 2 != 0) list.add(null);
+
 		return list;
 	}
 	
