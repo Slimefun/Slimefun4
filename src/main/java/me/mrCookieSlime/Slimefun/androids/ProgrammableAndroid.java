@@ -500,7 +500,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			String item = BlockStorage.checkID(block);
-			AndroidMineEvent event = new AndroidMineEvent(block, this);
+			AndroidMineEvent event = new AndroidMineEvent(block, b);
 			Bukkit.getPluginManager().callEvent(event);
 			if (event.isCancelled()) {
 				return;
@@ -533,7 +533,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		Collection<ItemStack> drops = block.getDrops();
 		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			SlimefunItem item = BlockStorage.check(block);
-			AndroidMineEvent event = new AndroidMineEvent(block, this);
+			AndroidMineEvent event = new AndroidMineEvent(block, b);
 			Bukkit.getPluginManager().callEvent(event);
 			if (event.isCancelled()) {
 				return;
