@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +14,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -33,7 +36,7 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 
-public class SlimefunItem {
+public class SlimefunItem implements Placeable {
 	
 	private String id;
 	private ItemState state;
@@ -139,8 +142,7 @@ public class SlimefunItem {
 	 * @since 4.1.11
 	 */
 	public String getPermission() 			{		return permission;		}
-	public List<String> getNoPermissionTooltip()    {       return noPermissionTooltip;       }
-	public boolean isTicking() 			{		return ticking;			}
+	public List<String> getNoPermissionTooltip()    {       return noPermissionTooltip; }
 
 	/**
 	 * @since 4.1.11, rename of {@link #getTicker()}.
@@ -612,8 +614,22 @@ public class SlimefunItem {
 		itemhandlers.stream().filter(c::isInstance).map(c::cast).forEach(callable);
 	}
 	
+	public boolean isTicking() {
+		return ticking;
+	}
+	
 	@Override
 	public String toString() {
 		return "SlimefunItem: " + id + " (" + state + ", vanilla=" + !addon + ")";
+	}
+
+	@Override
+	public Collection<ItemStack> getDrops() {
+		return Arrays.asList(item.clone());
+	}
+
+	@Override
+	public Collection<ItemStack> getDrops(Player p) {
+		return getDrops();
 	}
 }

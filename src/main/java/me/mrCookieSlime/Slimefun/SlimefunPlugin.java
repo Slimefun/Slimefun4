@@ -74,6 +74,7 @@ import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
+import me.mrCookieSlime.Slimefun.services.BlockDataService;
 import me.mrCookieSlime.Slimefun.services.CustomItemDataService;
 import me.mrCookieSlime.Slimefun.services.CustomTextureService;
 import me.mrCookieSlime.Slimefun.services.MetricsService;
@@ -88,6 +89,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
 	private final CustomTextureService textureService = new CustomTextureService(this);
+	private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
 	
 	private TickerTask ticker;
 	private SlimefunLocalization local;
@@ -479,6 +481,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	public static CustomTextureService getItemTextureService() {
 		return instance.textureService;
+	}
+	
+	public static BlockDataService getBlockDataService() {
+		return instance.blockDataService;
 	}
 
 }

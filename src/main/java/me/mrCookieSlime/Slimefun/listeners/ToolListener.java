@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.TileState;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -73,7 +75,15 @@ public class ToolListener implements Listener {
 				e.setCancelled(true);
 			}
 			else {
-				BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
+				boolean supportsPersistentData = e.getBlock().getState() instanceof TileState;
+				
+				if (supportsPersistentData) {
+					SlimefunPlugin.getBlockDataService().setBlockData((TileState) e.getBlock().getState(), sfItem.getID());
+				}
+				
+				if (!supportsPersistentData || sfItem.isTicking()) {
+					BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
+				}
 				
 				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
 				if (blockHandler != null) {
@@ -192,6 +202,14 @@ public class ToolListener implements Listener {
 		if (sensitiveMaterials.contains(block2.getType())) {
 			SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
 			
+			if (sfItem == null && e.getBlock().getState() instanceof TileState) {
+				Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) e.getBlock().getState());
+				
+				if (blockData.isPresent()) {
+					sfItem = SlimefunItem.getByID(blockData.get());
+				}
+			}
+			
 			if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
 				if (blockHandler != null) {
@@ -211,6 +229,14 @@ public class ToolListener implements Listener {
 
 		SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 		
+		if (sfItem == null && e.getBlock().getState() instanceof TileState) {
+			Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) e.getBlock().getState());
+			
+			if (blockData.isPresent()) {
+				sfItem = SlimefunItem.getByID(blockData.get());
+			}
+		}
+		
 		if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 			SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
 			if (blockHandler != null) {
@@ -223,7 +249,8 @@ public class ToolListener implements Listener {
 				}
 			}
 			if (allow) {
-				drops.add(BlockStorage.retrieve(e.getBlock()));
+				drops.addAll(sfItem.getDrops());
+				BlockStorage.clearBlockInfo(e.getBlock());
 			}
 			else {
 				e.setCancelled(true);
