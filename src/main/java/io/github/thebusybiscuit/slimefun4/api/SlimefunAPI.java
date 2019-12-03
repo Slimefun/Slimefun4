@@ -1,12 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.blocks.SlimefunBlock;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemRestriction;
+import io.github.thebusybiscuit.slimefun4.core.SlimefunWorld;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
@@ -83,5 +88,13 @@ public interface SlimefunAPI {
 	default Set<SlimefunItem> getItems() {
 		return getCategories().stream().flatMap(cat -> cat.getItems().stream()).collect(Collectors.toSet());
 	}
+	
+	Optional<SlimefunItem> fromItemStack(ItemStack item);
+	
+	Optional<SlimefunBlock> fromBlock();
+	
+	SlimefunWorld fromWorld(World world);
+	
+	PlayerProfile fromPlayer(OfflinePlayer player);
 	
 }

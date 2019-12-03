@@ -14,8 +14,12 @@ public abstract class JsonDataHolder {
 	protected JsonObject data;
 	private boolean dirty;
 	
+	public JsonDataHolder() {
+		this(null);
+	}
+	
 	public JsonDataHolder(JsonObject data) {
-		this.data = data;
+		this.data = data != null ? data: new JsonObject();
 		this.dirty = false;
 	}
 	

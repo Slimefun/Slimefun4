@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.TileState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
@@ -561,12 +563,19 @@ public class BlockStorage {
 		return SlimefunItem.getByID(getLocationInfo(l, "id"));
 	}
 	
-	public static String checkID(Block block) {
-		return checkID(block.getLocation());
+	public static String checkID(Block b) {
+		if (b.getState() instanceof TileState) {
+			Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) b.getState());
+			
+			if (blockData.isPresent()) return blockData.get();
+		}
+		
+		return checkID(b.getLocation());
 	}
 
 	public static boolean check(Block block, String slimefunItem) {
-		return check(block.getLocation(), slimefunItem);
+		String id = checkID(block);
+		return id != null && id.equals(slimefunItem);
 	}
 	
 	public static String checkID(Location l) {
