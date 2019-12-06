@@ -185,11 +185,13 @@ public final class GuideSettings {
 			try {
 				skull = CustomSkull.getItem(contributor.getTexture());
 			} catch (Exception e) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while inserting a Contributors head.", e);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while inserting a Contributors head.", e);
 			}
 
 			SkullMeta meta = (SkullMeta) skull.getItemMeta();
-			meta.setDisplayName(ChatColor.GRAY + contributor.getName());
+			meta.setDisplayName(ChatColor.GRAY + contributor.getName()
+					+ (!contributor.getName().equals(contributor.getMinecraftName()) ? " (MC: " + contributor.getMinecraftName() + ")" : "")
+			);
 			
 			List<String> lore = new LinkedList<>();
 			lore.add("");

@@ -1,23 +1,29 @@
 package me.mrCookieSlime.Slimefun.hooks.github;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import org.bukkit.Bukkit;
 
 public class ContributionsConnector extends GitHubConnector {
-	
+
+	private static final Pattern nameFormat = Pattern.compile("[\\w_]+");
+
 	// All names including "bot" are automatically blacklisted. But, others can be too right here.
 	// (includes "invalid-email-address" because it is an invalid contributor)
-	private static final List<String> blacklist = Collections.singletonList(
-			"invalid-email-address"
+	private static final List<String> blacklist = Arrays.asList(
+			"invalid-email-address",
+			"renovate-bot",
+			"ImgBotApp",
+			"TheBusyBot",
+			"imgbot"
 	);
 
 	// Matches a GitHub name with a Minecraft name.
@@ -66,7 +72,7 @@ public class ContributionsConnector extends GitHubConnector {
 	    	int commits = object.get("contributions").getAsInt();
 	    	String profile = object.get("html_url").getAsString();
 
-	    	if (!name.toLowerCase().contains("bot") && !blacklist.contains(name)) {
+	    	if (nameFormat.matcher(name).matches() && !blacklist.contains(name)) {
 	    		Contributor contributor = SlimefunPlugin.getUtilities().contributors.computeIfAbsent(
 	    				name,
 						key -> new Contributor(aliases.getOrDefault(name, name), profile)
