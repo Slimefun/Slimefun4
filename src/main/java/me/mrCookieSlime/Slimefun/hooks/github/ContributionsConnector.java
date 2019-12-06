@@ -32,6 +32,8 @@ public class ContributionsConnector extends GitHubConnector {
 	static {
 		aliases.put("WalshyDev", "HumanRightsAct");
 		aliases.put("J3fftw1", "_lagpc_");
+		aliases.put("ajan-12", "ajan_12");
+		aliases.put("LinoxGH", "ajan_12");
 	}
 	
 	private final String prefix;
