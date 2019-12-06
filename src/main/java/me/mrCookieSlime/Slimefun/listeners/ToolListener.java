@@ -81,9 +81,7 @@ public class ToolListener implements Listener {
 					SlimefunPlugin.getBlockDataService().setBlockData((TileState) e.getBlock().getState(), sfItem.getID());
 				}
 				
-				if (!supportsPersistentData || sfItem.isTicking()) {
-					BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
-				}
+				BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
 				
 				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
 				if (blockHandler != null) {
