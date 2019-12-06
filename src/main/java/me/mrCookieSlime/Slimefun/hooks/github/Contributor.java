@@ -16,7 +16,7 @@ public class Contributor {
 	
 	private String name;
 	private String profile;
-	private Optional<String> headTexture;
+	private Optional<String> headTexture = Optional.empty();
 	private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
 
 	public Contributor(String name, String profile) {
@@ -57,16 +57,11 @@ public class Contributor {
 	 * @return A Base64-Head Texture
 	 */
 	public String getTexture() {
-		if (headTexture == null || !headTexture.isPresent()) {
-			return PLACEHOLDER_HEAD;
-		}
-		else {
-			return headTexture.get();
-		}
+		return headTexture.orElse(PLACEHOLDER_HEAD);
 	}
 
 	public boolean hasTexture() {
-		return headTexture != null;
+		return headTexture.isPresent();
 	}
 
 	public void setTexture(Optional<String> skin) {
