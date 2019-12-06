@@ -16,7 +16,7 @@ public class ContributionsConnector extends GitHubConnector {
 
 	private static final Pattern nameFormat = Pattern.compile("[\\w_]+");
 
-	// All names including "bot" are automatically blacklisted. But, others can be too right here.
+	// GitHub Bots that do not count as Contributors
 	// (includes "invalid-email-address" because it is an invalid contributor)
 	private static final List<String> blacklist = Arrays.asList(
 		"invalid-email-address",
