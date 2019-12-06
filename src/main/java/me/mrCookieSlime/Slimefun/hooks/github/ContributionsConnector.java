@@ -74,10 +74,12 @@ public class ContributionsConnector extends GitHubConnector {
 	    	int commits = object.get("contributions").getAsInt();
 	    	String profile = object.get("html_url").getAsString();
 
+	    	final String alias = aliases.getOrDefault(name, name);
+
 	    	if (nameFormat.matcher(name).matches() && !blacklist.contains(name)) {
 	    		Contributor contributor = SlimefunPlugin.getUtilities().contributors.computeIfAbsent(
-	    				name,
-						key -> new Contributor(aliases.getOrDefault(name, name), profile)
+	    				alias,
+						key -> new Contributor(alias, profile)
 				);
 	    		contributor.setContribution(role, commits);
 	    	}
