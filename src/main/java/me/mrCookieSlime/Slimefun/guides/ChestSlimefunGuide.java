@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.guides;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -312,22 +314,32 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 			if (index == 44) break;
 			
-			if (!itemName.isEmpty()) {
-				if (itemName.equals(searchTerm) || itemName.contains(searchTerm)) {
-					menu.addItem(index, item.getItem());
-					menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
-						if (!survival) {
-							pl.getInventory().addItem(item.getItem().clone());
-						}
-						else {
-							displayItem(profile, item, true);
-						}
+			if (!itemName.isEmpty() && (itemName.equals(searchTerm) || itemName.contains(searchTerm))) {
+				ItemStack itemstack = new CustomItem(item.getItem(), meta -> {
+					List<String> lore = null;
+					Category category = item.getCategory();
+					
+					if (category != null && category.getItem() != null && category.getItem().hasItemMeta() && category.getItem().getItemMeta().hasDisplayName()) {
+						lore = Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.RESET + item.getCategory().getItem().getItemMeta().getDisplayName());
+					}
+					
+					meta.setLore(lore);
+					meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
+				});
+				
+				menu.addItem(index, itemstack);
+				menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
+					if (!survival) {
+						pl.getInventory().addItem(item.getItem().clone());
+					}
+					else {
+						displayItem(profile, item, true);
+					}
 
-						return false;
-					});
+					return false;
+				});
 
-					index++;
-				}
+				index++;
 			}
 		}
 

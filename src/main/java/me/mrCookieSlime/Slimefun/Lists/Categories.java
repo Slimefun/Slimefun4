@@ -24,6 +24,7 @@ public final class Categories {
 	private static final String LORE = "&a> Click to open";
 	
 	public static final Category WEAPONS = new Category(new CustomItem(Material.GOLDEN_SWORD, "&7Weapons", "", LORE), 1);
+	public static final Category TOOLS = new Category(new CustomItem(Material.GOLDEN_PICKAXE, "&7Tools", "", LORE), 1);
 	public static final Category PORTABLE = new Category(new CustomItem(SlimefunItems.BACKPACK_MEDIUM, "&7Items", "", LORE), 1);
 	public static final Category FOOD = new Category(new CustomItem(SlimefunItems.FORTUNE_COOKIE, "&7Food", "", LORE), 2);
 	public static final Category MACHINES_1 = new Category(new CustomItem(Material.SMITHING_TABLE, "&7Basic Machines", "", LORE), 1);
@@ -38,9 +39,8 @@ public final class Categories {
 	public static final Category CARGO = new LockedCategory(new CustomItem(SlimefunItems.CARGO_MANAGER, "&cCargo Management", "", LORE), 4, MACHINES_1);
 	public static final Category TECH_MISC = new Category(new CustomItem(SlimefunItems.HEATING_COIL, "&7Technical Components", "", LORE), 2);
 	public static final Category MAGIC_ARMOR = new Category(new CustomItem(SlimefunItems.ENDER_HELMET, "&7Magical Armor", "", LORE), 2);
-	public static final Category TALISMANS_1 = new Category(new CustomItem(Material.EMERALD, "&7Talismans - &aTier I", "", LORE), 2);
-	public static final LockedCategory TALISMANS_2 = new LockedCategory(new CustomItem(Material.EMERALD, "&7Talismans - &aTier II", "", LORE), 3, TALISMANS_1);
-	public static final Category TOOLS = new Category(new CustomItem(Material.GOLDEN_PICKAXE, "&7Tools", "", LORE), 1);
+	public static final Category TALISMANS_1 = new Category(new CustomItem(SlimefunItems.TALISMAN, "&7Talismans - &aTier I", "", LORE), 2);
+	public static final LockedCategory TALISMANS_2 = new LockedCategory(new CustomItem(SlimefunItems.ENDER_TALISMAN, "&7Talismans - &aTier II", "", LORE), 3, TALISMANS_1);
 	
 	// Seasonal Categories
 	public static final SeasonalCategory CHRISTMAS = new SeasonalCategory(12, 1, new CustomItem(Material.NETHER_STAR, Christmas.color("Christmas"), "", "&c> Click to help &aSanta"));
