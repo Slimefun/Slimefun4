@@ -19,11 +19,11 @@ public class ContributionsConnector extends GitHubConnector {
 	// All names including "bot" are automatically blacklisted. But, others can be too right here.
 	// (includes "invalid-email-address" because it is an invalid contributor)
 	private static final List<String> blacklist = Arrays.asList(
-			"invalid-email-address",
-			"renovate-bot",
-			"ImgBotApp",
-			"TheBusyBot",
-			"imgbot"
+		"invalid-email-address",
+		"renovate-bot",
+		"ImgBotApp",
+		"TheBusyBot",
+		"imgbot"
 	);
 
 	// Matches a GitHub name with a Minecraft name.
