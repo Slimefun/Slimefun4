@@ -107,16 +107,18 @@ public class AutoDisenchanter extends AContainer {
 				if (item != null && target != null && target.getType() == Material.BOOK) {
 					int amount = 0;
 
-					for (Map.Entry<Enchantment, Integer> e: item.getEnchantments().entrySet()) {
+					for (Map.Entry<Enchantment, Integer> e : item.getEnchantments().entrySet()) {
 						enchantments.put(e.getKey(), e.getValue());
 						amount++;
 					}
+					
 					if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
-						for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
+						for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
 							amount++;
 							enchantments2.add(enchantment);
 						}
 					}
+					
 					if (amount > 0) {
 						ItemStack newItem = item.clone();
 						newItem.setAmount(1);
@@ -133,13 +135,14 @@ public class AutoDisenchanter extends AContainer {
 
 						EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
 
-						for (Map.Entry<Enchantment,Integer> e: enchantments.entrySet()) {
+						for (Map.Entry<Enchantment,Integer> e : enchantments.entrySet()) {
 							newItem.removeEnchantment(e.getKey());
 							meta.addStoredEnchant(e.getKey(), e.getValue(), true);
 						}
+						
 						book.setItemMeta(meta);
 
-						for (ItemEnchantment e: enchantments2) {
+						for (ItemEnchantment e : enchantments2) {
 							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, e.getEnchantment(), e.getLevel());
 							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), 0);
 						}

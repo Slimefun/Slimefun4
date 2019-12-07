@@ -12,8 +12,7 @@ public class PlayerQuitListener implements Listener {
 	public PlayerQuitListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-
-	@SuppressWarnings("deprecation")
+	
 	@EventHandler
 	public void onDisconnect(PlayerQuitEvent e) {
 		if (PlayerProfile.isLoaded(e.getPlayer().getUniqueId())) {

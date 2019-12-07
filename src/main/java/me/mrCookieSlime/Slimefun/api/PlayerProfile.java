@@ -225,10 +225,7 @@ public final class PlayerProfile {
 	 *
 	 * @param uuid The UUID of the profile you are trying to retrieve.
 	 * @return The PlayerProfile of this player
-	 * 
-	 * @deprecated Use {@link #fromUUID(UUID, Consumer)}
 	 */
-	@Deprecated
 	public static PlayerProfile fromUUID(UUID uuid) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
 		

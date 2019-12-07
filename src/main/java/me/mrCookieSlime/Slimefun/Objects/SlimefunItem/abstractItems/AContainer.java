@@ -194,7 +194,10 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			}
 			else {
 				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				pushItems(b, processing.get(b).getOutput().clone());
+				
+				for (ItemStack output: processing.get(b).getOutput()) {
+					inv.pushItem(output.clone(), getOutputSlots());
+				}
 				
 				progress.remove(b);
 				processing.remove(b);

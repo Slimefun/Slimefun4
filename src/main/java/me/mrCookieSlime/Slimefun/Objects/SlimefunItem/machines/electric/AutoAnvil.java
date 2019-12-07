@@ -66,7 +66,7 @@ public abstract class AutoAnvil extends AContainer {
 			}
 			else {
 				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				pushItems(b, processing.get(b).getOutput());
+				menu.pushItem(processing.get(b).getOutput()[0].clone(), getOutputSlots());
 				
 				progress.remove(b);
 				processing.remove(b);
@@ -94,7 +94,7 @@ public abstract class AutoAnvil extends AContainer {
 			}
 			
 			if (recipe != null) {
-				if (!fits(b, recipe.getOutput())) return;
+				if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) return;
 				
 				for (int slot: getInputSlots()) {
 					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
