@@ -30,7 +30,7 @@ public final class Elevator {
 			pl.closeInventory();
 			pl.sendMessage("");
 			pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &ePlease enter a Name for this Floor in your Chat!"));
-			pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &e(Chat Colors are supported!"));
+			pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &e(Chat Colors are supported!)"));
 			pl.sendMessage("");
 			
 			ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, message -> {
