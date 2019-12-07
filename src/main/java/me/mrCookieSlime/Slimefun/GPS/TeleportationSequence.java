@@ -82,7 +82,7 @@ public final class TeleportationSequence {
 					}
 					
 					destination.getWorld().spawnParticle(Particle.PORTAL,new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()),progress * 2, 0.2F, 0.8F, 0.2F );
-					destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1.4F);
+					destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
 					SlimefunPlugin.getUtilities().teleporterUsers.remove(uuid);
 				}
 				else {
