@@ -8,6 +8,6 @@ jobs:
     name: Categorize Pull Requests
     steps:
     - name: Branch Categorization
-      uses: TheBusyBiscuit/branch-cat@v1.0.0
+      uses: TheBusyBiscuit/branch-cat@v1.0.1
       with:
         rules: '[ {"fix/.*" : "Bug Fix"} ]'
