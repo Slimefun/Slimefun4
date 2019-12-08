@@ -11,3 +11,5 @@ jobs:
       uses: TheBusyBiscuit/branch-cat@v1.0.2
       with:
         rules: '[ {"fix/.*" : "Bug Fix"} ]'
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }
