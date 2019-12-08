@@ -89,5 +89,12 @@ public class SlimefunItemStack extends CustomItem {
 		
 		return super.setItemMeta(meta);
 	}
+	
+	@Override
+	public ItemStack clone() {
+		SlimefunItemStack item = (SlimefunItemStack) super.clone();
+		item.id = getItemID();
+		return item;
+	}
 
 }
