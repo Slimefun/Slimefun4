@@ -94,7 +94,7 @@ public final class SlimefunManager {
 					Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
 					
 					if (id.isPresent()) {
-						return id.equals(((SlimefunItemStack) sfitem).getItemID());
+						return id.get().equals(((SlimefunItemStack) sfitem).getItemID());
 					}
 					
 					ImmutableItemMeta meta = ((SlimefunItemStack) sfitem).getImmutableMeta();
