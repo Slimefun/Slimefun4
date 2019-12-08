@@ -84,6 +84,10 @@ public final class SlimefunManager {
 	public static boolean isItemSimilar(ItemStack item, ItemStack sfitem, boolean checkLore) {
 		if (item == null) return sfitem == null;
 		if (sfitem == null) return false;
+		
+		if (item instanceof SlimefunItemStack && sfitem instanceof SlimefunItemStack) {
+			return ((SlimefunItemStack) item).getItemID().equals(((SlimefunItemStack) sfitem).getItemID());
+		}
 
 		if (item.getType() == sfitem.getType() && item.getAmount() >= sfitem.getAmount()) {
 			if (item.hasItemMeta() && sfitem.hasItemMeta()) {
