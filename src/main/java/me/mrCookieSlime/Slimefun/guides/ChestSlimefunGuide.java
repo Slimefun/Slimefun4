@@ -582,7 +582,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		
 		if (playerHistory.size() > 1) {
 
-			menu.addItem(slot, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK),
+			menu.addItem(slot, new CustomItem(SlimefunGuide.getItem(SlimefunGuideLayout.CHEST),
 				"&7\u21E6 Back", "",
 				"&rLeft Click: &7Go back to previous Page",
 				"&rShift + left Click: &7Go back to Main Menu")
