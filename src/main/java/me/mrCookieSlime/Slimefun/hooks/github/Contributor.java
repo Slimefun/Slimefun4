@@ -17,9 +17,13 @@ public class Contributor {
 	private final String ghName;
 	private final String mcName;
 	private String profileLink;
-	private Optional<String> headTexture;
 	private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
 
+	// This field is nullable.
+	// null = "Texture was not pulled yet or failed to pull, it will try again next time"
+	// empty Optional = "No Texture could be found for this person.
+	private Optional<String> headTexture;
+	
 	public Contributor(String name, String profile) {
 		this.ghName = profile.substring(profile.lastIndexOf('/') + 1);
 		this.mcName = name;
@@ -41,7 +45,8 @@ public class Contributor {
 	}
 
 	/**
-	 * Returns the MC name of the contributor. This may be the same as {@link #getName()}.
+	 * Returns the MC name of the contributor. 
+	 * This may be the same as {@link #getName()}.
 	 *
 	 * @return The MC username of this contributor.
 	 */
@@ -64,7 +69,10 @@ public class Contributor {
 	}
 	
 	/**
-	 * Returns this Creator's head texture
+	 * Returns this Creator's head texture.
+	 * If no texture could be found, or it hasn't been pulled yet, 
+	 * then it will return a placeholder texture.
+	 * 
 	 * @return A Base64-Head Texture
 	 */
 	public String getTexture() {
@@ -76,6 +84,12 @@ public class Contributor {
 		}
 	}
 
+	/**
+	 * This method will return whether this instance of {@link Contributor} has
+	 * pulled a texture yet.
+	 * 
+	 * @return	Whether this {@link Contributor} has been assigned a texture yet
+	 */
 	public boolean hasTexture() {
 		return headTexture != null;
 	}
