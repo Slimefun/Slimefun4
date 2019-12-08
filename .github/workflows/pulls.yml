@@ -12,4 +12,4 @@ jobs:
       with:
         rules: '[ {"fix/.*" : "Bug Fix"} ]'
       env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
