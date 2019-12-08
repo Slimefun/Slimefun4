@@ -10,6 +10,6 @@ jobs:
     - name: Branch Categorization
       uses: TheBusyBiscuit/branch-cat@v1.0.4
       with:
-        rules: '{ {"fix\/.+" : "Bug Fix"} }'
+        rules: '{ "fix\/.+" : "Bug Fix" }'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
