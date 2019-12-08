@@ -29,14 +29,13 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (SlimefunManager.isItemSimilar(item, getItem(), false)) {
-				List<String> lore = item.getItemMeta().getLore();
+				ItemMeta im = item.getItemMeta();
+				List<String> lore = im.getLore();
 				if (lore.get(1).isEmpty()) {
 					lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
 					lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
-					ItemMeta im = item.getItemMeta();
 					im.setLore(lore);
 					item.setItemMeta(im);
-					p.getInventory().setItemInMainHand(item);
 					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
 				} else {
 					UUID uuid = UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
