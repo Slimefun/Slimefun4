@@ -10,7 +10,6 @@ import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -29,26 +28,27 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimilar(item, getItem(), true)) {
+			if (SlimefunManager.isItemSimilar(item, getItem(), false)) {
 				List<String> lore = item.getItemMeta().getLore();
-				lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
-				lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
-				ItemMeta im = item.getItemMeta();
-				im.setLore(lore);
-				item.setItemMeta(im);
-				p.getEquipment().setItemInMainHand(item);
-				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
-				return true;
-			}
-			else if (SlimefunManager.isItemSimilar(item, getItem(), false)) {
-				PlayerProfile.get(p, profile -> {
-					PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1))), owner -> {
+				if (lore.get(1).isEmpty()) {
+					lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
+					lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
+					ItemMeta im = item.getItemMeta();
+					im.setLore(lore);
+					item.setItemMeta(im);
+					p.getInventory().setItemInMainHand(item);
+					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+				} else {
+					UUID uuid = UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
+					if (p.getUniqueId().equals(uuid))
+						return true;
+					PlayerProfile.get(p, profile -> PlayerProfile.fromUUID(uuid, owner -> {
 						Set<Research> researches = owner.getResearches();
-						researches.forEach(research -> profile.setResearched(research, true));
-					});
-				});
-				
-				if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
+						researches.forEach(research -> research.unlock(p, true));
+					}));
+					if (p.getGameMode() != GameMode.CREATIVE)
+						item.setAmount(item.getAmount() - 1);
+				}
 				return true;
 			}
 			else return false;
