@@ -310,14 +310,12 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
 				utilities.connectors.forEach(GitHubConnector::pullFile);
-				
+
 				for (Contributor contributor: utilities.contributors.values()) {
 					if (!contributor.hasTexture()) {
-						String name = contributor.getName();
-						
 						try {
-							Optional<UUID> uuid = MinecraftAccount.getUUID(name);
-							
+							Optional<UUID> uuid = MinecraftAccount.getUUID(contributor.getMinecraftName());
+
 							if (uuid.isPresent()) {
 								Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
 								contributor.setTexture(skin);

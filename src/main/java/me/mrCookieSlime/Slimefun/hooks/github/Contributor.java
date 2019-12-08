@@ -13,15 +13,17 @@ import java.util.concurrent.ConcurrentMap;
 public class Contributor {
 	
 	private static final String PLACEHOLDER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==";
-	
-	private String name;
-	private String profile;
+
+	private final String ghName;
+	private final String mcName;
+	private String profileLink;
 	private Optional<String> headTexture;
 	private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
 
 	public Contributor(String name, String profile) {
-		this.name = name;
-		this.profile = profile;
+		this.ghName = profile.substring(profile.lastIndexOf('/') + 1);
+		this.mcName = name;
+		this.profileLink = profile;
 	}
 	
 	public void setContribution(String role, int commits) {
@@ -35,7 +37,16 @@ public class Contributor {
 	 * @since 4.1.13
 	 */
 	public String getName() {
-		return this.name;
+		return this.ghName;
+	}
+
+	/**
+	 * Returns the MC name of the contributor. This may be the same as {@link #getName()}.
+	 *
+	 * @return The MC username of this contributor.
+	 */
+	public String getMinecraftName() {
+		return this.mcName;
 	}
 
 	/**
@@ -45,7 +56,7 @@ public class Contributor {
 	 * @since 4.1.13
 	 */
 	public String getProfile() {
-		return this.profile;
+		return this.profileLink;
 	}
 	
 	public Map<String, Integer> getContributions() {
