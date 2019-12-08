@@ -91,8 +91,6 @@ public final class SlimefunManager {
 				ItemMeta sfitemMeta = sfitem.getItemMeta();
 				
 				if (sfitem instanceof SlimefunItemStack) {
-					System.out.println(sfitem.clone().getClass().getName());
-					
 					Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
 					
 					if (id.isPresent()) {
