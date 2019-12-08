@@ -6,8 +6,8 @@ jobs:
   assign_labels:
     runs-on: ubuntu-latest
     name: Categorize Pull Requests
-      steps:
-      - name: Branch Categorization
-        uses: TheBusyBiscuit/branch-cat@v1.0.0
-        with:
-          rules: '[ {"fix/.*" : "bug-fix"} ]'
+    steps:
+    - name: Branch Categorization
+      uses: TheBusyBiscuit/branch-cat@v1.0.0
+      with:
+        rules: '[ {"fix/.*" : "Bug Fix"} ]'
