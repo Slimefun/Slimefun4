@@ -254,7 +254,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				
 				if (item != null) {
 					for (MachineFuel recipe: recipes) {
-						if (SlimefunManager.isItemSimiliar(item, recipe.getInput(), true)) {
+						if (SlimefunManager.isItemSimilar(item, recipe.getInput(), true)) {
 							menu.replaceExistingItem(43, InvUtils.decreaseItem(item, 1));
 							
 							if (getTier() == 2) {
@@ -371,7 +371,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 											d.getInventory().setItem(slot, null);
 											break;
 										}
-										else if (SlimefunManager.isItemSimiliar(item, menu.getItemInSlot(43), true)) {
+										else if (SlimefunManager.isItemSimilar(item, menu.getItemInSlot(43), true)) {
 											int rest = item.getType().getMaxStackSize() - menu.getItemInSlot(43).getAmount();
 											
 											if (rest > 0) {

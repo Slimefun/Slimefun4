@@ -314,8 +314,8 @@ public class SlimefunItem implements Placeable {
 				return sfi;
 			}
 		}
-		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
-		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
+		if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
+		if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
 		return null;
 	}
 
@@ -329,11 +329,11 @@ public class SlimefunItem implements Placeable {
 			}
 		}
 
-		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else return SlimefunManager.isItemSimiliar(item, this.item, true);		
+		if (this instanceof ChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
+		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
+		else if (this instanceof ChargedItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
+		else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
+		else return SlimefunManager.isItemSimilar(item, this.item, true);		
 	}
 
 	public void load() {
@@ -483,7 +483,7 @@ public class SlimefunItem implements Placeable {
 				ItemStack[] recipe = sfi.getRecipe();
 				
 				for (int i = 0; i < 9; i++) {
-					if (SlimefunManager.isItemSimiliar(recipe[i], old, true)) recipe[i] = stack;
+					if (SlimefunManager.isItemSimilar(recipe[i], old, true)) recipe[i] = stack;
 				}
 				sfi.setRecipe(recipe);
 			}

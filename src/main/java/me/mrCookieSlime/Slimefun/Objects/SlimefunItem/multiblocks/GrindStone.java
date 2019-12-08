@@ -56,7 +56,7 @@ public class GrindStone extends MultiBlockMachine {
 		
 		for (ItemStack current: inv.getContents()) {
 			for (ItemStack convert: RecipeType.getRecipeInputs(this)) {
-				if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
+				if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
 					ItemStack output = RecipeType.getRecipeOutput(this, convert);
 					Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 					

@@ -38,7 +38,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
     public ItemDropHandler getItemHandler() {
         return (e, p, i) -> {
             ItemStack item = i.getItemStack();
-            if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RUNE_SOULBOUND, true)) {
+            if (isItem(item)) {
                 
             	if (!Slimefun.hasUnlocked(p, SlimefunItems.RUNE_SOULBOUND, true)) {
                 	return true;
@@ -50,8 +50,9 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                     Location l = i.getLocation();
                     Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1.5, 1.5, 1.5,
-                            entity -> entity instanceof Item && !SlimefunManager.isItemSoulbound(((Item) entity).getItemStack()) &&
-                                    !SlimefunManager.isItemSimiliar(((Item) entity).getItemStack(), SlimefunItems.RUNE_SOULBOUND, true)
+                            entity -> 	entity instanceof Item && 
+                            			!SlimefunManager.isItemSoulbound(((Item) entity).getItemStack()) &&
+                            			!SlimefunManager.isItemSimilar(((Item) entity).getItemStack(), SlimefunItems.RUNE_SOULBOUND, true)
                     );
                     
                     if (entites.isEmpty()) return;
@@ -68,7 +69,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                         // This lightning is just an effect, it deals no damage.
                         l.getWorld().strikeLightningEffect(l);
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+                        Slimefun.runSync(() -> {
 
                             // Being sure entities are still valid and not picked up or whatsoever.
                             if (i.isValid() && ent.isValid()) {

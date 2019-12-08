@@ -29,7 +29,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
+			if (SlimefunManager.isItemSimilar(item, getItem(), true)) {
 				List<String> lore = item.getItemMeta().getLore();
 				lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
 				lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
@@ -40,7 +40,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
 				return true;
 			}
-			else if (SlimefunManager.isItemSimiliar(item, getItem(), false)) {
+			else if (SlimefunManager.isItemSimilar(item, getItem(), false)) {
 				PlayerProfile.get(p, profile -> {
 					PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1))), owner -> {
 						Set<Research> researches = owner.getResearches();

@@ -24,7 +24,7 @@ public final class CargoManager {
 			UniversalBlockMenu menu = storage.getUniversalInventory(target);
 			for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 				final ItemStack is = menu.getItemInSlot(slot);
-				if (SlimefunManager.isItemSimiliar(is, template, true) && matchesFilter(node, is, -1)) {
+				if (SlimefunManager.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
 					if (is.getAmount() > template.getAmount()) {
 						menu.replaceExistingItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
 						return template;
@@ -40,7 +40,7 @@ public final class CargoManager {
 			BlockMenu menu = BlockStorage.getInventory(target.getLocation());
 			for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 				final ItemStack is = menu.getItemInSlot(slot);
-				if (SlimefunManager.isItemSimiliar(is, template, true) && matchesFilter(node, is, -1)) {
+				if (SlimefunManager.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
 					if (is.getAmount() > template.getAmount()) {
 						menu.replaceExistingItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
 						return template;
@@ -56,7 +56,7 @@ public final class CargoManager {
 			Inventory inv = ((InventoryHolder) target.getState()).getInventory();
 			for (int slot = 0; slot < inv.getContents().length; slot++) {
 				final ItemStack is = inv.getContents()[slot];
-				if (SlimefunManager.isItemSimiliar(is, template, true) && matchesFilter(node, is, -1)) {
+				if (SlimefunManager.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
 					if (is.getAmount() > template.getAmount()) {
 						inv.setItem(slot, ChestManipulator.trigger(target, slot, is, new CustomItem(is, is.getAmount() - template.getAmount())));
 						return template;
@@ -115,7 +115,7 @@ public final class CargoManager {
 					menu.replaceExistingItem(slot, stack.clone());
 					return null;
 				}
-				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+				else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
 					int amount = is.getAmount() + stack.getAmount();
 					
 					if (amount > is.getType().getMaxStackSize()) {
@@ -140,7 +140,7 @@ public final class CargoManager {
 					menu.replaceExistingItem(slot, stack.clone());
 					return null;
 				}
-				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+				else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
 					int amount = is.getAmount() + stack.getAmount();
 					
 					if (amount > is.getType().getMaxStackSize()) {
@@ -166,7 +166,7 @@ public final class CargoManager {
 					inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
 					return null;
 				}
-				else if (SlimefunManager.isItemSimiliar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+				else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
 					ItemStack prev = is.clone();
 					int amount = is.getAmount() + stack.getAmount();
 					
@@ -220,18 +220,18 @@ public final class CargoManager {
 				
 				BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
 				
-				return SlimefunManager.isItemSimiliar(item, items.get(index), lore);
+				return SlimefunManager.isItemSimilar(item, items.get(index), lore);
 			}
 			else {
 				for (ItemStack stack: items) {
-					if (SlimefunManager.isItemSimiliar(item, stack, lore)) return true;
+					if (SlimefunManager.isItemSimilar(item, stack, lore)) return true;
 				}
 				return false;
 			}
 		}
 		else {
 			for (int slot: slots) {
-				if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimiliar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
+				if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimilar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
 					return false;
 				}
 			}

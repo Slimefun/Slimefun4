@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.services;
+package io.github.thebusybiscuit.slimefun4.core.services;
 
 import org.bstats.bukkit.Metrics;
 

@@ -73,11 +73,11 @@ public class Smeltery extends MultiBlockMachine {
 			for (ItemStack converting: inputs.get(i)) {
 				if (converting != null) {
 					for (int j = 0; j < inv.getContents().length; j++) {
-						if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimiliar(converting, inv.getContents()[j], true)) {
+						if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimilar(converting, inv.getContents()[j], true)) {
 							craft = false;
 							break;
 						}
-						else if (SlimefunManager.isItemSimiliar(inv.getContents()[j], converting, true)) break;
+						else if (SlimefunManager.isItemSimilar(inv.getContents()[j], converting, true)) break;
 					}
 				}
 			}
@@ -89,7 +89,7 @@ public class Smeltery extends MultiBlockMachine {
 					if (outputInv != null) {
 						for (ItemStack removing: inputs.get(i)) {
 							if (removing != null) {
-								InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunManager.isItemSimiliar(stack, removing, true));
+								InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunManager.isItemSimilar(stack, removing, true));
 							}
 						}
 						

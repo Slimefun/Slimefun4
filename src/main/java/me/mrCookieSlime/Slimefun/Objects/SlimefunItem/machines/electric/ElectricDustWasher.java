@@ -69,7 +69,7 @@ public abstract class ElectricDustWasher extends AContainer {
 			ItemStack[] items = SlimefunPlugin.getUtilities().oreWasherOutputs;
 			
 			for (int slot: getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
+				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
 					if (!SlimefunPlugin.getSettings().legacyDustWasher) {
 						boolean emptySlot = false;
             
@@ -90,7 +90,7 @@ public abstract class ElectricDustWasher extends AContainer {
 					progress.put(b, r.getTicks());
 					break;
 				}
-				else if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
+				else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER});
 					if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
 					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));

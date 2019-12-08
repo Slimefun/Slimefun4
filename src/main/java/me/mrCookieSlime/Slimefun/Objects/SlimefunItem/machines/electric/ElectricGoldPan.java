@@ -116,7 +116,7 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 		}
 		else {
 			for (int slot: getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
+				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
 					ItemStack output = randomizer.getRandom();
 					
 					MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
@@ -127,7 +127,7 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 					progress.put(b, r.getTicks());
 					break;
 				}
-				else if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+				else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
 					ItemStack output = randomizerNether.getRandom();
 					
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {output});

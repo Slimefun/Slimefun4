@@ -80,7 +80,7 @@ public abstract class AutoAnvil extends AContainer {
 				ItemStack item = menu.getItemInSlot(slot);
 				
 				if (item != null && item.getType().getMaxDurability() > 0 && ((Damageable) item.getItemMeta()).getDamage() > 0) {
-					if (SlimefunManager.isItemSimiliar(target, SlimefunItems.DUCT_TAPE, true)) {
+					if (SlimefunManager.isItemSimilar(target, SlimefunItems.DUCT_TAPE, true)) {
 						ItemStack newItem = item.clone();
 						short durability = (short) (((Damageable) newItem.getItemMeta()).getDamage() - (item.getType().getMaxDurability() / getRepairFactor()));
 						if (durability < 0) durability = 0;

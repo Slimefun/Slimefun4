@@ -88,13 +88,13 @@ public final class SlimefunGuide {
 	}
 
 	public static void openGuide(Player p, ItemStack guide) {
-		if (SlimefunManager.isItemSimiliar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
+		if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
 			openGuide(p, SlimefunGuideLayout.CHEST);
 		}
-		else if (SlimefunManager.isItemSimiliar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
+		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
 			openGuide(p, SlimefunGuideLayout.BOOK);
 		}
-		else if (SlimefunManager.isItemSimiliar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
+		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
 			openGuide(p, SlimefunGuideLayout.CHEAT_SHEET);
 		}
 	}

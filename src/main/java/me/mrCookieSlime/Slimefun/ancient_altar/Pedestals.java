@@ -52,7 +52,7 @@ public final class Pedestals {
 	public static ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
 		if (input.size() != 8) return null;
 		
-		if (SlimefunManager.isItemSimiliar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
+		if (SlimefunManager.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
             if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) return null;
 			final ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
 			ItemMeta im = spawner.getItemMeta();
@@ -66,11 +66,11 @@ public final class Pedestals {
 
 	private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
         for (AltarRecipe recipe: SlimefunPlugin.getUtilities().altarRecipes) {
-        	if (SlimefunManager.isItemSimiliar(catalyst, recipe.getCatalyst(), true)) {
+        	if (SlimefunManager.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
         		for (int i = 0; i < 8; i++) {
-            		if (SlimefunManager.isItemSimiliar(items.get(i), recipe.getInput().get(0), true)) {
+            		if (SlimefunManager.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
             			for (int j = 1; j < 8; j++) {
-        					if (!SlimefunManager.isItemSimiliar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
+        					if (!SlimefunManager.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
         						break;
         					}
         					else if (j == 7) {

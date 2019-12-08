@@ -21,7 +21,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
@@ -49,9 +48,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			//Not checking if lores equals because we need a special one for that.
-			if (SlimefunManager.isItemSimiliar(item, getItem(), false)) {
-
+			if (isItem(item)) {
 				if (!item.hasItemMeta()) return false;
 				ItemMeta itemMeta = item.getItemMeta();
 				if (!itemMeta.hasLore()) return false;

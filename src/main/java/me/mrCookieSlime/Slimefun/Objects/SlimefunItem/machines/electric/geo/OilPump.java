@@ -101,7 +101,7 @@ public abstract class OilPump extends AContainer {
 			
 			if (supplies > 0) {
 				for (int slot: getInputSlots()) {
-					if (SlimefunManager.isItemSimiliar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+					if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
 						
 						if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {

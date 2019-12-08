@@ -93,7 +93,7 @@ public class FluidPump extends SlimefunItem implements InventoryBlock {
 		if (output != null && ChargableBlock.getCharge(b) >= energyConsumption) {
 			BlockMenu menu = BlockStorage.getInventory(b);
 			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					if (!menu.fits(output, getOutputSlots())) return;
 
 					ChargableBlock.addCharge(b, -energyConsumption);

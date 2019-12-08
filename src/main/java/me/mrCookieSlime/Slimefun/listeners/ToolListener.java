@@ -108,38 +108,38 @@ public class ToolListener implements Listener {
 		if (utilities.cancelPlace.remove(e.getPlayer().getUniqueId()))
 			e.setCancelled(true);
 
-		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
+		if (SlimefunManager.isItemSimilar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
 
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PORTABLE_CRAFTER, true)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PORTABLE_DUSTBIN, true)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.PORTABLE_CRAFTER, true)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.PORTABLE_DUSTBIN, true)) e.setCancelled(true);
 		
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_SMALL, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_MEDIUM, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_LARGE, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.WOVEN_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GILDED_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RADIANT_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.COOLER, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ENDER_BACKPACK, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BACKPACK_SMALL, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BACKPACK_MEDIUM, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BACKPACK_LARGE, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.WOVEN_BACKPACK, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.GILDED_BACKPACK, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.RADIANT_BACKPACK, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BOUND_BACKPACK, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.COOLER, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ENDER_BACKPACK, false)) e.setCancelled(true);
 
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.COMPRESSED_CARBON, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARBON_CHUNK, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.COMPRESSED_CARBON, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARBON_CHUNK, false)) e.setCancelled(true);
 
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.ANDROID_MEMORY_CORE, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.LAVA_CRYSTAL, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ANDROID_MEMORY_CORE, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.LAVA_CRYSTAL, false)) e.setCancelled(true);
 
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.TINY_URANIUM, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.TINY_URANIUM, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
 		
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GPS_MARKER_TOOL, true)) {
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.GPS_MARKER_TOOL, true)) {
 			e.setCancelled(true);
 			Slimefun.getGPSNetwork().addWaypoint(e.getPlayer(), e.getBlock().getLocation());
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
 			e.setCancelled(true);
 			
 			if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
@@ -164,25 +164,25 @@ public class ToolListener implements Listener {
 			
 			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(random.nextInt(gifts.size())));
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, false)) {
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
 				SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
 				e.setCancelled(true);
 			}
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT, false)) {
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
 				SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
 				e.setCancelled(true);
 			}
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false)) {
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
 				SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
 				e.setCancelled(true);
 			}
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, false) && e.getBlock().getY() != e.getBlockAgainst().getY()) {
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CT_IMPORT_BUS, false) && e.getBlock().getY() != e.getBlockAgainst().getY()) {
 			SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
 			e.setCancelled(true);
 		}

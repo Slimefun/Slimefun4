@@ -93,7 +93,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 	public void onInteract(Player p, Block b) {
 		final ItemStack input = p.getInventory().getItemInMainHand();
 		
-		if (SlimefunManager.isItemSimiliar(input, new ItemStack(Material.GRAVEL), true) || SlimefunManager.isItemSimiliar(input, new ItemStack(Material.SOUL_SAND), true)) {
+		if (SlimefunManager.isItemSimilar(input, new ItemStack(Material.GRAVEL), true) || SlimefunManager.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true)) {
 			final Material block = input.getType();
 			
 			if (p.getGameMode() != GameMode.CREATIVE) {

@@ -11,7 +11,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
@@ -25,7 +24,7 @@ public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	@Override
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
+			if (isItem(item)) {
 				List<String> messages = SlimefunPlugin.getLocal().getMessages("messages.fortune-cookie");
 				String message = messages.get(random.nextInt(messages.size()));
 				

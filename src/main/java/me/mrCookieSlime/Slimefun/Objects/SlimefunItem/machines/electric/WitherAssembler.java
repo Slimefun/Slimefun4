@@ -98,7 +98,7 @@ public class WitherAssembler extends SlimefunItem {
 			@Override
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.INSERT) {
-					if (SlimefunManager.isItemSimiliar(item, new ItemStack(Material.SOUL_SAND), true)) return getSoulSandSlots();
+					if (SlimefunManager.isItemSimilar(item, new ItemStack(Material.SOUL_SAND), true)) return getSoulSandSlots();
 					else return getWitherSkullSlots();
 				}
 				else return new int[0];
@@ -194,7 +194,7 @@ public class WitherAssembler extends SlimefunItem {
 					int skulls = 0;
 					
 					for (int slot : getSoulSandSlots()) {
-						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+						if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
 							soulsand = soulsand + BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 							if (soulsand > 3) {
 								soulsand = 4;
@@ -204,7 +204,7 @@ public class WitherAssembler extends SlimefunItem {
 					}
 					
 					for (int slot : getWitherSkullSlots()) {
-						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+						if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
 							skulls = skulls + BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 							if (skulls > 2) {
 								skulls = 3;
@@ -215,7 +215,7 @@ public class WitherAssembler extends SlimefunItem {
 					
 					if (soulsand > 3 && skulls > 2) {
 						for (int slot : getSoulSandSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+							if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
 								final int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 								if (amount >= soulsand) {
 									BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), soulsand));
@@ -229,7 +229,7 @@ public class WitherAssembler extends SlimefunItem {
 						}
 						
 						for (int slot : getWitherSkullSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+							if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
 								final int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 								if (amount >= skulls) {
 									BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), skulls));

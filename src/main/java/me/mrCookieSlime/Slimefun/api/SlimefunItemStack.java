@@ -9,12 +9,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class SlimefunItemStack extends CustomItem {
 	
 	private String id;
+	private ImmutableItemMeta immutableMeta;
 
 	public SlimefunItemStack(String id, Material type, String name, String... lore) {
 		super(type, name, lore);
@@ -75,6 +77,17 @@ public class SlimefunItemStack extends CustomItem {
 
 	public String getItemID() {
 		return id;
+	}
+	
+	public ImmutableItemMeta getImmutableMeta() {
+		return immutableMeta;
+	}
+	
+	@Override
+	public boolean setItemMeta(ItemMeta meta) {
+		immutableMeta = new ImmutableItemMeta(meta);
+		
+		return super.setItemMeta(meta);
 	}
 
 }

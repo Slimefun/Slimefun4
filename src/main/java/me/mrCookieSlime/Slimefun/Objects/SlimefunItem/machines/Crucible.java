@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
@@ -24,6 +23,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Crucible extends SlimefunGadget {
@@ -74,7 +74,7 @@ public class Crucible extends SlimefunGadget {
 							SlimefunItem machine = SlimefunItem.getByID(id);
 							
 							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-								if (input != null && SlimefunManager.isItemSimiliar(input, convert, true)) {
+								if (SlimefunManager.isItemSimilar(input, convert, true)) {
 									e.setCancelled(true);
 									ItemStack removing = input.clone();
 									removing.setAmount(convert.getAmount());
@@ -82,7 +82,7 @@ public class Crucible extends SlimefunGadget {
 									p.getInventory().removeItem(removing);
 
 									for (int i = 1; i < 9; i++) {int j = 8 - i;
-										Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+										Slimefun.runSync(() -> {
 											if (input.getType() == Material.COBBLESTONE || input.getType() == Material.TERRACOTTA || MaterialCollections.getAllTerracottaColors().contains(input.getType())) {
 												block.setType(Material.LAVA);
 												Levelled le = (Levelled) block.getBlockData();
@@ -97,7 +97,7 @@ public class Crucible extends SlimefunGadget {
 												block.setBlockData(le, false);
 												block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 											}
-										}, i*50L);
+										}, i * 50L);
 									}
 
 									return true;

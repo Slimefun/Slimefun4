@@ -16,7 +16,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable {
@@ -33,7 +32,7 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
 	@Override
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
-			if (SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getItemInMainHand(), getItem(), true)) {
+			if (isItem(item)) {
 				if (MaterialCollections.getAllLogs().contains(e.getBlock().getType())) {
 					List<Block> logs = Vein.find(e.getBlock(), 100, b -> MaterialCollections.getAllLogs().contains(b.getType()));
 					

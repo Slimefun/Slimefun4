@@ -210,7 +210,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			for (MachineRecipe recipe: recipes) {
 				for (ItemStack input: recipe.getInput()) {
 					for (int slot: getInputSlots()) {
-						if (SlimefunManager.isItemSimiliar(inv.getItemInSlot(slot), input, true)) {
+						if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), input, true)) {
 							found.put(slot, input.getAmount());
 							break;
 						}
