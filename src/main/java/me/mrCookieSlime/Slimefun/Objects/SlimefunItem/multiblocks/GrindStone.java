@@ -33,6 +33,9 @@ public class GrindStone extends MultiBlockMachine {
 						new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), 
 						new ItemStack(Material.ENDER_EYE), new CustomItem(SlimefunItems.ENDER_LUMP_1, 2), 
 						new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL), 
+						new ItemStack(Material.ANDESITE), new ItemStack(Material.GRAVEL),
+						new ItemStack(Material.DIORITE), new ItemStack(Material.GRAVEL),
+						new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL),
 						new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK, 
 						new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), 
 						new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4)
