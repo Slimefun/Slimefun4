@@ -1,3 +1,5 @@
+name: PR Categorization
+
 on:
   pull_request:
     types: [opened, reopened]
@@ -8,7 +10,7 @@ jobs:
     name: Categorize Pull Requests
     steps:
     - name: Branch Categorization
-      uses: TheBusyBiscuit/branch-cat@v1.0.5
+      uses: TheBusyBiscuit/branch-cat@v1.0.6
       with:
         rules: '{ "fix\/.+" : "Bug Fix" }'
       env:
