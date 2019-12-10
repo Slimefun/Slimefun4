@@ -15,7 +15,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -28,7 +27,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimilar(item, getItem(), false)) {
+			if (isItem(item)) {
 				ItemMeta im = item.getItemMeta();
 				List<String> lore = im.getLore();
 				if (lore.get(1).isEmpty()) {
