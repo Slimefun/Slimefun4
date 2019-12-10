@@ -54,7 +54,7 @@ public final class SlimefunHooks {
 	
 	private boolean isPluginInstalled(String hook) {
 		if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
-			Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: " + hook);
+			Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
 			return true;
 		}
 		else {

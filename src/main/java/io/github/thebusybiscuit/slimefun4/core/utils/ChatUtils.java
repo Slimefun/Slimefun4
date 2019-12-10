@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.utils;
+package io.github.thebusybiscuit.slimefun4.core.utils;
 
 import org.bukkit.entity.Player;
 

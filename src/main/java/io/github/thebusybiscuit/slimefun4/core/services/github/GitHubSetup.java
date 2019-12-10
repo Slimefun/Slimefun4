@@ -1,9 +1,10 @@
-package me.mrCookieSlime.Slimefun.hooks.github;
+package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.thebusybiscuit.slimefun4.core.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class GitHubSetup {
@@ -24,7 +25,7 @@ public final class GitHubSetup {
 				JsonObject object = element.getAsJsonObject();
 				SlimefunPlugin.getUtilities().forks = object.get("forks").getAsInt();
 				SlimefunPlugin.getUtilities().stars = object.get("stargazers_count").getAsInt();
-				SlimefunPlugin.getUtilities().lastUpdate = IntegerFormat.parseGitHubDate(object.get("pushed_at").getAsString());
+				SlimefunPlugin.getUtilities().lastUpdate = NumberUtils.parseGitHubDate(object.get("pushed_at").getAsString());
 			}
 			
 			@Override

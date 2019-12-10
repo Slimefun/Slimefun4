@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.hooks.github;
+package io.github.thebusybiscuit.slimefun4.core.utils;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -9,17 +9,18 @@ import java.util.logging.Level;
 
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public final class IntegerFormat {
+public final class NumberUtils {
 	
-	private IntegerFormat() {}
+	private NumberUtils() {}
 	
 	public static String formatBigNumber(int i) {
 		return NumberFormat.getNumberInstance(Locale.US).format(i);
 	}
 	
-	public static Date parseGitHubDate(String str) {
+	public static Date parseGitHubDate(String date) {
 		try {
-			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(str.replace('T', ' ').replace("Z", ""));
+			// We have to create this instance here because it is not thread-safe and should not exist on a static level.
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date.replace('T', ' ').replace("Z", ""));
 		} catch (ParseException x) {
 			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a GitHub-Date for Slimefun " + Slimefun.getVersion(), x);
 			return null;

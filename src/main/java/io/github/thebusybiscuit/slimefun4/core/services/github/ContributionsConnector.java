@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.hooks.github;
+package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,12 +29,16 @@ public class ContributionsConnector extends GitHubConnector {
 	// Matches a GitHub name with a Minecraft name.
 	private static final Map<String, String> aliases = new HashMap<>();
 
+	// Should probably be switched to UUIDs at some point...
 	static {
 		aliases.put("WalshyDev", "HumanRightsAct");
 		aliases.put("J3fftw1", "_lagpc_");
 		aliases.put("ajan-12", "ajan_12");
 		aliases.put("LinoxGH", "ajan_12");
 		aliases.put("NihilistBrew", "ma1yang2");
+		aliases.put("NihilistBrew", "ma1yang2");
+		aliases.put("mrcoffee1026", "mr_coffee1026");
+		aliases.put("BluGhostYT", "CyberPatriot");
 	}
 	
 	private final String prefix;

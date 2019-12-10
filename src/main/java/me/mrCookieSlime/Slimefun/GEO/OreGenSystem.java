@@ -31,7 +31,7 @@ public final class OreGenSystem {
 		if (cfg.getBoolean("enabled")) {
 			Slimefun.getLogger().log(Level.INFO, "Registering Ore Gen: " + resource.getName());
 			SlimefunPlugin.getUtilities().resources.put(resource.getName(), resource);
-			SlimefunPlugin.getUtilities().resource_configs.put(resource.getName(), cfg);
+			SlimefunPlugin.getUtilities().resourceConfigs.put(resource.getName(), cfg);
 		}
 	}
 	
@@ -44,7 +44,7 @@ public final class OreGenSystem {
 			return 0;
 		}
 		else {
-			int supply = SlimefunPlugin.getUtilities().resource_configs.get(resource.getName()).getInt("spawn-rates." + biome.toString());
+			int supply = SlimefunPlugin.getUtilities().resourceConfigs.get(resource.getName()).getInt("spawn-rates." + biome.toString());
 			return supply > 0 ? (supply + ThreadLocalRandom.current().nextInt(3)): 0;
 		}
 	}

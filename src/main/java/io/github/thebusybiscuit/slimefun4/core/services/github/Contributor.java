@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.hooks.github;
+package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import java.util.Map;
 import java.util.Optional;
