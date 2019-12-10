@@ -9,7 +9,23 @@ public class MetricsService extends Metrics {
 	public MetricsService(SlimefunPlugin plugin) {
 		super(plugin);
 		
-		addCustomChart(new SimplePie("auto_updates", () -> SlimefunPlugin.getCfg().getBoolean("options.auto-update") ? "enabled": "disabled"));
+		addCustomChart(new SimplePie("auto_updates", () -> 
+			SlimefunPlugin.getCfg().getBoolean("options.auto-update") ? "enabled": "disabled"
+		));
+		
+		addCustomChart(new SimplePie("resourcepack", () -> {
+			String version = SlimefunPlugin.getItemTextureService().getVersion();
+			
+			if (SlimefunPlugin.getItemTextureService().isActive()) {
+				return "Custom / Modified";
+			}
+			else if (version != null) {
+				return version + " (Official)";
+			}
+			else {
+				return "None";
+			}
+		}));
 		
 		addCustomChart(new SimplePie("branch", () -> {
 			if (plugin.getDescription().getVersion().startsWith("DEV - ")) {
