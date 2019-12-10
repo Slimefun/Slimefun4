@@ -1294,6 +1294,10 @@ public final class SlimefunSetup {
 		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_SWORD,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_SWORD), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(true);
+		
+		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_TRIDENT,
+		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.TRIDENT), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
+		.register(true);
 
 		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_BOW,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.BOW), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
