@@ -105,7 +105,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private SlimefunHooks hooks;
 	
 	// Supported Versions of Minecraft
-	private final String[] supported = {"v1_14_"};
+	private final String[] supported = {"v1_14_", "v1_15_"};
 
 	@Override
 	public void onEnable() {
