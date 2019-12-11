@@ -79,6 +79,9 @@
         				<goals>
          					<goal>shade</goal>
         				</goals>
+                        <configuration>
+                            <outputFile>C:/Users/Walshy/Documents/Servers/Slimefun-1.15/plugins/${project.artifactId}.jar</outputFile>
+                        </configuration>
       				</execution>
     			</executions>
   			</plugin>
@@ -104,8 +107,8 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-    		<version>6e17183656</version>
-    		<scope>provided</scope>
+    		<version>ec5b4c24e3</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
   			<groupId>com.github.thebusybiscuit</groupId>
