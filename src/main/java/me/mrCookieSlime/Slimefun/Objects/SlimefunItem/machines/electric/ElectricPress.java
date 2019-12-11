@@ -41,6 +41,11 @@ public abstract class ElectricPress extends AContainer implements RecipeDisplayI
 		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.QUARTZ, 4)}, new ItemStack[] {new ItemStack(Material.QUARTZ_BLOCK)}));
 		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.IRON_NUGGET, 9)}, new ItemStack[] {new ItemStack(Material.IRON_INGOT)}));
 		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.GOLD_NUGGET, 9)}, new ItemStack[] {new ItemStack(Material.GOLD_INGOT)}));
+		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.GOLD_INGOT, 9)}, new ItemStack[] {new ItemStack(Material.GOLD_BLOCK)}));
+		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.IRON_INGOT, 9)}, new ItemStack[] {new ItemStack(Material.IRON_BLOCK)}));
+		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.DIAMOND, 9)}, new ItemStack[] {new ItemStack(Material.DIAMOND_BLOCK)}));
+		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.REDSTONE, 9)}, new ItemStack[] {new ItemStack(Material.REDSTONE_BLOCK)}));
+		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.LAPIS_LAZULI, 9)}, new ItemStack[] {new ItemStack(Material.LAPIS_BLOCK)}));
 	}
 
     @Override
