@@ -79,9 +79,6 @@
         				<goals>
          					<goal>shade</goal>
         				</goals>
-                        <configuration>
-                            <outputFile>C:/Users/Walshy/Documents/Servers/Slimefun-1.15/plugins/${project.artifactId}.jar</outputFile>
-                        </configuration>
       				</execution>
     			</executions>
   			</plugin>
