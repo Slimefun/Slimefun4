@@ -2,7 +2,7 @@ package me.mrCookieSlime.Slimefun.androids.comparators;
 
 import java.util.Comparator;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
 
 public class ScriptReputationSorter implements Comparator<Config> {
