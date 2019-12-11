@@ -228,10 +228,12 @@ public class Research {
 	 * @since 4.0
 	 */
 	public void unlock(final Player p, boolean instant) {
-		Slimefun.runSync(() -> {
-			p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-			SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", "0%"));
-		}, 10L);
+		if (!instant) {
+			Slimefun.runSync(() -> {
+				p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
+				SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", "0%"));
+			}, 10L);
+		}
 		
 		PlayerProfile.get(p, profile -> {
 			if (!profile.hasUnlocked(this)) {
