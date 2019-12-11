@@ -324,6 +324,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 								contributor.setTexture(Optional.empty());
 							}
 						}
+						catch(IllegalArgumentException x) {
+							// There cannot be a texture found because it is not a valid MC username
+							contributor.setTexture(Optional.empty());
+						}
 						catch(TooManyRequestsException x) {
 							break;
 						}

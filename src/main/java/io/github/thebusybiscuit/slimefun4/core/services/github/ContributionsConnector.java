@@ -4,15 +4,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class ContributionsConnector extends GitHubConnector {
-
-	private static final Pattern nameFormat = Pattern.compile("[\\w_]+");
 
 	// GitHub Bots that do not count as Contributors
 	// (includes "invalid-email-address" because it is an invalid contributor)
@@ -79,7 +76,7 @@ public class ContributionsConnector extends GitHubConnector {
 	    	int commits = object.get("contributions").getAsInt();
 	    	String profile = object.get("html_url").getAsString();
 
-	    	if (nameFormat.matcher(name).matches() && !blacklist.contains(name)) {
+	    	if (!blacklist.contains(name)) {
 	    		Contributor contributor = github.getContributors().computeIfAbsent(
 	    				name,
 						key -> new Contributor(aliases.getOrDefault(name, name), profile)
