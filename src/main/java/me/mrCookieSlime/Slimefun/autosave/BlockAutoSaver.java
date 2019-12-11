@@ -17,7 +17,7 @@ public class BlockAutoSaver implements Runnable {
 	public void run() {
 		Set<BlockStorage> worlds = new HashSet<>();
 		
-		for (World world: Bukkit.getWorlds()) {
+		for (World world : Bukkit.getWorlds()) {
 			if (BlockStorage.isWorldRegistered(world.getName())) {
 				BlockStorage storage = BlockStorage.getStorage(world);
 				storage.computeChanges();

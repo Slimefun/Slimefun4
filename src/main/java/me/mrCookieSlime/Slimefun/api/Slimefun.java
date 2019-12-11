@@ -104,7 +104,7 @@ public final class Slimefun {
 	 * @param  items     the items to bind, not null
 	 */
 	public static void registerResearch(Research research, ItemStack... items) {
-		for (ItemStack item: items) {
+		for (ItemStack item : items) {
 			research.addItems(SlimefunItem.getByItem(item));
 		}
 		
@@ -127,7 +127,10 @@ public final class Slimefun {
 
 		if (sfItem == null) {
 			if (state != ItemState.ENABLED) {
-				if (message && state != ItemState.VANILLA) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+				if (message && state != ItemState.VANILLA) {
+					SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+				}
+				
 				return false;
 			}
 			else return true;
@@ -136,7 +139,10 @@ public final class Slimefun {
 			if (sfItem.getResearch() == null) return true;
 			else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) return true;
 			else {
-				if (message && !(sfItem instanceof VanillaItem)) SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
+				if (message && !(sfItem instanceof VanillaItem)) {
+					SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
+				}
+				
 				return false;
 			}
 		}
@@ -242,7 +248,7 @@ public final class Slimefun {
 	 */
 	public static List<String> listIDs() {
 		List<String> ids = new ArrayList<>();
-		for (SlimefunItem item: SlimefunItem.list()) {
+		for (SlimefunItem item : SlimefunItem.list()) {
 			ids.add(item.getID());
 		}
 		return ids;
@@ -256,7 +262,7 @@ public final class Slimefun {
 	 */
 	public static List<ItemStack> listCategories() {
 		List<ItemStack> items = new ArrayList<>();
-		for (Category c: Category.list()) {
+		for (Category c : Category.list()) {
 			items.add(c.getItem());
 		}
 		return items;

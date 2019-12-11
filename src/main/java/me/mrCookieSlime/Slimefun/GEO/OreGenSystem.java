@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import org.bukkit.Chunk;
 import org.bukkit.block.Biome;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -23,9 +23,11 @@ public final class OreGenSystem {
 	public static void registerResource(OreGenResource resource) {
 		Config cfg = new Config("plugins/Slimefun/generators/" + resource.getName() + ".yml");
 		cfg.setDefaultValue("enabled", true);
-		for (Biome biome: Biome.values()) {
+		
+		for (Biome biome : Biome.values()) {
 			cfg.setDefaultValue("spawn-rates." + biome.toString(), resource.getDefaultSupply(biome));
 		}
+		
 		cfg.save();
 		
 		if (cfg.getBoolean("enabled")) {

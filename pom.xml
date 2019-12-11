@@ -104,13 +104,13 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-    		<version>6e17183656</version>
+    		<version>ec5b4c24e3</version>
     		<scope>provided</scope>
         </dependency>
         <dependency>
   			<groupId>com.github.thebusybiscuit</groupId>
   			<artifactId>CS-CoreLib2</artifactId>
-  			<version>0.7.4</version>
+  			<version>0.7.5</version>
   			<scope>compile</scope>
 		</dependency>
 		<dependency>
