@@ -101,7 +101,7 @@ public final class GuideSettings {
 				"&7Slimefun Version: &a" + Slimefun.getVersion(),
 				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion(),
 				"&7Installed Addons: &b" + Slimefun.getInstalledAddons().size(),
-				"&7Contributors: &e" + SlimefunPlugin.getUtilities().contributors.size(),
+				"&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(),
 				"",
 				"&7\u21E8 Click to see the people behind this Plugin"
 		));
@@ -111,7 +111,7 @@ public final class GuideSettings {
 		});
 
 		try {
-			menu.addItem(5, new CustomItem(new ItemStack(Material.COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + NumberUtils.formatBigNumber(SlimefunPlugin.getUtilities().codeBytes), "&7Last Activity: &a" + NumberUtils.timeDelta(SlimefunPlugin.getUtilities().lastUpdate) + " ago", "&7Forks: &e" + SlimefunPlugin.getUtilities().forks, "&7Stars: &e" + SlimefunPlugin.getUtilities().stars, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addItem(5, new CustomItem(new ItemStack(Material.COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + NumberUtils.formatBigNumber(SlimefunPlugin.getGitHubService().getCodeSize()), "&7Last Activity: &a" + NumberUtils.timeDelta(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", "&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), "&7Stars: &e" + SlimefunPlugin.getGitHubService().getStars(), "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
 			menu.addMenuClickHandler(5, (pl, slot, item, action) -> {
 				pl.closeInventory();
 				ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4");
@@ -128,7 +128,7 @@ public final class GuideSettings {
 			return false;
 		});
 
-		menu.addItem(20, new CustomItem(new ItemStack(Material.REDSTONE), "&4Report a bug", "", "&7Open Issues: &a" + SlimefunPlugin.getUtilities().issues, "&7Pending Pull Requests: &a" + SlimefunPlugin.getUtilities().prs, "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
+		menu.addItem(20, new CustomItem(new ItemStack(Material.REDSTONE), "&4Report a bug", "", "&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
 		menu.addMenuClickHandler(20, (pl, slot, item, action) -> {
 			pl.closeInventory();
 			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/issues");
@@ -167,7 +167,7 @@ public final class GuideSettings {
 			}
 		}
 		
-		List<Contributor> contributors = new ArrayList<>(SlimefunPlugin.getUtilities().contributors.values());
+		List<Contributor> contributors = new ArrayList<>(SlimefunPlugin.getGitHubService().getContributors().values());
 		contributors.sort(Comparator.comparingInt(Contributor::index));
 		
 		boolean hasPrevious = page > 0;

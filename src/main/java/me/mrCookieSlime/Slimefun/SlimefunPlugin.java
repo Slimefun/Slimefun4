@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubConnector;
-import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubSetup;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -90,6 +90,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
 	private final CustomTextureService textureService = new CustomTextureService(this);
 	private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
+	private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
 	
 	private TickerTask ticker;
 	private SlimefunLocalization local;
@@ -237,8 +238,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			OreGenSystem.registerResource(new UraniumResource());
 
 			// Setting up GitHub Connectors...
-
-			GitHubSetup.setup();
+			gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
 
 			// All Slimefun Listeners
 			new ArmorListener(this);
@@ -309,9 +309,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}, 100L, config.getInt("URID.custom-ticker-delay"));
 
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-				utilities.connectors.forEach(GitHubConnector::pullFile);
+				gitHubService.getConnectors().forEach(GitHubConnector::pullFile);
 
-				for (Contributor contributor: utilities.contributors.values()) {
+				for (Contributor contributor : gitHubService.getContributors().values()) {
 					if (!contributor.hasTexture()) {
 						try {
 							Optional<UUID> uuid = MinecraftAccount.getUUID(contributor.getMinecraftName());
@@ -483,6 +483,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	public static BlockDataService getBlockDataService() {
 		return instance.blockDataService;
+	}
+
+	public static GitHubService getGitHubService() {
+		return instance.gitHubService;
 	}
 
 }

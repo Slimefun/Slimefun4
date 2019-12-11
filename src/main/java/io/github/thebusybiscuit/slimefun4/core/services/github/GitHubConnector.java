@@ -14,16 +14,17 @@ import java.util.logging.Level;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public abstract class GitHubConnector {
 
-	private File file;
+	protected final File file;
+	protected final GitHubService github;
 
-	public GitHubConnector() {
-		this.file = new File("plugins/Slimefun/cache/github/" + this.getFileName() + ".json");
-		SlimefunPlugin.getUtilities().connectors.add(this);
+	public GitHubConnector(GitHubService github) {
+		this.github = github;
+		
+		file = new File("plugins/Slimefun/cache/github/" + this.getFileName() + ".json");
 	}
 
 	public abstract String getFileName();
@@ -36,7 +37,7 @@ public abstract class GitHubConnector {
 	}
 
 	public void pullFile() {
-		if (SlimefunPlugin.getCfg().getBoolean("options.print-out-github-data-retrieving")) {
+		if (github.isLoggingEnabled()) {
 			Slimefun.getLogger().log(Level.INFO, "Retrieving '" + this.getFileName() + ".json' from GitHub...");
 		}
 	
@@ -55,7 +56,7 @@ public abstract class GitHubConnector {
 				}
 			}
 		} catch (IOException e) {
-			if (SlimefunPlugin.getCfg().getBoolean("options.print-out-github-data-retrieving")) {
+			if (github.isLoggingEnabled()) {
 				Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.");
 			}
 

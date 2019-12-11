@@ -10,8 +10,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-
 public class ContributionsConnector extends GitHubConnector {
 
 	private static final Pattern nameFormat = Pattern.compile("[\\w_]+");
@@ -45,7 +43,9 @@ public class ContributionsConnector extends GitHubConnector {
 	private final String repository;
 	private final String role;
 	
-	public ContributionsConnector(String prefix, String repository, String role) {
+	public ContributionsConnector(GitHubService github, String prefix, String repository, String role) {
+		super(github);
+		
 		this.prefix = prefix;
 		this.repository = repository;
 		this.role = role;
@@ -80,7 +80,7 @@ public class ContributionsConnector extends GitHubConnector {
 	    	String profile = object.get("html_url").getAsString();
 
 	    	if (nameFormat.matcher(name).matches() && !blacklist.contains(name)) {
-	    		Contributor contributor = SlimefunPlugin.getUtilities().contributors.computeIfAbsent(
+	    		Contributor contributor = github.getContributors().computeIfAbsent(
 	    				name,
 						key -> new Contributor(aliases.getOrDefault(name, name), profile)
 				);
