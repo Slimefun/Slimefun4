@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.guides;
+package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,7 +93,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 				Category category = categories.get(target);
 				boolean locked = true;
 
-				for (SlimefunItem item: category.getItems()) {
+				for (SlimefunItem item : category.getItems()) {
 					if (Slimefun.isEnabled(p, item, false)) {
 						locked = false;
 						break;

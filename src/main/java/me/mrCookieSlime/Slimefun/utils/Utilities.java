@@ -16,6 +16,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -34,8 +36,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemRequest;
-import me.mrCookieSlime.Slimefun.guides.ISlimefunGuide;
-import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 
 /**
  * Really dirty way to store stuff, but you can dump

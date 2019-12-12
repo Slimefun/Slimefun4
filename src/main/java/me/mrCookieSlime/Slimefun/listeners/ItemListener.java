@@ -37,6 +37,8 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
@@ -58,8 +60,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.guides.GuideSettings;
-import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class ItemListener implements Listener {

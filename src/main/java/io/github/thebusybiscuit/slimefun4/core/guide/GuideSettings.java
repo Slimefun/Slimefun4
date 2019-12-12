@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.guides;
+package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -196,7 +196,7 @@ public final class GuideSettings {
 			List<String> lore = new LinkedList<>();
 			lore.add("");
 			
-			for (Map.Entry<String, Integer> entry: contributor.getContributions().entrySet()) {
+			for (Map.Entry<String, Integer> entry : contributor.getContributions().entrySet()) {
 				String info = entry.getKey();
 				
 				if (entry.getValue() > 0) {

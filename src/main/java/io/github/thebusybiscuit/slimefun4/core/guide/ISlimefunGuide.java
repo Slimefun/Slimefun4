@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.guides;
+package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import java.util.LinkedList;
 
@@ -22,8 +22,12 @@ public interface ISlimefunGuide {
 	void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory);
 	
 	default String shorten(String string, String string2) {
-		if (ChatColor.stripColor(string + string2).length() > 19) return (string + ChatColor.stripColor(string2)).substring(0, 18) + "...";
-		else return (string + ChatColor.stripColor(string2));
+		if (ChatColor.stripColor(string + string2).length() > 19) {
+			return (string + ChatColor.stripColor(string2)).substring(0, 18) + "...";
+		}
+		else {
+			return string + ChatColor.stripColor(string2);
+		}
 	}
 	
 	default Object getLastEntry(PlayerProfile profile, boolean remove) {

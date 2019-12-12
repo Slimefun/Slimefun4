@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.guides;
+package io.github.thebusybiscuit.slimefun4.core.guide;
 
 public enum SlimefunGuideLayout {
 	

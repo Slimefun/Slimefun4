@@ -12,16 +12,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.guides.BookSlimefunGuide;
-import me.mrCookieSlime.Slimefun.guides.ChestSlimefunGuide;
-import me.mrCookieSlime.Slimefun.guides.ISlimefunGuide;
-import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 
 public final class SlimefunGuide {
 
