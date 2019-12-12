@@ -120,7 +120,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
                     ItemStack output = null;
                     
                     for (int i = 0; i < recipeList.size(); i += 2) {
-                    	if (SlimefunManager.isItemSimiliar(item, recipeList.get(i), true)) {
+                    	if (SlimefunManager.isItemSimilar(item, recipeList.get(i), true)) {
                     		output = recipeList.get(i + 1);
                     	}
                     }

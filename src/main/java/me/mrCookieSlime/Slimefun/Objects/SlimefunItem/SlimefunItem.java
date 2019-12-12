@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +14,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -33,7 +36,7 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 
-public class SlimefunItem {
+public class SlimefunItem implements Placeable {
 	
 	private String id;
 	private ItemState state;
@@ -139,8 +142,7 @@ public class SlimefunItem {
 	 * @since 4.1.11
 	 */
 	public String getPermission() 			{		return permission;		}
-	public List<String> getNoPermissionTooltip()    {       return noPermissionTooltip;       }
-	public boolean isTicking() 			{		return ticking;			}
+	public List<String> getNoPermissionTooltip()    {       return noPermissionTooltip; }
 
 	/**
 	 * @since 4.1.11, rename of {@link #getTicker()}.
@@ -312,8 +314,8 @@ public class SlimefunItem {
 				return sfi;
 			}
 		}
-		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
-		if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
+		if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
+		if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
 		return null;
 	}
 
@@ -327,11 +329,11 @@ public class SlimefunItem {
 			}
 		}
 
-		if (this instanceof ChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else if (this instanceof ChargedItem && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimiliar(item, this.item, false)) return true;
-		else return SlimefunManager.isItemSimiliar(item, this.item, true);		
+		if (this instanceof ChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
+		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
+		else if (this instanceof ChargedItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
+		else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
+		else return SlimefunManager.isItemSimilar(item, this.item, true);		
 	}
 
 	public void load() {
@@ -481,7 +483,7 @@ public class SlimefunItem {
 				ItemStack[] recipe = sfi.getRecipe();
 				
 				for (int i = 0; i < 9; i++) {
-					if (SlimefunManager.isItemSimiliar(recipe[i], old, true)) recipe[i] = stack;
+					if (SlimefunManager.isItemSimilar(recipe[i], old, true)) recipe[i] = stack;
 				}
 				sfi.setRecipe(recipe);
 			}
@@ -612,8 +614,22 @@ public class SlimefunItem {
 		itemhandlers.stream().filter(c::isInstance).map(c::cast).forEach(callable);
 	}
 	
+	public boolean isTicking() {
+		return ticking;
+	}
+	
 	@Override
 	public String toString() {
 		return "SlimefunItem: " + id + " (" + state + ", vanilla=" + !addon + ")";
+	}
+
+	@Override
+	public Collection<ItemStack> getDrops() {
+		return Arrays.asList(item.clone());
+	}
+
+	@Override
+	public Collection<ItemStack> getDrops(Player p) {
+		return getDrops();
 	}
 }

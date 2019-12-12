@@ -286,7 +286,7 @@ public class CargoNet extends Network {
 								int slot = request.getSlot();
 								ItemStack prevStack = menu.getItemInSlot(slot);
 								
-								if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunManager.isItemSimiliar(prevStack, new CustomItem(request.getItem(), 1), true)))) {
+								if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunManager.isItemSimilar(prevStack, new CustomItem(request.getItem(), 1), true)))) {
 									iterator.remove();
 									break;
 								}
@@ -419,7 +419,7 @@ public class CargoNet extends Network {
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 										boolean add = true;
 										for (StoredItem item: items) {
-											if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
+											if (SlimefunManager.isItemSimilar(is, item.getItem(), true)) {
 												add = false;
 												item.add(is.getAmount() + stored);
 											}
@@ -521,7 +521,7 @@ public class CargoNet extends Network {
 		if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 			boolean add = true;
 			for (StoredItem item: items) {
-				if (SlimefunManager.isItemSimiliar(is, item.getItem(), true)) {
+				if (SlimefunManager.isItemSimilar(is, item.getItem(), true)) {
 					add = false;
 					item.add(is.getAmount());
 				}

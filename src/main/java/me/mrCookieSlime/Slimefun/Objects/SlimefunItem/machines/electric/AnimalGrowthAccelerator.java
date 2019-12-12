@@ -90,7 +90,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 	protected void tick(Block b) {
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 3.0, 3.0, 3.0, n -> n instanceof Ageable && n.isValid() && !((Ageable) n).isAdult())) {
 			for (int slot: getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
+				if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
 					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					
 					ChargableBlock.addCharge(b, -energyConsumption);

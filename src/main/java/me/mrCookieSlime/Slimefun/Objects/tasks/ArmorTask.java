@@ -71,7 +71,7 @@ public class ArmorTask implements Runnable {
 					}
 				}
 				
-				if (SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) 
+				if (SlimefunManager.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) 
 					&& Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) 
 					&& (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) 
 					&& p.getEyeLocation().getBlock().getLightFromSky() == 15) 
@@ -83,10 +83,10 @@ public class ArmorTask implements Runnable {
 					if (SlimefunManager.containsSimilarItem(p.getInventory(), radioactive, true)) {
 						// Check if player is wearing the hazmat suit
 						// If so, break the loop
-						if (SlimefunManager.isItemSimiliar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
-								SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
-								SlimefunManager.isItemSimiliar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
-								SlimefunManager.isItemSimiliar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
+						if (SlimefunManager.isItemSimilar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
+								SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
+								SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
+								SlimefunManager.isItemSimilar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
 							break;
 						}
 

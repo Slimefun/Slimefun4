@@ -19,6 +19,13 @@ import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.cscorelib2.updater.BukkitUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
+import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
+import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
+import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
+import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
+import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubConnector;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -52,9 +59,6 @@ import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
-import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
-import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
-import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
 import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
@@ -74,9 +78,6 @@ import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
-import me.mrCookieSlime.Slimefun.services.CustomItemDataService;
-import me.mrCookieSlime.Slimefun.services.CustomTextureService;
-import me.mrCookieSlime.Slimefun.services.MetricsService;
 import me.mrCookieSlime.Slimefun.utils.Settings;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
@@ -88,6 +89,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
 	private final CustomTextureService textureService = new CustomTextureService(this);
+	private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
+	private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
 	
 	private TickerTask ticker;
 	private SlimefunLocalization local;
@@ -103,7 +106,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private SlimefunHooks hooks;
 	
 	// Supported Versions of Minecraft
-	private final String[] supported = {"v1_14_"};
+	private final String[] supported = {"v1_14_", "v1_15_"};
 
 	@Override
 	public void onEnable() {
@@ -216,12 +219,12 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}
 			
 			MiscSetup.loadDescriptions();
-			
-			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-			settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			getLogger().log(Level.INFO, "Loading Researches...");
 			ResearchSetup.setupResearches();
+			
+			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
+			settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			MiscSetup.setupMisc();
 			WikiSetup.addWikiPages(this);
@@ -235,8 +238,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			OreGenSystem.registerResource(new UraniumResource());
 
 			// Setting up GitHub Connectors...
-
-			GitHubSetup.setup();
+			gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
 
 			// All Slimefun Listeners
 			new ArmorListener(this);
@@ -307,15 +309,13 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}, 100L, config.getInt("URID.custom-ticker-delay"));
 
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-				utilities.connectors.forEach(GitHubConnector::pullFile);
-				
-				for (Contributor contributor: utilities.contributors.values()) {
+				gitHubService.getConnectors().forEach(GitHubConnector::pullFile);
+
+				for (Contributor contributor : gitHubService.getContributors().values()) {
 					if (!contributor.hasTexture()) {
-						String name = contributor.getName();
-						
 						try {
-							Optional<UUID> uuid = MinecraftAccount.getUUID(name);
-							
+							Optional<UUID> uuid = MinecraftAccount.getUUID(contributor.getMinecraftName());
+
 							if (uuid.isPresent()) {
 								Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
 								contributor.setTexture(skin);
@@ -323,6 +323,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 							else {
 								contributor.setTexture(Optional.empty());
 							}
+						}
+						catch(IllegalArgumentException x) {
+							// There cannot be a texture found because it is not a valid MC username
+							contributor.setTexture(Optional.empty());
 						}
 						catch(TooManyRequestsException x) {
 							break;
@@ -479,6 +483,14 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	public static CustomTextureService getItemTextureService() {
 		return instance.textureService;
+	}
+	
+	public static BlockDataService getBlockDataService() {
+		return instance.blockDataService;
+	}
+
+	public static GitHubService getGitHubService() {
+		return instance.gitHubService;
 	}
 
 }

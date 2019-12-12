@@ -125,6 +125,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 		List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
 		
 		for (MachineRecipe recipe: recipes) {
+			if (recipe.getInput().length != 1) continue;
+			
 			displayRecipes.add(recipe.getInput()[0]);
 			displayRecipes.add(recipe.getOutput()[0]);
 		}
@@ -192,7 +194,10 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			}
 			else {
 				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				pushItems(b, processing.get(b).getOutput().clone());
+				
+				for (ItemStack output: processing.get(b).getOutput()) {
+					inv.pushItem(output.clone(), getOutputSlots());
+				}
 				
 				progress.remove(b);
 				processing.remove(b);
@@ -205,7 +210,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			for (MachineRecipe recipe: recipes) {
 				for (ItemStack input: recipe.getInput()) {
 					for (int slot: getInputSlots()) {
-						if (SlimefunManager.isItemSimiliar(inv.getItemInSlot(slot), input, true)) {
+						if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), input, true)) {
 							found.put(slot, input.getAmount());
 							break;
 						}

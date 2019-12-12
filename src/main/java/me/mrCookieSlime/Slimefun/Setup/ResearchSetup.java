@@ -125,7 +125,7 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(122, "Armored Jet Boots", 27), SlimefunItems.ARMORED_JETBOOTS);
 	    Slimefun.registerResearch(new Research(123, "Seismic Axe", 29), SlimefunItems.SEISMIC_AXE);
 	    Slimefun.registerResearch(new Research(124, "Pickaxe of Vein Mining", 29), SlimefunItems.PICKAXE_OF_VEIN_MINING);
-	    Slimefun.registerResearch(new Research(125, "Soulbound Weapons", 29), SlimefunItems.SOULBOUND_SWORD, SlimefunItems.SOULBOUND_BOW);
+	    Slimefun.registerResearch(new Research(125, "Soulbound Weapons", 29), SlimefunItems.SOULBOUND_SWORD, SlimefunItems.SOULBOUND_BOW, SlimefunItems.SOULBOUND_TRIDENT);
 	    Slimefun.registerResearch(new Research(126, "Soulbound Tools", 29), SlimefunItems.SOULBOUND_PICKAXE, SlimefunItems.SOULBOUND_AXE, SlimefunItems.SOULBOUND_SHOVEL, SlimefunItems.SOULBOUND_HOE);
 	    Slimefun.registerResearch(new Research(127, "Soulbound Armor", 29), SlimefunItems.SOULBOUND_HELMET, SlimefunItems.SOULBOUND_CHESTPLATE, SlimefunItems.SOULBOUND_LEGGINGS, SlimefunItems.SOULBOUND_BOOTS);
 	    Slimefun.registerResearch(new Research(129, "Delicious Drinks", 29), SlimefunItems.JUICER, SlimefunItems.APPLE_JUICE, SlimefunItems.MELON_JUICE, SlimefunItems.CARROT_JUICE, SlimefunItems.PUMPKIN_JUICE, SlimefunItems.SWEET_BERRY_JUICE);
@@ -247,5 +247,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(249, "Totem of Undying", 36), SlimefunItems.TOTEM_OF_UNDYING);
 	    Slimefun.registerResearch(new Research(250, "Charging Bench", 8), SlimefunItems.CHARGING_BENCH);
 	    Slimefun.registerResearch(new Research(251, "Nether Gold Pan", 8), SlimefunItems.NETHER_GOLD_PAN);
+	    Slimefun.registerResearch(new Research(252, "Electric Press", 16), SlimefunItems.ELECTRIC_PRESS, SlimefunItems.ELECTRIC_PRESS_2);
 	}
 }

@@ -18,7 +18,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
@@ -36,7 +35,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
         Utilities utilities = SlimefunPlugin.getUtilities();
 
         return (e, p, item) -> {
-            if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
+            if (isItem(item)) {
                 UUID uuid = p.getUniqueId();
                 
                 if (e.getClickedBlock() == null && !utilities.jumpState.containsKey(uuid)) {

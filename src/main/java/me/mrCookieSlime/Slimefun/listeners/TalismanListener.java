@@ -49,7 +49,7 @@ public class TalismanListener implements Listener {
 	@EventHandler(priority=EventPriority.MONITOR)
 	public void onDamageGet(EntityDamageEvent e) {
 		if (!e.isCancelled()) {
-			if (e instanceof EntityDamageByEntityEvent && ((EntityDamageByEntityEvent) e).getDamager() instanceof Player && random.nextInt(100) < 45 && SlimefunManager.isItemSimiliar(((Player) ((EntityDamageByEntityEvent) e).getDamager()).getInventory().getItemInMainHand(), SlimefunItems.BLADE_OF_VAMPIRES, true)) {
+			if (e instanceof EntityDamageByEntityEvent && ((EntityDamageByEntityEvent) e).getDamager() instanceof Player && random.nextInt(100) < 45 && SlimefunManager.isItemSimilar(((Player) ((EntityDamageByEntityEvent) e).getDamager()).getInventory().getItemInMainHand(), SlimefunItems.BLADE_OF_VAMPIRES, true)) {
 				((Player) ((EntityDamageByEntityEvent) e).getDamager()).playSound(((EntityDamageByEntityEvent) e).getDamager().getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
 				((Player) ((EntityDamageByEntityEvent) e).getDamager()).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
 			}

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import me.mrCookieSlime.Slimefun.Events.AutoDisenchantEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,6 +30,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
+
+import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
 
 public class AutoDisenchanter extends AContainer {
 
@@ -82,7 +83,7 @@ public class AutoDisenchanter extends AContainer {
 			Map<Enchantment, Integer> enchantments = new HashMap<>();
 			Set<ItemEnchantment> enchantments2 = new HashSet<>();
 
-			for (int slot: getInputSlots()) {
+			for (int slot : getInputSlots()) {
 				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				ItemStack item = menu.getItemInSlot(slot);
 
@@ -107,16 +108,18 @@ public class AutoDisenchanter extends AContainer {
 				if (item != null && target != null && target.getType() == Material.BOOK) {
 					int amount = 0;
 
-					for (Map.Entry<Enchantment, Integer> e: item.getEnchantments().entrySet()) {
+					for (Map.Entry<Enchantment, Integer> e : item.getEnchantments().entrySet()) {
 						enchantments.put(e.getKey(), e.getValue());
 						amount++;
 					}
+					
 					if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
-						for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
+						for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
 							amount++;
 							enchantments2.add(enchantment);
 						}
 					}
+					
 					if (amount > 0) {
 						ItemStack newItem = item.clone();
 						newItem.setAmount(1);
@@ -133,13 +136,14 @@ public class AutoDisenchanter extends AContainer {
 
 						EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
 
-						for (Map.Entry<Enchantment,Integer> e: enchantments.entrySet()) {
+						for (Map.Entry<Enchantment,Integer> e : enchantments.entrySet()) {
 							newItem.removeEnchantment(e.getKey());
 							meta.addStoredEnchant(e.getKey(), e.getValue(), true);
 						}
+						
 						book.setItemMeta(meta);
 
-						for (ItemEnchantment e: enchantments2) {
+						for (ItemEnchantment e : enchantments2) {
 							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, e.getEnchantment(), e.getLevel());
 							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), 0);
 						}
@@ -153,7 +157,7 @@ public class AutoDisenchanter extends AContainer {
 			if (recipe != null) {
 				if (!fits(b, recipe.getOutput())) return;
 
-				for (int slot: getInputSlots()) {
+				for (int slot : getInputSlots()) {
 					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
 				}
 

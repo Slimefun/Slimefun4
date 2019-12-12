@@ -38,7 +38,6 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		return true;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public String onRequest(OfflinePlayer p, String params) {
 		if (params.equals("researches_total_xp_levels_spent")) {

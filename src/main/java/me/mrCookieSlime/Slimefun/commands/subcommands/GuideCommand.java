@@ -3,11 +3,11 @@ package me.mrCookieSlime.Slimefun.commands.subcommands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SubCommand;
-import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 
 public class GuideCommand extends SubCommand {
 

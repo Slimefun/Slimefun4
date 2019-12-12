@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,15 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -37,10 +36,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemRequest;
-import me.mrCookieSlime.Slimefun.guides.ISlimefunGuide;
-import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
-import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
-import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 
 /**
  * Really dirty way to store stuff, but you can dump
@@ -61,7 +56,7 @@ public final class Utilities {
 	public final List<MultiBlock> allMultiblocks = new LinkedList<>();
 	public final List<Research> allResearches = new LinkedList<>();
 	
-	public final Map<SlimefunGuideLayout, ISlimefunGuide> guideLayouts = new HashMap<>();
+	public final Map<SlimefunGuideLayout, ISlimefunGuide> guideLayouts = new EnumMap<>(SlimefunGuideLayout.class);
 	
 	/**
 	 * List of the registered Categories.
@@ -126,12 +121,9 @@ public final class Utilities {
 	public final Set<UUID> teleporterUsers = new HashSet<>();
 	
 	public final Map<String, OreGenResource> resources = new HashMap<>();
-	public final Map<String, Config> resource_configs = new HashMap<>();
+	public final Map<String, Config> resourceConfigs = new HashMap<>();
 	
-	public final Set<GitHubConnector> connectors = new HashSet<>();
-	public final ConcurrentMap<String, Contributor> contributors = new ConcurrentHashMap<>();
-	
-	public final List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
+	public final Set<CargoTransportEvent> cargoTransportEvents = new HashSet<>();
 
 	public ItemStack[] oreWasherOutputs;
 	
@@ -140,36 +132,5 @@ public final class Utilities {
 	 * @since 4.0
 	 */
 	public final Set<UUID> researching = new HashSet<>();
-	
-	/**
-	 * Represents the current month of the year
-	 */
-	public int month = 0;
-	
-	/**
-	 * Represents the number of unresolved Issues on the Slimefun4 GitHub repository.
-	 * @since 4.1.13
-	 */
-	public int issues = 0;
-	
-	/**
-	 * Represents the number of pending Pull Requests on the Slimefun4 GitHub repository.
-	 */
-	public int prs = 0;
-	
-	/**
-	 * Represents the number of Forks of the Slimefun4 GitHub repository.
-	 * @since 4.1.13
-	 */
-	public int forks = 0;
-	
-	/**
-	 * Represents the number of stars on the Slimefun4 GitHub repository.
-	 * @since 4.1.13
-	 */
-	public int stars = 0;
-	
-	public int codeBytes = 0;
-	public Date lastUpdate = new Date();
 
 }

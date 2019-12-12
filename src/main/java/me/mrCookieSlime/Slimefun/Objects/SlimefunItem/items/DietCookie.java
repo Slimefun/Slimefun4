@@ -9,7 +9,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
@@ -21,7 +20,7 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	@Override
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
+			if (isItem(item)) {
 				p.sendMessage(ChatColor.YELLOW + "You feel so light...");
 				p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
 

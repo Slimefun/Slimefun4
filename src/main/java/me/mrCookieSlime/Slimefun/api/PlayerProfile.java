@@ -20,7 +20,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
@@ -225,10 +225,7 @@ public final class PlayerProfile {
 	 *
 	 * @param uuid The UUID of the profile you are trying to retrieve.
 	 * @return The PlayerProfile of this player
-	 * 
-	 * @deprecated Use {@link #fromUUID(UUID, Consumer)}
 	 */
-	@Deprecated
 	public static PlayerProfile fromUUID(UUID uuid) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
 		
@@ -264,9 +261,7 @@ public final class PlayerProfile {
 	 *
 	 * @param p The player's profile you wish to retrieve
 	 * @return The PlayerProfile of this player
-	 * @deprecated Use {@link #get(OfflinePlayer, Consumer)}
 	 */
-	@Deprecated
 	public static PlayerProfile get(OfflinePlayer p) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
 		

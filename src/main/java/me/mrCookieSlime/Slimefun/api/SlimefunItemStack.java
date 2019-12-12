@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.api;
 
 import java.util.function.Consumer;
-import java.util.logging.Level;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -9,12 +8,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class SlimefunItemStack extends CustomItem {
 	
 	private String id;
+	private ImmutableItemMeta immutableMeta;
 
 	public SlimefunItemStack(String id, Material type, String name, String... lore) {
 		super(type, name, lore);
@@ -47,7 +48,7 @@ public class SlimefunItemStack extends CustomItem {
 	}
 
 	public SlimefunItemStack(String id, String texture, String name, String... lore) {
-		super(getSkull(texture), name, lore);
+		super(SkullItem.fromBase64(texture), name, lore);
 		
 		setID(id);
 	}
@@ -62,19 +63,27 @@ public class SlimefunItemStack extends CustomItem {
 		
 		setItemMeta(meta);
 	}
-	
-	private static ItemStack getSkull(String texture) {
-		try {
-			return CustomSkull.getItem(texture);
-		} catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while initializing the Items for Slimefun " + Slimefun.getVersion(), x);
-			
-			return new ItemStack(Material.PLAYER_HEAD);
-		}
-	}
 
 	public String getItemID() {
 		return id;
+	}
+	
+	public ImmutableItemMeta getImmutableMeta() {
+		return immutableMeta;
+	}
+	
+	@Override
+	public boolean setItemMeta(ItemMeta meta) {
+		immutableMeta = new ImmutableItemMeta(meta);
+		
+		return super.setItemMeta(meta);
+	}
+	
+	@Override
+	public ItemStack clone() {
+		SlimefunItemStack item = (SlimefunItemStack) super.clone();
+		item.id = getItemID();
+		return item;
 	}
 
 }

@@ -71,7 +71,7 @@ public class Composter extends SlimefunGadget {
 							SlimefunItem machine = SlimefunItem.getByID(id);
 							
 							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
-								if (convert != null && SlimefunManager.isItemSimiliar(input, convert, true)) {
+								if (convert != null && SlimefunManager.isItemSimilar(input, convert, true)) {
 									ItemStack removing = input.clone();
 									removing.setAmount(convert.getAmount());
 									p.getInventory().removeItem(removing);

@@ -1,15 +1,13 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -23,13 +21,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class NetherGoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implements RecipeDisplayItem {
 	
 	private final List<ItemStack> recipes;
-	
-	private int chanceQuartz;
-	private int chanceGoldNuggets;
-	private int chanceNetherWart;
-	private int chanceBlazePowder;
-	private int chanceGlowstoneDust;
-	private int chanceGhastTear;
+	private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
+	private int weights;
 
 	public NetherGoldPan(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe, 
@@ -49,12 +42,21 @@ public class NetherGoldPan extends SimpleSlimefunItem<ItemInteractionHandler> im
 	
 	@Override
 	public void postRegister() {
-		chanceQuartz = (int) Slimefun.getItemValue(getID(), "chance.QUARTZ");
-		chanceGoldNuggets = (int) Slimefun.getItemValue(getID(), "chance.GOLD_NUGGET");
-		chanceNetherWart = (int) Slimefun.getItemValue(getID(), "chance.NETHER_WART");
-		chanceBlazePowder = (int) Slimefun.getItemValue(getID(), "chance.BLAZE_POWDER");
-		chanceGlowstoneDust = (int) Slimefun.getItemValue(getID(), "chance.GLOWSTONE_DUST");
-		chanceGhastTear = (int) Slimefun.getItemValue(getID(), "chance.GHAST_TEAR");
+		add(new ItemStack(Material.QUARTZ), (int) Slimefun.getItemValue(getID(), "chance.QUARTZ"));
+		add(new ItemStack(Material.GOLD_NUGGET), (int) Slimefun.getItemValue(getID(), "chance.GOLD_NUGGET"));
+		add(new ItemStack(Material.NETHER_WART), (int) Slimefun.getItemValue(getID(), "chance.NETHER_WART"));
+		add(new ItemStack(Material.BLAZE_POWDER), (int) Slimefun.getItemValue(getID(), "chance.BLAZE_POWDER"));
+		add(new ItemStack(Material.GLOWSTONE_DUST), (int) Slimefun.getItemValue(getID(), "chance.GLOWSTONE_DUST"));
+		add(new ItemStack(Material.GHAST_TEAR), (int) Slimefun.getItemValue(getID(), "chance.GHAST_TEAR"));
+
+		if (weights < 100) {
+			add(new ItemStack(Material.AIR), 100 - weights);
+		}
+	}
+	
+	private void add(ItemStack item, int chance) {
+		randomizer.add(item, chance);
+		weights += chance;
 	}
 	
 	@Override
@@ -62,21 +64,13 @@ public class NetherGoldPan extends SimpleSlimefunItem<ItemInteractionHandler> im
 		return (e, p, item) -> {
 			if (isItem(item)) {
 				if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.SOUL_SAND && SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), ProtectableAction.BREAK_BLOCK)) {
-					List<ItemStack> drops = new ArrayList<>();
-					Random random = ThreadLocalRandom.current();
-
-					if (random.nextInt(100) < chanceQuartz) drops.add(new ItemStack(Material.QUARTZ));
-					else if (random.nextInt(100) < chanceGoldNuggets) drops.add(new ItemStack(Material.GOLD_NUGGET));
-					else if (random.nextInt(100) < chanceNetherWart) drops.add(new ItemStack(Material.NETHER_WART));
-					else if (random.nextInt(100) < chanceBlazePowder) drops.add(new ItemStack(Material.BLAZE_POWDER));
-					else if (random.nextInt(100) < chanceGlowstoneDust) drops.add(new ItemStack(Material.GLOWSTONE_DUST));
-					else if (random.nextInt(100) < chanceGhastTear) drops.add(new ItemStack(Material.GHAST_TEAR));
+					ItemStack output = randomizer.getRandom();
 
 					e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, e.getClickedBlock().getType());
 					e.getClickedBlock().setType(Material.AIR);
 
-					for (ItemStack drop: drops) {
-						e.getClickedBlock().getWorld().dropItemNaturally(e.getClickedBlock().getLocation(), drop);
+					if (output.getType() != Material.AIR) {
+						e.getClickedBlock().getWorld().dropItemNaturally(e.getClickedBlock().getLocation(), output.clone());
 					}
 				}
 				e.setCancelled(true);

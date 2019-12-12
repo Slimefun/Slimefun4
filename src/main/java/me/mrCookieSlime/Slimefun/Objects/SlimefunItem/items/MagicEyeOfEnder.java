@@ -24,7 +24,12 @@ public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemInteractionHandler> 
         	if (isItem(item)) {
 				e.getParentEvent().setCancelled(true);
 				
-				if (p.getInventory().getHelmet() != null && p.getInventory().getChestplate() != null && p.getInventory().getLeggings() != null && p.getInventory().getBoots() != null && SlimefunManager.isItemSimiliar(p.getInventory().getHelmet(), SlimefunItems.ENDER_HELMET, true) && SlimefunManager.isItemSimiliar(p.getInventory().getChestplate(), SlimefunItems.ENDER_CHESTPLATE, true) && SlimefunManager.isItemSimiliar(p.getInventory().getLeggings(), SlimefunItems.ENDER_LEGGINGS, true) && SlimefunManager.isItemSimiliar(p.getInventory().getBoots(), SlimefunItems.ENDER_BOOTS, true)) {
+				if (
+					SlimefunManager.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.ENDER_HELMET, true) && 
+					SlimefunManager.isItemSimilar(p.getInventory().getChestplate(), SlimefunItems.ENDER_CHESTPLATE, true) && 
+					SlimefunManager.isItemSimilar(p.getInventory().getLeggings(), SlimefunItems.ENDER_LEGGINGS, true) && 
+					SlimefunManager.isItemSimilar(p.getInventory().getBoots(), SlimefunItems.ENDER_BOOTS, true)
+				) {
 					p.launchProjectile(EnderPearl.class);
 					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
 				}

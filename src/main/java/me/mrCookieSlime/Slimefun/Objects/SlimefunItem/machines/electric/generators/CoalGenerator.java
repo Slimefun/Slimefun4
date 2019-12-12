@@ -22,17 +22,17 @@ public abstract class CoalGenerator extends AGenerator {
 		registerFuel(new MachineFuel(12, new ItemStack(Material.BLAZE_ROD)));
 		
 		// Coals
-		for (Material mat: Tag.ITEMS_COALS.getValues()) {
+		for (Material mat : Tag.ITEMS_COALS.getValues()) {
 			registerFuel(new MachineFuel(8, new ItemStack(mat)));
 		}
 		
 		// Logs
-		for (Material mat: Tag.LOGS.getValues()) {
+		for (Material mat : Tag.LOGS.getValues()) {
 			registerFuel(new MachineFuel(2, new ItemStack(mat)));
 		}
 
 		// Wooden Planks
-		for (Material mat: Tag.PLANKS.getValues()) {
+		for (Material mat : Tag.PLANKS.getValues()) {
 			registerFuel(new MachineFuel(1, new ItemStack(mat)));
 		}
 	}

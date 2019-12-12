@@ -10,13 +10,11 @@ import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -29,26 +27,26 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
-				List<String> lore = item.getItemMeta().getLore();
-				lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
-				lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
+			if (isItem(item)) {
 				ItemMeta im = item.getItemMeta();
-				im.setLore(lore);
-				item.setItemMeta(im);
-				p.getEquipment().setItemInMainHand(item);
-				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
-				return true;
-			}
-			else if (SlimefunManager.isItemSimiliar(item, getItem(), false)) {
-				PlayerProfile.get(p, profile -> {
-					PlayerProfile.fromUUID(UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1))), owner -> {
+				List<String> lore = im.getLore();
+				if (lore.get(1).isEmpty()) {
+					lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
+					lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
+					im.setLore(lore);
+					item.setItemMeta(im);
+					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+				} else {
+					UUID uuid = UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
+					if (p.getUniqueId().equals(uuid))
+						return true;
+					PlayerProfile.get(p, profile -> PlayerProfile.fromUUID(uuid, owner -> {
 						Set<Research> researches = owner.getResearches();
-						researches.forEach(research -> profile.setResearched(research, true));
-					});
-				});
-				
-				if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
+						researches.forEach(research -> research.unlock(p, true));
+					}));
+					if (p.getGameMode() != GameMode.CREATIVE)
+						item.setAmount(item.getAmount() - 1);
+				}
 				return true;
 			}
 			else return false;

@@ -20,5 +20,14 @@
 	"CHICKEN_JERKY": "Meat-Jerky",
 	"MUTTON_JERKY": "Meat-Jerky",
 	"RABBIT_JERKY": "Meat-Jerky",
-	"FISH_JERKY": "Meat-Jerky"
+	"FISH_JERKY": "Meat-Jerky",
+	"ANCIENT_ALTAR": "Ancient-Altar",
+	"ANCIENT_PEDESTAL": "Ancient-Pedestal",
+	"BLADE_OF_VAMPIRES": "Blade-of-Vampires",
+	"BROKEN_SPAWNER": "Broken-Spawner",
+	"REPAIRED_SPAWNER": "Reinforced-Spawner",
+	"NETHER_GOLD_PAN": "Nether-Gold-Pan",
+	"PICKAXE_OF_CONTAINMENT": "Pickaxe-of-Containment",
+	"SEISMIC_AXE": "Seismic-Axe",
+	"SMELTERS_PICKAXE": "Smelter's-Pickaxe"
 }

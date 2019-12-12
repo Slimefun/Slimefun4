@@ -115,7 +115,6 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			}
 		}
 		
-		if (displayRecipes.size() % 2 != 0) displayRecipes.add(null);
 		return displayRecipes;
 	}
 	

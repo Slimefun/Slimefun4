@@ -7,9 +7,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -33,7 +33,7 @@ public final class GEOScanner {
 		}
 		
 		try {
-			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ0OWI5MzE4ZTMzMTU4ZTY0YTQ2YWIwZGUxMjFjM2Q0MDAwMGUzMzMyYzE1NzQ5MzJiM2M4NDlkOGZhMGRjMiJ9fX0="), "&eScanned Chunk", "", "&8\u21E8 &7World: " + chunk.getWorld().getName(), "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ()), (pl, slot, stack, action) -> false);
+			menu.addItem(4, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ0OWI5MzE4ZTMzMTU4ZTY0YTQ2YWIwZGUxMjFjM2Q0MDAwMGUzMzMyYzE1NzQ5MzJiM2M4NDlkOGZhMGRjMiJ9fX0="), "&eScanned Chunk", "", "&8\u21E8 &7World: " + chunk.getWorld().getName(), "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ()), (pl, slot, stack, action) -> false);
 		} catch (Exception e) {
 			Slimefun.getLogger().log(Level.SEVERE, "Error while scanning a chunk for Slimefun " + Slimefun.getVersion(), e);
 		}

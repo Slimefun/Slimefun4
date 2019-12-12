@@ -212,8 +212,8 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 		if (SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.containsKey(input)) {
 			ItemStack output = SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.get(input).clone();
 			
-			if (fits(b, output)) {
-				pushItems(b, output);
+			if (menu.fits(output, getOutputSlots())) {
+				menu.pushItem(output, getOutputSlots());
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
 				for (int j = 0; j < 9; j++) {
 					if (menu.getItemInSlot(getInputSlots()[j]) != null) menu.replaceExistingItem(getInputSlots()[j], InvUtils.decreaseItem(menu.getItemInSlot(getInputSlots()[j]), 1));

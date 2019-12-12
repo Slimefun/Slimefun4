@@ -58,7 +58,7 @@ public abstract class ElectricSmeltery extends AContainer {
 				List<Integer> slots = new ArrayList<>();
 				
 				for (int slot : getInputSlots()) {
-					if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), item, true)) {
+					if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), item, true)) {
 						slots.add(slot);
 					}
 				}

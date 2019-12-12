@@ -45,7 +45,7 @@ public class Juicer extends MultiBlockMachine {
 		Inventory inv = disp.getInventory();
 		for (ItemStack current: inv.getContents()) {
 			for (ItemStack convert: RecipeType.getRecipeInputs(this)) {
-				if (convert != null && SlimefunManager.isItemSimiliar(current, convert, true)) {
+				if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
 					ItemStack adding = RecipeType.getRecipeOutput(this, convert);
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 					

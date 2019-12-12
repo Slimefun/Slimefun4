@@ -177,15 +177,15 @@ public final class MiscSetup {
 						for (ItemStack i: input) {
 							if (i != null) {
 								inputs.add(i);
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.ALUMINUM_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.COPPER_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.GOLD_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.IRON_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.LEAD_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.MAGNESIUM_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.SILVER_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.TIN_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.ZINC_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.ALUMINUM_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.COPPER_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.GOLD_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.IRON_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.LEAD_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.MAGNESIUM_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.SILVER_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.TIN_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.ZINC_DUST, true)) dust = true;
 							}
 						}
 
