@@ -13,9 +13,9 @@ import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Events.ResearchUnlockEvent;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;

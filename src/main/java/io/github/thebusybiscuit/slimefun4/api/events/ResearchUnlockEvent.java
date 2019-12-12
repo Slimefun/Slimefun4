@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Events;
+package io.github.thebusybiscuit.slimefun4.api.events;
 
 import me.mrCookieSlime.Slimefun.Objects.Research;
 
@@ -11,8 +11,8 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 	
-	private Player p;
-	private Research r;
+	private Player player;
+	private Research research;
 	private boolean cancelled;
 	
 	public HandlerList getHandlers() {
@@ -23,17 +23,17 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
         return handlers;
     }
 	
-	public ResearchUnlockEvent(Player p, Research res) {
-		this.p = p;
-		this.r = res;
+	public ResearchUnlockEvent(Player p, Research research) {
+		this.player = p;
+		this.research = research;
 	}
 	
 	public Player getPlayer() {
-		return this.p;
+		return this.player;
 	}
 	
 	public Research getResearch() {
-		return this.r;
+		return this.research;
 	}
 
 	@Override

@@ -1,9 +1,11 @@
-package me.mrCookieSlime.Slimefun.Events;
+package io.github.thebusybiscuit.slimefun4.api.events;
 
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import me.mrCookieSlime.Slimefun.androids.AndroidEntity;
 
 /**
  * This event is fired before a miner android mines a block.
@@ -14,14 +16,14 @@ public class AndroidMineEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final Block block;
-    private final Block android;
+    private final AndroidEntity android;
     private boolean cancelled;
 
     /**
      * @param block - mined block
      * @param android - the block of the android
      */
-    public AndroidMineEvent(Block block, Block android) {
+    public AndroidMineEvent(Block block, AndroidEntity android) {
         this.block = block;
         this.android = android;
     }
@@ -40,7 +42,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      * @return the mined block
      */
     public Block getBlock() {
-        return this.block;
+        return block;
     }
 
     /**
@@ -49,18 +51,18 @@ public class AndroidMineEvent extends Event implements Cancellable {
      *
      * @return the block of the android
      */
-    public Block getAndroid() {
-        return this.android;
+    public AndroidEntity getAndroid() {
+        return android;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     @Override
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        cancelled = cancel;
     }
 
 }

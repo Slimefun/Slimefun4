@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Events;
+package io.github.thebusybiscuit.slimefun4.api.events;
 
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 
@@ -12,9 +12,9 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 	
-	private Player p;
-	private MultiBlock mb;
-	private Block b;
+	private Player player;
+	private MultiBlock multiBlock;
+	private Block clickedBlock;
 	private boolean cancelled;
 	
 	public HandlerList getHandlers() {
@@ -26,21 +26,21 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
     }
 	
 	public MultiBlockInteractEvent(Player p, MultiBlock mb, Block clicked) {
-		this.p = p;
-		this.mb = mb;
-		this.b = clicked;
+		this.player = p;
+		this.multiBlock = mb;
+		this.clickedBlock = clicked;
 	}
 	
 	public Player getPlayer() {
-		return this.p;
+		return this.player;
 	}
 	
 	public MultiBlock getMultiBlock() {
-		return this.mb;
+		return this.multiBlock;
 	}
 	
 	public Block getClickedBlock() {
-		return this.b;
+		return this.clickedBlock;
 	}
 
 	@Override

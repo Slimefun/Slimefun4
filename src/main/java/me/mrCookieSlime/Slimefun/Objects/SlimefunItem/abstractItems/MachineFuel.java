@@ -4,18 +4,18 @@ import org.bukkit.inventory.ItemStack;
 
 public class MachineFuel {
 	
-	private int seconds;
+	private int ticks;
 	private ItemStack fuel;
 	private ItemStack output;
 	
 	public MachineFuel(int seconds, ItemStack fuel) {
-		this.seconds = seconds * 2;
+		this.ticks = seconds * 2;
 		this.fuel = fuel;
 		this.output = null;
 	}
 	
 	public MachineFuel(int seconds, ItemStack fuel, ItemStack output) {
-		this.seconds = seconds * 2;
+		this.ticks = seconds * 2;
 		this.fuel = fuel;
 		this.output = output;
 	}
@@ -29,7 +29,7 @@ public class MachineFuel {
 	}
 	
 	public int getTicks() {
-		return seconds;
+		return ticks;
 	}
 
 }

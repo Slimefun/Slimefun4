@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Events;
+package io.github.thebusybiscuit.slimefun4.api.events;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -14,6 +14,7 @@ public class AutoDisenchantEvent extends Event implements Cancellable {
 
 	public AutoDisenchantEvent(ItemStack item) {
 		super(true);
+		
 		this.item = item;
 	}
 

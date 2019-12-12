@@ -2,12 +2,12 @@ package me.mrCookieSlime.Slimefun.androids;
 
 import org.bukkit.block.Block;
 
-public class AndroidObject {
+public class AndroidEntity {
 	
-	private ProgrammableAndroid android;
-	private Block b;
+	private final ProgrammableAndroid android;
+	private final Block b;
 	
-	public AndroidObject(ProgrammableAndroid android, Block b) {
+	public AndroidEntity(ProgrammableAndroid android, Block b) {
 		this.android = android;
 		this.b = b;
 	}
