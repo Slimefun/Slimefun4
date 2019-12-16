@@ -16,9 +16,8 @@ public class ContributionsConnector extends GitHubConnector {
 	private static final List<String> blacklist = Arrays.asList(
 		"invalid-email-address",
 		"renovate-bot",
-		"ImgBotApp",
 		"TheBusyBot",
-		"imgbot"
+		"imgbot[bot]"
 	);
 
 	// Matches a GitHub name with a Minecraft name.

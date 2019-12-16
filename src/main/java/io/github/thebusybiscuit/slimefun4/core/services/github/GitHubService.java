@@ -78,6 +78,7 @@ public class GitHubService {
 				
 				for (JsonElement elem : array) {
 					JsonObject obj = elem.getAsJsonObject();
+					
 					if (obj.has("pull_request")) prCount++;
 					else issueCount++;
 				}

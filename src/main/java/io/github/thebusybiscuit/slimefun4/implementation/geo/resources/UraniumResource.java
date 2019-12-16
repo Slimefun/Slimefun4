@@ -1,6 +1,7 @@
-package me.mrCookieSlime.Slimefun.GEO.resources;
+package io.github.thebusybiscuit.slimefun4.implementation.geo.resources;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
@@ -10,10 +11,10 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
 public class UraniumResource implements OreGenResource {
 	
-	private final Random random = new Random();
-	
 	@Override
 	public int getDefaultSupply(Biome biome) {
+		Random random = ThreadLocalRandom.current();
+		
 		switch (biome) {
 			case THE_END:
 			case END_BARRENS:

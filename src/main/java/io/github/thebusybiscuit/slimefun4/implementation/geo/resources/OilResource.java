@@ -1,6 +1,7 @@
-package me.mrCookieSlime.Slimefun.GEO.resources;
+package io.github.thebusybiscuit.slimefun4.implementation.geo.resources;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
@@ -10,10 +11,10 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
 public class OilResource implements OreGenResource {
 	
-	private final Random random = new Random();
-	
 	@Override
 	public int getDefaultSupply(Biome biome) {
+		Random random = ThreadLocalRandom.current();
+		
 		switch (biome) {
 		case SNOWY_BEACH:
 		case STONE_SHORE:
@@ -55,6 +56,13 @@ public class OilResource implements OreGenResource {
 
 		case DEEP_OCEAN:
 		case OCEAN:
+		case COLD_OCEAN:
+		case DEEP_COLD_OCEAN:
+		case DEEP_FROZEN_OCEAN:
+		case DEEP_LUKEWARM_OCEAN:
+		case DEEP_WARM_OCEAN:
+		case LUKEWARM_OCEAN:
+		case WARM_OCEAN:
 			return random.nextInt(62) + 24;
 
 		case SWAMP:

@@ -1,8 +1,6 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -11,8 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
-import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount.TooManyRequestsException;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
@@ -23,16 +19,16 @@ import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
-import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
-import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubConnector;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
+import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.NetherIceResource;
+import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.OilResource;
+import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.SaltResource;
+import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.UraniumResource;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
-import me.mrCookieSlime.Slimefun.GEO.resources.NetherIceResource;
-import me.mrCookieSlime.Slimefun.GEO.resources.OilResource;
-import me.mrCookieSlime.Slimefun.GEO.resources.UraniumResource;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -232,10 +228,11 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			getLogger().log(Level.INFO, "Loading World Generators...");
 
-			// Generating Oil as an OreGenResource (its a cool API)
+			// Generating Oil as an OreGenResource (it iss a cool API)
 			OreGenSystem.registerResource(new OilResource());
 			OreGenSystem.registerResource(new NetherIceResource());
 			OreGenSystem.registerResource(new UraniumResource());
+			OreGenSystem.registerResource(new SaltResource());
 
 			// Setting up GitHub Connectors...
 			gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
@@ -308,32 +305,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 				}
 			}, 100L, config.getInt("URID.custom-ticker-delay"));
 
-			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-				gitHubService.getConnectors().forEach(GitHubConnector::pullFile);
-
-				for (Contributor contributor : gitHubService.getContributors().values()) {
-					if (!contributor.hasTexture()) {
-						try {
-							Optional<UUID> uuid = MinecraftAccount.getUUID(contributor.getMinecraftName());
-
-							if (uuid.isPresent()) {
-								Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
-								contributor.setTexture(skin);
-							}
-							else {
-								contributor.setTexture(Optional.empty());
-							}
-						}
-						catch(IllegalArgumentException x) {
-							// There cannot be a texture found because it is not a valid MC username
-							contributor.setTexture(Optional.empty());
-						}
-						catch(TooManyRequestsException x) {
-							break;
-						}
-					}
-				}
-			}, 80L, 60 * 60 * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new GitHubTask(gitHubService), 80L, 60 * 60 * 20L);
 
 			// Hooray!
 			getLogger().log(Level.INFO, "Finished!");
