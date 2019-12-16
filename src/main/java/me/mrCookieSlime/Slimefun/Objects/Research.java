@@ -34,7 +34,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class Research {
 
-	private static final int[] research_progress = {23, 44, 57, 92};
+	private static final int[] RESEARCH_PROGRESS = {23, 44, 57, 92};
 
 	private int id;
 	private String name;
@@ -92,32 +92,6 @@ public class Research {
 	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * Gets the cost in XP levels to unlock the research.
-	 * 
-	 * @return The cost in XP levels of the research
-	 * 
-	 * @since 4.0
-	 * @deprecated Moved to {@link #getCost()}
-	 */
-	@Deprecated
-	public int getLevel() {
-		return getCost();
-	}
-
-	/**
-	 * Sets the cost in XP levels to unlock the research.
-	 * 
-	 * @param level Cost in XP levels
-	 * 
-	 * @since 4.0
-	 * @deprecated Moved to {@link #setCost(int)}
-	 */
-	@Deprecated
-	public void setLevel(int level) {
-		setCost(level);
 	}
 
 	/**
@@ -258,19 +232,19 @@ public class Research {
 							SlimefunPlugin.getUtilities().researching.add(p.getUniqueId());
 							SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName()));
 							
-							for (int i = 1; i < research_progress.length + 1; i++) {
+							for (int i = 1; i < RESEARCH_PROGRESS.length + 1; i++) {
 								int j = i;
 								
 								Slimefun.runSync(() -> {
 									p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-									SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", research_progress[j - 1] + "%"));
+									SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
 								}, i * 20L);
 							}
 							
 							Slimefun.runSync(() -> {
 								runnable.run();
 								SlimefunPlugin.getUtilities().researching.remove(p.getUniqueId());
-							}, (research_progress.length + 1) * 20L);
+							}, (RESEARCH_PROGRESS.length + 1) * 20L);
 						}
 					}
 				});

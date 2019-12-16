@@ -40,7 +40,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TalismanListener implements Listener {
 	
-	private Random random = new Random();
+	private final Random random = new Random();
 	
 	public TalismanListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -81,7 +81,7 @@ public class TalismanListener implements Listener {
 			
 			// Did the tool in our hand broke or was it an Armorpiece?
 			if (!inv.getItem(inv.getHeldItemSlot()).equals(e.getBrokenItem())) {
-				for (int s: armorSlots) {
+				for (int s : armorSlots) {
 					if (inv.getItem(s).equals(e.getBrokenItem())) {
 						slot = s;
 						break;
@@ -89,7 +89,7 @@ public class TalismanListener implements Listener {
 				}
 			}
 			
-			final ItemStack item = e.getBrokenItem().clone();
+			ItemStack item = e.getBrokenItem().clone();
 			ItemMeta meta = item.getItemMeta();
 			
 			if (meta instanceof Damageable) {
@@ -98,14 +98,16 @@ public class TalismanListener implements Listener {
 			
 			item.setItemMeta(meta);
 			
-			final int itemSlot = slot;
-			SlimefunPlugin.instance.getServer().getScheduler().runTaskLater(SlimefunPlugin.instance, () -> inv.setItem(itemSlot, item), 1L);
+			int itemSlot = slot;
+			Slimefun.runSync(() -> inv.setItem(itemSlot, item), 1L);
 		}
 	}
 	
 	@EventHandler
 	public void onSprint(PlayerToggleSprintEvent e) {
-		if (e.isSprinting()) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_TRAVELLER);
+		if (e.isSprinting()) {
+			Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_TRAVELLER);
+		}
 	}
 	
 	@EventHandler

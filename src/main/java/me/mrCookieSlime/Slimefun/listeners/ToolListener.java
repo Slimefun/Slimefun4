@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -47,7 +48,6 @@ public class ToolListener implements Listener {
 	
 	// Materials that require a Block under it, e.g. Pressure Plates
 	private final Set<Material> sensitiveMaterials = new HashSet<>();
-	private final Random random = new Random();
 	private final Utilities utilities;
 	
 	public ToolListener(SlimefunPlugin plugin) {
@@ -164,7 +164,7 @@ public class ToolListener implements Listener {
 			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
 			gifts.add(new ItemStack(Material.EMERALD));
 			
-			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(random.nextInt(gifts.size())));
+			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
 		}
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
@@ -266,6 +266,8 @@ public class ToolListener implements Listener {
 		}
 		else if (item != null) {
 			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+				Random random = ThreadLocalRandom.current();
+				
 				fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
 				if (fortune <= 0) fortune = 1;
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);

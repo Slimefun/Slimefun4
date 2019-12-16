@@ -359,7 +359,7 @@ public class ItemListener implements Listener {
 					// Remove the glass bottle once drunk
 					final int m = mode;
 
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+					Slimefun.runSync(() -> {
 						if (m == 0) p.getEquipment().getItemInMainHand().setAmount(0);
 						else if (m == 1) p.getEquipment().getItemInOffHand().setAmount(0);
 						else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
@@ -449,7 +449,7 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
-		for (ItemHandler handler: SlimefunItem.getHandlers("ItemDropHandler")) {
+		for (ItemHandler handler : SlimefunItem.getHandlers("ItemDropHandler")) {
 			if (((ItemDropHandler) handler).onItemDrop(e, e.getPlayer(), e.getItemDrop())) return;
 		}
 	}

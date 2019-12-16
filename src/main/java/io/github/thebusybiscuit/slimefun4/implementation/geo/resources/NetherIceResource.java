@@ -25,7 +25,7 @@ public class NetherIceResource implements OreGenResource {
 
 	@Override
 	public String getMeasurementUnit() {
-		return "Blocks";
+		return "Block(s)";
 	}
 
 	@Override

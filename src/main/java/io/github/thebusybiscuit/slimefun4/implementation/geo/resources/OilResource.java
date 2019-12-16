@@ -86,7 +86,7 @@ public class OilResource implements OreGenResource {
 
 	@Override
 	public String getMeasurementUnit() {
-		return "Buckets";
+		return "Bucket(s)";
 	}
 
 	@Override

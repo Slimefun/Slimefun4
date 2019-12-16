@@ -39,13 +39,15 @@ public final class GEOScanner {
 		}
 		
 		int index = 10;
-		for (OreGenResource resource: OreGenSystem.listResources()) {
+		for (OreGenResource resource : OreGenSystem.listResources()) {
 			int supply = OreGenSystem.getSupplies(resource, chunk, true);
 			
 			ItemStack item = new CustomItem(resource.getItem(), "&r" + resource.getName(), "&8\u21E8 &e" + supply + ' ' + resource.getMeasurementUnit());
+			
 			if (supply > 1) {
 				item.setAmount(supply > item.getMaxStackSize() ? item.getMaxStackSize(): supply);
 			}
+			
 			menu.addItem(index, item, (pl, slot, stack, action) -> false);
 			index++;
 			

@@ -39,7 +39,7 @@ public class UraniumResource implements OreGenResource {
 
 	@Override
 	public String getMeasurementUnit() {
-		return "Pieces";
+		return "Piece(s)";
 	}
 
 	@Override

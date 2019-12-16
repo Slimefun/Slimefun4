@@ -36,7 +36,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.tasks.ArmorTask;
-import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
@@ -106,7 +105,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		if (new CSCoreLibLoader(this).load()) {
+		if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
 
 			String currentVersion = ReflectionUtils.getVersion();
 
@@ -317,9 +316,16 @@ public final class SlimefunPlugin extends JavaPlugin {
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 		}
 		else {
+			getLogger().log(Level.INFO, "#################### - INFO - ####################");
+			getLogger().log(Level.INFO, " ");
+			getLogger().log(Level.INFO, "Slimefun could not be loaded (yet).");
+			getLogger().log(Level.INFO, "It appears that you have not installed CS-CoreLib.");
+			getLogger().log(Level.INFO, "Please download and install CS-CoreLib manually:");
+			getLogger().log(Level.INFO, "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
+			
 			getCommand("slimefun").setExecutor((sender, cmd, label, args) -> {
 				sender.sendMessage("You have forgotten to install CS-CoreLib! Slimefun is disabled.");
-				sender.sendMessage("https://dev.bukkit.org/projects/cs-corelib");
+				sender.sendMessage("https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
 				return true;
 			});
 		}
@@ -342,7 +348,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			if (profile.isDirty()) profile.save();
 		});
 		
-		for (World world: Bukkit.getWorlds()) {
+		for (World world : Bukkit.getWorlds()) {
 			try {
 				BlockStorage storage = BlockStorage.getStorage(world);
 				
@@ -357,7 +363,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}
 		}
 		
-		for (UniversalBlockMenu menu: utilities.universalInventories.values()) {
+		for (UniversalBlockMenu menu : utilities.universalInventories.values()) {
 			menu.save();
 		}
 		
@@ -375,7 +381,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 		instance = null;
 
-		for (Player p: Bukkit.getOnlinePlayers()) {
+		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.closeInventory();
 		}
 	}

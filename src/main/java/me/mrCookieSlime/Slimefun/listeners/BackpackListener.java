@@ -49,6 +49,7 @@ public class BackpackListener implements Listener {
 		if (SlimefunPlugin.getUtilities().backpack.containsKey(e.getPlayer().getUniqueId())){
 			ItemStack item = e.getItemDrop().getItemStack();
 			SlimefunItem sfItem = SlimefunItem.getByItem(item);
+			
 			if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
 		}
 	}

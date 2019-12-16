@@ -102,7 +102,7 @@ public class AncientAltarListener implements Listener {
 						
 						if (catalyst.getType() != Material.AIR) {
 							List<ItemStack> input = new ArrayList<>();
-							for (Block pedestal: pedestals) {
+							for (Block pedestal : pedestals) {
 								Item stack = findItem(pedestal);
 								if (stack != null) input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
 							}
@@ -177,7 +177,7 @@ public class AncientAltarListener implements Listener {
 	}
 
 	public static Item findItem(Block b) {
-		for (Entity n: b.getChunk().getEntities()) {
+		for (Entity n : b.getChunk().getEntities()) {
 			if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) return (Item) n;
 		}
 		return null;
