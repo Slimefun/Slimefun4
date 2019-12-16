@@ -33,7 +33,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 					drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
 				}
 				else {
-					for (ItemStack drop: e.getBlock().getDrops()) {
+					for (ItemStack drop : e.getBlock().getDrops(getItem())) {
 						drops.add(new CustomItem(drop, drop.getAmount() * 2));
 					}
 				}

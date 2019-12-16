@@ -1092,7 +1092,8 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.DISPENSER), SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.HOPPER), SlimefunItems.GOLD_24K_BLOCK},
 		new ItemStack[0], BlockFace.SELF)
 		.register(true, new MultiBlockInteractionHandler() {
-
+			// Determines the drops an Advanced Digital Miner will get
+			private final ItemStack EFFECTIVE_PICKAXE = new ItemStack(Material.DIAMOND_PICKAXE);
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
 				if (mb.isMultiBlock(SlimefunItem.getByID("ADVANCED_DIGITAL_MINER"))) {
@@ -1128,7 +1129,7 @@ public final class SlimefunSetup {
 							else if (ore == Material.NETHER_QUARTZ_ORE)  drop = new ItemStack(Material.QUARTZ, 4);
 							else if (ore == Material.LAPIS_ORE)  drop = new ItemStack(Material.LAPIS_LAZULI, 12);
 							else {
-								for (ItemStack drops: ores.get(0).getBlock().getDrops()) {
+								for (ItemStack drops: ores.get(0).getBlock().getDrops(EFFECTIVE_PICKAXE)) {
 									if (!drops.getType().isBlock()) drop = new CustomItem(drops, 2);
 								}
 							}

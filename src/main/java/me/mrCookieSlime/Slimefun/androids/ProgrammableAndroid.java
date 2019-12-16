@@ -74,6 +74,9 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class ProgrammableAndroid extends SlimefunItem implements InventoryBlock {
 
+	// Determines the drops a miner android will get
+	private static final ItemStack EFFECTIVE_PICKAXE = new ItemStack(Material.DIAMOND_PICKAXE);
+
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private static final int[] border_out = {10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41};
 
@@ -497,7 +500,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	}
 
 	private void mine(Block b, BlockMenu menu, Block block) {
-		Collection<ItemStack> drops = block.getDrops();
+		Collection<ItemStack> drops = block.getDrops(EFFECTIVE_PICKAXE);
 		if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			String item = BlockStorage.checkID(block);
 			
@@ -532,7 +535,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 
 	private void movedig(Block b, BlockMenu menu, BlockFace face, Block block) {
-		Collection<ItemStack> drops = block.getDrops();
+		Collection<ItemStack> drops = block.getDrops(EFFECTIVE_PICKAXE);
 		if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			SlimefunItem item = BlockStorage.check(block);
 			
