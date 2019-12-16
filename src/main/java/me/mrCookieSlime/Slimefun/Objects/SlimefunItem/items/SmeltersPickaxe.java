@@ -18,7 +18,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
-
+	// Determines the drops a SmeltersPickaxe will get
+	private static final ItemStack EFFECTIVE_PICKAXE = new ItemStack(Material.DIAMOND_PICKAXE);
 	public SmeltersPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
@@ -35,7 +36,7 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 				if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
 				if (e.getBlock().getType() == Material.PLAYER_HEAD) return true;
 				
-				Collection<ItemStack> blockDrops = e.getBlock().getDrops();
+				Collection<ItemStack> blockDrops = e.getBlock().getDrops(EFFECTIVE_PICKAXE);
 				for (ItemStack drop: blockDrops) {
 					if (drop != null) {
 						ItemStack output = drop;

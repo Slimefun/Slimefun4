@@ -19,6 +19,8 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
+	// Determines the drops a PickaxeOfVeinMining will get
+	private static final ItemStack EFFECTIVE_PICKAXE = new ItemStack(Material.DIAMOND_PICKAXE);
 
 	public PickaxeOfVeinMining(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -40,7 +42,7 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
 						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 							b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 							
-							for (ItemStack drop: b.getDrops()) {
+							for (ItemStack drop: b.getDrops(EFFECTIVE_PICKAXE)) {
 								b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop: new CustomItem(drop, fortune));
 							}
 							

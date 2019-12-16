@@ -20,6 +20,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
 	
+	// Determines the drops an ExplosiveShovel will get
+	private static final ItemStack EFFECTIVE_SHOVEL = new ItemStack(Material.DIAMOND_SHOVEL);
+
 	private boolean damageOnUse;
 	
 	public ExplosiveShovel(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
@@ -52,7 +55,7 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
 
 								b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 								
-								for (ItemStack drop: b.getDrops()) {
+								for (ItemStack drop: b.getDrops(EFFECTIVE_SHOVEL)) {
 									if (drop != null) {
 										b.getWorld().dropItemNaturally(b.getLocation(), drop);
 									}
