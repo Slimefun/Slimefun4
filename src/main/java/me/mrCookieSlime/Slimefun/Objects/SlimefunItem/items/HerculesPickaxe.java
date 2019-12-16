@@ -13,9 +13,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 
-	// Determines the drops a HerculesPickaxe will get
-	private static final ItemStack EFFECTIVE_PICKAXE = new ItemStack(Material.DIAMOND_PICKAXE);
-
 	public HerculesPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
@@ -36,7 +33,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 					drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
 				}
 				else {
-					for (ItemStack drop: e.getBlock().getDrops(EFFECTIVE_PICKAXE)) {
+					for (ItemStack drop : e.getBlock().getDrops(getItem())) {
 						drops.add(new CustomItem(drop, drop.getAmount() * 2));
 					}
 				}

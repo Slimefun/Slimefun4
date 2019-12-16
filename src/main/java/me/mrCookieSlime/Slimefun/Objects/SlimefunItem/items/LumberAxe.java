@@ -20,9 +20,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable {
 
-	// Determines the drops a LumberAxe will get
-	private static final ItemStack EFFECTIVE_AXE = new ItemStack(Material.DIAMOND_AXE);
-
 	public LumberAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
@@ -47,7 +44,7 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
 						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
 							b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 							
-							for (ItemStack drop: b.getDrops(EFFECTIVE_AXE)) {
+							for (ItemStack drop : b.getDrops(getItem())) {
 								b.getWorld().dropItemNaturally(b.getLocation(), drop);
 							}
 							
