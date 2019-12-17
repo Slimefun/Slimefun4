@@ -16,9 +16,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayIt
 
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
-	protected List<ItemStack[]> recipes;
-	protected List<ItemStack> shownRecipes;
-	private BlockFace trigger;
+	protected final List<ItemStack[]> recipes;
+	protected final List<ItemStack> shownRecipes;
+	protected final BlockFace trigger;
 
 	@Deprecated
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger) {
@@ -80,20 +80,20 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
 	@Override
 	public void install() {
-		for (ItemStack i: shownRecipes) {
-			SlimefunItem item = SlimefunItem.getByItem(i);
-			if (item == null || !SlimefunItem.isDisabled(i)) {
-				this.recipes.add(new ItemStack[] {i});
+		for (ItemStack recipeItem : shownRecipes) {
+			SlimefunItem item = SlimefunItem.getByItem(recipeItem);
+			if (item == null || !SlimefunItem.isDisabled(recipeItem)) {
+				this.recipes.add(new ItemStack[] {recipeItem});
 			}
 		}
 	}
 
 	private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
 		List<Material> mats = new ArrayList<>();
-		for (ItemStack i: items) {
-			if (i == null) mats.add(null);
-			else if (i.getType() == Material.FLINT_AND_STEEL) mats.add(Material.FIRE);
-			else mats.add(i.getType());
+		for (ItemStack item : items) {
+			if (item == null) mats.add(null);
+			else if (item.getType() == Material.FLINT_AND_STEEL) mats.add(Material.FIRE);
+			else mats.add(item.getType());
 		}
 
 		return mats.toArray(new Material[mats.size()]);

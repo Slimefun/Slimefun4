@@ -9,7 +9,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class MonsterJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
@@ -21,7 +20,7 @@ public class MonsterJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	@Override
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
+			if (isItem(item)) {
 				SlimefunPlugin.instance.getServer().getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 					if (p.hasPotionEffect(PotionEffectType.HUNGER)) {
 						p.removePotionEffect(PotionEffectType.HUNGER);

@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import java.util.List;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -13,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
@@ -28,7 +28,7 @@ public class ArmorForge extends MultiBlockMachine {
 				Categories.MACHINES_1, 
 				SlimefunItems.ARMOR_FORGE, 
 				"ARMOR_FORGE",
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItem(Material.DISPENSER, "发射器 (面朝上方)"), null},
+				new ItemStack[] {null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 				new ItemStack[0],
 				BlockFace.SELF
 		);
@@ -44,7 +44,7 @@ public class ArmorForge extends MultiBlockMachine {
 		for (int i = 0; i < inputs.size(); i++) {
 			boolean craft = true;
 			for (int j = 0; j < inv.getContents().length; j++) {
-				if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
+				if (!SlimefunManager.isItemSimilar(inv.getContents()[j], inputs.get(i)[j], true)) {
 					craft = false;
 					break;
 				}
@@ -56,10 +56,10 @@ public class ArmorForge extends MultiBlockMachine {
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 					if (outputInv != null) {
 						for (int j = 0; j < 9; j++) {
-                            ItemStack item = inv.getContents()[j];
-                            if (item != null && item.getType() != Material.AIR) {
-                                ItemUtils.consumeItem(item, true);
-                            }
+							ItemStack item = inv.getContents()[j];
+							if (item != null && item.getType() != Material.AIR) {
+								ItemUtils.consumeItem(item, true);
+							}
 						}
 						
 						for (int j = 0; j < 4; j++) {

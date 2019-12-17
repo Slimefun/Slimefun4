@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.listeners;
 import java.util.List;
 import java.util.logging.Level;
 
-import me.mrCookieSlime.Slimefun.guides.GuideSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -38,6 +37,8 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
@@ -59,7 +60,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class ItemListener implements Listener {
@@ -89,14 +89,14 @@ public class ItemListener implements Listener {
 				e.setCancelled(true);
 
 
-			if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
+			if (SlimefunManager.isItemSimilar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
 				e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
+			else if (SlimefunManager.isItemSimilar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
 				e.setCancelled(true);
 
-			if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
+			if (SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
 				e.setCancelled(true);
-			else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
+			else if (SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
 				e.setCancelled(true);
 		}
 	}
@@ -122,7 +122,7 @@ public class ItemListener implements Listener {
 		
 		Player p = e.getPlayer();
 		
-		if (SlimefunManager.isItemSimiliar(e.getItem(), SlimefunItems.DEBUG_FISH, true)) {
+		if (SlimefunManager.isItemSimilar(e.getItem(), SlimefunItems.DEBUG_FISH, true)) {
 			e.setCancelled(true);
 			if (p.isOp()) {
 				switch (e.getAction()) {
@@ -211,19 +211,19 @@ public class ItemListener implements Listener {
 		final Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 
-		if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
+		if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.isSneaking()) GuideSettings.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.BOOK);
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
+		else if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
 			if (p.isSneaking()) GuideSettings.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.CHEST);
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
+		else if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
 			if (p.isSneaking()) GuideSettings.openSettings(p, item);
 			else p.chat("/sf cheat");
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.DEBUG_FISH, true)) {
+		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.DEBUG_FISH, true)) {
 			// Ignore the debug fish in here
 		}
 		else {
@@ -249,6 +249,7 @@ public class ItemListener implements Listener {
 						if (!p.isSneaking()) {
 							float charge = ItemEnergy.getStoredEnergy(item);
 							float cost = 0.3F;
+							
 							if (charge >= cost) {
 								p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
 								Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item")).getItem().clone(), e.getClickedBlock()));
@@ -257,13 +258,14 @@ public class ItemListener implements Listener {
 						else {
 							index++;
 							if (index == modes.size()) index = 0;
-
-							final int finalIndex = index;
-							SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", (String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(finalIndex) + ".name")));
+							
+							SlimefunItem selectedItem = SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item"));
+							String itemName = selectedItem != null ? selectedItem.getItemName(): "Unknown";
+							SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
 							utilities.mode.put(p.getUniqueId(), index);
 						}
 					}
-					else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.HEAVY_CREAM, true)) e.setCancelled(true);
+					else if (SlimefunManager.isItemSimilar(item, SlimefunItems.HEAVY_CREAM, true)) e.setCancelled(true);
 				}
 				else {
 					e.setCancelled(true);
@@ -306,11 +308,11 @@ public class ItemListener implements Listener {
 	}
 
 	private boolean canPlaceCargoNodes(Player p, ItemStack item, Block b) {
-		if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_INPUT, true)) return true;
-		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT, true)) return true;
-		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true)) return true;
-		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_IMPORT_BUS, true)) return true;
-		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimiliar(item, SlimefunItems.CT_EXPORT_BUS, true)) return true;
+		if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true)) return true;
+		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true)) return true;
+		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true)) return true;
+		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CT_IMPORT_BUS, true)) return true;
+		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CT_EXPORT_BUS, true)) return true;
 		else return false;
 	}
 
@@ -337,7 +339,7 @@ public class ItemListener implements Listener {
 
 					// Determine from which hand the juice is being drunk, and its amount
 					int mode = 0;
-					if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInMainHand(), true)) {
+					if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
 						if (p.getInventory().getItemInMainHand().getAmount() == 1) {
 							mode = 0;
 						}
@@ -345,7 +347,7 @@ public class ItemListener implements Listener {
 							mode = 2;
 						}
 					}
-					else if (SlimefunManager.isItemSimiliar(item, p.getInventory().getItemInOffHand(), true)) {
+					else if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
 						if (p.getInventory().getItemInOffHand().getAmount() == 1) {
 							mode = 1;
 						}
@@ -357,7 +359,7 @@ public class ItemListener implements Listener {
 					// Remove the glass bottle once drunk
 					final int m = mode;
 
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+					Slimefun.runSync(() -> {
 						if (m == 0) p.getEquipment().getItemInMainHand().setAmount(0);
 						else if (m == 1) p.getEquipment().getItemInOffHand().setAmount(0);
 						else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
@@ -420,16 +422,16 @@ public class ItemListener implements Listener {
 			ItemStack slot0 = e.getInventory().getContents()[0];
 			ItemStack slot1 = e.getInventory().getContents()[1];
 			
-			if (SlimefunManager.isItemSimiliar(slot0, SlimefunItems.ELYTRA, true)) return;
+			if (SlimefunManager.isItemSimilar(slot0, SlimefunItems.ELYTRA, true)) return;
 			
 			if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0) ||
 					SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1) ||
 
-					SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true) ||
-					SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)||
+					SlimefunManager.isItemSimilar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true) ||
+					SlimefunManager.isItemSimilar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)||
 
-					SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true) ||
-					SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
+					SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true) ||
+					SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
 
 						e.setCancelled(true);
 						SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
@@ -447,7 +449,7 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
-		for (ItemHandler handler: SlimefunItem.getHandlers("ItemDropHandler")) {
+		for (ItemHandler handler : SlimefunItem.getHandlers("ItemDropHandler")) {
 			if (((ItemDropHandler) handler).onItemDrop(e, e.getPlayer(), e.getItemDrop())) return;
 		}
 	}

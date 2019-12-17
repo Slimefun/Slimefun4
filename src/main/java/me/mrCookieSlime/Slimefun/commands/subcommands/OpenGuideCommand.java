@@ -1,9 +1,9 @@
 package me.mrCookieSlime.Slimefun.commands.subcommands;
 
-import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
@@ -24,8 +24,8 @@ public class OpenGuideCommand extends SubCommand {
 	public void onExecute(CommandSender sender, String[] args) {
 		if (sender instanceof Player) { 
 			if (sender.hasPermission("slimefun.command.open_guide")) {
-                boolean book = SlimefunPlugin.getCfg().getBoolean("guide.default-view-book");
-                SlimefunGuide.openGuide((Player) sender, book ? SlimefunGuideLayout.BOOK: SlimefunGuideLayout.CHEST);
+				boolean book = SlimefunPlugin.getCfg().getBoolean("guide.default-view-book");
+				SlimefunGuide.openGuide((Player) sender, book ? SlimefunGuideLayout.BOOK: SlimefunGuideLayout.CHEST);
 			}
 			else {
 				SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);

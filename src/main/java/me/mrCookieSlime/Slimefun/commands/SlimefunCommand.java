@@ -92,7 +92,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 				return true;
 			}
 			else {
-				for (SubCommand command: commands) {
+				for (SubCommand command : commands) {
 					if (args[0].equalsIgnoreCase(command.getName())) {
 						command.onExecute(sender, args);
 						return true;
@@ -108,9 +108,10 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 
 	public void sendHelp(CommandSender sender) {
 		sender.sendMessage("");
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + Slimefun.getVersion() + " &aNamelessssss 汉化"));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + Slimefun.getVersion() + " &a汉化: Namelessssss"));
 		sender.sendMessage("");
-		for (SubCommand cmd: commands) {
+		
+		for (SubCommand cmd : commands) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3/sf " + cmd.getName() + " &b") + cmd.getDescription());
 		}
 	}

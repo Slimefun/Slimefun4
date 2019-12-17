@@ -45,19 +45,20 @@ public abstract class BioGenerator extends AGenerator {
 		registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));
 		registerFuel(new MachineFuel(1, new ItemStack(Material.SEAGRASS)));
 		registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
+		registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));
 
 		// Leaves
-		for(Material m: Tag.LEAVES.getValues()) {
+		for(Material m : Tag.LEAVES.getValues()) {
 			registerFuel(new MachineFuel(1, new ItemStack(m)));
 		}
 
 		// Saplings
-		for (Material m: Tag.SAPLINGS.getValues()) {
+		for (Material m : Tag.SAPLINGS.getValues()) {
 			registerFuel(new MachineFuel(1, new ItemStack(m)));
 		}
 		
 		// Small Flowers (formally just dandelions and poppies.
-		for (Material m: Tag.SMALL_FLOWERS.getValues()) {
+		for (Material m : Tag.SMALL_FLOWERS.getValues()) {
 			registerFuel(new MachineFuel(1, new ItemStack(m)));
 		}
 	}

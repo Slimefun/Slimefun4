@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Nameable;
@@ -54,9 +53,11 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 							block.setType(e.getItem().getType());
 							BlockStorage.store(block, sfItem.getID());
 							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
-							if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
+							if (d.getInventory().containsAtLeast(e.getItem(), 2)) {
+								d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
+							}
 							else {
-								Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
+								Slimefun.runSync(() -> d.getInventory().removeItem(e.getItem()), 2L);
 							}
 						}
 					}
@@ -81,9 +82,11 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 							
 						}
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
-						if (d.getInventory().containsAtLeast(e.getItem(), 2)) d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
+						if (d.getInventory().containsAtLeast(e.getItem(), 2)) {
+							d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
+						}
 						else {
-							Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> d.getInventory().removeItem(e.getItem()), 2L);
+							Slimefun.runSync(() -> d.getInventory().removeItem(e.getItem()), 2L);
 						}
 					}
 				}
@@ -96,6 +99,6 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 	@Override
 	public void postRegister() {
 		List<?> list = (List<?>) Slimefun.getItemValue(getID(), "unplaceable-blocks");
-		blacklist = list.toArray(new String[list.size()]);
+		blacklist = list.toArray(new String[0]);
 	}
 }

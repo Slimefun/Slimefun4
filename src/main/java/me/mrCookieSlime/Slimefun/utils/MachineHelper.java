@@ -19,11 +19,11 @@ public final class MachineHelper {
 		String timeleft = "";
         final int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
-            timeleft = timeleft + minutes + "m ";
+            timeleft = String.valueOf(timeleft) + minutes + "m ";
         }
         seconds -= minutes * 60;
-        timeleft = timeleft + seconds + "s";
-        return ChatColor.translateAlternateColorCodes('&', "&7剩余 " + timeleft);
+        timeleft = String.valueOf(timeleft) + seconds + "s";
+        return ChatColor.translateAlternateColorCodes('&', "&7剩余 " + timeleft + "s");
 	}
 
 	public static String getProgress(int time, int total) {

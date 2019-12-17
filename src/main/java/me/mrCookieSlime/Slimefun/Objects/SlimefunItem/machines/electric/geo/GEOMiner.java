@@ -46,7 +46,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
 				// Spawn the hologram
-				SimpleHologram.update(b, "&7Idling...");
+				SimpleHologram.update(b, "&7待机中...");
 			}
 
 			@Override
@@ -79,7 +79,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	
 	@Override
 	public String getInventoryTitle() {
-		return "&6GEO-Miner";
+		return "&6GEO 矿机";
 	}
 	
 	@Override
@@ -115,7 +115,6 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			}
 		}
 		
-		if (displayRecipes.size() % 2 != 0) displayRecipes.add(null);
 		return displayRecipes;
 	}
 	
@@ -170,7 +169,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			}
 		}
 		else if (!BlockStorage.hasChunkInfo(b.getChunk())) {
-			SimpleHologram.update(b, "&4GEO-Scan required!");
+			SimpleHologram.update(b, "&4需要先进行 GEO 地形扫描!");
 		}
 		else {
 			Chunk chunk = b.getChunk();
@@ -178,7 +177,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			for (OreGenResource resource: OreGenSystem.listResources()) {
 				if (!resource.isLiquid()) {
 					if (!OreGenSystem.wasResourceGenerated(resource, chunk)) {
-						SimpleHologram.update(b, "&4GEO-Scan required!");
+						SimpleHologram.update(b, "&4需要先进行 GEO 地形扫描!");
 						return;
 					}
 					else {
@@ -190,7 +189,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 							processing.put(b, r);
 							progress.put(b, r.getTicks());
 							OreGenSystem.setSupplies(resource, b.getChunk(), supplies - 1);
-							SimpleHologram.update(b, "&7Mining: &r" + resource.getName());
+							SimpleHologram.update(b, "&7正在开采: &r" + resource.getName());
 							return;
 						}
 					}
@@ -198,7 +197,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 				}
 			}
 			
-			SimpleHologram.update(b, "&7Finished");
+			SimpleHologram.update(b, "&7完成");
 		}
 	}
 	

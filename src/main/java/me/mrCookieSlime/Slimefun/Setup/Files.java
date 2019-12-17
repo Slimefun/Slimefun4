@@ -19,12 +19,13 @@ public final class Files {
 			Slimefun.getLogger().log(Level.WARNING, "############## = -  INFO  - = #################");
 			Slimefun.getLogger().log(Level.WARNING, "###############################################");
 			Slimefun.getLogger().log(Level.WARNING, " ");
-			Slimefun.getLogger().log(Level.WARNING, "Slimefun 警告:");
+			Slimefun.getLogger().log(Level.WARNING, "Slimefun Warning:");
 			Slimefun.getLogger().log(Level.WARNING, " ");
-			Slimefun.getLogger().log(Level.WARNING, "Slimefun 检测到你的配置文件已过期或者不存在,");
-			Slimefun.getLogger().log(Level.WARNING, "我们为你生成了全新的配置文件.");
-			Slimefun.getLogger().log(Level.WARNING, "如果你先前用过 Slimefun,");
-			Slimefun.getLogger().log(Level.WARNING, "你之前的设置已被清空.");
+			Slimefun.getLogger().log(Level.WARNING, "Slimefun has detected that your Files are either");
+			Slimefun.getLogger().log(Level.WARNING, "outdated or do not exist. We generated new Files");
+			Slimefun.getLogger().log(Level.WARNING, "instead otherwise Slimefun would not work. If you");
+			Slimefun.getLogger().log(Level.WARNING, "have used Slimefun before, your Settings are now");
+			Slimefun.getLogger().log(Level.WARNING, "gone. But therefore Slimefun works!");
 			delete(new File("plugins/Slimefun"));
 			delete(new File("data-storage/Slimefun"));
 		}

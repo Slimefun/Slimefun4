@@ -133,22 +133,6 @@ public class Category {
 	}
 
 	/**
-	 * Attempts to get the category with the given display item.
-	 * 
-	 * @param item the display item of the category to get
-	 * @return Category if found, or null
-	 * 
-	 * @since 4.0
-	 */
-	@Deprecated
-	public static Category getByItem(ItemStack item) {
-		for (Category c: list()) {
-			if (c.getItem().isSimilar(item)) return c;
-		}
-		return null;
-	}
-
-	/**
 	 * Returns the tier of this category.
 	 * 
 	 * @return the tier of this category

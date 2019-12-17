@@ -40,7 +40,7 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
 						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 							b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 							
-							for (ItemStack drop: b.getDrops()) {
+							for (ItemStack drop : b.getDrops(getItem())) {
 								b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop: new CustomItem(drop, fortune));
 							}
 							

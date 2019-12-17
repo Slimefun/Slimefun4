@@ -1,12 +1,9 @@
 package me.mrCookieSlime.Slimefun.androids;
 
-import java.util.logging.Level;
-
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public enum ScriptPart {
 
@@ -62,12 +59,8 @@ public enum ScriptPart {
 	private AndroidType type;
 
 	private ScriptPart(AndroidType type, String name, String texture) {
-		try {
-			this.type = type;
-			this.item = new CustomItem(CustomSkull.getItem(texture), name);
-		} catch(Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while initializing Android-Script Texture for Slimefun " + Slimefun.getVersion(), x);
-		}
+		this.type = type;
+		this.item = new CustomItem(SkullItem.fromBase64(texture), name);
 	}
 
 	public ItemStack toItemStack() {

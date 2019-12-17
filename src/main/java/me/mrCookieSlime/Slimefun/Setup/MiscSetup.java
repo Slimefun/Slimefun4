@@ -34,10 +34,10 @@ public final class MiscSetup {
 	private MiscSetup() {}
 	
 	public static void setupMisc() {
-        SlimefunItem talisman = SlimefunItem.getByID("COMMON_TALISMAN");
-        if (talisman != null && (boolean) Slimefun.getItemValue(talisman.getID(), "recipe-requires-nether-stars")) {
-            talisman.setRecipe(new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2});
-        }
+		SlimefunItem talisman = SlimefunItem.getByID("COMMON_TALISMAN");
+		if (talisman != null && (boolean) Slimefun.getItemValue(talisman.getID(), "recipe-requires-nether-stars")) {
+			talisman.setRecipe(new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2});
+		}
 		
 		SlimefunItem.setRadioactive(SlimefunItems.URANIUM);
 		SlimefunItem.setRadioactive(SlimefunItems.SMALL_URANIUM);
@@ -53,11 +53,11 @@ public final class MiscSetup {
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
 			if (item == null) {
-				Slimefun.getLogger().log(Level.WARNING, "已移除有问题的物品 ('NULL?')");
+				Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
 				iterator.remove();
 			}
 			else if (item.getItem() == null) {
-				Slimefun.getLogger().log(Level.WARNING, "已移除有问题的物品 ('" + item.getID() + "')");
+				Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('" + item.getID() + "')");
 				iterator.remove();
 			}
 		}
@@ -177,15 +177,15 @@ public final class MiscSetup {
 						for (ItemStack i: input) {
 							if (i != null) {
 								inputs.add(i);
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.ALUMINUM_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.COPPER_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.GOLD_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.IRON_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.LEAD_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.MAGNESIUM_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.SILVER_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.TIN_DUST, true)) dust = true;
-								if (SlimefunManager.isItemSimiliar(i, SlimefunItems.ZINC_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.ALUMINUM_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.COPPER_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.GOLD_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.IRON_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.LEAD_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.MAGNESIUM_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.SILVER_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.TIN_DUST, true)) dust = true;
+								if (SlimefunManager.isItemSimilar(i, SlimefunItems.ZINC_DUST, true)) dust = true;
 							}
 						}
 
@@ -207,8 +207,8 @@ public final class MiscSetup {
 		}
 		
 		sender.sendMessage(ChatColor.GREEN + "###################### - Slimefun - ######################");
-		sender.sendMessage(ChatColor.GREEN + "成功加载了 " + SlimefunItem.list().size() + " 个物品 (" + Research.list().size() + " 个研究)");
-		sender.sendMessage(ChatColor.GREEN + "( " + SlimefunPlugin.getUtilities().vanillaItems + " 个物品来自 Slimefun, " + (SlimefunItem.list().size() - SlimefunPlugin.getUtilities().vanillaItems) + " 个物品来自扩展 )");
+		sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
+		sender.sendMessage(ChatColor.GREEN + "( " + SlimefunPlugin.getUtilities().vanillaItems + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunPlugin.getUtilities().vanillaItems) + " Items from Addons )");
 		sender.sendMessage(ChatColor.GREEN + "##########################################################");
 		SlimefunPlugin.getItemCfg().save();
 		SlimefunPlugin.getResearchCfg().save();

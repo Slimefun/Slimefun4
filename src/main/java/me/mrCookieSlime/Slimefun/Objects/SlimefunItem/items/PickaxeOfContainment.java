@@ -14,7 +14,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -32,7 +31,7 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<BlockBreakHandler> 
 	@Override
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
+			if (isItem(item)) {
 				// Refactored it into this so we don't need to call e.getBlock() all the time.
 				Block b = e.getBlock(); 
 				if (b.getType() != Material.SPAWNER) return true; 
@@ -47,7 +46,7 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<BlockBreakHandler> 
 				List<String> lore = im.getLore();
 				
 				for (int i = 0; i < lore.size(); i++) {
-					if (lore.get(i).contains("<类型>")) lore.set(i, lore.get(i).replace("<类型>", StringUtils.format(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
+					if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
 				}
 				
 				im.setLore(lore);

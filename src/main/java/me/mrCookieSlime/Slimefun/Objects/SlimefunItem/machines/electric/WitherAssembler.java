@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,6 +24,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -40,10 +40,10 @@ public class WitherAssembler extends SlimefunItem {
 
 	protected int energyConsumption = 4096;
 	
-	public WitherAssembler(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public WitherAssembler(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "&5Wither Assembler") {
+		new BlockMenuPreset(getID(), "&5Wither Assembler") {
 			
 			@Override
 			public void init() {
@@ -98,14 +98,14 @@ public class WitherAssembler extends SlimefunItem {
 			@Override
 			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.INSERT) {
-					if (SlimefunManager.isItemSimiliar(item, new ItemStack(Material.SOUL_SAND), true)) return getSoulSandSlots();
+					if (SlimefunManager.isItemSimilar(item, new ItemStack(Material.SOUL_SAND), true)) return getSoulSandSlots();
 					else return getWitherSkullSlots();
 				}
 				else return new int[0];
 			}
 		};
 		
-		registerBlockHandler(name, new SlimefunBlockHandler() {
+		registerBlockHandler(getID(), new SlimefunBlockHandler() {
 			
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
@@ -117,13 +117,15 @@ public class WitherAssembler extends SlimefunItem {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				if (reason == UnregisterReason.EXPLODE) return false;
 				BlockMenu inv = BlockStorage.getInventory(b);
+				
 				if (inv != null) {
-					for (int slot: getSoulSandSlots()) {
+					for (int slot : getSoulSandSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
 						}
 					}
+					
 					for (int slot : getWitherSkullSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
@@ -194,7 +196,7 @@ public class WitherAssembler extends SlimefunItem {
 					int skulls = 0;
 					
 					for (int slot : getSoulSandSlots()) {
-						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+						if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
 							soulsand = soulsand + BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 							if (soulsand > 3) {
 								soulsand = 4;
@@ -204,7 +206,7 @@ public class WitherAssembler extends SlimefunItem {
 					}
 					
 					for (int slot : getWitherSkullSlots()) {
-						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+						if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
 							skulls = skulls + BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
 							if (skulls > 2) {
 								skulls = 3;
@@ -215,8 +217,9 @@ public class WitherAssembler extends SlimefunItem {
 					
 					if (soulsand > 3 && skulls > 2) {
 						for (int slot : getSoulSandSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-								final int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
+							if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+								int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
+								
 								if (amount >= soulsand) {
 									BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), soulsand));
 									break;
@@ -229,8 +232,9 @@ public class WitherAssembler extends SlimefunItem {
 						}
 						
 						for (int slot : getWitherSkullSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
-								final int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
+							if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+								int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
+								
 								if (amount >= skulls) {
 									BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), skulls));
 									break;
@@ -243,10 +247,9 @@ public class WitherAssembler extends SlimefunItem {
 						}
 						
 						ChargableBlock.addCharge(b, -energyConsumption);
+						double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 						
-						final double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
-						
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> b.getWorld().spawnEntity(new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D), EntityType.WITHER));
+						Slimefun.runSync(() -> b.getWorld().spawnEntity(new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D), EntityType.WITHER));
 					}
 				}
 			}

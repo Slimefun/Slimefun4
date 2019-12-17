@@ -58,9 +58,9 @@ public class MagicWorkbench extends MultiBlockMachine {
 		for (int i = 0; i < inputs.size(); i++) {
 			boolean craft = true;
 			for (int j = 0; j < inv.getContents().length; j++) {
-				if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], true)) {
+				if (!SlimefunManager.isItemSimilar(inv.getContents()[j], inputs.get(i)[j], true)) {
 					if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
-						if (!SlimefunManager.isItemSimiliar(inv.getContents()[j], inputs.get(i)[j], false)) {
+						if (!SlimefunManager.isItemSimilar(inv.getContents()[j], inputs.get(i)[j], false)) {
 							craft = false;
 							break;
 						}

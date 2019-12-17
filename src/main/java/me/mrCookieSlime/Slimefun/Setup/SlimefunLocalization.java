@@ -115,10 +115,7 @@ public class SlimefunLocalization extends Localization {
         setDefaultMessage("anvil.not-working",   "&4你不能在铁砧里使用粘液科技物品" );
         setDefaultMessage("inventory.no-access",   "&4你不允许使用这个方块" );
 
-        setDefaultMessages("tooltips.item-permission", "", "&r你没有权限", "&r使用这个物品");
-
         setDefaultMessage("translated.by", "Namelessssss");
-		
 		save();
 	}
 	

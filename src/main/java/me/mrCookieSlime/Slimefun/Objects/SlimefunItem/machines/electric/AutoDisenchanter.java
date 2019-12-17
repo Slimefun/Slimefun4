@@ -1,4 +1,3 @@
-
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.HashMap;
@@ -6,11 +5,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import me.mrCookieSlime.Slimefun.Events.AutoDisenchantEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
@@ -32,145 +31,150 @@ import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
 
+import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
+
 public class AutoDisenchanter extends AContainer {
 
-    public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
-    }
+	public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
+	}
 
-    @Override
-    public String getInventoryTitle() {
-        return "&5自动祛魔机";
-    }
+	@Override
+	public String getInventoryTitle() {
+		return "&5Auto-Disenchanter";
+	}
 
-    @Override
-    public ItemStack getProgressBar() {
-        return new ItemStack(Material.DIAMOND_CHESTPLATE);
-    }
+	@Override
+	public ItemStack getProgressBar() {
+		return new ItemStack(Material.DIAMOND_CHESTPLATE);
+	}
 
-    @Override
-    public int getEnergyConsumption() {
-        return 9;
-    }
+	@Override
+	public int getEnergyConsumption() {
+		return 9;
+	}
 
-    @Override
-    protected void tick(Block b) {
-        BlockMenu menu = BlockStorage.getInventory(b);
+	@Override
+	protected void tick(Block b) {
+		BlockMenu menu = BlockStorage.getInventory(b);
 
-        if (isProcessing(b)) {
-            int timeleft = progress.get(b);
-            if (timeleft > 0) {
-                MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+		if (isProcessing(b)) {
+			int timeleft = progress.get(b);
+			if (timeleft > 0) {
+				MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.isChargable(b)) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-                    ChargableBlock.addCharge(b, -getEnergyConsumption());
-                    progress.put(b, timeleft - 1);
-                }
-                else progress.put(b, timeleft - 1);
-            }
-            else {
-                menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-                pushItems(b, processing.get(b).getOutput());
+				if (ChargableBlock.isChargable(b)) {
+					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+					ChargableBlock.addCharge(b, -getEnergyConsumption());
+					progress.put(b, timeleft - 1);
+				}
+				else progress.put(b, timeleft - 1);
+			}
+			else {
+				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				pushItems(b, processing.get(b).getOutput());
 
-                progress.remove(b);
-                processing.remove(b);
-            }
-        }
-        else {
-            MachineRecipe recipe = null;
-            Map<Enchantment, Integer> enchantments = new HashMap<>();
-            Set<ItemEnchantment> enchantments2 = new HashSet<>();
+				progress.remove(b);
+				processing.remove(b);
+			}
+		}
+		else {
+			MachineRecipe recipe = null;
+			Map<Enchantment, Integer> enchantments = new HashMap<>();
+			Set<ItemEnchantment> enchantments2 = new HashSet<>();
 
-            for (int slot: getInputSlots()) {
-                ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
-                ItemStack item = menu.getItemInSlot(slot);
+			for (int slot : getInputSlots()) {
+				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
+				ItemStack item = menu.getItemInSlot(slot);
 
-                // Check if disenchantable
-                SlimefunItem sfItem = null;
+				// Check if disenchantable
+				SlimefunItem sfItem = null;
 
-                // stops endless checks of getByItem for empty book stacks.
-                if ((item != null) && (item.getType() != Material.BOOK)) {
-                    sfItem = SlimefunItem.getByItem(item);
-                }
-                if (sfItem != null && !sfItem.isDisenchantable()) {
-                    return;
-                }
+				// stops endless checks of getByItem for empty book stacks.
+				if ((item != null) && (item.getType() != Material.BOOK)) {
+					sfItem = SlimefunItem.getByItem(item);
+				}
+				if (sfItem != null && !sfItem.isDisenchantable()) {
+					return;
+				}
 
-                AutoDisenchantEvent event = new AutoDisenchantEvent(item);
-                Bukkit.getPluginManager().callEvent(event);
-                if (event.isCancelled()) {
-                    return;
-                }
+				AutoDisenchantEvent event = new AutoDisenchantEvent(item);
+				Bukkit.getPluginManager().callEvent(event);
+				if (event.isCancelled()) {
+					return;
+				}
 
-                // Disenchanting
-                if (item != null && target != null && target.getType() == Material.BOOK) {
-                    int amount = 0;
+				// Disenchanting
+				if (item != null && target != null && target.getType() == Material.BOOK) {
+					int amount = 0;
 
-                    for (Map.Entry<Enchantment, Integer> e: item.getEnchantments().entrySet()) {
-                        enchantments.put(e.getKey(), e.getValue());
-                        amount++;
-                    }
-                    if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
-                        for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-                            amount++;
-                            enchantments2.add(enchantment);
-                        }
-                    }
-                    if (amount > 0) {
-                        ItemStack newItem = item.clone();
-                        newItem.setAmount(1);
-                        ItemStack book = target.clone();
-                        book.setAmount(1);
-                        book.setType(Material.ENCHANTED_BOOK);
+					for (Map.Entry<Enchantment, Integer> e : item.getEnchantments().entrySet()) {
+						enchantments.put(e.getKey(), e.getValue());
+						amount++;
+					}
+					
+					if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+						for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
+							amount++;
+							enchantments2.add(enchantment);
+						}
+					}
+					
+					if (amount > 0) {
+						ItemStack newItem = item.clone();
+						newItem.setAmount(1);
+						ItemStack book = target.clone();
+						book.setAmount(1);
+						book.setType(Material.ENCHANTED_BOOK);
 
-                        ItemMeta itemMeta = newItem.getItemMeta();
-                        ItemMeta bookMeta = book.getItemMeta();
-                        ((Repairable) bookMeta).setRepairCost(((Repairable) itemMeta).getRepairCost());
-                        ((Repairable) itemMeta).setRepairCost(0);
-                        newItem.setItemMeta(itemMeta);
-                        book.setItemMeta(bookMeta);
+						ItemMeta itemMeta = newItem.getItemMeta();
+						ItemMeta bookMeta = book.getItemMeta();
+						((Repairable) bookMeta).setRepairCost(((Repairable) itemMeta).getRepairCost());
+						((Repairable) itemMeta).setRepairCost(0);
+						newItem.setItemMeta(itemMeta);
+						book.setItemMeta(bookMeta);
 
-                        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
 
-                        for (Map.Entry<Enchantment,Integer> e: enchantments.entrySet()) {
-                            newItem.removeEnchantment(e.getKey());
-                            meta.addStoredEnchant(e.getKey(), e.getValue(), true);
-                        }
-                        book.setItemMeta(meta);
+						for (Map.Entry<Enchantment,Integer> e : enchantments.entrySet()) {
+							newItem.removeEnchantment(e.getKey());
+							meta.addStoredEnchant(e.getKey(), e.getValue(), true);
+						}
+						
+						book.setItemMeta(meta);
 
-                        for (ItemEnchantment e: enchantments2) {
-                            EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, e.getEnchantment(), e.getLevel());
-                            EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), 0);
-                        }
+						for (ItemEnchantment e : enchantments2) {
+							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, e.getEnchantment(), e.getLevel());
+							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), 0);
+						}
 
-                        recipe = new MachineRecipe(100 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, book});
-                        break;
-                    }
-                }
-            }
+						recipe = new MachineRecipe(100 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, book});
+						break;
+					}
+				}
+			}
 
-            if (recipe != null) {
-                if (!fits(b, recipe.getOutput())) return;
+			if (recipe != null) {
+				if (!fits(b, recipe.getOutput())) return;
 
-                for (int slot: getInputSlots()) {
-                    menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
-                }
+				for (int slot : getInputSlots()) {
+					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+				}
 
-                processing.put(b, recipe);
-                progress.put(b, recipe.getTicks());
-            }
-        }
-    }
+				processing.put(b, recipe);
+				progress.put(b, recipe.getTicks());
+			}
+		}
+	}
 
-    @Override
-    public int getSpeed() {
-        return 1;
-    }
+	@Override
+	public int getSpeed() {
+		return 1;
+	}
 
-    @Override
-    public String getMachineIdentifier() {
-        return "AUTO_DISENCHANTER";
-    }
+	@Override
+	public String getMachineIdentifier() {
+		return "AUTO_DISENCHANTER";
+	}
 
 }

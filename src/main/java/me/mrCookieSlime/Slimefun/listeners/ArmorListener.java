@@ -94,7 +94,7 @@ public class ArmorListener implements Listener {
 		if (e.getAction() == Action.PHYSICAL
 			&& e.getClickedBlock() != null
 			&& e.getClickedBlock().getType() == Material.FARMLAND
-			&& SlimefunManager.isItemSimiliar(e.getPlayer().getInventory().getBoots(),
+			&& SlimefunManager.isItemSimilar(e.getPlayer().getInventory().getBoots(),
 			SlimefunItems.FARMER_SHOES, true)
 		)
 			e.setCancelled(true);

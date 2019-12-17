@@ -17,7 +17,7 @@ public class BlockAutoSaver implements Runnable {
 	public void run() {
 		Set<BlockStorage> worlds = new HashSet<>();
 		
-		for (World world: Bukkit.getWorlds()) {
+		for (World world : Bukkit.getWorlds()) {
 			if (BlockStorage.isWorldRegistered(world.getName())) {
 				BlockStorage storage = BlockStorage.getStorage(world);
 				storage.computeChanges();
@@ -29,9 +29,9 @@ public class BlockAutoSaver implements Runnable {
 		}
 		
 		if (!worlds.isEmpty()) {
-			Slimefun.getLogger().log(Level.INFO, "正在自动保存方块数据... (下次自动保存在: " + SlimefunPlugin.getCfg().getInt("options.auto-save-delay-in-minutes") + "分钟后)");
+			Slimefun.getLogger().log(Level.INFO, "Auto-Saving Block Data... (Next Auto-Save: " + SlimefunPlugin.getCfg().getInt("options.auto-save-delay-in-minutes") + "m)");
 			
-			for (BlockStorage storage: worlds) {
+			for (BlockStorage storage : worlds) {
 				storage.save(false);
 			}
 		}

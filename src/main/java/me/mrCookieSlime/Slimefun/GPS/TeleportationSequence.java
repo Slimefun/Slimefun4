@@ -82,7 +82,7 @@ public final class TeleportationSequence {
 					}
 					
 					destination.getWorld().spawnParticle(Particle.PORTAL,new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()),progress * 2, 0.2F, 0.8F, 0.2F );
-					destination.getWorld().playSound(destination, Sound.ENTITY_BLAZE_DEATH, 1F, 1.4F);
+					destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
 					SlimefunPlugin.getUtilities().teleporterUsers.remove(uuid);
 				}
 				else {
@@ -93,7 +93,7 @@ public final class TeleportationSequence {
 					subtitle.send(TitleType.SUBTITLE, p);
 					
 					source.getWorld().spawnParticle(Particle.PORTAL, source, progress * 2, 0.2F, 0.8F, 0.2F);
-					source.getWorld().playSound(source, Sound.UI_BUTTON_CLICK, 1F, 0.6F);
+					source.getWorld().playSound(source, Sound.BLOCK_BEACON_AMBIENT, 1F, 0.6F);
 					
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> updateProgress(uuid, speed, progress + speed, source, destination, resistance), 10L);
 				}

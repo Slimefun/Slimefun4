@@ -9,7 +9,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
@@ -26,7 +25,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 	@Override
 	public BlockBreakHandler getItemHandler() {
 		return (e, item, fortune, drops) -> {
-			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.HERCULES_PICKAXE, true) && e.getBlock().getType().toString().endsWith("_ORE")) {
+			if (isItem(item) && e.getBlock().getType().toString().endsWith("_ORE")) {
 				if (e.getBlock().getType() == Material.IRON_ORE) {
 					drops.add(new CustomItem(SlimefunItems.IRON_DUST, 2));
 				}
@@ -34,7 +33,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 					drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
 				}
 				else {
-					for (ItemStack drop: e.getBlock().getDrops()) {
+					for (ItemStack drop : e.getBlock().getDrops(getItem())) {
 						drops.add(new CustomItem(drop, drop.getAmount() * 2));
 					}
 				}

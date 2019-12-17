@@ -35,7 +35,7 @@ public final class SlimefunBackup {
 
 			for (int i = backups.size() - 20; i > 0; i--) {
 				if (!backups.get(i).delete()) {
-					Slimefun.getLogger().log(Level.WARNING, "无法删除备份文件: " + backups.get(i).getName());
+					Slimefun.getLogger().log(Level.WARNING, "Could not delete Backup: " + backups.get(i).getName());
 				}
 			}
 		}
@@ -108,10 +108,10 @@ public final class SlimefunBackup {
 						}
 					}
 
-					Slimefun.getLogger().log(Level.INFO, "已备份数据至: " + file.getName());
+					Slimefun.getLogger().log(Level.INFO, "Backed up Data to: " + file.getName());
 				}
 				else {
-					Slimefun.getLogger().log(Level.WARNING, "无法创建备份文件: " + file.getName());
+					Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: " + file.getName());
 				}
 			} catch(IOException x) {
 				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a World-Backup for Slimefun " + Slimefun.getVersion(), x);

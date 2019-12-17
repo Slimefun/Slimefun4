@@ -43,7 +43,7 @@ public abstract class OilPump extends AContainer {
 					return false;
 				}
 				
-				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("石油"), b.getChunk())) {
+				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("原油"), b.getChunk())) {
 					SlimefunPlugin.getLocal().sendMessage(p, "gps.geo.scan-required", true);
 					return false;
 				}
@@ -96,15 +96,18 @@ public abstract class OilPump extends AContainer {
 			}
 		}
 		else {
-			OreGenResource oil = OreGenSystem.getResource("石油");
+			OreGenResource oil = OreGenSystem.getResource("原油");
 			int supplies = OreGenSystem.getSupplies(oil, b.getChunk(), false);
+			
 			if (supplies > 0) {
 				for (int slot: getInputSlots()) {
-					if (SlimefunManager.isItemSimiliar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+					if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
+						
 						if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
-						    return;
+							return;
 						}
+						
 						inv.replaceExistingItem(slot, InvUtils.decreaseItem(inv.getItemInSlot(slot), 1));
 						processing.put(b, r);
 						progress.put(b, r.getTicks());

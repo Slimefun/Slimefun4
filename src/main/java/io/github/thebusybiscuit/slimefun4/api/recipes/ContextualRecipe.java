@@ -5,9 +5,9 @@ import java.util.function.Predicate;
 import org.bukkit.inventory.ItemStack;
 
 public interface ContextualRecipe extends Predicate<ItemStack[]> {
-
-    boolean isShapeless();
-
-    ItemStack getOutput(ItemStack[] input);
+	
+	boolean isShapeless();
+	
+	ItemStack getOutput(ItemStack[] input);
 
 }

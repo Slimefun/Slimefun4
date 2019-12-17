@@ -34,7 +34,7 @@ public class AutonomousToolsListener implements Listener {
 			SlimefunItem machine = BlockStorage.check(dispenser);
 			
 			if (machine != null) {
-				for (ItemHandler handler: SlimefunItem.getHandlers("AutonomousMachineHandler")) {
+				for (ItemHandler handler : SlimefunItem.getHandlers("AutonomousMachineHandler")) {
 					if (((AutonomousMachineHandler) handler).onBlockDispense(e, dispenser, d, block, chest, machine)) break;
 				}
 			}

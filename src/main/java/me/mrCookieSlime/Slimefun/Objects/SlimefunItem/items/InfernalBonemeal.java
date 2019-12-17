@@ -11,7 +11,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class InfernalBonemeal extends SimpleSlimefunItem<ItemInteractionHandler> {
@@ -23,7 +22,7 @@ public class InfernalBonemeal extends SimpleSlimefunItem<ItemInteractionHandler>
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (SlimefunManager.isItemSimiliar(item, getItem(), true)) {
+			if (isItem(item)) {
 				if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.NETHER_WART) {
 					Ageable ageable = (Ageable) e.getClickedBlock().getBlockData();
 					if (ageable.getAge() < ageable.getMaximumAge()) {

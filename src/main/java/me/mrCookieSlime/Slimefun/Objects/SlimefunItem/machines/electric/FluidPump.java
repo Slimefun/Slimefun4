@@ -2,8 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.List;
 
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,7 +22,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 public class FluidPump extends SlimefunItem implements InventoryBlock {
@@ -34,100 +34,100 @@ public class FluidPump extends SlimefunItem implements InventoryBlock {
 	private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
 	protected int energyConsumption = 32;
-
-    public FluidPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+	
+	public FluidPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 		
-		createPreset(this, "&9流体泵", this::constructMenu);
+		createPreset(this, "&9Fluid Pump", this::constructMenu);
+	}
+	
+	private void constructMenu(BlockMenuPreset preset) {
+		for (int i : border) {
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+		}
+		
+		for (int i : border_in) {
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+		}
+		for (int i : border_out) {
+			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+		}
+		
+		for (int i : getOutputSlots()) {
+			preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
+				
+				@Override
+				public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
+					return false;
+				}
+
+				@Override
+				public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
+					return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
+				}
+			});
+		}
 	}
 
-    private void constructMenu(BlockMenuPreset preset) {
-        for (int i : border) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
-        }
+	@Override
+	public int[] getInputSlots() {
+		return new int[] {19, 20};
+	}
 
-        for (int i : border_in) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
-        }
-        for (int i : border_out) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
-        }
+	@Override
+	public int[] getOutputSlots() {
+		return new int[] {24, 25};
+	}
+	
+	protected void tick(Block b) {
+		Block fluid = b.getRelative(BlockFace.DOWN);
+		ItemStack output = null;
+		
+		if (fluid.getType() == Material.LAVA) {
+			output = new ItemStack(Material.LAVA_BUCKET);
+		}
+		else if (fluid.getType() == Material.WATER) {
+			output = new ItemStack(Material.WATER_BUCKET);
+		}
+		
+		if (output != null && ChargableBlock.getCharge(b) >= energyConsumption) {
+			BlockMenu menu = BlockStorage.getInventory(b);
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+					if (!menu.fits(output, getOutputSlots())) return;
 
-        for (int i : getOutputSlots()) {
-            preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
+					ChargableBlock.addCharge(b, -energyConsumption);
+					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+					menu.pushItem(output, getOutputSlots());
+					
+					if (fluid.getType() == Material.WATER) {
+						fluid.setType(Material.AIR);
+					}
+					else {
+						List<Block> list = Vein.find(fluid, 50, block -> block.isLiquid() && block.getType() == fluid.getType());
+			        	list.get(list.size() - 1).setType(Material.AIR);
+					}
+					
+					return;
+				}
+			}
+		}
+	}
 
-                @Override
-                public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return false;
-                }
+	@Override
+	public void preRegister() {
+		addItemHandler(new BlockTicker() {
+			
+			@Override
+			public void tick(Block b, SlimefunItem sf, Config data) {
+				FluidPump.this.tick(b);
+			}
 
-                @Override
-                public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
-                }
-            });
-        }
-    }
-
-    @Override
-    public int[] getInputSlots() {
-        return new int[] {19, 20};
-    }
-
-    @Override
-    public int[] getOutputSlots() {
-        return new int[] {24, 25};
-    }
-
-    protected void tick(Block b) {
-        Block fluid = b.getRelative(BlockFace.DOWN);
-        ItemStack output = null;
-
-        if (fluid.getType() == Material.LAVA) {
-            output = new ItemStack(Material.LAVA_BUCKET);
-        }
-        else if (fluid.getType() == Material.WATER) {
-            output = new ItemStack(Material.WATER_BUCKET);
-        }
-
-        if (output != null && ChargableBlock.getCharge(b) >= energyConsumption) {
-            BlockMenu menu = BlockStorage.getInventory(b);
-            for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-                    if (!menu.fits(output, getOutputSlots())) return;
-
-                    ChargableBlock.addCharge(b, -energyConsumption);
-                    menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
-                    menu.pushItem(output, getOutputSlots());
-
-                    if (fluid.getType() == Material.WATER) {
-                        fluid.setType(Material.AIR);
-                    }
-                    else {
-                        List<Block> list = Vein.find(fluid, 50, block -> block.isLiquid() && block.getType() == fluid.getType());
-                        list.get(list.size() - 1).setType(Material.AIR);
-                    }
-
-                    return;
-                }
-            }
-        }
-    }
-
-    @Override
-    public void preRegister() {
-        addItemHandler(new BlockTicker() {
-
-            @Override
-            public void tick(Block b, SlimefunItem sf, Config data) {
-                FluidPump.this.tick(b);
-            }
-
-            @Override
-            public boolean isSynchronized() {
-                return true;
-            }
-        });
-    }
+			@Override
+			public boolean isSynchronized() {
+				return true;
+			}
+		});
+	}
 
 }

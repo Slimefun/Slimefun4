@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.listeners;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,11 +18,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.androids.AndroidObject;
+import me.mrCookieSlime.Slimefun.androids.AndroidEntity;
 
 public class AndroidKillingListener implements Listener {
-	
-	private final Random random = new Random();
 	
 	public AndroidKillingListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -30,7 +29,7 @@ public class AndroidKillingListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onDeath(final EntityDeathEvent e) {
 		if (e.getEntity().hasMetadata("android_killer")) {
-			final AndroidObject obj = (AndroidObject) e.getEntity().getMetadata("android_killer").get(0).value();
+			final AndroidEntity obj = (AndroidEntity) e.getEntity().getMetadata("android_killer").get(0).value();
 					
 			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
 				List<ItemStack> items = new ArrayList<>();
@@ -41,6 +40,8 @@ public class AndroidKillingListener implements Listener {
 						n.remove();
 					}
 				}
+				
+				Random random = ThreadLocalRandom.current();
 				
 				switch (e.getEntityType()) {
 					case BLAZE:
@@ -58,7 +59,7 @@ public class AndroidKillingListener implements Listener {
 						break;
 				}
 				
-				obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[items.size()]));
+				obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[0]));
 				ExperienceOrb exp = (ExperienceOrb) e.getEntity().getWorld().spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
 				exp.setExperience(1 + random.nextInt(6));
 			}, 1L);

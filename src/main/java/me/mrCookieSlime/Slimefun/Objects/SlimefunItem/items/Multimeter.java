@@ -24,8 +24,8 @@ public class Multimeter extends SimpleSlimefunItem<ItemInteractionHandler> {
         		if (e.getClickedBlock() != null && ChargableBlock.isChargable(e.getClickedBlock())) {
 					e.setCancelled(true);
 					p.sendMessage("");
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b已储存的能源: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(e.getClickedBlock())) + " J"));
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b容量: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(e.getClickedBlock())) + " J"));
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bStored Energy: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(e.getClickedBlock())) + " J"));
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bCapacity: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(e.getClickedBlock())) + " J"));
 					p.sendMessage("");
 				}
 				return true;

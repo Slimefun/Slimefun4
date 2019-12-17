@@ -45,8 +45,8 @@ public final class SlimefunHooks {
 					worldEdit = true;
 					new WorldEditHook();
 				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.WARNING, "无法 Hook WorldEdit!");
-					Slimefun.getLogger().log(Level.WARNING, "请尝试更新 WorldEdit / Slimefun");
+					Slimefun.getLogger().log(Level.WARNING, "Failed to hook into WorldEdit!");
+					Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
 				}
 			}
 		});
@@ -54,7 +54,7 @@ public final class SlimefunHooks {
 	
 	private boolean isPluginInstalled(String hook) {
 		if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
-			Slimefun.getLogger().log(Level.INFO, "成功 Hook 插件: " + hook);
+			Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
 			return true;
 		}
 		else {
@@ -85,4 +85,5 @@ public final class SlimefunHooks {
 	public boolean isPlaceholderAPIInstalled() {
 		return placeHolderAPI;
 	}
+	
 }

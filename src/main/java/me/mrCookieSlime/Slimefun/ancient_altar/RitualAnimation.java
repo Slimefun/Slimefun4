@@ -49,7 +49,7 @@ public class RitualAnimation implements Runnable {
 		this.running = true;
 		this.stage = 0;
 		
-		for (Block pedestal: this.pedestals) {
+		for (Block pedestal : this.pedestals) {
 			Item item = AncientAltarListener.findItem(pedestal);
 			this.itemLock.put(item, item.getLocation().clone());
 		}
@@ -78,7 +78,7 @@ public class RitualAnimation implements Runnable {
 	}
 
 	private boolean checkLockedItems() {
-		for (Map.Entry<Item, Location> entry: itemLock.entrySet()) {
+		for (Map.Entry<Item, Location> entry : itemLock.entrySet()) {
 			if (entry.getKey().getLocation().distance(entry.getValue()) > 0.3) {
 				return false;
 			}

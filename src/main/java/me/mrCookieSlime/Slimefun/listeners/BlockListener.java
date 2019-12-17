@@ -18,8 +18,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Events.MultiBlockInteractEvent;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
@@ -57,7 +57,7 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void onPistonRetract(BlockPistonRetractEvent e) {
 		if (e.isSticky()) {
-			for (Block b: e.getBlocks()) {
+			for (Block b : e.getBlocks()) {
 				if (BlockStorage.hasBlockInfo(b) || b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
 					e.setCancelled(true);
 					return;
@@ -75,7 +75,7 @@ public class BlockListener implements Listener {
 			Block b = e.getClickedBlock();
 			LinkedList<MultiBlock> multiblocks = new LinkedList<>();
 			
-			for (MultiBlock mb: MultiBlock.list()) {
+			for (MultiBlock mb : MultiBlock.list()) {
 				Block center = b.getRelative(mb.getTriggerBlock());
 				
 				if (compareMaterials(center, mb.getBuild(), mb.isSymmetric())) {
@@ -87,7 +87,7 @@ public class BlockListener implements Listener {
 				e.setCancelled(true);
 				MultiBlock multiblock = multiblocks.getLast();
 				
-				for (ItemHandler handler: SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
+				for (ItemHandler handler : SlimefunItem.getHandlers("MultiBlockInteractionHandler")) {
 					if (((MultiBlockInteractionHandler) handler).onInteract(p, multiblock, b)) break;
 				}
 				

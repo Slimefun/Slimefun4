@@ -1,15 +1,8 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.logging.Level;
 
-import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
-import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
-import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
-import me.mrCookieSlime.Slimefun.services.CustomItemDataService;
-import me.mrCookieSlime.Slimefun.services.CustomTextureService;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -17,17 +10,25 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
+import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.cscorelib2.updater.BukkitUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
+import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
+import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
+import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
+import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
+import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.NetherIceResource;
+import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.OilResource;
+import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.SaltResource;
+import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.UraniumResource;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
-import me.mrCookieSlime.Slimefun.GEO.resources.NetherIceResource;
-import me.mrCookieSlime.Slimefun.GEO.resources.OilResource;
-import me.mrCookieSlime.Slimefun.GEO.resources.UraniumResource;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -35,12 +36,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.tasks.ArmorTask;
-import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
-import me.mrCookieSlime.Slimefun.services.MetricsService;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.Setup.WikiSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
@@ -55,8 +54,6 @@ import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
-import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
-import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
 import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
@@ -83,9 +80,12 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static SlimefunPlugin instance;
 
-    private RecipeSnapshot recipeSnapshot;
-    private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
-    private final CustomTextureService textureService = new CustomTextureService(this);
+	private RecipeSnapshot recipeSnapshot;
+	
+	private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
+	private final CustomTextureService textureService = new CustomTextureService(this);
+	private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
+	private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
 	
 	private TickerTask ticker;
 	private SlimefunLocalization local;
@@ -101,11 +101,11 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private SlimefunHooks hooks;
 	
 	// Supported Versions of Minecraft
-	private final String[] supported = {"v1_14_"};
+	private final String[] supported = {"v1_14_", "v1_15_"};
 
 	@Override
 	public void onEnable() {
-		if (new CSCoreLibLoader(this).load()) {
+		if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
 
 			String currentVersion = ReflectionUtils.getVersion();
 
@@ -129,26 +129,26 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 				// Looks like you are using an unsupported Minecraft Version
 				if (!compatibleVersion) {
-					getLogger().log(Level.SEVERE, "### Slimefun 没有被正确安装!");
+					getLogger().log(Level.SEVERE, "### Slimefun 载入时发生了问题!");
 					getLogger().log(Level.SEVERE, "###");
-					getLogger().log(Level.SEVERE, "### 你正在使用 Slimefun 不支持的 Minecraft 版本 + " + ReflectionUtils.getVersion() +"!");
+					getLogger().log(Level.SEVERE, "### 你正在使用错误的服务端版本!");
 					getLogger().log(Level.SEVERE, "###");
-					getLogger().log(Level.SEVERE, "### 但 Slimefun v" + getDescription().getVersion() + " 需要你使用");
+					getLogger().log(Level.SEVERE, "### 你正在使用 Minecraft " + ReflectionUtils.getVersion());
+					getLogger().log(Level.SEVERE, "### 但 Slimefun v" + getDescription().getVersion() + " 只支持");
 					getLogger().log(Level.SEVERE, "### Minecraft {0}", versions);
 					getLogger().log(Level.SEVERE, "###");
-					getLogger().log(Level.SEVERE, "### 如果你想继续使用 Slimefun, ");
-					getLogger().log(Level.SEVERE, "### 请下载旧版本关闭自动更新使用.");
+					getLogger().log(Level.SEVERE, "### 如果你不想更新服务端版本, 请使用旧版本并关闭自动更新.");
 					getServer().getPluginManager().disablePlugin(this);
 					return;
 				}
 			}
 
 			instance = this;
-			getLogger().log(Level.INFO, "加载文件中...");
+			getLogger().log(Level.INFO, "正在加载文件...");
 			Files files = new Files();
 			files.cleanup();
 
-			getLogger().log(Level.INFO, "加载配置中...");
+			getLogger().log(Level.INFO, "正在加载配置...");
 
 			// Setup config.yml
 			PluginUtils utils = new PluginUtils(this);
@@ -173,13 +173,15 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Setting up the Auto-Updater
 			Updater updater;
-
-            if (getDescription().getVersion().equals("UNOFFICIAL")) {
-                // This Server is using a modified build that is not a public release.
-                getLogger().log(Level.INFO, "你正在使用汉化版, 已关闭自动更新! Translated by Namelessssss");
-                getLogger().log(Level.INFO, "发现问题请先不要到官方 Issues 反馈 Bug,");
-                getLogger().log(Level.INFO, "请在这里反馈: https://github.com/StarWishsama/Slimefun4/issues");
-            }
+			
+			if (getDescription().getVersion().equals("git")) {
+			    // @TODO: 将检测版本源改成汉化版的
+				// This Server is using a modified build that is not a public release.
+				//getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
+				//getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
+				//getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun.");
+                getLogger().log(Level.INFO, "粘液科技汉化: Namelessssss");
+			}
 			if (getDescription().getVersion().startsWith("DEV - ")) {
 				// If we are using a development build, we want to switch to our custom 
 				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
@@ -193,9 +195,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 				updater = new BukkitUpdater(this, getFile(), 53485);
 			}
 
-            if (updater != null && config.getBoolean("options.auto-update")) {
-                updater.start();
-            }
+			if (updater != null && config.getBoolean("options.auto-update")) {
+				updater.start();
+			}
 
 			// Creating all necessary Folders
 			String[] storage = {"blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
@@ -203,37 +205,37 @@ public final class SlimefunPlugin extends JavaPlugin {
 			for (String s : storage) createDir("data-storage/Slimefun/" + s);
 			for (String s : general) createDir("plugins/Slimefun/" + s);
 
-			getLogger().log(Level.INFO, "加载物品中...");
+			getLogger().log(Level.INFO, "正在加载物品...");
 			MiscSetup.setupItemSettings();
 			
 			try {
 				SlimefunSetup.setupItems();
 			} catch (Exception x) {
-				getLogger().log(Level.SEVERE, "在实例化 Slimefun 物品时出现了问题, Slimefun 版本为 " + Slimefun.getVersion(), x);
+				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + Slimefun.getVersion(), x);
 			}
 			
 			MiscSetup.loadDescriptions();
 
-			getLogger().log(Level.INFO, "加载研究中...");
+			getLogger().log(Level.INFO, "正在加载研究...");
 			ResearchSetup.setupResearches();
-
-            settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-            settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
+			
+			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
+			settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			MiscSetup.setupMisc();
-            WikiSetup.addWikiPages(this);
-            textureService.setup(utilities.allItems);
+			WikiSetup.addWikiPages(this);
+			textureService.setup(utilities.allItems);
 
-			getLogger().log(Level.INFO, "加载世界生成器...");
+			getLogger().log(Level.INFO, "正在加载世界生成器...");
 
-			// Generating Oil as an OreGenResource (its a cool API)
+			// Generating Oil as an OreGenResource (it iss a cool API)
 			OreGenSystem.registerResource(new OilResource());
 			OreGenSystem.registerResource(new NetherIceResource());
 			OreGenSystem.registerResource(new UraniumResource());
+			OreGenSystem.registerResource(new SaltResource());
 
 			// Setting up GitHub Connectors...
-
-			GitHubSetup.setup();
+			gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
 
 			// All Slimefun Listeners
 			new ArmorListener(this);
@@ -266,6 +268,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+				recipeSnapshot = new RecipeSnapshot(this);
 				protections = new ProtectionManager(getServer());
 				MiscSetup.loadItems(settings);
 
@@ -302,33 +305,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 				}
 			}, 100L, config.getInt("URID.custom-ticker-delay"));
 
-            getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-                utilities.connectors.forEach(GitHubConnector::pullFile);
-
-                for (Contributor contributor: utilities.contributors.values()) {
-                    if (!contributor.hasTexture()) {
-                        String name = contributor.getName();
-
-                        try {
-                            Optional<UUID> uuid = MinecraftAccount.getUUID(name);
-
-                            if (uuid.isPresent()) {
-                                Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
-                                contributor.setTexture(skin);
-                            }
-                            else {
-                                contributor.setTexture(Optional.empty());
-                            }
-                        }
-                        catch(MinecraftAccount.TooManyRequestsException x) {
-                            break;
-                        }
-                    }
-                }
-            }, 80L, 60 * 60 * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new GitHubTask(gitHubService), 80L, 60 * 60 * 20L);
 
 			// Hooray!
-			getLogger().log(Level.INFO, "启动完成! 汉化 by Namelessssss");
+			getLogger().log(Level.INFO, "完成!");
 			hooks = new SlimefunHooks(this);
 			
 			utilities.oreWasherOutputs = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};
@@ -337,9 +317,16 @@ public final class SlimefunPlugin extends JavaPlugin {
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 		}
 		else {
+			getLogger().log(Level.INFO, "#################### - INFO - ####################");
+			getLogger().log(Level.INFO, " ");
+			getLogger().log(Level.INFO, "Slimefun 未被正确加载.");
+			getLogger().log(Level.INFO, "看起来你好像没有安装前置 CS-Corelib");
+			getLogger().log(Level.INFO, "请到此处自己下载并安装:");
+			getLogger().log(Level.INFO, "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
+			
 			getCommand("slimefun").setExecutor((sender, cmd, label, args) -> {
-				sender.sendMessage("你忘记安装前置 CS-CoreLib 了! Slimefun 已被禁用");
-				sender.sendMessage("https://dev.bukkit.org/projects/cs-corelib");
+				sender.sendMessage("你忘记安装前置 CS-Corelib了! Slimefun 已被禁用.");
+				sender.sendMessage("https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
 				return true;
 			});
 		}
@@ -362,7 +349,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			if (profile.isDirty()) profile.save();
 		});
 		
-		for (World world: Bukkit.getWorlds()) {
+		for (World world : Bukkit.getWorlds()) {
 			try {
 				BlockStorage storage = BlockStorage.getStorage(world);
 				
@@ -370,14 +357,14 @@ public final class SlimefunPlugin extends JavaPlugin {
 					storage.save(true);
 				}
 				else {
-					getLogger().log(Level.SEVERE, "无法在世界 \"" + world.getName() + "\" 保存方块.");
+					getLogger().log(Level.SEVERE, "无法保存世界 \"" + world.getName() + "\" 中的粘液科技方块");
 				}
 			} catch (Exception x) {
-				getLogger().log(Level.SEVERE, "在世界 '" + world.getName() + "' 中保存方块出现了问题, Slimefun 版本 " + Slimefun.getVersion());
+				getLogger().log(Level.SEVERE, "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + Slimefun.getVersion());
 			}
 		}
 		
-		for (UniversalBlockMenu menu: utilities.universalInventories.values()) {
+		for (UniversalBlockMenu menu : utilities.universalInventories.values()) {
 			menu.save();
 		}
 		
@@ -395,7 +382,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 		instance = null;
 
-		for (Player p: Bukkit.getOnlinePlayers()) {
+		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.closeInventory();
 		}
 	}
@@ -464,17 +451,25 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static SlimefunLocalization getLocal() {
 		return instance.local;
 	}
+	
+	public static RecipeSnapshot getMinecraftRecipes() {
+		return instance.recipeSnapshot;
+	}
+	
+	public static CustomItemDataService getItemDataService() {
+		return instance.itemDataService;
+	}
+	
+	public static CustomTextureService getItemTextureService() {
+		return instance.textureService;
+	}
+	
+	public static BlockDataService getBlockDataService() {
+		return instance.blockDataService;
+	}
 
-    public static RecipeSnapshot getMinecraftRecipes() {
-	    return instance.recipeSnapshot;
-    }
-
-    public static CustomItemDataService getItemDataService() {
-        return instance.itemDataService;
-    }
-
-    public static CustomTextureService getItemTextureService() {
-        return instance.textureService;
-    }
+	public static GitHubService getGitHubService() {
+		return instance.gitHubService;
+	}
 
 }

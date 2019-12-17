@@ -83,7 +83,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 	protected void tick(Block b) {
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, n -> n instanceof Animals && n.isValid() && ((Animals) n).isAdult() && !((Animals) n).isLoveMode())) {
 			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
+				if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
 					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					
 					ChargableBlock.addCharge(b, -energyConsumption);

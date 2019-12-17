@@ -188,9 +188,9 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 					}
 					else {
 						ItemStack fuel = processing.get(l).getInput();
-						if (SlimefunManager.isItemSimiliar(fuel, new ItemStack(Material.LAVA_BUCKET), true)
-								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_FUEL, true)
-								|| SlimefunManager.isItemSimiliar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
+						if (SlimefunManager.isItemSimilar(fuel, new ItemStack(Material.LAVA_BUCKET), true)
+								|| SlimefunManager.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_FUEL, true)
+								|| SlimefunManager.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
 							inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
 						}
 						inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
@@ -224,9 +224,9 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 	}
 	
 	private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
-		for (MachineFuel recipe: recipes) {
-			for (int slot: getInputSlots()) {
-				if (SlimefunManager.isItemSimiliar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
+		for (MachineFuel recipe : recipes) {
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
 					found.put(slot, recipe.getInput().getAmount());
 					return recipe;
 				}
@@ -249,7 +249,7 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 	public List<ItemStack> getDisplayRecipes() {
 		List<ItemStack> list = new ArrayList<>();
 		
-		for (MachineFuel fuel: recipes) {
+		for (MachineFuel fuel : recipes) {
 			ItemStack item = fuel.getInput().clone();
 			ItemMeta im = item.getItemMeta();
 			List<String> lore = new ArrayList<>();
@@ -260,8 +260,7 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 			item.setItemMeta(im);
 			list.add(item);
 		}
-		
-		if (list.size() % 2 != 0) list.add(null);
+
 		return list;
 	}
 	
