@@ -37,7 +37,8 @@ public class OreCrusher extends MultiBlockMachine {
 						SlimefunItems.PURE_ORE_CLUSTER, SlimefunItems.TINY_URANIUM, 
 						new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), 
 						new ItemStack(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST, 
-						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST
+						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST,
+						new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND)
 				},
 				BlockFace.SELF
 		);
