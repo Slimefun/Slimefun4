@@ -47,7 +47,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
-					for (int slot: getOutputSlots()) {
+					for (int slot : getOutputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -70,10 +70,8 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+		for (int slot : border) {
+			preset.addItem(slot, new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS_PANE), " "), (p, s, item, action) -> false);
 		}
 	}
 	
@@ -112,6 +110,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			
 			int withdrawn = 0;
 			BlockMenu menu = BlockStorage.getInventory(b);
+			
 			for (int level = 0; level < getEXP(b); level = level + 10) {
 				if (menu.fits(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), getOutputSlots())) {
 					withdrawn = withdrawn + 10;
@@ -124,7 +123,9 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 
 	private int getEXP(Block b) {
 		Config cfg = BlockStorage.getLocationInfo(b.getLocation());
-		if (cfg.contains("stored-exp")) return Integer.parseInt(cfg.getString("stored-exp"));
+		if (cfg.contains("stored-exp")) {
+			return Integer.parseInt(cfg.getString("stored-exp"));
+		}
 		else {
 			BlockStorage.addBlockInfo(b, "stored-exp", "0");
 			return 0;

@@ -50,7 +50,7 @@ public class ReactorAccessPort extends SlimefunItem {
 				if (reactor != null) {
 					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Reactor", "", "&6Detected", "", "&7> Click to view Reactor"));
 					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
-						if(reactor != null) {
+						if (reactor != null) {
 							reactor.open(p);
 						}
 						newInstance(menu, b);

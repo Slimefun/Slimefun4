@@ -48,7 +48,8 @@ public class TrashCan extends SlimefunItem implements InventoryBlock {
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
 				BlockMenu menu = BlockStorage.getInventory(b);
-				for (int slot: getInputSlots()) {
+				
+				for (int slot : getInputSlots()) {
 					menu.replaceExistingItem(slot, null);
 				}
 			}
