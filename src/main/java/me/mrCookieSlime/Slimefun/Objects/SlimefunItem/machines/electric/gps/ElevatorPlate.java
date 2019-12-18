@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -44,6 +44,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<ItemInteractionHandler> {
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (e.getClickedBlock() == null) return false;
+			
 			String id = BlockStorage.checkID(e.getClickedBlock());
 			if (id == null || !id.equals(getID())) return false;
 

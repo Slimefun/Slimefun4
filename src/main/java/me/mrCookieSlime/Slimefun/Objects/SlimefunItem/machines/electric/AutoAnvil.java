@@ -75,7 +75,7 @@ public abstract class AutoAnvil extends AContainer {
 		else {
 			MachineRecipe recipe = null;
 			
-			for (int slot: getInputSlots()) {
+			for (int slot : getInputSlots()) {
 				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				ItemStack item = menu.getItemInSlot(slot);
 				
@@ -96,9 +96,10 @@ public abstract class AutoAnvil extends AContainer {
 			if (recipe != null) {
 				if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) return;
 				
-				for (int slot: getInputSlots()) {
+				for (int slot : getInputSlots()) {
 					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
 				}
+				
 				processing.put(b, recipe);
 				progress.put(b, recipe.getTicks());
 			}

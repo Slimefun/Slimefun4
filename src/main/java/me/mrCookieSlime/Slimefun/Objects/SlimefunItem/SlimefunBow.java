@@ -12,6 +12,7 @@ public class SlimefunBow extends SlimefunItem {
 		super(Categories.WEAPONS, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
 	}
 
+	@Deprecated
 	public SlimefunBow(SlimefunItemStack item, ItemStack[] recipe) {
 		super(Categories.WEAPONS, item, RecipeType.MAGIC_WORKBENCH, recipe);
 	}

@@ -8,7 +8,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SlimefunBackpack extends SlimefunItem {
 	
-	private int size;
+	private final int size;
 
 	public SlimefunBackpack(int size, Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);

@@ -81,7 +81,7 @@ public class AutoDisenchanter extends AContainer {
 		else {
 			MachineRecipe recipe = null;
 			Map<Enchantment, Integer> enchantments = new HashMap<>();
-			Set<ItemEnchantment> enchantments2 = new HashSet<>();
+			Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
 
 			for (int slot : getInputSlots()) {
 				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
@@ -108,15 +108,15 @@ public class AutoDisenchanter extends AContainer {
 				if (item != null && target != null && target.getType() == Material.BOOK) {
 					int amount = 0;
 
-					for (Map.Entry<Enchantment, Integer> e : item.getEnchantments().entrySet()) {
-						enchantments.put(e.getKey(), e.getValue());
+					for (Map.Entry<Enchantment, Integer> entry : item.getEnchantments().entrySet()) {
+						enchantments.put(entry.getKey(), entry.getValue());
 						amount++;
 					}
 					
 					if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
 						for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
 							amount++;
-							enchantments2.add(enchantment);
+							emeraldEnchantments.add(enchantment);
 						}
 					}
 					
@@ -136,16 +136,16 @@ public class AutoDisenchanter extends AContainer {
 
 						EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
 
-						for (Map.Entry<Enchantment,Integer> e : enchantments.entrySet()) {
-							newItem.removeEnchantment(e.getKey());
-							meta.addStoredEnchant(e.getKey(), e.getValue(), true);
+						for (Map.Entry<Enchantment,Integer> entry : enchantments.entrySet()) {
+							newItem.removeEnchantment(entry.getKey());
+							meta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
 						}
 						
 						book.setItemMeta(meta);
 
-						for (ItemEnchantment e : enchantments2) {
-							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, e.getEnchantment(), e.getLevel());
-							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), 0);
+						for (ItemEnchantment ench : emeraldEnchantments) {
+							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, ench.getEnchantment(), ench.getLevel());
+							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, ench.getEnchantment(), 0);
 						}
 
 						recipe = new MachineRecipe(100 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, book});

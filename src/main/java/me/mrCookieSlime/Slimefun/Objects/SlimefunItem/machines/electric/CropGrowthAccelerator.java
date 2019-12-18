@@ -49,7 +49,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
 			if (inv != null) {
-				for (int slot: getInputSlots()) {
+				for (int slot : getInputSlots()) {
 					if (inv.getItemInSlot(slot) != null) {
 						b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 						inv.replaceExistingItem(slot, null);
@@ -88,11 +88,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
-				try {
-					CropGrowthAccelerator.this.tick(b);
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking a Crop Growth Accelerator for Slimefun " + Slimefun.getVersion(), x);
-				}
+				CropGrowthAccelerator.this.tick(b);
 			}
 
 			@Override

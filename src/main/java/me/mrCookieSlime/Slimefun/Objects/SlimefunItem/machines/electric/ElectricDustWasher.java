@@ -68,13 +68,13 @@ public abstract class ElectricDustWasher extends AContainer {
 		else {
 			ItemStack[] items = SlimefunPlugin.getUtilities().oreWasherOutputs;
 			
-			for (int slot: getInputSlots()) {
+			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
 					if (!SlimefunPlugin.getSettings().legacyDustWasher) {
 						boolean emptySlot = false;
             
-						for (int output_slot: getOutputSlots()) {
-							if (menu.getItemInSlot(output_slot) == null) {
+						for (int outputSlot : getOutputSlots()) {
+							if (menu.getItemInSlot(outputSlot) == null) {
 								emptySlot = true;
 								break;
 							}

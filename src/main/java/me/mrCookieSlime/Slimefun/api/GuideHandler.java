@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
+@Deprecated
 public interface GuideHandler {
 	
 	public abstract void addEntry(List<String> texts, List<String> tooltips);

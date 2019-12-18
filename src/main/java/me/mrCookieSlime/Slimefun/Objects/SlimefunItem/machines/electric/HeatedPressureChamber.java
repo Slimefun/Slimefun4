@@ -95,7 +95,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 		registerRecipe(90, new ItemStack[] {SlimefunItems.PLUTONIUM, SlimefunItems.URANIUM}, new ItemStack[] {SlimefunItems.BOOSTED_URANIUM});
 		registerRecipe(60, new ItemStack[] {SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM}, new ItemStack[] {new CustomItem(SlimefunItems.ENRICHED_NETHER_ICE, 4)});
 		registerRecipe(45, new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[] {new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)});
-		registerRecipe(12, new ItemStack[] {SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT}, new ItemStack[] {SlimefunItems.MAGNESIUM_SALT});
+		registerRecipe(8, new ItemStack[] {SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT}, new ItemStack[] {SlimefunItems.MAGNESIUM_SALT});
 	}
 
 	@Override

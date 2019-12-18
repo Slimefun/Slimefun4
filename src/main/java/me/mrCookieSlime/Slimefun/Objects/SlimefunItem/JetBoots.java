@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class JetBoots extends DamagableChargableItem {
 	
-	private double speed;
+	private final double speed;
 
 	public JetBoots(SlimefunItemStack item, ItemStack[] recipe, double speed) {
 		super(Categories.TECH, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe, "Jet Boots");

@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 /**
  * Statically handles categories.
@@ -25,9 +29,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class Category {
 	
-	private ItemStack item;
-	private List<SlimefunItem> items;
-	private int tier;
+	private final ItemStack item;
+	private final List<SlimefunItem> items;
+	private final int tier;
 
 	/**
 	 * Constructs a Category with the given display item.

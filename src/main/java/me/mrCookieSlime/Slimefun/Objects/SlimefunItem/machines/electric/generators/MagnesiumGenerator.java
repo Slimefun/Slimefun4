@@ -18,7 +18,7 @@ public abstract class MagnesiumGenerator extends AGenerator {
 	
 	@Override
 	public void registerDefaultRecipes() {
-		registerFuel(new MachineFuel(10, SlimefunItems.MAGNESIUM_SALT));
+		registerFuel(new MachineFuel(12, SlimefunItems.MAGNESIUM_SALT));
 	}
 
 	@Override

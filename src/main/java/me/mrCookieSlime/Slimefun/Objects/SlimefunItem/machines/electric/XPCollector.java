@@ -81,11 +81,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
-				try {
-					XPCollector.this.tick(b);
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking an Exp Collector for Slimefun " + Slimefun.getVersion(), x);
-				}
+				XPCollector.this.tick(b);
 			}
 
 			@Override
