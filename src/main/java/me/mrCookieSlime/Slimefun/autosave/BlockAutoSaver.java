@@ -31,7 +31,7 @@ public class BlockAutoSaver implements Runnable {
 		if (!worlds.isEmpty()) {
 			Slimefun.getLogger().log(Level.INFO, "Auto-Saving Block Data... (Next Auto-Save: " + SlimefunPlugin.getCfg().getInt("options.auto-save-delay-in-minutes") + "m)");
 			
-			for (BlockStorage storage: worlds) {
+			for (BlockStorage storage : worlds) {
 				storage.save(false);
 			}
 		}

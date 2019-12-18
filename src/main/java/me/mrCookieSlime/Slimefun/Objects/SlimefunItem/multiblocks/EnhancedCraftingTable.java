@@ -54,6 +54,7 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 
 		for (int i = 0; i < inputs.size(); i++) {
 			boolean craft = true;
+			
 			for (int j = 0; j < inv.getContents().length; j++) {
 				if (!SlimefunManager.isItemSimilar(inv.getContents()[j], inputs.get(i)[j], true)) {
 					if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
@@ -92,11 +93,12 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 									break;
 								}
 							}
+							
 							String id = "";
 							int size = ((SlimefunBackpack) sfItem).getSize();
 
 							if (backpack != null) {
-								for (String line: backpack.getItemMeta().getLore()) {
+								for (String line : backpack.getItemMeta().getLore()) {
 									if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 										id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
 										PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
@@ -131,6 +133,7 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 
 						for (int j = 0; j < 9; j++) {
 							ItemStack item = inv.getContents()[j];
+							
 							if (item != null && item.getType() != Material.AIR) {
 								ItemUtils.consumeItem(item, true);
 							}

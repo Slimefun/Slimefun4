@@ -19,6 +19,7 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class Refinery extends AContainer implements RecipeDisplayItem {
@@ -49,32 +50,38 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
 
 	@Override
 	protected void tick(Block b) {
+		BlockMenu menu = BlockStorage.getInventory(b);
+		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(BlockStorage.getInventory(b), 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+					
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
 					progress.put(b, timeleft - 1);
 				}
 				else progress.put(b, timeleft - 1);
 			}
 			else {
-				BlockStorage.getInventory(b).replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				pushItems(b, processing.get(b).getOutput());
+				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
 				
 				progress.remove(b);
 				processing.remove(b);
 			}
 		}
 		else {
-			for (int slot: getInputSlots()) {
-				if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.BUCKET_OF_OIL, true)) {
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.BUCKET_OF_OIL, true)) {
 					MachineRecipe r = new MachineRecipe(40, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_FUEL});
-					if (!fits(b, r.getOutput())) return;
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					
+					if (!menu.fits(SlimefunItems.BUCKET_OF_FUEL, getOutputSlots())) return;
+					
+					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;

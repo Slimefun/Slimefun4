@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
-	
+
 	private String[] blacklist;
 	private boolean damageOnUse;
 	
@@ -77,7 +77,7 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 									b.breakNaturally();
 								}
 								else {
-									for (ItemStack drop: b.getDrops()) {
+									for (ItemStack drop : b.getDrops(getItem())) {
 										b.getWorld().dropItemNaturally(b.getLocation(), (b.getType().toString().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE) ? new CustomItem(drop, fortune): drop);
 									}
 									b.setType(Material.AIR);

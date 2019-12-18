@@ -100,6 +100,7 @@ public class Talisman extends SlimefunItem {
     public void install() {
         EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(upgrade());
         Research research = Research.getByID(112);
+        
         if (talisman != null) {
             Slimefun.addOfficialWikiPage(talisman.getID(), "Talismans");
             if (research != null) talisman.bindToResearch(research);

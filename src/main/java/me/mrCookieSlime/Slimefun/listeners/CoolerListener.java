@@ -27,7 +27,7 @@ public class CoolerListener implements Listener {
 	public void onStarve(FoodLevelChangeEvent e) {
 		if (e.getFoodLevel() < ((Player) e.getEntity()).getFoodLevel()) {
 			Player p = (Player) e.getEntity();
-			for (ItemStack item: p.getInventory().getContents()) {
+			for (ItemStack item : p.getInventory().getContents()) {
 				if (SlimefunManager.isItemSimilar(item, SlimefunItems.COOLER, false)) {
 					BackpackInventory backpack = PlayerProfile.getBackpack(item);
 					if (backpack != null) {
@@ -45,7 +45,7 @@ public class CoolerListener implements Listener {
 						if (slot >= 0) {
 							PotionMeta im = (PotionMeta) inv.getItem(slot).getItemMeta();
 							
-							for (PotionEffect effect: im.getCustomEffects()) {
+							for (PotionEffect effect : im.getCustomEffects()) {
 								p.addPotionEffect(effect);
 							}
 							

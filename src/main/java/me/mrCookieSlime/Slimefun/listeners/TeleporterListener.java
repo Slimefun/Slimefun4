@@ -35,7 +35,7 @@ public class TeleporterListener implements Listener {
 			SlimefunItem teleporter = BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN));
 			
 			if (teleporter instanceof Teleporter) {
-				for (BlockFace face: faces) {
+				for (BlockFace face : faces) {
 					if (!BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN).getRelative(face), "GPS_TELEPORTER_PYLON")) return;
 				}
 				

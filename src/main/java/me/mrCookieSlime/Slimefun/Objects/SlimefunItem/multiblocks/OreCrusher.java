@@ -37,7 +37,8 @@ public class OreCrusher extends MultiBlockMachine {
 						SlimefunItems.PURE_ORE_CLUSTER, SlimefunItems.TINY_URANIUM, 
 						new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), 
 						new ItemStack(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST, 
-						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST
+						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST,
+						new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND)
 				},
 				BlockFace.SELF
 		);
@@ -58,8 +59,9 @@ public class OreCrusher extends MultiBlockMachine {
 		Block dispBlock = b.getRelative(BlockFace.DOWN);
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		Inventory inv = disp.getInventory();
-		for (ItemStack current: inv.getContents()) {
-			for (ItemStack convert: RecipeType.getRecipeInputs(this)) {
+		
+		for (ItemStack current : inv.getContents()) {
+			for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
 				if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
 					ItemStack adding = RecipeType.getRecipeOutput(this, convert);
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);

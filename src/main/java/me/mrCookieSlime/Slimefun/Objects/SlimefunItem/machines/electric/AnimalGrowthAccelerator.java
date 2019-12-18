@@ -73,11 +73,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
-				try {
-					AnimalGrowthAccelerator.this.tick(b);
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking an Animal Growth Accelerator for Slimefun " + Slimefun.getVersion(), x);
-				}
+				AnimalGrowthAccelerator.this.tick(b);
 			}
 
 			@Override
@@ -89,7 +85,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 	
 	protected void tick(Block b) {
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 3.0, 3.0, 3.0, n -> n instanceof Ageable && n.isValid() && !((Ageable) n).isAdult())) {
-			for (int slot: getInputSlots()) {
+			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
 					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					

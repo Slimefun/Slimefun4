@@ -34,7 +34,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 		return new BlockTicker() {
 
 			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
+			public void tick(Block b, SlimefunItem sfItem, Config data) {
 				if (b.getType() != Material.HOPPER) {
 					// we're no longer a hopper, we were probably destroyed. skipping this tick.
 					BlockStorage.clearBlockInfo(b);
@@ -44,9 +44,9 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 				Location l = b.getLocation().add(0.5, 1.2, 0.5);
 				boolean sound = false;
 				
-				for (Entity n: b.getWorld().getNearbyEntities(l, 3.5D, 3.5D, 3.5D, n -> n instanceof Item && n.isValid() && !n.hasMetadata("no_pickup") && n.getLocation().distanceSquared(l) > 0.1)) {
-					n.setVelocity(new Vector(0, 0.1, 0));
-					n.teleport(l);
+				for (Entity item : b.getWorld().getNearbyEntities(l, 3.5D, 3.5D, 3.5D, n -> n instanceof Item && n.isValid() && !n.hasMetadata("no_pickup") && n.getLocation().distanceSquared(l) > 0.1)) {
+					item.setVelocity(new Vector(0, 0.1, 0));
+					item.teleport(l);
 					sound = true;
 				}
 				

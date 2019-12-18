@@ -86,7 +86,8 @@ public class LockedCategory extends Category {
 	 * @see #removeParent(Category)
 	 */
 	public void addParent(Category category) {
-		if (category == this) throw new IllegalArgumentException("Category '" + this.getItem().getItemMeta().getDisplayName() + "' cannot be a parent of itself.");
+		if (category == this || category == null) throw new IllegalArgumentException("Category '" + this.getItem().getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
+		
 		this.parents.add(category);
 	}
 
@@ -116,8 +117,8 @@ public class LockedCategory extends Category {
 	}
 
 	public boolean hasUnlocked(Player p, PlayerProfile profile) {
-		for (Category category: parents) {
-			for (SlimefunItem item: category.getItems()) {
+		for (Category category : parents) {
+			for (SlimefunItem item : category.getItems()) {
 				if (Slimefun.isEnabled(p, item, false)
 						&& Slimefun.hasPermission(p, item, false)
 						&& item.getResearch() != null
@@ -126,6 +127,7 @@ public class LockedCategory extends Category {
 					return false;
 			}
 		}
+		
 		return true;
 	}
 }

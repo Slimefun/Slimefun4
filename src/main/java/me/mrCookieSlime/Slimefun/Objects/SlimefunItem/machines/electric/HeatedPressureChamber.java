@@ -61,7 +61,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 				
 				List<Integer> slots = new ArrayList<>();
 				
-				for (int slot: getInputSlots()) {
+				for (int slot : getInputSlots()) {
 					if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), item, true)) {
 						slots.add(slot);
 					}
@@ -72,7 +72,6 @@ public abstract class HeatedPressureChamber extends AContainer {
 				}
 				else {
 					Collections.sort(slots, new RecipeSorter(menu));
-					
 					int[] array = new int[slots.size()];
 					
 					for (int i = 0; i < slots.size(); i++) {
@@ -94,8 +93,9 @@ public abstract class HeatedPressureChamber extends AContainer {
 		registerRecipe(30, new ItemStack[] {SlimefunItems.BLISTERING_INGOT, SlimefunItems.CARBONADO}, new ItemStack[] {SlimefunItems.BLISTERING_INGOT_2});
 		registerRecipe(60, new ItemStack[] {SlimefunItems.BLISTERING_INGOT_2, new ItemStack(Material.NETHER_STAR)}, new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3});
 		registerRecipe(90, new ItemStack[] {SlimefunItems.PLUTONIUM, SlimefunItems.URANIUM}, new ItemStack[] {SlimefunItems.BOOSTED_URANIUM});
-		registerRecipe(60, new ItemStack[] {SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM}, new ItemStack[]{new CustomItem(SlimefunItems.ENRICHED_NETHER_ICE, 4)});
-		registerRecipe(45, new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[]{new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)});
+		registerRecipe(60, new ItemStack[] {SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM}, new ItemStack[] {new CustomItem(SlimefunItems.ENRICHED_NETHER_ICE, 4)});
+		registerRecipe(45, new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[] {new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)});
+		registerRecipe(8, new ItemStack[] {SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT}, new ItemStack[] {SlimefunItems.MAGNESIUM_SALT});
 	}
 
 	@Override
@@ -153,7 +153,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 			}
 			else {
 				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				pushItems(b, processing.get(b).getOutput());
+				menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
 				
 				progress.remove(b);
 				processing.remove(b);
@@ -164,9 +164,9 @@ public abstract class HeatedPressureChamber extends AContainer {
 			MachineRecipe recipe = findRecipe(menu, found);
 			
 			if (recipe != null) {
-				if (!fits(b, recipe.getOutput())) return;
+				if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) return;
 				
-				for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
+				for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
 					menu.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(menu.getItemInSlot(entry.getKey()), entry.getValue()));
 				}
 				
@@ -177,9 +177,9 @@ public abstract class HeatedPressureChamber extends AContainer {
 	}
 	
 	private MachineRecipe findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
-		for (MachineRecipe recipe: recipes) {
-			for (ItemStack input: recipe.getInput()) {
-				for (int slot: getInputSlots()) {
+		for (MachineRecipe recipe : recipes) {
+			for (ItemStack input : recipe.getInput()) {
+				for (int slot : getInputSlots()) {
 					if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), input, true)) {
 						found.put(slot, input.getAmount());
 						break;

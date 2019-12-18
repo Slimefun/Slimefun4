@@ -15,9 +15,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 	
-	private int speed;
-	private int efficiency;
-	private int fortune;
+	private final int speed;
+	private final int efficiency;
+	private final int fortune;
 	
 	public EnhancedFurnace(int speed, int efficiency, int fortune, SlimefunItemStack item, ItemStack[] recipe) {
 		super(Categories.MACHINES_1, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
@@ -36,11 +36,11 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 	}
 	
 	public int getOutput() {
-		int fortune = this.fortune;
-		fortune = new Random().nextInt(fortune + 2) - 1;
-		if (fortune <= 0) fortune = 0;
-		fortune++;
-		return fortune;
+		int bonus = this.fortune;
+		bonus = new Random().nextInt(bonus + 2) - 1;
+		if (bonus <= 0) bonus = 0;
+		bonus++;
+		return bonus;
 	}
 
 	@Override

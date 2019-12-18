@@ -35,8 +35,8 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 				if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
 				if (e.getBlock().getType() == Material.PLAYER_HEAD) return true;
 				
-				Collection<ItemStack> blockDrops = e.getBlock().getDrops();
-				for (ItemStack drop: blockDrops) {
+				Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
+				for (ItemStack drop : blockDrops) {
 					if (drop != null) {
 						ItemStack output = drop;
 						

@@ -46,12 +46,12 @@ public class Crucible extends SlimefunGadget {
 		items.add(new ItemStack(Material.OBSIDIAN, 1));
 		items.add(new ItemStack(Material.LAVA_BUCKET));
 		
-		for (Material leave: MaterialCollections.getAllLeaves()) {
+		for (Material leave : MaterialCollections.getAllLeaves()) {
 			items.add(new ItemStack(leave, 16));
 			items.add(new ItemStack(Material.WATER_BUCKET));
 		}
 		
-		for (Material sapling: MaterialCollections.getAllTerracottaColors()) {
+		for (Material sapling : MaterialCollections.getAllTerracottaColors()) {
 			items.add(new ItemStack(sapling, 12));
 			items.add(new ItemStack(Material.LAVA_BUCKET));
 		}
@@ -70,7 +70,7 @@ public class Crucible extends SlimefunGadget {
 						final Block block = e.getClickedBlock().getRelative(BlockFace.UP);
 						SlimefunItem machine = SlimefunItem.getByID(id);
 
-						for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+						for (ItemStack convert : RecipeType.getRecipeInputs(machine)) {
 							if (SlimefunManager.isItemSimilar(input, convert, true)) {
 								e.setCancelled(true);
 
@@ -85,12 +85,14 @@ public class Crucible extends SlimefunGadget {
 										level -= 8;
 									if (level == 0) {
 										block.getWorld().playSound(block.getLocation(), water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1F, 1F);
-									} else {
+									} 
+									else {
 										int finalLevel = 7 - level;
 										Slimefun.runSync(() -> runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, finalLevel), 50L);
 									}
 									return true;
-								} else if (block.getType() == (water ? Material.LAVA : Material.WATER)) {
+								} 
+								else if (block.getType() == (water ? Material.LAVA : Material.WATER)) {
 									int level = ((Levelled) block.getBlockData()).getLevel();
 									block.setType(level == 0 || level == 8 ? Material.OBSIDIAN : Material.STONE);
 									block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
@@ -136,11 +138,13 @@ public class Crucible extends SlimefunGadget {
 			block.getWorld().playSound(block.getLocation(), Sound.BLOCK_METAL_BREAK, 1F, 1F);
 			return;
 		}
+		
 		block.getWorld().playSound(block.getLocation(), sound, 1F, 1F);
 		int level = 8 - times;
 		Levelled le = (Levelled) block.getBlockData();
 		le.setLevel(level);
 		block.setBlockData(le, false);
+		
 		if (times < 8)
 			Slimefun.runSync(() -> runPostTask(block, sound, times + 1), 50L);
 	}

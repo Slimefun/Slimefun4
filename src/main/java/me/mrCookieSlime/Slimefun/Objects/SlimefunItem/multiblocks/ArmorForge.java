@@ -52,8 +52,10 @@ public class ArmorForge extends MultiBlockMachine {
 
 			if (craft) {
 				final ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+				
 				if (Slimefun.hasUnlocked(p, adding, true)) {
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
+					
 					if (outputInv != null) {
 						for (int j = 0; j < 9; j++) {
 							ItemStack item = inv.getContents()[j];
@@ -64,6 +66,7 @@ public class ArmorForge extends MultiBlockMachine {
 						
 						for (int j = 0; j < 4; j++) {
 							int current = j;
+							
 							Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 								if (current < 3) {
 									p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);

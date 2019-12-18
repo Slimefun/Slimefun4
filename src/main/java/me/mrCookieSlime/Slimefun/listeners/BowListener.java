@@ -1,6 +1,5 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
@@ -19,6 +18,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class BowListener implements Listener {
 	
@@ -35,10 +35,14 @@ public class BowListener implements Listener {
 	
 	@EventHandler
 	public void onArrowHit(final ProjectileHitEvent e) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-			if (!e.getEntity().isValid()) return;
-			SlimefunPlugin.getUtilities().arrows.remove(e.getEntity().getUniqueId());
-			if (e.getEntity() instanceof Arrow) handleGrapplingHook((Arrow) e.getEntity());
+		Slimefun.runSync(() -> {
+			if (e.getEntity().isValid()) {
+				SlimefunPlugin.getUtilities().arrows.remove(e.getEntity().getUniqueId());
+				
+				if (e.getEntity() instanceof Arrow) {
+					handleGrapplingHook((Arrow) e.getEntity());
+				}
+			}
 		}, 4L);
 	}
 	
@@ -58,11 +62,11 @@ public class BowListener implements Listener {
 					p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
 				}
 
-				for (Entity n: SlimefunPlugin.getUtilities().remove.get(p.getUniqueId())) {
+				for (Entity n : SlimefunPlugin.getUtilities().remove.get(p.getUniqueId())) {
 					if (n.isValid()) n.remove();
 				}
 
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+				Slimefun.runSync(() -> {
 					SlimefunPlugin.getUtilities().jumpState.remove(p.getUniqueId());
 					SlimefunPlugin.getUtilities().remove.remove(p.getUniqueId());
 				}, 20L);
@@ -87,11 +91,11 @@ public class BowListener implements Listener {
 
 				p.setVelocity(v);
 
-				for (Entity n: SlimefunPlugin.getUtilities().remove.get(p.getUniqueId())) {
+				for (Entity n : SlimefunPlugin.getUtilities().remove.get(p.getUniqueId())) {
 					if (n.isValid()) n.remove();
 				}
 
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+				Slimefun.runSync(() -> {
 					SlimefunPlugin.getUtilities().jumpState.remove(p.getUniqueId());
 					SlimefunPlugin.getUtilities().remove.remove(p.getUniqueId());
 				}, 20L);
@@ -103,8 +107,10 @@ public class BowListener implements Listener {
 	public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Arrow) {
 			if (SlimefunPlugin.getUtilities().arrows.containsKey(e.getDamager().getUniqueId()) && e.getEntity() instanceof LivingEntity) {
-				 for (ItemHandler handler: SlimefunItem.getHandlers("BowShootHandler")) {
-					 if (((BowShootHandler) handler).onHit(e, (LivingEntity) e.getEntity())) break;
+				 for (ItemHandler handler : SlimefunItem.getHandlers("BowShootHandler")) {
+					 if (((BowShootHandler) handler).onHit(e, (LivingEntity) e.getEntity())) {
+						 break;
+					 }
 				 }
 				 
 				 SlimefunPlugin.getUtilities().arrows.remove(e.getDamager().getUniqueId());

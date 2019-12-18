@@ -54,7 +54,8 @@ public final class Pedestals {
 		
 		if (SlimefunManager.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
             if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) return null;
-			final ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
+            
+			ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
 			ItemMeta im = spawner.getItemMeta();
 			im.setLore(Arrays.asList(catalyst.getItemMeta().getLore().get(0)));
 			spawner.setItemMeta(im);
@@ -65,7 +66,7 @@ public final class Pedestals {
 	}
 
 	private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
-        for (AltarRecipe recipe: SlimefunPlugin.getUtilities().altarRecipes) {
+        for (AltarRecipe recipe : SlimefunPlugin.getUtilities().altarRecipes) {
         	if (SlimefunManager.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
         		for (int i = 0; i < 8; i++) {
             		if (SlimefunManager.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {

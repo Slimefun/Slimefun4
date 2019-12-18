@@ -115,7 +115,7 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 			}
 		}
 		else {
-			for (int slot: getInputSlots()) {
+			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
 					ItemStack output = randomizer.getRandom();
 					

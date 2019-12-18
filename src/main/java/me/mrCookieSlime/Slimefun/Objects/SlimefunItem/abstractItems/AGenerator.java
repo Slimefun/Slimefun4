@@ -224,8 +224,8 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 	}
 	
 	private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
-		for (MachineFuel recipe: recipes) {
-			for (int slot: getInputSlots()) {
+		for (MachineFuel recipe : recipes) {
+			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
 					found.put(slot, recipe.getInput().getAmount());
 					return recipe;
@@ -249,7 +249,7 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 	public List<ItemStack> getDisplayRecipes() {
 		List<ItemStack> list = new ArrayList<>();
 		
-		for (MachineFuel fuel: recipes) {
+		for (MachineFuel fuel : recipes) {
 			ItemStack item = fuel.getInput().clone();
 			ItemMeta im = item.getItemMeta();
 			List<String> lore = new ArrayList<>();

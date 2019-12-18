@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.GEO.resources;
+package io.github.thebusybiscuit.slimefun4.implementation.geo.resources;
 
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +25,7 @@ public class NetherIceResource implements OreGenResource {
 
 	@Override
 	public String getMeasurementUnit() {
-		return "Blocks";
+		return "Block(s)";
 	}
 
 	@Override

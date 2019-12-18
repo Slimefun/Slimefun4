@@ -52,11 +52,12 @@ public class MagicWorkbench extends MultiBlockMachine {
 		else if (b.getRelative(0, 0, -1).getType() == Material.DISPENSER) dispBlock = b.getRelative(0, 0, -1);
 
 		Dispenser disp = (Dispenser) dispBlock.getState();
-		final Inventory inv = disp.getInventory();
+		Inventory inv = disp.getInventory();
 		List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
 		for (int i = 0; i < inputs.size(); i++) {
 			boolean craft = true;
+			
 			for (int j = 0; j < inv.getContents().length; j++) {
 				if (!SlimefunManager.isItemSimilar(inv.getContents()[j], inputs.get(i)[j], true)) {
 					if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
@@ -73,7 +74,8 @@ public class MagicWorkbench extends MultiBlockMachine {
 			}
 
 			if (craft) {
-				final ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+				ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+				
 				if (Slimefun.hasUnlocked(p, adding, true)) {
 					Inventory inv2 = Bukkit.createInventory(null, 9, "test");
 
@@ -99,7 +101,7 @@ public class MagicWorkbench extends MultiBlockMachine {
 							int size = ((SlimefunBackpack) sfItem).getSize();
 
 							if (backpack != null) {
-								for (String line: backpack.getItemMeta().getLore()) {
+								for (String line : backpack.getItemMeta().getLore()) {
 									if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 										id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
 										PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
@@ -137,14 +139,17 @@ public class MagicWorkbench extends MultiBlockMachine {
 								else inv.setItem(j, null);
 							}
 						}
+						
 						for (int j = 0; j < 4; j++) {
 							int current = j;
 							Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 								p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 								p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
+								
 								if (current < 3) {
 									p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F);
-								} else {
+								} 
+								else {
 									p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 									outputInv.addItem(adding);
 								}

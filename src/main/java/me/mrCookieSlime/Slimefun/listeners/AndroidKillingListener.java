@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.listeners;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -20,8 +21,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.androids.AndroidEntity;
 
 public class AndroidKillingListener implements Listener {
-	
-	private final Random random = new Random();
 	
 	public AndroidKillingListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -42,6 +41,8 @@ public class AndroidKillingListener implements Listener {
 					}
 				}
 				
+				Random random = ThreadLocalRandom.current();
+				
 				switch (e.getEntityType()) {
 					case BLAZE:
 						items.add(new ItemStack(Material.BLAZE_ROD, 1 + random.nextInt(2)));
@@ -58,7 +59,7 @@ public class AndroidKillingListener implements Listener {
 						break;
 				}
 				
-				obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[items.size()]));
+				obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[0]));
 				ExperienceOrb exp = (ExperienceOrb) e.getEntity().getWorld().spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
 				exp.setExperience(1 + random.nextInt(6));
 			}, 1L);

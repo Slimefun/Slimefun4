@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class SeasonalCategory extends Category {
 
-	private int month = -1;
+	private final int month;
 
 	/**
 	 * The constructor for a SeasonCategory.
@@ -34,6 +34,11 @@ public class SeasonalCategory extends Category {
 	 */
 	public SeasonalCategory(int month, int tier, ItemStack item) {
 		super(item, tier);
+		
+		if (month < 1 || month > 12) {
+			throw new IllegalArgumentException("There is no month no. " + month);
+		}
+		
 		this.month = month - 1;
 	}
 
@@ -58,7 +63,6 @@ public class SeasonalCategory extends Category {
 	 * @see #getMonth()
 	 */
 	public boolean isUnlocked() {
-		if (month == -1) return true;
 		Calendar calendar = Calendar.getInstance();
 		return month == calendar.get(Calendar.MONTH);
 	}

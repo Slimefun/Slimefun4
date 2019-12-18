@@ -34,12 +34,12 @@ public class Composter extends SlimefunGadget {
 	private static ItemStack[] getMachineRecipes() {
 		List<ItemStack> items = new LinkedList<>();
 		
-		for (Material leave: MaterialCollections.getAllLeaves()) {
+		for (Material leave : MaterialCollections.getAllLeaves()) {
 			items.add(new ItemStack(leave, 8));
 			items.add(new ItemStack(Material.DIRT));
 		}
 		
-		for (Material sapling: MaterialCollections.getAllSaplings()) {
+		for (Material sapling : MaterialCollections.getAllSaplings()) {
 			items.add(new ItemStack(sapling, 8));
 			items.add(new ItemStack(Material.DIRT));
 		}
@@ -66,11 +66,11 @@ public class Composter extends SlimefunGadget {
 					String id = BlockStorage.checkID(e.getClickedBlock());
 					if (id != null && id.equals(getID())) {
 						if (p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), ProtectableAction.ACCESS_INVENTORIES)) {
-							final ItemStack input = p.getInventory().getItemInMainHand();
-							final Block b = e.getClickedBlock();
+							ItemStack input = p.getInventory().getItemInMainHand();
+							Block b = e.getClickedBlock();
 							SlimefunItem machine = SlimefunItem.getByID(id);
 							
-							for (ItemStack convert: RecipeType.getRecipeInputs(machine)) {
+							for (ItemStack convert : RecipeType.getRecipeInputs(machine)) {
 								if (convert != null && SlimefunManager.isItemSimilar(input, convert, true)) {
 									ItemStack removing = input.clone();
 									removing.setAmount(convert.getAmount());
@@ -79,6 +79,7 @@ public class Composter extends SlimefunGadget {
 
 									for (int i = 1; i < 12; i++) {
 										int j = i;
+										
 										Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 											if (j < 11) {
 												b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType().isBlock() ? input.getType() : Material.HAY_BLOCK);

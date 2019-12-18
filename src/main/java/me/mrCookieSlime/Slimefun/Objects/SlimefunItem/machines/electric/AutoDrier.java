@@ -113,7 +113,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
             MachineRecipe r = null;
             int inputSlot = -1;
             
-            for (int slot: getInputSlots()) {
+            for (int slot : getInputSlots()) {
                 ItemStack item = menu.getItemInSlot(slot);
                 if (item != null) {
                     Material mat = item.getType();
