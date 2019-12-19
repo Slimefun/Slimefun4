@@ -39,8 +39,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 public class BlockStorage {
 	
-	private static final String path_blocks = "data-storage/Slimefun/stored-blocks/";
-	private static final String path_chunks = "data-storage/Slimefun/stored-chunks/";
+	private static final String PATH_BLOCKS = "data-storage/Slimefun/stored-blocks/";
+	private static final String PATH_CHUNKS = "data-storage/Slimefun/stored-chunks/";
 	
 	private World world;
 	private Map<Location, Config> storage = new HashMap<>();
@@ -87,7 +87,7 @@ public class BlockStorage {
 		Slimefun.getLogger().log(Level.INFO, "Loading Blocks for World \"" + w.getName() + "\"");
 		Slimefun.getLogger().log(Level.INFO, "This may take a long time...");
 		
-		File f = new File(path_blocks + w.getName());
+		File f = new File(PATH_BLOCKS + w.getName());
 		if (f.exists()) {
 			long total = f.listFiles().length;
 			long start = System.currentTimeMillis();
@@ -157,7 +157,7 @@ public class BlockStorage {
 		}
 		else f.mkdirs();
 		
-		File chunks = new File(path_chunks + "chunks.sfc");
+		File chunks = new File(PATH_CHUNKS + "chunks.sfc");
 		
 		if (chunks.exists()) {
 			FileConfiguration cfg = YamlConfiguration.loadConfiguration(chunks);
@@ -277,8 +277,8 @@ public class BlockStorage {
 		}
 		
 		if (chunkChanges > 0) {
-			File chunks = new File(path_chunks + "chunks.sfc");
-			Config cfg = new Config(path_chunks + "chunks.temp");
+			File chunks = new File(PATH_CHUNKS + "chunks.sfc");
+			Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
 			
 			for (Map.Entry<String, BlockInfoConfig> entry : SlimefunPlugin.getUtilities().mapChunks.entrySet()) {
 				cfg.setValue(entry.getKey(), entry.getValue().toJSON());
@@ -551,7 +551,7 @@ public class BlockStorage {
 	}
 
 	private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
-		Config cfg = storage.blocksCache.computeIfAbsent(key, k -> new Config(path_blocks + l.getWorld().getName() + '/' + key + ".sfb"));
+		Config cfg = storage.blocksCache.computeIfAbsent(key, k -> new Config(PATH_BLOCKS + l.getWorld().getName() + '/' + key + ".sfb"));
 		cfg.setValue(serializeLocation(l), value);
 		
 		if (updateTicker) {
@@ -672,20 +672,20 @@ public class BlockStorage {
 		return inventories.containsKey(l);
 	}
 	
-	public boolean hasUniversalInventory(String id) {
+	public static boolean hasUniversalInventory(String id) {
 		return SlimefunPlugin.getUtilities().universalInventories.containsKey(id);
 	}
 
-	public UniversalBlockMenu getUniversalInventory(Block block) {
+	public static UniversalBlockMenu getUniversalInventory(Block block) {
 		return getUniversalInventory(block.getLocation());
 	}
 
-	public UniversalBlockMenu getUniversalInventory(Location l) {
+	public static UniversalBlockMenu getUniversalInventory(Location l) {
 		String id = checkID(l);
 		return id == null ? null: getUniversalInventory(id);
 	}
 
-	public UniversalBlockMenu getUniversalInventory(String id) {
+	public static UniversalBlockMenu getUniversalInventory(String id) {
 		return SlimefunPlugin.getUtilities().universalInventories.get(id);
 	}
 	
@@ -693,11 +693,19 @@ public class BlockStorage {
 		return getInventory(b.getLocation());
 	}
 	
+	public static boolean hasInventory(Block b) {
+		BlockStorage storage = getStorage(b.getWorld());
+		if (storage == null) return false;
+		else return storage.hasInventory(b.getLocation());
+	}
+	
 	public static BlockMenu getInventory(Location l) {
 		BlockStorage storage = getStorage(l.getWorld());
 		if (storage == null) return null;
-		if (!storage.hasInventory(l)) return storage.loadInventory(l, BlockMenuPreset.getPreset(checkID(l)));
-		else return storage.inventories.get(l);
+		
+		BlockMenu menu = storage.inventories.get(l);
+		if (menu != null) return menu;
+		else return storage.loadInventory(l, BlockMenuPreset.getPreset(checkID(l)));
 	}
 
 	public static Config getChunkInfo(Chunk chunk) {

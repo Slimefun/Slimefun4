@@ -54,12 +54,17 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		// This method can optionally be overridden by implementations
 	}
 	
+	@Deprecated
 	public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
-		// This method will default to this method, can be overridden though
-		return this.getSlotsAccessedByItemTransport(flow);
+		return getSlotsAccessedByItemTransport((DirtyChestMenu) menu, flow, item);
 	}
 
+	@Deprecated
 	public int[] getSlotsAccessedByItemTransport(UniversalBlockMenu menu, ItemTransportFlow flow, ItemStack item) {
+		return getSlotsAccessedByItemTransport((DirtyChestMenu) menu, flow, item);
+	}
+	
+	public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 		// This method will default to this method, can be overridden though
 		return this.getSlotsAccessedByItemTransport(flow);
 	}
@@ -122,7 +127,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	public void clone(final BlockMenu menu) {
 		menu.setPlayerInventoryClickable(true);
 		
-		for (int slot: occupied) {
+		for (int slot : occupied) {
 			menu.addItem(slot, getItemInSlot(slot));
 		}
 		
@@ -130,7 +135,9 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
 		newInstance(menu, menu.getLocation());
 		for (int slot = 0; slot < 54; slot++) {
-			if (getMenuClickHandler(slot) != null) menu.addMenuClickHandler(slot, getMenuClickHandler(slot));
+			if (getMenuClickHandler(slot) != null) {
+				menu.addMenuClickHandler(slot, getMenuClickHandler(slot));
+			}
 		}
 		
 		menu.addMenuOpeningHandler(getMenuOpeningHandler());
@@ -141,11 +148,12 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	public void clone(UniversalBlockMenu menu) {
 		menu.setPlayerInventoryClickable(true);
 		
-		for (int slot: occupied) {
+		for (int slot : occupied) {
 			menu.addItem(slot, getItemInSlot(slot));
 		}
 		
 		if (size > -1) menu.addItem(size - 1, null);
+		
 		for (int slot = 0; slot < 54; slot++) {
 			if (getMenuClickHandler(slot) != null) menu.addMenuClickHandler(slot, getMenuClickHandler(slot));
 		}
