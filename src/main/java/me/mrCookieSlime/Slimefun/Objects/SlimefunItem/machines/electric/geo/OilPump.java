@@ -97,24 +97,29 @@ public abstract class OilPump extends AContainer {
 			}
 		}
 		else {
-			OreGenResource oil = OreGenSystem.getResource("Oil");
-			Chunk chunk = b.getChunk();
-			int supplies = OreGenSystem.getSupplies(oil, chunk, false);
-			
-			if (supplies > 0) {
-				for (int slot : getInputSlots()) {
-					if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+					OreGenResource oil = OreGenSystem.getResource("Oil");
+					Chunk chunk = b.getChunk();
+					int supplies = OreGenSystem.getSupplies(oil, chunk, false);
+					if(supplies > 0){
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
-						
+
 						if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
 							return;
 						}
-						
+
 						inv.replaceExistingItem(slot, InvUtils.decreaseItem(inv.getItemInSlot(slot), 1));
 						processing.put(b, r);
 						progress.put(b, r.getTicks());
 						OreGenSystem.setSupplies(oil, chunk, supplies - 1);
 						break;
+					}else{
+						ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot);
+						ItemStack[] abucket = new ItemStack[1];
+						abucket[0]=item.clone();
+						BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+						pushItems(b, abucket);
 					}
 				}
 			}
