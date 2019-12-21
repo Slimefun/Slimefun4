@@ -822,7 +822,7 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.SALT, RecipeType.ORE_WASHER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.SAND, 4), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.SAND, 4), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.HEAVY_CREAM, RecipeType.ENHANCED_CRAFTING_TABLE,
