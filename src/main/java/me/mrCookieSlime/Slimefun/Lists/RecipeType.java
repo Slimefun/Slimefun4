@@ -16,25 +16,25 @@ import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 
 public class RecipeType {
 	
-	public static final RecipeType MULTIBLOCK = new RecipeType(new CustomItem(Material.BRICKS, "&b多方塊機器", "", "&a&o照著說明直接建造在世界中"));
-	public static final RecipeType ARMOR_FORGE = new RecipeType((SlimefunItemStack) SlimefunItems.ARMOR_FORGE, "", "&a&o使用鍛造台鍛造得到");
-	public static final RecipeType GRIND_STONE = new RecipeType((SlimefunItemStack) SlimefunItems.GRIND_STONE, "", "&a&o使用磨石來打磨");
-	public static final RecipeType MOB_DROP = new RecipeType(new CustomItem(Material.IRON_SWORD, "&b生物掉落物", "", "&a&o殺死特定生物得到"));
-	public static final RecipeType SMELTERY = new RecipeType((SlimefunItemStack) SlimefunItems.SMELTERY, "", "&a&o使用冶煉爐來燒製物品");
-	public static final RecipeType ORE_CRUSHER = new RecipeType((SlimefunItemStack) SlimefunItems.ORE_CRUSHER, "", "&a&o使用碎礦機碎礦");
-	public static final RecipeType GOLD_PAN = new RecipeType((SlimefunItemStack) SlimefunItems.GOLD_PAN, "", "&a&o使用淘金盤淘金獲得");
-	public static final RecipeType COMPRESSOR = new RecipeType((SlimefunItemStack) SlimefunItems.COMPRESSOR, "", "&a&o使用壓縮機壓縮得到");
-	public static final RecipeType PRESSURE_CHAMBER = new RecipeType((SlimefunItemStack) SlimefunItems.PRESSURE_CHAMBER, "", "&a&o使用壓力室得到");
-	public static final RecipeType MAGIC_WORKBENCH = new RecipeType((SlimefunItemStack) SlimefunItems.MAGIC_WORKBENCH, "", "&a&o在魔法工作台合成");
-	public static final RecipeType ORE_WASHER = new RecipeType((SlimefunItemStack) SlimefunItems.ORE_WASHER, "", "&a&o在洗礦機內清洗");
-	public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType((SlimefunItemStack) SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&o普通的工作台", "&a&o無法承受這巨大的力量...");
-	public static final RecipeType JUICER = new RecipeType((SlimefunItemStack) SlimefunItems.JUICER, "", "&a&o使用果汁機得到");
-	public static final RecipeType ANCIENT_ALTAR = new RecipeType((SlimefunItemStack) SlimefunItems.ANCIENT_ALTAR, "", "&d你需要將這些物品", "&d擺放到遠古祭壇的基座上", "&c需要將書本合成表的上方對準祭壇的東方(F3可查看方位)");
-	public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType((SlimefunItemStack) SlimefunItems.HEATED_PRESSURE_CHAMBER, "", "&a&o使用加熱壓力室", "&a&o取得這項物品");
+	public static final RecipeType MULTIBLOCK = new RecipeType(new CustomItem(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
+	public static final RecipeType ARMOR_FORGE = new RecipeType((SlimefunItemStack) SlimefunItems.ARMOR_FORGE, "", "&a&oCraft it in an Armor Forge");
+	public static final RecipeType GRIND_STONE = new RecipeType((SlimefunItemStack) SlimefunItems.GRIND_STONE, "", "&a&oGrind it using the Grind Stone");
+	public static final RecipeType MOB_DROP = new RecipeType(new CustomItem(Material.IRON_SWORD, "&bMob Drop", "", "&a&oKill the specified Mob to obtain this Item"));
+	public static final RecipeType SMELTERY = new RecipeType((SlimefunItemStack) SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery");
+	public static final RecipeType ORE_CRUSHER = new RecipeType((SlimefunItemStack) SlimefunItems.ORE_CRUSHER, "", "&a&oCrush it using the Ore Crusher");
+	public static final RecipeType GOLD_PAN = new RecipeType((SlimefunItemStack) SlimefunItems.GOLD_PAN, "", "&a&oUse a Gold Pan on Gravel to obtain this Item");
+	public static final RecipeType COMPRESSOR = new RecipeType((SlimefunItemStack) SlimefunItems.COMPRESSOR, "", "&a&oCompress it using the Compressor");
+	public static final RecipeType PRESSURE_CHAMBER = new RecipeType((SlimefunItemStack) SlimefunItems.PRESSURE_CHAMBER, "", "&a&oCompress it using the Pressure Chamber");
+	public static final RecipeType MAGIC_WORKBENCH = new RecipeType((SlimefunItemStack) SlimefunItems.MAGIC_WORKBENCH, "", "&a&oCraft it in a Magic Workbench");
+	public static final RecipeType ORE_WASHER = new RecipeType((SlimefunItemStack) SlimefunItems.ORE_WASHER, "", "&a&oWash it in an Ore Washer");
+	public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType((SlimefunItemStack) SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power...");
+	public static final RecipeType JUICER = new RecipeType((SlimefunItemStack) SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
+	public static final RecipeType ANCIENT_ALTAR = new RecipeType((SlimefunItemStack) SlimefunItems.ANCIENT_ALTAR, "", "&dYou will need to craft this Item", "&dby performing an Ancient Altar Ritual");
+	public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType((SlimefunItemStack) SlimefunItems.HEATED_PRESSURE_CHAMBER, "", "&a&oCraft this Item in a", "&a&oHeated Pressure Chamber");
 	
-	public static final RecipeType SHAPED_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&e合成", "", "&a&o使用普通的工作台合成"));
-	public static final RecipeType SHAPELESS_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&e合成", "", "&a&o使用普通的工作台合成"));
-	public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&e熔爐", "", "&a&o在熔爐內燒製"));
+	public static final RecipeType SHAPED_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&eShaped Recipe", "", "&a&oJust a standard Recipe in the Workbench..."));
+	public static final RecipeType SHAPELESS_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&eShapeless Recipe", "", "&a&oJust a standard Recipe in the Workbench..."));
+	public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&eFurnace Recipe", "", "&a&oJust smelt it in a regular Furnace"));
 	public static final RecipeType NULL = new RecipeType((ItemStack) null);
 	
 	private final ItemStack item;
