@@ -105,7 +105,7 @@ public abstract class OilPump extends AContainer {
 					OreGenResource oil = OreGenSystem.getResource("Oil");
 					Chunk chunk = b.getChunk();
 					int supplies = OreGenSystem.getSupplies(oil, chunk, false);
-					if(supplies > 0) {
+					if (supplies > 0) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
 
 						inv.replaceExistingItem(slot, InvUtils.decreaseItem(inv.getItemInSlot(slot), 1));
@@ -118,10 +118,10 @@ public abstract class OilPump extends AContainer {
 						ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot).clone();
 						BlockStorage.getInventory(b).replaceExistingItem(slot, null);
 						pushItems(b, item);
+						break;
 					}
 				}
 			}
 		}
 	}
-
 }
