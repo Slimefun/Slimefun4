@@ -54,5 +54,13 @@
 	"SOLAR_GENERATOR_3": "Solar-Generator",
 	"SOLAR_GENERATOR_4": "Solar-Generator",
 	"COAL_GENERATOR": "Coal-Generator",
-	"COAL_GENERATOR_2": "Coal-Generator"
+	"COAL_GENERATOR_2": "Coal-Generator",
+	"COBALT_PICKAXE": "Cobalt-Pickaxe",
+	"EXPLOSIVE_PICKAXE": "Explosive-Pickaxe",
+	"EXPLOSIVE_SHOVEL": "Explosive-Shovel",
+	"GRAPPLING_HOOK": "Grappling-Hook",
+	"HERCULES_PICKAXE": "Hercules'-Pickaxe",
+	"LUMBER_AXE": "Lumber-Axe",
+	"PICKAXE_OF_VEIN_MINING": "Pickaxe-of-Vein-Mining",
+	"PICKAXE_OF_THE_SEEKER": "Pickaxe-of-the-Seeker"
 }
