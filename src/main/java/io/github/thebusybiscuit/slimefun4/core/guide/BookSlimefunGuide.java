@@ -68,7 +68,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 			if (!locked) {
 				if (tier < category.getTier()) {
 					if (survival) {
-						for (final GuideHandler handler: Slimefun.getGuideHandlers(tier)) {
+						for (GuideHandler handler : Slimefun.getGuideHandlers(tier)) {
 							handler.addEntry(texts, tooltips);
 							actions.add(new PlayerRunnable(2) {
 
@@ -80,6 +80,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 						}
 					}
 					tier = category.getTier();
+					
 					if (tier > 1) {
 						for (int i = 0; i < 10; i++) {
 							if (texts.size() % 10 == 0) break;
@@ -88,6 +89,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 							actions.add(null);
 						}
 					}
+					
 					texts.add(ChatColors.color("&8\u21E8 &6Tier " + tier));
 					tooltips.add(null);
 					actions.add(null);
@@ -95,7 +97,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 				if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p, profile)) {
 					StringBuilder parents = new StringBuilder(ChatColors.color("&4&lLOCKED\n\n&7In order to unlock this Category,\n&7you need to unlock all Items from\n&7the following Categories first:\n"));
 
-					for (Category parent: ((LockedCategory) category).getParents()) {
+					for (Category parent : ((LockedCategory) category).getParents()) {
 						parents.append(ChatColors.color("\n&c" + ItemUtils.getItemName(parent.getItem())));
 					}
 
@@ -129,7 +131,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 		}
 
 		if (survival) {
-			for (final GuideHandler handler: Slimefun.getGuideHandlers(tier)) {
+			for (GuideHandler handler : Slimefun.getGuideHandlers(tier)) {
 				handler.addEntry(texts, tooltips);
 				actions.add(new PlayerRunnable(2) {
 					@Override
@@ -143,11 +145,13 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 		for (int i = 0; i < texts.size(); i = i + 10) {
 			TellRawMessage pageMessage = new TellRawMessage();
 			pageMessage.addText(ChatColors.color("&b&l- Slimefun Guide -\n\n"));
+			
 			for (int j = i; j < texts.size() && j < i + 10; j++) {
 				pageMessage.addText(texts.get(j) + "\n");
 				if (tooltips.get(j) != null) pageMessage.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
 				if (actions.get(j) != null) pageMessage.addClickEvent(actions.get(j));
 			}
+			
 			pages.add(pageMessage);
 		}
 
@@ -170,11 +174,11 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 			List<String> tooltips = new ArrayList<>();
 			List<PlayerRunnable> actions = new ArrayList<>();
 
-			for (final SlimefunItem item: category.getItems()) {
+			for (SlimefunItem item : category.getItems()) {
 				if (Slimefun.hasPermission(p, item, false)) {
 					if (Slimefun.isEnabled(p, item, false)) {
 						if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
-						    final Research research = item.getResearch();
+						    Research research = item.getResearch();
 
 							texts.add(ChatColors.color(shorten("&7", item.getItemName())));
 							tooltips.add(ChatColors.color(item.getItemName() + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " Levels\n\n&a> Click to unlock"));
