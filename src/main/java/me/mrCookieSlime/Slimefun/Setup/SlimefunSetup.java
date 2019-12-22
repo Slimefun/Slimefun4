@@ -2,8 +2,8 @@ package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,7 +33,6 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
@@ -46,7 +45,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EnhancedFurnace;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ExcludedSoulboundTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.JetBoots;
@@ -109,6 +107,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AncientPedestal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Composter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Crucible;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.EnhancedFurnace;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HologramProjector;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.InfusedHopper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
@@ -146,6 +145,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generato
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.CombustionGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.LavaGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.MagnesiumGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.SolarGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.GEOMiner;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.GEOScannerBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.OilPump;
@@ -174,13 +174,10 @@ import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
 
 public final class SlimefunSetup {
-
-	private static final Random random = new Random();
 	
 	private SlimefunSetup() {}
 
@@ -1093,7 +1090,8 @@ public final class SlimefunSetup {
 		new ItemStack[0], BlockFace.SELF)
 		.register(true, new MultiBlockInteractionHandler() {
 			// Determines the drops an Advanced Digital Miner will get
-			private final ItemStack EFFECTIVE_PICKAXE = new ItemStack(Material.DIAMOND_PICKAXE);
+			private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
+			
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
 				if (mb.isMultiBlock(SlimefunItem.getByID("ADVANCED_DIGITAL_MINER"))) {
@@ -1129,7 +1127,7 @@ public final class SlimefunSetup {
 							else if (ore == Material.NETHER_QUARTZ_ORE)  drop = new ItemStack(Material.QUARTZ, 4);
 							else if (ore == Material.LAPIS_ORE)  drop = new ItemStack(Material.LAPIS_LAZULI, 12);
 							else {
-								for (ItemStack drops: ores.get(0).getBlock().getDrops(EFFECTIVE_PICKAXE)) {
+								for (ItemStack drops: ores.get(0).getBlock().getDrops(effectivePickaxe)) {
 									if (!drops.getType().isBlock()) drop = new CustomItem(drops, 2);
 								}
 							}
@@ -1587,17 +1585,14 @@ public final class SlimefunSetup {
 					FireworkShow.launchRandom(e.getPlayer(), 2);
 
 					List<ItemStack> gifts = new ArrayList<>();
-					
-					for (int i = 0; i < 2; i++) {
-						gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
-						gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
-						gifts.add(new ItemStack(Material.EMERALD));
-						gifts.add(new ItemStack(Material.CAKE));
-						gifts.add(new ItemStack(Material.RABBIT_FOOT));
-						gifts.add(new ItemStack(Material.GOLDEN_CARROT, 4));
-					}
+					gifts.add(new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4));
+					gifts.add(new CustomItem(SlimefunItems.CARROT_JUICE, 1));
+					gifts.add(new ItemStack(Material.EMERALD));
+					gifts.add(new ItemStack(Material.CAKE));
+					gifts.add(new ItemStack(Material.RABBIT_FOOT));
+					gifts.add(new ItemStack(Material.GOLDEN_CARROT, 4));
 
-					p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(random.nextInt(gifts.size())));
+					p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
 					return true;
 				}
 				else return false;
@@ -1668,73 +1663,50 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.CARBONADO, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.CARBONADO, new ItemStack(Material.REDSTONE), SlimefunItems.LARGE_CAPACITOR, new ItemStack(Material.REDSTONE), SlimefunItems.CARBONADO, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.CARBONADO})
 		.registerDistibutingCapacitor(true, 65536);
 
-		new SlimefunItem(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SOLAR_GENERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_INGOT, null, SlimefunItems.ALUMINUM_INGOT, null})
-		.register(true, new EnergyTicker() {
+		new SolarGenerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SOLAR_GENERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_INGOT, null, SlimefunItems.ALUMINUM_INGOT, null}) {
 
 			@Override
-			public double generateEnergy(Location l, SlimefunItem item, Config data) {
-				if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) return 0D;
-				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) return 2D;
-				return 0D;
+			public double getDayEnergy() {
+				return 2;
+			}
+			
+		}.register(true);
+
+		new SolarGenerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SOLAR_GENERATOR_2, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SOLAR_GENERATOR, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.REDSTONE), SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR}) {
+
+			@Override
+			public double getDayEnergy() {
+				return 8;
+			}
+			
+		}.register(true);
+
+		new SolarGenerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SOLAR_GENERATOR_3, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SOLAR_GENERATOR_2, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR_2, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.CARBONADO, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR_2, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR_2}) {
+
+			@Override
+			public double getDayEnergy() {
+				return 32;
+			}
+			
+		}.register(true);
+
+		new SolarGenerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SOLAR_GENERATOR_4, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.SOLAR_GENERATOR_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SOLAR_GENERATOR_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SOLAR_GENERATOR_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SOLAR_GENERATOR_3}) {
+
+			@Override
+			public double getDayEnergy() {
+				return 128;
 			}
 
 			@Override
-			public boolean explode(Location l) {
-				return false;
+			public double getNightEnergy() {
+				return 64;
 			}
-		});
-
-		new SlimefunItem(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SOLAR_GENERATOR_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SOLAR_GENERATOR, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.REDSTONE), SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR})
-		.register(true, new EnergyTicker() {
-
-			@Override
-			public double generateEnergy(Location l, SlimefunItem item, Config data) {
-				if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) return 0D;
-				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) return 8;
-				return 0D;
-			}
-
-			@Override
-			public boolean explode(Location l) {
-				return false;
-			}
-		});
-
-		new SlimefunItem(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SOLAR_GENERATOR_3, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SOLAR_GENERATOR_2, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR_2, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.CARBONADO, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR_2, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.SOLAR_GENERATOR_2})
-		.register(true, new EnergyTicker() {
-
-			@Override
-			public double generateEnergy(Location l, SlimefunItem item, Config data) {
-				if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) return 0D;
-				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) return 32;
-				return 0D;
-			}
-
-			@Override
-			public boolean explode(Location l) {
-				return false;
-			}
-		});
-
-		new SlimefunItem(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SOLAR_GENERATOR_4, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.SOLAR_GENERATOR_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SOLAR_GENERATOR_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SOLAR_GENERATOR_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SOLAR_GENERATOR_3})
-		.register(true, new EnergyTicker() {
-
-			@Override
-			public double generateEnergy(Location l, SlimefunItem item, Config data) {
-				if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) return 0D;
-				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) return 128;
-				return 64D;
-			}
-
-			@Override
-			public boolean explode(Location l) {
-				return false;
-			}
-		});
+			
+		}.register(true);
 		
 		new ChargingBench(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.CHARGING_BENCH, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.ELECTRO_MAGNET, null, SlimefunItems.BATTERY, new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.BATTERY, null, SlimefunItems.SMALL_CAPACITOR, null})

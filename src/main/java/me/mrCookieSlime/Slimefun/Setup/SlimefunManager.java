@@ -31,8 +31,9 @@ public final class SlimefunManager {
 
 	public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean special, boolean slimefun) {
 		String[] components = new String[] {"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
-		Category cat = special ? Categories.MAGIC_ARMOR: Categories.ARMOR;
+		Category category = special ? Categories.MAGIC_ARMOR: Categories.ARMOR;
 		List<ItemStack[]> recipes = new ArrayList<>();
+		
 		recipes.add(new ItemStack[] {baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, null, null, null});
 		recipes.add(new ItemStack[] {baseComponent, null, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent});
 		recipes.add(new ItemStack[] {baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
@@ -40,10 +41,10 @@ public final class SlimefunManager {
 
 		for (int i = 0; i < 4; i++) {
 			if (i < effects.length && effects[i].length > 0) {
-				new SlimefunArmorPiece(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(slimefun);
+				new SlimefunArmorPiece(category, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(slimefun);
 			}
 			else {
-				new SlimefunItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
+				new SlimefunItem(category, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
 			}
 		}
 	}
@@ -183,18 +184,24 @@ public final class SlimefunManager {
 		String colors = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
 		
 		for (String string : lore) {
-			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string1.append("-NEW LINE-").append(string);
+			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) {
+				string1.append("-NEW LINE-").append(string);
+			}
 		}
 
 		for (String string : lore2) {
-			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) string2.append("-NEW LINE-").append(string);
+			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) {
+				string2.append("-NEW LINE-").append(string);
+			}
 		}
 		
 		return string1.toString().equals(string2.toString());
 	}
 
 	public static boolean isItemSoulbound(ItemStack item) {
-		if (item == null || item.getType() == Material.AIR) return false;
+		if (item == null || item.getType() == Material.AIR) {
+			return false;
+		}
 		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) {
 			return true;
 		}

@@ -56,7 +56,7 @@ public final class PlayerProfile {
 
 		cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
 
-		for (Research research: Research.list()) {
+		for (Research research : Research.list()) {
 			if (cfg.contains("researches." + research.getID())) researches.add(research);
 		}
 	}
@@ -100,7 +100,7 @@ public final class PlayerProfile {
 	 * This method will save the Player's Researches and Backpacks to the hard drive
 	 */
 	public void save() {
-		for (BackpackInventory backpack: backpacks.values()) {
+		for (BackpackInventory backpack : backpacks.values()) {
 			backpack.save();
 		}
 
@@ -285,6 +285,7 @@ public final class PlayerProfile {
 	 */
 	public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
 		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
+		
 		if (profile != null) {
 			callback.accept(profile);
 			return true;
@@ -316,7 +317,7 @@ public final class PlayerProfile {
 		Optional<Integer> id = Optional.empty();
 		String uuid = "";
 		
-		for (String line: item.getItemMeta().getLore()) {
+		for (String line : item.getItemMeta().getLore()) {
 			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 				try {
 					id = Optional.of(Integer.parseInt(line.split("#")[1]));

@@ -55,8 +55,8 @@ public enum ScriptPart {
 	INTERFACE_FUEL(AndroidType.NONE, "&cPull Fuel from the faced Interface", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjQzMmY1MjgyYTUwNzQ1YjkxMmJlMTRkZWRhNTgxYmQ0YTA5Yjk3N2EzYzMyZDdlOTU3ODQ5MWZlZThmYTcifX19");
 
 
-	private ItemStack item;
-	private AndroidType type;
+	private final ItemStack item;
+	private final AndroidType type;
 
 	private ScriptPart(AndroidType type, String name, String texture) {
 		this.type = type;

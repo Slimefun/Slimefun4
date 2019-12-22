@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -55,12 +54,14 @@ public class AncientAltarListener implements Listener {
 		
 		if (item != null) {
 			if (item.equals("ANCIENT_PEDESTAL")) {
-				if (utilities.altarinuse.contains(b.getLocation())) {
-					e.setCancelled(true);
-					return;
-				}				
 				e.setCancelled(true);
+				
+				if (utilities.altarinuse.contains(b.getLocation())) {
+					return;
+				}
+				
 				Item stack = findItem(b);
+				
 				if (stack == null) {
 					if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) return;
 					
@@ -72,10 +73,10 @@ public class AncientAltarListener implements Listener {
 					insertItem(e.getPlayer(), b);
 				}
 				else if (!removedItems.contains(stack.getUniqueId())) {
-					final UUID uuid = stack.getUniqueId();
+					UUID uuid = stack.getUniqueId();
 					removedItems.add(uuid);
 
-					SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> removedItems.remove(uuid), 30L);
+					Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
 
 					stack.remove();
 					e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
@@ -117,7 +118,7 @@ public class AncientAltarListener implements Listener {
 										ItemUtils.consumeItem(e.getPlayer().getInventory().getItemInMainHand(), false);
 									}
 									
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
+									Slimefun.runSync(new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
 								}
 								else {
 									altars.remove(e.getClickedBlock());
@@ -162,6 +163,7 @@ public class AncientAltarListener implements Listener {
 
 	public static ItemStack fixItemStack(ItemStack itemStack, String customName) {
 		ItemStack stack = itemStack.clone();
+		
 		if (customName.equals(ItemUtils.getItemName(new ItemStack(itemStack.getType())))) {
 			ItemMeta im = stack.getItemMeta();
 			im.setDisplayName(null);
@@ -178,7 +180,9 @@ public class AncientAltarListener implements Listener {
 
 	public static Item findItem(Block b) {
 		for (Entity n : b.getChunk().getEntities()) {
-			if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) return (Item) n;
+			if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) {
+				return (Item) n;
+			}
 		}
 		return null;
 	}

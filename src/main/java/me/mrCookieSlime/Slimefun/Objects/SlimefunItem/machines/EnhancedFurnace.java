@@ -1,6 +1,6 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -37,7 +39,7 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 	
 	public int getOutput() {
 		int bonus = this.fortune;
-		bonus = new Random().nextInt(bonus + 2) - 1;
+		bonus = ThreadLocalRandom.current().nextInt(bonus + 2) - 1;
 		if (bonus <= 0) bonus = 0;
 		bonus++;
 		return bonus;

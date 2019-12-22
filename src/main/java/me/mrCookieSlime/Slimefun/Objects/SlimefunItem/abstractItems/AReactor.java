@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -271,8 +270,8 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 						if (space >= produced || !"generator".equals(BlockStorage.getLocationInfo(l, "reactor-mode"))) {
 							progress.put(l, timeleft - 1);
 
-							Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-								if (!l.getBlock().getRelative(cooling[new Random().nextInt(cooling.length)]).isLiquid()) explode.add(l);
+							Slimefun.runSync(() -> {
+								if (!l.getBlock().getRelative(cooling[ThreadLocalRandom.current().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 							});
 
 							MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
@@ -282,7 +281,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 
 								if (coolant) {
 									if (port != null) {
-										for (int slot: getCoolantSlots()) {
+										for (int slot : getCoolantSlots()) {
 											if (SlimefunManager.isItemSimilar(port.getItemInSlot(slot), getCoolant(), true)) {
 												port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getCoolantSlots()));
 											}
@@ -290,7 +289,8 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 									}
 
 									boolean explosion = true;
-									for (int slot: getCoolantSlots()) {
+									
+									for (int slot : getCoolantSlots()) {
 										if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), getCoolant(), true)) {
 											menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
 											ReactorHologram.update(l, "&b\u2744 &7100%");
@@ -320,7 +320,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 						}
 
 						if (port != null) {
-							for (int slot: getOutputSlots()) {
+							for (int slot : getOutputSlots()) {
 								if (menu.getItemInSlot(slot) != null) {
 									menu.replaceExistingItem(slot, port.pushItem(menu.getItemInSlot(slot), ReactorAccessPort.getOutputSlots()));
 								}
@@ -341,7 +341,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 					}
 
 					if (fuel != null) {
-						for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
+						for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
 							menu.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(menu.getItemInSlot(entry.getKey()), entry.getValue()));
 						}
 						
@@ -354,11 +354,12 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 
 			@Override
 			public boolean explode(final Location l) {
-				final boolean explosion = explode.contains(l);
+				boolean explosion = explode.contains(l);
+				
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
 
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> ReactorHologram.remove(l), 0);
+					Slimefun.runSync(() -> ReactorHologram.remove(l), 0);
 
 					explode.remove(l);
 					processing.remove(l);
@@ -370,8 +371,8 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	}
 	
 	private void restockFuel(BlockMenu menu, BlockMenu port) {
-		for (int slot: getFuelSlots()) {
-			for (MachineFuel recipe: recipes) {
+		for (int slot : getFuelSlots()) {
+			for (MachineFuel recipe : recipes) {
 				if (SlimefunManager.isItemSimilar(port.getItemInSlot(slot), recipe.getInput(), true) && menu.fits(new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots())) {
 					port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getFuelSlots()));
 					return;
@@ -381,8 +382,8 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	}
 	
 	private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
-		for (MachineFuel recipe: recipes) {
-			for (int slot: getInputSlots()) {
+		for (MachineFuel recipe : recipes) {
+			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
 					found.put(slot, recipe.getInput().getAmount());
 					return recipe;
@@ -415,7 +416,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	public List<ItemStack> getDisplayRecipes() {
 		List<ItemStack> list = new ArrayList<>();
 		
-		for (MachineFuel fuel: recipes) {
+		for (MachineFuel fuel : recipes) {
 			ItemStack item = fuel.getInput().clone();
 			ItemMeta im = item.getItemMeta();
 			List<String> lore = new ArrayList<>();
@@ -432,10 +433,12 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	
 	private static String getTimeLeft(int seconds) {
 		String timeleft = "";
-        final int minutes = (int) (seconds / 60L);
+        int minutes = (int) (seconds / 60L);
+        
         if (minutes > 0) {
             timeleft += minutes + "m ";
         }
+        
         seconds -= minutes * 60;
         return "&7" + timeleft + seconds + "s";
 	}

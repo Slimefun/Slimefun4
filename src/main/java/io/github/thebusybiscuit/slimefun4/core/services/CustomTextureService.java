@@ -19,6 +19,15 @@ public class CustomTextureService {
 	public void setup(Iterable<SlimefunItem> items) {
 		config.setDefaultValue("SLIMEFUN_GUIDE", 0);
 		
+		config.setDefaultValue("_UI_BACKGROUND", 0);
+		config.setDefaultValue("_UI_BACK", 0);
+		config.setDefaultValue("_UI_MENU", 0);
+		config.setDefaultValue("_UI_SEARCH", 0);
+		config.setDefaultValue("_UI_WIKI", 0);
+		config.setDefaultValue("_UI_PREVIOUS_ACTIVE", 0);
+		config.setDefaultValue("_UI_PREVIOUS_INACTIVE", 0);
+		config.setDefaultValue("_UI_NEXT_ACTIVE", 0);
+		config.setDefaultValue("_UI_NEXT_INACTIVE", 0);
 		
 		for (SlimefunItem item : items) {
 			if (item != null && item.getID() != null) {

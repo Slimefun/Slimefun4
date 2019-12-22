@@ -13,7 +13,6 @@ public final class Settings {
 	public final List<String> researchesTitles;
 	
 	public final int blocksInfoLoadingDelay;
-	public final int blocksAutoSaveDelay;
 	
 	public final boolean guideShowVanillaRecipes;
 	
@@ -32,7 +31,6 @@ public final class Settings {
 		researchesTitles = cfg.getStringList("research-ranks");
 		
 		blocksInfoLoadingDelay = cfg.getInt("URID.info-delay");
-		blocksAutoSaveDelay = cfg.getInt("options.auto-save-delay-in-minutes");
 		
 		guideShowVanillaRecipes = cfg.getBoolean("options.show-vanilla-recipes-in-guide");
 		

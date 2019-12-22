@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.bukkit.plugin.Plugin;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -32,6 +34,10 @@ public class GitHubService {
 		
 		connectors = new HashSet<>();
 		contributors = new ConcurrentHashMap<>();
+	}
+	
+	public void start(Plugin plugin) {
+		plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
 	}
 	
 	public void connect(boolean logging) {

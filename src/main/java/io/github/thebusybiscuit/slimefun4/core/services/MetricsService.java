@@ -16,11 +16,11 @@ public class MetricsService extends Metrics {
 		addCustomChart(new SimplePie("resourcepack", () -> {
 			String version = SlimefunPlugin.getItemTextureService().getVersion();
 			
-			if (SlimefunPlugin.getItemTextureService().isActive()) {
-				return "Custom / Modified";
-			}
-			else if (version != null) {
+			if (version != null) {
 				return version + " (Official)";
+			}
+			else if (SlimefunPlugin.getItemTextureService().isActive()) {
+				return "Custom / Modified";
 			}
 			else {
 				return "None";

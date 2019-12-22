@@ -12,18 +12,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
-import io.github.thebusybiscuit.cscorelib2.updater.BukkitUpdater;
-import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
-import io.github.thebusybiscuit.cscorelib2.updater.Updater;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunTabCompleter;
+import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
-import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
+import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
-import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.NetherIceResource;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.OilResource;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.SaltResource;
@@ -51,8 +49,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
-import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
@@ -86,6 +82,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private final CustomTextureService textureService = new CustomTextureService(this);
 	private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
 	private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
+	private final AutoSavingService autoSavingService = new AutoSavingService();
+	private final UpdaterService updaterService = new UpdaterService(this, getFile());
 	
 	private TickerTask ticker;
 	private LocalizationService local;
@@ -114,7 +112,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 				StringBuilder versions = new StringBuilder();
 
 				int i = 0;
-				for (String version: supported) {
+				for (String version : supported) {
 					if (currentVersion.startsWith(version)) {
 						compatibleVersion = true;
 					}
@@ -172,30 +170,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 			// Setting up bStats
 			new MetricsService(this);
 
-			// Setting up the Auto-Updater
-			Updater updater;
-			
-			if (getDescription().getVersion().equals("UNOFFICIAL")) {
-				// This Server is using a modified build that is not a public release.
-				getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
-				getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
-				getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun.");
-			}
-			if (getDescription().getVersion().startsWith("DEV - ")) {
-				// If we are using a development build, we want to switch to our custom 
-				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
-			}
-			else if (getDescription().getVersion().startsWith("RC - ")) {
-				// If we are using a development build, we want to switch to our custom 
-				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/stable", "RC - ");
-			}
-			else {
-				// We are using an official build, use the BukkitDev Updater
-				updater = new BukkitUpdater(this, getFile(), 53485);
-			}
-
-			if (updater != null && config.getBoolean("options.auto-update")) {
-				updater.start();
+			// Starting the Auto-Updater
+			if (config.getBoolean("options.auto-update")) {
+				updaterService.start();
 			}
 
 			// Creating all necessary Folders
@@ -212,8 +189,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 			} catch (Exception x) {
 				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + Slimefun.getVersion(), x);
 			}
-			
-			MiscSetup.loadDescriptions();
 
 			getLogger().log(Level.INFO, "Loading Researches...");
 			ResearchSetup.setupResearches();
@@ -266,12 +241,12 @@ public final class SlimefunPlugin extends JavaPlugin {
 			new PlayerQuitListener(this);
 
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
-			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+			Slimefun.runSync(() -> {
 				recipeSnapshot = new RecipeSnapshot(this);
 				protections = new ProtectionManager(getServer());
 				MiscSetup.loadItems(settings);
 
-				for (World world: Bukkit.getWorlds()) {
+				for (World world : Bukkit.getWorlds()) {
 					new BlockStorage(world);
 				}
 
@@ -290,10 +265,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			ticker = new TickerTask();
 
-			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, settings.blocksAutoSaveDelay * 60L * 20L);
-
+			autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
+			
 			// Starting all ASYNC Tasks
-			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, settings.blocksAutoSaveDelay * 60L * 20L);
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
 				try {
 					ticker.run();
@@ -303,8 +277,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 					ticker.abortTick();
 				}
 			}, 100L, config.getInt("URID.custom-ticker-delay"));
-
-			getServer().getScheduler().runTaskTimerAsynchronously(this, new GitHubTask(gitHubService), 80L, 60 * 60 * 20L);
+			
+			gitHubService.start(this);
 
 			// Hooray!
 			getLogger().log(Level.INFO, "Finished!");
@@ -405,18 +379,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static Config getWhitelist() {
 		return instance.whitelist;
-	}
-
-	@Deprecated
-	public static int randomize(int max) {
-		if (max < 1) return 0;
-		return CSCoreLib.randomizer().nextInt(max);
-	}
-
-	@Deprecated
-	public static boolean chance(int max, int percentage) {
-		if (max < 1) return false;
-		return CSCoreLib.randomizer().nextInt(max) <= percentage;
 	}
 
 	public GPSNetwork getGPS() {

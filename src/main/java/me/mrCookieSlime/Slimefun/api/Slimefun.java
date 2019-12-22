@@ -31,6 +31,7 @@ public final class Slimefun {
 
 	private Slimefun() {}
 	
+	@Deprecated
 	public static void registerGuideHandler(GuideHandler handler) {
 		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(handler.getTier(), new ArrayList<>());
 		handlers.add(handler);

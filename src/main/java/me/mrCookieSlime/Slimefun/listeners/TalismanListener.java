@@ -1,9 +1,11 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -40,8 +42,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TalismanListener implements Listener {
 	
-	private final Random random = new Random();
-	
 	public TalismanListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -49,7 +49,7 @@ public class TalismanListener implements Listener {
 	@EventHandler(priority=EventPriority.MONITOR)
 	public void onDamageGet(EntityDamageEvent e) {
 		if (!e.isCancelled()) {
-			if (e instanceof EntityDamageByEntityEvent && ((EntityDamageByEntityEvent) e).getDamager() instanceof Player && random.nextInt(100) < 45 && SlimefunManager.isItemSimilar(((Player) ((EntityDamageByEntityEvent) e).getDamager()).getInventory().getItemInMainHand(), SlimefunItems.BLADE_OF_VAMPIRES, true)) {
+			if (e instanceof EntityDamageByEntityEvent && ((EntityDamageByEntityEvent) e).getDamager() instanceof Player && ThreadLocalRandom.current().nextInt(100) < 45 && SlimefunManager.isItemSimilar(((Player) ((EntityDamageByEntityEvent) e).getDamager()).getInventory().getItemInMainHand(), SlimefunItems.BLADE_OF_VAMPIRES, true)) {
 				((Player) ((EntityDamageByEntityEvent) e).getDamager()).playSound(((EntityDamageByEntityEvent) e).getDamager().getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
 				((Player) ((EntityDamageByEntityEvent) e).getDamager()).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
 			}
@@ -112,6 +112,8 @@ public class TalismanListener implements Listener {
 	
 	@EventHandler
 	public void onEnchant(EnchantItemEvent e) {
+		Random random = ThreadLocalRandom.current();
+		
 		if (Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MAGICIAN)) {
 			List<String> enchantments = new ArrayList<>();
 			for (Enchantment en : Enchantment.values()) {
@@ -124,6 +126,7 @@ public class TalismanListener implements Listener {
 			String enchant = enchantments.get(random.nextInt(enchantments.size()));
 			e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchant.split("-")[0])), Integer.parseInt(enchant.split("-")[1]));
 		}
+		
 		if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WIZARD)) {
 			if (e.getEnchantsToAdd().containsKey(Enchantment.LOOT_BONUS_BLOCKS)) e.getEnchantsToAdd().remove(Enchantment.LOOT_BONUS_BLOCKS);
 			Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
@@ -141,10 +144,11 @@ public class TalismanListener implements Listener {
 	 */
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		List<ItemStack> drops = new ArrayList<>();
+		Collection<ItemStack> drops = new ArrayList<>();
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		int fortune = 1;
-
+		Random random = ThreadLocalRandom.current();
+		
 		if (item.getType() != Material.AIR && item.getAmount() > 0) {
 			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
 				fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
@@ -154,7 +158,7 @@ public class TalismanListener implements Listener {
 
 			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE") && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MINER)) {
 				if (drops.isEmpty()) {
-					drops = (List<ItemStack>) e.getBlock().getDrops();
+					drops = e.getBlock().getDrops();
 				}
 				
 				for (ItemStack drop : new ArrayList<>(drops)) {

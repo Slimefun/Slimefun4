@@ -28,7 +28,7 @@ public final class Soul {
 		Map<Integer, ItemStack> items = SlimefunPlugin.getUtilities().soulbound.get(p.getUniqueId());
 		
 		if (items != null) {
-			for (Map.Entry<Integer, ItemStack> entry: items.entrySet()) {
+			for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
 				p.getInventory().setItem(entry.getKey(), entry.getValue());
 			}
 		}

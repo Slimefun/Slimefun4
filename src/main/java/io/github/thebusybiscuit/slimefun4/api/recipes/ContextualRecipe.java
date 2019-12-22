@@ -6,6 +6,8 @@ import org.bukkit.inventory.ItemStack;
 
 public interface ContextualRecipe extends Predicate<ItemStack[]> {
 	
+	Predicate<ItemStack>[] getInputs();
+	
 	boolean isShapeless();
 	
 	ItemStack getOutput(ItemStack[] input);
