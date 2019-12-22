@@ -96,10 +96,7 @@ public abstract class OilPump extends AContainer {
 				processing.remove(b);
 			}
 		}
-		else {
-			if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
-				return;
-			}
+		else if(inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					OreGenResource oil = OreGenSystem.getResource("Oil");
@@ -112,14 +109,13 @@ public abstract class OilPump extends AContainer {
 						processing.put(b, r);
 						progress.put(b, r.getTicks());
 						OreGenSystem.setSupplies(oil, chunk, supplies - 1);
-						break;
 					}
 					else {
 						ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot).clone();
 						BlockStorage.getInventory(b).replaceExistingItem(slot, null);
 						pushItems(b, item);
-						break;
 					}
+					break;
 				}
 			}
 		}
