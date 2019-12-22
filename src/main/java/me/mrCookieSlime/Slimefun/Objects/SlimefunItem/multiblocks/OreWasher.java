@@ -1,7 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Effect;
@@ -58,7 +58,7 @@ public class OreWasher extends MultiBlockMachine {
 		for (ItemStack current : inv.getContents()) {
 			if (current != null) {
 				if (SlimefunManager.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
-					ItemStack adding = items[new Random().nextInt(items.length)];
+					ItemStack adding = items[ThreadLocalRandom.current().nextInt(items.length)];
 					Inventory outputInv = null;
 
 					if (!SlimefunPlugin.getSettings().legacyOreWasher) {

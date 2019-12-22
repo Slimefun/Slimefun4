@@ -148,7 +148,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generato
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.MagnesiumGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.GEOMiner;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.GEOScannerBlock;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.NetherDrill;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.OilPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.ElevatorPlate;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.GPSTransmitter;
@@ -822,7 +821,7 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.SALT, RecipeType.ORE_WASHER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.SAND, 4), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.SAND, 4), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.HEAVY_CREAM, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2682,21 +2681,6 @@ public final class SlimefunSetup {
 			}
 			
 		}.registerChargeableBlock(true, 512);
-
-		new NetherDrill(Categories.GPS, SlimefunItems.NETHER_DRILL, "NETHER_DRILL", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, null, null, null, new CustomItem(Material.BARRIER, "&4DEPRECATED", "", "&cThis Item will soon be removed.", "&cUse the GEO Miner instead."), null, null, null, null}){
-			
-			@Override
-			public int getSpeed() {
-				return 1;
-			}
-
-			@Override
-			public int getEnergyConsumption() {
-				return 51;
-			}
-			
-		}.registerChargeableBlock(true, 1024);
 
 		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.BUCKET_OF_OIL, new RecipeType(SlimefunItems.OIL_PUMP),
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.BUCKET), null, null, null, null})

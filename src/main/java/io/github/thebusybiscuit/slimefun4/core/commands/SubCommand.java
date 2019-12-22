@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.commands;
+package io.github.thebusybiscuit.slimefun4.core.commands;
 
 import org.bukkit.command.CommandSender;
 

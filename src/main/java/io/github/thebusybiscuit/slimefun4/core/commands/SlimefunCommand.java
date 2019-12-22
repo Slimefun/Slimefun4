@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.commands;
+package io.github.thebusybiscuit.slimefun4.core.commands;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,23 +15,23 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.CheatCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.GiveCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.GuideCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.HelpCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.OpenGuideCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.ResearchCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.SearchCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.StatsCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.TeleporterCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.TimingsCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.VersionsCommand;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.commands.subcommands.CheatCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.GiveCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.GuideCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.HelpCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.OpenGuideCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.ResearchCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.SearchCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.StatsCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.TeleporterCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.TimingsCommand;
-import me.mrCookieSlime.Slimefun.commands.subcommands.VersionsCommand;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
 	

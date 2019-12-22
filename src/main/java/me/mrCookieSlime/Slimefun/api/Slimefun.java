@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
@@ -20,7 +21,6 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 
 /**
  * Provides a few convenience methods.
@@ -331,7 +331,7 @@ public final class Slimefun {
 		return SlimefunPlugin.instance.getDescription().getVersion();
 	}
 	
-	public static SlimefunLocalization getLocal() {
+	public static LocalizationService getLocal() {
 		return SlimefunPlugin.getLocal();
 	}
 

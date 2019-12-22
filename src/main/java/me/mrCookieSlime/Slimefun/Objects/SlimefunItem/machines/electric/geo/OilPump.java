@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
+import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -95,28 +96,28 @@ public abstract class OilPump extends AContainer {
 				processing.remove(b);
 			}
 		}
-		else {
-			OreGenResource oil = OreGenSystem.getResource("Oil");
-			int supplies = OreGenSystem.getSupplies(oil, b.getChunk(), false);
-			
-			if (supplies > 0) {
-				for (int slot: getInputSlots()) {
-					if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+		else if (inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+					OreGenResource oil = OreGenSystem.getResource("Oil");
+					Chunk chunk = b.getChunk();
+					int supplies = OreGenSystem.getSupplies(oil, chunk, false);
+					if (supplies > 0) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
-						
-						if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
-							return;
-						}
-						
+
 						inv.replaceExistingItem(slot, InvUtils.decreaseItem(inv.getItemInSlot(slot), 1));
 						processing.put(b, r);
 						progress.put(b, r.getTicks());
-						OreGenSystem.setSupplies(oil, b.getChunk(), supplies - 1);
-						break;
+						OreGenSystem.setSupplies(oil, chunk, supplies - 1);
 					}
+					else {
+						ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot).clone();
+						BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+						pushItems(b, item);
+					}
+					break;
 				}
 			}
 		}
 	}
-
 }

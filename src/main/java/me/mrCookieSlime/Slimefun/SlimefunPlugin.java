@@ -15,10 +15,13 @@ import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.cscorelib2.updater.BukkitUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunTabCompleter;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
+import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.NetherIceResource;
@@ -39,7 +42,6 @@ import me.mrCookieSlime.Slimefun.Objects.tasks.ArmorTask;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.Setup.WikiSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
@@ -51,8 +53,6 @@ import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
-import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
-import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
 import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
@@ -88,7 +88,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
 	
 	private TickerTask ticker;
-	private SlimefunLocalization local;
+	private LocalizationService local;
 	private Config researches;
 	private Config items;
 	private Config whitelist;
@@ -163,7 +163,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			whitelist = new Config(files.whitelist);
 
 			// Setup messages.yml
-			local = new SlimefunLocalization(this);
+			local = new LocalizationService(this);
 			
 			// Setting up other stuff
 			utilities = new Utilities();
@@ -447,7 +447,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.protections;
 	}
 
-	public static SlimefunLocalization getLocal() {
+	public static LocalizationService getLocal() {
 		return instance.local;
 	}
 	

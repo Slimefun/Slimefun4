@@ -69,6 +69,7 @@ public final class OreGenSystem {
 		if (resource == null) return 0;
 		
 		String supply = BlockStorage.getChunkInfo(chunk, "resources_" + resource.getName().toUpperCase());
+		
 		if (supply != null) {
 			return Integer.parseInt(supply);
 		}

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.commands.subcommands;
+package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import java.util.Optional;
 
@@ -6,11 +6,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.players.PlayerList;
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
-import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
-import me.mrCookieSlime.Slimefun.commands.SubCommand;
 
 public class ResearchCommand extends SubCommand {
 
