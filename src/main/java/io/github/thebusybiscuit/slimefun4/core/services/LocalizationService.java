@@ -1,11 +1,11 @@
-package me.mrCookieSlime.Slimefun.Setup;
+package io.github.thebusybiscuit.slimefun4.core.services;
 
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-public class SlimefunLocalization extends Localization {
+public class LocalizationService extends Localization {
 
-	public SlimefunLocalization(SlimefunPlugin plugin) {
+	public LocalizationService(SlimefunPlugin plugin) {
 		super(plugin);
 		
 		setPrefix("&aSlimefun 4 &7> ");

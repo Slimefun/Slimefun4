@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.commands.subcommands;
+package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
-import me.mrCookieSlime.Slimefun.commands.SubCommand;
 
 public class VersionsCommand extends SubCommand {
 
