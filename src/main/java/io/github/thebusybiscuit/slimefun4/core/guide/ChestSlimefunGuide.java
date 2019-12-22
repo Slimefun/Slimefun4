@@ -353,7 +353,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			return;
 		}
 		
-		Set<Recipe> recipes = SlimefunPlugin.getMinecraftRecipes().getRecipesFor(item.getType());
+		Set<Recipe> recipes = SlimefunPlugin.getMinecraftRecipes().getRecipesFor(item);
 		
 		ItemStack[] recipe = new ItemStack[9];
 		RecipeType recipeType = null;
