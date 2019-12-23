@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -225,7 +226,7 @@ public class SlimefunItem implements Placeable {
 
 					lore.add("");
 					lore.addAll(SlimefunPlugin.getItemCfg().getStringList(this.id + ".hint"));
-					lore.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s));
+					lore.replaceAll(ChatColors::color);
 
 					im.setLore(lore);
 					this.getItem().setItemMeta(im);
