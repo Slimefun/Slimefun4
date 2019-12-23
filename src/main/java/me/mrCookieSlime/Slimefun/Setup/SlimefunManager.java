@@ -69,15 +69,6 @@ public final class SlimefunManager {
 	}
 
 	@Deprecated
-	public static enum DataType {
-
-		ALWAYS,
-		NEVER,
-		IF_COLORED;
-
-	}
-
-	@Deprecated
 	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore) {
 		return isItemSimilar(item, sfitem, lore);
 	}
@@ -91,9 +82,11 @@ public final class SlimefunManager {
 		}
 
 		if (item.getType() == sfitem.getType() && item.getAmount() >= sfitem.getAmount()) {
-			if (item.hasItemMeta() && sfitem.hasItemMeta()) {
+			if (!item.hasItemMeta() && !sfitem.hasItemMeta()) {
+				return true;
+			}
+			else {
 				ItemMeta itemMeta = item.getItemMeta();
-				ItemMeta sfitemMeta = sfitem.getItemMeta();
 				
 				if (sfitem instanceof SlimefunItemStack) {
 					Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
@@ -133,8 +126,22 @@ public final class SlimefunManager {
 					}
 					else return false;
 				}
-				else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName()) {
-					if (itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
+				else {
+					ItemMeta sfitemMeta = sfitem.getItemMeta();
+					
+					if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName()) {
+						if (itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
+							if (checkLore) {
+								if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
+									return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
+								}
+								else return !itemMeta.hasLore() && !sfitemMeta.hasLore();
+							}
+							else return true;
+						}
+						else return false;
+					}
+					else if (!itemMeta.hasDisplayName() && !sfitemMeta.hasDisplayName()) {
 						if (checkLore) {
 							if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
 								return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
@@ -145,25 +152,9 @@ public final class SlimefunManager {
 					}
 					else return false;
 				}
-				else if (!itemMeta.hasDisplayName() && !sfitemMeta.hasDisplayName()) {
-					if (checkLore) {
-						if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
-							return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
-						}
-						else return !itemMeta.hasLore() && !sfitemMeta.hasLore();
-					}
-					else return true;
-				}
-				else return false;
 			}
-			else return !item.hasItemMeta() && !sfitem.hasItemMeta();
 		}
 		else return false;
-	}
-
-	@Deprecated
-	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore, DataType data) {
-		return isItemSimiliar(item, sfitem, lore);
 	}
 
 	public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
@@ -171,7 +162,7 @@ public final class SlimefunManager {
 
 		for (ItemStack is : inventory.getStorageContents()) {
 			if (is == null || is.getType() == Material.AIR) continue;
-			if (isItemSimiliar(is, itemStack, checkLore)) return true;
+			if (isItemSimilar(is, itemStack, checkLore)) return true;
 		}
 
 		return false;
@@ -202,7 +193,7 @@ public final class SlimefunManager {
 		if (item == null || item.getType() == Material.AIR) {
 			return false;
 		}
-		else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) {
+		else if (isItemSimilar(item, SlimefunItems.BOUND_BACKPACK, false)) {
 			return true;
 		}
 		else {
