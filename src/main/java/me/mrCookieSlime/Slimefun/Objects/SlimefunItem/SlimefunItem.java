@@ -35,6 +35,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SlimefunItem implements Placeable {
 	
@@ -62,6 +63,7 @@ public class SlimefunItem implements Placeable {
 	private String[] keys;
 	private Object[] values;
 	private String wiki = null;
+	private List<String> hint = null;
 
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		this(category, item, id, recipeType, recipe, null);
@@ -153,6 +155,8 @@ public class SlimefunItem implements Placeable {
 	public Object[] listValues()			{		return values;			}
 	public boolean isDisabled()			{		return state != ItemState.ENABLED;	}
 
+	public List<String> getHint()       {       return hint;       }
+
 	public void register() {
 		register(false);
 	}
@@ -211,6 +215,22 @@ public class SlimefunItem implements Placeable {
 				this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
 				this.noPermissionTooltip = SlimefunPlugin.getItemCfg().getStringList(this.id + ".no-permission-tooltip");
 				
+				if (this.hint != null) {
+					SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".hint", this.hint);
+
+					ItemMeta im = this.getItem().getItemMeta();
+					List<String> lore = im.getLore();
+
+					lore = (lore == null) ? new ArrayList<>() : lore;
+
+					lore.add("");
+					lore.addAll(SlimefunPlugin.getItemCfg().getStringList(this.id + ".hint"));
+					lore.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s));
+
+					im.setLore(lore);
+					this.getItem().setItemMeta(im);
+				}
+
 				SlimefunPlugin.getUtilities().enabledItems.add(this);
 				
 				if (slimefun) {
@@ -233,7 +253,7 @@ public class SlimefunItem implements Placeable {
 				if (SlimefunPlugin.getSettings().printOutLoading) {
 					Slimefun.getLogger().log(Level.INFO, "Loaded Item \"{0}\"", this.id);
 				}
-			} 
+			}
 			else {
 				if (this instanceof VanillaItem) {
 					this.state = ItemState.VANILLA;
@@ -274,6 +294,10 @@ public class SlimefunItem implements Placeable {
 		this.recipeOutput = output;
 	}
 	
+	public void setHint(String... hint) {
+		this.hint = Arrays.asList(hint);
+	}
+
 	@Deprecated
 	public void setReplacing(boolean replacing) {
 		this.useableInWorkbench = replacing;

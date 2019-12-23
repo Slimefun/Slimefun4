@@ -15,7 +15,7 @@ public class EnderTalisman extends Talisman {
 	public EnderTalisman(Talisman parent) {
 		super(Categories.TALISMANS_2, parent.upgrade(), new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, null, parent.getItem(), null, SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3}, parent.isConsumable(), parent.isEventCancelled(), parent.getSuffix(), parent.getChance(), parent.getEffects());
 		
-		Slimefun.addHint("ENDER_" + parent.getID(), "&eEnder Talismans have the advantage", "&eof still working while they", "&eare in your Ender Chest");
+		this.setHint("&eEnder Talismans have the advantage", "&eof still working while they", "&eare in your Ender Chest");
 	}
 	
 	@Override
