@@ -54,6 +54,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 				SimpleHologram.remove(b);
 				
 				BlockMenu inv = BlockStorage.getInventory(b);
+				
 				if (inv != null) {
 					for (int slot : getInputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {

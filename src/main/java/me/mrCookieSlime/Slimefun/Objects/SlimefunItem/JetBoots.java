@@ -1,10 +1,10 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-
-import org.bukkit.inventory.ItemStack;
 
 public class JetBoots extends DamagableChargableItem {
 	

@@ -8,11 +8,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SlimefunBow extends SlimefunItem {
 
-	public SlimefunBow(ItemStack item, String id, ItemStack[] recipe) {
-		super(Categories.WEAPONS, item, id, RecipeType.MAGIC_WORKBENCH, recipe);
-	}
-
-	@Deprecated
 	public SlimefunBow(SlimefunItemStack item, ItemStack[] recipe) {
 		super(Categories.WEAPONS, item, RecipeType.MAGIC_WORKBENCH, recipe);
 	}

@@ -72,13 +72,13 @@ public final class MiscSetup {
 			else post.add(item);
 		}
 		
-		for (SlimefunItem item: pre) {
+		for (SlimefunItem item : pre) {
 			item.load();
 		}
-		for (SlimefunItem item: init) {
+		for (SlimefunItem item : init) {
 			item.load();
 		}
-		for (SlimefunItem item: post) {
+		for (SlimefunItem item : post) {
 			item.load();
 		}
 
@@ -107,10 +107,10 @@ public final class MiscSetup {
 			
 			SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE");
 			
-			for (ItemStack[] inputs: RecipeType.getRecipeInputList(machine)) {
+			for (ItemStack[] inputs : RecipeType.getRecipeInputList(machine)) {
 				StringBuilder builder = new StringBuilder();
 				int i = 0;
-				for (ItemStack item: inputs) {
+				for (ItemStack item : inputs) {
 					if (i > 0) {
 						builder.append(" </slot> ");
 					}

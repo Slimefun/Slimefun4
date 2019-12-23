@@ -39,7 +39,7 @@ public class ArmorTask implements Runnable {
 
 	@Override
 	public void run() {
-		for (Player p: Bukkit.getOnlinePlayers()) {
+		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (!p.isValid() || p.isDead()) {
 				continue;
 			}
@@ -62,8 +62,8 @@ public class ArmorTask implements Runnable {
 					}
 					
 					if (item != null && armorpiece.getItem().isPresent()) {
-						Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> {
-							for (PotionEffect effect: armorpiece.getItem().get().getEffects()) {
+						Slimefun.runSync(() -> {
+							for (PotionEffect effect : armorpiece.getItem().get().getEffects()) {
 								p.removePotionEffect(effect.getType());
 								p.addPotionEffect(effect);
 							}
@@ -79,7 +79,7 @@ public class ArmorTask implements Runnable {
 					ItemEnergy.chargeInventory(p, ((Double) Slimefun.getItemValue("SOLAR_HELMET", "charge-amount")).floatValue());
 				}
 
-				for (ItemStack radioactive: utilities.radioactiveItems) {
+				for (ItemStack radioactive : utilities.radioactiveItems) {
 					if (SlimefunManager.containsSimilarItem(p.getInventory(), radioactive, true)) {
 						// Check if player is wearing the hazmat suit
 						// If so, break the loop
@@ -93,7 +93,7 @@ public class ArmorTask implements Runnable {
 						// If the item is enabled in the world, then make radioactivity do its job
 						if (Slimefun.isEnabled(p, radioactive, false)) {
 							SlimefunPlugin.getLocal().sendMessage(p, "messages.radiation");
-							Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> {
+							Slimefun.runSync(() -> {
 								p.addPotionEffects(radiationEffects);
 								p.setFireTicks(400);
 							});

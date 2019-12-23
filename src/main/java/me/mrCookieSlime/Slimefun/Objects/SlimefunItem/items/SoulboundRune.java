@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -44,7 +43,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                 	return true;
                 }
             	
-            	Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+            	Slimefun.runSync(() -> {
                     // Being sure the entity is still valid and not picked up or whatsoever.
                     if (!i.isValid()) return;
 
@@ -69,6 +68,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                         // This lightning is just an effect, it deals no damage.
                         l.getWorld().strikeLightningEffect(l);
+                        
                         Slimefun.runSync(() -> {
 
                             // Being sure entities are still valid and not picked up or whatsoever.

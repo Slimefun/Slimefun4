@@ -22,7 +22,7 @@ public class TelepositionScroll extends SimpleSlimefunItem<ItemInteractionHandle
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (isItem(item)) {
-				for (Entity n: p.getNearbyEntities(10.0, 10.0, 10.0)) {
+				for (Entity n : p.getNearbyEntities(10.0, 10.0, 10.0)) {
 					if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !n.getUniqueId().equals(p.getUniqueId())) {
 						float yaw = n.getLocation().getYaw() + 180.0F;
 						if (yaw > 360.0F) yaw = yaw - 360.0F;
