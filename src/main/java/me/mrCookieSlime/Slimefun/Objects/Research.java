@@ -217,10 +217,8 @@ public class Research {
 					profile.setResearched(this, true);
 					SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName()));
 					
-					if (SlimefunPlugin.getCfg().getBoolean("options.research-unlock-fireworks")) {
-						if (!PersistentDataAPI.hasByte(p, GuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, GuideSettings.FIREWORKS_KEY) == (byte) 1) {
-							FireworkShow.launchRandom(p, 1);
-						}
+					if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, GuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, GuideSettings.FIREWORKS_KEY) == (byte) 1)) {
+						FireworkShow.launchRandom(p, 1);
 					}
 				};
 				

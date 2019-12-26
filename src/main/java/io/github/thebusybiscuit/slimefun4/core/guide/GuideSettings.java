@@ -128,74 +128,86 @@ public final class GuideSettings {
 	}
 
 	private static void addConfigurableOptions(Player p, ChestMenu menu, ItemStack guide) {
+		int i = 19;
+		
 		if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
-				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
 			else {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click &8\u21E8 &7Change Layout"));
-				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
+			
+			i++;
 		}
 		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.BOOK), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
-				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.BOOK), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEAT_SHEET));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
 			else {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.BOOK), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click &8\u21E8 &7Change Layout"));
-				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.BOOK), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
+			
+			i++;
 		}
 		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-			menu.addItem(19, new CustomItem(new ItemStack(Material.COMMAND_BLOCK), "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
-			menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+			menu.addItem(i, new CustomItem(new ItemStack(Material.COMMAND_BLOCK), "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+			menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 				pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 				openSettings(pl, pl.getInventory().getItemInMainHand());
 				return false;
 			});
+			
+			i++;
 		}
 
-		menu.addItem(20, new CustomItem(new ItemStack(Material.REDSTONE), "&4Report a bug", "", "&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"),
+		if (SlimefunPlugin.getSettings().researchFireworksEnabled) {
+			if (!PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1) {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFireworks: &aYes", "", "&7When researching items, you will", "&7be presented with a big firework.", "", "&7\u21E8 Click to toggle your fireworks"),
+				(pl, slot, item, action) -> {
+					PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 0);
+					openSettings(pl, guide);
+					return false;
+				});
+			}
+			else {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFireworks: &4No", "", "&7When researching items, you will", "&7not be presented with a big firework.", "", "&7\u21E8 Click to toggle your fireworks"),
+				(pl, slot, item, action) -> {
+					PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 1);
+					openSettings(pl, guide);
+					return false;
+				});
+			}
+			
+			i++;
+		}
+
+		menu.addItem(i, new CustomItem(new ItemStack(Material.REDSTONE), "&4Report a bug", "", "&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 Click to go to the Slimefun4 Bug Tracker"),
 		(pl, slot, item, action) -> {
 			pl.closeInventory();
 			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/issues");
 			return false;
 		});
-
-		if (!PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1) {
-			menu.addItem(21, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFireworks: &aYes", "", "&7When researching items, you will", "&7be presented with a big firework.", "", "&7\u21E8 Click to toggle your fireworks"),
-			(pl, slot, item, action) -> {
-				PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 0);
-				openSettings(pl, guide);
-				return false;
-			});
-		}
-		else {
-			menu.addItem(21, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFireworks: &4No", "", "&7When researching items, you will", "&7not be presented with a big firework.", "", "&7\u21E8 Click to toggle your fireworks"),
-			(pl, slot, item, action) -> {
-				PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 1);
-				openSettings(pl, guide);
-				return false;
-			});
-		}
 	}
 
 	private static void openCredits(Player p, int page) {

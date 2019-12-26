@@ -10,6 +10,7 @@ public final class Settings {
 	
 	public boolean researchesEnabled;
 	public final boolean researchesFreeInCreative;
+	public final boolean researchFireworksEnabled;
 	public final List<String> researchesTitles;
 	
 	public final int blocksInfoLoadingDelay;
@@ -29,6 +30,7 @@ public final class Settings {
 		
 		researchesFreeInCreative = cfg.getBoolean("options.allow-free-creative-research");
 		researchesTitles = cfg.getStringList("research-ranks");
+		researchFireworksEnabled = cfg.getBoolean("options.research-unlock-fireworks");
 		
 		blocksInfoLoadingDelay = cfg.getInt("URID.info-delay");
 		
