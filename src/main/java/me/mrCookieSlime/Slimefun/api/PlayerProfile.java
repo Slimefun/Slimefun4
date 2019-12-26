@@ -32,10 +32,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
  *
  */
 public final class PlayerProfile {
+
+	private final UUID uuid;
+	private final String name;
+	private final Config cfg;
 	
-	private String name;
-	private UUID uuid;
-	private Config cfg;
 	private boolean dirty = false;
 	private boolean markedForDeletion = false;
 	

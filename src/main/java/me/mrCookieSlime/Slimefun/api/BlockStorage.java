@@ -147,11 +147,11 @@ public class BlockStorage {
 				}
 			} finally {
 				long time = (System.currentTimeMillis() - start);
-				Slimefun.getLogger().log(Level.INFO, "Loading Blocks... 100% (FINISHED - " + time + "ms)");
+				Slimefun.getLogger().log(Level.INFO, "Loading Blocks... 100% (FINISHED - {0}ms)", time);
 				Slimefun.getLogger().log(Level.INFO, "Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
 				
 				if (totalBlocks > 0) {
-					Slimefun.getLogger().log(Level.INFO, "Avg: " + DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3) + "ms/Block");
+					Slimefun.getLogger().log(Level.INFO, "Avg: {0}ms/Block", DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3));
 				}
 			}
 		}
@@ -178,7 +178,7 @@ public class BlockStorage {
 		for (File file : new File("data-storage/Slimefun/stored-inventories").listFiles()) {
 			if (file.getName().startsWith(w.getName()) && file.getName().endsWith(".sfi")) {
 				Location l = deserializeLocation(file.getName().replace(".sfi", ""));
-				Config cfg = new Config(file);
+				io.github.thebusybiscuit.cscorelib2.config.Config cfg = new io.github.thebusybiscuit.cscorelib2.config.Config(file);
 				
 				try {
 					BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
@@ -199,7 +199,7 @@ public class BlockStorage {
 		
 		for (File file : new File("data-storage/Slimefun/universal-inventories").listFiles()) {
 			if (file.getName().endsWith(".sfi")) {
-				Config cfg = new Config(file);
+				io.github.thebusybiscuit.cscorelib2.config.Config cfg = new io.github.thebusybiscuit.cscorelib2.config.Config(file);
 				BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
 				
 				if (preset != null) {
@@ -442,7 +442,7 @@ public class BlockStorage {
 			else if (!storage.hasInventory(l)) {
 				File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
 				
-				if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(cfg.getString("id")), l, new Config(file)));
+				if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(cfg.getString("id")), l, new io.github.thebusybiscuit.cscorelib2.config.Config(file)));
 				else storage.loadInventory(l, BlockMenuPreset.getPreset(cfg.getString("id")));
 			}
 		}

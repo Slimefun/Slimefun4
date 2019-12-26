@@ -2,7 +2,7 @@ package me.mrCookieSlime.Slimefun.api.inventory;
 
 import java.io.File;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 
 public class UniversalBlockMenu extends DirtyChestMenu {
 	

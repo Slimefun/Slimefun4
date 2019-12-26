@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class BlockMenu extends DirtyChestMenu {
