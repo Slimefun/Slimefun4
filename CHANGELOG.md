@@ -14,6 +14,65 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Release Candidate 4 (TBD)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
+
+### Additions
+* Added 1.15 support (1.14 and 1.15 are both supported)
+* Added custom model support to Slimefun Guide and some Recipe Types
+* Added Nether Gold Pan
+* Added Iron Nuggets to Gold Pan drops
+* Added CS-CoreLib version to the guide info
+* Added AndroidMineEvent
+* Added Electric Press
+* Added Soulbound Trident
+* Added "Andesite, Granite and Diorite to Gravel" recipes to the Grinder
+* Added "nuggets to ingots and ingots to blocks" recipes to the Electric Press
+* Added Salt to the GEO - Miner
+* Added Magnesium Salt
+* Added Magnesium-powered Generator
+* Added "Gravel to Sand" recipe to the Grinder
+* Added config option for circuit board drops
+* Added player option to toggle research fireworks in the guide settings
+* Added Kelp Cookies
+
+### Changes
+* Revamped Guide Settings menu
+* Changed some Category icons
+* Changed Grappling Hook recipe
+* Searching the guide now shows the Category of the item
+* Contributors now also show their minecraft username (if possible)
+* Changed teleporter sounds
+* Electric Gold Pan now also supports Nether Gold Pan drops
+* More performance improvements
+* Improved Cargo performance
+* Removed Nether Drill
+
+### Fixes
+* Fixed Research Titles
+* Fixed #1264
+* Fixed #1261
+* Fixed #1266
+* Fixed #1272
+* Fixed #1273
+* Fixed christmas items
+* Fixed Multi Tools
+* Fixed credits not showing all contributors
+* Fixed exception when viewing the second page of the credits
+* Fixed #1269
+* Fixed #1276
+* Fixed GEO-Miner dupes
+* Fixed Output Chest not working
+* Fixed #1281
+* Fixed #1280
+* Fixed a lot of issues with Crucibles
+* Fixed Grind Stone dupes
+* Fixed #1316
+* Fixed performance issues with Oil Pumps
+* Fixed #1318
+* Fixed #1298
+* Fixed #1325
+
 ## Release Candidate 3 (21 Nov 2019)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
 
