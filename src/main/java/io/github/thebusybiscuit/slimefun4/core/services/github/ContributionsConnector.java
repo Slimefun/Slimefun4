@@ -18,7 +18,8 @@ public class ContributionsConnector extends GitHubConnector {
 		"renovate-bot",
 		"TheBusyBot",
 		"ImgBotApp",
-		"imgbot"
+		"imgbot",
+		"imgbot[bot]"
 	);
 
 	// Matches a GitHub name with a Minecraft name.

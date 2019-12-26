@@ -10,12 +10,14 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
@@ -30,6 +32,8 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class GuideSettings {
+	
+	public static final NamespacedKey FIREWORKS_KEY = new NamespacedKey(SlimefunPlugin.instance, "research_fireworks");
 	
 	private static final int[] BACKGROUND_SLOTS = {1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 
@@ -69,7 +73,11 @@ public final class GuideSettings {
 				"&7Here you can find them all", 
 				"", 
 				"&7\u21E8 Click to see all of them"
-		),  ChestMenuUtils.getEmptyClickHandler());
+		),
+		(pl, slot, action, item) -> {
+			openCredits(pl, 0);
+			return false;
+		});
 
 		menu.addItem(4, new CustomItem(new ItemStack(Material.WRITABLE_BOOK),
 				"&aSlimefun Version",
@@ -165,12 +173,29 @@ public final class GuideSettings {
 			});
 		}
 
-		menu.addItem(20, new CustomItem(new ItemStack(Material.REDSTONE), "&4Report a bug", "", "&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"));
-		menu.addMenuClickHandler(20, (pl, slot, item, action) -> {
+		menu.addItem(20, new CustomItem(new ItemStack(Material.REDSTONE), "&4Report a bug", "", "&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 Click to go to the Slimefun Bug Tracker"),
+		(pl, slot, item, action) -> {
 			pl.closeInventory();
 			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/issues");
 			return false;
 		});
+
+		if (!PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1) {
+			menu.addItem(21, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFireworks: &aYes", "", "&7When researching items, you will", "&7be presented with a big firework.", "", "&7\u21E8 Click to toggle your fireworks"),
+			(pl, slot, item, action) -> {
+				PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 0);
+				openSettings(pl, guide);
+				return false;
+			});
+		}
+		else {
+			menu.addItem(21, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFireworks: &4No", "", "&7When researching items, you will", "&7not be presented with a big firework.", "", "&7\u21E8 Click to toggle your fireworks"),
+			(pl, slot, item, action) -> {
+				PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 1);
+				openSettings(pl, guide);
+				return false;
+			});
+		}
 	}
 
 	private static void openCredits(Player p, int page) {
