@@ -238,6 +238,11 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.SALT, new ItemStack(Material.COOKED_COD), null, null, null, null, null, null, null})
 		.register(true);
 
+		new SlimefunItem(Categories.FOOD, (SlimefunItemStack) SlimefunItems.KELP_COOKIE, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {null, new ItemStack(Material.DRIED_KELP), null, new ItemStack(Material.DRIED_KELP), new ItemStack(Material.SUGAR), new ItemStack(Material.DRIED_KELP), null, new ItemStack(Material.DRIED_KELP), null},
+		new CustomItem(SlimefunItems.KELP_COOKIE, 2))
+		.register(true);
+
 		new GrindStone().register();
 		new ArmorForge().register();
 		new OreCrusher().register();
