@@ -42,6 +42,9 @@ public class SaltResource implements OreGenResource {
 			return random.nextInt(20) + 4;
 
 		case THE_END:
+		case END_BARRENS:
+		case END_MIDLANDS:
+		case SMALL_END_ISLANDS:
 		case NETHER:
 			return 0;
 
