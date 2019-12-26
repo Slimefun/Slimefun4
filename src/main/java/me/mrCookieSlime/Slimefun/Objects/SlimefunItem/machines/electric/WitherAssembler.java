@@ -7,11 +7,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -26,6 +26,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public class WitherAssembler extends SlimefunItem {
@@ -49,7 +50,7 @@ public class WitherAssembler extends SlimefunItem {
 			}
 
 			@Override
-			public void newInstance(final BlockMenu menu, final Block b) {
+			public void newInstance(BlockMenu menu, Block b) {
 				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
 					menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
 					menu.addMenuClickHandler(22, (p, slot, item, action) -> {
@@ -90,7 +91,7 @@ public class WitherAssembler extends SlimefunItem {
 			}
 			
 			@Override
-			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
+			public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.INSERT) {
 					if (SlimefunManager.isItemSimilar(item, new ItemStack(Material.SOUL_SAND), true)) return getSoulSandSlots();
 					else return getWitherSkullSlots();
@@ -181,7 +182,7 @@ public class WitherAssembler extends SlimefunItem {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
-			public void tick(final Block b, SlimefunItem sf, Config data) {
+			public void tick(Block b, SlimefunItem sf, Config data) {
 				if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
 				if (lifetime % 60 == 0) {
 					if (ChargableBlock.getCharge(b) < energyConsumption) return;

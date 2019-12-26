@@ -18,6 +18,7 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public class ReactorAccessPort extends SlimefunItem {
@@ -45,8 +46,9 @@ public class ReactorAccessPort extends SlimefunItem {
 			}
 			
 			@Override
-			public void newInstance(final BlockMenu menu, final Block b) {
+			public void newInstance(BlockMenu menu, Block b) {
 				BlockMenu reactor = getReactorMenu(b.getLocation());
+				
 				if (reactor != null) {
 					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Reactor", "", "&6Detected", "", "&7> Click to view Reactor"));
 					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
@@ -74,7 +76,7 @@ public class ReactorAccessPort extends SlimefunItem {
 			}
 
 			@Override
-			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
+			public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.INSERT) {
 					if (SlimefunManager.isItemSimilar(item, SlimefunItems.REACTOR_COOLANT_CELL, true)) return getCoolantSlots();
 					else if (SlimefunManager.isItemSimilar(item, SlimefunItems.NETHER_ICE_COOLANT_CELL, true)) return getCoolantSlots();

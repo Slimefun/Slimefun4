@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.api.item_transport.RecipeSorter;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class HeatedPressureChamber extends AContainer {
@@ -56,7 +57,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 			}
 
 			@Override
-			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
+			public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
 				
 				List<Integer> slots = new ArrayList<>();
@@ -71,7 +72,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 					return getInputSlots();
 				}
 				else {
-					Collections.sort(slots, new RecipeSorter(menu));
+					Collections.sort(slots, compareSlots(menu));
 					int[] array = new int[slots.size()];
 					
 					for (int i = 0; i < slots.size(); i++) {
@@ -86,6 +87,10 @@ public abstract class HeatedPressureChamber extends AContainer {
 		this.registerDefaultRecipes();
 	}
 	
+	private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
+		return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
+	}
+	
 	@Override
 	public void registerDefaultRecipes() {
 		registerRecipe(45, new ItemStack[] {SlimefunItems.BUCKET_OF_OIL}, new ItemStack[] {new CustomItem(SlimefunItems.PLASTIC_SHEET, 8)});
@@ -97,7 +102,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 		registerRecipe(45, new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[] {new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)});
 		registerRecipe(8, new ItemStack[] {SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT}, new ItemStack[] {SlimefunItems.MAGNESIUM_SALT});
 	}
-
+	
 	@Override
 	public String getInventoryTitle() {
 		return "&cHeated Pressure Chamber";

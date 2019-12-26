@@ -99,7 +99,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 			else mats.add(item.getType());
 		}
 
-		return mats.toArray(new Material[mats.size()]);
+		return mats.toArray(new Material[0]);
 	}
 
 	public MultiBlock toMultiBlock() {
