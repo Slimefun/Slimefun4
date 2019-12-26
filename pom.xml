@@ -98,7 +98,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.15-R0.1-SNAPSHOT</version>
+            <version>1.15.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -110,7 +110,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.7.6</version>
+            <version>0.7.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
