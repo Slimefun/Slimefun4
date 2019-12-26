@@ -1,3 +1,6 @@
+<!-- START doctoc -->
+<!-- END doctoc -->
+
 ## Release Candidate 3 (21 Nov 2019)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
 
