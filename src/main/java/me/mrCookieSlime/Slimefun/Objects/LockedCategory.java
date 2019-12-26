@@ -24,7 +24,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class LockedCategory extends Category {
 
-	private List<Category> parents;
+	private final List<Category> parents;
 
 	/**
 	 * The basic constructor for a LockedCategory.
@@ -41,8 +41,7 @@ public class LockedCategory extends Category {
 	 * @see #LockedCategory(ItemStack, int, Category...)
 	 */
 	public LockedCategory(ItemStack item, Category... parents) {
-		super(item);
-		this.parents = Arrays.asList(parents);
+		this(item, 3, parents);
 	}
 
 	/**

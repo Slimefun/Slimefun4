@@ -36,9 +36,9 @@ public class Research {
 
 	private static final int[] RESEARCH_PROGRESS = {23, 44, 57, 92};
 
-	private int id;
+	private final int id;
+	private final List<SlimefunItem> items;
 	private String name;
-	private List<SlimefunItem> items;
 	private int cost;
 	private boolean enabled;
 
@@ -346,7 +346,7 @@ public class Research {
 	 * @since 4.0
 	 */
 	public static Research getByID(int id) {
-		for (Research research: list()) {
+		for (Research research : list()) {
 			if (research.getID() == id) return research;
 		}
 		return null;
@@ -364,8 +364,8 @@ public class Research {
 	@Deprecated
 	public static List<Research> getResearches(UUID uuid) {
 		List<Research> researched = new ArrayList<>();
-		for (Research r: list()) {
-			if (r.hasUnlocked(uuid)) researched.add(r);
+		for (Research research : list()) {
+			if (research.hasUnlocked(uuid)) researched.add(research);
 		}
 		return researched;
 	}

@@ -14,11 +14,13 @@ public class MagnetTask extends SlimefunTask {
 	}
 
 	@Override
-	void executeTask() {
-		for (Entity item: Bukkit.getPlayer(uuid).getNearbyEntities(6D, 6D, 6D)) {
+	public void executeTask() {
+		Player p = Bukkit.getPlayer(uuid);
+		
+		for (Entity item : p.getNearbyEntities(6D, 6D, 6D)) {
 			if (item instanceof Item && !item.hasMetadata("no_pickup") && ((Item) item).getPickupDelay() <= 0) {
-				item.teleport(Bukkit.getPlayer(uuid).getEyeLocation());
-				Bukkit.getPlayer(uuid).getWorld().playSound(Bukkit.getPlayer(uuid).getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
+				item.teleport(p.getEyeLocation());
+				p.getWorld().playSound(p.getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
 			}
 		}
 	}
