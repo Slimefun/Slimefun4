@@ -38,14 +38,7 @@ public class Category {
 	 * @since 4.0
 	 */
 	public Category(ItemStack item) {
-		this.item = item;
-		
-		ItemMeta meta = item.getItemMeta();
-		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		this.item.setItemMeta(meta);
-		
-		this.items = new ArrayList<>();
-		this.tier = 3;
+		this(item, 3);
 	}
 
 	/**
@@ -60,6 +53,11 @@ public class Category {
 	 */
 	public Category(ItemStack item, int tier) {
 		this.item = item;
+		
+		ItemMeta meta = item.getItemMeta();
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		this.item.setItemMeta(meta);
+		
 		this.items = new ArrayList<>();
 		this.tier = tier;
 	}
