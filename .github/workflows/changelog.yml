@@ -4,8 +4,6 @@ on:
     branches:
     - master
     
-
-
 jobs:
   populate:
     name: TOC Generator
@@ -17,3 +15,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           TARGET_PATHS: 'CHANGELOG.md'
           TOC_TITLE: '**List of Releases**'
+          COMMIT_MESSAGE: '[CI skip] Updated Changelog'
+          COMMIT_NAME: 'TheBusyBot'
