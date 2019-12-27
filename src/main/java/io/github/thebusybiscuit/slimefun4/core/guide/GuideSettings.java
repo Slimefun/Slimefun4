@@ -218,11 +218,10 @@ public final class GuideSettings {
 
 		for (int i = 0; i < 9; i++) {
 			if (i != 1) {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
+				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 			}
 			else {
-				menu.addItem(1, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 Back", "", "&7Go back to the Settings Panel"));
+				menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), "&e\u21E6 Back", "", "&7Go back to the Settings Panel"));
 				menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 					openSettings(pl, p.getInventory().getItemInMainHand());
 					return false;
@@ -232,20 +231,17 @@ public final class GuideSettings {
 		
 		for (int i = 45; i < 54; i++) {
 			if (i != 46 && i != 52) {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
+				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 			}
 		}
 		
 		List<Contributor> contributors = new ArrayList<>(SlimefunPlugin.getGitHubService().getContributors().values());
 		contributors.sort(Comparator.comparingInt(Contributor::index));
 		
-		boolean hasPrevious = page > 0;
-		boolean hasNext = false;
+		int pages = (contributors.size() - 1) / 36 + 1;
 		
 		for (int i = page * 36; i < contributors.size(); i++) {
 			if (i >= (page + 1) * 36) {
-				hasNext = true;
 				break;
 			}
 			
@@ -289,29 +285,17 @@ public final class GuideSettings {
 			});
 		}
 
-		if (hasPrevious) {
-			menu.addItem(46, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&e\u21E6 Previous Page"));
-			menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
-				openCredits(pl, page - 1);
-				return false;
-			});
-		}
-		else {
-			menu.addItem(46, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-			menu.addMenuClickHandler(46, (pl, slot, item, action) -> false);
-		}
+		menu.addItem(46, ChestMenuUtils.getPreviousButton(page + 1, pages));
+		menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
+			if (page > 0) openCredits(pl, page - 1);
+			return false;
+		});
 
-		if (hasNext) {
-			menu.addItem(52, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&eNext Page \u21E8"));
-			menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
-				openCredits(pl, page + 1);
-				return false;
-			});
-		}
-		else {
-			menu.addItem(52, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-			menu.addMenuClickHandler(52, (pl, slot, item, action) -> false);
-		}
+		menu.addItem(52, ChestMenuUtils.getNextButton(page + 1, pages));
+		menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
+			if (page + 1 < pages) openCredits(pl, page + 1);
+			return false;
+		});
 
 		menu.open(p);
 	}
