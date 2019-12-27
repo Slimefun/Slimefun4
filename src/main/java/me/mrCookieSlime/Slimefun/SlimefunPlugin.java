@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
@@ -27,8 +28,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.OilResour
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.SaltResource;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.UraniumResource;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -37,7 +36,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.tasks.ArmorTask;
-import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
@@ -69,7 +67,7 @@ import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
-import me.mrCookieSlime.Slimefun.utils.Settings;
+import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public final class SlimefunPlugin extends JavaPlugin {
@@ -95,7 +93,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private GPSNetwork gps;
 	private ProtectionManager protections;
 	private Utilities utilities;
-	private Settings settings;
+	private ConfigCache settings;
 	private SlimefunHooks hooks;
 	
 	// Supported Versions of Minecraft
@@ -143,22 +141,24 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}
 
 			instance = this;
+			
+			// Creating all necessary Folders
 			getLogger().log(Level.INFO, "Loading Files...");
-			Files files = new Files();
-			files.cleanup();
+			String[] storage = {"Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
+			String[] general = {"scripts", "generators", "error-reports", "cache/github"};
+			for (String file : storage) createDir("data-storage/Slimefun/" + file);
+			for (String file : general) createDir("plugins/Slimefun/" + file);
 
 			getLogger().log(Level.INFO, "Loading Config...");
 
 			// Setup config.yml
-			PluginUtils utils = new PluginUtils(this);
-			utils.setupConfig();
-			config = utils.getConfig();
-			settings = new Settings(config);
+			config = new Config(this);
+			settings = new ConfigCache(config);
 
 			// Loading all extra configs
-			researches = new Config(files.researches);
-			items = new Config(files.items);
-			whitelist = new Config(files.whitelist);
+			researches = new Config(this, "Researches.yml");
+			items = new Config(this, "Items.yml");
+			whitelist = new Config(this, "whitelist.yml");
 
 			// Setup messages.yml
 			local = new LocalizationService(this);
@@ -174,12 +174,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 			if (config.getBoolean("options.auto-update")) {
 				updaterService.start();
 			}
-
-			// Creating all necessary Folders
-			String[] storage = {"blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
-			String[] general = {"scripts", "generators", "error-reports", "cache/github"};
-			for (String s : storage) createDir("data-storage/Slimefun/" + s);
-			for (String s : general) createDir("plugins/Slimefun/" + s);
 
 			getLogger().log(Level.INFO, "Loading Items...");
 			MiscSetup.setupItemSettings();
@@ -369,7 +363,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.config;
 	}
 
-	public static Config getResearchCfg() {
+	public static io.github.thebusybiscuit.cscorelib2.config.Config getResearchCfg() {
 		return instance.researches;
 	}
 
@@ -377,7 +371,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.items;
 	}
 
-	public static Config getWhitelist() {
+	public static io.github.thebusybiscuit.cscorelib2.config.Config getWhitelist() {
 		return instance.whitelist;
 	}
 
@@ -393,7 +387,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.utilities;
 	}
 	
-	public static Settings getSettings() {
+	public static ConfigCache getSettings() {
 		return instance.settings;
 	}
 	

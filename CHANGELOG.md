@@ -39,6 +39,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Added config option for circuit board drops
 * Added player option to toggle research fireworks in the guide settings
 * Added Kelp Cookies
+* Added support for multiple recipes on vanilla items
 
 ### Changes
 * Revamped Guide Settings menu

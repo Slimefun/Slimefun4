@@ -13,7 +13,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
-import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
+import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
 
 public class EnergyRegulator extends SlimefunItem {
 
@@ -25,12 +25,12 @@ public class EnergyRegulator extends SlimefunItem {
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
 				// Spawn the hologram
-				EnergyHologram.update(b, "&7Connecting...");
+				SimpleHologram.update(b, "&7Connecting...");
 			}
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				EnergyHologram.remove(b);
+				SimpleHologram.remove(b);
 				return true;
 			}
 		});

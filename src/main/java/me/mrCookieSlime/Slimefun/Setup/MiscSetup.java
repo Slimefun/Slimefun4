@@ -27,7 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutomatedCraftingChamber;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
-import me.mrCookieSlime.Slimefun.utils.Settings;
+import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 
 public final class MiscSetup {
 	
@@ -48,7 +48,7 @@ public final class MiscSetup {
 		SlimefunItem.setRadioactive(SlimefunItems.ENRICHED_NETHER_ICE);
 	}
 	
-	public static void loadItems(Settings settings) {
+	public static void loadItems(ConfigCache settings) {
 		Iterator<SlimefunItem> iterator = SlimefunItem.list().iterator();
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();

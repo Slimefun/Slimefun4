@@ -41,6 +41,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
+import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem {
@@ -164,7 +165,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 			
 			progress.remove(b.getLocation());
 			processing.remove(b.getLocation());
-			ReactorHologram.remove(b.getLocation());
+			SimpleHologram.remove(b);
 			return true;
 		});
 
@@ -355,7 +356,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
 
-					Slimefun.runSync(() -> ReactorHologram.remove(l), 0);
+					Slimefun.runSync(() -> SimpleHologram.remove(l.getBlock()));
 
 					explode.remove(l);
 					processing.remove(l);

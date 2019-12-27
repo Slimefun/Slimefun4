@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
+import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
 
 public class EnergyNet extends Network {
 
@@ -117,7 +118,7 @@ public class EnergyNet extends Network {
 
 	public void tick(Block b) {
 		if (!regulator.equals(b.getLocation())) {
-			EnergyHologram.update(b, "&4Multiple Energy Regulators connected");
+			SimpleHologram.update(b, "&4Multiple Energy Regulators connected");
 			return;
 		}
 		super.tick();
@@ -125,7 +126,7 @@ public class EnergyNet extends Network {
 		double demand = 0.0D;
 
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-			EnergyHologram.update(b, "&4No Energy Network found");
+			SimpleHologram.update(b, "&4No Energy Network found");
 		}
 		else {
 			Set<Location> exploded = new HashSet<>();

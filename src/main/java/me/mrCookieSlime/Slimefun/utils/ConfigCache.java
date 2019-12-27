@@ -2,9 +2,9 @@ package me.mrCookieSlime.Slimefun.utils;
 
 import java.util.List;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 
-public final class Settings {
+public final class ConfigCache {
 	
 	public final boolean printOutLoading;
 	
@@ -25,7 +25,7 @@ public final class Settings {
 	
 	public int smelteryFireBreakChance;
 	
-	public Settings(Config cfg) {
+	public ConfigCache(Config cfg) {
 		printOutLoading = cfg.getBoolean("options.print-out-loading");
 		
 		researchesFreeInCreative = cfg.getBoolean("options.allow-free-creative-research");
