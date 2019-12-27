@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
@@ -336,12 +337,12 @@ public final class Slimefun {
 		return SlimefunPlugin.getLocal();
 	}
 
-	public static void runSync(Runnable r) {
-		Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
+	public static BukkitTask runSync(Runnable r) {
+		return Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
 	}
 
-	public static void runSync(Runnable r, long delay) {
-		Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
+	public static BukkitTask runSync(Runnable r, long delay) {
+		return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
 	}
 
 	public static Set<Plugin> getInstalledAddons() {

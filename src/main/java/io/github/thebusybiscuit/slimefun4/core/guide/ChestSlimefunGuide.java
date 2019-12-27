@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
@@ -42,6 +43,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class ChestSlimefunGuide implements ISlimefunGuide {
 	
+	private static final int[] RECIPE_SLOTS = {3, 4, 5, 12, 13, 14, 21, 22, 23};
 	private static final int CATEGORY_SIZE = 36;
 
 	@Override
@@ -368,6 +370,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		ItemStack result = null;
 		
 		Optional<MinecraftRecipe<? super Recipe>> optional = MinecraftRecipe.of(recipe);
+		RecipeChoiceTask task = new RecipeChoiceTask();
 		
 		if (optional.isPresent()) {
 			MinecraftRecipe<?> mcRecipe = optional.get();
@@ -376,11 +379,19 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			
 			if (choices.length == 1) {
 				recipeItems[4] = choices[0].getItemStack();
+				
+				if (choices[0] instanceof MaterialChoice && ((MaterialChoice) choices[0]).getChoices().size() > 1) {
+					task.add(RECIPE_SLOTS[4], (MaterialChoice) choices[0]);
+				}
 			}
 			else {
 				for (int i = 0; i < choices.length; i++) {
 					if (choices[i] != null) {
 						recipeItems[i] = choices[i].getItemStack();
+						
+						if (choices[i] instanceof MaterialChoice && ((MaterialChoice) choices[i]).getChoices().size() > 1) {
+							task.add(RECIPE_SLOTS[i], (MaterialChoice) choices[i]);
+						}
 					}
 				}
 			}
@@ -427,6 +438,10 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		}
 		
 		menu.open(p);
+		
+		if (!task.isEmpty()) {
+			task.start(menu.toInventory());
+		}
 	}
 	
 	@Override
