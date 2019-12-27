@@ -20,21 +20,6 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 	protected final List<ItemStack> shownRecipes;
 	protected final BlockFace trigger;
 
-	@Deprecated
-	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger) {
-		this(category, item, id, recipe, machineRecipes, convertTriggerMaterial(recipe, trigger));
-	}
-
-	@Deprecated
-	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, boolean ghost) {
-		this(category, item, id, recipe, machineRecipes, convertTriggerMaterial(recipe, trigger), ghost);
-	}
-
-	@Deprecated
-	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, String[] keys, Object[] values) {
-		this(category, item, id, recipe, machineRecipes, convertTriggerMaterial(recipe, trigger), keys, values);
-	}
-
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe);
 		this.recipes = new ArrayList<>();
@@ -108,10 +93,5 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
 	public Iterator<ItemStack[]> recipeIterator() {
 		return this.recipes.iterator();
-	}
-
-	@Deprecated
-	private static BlockFace convertTriggerMaterial(ItemStack[] recipe, Material trigger) {
-		return MultiBlock.convertTriggerMaterialToBlockFace(convertItemStacksToMaterial(recipe), trigger);
 	}
 }

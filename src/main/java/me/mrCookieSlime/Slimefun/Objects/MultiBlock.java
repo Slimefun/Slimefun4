@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -12,16 +13,16 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 
 public class MultiBlock {
 	
-	private Material[] blocks;
-	private BlockFace trigger;
-	private boolean isSymmetric;
-
-	@Deprecated
-	public MultiBlock(Material[] build, Material trigger) {
-		this.blocks = build;
-		this.isSymmetric = isSymmetric(build);
-		this.trigger = convertTriggerMaterialToBlockFace(build, trigger);
-	}
+	public static final List<Tag<Material>> SUPPORTED_TAGS = Arrays.asList(
+			Tag.LOGS,
+			Tag.WOODEN_FENCES,
+			Tag.WOODEN_TRAPDOORS,
+			Tag.WOODEN_SLABS
+	);
+	
+	private final Material[] blocks;
+	private final BlockFace trigger;
+	private final boolean isSymmetric;
 	
 	public MultiBlock(Material[] build, BlockFace trigger) {
 		this.blocks = build;
@@ -74,20 +75,11 @@ public class MultiBlock {
 
 	private boolean compareBlocks(Material a, Material b) {
 		if (b != null) {
-			if (Tag.LOGS.isTagged(b)) {
-				return Tag.LOGS.isTagged(a);
-			}
 			
-			if (Tag.WOODEN_FENCES.isTagged(b)) {
-				return Tag.WOODEN_FENCES.isTagged(a);
-			}
-			
-			if (Tag.WOODEN_SLABS.isTagged(b)) {
-				return Tag.WOODEN_SLABS.isTagged(a);
-			}
-			
-			if (Tag.WOODEN_TRAPDOORS.isTagged(b)) {
-				return Tag.WOODEN_TRAPDOORS.isTagged(a);
+			for (Tag<Material> tag : SUPPORTED_TAGS) {
+				if (tag.isTagged(b)) {
+					return tag.isTagged(a);
+				}
 			}
 			
 			if (b != a) {
@@ -100,26 +92,5 @@ public class MultiBlock {
 	
 	public boolean isSymmetric() {
 		return this.isSymmetric;
-	}
-	
-	@Deprecated
-	public static BlockFace convertTriggerMaterialToBlockFace(Material[] build, Material trigger)
-	{
-		//Hacky
-		for (int i = 1; i < 9; i +=3) {
-			if (trigger == build[i]) {
-				switch (i) {
-					case 1:
-						return BlockFace.DOWN;
-					case 4:
-						return BlockFace.SELF;
-					case 7:
-						return BlockFace.UP;
-					default:
-						break;
-				}
-			}
-		}
-		return null;
 	}
 }

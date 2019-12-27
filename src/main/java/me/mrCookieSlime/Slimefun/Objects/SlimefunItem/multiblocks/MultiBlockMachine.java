@@ -1,6 +1,5 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Container;
@@ -26,16 +25,6 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 		    BlockFace.SOUTH,
 		    BlockFace.WEST
 	};
-	
-	@Deprecated
-	public MultiBlockMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger) {
-		super(category, item, id, recipe, machineRecipes, trigger);
-	}
-	
-	@Deprecated
-	public MultiBlockMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, Material trigger, String[] keys, Object[] values) {
-		super(category, item, id, recipe, machineRecipes, trigger, keys, values);
-	}
 	
 	public MultiBlockMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
 		super(category, item, id, recipe, machineRecipes, trigger);

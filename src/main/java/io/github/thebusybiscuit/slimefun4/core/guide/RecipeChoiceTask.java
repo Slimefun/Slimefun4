@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
@@ -27,6 +28,10 @@ public class RecipeChoiceTask implements Runnable {
 	
 	public void add(int slot, MaterialChoice choice) {
 		iterators.put(slot, new LoopIterator<>(choice.getChoices()));
+	}
+	
+	public void add(int slot, Tag<Material> tag) {
+		iterators.put(slot, new LoopIterator<>(tag.getValues()));
 	}
 	
 	public boolean isEmpty() {

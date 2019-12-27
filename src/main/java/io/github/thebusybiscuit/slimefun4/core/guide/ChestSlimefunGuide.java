@@ -27,6 +27,7 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -491,64 +492,18 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		}
 		
 		addBackButton(menu, 0, profile, true);
-
-		menu.addItem(3, getDisplayItem(p, isSlimefunRecipe, recipe[0]));
-		menu.addMenuClickHandler(3, (pl, slot, itemstack, action) -> {
+		
+		MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
 			displayItem(profile, itemstack, true);
 			return false;
-		});
-
-		menu.addItem(4, getDisplayItem(p, isSlimefunRecipe, recipe[1]));
-		menu.addMenuClickHandler(4, (pl, slot, itemstack, action) -> {
-			displayItem(profile, itemstack, true);
-			return false;
-		});
-
-		menu.addItem(5, getDisplayItem(p, isSlimefunRecipe, recipe[2]));
-		menu.addMenuClickHandler(5, (pl, slot, itemstack, action) -> {
-			displayItem(profile, itemstack, true);
-			return false;
-		});
+		};
+		
+		for (int i = 0; i < 9; i++) {
+			menu.addItem(RECIPE_SLOTS[i], getDisplayItem(p, isSlimefunRecipe, recipe[i]), clickHandler);
+		}
 
 		menu.addItem(10, recipeType.toItem(), ChestMenuUtils.getEmptyClickHandler());
-
-		menu.addItem(12, getDisplayItem(p, isSlimefunRecipe, recipe[3]));
-		menu.addMenuClickHandler(12, (pl, slot, itemstack, action) -> {
-			displayItem(profile, itemstack, true);
-			return false;
-		});
-
-		menu.addItem(13, getDisplayItem(p, isSlimefunRecipe, recipe[4]));
-		menu.addMenuClickHandler(13, (pl, slot, itemstack, action) -> {
-			displayItem(profile, itemstack, true);
-			return false;
-		});
-
-		menu.addItem(14, getDisplayItem(p, isSlimefunRecipe, recipe[5]));
-		menu.addMenuClickHandler(14, (pl, slot, itemstack, action) -> {
-			displayItem(profile, itemstack, true);
-			return false;
-		});
-
 		menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
-
-		menu.addItem(21, getDisplayItem(p, isSlimefunRecipe, recipe[6]));
-		menu.addMenuClickHandler(21, (pl, slot, itemstack, action) -> {
-			displayItem(profile, itemstack, true);
-			return false;
-		});
-
-		menu.addItem(22, getDisplayItem(p, isSlimefunRecipe, recipe[7]));
-		menu.addMenuClickHandler(22, (pl, slot, itemstack, action) -> {
-			displayItem(profile, itemstack, true);
-			return false;
-		});
-
-		menu.addItem(23, getDisplayItem(p, isSlimefunRecipe, recipe[8]));
-		menu.addMenuClickHandler(23, (pl, slot, itemstack, action) -> {
-			displayItem(profile, itemstack, true);
-			return false;
-		});
 	}
 
 	private void fillInv(PlayerProfile profile, ChestMenu menu, boolean survival) {

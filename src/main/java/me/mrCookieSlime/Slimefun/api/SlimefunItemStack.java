@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.api;
 
 import java.util.function.Consumer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -43,6 +44,18 @@ public class SlimefunItemStack extends CustomItem {
 
 	public SlimefunItemStack(String id, ItemStack item, Consumer<ItemMeta> consumer) {
 		super(item, consumer);
+
+		setID(id);
+	}
+
+	public SlimefunItemStack(String id, Material type, String name, Consumer<ItemMeta> consumer) {
+		super(type, meta -> {
+			if (name != null) {
+				meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+			}
+			
+			consumer.accept(meta);
+		});
 
 		setID(id);
 	}

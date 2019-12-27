@@ -56,6 +56,7 @@ public class Category {
 		
 		ItemMeta meta = item.getItemMeta();
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		this.item.setItemMeta(meta);
 		
 		this.items = new ArrayList<>();
