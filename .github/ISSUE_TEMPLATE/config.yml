@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Bug Report Guidelines
+    url: https://github.com/TheBusyBiscuit/Slimefun4/wiki/How-to-report-bugs
+    about: Please read this before posting
+  - name: Discord Server (for Questions and Suggestions)
+    url: https://discord.gg/fsD4Bkh
+    about: Please ask and answer questions here.
