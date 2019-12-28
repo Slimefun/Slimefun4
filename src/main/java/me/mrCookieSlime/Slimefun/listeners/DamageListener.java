@@ -62,7 +62,7 @@ public class DamageListener implements Listener {
             if (SlimefunPlugin.getUtilities().drops.containsKey(e.getEntity().getType())) {
                 for (ItemStack drop : SlimefunPlugin.getUtilities().drops.get(e.getEntity().getType())) {
                     if (Slimefun.hasUnlocked(p, drop, true)) {
-                        if (SlimefunManager.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && (boolean) Slimefun.getItemValue("BASIC_CIRCUIT_BOARD", "drop-from-golems")) {
+                        if (SlimefunManager.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((boolean) Slimefun.getItemValue("BASIC_CIRCUIT_BOARD", "drop-from-golems"))) {
                         	continue;
                         }
                         
