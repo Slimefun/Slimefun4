@@ -4,10 +4,11 @@ import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.CookingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -25,14 +26,14 @@ public abstract class ElectricFurnace extends AContainer {
 		Iterator<Recipe> iterator = Bukkit.recipeIterator();
 		while (iterator.hasNext()) {
 			Recipe r = iterator.next();
-			if (r instanceof FurnaceRecipe) {
-				registerRecipe(4, new ItemStack[] {((FurnaceRecipe) r).getInput()}, new ItemStack[] {r.getResult()});
+			if (r instanceof CookingRecipe) {
+				RecipeChoice choice = ((CookingRecipe<?>) r).getInputChoice();
+				if (choice instanceof MaterialChoice) {
+					for (Material input : ((MaterialChoice) choice).getChoices()) {
+						registerRecipe(4, new ItemStack[] {new ItemStack(input)}, new ItemStack[] {r.getResult()});
+					}
+				}
 			}
-		}
-		
-		//Bukkit Recipe Iterator does not seem to include _LOG's of any type for charcoal... Manually adding them all.
-		for (Material log : Tag.LOGS.getValues()) {
-			registerRecipe(4, new ItemStack[] {new ItemStack(log, 1)}, new ItemStack[] {new ItemStack(Material.CHARCOAL, 1)});
 		}
 	}
 	

@@ -195,7 +195,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			else {
 				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				
-				for (ItemStack output: processing.get(b).getOutput()) {
+				for (ItemStack output : processing.get(b).getOutput()) {
 					inv.pushItem(output.clone(), getOutputSlots());
 				}
 				
@@ -207,9 +207,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			MachineRecipe r = null;
 			Map<Integer, Integer> found = new HashMap<>();
 			
-			for (MachineRecipe recipe: recipes) {
-				for (ItemStack input: recipe.getInput()) {
-					for (int slot: getInputSlots()) {
+			for (MachineRecipe recipe : recipes) {
+				for (ItemStack input : recipe.getInput()) {
+					for (int slot : getInputSlots()) {
 						if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), input, true)) {
 							found.put(slot, input.getAmount());
 							break;
@@ -226,7 +226,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			if (r != null) {
 				if (!fits(b, r.getOutput())) return;
 				
-				for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
+				for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
 					inv.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(inv.getItemInSlot(entry.getKey()), entry.getValue()));
 				}
 				

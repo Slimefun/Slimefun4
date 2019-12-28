@@ -194,7 +194,7 @@ public final class SlimefunManager {
 			return false;
 		}
 		else if (isItemSimilar(item, SlimefunItems.BOUND_BACKPACK, false)) {
-			return true;
+			return !SlimefunItem.getByID("BOUND_BACKPACK").isDisabled();
 		}
 		else {
 			ItemStack strippedItem = item.clone();
@@ -205,7 +205,8 @@ public final class SlimefunManager {
 				}
 			}
 			
-			if (SlimefunItem.getByItem(strippedItem) instanceof Soulbound) {
+			SlimefunItem sfItem = SlimefunItem.getByItem(strippedItem);
+			if (sfItem instanceof Soulbound && !sfItem.isDisabled()) {
 				return true;
 			}
 			else if (item.hasItemMeta()) {
