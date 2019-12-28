@@ -62,5 +62,12 @@
 	"HERCULES_PICKAXE": "Hercules'-Pickaxe",
 	"LUMBER_AXE": "Lumber-Axe",
 	"PICKAXE_OF_VEIN_MINING": "Pickaxe-of-Vein-Mining",
-	"PICKAXE_OF_THE_SEEKER": "Pickaxe-of-the-Seeker"
+	"PICKAXE_OF_THE_SEEKER": "Pickaxe-of-the-Seeker",
+	"CARGO_OUTPUT_ADVANCED": "Advanced-Output-Node",
+	"CARGO_MANAGER": "Cargo-Manager",
+	"CARGO_MOTOR": "Cargo-Motor",
+	"CARGO_NODE": "Connector-Node",
+	"CARGO_INPUT": "Input-Node",
+	"CARGO_OUTPUT": "Output-Node",
+	"TRASH_CAN": "Trash-Can"
 }
