@@ -72,18 +72,13 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
 
 		int index = 9;
-		int pages = 1;
-
+		int pages = (categories.size() + handlers.size() - 1) / CATEGORY_SIZE + 1;
+		
 		fillInv(profile, menu, survival);
 
 		int target = (CATEGORY_SIZE * (page - 1)) - 1;
 
-		while (target < (categories.size() + handlers.size() - 1)) {
-			if (index >= CATEGORY_SIZE + 9) {
-				pages++;
-				break;
-			}
-
+		while (target < (categories.size() + handlers.size() - 1) && index < CATEGORY_SIZE + 9) {
 			target++;
 
 			if (target >= categories.size()) {
