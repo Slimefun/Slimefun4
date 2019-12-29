@@ -41,7 +41,7 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 	
 	protected MultiBlockInteractionHandler getInteractionHandler() {
 		return (p, mb, b) -> {
-			if (mb.isMultiBlock(this)) {
+			if (mb == getMultiBlock()) {
 				if (!isDisabled() && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES) && Slimefun.hasUnlocked(p, this, true)) {
 					onInteract(p, b);
 				}

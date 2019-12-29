@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -9,7 +10,6 @@ import org.bukkit.block.BlockFace;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 
 public class MultiBlock {
 	
@@ -20,20 +20,25 @@ public class MultiBlock {
 			Tag.WOODEN_SLABS
 	);
 	
+	private final SlimefunItem item;
 	private final Material[] blocks;
 	private final BlockFace trigger;
 	private final boolean isSymmetric;
 	
-	public MultiBlock(Material[] build, BlockFace trigger) {
+	public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
+		this.item = item;
+		
 		this.blocks = build;
 		this.trigger = trigger;
 		this.isSymmetric = isSymmetric(build);
 	}
 	
+	public SlimefunItem getSlimefunItem() {
+		return item;
+	}
+	
 	private static boolean isSymmetric(Material[] blocks) {
-		return blocks[0] == blocks[2]
-			&& blocks[3] == blocks[5]
-			&& blocks[6] == blocks[8];
+		return blocks[0] == blocks[2] && blocks[3] == blocks[5] && blocks[6] == blocks[8];
 	}
 	
 	public Material[] getBuild() {
@@ -52,16 +57,11 @@ public class MultiBlock {
 		return SlimefunPlugin.getUtilities().allMultiblocks;
 	}
 	
-	public boolean isMultiBlock(SlimefunItem machine) {
-		if (machine instanceof SlimefunMachine) {
-			return isMultiBlock(((SlimefunMachine) machine).toMultiBlock());
-		}
-		else return false;
-	}
-	
-	public boolean isMultiBlock(MultiBlock mb) {
-		if (mb == null) return false;
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof MultiBlock)) return false;
 		
+		MultiBlock mb = (MultiBlock) obj;
 		if (trigger == mb.getTriggerBlock()) {
 			for (int i = 0; i < mb.getBuild().length; i++) {
 				if (!compareBlocks(blocks[i], mb.getBuild()[i])) return false;
@@ -71,6 +71,11 @@ public class MultiBlock {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(item.getID(), blocks, trigger, isSymmetric);
 	}
 
 	private boolean compareBlocks(Material a, Material b) {
@@ -92,5 +97,10 @@ public class MultiBlock {
 	
 	public boolean isSymmetric() {
 		return this.isSymmetric;
+	}
+	
+	@Override
+	public String toString() {
+		return "MultiBlock (" + item.getID() + ") {" + Arrays.toString(blocks) + "}";
 	}
 }

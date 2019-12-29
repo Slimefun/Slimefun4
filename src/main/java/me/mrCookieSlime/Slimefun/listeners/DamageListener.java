@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.listeners;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -21,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.Soul;
 
 public class DamageListener implements Listener {
 
@@ -38,21 +35,6 @@ public class DamageListener implements Listener {
             if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {
                 Slimefun.getGPSNetwork().addWaypoint(p, "&4Deathpoint &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
             }
-            
-            for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
-            	ItemStack item = p.getInventory().getItem(slot);
-            	
-            	if (SlimefunManager.isItemSoulbound(item)) {
-            		Soul.storeItem(p.getUniqueId(), slot, item);
-            	}
-            }
-            
-            Iterator<ItemStack> drops = e.getDrops().iterator();
-            while (drops.hasNext()) {
-                ItemStack item = drops.next();
-                if (SlimefunManager.isItemSoulbound(item)) drops.remove();
-            }
-
         }
         
         if (e.getEntity().getKiller() instanceof Player) {
@@ -85,10 +67,5 @@ public class DamageListener implements Listener {
             e.setCancelled(true);
             SlimefunPlugin.getUtilities().damage.remove(e.getEntity().getUniqueId());
         }
-    }
-
-    @EventHandler
-    public void onRespawn(PlayerRespawnEvent e) {
-        Soul.retrieveItems(e.getPlayer());
     }
 }

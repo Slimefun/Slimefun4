@@ -34,7 +34,7 @@ public class BowListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onArrowHit(final ProjectileHitEvent e) {
+	public void onArrowHit(ProjectileHitEvent e) {
 		Slimefun.runSync(() -> {
 			if (e.getEntity().isValid()) {
 				SlimefunPlugin.getUtilities().arrows.remove(e.getEntity().getUniqueId());

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.listeners;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 

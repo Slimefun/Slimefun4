@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.listeners;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,7 +12,6 @@ import org.bukkit.event.block.BlockDispenseEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class AutonomousToolsListener implements Listener {
@@ -22,21 +21,19 @@ public class AutonomousToolsListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onBlockDispensing(final BlockDispenseEvent e) {
+	public void onBlockDispensing(BlockDispenseEvent e) {
 		Block dispenser = e.getBlock();
 		if (dispenser.getType() == Material.DISPENSER) {
-			final Dispenser d = (Dispenser) dispenser.getState();
+			Dispenser d = (Dispenser) dispenser.getState();
 
-			BlockFace face = ((Directional)dispenser.getBlockData()).getFacing();
+			BlockFace face = ((Directional) dispenser.getBlockData()).getFacing();
 
 			Block block = dispenser.getRelative(face);
 			Block chest = dispenser.getRelative(face.getOppositeFace());
 			SlimefunItem machine = BlockStorage.check(dispenser);
 			
 			if (machine != null) {
-				for (ItemHandler handler : SlimefunItem.getHandlers("AutonomousMachineHandler")) {
-					if (((AutonomousMachineHandler) handler).onBlockDispense(e, dispenser, d, block, chest, machine)) break;
-				}
+				machine.callItemHandler(AutonomousMachineHandler.class, handler -> handler.onBlockDispense(e, dispenser, d, block, chest, machine));
 			}
 		}
 	}

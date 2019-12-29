@@ -39,6 +39,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
@@ -283,10 +284,9 @@ public class ItemListener implements Listener {
 			String id = BlockStorage.checkID(e.getClickedBlock());
 			if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && (!p.isSneaking() || item == null || item.getType() == Material.AIR)) {
 				e.setCancelled(true);
-				BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
 
-				if (storage.hasUniversalInventory(id)) {
-					UniversalBlockMenu menu = storage.getUniversalInventory(id);
+				if (BlockStorage.hasUniversalInventory(id)) {
+					UniversalBlockMenu menu = BlockStorage.getUniversalInventory(id);
 					if (menu.canOpen(e.getClickedBlock(), p)) {
 						menu.open(p);
 					}
@@ -294,7 +294,7 @@ public class ItemListener implements Listener {
 						SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
 					}
 				}
-				else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
+				else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
 					BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
 					if (menu.canOpen(e.getClickedBlock(), p)) {
 						menu.open(p);
@@ -322,7 +322,7 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onEat(PlayerItemConsumeEvent e) {
-		final Player p = e.getPlayer();
+		Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		

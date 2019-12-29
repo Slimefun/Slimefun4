@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.listeners;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.Optional;
 
@@ -17,9 +17,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.EnhancedFurnace;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class FurnaceListener implements Listener {
+public class EnhancedFurnaceListener implements Listener {
 
-	public FurnaceListener(SlimefunPlugin plugin) {
+	public EnhancedFurnaceListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 

@@ -100,7 +100,8 @@ public final class Utilities {
 	public final List<PostSlimefunLoadingHandler> postHandlers = new ArrayList<>();
 	
 	public final Map<EntityType, List<ItemStack>> drops = new EnumMap<>(EntityType.class);
-	
+
+	public final Map<UUID, ItemStack> arrows = new HashMap<>();
 	public final Map<UUID, Boolean> jumpState = new HashMap<>();
 	public final Set<UUID> damage = new HashSet<>();
 	public final Map<UUID, Entity[]> remove = new HashMap<>();
@@ -115,7 +116,6 @@ public final class Utilities {
 	public final Map<UUID, Map<Integer, ItemStack>> soulbound = new HashMap<>();
 	public final List<UUID> blocks = new ArrayList<>();
 	public final List<UUID> cancelPlace = new ArrayList<>();
-	public final Map<UUID, ItemStack> arrows = new HashMap<>();
 	
 	public final Set<UUID> elevatorUsers = new HashSet<>();
 	public final Set<UUID> teleporterUsers = new HashSet<>();

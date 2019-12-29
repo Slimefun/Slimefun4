@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.listeners;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.network.Network;
@@ -19,6 +19,7 @@ public class NetworkListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent e) {
 		Network.handleAllNetworkLocationUpdate(e.getBlock().getLocation());
 	}
+	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlaceBreak(BlockPlaceEvent e) {
 		Network.handleAllNetworkLocationUpdate(e.getBlock().getLocation());

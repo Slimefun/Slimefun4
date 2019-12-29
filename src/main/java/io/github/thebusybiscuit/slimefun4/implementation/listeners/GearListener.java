@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.listeners;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -27,9 +27,9 @@ public class GearListener implements Listener {
 	@EventHandler
 	public void onToggleSneak(PlayerToggleSneakEvent e) {
 		if (e.isSneaking()) {
-			final Player p = e.getPlayer();
-			final SlimefunItem chestplate = SlimefunItem.getByItem(p.getInventory().getChestplate());
-			final SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
+			Player p = e.getPlayer();
+			SlimefunItem chestplate = SlimefunItem.getByItem(p.getInventory().getChestplate());
+			SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 			
 			if (chestplate != null) {
 				if (chestplate instanceof Jetpack) {

@@ -13,19 +13,28 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
 	protected final List<ItemStack[]> recipes;
 	protected final List<ItemStack> shownRecipes;
-	protected final BlockFace trigger;
+	protected final MultiBlock multiblock;
 
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe);
 		this.recipes = new ArrayList<>();
 		this.shownRecipes = new ArrayList<>();
 		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
-		this.trigger = trigger;
+		this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
+	}
+
+	public SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+		super(category, item, RecipeType.MULTIBLOCK, recipe);
+		this.recipes = new ArrayList<>();
+		this.shownRecipes = new ArrayList<>();
+		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
+		this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
 	}
 
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, boolean ghost) {
@@ -33,7 +42,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 		this.recipes = new ArrayList<>();
 		this.shownRecipes = new ArrayList<>();
 		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
-		this.trigger = trigger;
+		this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
 	}
 
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
@@ -41,7 +50,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 		this.recipes = new ArrayList<>();
 		this.shownRecipes = new ArrayList<>();
 		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
-		this.trigger = trigger;
+		this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
 	}
 
 	public List<ItemStack[]> getRecipes() {
@@ -62,7 +71,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
 	@Override
 	public void postRegister() {
-		this.toMultiBlock().register();
+		multiblock.register();
 	}
 
 	@Override
@@ -86,12 +95,17 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
 		return mats.toArray(new Material[0]);
 	}
-
-	public MultiBlock toMultiBlock() {
-		return new MultiBlock(convertItemStacksToMaterial(this.getRecipe()), this.trigger);
+	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return true;
 	}
 
 	public Iterator<ItemStack[]> recipeIterator() {
 		return this.recipes.iterator();
+	}
+	
+	public MultiBlock getMultiBlock() {
+		return multiblock;
 	}
 }

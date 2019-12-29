@@ -27,6 +27,22 @@ import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.NetherIce
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.OilResource;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.SaltResource;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.UraniumResource;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillingListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutonomousToolsListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
@@ -48,25 +64,11 @@ import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
-import me.mrCookieSlime.Slimefun.listeners.AndroidKillingListener;
 import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
-import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
-import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
-import me.mrCookieSlime.Slimefun.listeners.BlockListener;
 import me.mrCookieSlime.Slimefun.listeners.BowListener;
-import me.mrCookieSlime.Slimefun.listeners.CoolerListener;
 import me.mrCookieSlime.Slimefun.listeners.DamageListener;
-import me.mrCookieSlime.Slimefun.listeners.FurnaceListener;
-import me.mrCookieSlime.Slimefun.listeners.GearListener;
-import me.mrCookieSlime.Slimefun.listeners.GuideOnJoinListener;
 import me.mrCookieSlime.Slimefun.listeners.ItemListener;
-import me.mrCookieSlime.Slimefun.listeners.ItemPickupListener;
-import me.mrCookieSlime.Slimefun.listeners.NetworkListener;
-import me.mrCookieSlime.Slimefun.listeners.PlayerQuitListener;
-import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
-import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
-import me.mrCookieSlime.Slimefun.listeners.WorldListener;
 import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
@@ -209,12 +211,13 @@ public final class SlimefunPlugin extends JavaPlugin {
 			new ArmorListener(this);
 			new ItemListener(this);
 			new BlockListener(this);
+			new MultiBlockListener(this);
 			new GearListener(this);
 			new AutonomousToolsListener(this);
 			new DamageListener(this);
 			new BowListener(this);
 			new ToolListener(this);
-			new FurnaceListener(this);
+			new EnhancedFurnaceListener(this);
 			new TeleporterListener(this);
 			new AndroidKillingListener(this);
 			new NetworkListener(this);
@@ -224,15 +227,16 @@ public final class SlimefunPlugin extends JavaPlugin {
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);
 			if (config.getBoolean("items.backpacks")) new BackpackListener(this);
 			if (config.getBoolean("items.coolers")) new CoolerListener(this);
+			if (config.getBoolean("items.soulbound")) new SoulboundListener(this);
 
 			// Handle Slimefun Guide being given on Join
-			if (config.getBoolean("options.give-guide-on-first-join")) new GuideOnJoinListener(this);
+			if (config.getBoolean("options.give-guide-on-first-join")) new SlimefunGuideListener(this);
 
 			// Load/Unload Worlds in Slimefun
 			new WorldListener(this);
 
 			// Clear the Slimefun Guide History upon Player Leaving
-			new PlayerQuitListener(this);
+			new PlayerProfileListener(this);
 
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			Slimefun.runSync(() -> {

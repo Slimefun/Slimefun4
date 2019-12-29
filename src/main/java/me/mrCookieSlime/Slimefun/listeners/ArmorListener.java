@@ -59,7 +59,7 @@ public class ArmorListener implements Listener {
 					e.setCancelled(true);
 					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 2F);
 					p.setVelocity(new Vector(0.0, 0.7, 0.0));
-					for (Entity n: p.getNearbyEntities(4, 4, 4)) {
+					for (Entity n : p.getNearbyEntities(4, 4, 4)) {
 						if (n instanceof LivingEntity && !n.getUniqueId().equals(p.getUniqueId())) {
 							n.setVelocity(n.getLocation().toVector().subtract(p.getLocation().toVector())
 								.normalize().multiply(1.4));
@@ -75,7 +75,7 @@ public class ArmorListener implements Listener {
 						}
 					}
 
-					for (BlockFace face: BlockFace.values()) {
+					for (BlockFace face : BlockFace.values()) {
 						Block b = p.getLocation().getBlock().getRelative(BlockFace.DOWN).getRelative(face);
 						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 					}

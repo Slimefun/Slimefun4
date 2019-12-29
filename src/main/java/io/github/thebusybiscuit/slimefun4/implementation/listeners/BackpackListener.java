@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.listeners;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.List;
 
@@ -89,6 +89,7 @@ public class BackpackListener implements Listener {
 
 	private static void openBackpack(ItemStack item, PlayerProfile profile, int size) {
 		Player p = profile.getPlayer();
+		
 		for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
 			if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
 				BackpackInventory backpack = profile.createBackpack(size);
