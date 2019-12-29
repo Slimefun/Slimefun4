@@ -5,7 +5,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Container;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;

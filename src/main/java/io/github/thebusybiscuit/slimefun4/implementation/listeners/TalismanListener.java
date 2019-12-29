@@ -32,7 +32,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;

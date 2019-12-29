@@ -55,10 +55,10 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 
 		int tier = 0;
 
-		for (final Category category: Category.list()) {
+		for (Category category : Category.list()) {
 			boolean locked = true;
 
-			for (SlimefunItem item: category.getItems()) {
+			for (SlimefunItem item : category.getItems()) {
 				if (Slimefun.isEnabled(p, item, false)) {
 					locked = false;
 					break;

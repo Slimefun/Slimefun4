@@ -4,8 +4,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -18,16 +19,17 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 public class TrashCan extends SlimefunItem implements InventoryBlock {
 	
-	private static final int[] border = {0, 1, 2, 3, 5, 4, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-
+	private static final int[] BORDER = {0, 1, 2, 3, 5, 4, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+	private static final ItemStack BACKGROUND = new CustomItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), " ");
+	
 	public TrashCan(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 		createPreset(this, "&4Trash Can", this::constructMenu);
 	}
 	
 	private void constructMenu(BlockMenuPreset preset) {
-		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+		for (int i : BORDER) {
+			preset.addItem(i, BACKGROUND, ChestMenuUtils.getEmptyClickHandler());
 		}
 	}
 

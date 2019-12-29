@@ -16,13 +16,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -107,15 +107,15 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 	
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		for (int i : border_in) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),(p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		for (int i: border_out) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		for (int i: getOutputSlots()) {
@@ -133,7 +133,7 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 			});
 		}
 		
-		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 	}
 	
 	public abstract String getInventoryTitle();
@@ -205,8 +205,8 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 					MachineFuel fuel = findRecipe(inv, found);
 					
 					if (fuel != null) {
-						for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
-							inv.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(inv.getItemInSlot(entry.getKey()), entry.getValue()));
+						for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
+							inv.consumeItem(entry.getKey(), entry.getValue());
 						}
 						
 						processing.put(l, fuel);

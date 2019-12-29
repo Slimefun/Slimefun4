@@ -209,7 +209,7 @@ public class ItemListener implements Listener {
 			return;
 		}
 
-		final Player p = e.getPlayer();
+		Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 
 		if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {

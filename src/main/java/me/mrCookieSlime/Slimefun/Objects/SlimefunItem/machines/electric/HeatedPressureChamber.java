@@ -12,10 +12,9 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -172,7 +171,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 				if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) return;
 				
 				for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
-					menu.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(menu.getItemInSlot(entry.getKey()), entry.getValue()));
+	                menu.consumeItem(entry.getKey(), entry.getValue());
 				}
 				
 				processing.put(b, recipe);

@@ -9,8 +9,8 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 
 public class DirtyChestMenu extends ChestMenu {
 
@@ -90,6 +90,19 @@ public class DirtyChestMenu extends ChestMenu {
 		else {
 			return null;
 		}
+	}
+	
+	public void consumeItem(int slot) {
+		consumeItem(slot, 1);
+	}
+	
+	public void consumeItem(int slot, int amount) {
+		consumeItem(slot, amount, false);
+	}
+	
+	public void consumeItem(int slot, int amount, boolean replaceConsumables) {
+		ItemUtils.consumeItem(getItemInSlot(slot), amount, replaceConsumables);
+		markDirty();
 	}
 	
 	@Override

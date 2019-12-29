@@ -7,8 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -81,7 +81,7 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
 					
 					if (!menu.fits(SlimefunItems.BUCKET_OF_FUEL, getOutputSlots())) return;
 					
-					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+					ItemUtils.consumeItem(menu.getItemInSlot(slot), false);
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;

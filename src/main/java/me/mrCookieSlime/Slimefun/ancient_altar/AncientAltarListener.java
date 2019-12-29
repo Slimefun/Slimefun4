@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -26,24 +27,25 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class AncientAltarListener implements Listener {
-	
-	private Utilities utilities;
+
+	private final Set<Location> altarsInUse = new HashSet<>();
 
 	private final List<Block> altars = new ArrayList<>();
 	private final Set<UUID> removedItems = new HashSet<>();
 
 	public AncientAltarListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		
-		utilities = SlimefunPlugin.getUtilities();
+	}
+	
+	public Set<Location> getAltarsInUse() {
+		return altarsInUse;
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -56,7 +58,7 @@ public class AncientAltarListener implements Listener {
 			if (item.equals("ANCIENT_PEDESTAL")) {
 				e.setCancelled(true);
 				
-				if (utilities.altarinuse.contains(b.getLocation())) {
+				if (altarsInUse.contains(b.getLocation())) {
 					return;
 				}
 				
@@ -84,13 +86,13 @@ public class AncientAltarListener implements Listener {
 				}
 			}
 			else if (item.equals("ANCIENT_ALTAR")) {
-				if (!Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR, true) || utilities.altarinuse.contains(b.getLocation())) {
+				if (!Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR, true) || altarsInUse.contains(b.getLocation())) {
 					e.setCancelled(true);
 					return;
 				}
 				
 				// Make altarinuse simply because that was the last block clicked.
-				utilities.altarinuse.add(b.getLocation());
+				altarsInUse.add(b.getLocation());
 				e.setCancelled(true);
 
 				ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
@@ -99,7 +101,7 @@ public class AncientAltarListener implements Listener {
 				if (!altars.contains(e.getClickedBlock())) {
 					altars.add(e.getClickedBlock());
 					if (pedestals.size() == 8) {
-						pedestals.forEach(block -> utilities.altarinuse.add(block.getLocation()));
+						pedestals.forEach(block -> altarsInUse.add(block.getLocation()));
 						
 						if (catalyst.getType() != Material.AIR) {
 							List<ItemStack> input = new ArrayList<>();
@@ -118,35 +120,35 @@ public class AncientAltarListener implements Listener {
 										ItemUtils.consumeItem(e.getPlayer().getInventory().getItemInMainHand(), false);
 									}
 									
-									Slimefun.runSync(new RitualAnimation(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
+									Slimefun.runSync(new RitualAnimation(this, altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
 								}
 								else {
 									altars.remove(e.getClickedBlock());
 									
-									pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
+									pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
 									
 									// Item not unlocked, no longer in use.
-									utilities.altarinuse.remove(b.getLocation());
+									altarsInUse.remove(b.getLocation());
 								}
 							}
 							else {
 								altars.remove(e.getClickedBlock());
 								SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
 								
-								pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
+								pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
 								
 								// Bad recipe, no longer in use.
-								utilities.altarinuse.remove(b.getLocation());
+								altarsInUse.remove(b.getLocation());
 							}
 						}
 						else {
 							altars.remove(e.getClickedBlock());
 							SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 							
-							pedestals.forEach(block -> utilities.altarinuse.remove(block.getLocation()));
+							pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
 							
 							// Unknown catalyst, no longer in use
-							utilities.altarinuse.remove(b.getLocation());
+							altarsInUse.remove(b.getLocation());
 						}
 					}
 					else {
@@ -154,7 +156,7 @@ public class AncientAltarListener implements Listener {
 						SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
 						
 						// Not a valid altar so remove from inuse
-						utilities.altarinuse.remove(b.getLocation());  
+						altarsInUse.remove(b.getLocation());  
 					}
 				}
 			}

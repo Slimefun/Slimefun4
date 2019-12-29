@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;

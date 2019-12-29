@@ -11,7 +11,6 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -190,9 +189,11 @@ public class WitherAssembler extends SlimefunItem {
 					int soulsand = 0;
 					int skulls = 0;
 					
+					BlockMenu menu = BlockStorage.getInventory(b);
+					
 					for (int slot : getSoulSandSlots()) {
-						if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-							soulsand = soulsand + BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
+						if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+							soulsand = soulsand + menu.getItemInSlot(slot).getAmount();
 							if (soulsand > 3) {
 								soulsand = 4;
 								break;
@@ -201,8 +202,8 @@ public class WitherAssembler extends SlimefunItem {
 					}
 					
 					for (int slot : getWitherSkullSlots()) {
-						if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
-							skulls = skulls + BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
+						if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+							skulls = skulls + menu.getItemInSlot(slot).getAmount();
 							if (skulls > 2) {
 								skulls = 3;
 								break;
@@ -212,31 +213,31 @@ public class WitherAssembler extends SlimefunItem {
 					
 					if (soulsand > 3 && skulls > 2) {
 						for (int slot : getSoulSandSlots()) {
-							if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-								int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
+							if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+								int amount = menu.getItemInSlot(slot).getAmount();
 								
 								if (amount >= soulsand) {
-									BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), soulsand));
+									menu.consumeItem(slot, soulsand);
 									break;
 								}
 								else {
 									soulsand = soulsand - amount;
-									BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+									menu.replaceExistingItem(slot, null);
 								}
 							}
 						}
 						
 						for (int slot : getWitherSkullSlots()) {
-							if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
-								int amount = BlockStorage.getInventory(b).getItemInSlot(slot).getAmount();
+							if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+								int amount = menu.getItemInSlot(slot).getAmount();
 								
 								if (amount >= skulls) {
-									BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), skulls));
+									menu.consumeItem(slot, skulls);
 									break;
 								}
 								else {
 									skulls = skulls - amount;
-									BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+									menu.replaceExistingItem(slot, null);
 								}
 							}
 						}

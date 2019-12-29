@@ -81,7 +81,8 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 								if (currentUses == 1) {
 									p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
 									item.setAmount(0);
-								} else {
+								} 
+								else {
 									itemMeta.getPersistentDataContainer().set(
 										usageKey, PersistentDataType.INTEGER, --currentUses
 									);

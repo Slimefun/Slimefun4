@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -45,17 +46,17 @@ public abstract class ADrill extends AContainer {
 			private void constructMenu(BlockMenuPreset preset) {
 				for (int i : border) {
 					preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-						(p, slot, item, action) -> false
+						ChestMenuUtils.getEmptyClickHandler()
 					);
 				}
 				for (int i : border_out) {
 					preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "),
-						(p, slot, item, action) -> false
+						ChestMenuUtils.getEmptyClickHandler()
 					);
 				}
 				
 				preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "),
-					(p, slot, item, action) -> false
+					ChestMenuUtils.getEmptyClickHandler()
 				);
 				
 				for (int i: getOutputSlots()) {

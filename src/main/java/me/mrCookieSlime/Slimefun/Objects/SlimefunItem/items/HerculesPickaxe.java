@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;

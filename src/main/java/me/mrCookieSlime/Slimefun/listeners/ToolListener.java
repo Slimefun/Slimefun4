@@ -27,8 +27,8 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.core.utils.FireworkUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -148,7 +148,7 @@ public class ToolListener implements Listener {
 				ItemUtils.consumeItem(item, false);
 			}
 			
-			FireworkShow.launchRandom(e.getPlayer(), 3);
+			FireworkUtils.launchRandom(e.getPlayer(), 3);
 			List<ItemStack> gifts = new ArrayList<>();
 			
 			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));

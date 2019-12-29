@@ -17,13 +17,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -289,7 +288,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 									
 									for (int slot : getCoolantSlots()) {
 										if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), getCoolant(), true)) {
-											menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+											menu.consumeItem(slot);
 											ReactorHologram.update(l, "&b\u2744 &7100%");
 											explosion = false;
 											break;
@@ -339,7 +338,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 
 					if (fuel != null) {
 						for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
-							menu.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(menu.getItemInSlot(entry.getKey()), entry.getValue()));
+							menu.consumeItem(entry.getKey(), entry.getValue());
 						}
 						
 						processing.put(l, fuel);

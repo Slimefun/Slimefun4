@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.core.commands;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.bukkit.ChatColor;
@@ -26,8 +25,6 @@ import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.StatsCommand
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.TeleporterCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.TimingsCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.VersionsCommand;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.TitleBuilder.TitleType;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -68,25 +65,21 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 			}
 			else if (args[0].equalsIgnoreCase("elevator")) {
 				if (sender instanceof Player && args.length == 4) {
-					double x = Integer.parseInt(args[1]) + 0.5D;
-					double y = Integer.parseInt(args[2]) + 0.4D;
-					double z = Integer.parseInt(args[3]) + 0.5D;
+					Player p = (Player) sender;
 					
-					if (BlockStorage.getLocationInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])).getLocation(), "floor") != null) {
-						SlimefunPlugin.getUtilities().elevatorUsers.add(((Player) sender).getUniqueId());
-						float yaw = ((Player) sender).getEyeLocation().getYaw() + 180;
+					int x = Integer.parseInt(args[1]);
+					int y = Integer.parseInt(args[2]);
+					int z = Integer.parseInt(args[3]);
+					
+					if (BlockStorage.getLocationInfo(p.getWorld().getBlockAt(x, y, z).getLocation(), "floor") != null) {
+						SlimefunPlugin.getUtilities().elevatorUsers.add(p.getUniqueId());
+						float yaw = p.getEyeLocation().getYaw() + 180;
 						if (yaw > 180) yaw = -180 + (yaw - 180);
-						((Player) sender).teleport(new Location(((Player) sender).getWorld(), x, y, z, yaw, ((Player) sender).getEyeLocation().getPitch()));
 						
-						try {
-							TitleBuilder title = (TitleBuilder) new TitleBuilder(20, 60, 20).addText("&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(((Player) sender).getWorld().getBlockAt(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])).getLocation(), "floor")));
-							TitleBuilder subtitle = (TitleBuilder) new TitleBuilder(20, 60, 20).addText(" ");
-							
-							title.send(TitleType.TITLE, ((Player) sender));
-							subtitle.send(TitleType.SUBTITLE, ((Player) sender));
-						} catch (Exception e) {
-							Slimefun.getLogger().log(Level.SEVERE, "An Error occured while a Player used an Elevator in Slimefun " + Slimefun.getVersion(), e);
-						}
+						p.teleport(new Location(p.getWorld(), x + 0.5, y + 0.4, z + 0.5, yaw, p.getEyeLocation().getPitch()));
+						
+						String title = "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(p.getWorld().getBlockAt(x, y, z).getLocation(), "floor"));
+						p.sendTitle(title, " ", 20, 60, 20);
 					}
 				}
 				return true;

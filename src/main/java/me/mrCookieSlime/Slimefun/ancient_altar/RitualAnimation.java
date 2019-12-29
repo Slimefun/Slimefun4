@@ -1,14 +1,10 @@
 package me.mrCookieSlime.Slimefun.ancient_altar;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -19,32 +15,36 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
 public class RitualAnimation implements Runnable {
+	
+	private final AncientAltarListener listener;
 
-	private List<Block> altars;
+	private final List<Block> altars;
 
-	private Block altar;
-	private Location l;
-	private ItemStack output;
-	private List<Block> pedestals;
-	private List<ItemStack> items;
+	private final Block altar;
+	private final Location dropLocation;
+	private final ItemStack output;
+	private final List<Block> pedestals;
+	private final List<ItemStack> items;
 
-	private List<Location> particles;
-	private Map<Item, Location> itemLock = new HashMap<>();
+	private final Collection<Location> particleLocations = new LinkedList<>();
+	private final Map<Item, Location> itemLock = new HashMap<>();
 
 	private boolean running;
 	private int stage;
-	
-	private Utilities utilities = SlimefunPlugin.getUtilities();
 
-	public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
-		this.l = drop;
+	public RitualAnimation(AncientAltarListener listener, List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
+		this.listener = listener;
+		
+		this.dropLocation = drop;
 		this.altar = altar;
 		this.altars = altars;
 		this.output = output;
 		this.pedestals = pedestals;
 		this.items = items;
-		this.particles = new ArrayList<>();
 
 		this.running = true;
 		this.stage = 0;
@@ -74,7 +74,7 @@ public class RitualAnimation implements Runnable {
 		}
 		
 		this.stage += 1;
-		SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, this, 8);
+		Slimefun.runSync(this, 8);
 	}
 
 	private boolean checkLockedItems() {
@@ -88,16 +88,12 @@ public class RitualAnimation implements Runnable {
 	}
 
 	private void idle() {
-		try {
-			l.getWorld().spawnParticle(Particle.SPELL_WITCH, l,16, 1.2F, 0F, 1.2F);
-			l.getWorld().spawnParticle(Particle.FIREWORKS_SPARK,l,8, 0.2F, 0F, 0.2F);
-			
-			for (Location l2 : particles) {
-				l.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, l2,16, 0.3F, 0.2F, 0.3F);
-				l.getWorld().spawnParticle(Particle.CRIT_MAGIC,l2,8, 0.3F, 0.2F, 0.3F);
-			}
-		} catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Ritual Animation for Slimefun " + Slimefun.getVersion(), x);
+		dropLocation.getWorld().spawnParticle(Particle.SPELL_WITCH, dropLocation,16, 1.2F, 0F, 1.2F);
+		dropLocation.getWorld().spawnParticle(Particle.FIREWORKS_SPARK,dropLocation,8, 0.2F, 0F, 0.2F);
+		
+		for (Location loc : particleLocations) {
+			dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, loc,16, 0.3F, 0.2F, 0.3F);
+			dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC,loc,8, 0.3F, 0.2F, 0.3F);
 		}
 	}
 
@@ -108,16 +104,12 @@ public class RitualAnimation implements Runnable {
 			abort();
 		}
 		else {
-			particles.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
+			particleLocations.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
 			items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
 			pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
 
-			try {
-				l.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,pedestal.getLocation().add(0.5, 1.5, 0.5),16, 0.3F, 0.2F, 0.3F);
-				l.getWorld().spawnParticle(Particle.CRIT_MAGIC,pedestal.getLocation().add(0.5, 1.5, 0.5), 8,0.3F, 0.2F, 0.3F);
-			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Pedestal Animation for Slimefun " + Slimefun.getVersion(), x);
-			}
+			dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
+			dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC,pedestal.getLocation().add(0.5, 1.5, 0.5), 8, 0.3F, 0.2F, 0.3F);
 			
 			itemLock.remove(item);
 			item.remove();
@@ -128,29 +120,29 @@ public class RitualAnimation implements Runnable {
 
 	private void abort() {
 		running = false;
-		pedestals.forEach(b -> utilities.altarinuse.remove(b.getLocation()));
+		pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
     
 		// This should re-enable altar blocks on craft failure.
-		utilities.altarinuse.remove(altar.getLocation());
-		l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1F, 1F);
+		listener.getAltarsInUse().remove(altar.getLocation());
+		dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1F, 1F);
 		itemLock.clear();
 		altars.remove(altar);
 	}
   
 	private void finish() {
 		if (running) {
-			l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
-			l.getWorld().playEffect(l, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
-			l.getWorld().dropItemNaturally(l.add(0, -0.5, 0), output);
+			dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
+			dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
+			dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
       
-			pedestals.forEach(b -> utilities.altarinuse.remove(b.getLocation()));
+			pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 			
 			// This should re-enable altar blocks on craft completion.
-			utilities.altarinuse.remove(altar.getLocation());
+			listener.getAltarsInUse().remove(altar.getLocation());
 			altars.remove(altar);
 		}
 		else {
-			l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 1F);
+			dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 1F);
 		}
 	}
 }

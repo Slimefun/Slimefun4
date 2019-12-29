@@ -12,11 +12,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;

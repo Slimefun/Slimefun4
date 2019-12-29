@@ -11,8 +11,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -128,8 +127,8 @@ public class AutoEnchanter extends AContainer {
 			if (recipe != null) {
 				if (!fits(b, recipe.getOutput())) return;
 				
-				for (int slot: getInputSlots()) {
-					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+				for (int slot : getInputSlots()) {
+	                menu.consumeItem(slot);
 				}
 				
 				processing.put(b, recipe);

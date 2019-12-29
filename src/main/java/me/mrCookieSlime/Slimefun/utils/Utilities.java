@@ -110,7 +110,6 @@ public final class Utilities {
 	public final Map<UUID, Integer> enchanting = new HashMap<>();
 	public final Map<UUID, ItemStack> backpack = new HashMap<>();
 	
-	public final Set<Location> altarinuse = new HashSet<>();
 	public final Set<AltarRecipe> altarRecipes = new HashSet<>();
 	
 	public final Map<UUID, Map<Integer, ItemStack>> soulbound = new HashMap<>();

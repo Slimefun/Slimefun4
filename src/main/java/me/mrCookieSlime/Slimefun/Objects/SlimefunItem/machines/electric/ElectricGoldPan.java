@@ -8,8 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -121,8 +120,8 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 					
 					MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
 					if (!menu.fits(output, getOutputSlots())) return;
-					
-					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+
+	                menu.consumeItem(slot);
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;
@@ -132,8 +131,8 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 					
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
 					if (!menu.fits(output, getOutputSlots())) return;
-					
-					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+
+	                menu.consumeItem(slot);
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;

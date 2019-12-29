@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -50,7 +50,7 @@ public class Compressor extends MultiBlockMachine {
 		for (ItemStack current : inv.getContents()) {
 			for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
 				if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
-					final ItemStack adding = RecipeType.getRecipeOutput(this, convert);
+					ItemStack adding = RecipeType.getRecipeOutput(this, convert);
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 					
 					if (outputInv != null) {
