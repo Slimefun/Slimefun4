@@ -1,8 +1,5 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,21 +19,12 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class DamageListener implements Listener {
 
-    private SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");
-
     public DamageListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onDamage(EntityDeathEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {
-                Slimefun.getGPSNetwork().addWaypoint(p, "&4Deathpoint &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
-            }
-        }
-        
         if (e.getEntity().getKiller() instanceof Player) {
             Player p = e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
@@ -53,7 +41,7 @@ public class DamageListener implements Listener {
                 }
             }
             
-            if (item != null && item.getType() != null && item.getType() != Material.AIR && Slimefun.hasUnlocked(p, item, true)) {
+            if (item.getType() != Material.AIR && Slimefun.hasUnlocked(p, item, true)) {
             	for (ItemHandler handler : SlimefunItem.getHandlers("EntityKillHandler")) {
     				if (((EntityKillHandler) handler).onKill(e, e.getEntity(), p, item)) return;
     			}

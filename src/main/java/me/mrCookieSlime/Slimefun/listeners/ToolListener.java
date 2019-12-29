@@ -251,7 +251,7 @@ public class ToolListener implements Listener {
 			} 
 			else {
 				// Walk over all registered block break handlers until one says that it'll handle it.
-				for (ItemHandler handler: SlimefunItem.getHandlers("BlockBreakHandler")) {
+				for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
 					if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 				}
 			}

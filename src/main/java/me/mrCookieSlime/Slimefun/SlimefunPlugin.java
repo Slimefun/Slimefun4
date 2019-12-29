@@ -34,6 +34,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
@@ -42,6 +43,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuide
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.WaypointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
@@ -222,6 +224,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			new AndroidKillingListener(this);
 			new NetworkListener(this);
 			new ItemPickupListener(this);
+			new WaypointListener(this);
 
 			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);
@@ -248,7 +251,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 					new BlockStorage(world);
 				}
 
-				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunPlugin) instance);
+				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener(this);
+				if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) new GrapplingHookListener(this);
 			}, 0);
 			
 			SlimefunCommand command = new SlimefunCommand(this);
