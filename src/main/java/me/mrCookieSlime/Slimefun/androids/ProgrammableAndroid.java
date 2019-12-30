@@ -42,17 +42,17 @@ import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -68,6 +68,7 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.androids.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -98,6 +99,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	private static final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
 	private final Set<MachineFuel> recipes = new HashSet<>();
+	private final String texture;
 	
 	@Override
 	public int[] getInputSlots() {
@@ -113,8 +115,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	public abstract float getFuelEfficiency();
 	public abstract int getTier();
 
-	public ProgrammableAndroid(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public ProgrammableAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
+		this.texture = item.getBase64Texture().orElse(null);
 
 		if (getTier() == 1) {
 			registerFuel(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
@@ -146,7 +149,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			registerFuel(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
 		}
 
-		new BlockMenuPreset(name, "Programmable Android") {
+		new BlockMenuPreset(getID(), "Programmable Android") {
 
 			@Override
 			public void init() {
@@ -156,9 +159,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			@Override
 			public boolean canOpen(Block b, Player p) {
 				boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
+				
 				if (!open) {
 					SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
 				}
+				
 				return open;
 			}
 
@@ -194,7 +199,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			}
 		};
 
-		registerBlockHandler(name, new SlimefunBlockHandler() {
+		registerBlockHandler(getID(), new SlimefunBlockHandler() {
 
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
@@ -252,9 +257,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				ItemStack item = menu.getItemInSlot(43);
 				
 				if (item != null) {
-					for (MachineFuel recipe: recipes) {
+					for (MachineFuel recipe : recipes) {
 						if (SlimefunManager.isItemSimilar(item, recipe.getInput(), true)) {
-							menu.replaceExistingItem(43, InvUtils.decreaseItem(item, 1));
+							menu.consumeItem(43);
 							
 							if (getTier() == 2) {
 								menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
@@ -377,7 +382,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 											if (rest > 0) {
 												int amt = item.getAmount() > rest ? rest: item.getAmount();
 												menu.replaceExistingItem(43, new CustomItem(item, menu.getItemInSlot(43).getAmount() + amt));
-												d.getInventory().setItem(slot, InvUtils.decreaseItem(item, amt));
+												ItemUtils.consumeItem(item, amt, false);
 											}
 											break;
 										}
@@ -487,12 +492,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			Rotatable blockData = (Rotatable) block.getBlockData();
 			blockData.setRotation(face.getOppositeFace());
 			block.setBlockData(blockData);
-			
-			try {
-				CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while moving an Android for Slimefun " + Slimefun.getVersion(), x);
-			}
+
+			SkullBlock.setFromBase64(block, texture);
 			
 			b.setType(Material.AIR);
 			BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
