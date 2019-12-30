@@ -353,9 +353,10 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 				boolean explosion = explode.contains(l);
 				
 				if (explosion) {
-					BlockStorage.getInventory(l).close();
-
-					Slimefun.runSync(() -> SimpleHologram.remove(l.getBlock()));
+					Slimefun.runSync(() -> {
+						BlockStorage.getInventory(l).close();
+						SimpleHologram.remove(l.getBlock());
+					});
 
 					explode.remove(l);
 					processing.remove(l);
