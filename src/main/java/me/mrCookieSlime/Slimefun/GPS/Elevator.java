@@ -60,6 +60,7 @@ public final class Elevator {
 		
 		TellRawMessage tellraw = new TellRawMessage();
 		tellraw.addText("&3- Pick a Destination -\n\n");
+		
 		int index = 1;
 		for (int y = b.getWorld().getMaxHeight(); y > 0; y--) {
 			Block block = b.getWorld().getBlockAt(b.getX(), y, b.getZ());
