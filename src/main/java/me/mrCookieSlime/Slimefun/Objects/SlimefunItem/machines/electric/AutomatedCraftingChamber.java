@@ -68,6 +68,12 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 						return false;
 					});
 				}
+
+				menu.replaceExistingItem(7, new CustomItem(new ItemStack(Material.CRAFTING_TABLE), "&7Craft Last", "", "&e> Click to craft the last shaped recipe", "&cOnly works with the last one"));
+				menu.addMenuClickHandler(7, (p, slot, item, action) -> {
+					tickOnce(b);
+					return false;
+				});
 			}
 
 			@Override
@@ -192,40 +198,65 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			}
 		});
 	}
-	
+
 	protected void tick(Block b) {
 		if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
 		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-		
+
 		BlockMenu menu = BlockStorage.getInventory(b);
-		
+
+		String input = getSerializedInput(menu, false);
+		testInputAgainstRecipes(b, input);
+	}
+
+	protected void tickOnce(Block b) {
+		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+
+		BlockMenu menu = BlockStorage.getInventory(b);
+
+		String input = getSerializedInput(menu, true);
+		testInputAgainstRecipes(b, input);
+	}
+
+	private String getSerializedInput(BlockMenu menu, boolean craftLast) {
 		StringBuilder builder = new StringBuilder();
 		int i = 0;
 		for (int j = 0; j < 9; j++) {
 			if (i > 0) {
 				builder.append(" </slot> ");
 			}
-			
+
 			ItemStack item = menu.getItemInSlot(getInputSlots()[j]);
-			if (item != null && item.getAmount() == 1) return;
+			if (craftLast) {
+				if (item != null && item.getAmount() > 1) return "";
+			} else {
+				// we're only executing the last possible shaped recipe
+				// we don't want to allow this to be pressed instead of the default timer-based
+				//   execution to prevent abuse and auto clickers
+				if (item != null && item.getAmount() == 1) return "";
+			}
+
 			builder.append(CustomItemSerializer.serialize(item, ItemFlag.MATERIAL, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE));
-			
+
 			i++;
 		}
-		
-		String input = builder.toString();
-		
+
+		return builder.toString();
+	}
+
+	private void testInputAgainstRecipes(Block block, String input) {
+		BlockMenu menu = BlockStorage.getInventory(block);
+
 		if (SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.containsKey(input)) {
 			ItemStack output = SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.get(input).clone();
-			
+
 			if (menu.fits(output, getOutputSlots())) {
 				menu.pushItem(output, getOutputSlots());
-				ChargableBlock.addCharge(b, -getEnergyConsumption());
+				ChargableBlock.addCharge(block, -getEnergyConsumption());
 				for (int j = 0; j < 9; j++) {
 					if (menu.getItemInSlot(getInputSlots()[j]) != null) menu.replaceExistingItem(getInputSlots()[j], InvUtils.decreaseItem(menu.getItemInSlot(getInputSlots()[j]), 1));
 				}
 			}
 		}
 	}
-
 }
