@@ -40,6 +40,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Added player option to toggle research fireworks in the guide settings
 * Added Kelp Cookies
 * Added support for multiple recipes on vanilla items
+* Added a "Craft last" button to the Automated Crafting Chamber
 
 ### Changes
 * Revamped Guide Settings menu
