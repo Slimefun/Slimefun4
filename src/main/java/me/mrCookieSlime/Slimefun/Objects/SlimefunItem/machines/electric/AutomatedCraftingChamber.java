@@ -214,6 +214,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 		BlockMenu menu = BlockStorage.getInventory(block);
 		StringBuilder builder = new StringBuilder();
 		int i = 0;
+		boolean lastIteration = false;
 		for (int j = 0; j < 9; j++) {
 			if (i > 0) {
 				builder.append(" </slot> ");
@@ -224,7 +225,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 				// we're only executing the last possible shaped recipe
 				// we don't want to allow this to be pressed instead of the default timer-based
 				//   execution to prevent abuse and auto clickers
-				if (item != null && item.getAmount() > 1) return "";
+				if (item != null && item.getAmount() == 1) lastIteration = true;
 			} else {
 				if (item != null && item.getAmount() == 1) return "";
 			}
@@ -233,6 +234,8 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
 			i++;
 		}
+
+		if (craftLast && !lastIteration) return "";
 
 		return builder.toString();
 	}
