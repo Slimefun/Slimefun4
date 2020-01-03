@@ -200,10 +200,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 	}
 
 	protected void tick(Block block, boolean craftLast) {
-		if (!craftLast) {
-			if (BlockStorage.getLocationInfo(block.getLocation(), "enabled").equals("false")) return;
-		}
-
+		if (!craftLast && BlockStorage.getLocationInfo(block.getLocation(), "enabled").equals("false")) return;
 		if (ChargableBlock.getCharge(block) < getEnergyConsumption()) return;
 
 		String input = getSerializedInput(block, craftLast);
