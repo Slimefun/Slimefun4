@@ -218,13 +218,11 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			}
 
 			ItemStack item = menu.getItemInSlot(getInputSlots()[j]);
-			if (craftLast) {
-				// we're only executing the last possible shaped recipe
-				// we don't want to allow this to be pressed instead of the default timer-based
-				//   execution to prevent abuse and auto clickers
-				if (item != null && item.getAmount() == 1) lastIteration = true;
-			} else {
-				if (item != null && item.getAmount() == 1) return "";
+			if (item != null && item.getAmount() == 1) {
+				if (craftLast)
+					lastIteration = true;
+				else
+					return "";
 			}
 
 			builder.append(CustomItemSerializer.serialize(item, ItemFlag.MATERIAL, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE));
@@ -232,6 +230,9 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			i++;
 		}
 
+		// we're only executing the last possible shaped recipe
+		// we don't want to allow this to be pressed instead of the default timer-based
+		//   execution to prevent abuse and auto clickers
 		if (craftLast && !lastIteration) return "";
 
 		return builder.toString();
