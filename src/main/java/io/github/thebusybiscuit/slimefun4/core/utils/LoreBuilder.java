@@ -5,6 +5,8 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 
 public final class LoreBuilder {
+	
+	public static final String HAZMAT_SUIT_REQUIRED = "&8\u21E8 &4Hazmat Suit required!";
 
 	private LoreBuilder() {}
 	
@@ -25,11 +27,11 @@ public final class LoreBuilder {
 	}
 	
 	public static String powerPerSecond(int power) {
-		return power(power, " Buffer");
+		return power(power, "/s");
 	}
 	
 	public static String power(int power, String suffix) {
-		return "&8\u21E8 &e\u26A1 &7" + power + "J" + suffix;
+		return "&8\u21E8 &e\u26A1 &7" + power + " J" + suffix;
 	}
 	
 }

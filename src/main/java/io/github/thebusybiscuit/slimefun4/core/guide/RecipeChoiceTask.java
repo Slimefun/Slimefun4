@@ -13,7 +13,7 @@ import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-public class RecipeChoiceTask implements Runnable {
+class RecipeChoiceTask implements Runnable {
 	
 	private static final int UPDATE_INTERVAL = 15;
 	
