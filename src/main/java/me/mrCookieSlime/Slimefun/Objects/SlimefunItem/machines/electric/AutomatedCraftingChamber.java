@@ -71,7 +71,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
 				menu.replaceExistingItem(7, new CustomItem(new ItemStack(Material.CRAFTING_TABLE), "&7Craft Last", "", "&e> Click to craft the last shaped recipe", "&cOnly works with the last one"));
 				menu.addMenuClickHandler(7, (p, slot, item, action) -> {
-					tickOnce(b);
+					tick(b, true);
 					return false;
 				});
 			}
@@ -189,7 +189,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
-				AutomatedCraftingChamber.this.tick(b);
+				AutomatedCraftingChamber.this.tick(b, false);
 			}
 
 			@Override
@@ -199,26 +199,19 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 		});
 	}
 
-	protected void tick(Block b) {
-		if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
-		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+	protected void tick(Block block, boolean craftLast) {
+		if (!craftLast) {
+			if (BlockStorage.getLocationInfo(block.getLocation(), "enabled").equals("false")) return;
+		}
 
-		BlockMenu menu = BlockStorage.getInventory(b);
+		if (ChargableBlock.getCharge(block) < getEnergyConsumption()) return;
 
-		String input = getSerializedInput(menu, false);
-		testInputAgainstRecipes(b, input);
+		String input = getSerializedInput(block, craftLast);
+		testInputAgainstRecipes(block, input);
 	}
 
-	protected void tickOnce(Block b) {
-		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-
-		BlockMenu menu = BlockStorage.getInventory(b);
-
-		String input = getSerializedInput(menu, true);
-		testInputAgainstRecipes(b, input);
-	}
-
-	private String getSerializedInput(BlockMenu menu, boolean craftLast) {
+	private String getSerializedInput(Block block, boolean craftLast) {
+		BlockMenu menu = BlockStorage.getInventory(block);
 		StringBuilder builder = new StringBuilder();
 		int i = 0;
 		for (int j = 0; j < 9; j++) {
@@ -228,11 +221,11 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
 			ItemStack item = menu.getItemInSlot(getInputSlots()[j]);
 			if (craftLast) {
-				if (item != null && item.getAmount() > 1) return "";
-			} else {
 				// we're only executing the last possible shaped recipe
 				// we don't want to allow this to be pressed instead of the default timer-based
 				//   execution to prevent abuse and auto clickers
+				if (item != null && item.getAmount() > 1) return "";
+			} else {
 				if (item != null && item.getAmount() == 1) return "";
 			}
 
