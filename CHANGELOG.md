@@ -53,6 +53,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Improved Cargo performance
 * Removed Nether Drill
 * Tweaked Enhanced Furnace Recipes
+* Changed tooltips for Radiation
 
 ### Fixes
 * Fixed Research Titles

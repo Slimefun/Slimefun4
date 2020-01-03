@@ -24,7 +24,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.core.utils.LoreBuilder;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomPotion;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -133,12 +132,12 @@ public final class SlimefunItems {
 	public static final ItemStack DIET_COOKIE = new SlimefunItemStack("DIET_COOKIE", Material.COOKIE, "&6Diet Cookie", "", "&aA very &olightweight &r&acookie.");
 	public static final ItemStack MAGIC_SUGAR = new SlimefunItemStack("MAGIC_SUGAR", Material.SUGAR, "&6Magic Sugar", "", "&a&oFeel the Power of Hermes!");
 	public static final ItemStack MONSTER_JERKY = new SlimefunItemStack("MONSTER_JERKY", Material.ROTTEN_FLESH, "&6Monster Jerky", "", "&a&oNo longer hungry");
-	public static final ItemStack APPLE_JUICE = new SlimefunItemStack("APPLE_JUICE", new CustomPotion("&cApple Juice", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger"));
-	public static final ItemStack MELON_JUICE = new SlimefunItemStack("MELON_JUICE", new CustomPotion("&cMelon Juice", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger"));
-	public static final ItemStack CARROT_JUICE = new SlimefunItemStack("CARROT_JUICE", new CustomPotion("&6Carrot Juice", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger"));
-	public static final ItemStack PUMPKIN_JUICE = new SlimefunItemStack("PUMPKIN_JUICE", new CustomPotion("&6Pumpkin Juice", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger"));
-	public static final ItemStack SWEET_BERRY_JUICE = new SlimefunItemStack("SWEET_BERRY_JUICE", new CustomPotion("&cSweet Berry Juice", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger"));
-	public static final ItemStack GOLDEN_APPLE_JUICE = new SlimefunItemStack("GOLDEN_APPLE_JUICE", new CustomPotion("&bGolden Apple Juice", Color.YELLOW, new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0)));
+	public static final ItemStack APPLE_JUICE = new SlimefunItemStack("APPLE_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&cApple Juice", "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger");
+	public static final ItemStack MELON_JUICE = new SlimefunItemStack("MELON_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&cMelon Juice", "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger");
+	public static final ItemStack CARROT_JUICE = new SlimefunItemStack("CARROT_JUICE", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&6Carrot Juice", "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger");
+	public static final ItemStack PUMPKIN_JUICE = new SlimefunItemStack("PUMPKIN_JUICE", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&6Pumpkin Juice", "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger");
+	public static final ItemStack SWEET_BERRY_JUICE = new SlimefunItemStack("SWEET_BERRY_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&cSweet Berry Juice", "", "&7&oRestores &b&o" + "3.0" + " &7&oHunger");
+	public static final ItemStack GOLDEN_APPLE_JUICE = new SlimefunItemStack("GOLDEN_APPLE_JUICE", Color.YELLOW, new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0), "&bGolden Apple Juice");
 	
 	public static final ItemStack BEEF_JERKY = new SlimefunItemStack("BEEF_JERKY", Material.COOKED_BEEF, "&6Beef Jerky", "", "&rExtra saturating!");
 	public static final ItemStack PORK_JERKY = new SlimefunItemStack("PORK_JERKY", Material.COOKED_PORKCHOP, "&6Pork Jerky", "", "&rExtra saturating!");
@@ -150,19 +149,19 @@ public final class SlimefunItems {
 	public static final ItemStack KELP_COOKIE = new SlimefunItemStack("KELP_COOKIE", Material.COOKIE, "&2Kelp Cookie");
 	
 	/*		Christmas		*/
-	public static final ItemStack CHRISTMAS_MILK = new CustomPotion("&6Glass of Milk", Color.WHITE, new PotionEffect(PotionEffectType.SATURATION, 5, 0), "", "&7&oRestores &b&o" + "2.5" + " &7&oHunger");
-	public static final ItemStack CHRISTMAS_CHOCOLATE_MILK = new CustomPotion("&6Chocolate Milk", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 12, 0), "", "&7&oRestores &b&o" + "6.0" + " &7&oHunger");
-	public static final ItemStack CHRISTMAS_EGG_NOG = new CustomPotion("&aEgg Nog", Color.GRAY, new PotionEffect(PotionEffectType.SATURATION, 7, 0), "", "&7&oRestores &b&o" + "3.5" + " &7&oHunger");
-	public static final ItemStack CHRISTMAS_APPLE_CIDER = new CustomPotion("&cApple Cider", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "", "&7&oRestores &b&o" + "7.0" + " &7&oHunger");
-	public static final ItemStack CHRISTMAS_COOKIE = new CustomItem(Material.COOKIE, ChatUtils.christmas("Christmas Cookie"));
-	public static final ItemStack CHRISTMAS_FRUIT_CAKE = new CustomItem(Material.PUMPKIN_PIE, ChatUtils.christmas("Fruit Cake"));
-	public static final ItemStack CHRISTMAS_APPLE_PIE = new CustomItem(Material.PUMPKIN_PIE, "&rApple Pie");
-	public static final ItemStack CHRISTMAS_HOT_CHOCOLATE = new CustomPotion("&6Hot Chocolate", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "", "&7&oRestores &b&o" + "7.0" + " &7&oHunger");
-	public static final ItemStack CHRISTMAS_CAKE = new CustomItem(Material.PUMPKIN_PIE, ChatUtils.christmas("Christmas Cake"));
-	public static final ItemStack CHRISTMAS_CARAMEL = new CustomItem(Material.BRICK, "&6Caramel");
-	public static final ItemStack CHRISTMAS_CARAMEL_APPLE = new CustomItem(Material.APPLE, "&6Caramel Apple");
-	public static final ItemStack CHRISTMAS_CHOCOLATE_APPLE = new CustomItem(Material.APPLE, "&6Chocolate Apple");
-	public static final ItemStack CHRISTMAS_PRESENT = new CustomItem(Material.CHEST, ChatUtils.christmas("Christmas Present"), "&7From: &emrCookieSlime", "&7To: &eYou", "", "&eRight Click&7 to open");
+	public static final ItemStack CHRISTMAS_MILK = new SlimefunItemStack("CHRISTMAS_MILK", Color.WHITE, new PotionEffect(PotionEffectType.SATURATION, 5, 0), "&6Glass of Milk", "", "&7&oRestores &b&o" + "2.5" + " &7&oHunger");
+	public static final ItemStack CHRISTMAS_CHOCOLATE_MILK = new SlimefunItemStack("CHRISTMAS_CHOCOLATE_MILK", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 12, 0), "&6Chocolate Milk", "", "&7&oRestores &b&o" + "6.0" + " &7&oHunger");
+	public static final ItemStack CHRISTMAS_EGG_NOG = new SlimefunItemStack("CHRISTMAS_EGG_NOG", Color.GRAY, new PotionEffect(PotionEffectType.SATURATION, 7, 0), "&aEgg Nog", "", "&7&oRestores &b&o" + "3.5" + " &7&oHunger");
+	public static final ItemStack CHRISTMAS_APPLE_CIDER = new SlimefunItemStack("CHRISTMAS_APPLE_CIDER", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "&cApple Cider", "", "&7&oRestores &b&o" + "7.0" + " &7&oHunger");
+	public static final ItemStack CHRISTMAS_COOKIE = new SlimefunItemStack("CHRISTMAS_COOKIE", Material.COOKIE, ChatUtils.christmas("Christmas Cookie"));
+	public static final ItemStack CHRISTMAS_FRUIT_CAKE = new SlimefunItemStack("CHRISTMAS_FRUIT_CAKE", Material.PUMPKIN_PIE, ChatUtils.christmas("Fruit Cake"));
+	public static final ItemStack CHRISTMAS_APPLE_PIE = new SlimefunItemStack("CHRISTMAS_APPLE_PIE", Material.PUMPKIN_PIE, "&rApple Pie");
+	public static final ItemStack CHRISTMAS_HOT_CHOCOLATE = new SlimefunItemStack("CHRISTMAS_HOT_CHOCOLATE", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "&6Hot Chocolate", "", "&7&oRestores &b&o" + "7.0" + " &7&oHunger");
+	public static final ItemStack CHRISTMAS_CAKE = new SlimefunItemStack("CHRISTMAS_CAKE", Material.PUMPKIN_PIE, ChatUtils.christmas("Christmas Cake"));
+	public static final ItemStack CHRISTMAS_CARAMEL = new SlimefunItemStack("CHRISTMAS_CARAMEL", Material.BRICK, "&6Caramel");
+	public static final ItemStack CHRISTMAS_CARAMEL_APPLE = new SlimefunItemStack("CHRISTMAS_CARAMEL_APPLE", Material.APPLE, "&6Caramel Apple");
+	public static final ItemStack CHRISTMAS_CHOCOLATE_APPLE = new SlimefunItemStack("CHRISTMAS_CHOCOLATE_APPLE", Material.APPLE, "&6Chocolate Apple");
+	public static final ItemStack CHRISTMAS_PRESENT = new SlimefunItemStack("CHRISTMAS_PRESENT", Material.CHEST, ChatUtils.christmas("Christmas Present"), "&7From: &emrCookieSlime", "&7To: &eYou", "", "&eRight Click&7 to open");
 	
 	/*		Easter			*/
 	public static final ItemStack EASTER_EGG = new SlimefunItemStack("EASTER_EGG", Material.EGG, "&rEaster Egg", "&bSurprise! Surprise!");
@@ -344,7 +343,7 @@ public final class SlimefunItems {
 	public static final ItemStack PULVERIZED_ORE = new SlimefunItemStack("PULVERIZED_ORE", Material.GUNPOWDER, "&6Pulverized Ore");
 	public static final ItemStack PURE_ORE_CLUSTER = new SlimefunItemStack("PURE_ORE_CLUSTER", Material.GUNPOWDER, "&6Pure Ore Cluster");
 	public static final ItemStack SMALL_URANIUM = new SlimefunItemStack("SMALL_URANIUM", "c8b29afa6d6dc923e2e1324bf8192750f7bdbddc689632a2b6c18d9fe7a5e", "&cSmall Chunk of Uranium", "", LoreBuilder.radioactive(Radioactivity.MODERATE), LoreBuilder.HAZMAT_SUIT_REQUIRED);
-	public static final ItemStack TINY_URANIUM = new SlimefunItemStack("TINY_URANIUM", "c8b29afa6d6dc923e2e1324bf8192750f7bdbddc689632a2b6c18d9fe7a5e", "&cTiny Pile of Uranium", "", LoreBuilder.radioactive(Radioactivity.LOW), "&4&oNo Hazmat Suit required");
+	public static final ItemStack TINY_URANIUM = new SlimefunItemStack("TINY_URANIUM", "c8b29afa6d6dc923e2e1324bf8192750f7bdbddc689632a2b6c18d9fe7a5e", "&cTiny Pile of Uranium", "", LoreBuilder.radioactive(Radioactivity.LOW));
 	
 	public static final ItemStack MAGNET = new SlimefunItemStack("MAGNET", "aba8ebc4c6a81730947499bf7e1d5e73fed6c1bb2c051e96d35eb16d24610e7", "&cMagnet");
 	public static final ItemStack NECROTIC_SKULL = new SlimefunItemStack("NECROTIC_SKULL", Material.WITHER_SKELETON_SKULL, "&cNecrotic Skull");
@@ -514,10 +513,10 @@ public final class SlimefunItems {
 	public static final ItemStack SOLAR_ARRAY = new SlimefunItemStack("SOLAR_ARRAY", Material.DAYLIGHT_DETECTOR, "&bSolar Array", "", "&a&oTransforms Sunlight to Energy");
 	
 	@Deprecated
-	public static final ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&bDigital Miner", "", "&4DEPRECATED", "&cThis machine will soon be removed!");
+	public static final ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&bDigital Miner", "", "&4DEPRECATED", "&cThis machine will be removed at some point!", "&cWe don't know when.");
 
 	@Deprecated
-	public static final ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6Advanced Digital Miner", "", "&4DEPRECATED", "&cThis machine will soon be removed!");
+	public static final ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6Advanced Digital Miner", "", "&4DEPRECATED", "&cThis machine will be removed at some point!", "&cWe don't know when.");
 	
 	public static final ItemStack AUTOMATED_PANNING_MACHINE = new SlimefunItemStack("AUTOMATED_PANNING_MACHINE", Material.BOWL, "&eAutomated Panning Machine", "", "&rA MultiBlock Version of the Gold Pan", "&rand Nether Gold Pan combined in one machine.");
 	public static final ItemStack OUTPUT_CHEST = new SlimefunItemStack("OUTPUT_CHEST", Material.CHEST, "&4Output Chest", "", "&c&oA basic machine will try to put", "&c&oitems in this chest if it's placed", "&c&oadjacent to the dispenser.");

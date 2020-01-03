@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 public final class FireworkUtils {
 	
-	private static final Color[] colors = {Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW};
+	private static final Color[] COLORS = {Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW};
 	
 	private FireworkUtils() {}
 	
@@ -60,6 +60,6 @@ public final class FireworkUtils {
 	}
 	
 	private static Color getRandomColor() {
-		return colors[ThreadLocalRandom.current().nextInt(colors.length)];
+		return COLORS[ThreadLocalRandom.current().nextInt(COLORS.length)];
 	}
 }

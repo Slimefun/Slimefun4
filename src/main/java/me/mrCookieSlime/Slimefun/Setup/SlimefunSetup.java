@@ -1519,63 +1519,63 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, new ItemStack(Material.TORCH), null, new ItemStack(Material.SUGAR), new ItemStack(Material.CAKE), new ItemStack(Material.SUGAR), null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_MILK, "CHRISTMAS_MILK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_MILK, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.MILK_BUCKET), new ItemStack(Material.GLASS_BOTTLE), null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_MILK, 4))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_CHOCOLATE_MILK, "CHRISTMAS_CHOCOLATE_MILK", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_CHOCOLATE_MILK, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CHRISTMAS_MILK, new ItemStack(Material.COCOA_BEANS), null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_MILK, 2))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_EGG_NOG, "CHRISTMAS_EGG_NOG", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_EGG_NOG, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CHRISTMAS_MILK, new ItemStack(Material.EGG), null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_EGG_NOG, 2))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_APPLE_CIDER, "CHRISTMAS_APPLE_CIDER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_APPLE_CIDER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.APPLE_JUICE, new ItemStack(Material.SUGAR), null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 2))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_COOKIE, "CHRISTMAS_COOKIE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_COOKIE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.COOKIE), new ItemStack(Material.SUGAR), new ItemStack(Material.LIME_DYE), null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 16))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_FRUIT_CAKE, "CHRISTMAS_FRUIT_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_FRUIT_CAKE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.EGG), new ItemStack(Material.APPLE), new ItemStack(Material.MELON), new ItemStack(Material.SUGAR), null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_APPLE_PIE, "CHRISTMAS_APPLE_PIE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_APPLE_PIE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 2))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, "CHRISTMAS_HOT_CHOCOLATE", RecipeType.SMELTERY,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.CHRISTMAS_CHOCOLATE_MILK, null, null, null, null, null, null, null, null}, SlimefunItems.CHRISTMAS_HOT_CHOCOLATE)
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_CAKE, "CHRISTMAS_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_CAKE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, new ItemStack(Material.MILK_BUCKET), null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_CARAMEL, "CHRISTMAS_CARAMEL", RecipeType.SMELTERY,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_CARAMEL, RecipeType.SMELTERY,
 		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL, 4))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_CARAMEL_APPLE, "CHRISTMAS_CARAMEL_APPLE", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, new ItemStack(Material.SUGAR), null, null, new ItemStack(Material.APPLE), null, null, new ItemStack(Material.STICK), null}, new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 2))
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_CARAMEL_APPLE, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {null, SlimefunItems.CHRISTMAS_CARAMEL, null, null, new ItemStack(Material.APPLE), null, null, new ItemStack(Material.STICK), null}, new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 2))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, "CHRISTMAS_CHOCOLATE_APPLE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.COCOA_BEANS), null, null, new ItemStack(Material.APPLE), null, null, new ItemStack(Material.STICK), null}, new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 2))
 		.register(true);
 
-		new SlimefunItem(Categories.CHRISTMAS, SlimefunItems.CHRISTMAS_PRESENT, "CHRISTMAS_PRESENT", RecipeType.MAGIC_WORKBENCH,
+		new SlimefunItem(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.CHRISTMAS_PRESENT, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, new ItemStack(Material.NAME_TAG), null, new ItemStack(Material.RED_WOOL), new ItemStack(Material.GREEN_WOOL), new ItemStack(Material.RED_WOOL), new ItemStack(Material.RED_WOOL), new ItemStack(Material.GREEN_WOOL), new ItemStack(Material.RED_WOOL)})
 		.register(true);
 
-		new SlimefunItem(Categories.EASTER, SlimefunItems.EASTER_CARROT_PIE, "EASTER_CARROT_PIE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.EASTER, (SlimefunItemStack) SlimefunItems.EASTER_CARROT_PIE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.CARROT), new ItemStack(Material.EGG), null, null, null, null, null, null}, new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 2))
 		.register(true);
 
-		new SlimefunItem(Categories.EASTER, SlimefunItems.CHRISTMAS_APPLE_PIE, "EASTER_APPLE_PIE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.EASTER, (SlimefunItemStack) SlimefunItems.CHRISTMAS_APPLE_PIE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null}, new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 2))
 		.register(true);
 

@@ -1,6 +1,8 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -9,6 +11,8 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
@@ -31,6 +35,33 @@ public class SlimefunItemStack extends CustomItem {
 
 	public SlimefunItemStack(String id, Material type, Color color, String name, String... lore) {
 		super(new ItemStack(type), color, name, lore);
+		texture = null;
+
+		setID(id);
+	}
+
+	public SlimefunItemStack(String id, Color color, PotionEffect effect, String name, String... lore) {
+		super(Material.POTION, im -> {
+			if (name != null) {
+				im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+			}
+			
+			if (lore.length > 0) {
+				List<String> lines = new ArrayList<>();
+				
+				for (String line : lore) {
+					lines.add(ChatColor.translateAlternateColorCodes('&', line));
+				}
+				
+				im.setLore(lines);
+			}
+			
+			if (im instanceof PotionMeta) {
+				((PotionMeta) im).setColor(color);
+				((PotionMeta) im).addCustomEffect(effect, true);
+			}
+		});
+		
 		texture = null;
 
 		setID(id);
