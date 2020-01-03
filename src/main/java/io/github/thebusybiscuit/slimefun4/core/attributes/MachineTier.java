@@ -1,6 +1,5 @@
-package me.mrCookieSlime.Slimefun.utils;
+package io.github.thebusybiscuit.slimefun4.core.attributes;
 
-@Deprecated
 public enum MachineTier {
 	
 	BASIC("&eBasic"),
@@ -19,10 +18,6 @@ public enum MachineTier {
 	@Override
 	public String toString() {
 		return prefix;
-	}
-	
-	public String and(MachineType type) {
-		return this + " " + type;
 	}
 
 }

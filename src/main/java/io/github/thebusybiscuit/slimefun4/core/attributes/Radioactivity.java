@@ -3,7 +3,8 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import org.bukkit.ChatColor;
 
 public enum Radioactivity {
-	
+
+	LOW(ChatColor.YELLOW),
 	MODERATE(ChatColor.YELLOW),
 	HIGH(ChatColor.DARK_GREEN),
 	VERY_HIGH(ChatColor.RED),

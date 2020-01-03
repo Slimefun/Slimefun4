@@ -1,6 +1,5 @@
-package me.mrCookieSlime.Slimefun.utils;
+package io.github.thebusybiscuit.slimefun4.core.attributes;
 
-@Deprecated
 public enum MachineType {
 	
 	CAPACITOR("Capacitor"),
