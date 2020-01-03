@@ -38,6 +38,7 @@ public class ContributionsConnector extends GitHubConnector {
 		aliases.put("BurningBrimstone", "Bluedevil74");
 		aliases.put("bverhoeven", "soczol");
 		aliases.put("ramdon-person", "ramdon_person");
+		aliases.put("mohkamfer", "citBabY");
 	}
 	
 	private final String prefix;
