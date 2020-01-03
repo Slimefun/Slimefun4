@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import java.util.Base64;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -70,14 +71,14 @@ public class SlimefunItemStack extends CustomItem {
 	}
 
 	public SlimefunItemStack(String id, String texture, String name, String... lore) {
-		super(SkullItem.fromBase64(texture), name, lore);
+		super(getSkull(texture), name, lore);
 		this.texture = texture;
 		
 		setID(id);
 	}
 
 	public SlimefunItemStack(String id, String texture, String name, Consumer<ItemMeta> consumer) {
-		super(SkullItem.fromBase64(texture), meta -> {
+		super(getSkull(texture), meta -> {
 			if (name != null) {
 				meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
 			}
@@ -91,7 +92,7 @@ public class SlimefunItemStack extends CustomItem {
 	}
 
 	public SlimefunItemStack(String id, String texture, Consumer<ItemMeta> consumer) {
-		super(SkullItem.fromBase64(texture), consumer);
+		super(getSkull(texture), consumer);
 		this.texture = texture;
 		
 		setID(id);
@@ -132,6 +133,17 @@ public class SlimefunItemStack extends CustomItem {
 
 	public Optional<String> getBase64Texture() {
 		return Optional.ofNullable(texture);
+	}
+	
+	private static ItemStack getSkull(String texture) {
+		String base64 = texture;
+		
+		// At this point we can be sure it's not a base64 encoded texture
+		if (!texture.startsWith("ey")) {
+			base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes());
+		}
+		
+		return SkullItem.fromBase64(base64);
 	}
 
 }

@@ -6,7 +6,7 @@ public enum MachineType {
 	GENERATOR("Generator"),
 	MACHINE("Machine");
 	
-	private String suffix;
+	private final String suffix;
 	
 	private MachineType(String suffix) {
 		this.suffix = suffix;
