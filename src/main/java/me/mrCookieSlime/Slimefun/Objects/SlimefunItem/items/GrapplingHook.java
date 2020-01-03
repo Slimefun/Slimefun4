@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
@@ -66,7 +65,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
                     utilities.remove.put(uuid, new Entity[]{b, arrow});
 
                     // To fix issue #253
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+                    Slimefun.runSync(() -> {
                         if (utilities.jumpState.containsKey(uuid)) {
                             utilities.arrows.remove(uuid);
 
@@ -74,7 +73,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemInteractionHandler> {
                                 if (n.isValid()) n.remove();
                             }
 
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+                            Slimefun.runSync(() -> {
                                 utilities.damage.remove(uuid);
                                 utilities.jumpState.remove(uuid);
                                 utilities.remove.remove(uuid);

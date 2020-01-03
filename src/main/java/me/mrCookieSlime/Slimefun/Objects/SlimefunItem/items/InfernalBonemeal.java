@@ -30,7 +30,9 @@ public class InfernalBonemeal extends SimpleSlimefunItem<ItemInteractionHandler>
 						e.getClickedBlock().setBlockData(ageable);
 						e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
 						
-						if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
+						if (p.getGameMode() != GameMode.CREATIVE) {
+							ItemUtils.consumeItem(item, false);
+						}
 					}
 				}
 				return true;

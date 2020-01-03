@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
@@ -21,11 +22,13 @@ public class Multimeter extends SimpleSlimefunItem<ItemInteractionHandler> {
     public ItemInteractionHandler getItemHandler() {
         return (e, p, item) -> {
         	if (isItem(item)) {
-        		if (e.getClickedBlock() != null && ChargableBlock.isChargable(e.getClickedBlock())) {
+        		Block b = e.getClickedBlock();
+        		
+        		if (b != null && ChargableBlock.isChargable(b)) {
 					e.setCancelled(true);
 					p.sendMessage("");
-					p.sendMessage(ChatColors.color("&bStored Energy: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(e.getClickedBlock())) + " J"));
-					p.sendMessage(ChatColors.color("&bCapacity: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(e.getClickedBlock())) + " J"));
+					p.sendMessage(ChatColors.color("&bStored Energy: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getCharge(b)) + " J"));
+					p.sendMessage(ChatColors.color("&bCapacity: &3" + DoubleHandler.getFancyDouble(ChargableBlock.getMaxCharge(b)) + " J"));
 					p.sendMessage("");
 				}
 				return true;

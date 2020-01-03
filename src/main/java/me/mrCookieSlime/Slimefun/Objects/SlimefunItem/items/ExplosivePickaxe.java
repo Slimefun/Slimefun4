@@ -1,16 +1,14 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
-import java.util.List;
-
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -26,8 +24,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
-
-	private String[] blacklist;
+	
 	private boolean damageOnUse;
 	
 	public ExplosivePickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
@@ -55,7 +52,7 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 							
 							Block b = e.getBlock().getRelative(x, y, z);
 							
-							if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), blacklist) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+							if (b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 								SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK);
 
 								b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -98,9 +95,6 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 	@Override
 	public void postRegister() {
 		damageOnUse = ((boolean) Slimefun.getItemValue(getID(), "damage-on-use"));
-
-		List<?> list = (List<?>) Slimefun.getItemValue(getID(), "unbreakable-blocks");
-		blacklist = list.toArray(new String[list.size()]);
 	}
 
 	@Override

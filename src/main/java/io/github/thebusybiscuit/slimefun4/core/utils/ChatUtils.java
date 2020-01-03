@@ -19,5 +19,20 @@ public final class ChatUtils {
 	public static String christmas(String text) {
 		return ChatColors.alternating(text, ChatColor.GREEN, ChatColor.RED);
 	}
+	
+	public static String humanize(String string) {
+		StringBuilder builder = new StringBuilder();
+		
+		String[] segments = string.split("_");
+		
+		builder.append(Character.toUpperCase(segments[0].charAt(0)) + segments[0].substring(1));
+		
+		for (int i = 1; i < segments.length; i++) {
+			String segment = segments[i];
+			builder.append(" " + Character.toUpperCase(segment.charAt(0)) + segment.substring(1));
+		}
+		
+		return builder.toString();
+	}
 
 }

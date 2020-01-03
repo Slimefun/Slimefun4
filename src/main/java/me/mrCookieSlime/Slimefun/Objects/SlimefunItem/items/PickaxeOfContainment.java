@@ -8,7 +8,7 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChatUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -46,7 +46,9 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<BlockBreakHandler> 
 				List<String> lore = im.getLore();
 				
 				for (int i = 0; i < lore.size(); i++) {
-					if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
+					if (lore.get(i).contains("<Type>")) {
+						lore.set(i, lore.get(i).replace("<Type>", ChatUtils.humanize(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
+					}
 				}
 				
 				im.setLore(lore);
