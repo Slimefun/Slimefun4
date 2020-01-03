@@ -23,7 +23,7 @@ public final class ChatUtils {
 	public static String humanize(String string) {
 		StringBuilder builder = new StringBuilder();
 		
-		String[] segments = string.split("_");
+		String[] segments = string.toLowerCase().split("_");
 		
 		builder.append(Character.toUpperCase(segments[0].charAt(0)) + segments[0].substring(1));
 		

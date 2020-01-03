@@ -82,6 +82,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Fixed #1295
 * Fixed MultiBlocks not accepting different fence types
 * Fixed #1337
+* Fixed Applie Pie ID mismatch
 
 ## Release Candidate 3 (21 Nov 2019)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
