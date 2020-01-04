@@ -85,6 +85,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Fixed #1337
 * Fixed Applie Pie ID mismatch
 * Fixed #1344
+* Fixed #1349
+* Fixed #1332
 
 ## Release Candidate 3 (21 Nov 2019)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3

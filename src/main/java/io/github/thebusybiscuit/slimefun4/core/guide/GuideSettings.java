@@ -182,7 +182,7 @@ public final class GuideSettings {
 
 		if (SlimefunPlugin.getSettings().researchFireworksEnabled) {
 			if (!PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1) {
-				menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &aYes", "", "&7When researching items, you will", "&7be presented with a big firework.", "", "&7\u21E8 Click to toggle your fireworks"),
+				menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &aYes", "", "&7When researching items, you will", "&7be presented with a big firework.", "", "&7\u21E8 &eClick to disable your fireworks"),
 				(pl, slot, item, action) -> {
 					PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 0);
 					openSettings(pl, guide);
@@ -190,7 +190,7 @@ public final class GuideSettings {
 				});
 			}
 			else {
-				menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &4No", "", "&7When researching items, you will", "&7not be presented with a big firework.", "", "&7\u21E8 Click to toggle your fireworks"),
+				menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &4No", "", "&7When researching items, you will", "&7not be presented with a big firework.", "", "&7\u21E8 &eClick to enable your fireworks"),
 				(pl, slot, item, action) -> {
 					PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 1);
 					openSettings(pl, guide);
