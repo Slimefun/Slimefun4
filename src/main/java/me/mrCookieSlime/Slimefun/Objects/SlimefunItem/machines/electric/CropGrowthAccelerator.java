@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -96,25 +95,28 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 	}
 	
 	protected void tick(Block b) {
-		if (work(b) > 0) {
+		BlockMenu inv = BlockStorage.getInventory(b);
+		
+		if (work(b, inv) > 0) {
 			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+					inv.consumeItem(slot);
 					break;
 				}
 			}
 		}
 	}
 
-	private int work(Block b) {
+	private int work(Block b, BlockMenu inv) {
 		int work = 0;
 		
 		for (int x = -getRadius(); x <= getRadius(); x++) {
 			for (int z = -getRadius(); z <= getRadius(); z++) {
 				Block block = b.getRelative(x, 0, z);
+				
 				if (crops.containsKey(block.getType()) && ((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
 					for (int slot : getInputSlots()) {
-						if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+						if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
 							if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption()) return work;
 							ChargableBlock.addCharge(b, -getEnergyConsumption());
 

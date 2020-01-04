@@ -1,9 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.utils;
 
+import java.util.function.Consumer;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class ChatUtils {
 	
@@ -18,6 +23,10 @@ public final class ChatUtils {
 	
 	public static String christmas(String text) {
 		return ChatColors.alternating(text, ChatColor.GREEN, ChatColor.RED);
+	}
+	
+	public static void awaitInput(Player p, Consumer<String> callback) {
+		ChatInput.waitForPlayer(SlimefunPlugin.instance, p, callback);
 	}
 	
 	public static String humanize(String string) {

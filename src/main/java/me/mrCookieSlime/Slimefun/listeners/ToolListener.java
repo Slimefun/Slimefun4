@@ -21,7 +21,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -316,13 +315,6 @@ public class ToolListener implements Listener {
     		}
 		}
 	    
-	}
-	
-	@EventHandler
-	public void onLiquidFlow(BlockFromToEvent e) {
-		Block block = e.getToBlock();
-		String item = BlockStorage.checkID(block);
-		if (item != null) e.setCancelled(true);
 	}
 
 }

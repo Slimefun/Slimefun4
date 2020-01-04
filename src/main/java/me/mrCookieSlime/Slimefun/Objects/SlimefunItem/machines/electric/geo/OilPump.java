@@ -6,9 +6,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
@@ -89,7 +88,7 @@ public abstract class OilPump extends AContainer {
 				progress.put(b, timeleft - 1);
 			}
 			else {
-				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 				inv.pushItem(SlimefunItems.BUCKET_OF_OIL, getOutputSlots());
 				
 				progress.remove(b);
@@ -102,17 +101,18 @@ public abstract class OilPump extends AContainer {
 					OreGenResource oil = OreGenSystem.getResource("Oil");
 					Chunk chunk = b.getChunk();
 					int supplies = OreGenSystem.getSupplies(oil, chunk, false);
+					
 					if (supplies > 0) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
 
-						inv.replaceExistingItem(slot, InvUtils.decreaseItem(inv.getItemInSlot(slot), 1));
+						inv.consumeItem(slot);
 						processing.put(b, r);
 						progress.put(b, r.getTicks());
 						OreGenSystem.setSupplies(oil, chunk, supplies - 1);
 					}
 					else {
-						ItemStack item = BlockStorage.getInventory(b).getItemInSlot(slot).clone();
-						BlockStorage.getInventory(b).replaceExistingItem(slot, null);
+						ItemStack item = inv.getItemInSlot(slot).clone();
+						inv.replaceExistingItem(slot, null);
 						pushItems(b, item);
 					}
 					break;

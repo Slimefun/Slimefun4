@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -118,6 +118,11 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 		}
 		
 		return displayRecipes;
+	}
+	
+	@Override
+	public String getRecipeSectionLabel() {
+		return "&7\u21E9 Resources you can obtain \u21E9";
 	}
 	
 	@Override

@@ -16,7 +16,6 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -247,8 +246,11 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			if (menu.fits(output, getOutputSlots())) {
 				menu.pushItem(output, getOutputSlots());
 				ChargableBlock.addCharge(block, -getEnergyConsumption());
+				
 				for (int j = 0; j < 9; j++) {
-					if (menu.getItemInSlot(getInputSlots()[j]) != null) menu.replaceExistingItem(getInputSlots()[j], InvUtils.decreaseItem(menu.getItemInSlot(getInputSlots()[j]), 1));
+					if (menu.getItemInSlot(getInputSlots()[j]) != null) {
+						menu.consumeItem(getInputSlots()[j]);
+					}
 				}
 			}
 		}

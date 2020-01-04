@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
@@ -51,5 +52,12 @@ public class BlockListener implements Listener {
 				}
 			}
 		}
+	}
+	
+	@EventHandler
+	public void onLiquidFlow(BlockFromToEvent e) {
+		Block block = e.getToBlock();
+		String item = BlockStorage.checkID(block);
+		if (item != null) e.setCancelled(true);
 	}
 }

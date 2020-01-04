@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api;
+package io.github.thebusybiscuit.slimefun4.api.items;
 
 import java.util.Optional;
 
@@ -14,7 +14,7 @@ public final class HashedArmorpiece {
 	private int hash;
 	private Optional<SlimefunArmorPiece> item;
 	
-	protected HashedArmorpiece() {
+	public HashedArmorpiece() {
 		this.hash = 0;
 		this.item = Optional.empty();
 	}

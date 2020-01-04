@@ -71,7 +71,7 @@ public final class GuideSettings {
 				"&7and maintained by a large community.",
 				"&7Here you can find them all", 
 				"", 
-				"&7\u21E8 Click to see all of them"
+				"&7\u21E8 &eClick to see all of them"
 		),
 		(pl, slot, action, item) -> {
 			openCredits(pl, 0);
@@ -101,7 +101,7 @@ public final class GuideSettings {
 				"&7&oand if you want to keep this Plugin alive,", 
 				"&7&othen please consider contributing to it", 
 				"", 
-				"&7\u21E8 Click to go to GitHub"
+				"&7\u21E8 &eClick to go to GitHub"
 		),
 		(pl, slot, item, action) -> {
 			pl.closeInventory();
@@ -117,7 +117,7 @@ public final class GuideSettings {
 				"&7Check out our community-maintained Wiki", 
 				"&7and become one of our Editors!", 
 				"", 
-				"&7\u21E8 Click to go to the official Slimefun Wiki"
+				"&7\u21E8 &eClick to go to the official Slimefun Wiki"
 		),
 		(pl, slot, item, action) -> {
 			pl.closeInventory();
@@ -131,7 +131,7 @@ public final class GuideSettings {
 		
 		if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -139,7 +139,7 @@ public final class GuideSettings {
 				});
 			}
 			else {
-				menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&7\u21E8 &eClick to change your layout"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -151,7 +151,7 @@ public final class GuideSettings {
 		}
 		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEAT_SHEET));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -159,7 +159,7 @@ public final class GuideSettings {
 				});
 			}
 			else {
-				menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&7\u21E8 &eClick to change your layout"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -170,7 +170,7 @@ public final class GuideSettings {
 			i++;
 		}
 		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-			menu.addItem(i, new CustomItem(Material.COMMAND_BLOCK, "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+			menu.addItem(i, new CustomItem(Material.COMMAND_BLOCK, "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
 			menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 				pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 				openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -201,7 +201,7 @@ public final class GuideSettings {
 			i++;
 		}
 
-		menu.addItem(i, new CustomItem(Material.REDSTONE, "&4Report a bug", "", "&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 Click to go to the Slimefun4 Bug Tracker"),
+		menu.addItem(i, new CustomItem(Material.REDSTONE, "&4Report a bug", "", "&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 &eClick to go to the Slimefun4 Bug Tracker"),
 		(pl, slot, item, action) -> {
 			pl.closeInventory();
 			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/issues");

@@ -28,10 +28,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.OilResour
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.SaltResource;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.UraniumResource;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillingListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutonomousToolsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.DamageListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
@@ -66,9 +69,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
-import me.mrCookieSlime.Slimefun.listeners.ArmorListener;
-import me.mrCookieSlime.Slimefun.listeners.BowListener;
-import me.mrCookieSlime.Slimefun.listeners.DamageListener;
 import me.mrCookieSlime.Slimefun.listeners.ItemListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.utils.ConfigCache;
@@ -210,14 +210,14 @@ public final class SlimefunPlugin extends JavaPlugin {
 			gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
 
 			// All Slimefun Listeners
-			new ArmorListener(this);
+			new SlimefunBootsListener(this);
 			new ItemListener(this);
 			new BlockListener(this);
 			new MultiBlockListener(this);
 			new GearListener(this);
 			new AutonomousToolsListener(this);
 			new DamageListener(this);
-			new BowListener(this);
+			new SlimefunBowListener(this);
 			new ToolListener(this);
 			new EnhancedFurnaceListener(this);
 			new TeleporterListener(this);

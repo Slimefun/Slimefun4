@@ -11,20 +11,12 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class MagicSugar extends SimpleSlimefunItem<ItemInteractionHandler> {
-
-	private int speed;
 	
-	public MagicSugar(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, recipeType, recipe, keys, values);
-	}
-	
-	@Override
-	public void postRegister() {
-		speed = (int) Slimefun.getItemValue("MAGIC_SUGAR", "effects.SPEED");
+	public MagicSugar(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 	}
 
 	@Override
@@ -34,7 +26,7 @@ public class MagicSugar extends SimpleSlimefunItem<ItemInteractionHandler> {
 				if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 				
 				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
-				p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 600, speed));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 600, 3));
 				return true;
 			}
 			else return false;
