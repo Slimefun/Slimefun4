@@ -77,6 +77,7 @@ public class LocalizationService extends Localization {
 		setDefaultMessage("messages.radiation" ,"&4You have been exposed to deadly radiation! &cGet rid of the radioactive item or equip the complete hazmat suit!");
 		setDefaultMessage("messages.opening-guide", "&bOpening guide, this may take a few seconds...");
 		setDefaultMessage("messages.opening-backpack", "&bOpening backpack, this may take a few seconds...");
+		setDefaultMessage("messages.no-iron-golem-heal", "&cThat is not an Iron Ingot. You cannot use this to heal Iron Golems!");
 
 		setDefaultMessage("machines.pattern-not-found", "&eSorry, I could not recognize this Pattern. Please place the Items in the correct Pattern into the Dispenser.");
 		setDefaultMessage("machines.unknown-material", "&eSorry, I could not recognize the Item in my Dispenser. Please put something in that I know.");

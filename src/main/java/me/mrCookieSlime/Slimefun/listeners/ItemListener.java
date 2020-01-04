@@ -12,6 +12,7 @@ import org.bukkit.block.Hopper;
 import org.bukkit.block.Skull;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
@@ -26,12 +27,14 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -64,7 +67,7 @@ import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class ItemListener implements Listener {
 	
-	private Utilities utilities;
+	private final Utilities utilities;
 	
 	public ItemListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -77,7 +80,7 @@ public class ItemListener implements Listener {
 			e.setCancelled(true);
 		}
 	}
-
+	
 	@EventHandler
 	public void onGrindstone(InventoryClickEvent e) {
 		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.GRINDSTONE) {
@@ -407,6 +410,35 @@ public class ItemListener implements Listener {
 			String id = BlockStorage.checkID(e.getBlock());
 			if (id != null && id.startsWith("WITHER_PROOF_")) {
 				e.setCancelled(true);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onIronGolemHeal(PlayerInteractEntityEvent e) {
+		if (e.getRightClicked() instanceof IronGolem) {
+			PlayerInventory inv = e.getPlayer().getInventory();
+			ItemStack item = null;
+			
+			if (e.getHand() == EquipmentSlot.HAND) {
+				item = inv.getItemInMainHand();
+			}
+			else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+				item = inv.getItemInOffHand();
+			}
+			
+			if (item != null && item.getType() == Material.IRON_INGOT && SlimefunItem.getByItem(item) != null) {
+				e.setCancelled(true);
+				SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
+				
+				// This is just there to update the Inventory...
+				// Somehow cancelling it isn't enough.
+				if (e.getHand() == EquipmentSlot.HAND) {
+					inv.setItemInMainHand(item);
+				}
+				else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+					inv.setItemInOffHand(item);
+				}
 			}
 		}
 	}
