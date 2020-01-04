@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -35,9 +37,9 @@ public class TickerTask implements Runnable {
 	
 	private boolean halted = false;
 
-	protected final Map<Location, Location> move = new HashMap<>();
-	protected final Map<Location, Boolean> delete = new HashMap<>();
-	private final Map<Location, Long> blockTimings = new HashMap<>();
+	protected final ConcurrentMap<Location, Location> move = new ConcurrentHashMap<>();
+	protected final ConcurrentMap<Location, Boolean> delete = new ConcurrentHashMap<>();
+	private final ConcurrentMap<Location, Long> blockTimings = new ConcurrentHashMap<>();
 	
 	private final Set<BlockTicker> tickers = new HashSet<>();
 	
@@ -46,12 +48,12 @@ public class TickerTask implements Runnable {
 	private int machines = 0;
 	private long time = 0;
 	
-	private final Map<String, Integer> chunkItemCount = new HashMap<>();
-	private final Map<String, Integer> machineCount = new HashMap<>();
-	private final Map<String, Long> machineTimings = new HashMap<>();
-	private final Map<String, Long> chunkTimings = new HashMap<>();
+	private final ConcurrentMap<String, Integer> chunkItemCount = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Integer> machineCount = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Long> machineTimings = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Long> chunkTimings = new ConcurrentHashMap<>();
 	private final Set<String> chunksSkipped = new HashSet<>();
-	private final Map<Location, Integer> buggedBlocks = new HashMap<>();
+	private final ConcurrentMap<Location, Integer> buggedBlocks = new ConcurrentHashMap<>();
 	
 	private boolean running = false;
 	
@@ -77,7 +79,7 @@ public class TickerTask implements Runnable {
 		machineTimings.clear();
 		blockTimings.clear();
 
-		final Map<Location, Integer> bugged = new HashMap<>(buggedBlocks);
+		Map<Location, Integer> bugged = new HashMap<>(buggedBlocks);
 		buggedBlocks.clear();
 		
 		Map<Location, Boolean> remove = new HashMap<>(delete);
