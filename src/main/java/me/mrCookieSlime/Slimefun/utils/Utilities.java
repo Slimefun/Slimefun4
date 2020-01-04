@@ -112,7 +112,6 @@ public final class Utilities {
 	
 	public final Set<AltarRecipe> altarRecipes = new HashSet<>();
 	
-	public final Map<UUID, Map<Integer, ItemStack>> soulbound = new HashMap<>();
 	public final List<UUID> blocks = new ArrayList<>();
 	public final List<UUID> cancelPlace = new ArrayList<>();
 	
