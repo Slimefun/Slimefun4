@@ -103,7 +103,7 @@ public class Crucible extends SlimefunGadget {
 								}
 
 								Slimefun.runSync(() -> {
-									if (!block.getType().isAir()) {
+									if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
 										if (water) {
 											if (block.getBlockData() instanceof Waterlogged) {
 												Waterlogged wl = (Waterlogged) block.getBlockData();

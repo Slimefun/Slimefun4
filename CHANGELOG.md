@@ -92,6 +92,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Fixed #1332
 * Fixed #1356 and maybe other concurrency issues
 * Fixed Ore Crusher's missing recipes
+* Fixed #1354
 
 ## Release Candidate 3 (21 Nov 2019)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
