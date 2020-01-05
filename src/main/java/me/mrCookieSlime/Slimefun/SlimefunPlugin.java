@@ -28,11 +28,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.OilResour
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.SaltResource;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.UraniumResource;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillingListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutonomousToolsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DamageListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
@@ -42,6 +40,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
@@ -335,7 +335,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 					getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
 				}
 			} catch (Exception x) {
-				getLogger().log(Level.SEVERE, "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + Slimefun.getVersion());
+				getLogger().log(Level.SEVERE, "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + Slimefun.getVersion(), x);
 			}
 		}
 		

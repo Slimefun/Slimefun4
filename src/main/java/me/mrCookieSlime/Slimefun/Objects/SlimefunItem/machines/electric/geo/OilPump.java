@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,6 +19,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -25,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
-public abstract class OilPump extends AContainer {
+public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 
 	public OilPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -56,6 +60,11 @@ public abstract class OilPump extends AContainer {
 				else return getOutputSlots();
 			}
 		};
+	}
+	
+	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		return Arrays.asList(new ItemStack(Material.BUCKET), SlimefunItems.BUCKET_OF_OIL);
 	}
 	
 	@Override
@@ -113,7 +122,7 @@ public abstract class OilPump extends AContainer {
 					else {
 						ItemStack item = inv.getItemInSlot(slot).clone();
 						inv.replaceExistingItem(slot, null);
-						pushItems(b, item);
+						inv.pushItem(item, getOutputSlots());
 					}
 					break;
 				}

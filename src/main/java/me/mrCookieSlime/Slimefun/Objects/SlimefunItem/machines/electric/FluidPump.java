@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -43,14 +44,14 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 	
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		for (int i : border_in) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		for (int i : border_out) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		for (int i : getOutputSlots()) {

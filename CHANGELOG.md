@@ -55,6 +55,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Removed Nether Drill
 * Tweaked Enhanced Furnace Recipes
 * Changed tooltips for Radiation
+* Oil Pump now shows its "Bucket -> Oil" recipe
 
 ### Fixes
 * Fixed Research Titles

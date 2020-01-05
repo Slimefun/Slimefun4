@@ -271,19 +271,6 @@ public final class Slimefun {
 	}
 
 	/**
-	 * Binds this description to the SlimefunItem corresponding to this id.
-	 *
-	 * @param  id           the id of the SlimefunItem, not null
-	 * @param  description  the description, not null
-	 *
-	 * @deprecated As of 4.1.10, renamed to {@link #addHint(String, String...)} for better name convenience.
-	 */
-	@Deprecated
-	public static void addDescription(String id, String... description) {
-		getItemConfig().setDefaultValue(id + ".description", Arrays.asList(description));
-	}
-
-	/**
 	 * Binds this hint to the SlimefunItem corresponding to this id.
 	 *
 	 * @param  id    the id of the SlimefunItem, not null

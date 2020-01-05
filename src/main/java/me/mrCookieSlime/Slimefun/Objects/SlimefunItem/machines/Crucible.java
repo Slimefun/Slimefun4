@@ -64,10 +64,11 @@ public class Crucible extends SlimefunGadget {
 		addItemHandler((ItemInteractionHandler) (e, p, item) -> {
 			if (e.getClickedBlock() != null) {
 				String id = BlockStorage.checkID(e.getClickedBlock());
+				
 				if (id != null && id.equals("CRUCIBLE")) {
 					if (p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), ProtectableAction.ACCESS_INVENTORIES)) {
-						final ItemStack input = p.getInventory().getItemInMainHand();
-						final Block block = e.getClickedBlock().getRelative(BlockFace.UP);
+						ItemStack input = p.getInventory().getItemInMainHand();
+						Block block = e.getClickedBlock().getRelative(BlockFace.UP);
 						SlimefunItem machine = SlimefunItem.getByID(id);
 
 						for (ItemStack convert : RecipeType.getRecipeInputs(machine)) {
@@ -79,8 +80,10 @@ public class Crucible extends SlimefunGadget {
 								p.getInventory().removeItem(removing);
 
 								boolean water = Tag.LEAVES.isTagged(input.getType());
+								
 								if (block.getType() == (water ? Material.WATER : Material.LAVA)) {
 									int level = ((Levelled) block.getBlockData()).getLevel();
+									
 									if (level > 7)
 										level -= 8;
 									if (level == 0) {
@@ -112,8 +115,11 @@ public class Crucible extends SlimefunGadget {
 											block.getWorld().playSound(block.getLocation(), Sound.BLOCK_METAL_BREAK, 1F, 1F);
 											return;
 										}
-										if (BlockStorage.hasBlockInfo(block))
+										
+										if (BlockStorage.hasBlockInfo(block)) {
 											BlockStorage.clearBlockInfo(block);
+										}
+										
 										block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
 									}
 									block.setType(water ? Material.WATER : Material.LAVA);
