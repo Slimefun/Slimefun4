@@ -41,6 +41,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Added Kelp Cookies
 * Added support for multiple recipes on vanilla items
 * Added a "Craft last" button to the Automated Crafting Chamber
+* Added more ore-doubling Recipes to the Ore Crusher
+* Added more dust recipes to the Ore Crusher
 
 ### Changes
 * Revamped Guide Settings menu
@@ -89,6 +91,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Fixed #1349
 * Fixed #1332
 * Fixed #1356 and maybe other concurrency issues
+* Fixed Ore Crusher's missing recipes
 
 ## Release Candidate 3 (21 Nov 2019)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3

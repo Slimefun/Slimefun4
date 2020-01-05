@@ -79,7 +79,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 		for (ItemStack recipeItem : shownRecipes) {
 			SlimefunItem item = SlimefunItem.getByItem(recipeItem);
 			
-			if (item == null || !SlimefunItem.isDisabled(recipeItem)) {
+			if (item == null || !item.isDisabled()) {
 				this.recipes.add(new ItemStack[] {recipeItem});
 			}
 		}
