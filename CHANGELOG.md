@@ -42,7 +42,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Added support for multiple recipes on vanilla items
 * Added a "Craft last" button to the Automated Crafting Chamber
 * Added more ore-doubling Recipes to the Ore Crusher
-* Added more dust recipes to the Ore Crusher
+* Added Addons to the guide settings
 
 ### Changes
 * Revamped Guide Settings menu

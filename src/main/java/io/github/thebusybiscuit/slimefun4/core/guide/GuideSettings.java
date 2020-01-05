@@ -34,7 +34,7 @@ public final class GuideSettings {
 	
 	public static final NamespacedKey FIREWORKS_KEY = new NamespacedKey(SlimefunPlugin.instance, "research_fireworks");
 	
-	private static final int[] BACKGROUND_SLOTS = {1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
+	private static final int[] BACKGROUND_SLOTS = {1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50, 52, 53};
 
 	private GuideSettings() {}
 	
@@ -77,15 +77,14 @@ public final class GuideSettings {
 			openCredits(pl, 0);
 			return false;
 		});
-
+		
 		menu.addItem(4, new CustomItem(Material.WRITABLE_BOOK,
 				"&aSlimefun Version",
 				"&7&oThis is very important when reporting bugs!",
 				"",
 				"&7Minecraft Version: &a" + Bukkit.getBukkitVersion(),
 				"&7Slimefun Version: &a" + Slimefun.getVersion(),
-				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion(),
-				"&7Installed Addons: &b" + Slimefun.getInstalledAddons().size()
+				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion()
 		),  ChestMenuUtils.getEmptyClickHandler());
 
 		menu.addItem(6, new CustomItem(Material.COMPARATOR, 
@@ -122,6 +121,47 @@ public final class GuideSettings {
 		(pl, slot, item, action) -> {
 			pl.closeInventory();
 			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki");
+			return false;
+		});
+		
+		menu.addItem(47, new CustomItem(Material.BOOKSHELF, 
+				"&3Slimefun Addons", 
+				"",
+				"&7Slimefun is huge. But its addons are what makes",
+				"&7this plugin truly shine. Go check them out, some",
+				"&7of them may be exactly what you were missing out on!",
+				"", 
+				"&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(), 
+				"", 
+				"&7\u21E8 &eClick to see all available Addons for Slimefun4"
+		),
+		(pl, slot, item, action) -> {
+			pl.closeInventory();
+			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons");
+			return false;
+		});
+		
+		menu.addItem(49, new CustomItem(Material.REDSTONE_TORCH, 
+				"&4Report a bug", 
+				"", 
+				"&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), 
+				"&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), 
+				"", 
+				"&7\u21E8 &eClick to go to the Slimefun4 Bug Tracker"
+		),
+		(pl, slot, item, action) -> {
+			pl.closeInventory();
+			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/issues");
+			return false;
+		});
+		
+		menu.addItem(51, new CustomItem(Material.TOTEM_OF_UNDYING, 
+				"&cSoon", 
+				"",
+				"&7Something will be added here later..."
+		),
+		(pl, slot, item, action) -> {
+			pl.closeInventory();
 			return false;
 		});
 	}
@@ -200,13 +240,6 @@ public final class GuideSettings {
 			
 			i++;
 		}
-
-		menu.addItem(i, new CustomItem(Material.REDSTONE, "&4Report a bug", "", "&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 &eClick to go to the Slimefun4 Bug Tracker"),
-		(pl, slot, item, action) -> {
-			pl.closeInventory();
-			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/issues");
-			return false;
-		});
 	}
 
 	private static void openCredits(Player p, int page) {

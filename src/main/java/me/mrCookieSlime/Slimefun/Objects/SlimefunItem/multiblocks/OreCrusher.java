@@ -29,25 +29,15 @@ public class OreCrusher extends MultiBlockMachine {
 				"ORE_CRUSHER",
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS)},
 				new ItemStack[] {
-						new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1), 
-						new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
-						new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8: 4),
-						new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2: 1), 
-						new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2: 1), 
-						
 						new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), 
 						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST,
 						new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND),
 						
-						new ItemStack(Material.IRON_INGOT), SlimefunItems.IRON_DUST, 
-						new ItemStack(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST, 
-						SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_DUST,
-						SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_DUST,
-						SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_DUST,
-						SlimefunItems.MAGNESIUM_INGOT, SlimefunItems.MAGNESIUM_DUST,
-						SlimefunItems.SILVER_INGOT, SlimefunItems.SILVER_DUST,
-						SlimefunItems.TIN_INGOT, SlimefunItems.TIN_DUST,
-						SlimefunItems.ZINC_INGOT, SlimefunItems.ZINC_DUST
+						new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1), 
+						new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
+						new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8: 4),
+						new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2: 1), 
+						new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2: 1)
 				},
 				BlockFace.SELF
 		);
