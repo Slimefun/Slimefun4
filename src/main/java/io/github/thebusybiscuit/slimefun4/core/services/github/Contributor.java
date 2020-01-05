@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +19,7 @@ public class Contributor {
 
 	private final String ghName;
 	private final String mcName;
-	private String profileLink;
+	private final String profileLink;
 	private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
 
 	// This field is nullable.
@@ -25,9 +28,15 @@ public class Contributor {
 	private Optional<String> headTexture;
 	
 	public Contributor(String name, String profile) {
-		this.ghName = profile.substring(profile.lastIndexOf('/') + 1);
+		ghName = profile.substring(profile.lastIndexOf('/') + 1);
+		mcName = name;
+		profileLink = profile;
+	}
+	
+	public Contributor(String name) {
+		this.ghName = name;
 		this.mcName = name;
-		this.profileLink = profile;
+		this.profileLink = null;
 	}
 	
 	public void setContribution(String role, int commits) {
@@ -64,8 +73,10 @@ public class Contributor {
 		return this.profileLink;
 	}
 	
-	public Map<String, Integer> getContributions() {
-		return contributions;
+	public List<Map.Entry<String, Integer>> getContributions() {
+		List<Map.Entry<String, Integer>> list = new ArrayList<>(contributions.entrySet());
+		list.sort(Comparator.comparingInt(entry -> -entry.getValue()));
+		return list;
 	}
 	
 	/**

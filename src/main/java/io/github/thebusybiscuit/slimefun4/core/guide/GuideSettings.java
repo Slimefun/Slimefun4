@@ -161,7 +161,6 @@ public final class GuideSettings {
 				"&7Something will be added here later..."
 		),
 		(pl, slot, item, action) -> {
-			pl.closeInventory();
 			return false;
 		});
 	}
@@ -243,7 +242,7 @@ public final class GuideSettings {
 	}
 
 	private static void openCredits(Player p, int page) {
-		ChestMenu menu = new ChestMenu("Credits");
+		ChestMenu menu = new ChestMenu("Slimefun4's contributors");
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -288,7 +287,7 @@ public final class GuideSettings {
 			List<String> lore = new LinkedList<>();
 			lore.add("");
 			
-			for (Map.Entry<String, Integer> entry : contributor.getContributions().entrySet()) {
+			for (Map.Entry<String, Integer> entry : contributor.getContributions()) {
 				String info = entry.getKey();
 				
 				if (entry.getValue() > 0) {
@@ -298,15 +297,20 @@ public final class GuideSettings {
 				lore.add(ChatColors.color(info));
 			}
 			
-			lore.add("");
-			lore.add(ChatColors.color("&7\u21E8 Click to visit " + contributor.getName() + "'s profile"));
+			if (contributor.getProfile() != null) {
+				lore.add("");
+				lore.add(ChatColors.color("&7\u21E8 Click to visit " + contributor.getName() + "'s profile"));
+			}
+			
 			meta.setLore(lore);
 			skull.setItemMeta(meta);
 
 			menu.addItem(i - page * 36 + 9, skull);
 			menu.addMenuClickHandler(i - page * 36 + 9, (pl, slot, item, action) -> {
-				pl.closeInventory();
-				ChatUtils.sendURL(pl, contributor.getProfile());
+				if (contributor.getProfile() != null) {
+					pl.closeInventory();
+					ChatUtils.sendURL(pl, contributor.getProfile());
+				}
 				return false;
 			});
 		}

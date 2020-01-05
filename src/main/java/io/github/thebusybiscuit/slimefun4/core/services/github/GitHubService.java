@@ -40,8 +40,19 @@ public class GitHubService {
 		plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
 	}
 	
+	private void addDefaultContributors() {
+		Contributor thebusybiscuit = new Contributor("TheBusyBiscuit", "https://github.com/TheBusyBiscuit");
+		thebusybiscuit.setContribution("&4Original Creator", 0);
+		contributors.put(thebusybiscuit.getName(), thebusybiscuit);
+		
+		Contributor fuffles = new Contributor("Fuffles_");
+		fuffles.setContribution("&dSkull Texture Artist", 0);
+		contributors.put(fuffles.getName(), fuffles);
+	}
+	
 	public void connect(boolean logging) {
 		this.logging = logging;
+		addDefaultContributors();
 		
 		connectors.add(new ContributionsConnector(this, "code", repository, "&6Developer"));
 		connectors.add(new ContributionsConnector(this, "wiki", "TheBusyBiscuit/Slimefun4-wiki", "&3Wiki Editor"));
