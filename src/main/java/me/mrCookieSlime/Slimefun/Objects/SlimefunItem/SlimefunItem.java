@@ -400,26 +400,18 @@ public class SlimefunItem implements Placeable {
 	public void create()  {
 		// Deprecated
 	}
-
-	/**
-	 * @deprecated Use {@link SlimefunItem#addItemHandler(ItemHandler...)} instead
-	 */
-	@Deprecated
-	public void addItemHandler(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handler) {
-		addItemHandler((ItemHandler[]) handler);
-	}
 	
-	public void addItemHandler(ItemHandler... handler) {
-		this.itemhandlers.addAll(Arrays.asList(handler));
+	public void addItemHandler(ItemHandler... handlers) {
+		this.itemhandlers.addAll(Arrays.asList(handlers));
 
-		for (ItemHandler h: handler) {
-			if (h instanceof BlockTicker) {
+		for (ItemHandler handler : handlers) {
+			if (handler instanceof BlockTicker) {
 				this.ticking = true;
 				SlimefunPlugin.getUtilities().tickers.add(getID());
-				this.blockTicker = (BlockTicker) h;
+				this.blockTicker = (BlockTicker) handler;
 			}
-			else if (h instanceof EnergyTicker) {
-				this.energyTicker = (EnergyTicker) h;
+			else if (handler instanceof EnergyTicker) {
+				this.energyTicker = (EnergyTicker) handler;
 				EnergyNet.registerComponent(getID(), EnergyNetComponent.SOURCE);
 			}
 		}
@@ -433,23 +425,6 @@ public class SlimefunItem implements Placeable {
 	public void register(ItemHandler... handlers) {
 		addItemHandler(handlers);
 		register(false);
-	}
-
-	/**
-	 * @deprecated Use {@link SlimefunItem#register(boolean, ItemHandler...)} instead
-	 */
-	@Deprecated
-	public void register(boolean vanilla, me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
-		addItemHandler(handlers);
-		register(vanilla);
-	}
-
-	/**
-	 * @deprecated Use {@link SlimefunItem#register(ItemHandler...)} instead
-	 */
-	@Deprecated
-	public void register(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
-		register((ItemHandler[]) handlers);
 	}
 
 	public void register(boolean vanilla, SlimefunBlockHandler handler) {
