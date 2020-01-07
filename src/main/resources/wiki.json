@@ -69,5 +69,11 @@
 	"CARGO_NODE": "Connector-Node",
 	"CARGO_INPUT": "Input-Node",
 	"CARGO_OUTPUT": "Output-Node",
-	"TRASH_CAN": "Trash-Can"
+	"TRASH_CAN": "Trash-Can",
+	"ORE_CRUSHER": "Ore-Crusher",
+	"SCUBA_HELMET": "Hazmat-Suit",
+	"HAZMAT_CHESTPLATE": "Hazmat-Suit",
+	"HAZMAT_LEGGINGS": "Hazmat-Suit",
+	"RUBBER_BOOTS": "Hazmat-Suit",
+	"ARMOR_FORGE": "Armor-Forge"
 }
