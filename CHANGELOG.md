@@ -23,6 +23,7 @@
 ### Additions
 
 ### Changes
+* Removed Solar Array
 
 ### Fixes
 * Fixed #1355

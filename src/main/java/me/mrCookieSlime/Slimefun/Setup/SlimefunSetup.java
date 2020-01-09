@@ -1614,10 +1614,6 @@ public final class SlimefunSetup {
 		new CustomItem(SlimefunItems.HARDENED_GLASS, 16))
 		.register(true);
 
-		new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.SOLAR_ARRAY, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.HARDENED_GLASS, SlimefunItems.HARDENED_GLASS, SlimefunItems.HARDENED_GLASS, SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.HARDENED_GLASS, SlimefunItems.HARDENED_GLASS, SlimefunItems.HARDENED_GLASS})
-		.register(true);
-
 		new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.COOLING_UNIT, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.ICE), new ItemStack(Material.ICE), new ItemStack(Material.ICE), SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.ICE), new ItemStack(Material.ICE), new ItemStack(Material.ICE)})
 		.register(true);

@@ -149,7 +149,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(150, "Portable Beverages", 24), SlimefunItems.COOLING_UNIT, SlimefunItems.COOLER);
 	    Slimefun.registerResearch(new Research(151, "Ancient Altar", 15), SlimefunItems.ANCIENT_PEDESTAL, SlimefunItems.ANCIENT_ALTAR);
 	    Slimefun.registerResearch(new Research(152, "Wither-Proof Obsidian", 21), SlimefunItems.WITHER_PROOF_OBSIDIAN);
-	    Slimefun.registerResearch(new Research(154, "Upgraded Solar Cells", 26), SlimefunItems.SOLAR_ARRAY);
 	    Slimefun.registerResearch(new Research(155, "Elemental Runes", 15), SlimefunItems.BLANK_RUNE, SlimefunItems.RUNE_EARTH, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_FIRE);
 	    Slimefun.registerResearch(new Research(156, "Purple Runes", 18), SlimefunItems.RUNE_ENDER, SlimefunItems.RUNE_RAINBOW);
 	    Slimefun.registerResearch(new Research(157, "Infernal Bonemeal", 12), SlimefunItems.INFERNAL_BONEMEAL);
