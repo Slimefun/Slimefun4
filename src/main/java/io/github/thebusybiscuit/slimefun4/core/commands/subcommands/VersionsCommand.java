@@ -1,19 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class VersionsCommand extends SubCommand {
 
@@ -29,29 +29,22 @@ public class VersionsCommand extends SubCommand {
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {
 		if (sender.hasPermission("slimefun.command.versions")|| sender instanceof ConsoleCommandSender) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a" + Bukkit.getName() + " &2" + ReflectionUtils.getVersion()));
+			sender.sendMessage(ChatColors.color("&a" + Bukkit.getName() + " &2" + ReflectionUtils.getVersion()));
 			sender.sendMessage("");
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aCS-CoreLib &2v" + CSCoreLib.getLib().getDescription().getVersion()));
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + plugin.getDescription().getVersion()));
+			sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + CSCoreLib.getLib().getDescription().getVersion()));
+			sender.sendMessage(ChatColors.color("&aSlimefun &2v" + plugin.getDescription().getVersion()));
 			sender.sendMessage("");
 			
-			List<String> addons = new ArrayList<>();
+			Collection<Plugin> addons = Slimefun.getInstalledAddons();
+			sender.sendMessage(ChatColors.color("&7Installed Addons &8(" + addons.size() + ")"));
 			
-			for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-				if (plugin.getDescription().getDepend().contains("Slimefun") || plugin.getDescription().getSoftDepend().contains("Slimefun")) {
-					if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-						addons.add(ChatColor.translateAlternateColorCodes('&', " &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
-					}
-					else {
-						addons.add(ChatColor.translateAlternateColorCodes('&', " &c" + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
-					}
+			for (Plugin plugin : addons) {
+				if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
+					sender.sendMessage(ChatColors.color(" &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
 				}
-			}
-			
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Installed Addons &8(" + addons.size() + ")"));
-			
-			for (String addon : addons) {
-				sender.sendMessage(addon);
+				else {
+					sender.sendMessage(ChatColors.color(" &c" + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
+				}
 			}
 		}
 		else {
