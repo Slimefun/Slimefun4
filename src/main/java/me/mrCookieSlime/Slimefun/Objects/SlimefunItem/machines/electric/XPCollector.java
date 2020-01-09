@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.Iterator;
-import java.util.logging.Level;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,8 +9,8 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -20,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -47,7 +45,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
-					for (int slot: getOutputSlots()) {
+					for (int slot : getOutputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -70,10 +68,8 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+		for (int slot : border) {
+			preset.addItem(slot, new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS_PANE), " "), (p, s, item, action) -> false);
 		}
 	}
 	
@@ -83,11 +79,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
-				try {
-					XPCollector.this.tick(b);
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking an Exp Collector for Slimefun " + Slimefun.getVersion(), x);
-				}
+				XPCollector.this.tick(b);
 			}
 
 			@Override
@@ -112,6 +104,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			
 			int withdrawn = 0;
 			BlockMenu menu = BlockStorage.getInventory(b);
+			
 			for (int level = 0; level < getEXP(b); level = level + 10) {
 				if (menu.fits(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), getOutputSlots())) {
 					withdrawn = withdrawn + 10;
@@ -124,7 +117,9 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 
 	private int getEXP(Block b) {
 		Config cfg = BlockStorage.getLocationInfo(b.getLocation());
-		if (cfg.contains("stored-exp")) return Integer.parseInt(cfg.getString("stored-exp"));
+		if (cfg.contains("stored-exp")) {
+			return Integer.parseInt(cfg.getString("stored-exp"));
+		}
 		else {
 			BlockStorage.addBlockInfo(b, "stored-exp", "0");
 			return 0;

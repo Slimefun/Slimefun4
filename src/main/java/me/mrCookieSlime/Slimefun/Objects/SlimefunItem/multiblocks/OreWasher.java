@@ -1,6 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
-import java.util.Random;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -12,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -42,16 +44,21 @@ public class OreWasher extends MultiBlockMachine {
 	}
 	
 	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
+	}
+	
+	@Override
 	public void onInteract(Player p, Block b) {
 		Block dispBlock = b.getRelative(BlockFace.UP);
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		Inventory inv = disp.getInventory();
 		ItemStack[] items = SlimefunPlugin.getUtilities().oreWasherOutputs;
 
-		for (ItemStack current: inv.getContents()) {
+		for (ItemStack current : inv.getContents()) {
 			if (current != null) {
 				if (SlimefunManager.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
-					ItemStack adding = items[new Random().nextInt(items.length)];
+					ItemStack adding = items[ThreadLocalRandom.current().nextInt(items.length)];
 					Inventory outputInv = null;
 
 					if (!SlimefunPlugin.getSettings().legacyOreWasher) {

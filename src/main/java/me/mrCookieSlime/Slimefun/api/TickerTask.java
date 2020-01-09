@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -35,9 +37,9 @@ public class TickerTask implements Runnable {
 	
 	private boolean halted = false;
 
-	protected final Map<Location, Location> move = new HashMap<>();
-	protected final Map<Location, Boolean> delete = new HashMap<>();
-	private final Map<Location, Long> blockTimings = new HashMap<>();
+	protected final ConcurrentMap<Location, Location> move = new ConcurrentHashMap<>();
+	protected final ConcurrentMap<Location, Boolean> delete = new ConcurrentHashMap<>();
+	private final ConcurrentMap<Location, Long> blockTimings = new ConcurrentHashMap<>();
 	
 	private final Set<BlockTicker> tickers = new HashSet<>();
 	
@@ -46,12 +48,12 @@ public class TickerTask implements Runnable {
 	private int machines = 0;
 	private long time = 0;
 	
-	private final Map<String, Integer> chunkItemCount = new HashMap<>();
-	private final Map<String, Integer> machineCount = new HashMap<>();
-	private final Map<String, Long> machineTimings = new HashMap<>();
-	private final Map<String, Long> chunkTimings = new HashMap<>();
+	private final ConcurrentMap<String, Integer> chunkItemCount = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Integer> machineCount = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Long> machineTimings = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Long> chunkTimings = new ConcurrentHashMap<>();
 	private final Set<String> chunksSkipped = new HashSet<>();
-	private final Map<Location, Integer> buggedBlocks = new HashMap<>();
+	private final ConcurrentMap<Location, Integer> buggedBlocks = new ConcurrentHashMap<>();
 	
 	private boolean running = false;
 	
@@ -77,25 +79,25 @@ public class TickerTask implements Runnable {
 		machineTimings.clear();
 		blockTimings.clear();
 
-		final Map<Location, Integer> bugged = new HashMap<>(buggedBlocks);
+		Map<Location, Integer> bugged = new HashMap<>(buggedBlocks);
 		buggedBlocks.clear();
 		
 		Map<Location, Boolean> remove = new HashMap<>(delete);
 
-		for (Map.Entry<Location, Boolean> entry: remove.entrySet()) {
+		for (Map.Entry<Location, Boolean> entry : remove.entrySet()) {
 			BlockStorage._integrated_removeBlockInfo(entry.getKey(), entry.getValue());
 			delete.remove(entry.getKey());
 		}
 		
 		if (!halted) {
-			for (final String c: BlockStorage.getTickingChunks()) {
+			for (String tickedChunk : BlockStorage.getTickingChunks()) {
 				long timestamp2 = System.nanoTime();
 				chunks++;
 				
-				for (final Location l: BlockStorage.getTickingLocations(c)) {
+				for (Location l : BlockStorage.getTickingLocations(tickedChunk)) {
 					if (l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4)) {
-						final Block b = l.getBlock();
-						final SlimefunItem item = BlockStorage.check(l);
+						Block b = l.getBlock();
+						SlimefunItem item = BlockStorage.check(l);
 						
 						if (item != null && item.getBlockTicker() != null) {
 							machines++;
@@ -104,17 +106,17 @@ public class TickerTask implements Runnable {
 								item.getBlockTicker().update();
 								
 								if (item.getBlockTicker().isSynchronized()) {
-									Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+									Slimefun.runSync(() -> {
 										try {
 											long timestamp3 = System.nanoTime();
 											item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
 											
 											Long machinetime = machineTimings.get(item.getID());
-											Integer chunk = chunkItemCount.get(c);
+											Integer chunk = chunkItemCount.get(tickedChunk);
 											Integer machine = machineCount.get(item.getID());
 											
 											machineTimings.put(item.getID(), (machinetime != null ? machinetime: 0) + (System.nanoTime() - timestamp3));
-											chunkItemCount.put(c, (chunk != null ? chunk: 0) + 1);
+											chunkItemCount.put(tickedChunk, (chunk != null ? chunk: 0) + 1);
 											machineCount.put(item.getID(), (machine != null ? machine: 0) + 1);
 											blockTimings.put(l, System.nanoTime() - timestamp3);
 										} catch (Exception x) {
@@ -128,10 +130,11 @@ public class TickerTask implements Runnable {
 									item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
 
 									machineTimings.merge(item.getID(), (System.nanoTime() - timestamp3), Long::sum);
-									chunkItemCount.merge(c, 1, Integer::sum);
+									chunkItemCount.merge(tickedChunk, 1, Integer::sum);
 									machineCount.merge(item.getID(), 1, Integer::sum);
 									blockTimings.put(l, System.nanoTime() - timestamp3);
 								}
+								
 								tickers.add(item.getBlockTicker());
 							} catch (Exception x) {
 								int errors = bugged.getOrDefault(l, 0);
@@ -141,18 +144,18 @@ public class TickerTask implements Runnable {
 						else skipped++;
 					}
 					else {
-						skipped += BlockStorage.getTickingLocations(c).size();
-						chunksSkipped.add(c);
+						skipped += BlockStorage.getTickingLocations(tickedChunk).size();
+						chunksSkipped.add(tickedChunk);
 						chunks--;
 						break;
 					}
 				}
 				
-				chunkTimings.put(c, System.nanoTime() - timestamp2);
+				chunkTimings.put(tickedChunk, System.nanoTime() - timestamp2);
 			}
 		}
 
-		for (Map.Entry<Location, Location> entry: move.entrySet()) {
+		for (Map.Entry<Location, Location> entry : move.entrySet()) {
 			BlockStorage._integrated_moveLocationInfo(entry.getKey(), entry.getValue());
 		}
 		move.clear();
@@ -239,19 +242,19 @@ public class TickerTask implements Runnable {
 		else {
 			int hidden = 0;
 
-			for (Map.Entry<String, Long> entry: timings) {
+			for (Map.Entry<String, Long> entry : timings) {
 				int count = machineCount.get(entry.getKey());
 				if (entry.getValue() > 500_000) {
-					sender.sendMessage(ChatColors.color("  &e" + entry.getKey() + " - " + count + "x &7(" + toMillis(entry.getValue()) + ", " + toMillis(entry.getValue() / count) + " avg/machine)"));
+					sender.sendMessage("  " + entry.getKey() + " - " + count + "x (" + toMillis(entry.getValue()) + ", " + toMillis(entry.getValue() / count) + " avg/machine)");
 				}	
 				else hidden++;
 			}
 
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
+			sender.sendMessage("+ " + hidden + " Hidden");
 		}
 		
 		sender.sendMessage("");
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticking Chunks:"));
+		sender.sendMessage(ChatColors.color("&6Ticking Chunks:"));
 
 		timings = chunkTimings.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -263,10 +266,10 @@ public class TickerTask implements Runnable {
 			StringBuilder hover = new StringBuilder();
 			int hidden = 0;
 
-			for (Map.Entry<String, Long> entry: timings) {
+			for (Map.Entry<String, Long> entry : timings) {
 				if (!chunksSkipped.contains(entry.getKey())) {
 					if (entry.getValue() > 0)
-						hover.append("\n&c").append(entry.getKey().replace("CraftChunk", "")).append(" - ")
+						hover.append("\n&c").append(formatChunk(entry.getKey())).append(" - ")
 								.append(chunkItemCount.getOrDefault(entry.getKey(), 0))
 								.append("x &7(").append(toMillis(entry.getValue())).append(")");
 					else
@@ -285,15 +288,20 @@ public class TickerTask implements Runnable {
 		}
 		else {
 			int hidden = 0;
-			for (Map.Entry<String, Long> entry: timings) {
+			for (Map.Entry<String, Long> entry : timings) {
 				if (!chunksSkipped.contains(entry.getKey())) {
-					if (entry.getValue() > 0) sender.sendMessage("  &c" + entry.getKey().replace("CraftChunk", "") + " - "
-							+ (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x &7(" + toMillis(entry.getValue()) + ")");
+					if (entry.getValue() > 0) sender.sendMessage("  " + formatChunk(entry.getKey()) + " - "
+							+ (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x (" + toMillis(entry.getValue()) + ")");
 					else hidden++;
 				}
 			}
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
 		}
+	}
+	
+	private String formatChunk(String chunk) {
+		String[] components = chunk.split(";");
+		return components[0] + " [" + components[2] + "," + components[3] + "]";
 	}
 	
 	public long getTimings(Block b) {

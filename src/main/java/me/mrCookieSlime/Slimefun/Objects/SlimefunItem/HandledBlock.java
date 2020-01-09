@@ -2,9 +2,9 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class HandledBlock extends SlimefunItem {
 

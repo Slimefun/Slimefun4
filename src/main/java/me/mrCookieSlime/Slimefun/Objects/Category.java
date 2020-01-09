@@ -25,9 +25,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class Category {
 	
-	private ItemStack item;
-	private List<SlimefunItem> items;
-	private int tier;
+	private final ItemStack item;
+	private final List<SlimefunItem> items;
+	private final int tier;
 
 	/**
 	 * Constructs a Category with the given display item.
@@ -38,14 +38,7 @@ public class Category {
 	 * @since 4.0
 	 */
 	public Category(ItemStack item) {
-		this.item = item;
-		
-		ItemMeta meta = item.getItemMeta();
-		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		this.item.setItemMeta(meta);
-		
-		this.items = new ArrayList<>();
-		this.tier = 3;
+		this(item, 3);
 	}
 
 	/**
@@ -60,6 +53,12 @@ public class Category {
 	 */
 	public Category(ItemStack item, int tier) {
 		this.item = item;
+		
+		ItemMeta meta = item.getItemMeta();
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		this.item.setItemMeta(meta);
+		
 		this.items = new ArrayList<>();
 		this.tier = tier;
 	}
@@ -130,22 +129,6 @@ public class Category {
 	 */
 	public List<SlimefunItem> getItems() {
 		return this.items;
-	}
-
-	/**
-	 * Attempts to get the category with the given display item.
-	 * 
-	 * @param item the display item of the category to get
-	 * @return Category if found, or null
-	 * 
-	 * @since 4.0
-	 */
-	@Deprecated
-	public static Category getByItem(ItemStack item) {
-		for (Category c: list()) {
-			if (c.getItem().isSimilar(item)) return c;
-		}
-		return null;
 	}
 
 	/**

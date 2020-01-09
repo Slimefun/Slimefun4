@@ -29,6 +29,7 @@ items:
   talismans: true
   coolers: true
   backpacks: true
+  soulbound: true
 research-ranks:
 - Chicken
 - Cow

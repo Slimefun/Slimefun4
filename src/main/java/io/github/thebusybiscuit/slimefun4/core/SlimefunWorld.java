@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
 
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
@@ -41,15 +42,23 @@ public class SlimefunWorld {
 	 * @return		An {@link Optional} of the requested {@link SlimefunBlock}, empty if none was found
 	 */
 	public Optional<SlimefunBlock> getBlock(Block b) {
-		if (b.getState() instanceof TileState) {
-			Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) b.getState());
-			
-			if (blockData.isPresent()) {
-				return Optional.of(new SlimefunBlock(blockData.get()));
-			}
-		}
+		Optional<SlimefunBlock> optional = blocks.get(new BlockLocation(b));
 		
-		return blocks.get(new BlockLocation(b));
+		if (optional.isPresent()) {
+			return optional;
+		}
+		else {
+			BlockState state = b.getState();
+			if (state instanceof TileState) {
+				Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
+				
+				if (blockData.isPresent()) {
+					return Optional.of(new SlimefunBlock(blockData.get()));
+				}
+			}
+			
+			return Optional.empty();
+		}
 	}
 	
 	public boolean isBlock(Block b, String id) {

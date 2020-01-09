@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -159,6 +160,7 @@ public class SlimefunItem implements Placeable {
 	
 	public void register(boolean slimefun) {
 		this.addon = !slimefun;
+		
 		try {
 			preRegister();
 			
@@ -186,7 +188,7 @@ public class SlimefunItem implements Placeable {
 				}
 			}
 
-			for (World world: Bukkit.getWorlds()) {
+			for (World world : Bukkit.getWorlds()) {
 				SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
 				SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.id, true);
 			}
@@ -305,7 +307,7 @@ public class SlimefunItem implements Placeable {
 			}
 		}
 
-		for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
+		for (SlimefunItem sfi : SlimefunPlugin.getUtilities().enabledItems) {
 			if (sfi.isItem(item)) {
 				// If we have to loop all items for the given item, then at least
 				// set the id via PersistenDataAPI for future performance boosts
@@ -316,6 +318,7 @@ public class SlimefunItem implements Placeable {
 		}
 		if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
 		if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
+		
 		return null;
 	}
 
@@ -324,6 +327,7 @@ public class SlimefunItem implements Placeable {
 
 		if (item.hasItemMeta()) {
 			Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+			
 			if (itemID.isPresent()) {
 				return getID().equals(itemID.get());
 			}
@@ -367,7 +371,7 @@ public class SlimefunItem implements Placeable {
 	}
 
 	public static ItemState getState(ItemStack item) {
-		for (SlimefunItem i: SlimefunPlugin.getUtilities().allItems) {
+		for (SlimefunItem i : SlimefunPlugin.getUtilities().allItems) {
 			if (i.isItem(item)) {
 				return i.getState();
 			}
@@ -376,7 +380,7 @@ public class SlimefunItem implements Placeable {
 	}
 
 	public static boolean isDisabled(ItemStack item) {
-		for (SlimefunItem i: SlimefunPlugin.getUtilities().allItems) {
+		for (SlimefunItem i : SlimefunPlugin.getUtilities().allItems) {
 			if (i.isItem(item)) {
 				return i.isDisabled();
 			}
@@ -396,26 +400,18 @@ public class SlimefunItem implements Placeable {
 	public void create()  {
 		// Deprecated
 	}
-
-	/**
-	 * @deprecated Use {@link SlimefunItem#addItemHandler(ItemHandler...)} instead
-	 */
-	@Deprecated
-	public void addItemHandler(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handler) {
-		addItemHandler((ItemHandler[]) handler);
-	}
 	
-	public void addItemHandler(ItemHandler... handler) {
-		this.itemhandlers.addAll(Arrays.asList(handler));
+	public void addItemHandler(ItemHandler... handlers) {
+		this.itemhandlers.addAll(Arrays.asList(handlers));
 
-		for (ItemHandler h: handler) {
-			if (h instanceof BlockTicker) {
+		for (ItemHandler handler : handlers) {
+			if (handler instanceof BlockTicker) {
 				this.ticking = true;
 				SlimefunPlugin.getUtilities().tickers.add(getID());
-				this.blockTicker = (BlockTicker) h;
+				this.blockTicker = (BlockTicker) handler;
 			}
-			else if (h instanceof EnergyTicker) {
-				this.energyTicker = (EnergyTicker) h;
+			else if (handler instanceof EnergyTicker) {
+				this.energyTicker = (EnergyTicker) handler;
 				EnergyNet.registerComponent(getID(), EnergyNetComponent.SOURCE);
 			}
 		}
@@ -429,23 +425,6 @@ public class SlimefunItem implements Placeable {
 	public void register(ItemHandler... handlers) {
 		addItemHandler(handlers);
 		register(false);
-	}
-
-	/**
-	 * @deprecated Use {@link SlimefunItem#register(boolean, ItemHandler...)} instead
-	 */
-	@Deprecated
-	public void register(boolean vanilla, me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
-		addItemHandler(handlers);
-		register(vanilla);
-	}
-
-	/**
-	 * @deprecated Use {@link SlimefunItem#register(ItemHandler...)} instead
-	 */
-	@Deprecated
-	public void register(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
-		register((ItemHandler[]) handlers);
 	}
 
 	public void register(boolean vanilla, SlimefunBlockHandler handler) {
@@ -462,6 +441,14 @@ public class SlimefunItem implements Placeable {
 		return SlimefunPlugin.getUtilities().itemHandlers.getOrDefault(codeid, new HashSet<>());
 	}
 
+	/**
+	 * This method marks the item as radioactive.
+	 * 
+	 * @deprecated The Interface {@link Radioactive} should be used instead in the future.
+	 * 
+	 * @param item	The {@link ItemStack} to set as radioactive
+	 */
+	@Deprecated
 	public static void setRadioactive(ItemStack item) {
 		SlimefunPlugin.getUtilities().radioactiveItems.add(item);
 	}
@@ -469,25 +456,6 @@ public class SlimefunItem implements Placeable {
 	public static ItemStack getItem(String id) {
 		SlimefunItem item = getByID(id);
 		return item != null ? item.getItem(): null;
-	}
-
-	public static void patchExistingItem(String id, ItemStack stack) {
-		SlimefunItem item = getByID(id);
-		if (item != null) {
-			Slimefun.getLogger().log(Level.INFO, "Patching existing Item... {0}", id);
-			Slimefun.getLogger().log(Level.INFO, "This might take a while");
-
-			final ItemStack old = item.getItem();
-			item.setItem(stack);
-			for (SlimefunItem sfi: list()) {
-				ItemStack[] recipe = sfi.getRecipe();
-				
-				for (int i = 0; i < 9; i++) {
-					if (SlimefunManager.isItemSimilar(recipe[i], old, true)) recipe[i] = stack;
-				}
-				sfi.setRecipe(recipe);
-			}
-		}
 	}
 
 	public void registerChargeableBlock(int capacity) {

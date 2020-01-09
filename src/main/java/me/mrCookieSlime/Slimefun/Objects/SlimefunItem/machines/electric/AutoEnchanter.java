@@ -11,8 +11,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -74,7 +73,7 @@ public class AutoEnchanter extends AContainer {
 		else {
 			MachineRecipe recipe = null;
 			
-			for (int slot: getInputSlots()) {
+			for (int slot : getInputSlots()) {
 				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				// Check if enchantable
 				SlimefunItem sfTarget = SlimefunItem.getByItem(target);
@@ -85,7 +84,7 @@ public class AutoEnchanter extends AContainer {
 				// Enchant
 				if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
 					Map<Enchantment, Integer> enchantments = new HashMap<>();
-					Set<ItemEnchantment> enchantments2 = new HashSet<>();
+					Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
 					int amount = 0;
 					int specialAmount = 0;
 					EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
@@ -98,11 +97,11 @@ public class AutoEnchanter extends AContainer {
 					}
 					
 					if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
-						for (ItemEnchantment enchantment: EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
+						for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
 							if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
 								amount++;
 								specialAmount++;
-								enchantments2.add(enchantment);
+								emeraldEnchantments.add(enchantment);
 							}
 						}
 						specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
@@ -110,12 +109,13 @@ public class AutoEnchanter extends AContainer {
 					
 					if (amount > 0 && specialAmount <= SlimefunPlugin.getSettings().emeraldEnchantsLimit) {
 						ItemStack newItem = target.clone();
-						for (Map.Entry<Enchantment, Integer> e: enchantments.entrySet()) {
-							newItem.addUnsafeEnchantment(e.getKey(), e.getValue());
+						
+						for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+							newItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
 						}
 						
-						for (ItemEnchantment e: enchantments2) {
-							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, e.getEnchantment(), e.getLevel());
+						for (ItemEnchantment ench: emeraldEnchantments) {
+							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, ench.getEnchantment(), ench.getLevel());
 						}
 						
 						recipe = new MachineRecipe(75 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, new ItemStack(Material.BOOK)});
@@ -127,8 +127,8 @@ public class AutoEnchanter extends AContainer {
 			if (recipe != null) {
 				if (!fits(b, recipe.getOutput())) return;
 				
-				for (int slot: getInputSlots()) {
-					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+				for (int slot : getInputSlots()) {
+	                menu.consumeItem(slot);
 				}
 				
 				processing.put(b, recipe);

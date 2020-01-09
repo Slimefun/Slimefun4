@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -33,6 +33,9 @@ public class GrindStone extends MultiBlockMachine {
 						new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), 
 						new ItemStack(Material.ENDER_EYE), new CustomItem(SlimefunItems.ENDER_LUMP_1, 2), 
 						new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL), 
+						new ItemStack(Material.ANDESITE), new ItemStack(Material.GRAVEL),
+						new ItemStack(Material.DIORITE), new ItemStack(Material.GRAVEL),
+						new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL),
 						new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK, 
 						new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), 
 						new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4)
@@ -52,8 +55,8 @@ public class GrindStone extends MultiBlockMachine {
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		Inventory inv = disp.getInventory();
 		
-		for (ItemStack current: inv.getContents()) {
-			for (ItemStack convert: RecipeType.getRecipeInputs(this)) {
+		for (ItemStack current : inv.getContents()) {
+			for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
 				if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
 					ItemStack output = RecipeType.getRecipeOutput(this, convert);
 					Inventory outputInv = findOutputInventory(output, dispBlock, inv);

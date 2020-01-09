@@ -6,8 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -75,7 +74,7 @@ public abstract class AutoAnvil extends AContainer {
 		else {
 			MachineRecipe recipe = null;
 			
-			for (int slot: getInputSlots()) {
+			for (int slot : getInputSlots()) {
 				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				ItemStack item = menu.getItemInSlot(slot);
 				
@@ -96,9 +95,10 @@ public abstract class AutoAnvil extends AContainer {
 			if (recipe != null) {
 				if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) return;
 				
-				for (int slot: getInputSlots()) {
-					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+				for (int slot : getInputSlots()) {
+					menu.consumeItem(slot);
 				}
+				
 				processing.put(b, recipe);
 				progress.put(b, recipe.getTicks());
 			}

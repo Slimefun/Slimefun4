@@ -33,7 +33,7 @@ public class TableSaw extends MultiBlockMachine {
 				BlockFace.SELF
 		);
 		
-		for (Material log: Tag.LOGS.getValues()) {
+		for (Material log : Tag.LOGS.getValues()) {
 			Optional<Material> planks = MaterialConverter.getPlanksFromLog(log);
 			
 			if (planks.isPresent()) {

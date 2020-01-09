@@ -11,11 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -82,18 +82,18 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i : BORDER) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		for (int i : BORDER_IN) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		for (int i : BORDER_OUT) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
-		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		
 		for (int i : getOutputSlots()) {
 			preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
@@ -195,7 +195,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			else {
 				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				
-				for (ItemStack output: processing.get(b).getOutput()) {
+				for (ItemStack output : processing.get(b).getOutput()) {
 					inv.pushItem(output.clone(), getOutputSlots());
 				}
 				
@@ -207,9 +207,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			MachineRecipe r = null;
 			Map<Integer, Integer> found = new HashMap<>();
 			
-			for (MachineRecipe recipe: recipes) {
-				for (ItemStack input: recipe.getInput()) {
-					for (int slot: getInputSlots()) {
+			for (MachineRecipe recipe : recipes) {
+				for (ItemStack input : recipe.getInput()) {
+					for (int slot : getInputSlots()) {
 						if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), input, true)) {
 							found.put(slot, input.getAmount());
 							break;
@@ -226,8 +226,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 			if (r != null) {
 				if (!fits(b, r.getOutput())) return;
 				
-				for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
-					inv.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(inv.getItemInSlot(entry.getKey()), entry.getValue()));
+				for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
+					inv.consumeItem(entry.getKey(), entry.getValue());
 				}
 				
 				processing.put(b, r);

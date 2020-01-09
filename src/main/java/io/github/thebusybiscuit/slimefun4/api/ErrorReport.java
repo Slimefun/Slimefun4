@@ -51,18 +51,7 @@ public class ErrorReport {
 				List<String> plugins = new ArrayList<>();
 				List<String> addons = new ArrayList<>();
 				
-				for (Plugin p: Bukkit.getPluginManager().getPlugins()) {
-					if (Bukkit.getPluginManager().isPluginEnabled(p)) {
-						plugins.add("  + " + p.getName() + ' ' + p.getDescription().getVersion());
-						if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
-							addons.add("  + " + p.getName() + ' ' + p.getDescription().getVersion());
-					}
-					else {
-						plugins.add("  - " + p.getName() + ' ' + p.getDescription().getVersion());
-						if (p.getDescription().getDepend().contains("Slimefun") || p.getDescription().getSoftDepend().contains("Slimefun"))
-							addons.add("  - " + p.getName() + ' ' + p.getDescription().getVersion());
-					}
-				}
+				scanPlugins(plugins, addons);
 				
 				stream.println("Installed Addons (" + addons.size() + ")");
 				addons.forEach(stream::println);
@@ -150,19 +139,36 @@ public class ErrorReport {
 			stream.println();
 		});
 	}
+
+	private void scanPlugins(List<String> plugins, List<String> addons) {
+		String dependency = "Slimefun";
+		
+		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+			if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
+				plugins.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+				if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency))
+					addons.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+			}
+			else {
+				plugins.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+				if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency))
+					addons.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+			}
+		}
+	}
 	
 	private File getNewFile() {
 		String path = "plugins/Slimefun/error-reports/" + new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
-		File file = new File(path + ".err");
+		File newFile = new File(path + ".err");
 		
-		if (file.exists()) {
+		if (newFile.exists()) {
 			IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").err").exists());
 			int id = stream.findFirst().getAsInt();
 			
-			file = new File(path + " (" + id + ").err");
+			newFile = new File(path + " (" + id + ").err");
 		}
 		
-		return file;
+		return newFile;
 	}
 
 	public File getFile() {

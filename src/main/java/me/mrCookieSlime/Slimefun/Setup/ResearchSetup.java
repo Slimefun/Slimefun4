@@ -125,7 +125,7 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(122, "Armored Jet Boots", 27), SlimefunItems.ARMORED_JETBOOTS);
 	    Slimefun.registerResearch(new Research(123, "Seismic Axe", 29), SlimefunItems.SEISMIC_AXE);
 	    Slimefun.registerResearch(new Research(124, "Pickaxe of Vein Mining", 29), SlimefunItems.PICKAXE_OF_VEIN_MINING);
-	    Slimefun.registerResearch(new Research(125, "Soulbound Weapons", 29), SlimefunItems.SOULBOUND_SWORD, SlimefunItems.SOULBOUND_BOW);
+	    Slimefun.registerResearch(new Research(125, "Soulbound Weapons", 29), SlimefunItems.SOULBOUND_SWORD, SlimefunItems.SOULBOUND_BOW, SlimefunItems.SOULBOUND_TRIDENT);
 	    Slimefun.registerResearch(new Research(126, "Soulbound Tools", 29), SlimefunItems.SOULBOUND_PICKAXE, SlimefunItems.SOULBOUND_AXE, SlimefunItems.SOULBOUND_SHOVEL, SlimefunItems.SOULBOUND_HOE);
 	    Slimefun.registerResearch(new Research(127, "Soulbound Armor", 29), SlimefunItems.SOULBOUND_HELMET, SlimefunItems.SOULBOUND_CHESTPLATE, SlimefunItems.SOULBOUND_LEGGINGS, SlimefunItems.SOULBOUND_BOOTS);
 	    Slimefun.registerResearch(new Research(129, "Delicious Drinks", 29), SlimefunItems.JUICER, SlimefunItems.APPLE_JUICE, SlimefunItems.MELON_JUICE, SlimefunItems.CARROT_JUICE, SlimefunItems.PUMPKIN_JUICE, SlimefunItems.SWEET_BERRY_JUICE);
@@ -231,7 +231,7 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(232, "Advanced Electric Smeltery", 28), SlimefunItems.ELECTRIC_SMELTERY_2);
 	    Slimefun.registerResearch(new Research(233, "Advanced Androids - Farmer", 30), SlimefunItems.PROGRAMMABLE_ANDROID_2_FARMER);
 	    Slimefun.registerResearch(new Research(234, "Lava Generator", 38), SlimefunItems.LAVA_GENERATOR);
-	    Slimefun.registerResearch(new Research(235, "Nether Ice Coolant", 45), SlimefunItems.NETHER_ICE, SlimefunItems.ENRICHED_NETHER_ICE, SlimefunItems.NETHER_ICE_COOLANT_CELL, SlimefunItems.NETHER_DRILL);
+	    Slimefun.registerResearch(new Research(235, "Nether Ice Coolant", 45), SlimefunItems.NETHER_ICE, SlimefunItems.ENRICHED_NETHER_ICE, SlimefunItems.NETHER_ICE_COOLANT_CELL);
 	    Slimefun.registerResearch(new Research(236, "Nether Star Reactor", 60), SlimefunItems.NETHERSTAR_REACTOR);
 	    Slimefun.registerResearch(new Research(237, "Blistering Radioactivity", 38), SlimefunItems.BLISTERING_INGOT, SlimefunItems.BLISTERING_INGOT_2, SlimefunItems.BLISTERING_INGOT_3);
 	    Slimefun.registerResearch(new Research(239, "Automatic Ignition Chamber", 12), SlimefunItems.IGNITION_CHAMBER);
@@ -248,5 +248,7 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(250, "Charging Bench", 8), SlimefunItems.CHARGING_BENCH);
 	    Slimefun.registerResearch(new Research(251, "Nether Gold Pan", 8), SlimefunItems.NETHER_GOLD_PAN);
 	    Slimefun.registerResearch(new Research(252, "Electric Press", 16), SlimefunItems.ELECTRIC_PRESS, SlimefunItems.ELECTRIC_PRESS_2);
+	    Slimefun.registerResearch(new Research(253, "Power from Magnesium", 20), SlimefunItems.MAGNESIUM_SALT, SlimefunItems.MAGNESIUM_GENERATOR);
+	    Slimefun.registerResearch(new Research(254, "Tasty Kelp", 4), SlimefunItems.KELP_COOKIE);
 	}
 }

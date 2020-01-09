@@ -9,9 +9,9 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class AltarRecipe {
 	
-	private ItemStack catalyst;
-	private List<ItemStack> input;
-	private ItemStack output;
+	private final ItemStack catalyst;
+	private final List<ItemStack> input;
+	private final ItemStack output;
 	
 	public AltarRecipe(List<ItemStack> input, ItemStack output) {
 		this.catalyst = input.get(4);

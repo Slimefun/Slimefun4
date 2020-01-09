@@ -16,7 +16,11 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class SoulboundItem extends SlimefunItem implements Soulbound {
 
 	public SoulboundItem(Category category, SlimefunItemStack item, ItemStack[] recipe) {
-		super(category, item, RecipeType.MAGIC_WORKBENCH, recipe);
+		this(category, item, RecipeType.MAGIC_WORKBENCH, recipe);
+	}
+
+	public SoulboundItem(Category category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
+		super(category, item, type, recipe);
 	}
 	
 	public SoulboundItem(Category category, ItemStack item, String id, RecipeType type, ItemStack[] recipe) {

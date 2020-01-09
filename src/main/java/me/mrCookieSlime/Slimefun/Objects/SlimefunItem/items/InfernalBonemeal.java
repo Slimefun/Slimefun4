@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,14 +24,17 @@ public class InfernalBonemeal extends SimpleSlimefunItem<ItemInteractionHandler>
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (isItem(item)) {
-				if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.NETHER_WART) {
-					Ageable ageable = (Ageable) e.getClickedBlock().getBlockData();
+				Block b = e.getClickedBlock();
+				if (b != null && b.getType() == Material.NETHER_WART) {
+					Ageable ageable = (Ageable) b.getBlockData();
 					if (ageable.getAge() < ageable.getMaximumAge()) {
 						ageable.setAge(ageable.getMaximumAge());
-						e.getClickedBlock().setBlockData(ageable);
-						e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
+						b.setBlockData(ageable);
+						b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
 						
-						if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
+						if (p.getGameMode() != GameMode.CREATIVE) {
+							ItemUtils.consumeItem(item, false);
+						}
 					}
 				}
 				return true;

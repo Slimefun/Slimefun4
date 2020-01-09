@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -20,14 +21,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -47,7 +47,6 @@ public class ToolListener implements Listener {
 	
 	// Materials that require a Block under it, e.g. Pressure Plates
 	private final Set<Material> sensitiveMaterials = new HashSet<>();
-	private final Random random = new Random();
 	private final Utilities utilities;
 	
 	public ToolListener(SlimefunPlugin plugin) {
@@ -148,7 +147,7 @@ public class ToolListener implements Listener {
 				ItemUtils.consumeItem(item, false);
 			}
 			
-			FireworkShow.launchRandom(e.getPlayer(), 3);
+			FireworkUtils.launchRandom(e.getPlayer(), 3);
 			List<ItemStack> gifts = new ArrayList<>();
 			
 			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
@@ -164,7 +163,7 @@ public class ToolListener implements Listener {
 			gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
 			gifts.add(new ItemStack(Material.EMERALD));
 			
-			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(random.nextInt(gifts.size())));
+			e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
 		}
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false)) {
 			if (e.getBlock().getY() != e.getBlockAgainst().getY()) {
@@ -251,7 +250,7 @@ public class ToolListener implements Listener {
 			} 
 			else {
 				// Walk over all registered block break handlers until one says that it'll handle it.
-				for (ItemHandler handler: SlimefunItem.getHandlers("BlockBreakHandler")) {
+				for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
 					if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 				}
 			}
@@ -266,6 +265,8 @@ public class ToolListener implements Listener {
 		}
 		else if (item != null) {
 			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+				Random random = ThreadLocalRandom.current();
+				
 				fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
 				if (fortune <= 0) fortune = 1;
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
@@ -314,13 +315,6 @@ public class ToolListener implements Listener {
     		}
 		}
 	    
-	}
-	
-	@EventHandler
-	public void onLiquidFlow(BlockFromToEvent e) {
-		Block block = e.getToBlock();
-		String item = BlockStorage.checkID(block);
-		if (item != null) e.setCancelled(true);
 	}
 
 }

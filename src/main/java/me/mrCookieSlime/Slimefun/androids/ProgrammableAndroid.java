@@ -11,10 +11,10 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 
-import me.mrCookieSlime.Slimefun.Events.AndroidMineEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -40,16 +40,19 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
+import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -65,35 +68,38 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.androids.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class ProgrammableAndroid extends SlimefunItem implements InventoryBlock {
 
+	// Determines the drops a miner android will get
+	private static final ItemStack EFFECTIVE_PICKAXE = new ItemStack(Material.DIAMOND_PICKAXE);
+
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private static final int[] border_out = {10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41};
 
-	private static final ItemStack[] fish = new ItemStack[] {new ItemStack(Material.COD), new ItemStack(Material.SALMON), new ItemStack(Material.PUFFERFISH), new ItemStack(Material.TROPICAL_FISH), new ItemStack(Material.STRING), new ItemStack(Material.BONE), new ItemStack(Material.STICK)};
-
-	private static final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-	private static final List<Material> blockblacklist = new ArrayList<>();
-
-
+	private static final RandomizedSet<ItemStack> fishingLoot = new RandomizedSet<>();
+	
 	static {
-		blockblacklist.add(Material.BEDROCK);
-		blockblacklist.add(Material.BARRIER);
-		blockblacklist.add(Material.END_PORTAL_FRAME);
-		blockblacklist.add(Material.END_PORTAL);
-		blockblacklist.add(Material.NETHER_PORTAL);
-		blockblacklist.add(Material.COMMAND_BLOCK);
-		blockblacklist.add(Material.CHAIN_COMMAND_BLOCK);
-		blockblacklist.add(Material.REPEATING_COMMAND_BLOCK);
-		blockblacklist.add(Material.STRUCTURE_BLOCK);
+		for (Material fish : MaterialCollections.getAllFishItems()) {
+			fishingLoot.add(new ItemStack(fish), 20);
+		}
+		
+		fishingLoot.add(new ItemStack(Material.BONE), 10);
+		fishingLoot.add(new ItemStack(Material.STRING), 10);
+		fishingLoot.add(new ItemStack(Material.STICK), 5);
+		fishingLoot.add(new ItemStack(Material.INK_SAC), 4);
+		fishingLoot.add(new ItemStack(Material.ROTTEN_FLESH), 3);
+		fishingLoot.add(new ItemStack(Material.LEATHER), 2);
 	}
+	
+	private static final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
 	private final Set<MachineFuel> recipes = new HashSet<>();
-	private final Random random = new Random();
+	private final String texture;
 	
 	@Override
 	public int[] getInputSlots() {
@@ -109,25 +115,26 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	public abstract float getFuelEfficiency();
 	public abstract int getTier();
 
-	public ProgrammableAndroid(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public ProgrammableAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
+		this.texture = item.getBase64Texture().orElse(null);
 
 		if (getTier() == 1) {
 			registerFuel(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
 			registerFuel(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
 
 			// Coals
-			for (Material mat: Tag.ITEMS_COALS.getValues()) {
+			for (Material mat : Tag.ITEMS_COALS.getValues()) {
 				registerFuel(new MachineFuel(8, new ItemStack(mat)));
 			}
 			
 			// Logs
-			for (Material mat: Tag.LOGS.getValues()) {
+			for (Material mat : Tag.LOGS.getValues()) {
 				registerFuel(new MachineFuel(2, new ItemStack(mat)));
 			}
 
 			// Wooden Planks
-			for (Material mat: Tag.PLANKS.getValues()) {
+			for (Material mat : Tag.PLANKS.getValues()) {
 				registerFuel(new MachineFuel(1, new ItemStack(mat)));
 			}
 		}
@@ -142,54 +149,48 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			registerFuel(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
 		}
 
-		new BlockMenuPreset(name, "Programmable Android") {
+		new BlockMenuPreset(getID(), "Programmable Android") {
 
 			@Override
 			public void init() {
-				try {
-					constructMenu(this);
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while constructing an Android Inventory for Slimefun " + Slimefun.getVersion(), x);
-				}
+				constructMenu(this);
 			}
 
 			@Override
 			public boolean canOpen(Block b, Player p) {
 				boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
+				
 				if (!open) {
 					SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
 				}
+				
 				return open;
 			}
 
 			@Override
 			public void newInstance(BlockMenu menu, final Block b) {
-				try {
-					menu.replaceExistingItem(15, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTAxYzdiNTcyNjE3ODk3NGIzYjNhMDFiNDJhNTkwZTU0MzY2MDI2ZmQ0MzgwOGYyYTc4NzY0ODg0M2E3ZjVhIn19fQ=="), "&aStart/Continue"));
-					menu.addMenuClickHandler(15, (p, slot, item, action) -> {
-						SlimefunPlugin.getLocal().sendMessage(p, "robot.started", true);
-						BlockStorage.addBlockInfo(b, "paused", "false");
-						p.closeInventory();
-						return false;
-					});
+				menu.replaceExistingItem(15, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTAxYzdiNTcyNjE3ODk3NGIzYjNhMDFiNDJhNTkwZTU0MzY2MDI2ZmQ0MzgwOGYyYTc4NzY0ODg0M2E3ZjVhIn19fQ=="), "&aStart/Continue"));
+				menu.addMenuClickHandler(15, (p, slot, item, action) -> {
+					SlimefunPlugin.getLocal().sendMessage(p, "robot.started", true);
+					BlockStorage.addBlockInfo(b, "paused", "false");
+					p.closeInventory();
+					return false;
+				});
 
-					menu.replaceExistingItem(17, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&4Pause"));
-					menu.addMenuClickHandler(17, (p, slot, item, action) -> {
-						BlockStorage.addBlockInfo(b, "paused", "true");
-						SlimefunPlugin.getLocal().sendMessage(p, "robot.stopped", true);
-						return false;
-					});
+				menu.replaceExistingItem(17, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&4Pause"));
+				menu.addMenuClickHandler(17, (p, slot, item, action) -> {
+					BlockStorage.addBlockInfo(b, "paused", "true");
+					SlimefunPlugin.getLocal().sendMessage(p, "robot.stopped", true);
+					return false;
+				});
 
-					menu.replaceExistingItem(16, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&bMemory Core", "", "&8\u21E8 &7Click to open the Script Editor"));
-					menu.addMenuClickHandler(16, (p, slot, item, action) -> {
-						BlockStorage.addBlockInfo(b, "paused", "true");
-						SlimefunPlugin.getLocal().sendMessage(p, "robot.stopped", true);
-						openScriptEditor(p, b);
-						return false;
-					});
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a new Instance of an Android Inventory for Slimefun " + Slimefun.getVersion(), x);
-				}
+				menu.replaceExistingItem(16, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&bMemory Core", "", "&8\u21E8 &7Click to open the Script Editor"));
+				menu.addMenuClickHandler(16, (p, slot, item, action) -> {
+					BlockStorage.addBlockInfo(b, "paused", "true");
+					SlimefunPlugin.getLocal().sendMessage(p, "robot.stopped", true);
+					openScriptEditor(p, b);
+					return false;
+				});
 			}
 
 			@Override
@@ -198,7 +199,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			}
 		};
 
-		registerBlockHandler(name, new SlimefunBlockHandler() {
+		registerBlockHandler(getID(), new SlimefunBlockHandler() {
 
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
@@ -209,6 +210,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				BlockStorage.addBlockInfo(b, "rotation", p.getFacing().getOppositeFace().toString());
 				BlockStorage.addBlockInfo(b, "paused", "true");
 				b.setType(Material.PLAYER_HEAD);
+				
 				Rotatable blockData = (Rotatable) b.getBlockData();
 				blockData.setRotation(p.getFacing());
 				b.setBlockData(blockData);
@@ -220,12 +222,14 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 				if (allow) {
 					BlockMenu inv = BlockStorage.getInventory(b);
+					
 					if (inv != null) {
 						if (inv.getItemInSlot(43) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(43));
 							inv.replaceExistingItem(43, null);
 						}
-						for (int slot: getOutputSlots()) {
+						
+						for (int slot : getOutputSlots()) {
 							if (inv.getItemInSlot(slot) != null) {
 								b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 								inv.replaceExistingItem(slot, null);
@@ -253,9 +257,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				ItemStack item = menu.getItemInSlot(43);
 				
 				if (item != null) {
-					for (MachineFuel recipe: recipes) {
+					for (MachineFuel recipe : recipes) {
 						if (SlimefunManager.isItemSimilar(item, recipe.getInput(), true)) {
-							menu.replaceExistingItem(43, InvUtils.decreaseItem(item, 1));
+							menu.consumeItem(43);
 							
 							if (getTier() == 2) {
 								menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
@@ -322,8 +326,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							Block water = b.getRelative(BlockFace.DOWN);
 							if (water.getType() == Material.WATER) {
 								water.getWorld().playSound(water.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-								if (random.nextInt(100) < 10 * getTier()) {
-									ItemStack drop = fish[random.nextInt(fish.length)];
+								if (ThreadLocalRandom.current().nextInt(100) < 10 * getTier()) {
+									ItemStack drop = fishingLoot.getRandom();
 									if (menu.fits(drop, getOutputSlots())) {
 										menu.pushItem(drop, getOutputSlots());
 									}
@@ -343,7 +347,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 						case INTERFACE_ITEMS:
 							if (BlockStorage.check(b.getRelative(face), "ANDROID_INTERFACE_ITEMS") && b.getRelative(face).getState() instanceof Dispenser) {
 								Dispenser d = (Dispenser) b.getRelative(face).getState();
-								for (int slot: getOutputSlots()) {
+								
+								for (int slot : getOutputSlots()) {
 									ItemStack stack = menu.getItemInSlot(slot);
 									
 									if (stack != null) {
@@ -377,7 +382,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 											if (rest > 0) {
 												int amt = item.getAmount() > rest ? rest: item.getAmount();
 												menu.replaceExistingItem(43, new CustomItem(item, menu.getItemInSlot(43).getAmount() + amt));
-												d.getInventory().setItem(slot, InvUtils.decreaseItem(item, amt));
+												ItemUtils.consumeItem(item, amt, false);
 											}
 											break;
 										}
@@ -386,16 +391,16 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							}
 							break;
 						case FARM_FORWARD:
-							farm(b, menu, b.getRelative(face));
+							farm(menu, b.getRelative(face));
 							break;
 						case FARM_DOWN:
-							farm(b, menu, b.getRelative(BlockFace.DOWN));
+							farm(menu, b.getRelative(BlockFace.DOWN));
 							break;
 						case FARM_EXOTIC_FORWARD:
-							exoticFarm(b, menu, b.getRelative(face));
+							exoticFarm(menu, b.getRelative(face));
 							break;
 						case FARM_EXOTIC_DOWN:
-							exoticFarm(b, menu, b.getRelative(BlockFace.DOWN));
+							exoticFarm(menu, b.getRelative(BlockFace.DOWN));
 							break;
 						case CHOP_TREE:
 							if (MaterialCollections.getAllLogs().contains(b.getRelative(face).getType())) {
@@ -448,7 +453,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	
 	private void killEntities(Block b, double damage, Predicate<Entity> predicate) {
 		double radius = 4.0 + getTier();
-		for (Entity n: b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.isValid() && predicate.test(n))) {
+		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.isValid() && predicate.test(n))) {
 			boolean attack = false;
 			
 			switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
@@ -469,8 +474,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			}
 			
 			if (attack) {
-				if (n.hasMetadata("android_killer")) n.removeMetadata("android_killer", SlimefunPlugin.instance);
-				n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidObject(this, b)));
+				if (n.hasMetadata("android_killer")) {
+					n.removeMetadata("android_killer", SlimefunPlugin.instance);
+				}
+				
+				n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidEntity(this, b)));
 
 				((LivingEntity) n).damage(damage);
 				break;
@@ -484,12 +492,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			Rotatable blockData = (Rotatable) block.getBlockData();
 			blockData.setRotation(face.getOppositeFace());
 			block.setBlockData(blockData);
-			
-			try {
-				CustomSkull.setSkull(block, CustomSkull.getTexture(getItem()));
-			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while moving an Android for Slimefun " + Slimefun.getVersion(), x);
-			}
+
+			SkullBlock.setFromBase64(block, texture);
 			
 			b.setType(Material.AIR);
 			BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
@@ -497,16 +501,18 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	}
 
 	private void mine(Block b, BlockMenu menu, Block block) {
-		Collection<ItemStack> drops = block.getDrops();
-		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+		Collection<ItemStack> drops = block.getDrops(EFFECTIVE_PICKAXE);
+		if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			String item = BlockStorage.checkID(block);
-			AndroidMineEvent event = new AndroidMineEvent(block, b);
+			
+			AndroidMineEvent event = new AndroidMineEvent(block, new AndroidEntity(this, b));
 			Bukkit.getPluginManager().callEvent(event);
 			if (event.isCancelled()) {
 				return;
 			}
+			
 			if (item == null) {
-				for (ItemStack drop: drops) {
+				for (ItemStack drop : drops) {
 					if (menu.fits(drop, getOutputSlots())) {
 						menu.pushItem(drop, getOutputSlots());
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
@@ -530,16 +536,18 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 
 	private void movedig(Block b, BlockMenu menu, BlockFace face, Block block) {
-		Collection<ItemStack> drops = block.getDrops();
-		if (!blockblacklist.contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+		Collection<ItemStack> drops = block.getDrops(EFFECTIVE_PICKAXE);
+		if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 			SlimefunItem item = BlockStorage.check(block);
-			AndroidMineEvent event = new AndroidMineEvent(block, b);
+			
+			AndroidMineEvent event = new AndroidMineEvent(block, new AndroidEntity(this, b));
 			Bukkit.getPluginManager().callEvent(event);
 			if (event.isCancelled()) {
 				return;
 			}
+			
 			if (item == null) {
-				for (ItemStack drop: drops) {
+				for (ItemStack drop : drops) {
 					if (menu.fits(drop, getOutputSlots())) {
 						menu.pushItem(drop, getOutputSlots());
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
@@ -577,34 +585,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		return ageable.getAge() >= ageable.getMaximumAge();
 	}
 
-	private void farm(Block b, BlockMenu menu, Block block) {
+	private void farm(BlockMenu menu, Block block) {
 		if (isFullGrown(block)) {
-			ItemStack drop = null;
-			switch (block.getType()) {
-			case WHEAT:
-				drop = new ItemStack(Material.WHEAT, random.nextInt(2) + 1);
-				break;
-			case POTATOES:
-				drop = new ItemStack(Material.POTATO, random.nextInt(3) + 1);
-				break;
-			case CARROTS:
-				drop = new ItemStack(Material.CARROT, random.nextInt(3) + 1);
-				break;
-			case BEETROOTS:
-				drop = new ItemStack(Material.BEETROOT, random.nextInt(3) + 1);
-				break;
-			case COCOA:
-				drop = new ItemStack(Material.COCOA_BEANS, random.nextInt(3) + 1);
-				break;
-			case NETHER_WART:
-				drop = new ItemStack(Material.NETHER_WART, random.nextInt(3) + 1);
-				break;
-			case SWEET_BERRY_BUSH:
-				drop = new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
-				break;
-			default:
-				break;
-			}
+			ItemStack drop = getDropFromCrop(block.getType());
 			
 			if (drop != null && menu.fits(drop, getOutputSlots())) {
 				menu.pushItem(drop, getOutputSlots());
@@ -615,9 +598,33 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			}
 		}
 	}
+	
+	private ItemStack getDropFromCrop(Material crop) {
+		Random random = ThreadLocalRandom.current();
+		
+		switch (crop) {
+		case WHEAT:
+			return new ItemStack(Material.WHEAT, random.nextInt(2) + 1);
+		case POTATOES:
+			return new ItemStack(Material.POTATO, random.nextInt(3) + 1);
+		case CARROTS:
+			return new ItemStack(Material.CARROT, random.nextInt(3) + 1);
+		case BEETROOTS:
+			return new ItemStack(Material.BEETROOT, random.nextInt(3) + 1);
+		case COCOA:
+			return new ItemStack(Material.COCOA_BEANS, random.nextInt(3) + 1);
+		case NETHER_WART:
+			return new ItemStack(Material.NETHER_WART, random.nextInt(3) + 1);
+		case SWEET_BERRY_BUSH:
+			return new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
+		default:
+			return null;
+		}
+	}
 
-	private void exoticFarm(Block b, BlockMenu menu, Block block) {
-		farm(b, menu, block);
+	private void exoticFarm(BlockMenu menu, Block block) {
+		farm(menu, block);
+		
 		if (SlimefunPlugin.getHooks().isExoticGardenInstalled()) {
 			ItemStack drop = ExoticGarden.harvestPlant(block);
 			if (drop != null && menu.fits(drop, getOutputSlots())) {
@@ -627,7 +634,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		}
 	}
 
-	private void constructMenu(BlockMenuPreset preset) throws Exception {
+	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
@@ -651,13 +658,13 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		}
 
 		if (getTier() == 1) {
-			preset.addItem(34, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on solid Fuel", "&re.g. Coal, Wood, etc..."), (p, slot, item, action) -> false);
+			preset.addItem(34, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on solid Fuel", "&re.g. Coal, Wood, etc..."), (p, slot, item, action) -> false);
 		}
 		else if (getTier() == 2){
-			preset.addItem(34, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on liquid Fuel", "&re.g. Lava, Oil, Fuel, etc..."), (p, slot, item, action) -> false);
+			preset.addItem(34, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on liquid Fuel", "&re.g. Lava, Oil, Fuel, etc..."), (p, slot, item, action) -> false);
 		}
 		else {
-			preset.addItem(34, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on radioactive Fuel", "&re.g. Uranium, Neptunium or Boosted Uranium"), (p, slot, item, action) -> false);
+			preset.addItem(34, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on radioactive Fuel", "&re.g. Uranium, Neptunium or Boosted Uranium"), (p, slot, item, action) -> false);
 		}
 	}
 
@@ -665,25 +672,25 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 		
 		try {
-			menu.addItem(1, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"));
+			menu.addItem(1, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"));
 			menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 				openScript(pl, b, BlockStorage.getLocationInfo(b.getLocation(), "script"));
 				return false;
 			});
 	
-			menu.addItem(3, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"));
+			menu.addItem(3, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"));
 			menu.addMenuClickHandler(3, (pl, slot, item, action) -> {
 				openScript(pl, b, "START-TURN_LEFT-REPEAT");
 				return false;
 			});
 	
-			menu.addItem(5, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAxNTg2ZTM5ZjZmZmE2M2I0ZmIzMDFiNjVjYTdkYThhOTJmNzM1M2FhYWI4OWQzODg2NTc5MTI1ZGZiYWY5In19fQ=="), "&6> Download a Script", "", "&eDownload a Script from the Server", "&eYou can edit or simply use it"));
+			menu.addItem(5, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAxNTg2ZTM5ZjZmZmE2M2I0ZmIzMDFiNjVjYTdkYThhOTJmNzM1M2FhYWI4OWQzODg2NTc5MTI1ZGZiYWY5In19fQ=="), "&6> Download a Script", "", "&eDownload a Script from the Server", "&eYou can edit or simply use it"));
 			menu.addMenuClickHandler(5, (pl, slot, item, action) -> {
 				openScriptDownloader(pl, b, 1);
 				return false;
 			});
 	
-			menu.addItem(8, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
+			menu.addItem(8, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
 			menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
 				BlockStorage.getInventory(b).open(p);
 				return false;
@@ -714,7 +721,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 				if (additional == 1) {
 					try {
-						menu.addItem(i, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&7> Add new Command"));
+						menu.addItem(i, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&7> Add new Command"));
 						menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 							openScriptComponentEditor(pl, b, script, index);
 							return false;
@@ -804,7 +811,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		});
 		
 		try {
-			menu.addItem(48, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
+			menu.addItem(48, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
 			menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
 				final String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
 				int num = 1;
@@ -851,7 +858,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				return false;
 			});
 	
-			menu.addItem(53, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
+			menu.addItem(53, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
 			menu.addMenuClickHandler(53, (pl, slot, item, action) -> {
 				openScriptEditor(pl, b);
 				return false;
@@ -965,7 +972,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		}
 		
 		try {
-			menu.addItem(9, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"), (pl, slot, item, action) -> {
+			menu.addItem(9, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"), (pl, slot, item, action) -> {
 				int i = 0;
 				StringBuilder builder = new StringBuilder("START-");
 				
@@ -1023,7 +1030,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		addItemHandler(new BlockTicker() {
 
 			@Override
-			public void tick(Block b, SlimefunItem sf, Config data) {
+			public void tick(Block b, SlimefunItem sf, me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config data) {
 				if (b != null) ProgrammableAndroid.this.tick(b);
 			}
 

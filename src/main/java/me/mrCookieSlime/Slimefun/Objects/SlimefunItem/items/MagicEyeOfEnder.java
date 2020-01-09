@@ -22,7 +22,7 @@ public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemInteractionHandler> 
     public ItemInteractionHandler getItemHandler() {
         return (e, p, item) -> {
         	if (isItem(item)) {
-				e.getParentEvent().setCancelled(true);
+				e.setCancelled(true);
 				
 				if (
 					SlimefunManager.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.ENDER_HELMET, true) && 

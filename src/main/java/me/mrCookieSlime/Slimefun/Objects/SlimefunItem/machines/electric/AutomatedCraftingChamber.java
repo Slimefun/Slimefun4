@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -10,12 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -30,8 +30,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.api.item_transport.RecipeSorter;
 
 public abstract class AutomatedCraftingChamber extends SlimefunItem implements InventoryBlock {
 	
@@ -50,7 +50,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			}
 
 			@Override
-			public void newInstance(final BlockMenu menu, final Block b) {
+			public void newInstance(BlockMenu menu, Block b) {
 				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
 					menu.replaceExistingItem(6, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
 					menu.addMenuClickHandler(6, (p, slot, item, action) -> {
@@ -67,6 +67,12 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 						return false;
 					});
 				}
+
+				menu.replaceExistingItem(7, new CustomItem(new ItemStack(Material.CRAFTING_TABLE), "&7Craft Last", "", "&e> Click to craft the last shaped recipe", "&cOnly works with the last one"));
+				menu.addMenuClickHandler(7, (p, slot, item, action) -> {
+					tick(b, true);
+					return false;
+				});
 			}
 
 			@Override
@@ -80,14 +86,15 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			}
 
 			@Override
-			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
+			public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
 				
 				List<Integer> slots = new ArrayList<>();
 				for (int slot : getInputSlots()) {
 					if (menu.getItemInSlot(slot) != null) slots.add(slot);
 				}
-				Collections.sort(slots, new RecipeSorter(menu));
+				
+				Collections.sort(slots, compareSlots(menu));
 				
 				int[] array = new int[slots.size()];
 				
@@ -110,13 +117,13 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
-					for (int slot: getInputSlots()) {
+					for (int slot : getInputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
 						}
 					}
-					for (int slot: getOutputSlots()) {
+					for (int slot : getOutputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -126,6 +133,10 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 				return true;
 			}
 		});
+	}
+	
+	private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
+		return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
@@ -177,7 +188,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
-				AutomatedCraftingChamber.this.tick(b);
+				AutomatedCraftingChamber.this.tick(b, false);
 			}
 
 			@Override
@@ -186,40 +197,62 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			}
 		});
 	}
-	
-	protected void tick(Block b) {
-		if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
-		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-		
-		BlockMenu menu = BlockStorage.getInventory(b);
-		
+
+	protected void tick(Block block, boolean craftLast) {
+		if (!craftLast && BlockStorage.getLocationInfo(block.getLocation(), "enabled").equals("false")) return;
+		if (ChargableBlock.getCharge(block) < getEnergyConsumption()) return;
+
+		String input = getSerializedInput(block, craftLast);
+		testInputAgainstRecipes(block, input);
+	}
+
+	private String getSerializedInput(Block block, boolean craftLast) {
+		BlockMenu menu = BlockStorage.getInventory(block);
 		StringBuilder builder = new StringBuilder();
 		int i = 0;
+		boolean lastIteration = false;
 		for (int j = 0; j < 9; j++) {
 			if (i > 0) {
 				builder.append(" </slot> ");
 			}
-			
+
 			ItemStack item = menu.getItemInSlot(getInputSlots()[j]);
-			if (item != null && item.getAmount() == 1) return;
+			if (item != null && item.getAmount() == 1) {
+				if (craftLast)
+					lastIteration = true;
+				else
+					return "";
+			}
+
 			builder.append(CustomItemSerializer.serialize(item, ItemFlag.MATERIAL, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE));
-			
+
 			i++;
 		}
-		
-		String input = builder.toString();
-		
+
+		// we're only executing the last possible shaped recipe
+		// we don't want to allow this to be pressed instead of the default timer-based
+		//   execution to prevent abuse and auto clickers
+		if (craftLast && !lastIteration) return "";
+
+		return builder.toString();
+	}
+
+	private void testInputAgainstRecipes(Block block, String input) {
+		BlockMenu menu = BlockStorage.getInventory(block);
+
 		if (SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.containsKey(input)) {
 			ItemStack output = SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.get(input).clone();
-			
+
 			if (menu.fits(output, getOutputSlots())) {
 				menu.pushItem(output, getOutputSlots());
-				ChargableBlock.addCharge(b, -getEnergyConsumption());
+				ChargableBlock.addCharge(block, -getEnergyConsumption());
+				
 				for (int j = 0; j < 9; j++) {
-					if (menu.getItemInSlot(getInputSlots()[j]) != null) menu.replaceExistingItem(getInputSlots()[j], InvUtils.decreaseItem(menu.getItemInSlot(getInputSlots()[j]), 1));
+					if (menu.getItemInSlot(getInputSlots()[j]) != null) {
+						menu.consumeItem(getInputSlots()[j]);
+					}
 				}
 			}
 		}
 	}
-
 }

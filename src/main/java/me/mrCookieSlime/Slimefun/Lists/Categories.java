@@ -2,11 +2,11 @@ package me.mrCookieSlime.Slimefun.Lists;
 
 import org.bukkit.Material;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChatUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
-import me.mrCookieSlime.Slimefun.utils.Christmas;
 
 /**
  * Built-in categories.
@@ -21,7 +21,7 @@ public final class Categories {
 	
 	private static final String LORE = "&a> Click to open";
 	
-	public static final Category WEAPONS = new Category(new CustomItem(SlimefunItems.SWORD_OF_BEHEADING, "&7Weapons", "", LORE), 1);
+	public static final Category WEAPONS = new Category(new CustomItem(SlimefunItems.BLADE_OF_VAMPIRES, "&7Weapons", "", LORE), 1);
 	public static final Category TOOLS = new Category(new CustomItem(SlimefunItems.AUTO_SMELT_PICKAXE, "&7Tools", "", LORE), 1);
 	public static final Category PORTABLE = new Category(new CustomItem(SlimefunItems.BACKPACK_MEDIUM, "&7Items", "", LORE), 1);
 	public static final Category FOOD = new Category(new CustomItem(SlimefunItems.FORTUNE_COOKIE, "&7Food", "", LORE), 2);
@@ -41,9 +41,9 @@ public final class Categories {
 	public static final LockedCategory TALISMANS_2 = new LockedCategory(new CustomItem(SlimefunItems.ENDER_TALISMAN, "&7Talismans - &aTier II", "", LORE), 3, TALISMANS_1);
 	
 	// Seasonal Categories
-	public static final SeasonalCategory CHRISTMAS = new SeasonalCategory(12, 1, new CustomItem(Material.NETHER_STAR, Christmas.color("Christmas"), "", "&c> Click to help &aSanta"));
-	public static final SeasonalCategory VALENTINES_DAY = new SeasonalCategory(2, 2, new CustomItem(Material.POPPY, "&dValentine's Day", "", "&d> Click to celebrate Love"));
-	public static final SeasonalCategory EASTER = new SeasonalCategory(4, 2, new CustomItem(Material.EGG, "&6Easter", "", "&a> Click to paint some Eggs"));
+	public static final SeasonalCategory CHRISTMAS = new SeasonalCategory(12, 1, new CustomItem(Material.NETHER_STAR, ChatUtils.christmas("Christmas") + " &7(December)", "", "&c> Click to help &aSanta"));
+	public static final SeasonalCategory VALENTINES_DAY = new SeasonalCategory(2, 2, new CustomItem(Material.POPPY, "&dValentine's Day" + " &7(February)", "", "&d> Click to celebrate Love"));
+	public static final SeasonalCategory EASTER = new SeasonalCategory(4, 2, new CustomItem(Material.EGG, "&6Easter" + " &7(April)", "", "&a> Click to paint some Eggs"));
 	public static final SeasonalCategory BIRTHDAY = new SeasonalCategory(10, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)", "", "&a> Click to celebrate with me"));
 	
 }

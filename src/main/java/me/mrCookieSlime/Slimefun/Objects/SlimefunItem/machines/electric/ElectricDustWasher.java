@@ -6,8 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -68,13 +67,13 @@ public abstract class ElectricDustWasher extends AContainer {
 		else {
 			ItemStack[] items = SlimefunPlugin.getUtilities().oreWasherOutputs;
 			
-			for (int slot: getInputSlots()) {
+			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
 					if (!SlimefunPlugin.getSettings().legacyDustWasher) {
 						boolean emptySlot = false;
             
-						for (int output_slot: getOutputSlots()) {
-							if (menu.getItemInSlot(output_slot) == null) {
+						for (int outputSlot : getOutputSlots()) {
+							if (menu.getItemInSlot(outputSlot) == null) {
 								emptySlot = true;
 								break;
 							}
@@ -85,7 +84,7 @@ public abstract class ElectricDustWasher extends AContainer {
 					ItemStack adding = items[new Random().nextInt(items.length)];
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {adding});
 					if (SlimefunPlugin.getSettings().legacyDustWasher && !menu.fits(r.getOutput()[0], getOutputSlots())) return;
-					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+	                menu.consumeItem(slot);
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;
@@ -93,7 +92,7 @@ public abstract class ElectricDustWasher extends AContainer {
 				else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER});
 					if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
-					menu.replaceExistingItem(slot, InvUtils.decreaseItem(menu.getItemInSlot(slot), 1));
+	                menu.consumeItem(slot);
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;

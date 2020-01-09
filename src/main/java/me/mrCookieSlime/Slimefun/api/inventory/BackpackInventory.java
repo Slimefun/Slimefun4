@@ -4,15 +4,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 public class BackpackInventory {
-	
-	private int id;
+
+	private final PlayerProfile profile;
+	private final int id;
+	private final Config cfg;
 	private int size;
-	private PlayerProfile profile;
-	private Config cfg;
 	private Inventory inventory;
 	
 	/**
@@ -54,7 +54,7 @@ public class BackpackInventory {
 	}
 	
 	public void open(Player... players) {
-		for (Player p: players) {
+		for (Player p : players) {
 			p.openInventory(inventory);
 		}
 	}
@@ -63,13 +63,13 @@ public class BackpackInventory {
 		this.size = size;
 		cfg.setValue("backpacks." + id + ".size", size);
 		
-		Inventory inventory = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
+		Inventory inv = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
 		
 		for (int slot = 0; slot < this.inventory.getSize(); slot++) {
-			inventory.setItem(slot, this.inventory.getItem(slot));
+			inv.setItem(slot, this.inventory.getItem(slot));
 		}
 		
-		this.inventory = inventory;
+		this.inventory = inv;
 		
 		markDirty();
 	}

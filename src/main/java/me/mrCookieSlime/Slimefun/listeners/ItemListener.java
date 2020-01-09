@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.List;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,6 +12,7 @@ import org.bukkit.block.Hopper;
 import org.bukkit.block.Skull;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
@@ -27,18 +27,23 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
+import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -58,13 +63,11 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.guides.GuideSettings;
-import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class ItemListener implements Listener {
 	
-	private Utilities utilities;
+	private final Utilities utilities;
 	
 	public ItemListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -77,7 +80,7 @@ public class ItemListener implements Listener {
 			e.setCancelled(true);
 		}
 	}
-
+	
 	@EventHandler
 	public void onGrindstone(InventoryClickEvent e) {
 		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.GRINDSTONE) {
@@ -138,11 +141,7 @@ public class ItemListener implements Listener {
 					if (p.isSneaking()) {
 						Block b = e.getClickedBlock().getRelative(e.getBlockFace());
 						b.setType(Material.PLAYER_HEAD);
-						try {
-							CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
-						} catch (Exception x) {
-							Slimefun.getLogger().log(Level.SEVERE, "An Error occured while using the Debug-Fish for Slimefun " + Slimefun.getVersion(), x);
-						}
+						SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
 					}
 					else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
 						p.sendMessage(" ");
@@ -208,7 +207,7 @@ public class ItemListener implements Listener {
 			return;
 		}
 
-		final Player p = e.getPlayer();
+		Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 
 		if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
@@ -283,10 +282,9 @@ public class ItemListener implements Listener {
 			String id = BlockStorage.checkID(e.getClickedBlock());
 			if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && (!p.isSneaking() || item == null || item.getType() == Material.AIR)) {
 				e.setCancelled(true);
-				BlockStorage storage = BlockStorage.getStorage(e.getClickedBlock().getWorld());
 
-				if (storage.hasUniversalInventory(id)) {
-					UniversalBlockMenu menu = storage.getUniversalInventory(id);
+				if (BlockStorage.hasUniversalInventory(id)) {
+					UniversalBlockMenu menu = BlockStorage.getUniversalInventory(id);
 					if (menu.canOpen(e.getClickedBlock(), p)) {
 						menu.open(p);
 					}
@@ -294,7 +292,7 @@ public class ItemListener implements Listener {
 						SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
 					}
 				}
-				else if (storage.hasInventory(e.getClickedBlock().getLocation())) {
+				else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
 					BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
 					if (menu.canOpen(e.getClickedBlock(), p)) {
 						menu.open(p);
@@ -322,7 +320,7 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onEat(PlayerItemConsumeEvent e) {
-		final Player p = e.getPlayer();
+		Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		
@@ -359,7 +357,7 @@ public class ItemListener implements Listener {
 					// Remove the glass bottle once drunk
 					final int m = mode;
 
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+					Slimefun.runSync(() -> {
 						if (m == 0) p.getEquipment().getItemInMainHand().setAmount(0);
 						else if (m == 1) p.getEquipment().getItemInOffHand().setAmount(0);
 						else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
@@ -415,6 +413,35 @@ public class ItemListener implements Listener {
 			}
 		}
 	}
+	
+	@EventHandler
+	public void onIronGolemHeal(PlayerInteractEntityEvent e) {
+		if (e.getRightClicked() instanceof IronGolem) {
+			PlayerInventory inv = e.getPlayer().getInventory();
+			ItemStack item = null;
+			
+			if (e.getHand() == EquipmentSlot.HAND) {
+				item = inv.getItemInMainHand();
+			}
+			else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+				item = inv.getItemInOffHand();
+			}
+			
+			if (item != null && item.getType() == Material.IRON_INGOT && SlimefunItem.getByItem(item) != null) {
+				e.setCancelled(true);
+				SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
+				
+				// This is just there to update the Inventory...
+				// Somehow cancelling it isn't enough.
+				if (e.getHand() == EquipmentSlot.HAND) {
+					inv.setItemInMainHand(item);
+				}
+				else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+					inv.setItemInOffHand(item);
+				}
+			}
+		}
+	}
 
 	@EventHandler
 	public void onAnvil(InventoryClickEvent e) {
@@ -449,7 +476,7 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
-		for (ItemHandler handler: SlimefunItem.getHandlers("ItemDropHandler")) {
+		for (ItemHandler handler : SlimefunItem.getHandlers("ItemDropHandler")) {
 			if (((ItemDropHandler) handler).onItemDrop(e, e.getPlayer(), e.getItemDrop())) return;
 		}
 	}

@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.GEO.GEOScanner;
@@ -24,12 +25,14 @@ public class GEOScannerBlock extends SimpleSlimefunItem<ItemInteractionHandler> 
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, stack) -> {
-			if (e.getClickedBlock() == null) return false;
-			String item = BlockStorage.checkID(e.getClickedBlock());
+			Block b = e.getClickedBlock();
+			
+			if (b == null) return false;
+			String item = BlockStorage.checkID(b);
 			if (item == null || !item.equals(getID())) return false;
 			e.setCancelled(true);
 			
-			GEOScanner.scanChunk(p, e.getClickedBlock().getChunk());
+			GEOScanner.scanChunk(p, b.getChunk());
 			return true;
 		};
 	}

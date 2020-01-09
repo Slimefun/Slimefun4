@@ -12,16 +12,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.guides.BookSlimefunGuide;
-import me.mrCookieSlime.Slimefun.guides.ChestSlimefunGuide;
-import me.mrCookieSlime.Slimefun.guides.ISlimefunGuide;
-import me.mrCookieSlime.Slimefun.guides.SlimefunGuideLayout;
 
 public final class SlimefunGuide {
 
@@ -116,29 +116,29 @@ public final class SlimefunGuide {
 		}
 	}
 
-	private static void openMainMenuAsync(final Player player, final boolean survival, final SlimefunGuideLayout layout, final int selected_page) {
-		if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, survival, selected_page))))
+	private static void openMainMenuAsync(Player player, boolean survival, SlimefunGuideLayout layout, int selectedPage) {
+		if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, survival, selectedPage))))
 			Slimefun.getLocal().sendMessage(player, "messages.opening-guide");
 	}
 
-	public static void openMainMenu(final PlayerProfile profile, SlimefunGuideLayout layout, final boolean survival, final int selected_page) {
-		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openMainMenu(profile, survival, selected_page);
+	public static void openMainMenu(PlayerProfile profile, SlimefunGuideLayout layout, boolean survival, int selectedPage) {
+		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openMainMenu(profile, survival, selectedPage);
 	}
 
-	public static void openCategory(final PlayerProfile profile, final Category category, SlimefunGuideLayout layout, final boolean survival, final int selected_page) {
+	public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideLayout layout, boolean survival, int selectedPage) {
 		if (category == null) return;
-		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openCategory(profile, category, survival, selected_page);
+		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openCategory(profile, category, survival, selectedPage);
 	}
 
 	public static void openSearch(final PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
 		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
 	}
 
-	public static void displayItem(PlayerProfile profile, final ItemStack item, boolean addToHistory) {
+	public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
 		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
 	}
 
-	public static void displayItem(PlayerProfile profile, final SlimefunItem item, boolean addToHistory) {
+	public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
 		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
 	}
 }

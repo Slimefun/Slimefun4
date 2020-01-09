@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -10,9 +9,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -21,7 +20,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -49,7 +47,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
 			if (inv != null) {
-				for (int slot: getInputSlots()) {
+				for (int slot : getInputSlots()) {
 					if (inv.getItemInSlot(slot) != null) {
 						b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 						inv.replaceExistingItem(slot, null);
@@ -62,9 +60,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 	
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 	}
 	
@@ -88,11 +84,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 			
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
-				try {
-					CropGrowthAccelerator.this.tick(b);
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking a Crop Growth Accelerator for Slimefun " + Slimefun.getVersion(), x);
-				}
+				CropGrowthAccelerator.this.tick(b);
 			}
 
 			@Override
@@ -103,25 +95,28 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 	}
 	
 	protected void tick(Block b) {
-		if (work(b) > 0) {
+		BlockMenu inv = BlockStorage.getInventory(b);
+		
+		if (work(b, inv) > 0) {
 			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+					inv.consumeItem(slot);
 					break;
 				}
 			}
 		}
 	}
 
-	private int work(Block b) {
+	private int work(Block b, BlockMenu inv) {
 		int work = 0;
 		
 		for (int x = -getRadius(); x <= getRadius(); x++) {
 			for (int z = -getRadius(); z <= getRadius(); z++) {
 				Block block = b.getRelative(x, 0, z);
+				
 				if (crops.containsKey(block.getType()) && ((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
 					for (int slot : getInputSlots()) {
-						if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+						if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
 							if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption()) return work;
 							ChargableBlock.addCharge(b, -getEnergyConsumption());
 

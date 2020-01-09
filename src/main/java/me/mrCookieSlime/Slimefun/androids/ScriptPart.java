@@ -1,12 +1,9 @@
 package me.mrCookieSlime.Slimefun.androids;
 
-import java.util.logging.Level;
-
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 
 public enum ScriptPart {
 
@@ -58,16 +55,12 @@ public enum ScriptPart {
 	INTERFACE_FUEL(AndroidType.NONE, "&cPull Fuel from the faced Interface", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjQzMmY1MjgyYTUwNzQ1YjkxMmJlMTRkZWRhNTgxYmQ0YTA5Yjk3N2EzYzMyZDdlOTU3ODQ5MWZlZThmYTcifX19");
 
 
-	private ItemStack item;
-	private AndroidType type;
+	private final ItemStack item;
+	private final AndroidType type;
 
 	private ScriptPart(AndroidType type, String name, String texture) {
-		try {
-			this.type = type;
-			this.item = new CustomItem(CustomSkull.getItem(texture), name);
-		} catch(Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while initializing Android-Script Texture for Slimefun " + Slimefun.getVersion(), x);
-		}
+		this.type = type;
+		this.item = new CustomItem(SkullItem.fromBase64(texture), name);
 	}
 
 	public ItemStack toItemStack() {

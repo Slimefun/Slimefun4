@@ -16,7 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -26,7 +27,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
 
 public class EnhancedCraftingTable extends MultiBlockMachine {
 
@@ -54,6 +54,7 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 
 		for (int i = 0; i < inputs.size(); i++) {
 			boolean craft = true;
+			
 			for (int j = 0; j < inv.getContents().length; j++) {
 				if (!SlimefunManager.isItemSimilar(inv.getContents()[j], inputs.get(i)[j], true)) {
 					if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
@@ -70,7 +71,7 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 			}
 
 			if (craft) {
-				final ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+				ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 				if (Slimefun.hasUnlocked(p, adding, true)) {
 					Inventory inv2 = Bukkit.createInventory(null, 9, "test");
 					
@@ -92,11 +93,12 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 									break;
 								}
 							}
+							
 							String id = "";
 							int size = ((SlimefunBackpack) sfItem).getSize();
 
 							if (backpack != null) {
-								for (String line: backpack.getItemMeta().getLore()) {
+								for (String line : backpack.getItemMeta().getLore()) {
 									if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 										id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
 										PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
@@ -131,6 +133,7 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 
 						for (int j = 0; j < 9; j++) {
 							ItemStack item = inv.getContents()[j];
+							
 							if (item != null && item.getType() != Material.AIR) {
 								ItemUtils.consumeItem(item, true);
 							}

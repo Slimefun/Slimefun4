@@ -1,13 +1,16 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
@@ -16,6 +19,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -25,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
-public abstract class OilPump extends AContainer {
+public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 
 	public OilPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -59,6 +63,11 @@ public abstract class OilPump extends AContainer {
 	}
 	
 	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		return Arrays.asList(new ItemStack(Material.BUCKET), SlimefunItems.BUCKET_OF_OIL);
+	}
+	
+	@Override
 	public String getMachineIdentifier() {
 		return "OIL_PUMP";
 	}
@@ -88,35 +97,36 @@ public abstract class OilPump extends AContainer {
 				progress.put(b, timeleft - 1);
 			}
 			else {
-				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 				inv.pushItem(SlimefunItems.BUCKET_OF_OIL, getOutputSlots());
 				
 				progress.remove(b);
 				processing.remove(b);
 			}
 		}
-		else {
-			OreGenResource oil = OreGenSystem.getResource("Oil");
-			int supplies = OreGenSystem.getSupplies(oil, b.getChunk(), false);
-			
-			if (supplies > 0) {
-				for (int slot: getInputSlots()) {
-					if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+		else if (inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+					OreGenResource oil = OreGenSystem.getResource("Oil");
+					Chunk chunk = b.getChunk();
+					int supplies = OreGenSystem.getSupplies(oil, chunk, false);
+					
+					if (supplies > 0) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
-						
-						if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
-							return;
-						}
-						
-						inv.replaceExistingItem(slot, InvUtils.decreaseItem(inv.getItemInSlot(slot), 1));
+
+						inv.consumeItem(slot);
 						processing.put(b, r);
 						progress.put(b, r.getTicks());
-						OreGenSystem.setSupplies(oil, b.getChunk(), supplies - 1);
-						break;
+						OreGenSystem.setSupplies(oil, chunk, supplies - 1);
 					}
+					else {
+						ItemStack item = inv.getItemInSlot(slot).clone();
+						inv.replaceExistingItem(slot, null);
+						inv.pushItem(item, getOutputSlots());
+					}
+					break;
 				}
 			}
 		}
 	}
-
 }

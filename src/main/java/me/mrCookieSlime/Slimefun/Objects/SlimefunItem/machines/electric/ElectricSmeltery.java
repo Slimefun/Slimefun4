@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -10,20 +11,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.api.item_transport.RecipeSorter;
 
 public abstract class ElectricSmeltery extends AContainer {
 	
@@ -31,10 +33,10 @@ public abstract class ElectricSmeltery extends AContainer {
 	private static final int[] border_in = {0, 1, 2, 3, 9, 12, 18, 21, 27, 30, 36, 37, 38, 39};
 	private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
-	public ElectricSmeltery(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public ElectricSmeltery(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(getID(), getInventoryTitle()) {
 			
 			@Override
 			public void init() {
@@ -52,7 +54,7 @@ public abstract class ElectricSmeltery extends AContainer {
 			}
 
 			@Override
-			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
+			public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
 				
 				List<Integer> slots = new ArrayList<>();
@@ -67,8 +69,7 @@ public abstract class ElectricSmeltery extends AContainer {
 					return getInputSlots();
 				}
 				else {
-					Collections.sort(slots, new RecipeSorter(menu));
-					
+					Collections.sort(slots, compareSlots(menu));
 					int[] array = new int[slots.size()];
 					
 					for (int i = 0; i < slots.size(); i++) {
@@ -80,8 +81,9 @@ public abstract class ElectricSmeltery extends AContainer {
 			}
 		};
 		
-		registerBlockHandler(name, (p, b, tool, reason) -> {
+		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
+			
 			if (inv != null) {
 				for (int slot : getInputSlots()) {
 					if (inv.getItemInSlot(slot) != null) {
@@ -89,6 +91,7 @@ public abstract class ElectricSmeltery extends AContainer {
 						inv.replaceExistingItem(slot, null);
 					}
 				}
+				
 				for (int slot : getOutputSlots()) {
 					if (inv.getItemInSlot(slot) != null) {
 						b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
@@ -96,12 +99,17 @@ public abstract class ElectricSmeltery extends AContainer {
 					}
 				}
 			}
+			
 			progress.remove(b);
 			processing.remove(b);
 			return true;
 		});
 		
 		this.registerDefaultRecipes();
+	}
+	
+	private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
+		return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
 	}
 
 	@Override

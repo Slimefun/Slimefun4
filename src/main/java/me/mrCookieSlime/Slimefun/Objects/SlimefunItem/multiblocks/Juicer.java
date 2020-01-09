@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -43,8 +43,9 @@ public class Juicer extends MultiBlockMachine {
 		Block dispBlock = b.getRelative(BlockFace.DOWN);
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		Inventory inv = disp.getInventory();
-		for (ItemStack current: inv.getContents()) {
-			for (ItemStack convert: RecipeType.getRecipeInputs(this)) {
+		
+		for (ItemStack current : inv.getContents()) {
+			for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
 				if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
 					ItemStack adding = RecipeType.getRecipeOutput(this, convert);
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);

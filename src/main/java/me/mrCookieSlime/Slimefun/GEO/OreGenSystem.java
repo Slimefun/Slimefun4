@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import org.bukkit.Chunk;
 import org.bukkit.block.Biome;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -23,15 +23,17 @@ public final class OreGenSystem {
 	public static void registerResource(OreGenResource resource) {
 		Config cfg = new Config("plugins/Slimefun/generators/" + resource.getName() + ".yml");
 		cfg.setDefaultValue("enabled", true);
-		for (Biome biome: Biome.values()) {
+		
+		for (Biome biome : Biome.values()) {
 			cfg.setDefaultValue("spawn-rates." + biome.toString(), resource.getDefaultSupply(biome));
 		}
+		
 		cfg.save();
 		
 		if (cfg.getBoolean("enabled")) {
 			Slimefun.getLogger().log(Level.INFO, "Registering Ore Gen: " + resource.getName());
 			SlimefunPlugin.getUtilities().resources.put(resource.getName(), resource);
-			SlimefunPlugin.getUtilities().resource_configs.put(resource.getName(), cfg);
+			SlimefunPlugin.getUtilities().resourceConfigs.put(resource.getName(), cfg);
 		}
 	}
 	
@@ -44,7 +46,7 @@ public final class OreGenSystem {
 			return 0;
 		}
 		else {
-			int supply = SlimefunPlugin.getUtilities().resource_configs.get(resource.getName()).getInt("spawn-rates." + biome.toString());
+			int supply = SlimefunPlugin.getUtilities().resourceConfigs.get(resource.getName()).getInt("spawn-rates." + biome.toString());
 			return supply > 0 ? (supply + ThreadLocalRandom.current().nextInt(3)): 0;
 		}
 	}
@@ -67,6 +69,7 @@ public final class OreGenSystem {
 		if (resource == null) return 0;
 		
 		String supply = BlockStorage.getChunkInfo(chunk, "resources_" + resource.getName().toUpperCase());
+		
 		if (supply != null) {
 			return Integer.parseInt(supply);
 		}

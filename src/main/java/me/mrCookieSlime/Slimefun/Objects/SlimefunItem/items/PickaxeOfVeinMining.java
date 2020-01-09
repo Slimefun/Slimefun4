@@ -8,9 +8,9 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -36,11 +36,11 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
 				if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
 					List<Block> blocks = Vein.find(e.getBlock(), 16, MaterialCollections.getAllOres());
 					
-					for (Block b: blocks) {
+					for (Block b : blocks) {
 						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 							b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 							
-							for (ItemStack drop: b.getDrops()) {
+							for (ItemStack drop : b.getDrops(getItem())) {
 								b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop: new CustomItem(drop, fortune));
 							}
 							

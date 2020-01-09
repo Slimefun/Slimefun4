@@ -1,0 +1,19 @@
+name: Changelog Populator
+on: 
+  push:
+    branches:
+    - master
+    
+jobs:
+  populate:
+    name: TOC Generator
+    runs-on: ubuntu-latest
+    steps:
+      - name: TOC Generator
+        uses: technote-space/toc-generator@v2
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          TARGET_PATHS: 'CHANGELOG.md'
+          TOC_TITLE: '**List of Releases**'
+          COMMIT_MESSAGE: '[CI skip] Updated Changelog'
+          COMMIT_NAME: 'TheBusyBot'

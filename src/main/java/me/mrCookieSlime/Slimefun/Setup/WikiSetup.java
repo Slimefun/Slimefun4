@@ -27,7 +27,7 @@ public final class WikiSetup {
             JsonElement element = parser.parse(reader.lines().collect(Collectors.joining("")));
             JsonObject json = element.getAsJsonObject();
             
-            for (Map.Entry<String, JsonElement> entry: json.entrySet()) {
+            for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
             	SlimefunItem item = SlimefunItem.getByID(entry.getKey());
             	
             	if (item != null) {

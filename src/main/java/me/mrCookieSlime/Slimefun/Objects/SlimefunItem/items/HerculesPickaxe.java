@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -33,7 +33,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 					drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
 				}
 				else {
-					for (ItemStack drop: e.getBlock().getDrops()) {
+					for (ItemStack drop : e.getBlock().getDrops(getItem())) {
 						drops.add(new CustomItem(drop, drop.getAmount() * 2));
 					}
 				}
