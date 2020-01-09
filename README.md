@@ -5,6 +5,9 @@ You own a Server which is not only minigame based and your players got bored of 
 Then you will absolutely love this Plugin! 
 It adds a whole new layer of survival to your server by adding more than 400+ new Items!
 
+But it also comes with a lot of Addons too!<br>
+Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons), you may find exactly what you wanted there.
+
 <p align="center">
   <a href="https://bstats.org/plugin/bukkit/Slimefun">
     <img alt="bStats Servers" src="https://img.shields.io/bstats/servers/4574?color=%2344AD44&label=Servers%20using%20Slimefun4&logo=https%3A%2F%2Fimg.shields.io%2Fbstats%2Fservers%2F4574%3Fcolor%3D%252344AD44%26label%3DServers%2520using%2520Slimefun%2520right%2520now%26style%3Dfor-the-badge&style=for-the-badge">
@@ -27,9 +30,6 @@ But please also consider using development builds. If plenty of people use the d
     <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
   </a>
 </p>
-
-You can also find the most recent development builds for all my other Plugins (including Slimefun Addons) on here:
-https://thebusybiscuit.github.io/builds/
 
 ## Discord
 You can find Slimefun's community on Discord!
