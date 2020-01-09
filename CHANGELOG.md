@@ -18,6 +18,15 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Release Candidate 5 (TBD)
+
+### Additions
+
+### Changes
+
+### Fixes
+* Fixed #1355
+
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 

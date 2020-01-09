@@ -78,7 +78,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 						
 						p.teleport(new Location(p.getWorld(), x + 0.5, y + 0.4, z + 0.5, yaw, p.getEyeLocation().getPitch()));
 						
-						String title = "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(p.getWorld().getBlockAt(x, y, z).getLocation(), "floor"));
+						String title = ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(p.getWorld().getBlockAt(x, y, z).getLocation(), "floor"));
 						p.sendTitle(title, " ", 20, 60, 20);
 					}
 				}

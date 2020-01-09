@@ -21,7 +21,7 @@ public final class Elevator {
 
 	private Elevator() {}
 	
-	public static void openEditor(Player p, final Block b) {
+	public static void openEditor(Player p, Block b) {
 		ChestMenu menu = new ChestMenu("Elevator Settings");
 		
 		menu.addItem(4, new CustomItem(Material.NAME_TAG, "&7Floor Name &e(Click to edit)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(b.getLocation(), "floor"))));
@@ -74,7 +74,7 @@ public final class Elevator {
 				else {
 					tellraw.addText("&7" + index + ". &r" + floor + "\n");
 					tellraw.addHoverEvent(HoverAction.SHOW_TEXT, "\n&eClick to teleport to this Floor\n&r" + floor + "\n");
-					tellraw.addClickEvent(me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.ClickAction.RUN_COMMAND, "/sf elevator " + block.getX() + ' ' + block.getY() + ' ' + block.getZ() + " ");
+					tellraw.addClickEvent(TellRawMessage.ClickAction.RUN_COMMAND, "/sf elevator " + block.getX() + ' ' + block.getY() + ' ' + block.getZ() + " ");
 				}
 				
 				index++;
