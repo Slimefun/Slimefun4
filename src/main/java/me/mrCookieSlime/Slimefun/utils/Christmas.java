@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.utils;
 import org.bukkit.ChatColor;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.slimefun4.core.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 /**
  * 

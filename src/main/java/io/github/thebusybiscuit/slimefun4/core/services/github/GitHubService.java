@@ -12,7 +12,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import io.github.thebusybiscuit.slimefun4.core.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 public class GitHubService {
 	

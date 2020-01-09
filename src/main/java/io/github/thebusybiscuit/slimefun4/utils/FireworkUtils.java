@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.utils;
+package io.github.thebusybiscuit.slimefun4.utils;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;

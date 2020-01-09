@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.utils;
+package io.github.thebusybiscuit.slimefun4.utils;
 
 import java.text.NumberFormat;
 import java.text.ParseException;

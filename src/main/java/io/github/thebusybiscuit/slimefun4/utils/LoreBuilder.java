@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.utils;
+package io.github.thebusybiscuit.slimefun4.utils;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
