@@ -25,6 +25,7 @@
 ## Release Candidate 5 (TBD)
 
 ### Additions
+* Added user-configurable localization
 
 ### Changes
 * Removed Solar Array

@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.core.services.Language;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -239,6 +240,64 @@ public final class GuideSettings {
 			
 			i++;
 		}
+		
+		Language lang = SlimefunPlugin.getLocal().getLanguage(p);
+		menu.addItem(i, new CustomItem(lang.getItem(), "&7Selected Language: &a" + SlimefunPlugin.getLocal().getMessage(p, "languages." + lang.getID()), "", "&b(experimental)", "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"),
+		(pl, slot, item, action) -> {
+			openLanguages(pl);
+			return false;
+		});
+	}
+
+	private static void openLanguages(Player p) {
+		ChestMenu menu = new ChestMenu("Slimefun4 Language Selector");
+
+		menu.setEmptySlotsClickable(false);
+		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
+
+		for (int i = 0; i < 9; i++) {
+			if (i != 1) {
+				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+			}
+			else {
+				menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), "&e\u21E6 Back", "", "&7Go back to the Settings Panel"));
+				menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
+					openSettings(pl, p.getInventory().getItemInMainHand());
+					return false;
+				});
+			}
+		}
+		
+		Language defaultLanguage = SlimefunPlugin.getLocal().getDefaultLanguage();
+		menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "languages.default"), "", "&7\u21E8 &eClick to select the default language of the Server"),
+		(pl, i, item, action) -> {
+			PersistentDataAPI.remove(pl, SlimefunPlugin.getLocal().getKey());
+			
+			String name = SlimefunPlugin.getLocal().getMessage(p, "languages.default");
+			SlimefunPlugin.getLocal().sendMessage(pl, "guide.languages.updated", msg -> msg.replace("%lang%", name));
+			
+			openSettings(pl, p.getInventory().getItemInMainHand());
+			return false;
+		});
+		
+		int slot = 10;
+		
+		for (Language language : SlimefunPlugin.getLocal().getLanguages()) {
+			menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID()), "", "&7\u21E8 &eClick to select this language"),
+			(pl, i, item, action) -> {
+				PersistentDataAPI.setString(pl, SlimefunPlugin.getLocal().getKey(), language.getID());
+				
+				String name = SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
+				SlimefunPlugin.getLocal().sendMessage(pl, "guide.languages.updated", msg -> msg.replace("%lang%", name));
+				
+				openSettings(pl, p.getInventory().getItemInMainHand());
+				return false;
+			});
+			
+			slot++;
+		}
+
+		menu.open(p);
 	}
 
 	private static void openCredits(Player p, int page) {

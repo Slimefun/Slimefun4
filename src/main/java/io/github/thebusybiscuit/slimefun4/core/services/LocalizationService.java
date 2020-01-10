@@ -3,7 +3,8 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,15 +29,19 @@ public class LocalizationService extends Localization implements Keyed {
 	
 	private static final String LANGUAGE_PATH = "language";
 
-	private final Map<String, FileConfiguration> languages = new HashMap<>();
+	// All supported languages are stored in this LinkedHashMap, it is Linked so we keep the order
+	private final Map<String, Language> languages = new LinkedHashMap<>();
 	private final SlimefunPlugin plugin;
 	private final NamespacedKey languageKey;
+	private final Language defaultLanguage;
 
 	public LocalizationService(SlimefunPlugin plugin) {
 		super(plugin);
 		
 		this.plugin = plugin;
 		languageKey = new NamespacedKey(plugin, LANGUAGE_PATH);
+		defaultLanguage = new Language("default", getConfig().getConfiguration(), "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
+		loadLanguages();
 		
 		String selectedLanguage = SlimefunPlugin.getSelectedLanguage();
 		String language = getLanguage();
@@ -60,7 +65,7 @@ public class LocalizationService extends Localization implements Keyed {
 		Optional<String> language = PersistentDataAPI.getOptionalString(p, languageKey);
 		
 		if (language.isPresent()) {
-			FileConfiguration cfg = languages.computeIfAbsent(language.get(), this::loadLanguage);
+			FileConfiguration cfg = languages.get(language.get()).getConfig();
 			return cfg.getString(key);
 		}
 		else {
@@ -72,7 +77,7 @@ public class LocalizationService extends Localization implements Keyed {
 		Optional<String> language = PersistentDataAPI.getOptionalString(p, languageKey);
 		
 		if (language.isPresent()) {
-			FileConfiguration cfg = languages.computeIfAbsent(language.get(), this::loadLanguage);
+			FileConfiguration cfg = languages.get(language.get()).getConfig();
 			return cfg.getStringList(key);
 		}
 		else {
@@ -153,6 +158,10 @@ public class LocalizationService extends Localization implements Keyed {
 		}
 	}
 	
+	public Collection<Language> getLanguages() {
+		return languages.values();
+	}
+	
 	private String getLanguage() {
 		String language = getConfig().getString(LANGUAGE_PATH);
 		return language == null ? "en": language;
@@ -179,6 +188,14 @@ public class LocalizationService extends Localization implements Keyed {
 		save();
 	}
 	
+	private void loadLanguages() {
+		addLanguage("en", "a1701f21835a898b20759fb30a583a38b994abf60d3912ab4ce9f2311e74f72");
+	}
+	
+	private void addLanguage(String id, String hash) {
+		languages.put(id, new Language(id, loadLanguage(id), hash));
+	}
+	
 	private FileConfiguration loadLanguage(String id) {
 		if (!hasLanguage(id)) {
 			return getConfig().getConfiguration();
@@ -194,6 +211,17 @@ public class LocalizationService extends Localization implements Keyed {
 	
 	public boolean hasLanguage(String language) {
 		return plugin.getClass().getResource("/languages/messages_" + language + ".yml") != null;
+	}
+
+	public Language getLanguage(Player p) {
+		Optional<String> language = PersistentDataAPI.getOptionalString(p, languageKey);
+		
+		if (language.isPresent()) return languages.get(language.get());
+		else return getDefaultLanguage();
+	}
+
+	public Language getDefaultLanguage() {
+		return defaultLanguage;
 	}
 
 	@Override
