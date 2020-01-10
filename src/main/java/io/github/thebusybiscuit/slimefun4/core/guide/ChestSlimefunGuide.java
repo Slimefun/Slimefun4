@@ -74,7 +74,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		int index = 9;
 		int pages = (categories.size() + handlers.size() - 1) / CATEGORY_SIZE + 1;
 		
-		fillInv(profile, menu, survival);
+		fillInv(p, profile, menu, survival);
 
 		int target = (CATEGORY_SIZE * (page - 1)) - 1;
 
@@ -176,7 +176,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		}
 		
 		ChestMenu menu = create();
-		fillInv(profile, menu, survival);
+		fillInv(p, profile, menu, survival);
 		
 		menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList("", ChatColors.color("&rLeft Click: &7Go back to Main Menu")))));
 		menu.addMenuClickHandler(1, (pl, s, is, action) -> {
@@ -289,7 +289,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		}
 		
 		menu.setEmptySlotsClickable(false);
-		fillInv(profile, menu, survival);
+		fillInv(p, profile, menu, survival);
 		addBackButton(menu, 1, profile, survival);
 
 		int index = 9;
@@ -501,15 +501,15 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
 	}
 
-	private void fillInv(PlayerProfile profile, ChestMenu menu, boolean survival) {
+	private void fillInv(Player p, PlayerProfile profile, ChestMenu menu, boolean survival) {
 		for (int i = 0; i < 9; i++) {
 			menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 
 		// Settings Panel
 		menu.addItem(1, ChestMenuUtils.getMenuButton());
-		menu.addMenuClickHandler(1, (p, slot, item, action) -> {
-			GuideSettings.openSettings(p, p.getInventory().getItemInMainHand());
+		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
+			GuideSettings.openSettings(pl, pl.getInventory().getItemInMainHand());
 			return false;
 		});
 
@@ -524,12 +524,12 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		*/
 	
 		// Search feature!
-		menu.addItem(7, new CustomItem(ChestMenuUtils.getSearchButton(), SlimefunPlugin.getLocal().getMessage("guide.search.name"), SlimefunPlugin.getLocal().getMessagesArray("guide.search.lore")));
-		menu.addMenuClickHandler(7, (p, slot, item, action) -> {
-			p.closeInventory();
-			SlimefunPlugin.getLocal().sendMessage(p, "search.message");
+		menu.addItem(7, new CustomItem(ChestMenuUtils.getSearchButton(), SlimefunPlugin.getLocal().getMessage(p, "guide.search.name"), SlimefunPlugin.getLocal().getMessages(p, "guide.search.lore").toArray(new String[0])));
+		menu.addMenuClickHandler(7, (pl, slot, item, action) -> {
+			pl.closeInventory();
+			SlimefunPlugin.getLocal().sendMessage(pl, "search.message");
 
-			ChatInput.waitForPlayer(SlimefunPlugin.instance, p, msg ->
+			ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, msg ->
 				SlimefunGuide.openSearch(profile, msg, survival, true)
 			);
 

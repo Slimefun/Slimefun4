@@ -23,7 +23,7 @@ public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (isItem(item)) {
-				List<String> messages = SlimefunPlugin.getLocal().getMessages("messages.fortune-cookie");
+				List<String> messages = SlimefunPlugin.getLocal().getMessages(p, "messages.fortune-cookie");
 				String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
 				
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));

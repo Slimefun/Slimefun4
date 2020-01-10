@@ -163,3 +163,8 @@ android:
     rating:
       own: '&4You cannot rate your own Script!'
       already: '&4You have already left a Rating for this Script!'
+
+languages:
+  en: 'English'
+  de: 'German'
+  fr: 'French'

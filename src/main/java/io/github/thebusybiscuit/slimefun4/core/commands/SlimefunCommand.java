@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.CheatCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.GiveCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.GuideCommand;
@@ -101,11 +102,11 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 
 	public void sendHelp(CommandSender sender) {
 		sender.sendMessage("");
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSlimefun &2v" + Slimefun.getVersion()));
+		sender.sendMessage(ChatColors.color("&aSlimefun &2v" + Slimefun.getVersion()));
 		sender.sendMessage("");
 		
 		for (SubCommand cmd : commands) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3/sf " + cmd.getName() + " &b") + cmd.getDescription());
+			sender.sendMessage(ChatColors.color("&3/sf " + cmd.getName() + " &b") + cmd.getDescription(sender));
 		}
 	}
 
