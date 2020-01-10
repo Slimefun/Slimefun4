@@ -38,6 +38,8 @@ public class MetricsService extends Metrics {
 				return "Unknown";
 			}
 		}));
+		
+		addCustomChart(new SimplePie("language", SlimefunPlugin::getSelectedLanguage));
 	}
 
 }

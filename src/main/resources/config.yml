@@ -19,17 +19,22 @@ options:
   legacy-ore-washer: false
   legacy-dust-washer: false
   legacy-ore-grinder: true
+  language: en
+
 guide:
   default-view-book: false
+
 URID:
   info-delay: 3000
   custom-ticker-delay: 12
   enable-tickers: true
+
 items:
   talismans: true
   coolers: true
   backpacks: true
   soulbound: true
+
 research-ranks:
 - Chicken
 - Cow

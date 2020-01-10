@@ -89,6 +89,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>*</include>
+                    <include>languages/*</include>
                 </includes>
             </resource>
         </resources>

@@ -87,6 +87,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private final AutoSavingService autoSavingService = new AutoSavingService();
 	private final UpdaterService updaterService = new UpdaterService(this, getFile());
 	
+	private String language = "en";
+	
 	private TickerTask ticker;
 	private LocalizationService local;
 	private Config researches;
@@ -165,6 +167,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			whitelist = new Config(this, "whitelist.yml");
 
 			// Setup messages.yml
+			language = config.getString("options.language");
 			local = new LocalizationService(this);
 			
 			// Setting up other stuff
@@ -433,6 +436,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static GitHubService getGitHubService() {
 		return instance.gitHubService;
+	}
+	
+	public static String getSelectedLanguage() {
+		return instance.language;
 	}
 
 }
