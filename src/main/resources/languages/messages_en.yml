@@ -91,6 +91,7 @@ messages:
   - '&7You will die soon and the last word you will hear is gonna be "EXTERMINATE!!!"'
   - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s not worth it.'
   - '&742. The answer is 42.'
+  - '&7A Walshy a day will keep the troubles away.'
 
 machines:
   pattern-not-found: '&eSorry, I could not recognize this Pattern. Please place the Items in the correct Pattern into the Dispenser.'
