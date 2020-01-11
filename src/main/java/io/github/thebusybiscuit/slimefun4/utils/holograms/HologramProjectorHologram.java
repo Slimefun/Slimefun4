@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.holograms;
+package io.github.thebusybiscuit.slimefun4.utils.holograms;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -45,13 +45,14 @@ public final class HologramProjectorHologram {
 		if (hologram != null) hologram.remove();
 	}
 
-	public static void openEditor(Player p, final Block projector) {
+	public static void openEditor(Player p, Block projector) {
 		ChestMenu menu = new ChestMenu("Hologram Settings");
 		
 		menu.addItem(0, new CustomItem(new ItemStack(Material.NAME_TAG), "&7Text &e(Click to edit)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
 		menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
 			pl.closeInventory();
 			SlimefunPlugin.getLocal().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
+			
 			ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, message -> {
 				ArmorStand hologram = getArmorStand(projector, true);
 				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', message));

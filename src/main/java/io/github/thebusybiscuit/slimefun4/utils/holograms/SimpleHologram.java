@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.holograms;
+package io.github.thebusybiscuit.slimefun4.utils.holograms;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
