@@ -346,9 +346,7 @@ public final class GuideSettings {
 			ItemStack skull = SkullItem.fromBase64(contributor.getTexture());
 
 			SkullMeta meta = (SkullMeta) skull.getItemMeta();
-			meta.setDisplayName(ChatColor.GRAY + contributor.getName()
-					+ (!contributor.getName().equals(contributor.getMinecraftName()) ? ChatColor.DARK_GRAY + " (MC: " + contributor.getMinecraftName() + ")" : "")
-			);
+			meta.setDisplayName(contributor.getDisplayName());
 			
 			List<String> lore = new LinkedList<>();
 			lore.add("");

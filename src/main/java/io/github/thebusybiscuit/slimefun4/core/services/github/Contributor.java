@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.bukkit.ChatColor;
+
 /**
  * Represents a contributor on Slimefun4's GitHub repository.
  *
@@ -115,5 +117,9 @@ public class Contributor {
 	
 	public int index() {
 		return -getTotalContributions();
+	}
+
+	public String getDisplayName() {
+		return ChatColor.GRAY + ghName + (!ghName.equals(mcName) ? ChatColor.DARK_GRAY + " (MC: " + mcName + ")" : "");
 	}
 }

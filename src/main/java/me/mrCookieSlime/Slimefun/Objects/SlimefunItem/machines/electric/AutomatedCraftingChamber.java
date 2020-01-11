@@ -34,16 +34,16 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class AutomatedCraftingChamber extends SlimefunItem implements InventoryBlock {
-	
+
 	private static final int[] border = {0, 1, 3, 4, 5, 7, 8, 13, 14, 15, 16, 17, 50, 51, 52, 53};
 	private static final int[] border_in = {9, 10, 11, 12, 13, 18, 22, 27, 31, 36, 40, 45, 46, 47, 48, 49};
 	private static final int[] border_out = {23, 24, 25, 26, 32, 35, 41, 42, 43, 44};
 
 	public AutomatedCraftingChamber(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		
+
 		new BlockMenuPreset(name, "&6Automated Crafting Chamber") {
-			
+
 			@Override
 			public void init() {
 				constructMenu(this);
@@ -88,31 +88,31 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			@Override
 			public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
-				
+
 				List<Integer> slots = new ArrayList<>();
 				for (int slot : getInputSlots()) {
 					if (menu.getItemInSlot(slot) != null) slots.add(slot);
 				}
-				
+
 				Collections.sort(slots, compareSlots(menu));
-				
+
 				int[] array = new int[slots.size()];
-				
+
 				for (int i = 0; i < slots.size(); i++) {
 					array[i] = slots.get(i);
 				}
-				
+
 				return array;
 			}
 		};
-		
+
 		registerBlockHandler(name, new SlimefunBlockHandler() {
-			
+
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
 				BlockStorage.addBlockInfo(b, "enabled", "false");
 			}
-			
+
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
@@ -134,27 +134,27 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			}
 		});
 	}
-	
+
 	private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
 		return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
 	}
-	
+
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
-		
+
 		for (int i : border_in) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.BLUE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
-		
+
 		for (int i : border_out) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
-		
+
 		for (int i : getOutputSlots()) {
 			preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
-				
+
 				@Override
 				public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
 					return false;
@@ -169,23 +169,23 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
 		preset.addItem(2, new CustomItem(new ItemStack(Material.CRAFTING_TABLE), "&eRecipe", "", "&bPut in the Recipe you want to craft", "&4Enhanced Crafting Table Recipes ONLY"), (p, slot, item, action) -> false);
 	}
-	
+
 	public abstract int getEnergyConsumption();
 
 	@Override
 	public int[] getInputSlots() {
 		return new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
 	}
-	
+
 	@Override
 	public int[] getOutputSlots() {
 		return new int[] {33, 34};
 	}
-	
+
 	@Override
 	public void preRegister() {
 		addItemHandler(new BlockTicker() {
-			
+
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				AutomatedCraftingChamber.this.tick(b, false);
@@ -211,6 +211,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 		StringBuilder builder = new StringBuilder();
 		int i = 0;
 		boolean lastIteration = false;
+
 		for (int j = 0; j < 9; j++) {
 			if (i > 0) {
 				builder.append(" </slot> ");
@@ -246,7 +247,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			if (menu.fits(output, getOutputSlots())) {
 				menu.pushItem(output, getOutputSlots());
 				ChargableBlock.addCharge(block, -getEnergyConsumption());
-				
+
 				for (int j = 0; j < 9; j++) {
 					if (menu.getItemInSlot(getInputSlots()[j]) != null) {
 						menu.consumeItem(getInputSlots()[j]);

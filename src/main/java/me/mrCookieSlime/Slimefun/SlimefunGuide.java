@@ -130,7 +130,7 @@ public final class SlimefunGuide {
 		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openCategory(profile, category, survival, selectedPage);
 	}
 
-	public static void openSearch(final PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
+	public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
 		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
 	}
 

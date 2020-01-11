@@ -717,7 +717,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 		String[] commands = script.split("-");
 
-		menu.addItem(0, new CustomItem(ScriptPart.START.toItemStack(), ScriptPart.START.toItemStack().getItemMeta().getDisplayName(), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+		menu.addItem(0, new CustomItem(ScriptPart.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
 		menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
 			BlockStorage.getInventory(b).open(pl);
 			return false;
@@ -737,15 +737,15 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 					});
 				}
 
-				menu.addItem(i + additional, new CustomItem(ScriptPart.REPEAT.toItemStack(), ScriptPart.REPEAT.toItemStack().getItemMeta().getDisplayName(), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+				menu.addItem(i + additional, new CustomItem(ScriptPart.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
 				menu.addMenuClickHandler(i + additional, (pl, slot, item, action) -> {
 					BlockStorage.getInventory(b).open(pl);
 					return false;
 				});
 			}
 			else {
-				ItemStack stack = ScriptPart.valueOf(commands[i]).toItemStack();
-				menu.addItem(i, new CustomItem(stack, stack.getItemMeta().getDisplayName(), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
+				ItemStack stack = ScriptPart.valueOf(commands[i]).getItem();
+				menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + ScriptPart.valueOf(commands[i]).name()), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					if (action.isRightClicked() && action.isShiftClicked()) {
 						if (commands.length == 54) return false;
@@ -998,7 +998,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 		int i = 10;
 		for (ScriptPart part : getAccessibleScriptParts()) {
-			menu.addItem(i, part.toItemStack(), (pl, slot, item, action) -> {
+			menu.addItem(i, new CustomItem(part.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + part.name())), (pl, slot, item, action) -> {
 				int j = 0;
 				StringBuilder builder = new StringBuilder("START-");
 

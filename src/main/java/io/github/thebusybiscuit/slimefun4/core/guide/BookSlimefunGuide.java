@@ -47,7 +47,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 		if (survival) {
 			profile.getGuideHistory().clear();
 		}
-		
+
 		List<TellRawMessage> pages = new ArrayList<>();
 		List<String> texts = new ArrayList<>();
 		List<String> tooltips = new ArrayList<>();
@@ -76,11 +76,12 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 								public void run(Player p) {
 									handler.run(p, survival, true);
 								}
+
 							});
 						}
 					}
 					tier = category.getTier();
-					
+
 					if (tier > 1) {
 						for (int i = 0; i < 10; i++) {
 							if (texts.size() % 10 == 0) break;
@@ -89,7 +90,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 							actions.add(null);
 						}
 					}
-					
+
 					texts.add(ChatColors.color("&8\u21E8 &6Tier " + tier));
 					tooltips.add(null);
 					actions.add(null);
@@ -110,10 +111,12 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 						texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem()))));
 						tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem())));
 						actions.add(new PlayerRunnable(1) {
+
 							@Override
 							public void run(final Player p) {
 								Slimefun.runSync(() -> openCategory(profile, category, survival, 1), 1L);
 							}
+
 						});
 					}
 				}
@@ -121,10 +124,12 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 					texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem()))));
 					tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem())));
 					actions.add(new PlayerRunnable(1) {
+
 						@Override
 						public void run(final Player p) {
 							Slimefun.runSync(() -> openCategory(profile, category, survival, 1), 1L);
 						}
+
 					});
 				}
 			}
@@ -134,10 +139,12 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 			for (GuideHandler handler : Slimefun.getGuideHandlers(tier)) {
 				handler.addEntry(texts, tooltips);
 				actions.add(new PlayerRunnable(2) {
+
 					@Override
 					public void run(Player p) {
 						handler.run(p, survival, true);
 					}
+
 				});
 			}
 		}
@@ -145,13 +152,14 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 		for (int i = 0; i < texts.size(); i = i + 10) {
 			TellRawMessage pageMessage = new TellRawMessage();
 			pageMessage.addText(ChatColors.color("&b&l- Slimefun Guide -\n\n"));
-			
+
 			for (int j = i; j < texts.size() && j < i + 10; j++) {
 				pageMessage.addText(texts.get(j) + "\n");
+
 				if (tooltips.get(j) != null) pageMessage.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
 				if (actions.get(j) != null) pageMessage.addClickEvent(actions.get(j));
 			}
-			
+
 			pages.add(pageMessage);
 		}
 
@@ -162,13 +170,13 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 	public void openCategory(PlayerProfile profile, Category category, boolean survival, int page) {
 		Player p = profile.getPlayer();
 		if (p == null) return;
-		
+
 		if (category.getItems().size() < 250) {
-			
+
 			if (survival) {
 				profile.getGuideHistory().add(category);
 			}
-			
+
 			List<TellRawMessage> pages = new ArrayList<>();
 			List<String> texts = new ArrayList<>();
 			List<String> tooltips = new ArrayList<>();
@@ -178,7 +186,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 				if (Slimefun.hasPermission(p, item, false)) {
 					if (Slimefun.isEnabled(p, item, false)) {
 						if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
-						    Research research = item.getResearch();
+							Research research = item.getResearch();
 
 							texts.add(ChatColors.color(shorten("&7", item.getItemName())));
 							tooltips.add(ChatColors.color(item.getItemName() + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " Levels\n\n&a> Click to unlock"));
@@ -215,7 +223,6 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 							texts.add(ChatColors.color(shorten("&a", item.getItemName())));
 
 							StringBuilder tooltip = new StringBuilder();
-
 							tooltip.append(item.getItemName());
 
 							if (item.getItem().hasItemMeta() && item.getItem().getItemMeta().hasLore()) {
@@ -233,6 +240,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 								public void run(Player p) {
 									displayItem(profile, item, true);
 								}
+
 							});
 						}
 					}
