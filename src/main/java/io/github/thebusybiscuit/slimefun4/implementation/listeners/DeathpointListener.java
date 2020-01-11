@@ -12,11 +12,11 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class WaypointListener implements Listener {
+public class DeathpointListener implements Listener {
 
     private final SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");
 	
-	public WaypointListener(SlimefunPlugin plugin) {
+	public DeathpointListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
@@ -24,8 +24,9 @@ public class WaypointListener implements Listener {
     public void onDamage(EntityDeathEvent e) {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
+            
             if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {
-                Slimefun.getGPSNetwork().addWaypoint(p, "&4Deathpoint &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
+                Slimefun.getGPSNetwork().addWaypoint(p, SlimefunPlugin.getLocal().getMessage(p, "gps.deathpoint").replace("%date%", format.format(new Date())), p.getLocation().getBlock().getLocation());
             }
         }
 	}

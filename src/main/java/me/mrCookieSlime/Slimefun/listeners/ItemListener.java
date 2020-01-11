@@ -66,9 +66,9 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class ItemListener implements Listener {
-	
+
 	private final Utilities utilities;
-	
+
 	public ItemListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		utilities = SlimefunPlugin.getUtilities();
@@ -80,7 +80,7 @@ public class ItemListener implements Listener {
 			e.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void onGrindstone(InventoryClickEvent e) {
 		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.GRINDSTONE) {
@@ -112,19 +112,19 @@ public class ItemListener implements Listener {
 		if (e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
 			return;
 		}
-		
+
 		ItemStack item = e.getItem();
 		if (item != null && !Slimefun.isEnabled(e.getPlayer(), item, true)) {
 			e.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void debug(PlayerInteractEvent e) {
 		if (e.getAction() == Action.PHYSICAL || e.getHand() != EquipmentSlot.HAND) return;
-		
+
 		Player p = e.getPlayer();
-		
+
 		if (SlimefunManager.isItemSimilar(e.getItem(), SlimefunItems.DEBUG_FISH, true)) {
 			e.setCancelled(true);
 			if (p.isOp()) {
@@ -191,7 +191,7 @@ public class ItemListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onBucketUse(PlayerBucketEmptyEvent e) {
 		// Fix for placing water on player heads
@@ -227,13 +227,13 @@ public class ItemListener implements Listener {
 		}
 		else {
 			SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
-			
+
 			if (slimefunItem != null) {
 				if (Slimefun.hasUnlocked(p, slimefunItem, true)) {
 					slimefunItem.callItemHandler(ItemInteractionHandler.class, handler ->
-						handler.onRightClick(e, p, item)
-					);
-					
+					handler.onRightClick(e, p, item)
+							);
+
 					// Open the Backpack (also includes Coolers)
 					if (slimefunItem instanceof SlimefunBackpack) {
 						e.setCancelled(true);
@@ -241,14 +241,14 @@ public class ItemListener implements Listener {
 					}
 					else if (slimefunItem instanceof MultiTool) {
 						e.setCancelled(true);
-						
+
 						List<Integer> modes = ((MultiTool) slimefunItem).getModes();
 						int index = utilities.mode.getOrDefault(p.getUniqueId(), 0);
 
 						if (!p.isSneaking()) {
 							float charge = ItemEnergy.getStoredEnergy(item);
 							float cost = 0.3F;
-							
+
 							if (charge >= cost) {
 								p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
 								Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item")).getItem().clone(), e.getClickedBlock()));
@@ -257,7 +257,7 @@ public class ItemListener implements Listener {
 						else {
 							index++;
 							if (index == modes.size()) index = 0;
-							
+
 							SlimefunItem selectedItem = SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item"));
 							String itemName = selectedItem != null ? selectedItem.getItemName(): "Unknown";
 							SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
@@ -276,15 +276,17 @@ public class ItemListener implements Listener {
 				}
 			}
 		}
-		
-		
+
+
 		if (e.getClickedBlock() != null && BlockStorage.hasBlockInfo(e.getClickedBlock())) {
 			String id = BlockStorage.checkID(e.getClickedBlock());
+
 			if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && (!p.isSneaking() || item == null || item.getType() == Material.AIR)) {
 				e.setCancelled(true);
 
 				if (BlockStorage.hasUniversalInventory(id)) {
 					UniversalBlockMenu menu = BlockStorage.getUniversalInventory(id);
+
 					if (menu.canOpen(e.getClickedBlock(), p)) {
 						menu.open(p);
 					}
@@ -294,6 +296,7 @@ public class ItemListener implements Listener {
 				}
 				else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
 					BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
+
 					if (menu.canOpen(e.getClickedBlock(), p)) {
 						menu.open(p);
 					}
@@ -323,7 +326,7 @@ public class ItemListener implements Listener {
 		Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		
+
 		if (sfItem != null) {
 			if (Slimefun.hasUnlocked(p, sfItem, true)) {
 				if (sfItem instanceof Juice) {
@@ -379,6 +382,7 @@ public class ItemListener implements Listener {
 	public void onCraft(CraftItemEvent e) {
 		for (ItemStack item : e.getInventory().getContents()) {
 			SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
 			if (sfItem != null && !sfItem.isUseableInWorkbench()) {
 				e.setCancelled(true);
 				SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
@@ -386,11 +390,12 @@ public class ItemListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onPrepareCraft(PrepareItemCraftEvent e) {
 		for (ItemStack item : e.getInventory().getContents()) {
 			SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
 			if (sfItem != null && !sfItem.isUseableInWorkbench()) {
 				e.getInventory().setResult(null);
 				break;
@@ -408,29 +413,30 @@ public class ItemListener implements Listener {
 		}
 		else if (e.getEntity() instanceof Wither) {
 			String id = BlockStorage.checkID(e.getBlock());
+
 			if (id != null && id.startsWith("WITHER_PROOF_")) {
 				e.setCancelled(true);
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onIronGolemHeal(PlayerInteractEntityEvent e) {
 		if (e.getRightClicked() instanceof IronGolem) {
 			PlayerInventory inv = e.getPlayer().getInventory();
 			ItemStack item = null;
-			
+
 			if (e.getHand() == EquipmentSlot.HAND) {
 				item = inv.getItemInMainHand();
 			}
 			else if (e.getHand() == EquipmentSlot.OFF_HAND) {
 				item = inv.getItemInOffHand();
 			}
-			
+
 			if (item != null && item.getType() == Material.IRON_INGOT && SlimefunItem.getByItem(item) != null) {
 				e.setCancelled(true);
 				SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
-				
+
 				// This is just there to update the Inventory...
 				// Somehow cancelling it isn't enough.
 				if (e.getHand() == EquipmentSlot.HAND) {
@@ -448,9 +454,9 @@ public class ItemListener implements Listener {
 		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
 			ItemStack slot0 = e.getInventory().getContents()[0];
 			ItemStack slot1 = e.getInventory().getContents()[1];
-			
+
 			if (SlimefunManager.isItemSimilar(slot0, SlimefunItems.ELYTRA, true)) return;
-			
+
 			if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0) ||
 					SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1) ||
 
@@ -460,8 +466,8 @@ public class ItemListener implements Listener {
 					SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true) ||
 					SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
 
-						e.setCancelled(true);
-						SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
+				e.setCancelled(true);
+				SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
 			}
 		}
 	}
@@ -469,6 +475,7 @@ public class ItemListener implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void onPreBrew(InventoryClickEvent e) {
 		Inventory inventory = e.getInventory();
+
 		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand && e.getRawSlot() < inventory.getSize()) {
 			e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
 		}

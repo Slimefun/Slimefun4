@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.listeners;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -22,7 +21,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -289,32 +287,4 @@ public class ToolListener implements Listener {
 			}
 		}
 	}
-	
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onEntityExplode(EntityExplodeEvent e) {
-		Iterator<Block> blocks = e.blockList().iterator();
-		
-		while (blocks.hasNext()) {
-			Block block = blocks.next();
-			String id = BlockStorage.checkID(block);
-    		if (id != null) {
-    			blocks.remove();
-    			if (!id.equalsIgnoreCase("HARDENED_GLASS") && !id.equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !id.equalsIgnoreCase("WITHER_PROOF_GLASS") && !id.equalsIgnoreCase("FORCEFIELD_PROJECTOR") && !id.equalsIgnoreCase("FORCEFIELD_RELAY")) {
-    				boolean success = true;
-    				SlimefunItem sfItem = SlimefunItem.getByID(id);
-    				
-    				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
-    				if (blockHandler != null) {
-    					success = blockHandler.onBreak(null, block, sfItem, UnregisterReason.EXPLODE);
-    				}
-    				if (success) {
-    					BlockStorage.clearBlockInfo(block);
-        				block.setType(Material.AIR);
-    				}
-    			}
-    		}
-		}
-	    
-	}
-
 }

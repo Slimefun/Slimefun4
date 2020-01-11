@@ -139,6 +139,7 @@ workbench:
   not-enhanced: '&4You cannot use Slimefun Items in a normal workbench'
 
 gps:
+  deathpoint: '&4Deathpoint &7%date%'
   waypoint:
     new: '&ePlease type in a name for your new waypoint in the chat. &7(Color Codes supported!)'
     added: '&aSuccessfully added a new waypoint'

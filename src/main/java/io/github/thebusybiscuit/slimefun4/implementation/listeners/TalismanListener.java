@@ -41,11 +41,11 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TalismanListener implements Listener {
-	
+
 	public TalismanListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler(priority=EventPriority.MONITOR)
 	public void onDamageGet(EntityDamageEvent e) {
 		if (!e.isCancelled()) {
@@ -53,7 +53,7 @@ public class TalismanListener implements Listener {
 				((Player) ((EntityDamageByEntityEvent) e).getDamager()).playSound(((EntityDamageByEntityEvent) e).getDamager().getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
 				((Player) ((EntityDamageByEntityEvent) e).getDamager()).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
 			}
-			
+
 			if (e.getEntity() instanceof Player) {
 				if (e.getCause() == DamageCause.LAVA) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_LAVA);
 				if (e.getCause() == DamageCause.DROWNING) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WATER);
@@ -70,15 +70,15 @@ public class TalismanListener implements Listener {
 			}
 		}
 	}
-	
+
 	private final int[] armorSlots = {39, 38, 37, 36};
-	
+
 	@EventHandler
 	public void onItemBreak(PlayerItemBreakEvent e) {
 		if (Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_ANVIL)) {
 			PlayerInventory inv = e.getPlayer().getInventory();
 			int slot = inv.getHeldItemSlot();
-			
+
 			// Did the tool in our hand broke or was it an Armorpiece?
 			if (!inv.getItem(inv.getHeldItemSlot()).equals(e.getBrokenItem())) {
 				for (int s : armorSlots) {
@@ -88,32 +88,32 @@ public class TalismanListener implements Listener {
 					}
 				}
 			}
-			
+
 			ItemStack item = e.getBrokenItem().clone();
 			ItemMeta meta = item.getItemMeta();
-			
+
 			if (meta instanceof Damageable) {
 				((Damageable) meta).setDamage(0);
 			}
-			
+
 			item.setItemMeta(meta);
-			
+
 			int itemSlot = slot;
 			Slimefun.runSync(() -> inv.setItem(itemSlot, item), 1L);
 		}
 	}
-	
+
 	@EventHandler
 	public void onSprint(PlayerToggleSprintEvent e) {
 		if (e.isSprinting()) {
 			Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_TRAVELLER);
 		}
 	}
-	
+
 	@EventHandler
 	public void onEnchant(EnchantItemEvent e) {
 		Random random = ThreadLocalRandom.current();
-		
+
 		if (Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MAGICIAN)) {
 			List<String> enchantments = new ArrayList<>();
 			for (Enchantment en : Enchantment.values()) {
@@ -126,13 +126,15 @@ public class TalismanListener implements Listener {
 			String enchant = enchantments.get(random.nextInt(enchantments.size()));
 			e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchant.split("-")[0])), Integer.parseInt(enchant.split("-")[1]));
 		}
-		
+
 		if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WIZARD)) {
 			if (e.getEnchantsToAdd().containsKey(Enchantment.LOOT_BONUS_BLOCKS)) e.getEnchantsToAdd().remove(Enchantment.LOOT_BONUS_BLOCKS);
 			Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
+
 			for (Enchantment en : enchantments) {
 				if (random.nextInt(100) < 40) e.getEnchantsToAdd().put(en, random.nextInt(3) + 1);
 			}
+
 			e.getItem().addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
 		}
 	}
@@ -148,7 +150,7 @@ public class TalismanListener implements Listener {
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		int fortune = 1;
 		Random random = ThreadLocalRandom.current();
-		
+
 		if (item.getType() != Material.AIR && item.getAmount() > 0) {
 			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
 				fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
@@ -160,7 +162,7 @@ public class TalismanListener implements Listener {
 				if (drops.isEmpty()) {
 					drops = e.getBlock().getDrops();
 				}
-				
+
 				for (ItemStack drop : new ArrayList<>(drops)) {
 					if (!drop.getType().isBlock()) {
 						drops.add(new CustomItem(drop, fortune * 2));

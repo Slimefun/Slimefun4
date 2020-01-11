@@ -40,8 +40,7 @@ public class SlimefunBootsListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		
 		cancelledEvents.put("ENDER_BOOTS", e ->
-			e instanceof EntityDamageByEntityEvent 
-			&& ((EntityDamageByEntityEvent) e).getDamager() instanceof EnderPearl
+			e instanceof EntityDamageByEntityEvent && ((EntityDamageByEntityEvent) e).getDamager() instanceof EnderPearl
 		);
 		
 		cancelledEvents.put("BOOTS_OF_THE_STOMPER", e -> {
