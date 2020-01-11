@@ -14,18 +14,18 @@ public class BackpackInventory {
 	private final Config cfg;
 	private int size;
 	private Inventory inventory;
-	
+
 	/**
 	 * This constructor loads an existing Backpack
 	 */
 	public BackpackInventory(PlayerProfile profile, int id) {
 		this(profile, id, profile.getConfig().getInt("backpacks." + id + ".size"));
-		
+
 		for (int i = 0; i < size; i++) {
 			inventory.setItem(i, cfg.getItem("backpacks." + id + ".contents." + i));
 		}
 	}
-	
+
 	/**
 	 * This constructor creates a new Backpack
 	 */
@@ -34,25 +34,25 @@ public class BackpackInventory {
 		this.id = id;
 		this.cfg = profile.getConfig();
 		this.size = size;
-		
+
 		cfg.setValue("backpacks." + id + ".size", size);
 		profile.markDirty();
-		
+
 		inventory = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
 	}
-	
+
 	public int getID() {
 		return id;
 	}
-	
+
 	public int getSize() {
 		return size;
 	}
-	
+
 	public Inventory getInventory() {
 		return inventory;
 	}
-	
+
 	public void open(Player... players) {
 		for (Player p : players) {
 			p.openInventory(inventory);
@@ -62,15 +62,15 @@ public class BackpackInventory {
 	public void setSize(int size) {
 		this.size = size;
 		cfg.setValue("backpacks." + id + ".size", size);
-		
+
 		Inventory inv = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
-		
+
 		for (int slot = 0; slot < this.inventory.getSize(); slot++) {
 			inv.setItem(slot, this.inventory.getItem(slot));
 		}
-		
+
 		this.inventory = inv;
-		
+
 		markDirty();
 	}
 

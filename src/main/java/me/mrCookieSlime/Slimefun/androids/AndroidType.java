@@ -1,7 +1,7 @@
 package me.mrCookieSlime.Slimefun.androids;
 
 public enum AndroidType {
-	
+
 	NONE,
 	MINER,
 	FARMER,
