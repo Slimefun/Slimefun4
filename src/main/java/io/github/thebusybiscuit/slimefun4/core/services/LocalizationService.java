@@ -124,6 +124,7 @@ public class LocalizationService extends SlimefunLocalization {
 			String path = "/languages/messages_" + id + ".yml";
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path)))) {
 				cfg = YamlConfiguration.loadConfiguration(reader);
+				cfg.setDefaults(getConfig().getConfiguration());
 	        } catch (IOException e) {
 	            Slimefun.getLogger().log(Level.SEVERE, "Failed to load language file into memory: \"" + path + "\"", e);
 				cfg = getConfig().getConfiguration();
