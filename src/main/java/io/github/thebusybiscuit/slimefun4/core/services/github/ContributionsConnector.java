@@ -9,6 +9,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.thebusybiscuit.slimefun4.core.services.GitHubService;
+
 public class ContributionsConnector extends GitHubConnector {
 
 	// GitHub Bots that do not count as Contributors

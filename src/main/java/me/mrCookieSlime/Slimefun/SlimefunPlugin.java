@@ -19,10 +19,10 @@ import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
+import io.github.thebusybiscuit.slimefun4.core.services.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
-import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.NetherIceResource;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.OilResource;
 import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.SaltResource;
@@ -86,8 +86,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
 	private final AutoSavingService autoSavingService = new AutoSavingService();
 	private final UpdaterService updaterService = new UpdaterService(this, getFile());
-	
-	private String language = "en";
 	
 	private TickerTask ticker;
 	private LocalizationService local;
@@ -167,8 +165,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			whitelist = new Config(this, "whitelist.yml");
 
 			// Setup messages.yml
-			language = config.getString("options.language");
-			local = new LocalizationService(this);
+			local = new LocalizationService(this, config.getString("options.language"));
 			
 			// Setting up other stuff
 			utilities = new Utilities();
@@ -436,10 +433,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static GitHubService getGitHubService() {
 		return instance.gitHubService;
-	}
-	
-	public static String getSelectedLanguage() {
-		return instance.language;
 	}
 
 }

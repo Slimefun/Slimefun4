@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.services.github;
+package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -12,6 +12,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.thebusybiscuit.slimefun4.core.services.github.ContributionsConnector;
+import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubConnector;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 public class GitHubService {
@@ -177,7 +181,7 @@ public class GitHubService {
 		return lastUpdate;
 	}
 
-	protected boolean isLoggingEnabled() {
+	public boolean isLoggingEnabled() {
 		return logging;
 	}
 }

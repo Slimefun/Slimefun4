@@ -1,9 +1,11 @@
-package io.github.thebusybiscuit.slimefun4.core.services;
+package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class Language {
 	
@@ -27,6 +29,14 @@ public final class Language {
 	
 	public ItemStack getItem() {
 		return item;
+	}
+
+	public String getName(Player p) {
+		return SlimefunPlugin.getLocal().getMessage(p, "languages." + id);
+	}
+	
+	public boolean isDefault() {
+		return this == SlimefunPlugin.getLocal().getDefaultLanguage();
 	}
 
 }

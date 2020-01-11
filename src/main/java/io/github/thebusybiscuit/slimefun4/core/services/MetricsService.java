@@ -1,7 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import org.bstats.bukkit.Metrics;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class MetricsService extends Metrics {
@@ -39,7 +45,21 @@ public class MetricsService extends Metrics {
 			}
 		}));
 		
-		addCustomChart(new SimplePie("language", SlimefunPlugin::getSelectedLanguage));
+		addCustomChart(new SimplePie("language", () -> {
+			Language language = SlimefunPlugin.getLocal().getDefaultLanguage();
+			return language.getID();
+		}));
+		
+		addCustomChart(new AdvancedPie("player_languages", () -> {
+			Map<String, Integer> languages = new HashMap<>();
+			
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				Language lang = SlimefunPlugin.getLocal().getLanguage(p);
+				languages.merge(lang.getID(), 1, Integer::sum);
+			}
+			
+			return languages;
+		}));
 	}
 
 }
