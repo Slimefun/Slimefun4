@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.GPS;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -49,7 +48,7 @@ public final class TeleportationSequence {
 		SlimefunPlugin.getUtilities().teleporterUsers.remove(uuid);
 		
 		if (p != null) {
-			p.sendTitle(ChatColors.color("&4Teleportation cancelled!"), ChatColors.color("&c&k40&r&c%"), 20, 60, 20);
+			p.sendTitle(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.cancelled")), ChatColors.color("&c&k40&r&c%"), 20, 60, 20);
 		}
 	}
 	
@@ -58,13 +57,13 @@ public final class TeleportationSequence {
 		
 		if (isValid(p, source)) {
 			if (progress > 99) {
-				p.sendTitle(ChatColors.color("&3Teleported!"), ChatColors.color("&b100%"), 20, 60, 20);
+				p.sendTitle(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.teleported")), ChatColors.color("&b100%"), 20, 60, 20);
 				
 				p.teleport(destination);
 				
 				if (resistance) {
 					p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b&lYou have been given 30 Seconds of Invulnerability!"));
+					SlimefunPlugin.getLocal().sendMessage(p, "machines.TELEPORTER.invulnerability");
 				}
 				
 				destination.getWorld().spawnParticle(Particle.PORTAL,new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()),progress * 2, 0.2F, 0.8F, 0.2F );
@@ -72,7 +71,7 @@ public final class TeleportationSequence {
 				SlimefunPlugin.getUtilities().teleporterUsers.remove(uuid);
 			}
 			else {
-				p.sendTitle(ChatColors.color("&3Teleporting..."), ChatColors.color("&b" + progress + "%"), 0, 60, 0);
+				p.sendTitle(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.teleporting")), ChatColors.color("&b" + progress + "%"), 0, 60, 0);
 				
 				source.getWorld().spawnParticle(Particle.PORTAL, source, progress * 2, 0.2F, 0.8F, 0.2F);
 				source.getWorld().playSound(source, Sound.BLOCK_BEACON_AMBIENT, 1F, 0.6F);

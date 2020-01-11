@@ -28,14 +28,15 @@ public class TeleporterCommand extends SubCommand {
 		if (args.length == 2) {
 			if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {
 				OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+
 				if (player.getName() != null) {
 					Slimefun.getGPSNetwork().openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
 				}
-				else sender.sendMessage("&4Unknown Player: &c" + args[1]);
+				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
 			}
-			else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+			else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission");
 		}
-		else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf teleporter <Player>"));
+		else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter <Player>"));
 	}
 
 }

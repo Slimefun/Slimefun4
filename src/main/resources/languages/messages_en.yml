@@ -2,12 +2,6 @@ commands:
   help: Displays this Help Screen
   cheat: Allows you to cheat Items
   give: Give somebody some Slimefun Items
-
-  research:
-    desc: Unlock a Research for a Player
-    reset: '&cYou have reset %player%''s Knowledge'
-    reset-target: '&cYour Knowledge has been reset'
-
   guide: Gives yourself a Slimefun Guide
   timings: Lag-Info about your Server
   teleporter: See other Player's Waypoints
@@ -15,6 +9,11 @@ commands:
   search: Searches your Guide for the given term
   open_guide: Opens Slimefun's guide without using the book
   stats: Shows some Stats about a Player
+
+  research:
+    description: Unlock a Research for a Player
+    reset: '&cYou have reset %player%''s Knowledge'
+    reset-target: '&cYour Knowledge has been reset'
 
 guide:
   search:
@@ -35,6 +34,7 @@ messages:
   not-enough-xp: '&4You do not have enough XP to unlock this'
   unlocked: '&bYou have unlocked &7"%research%"'
   only-players: '&4This Command is only for Players'
+  unknown-player: '&4Unknown Player: &c%player%'
   no-permission: '&4You do not have the required Permission to do this'
   usage: '&4Usage: &c%usage%'
   not-online: '&4%player% &cis not online!'
@@ -47,6 +47,7 @@ messages:
   hungry: '&cYou are too hungry to do that!'
   mode-change: '&b%device% Mode changed to: &9%mode%'
   disabled-in-world: '&4&lThis Item has been disabled in this World'
+  disabled-item: '&4&lThis Item has been disabled! How did you even get that?'
 
   talisman:
     anvil: '&a&oYour Talisman saved your Tool from breaking'
@@ -67,8 +68,6 @@ messages:
     fail: '&cYou can only bind one item to your soul at a time.'
     success: '&aYou have successfully bound this item to your soul! You will keep it when you die.'
 
-  disabled-item: '&4&lThis Item has been disabled! How did you even get that?'
-
   research:
     start: '&7The Ancient Spirits whisper mysterious Words into your Ear!'
     progress: '&7You start to wonder about &b%research% &e(%progress%)'
@@ -80,17 +79,18 @@ messages:
   opening-guide: '&bOpening guide, this may take a few seconds...'
   opening-backpack: '&bOpening backpack, this may take a few seconds...'
   no-iron-golem-heal: '&cThat is not an Iron Ingot. You cannot use this to heal Iron Golems!'
+  link-prompt: '&eClick here:'
+  diet-cookie: '&eYou are starting to feel very light...'
   
   fortune-cookie:
   - '&7Help me, I am trapped in a Fortune Cookie Factory!'
   - '&7You will die tomorrow...     by a Creeper'
   - '&7At some Point in your Life something bad will happen!!!'
-  - '&7Next week you will notice that this is not the real World, you are in a kind
-    of "Matrix" or lets call it Computer game. Yes you are in a Computer Game'
+  - '&7Next week you will notice that this is not the real World, you are in a kind of "Matrix" or lets call it Computer game. Yes you are in a Computer Game'
   - '&7This Cookie will taste good in a few seconds'
   - '&7You will die soon and the last word you will hear is gonna be "EXTERMINATE!!!"'
-  - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s
-    not worth it.'
+  - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s not worth it.'
+  - '&742. The answer is 42.'
 
 machines:
   pattern-not-found: '&eSorry, I could not recognize this Pattern. Please place the Items in the correct Pattern into the Dispenser.'
@@ -113,6 +113,12 @@ machines:
 
   ELEVATOR:
     no-destinations: '&4No Destinations found'
+    
+  TELEPORTER:
+    teleporting: '&3Teleporting...'
+    teleported: '&3Teleported!'
+    cancelled: '&4Teleportation cancelled!'
+    invulnerability: '&b&lYou have been given 30 seconds of Invulnerability!'
 
   CARGO_NODES:
     must-be-placed: '&4Must be placed onto a Chest or Machine'

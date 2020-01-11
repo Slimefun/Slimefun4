@@ -25,7 +25,7 @@ public class ResearchCommand extends SubCommand {
 	
 	@Override
 	protected String getDescriptionPath() {
-		return "commands.research.desc";
+		return "commands.research.description";
 	}
 
 	@Override

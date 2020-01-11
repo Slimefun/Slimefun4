@@ -3,9 +3,9 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -26,7 +26,7 @@ public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 				List<String> messages = SlimefunPlugin.getLocal().getMessages(p, "messages.fortune-cookie");
 				String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
 				
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+				p.sendMessage(ChatColors.color(message));
 				return true;
 			}
 			return false;

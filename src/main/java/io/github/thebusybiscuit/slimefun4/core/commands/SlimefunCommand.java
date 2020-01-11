@@ -32,7 +32,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
-	
+
 	private final List<SubCommand> commands = new LinkedList<>();
 
 	public SlimefunCommand(SlimefunPlugin plugin) {
@@ -47,10 +47,10 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		commands.add(new TeleporterCommand(plugin, this));
 		commands.add(new OpenGuideCommand(plugin, this));
 		commands.add(new SearchCommand(plugin, this));
-		
+
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length > 0) {
@@ -61,24 +61,24 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 				else {
 					SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 				}
-				
+
 				return true;
 			}
 			else if (args[0].equalsIgnoreCase("elevator")) {
 				if (sender instanceof Player && args.length == 4) {
 					Player p = (Player) sender;
-					
+
 					int x = Integer.parseInt(args[1]);
 					int y = Integer.parseInt(args[2]);
 					int z = Integer.parseInt(args[3]);
-					
+
 					if (BlockStorage.getLocationInfo(p.getWorld().getBlockAt(x, y, z).getLocation(), "floor") != null) {
 						SlimefunPlugin.getUtilities().elevatorUsers.add(p.getUniqueId());
 						float yaw = p.getEyeLocation().getYaw() + 180;
 						if (yaw > 180) yaw = -180 + (yaw - 180);
-						
+
 						p.teleport(new Location(p.getWorld(), x + 0.5, y + 0.4, z + 0.5, yaw, p.getEyeLocation().getPitch()));
-						
+
 						String title = ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(p.getWorld().getBlockAt(x, y, z).getLocation(), "floor"));
 						p.sendTitle(title, " ", 20, 60, 20);
 					}
@@ -94,9 +94,9 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 				}
 			}
 		}
-		
+
 		sendHelp(sender);
-		
+
 		return true;
 	}
 
@@ -104,7 +104,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		sender.sendMessage("");
 		sender.sendMessage(ChatColors.color("&aSlimefun &2v" + Slimefun.getVersion()));
 		sender.sendMessage("");
-		
+
 		for (SubCommand cmd : commands) {
 			sender.sendMessage(ChatColors.color("&3/sf " + cmd.getName() + " &b") + cmd.getDescription(sender));
 		}
