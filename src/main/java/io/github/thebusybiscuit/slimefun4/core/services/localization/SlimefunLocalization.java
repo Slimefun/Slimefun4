@@ -41,8 +41,8 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 	}
 
 	@Override
-	public void sendMessage(CommandSender sender, String key) {
-		String prefix = getPrefix();
+	public void sendMessage(CommandSender sender, String key, boolean addPrefix) {
+		String prefix = addPrefix ? getPrefix(): "";
 
 		if (sender instanceof Player) {
 			sender.sendMessage(ChatColors.color(prefix + getMessage((Player) sender, key)));
@@ -53,12 +53,17 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 	}
 
 	@Override
-	public void sendMessage(CommandSender sender, String key, boolean addPrefix) {
-		sendMessage(sender, key);
+	public void sendMessage(CommandSender sender, String key) {
+		sendMessage(sender, key, true);
 	}
 
 	public void sendMessage(CommandSender sender, String key, UnaryOperator<String> function) {
-		String prefix = getPrefix();
+		sendMessage(sender, key, true, function);
+	}
+
+	@Override
+	public void sendMessage(CommandSender sender, String key, boolean addPrefix, UnaryOperator<String> function) {
+		String prefix = addPrefix ? getPrefix(): "";
 
 		if (sender instanceof Player) {
 			sender.sendMessage(ChatColors.color(prefix + function.apply(getMessage((Player) sender, key))));
@@ -66,11 +71,6 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 		else {
 			sender.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + function.apply(getMessage(key)))));
 		}
-	}
-
-	@Override
-	public void sendMessage(CommandSender sender, String key, boolean addPrefix, UnaryOperator<String> function) {
-		sendMessage(sender, key, function);
 	}
 
 	@Override
@@ -93,11 +93,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
 	@Override
 	public void sendMessages(CommandSender sender, String key, boolean addPrefix, UnaryOperator<String> function) {
-		sendMessages(sender, key, function);
-	}
-
-	public void sendMessages(CommandSender sender, String key, UnaryOperator<String> function) {
-		String prefix = getPrefix();
+		String prefix = addPrefix ? getPrefix(): "";
 
 		if (sender instanceof Player) {
 			for (String translation : getMessages((Player) sender, key)) {
@@ -111,6 +107,10 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 				sender.sendMessage(ChatColor.stripColor(message));
 			}
 		}
+	}
+
+	public void sendMessages(CommandSender sender, String key, UnaryOperator<String> function) {
+		sendMessages(sender, key, true, function);
 	}
 
 }

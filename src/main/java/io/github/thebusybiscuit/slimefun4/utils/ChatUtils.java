@@ -16,7 +16,7 @@ public final class ChatUtils {
 
 	public static void sendURL(CommandSender sender, String url) {
 		sender.sendMessage("");
-		SlimefunPlugin.getLocal().sendMessage(sender, "messages.link-prompt");
+		SlimefunPlugin.getLocal().sendMessage(sender, "messages.link-prompt", false);
 		sender.sendMessage(ChatColors.color("&7&o" + url));
 		sender.sendMessage("");
 	}
