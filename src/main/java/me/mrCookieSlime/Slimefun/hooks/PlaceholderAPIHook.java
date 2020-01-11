@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -69,6 +70,11 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		
 		if (params.equals("timings_lag")) {
 			return SlimefunPlugin.getTicker().getTime() + "ms";
+		}
+		
+		if (params.equals("language")) {
+			if (!(p instanceof Player)) return "Unknown";
+			return SlimefunPlugin.getLocal().getLanguage((Player) p).getName((Player) p);
 		}
 		
 		return null;
