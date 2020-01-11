@@ -10,9 +10,9 @@ import org.bukkit.plugin.Plugin;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 
 public class CustomItemDataService {
-	
+
 	private final NamespacedKey namespacedKey;
-	
+
 	public CustomItemDataService(Plugin plugin, String key) {
 		namespacedKey = new NamespacedKey(plugin, key);
 	}
@@ -30,7 +30,7 @@ public class CustomItemDataService {
 	public Optional<String> getItemData(ItemStack item) {
 		return getItemData(item.getItemMeta());
 	}
-	
+
 	public Optional<String> getItemData(ItemMeta meta) {
 		return PersistentDataAPI.getOptionalString(meta, namespacedKey);
 	}

@@ -19,51 +19,51 @@ import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 public class GitHubService {
-	
+
 	private final String repository;
 	private final Set<GitHubConnector> connectors;
 	private final ConcurrentMap<String, Contributor> contributors;
-	
+
 	private boolean logging = false;
-	
+
 	private int issues = 0;
 	private int pullRequests = 0;
 	private int forks = 0;
 	private int stars = 0;
 	private int codeBytes = 0;
 	private Date lastUpdate = new Date();
-	
+
 	public GitHubService(String repository) {
 		this.repository = repository;
-		
+
 		connectors = new HashSet<>();
 		contributors = new ConcurrentHashMap<>();
 	}
-	
+
 	public void start(Plugin plugin) {
 		plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
 	}
-	
+
 	private void addDefaultContributors() {
 		Contributor thebusybiscuit = new Contributor("TheBusyBiscuit", "https://github.com/TheBusyBiscuit");
 		thebusybiscuit.setContribution("&4Original Creator", 0);
 		contributors.put(thebusybiscuit.getName(), thebusybiscuit);
-		
+
 		Contributor fuffles = new Contributor("Fuffles_");
 		fuffles.setContribution("&dSkull Texture Artist", 0);
 		contributors.put(fuffles.getName(), fuffles);
 	}
-	
+
 	public void connect(boolean logging) {
 		this.logging = logging;
 		addDefaultContributors();
-		
+
 		connectors.add(new ContributionsConnector(this, "code", repository, "&6Developer"));
 		connectors.add(new ContributionsConnector(this, "wiki", "TheBusyBiscuit/Slimefun4-wiki", "&3Wiki Editor"));
 		connectors.add(new ContributionsConnector(this, "resourcepack", "TheBusyBiscuit/Slimefun4-Resourcepack", "&cResourcepack Artist"));
-		
+
 		connectors.add(new GitHubConnector(this) {
-			
+
 			@Override
 			public void onSuccess(JsonElement element) {
 				JsonObject object = element.getAsJsonObject();
@@ -71,12 +71,12 @@ public class GitHubService {
 				stars = object.get("stargazers_count").getAsInt();
 				lastUpdate = NumberUtils.parseGitHubDate(object.get("pushed_at").getAsString());
 			}
-			
+
 			@Override
 			public String getRepository() {
 				return repository;
 			}
-			
+
 			@Override
 			public String getFileName() {
 				return "repo";
@@ -87,32 +87,32 @@ public class GitHubService {
 				return "";
 			}
 		});
-		
+
 		connectors.add(new GitHubConnector(this) {
-			
+
 			@Override
 			public void onSuccess(JsonElement element) {
 				JsonArray array = element.getAsJsonArray();
-				
+
 				int issueCount = 0;
 				int prCount = 0;
-				
+
 				for (JsonElement elem : array) {
 					JsonObject obj = elem.getAsJsonObject();
-					
+
 					if (obj.has("pull_request")) prCount++;
 					else issueCount++;
 				}
-				
+
 				issues = issueCount;
 				pullRequests = prCount;
 			}
-			
+
 			@Override
 			public String getRepository() {
 				return repository;
 			}
-			
+
 			@Override
 			public String getFileName() {
 				return "issues";
@@ -123,20 +123,20 @@ public class GitHubService {
 				return "/issues";
 			}
 		});
-		
+
 		connectors.add(new GitHubConnector(this) {
-			
+
 			@Override
 			public void onSuccess(JsonElement element) {
 				JsonObject object = element.getAsJsonObject();
 				codeBytes = object.get("Java").getAsInt();
 			}
-			
+
 			@Override
 			public String getRepository() {
 				return repository;
 			}
-			
+
 			@Override
 			public String getFileName() {
 				return "languages";
@@ -148,27 +148,27 @@ public class GitHubService {
 			}
 		});
 	}
-	
+
 	public Set<GitHubConnector> getConnectors() {
 		return connectors;
 	}
-	
+
 	public ConcurrentMap<String, Contributor> getContributors() {
 		return contributors;
 	}
-	
+
 	public int getForks() {
 		return forks;
 	}
-	
+
 	public int getStars() {
 		return stars;
 	}
-	
+
 	public int getIssues() {
 		return issues;
 	}
-	
+
 	public int getPullRequests() {
 		return pullRequests;
 	}

@@ -21,7 +21,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class LocalizationService extends SlimefunLocalization {
-	
+
 	private static final String LANGUAGE_PATH = "language";
 
 	// All supported languages are stored in this LinkedHashMap, it is Linked so we keep the order
@@ -32,15 +32,15 @@ public class LocalizationService extends SlimefunLocalization {
 
 	public LocalizationService(SlimefunPlugin plugin, String serverDefaultLanguage) {
 		super(plugin);
-		
+
 		this.plugin = plugin;
 		languageKey = new NamespacedKey(plugin, LANGUAGE_PATH);
 		defaultLanguage = new Language(serverDefaultLanguage, getConfig().getConfiguration(), "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
 		loadLanguages();
-		
+
 		String language = getConfig().getString(LANGUAGE_PATH);
 		if (language == null) language = serverDefaultLanguage;
-		
+
 		if (hasLanguage(serverDefaultLanguage)) {
 			setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
 		}
@@ -48,11 +48,11 @@ public class LocalizationService extends SlimefunLocalization {
 			setLanguage("en", false);
 			plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
 		}
-		
+
 		setPrefix("&aSlimefun 4 &7> ");
 		save();
 	}
-	
+
 	private void loadLanguages() {
 		addLanguage("en", "a1701f21835a898b20759fb30a583a38b994abf60d3912ab4ce9f2311e74f72");
 	}
@@ -66,7 +66,7 @@ public class LocalizationService extends SlimefunLocalization {
 	public Language getLanguage(String id) {
 		return languages.get(id);
 	}
-	
+
 	@Override
 	public Collection<Language> getLanguages() {
 		return languages.values();
@@ -85,11 +85,11 @@ public class LocalizationService extends SlimefunLocalization {
 	@Override
 	public Language getLanguage(Player p) {
 		Optional<String> language = PersistentDataAPI.getOptionalString(p, languageKey);
-		
+
 		if (language.isPresent()) return languages.get(language.get());
 		else return getDefaultLanguage();
 	}
-	
+
 	private void setLanguage(String language, boolean reset) {
 		// Clearing out the old Language (if necessary)
 		if (reset) {
@@ -97,26 +97,26 @@ public class LocalizationService extends SlimefunLocalization {
 				getConfig().setValue(key, null);
 			}
 		}
-		
+
 		Slimefun.getLogger().log(Level.INFO, "Loading language \"{0}\"", language);
 		getConfig().setValue(LANGUAGE_PATH, language);
-		
+
 		// Loading in the defaults from our resources folder
 		String path = "/languages/messages_" + language + ".yml";
-		
+
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path)))) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 			getConfig().getConfiguration().setDefaults(config);
-        } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, "Failed to load language file: \"" + path + "\"", e);
-        }
-		
+		} catch (IOException e) {
+			Slimefun.getLogger().log(Level.SEVERE, "Failed to load language file: \"" + path + "\"", e);
+		}
+
 		save();
 	}
-	
+
 	private void addLanguage(String id, String hash) {
 		FileConfiguration cfg;
-		
+
 		if (!hasLanguage(id)) {
 			cfg = getConfig().getConfiguration();
 		}
@@ -125,12 +125,12 @@ public class LocalizationService extends SlimefunLocalization {
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path)))) {
 				cfg = YamlConfiguration.loadConfiguration(reader);
 				cfg.setDefaults(getConfig().getConfiguration());
-	        } catch (IOException e) {
-	            Slimefun.getLogger().log(Level.SEVERE, "Failed to load language file into memory: \"" + path + "\"", e);
+			} catch (IOException e) {
+				Slimefun.getLogger().log(Level.SEVERE, "Failed to load language file into memory: \"" + path + "\"", e);
 				cfg = getConfig().getConfiguration();
-	        }
+			}
 		}
-		
+
 		languages.put(id, new Language(id, cfg, hash));
 	}
 }
