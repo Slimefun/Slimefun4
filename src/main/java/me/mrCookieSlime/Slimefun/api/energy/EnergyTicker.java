@@ -7,7 +7,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 public abstract class EnergyTicker implements ItemHandler {
-	
+
 	public abstract double generateEnergy(Location l, SlimefunItem item, Config data);
 	public abstract boolean explode(Location l);
 

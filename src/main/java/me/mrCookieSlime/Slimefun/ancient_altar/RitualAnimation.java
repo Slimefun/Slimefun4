@@ -19,7 +19,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class RitualAnimation implements Runnable {
-	
+
 	private final AncientAltarListener listener;
 
 	private final List<Block> altars;
@@ -38,7 +38,7 @@ public class RitualAnimation implements Runnable {
 
 	public RitualAnimation(AncientAltarListener listener, List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
 		this.listener = listener;
-		
+
 		this.dropLocation = drop;
 		this.altar = altar;
 		this.altars = altars;
@@ -48,7 +48,7 @@ public class RitualAnimation implements Runnable {
 
 		this.running = true;
 		this.stage = 0;
-		
+
 		for (Block pedestal : this.pedestals) {
 			Item item = AncientAltarListener.findItem(pedestal);
 			this.itemLock.put(item, item.getLocation().clone());
@@ -58,21 +58,21 @@ public class RitualAnimation implements Runnable {
 	@Override
 	public void run() {
 		idle();
-		
+
 		if (!checkLockedItems()) {
 			abort();
 			return;
 		}
-		
+
 		if (this.stage == 36) {
 			finish();
 			return;
 		}
-		
+
 		if (this.stage > 0 && this.stage % 4 == 0) {
 			checkPedestal(pedestals.get(this.stage / 4 - 1));
 		}
-		
+
 		this.stage += 1;
 		Slimefun.runSync(this, 8);
 	}
@@ -83,14 +83,14 @@ public class RitualAnimation implements Runnable {
 				return false;
 			}
 		}
-			
+
 		return true;
 	}
 
 	private void idle() {
 		dropLocation.getWorld().spawnParticle(Particle.SPELL_WITCH, dropLocation,16, 1.2F, 0F, 1.2F);
 		dropLocation.getWorld().spawnParticle(Particle.FIREWORKS_SPARK,dropLocation,8, 0.2F, 0F, 0.2F);
-		
+
 		for (Location loc : particleLocations) {
 			dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, loc,16, 0.3F, 0.2F, 0.3F);
 			dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC,loc,8, 0.3F, 0.2F, 0.3F);
@@ -99,7 +99,7 @@ public class RitualAnimation implements Runnable {
 
 	private void checkPedestal(Block pedestal) {
 		Item item = AncientAltarListener.findItem(pedestal);
-		
+
 		if(item == null || itemLock.remove(item) == null) {	
 			abort();
 		}
@@ -110,10 +110,10 @@ public class RitualAnimation implements Runnable {
 
 			dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
 			dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC,pedestal.getLocation().add(0.5, 1.5, 0.5), 8, 0.3F, 0.2F, 0.3F);
-			
+
 			itemLock.remove(item);
 			item.remove();
-			
+
 			pedestal.removeMetadata("item_placed", SlimefunPlugin.instance);
 		}
 	}
@@ -121,22 +121,22 @@ public class RitualAnimation implements Runnable {
 	private void abort() {
 		running = false;
 		pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
-    
+
 		// This should re-enable altar blocks on craft failure.
 		listener.getAltarsInUse().remove(altar.getLocation());
 		dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1F, 1F);
 		itemLock.clear();
 		altars.remove(altar);
 	}
-  
+
 	private void finish() {
 		if (running) {
 			dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 			dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
 			dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
-      
+
 			pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
-			
+
 			// This should re-enable altar blocks on craft completion.
 			listener.getAltarsInUse().remove(altar.getLocation());
 			altars.remove(altar);
