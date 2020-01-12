@@ -21,8 +21,9 @@ public abstract class BioGenerator extends AGenerator {
 		registerFuel(new MachineFuel(2, new ItemStack(Material.ROTTEN_FLESH)));
 		registerFuel(new MachineFuel(2, new ItemStack(Material.SPIDER_EYE)));
 		registerFuel(new MachineFuel(2, new ItemStack(Material.BONE)));
+		registerFuel(new MachineFuel(2, new ItemStack(Material.STRING)));
 		registerFuel(new MachineFuel(3, new ItemStack(Material.APPLE)));
-		registerFuel(new MachineFuel(3, new ItemStack(Material.MELON)));
+		registerFuel(new MachineFuel(3, new ItemStack(Material.MELON_SLICE)));
 		registerFuel(new MachineFuel(27, new ItemStack(Material.MELON)));
 		registerFuel(new MachineFuel(3, new ItemStack(Material.PUMPKIN)));
 		registerFuel(new MachineFuel(3, new ItemStack(Material.PUMPKIN_SEEDS)));
