@@ -1,11 +1,12 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
+
+@Deprecated
 @FunctionalInterface
 public interface SlimefunBlockHandler {
 	

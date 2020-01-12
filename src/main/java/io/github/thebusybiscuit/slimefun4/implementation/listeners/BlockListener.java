@@ -87,9 +87,9 @@ public class BlockListener implements Listener {
 					blockHandler.onPlace(e.getPlayer(), e.getBlock(), sfItem);
 				} 
 				else {
-					for (ItemHandler handler : SlimefunItem.getHandlers(BlockPlaceHandler.class)) {
-						if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) break;
-					}
+					sfItem.callItemHandler(BlockPlaceHandler.class, handler ->
+						handler.onBlockPlace(e, item)
+					);
 				}
 			}
 		}
@@ -193,7 +193,7 @@ public class BlockListener implements Listener {
 		boolean allow = true;
 		List<ItemStack> drops = new ArrayList<>();
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-		int fortune = 1;
+		int fortune = getFortuneLevel(item, e.getBlock());
 		
 		Block block2 = e.getBlock().getRelative(BlockFace.UP);
 		if (sensitiveMaterials.contains(block2.getType())) {
@@ -243,15 +243,16 @@ public class BlockListener implements Listener {
 		
 		if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 			SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+			
 			if (blockHandler != null) {
 				allow = blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
 			} 
 			else {
-				// Walk over all registered block break handlers until one says that it'll handle it.
-				for (ItemHandler handler : SlimefunItem.getHandlers(BlockBreakHandler.class)) {
-					if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
-				}
+				sfItem.callItemHandler(BlockBreakHandler.class, handler ->
+					handler.onBlockBreak(e, item, fortune, drops)
+				);
 			}
+			
 			if (allow) {
 				drops.addAll(sfItem.getDrops());
 				BlockStorage.clearBlockInfo(e.getBlock());
@@ -262,14 +263,6 @@ public class BlockListener implements Listener {
 			}
 		}
 		else if (item != null) {
-			if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-				Random random = ThreadLocalRandom.current();
-				
-				fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
-				if (fortune <= 0) fortune = 1;
-				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
-			}
-			
 			for (ItemHandler handler : SlimefunItem.getHandlers(BlockBreakHandler.class)) {
 				if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 			}
@@ -286,5 +279,19 @@ public class BlockListener implements Listener {
 				}
 			}
 		}
+	}
+
+	private int getFortuneLevel(ItemStack item, Block b) {
+		int fortune = 1;
+		
+		if (item != null && item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+			Random random = ThreadLocalRandom.current();
+			
+			fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
+			if (fortune <= 0) fortune = 1;
+			fortune = (b.getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
+		}
+		
+		return fortune;
 	}
 }
