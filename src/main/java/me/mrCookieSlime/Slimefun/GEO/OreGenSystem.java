@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.block.Biome;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
@@ -57,11 +58,25 @@ public final class OreGenSystem {
 		}
 	}
 	
+	public static void setSupplies(OreGenResource resource, Location l, int amount) {
+		if (resource != null) {
+			BlockStorage.setChunkInfo(l, "resources_" + resource.getName().toUpperCase(), String.valueOf(amount));
+		}
+	}
+	
 	public static int generateSupplies(OreGenResource resource, Chunk chunk) {
 		if (resource == null) return 0;
 		
 		int supplies = getDefault(resource, chunk.getBlock(7, 60, 7).getBiome());
 		BlockStorage.setChunkInfo(chunk, "resources_" + resource.getName().toUpperCase(), String.valueOf(supplies));
+		return supplies;
+	}
+	
+	public static int generateSupplies(OreGenResource resource, Location l) {
+		if (resource == null) return 0;
+		
+		int supplies = getDefault(resource, l.getBlock().getBiome());
+		BlockStorage.setChunkInfo(l, "resources_" + resource.getName().toUpperCase(), String.valueOf(supplies));
 		return supplies;
 	}
 
@@ -80,10 +95,31 @@ public final class OreGenSystem {
 			return generateSupplies(resource, chunk);
 		}
 	}
+
+	public static int getSupplies(OreGenResource resource, Location l, boolean generate) {
+		if (resource == null) return 0;
+		
+		String supply = BlockStorage.getChunkInfo(l, "resources_" + resource.getName().toUpperCase());
+		
+		if (supply != null) {
+			return Integer.parseInt(supply);
+		}
+		else if (!generate) {
+			return 0;
+		}
+		else {
+			return generateSupplies(resource, l);
+		}
+	}
 	
 	public static boolean wasResourceGenerated(OreGenResource resource, Chunk chunk) {
 		if (resource == null) return false;
 		return BlockStorage.hasChunkInfo(chunk, "resources_" + resource.getName().toUpperCase());
+	}
+	
+	public static boolean wasResourceGenerated(OreGenResource resource, Location l) {
+		if (resource == null) return false;
+		return BlockStorage.hasChunkInfo(l, "resources_" + resource.getName().toUpperCase());
 	}
 
 }

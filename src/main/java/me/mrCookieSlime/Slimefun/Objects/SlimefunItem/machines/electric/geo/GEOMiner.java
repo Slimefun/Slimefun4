@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -180,16 +179,14 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			SimpleHologram.update(b, "&4GEO-Scan required!");
 		}
 		else {
-			Chunk chunk = b.getChunk();
-			
 			for (OreGenResource resource : OreGenSystem.listResources()) {
 				if (!resource.isLiquid()) {
-					if (!OreGenSystem.wasResourceGenerated(resource, chunk)) {
+					if (!OreGenSystem.wasResourceGenerated(resource, b.getLocation())) {
 						SimpleHologram.update(b, "&4GEO-Scan required!");
 						return;
 					}
 					else {
-						int supplies = OreGenSystem.getSupplies(resource, chunk, false);
+						int supplies = OreGenSystem.getSupplies(resource, b.getLocation(), false);
 						
 						if (supplies > 0) {
 							MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[] {resource.getItem().clone()});
@@ -197,7 +194,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 							
 							processing.put(b, r);
 							progress.put(b, r.getTicks());
-							OreGenSystem.setSupplies(resource, chunk, supplies - 1);
+							OreGenSystem.setSupplies(resource, b.getLocation(), supplies - 1);
 							SimpleHologram.update(b, "&7Mining: &r" + resource.getName());
 							return;
 						}

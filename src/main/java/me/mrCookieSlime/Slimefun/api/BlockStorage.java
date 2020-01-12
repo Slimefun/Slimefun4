@@ -80,7 +80,7 @@ public class BlockStorage {
 		return null;
 	}
 	
-	public BlockStorage(final World w) {
+	public BlockStorage(World w) {
 		if (SlimefunPlugin.getUtilities().worlds.containsKey(w.getName())) return;
 		this.world = w;
 		
@@ -717,6 +717,16 @@ public class BlockStorage {
 			return new BlockInfoConfig();
 		}
 	}
+
+	public static Config getChunkInfo(Location l) {
+		try {
+			BlockInfoConfig cfg = SlimefunPlugin.getUtilities().mapChunks.get(locationToChunkString(l));
+			return cfg == null ? new BlockInfoConfig() : cfg;
+		} catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "Failed to parse ChunkInfo for Location: " + (l == null ? "?": l.getBlockX()) + ", " + (l == null ? "?": l.getBlockZ()) + " for Slimefun " + Slimefun.getVersion(), x);
+			return new BlockInfoConfig();
+		}
+	}
 	
 	public static boolean hasChunkInfo(Chunk chunk) {
 		return SlimefunPlugin.getUtilities().mapChunks.containsKey(serializeChunk(chunk));
@@ -734,13 +744,34 @@ public class BlockStorage {
 		
 		chunkChanges++;
 	}
+	
+	public static void setChunkInfo(Location l, String key, String value) {
+		BlockInfoConfig cfg = SlimefunPlugin.getUtilities().mapChunks.get(locationToChunkString(l));
+		
+		if (cfg == null) {
+			cfg = new BlockInfoConfig();
+			SlimefunPlugin.getUtilities().mapChunks.put(locationToChunkString(l), cfg);
+		}
+		
+		cfg.setValue(key, value);
+		
+		chunkChanges++;
+	}
 
 	public static String getChunkInfo(Chunk chunk, String key) {
 		return getChunkInfo(chunk).getString(key);
 	}
+
+	public static String getChunkInfo(Location l, String key) {
+		return getChunkInfo(l).getString(key);
+	}
 	
 	public static boolean hasChunkInfo(Chunk chunk, String key) {
 		return getChunkInfo(chunk, key) != null;
+	}
+	
+	public static boolean hasChunkInfo(Location l, String key) {
+		return getChunkInfo(l, key) != null;
 	}
 	
 	public static void clearChunkInfo(Chunk chunk) {

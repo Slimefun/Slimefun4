@@ -32,6 +32,7 @@
 ### Changes
 * Removed Solar Array
 * A lot of internal cleanup
+* Performance improvements for GEO Miner and Oil Pump
 
 ### Fixes
 * Fixed #1355
