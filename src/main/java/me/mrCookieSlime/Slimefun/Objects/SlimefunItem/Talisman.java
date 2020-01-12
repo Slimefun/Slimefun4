@@ -13,6 +13,7 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
@@ -135,14 +136,14 @@ public class Talisman extends SlimefunItem {
 
         if (p.getInventory().containsAtLeast(talisman.getItem(), 1)) {
             if (Slimefun.hasUnlocked(p, talisman.getItem(), true)) {
-                executeTalismanAttributes(e,p,talisman);
+                activateTalisman(e, p, p.getInventory(), talisman);
                 return true;
             } 
             else return false;
         } 
         else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
             if (Slimefun.hasUnlocked(p, talisman.upgrade(), true)) {
-                executeTalismanAttributes(e,p,talisman);
+                activateTalisman(e, p, p.getEnderChest(), talisman);
                 return true;
             } 
             else return false;
@@ -150,8 +151,8 @@ public class Talisman extends SlimefunItem {
         else return false;
     }
 
-    private static void executeTalismanAttributes(Event e, Player p, Talisman talisman) {
-        consumeItem(p, talisman);
+    private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman) {
+        consumeItem(inv, talisman);
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
         sendMessage(p, talisman);
@@ -175,9 +176,10 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    private static void consumeItem(Player p, Talisman talisman){
-        if (talisman.isConsumable())
-            p.getInventory().removeItem(talisman.getItem());
+    private static void consumeItem(Inventory inv, Talisman talisman){
+        if (talisman.isConsumable()) {
+        	inv.removeItem(talisman.getItem());
+        }
     }
 
     private static Player getPlayerByEventType(Event e) {

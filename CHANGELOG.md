@@ -39,6 +39,7 @@
 * Fixed Localization mistakes
 * Fixed #1366
 * Fixed GitHub cache
+* Fixed #1364
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
