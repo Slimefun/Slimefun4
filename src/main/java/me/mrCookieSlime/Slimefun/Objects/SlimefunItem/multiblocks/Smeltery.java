@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -69,25 +69,13 @@ public class Smeltery extends MultiBlockMachine {
 		List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
 		for (int i = 0; i < inputs.size(); i++) {
-			boolean craft = true;
-			for (ItemStack converting: inputs.get(i)) {
-				if (converting != null) {
-					for (int j = 0; j < inv.getContents().length; j++) {
-						if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimilar(converting, inv.getContents()[j], true)) {
-							craft = false;
-							break;
-						}
-						else if (SlimefunManager.isItemSimilar(inv.getContents()[j], converting, true)) break;
-					}
-				}
-			}
-
-			if (craft) {
+			if (canCraft(inv, inputs, i)) {
 				ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 				if (Slimefun.hasUnlocked(p, adding, true)) {
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
+					
 					if (outputInv != null) {
-						for (ItemStack removing: inputs.get(i)) {
+						for (ItemStack removing : inputs.get(i)) {
 							if (removing != null) {
 								InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunManager.isItemSimilar(stack, removing, true));
 							}
@@ -99,7 +87,7 @@ public class Smeltery extends MultiBlockMachine {
 
 						Hopper chamber = findHopper(dispBlock, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
-						if (new Random().nextInt(100) < SlimefunPlugin.getSettings().smelteryFireBreakChance) {
+						if (ThreadLocalRandom.current().nextInt(100) < SlimefunPlugin.getSettings().smelteryFireBreakChance) {
 							if (chamber != null) {
 								if (chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
 									ItemStack item = chamber.getInventory().getItem(chamber.getInventory().first(Material.FLINT_AND_STEEL));
@@ -138,8 +126,23 @@ public class Smeltery extends MultiBlockMachine {
 		SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
 	}
 	
+	private boolean canCraft(Inventory inv, List<ItemStack[]> inputs, int i) {
+		for (ItemStack converting : inputs.get(i)) {
+			if (converting != null) {
+				for (int j = 0; j < inv.getContents().length; j++) {
+					if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimilar(converting, inv.getContents()[j], true)) {
+						return false;
+					}
+					else if (SlimefunManager.isItemSimilar(inv.getContents()[j], converting, true)) break;
+				}
+			}
+		}
+		
+		return true;
+	}
+
 	private Hopper findHopper(Block b, BlockFace... faces) {
-		for (BlockFace face: faces) {
+		for (BlockFace face : faces) {
 			if (b.getRelative(face).getType() == Material.HOPPER && BlockStorage.check(b.getRelative(face), "IGNITION_CHAMBER")) {
 				return (Hopper) b.getRelative(face).getState();
 			}

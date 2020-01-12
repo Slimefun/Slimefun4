@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -60,10 +61,12 @@ public class BackpackListener implements Listener {
 		
 		if (item != null) {
 			if (e.getClick() == ClickType.NUMBER_KEY) {
-				ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
-				
-				if ((hotbarItem != null && hotbarItem.getType().toString().contains("SHULKER_BOX")) || SlimefunItem.getByItem(hotbarItem) instanceof SlimefunBackpack) {
-					e.setCancelled(true);
+				if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
+					ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
+					
+					if (hotbarItem != null && (hotbarItem.getType().toString().contains("SHULKER_BOX") || SlimefunItem.getByItem(hotbarItem) instanceof SlimefunBackpack)) {
+						e.setCancelled(true);
+					}
 				}
 			}
 			else if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
