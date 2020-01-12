@@ -15,6 +15,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -79,7 +80,7 @@ public class RitualAnimation implements Runnable {
 
 	private boolean checkLockedItems() {
 		for (Map.Entry<Item, Location> entry : itemLock.entrySet()) {
-			if (entry.getKey().getLocation().distance(entry.getValue()) > 0.3) {
+			if (entry.getKey().getLocation().distanceSquared(entry.getValue()) > 0.1) {
 				return false;
 			}
 		}

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.ancient_altar;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,6 +30,8 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.ancient_altar.Pedestals;
+import me.mrCookieSlime.Slimefun.ancient_altar.RitualAnimation;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
