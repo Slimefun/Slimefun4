@@ -88,10 +88,16 @@
 	"CARGO_INPUT": "Input-Node",
 	"CARGO_OUTPUT": "Output-Node",
 	"TRASH_CAN": "Trash-Can",
-	"ORE_CRUSHER": "Ore-Crusher",
+	"ORE_WASHER": "Ore-Washer",
 	"SCUBA_HELMET": "Hazmat-Suit",
 	"HAZMAT_CHESTPLATE": "Hazmat-Suit",
 	"HAZMAT_LEGGINGS": "Hazmat-Suit",
 	"RUBBER_BOOTS": "Hazmat-Suit",
-	"ARMOR_FORGE": "Armor-Forge"
+	"ARMOR_FORGE": "Armor-Forge",
+	"AUTOMATED_PANNING_MACHINE": "Automated-Panning-Machine",
+	"COMPRESSOR": "Compressor",
+	"ORE_CRUSHER": "Ore-Crusher",
+	"PRESSURE_CHAMBER": "Pressure-Chamber",
+	"GRIND_STONE": "Grind-Stone",
+	"MAGIC_WORKBENCH": "Magic-Workbench"
 }
