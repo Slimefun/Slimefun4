@@ -21,8 +21,9 @@ public class UpdaterService {
 			plugin.getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
 			plugin.getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
 			plugin.getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun.");
+			updater = null;
 		}
-		if (version.startsWith("DEV - ")) {
+		else if (version.startsWith("DEV - ")) {
 			// If we are using a development build, we want to switch to our custom 
 			updater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/master");
 		}

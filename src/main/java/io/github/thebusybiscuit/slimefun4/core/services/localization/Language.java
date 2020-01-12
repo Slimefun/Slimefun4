@@ -16,7 +16,9 @@ public final class Language {
 	public Language(String id, FileConfiguration config, String hash) {
 		this.id = id;
 		this.config = config;
-		this.item = SkullItem.fromHash(hash);
+		
+		item = SkullItem.fromHash(hash);
+		SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
 	}
 
 	public String getID() {

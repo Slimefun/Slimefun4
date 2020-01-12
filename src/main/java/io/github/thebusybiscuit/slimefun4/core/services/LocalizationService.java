@@ -53,6 +53,7 @@ public class LocalizationService extends SlimefunLocalization {
 		save();
 	}
 
+	// Load included Languages (with their ID and texture)
 	private void loadLanguages() {
 		addLanguage("en", "a1701f21835a898b20759fb30a583a38b994abf60d3912ab4ce9f2311e74f72");
 	}
@@ -74,6 +75,7 @@ public class LocalizationService extends SlimefunLocalization {
 
 	@Override
 	public boolean hasLanguage(String language) {
+		// Checks if our jar files contains a .yml file for this id
 		return plugin.getClass().getResource("/languages/messages_" + language + ".yml") != null;
 	}
 

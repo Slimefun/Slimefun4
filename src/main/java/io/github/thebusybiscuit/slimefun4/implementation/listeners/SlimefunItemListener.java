@@ -100,8 +100,8 @@ public class SlimefunItemListener implements Listener {
 			if (slimefunItem != null) {
 				if (Slimefun.hasUnlocked(p, slimefunItem, true)) {
 					slimefunItem.callItemHandler(ItemInteractionHandler.class, handler ->
-					handler.onRightClick(e, p, item)
-							);
+						handler.onRightClick(e, p, item)
+					);
 
 					// Open the Backpack (also includes Coolers)
 					if (slimefunItem instanceof SlimefunBackpack) {
@@ -140,7 +140,7 @@ public class SlimefunItemListener implements Listener {
 				}
 			}
 			else {
-				for (ItemHandler handler : SlimefunItem.getHandlers("ItemInteractionHandler")) {
+				for (ItemHandler handler : SlimefunItem.getHandlers(ItemInteractionHandler.class)) {
 					if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
 				}
 			}
@@ -278,7 +278,7 @@ public class SlimefunItemListener implements Listener {
 
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
-		for (ItemHandler handler : SlimefunItem.getHandlers("ItemDropHandler")) {
+		for (ItemHandler handler : SlimefunItem.getHandlers(ItemDropHandler.class)) {
 			if (((ItemDropHandler) handler).onItemDrop(e, e.getPlayer(), e.getItemDrop())) return;
 		}
 	}

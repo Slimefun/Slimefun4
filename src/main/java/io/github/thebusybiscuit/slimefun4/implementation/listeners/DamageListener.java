@@ -42,7 +42,7 @@ public class DamageListener implements Listener {
             }
             
             if (item.getType() != Material.AIR && Slimefun.hasUnlocked(p, item, true)) {
-            	for (ItemHandler handler : SlimefunItem.getHandlers("EntityKillHandler")) {
+            	for (ItemHandler handler : SlimefunItem.getHandlers(EntityKillHandler.class)) {
     				if (((EntityKillHandler) handler).onKill(e, e.getEntity(), p, item)) return;
     			}
             }

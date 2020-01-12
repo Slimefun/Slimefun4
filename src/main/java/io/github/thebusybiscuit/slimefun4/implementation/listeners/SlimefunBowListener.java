@@ -29,7 +29,7 @@ public class SlimefunBowListener implements Listener {
 	@EventHandler
 	public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Arrow && e.getEntity() instanceof LivingEntity && SlimefunPlugin.getUtilities().arrows.containsKey(e.getDamager().getUniqueId())) {
-			for (ItemHandler handler : SlimefunItem.getHandlers("BowShootHandler")) {
+			for (ItemHandler handler : SlimefunItem.getHandlers(BowShootHandler.class)) {
 				 if (((BowShootHandler) handler).onHit(e, (LivingEntity) e.getEntity())) {
 					 break;
 				 }

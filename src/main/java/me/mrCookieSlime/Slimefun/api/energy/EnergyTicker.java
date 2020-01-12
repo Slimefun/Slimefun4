@@ -12,8 +12,8 @@ public abstract class EnergyTicker implements ItemHandler {
 	public abstract boolean explode(Location l);
 
 	@Override
-	public String toCodename() {
-		return "EnergyTicker";
+	public Class<? extends ItemHandler> getIdentifier() {
+		return EnergyTicker.class;
 	}
 
 }

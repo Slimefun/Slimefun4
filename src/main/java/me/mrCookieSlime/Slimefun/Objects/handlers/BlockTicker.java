@@ -1,9 +1,9 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
+import org.bukkit.block.Block;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-
-import org.bukkit.block.Block;
 
 public abstract class BlockTicker implements ItemHandler {
 	
@@ -35,10 +35,10 @@ public abstract class BlockTicker implements ItemHandler {
 	public void uniqueTick() {
 		// Override this method and fill it with content
 	}
-
+	
 	@Override
-	public String toCodename() {
-		return "BlockTicker";
+	public Class<? extends ItemHandler> getIdentifier() {
+		return BlockTicker.class;
 	}
 	
 	/**

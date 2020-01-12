@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
@@ -56,7 +58,7 @@ public class SlimefunItem implements Placeable {
 	private boolean addon = false;
 	private String permission = "";
 	private List<String> noPermissionTooltip;
-	private final Set<ItemHandler> itemhandlers = new HashSet<>();
+	private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
@@ -223,13 +225,11 @@ public class SlimefunItem implements Placeable {
 				
 				create();
 				
-				for (ItemHandler handler : itemhandlers) {
+				for (ItemHandler handler : itemhandlers.values()) {
 					if (areItemHandlersPrivate()) continue;
 					
-					Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
+					Set<ItemHandler> handlerset = getHandlers(handler.getIdentifier());
 					handlerset.add(handler);
-					
-					SlimefunPlugin.getUtilities().itemHandlers.put(handler.toCodename(), handlerset);
 				}
 
 				if (SlimefunPlugin.getSettings().printOutLoading) {
@@ -402,16 +402,16 @@ public class SlimefunItem implements Placeable {
 	}
 	
 	public void addItemHandler(ItemHandler... handlers) {
-		this.itemhandlers.addAll(Arrays.asList(handlers));
-
 		for (ItemHandler handler : handlers) {
+			itemhandlers.put(handler.getIdentifier(), handler);
+			
 			if (handler instanceof BlockTicker) {
-				this.ticking = true;
+				ticking = true;
 				SlimefunPlugin.getUtilities().tickers.add(getID());
-				this.blockTicker = (BlockTicker) handler;
+				blockTicker = (BlockTicker) handler;
 			}
 			else if (handler instanceof EnergyTicker) {
-				this.energyTicker = (EnergyTicker) handler;
+				energyTicker = (EnergyTicker) handler;
 				EnergyNet.registerComponent(getID(), EnergyNetComponent.SOURCE);
 			}
 		}
@@ -437,8 +437,8 @@ public class SlimefunItem implements Placeable {
 		register(false);
 	}
 
-	public static Set<ItemHandler> getHandlers(String codeid) {
-		return SlimefunPlugin.getUtilities().itemHandlers.getOrDefault(codeid, new HashSet<>());
+	public static Set<ItemHandler> getHandlers(Class<? extends ItemHandler> identifier) {
+		return SlimefunPlugin.getUtilities().itemHandlers.computeIfAbsent(identifier, c -> new HashSet<>());
 	}
 
 	/**
@@ -563,8 +563,8 @@ public class SlimefunItem implements Placeable {
 	 * 
 	 * @return	The Set of item handlers
 	 */
-	public Set<ItemHandler> getHandlers() {
-		return itemhandlers;
+	public Collection<ItemHandler> getHandlers() {
+		return itemhandlers.values();
 	}
 
 	/**
@@ -579,7 +579,11 @@ public class SlimefunItem implements Placeable {
 	}
 	
 	public <T extends ItemHandler> void callItemHandler(Class<T> c, Consumer<T> callable) {
-		itemhandlers.stream().filter(c::isInstance).map(c::cast).forEach(callable);
+		Optional<ItemHandler> handler = itemhandlers.get(c);
+		
+		if (handler.isPresent()) {
+			callable.accept(c.cast(handler.get()));
+		}
 	}
 	
 	public boolean isTicking() {

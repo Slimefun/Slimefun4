@@ -9,8 +9,9 @@ import org.bukkit.entity.Player;
 public interface MultiBlockInteractionHandler extends ItemHandler {
 	
 	boolean onInteract(Player p, MultiBlock mb, Block b);
-	
-	default String toCodename() {
-		return "MultiBlockInteractionHandler";
+
+	@Override
+	default Class<? extends ItemHandler> getIdentifier() {
+		return MultiBlockInteractionHandler.class;
 	}
 }

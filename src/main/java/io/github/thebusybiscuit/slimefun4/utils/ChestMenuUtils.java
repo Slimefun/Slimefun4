@@ -1,8 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -77,13 +75,13 @@ public final class ChestMenuUtils {
 		ItemStack item = indicator.clone();
 		ItemMeta im = item.getItemMeta();
 		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		((Damageable) im).setDamage(getDurability(item, timeleft, time));
+		
+		if (im instanceof Damageable) {
+			((Damageable) im).setDamage(getDurability(item, timeleft, time));
+		}
+		
 		im.setDisplayName(" ");
-		List<String> lore = new ArrayList<>();
-		lore.add(getProgressBar(timeleft, time));
-		lore.add("");
-		lore.add(getTimeLeft(timeleft / 2));
-		im.setLore(lore);
+		im.setLore(Arrays.asList(getProgressBar(timeleft, time), "", getTimeLeft(timeleft / 2)));
 		item.setItemMeta(im);
 		
 		menu.replaceExistingItem(slot, item);

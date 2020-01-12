@@ -28,6 +28,9 @@
 * Aded preset messages.yml files
 * Added user-configurable localization
 * Added many more options to the messages.yml
+* Added custom model data support for Languages
+* Added Grind Stone Recipes for Prismarine
+* Added String to the Bio Reactor
 
 ### Changes
 * Removed Solar Array
@@ -40,6 +43,7 @@
 * Fixed #1366
 * Fixed GitHub cache
 * Fixed #1364
+* Fixed Bio Reactor not accepting melons
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4

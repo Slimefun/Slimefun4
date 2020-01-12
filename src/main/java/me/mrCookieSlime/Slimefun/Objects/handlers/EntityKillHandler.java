@@ -9,8 +9,9 @@ import org.bukkit.inventory.ItemStack;
 public interface EntityKillHandler extends ItemHandler {
 	
 	boolean onKill(EntityDeathEvent e, Entity entity, Player killer, ItemStack item);
-	
-	default String toCodename() {
-		return "EntityKillHandler";
+
+	@Override
+	default Class<? extends ItemHandler> getIdentifier() {
+		return EntityKillHandler.class;
 	}
 }

@@ -87,14 +87,14 @@ public class BlockListener implements Listener {
 					blockHandler.onPlace(e.getPlayer(), e.getBlock(), sfItem);
 				} 
 				else {
-					for (ItemHandler handler : SlimefunItem.getHandlers("BlockPlaceHandler")) {
+					for (ItemHandler handler : SlimefunItem.getHandlers(BlockPlaceHandler.class)) {
 						if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) break;
 					}
 				}
 			}
 		}
 		else {
-			for (ItemHandler handler : SlimefunItem.getHandlers("BlockPlaceHandler")) {
+			for (ItemHandler handler : SlimefunItem.getHandlers(BlockPlaceHandler.class)) {
 				if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) break;
 			}
 		}
@@ -248,7 +248,7 @@ public class BlockListener implements Listener {
 			} 
 			else {
 				// Walk over all registered block break handlers until one says that it'll handle it.
-				for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
+				for (ItemHandler handler : SlimefunItem.getHandlers(BlockBreakHandler.class)) {
 					if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 				}
 			}
@@ -270,7 +270,7 @@ public class BlockListener implements Listener {
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
 			}
 			
-			for (ItemHandler handler : SlimefunItem.getHandlers("BlockBreakHandler")) {
+			for (ItemHandler handler : SlimefunItem.getHandlers(BlockBreakHandler.class)) {
 				if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 			}
 		}

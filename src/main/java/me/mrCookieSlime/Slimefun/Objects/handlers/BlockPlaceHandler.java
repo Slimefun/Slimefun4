@@ -7,8 +7,9 @@ import org.bukkit.inventory.ItemStack;
 public interface BlockPlaceHandler extends ItemHandler {
 	
 	boolean onBlockPlace(BlockPlaceEvent e, ItemStack item);
-	
-	default String toCodename() {
-		return "BlockPlaceHandler";
+
+	@Override
+	default Class<? extends ItemHandler> getIdentifier() {
+		return BlockPlaceHandler.class;
 	}
 }
