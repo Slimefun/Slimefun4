@@ -19,13 +19,11 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public abstract class GitHubConnector {
 
-	protected final File file;
+	protected File file;
 	protected final GitHubService github;
 
 	public GitHubConnector(GitHubService github) {
 		this.github = github;
-		
-		file = new File("plugins/Slimefun/cache/github/" + this.getFileName() + ".json");
 	}
 
 	public abstract String getFileName();
@@ -38,6 +36,8 @@ public abstract class GitHubConnector {
 	}
 
 	public void pullFile() {
+		file = new File("plugins/Slimefun/cache/github/" + getFileName() + ".json");
+		
 		if (github.isLoggingEnabled()) {
 			Slimefun.getLogger().log(Level.INFO, "Retrieving '" + this.getFileName() + ".json' from GitHub...");
 		}
@@ -53,7 +53,7 @@ public abstract class GitHubConnector {
 			try (ReadableByteChannel channel = Channels.newChannel(connection.getInputStream())) {
 				try (FileOutputStream stream = new FileOutputStream(file)) {
 					stream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
-					this.parseData();
+					parseData();
 				}
 			}
 		} catch (IOException e) {
@@ -62,24 +62,24 @@ public abstract class GitHubConnector {
 			}
 
 			if (hasData()) {
-				this.parseData();
+				parseData();
 			}
 			else {
-				this.onFailure();
+				onFailure();
 			}
 		}
 	}
 
 	public boolean hasData() {
-		return this.getFile().exists();
+		return getFile().exists();
 	}
 
 	public File getFile() {
-		return this.file;
+		return file;
 	}
 
 	public void parseData() {
-		try (BufferedReader reader = new BufferedReader(new FileReader(this.getFile()))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(getFile()))) {
 			StringBuilder builder = new StringBuilder();
 
 			String line;
@@ -88,11 +88,11 @@ public abstract class GitHubConnector {
 			}
 
 			JsonElement element = new JsonParser().parse(builder.toString());
-			this.onSuccess(element);
+			onSuccess(element);
 		} 
 		catch (IOException x) {
 			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing GitHub-Data for Slimefun " + Slimefun.getVersion(), x);
-			this.onFailure();
+			onFailure();
 		}
 	}
 }

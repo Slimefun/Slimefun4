@@ -32,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillin
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutonomousToolsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DamageListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
@@ -40,6 +41,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurna
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.IgnitionChamberListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
@@ -50,6 +53,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuide
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
@@ -71,8 +75,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import me.mrCookieSlime.Slimefun.api.TickerTask;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.listeners.ItemListener;
-import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
@@ -213,14 +215,14 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// All Slimefun Listeners
 			new SlimefunBootsListener(this);
-			new ItemListener(this);
-			new BlockListener(this);
+			new SlimefunItemListener(this);
+			new BlockPhysicsListener(this);
 			new MultiBlockListener(this);
 			new GearListener(this);
 			new AutonomousToolsListener(this);
 			new DamageListener(this);
 			new SlimefunBowListener(this);
-			new ToolListener(this);
+			new BlockListener(this);
 			new EnhancedFurnaceListener(this);
 			new TeleporterListener(this);
 			new AndroidKillingListener(this);
@@ -229,6 +231,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			new DeathpointListener(this);
 			new ExplosionsListener(this);
 			new DebugFishListener(this);
+			new VanillaMachinesListener(this);
 
 			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);
@@ -257,6 +260,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener(this);
 				if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) new GrapplingHookListener(this);
+				if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) new IgnitionChamberListener(this);
 			}, 0);
 
 			SlimefunCommand command = new SlimefunCommand(this);

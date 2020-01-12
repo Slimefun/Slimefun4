@@ -1,37 +1,22 @@
-package me.mrCookieSlime.Slimefun.listeners;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BrewingStand;
-import org.bukkit.block.Hopper;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -40,7 +25,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -62,45 +46,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
-public class ItemListener implements Listener {
+public class SlimefunItemListener implements Listener {
 
 	private final Utilities utilities;
 
-	public ItemListener(SlimefunPlugin plugin) {
+	public SlimefunItemListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		utilities = SlimefunPlugin.getUtilities();
-	}
-
-	@EventHandler
-	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
-		InventoryHolder holder = e.getInitiator().getHolder();
-		
-		if (holder instanceof Hopper && BlockStorage.check(((Hopper) holder).getBlock(), "IGNITION_CHAMBER")) {
-			e.setCancelled(true);
-		}
-	}
-
-	@EventHandler
-	public void onGrindstone(InventoryClickEvent e) {
-		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.GRINDSTONE) {
-			ItemStack slot0 = e.getInventory().getContents()[0];
-			ItemStack slot1 = e.getInventory().getContents()[1];
-			if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0))
-				e.setCancelled(true);
-			else if (SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1))
-				e.setCancelled(true);
-
-
-			if (SlimefunManager.isItemSimilar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
-				e.setCancelled(true);
-			else if (SlimefunManager.isItemSimilar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
-				e.setCancelled(true);
-
-			if (SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
-				e.setCancelled(true);
-			else if (SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
-				e.setCancelled(true);
-		}
 	}
 
 	/*
@@ -114,15 +66,6 @@ public class ItemListener implements Listener {
 
 		ItemStack item = e.getItem();
 		if (item != null && !Slimefun.isEnabled(e.getPlayer(), item, true)) {
-			e.setCancelled(true);
-		}
-	}
-
-	@EventHandler
-	public void onBucketUse(PlayerBucketEmptyEvent e) {
-		// Fix for placing water on player heads
-		Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
-		if (BlockStorage.hasBlockInfo(l)) {
 			e.setCancelled(true);
 		}
 	}
@@ -305,48 +248,6 @@ public class ItemListener implements Listener {
 	}
 
 	@EventHandler
-	public void onCraft(CraftItemEvent e) {
-		for (ItemStack item : e.getInventory().getContents()) {
-			SlimefunItem sfItem = SlimefunItem.getByItem(item);
-
-			if (sfItem != null && !sfItem.isUseableInWorkbench()) {
-				e.setCancelled(true);
-				SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
-				break;
-			}
-		}
-	}
-
-	@EventHandler
-	public void onPrepareCraft(PrepareItemCraftEvent e) {
-		for (ItemStack item : e.getInventory().getContents()) {
-			SlimefunItem sfItem = SlimefunItem.getByItem(item);
-
-			if (sfItem != null && !sfItem.isUseableInWorkbench()) {
-				e.getInventory().setResult(null);
-				break;
-			}
-		}
-	}
-
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onEntityChangeBlock(EntityChangeBlockEvent e) {
-		if (e.getEntity() instanceof FallingBlock) {
-			if (utilities.blocks.contains(e.getEntity().getUniqueId())) {
-				e.setCancelled(true);
-				e.getEntity().remove();
-			}
-		}
-		else if (e.getEntity() instanceof Wither) {
-			String id = BlockStorage.checkID(e.getBlock());
-
-			if (id != null && id.startsWith("WITHER_PROOF_")) {
-				e.setCancelled(true);
-			}
-		}
-	}
-
-	@EventHandler
 	public void onIronGolemHeal(PlayerInteractEntityEvent e) {
 		if (e.getRightClicked() instanceof IronGolem) {
 			PlayerInventory inv = e.getPlayer().getInventory();
@@ -372,38 +273,6 @@ public class ItemListener implements Listener {
 					inv.setItemInOffHand(item);
 				}
 			}
-		}
-	}
-
-	@EventHandler
-	public void onAnvil(InventoryClickEvent e) {
-		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
-			ItemStack slot0 = e.getInventory().getContents()[0];
-			ItemStack slot1 = e.getInventory().getContents()[1];
-
-			if (SlimefunManager.isItemSimilar(slot0, SlimefunItems.ELYTRA, true)) return;
-
-			if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0) ||
-					SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1) ||
-
-					SlimefunManager.isItemSimilar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true) ||
-					SlimefunManager.isItemSimilar(slot0, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)||
-
-					SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true) ||
-					SlimefunManager.isItemSimilar(slot1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
-
-				e.setCancelled(true);
-				SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
-			}
-		}
-	}
-
-	@EventHandler(ignoreCancelled = true)
-	public void onPreBrew(InventoryClickEvent e) {
-		Inventory inventory = e.getInventory();
-
-		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand && e.getRawSlot() < inventory.getSize()) {
-			e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
 		}
 	}
 
