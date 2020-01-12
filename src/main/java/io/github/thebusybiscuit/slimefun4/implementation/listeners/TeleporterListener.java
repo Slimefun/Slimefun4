@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.UUID;
+
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,8 +13,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.Teleporter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TeleporterListener implements Listener {
 
@@ -21,7 +25,7 @@ public class TeleporterListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled=true)
+	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onStarve(PlayerInteractEvent e) {
 		if (e.getAction() != Action.PHYSICAL || e.getClickedBlock() == null) return;
 
@@ -35,8 +39,10 @@ public class TeleporterListener implements Listener {
 				for (BlockFace face : faces) {
 					if (!BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN).getRelative(face), "GPS_TELEPORTER_PYLON")) return;
 				}
-
-				((Teleporter) teleporter).onInteract(e.getPlayer(), e.getClickedBlock().getRelative(BlockFace.DOWN));
+				
+				Block block = e.getClickedBlock().getRelative(BlockFace.DOWN);
+				UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
+				Slimefun.getGPSNetwork().openTeleporterGUI(e.getPlayer(), owner, block, Slimefun.getGPSNetwork().getNetworkComplexity(owner));
 			}
 		}
 		else if (id.equals("ELEVATOR_PLATE")) {

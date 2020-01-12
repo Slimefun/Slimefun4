@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public abstract class Teleporter extends SlimefunItem {
+public class Teleporter extends SlimefunItem {
 
 	public Teleporter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -30,7 +30,5 @@ public abstract class Teleporter extends SlimefunItem {
 			}
 		});
 	}
-	
-	public abstract void onInteract(Player p, Block b);
 
 }

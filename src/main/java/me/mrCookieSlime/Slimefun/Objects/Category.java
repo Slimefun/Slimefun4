@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.inventory.ItemFlag;
@@ -72,7 +73,7 @@ public class Category {
 	 */
 	public void register() {
 		SlimefunPlugin.getUtilities().allCategories.add(this);
-		Collections.sort(list(), SlimefunPlugin.getUtilities().categorySorter);
+		Collections.sort(list(), Comparator.comparingInt(Category::getTier));
 
 		if (this instanceof SeasonalCategory) {
 			if (((SeasonalCategory) this).isUnlocked()) {
@@ -83,7 +84,7 @@ public class Category {
 			SlimefunPlugin.getUtilities().enabledCategories.add(this);
 		}
 		
-		Collections.sort(SlimefunPlugin.getUtilities().enabledCategories, SlimefunPlugin.getUtilities().categorySorter);
+		Collections.sort(SlimefunPlugin.getUtilities().enabledCategories, Comparator.comparingInt(Category::getTier));
 	}
 
 	/**

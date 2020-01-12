@@ -65,7 +65,6 @@ public final class Utilities {
 	 */
 	public final List<Category> allCategories = new ArrayList<>();
 	public final List<Category> enabledCategories = new ArrayList<>();
-	public final CategorySorter categorySorter = new CategorySorter();
 	
 	public final Set<ItemStack> radioactiveItems = new HashSet<>();
 	public final Map<String, Set<ItemHandler>> itemHandlers = new HashMap<>();

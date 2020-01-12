@@ -1,26 +1,24 @@
 package me.mrCookieSlime.Slimefun.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.ChatColor;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+@Deprecated
 public final class MachineHelper {
 	
 	private MachineHelper() {}
 	
 	public static String getTimeLeft(int seconds) {
 		String timeleft = "";
-        final int minutes = (int) (seconds / 60L);
+		
+        int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
             timeleft = String.valueOf(timeleft) + minutes + "m ";
         }
+        
         seconds -= minutes * 60;
         timeleft = String.valueOf(timeleft) + seconds + "s";
         return ChatColor.translateAlternateColorCodes('&', "&7" + timeleft + " left");
@@ -82,25 +80,9 @@ public final class MachineHelper {
 		int passed = ((total - time) % 25);
 		return Math.round(((((25 - passed) * 100.0F) / 25) * 100.0F) / 100.0F);
 	}
-
-	public static short getDurability(ItemStack item, int timeleft, int max) {
-		return (short) ((item.getType().getMaxDurability() / max) * timeleft);
-	}
 	
 	public static void updateProgressbar(BlockMenu menu, int slot, int timeleft, int time, ItemStack indicator) {
-		ItemStack item = indicator.clone();
-		ItemMeta im = item.getItemMeta();
-		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		((Damageable) im).setDamage(getDurability(item, timeleft, time));
-		im.setDisplayName(" ");
-		List<String> lore = new ArrayList<>();
-		lore.add(getProgress(timeleft, time));
-		lore.add("");
-		lore.add(getTimeLeft(timeleft / 2));
-		im.setLore(lore);
-		item.setItemMeta(im);
-		
-		menu.replaceExistingItem(slot, item);
+		ChestMenuUtils.updateProgressbar(menu, slot, timeleft, time, indicator);
 	}
 
 }

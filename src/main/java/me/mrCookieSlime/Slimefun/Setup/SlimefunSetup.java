@@ -2,7 +2,6 @@ package me.mrCookieSlime.Slimefun.Setup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -62,7 +61,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.AdvancedCargoOutputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoInputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoManagerBlock;
@@ -148,6 +146,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.GEOS
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.OilPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.ElevatorPlate;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.GPSTransmitter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.Teleporter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.reactors.NetherStarReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.reactors.NuclearReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.ArmorForge;
@@ -1050,7 +1049,7 @@ public final class SlimefunSetup {
 						}
 
 						Chest chest = (Chest) chestBlock.getState();
-						final Inventory inv = chest.getInventory();
+						Inventory inv = chest.getInventory();
 						List<Location> ores = new ArrayList<>();
 
 						for (int x = b.getX() - 4; x <= b.getX() + 4; x++) {
@@ -1063,8 +1062,8 @@ public final class SlimefunSetup {
 							}
 						}
 						if (!ores.isEmpty()) {
-							final Material ore = ores.get(0).getBlock().getType();
-							final ItemStack adding = new ItemStack(ore);
+							Material ore = ores.get(0).getBlock().getType();
+							ItemStack adding = new ItemStack(ore);
 							ores.get(0).getBlock().setType(Material.AIR);
 							ores.clear();
 							if (InvUtils.fits(inv, adding)) {
@@ -1099,7 +1098,7 @@ public final class SlimefunSetup {
 			private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
 			
 			@Override
-			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
+			public boolean onInteract(Player p, MultiBlock mb, Block b) {
 				if (mb.equals(((SlimefunMachine) SlimefunItem.getByID("ADVANCED_DIGITAL_MINER")).getMultiBlock())) {
 					p.sendMessage(ChatColor.DARK_RED + "THIS MACHINE WILL SOON BE REMOVED!");
 					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, SlimefunItems.ADVANCED_DIGITAL_MINER, true)) {
@@ -1111,7 +1110,7 @@ public final class SlimefunSetup {
 						}
 
 						Chest chest = (Chest) chestBlock.getState();
-						final Inventory inv = chest.getInventory();
+						Inventory inv = chest.getInventory();
 						List<Location> ores = new ArrayList<>();
 
 						for (int x = b.getX() - 6; x <= b.getX() + 6; x++) {
@@ -1124,8 +1123,9 @@ public final class SlimefunSetup {
 							}
 						}
 						if (!ores.isEmpty()) {
-							final Material ore = ores.get(0).getBlock().getType();
+							Material ore = ores.get(0).getBlock().getType();
 							ItemStack drop = new ItemStack(ore);
+							
 							if (ore == Material.COAL_ORE)  drop = new ItemStack(Material.COAL, 4);
 							else if (ore == Material.IRON_ORE) drop = new CustomItem(SlimefunItems.IRON_DUST, 2);
 							else if (ore == Material.GOLD_ORE)  drop = new CustomItem(SlimefunItems.GOLD_DUST, 2);
@@ -1133,10 +1133,11 @@ public final class SlimefunSetup {
 							else if (ore == Material.NETHER_QUARTZ_ORE)  drop = new ItemStack(Material.QUARTZ, 4);
 							else if (ore == Material.LAPIS_ORE)  drop = new ItemStack(Material.LAPIS_LAZULI, 12);
 							else {
-								for (ItemStack drops: ores.get(0).getBlock().getDrops(effectivePickaxe)) {
+								for (ItemStack drops : ores.get(0).getBlock().getDrops(effectivePickaxe)) {
 									if (!drops.getType().isBlock()) drop = new CustomItem(drops, 2);
 								}
 							}
+							
 							final ItemStack adding = drop;
 							ores.get(0).getBlock().setType(Material.AIR);
 							ores.clear();
@@ -2718,14 +2719,7 @@ public final class SlimefunSetup {
 		.register(true, new RainbowTicker(9, 10));
 
 		new Teleporter(Categories.GPS, (SlimefunItemStack) SlimefunItems.GPS_TELEPORTATION_MATRIX, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.GPS_CONTROL_PANEL, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.GPS_TELEPORTER_PYLON}) {
-			
-			@Override
-			public void onInteract(final Player p, final Block b) {
-				Slimefun.getGPSNetwork().openTeleporterGUI(p, UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), b, Slimefun.getGPSNetwork().getNetworkComplexity(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))));
-			}
-
-		}
+		new ItemStack[] {SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.GPS_CONTROL_PANEL, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.GPS_TELEPORTER_PYLON})
 		.register(true);
 
 		new SlimefunItem(Categories.GPS, (SlimefunItemStack) SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED, RecipeType.ENHANCED_CRAFTING_TABLE,

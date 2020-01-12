@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.hooks;
+package io.github.thebusybiscuit.slimefun4.core.hooks;
 
 import java.util.Iterator;
 

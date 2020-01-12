@@ -25,10 +25,13 @@
 ## Release Candidate 5 (TBD)
 
 ### Additions
+* Aded preset messages.yml files
 * Added user-configurable localization
+* Added many more options to the messages.yml
 
 ### Changes
 * Removed Solar Array
+* A lot of internal cleanup
 
 ### Fixes
 * Fixed #1355
