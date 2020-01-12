@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -134,34 +135,20 @@ public class WitherAssembler extends SlimefunItem {
 	
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		for (int i : border_1) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		for (int i : border_2) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.BROWN_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(Material.BROWN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
-		preset.addItem(1, new CustomItem(new ItemStack(Material.WITHER_SKELETON_SKULL, (byte) 1), "&7Wither Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"),
-			(p, slot, item, action) -> false
-		);
-		
-		preset.addItem(7, new CustomItem(new ItemStack(Material.SOUL_SAND), "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"),
-			(p, slot, item, action) -> false
-		);
-		
-		preset.addItem(13, new CustomItem(new ItemStack(Material.CLOCK), "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"),
-			(p, slot, item, action) -> false
-		);
+		preset.addItem(1, new CustomItem(Material.WITHER_SKELETON_SKULL, "&7Wither Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"), ChestMenuUtils.getEmptyClickHandler());
+		preset.addItem(7, new CustomItem(Material.SOUL_SAND, "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"), ChestMenuUtils.getEmptyClickHandler());
+		preset.addItem(13, new CustomItem(Material.CLOCK, "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"), ChestMenuUtils.getEmptyClickHandler());
 	}
 
 	public int[] getInputSlots() {
@@ -183,6 +170,7 @@ public class WitherAssembler extends SlimefunItem {
 			@Override
 			public void tick(Block b, SlimefunItem sf, Config data) {
 				if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
+				
 				if (lifetime % 60 == 0) {
 					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					
@@ -194,6 +182,7 @@ public class WitherAssembler extends SlimefunItem {
 					for (int slot : getSoulSandSlots()) {
 						if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
 							soulsand = soulsand + menu.getItemInSlot(slot).getAmount();
+							
 							if (soulsand > 3) {
 								soulsand = 4;
 								break;
@@ -204,6 +193,7 @@ public class WitherAssembler extends SlimefunItem {
 					for (int slot : getWitherSkullSlots()) {
 						if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
 							skulls = skulls + menu.getItemInSlot(slot).getAmount();
+							
 							if (skulls > 2) {
 								skulls = 3;
 								break;

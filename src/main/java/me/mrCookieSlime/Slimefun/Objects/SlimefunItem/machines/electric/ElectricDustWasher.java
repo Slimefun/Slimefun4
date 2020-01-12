@@ -1,12 +1,13 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -18,7 +19,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class ElectricDustWasher extends AContainer {
 	
@@ -41,10 +41,12 @@ public abstract class ElectricDustWasher extends AContainer {
 	@Override
 	protected void tick(Block b) {
 		BlockMenu menu = BlockStorage.getInventory(b);
+		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0 && getSpeed() < 10) {
-				MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -81,10 +83,10 @@ public abstract class ElectricDustWasher extends AContainer {
 						if (!emptySlot) return;
 					}
 					
-					ItemStack adding = items[new Random().nextInt(items.length)];
+					ItemStack adding = items[ThreadLocalRandom.current().nextInt(items.length)];
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {adding});
 					if (SlimefunPlugin.getSettings().legacyDustWasher && !menu.fits(r.getOutput()[0], getOutputSlots())) return;
-	                menu.consumeItem(slot);
+					menu.consumeItem(slot);
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;
@@ -92,7 +94,7 @@ public abstract class ElectricDustWasher extends AContainer {
 				else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER});
 					if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
-	                menu.consumeItem(slot);
+					menu.consumeItem(slot);
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;

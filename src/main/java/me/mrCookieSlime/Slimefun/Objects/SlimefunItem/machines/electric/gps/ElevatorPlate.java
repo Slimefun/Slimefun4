@@ -43,13 +43,14 @@ public class ElevatorPlate extends SimpleSlimefunItem<ItemInteractionHandler> {
 	@Override
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (e.getClickedBlock() == null) return false;
+			Block b = e.getClickedBlock();
+			if (b == null) return false;
 			
-			String id = BlockStorage.checkID(e.getClickedBlock());
+			String id = BlockStorage.checkID(b);
 			if (id == null || !id.equals(getID())) return false;
 
-			if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
-				Elevator.openEditor(p, e.getClickedBlock());
+			if (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString())) {
+				Elevator.openEditor(p, b);
 			}
 			
 			return true;

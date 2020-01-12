@@ -37,7 +37,6 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class AGenerator extends SlimefunItem implements RecipeDisplayItem {
 
@@ -170,8 +169,9 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 				BlockMenu inv = BlockStorage.getInventory(l);
 				if (isProcessing(l)) {
 					int timeleft = progress.get(l);
+					
 					if (timeleft > 0) {
-						MachineHelper.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
+						ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 						
 						if (ChargableBlock.isChargable(l)) {
 							if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction()) {

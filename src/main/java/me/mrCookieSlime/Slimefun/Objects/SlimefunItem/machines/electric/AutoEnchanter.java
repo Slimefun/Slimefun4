@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -24,7 +25,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public class AutoEnchanter extends AContainer {
 
@@ -52,8 +52,9 @@ public class AutoEnchanter extends AContainer {
 		BlockMenu menu = BlockStorage.getInventory(b.getLocation());
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -114,7 +115,7 @@ public class AutoEnchanter extends AContainer {
 							newItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
 						}
 						
-						for (ItemEnchantment ench: emeraldEnchantments) {
+						for (ItemEnchantment ench : emeraldEnchantments) {
 							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, ench.getEnchantment(), ench.getLevel());
 						}
 						

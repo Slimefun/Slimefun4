@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -30,7 +31,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class GEOMiner extends AContainer implements InventoryBlock, RecipeDisplayItem {
 	
@@ -159,8 +159,9 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(menu, 4, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(menu, 4, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());

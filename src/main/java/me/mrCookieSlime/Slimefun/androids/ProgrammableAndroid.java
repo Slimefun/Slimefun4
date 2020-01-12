@@ -1024,6 +1024,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 	public void addItems(Block b, ItemStack... items) {
 		BlockMenu inv = BlockStorage.getInventory(b);
+		
 		for (ItemStack item : items) {
 			inv.pushItem(item, getOutputSlots());
 		}

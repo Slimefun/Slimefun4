@@ -32,6 +32,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	
 	public XPCollector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
+		
 		createPreset(this, "&aEXP Collector", this::constructMenu);
 		
 		registerBlockHandler(getID(), new SlimefunBlockHandler() {

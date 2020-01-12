@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -21,7 +22,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
@@ -90,10 +90,12 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 	@Override
 	protected void tick(Block b) {
 		BlockMenu menu = BlockStorage.getInventory(b);
+		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0 && getSpeed() < 10) {
-				MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -120,8 +122,8 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 					
 					MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
 					if (!menu.fits(output, getOutputSlots())) return;
-
-	                menu.consumeItem(slot);
+					
+					menu.consumeItem(slot);
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;
@@ -131,8 +133,8 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 					
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
 					if (!menu.fits(output, getOutputSlots())) return;
-
-	                menu.consumeItem(slot);
+					
+					menu.consumeItem(slot);
 					processing.put(b, r);
 					progress.put(b, r.getTicks());
 					break;

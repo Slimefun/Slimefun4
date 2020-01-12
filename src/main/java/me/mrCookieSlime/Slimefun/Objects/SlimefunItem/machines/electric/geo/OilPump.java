@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
@@ -27,7 +28,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 
@@ -88,8 +88,9 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());

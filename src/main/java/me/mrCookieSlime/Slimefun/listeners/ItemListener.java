@@ -9,8 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Hopper;
-import org.bukkit.block.Skull;
-import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
@@ -33,13 +31,13 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
@@ -58,7 +56,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -76,7 +73,9 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
-		if (e.getInitiator().getHolder() instanceof Hopper && BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
+		InventoryHolder holder = e.getInitiator().getHolder();
+		
+		if (holder instanceof Hopper && BlockStorage.check(((Hopper) holder).getBlock(), "IGNITION_CHAMBER")) {
 			e.setCancelled(true);
 		}
 	}
@@ -116,79 +115,6 @@ public class ItemListener implements Listener {
 		ItemStack item = e.getItem();
 		if (item != null && !Slimefun.isEnabled(e.getPlayer(), item, true)) {
 			e.setCancelled(true);
-		}
-	}
-
-	@EventHandler
-	public void debug(PlayerInteractEvent e) {
-		if (e.getAction() == Action.PHYSICAL || e.getHand() != EquipmentSlot.HAND) return;
-
-		Player p = e.getPlayer();
-
-		if (SlimefunManager.isItemSimilar(e.getItem(), SlimefunItems.DEBUG_FISH, true)) {
-			e.setCancelled(true);
-			if (p.isOp()) {
-				switch (e.getAction()) {
-				case LEFT_CLICK_BLOCK:
-					if (p.isSneaking()) {
-						if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
-							BlockStorage.clearBlockInfo(e.getClickedBlock());
-						}
-					}
-					else e.setCancelled(false);
-					break;
-				case RIGHT_CLICK_BLOCK:
-					if (p.isSneaking()) {
-						Block b = e.getClickedBlock().getRelative(e.getBlockFace());
-						b.setType(Material.PLAYER_HEAD);
-						SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
-					}
-					else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
-						p.sendMessage(" ");
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d" + e.getClickedBlock().getType() + " &e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ()));
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dID: " + "&e" + BlockStorage.checkID(e.getClickedBlock())));
-						if (e.getClickedBlock().getState() instanceof Skull) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dSkull: " + "&2\u2714"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dRotation: &e" + ((Rotatable) e.getClickedBlock().getBlockData()).getRotation().toString()));
-						}
-						if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dInventory: " + "&2\u2714"));
-						}
-						else {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dInventory: " + "&4\u2718"));
-						}
-						if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&2\u2714"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dAsync: &e" + (BlockStorage.check(e.getClickedBlock()).getBlockTicker().isSynchronized() ? "&4\u2718": "&2\u2714")));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTotal Timings: &e" + SlimefunPlugin.getTicker().getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
-						}
-						else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&b~ &3(Indirect)"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
-						}
-						else {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&4\u2718"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&dTicking: " + "&4\u2718"));
-						}
-						if (ChargableBlock.isChargable(e.getClickedBlock())) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChargable: " + "&2\u2714"));
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "  &dEnergy: &e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock())));
-						}
-						else {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChargable: " + "&4\u2718"));
-						}
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock())));
-						p.sendMessage(" ");
-					}
-					break;
-				default:
-					break;
-
-				}
-			}
 		}
 	}
 

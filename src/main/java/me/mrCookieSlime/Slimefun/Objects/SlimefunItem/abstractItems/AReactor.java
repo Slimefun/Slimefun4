@@ -256,9 +256,11 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 				if (isProcessing(l)) {
 					extraTick(l);
 					int timeleft = progress.get(l);
+					
 					if (timeleft > 0) {
 						int produced = getEnergyProduction();
 						int space = ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l);
+						
 						if (space >= produced) {
 							ChargableBlock.addCharge(l, getEnergyProduction());
 							space -= produced;
@@ -270,7 +272,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 								if (!l.getBlock().getRelative(cooling[ThreadLocalRandom.current().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 							});
 
-							MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
+							ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
 							if (needsCooling()) {
 								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;

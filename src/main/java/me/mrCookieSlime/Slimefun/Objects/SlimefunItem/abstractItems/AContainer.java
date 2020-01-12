@@ -27,7 +27,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class AContainer extends SlimefunItem implements InventoryBlock {
 	
@@ -182,8 +181,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -193,7 +193,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 				else progress.put(b, timeleft - 1);
 			}
 			else {
-				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 				
 				for (ItemStack output : processing.get(b).getOutput()) {
 					inv.pushItem(output.clone(), getOutputSlots());

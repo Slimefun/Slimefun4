@@ -35,6 +35,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DamageListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
@@ -227,6 +228,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			new ItemPickupListener(this);
 			new DeathpointListener(this);
 			new ExplosionsListener(this);
+			new DebugFishListener(this);
 
 			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);

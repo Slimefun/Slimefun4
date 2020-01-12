@@ -25,8 +25,10 @@ public class InfernalBonemeal extends SimpleSlimefunItem<ItemInteractionHandler>
 		return (e, p, item) -> {
 			if (isItem(item)) {
 				Block b = e.getClickedBlock();
+				
 				if (b != null && b.getType() == Material.NETHER_WART) {
 					Ageable ageable = (Ageable) b.getBlockData();
+					
 					if (ageable.getAge() < ageable.getMaximumAge()) {
 						ageable.setAge(ageable.getMaximumAge());
 						b.setBlockData(ageable);
