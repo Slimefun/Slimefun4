@@ -117,7 +117,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<ItemInteractionHandler> {
 			if (i % 10 == 0) {
 				if (page != null) book.addPage(page);
 				
-				page = new ChatComponent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.pick-a-floor")));
+				page = new ChatComponent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.pick-a-floor")) + "\n");
 			}
 			
 			Block block = floors.get(i);
@@ -126,11 +126,11 @@ public class ElevatorPlate extends SimpleSlimefunItem<ItemInteractionHandler> {
 			
 			if (block.getY() == b.getY()) {
 				line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-				line.setHoverEvent(new HoverEvent(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor"), ChatColor.RESET + floor, ""));
+				line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor")), ChatColor.RESET + floor, ""));
 			}
 			else {
 				line = new ChatComponent("\n" + ChatColor.GRAY.toString() + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-				line.setHoverEvent(new HoverEvent(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport"), ChatColor.RESET + floor, ""));
+				line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), ChatColor.RESET + floor, ""));
 				line.setClickEvent(new ClickEvent(ClickEventAction.RUN_COMMAND, "/sf elevator " + block.getX() + ' ' + block.getY() + ' ' + block.getZ() + " "));
 			}
 			
