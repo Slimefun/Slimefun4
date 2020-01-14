@@ -28,6 +28,8 @@ import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.TimingsComma
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.VersionsCommand;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.ElevatorPlate;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -71,16 +73,16 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 					int x = Integer.parseInt(args[1]);
 					int y = Integer.parseInt(args[2]);
 					int z = Integer.parseInt(args[3]);
-
+					
 					if (BlockStorage.getLocationInfo(p.getWorld().getBlockAt(x, y, z).getLocation(), "floor") != null) {
-						SlimefunPlugin.getUtilities().elevatorUsers.add(p.getUniqueId());
+						((ElevatorPlate) SlimefunItem.getByID("ELEVATOR_PLATE")).getUsers().add(p.getUniqueId());
 						float yaw = p.getEyeLocation().getYaw() + 180;
 						if (yaw > 180) yaw = -180 + (yaw - 180);
 
 						p.teleport(new Location(p.getWorld(), x + 0.5, y + 0.4, z + 0.5, yaw, p.getEyeLocation().getPitch()));
 
-						String title = ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(p.getWorld().getBlockAt(x, y, z).getLocation(), "floor"));
-						p.sendTitle(title, " ", 20, 60, 20);
+						String floor = BlockStorage.getLocationInfo(p.getWorld().getBlockAt(x, y, z).getLocation(), "floor");
+						p.sendTitle(ChatColor.RESET + ChatColors.color(floor), " ", 20, 60, 20);
 					}
 				}
 				return true;

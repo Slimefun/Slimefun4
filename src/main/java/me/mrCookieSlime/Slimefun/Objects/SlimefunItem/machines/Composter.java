@@ -88,12 +88,13 @@ public class Composter extends SlimefunGadget {
 												p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 												b.getWorld().dropItemNaturally(b.getRelative(BlockFace.UP).getLocation(), adding);
 											}
-										}, i*30L);
+										}, i * 30L);
 									}
 
 									return true;
 								}
 							}
+							
 							SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
 							return true;
 						}

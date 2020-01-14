@@ -44,5 +44,17 @@ public final class NumberUtils {
 			return (hours / 24) + "d " + (hours % 24) + "h";
 		}
 	}
+	
+	public static String getTimeLeft(int seconds) {
+		String timeleft = "";
+		
+        int minutes = (int) (seconds / 60L);
+        if (minutes > 0) {
+            timeleft += minutes + "m ";
+        }
+        
+        seconds -= minutes * 60;
+        return timeleft + seconds + "s";
+	}
 
 }

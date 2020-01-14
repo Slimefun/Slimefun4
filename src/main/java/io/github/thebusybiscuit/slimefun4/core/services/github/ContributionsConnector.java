@@ -88,6 +88,7 @@ public class ContributionsConnector extends GitHubConnector {
 	    				name,
 						key -> new Contributor(aliases.getOrDefault(name, name), profile)
 				);
+	    		
 	    		contributor.setContribution(role, commits);
 	    	}
 	    }

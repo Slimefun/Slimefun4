@@ -14,7 +14,7 @@ public final class ChestManipulator {
 	}
 	
 	public static ItemStack trigger(Block b, int slot, ItemStack prev, ItemStack next) {
-		for (CargoTransportEvent listener: SlimefunPlugin.getUtilities().cargoTransportEvents) {
+		for (CargoTransportEvent listener : SlimefunPlugin.getUtilities().cargoTransportEvents) {
 			next = listener.onEvent(b, slot, prev, next);
 		}
 		

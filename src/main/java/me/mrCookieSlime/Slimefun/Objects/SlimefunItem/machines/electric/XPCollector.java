@@ -33,7 +33,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	public XPCollector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 		
-		createPreset(this, "&aEXP Collector", this::constructMenu);
+		createPreset(this, this::constructMenu);
 		
 		registerBlockHandler(getID(), new SlimefunBlockHandler() {
 			
@@ -45,6 +45,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
+				
 				if (inv != null) {
 					for (int slot : getOutputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {

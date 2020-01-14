@@ -39,7 +39,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 	public FluidPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 		
-		createPreset(this, "&9Fluid Pump", this::constructMenu);
+		createPreset(this, this::constructMenu);
 	}
 	
 	private void constructMenu(BlockMenuPreset preset) {

@@ -56,10 +56,12 @@
                     </execution>
                 </executions>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.1</version>
+                
                 <configuration>
                     <relocations>
                         <relocation>
@@ -72,6 +74,7 @@
                         </relocation>
                     </relocations>
                 </configuration>
+                
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -87,6 +90,7 @@
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
+                
                 <includes>
                     <include>*</include>
                     <include>languages/*</include>
@@ -111,7 +115,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.8.3</version>
+            <version>0.8.6</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

@@ -53,6 +53,7 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 							block.setType(e.getItem().getType());
 							BlockStorage.store(block, sfItem.getID());
 							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
+							
 							if (d.getInventory().containsAtLeast(e.getItem(), 2)) {
 								d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
 							}
@@ -63,6 +64,7 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 					}
 					else {
 						block.setType(e.getItem().getType());
+						
 						if (e.getItem().hasItemMeta() && e.getItem().getItemMeta() instanceof BlockStateMeta) {
 							BlockState itemBlockState = ((BlockStateMeta) e.getItem().getItemMeta()).getBlockState();
 							BlockState blockState = block.getState();
@@ -82,6 +84,7 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 							
 						}
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
+						
 						if (d.getInventory().containsAtLeast(e.getItem(), 2)) {
 							d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
 						}

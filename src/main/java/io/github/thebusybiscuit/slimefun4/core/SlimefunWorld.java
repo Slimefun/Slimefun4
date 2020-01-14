@@ -49,6 +49,7 @@ public class SlimefunWorld {
 		}
 		else {
 			BlockState state = b.getState();
+			
 			if (state instanceof TileState) {
 				Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
 				

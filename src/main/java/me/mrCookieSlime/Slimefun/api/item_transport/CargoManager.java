@@ -131,6 +131,7 @@ public final class CargoManager {
 		}
 		else {
 			BlockState state = target.getState();
+			
 			if (state instanceof InventoryHolder) {
 				Inventory inv = ((InventoryHolder) state).getInventory();
 				

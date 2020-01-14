@@ -12,8 +12,9 @@ public class BackpackInventory {
 	private final PlayerProfile profile;
 	private final int id;
 	private final Config cfg;
-	private int size;
+
 	private Inventory inventory;
+	private int size;
 
 	/**
 	 * This constructor loads an existing Backpack

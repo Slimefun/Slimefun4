@@ -506,7 +506,7 @@ public class SlimefunItem implements Placeable {
 	public static boolean isTicking(String item) {
 		return SlimefunPlugin.getUtilities().tickers.contains(item);
 	}
-
+	
 	public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
 		SlimefunPlugin.getUtilities().blockHandlers.put(id, handler);
 	}

@@ -29,7 +29,7 @@ public class GitHubTask implements Runnable {
 			if (!contributor.hasTexture()) {
 				try {
 					if (skins.containsKey(contributor.getMinecraftName())) {
-						contributor.setTexture(Optional.of(skins.get(contributor.getMinecraftName())));
+						contributor.setTexture(skins.get(contributor.getMinecraftName()));
 					}
 					else {
 						contributor.setTexture(grabTexture(skins, contributor.getMinecraftName()));
@@ -37,7 +37,7 @@ public class GitHubTask implements Runnable {
 				}
 				catch(IllegalArgumentException x) {
 					// There cannot be a texture found because it is not a valid MC username
-					contributor.setTexture(Optional.empty());
+					contributor.setTexture(null);
 				}
 				catch(TooManyRequestsException x) {
 					break;
@@ -46,16 +46,16 @@ public class GitHubTask implements Runnable {
 		}
 	}
 
-	private Optional<String> grabTexture(Map<String, String> skins, String username) throws TooManyRequestsException {
+	private String grabTexture(Map<String, String> skins, String username) throws TooManyRequestsException {
 		Optional<UUID> uuid = MinecraftAccount.getUUID(username);
 		
 		if (uuid.isPresent()) {
 			Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
 			skins.put(username, skin.orElse(""));
-			return skin;
+			return skin.orElse(null);
 		}
 		else {
-			return Optional.empty();
+			return null;
 		}
 	}
 

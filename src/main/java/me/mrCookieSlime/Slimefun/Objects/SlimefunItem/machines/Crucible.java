@@ -84,8 +84,10 @@ public class Crucible extends SlimefunGadget {
 								if (block.getType() == (water ? Material.WATER : Material.LAVA)) {
 									int level = ((Levelled) block.getBlockData()).getLevel();
 									
-									if (level > 7)
+									if (level > 7) {
 										level -= 8;
+									}
+									
 									if (level == 0) {
 										block.getWorld().playSound(block.getLocation(), water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1F, 1F);
 									} 
@@ -93,6 +95,7 @@ public class Crucible extends SlimefunGadget {
 										int finalLevel = 7 - level;
 										Slimefun.runSync(() -> runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, finalLevel), 50L);
 									}
+									
 									return true;
 								} 
 								else if (block.getType() == (water ? Material.LAVA : Material.WATER)) {
@@ -112,6 +115,7 @@ public class Crucible extends SlimefunGadget {
 												block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 												return;
 											}
+											
 											block.getWorld().playSound(block.getLocation(), Sound.BLOCK_METAL_BREAK, 1F, 1F);
 											return;
 										}
@@ -122,6 +126,7 @@ public class Crucible extends SlimefunGadget {
 										
 										block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
 									}
+									
 									block.setType(water ? Material.WATER : Material.LAVA);
 									runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1);
 								}, 50L);
@@ -129,6 +134,7 @@ public class Crucible extends SlimefunGadget {
 								return true;
 							}
 						}
+						
 						SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
 						return true;
 					}
@@ -151,8 +157,9 @@ public class Crucible extends SlimefunGadget {
 		le.setLevel(level);
 		block.setBlockData(le, false);
 		
-		if (times < 8)
+		if (times < 8) {
 			Slimefun.runSync(() -> runPostTask(block, sound, times + 1), 50L);
+		}
 	}
 
 }

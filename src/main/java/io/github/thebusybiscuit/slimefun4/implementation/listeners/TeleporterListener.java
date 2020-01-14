@@ -11,8 +11,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.ElevatorPlate;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.Teleporter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -26,7 +26,7 @@ public class TeleporterListener implements Listener {
 	}
 
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
-	public void onStarve(PlayerInteractEvent e) {
+	public void onPressurePlateEnter(PlayerInteractEvent e) {
 		if (e.getAction() != Action.PHYSICAL || e.getClickedBlock() == null) return;
 
 		String id = BlockStorage.checkID(e.getClickedBlock());
@@ -46,7 +46,7 @@ public class TeleporterListener implements Listener {
 			}
 		}
 		else if (id.equals("ELEVATOR_PLATE")) {
-			Elevator.openDialogue(e.getPlayer(), e.getClickedBlock());
+			((ElevatorPlate) SlimefunItem.getByID("ELEVATOR_PLATE")).open(e.getPlayer(), e.getClickedBlock());
 		}
 	}
 

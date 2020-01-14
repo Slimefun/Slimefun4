@@ -100,6 +100,7 @@ public class ArmorTask implements Runnable {
 			if (SlimefunManager.isItemSimilar(item, radioactiveItem, true) && Slimefun.isEnabled(p, radioactiveItem, false)) {
 				// If the item is enabled in the world, then make radioactivity do its job
 				SlimefunPlugin.getLocal().sendMessage(p, "messages.radiation");
+				
 				Slimefun.runSync(() -> {
 					p.addPotionEffects(radiationEffects);
 					p.setFireTicks(400);

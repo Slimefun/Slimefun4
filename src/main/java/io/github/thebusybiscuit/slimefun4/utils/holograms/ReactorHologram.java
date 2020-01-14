@@ -1,10 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.utils.holograms;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class ReactorHologram {
@@ -32,7 +32,7 @@ public final class ReactorHologram {
 		Slimefun.runSync(() -> {
 			ArmorStand hologram = getArmorStand(l, true);
 			if (!hologram.isCustomNameVisible()) hologram.setCustomNameVisible(true);
-			hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
+			hologram.setCustomName(ChatColors.color(name));
 		});
 	}
 }

@@ -23,6 +23,10 @@ public interface InventoryBlock {
 	int[] getInputSlots();
 	int[] getOutputSlots();
 	
+	default void createPreset(SlimefunItem item, Consumer<BlockMenuPreset> setup) {
+		createPreset(item, item.getItemName(), setup);
+	}
+	
 	default void createPreset(SlimefunItem item, String title, Consumer<BlockMenuPreset> setup) {
 		new BlockMenuPreset(item.getID(), title) {
 			

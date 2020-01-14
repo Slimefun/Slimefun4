@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.ChatColor;
+
+import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
 
 /**
  * Represents a contributor on Slimefun4's GitHub repository.
@@ -23,11 +24,7 @@ public class Contributor {
 	private final String mcName;
 	private final String profileLink;
 	private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
-
-	// This field is nullable.
-	// null = "Texture was not pulled yet or failed to pull, it will try again next time"
-	// empty Optional = "No Texture could be found for this person.
-	private Optional<String> headTexture;
+	private final ComputedOptional<String> headTexture = ComputedOptional.createNew();
 	
 	public Contributor(String name, String profile) {
 		ghName = profile.substring(profile.lastIndexOf('/') + 1);
@@ -36,9 +33,9 @@ public class Contributor {
 	}
 	
 	public Contributor(String name) {
-		this.ghName = name;
-		this.mcName = name;
-		this.profileLink = null;
+		ghName = name;
+		mcName = name;
+		profileLink = null;
 	}
 	
 	public void setContribution(String role, int commits) {
@@ -89,7 +86,7 @@ public class Contributor {
 	 * @return A Base64-Head Texture
 	 */
 	public String getTexture() {
-		if (headTexture == null || !headTexture.isPresent()) {
+		if (!headTexture.isComputed() || !headTexture.isPresent()) {
 			return PLACEHOLDER_HEAD;
 		}
 		else {
@@ -104,11 +101,11 @@ public class Contributor {
 	 * @return	Whether this {@link Contributor} has been assigned a texture yet
 	 */
 	public boolean hasTexture() {
-		return headTexture != null;
+		return headTexture.isComputed();
 	}
 
-	public void setTexture(Optional<String> skin) {
-		headTexture = skin;
+	public void setTexture(String skin) {
+		headTexture.compute(skin);
 	}
 	
 	public int getTotalContributions() {

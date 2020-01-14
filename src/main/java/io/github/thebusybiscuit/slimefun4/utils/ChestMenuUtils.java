@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -81,7 +82,7 @@ public final class ChestMenuUtils {
 		}
 		
 		im.setDisplayName(" ");
-		im.setLore(Arrays.asList(getProgressBar(timeleft, time), "", getTimeLeft(timeleft / 2)));
+		im.setLore(Arrays.asList(getProgressBar(timeleft, time), "", ChatColor.GRAY + NumberUtils.getTimeLeft(timeleft / 2) + " left"));
 		item.setItemMeta(im);
 		
 		menu.replaceExistingItem(slot, item);
@@ -111,20 +112,7 @@ public final class ChestMenuUtils {
 		}
 		
 		progress.append(" - " + percentage + "%");
-		return ChatColor.translateAlternateColorCodes('&', progress.toString());
-	}
-	
-	private static String getTimeLeft(int seconds) {
-		String timeleft = "";
-		
-        int minutes = (int) (seconds / 60L);
-        if (minutes > 0) {
-            timeleft = String.valueOf(timeleft) + minutes + "m ";
-        }
-        
-        seconds -= minutes * 60;
-        timeleft = String.valueOf(timeleft) + seconds + "s";
-        return ChatColor.translateAlternateColorCodes('&', "&7" + timeleft + " left");
+		return ChatColors.color(progress.toString());
 	}
 
 	private static short getDurability(ItemStack item, int timeleft, int max) {

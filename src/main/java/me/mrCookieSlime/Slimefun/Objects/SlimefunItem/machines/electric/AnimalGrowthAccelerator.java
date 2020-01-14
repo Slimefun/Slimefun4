@@ -31,7 +31,8 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 	
 	public AnimalGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
-		createPreset(this, "&bGrowth Accelerator", this::constructMenu);
+		
+		createPreset(this, this::constructMenu);
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
@@ -82,6 +83,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 	
 	protected void tick(Block b) {
 		BlockMenu inv = BlockStorage.getInventory(b);
+		
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 3.0, 3.0, 3.0, n -> n instanceof Ageable && n.isValid() && !((Ageable) n).isAdult())) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {

@@ -42,10 +42,11 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 
 	public CropGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
-		createPreset(this, "&bGrowth Accelerator", this::constructMenu);
+		createPreset(this, this::constructMenu);
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
+			
 			if (inv != null) {
 				for (int slot : getInputSlots()) {
 					if (inv.getItemInSlot(slot) != null) {

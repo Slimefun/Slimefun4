@@ -114,7 +114,6 @@ public final class Utilities {
 	public final List<UUID> blocks = new ArrayList<>();
 	public final List<UUID> cancelPlace = new ArrayList<>();
 	
-	public final Set<UUID> elevatorUsers = new HashSet<>();
 	public final Set<UUID> teleporterUsers = new HashSet<>();
 	
 	public final Map<String, OreGenResource> resources = new HashMap<>();

@@ -95,9 +95,7 @@ public class LocalizationService extends SlimefunLocalization {
 	private void setLanguage(String language, boolean reset) {
 		// Clearing out the old Language (if necessary)
 		if (reset) {
-			for (String key : getConfig().getKeys()) {
-				getConfig().setValue(key, null);
-			}
+			getConfig().clear();
 		}
 
 		Slimefun.getLogger().log(Level.INFO, "Loading language \"{0}\"", language);

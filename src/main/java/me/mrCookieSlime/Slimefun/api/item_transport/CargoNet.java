@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.api.item_transport;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -22,6 +22,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
@@ -48,8 +49,7 @@ public class CargoNet extends Network {
 	// Chest Terminal Stuff
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
 	public static final int TERMINAL_OUT_SLOT = 17;
-
-	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
+	
 	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = (p, slot, item, action) -> false;
 
@@ -142,7 +142,7 @@ public class CargoNet extends Network {
 		}
 	}
 
-	public void tick(final Block b) {
+	public void tick(Block b) {
 		if (!regulator.equals(b.getLocation())) {
 			SimpleHologram.update(b, "&4Multiple Cargo Regulators connected");
 			return;
@@ -466,7 +466,7 @@ public class CargoNet extends Network {
 						}
 					}
 
-					Collections.sort(items, sorter);
+					Collections.sort(items, Comparator.comparingInt(item -> -item.getAmount()));
 
 					for (Location l : terminals) {
 						BlockMenu menu = BlockStorage.getInventory(l);
@@ -481,15 +481,16 @@ public class CargoNet extends Network {
 							int slot = terminal_slots[i];
 							
 							if (items.size() > i + (terminal_slots.length * (page - 1))) {
-								final StoredItem item = items.get(i + (terminal_slots.length * (page - 1)));
+								StoredItem item = items.get(i + (terminal_slots.length * (page - 1)));
 
 								ItemStack stack = item.getItem().clone();
 								ItemMeta im = stack.getItemMeta();
 								List<String> lore = new ArrayList<>();
 								lore.add("");
-								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
-								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
-								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
+								lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
+								
+								if (stack.getMaxStackSize() > 1) lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
+								else lore.add(ChatColors.color("&7<Left Click: Request 1>"));
 
 								lore.add("");
 								if (im.hasLore()) {
@@ -521,6 +522,7 @@ public class CargoNet extends Network {
 		if (block.getBlockData() instanceof Directional) {
 			return block.getRelative(((Directional) block.getBlockData()).getFacing().getOppositeFace());
 		}
+		
 		return null;
 	}
 

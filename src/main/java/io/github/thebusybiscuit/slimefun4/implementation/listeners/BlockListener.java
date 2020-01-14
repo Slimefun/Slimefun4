@@ -201,6 +201,7 @@ public class BlockListener implements Listener {
 			
 			if (sfItem == null) {
 				BlockState state = block2.getState();
+				
 				if (state instanceof TileState) {
 					Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
 					
@@ -212,6 +213,7 @@ public class BlockListener implements Listener {
 			
 			if (sfItem != null && !(sfItem instanceof HandledBlock)) {
 				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+				
 				if (blockHandler != null) {
 					allow = blockHandler.onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
 				} 

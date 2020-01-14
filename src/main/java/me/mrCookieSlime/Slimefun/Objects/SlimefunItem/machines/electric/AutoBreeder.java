@@ -31,7 +31,8 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 	
 	public AutoBreeder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
-		createPreset(this, "&6Auto Breeder", this::constructMenu);
+		
+		createPreset(this, this::constructMenu);
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
@@ -91,7 +92,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 					inv.consumeItem(slot);
 					
 					((Animals) n).setLoveModeTicks(600);
-					n.getWorld().spawnParticle(Particle.HEART,((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
+					n.getWorld().spawnParticle(Particle.HEART, ((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
 					return;
 				}
 			}

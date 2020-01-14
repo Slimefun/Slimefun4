@@ -50,8 +50,10 @@ public final class MiscSetup {
 	
 	public static void loadItems(ConfigCache settings) {
 		Iterator<SlimefunItem> iterator = SlimefunItem.list().iterator();
+		
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
+			
 			if (item == null) {
 				Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
 				iterator.remove();
@@ -66,7 +68,7 @@ public final class MiscSetup {
 		List<SlimefunItem> init = new ArrayList<>();
 		List<SlimefunItem> post = new ArrayList<>();
 		
-		for (SlimefunItem item: SlimefunItem.list()) {
+		for (SlimefunItem item : SlimefunItem.list()) {
 			if (item instanceof Alloy || item instanceof ReplacingAlloy) pre.add(item);
 			else if (item instanceof SlimefunMachine) init.add(item);
 			else post.add(item);
@@ -110,6 +112,7 @@ public final class MiscSetup {
 			for (ItemStack[] inputs : RecipeType.getRecipeInputList(machine)) {
 				StringBuilder builder = new StringBuilder();
 				int i = 0;
+				
 				for (ItemStack item : inputs) {
 					if (i > 0) {
 						builder.append(" </slot> ");
@@ -130,8 +133,11 @@ public final class MiscSetup {
 		SlimefunItem grinder = SlimefunItem.getByID("GRIND_STONE");
 		if (grinder != null) {
 			ItemStack[] input = null;
+			
 			for (ItemStack[] recipe : ((SlimefunMachine) grinder).getRecipes()) {
-				if (input == null) input = recipe;
+				if (input == null) {
+					input = recipe;
+				}
 				else {
 					if (input[0] != null && recipe[0] != null) {
 						grinderRecipes.add(new ItemStack[] {input[0], recipe[0]});
@@ -144,8 +150,11 @@ public final class MiscSetup {
 		SlimefunItem crusher = SlimefunItem.getByID("ORE_CRUSHER");
 		if (crusher != null) {
 			ItemStack[] input = null;
+			
 			for (ItemStack[] recipe : ((SlimefunMachine) crusher).getRecipes()) {
-				if (input == null) input = recipe;
+				if (input == null) {
+					input = recipe;
+				}
 				else {
 					if (input[0] != null && recipe[0] != null) {
 						grinderRecipes.add(new ItemStack[] {input[0], recipe[0]});
@@ -169,7 +178,9 @@ public final class MiscSetup {
 			ItemStack[] input = null;
 			
 			for (ItemStack[] recipe : ((SlimefunMachine) smeltery).getRecipes()) {
-				if (input == null) input = recipe;
+				if (input == null) {
+					input = recipe;
+				}
 				else {
 					if (input[0] != null && recipe[0] != null) {
 						List<ItemStack> inputs = new ArrayList<>();

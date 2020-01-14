@@ -111,17 +111,22 @@ machines:
     obstructed: '&4Pedestal is obstructed! &cRemove anything above the pedestal!'
 
   HOLOGRAM_PROJECTOR:
-    enter-text: '&7Please enter your desired Hologram Text in your Chat. &r(Color Codes are supported!)'
+    enter-text: '&7Please enter your desired Hologram Text into your Chat. &r(Color Codes are supported!)'
 
   ELEVATOR:
     no-destinations: '&4No destinations found'
+    pick-a-floor: '&3- Pick a floor -'
+    current-floor: '&eThis is the floor you are currently on:'
+    click-to-teleport: '&eClick &7to teleport to this floor:'
+    enter-name: '&7Please enter your desired floor name into your Chat. &r(Color Codes are supported!)'
+    named: '&2Successfully named this floor: &r%floor%'
     
   TELEPORTER:
     teleporting: '&3Teleporting...'
     teleported: '&3Teleported!'
     cancelled: '&4Teleportation cancelled!'
     invulnerability: '&b&lYou have been given 30 seconds of Invulnerability!'
-
+    
   CARGO_NODES:
     must-be-placed: '&4Must be placed onto a chest or machine!'
 

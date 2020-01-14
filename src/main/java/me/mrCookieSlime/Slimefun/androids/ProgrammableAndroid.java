@@ -1036,7 +1036,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 			@Override
 			public void tick(Block b, SlimefunItem sf, me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config data) {
-				if (b != null) ProgrammableAndroid.this.tick(b);
+				if (b != null) {
+					ProgrammableAndroid.this.tick(b);
+				}
 			}
 
 			@Override

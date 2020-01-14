@@ -20,11 +20,12 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 public class TrashCan extends SlimefunItem implements InventoryBlock {
 	
 	private static final int[] BORDER = {0, 1, 2, 3, 5, 4, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-	private static final ItemStack BACKGROUND = new CustomItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), " ");
+	private static final ItemStack BACKGROUND = new CustomItem(Material.RED_STAINED_GLASS_PANE, " ");
 	
 	public TrashCan(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
-		createPreset(this, "&4Trash Can", this::constructMenu);
+		
+		createPreset(this, this::constructMenu);
 	}
 	
 	private void constructMenu(BlockMenuPreset preset) {
