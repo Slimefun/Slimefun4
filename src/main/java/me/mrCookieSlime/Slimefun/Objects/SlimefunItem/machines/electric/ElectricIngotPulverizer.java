@@ -47,7 +47,7 @@ public class ElectricIngotPulverizer extends AContainer implements RecipeDisplay
 	public List<ItemStack> getDisplayRecipes() {
 		List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
 		
-		for (MachineRecipe recipe: recipes) {
+		for (MachineRecipe recipe : recipes) {
 			displayRecipes.add(recipe.getInput()[0]);
 			displayRecipes.add(recipe.getOutput()[0]);
 		}

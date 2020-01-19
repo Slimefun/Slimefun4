@@ -1,17 +1,16 @@
 package me.mrCookieSlime.Slimefun.api.network;
 
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.List;
-import java.util.Queue;
-import java.util.HashSet;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.logging.Level;
 
 import org.bukkit.Location;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_13.ParticleEffect;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public abstract class Network {
@@ -19,22 +18,22 @@ public abstract class Network {
 	private static List<Network> networkList = new ArrayList<>();
 	
 	public static<T extends Network> T getNetworkFromLocation(Location l, Class<T> type) {
-		for(Network n: networkList) {
-			if(type.isInstance(n) && n.connectsTo(l)) {
-				return type.cast(n);
+		for (Network network : networkList) {
+			if (type.isInstance(network) && network.connectsTo(l)) {
+				return type.cast(network);
 			}
 		}
 		return null;
 	}
 
 	public static<T extends Network> List<T> getNetworksFromLocation(Location l, Class<T> type) {
-		List<T> ret = new ArrayList<>();
-		for(Network n: networkList) {
-			if(type.isInstance(n) && n.connectsTo(l)) {
-				ret.add(type.cast(n));
+		List<T> list = new ArrayList<>();
+		for (Network network : networkList) {
+			if (type.isInstance(network) && network.connectsTo(l)) {
+				list.add(type.cast(network));
 			}
 		}
-		return ret;
+		return list;
 	}
 
 	public static void registerNetwork(Network n) {
@@ -46,7 +45,7 @@ public abstract class Network {
 	}
 
 	public static void handleAllNetworkLocationUpdate(Location l) {
-		for(Network n: getNetworksFromLocation(l, Network.class)) {
+		for (Network n : getNetworksFromLocation(l, Network.class)) {
 			n.handleLocationUpdate(l);
 		}
 	}
@@ -70,18 +69,20 @@ public abstract class Network {
 	}
 
 	protected void addLocationToNetwork(Location l) {
-		if(connectedLocations.contains(l)) {
+		if (connectedLocations.contains(l)) {
 			return;
 		}
+		
 		connectedLocations.add(l.clone());
 		handleLocationUpdate(l);
 	}
 
 	public void handleLocationUpdate(Location l) {
-		if(regulator.equals(l)) {
+		if (regulator.equals(l)) {
 			unregisterNetwork(this);
 			return;
 		}
+		
 		nodeQueue.add(l.clone());
 	}
 
@@ -90,20 +91,22 @@ public abstract class Network {
 	}
 
 	private NetworkComponent getCurrentClassification(Location l) {
-		if(regulatorNodes.contains(l)) {
+		if (regulatorNodes.contains(l)) {
 			return NetworkComponent.REGULATOR;
 		} 
-		else if(connectorNodes.contains(l)) {
+		else if (connectorNodes.contains(l)) {
 			return NetworkComponent.CONNECTOR;
 		} 
-		else if(terminusNodes.contains(l)) {
+		else if (terminusNodes.contains(l)) {
 			return NetworkComponent.TERMINUS;
 		}
+		
 		return null;
 	}
 
 	private void discoverStep() {
 		int steps = 0;
+		
 		while (nodeQueue.peek() != null) {
 			Location l = nodeQueue.poll();
 			NetworkComponent currentAssignment = getCurrentClassification(l);
@@ -134,14 +137,14 @@ public abstract class Network {
 				locationClassificationChange(l, currentAssignment, classification);
 			}
 			steps += 1;
-			// TODO: Consider making this a configuration option so that it can be increased for servers
+			// Consider making this a configuration option so that it can be increased for servers
 			// that can deal with the load.
 			if(steps == 500) break;
 		}
 	}
 
 	private void discoverNeighbors(Location l, double xDiff, double yDiff, double zDiff) {
-		for(int i = getRange() + 1; i > 0; i --) {
+		for (int i = getRange() + 1; i > 0; i --) {
 			Location newLocation = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
 			addLocationToNetwork(newLocation);
 		}
@@ -157,8 +160,8 @@ public abstract class Network {
 	}
 
 	public void display() {
-		SlimefunPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
-			for(Location l: connectedLocations) {
+		Slimefun.runSync(() -> {
+			for (Location l : connectedLocations) {
 				try {
 					ParticleEffect.REDSTONE.display(l.clone().add(0.5, 0.5, 0.5), 0, 0, 0, 1, 1);
 				} catch(Exception x) {

@@ -9,17 +9,18 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 public class RainbowTicker extends BlockTicker {
+
+	private final int[] sequence;
 	
 	private int meta;
 	private int index;
-	private int[] queue;
 
 	public RainbowTicker() {
 		this(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
 	}
 
 	public RainbowTicker(int... data) {
-		this.queue = data;
+		this.sequence = data;
 		meta = data[0];
 		index = 0;
 	}
@@ -49,8 +50,8 @@ public class RainbowTicker extends BlockTicker {
 
 	@Override
 	public void uniqueTick() {
-		index = ((index >= queue.length - 1) ? 0: index + 1);
-		meta = queue[index];
+		index = ((index >= sequence.length - 1) ? 0: index + 1);
+		meta = sequence[index];
 	}
 
 	@Override

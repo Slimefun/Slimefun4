@@ -3,23 +3,24 @@ package me.mrCookieSlime.Slimefun.api.energy;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.utils.holograms.EnergyHologram;
+import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
-import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 public class EnergyNet extends Network {
 
 	private static final int RANGE = 6;
-	
+
 	public static EnergyNetComponent getComponent(Block b) {
 		return getComponent(b.getLocation());
 	}
@@ -62,10 +63,12 @@ public class EnergyNet extends Network {
 
 	public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
 		EnergyNet energyNetwork = getNetworkFromLocation(l);
+
 		if (energyNetwork == null) {
 			energyNetwork = new EnergyNet(l);
 			registerNetwork(energyNetwork);
 		}
+
 		return energyNetwork;
 	}
 
@@ -84,13 +87,13 @@ public class EnergyNet extends Network {
 	public NetworkComponent classifyLocation(Location l) {
 		if (regulator.equals(l)) return NetworkComponent.REGULATOR;
 		switch (getComponent(l)) {
-			case DISTRIBUTOR:
-				return NetworkComponent.CONNECTOR;
-			case CONSUMER:
-			case SOURCE:
-				return NetworkComponent.TERMINUS;
-			default:
-				return null;
+		case DISTRIBUTOR:
+			return NetworkComponent.CONNECTOR;
+		case CONSUMER:
+		case SOURCE:
+			return NetworkComponent.TERMINUS;
+		default:
+			return null;
 		}
 	}
 
@@ -99,25 +102,25 @@ public class EnergyNet extends Network {
 			input.remove(l);
 			output.remove(l);
 		}
-		
+
 		switch (getComponent(l)) {
-			case DISTRIBUTOR:
-				if (ChargableBlock.isCapacitor(l)) storage.add(l);
-				break;
-			case CONSUMER:
-				output.add(l);
-				break;
-			case SOURCE:
-				input.add(l);
-				break;
-			default:
-				break;
+		case DISTRIBUTOR:
+			if (ChargableBlock.isCapacitor(l)) storage.add(l);
+			break;
+		case CONSUMER:
+			output.add(l);
+			break;
+		case SOURCE:
+			input.add(l);
+			break;
+		default:
+			break;
 		}
 	}
 
 	public void tick(Block b) {
 		if (!regulator.equals(b.getLocation())) {
-			EnergyHologram.update(b, "&4Multiple Energy Regulators connected");
+			SimpleHologram.update(b, "&4Multiple Energy Regulators connected");
 			return;
 		}
 		super.tick();
@@ -125,11 +128,12 @@ public class EnergyNet extends Network {
 		double demand = 0.0D;
 
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-			EnergyHologram.update(b, "&4No Energy Network found");
+			SimpleHologram.update(b, "&4No Energy Network found");
 		}
 		else {
 			Set<Location> exploded = new HashSet<>();
-			for (final Location source: input) {
+
+			for (Location source : input) {
 				long timestamp = System.currentTimeMillis();
 				SlimefunItem item = BlockStorage.check(source);
 				double energy = item.getEnergyTicker().generateEnergy(source, item, BlockStorage.getLocationInfo(source));
@@ -137,7 +141,8 @@ public class EnergyNet extends Network {
 				if (item.getEnergyTicker().explode(source)) {
 					exploded.add(source); 
 					BlockStorage.clearBlockInfo(source);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+
+					Slimefun.runSync(() -> {
 						source.getBlock().setType(Material.LAVA);
 						source.getWorld().createExplosion(source, 0F, false);
 					});
@@ -150,18 +155,20 @@ public class EnergyNet extends Network {
 
 			input.removeAll(exploded);
 
-			for (Location battery: storage) {
+			for (Location battery : storage) {
 				supply = supply + ChargableBlock.getCharge(battery);
 			}
 
 			int available = (int) DoubleHandler.fixDouble(supply);
 
-			for (Location destination: output) {
+			for (Location destination : output) {
 				int capacity = ChargableBlock.getMaxCharge(destination);
 				int charge = ChargableBlock.getCharge(destination);
+
 				if (charge < capacity) {
 					int rest = capacity - charge;
 					demand = demand + rest;
+
 					if (available > 0) {
 						if (available > rest) {
 							ChargableBlock.setUnsafeCharge(destination, capacity, false);
@@ -175,7 +182,7 @@ public class EnergyNet extends Network {
 				}
 			}
 
-			for (Location battery: storage) {
+			for (Location battery : storage) {
 				if (available > 0) {
 					int capacity = ChargableBlock.getMaxCharge(battery);
 
@@ -191,7 +198,7 @@ public class EnergyNet extends Network {
 				else ChargableBlock.setUnsafeCharge(battery, 0, true);
 			}
 
-			for (Location source: input) {
+			for (Location source : input) {
 				if (ChargableBlock.isChargable(source)) {
 					if (available > 0) {
 						int capacity = ChargableBlock.getMaxCharge(source);

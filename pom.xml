@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.2-git-191217</version>
+    <version>4.2-UNOFFCIAL-200119</version>
     
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -41,7 +41,7 @@
     
     <build>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-        <finalName>${project.name} v${project.version}</finalName>
+        <finalName>${project.name}-v${project.version}</finalName>
         
         <plugins>
             <plugin>
@@ -56,10 +56,12 @@
                     </execution>
                 </executions>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.1</version>
+                
                 <configuration>
                     <relocations>
                         <relocation>
@@ -72,6 +74,7 @@
                         </relocation>
                     </relocations>
                 </configuration>
+                
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -87,8 +90,10 @@
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
+                
                 <includes>
                     <include>*</include>
+                    <include>languages/*</include>
                 </includes>
             </resource>
         </resources>
@@ -98,25 +103,25 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.15-R0.1-SNAPSHOT</version>
+            <version>1.15.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <version>ec5b4c24e3</version>
+            <version>e3242c600b</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.7.6</version>
+            <version>0.8.8</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>1.5</version>
+            <version>1.6</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -22,6 +22,10 @@ public interface InventoryBlock {
 	
 	int[] getInputSlots();
 	int[] getOutputSlots();
+	
+	default void createPreset(SlimefunItem item, Consumer<BlockMenuPreset> setup) {
+		createPreset(item, item.getItemName(), setup);
+	}
 	
 	default void createPreset(SlimefunItem item, String title, Consumer<BlockMenuPreset> setup) {
 		new BlockMenuPreset(item.getID(), title) {

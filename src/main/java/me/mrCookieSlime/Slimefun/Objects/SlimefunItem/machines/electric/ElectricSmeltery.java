@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -10,10 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -23,8 +24,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.api.item_transport.RecipeSorter;
 
 public abstract class ElectricSmeltery extends AContainer {
 	
@@ -53,7 +54,7 @@ public abstract class ElectricSmeltery extends AContainer {
 			}
 
 			@Override
-			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
+			public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
 				
 				List<Integer> slots = new ArrayList<>();
@@ -68,7 +69,7 @@ public abstract class ElectricSmeltery extends AContainer {
 					return getInputSlots();
 				}
 				else {
-					Collections.sort(slots, new RecipeSorter(menu));
+					Collections.sort(slots, compareSlots(menu));
 					int[] array = new int[slots.size()];
 					
 					for (int i = 0; i < slots.size(); i++) {
@@ -105,6 +106,10 @@ public abstract class ElectricSmeltery extends AContainer {
 		});
 		
 		this.registerDefaultRecipes();
+	}
+	
+	private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
+		return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
 	}
 
 	@Override

@@ -47,13 +47,14 @@ public final class SlimefunBackup {
 			try {
 				if (file.createNewFile()) {
 					try (ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file))) {
-						for (File f1: new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
-							for (File f: f1.listFiles()) {
+						for (File f1 : new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
+							for (File f : f1.listFiles()) {
 								ZipEntry entry = new ZipEntry("stored-blocks/" + f1.getName() + '/' + f.getName());
 								output.putNextEntry(entry);
 
 								try (FileInputStream input = new FileInputStream(f)) {
 									int length;
+									
 									while ((length = input.read(buffer)) > 0) {
 										output.write(buffer, 0, length);
 									}
@@ -63,12 +64,13 @@ public final class SlimefunBackup {
 							}
 						}
 
-						for (File f: new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
+						for (File f : new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
 							ZipEntry entry = new ZipEntry("universal-inventories/" + f.getName());
 							output.putNextEntry(entry);
 
 							try (FileInputStream input = new FileInputStream(f)) {
 								int length;
+								
 								while ((length = input.read(buffer)) > 0) {
 									output.write(buffer, 0, length);
 								}
@@ -77,12 +79,13 @@ public final class SlimefunBackup {
 							output.closeEntry();
 						}
 
-						for (File f: new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
+						for (File f : new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
 							ZipEntry entry = new ZipEntry("stored-inventories/" + f.getName());
 							output.putNextEntry(entry);
 
 							try (FileInputStream input = new FileInputStream(f)) {
 								int length;
+								
 								while ((length = input.read(buffer)) > 0) {
 									output.write(buffer, 0, length);
 								}
@@ -99,6 +102,7 @@ public final class SlimefunBackup {
 
 							try (FileInputStream input = new FileInputStream(chunks)) {
 								int length;
+								
 								while ((length = input.read(buffer)) > 0) {
 									output.write(buffer, 0, length);
 								}

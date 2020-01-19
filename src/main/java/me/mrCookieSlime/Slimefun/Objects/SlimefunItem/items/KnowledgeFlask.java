@@ -5,7 +5,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Container;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -25,7 +25,7 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemInteractionHandler> {
 				if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof Container)) {
 					p.setLevel(p.getLevel() - 1);
 					e.setCancelled(true);
-					p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"));
+					p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
 					
 					p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
 					

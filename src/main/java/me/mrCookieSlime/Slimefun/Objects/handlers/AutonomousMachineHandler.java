@@ -11,7 +11,8 @@ public interface AutonomousMachineHandler extends ItemHandler {
 	
 	boolean onBlockDispense(BlockDispenseEvent e, Block dispenser, Dispenser d, Block block, Block chest, SlimefunItem machine);
 	
-	default String toCodename() {
-		return "AutonomousMachineHandler";
+	@Override
+	default Class<? extends ItemHandler> getIdentifier() {
+		return AutonomousMachineHandler.class;
 	}
 }

@@ -11,8 +11,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -20,7 +22,6 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 
 /**
  * Provides a few convenience methods.
@@ -31,6 +32,7 @@ public final class Slimefun {
 
 	private Slimefun() {}
 	
+	@Deprecated
 	public static void registerGuideHandler(GuideHandler handler) {
 		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(handler.getTier(), new ArrayList<>());
 		handlers.add(handler);
@@ -269,19 +271,6 @@ public final class Slimefun {
 	}
 
 	/**
-	 * Binds this description to the SlimefunItem corresponding to this id.
-	 *
-	 * @param  id           the id of the SlimefunItem, not null
-	 * @param  description  the description, not null
-	 *
-	 * @deprecated As of 4.1.10, renamed to {@link #addHint(String, String...)} for better name convenience.
-	 */
-	@Deprecated
-	public static void addDescription(String id, String... description) {
-		getItemConfig().setDefaultValue(id + ".description", Arrays.asList(description));
-	}
-
-	/**
 	 * Binds this hint to the SlimefunItem corresponding to this id.
 	 *
 	 * @param  id    the id of the SlimefunItem, not null
@@ -331,16 +320,16 @@ public final class Slimefun {
 		return SlimefunPlugin.instance.getDescription().getVersion();
 	}
 	
-	public static SlimefunLocalization getLocal() {
+	public static LocalizationService getLocal() {
 		return SlimefunPlugin.getLocal();
 	}
 
-	public static void runSync(Runnable r) {
-		Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
+	public static BukkitTask runSync(Runnable r) {
+		return Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
 	}
 
-	public static void runSync(Runnable r, long delay) {
-		Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
+	public static BukkitTask runSync(Runnable r, long delay) {
+		return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
 	}
 
 	public static Set<Plugin> getInstalledAddons() {

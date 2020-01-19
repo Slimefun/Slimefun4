@@ -10,16 +10,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public final class ItemEnergy {
-	
+
 	private ItemEnergy() {}
-	
+
 	//	"&c&o&8\u21E8 &e\u26A1 &70 / 50 J"
-	
+
 	public static float getStoredEnergy(ItemStack item) {
 		if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return 0F;
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
-		
-		for (String line: item.getItemMeta().getLore()) {
+
+		for (String line : item.getItemMeta().getLore()) {
 			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
 				return Float.valueOf(line.split(" / ")[0].replace(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7"), ""));
 			}
@@ -70,6 +70,7 @@ public final class ItemEnergy {
 		int index = -1;
 		for (int i = 0; i < lore.size(); i++) {
 			String line = lore.get(i);
+
 			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
 				index = i;
 				break;
@@ -79,13 +80,13 @@ public final class ItemEnergy {
 		BigDecimal decimal = BigDecimal.valueOf(stored).setScale(2, BigDecimal.ROUND_HALF_UP);
 
 		lore.set(index, ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7") + decimal.floatValue() + " / " + capacity + " J");
-		
+
 		ItemMeta im = item.getItemMeta();
 		im.setLore(lore);
 		item.setItemMeta(im);
 		return rest;
 	}
-	
+
 	public static ItemStack chargeItem(ItemStack item, float energy) {
 		addStoredEnergy(item, energy);
 		return item;

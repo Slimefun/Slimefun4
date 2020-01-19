@@ -3,16 +3,17 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -29,8 +30,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class GEOMiner extends AContainer implements InventoryBlock, RecipeDisplayItem {
 	
@@ -54,6 +53,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 				SimpleHologram.remove(b);
 				
 				BlockMenu inv = BlockStorage.getInventory(b);
+				
 				if (inv != null) {
 					for (int slot : getInputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
@@ -109,13 +109,19 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	@Override
 	public List<ItemStack> getDisplayRecipes() {
 		List<ItemStack> displayRecipes = new LinkedList<>();
-		for (OreGenResource resource: OreGenSystem.listResources()) {
+		
+		for (OreGenResource resource : OreGenSystem.listResources()) {
 			if (!resource.isLiquid()) {
 				displayRecipes.add(new CustomItem(resource.getItem(), "&r" + resource.getName()));
 			}
 		}
 		
 		return displayRecipes;
+	}
+	
+	@Override
+	public String getRecipeSectionLabel() {
+		return "&7\u21E9 Resources you can obtain \u21E9";
 	}
 	
 	@Override
@@ -152,8 +158,9 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(menu, 4, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(menu, 4, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -169,27 +176,26 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			}
 		}
 		else if (!BlockStorage.hasChunkInfo(b.getChunk())) {
-			SimpleHologram.update(b, "&4需要先进行 GEO 地形扫描!");
+			SimpleHologram.update(b, "&4GEO-Scan required!");
 		}
 		else {
-			Chunk chunk = b.getChunk();
-			
-			for (OreGenResource resource: OreGenSystem.listResources()) {
+			for (OreGenResource resource : OreGenSystem.listResources()) {
 				if (!resource.isLiquid()) {
-					if (!OreGenSystem.wasResourceGenerated(resource, chunk)) {
-						SimpleHologram.update(b, "&4需要先进行 GEO 地形扫描!");
+					if (!OreGenSystem.wasResourceGenerated(resource, b.getLocation())) {
+						SimpleHologram.update(b, "&4GEO-Scan required!");
 						return;
 					}
 					else {
-						int supplies = OreGenSystem.getSupplies(resource, chunk, false);
+						int supplies = OreGenSystem.getSupplies(resource, b.getLocation(), false);
+						
 						if (supplies > 0) {
 							MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[] {resource.getItem().clone()});
 							if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
 							
 							processing.put(b, r);
 							progress.put(b, r.getTicks());
-							OreGenSystem.setSupplies(resource, b.getChunk(), supplies - 1);
-							SimpleHologram.update(b, "&7正在开采: &r" + resource.getName());
+							OreGenSystem.setSupplies(resource, b.getLocation(), supplies - 1);
+							SimpleHologram.update(b, "&7Mining: &r" + resource.getName());
 							return;
 						}
 					}
@@ -197,7 +203,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 				}
 			}
 			
-			SimpleHologram.update(b, "&7完成");
+			SimpleHologram.update(b, "&7Finished");
 		}
 	}
 	

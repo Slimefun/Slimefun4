@@ -14,7 +14,7 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public final class Pedestals {
-	
+
 	private Pedestals() {}
 
 	public static List<Block> getPedestals(Block altar) {
@@ -51,10 +51,10 @@ public final class Pedestals {
 
 	public static ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
 		if (input.size() != 8) return null;
-		
+
 		if (SlimefunManager.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
-            if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) return null;
-            
+			if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) return null;
+
 			ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
 			ItemMeta im = spawner.getItemMeta();
 			im.setLore(Arrays.asList(catalyst.getItemMeta().getLore().get(0)));
@@ -66,23 +66,23 @@ public final class Pedestals {
 	}
 
 	private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
-        for (AltarRecipe recipe : SlimefunPlugin.getUtilities().altarRecipes) {
-        	if (SlimefunManager.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
-        		for (int i = 0; i < 8; i++) {
-            		if (SlimefunManager.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
-            			for (int j = 1; j < 8; j++) {
-        					if (!SlimefunManager.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
-        						break;
-        					}
-        					else if (j == 7) {
-        						return recipe.getOutput();
-        					}
-        				}
-        			}
-            	}
-    		}
-        }
-        
-        return null;
+		for (AltarRecipe recipe : SlimefunPlugin.getUtilities().altarRecipes) {
+			if (SlimefunManager.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
+				for (int i = 0; i < 8; i++) {
+					if (SlimefunManager.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
+						for (int j = 1; j < 8; j++) {
+							if (!SlimefunManager.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
+								break;
+							}
+							else if (j == 7) {
+								return recipe.getOutput();
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 }

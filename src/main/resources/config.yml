@@ -35,9 +35,12 @@ options:
   legacy-dust-washer: false
   # 是否使用碎矿机旧的工作方式
   legacy-ore-grinder: false
+  language: en
+
 guide:
   # 是否默认使用书与笔进行GUI的展示
   default-view-book: false
+
 URID:
   info-delay: 3000
   custom-ticker-delay: 12
@@ -51,41 +54,41 @@ items:
 
 # 研究等级，可自行更改
 research-ranks:
-- Chicken
-- Cow
-- Spider
-- Villager
-- Beginner
-- Clumsy Student
-- Unskilled Student
-- Incompetent Student
-- Student
-- Clumsy Apprentice
-- Apprentice
-- Skilled Apprentice
-- Upcoming Mage
-- Excellent Mage
-- Young Magician
-- Incompetent Magician
-- Common Magician
-- Magician
-- Proficient Magician
-- Skilled Magician
-- Accustomed Magician
-- Great Magician
-- Clumsy Wizard
-- Wizard
-- Common Wizard
-- Skilled Wizard
-- Great Wizard
-- Impressive Wizard
-- Young Master
-- Clumsy Master
-- Upcoming Master
-- Competent Master
-- Master
-- Skilled Master
-- Excellent Master
-- Great Master
-- Proficient Master
-- The chosen One
+  - Chicken
+  - Cow
+  - Spider
+  - Villager
+  - Beginner
+  - Clumsy Student
+  - Unskilled Student
+  - Incompetent Student
+  - Student
+  - Clumsy Apprentice
+  - Apprentice
+  - Skilled Apprentice
+  - Upcoming Mage
+  - Excellent Mage
+  - Young Magician
+  - Incompetent Magician
+  - Common Magician
+  - Magician
+  - Proficient Magician
+  - Skilled Magician
+  - Accustomed Magician
+  - Great Magician
+  - Clumsy Wizard
+  - Wizard
+  - Common Wizard
+  - Skilled Wizard
+  - Great Wizard
+  - Impressive Wizard
+  - Young Master
+  - Clumsy Master
+  - Upcoming Master
+  - Competent Master
+  - Master
+  - Skilled Master
+  - Excellent Master
+  - Great Master
+  - Proficient Master
+  - The chosen One

@@ -5,10 +5,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemRequest {
 	
-	private ItemStack item;
-	private ItemTransportFlow flow;
-	private Location terminal;
-	private int slot;
+	private final ItemStack item;
+	private final ItemTransportFlow flow;
+	private final Location terminal;
+	private final int slot;
 	
 	public ItemRequest(Location terminal, int slot, ItemStack item, ItemTransportFlow flow) {
 		this.terminal = terminal;

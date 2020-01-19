@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.utils;
 
+@Deprecated
 public enum MachineTier {
 
     BASIC("&e基础"),
@@ -8,8 +9,8 @@ public enum MachineTier {
     GOOD("&2优秀"),
     ADVANCED("&6高级"),
     END_GAME("&4终极");
-
-	private String prefix;
+	
+	private final String prefix;
 	
 	private MachineTier(String prefix) {
 		this.prefix = prefix;

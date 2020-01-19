@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,10 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -29,9 +30,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.api.item_transport.RecipeSorter;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class HeatedPressureChamber extends AContainer {
 
@@ -56,7 +56,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 			}
 
 			@Override
-			public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
+			public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 				if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
 				
 				List<Integer> slots = new ArrayList<>();
@@ -71,7 +71,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 					return getInputSlots();
 				}
 				else {
-					Collections.sort(slots, new RecipeSorter(menu));
+					Collections.sort(slots, compareSlots(menu));
 					int[] array = new int[slots.size()];
 					
 					for (int i = 0; i < slots.size(); i++) {
@@ -86,6 +86,10 @@ public abstract class HeatedPressureChamber extends AContainer {
 		this.registerDefaultRecipes();
 	}
 	
+	private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
+		return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
+	}
+	
 	@Override
 	public void registerDefaultRecipes() {
 		registerRecipe(45, new ItemStack[] {SlimefunItems.BUCKET_OF_OIL}, new ItemStack[] {new CustomItem(SlimefunItems.PLASTIC_SHEET, 8)});
@@ -95,9 +99,9 @@ public abstract class HeatedPressureChamber extends AContainer {
 		registerRecipe(90, new ItemStack[] {SlimefunItems.PLUTONIUM, SlimefunItems.URANIUM}, new ItemStack[] {SlimefunItems.BOOSTED_URANIUM});
 		registerRecipe(60, new ItemStack[] {SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM}, new ItemStack[] {new CustomItem(SlimefunItems.ENRICHED_NETHER_ICE, 4)});
 		registerRecipe(45, new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[] {new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)});
-		registerRecipe(12, new ItemStack[] {SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT}, new ItemStack[] {SlimefunItems.MAGNESIUM_SALT});
+		registerRecipe(8, new ItemStack[] {SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT}, new ItemStack[] {SlimefunItems.MAGNESIUM_SALT});
 	}
-
+	
 	@Override
 	public String getInventoryTitle() {
 		return "&cHeated Pressure Chamber";
@@ -142,7 +146,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 			int timeleft = progress.get(b);
 			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -167,7 +171,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 				if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) return;
 				
 				for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
-					menu.replaceExistingItem(entry.getKey(), InvUtils.decreaseItem(menu.getItemInSlot(entry.getKey()), entry.getValue()));
+	                menu.consumeItem(entry.getKey(), entry.getValue());
 				}
 				
 				processing.put(b, recipe);

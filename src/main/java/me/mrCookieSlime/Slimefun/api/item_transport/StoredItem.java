@@ -4,8 +4,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class StoredItem {
 	
+	private final ItemStack item;
 	private int amount;
-	private ItemStack item;
 	
 	public StoredItem(ItemStack item, int amount) {
 		this.amount = amount;

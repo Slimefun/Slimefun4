@@ -1,6 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -8,31 +10,35 @@ import org.bukkit.block.BlockFace;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 
 public class MultiBlock {
 	
-	private Material[] blocks;
-	private BlockFace trigger;
-	private boolean isSymmetric;
-
-	@Deprecated
-	public MultiBlock(Material[] build, Material trigger) {
-		this.blocks = build;
-		this.isSymmetric = isSymmetric(build);
-		this.trigger = convertTriggerMaterialToBlockFace(build, trigger);
-	}
+	public static final List<Tag<Material>> SUPPORTED_TAGS = Arrays.asList(
+			Tag.LOGS,
+			Tag.WOODEN_FENCES,
+			Tag.WOODEN_TRAPDOORS,
+			Tag.WOODEN_SLABS
+	);
 	
-	public MultiBlock(Material[] build, BlockFace trigger) {
+	private final SlimefunItem item;
+	private final Material[] blocks;
+	private final BlockFace trigger;
+	private final boolean isSymmetric;
+	
+	public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
+		this.item = item;
+		
 		this.blocks = build;
 		this.trigger = trigger;
 		this.isSymmetric = isSymmetric(build);
 	}
 	
+	public SlimefunItem getSlimefunItem() {
+		return item;
+	}
+	
 	private static boolean isSymmetric(Material[] blocks) {
-		return blocks[0] == blocks[2]
-			&& blocks[3] == blocks[5]
-			&& blocks[6] == blocks[8];
+		return blocks[0] == blocks[2] && blocks[3] == blocks[5] && blocks[6] == blocks[8];
 	}
 	
 	public Material[] getBuild() {
@@ -51,16 +57,11 @@ public class MultiBlock {
 		return SlimefunPlugin.getUtilities().allMultiblocks;
 	}
 	
-	public boolean isMultiBlock(SlimefunItem machine) {
-		if (machine instanceof SlimefunMachine) {
-			return isMultiBlock(((SlimefunMachine) machine).toMultiBlock());
-		}
-		else return false;
-	}
-	
-	public boolean isMultiBlock(MultiBlock mb) {
-		if (mb == null) return false;
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof MultiBlock)) return false;
 		
+		MultiBlock mb = (MultiBlock) obj;
 		if (trigger == mb.getTriggerBlock()) {
 			for (int i = 0; i < mb.getBuild().length; i++) {
 				if (!compareBlocks(blocks[i], mb.getBuild()[i])) return false;
@@ -71,23 +72,19 @@ public class MultiBlock {
 		
 		return false;
 	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(item.getID(), blocks, trigger, isSymmetric);
+	}
 
 	private boolean compareBlocks(Material a, Material b) {
 		if (b != null) {
-			if (Tag.LOGS.isTagged(b)) {
-				return Tag.LOGS.isTagged(a);
-			}
 			
-			if (Tag.WOODEN_FENCES.isTagged(b)) {
-				return Tag.WOODEN_FENCES.isTagged(a);
-			}
-			
-			if (Tag.WOODEN_SLABS.isTagged(b)) {
-				return Tag.WOODEN_SLABS.isTagged(a);
-			}
-			
-			if (Tag.WOODEN_TRAPDOORS.isTagged(b)) {
-				return Tag.WOODEN_TRAPDOORS.isTagged(a);
+			for (Tag<Material> tag : SUPPORTED_TAGS) {
+				if (tag.isTagged(b)) {
+					return tag.isTagged(a);
+				}
 			}
 			
 			if (b != a) {
@@ -102,24 +99,8 @@ public class MultiBlock {
 		return this.isSymmetric;
 	}
 	
-	@Deprecated
-	public static BlockFace convertTriggerMaterialToBlockFace(Material[] build, Material trigger)
-	{
-		//Hacky
-		for (int i = 1; i < 9; i +=3) {
-			if (trigger == build[i]) {
-				switch (i) {
-					case 1:
-						return BlockFace.DOWN;
-					case 4:
-						return BlockFace.SELF;
-					case 7:
-						return BlockFace.UP;
-					default:
-						break;
-				}
-			}
-		}
-		return null;
+	@Override
+	public String toString() {
+		return "MultiBlock (" + item.getID() + ") {" + Arrays.toString(blocks) + "}";
 	}
 }

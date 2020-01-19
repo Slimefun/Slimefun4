@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -51,9 +51,11 @@ public class ArmorForge extends MultiBlockMachine {
 			}
 
 			if (craft) {
-				final ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+				ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+				
 				if (Slimefun.hasUnlocked(p, adding, true)) {
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
+					
 					if (outputInv != null) {
 						for (int j = 0; j < 9; j++) {
 							ItemStack item = inv.getContents()[j];
@@ -64,6 +66,7 @@ public class ArmorForge extends MultiBlockMachine {
 						
 						for (int j = 0; j < 4; j++) {
 							int current = j;
+							
 							Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 								if (current < 3) {
 									p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);

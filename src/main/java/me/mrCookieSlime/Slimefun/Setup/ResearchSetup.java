@@ -149,7 +149,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(150, "Portable Beverages", 24), SlimefunItems.COOLING_UNIT, SlimefunItems.COOLER);
 	    Slimefun.registerResearch(new Research(151, "Ancient Altar", 15), SlimefunItems.ANCIENT_PEDESTAL, SlimefunItems.ANCIENT_ALTAR);
 	    Slimefun.registerResearch(new Research(152, "Wither-Proof Obsidian", 21), SlimefunItems.WITHER_PROOF_OBSIDIAN);
-	    Slimefun.registerResearch(new Research(154, "Upgraded Solar Cells", 26), SlimefunItems.SOLAR_ARRAY);
 	    Slimefun.registerResearch(new Research(155, "Elemental Runes", 15), SlimefunItems.BLANK_RUNE, SlimefunItems.RUNE_EARTH, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_FIRE);
 	    Slimefun.registerResearch(new Research(156, "Purple Runes", 18), SlimefunItems.RUNE_ENDER, SlimefunItems.RUNE_RAINBOW);
 	    Slimefun.registerResearch(new Research(157, "Infernal Bonemeal", 12), SlimefunItems.INFERNAL_BONEMEAL);
@@ -231,7 +230,7 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(232, "Advanced Electric Smeltery", 28), SlimefunItems.ELECTRIC_SMELTERY_2);
 	    Slimefun.registerResearch(new Research(233, "Advanced Androids - Farmer", 30), SlimefunItems.PROGRAMMABLE_ANDROID_2_FARMER);
 	    Slimefun.registerResearch(new Research(234, "Lava Generator", 38), SlimefunItems.LAVA_GENERATOR);
-	    Slimefun.registerResearch(new Research(235, "Nether Ice Coolant", 45), SlimefunItems.NETHER_ICE, SlimefunItems.ENRICHED_NETHER_ICE, SlimefunItems.NETHER_ICE_COOLANT_CELL, SlimefunItems.NETHER_DRILL);
+	    Slimefun.registerResearch(new Research(235, "Nether Ice Coolant", 45), SlimefunItems.NETHER_ICE, SlimefunItems.ENRICHED_NETHER_ICE, SlimefunItems.NETHER_ICE_COOLANT_CELL);
 	    Slimefun.registerResearch(new Research(236, "Nether Star Reactor", 60), SlimefunItems.NETHERSTAR_REACTOR);
 	    Slimefun.registerResearch(new Research(237, "Blistering Radioactivity", 38), SlimefunItems.BLISTERING_INGOT, SlimefunItems.BLISTERING_INGOT_2, SlimefunItems.BLISTERING_INGOT_3);
 	    Slimefun.registerResearch(new Research(239, "Automatic Ignition Chamber", 12), SlimefunItems.IGNITION_CHAMBER);
@@ -249,5 +248,6 @@ public final class ResearchSetup {
 	    Slimefun.registerResearch(new Research(251, "Nether Gold Pan", 8), SlimefunItems.NETHER_GOLD_PAN);
 	    Slimefun.registerResearch(new Research(252, "Electric Press", 16), SlimefunItems.ELECTRIC_PRESS, SlimefunItems.ELECTRIC_PRESS_2);
 	    Slimefun.registerResearch(new Research(253, "Power from Magnesium", 20), SlimefunItems.MAGNESIUM_SALT, SlimefunItems.MAGNESIUM_GENERATOR);
+	    Slimefun.registerResearch(new Research(254, "Tasty Kelp", 4), SlimefunItems.KELP_COOKIE);
 	}
 }

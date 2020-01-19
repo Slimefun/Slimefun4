@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.api.item_transport;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,29 +12,31 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.data.Directional;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.network.Network;
 import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
-import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
 
 public class CargoNet extends Network {
 
@@ -46,21 +49,30 @@ public class CargoNet extends Network {
 	// Chest Terminal Stuff
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
 	public static final int TERMINAL_OUT_SLOT = 17;
-
-	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
+	
 	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = (p, slot, item, action) -> false;
 
+	private Set<Location> inputNodes = new HashSet<>();
+	private Set<Location> outputNodes = new HashSet<>();
+
+	//Chest Terminal Stuff
+	private final Set<Location> terminals = new HashSet<>();
+	private final Set<Location> imports = new HashSet<>();
+	private final Set<Location> exports = new HashSet<>();
+	
 	public static CargoNet getNetworkFromLocation(Location l) {
 		return getNetworkFromLocation(l, CargoNet.class);
 	}
 
 	public static CargoNet getNetworkFromLocationOrCreate(Location l) {
 		CargoNet cargoNetwork = getNetworkFromLocation(l);
+		
 		if (cargoNetwork == null) {
 			cargoNetwork = new CargoNet(l);
 			registerNetwork(cargoNetwork);
 		}
+		
 		return cargoNetwork;
 	}
 
@@ -68,15 +80,6 @@ public class CargoNet extends Network {
 	public static boolean isConnected(Block b) {
 		return getNetworkFromLocation(b.getLocation()) != null;
 	}
-
-	private Set<Location> inputNodes = new HashSet<>();
-	private Set<Location> outputNodes = new HashSet<>();
-
-
-	//Chest Terminal Stuff
-	private final Set<Location> terminals = new HashSet<>();
-	private final Set<Location> imports = new HashSet<>();
-	private final Set<Location> exports = new HashSet<>();
 
 	protected CargoNet(Location l) {
 		super(l);
@@ -89,6 +92,7 @@ public class CargoNet extends Network {
 	public NetworkComponent classifyLocation(Location l) {
 		String id = BlockStorage.checkID(l);
 		if (id == null) return null;
+		
 		switch(id) {
 		case "CARGO_MANAGER":
 			return NetworkComponent.REGULATOR;
@@ -138,23 +142,25 @@ public class CargoNet extends Network {
 		}
 	}
 
-	public void tick(final Block b) {
+	public void tick(Block b) {
 		if (!regulator.equals(b.getLocation())) {
 			SimpleHologram.update(b, "&4Multiple Cargo Regulators connected");
 			return;
 		}
+		
 		super.tick();
+		
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-			SimpleHologram.update(b, "&7Status: &4&lOFFLINE");
+			SimpleHologram.update(b, "&cNo Cargo Nodes found");
 		}
 		else {
 			SimpleHologram.update(b, "&7Status: &a&lONLINE");
-			final Map<Integer, List<Location>> output = new HashMap<>();
+			Map<Integer, List<Location>> output = new HashMap<>();
 
 			List<Location> list = new LinkedList<>();
 			int lastFrequency = -1;
 
-			for (Location outputNode: outputNodes) {
+			for (Location outputNode : outputNodes) {
 				int frequency = getFrequency(outputNode);
 
 				if (frequency != lastFrequency && lastFrequency != -1) {
@@ -178,26 +184,24 @@ public class CargoNet extends Network {
 			}
 
 			//Chest Terminal Stuff
-			final Set<Location> providers = new HashSet<>();
-			final Set<Location> destinations = new HashSet<>();
+			Set<Location> providers = new HashSet<>();
+			Set<Location> destinations = new HashSet<>();
 
 			List<Location> output16 = output.get(16);
 			if (output16 != null) destinations.addAll(output16);
 
-			for (Location inputNode: inputNodes) {
+			for (Location inputNode : inputNodes) {
 				int frequency = getFrequency(inputNode);
+				
 				if (frequency == 16) {
 					providers.add(inputNode);
 				}
 			}
-
-			CargoNet self = this;
-			final BlockStorage storage = BlockStorage.getStorage(b.getWorld());
 			
-			Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> {
+			Slimefun.runSync(() -> {
 
 				if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
-					self.display();
+					display();
 				}
 
 				//Chest Terminal Code
@@ -207,7 +211,7 @@ public class CargoNet extends Network {
 
 						if (menu.getItemInSlot(17) == null) {
 							Block target = getAttachedBlock(bus.getBlock());
-							ItemSlot stack = CargoManager.withdraw(bus.getBlock(), storage, target, -1);
+							ItemSlot stack = CargoManager.withdraw(bus.getBlock(), target, -1);
 
 							if (stack != null) {
 								menu.replaceExistingItem(17, stack.getItem());
@@ -225,12 +229,12 @@ public class CargoNet extends Network {
 						if (menu.getItemInSlot(17) != null) {
 							Block target = getAttachedBlock(bus.getBlock());
 
-							menu.replaceExistingItem(17, CargoManager.insert(bus.getBlock(), storage, target, menu.getItemInSlot(17), -1));
+							menu.replaceExistingItem(17, CargoManager.insert(bus.getBlock(), target, menu.getItemInSlot(17), -1));
 						}
 
 						if (menu.getItemInSlot(17) == null) {
 							List<ItemStack> items = new ArrayList<>();
-							for (int slot: slots) {
+							for (int slot : slots) {
 								ItemStack template = menu.getItemInSlot(slot);
 								if (template != null) items.add(new CustomItem(template, 1));
 							}
@@ -247,7 +251,7 @@ public class CargoNet extends Network {
 						}
 					}
 
-					for (final Location terminal : terminals) {
+					for (Location terminal : terminals) {
 						BlockMenu menu = BlockStorage.getInventory(terminal);
 						ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);
 
@@ -267,9 +271,10 @@ public class CargoNet extends Network {
 							case INSERT:
 								ItemStack requestedItem = request.getItem();
 
-								for (Location l: destinations) {
+								for (Location l : destinations) {
 									Block target = getAttachedBlock(l.getBlock());
-									requestedItem = CargoManager.insert(l.getBlock(), storage, target, requestedItem, -1);
+									requestedItem = CargoManager.insert(l.getBlock(), target, requestedItem, -1);
+									
 									if (requestedItem == null) {
 										menu.replaceExistingItem(request.getSlot(), null);
 										break;
@@ -296,7 +301,8 @@ public class CargoNet extends Network {
 
 								for (Location l : providers) {
 									Block target = getAttachedBlock(l.getBlock());
-									ItemStack is = CargoManager.withdraw(l.getBlock(), storage, target, requested);
+									ItemStack is = CargoManager.withdraw(l.getBlock(), target, requested);
+									
 									if (is != null) {
 										if (stack == null) {
 											stack = is;
@@ -331,7 +337,7 @@ public class CargoNet extends Network {
 				}
 				
 				// All operations happen here: Everything gets iterated from the Input Nodes. (Apart from ChestTerminal Buses)
-				for (Location input: inputNodes) {
+				for (Location input : inputNodes) {
 					int frequency = getFrequency(input);
 
 					if (frequency < 0 || frequency > 15) {
@@ -342,10 +348,12 @@ public class CargoNet extends Network {
 					ItemStack stack = null;
 					int previousSlot = -1;
 
-					boolean roundrobin = "true".equals(BlockStorage.getLocationInfo(input, "round-robin"));
+					Config cfg = BlockStorage.getLocationInfo(input);
+					boolean roundrobin = "true".equals(cfg.getString("round-robin"));
 
 					if (inputTarget != null) {
-						ItemSlot slot = CargoManager.withdraw(input.getBlock(), storage, inputTarget, Integer.parseInt(BlockStorage.getLocationInfo(input, "index")));
+						ItemSlot slot = CargoManager.withdraw(input.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
+						
 						if (slot != null) {
 							stack = slot.getItem();
 							previousSlot = slot.getSlot();
@@ -354,6 +362,7 @@ public class CargoNet extends Network {
 
 					if (stack != null) {
 						List<Location> outputs = output.get(frequency);
+						
 						if (outputs != null) {
 							List<Location> outputlist = new ArrayList<>(outputs);
 
@@ -362,7 +371,7 @@ public class CargoNet extends Network {
 
 								if (cIndex < outputlist.size()) {
 									for (int i = 0; i < cIndex; i++) {
-										final Location temp = outputlist.get(0);
+										Location temp = outputlist.get(0);
 										outputlist.remove(temp);
 										outputlist.add(temp);
 									}
@@ -375,8 +384,9 @@ public class CargoNet extends Network {
 
 							for (Location out : outputlist) {
 								Block target = getAttachedBlock(out.getBlock());
+								
 								if (target != null) {
-									stack = CargoManager.insert(out.getBlock(), storage, target, stack, -1);
+									stack = CargoManager.insert(out.getBlock(), target, stack, -1);
 									if (stack == null) break;
 								}
 							}
@@ -384,41 +394,49 @@ public class CargoNet extends Network {
 					}
 
 					if (stack != null && previousSlot > -1) {
-						if (storage.hasUniversalInventory(inputTarget)) {
-							UniversalBlockMenu menu = storage.getUniversalInventory(inputTarget);
+						DirtyChestMenu menu = CargoManager.getChestMenu(inputTarget);
+						
+						if (menu != null) {
 							menu.replaceExistingItem(previousSlot, stack);
 						}
-						else if (storage.hasInventory(inputTarget.getLocation())) {
-							BlockMenu menu = BlockStorage.getInventory(inputTarget.getLocation());
-							menu.replaceExistingItem(previousSlot, stack);
-						}
-						else if (inputTarget.getState() instanceof InventoryHolder) {
-							Inventory inv = ((InventoryHolder) inputTarget.getState()).getInventory();
-							inv.setItem(previousSlot, stack);
+						else {
+							BlockState state = inputTarget.getState();
+							if (state instanceof InventoryHolder) {
+								Inventory inv = ((InventoryHolder) state).getInventory();
+								inv.setItem(previousSlot, stack);
+							}
 						}
 					}
 				}
+				
 				//Chest Terminal Code
 				if (extraChannels) {
 					List<StoredItem> items = new ArrayList<>();
-					for (Location l: providers) {
+					
+					for (Location l : providers) {
 						Block target = getAttachedBlock(l.getBlock());
-						if (storage.hasUniversalInventory(target)) {
-							UniversalBlockMenu menu = storage.getUniversalInventory(target);
-							for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+						UniversalBlockMenu menu = BlockStorage.getUniversalInventory(target);
+						
+						if (menu != null) {
+							for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 								ItemStack is = menu.getItemInSlot(slot);
 								filter(is, items, l);
 							}
 						}
-						else if (storage.hasInventory(target.getLocation())) {
-							BlockMenu menu = BlockStorage.getInventory(target.getLocation());
-							if (BlockStorage.checkID(target.getLocation()).startsWith("BARREL_") && BlockStorage.getLocationInfo(target.getLocation(), "storedItems") != null) {
-								int stored = Integer.parseInt(BlockStorage.getLocationInfo(target.getLocation(), "storedItems"));
-								for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
-									ItemStack is = menu.getItemInSlot(slot);
+						else if (BlockStorage.hasInventory(target)) {
+							BlockMenu blockMenu = BlockStorage.getInventory(target);
+							Config cfg = BlockStorage.getLocationInfo(target.getLocation());
+							
+							if (cfg.getString("id").startsWith("BARREL_") && cfg.getString("storedItems") != null) {
+								int stored = Integer.parseInt(cfg.getString("storedItems"));
+								
+								for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport(blockMenu, ItemTransportFlow.WITHDRAW, null)) {
+									ItemStack is = blockMenu.getItemInSlot(slot);
+									
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 										boolean add = true;
-										for (StoredItem item: items) {
+										
+										for (StoredItem item : items) {
 											if (SlimefunManager.isItemSimilar(is, item.getItem(), true)) {
 												add = false;
 												item.add(is.getAmount() + stored);
@@ -432,20 +450,25 @@ public class CargoNet extends Network {
 								}
 							}
 							else {
-								handleWithdraw(menu, items, l);
+								handleWithdraw(blockMenu, items, l);
 							}
 						}
-						else if (target.getState() instanceof InventoryHolder) {
-							Inventory inv = ((InventoryHolder) target.getState()).getInventory();
-							for (ItemStack is: inv.getContents()) {
-								filter(is, items, l);
+						else {
+							BlockState state = target.getState();
+							
+							if (state instanceof InventoryHolder) {
+								Inventory inv = ((InventoryHolder) state).getInventory();
+								
+								for (ItemStack is : inv.getContents()) {
+									filter(is, items, l);
+								}
 							}
 						}
 					}
 
-					Collections.sort(items, sorter);
+					Collections.sort(items, Comparator.comparingInt(item -> -item.getAmount()));
 
-					for (final Location l: terminals) {
+					for (Location l : terminals) {
 						BlockMenu menu = BlockStorage.getInventory(l);
 						int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
 						
@@ -456,16 +479,18 @@ public class CargoNet extends Network {
 
 						for (int i = 0; i < terminal_slots.length; i++) {
 							int slot = terminal_slots[i];
+							
 							if (items.size() > i + (terminal_slots.length * (page - 1))) {
-								final StoredItem item = items.get(i + (terminal_slots.length * (page - 1)));
+								StoredItem item = items.get(i + (terminal_slots.length * (page - 1)));
 
 								ItemStack stack = item.getItem().clone();
 								ItemMeta im = stack.getItemMeta();
 								List<String> lore = new ArrayList<>();
 								lore.add("");
-								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
-								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
-								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
+								lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
+								
+								if (stack.getMaxStackSize() > 1) lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
+								else lore.add(ChatColors.color("&7<Left Click: Request 1>"));
 
 								lore.add("");
 								if (im.hasLore()) {
@@ -497,6 +522,7 @@ public class CargoNet extends Network {
 		if (block.getBlockData() instanceof Directional) {
 			return block.getRelative(((Directional) block.getBlockData()).getFacing().getOppositeFace());
 		}
+		
 		return null;
 	}
 
@@ -512,7 +538,7 @@ public class CargoNet extends Network {
 	}
 
 	private void handleWithdraw(BlockMenu menu, List<StoredItem> items, Location l) {
-		for (int slot: menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+		for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 			filter(menu.getItemInSlot(slot), items, l);
 		}
 	}
@@ -520,7 +546,8 @@ public class CargoNet extends Network {
 	private void filter(ItemStack is, List<StoredItem> items, Location l) {
 		if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
 			boolean add = true;
-			for (StoredItem item: items) {
+			
+			for (StoredItem item : items) {
 				if (SlimefunManager.isItemSimilar(is, item.getItem(), true)) {
 					add = false;
 					item.add(is.getAmount());

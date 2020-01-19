@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.inventory.ItemFlag;
@@ -25,9 +26,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class Category {
 	
-	private ItemStack item;
-	private List<SlimefunItem> items;
-	private int tier;
+	private final ItemStack item;
+	private final List<SlimefunItem> items;
+	private final int tier;
 
 	/**
 	 * Constructs a Category with the given display item.
@@ -38,14 +39,7 @@ public class Category {
 	 * @since 4.0
 	 */
 	public Category(ItemStack item) {
-		this.item = item;
-		
-		ItemMeta meta = item.getItemMeta();
-		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		this.item.setItemMeta(meta);
-		
-		this.items = new ArrayList<>();
-		this.tier = 3;
+		this(item, 3);
 	}
 
 	/**
@@ -60,6 +54,12 @@ public class Category {
 	 */
 	public Category(ItemStack item, int tier) {
 		this.item = item;
+		
+		ItemMeta meta = item.getItemMeta();
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		this.item.setItemMeta(meta);
+		
 		this.items = new ArrayList<>();
 		this.tier = tier;
 	}
@@ -73,7 +73,7 @@ public class Category {
 	 */
 	public void register() {
 		SlimefunPlugin.getUtilities().allCategories.add(this);
-		Collections.sort(list(), SlimefunPlugin.getUtilities().categorySorter);
+		Collections.sort(list(), Comparator.comparingInt(Category::getTier));
 
 		if (this instanceof SeasonalCategory) {
 			if (((SeasonalCategory) this).isUnlocked()) {
@@ -84,7 +84,7 @@ public class Category {
 			SlimefunPlugin.getUtilities().enabledCategories.add(this);
 		}
 		
-		Collections.sort(SlimefunPlugin.getUtilities().enabledCategories, SlimefunPlugin.getUtilities().categorySorter);
+		Collections.sort(SlimefunPlugin.getUtilities().enabledCategories, Comparator.comparingInt(Category::getTier));
 	}
 
 	/**

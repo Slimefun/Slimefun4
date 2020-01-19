@@ -11,7 +11,7 @@ import com.google.gson.JsonPrimitive;
 
 public abstract class JsonDataHolder {
 
-	protected JsonObject data;
+	protected final JsonObject data;
 	private boolean dirty;
 	
 	public JsonDataHolder() {
@@ -58,28 +58,28 @@ public abstract class JsonDataHolder {
 	
 	public void setStringArray(String key, String[] array) {
 		JsonArray json = new JsonArray();
-		for (String value: array) json.add(value);
+		for (String value : array) json.add(value);
 		data.add(key, json);
 		markDirty();
 	}
 	
 	public void setIntArray(String key, int[] array) {
 		JsonArray json = new JsonArray();
-		for (int value: array) json.add(value);
+		for (int value : array) json.add(value);
 		data.add(key, json);
 		markDirty();
 	}
 	
 	public void setBooleanArray(String key, boolean[] array) {
 		JsonArray json = new JsonArray();
-		for (boolean value: array) json.add(value);
+		for (boolean value : array) json.add(value);
 		data.add(key, json);
 		markDirty();
 	}
 	
 	public void setFloatArray(String key, float[] array) {
 		JsonArray json = new JsonArray();
-		for (float value: array) json.add(value);
+		for (float value : array) json.add(value);
 		data.add(key, json);
 		markDirty();
 	}

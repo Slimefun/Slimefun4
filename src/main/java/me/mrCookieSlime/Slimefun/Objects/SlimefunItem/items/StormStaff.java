@@ -21,18 +21,17 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
+	
+	public static final int MAX_USES = 8;
 
-    public static final int MAX_USES = 8;
+	private static final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance, "stormstaff_usage");
 
-    private static final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance, "stormstaff_usage");
-
-    public StormStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe, getCraftedOutput());
-    }
+	public StormStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe, getCraftedOutput());
+	}
 
     private static ItemStack getCraftedOutput() {
         ItemStack item = SlimefunItems.STAFF_STORM.clone();
@@ -45,23 +44,21 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
         item.setItemMeta(im);
         return item;
     }
+	
+	@Override
+	public ItemInteractionHandler getItemHandler() {
+		return (e, p, item) -> {
+			if (isItem(item)) {
+				if (!item.hasItemMeta()) return false;
+				ItemMeta itemMeta = item.getItemMeta();
+				if (!itemMeta.hasLore()) return false;
+				List<String> itemLore = itemMeta.getLore();
 
-    @Override
-    public ItemInteractionHandler getItemHandler() {
-        return (e, p, item) -> {
-            //Not checking if lores equals because we need a special one for that.
-            if (SlimefunManager.isItemSimiliar(item, getItem(), false)) {
+				ItemStack sfItem = getItem();
+				ItemMeta sfItemMeta = sfItem.getItemMeta();
+				List<String> sfItemLore = sfItemMeta.getLore();
 
-                if (!item.hasItemMeta()) return false;
-                ItemMeta itemMeta = item.getItemMeta();
-                if (!itemMeta.hasLore()) return false;
-                List<String> itemLore = itemMeta.getLore();
-
-                ItemStack sfItem = getItem();
-                ItemMeta sfItemMeta = sfItem.getItemMeta();
-                List<String> sfItemLore = sfItemMeta.getLore();
-
-                // Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
+				// Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
                 if (itemLore.size() < 6 && itemLore.get(1).equals(sfItemLore.get(1)) && itemLore.get(3).equals(sfItemLore.get(3))) {
                     if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
                         // Get a target block with max. 30 blocks of distance
@@ -104,10 +101,10 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
                         SlimefunPlugin.getLocal().sendMessage(p, "messages.hungry", true);
                     }
                     return true;
-                }
-            }
-            return false;
-        };
-    }
+				}
+			}
+			return false;
+		};
+	}
 
 }

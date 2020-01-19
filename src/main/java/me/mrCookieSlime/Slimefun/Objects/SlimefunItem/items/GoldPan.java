@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
@@ -57,16 +58,19 @@ public class GoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implemen
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (isItem(item)) {
-				if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.GRAVEL && SlimefunPlugin.getProtectionManager().hasPermission(p, e.getClickedBlock().getLocation(), ProtectableAction.BREAK_BLOCK)) {
+				Block b = e.getClickedBlock();
+				
+				if (b != null && b.getType() == Material.GRAVEL && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 					ItemStack output = randomizer.getRandom();
 							
-					e.getClickedBlock().getWorld().playEffect(e.getClickedBlock().getLocation(), Effect.STEP_SOUND, e.getClickedBlock().getType());
-					e.getClickedBlock().setType(Material.AIR);
+					b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+					b.setType(Material.AIR);
 
 					if (output.getType() != Material.AIR) {
-						e.getClickedBlock().getWorld().dropItemNaturally(e.getClickedBlock().getLocation(), output.clone());
+						b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
 					}
 				}
+				
 				e.setCancelled(true);
 				return true;
 			}

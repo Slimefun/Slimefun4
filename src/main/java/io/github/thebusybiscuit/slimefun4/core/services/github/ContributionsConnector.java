@@ -9,6 +9,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.thebusybiscuit.slimefun4.core.services.GitHubService;
+
 public class ContributionsConnector extends GitHubConnector {
 
 	// GitHub Bots that do not count as Contributors
@@ -17,7 +19,10 @@ public class ContributionsConnector extends GitHubConnector {
 		"invalid-email-address",
 		"renovate-bot",
 		"TheBusyBot",
-		"imgbot[bot]"
+		"ImgBotApp",
+		"imgbot",
+		"imgbot[bot]",
+		"github-actions[bot]"
 	);
 
 	// Matches a GitHub name with a Minecraft name.
@@ -30,9 +35,12 @@ public class ContributionsConnector extends GitHubConnector {
 		aliases.put("ajan-12", "ajan_12");
 		aliases.put("LinoxGH", "ajan_12");
 		aliases.put("NihilistBrew", "ma1yang2");
-		aliases.put("NihilistBrew", "ma1yang2");
 		aliases.put("mrcoffee1026", "mr_coffee1026");
 		aliases.put("BluGhostYT", "CyberPatriot");
+		aliases.put("BurningBrimstone", "Bluedevil74");
+		aliases.put("bverhoeven", "soczol");
+		aliases.put("ramdon-person", "ramdon_person");
+		aliases.put("mohkamfer", "citBabY");
 	}
 	
 	private final String prefix;
@@ -80,6 +88,7 @@ public class ContributionsConnector extends GitHubConnector {
 	    				name,
 						key -> new Contributor(aliases.getOrDefault(name, name), profile)
 				);
+	    		
 	    		contributor.setContribution(role, commits);
 	    	}
 	    }

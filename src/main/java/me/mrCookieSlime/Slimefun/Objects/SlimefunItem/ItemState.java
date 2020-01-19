@@ -6,6 +6,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
  * @since 4.1.10
  */
 public enum ItemState {
+	
 	/**
 	 * This SlimefunItem is enabled.
 	 */

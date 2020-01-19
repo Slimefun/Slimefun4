@@ -9,7 +9,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SlimefunArmorPiece extends SlimefunItem {
 	
-	private PotionEffect[] effects;
+	private final PotionEffect[] effects;
 
 	public SlimefunArmorPiece(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
 		super(category, item, id, recipeType, recipe);

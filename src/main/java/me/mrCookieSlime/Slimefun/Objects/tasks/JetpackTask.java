@@ -10,7 +10,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
 public class JetpackTask extends SlimefunTask {
 	
-	private double thrust;
+	private final double thrust;
 	
 	public JetpackTask(Player p, double thrust) {
 		super(p);
@@ -23,10 +23,11 @@ public class JetpackTask extends SlimefunTask {
 	}
 
 	@Override
-	void executeTask() {
+	public void executeTask() {
 		Player p = Bukkit.getPlayer(uuid);
 		float cost = 0.08F;
 		float charge = ItemEnergy.getStoredEnergy(p.getInventory().getChestplate());
+		
 		if (charge >= cost) {
 			p.getInventory().setChestplate(ItemEnergy.chargeItem(p.getInventory().getChestplate(), -cost));
 			

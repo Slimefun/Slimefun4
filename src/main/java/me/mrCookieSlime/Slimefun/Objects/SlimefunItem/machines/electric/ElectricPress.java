@@ -37,6 +37,20 @@ public abstract class ElectricPress extends AContainer implements RecipeDisplayI
 		
 		registerRecipe(new MachineRecipe(18, new ItemStack[] {new CustomItem(SlimefunItems.TINY_URANIUM, 9)}, new ItemStack[] {SlimefunItems.SMALL_URANIUM}));
 		registerRecipe(new MachineRecipe(24, new ItemStack[] {new CustomItem(SlimefunItems.SMALL_URANIUM, 4)}, new ItemStack[] {SlimefunItems.URANIUM}));
+		
+		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.QUARTZ, 4)}, new ItemStack[] {new ItemStack(Material.QUARTZ_BLOCK)}));
+		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.IRON_NUGGET, 9)}, new ItemStack[] {new ItemStack(Material.IRON_INGOT)}));
+		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.GOLD_NUGGET, 9)}, new ItemStack[] {new ItemStack(Material.GOLD_INGOT)}));
+		registerRecipe(new MachineRecipe(4, new ItemStack[] {new ItemStack(Material.COAL, 9)}, new ItemStack[] {new ItemStack(Material.COAL_BLOCK)}));
+		
+		registerRecipe(new MachineRecipe(5, new ItemStack[] {new ItemStack(Material.IRON_INGOT, 9)}, new ItemStack[] {new ItemStack(Material.IRON_BLOCK)}));
+		registerRecipe(new MachineRecipe(5, new ItemStack[] {new ItemStack(Material.GOLD_INGOT, 9)}, new ItemStack[] {new ItemStack(Material.GOLD_BLOCK)}));
+		
+		registerRecipe(new MachineRecipe(6, new ItemStack[] {new ItemStack(Material.REDSTONE, 9)}, new ItemStack[] {new ItemStack(Material.REDSTONE_BLOCK)}));
+		registerRecipe(new MachineRecipe(6, new ItemStack[] {new ItemStack(Material.LAPIS_LAZULI, 9)}, new ItemStack[] {new ItemStack(Material.LAPIS_BLOCK)}));
+		
+		registerRecipe(new MachineRecipe(8, new ItemStack[] {new ItemStack(Material.EMERALD, 9)}, new ItemStack[] {new ItemStack(Material.EMERALD_BLOCK)}));
+		registerRecipe(new MachineRecipe(8, new ItemStack[] {new ItemStack(Material.DIAMOND, 9)}, new ItemStack[] {new ItemStack(Material.DIAMOND_BLOCK)}));
 	}
 
     @Override

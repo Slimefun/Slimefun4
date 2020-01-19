@@ -40,9 +40,11 @@ public class OilResource implements OreGenResource {
 			return random.nextInt(11) + 3;
 
 		case THE_END:
+		case END_BARRENS:
+		case END_MIDLANDS:
+		case SMALL_END_ISLANDS:
 		case NETHER:
 			return 0;
-
 
 		case BADLANDS:
 		case BADLANDS_PLATEAU:

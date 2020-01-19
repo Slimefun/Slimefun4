@@ -13,8 +13,10 @@ import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.FireworkShow;
+import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
+import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
@@ -36,9 +38,9 @@ public class Research {
 
 	private static final int[] RESEARCH_PROGRESS = {23, 44, 57, 92};
 
-	private int id;
+	private final int id;
+	private final List<SlimefunItem> items;
 	private String name;
-	private List<SlimefunItem> items;
 	private int cost;
 	private boolean enabled;
 
@@ -215,8 +217,8 @@ public class Research {
 					profile.setResearched(this, true);
 					SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName()));
 					
-					if (SlimefunPlugin.getCfg().getBoolean("options.research-unlock-fireworks")) {
-						FireworkShow.launchRandom(p, 1);
+					if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, GuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, GuideSettings.FIREWORKS_KEY) == (byte) 1)) {
+						FireworkUtils.launchRandom(p, 1);
 					}
 				};
 				
@@ -346,7 +348,7 @@ public class Research {
 	 * @since 4.0
 	 */
 	public static Research getByID(int id) {
-		for (Research research: list()) {
+		for (Research research : list()) {
 			if (research.getID() == id) return research;
 		}
 		return null;
@@ -364,8 +366,8 @@ public class Research {
 	@Deprecated
 	public static List<Research> getResearches(UUID uuid) {
 		List<Research> researched = new ArrayList<>();
-		for (Research r: list()) {
-			if (r.hasUnlocked(uuid)) researched.add(r);
+		for (Research research : list()) {
+			if (research.hasUnlocked(uuid)) researched.add(research);
 		}
 		return researched;
 	}

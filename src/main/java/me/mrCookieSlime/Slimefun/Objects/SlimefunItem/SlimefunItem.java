@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +18,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -55,7 +58,7 @@ public class SlimefunItem implements Placeable {
 	private boolean addon = false;
 	private String permission = "";
 	private List<String> noPermissionTooltip;
-	private final Set<ItemHandler> itemhandlers = new HashSet<>();
+	private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
@@ -159,6 +162,7 @@ public class SlimefunItem implements Placeable {
 	
 	public void register(boolean slimefun) {
 		this.addon = !slimefun;
+		
 		try {
 			preRegister();
 			
@@ -186,7 +190,7 @@ public class SlimefunItem implements Placeable {
 				}
 			}
 
-			for (World world: Bukkit.getWorlds()) {
+			for (World world : Bukkit.getWorlds()) {
 				SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
 				SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.id, true);
 			}
@@ -221,13 +225,11 @@ public class SlimefunItem implements Placeable {
 				
 				create();
 				
-				for (ItemHandler handler : itemhandlers) {
+				for (ItemHandler handler : itemhandlers.values()) {
 					if (areItemHandlersPrivate()) continue;
 					
-					Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
+					Set<ItemHandler> handlerset = getHandlers(handler.getIdentifier());
 					handlerset.add(handler);
-					
-					SlimefunPlugin.getUtilities().itemHandlers.put(handler.toCodename(), handlerset);
 				}
 
 				if (SlimefunPlugin.getSettings().printOutLoading) {
@@ -305,7 +307,7 @@ public class SlimefunItem implements Placeable {
 			}
 		}
 
-		for (SlimefunItem sfi: SlimefunPlugin.getUtilities().enabledItems) {
+		for (SlimefunItem sfi : SlimefunPlugin.getUtilities().enabledItems) {
 			if (sfi.isItem(item)) {
 				// If we have to loop all items for the given item, then at least
 				// set the id via PersistenDataAPI for future performance boosts
@@ -316,6 +318,7 @@ public class SlimefunItem implements Placeable {
 		}
 		if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
 		if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
+		
 		return null;
 	}
 
@@ -324,6 +327,7 @@ public class SlimefunItem implements Placeable {
 
 		if (item.hasItemMeta()) {
 			Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+			
 			if (itemID.isPresent()) {
 				return getID().equals(itemID.get());
 			}
@@ -367,7 +371,7 @@ public class SlimefunItem implements Placeable {
 	}
 
 	public static ItemState getState(ItemStack item) {
-		for (SlimefunItem i: SlimefunPlugin.getUtilities().allItems) {
+		for (SlimefunItem i : SlimefunPlugin.getUtilities().allItems) {
 			if (i.isItem(item)) {
 				return i.getState();
 			}
@@ -376,7 +380,7 @@ public class SlimefunItem implements Placeable {
 	}
 
 	public static boolean isDisabled(ItemStack item) {
-		for (SlimefunItem i: SlimefunPlugin.getUtilities().allItems) {
+		for (SlimefunItem i : SlimefunPlugin.getUtilities().allItems) {
 			if (i.isItem(item)) {
 				return i.isDisabled();
 			}
@@ -396,26 +400,18 @@ public class SlimefunItem implements Placeable {
 	public void create()  {
 		// Deprecated
 	}
-
-	/**
-	 * @deprecated Use {@link SlimefunItem#addItemHandler(ItemHandler...)} instead
-	 */
-	@Deprecated
-	public void addItemHandler(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handler) {
-		addItemHandler((ItemHandler[]) handler);
-	}
 	
-	public void addItemHandler(ItemHandler... handler) {
-		this.itemhandlers.addAll(Arrays.asList(handler));
-
-		for (ItemHandler h: handler) {
-			if (h instanceof BlockTicker) {
-				this.ticking = true;
+	public void addItemHandler(ItemHandler... handlers) {
+		for (ItemHandler handler : handlers) {
+			itemhandlers.put(handler.getIdentifier(), handler);
+			
+			if (handler instanceof BlockTicker) {
+				ticking = true;
 				SlimefunPlugin.getUtilities().tickers.add(getID());
-				this.blockTicker = (BlockTicker) h;
+				blockTicker = (BlockTicker) handler;
 			}
-			else if (h instanceof EnergyTicker) {
-				this.energyTicker = (EnergyTicker) h;
+			else if (handler instanceof EnergyTicker) {
+				energyTicker = (EnergyTicker) handler;
 				EnergyNet.registerComponent(getID(), EnergyNetComponent.SOURCE);
 			}
 		}
@@ -431,23 +427,6 @@ public class SlimefunItem implements Placeable {
 		register(false);
 	}
 
-	/**
-	 * @deprecated Use {@link SlimefunItem#register(boolean, ItemHandler...)} instead
-	 */
-	@Deprecated
-	public void register(boolean vanilla, me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
-		addItemHandler(handlers);
-		register(vanilla);
-	}
-
-	/**
-	 * @deprecated Use {@link SlimefunItem#register(ItemHandler...)} instead
-	 */
-	@Deprecated
-	public void register(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
-		register((ItemHandler[]) handlers);
-	}
-
 	public void register(boolean vanilla, SlimefunBlockHandler handler) {
 		SlimefunPlugin.getUtilities().blockHandlers.put(getID(), handler);
 		register(vanilla);
@@ -458,10 +437,18 @@ public class SlimefunItem implements Placeable {
 		register(false);
 	}
 
-	public static Set<ItemHandler> getHandlers(String codeid) {
-		return SlimefunPlugin.getUtilities().itemHandlers.getOrDefault(codeid, new HashSet<>());
+	public static Set<ItemHandler> getHandlers(Class<? extends ItemHandler> identifier) {
+		return SlimefunPlugin.getUtilities().itemHandlers.computeIfAbsent(identifier, c -> new HashSet<>());
 	}
 
+	/**
+	 * This method marks the item as radioactive.
+	 * 
+	 * @deprecated The Interface {@link Radioactive} should be used instead in the future.
+	 * 
+	 * @param item	The {@link ItemStack} to set as radioactive
+	 */
+	@Deprecated
 	public static void setRadioactive(ItemStack item) {
 		SlimefunPlugin.getUtilities().radioactiveItems.add(item);
 	}
@@ -469,25 +456,6 @@ public class SlimefunItem implements Placeable {
 	public static ItemStack getItem(String id) {
 		SlimefunItem item = getByID(id);
 		return item != null ? item.getItem(): null;
-	}
-
-	public static void patchExistingItem(String id, ItemStack stack) {
-		SlimefunItem item = getByID(id);
-		if (item != null) {
-			Slimefun.getLogger().log(Level.INFO, "Patching existing Item... {0}", id);
-			Slimefun.getLogger().log(Level.INFO, "This might take a while");
-
-			final ItemStack old = item.getItem();
-			item.setItem(stack);
-			for (SlimefunItem sfi: list()) {
-				ItemStack[] recipe = sfi.getRecipe();
-				
-				for (int i = 0; i < 9; i++) {
-					if (SlimefunManager.isItemSimilar(recipe[i], old, true)) recipe[i] = stack;
-				}
-				sfi.setRecipe(recipe);
-			}
-		}
 	}
 
 	public void registerChargeableBlock(int capacity) {
@@ -538,7 +506,7 @@ public class SlimefunItem implements Placeable {
 	public static boolean isTicking(String item) {
 		return SlimefunPlugin.getUtilities().tickers.contains(item);
 	}
-
+	
 	public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
 		SlimefunPlugin.getUtilities().blockHandlers.put(id, handler);
 	}
@@ -595,8 +563,8 @@ public class SlimefunItem implements Placeable {
 	 * 
 	 * @return	The Set of item handlers
 	 */
-	public Set<ItemHandler> getHandlers() {
-		return itemhandlers;
+	public Collection<ItemHandler> getHandlers() {
+		return itemhandlers.values();
 	}
 
 	/**
@@ -611,7 +579,11 @@ public class SlimefunItem implements Placeable {
 	}
 	
 	public <T extends ItemHandler> void callItemHandler(Class<T> c, Consumer<T> callable) {
-		itemhandlers.stream().filter(c::isInstance).map(c::cast).forEach(callable);
+		Optional<ItemHandler> handler = itemhandlers.get(c);
+		
+		if (handler.isPresent()) {
+			callable.accept(c.cast(handler.get()));
+		}
 	}
 	
 	public boolean isTicking() {

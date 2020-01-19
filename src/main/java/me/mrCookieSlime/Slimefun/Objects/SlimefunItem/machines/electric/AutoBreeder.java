@@ -8,9 +8,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -32,7 +31,8 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 	
 	public AutoBreeder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
-		createPreset(this, "&6Auto Breeder", this::constructMenu);
+		
+		createPreset(this, this::constructMenu);
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
@@ -81,16 +81,18 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 	}
 	
 	protected void tick(Block b) {
+		BlockMenu inv = BlockStorage.getInventory(b);
+		
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, n -> n instanceof Animals && n.isValid() && ((Animals) n).isAdult() && !((Animals) n).isLoveMode())) {
 			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimilar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
+				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
 					if (ChargableBlock.getCharge(b) < energyConsumption) return;
 					
 					ChargableBlock.addCharge(b, -energyConsumption);
-					BlockStorage.getInventory(b).replaceExistingItem(slot, InvUtils.decreaseItem(BlockStorage.getInventory(b).getItemInSlot(slot), 1));
+					inv.consumeItem(slot);
 					
 					((Animals) n).setLoveModeTicks(600);
-					n.getWorld().spawnParticle(Particle.HEART,((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
+					n.getWorld().spawnParticle(Particle.HEART, ((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
 					return;
 				}
 			}

@@ -39,13 +39,15 @@ public class ChargingBench extends AContainer {
 		if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 		
 		BlockMenu menu = BlockStorage.getInventory(b);
-		for (int slot: getInputSlots()) {
+		
+		for (int slot : getInputSlots()) {
 			ItemStack stack = menu.getItemInSlot(slot);
 			if (ItemEnergy.getMaxEnergy(stack) > 0) {
 				if (ItemEnergy.getStoredEnergy(stack) < ItemEnergy.getMaxEnergy(stack)) {
 
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
 					float rest = ItemEnergy.addStoredEnergy(stack, getEnergyConsumption() / 2F);
+					
 					if (rest > 0F) {
 						if (menu.fits(stack, getOutputSlots())) {
 							menu.pushItem(stack, getOutputSlots());

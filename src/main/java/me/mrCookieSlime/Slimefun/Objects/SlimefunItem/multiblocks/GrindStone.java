@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -38,7 +38,9 @@ public class GrindStone extends MultiBlockMachine {
 						new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL),
 						new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK, 
 						new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), 
-						new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4)
+						new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4),
+						new ItemStack(Material.PRISMARINE_BRICKS), new ItemStack(Material.PRISMARINE, 4),
+						new ItemStack(Material.PRISMARINE), new ItemStack(Material.PRISMARINE_SHARD, 4)
 				},
 				BlockFace.SELF
 		);

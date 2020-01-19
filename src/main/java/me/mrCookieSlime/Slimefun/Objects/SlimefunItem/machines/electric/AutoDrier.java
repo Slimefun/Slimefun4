@@ -8,8 +8,8 @@ import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -21,7 +21,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public class AutoDrier extends AContainer implements RecipeDisplayItem {
 	
@@ -92,7 +91,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
         if (isProcessing(b)) {
             int timeleft = progress.get(b);
             if (timeleft > 0) {
-            	MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+            	ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
                 if (ChargableBlock.isChargable(b)) {
                     if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
@@ -113,7 +112,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
             MachineRecipe r = null;
             int inputSlot = -1;
             
-            for (int slot: getInputSlots()) {
+            for (int slot : getInputSlots()) {
                 ItemStack item = menu.getItemInSlot(slot);
                 if (item != null) {
                     Material mat = item.getType();
@@ -146,7 +145,8 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
             if (r != null) {
                 if (inputSlot == -1) return;
                 if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
-                menu.replaceExistingItem(inputSlot, InvUtils.decreaseItem(menu.getItemInSlot(inputSlot), 1));
+                
+                menu.consumeItem(inputSlot);
                 processing.put(b, r);
                 progress.put(b, r.getTicks());
             }

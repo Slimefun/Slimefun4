@@ -8,24 +8,25 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 public class BackpackInventory {
-	
-	private int id;
-	private int size;
-	private PlayerProfile profile;
-	private Config cfg;
+
+	private final PlayerProfile profile;
+	private final int id;
+	private final Config cfg;
+
 	private Inventory inventory;
-	
+	private int size;
+
 	/**
 	 * This constructor loads an existing Backpack
 	 */
 	public BackpackInventory(PlayerProfile profile, int id) {
 		this(profile, id, profile.getConfig().getInt("backpacks." + id + ".size"));
-		
+
 		for (int i = 0; i < size; i++) {
 			inventory.setItem(i, cfg.getItem("backpacks." + id + ".contents." + i));
 		}
 	}
-	
+
 	/**
 	 * This constructor creates a new Backpack
 	 */
@@ -34,27 +35,27 @@ public class BackpackInventory {
 		this.id = id;
 		this.cfg = profile.getConfig();
 		this.size = size;
-		
+
 		cfg.setValue("backpacks." + id + ".size", size);
 		profile.markDirty();
-		
+
 		inventory = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
 	}
-	
+
 	public int getID() {
 		return id;
 	}
-	
+
 	public int getSize() {
 		return size;
 	}
-	
+
 	public Inventory getInventory() {
 		return inventory;
 	}
-	
+
 	public void open(Player... players) {
-		for (Player p: players) {
+		for (Player p : players) {
 			p.openInventory(inventory);
 		}
 	}
@@ -62,15 +63,15 @@ public class BackpackInventory {
 	public void setSize(int size) {
 		this.size = size;
 		cfg.setValue("backpacks." + id + ".size", size);
-		
-		Inventory inventory = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
-		
+
+		Inventory inv = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
+
 		for (int slot = 0; slot < this.inventory.getSize(); slot++) {
-			inventory.setItem(slot, this.inventory.getItem(slot));
+			inv.setItem(slot, this.inventory.getItem(slot));
 		}
-		
-		this.inventory = inventory;
-		
+
+		this.inventory = inv;
+
 		markDirty();
 	}
 

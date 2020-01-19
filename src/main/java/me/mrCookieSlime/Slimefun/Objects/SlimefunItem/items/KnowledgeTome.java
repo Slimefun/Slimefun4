@@ -30,20 +30,25 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemInteractionHandler> {
 			if (isItem(item)) {
 				ItemMeta im = item.getItemMeta();
 				List<String> lore = im.getLore();
+				
 				if (lore.get(1).isEmpty()) {
 					lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
 					lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
 					im.setLore(lore);
 					item.setItemMeta(im);
 					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
-				} else {
+				} 
+				else {
 					UUID uuid = UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
+					
 					if (p.getUniqueId().equals(uuid))
 						return true;
+					
 					PlayerProfile.get(p, profile -> PlayerProfile.fromUUID(uuid, owner -> {
 						Set<Research> researches = owner.getResearches();
 						researches.forEach(research -> research.unlock(p, true));
 					}));
+					
 					if (p.getGameMode() != GameMode.CREATIVE)
 						item.setAmount(item.getAmount() - 1);
 				}

@@ -1,13 +1,16 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
@@ -16,6 +19,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -23,9 +27,8 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
-public abstract class OilPump extends AContainer {
+public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 
 	public OilPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -43,7 +46,7 @@ public abstract class OilPump extends AContainer {
 					return false;
 				}
 				
-				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("原油"), b.getChunk())) {
+				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("原油"), b.getLocation())) {
 					SlimefunPlugin.getLocal().sendMessage(p, "gps.geo.scan-required", true);
 					return false;
 				}
@@ -56,6 +59,11 @@ public abstract class OilPump extends AContainer {
 				else return getOutputSlots();
 			}
 		};
+	}
+	
+	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		return Arrays.asList(new ItemStack(Material.BUCKET), SlimefunItems.BUCKET_OF_OIL);
 	}
 	
 	@Override
@@ -79,8 +87,9 @@ public abstract class OilPump extends AContainer {
 		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -88,35 +97,35 @@ public abstract class OilPump extends AContainer {
 				progress.put(b, timeleft - 1);
 			}
 			else {
-				inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+				inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 				inv.pushItem(SlimefunItems.BUCKET_OF_OIL, getOutputSlots());
 				
 				progress.remove(b);
 				processing.remove(b);
 			}
 		}
-		else {
-			OreGenResource oil = OreGenSystem.getResource("原油");
-			int supplies = OreGenSystem.getSupplies(oil, b.getChunk(), false);
-			
-			if (supplies > 0) {
-				for (int slot: getInputSlots()) {
-					if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+		else if (inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
+			for (int slot : getInputSlots()) {
+				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+					OreGenResource oil = OreGenSystem.getResource("原油");
+					int supplies = OreGenSystem.getSupplies(oil, b.getLocation(), false);
+					
+					if (supplies > 0) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
-						
-						if (!inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
-							return;
-						}
-						
-						inv.replaceExistingItem(slot, InvUtils.decreaseItem(inv.getItemInSlot(slot), 1));
+
+						inv.consumeItem(slot);
 						processing.put(b, r);
 						progress.put(b, r.getTicks());
-						OreGenSystem.setSupplies(oil, b.getChunk(), supplies - 1);
-						break;
+						OreGenSystem.setSupplies(oil, b.getLocation(), supplies - 1);
 					}
+					else {
+						ItemStack item = inv.getItemInSlot(slot).clone();
+						inv.replaceExistingItem(slot, null);
+						inv.pushItem(item, getOutputSlots());
+					}
+					break;
 				}
 			}
 		}
 	}
-
 }

@@ -40,7 +40,7 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
 						logs.remove(e.getBlock());
 					}
 					
-					for (Block b: logs) {
+					for (Block b : logs) {
 						if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
 							b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 							
