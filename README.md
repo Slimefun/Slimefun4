@@ -8,12 +8,6 @@ It adds a whole new layer of survival to your server by adding more than 400+ ne
 But it also comes with a lot of Addons too!<br>
 Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons), you may find exactly what you wanted there.
 
-<p align="center">
-  <a href="https://bstats.org/plugin/bukkit/Slimefun">
-    <img alt="bStats Servers" src="https://img.shields.io/bstats/servers/4574?color=%2344AD44&label=Servers%20using%20Slimefun4&logo=https%3A%2F%2Fimg.shields.io%2Fbstats%2Fservers%2F4574%3Fcolor%3D%252344AD44%26label%3DServers%2520using%2520Slimefun%2520right%2520now%26style%3Dfor-the-badge&style=for-the-badge">
-  </a>
-</p>
-
 Slimefun 4 is licensed under 
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
@@ -32,8 +26,10 @@ But please also consider using development builds. If plenty of people use the d
 </p>
 
 ## Discord
-You can find Slimefun's community on Discord!
-Click the badge down below to join the server for suggestions/questions or other discussions about this plugin.
+You can find Slimefun's community on Discord!<br>
+Click the badge down below to join the server for suggestions/questions or other discussions about this plugin.<br>
+Note that we do **not** accept bug reports on discord, please use our [Issue Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues) to submit bug reports!
+
 <p align="center">
   <a href="https://discord.gg/fsD4Bkh">
     <img src="https://img.shields.io/discord/565557184348422174?color=7289DA&label=Discord&style=for-the-badge" alt="Discord Invite"/>
@@ -45,6 +41,12 @@ Slimefun has a (detailed and well-maintained - *cough*) Wiki for new Users, mayb
 applying as Wiki Staff to help grow our Community and help out new Users of this Project.
 https://github.com/TheBusyBiscuit/Slimefun4/wiki
 
+### Important Articles
+* [What is Slimefun?](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Slimefun-in-a-nutshell)
+* [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun)
+* [Addons for Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons)
+* [Getting Started](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Getting-Started)
+* [Help us expand the Wiki!](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Expanding-the-Wiki)
 
 ## Contributions
 You are allowed, even encouraged, to contribute to Slimefun 4 by making Pull Requests.
@@ -58,3 +60,36 @@ Check the license for more Info on redistributing and modifying Slimefun 4.
     <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/TheBusyBiscuit/Slimefun4?style=for-the-badge">
   </a>
 </p>
+
+## Data Collection
+Slimefun4 uses various systems that collect or download data.<br>
+We do not collect any personal information from you, here is a full list of what services may collect or download data.
+
+### Auto-Updates
+Slimefun4 uses an Auto-Updater which connects to https://thebusybiscuit.github.io/builds/ to check for and download updates.<br>
+This behaviour is enabled by default but can be turned off under `/plugins/Slimefun/config.yml`<br>
+We highly recommend you to keep this on at any time though, as you could be missing out on important patches.
+
+### Metrics and Statistics
+Slimefun4 uses [bStats](https://bstats.org/plugin/bukkit/Slimefun/4574) to collect anonymous information about the usage of this plugin.<br>
+This is solely for statistical purposes, as we are interested in how Servers/Players use this plugin.<br>
+All available data is anonymous and aggregated, at no point can we see individual server or player information.<br>
+All of the collected data is publicly accessible: https://bstats.org/plugin/bukkit/Slimefun/4574
+
+You can also disable this behaviour under `/plugins/bStats/config.yml`.<br>
+For more info see [bStats' Privacy Policy](https://bstats.org/privacy-policy)
+
+### GitHub Integration
+Lastly, Slimefun4 connects to https://api.github.com/ to gather information about this open-source project.<br>
+No information about your Minecraft Server is sent to GitHub.
+
+This information includes (but is not limited to)
+* list of contributors, their username and profile link (from the repositories `TheBusyBiscuit/Slimefun4`, `TheBusyBiscuit/Slimefun4-Wiki` and `TheBusyBiscuit/Slimefun4-Resourcepack`)
+* amount of open issues in this repository
+* amount of pending pull requests in this repository
+* amount of stars in this repository
+* amount of forks of this repository
+* amount of code-bytes in this repository
+* date of the last commit to this repository
+
+Additionally the plugin connects to https://mojang.com/ to retrieve the Minecraft skins of our contributors (if possible).
