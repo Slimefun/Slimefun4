@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 
+import io.github.thebusybiscuit.slimefun4.core.services.localization.SupportedLanguage;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -36,7 +37,10 @@ public class LocalizationService extends SlimefunLocalization {
 		this.plugin = plugin;
 		languageKey = new NamespacedKey(plugin, LANGUAGE_PATH);
 		defaultLanguage = new Language(serverDefaultLanguage, getConfig().getConfiguration(), "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
-		loadLanguages();
+
+		for (SupportedLanguage lang : SupportedLanguage.values()) {
+			addLanguage(lang.getId(), lang.getTexture());
+		}
 
 		String language = getConfig().getString(LANGUAGE_PATH);
 		if (language == null) language = serverDefaultLanguage;
@@ -51,11 +55,6 @@ public class LocalizationService extends SlimefunLocalization {
 
 		setPrefix("&aSlimefun 4 &7> ");
 		save();
-	}
-
-	// Load included Languages (with their ID and texture)
-	private void loadLanguages() {
-		addLanguage("en", "a1701f21835a898b20759fb30a583a38b994abf60d3912ab4ce9f2311e74f72");
 	}
 
 	@Override
