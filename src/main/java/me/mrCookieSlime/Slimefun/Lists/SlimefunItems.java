@@ -150,19 +150,19 @@ public final class SlimefunItems {
     public static final ItemStack KELP_COOKIE = new SlimefunItemStack("KELP_COOKIE", Material.COOKIE, "&2海带曲奇");
 
     /*		Christmas		*/
-    public static final ItemStack CHRISTMAS_MILK = new SlimefunItemStack("&6一杯牛奶", Color.WHITE, new PotionEffect(PotionEffectType.SATURATION, 5, 0), "", "&7&o恢复 &b&o" + "2.5" + " &7&o的饥饿值");
-    public static final ItemStack CHRISTMAS_CHOCOLATE_MILK = new SlimefunItemStack("&6巧克力牛奶", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 12, 0), "", "&7&o恢复 &b&o" + "6.0" + " &7&o的饥饿值");
-    public static final ItemStack CHRISTMAS_EGG_NOG = new SlimefunItemStack("&a蛋酒", Color.GRAY, new PotionEffect(PotionEffectType.SATURATION, 7, 0), "", "&7&o恢复 &b&o" + "3.5" + " &7&o的饥饿值");
-    public static final ItemStack CHRISTMAS_APPLE_CIDER = new SlimefunItemStack("&c苹果酒", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "", "&7&o恢复 &b&o" + "7.0" + " &7&o的饥饿值");
-    public static final ItemStack CHRISTMAS_COOKIE = new CustomItem(Material.COOKIE, ChatUtils.christmas("圣诞曲奇"));
-    public static final ItemStack CHRISTMAS_FRUIT_CAKE = new CustomItem(Material.PUMPKIN_PIE, ChatUtils.christmas("水果蛋糕"));
-    public static final ItemStack CHRISTMAS_APPLE_PIE = new CustomItem(Material.PUMPKIN_PIE, "&r苹果派");
-    public static final ItemStack CHRISTMAS_HOT_CHOCOLATE = new SlimefunItemStack("&6热可可", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "", "&7&o恢复 &b&o" + "7.0" + " &7&o的饥饿值");
-    public static final ItemStack CHRISTMAS_CAKE = new CustomItem(Material.PUMPKIN_PIE, ChatUtils.christmas("圣诞蛋糕"));
-    public static final ItemStack CHRISTMAS_CARAMEL = new CustomItem(Material.BRICKS, "&6焦糖");
-    public static final ItemStack CHRISTMAS_CARAMEL_APPLE = new CustomItem(Material.APPLE, "&6焦糖苹果");
-    public static final ItemStack CHRISTMAS_CHOCOLATE_APPLE = new CustomItem(Material.APPLE, "&6巧克力苹果");
-    public static final ItemStack CHRISTMAS_PRESENT = new CustomItem(Material.CHEST, ChatUtils.christmas("圣诞礼物"),  "&7来自 &emrCookieSlime &7的礼物", "&7收件人: &e你", "", "&e右键&7 拆开");
+    public static final ItemStack CHRISTMAS_MILK = new SlimefunItemStack("CHRISTMAS_MILK", Color.WHITE, new PotionEffect(PotionEffectType.SATURATION, 5, 0), "&6一杯牛奶", "", "&7&o恢复 &b&o" + "2.5" + " &7&o的饥饿值");
+    public static final ItemStack CHRISTMAS_CHOCOLATE_MILK = new SlimefunItemStack("CHRISTMAS_CHOCOLATE_MILK", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 12, 0), "&6巧克力牛奶", "", "&7&o恢复 &b&o" + "3.5" + " &7&o的饥饿值");
+    public static final ItemStack CHRISTMAS_EGG_NOG = new SlimefunItemStack("CHRISTMAS_EGG_NOG", Color.GRAY, new PotionEffect(PotionEffectType.SATURATION, 7, 0), "&a蛋酒", "", "&7&o恢复 &b&o" + "7.0" + " &7&o的饥饿值");
+    public static final ItemStack CHRISTMAS_APPLE_CIDER = new SlimefunItemStack("CHRISTMAS_APPLE_CIDER", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "&c苹果酒", "", "&7&o恢复 &b&o" + "7.0" + " &7&o的饥饿值");
+    public static final ItemStack CHRISTMAS_COOKIE = new SlimefunItemStack("CHRISTMAS_COOKIE", Material.COOKIE, ChatUtils.christmas("圣诞曲奇"));
+    public static final ItemStack CHRISTMAS_FRUIT_CAKE = new SlimefunItemStack("CHRISTMAS_FRUIT_CAKE", Material.PUMPKIN_PIE, ChatUtils.christmas("水果蛋糕"));
+    public static final ItemStack CHRISTMAS_APPLE_PIE = new SlimefunItemStack("CHRISTMAS_APPLE_PIE", Material.PUMPKIN_PIE, "&r苹果派");
+    public static final ItemStack CHRISTMAS_HOT_CHOCOLATE = new SlimefunItemStack("CHRISTMAS_HOT_CHOCOLATE", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "&6热可可", "", "&7&o恢复 &b&o" + "7.0" + " &7&o的饥饿值");
+    public static final ItemStack CHRISTMAS_CAKE = new SlimefunItemStack("CHRISTMAS_CAKE", Material.PUMPKIN_PIE, ChatUtils.christmas("圣诞蛋糕"));
+    public static final ItemStack CHRISTMAS_CARAMEL = new SlimefunItemStack("CHRISTMAS_CARAMEL", Material.BRICK, "&6焦糖");
+    public static final ItemStack CHRISTMAS_CARAMEL_APPLE = new SlimefunItemStack("CHRISTMAS_CARAMEL_APPLE", Material.APPLE, "&6焦糖苹果");
+    public static final ItemStack CHRISTMAS_CHOCOLATE_APPLE = new SlimefunItemStack("CHRISTMAS_CHOCOLATE_APPLE", Material.APPLE, "&6巧克力苹果");
+    public static final ItemStack CHRISTMAS_PRESENT = new SlimefunItemStack("CHRISTMAS_PRESENT", Material.CHEST, ChatUtils.christmas("圣诞礼物"), "&7来自 &emrCookieSlime &7的礼物", "&7收件人: &e你", "", "&e右键&7 拆开");
 
     /*		Easter			*/
     public static final ItemStack EASTER_EGG = new SlimefunItemStack("EASTER_EGG", Material.EGG, "&r复活节彩蛋", "&b惊喜!");
