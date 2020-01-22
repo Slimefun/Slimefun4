@@ -1,9 +1,6 @@
 # Slimefun 4
-Slimefun is a plugin which aims to basically turn your Bukkit Server into a modpack like FTB without installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks!
-It also adds an API allowing you guys to easily install/code Addons for this.
-You own a Server which is not only minigame based and your players got bored of playing Survival?
-Then you will absolutely love this Plugin! 
-It adds a whole new layer of survival to your server by adding more than 400+ new Items!
+Slimefun is a plugin which aims to turn your Bukkit/Spigot Server into a modpack without installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks!
+It adds a whole new layer of survival to your server by adding more than 490+ new Items!
 
 But it also comes with a lot of Addons too!<br>
 Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons), you may find exactly what you wanted there.
@@ -38,10 +35,10 @@ Note that we do **not** accept bug reports on discord, please use our [Issue Tra
 
 ## Wiki
 Slimefun has a (detailed and well-maintained - *cough*) Wiki for new Users, maybe also consider
-applying as Wiki Staff to help grow our Community and help out new Users of this Project.
+expanding the wiki to help grow our community and help out new users of this plugin.
 https://github.com/TheBusyBiscuit/Slimefun4/wiki
 
-### Important Articles
+### Highlighted Articles
 * [What is Slimefun?](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Slimefun-in-a-nutshell)
 * [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun)
 * [Addons for Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons)
@@ -50,10 +47,9 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 
 ## Contributions
 You are allowed, even encouraged, to contribute to Slimefun 4 by making Pull Requests.
-These Pull Requests can be Fixes, Changes or even Additions, but please keep in mind that
+This is an open-source community project, so your contributions keep this plugin alive!
+These Pull Requests can be fixes, changes or even additions, but please keep in mind that
 if you add too much content to Slimefun 4, you should rather make an Addon for it instead.
-
-Check the license for more Info on redistributing and modifying Slimefun 4.
 
 <p align="center">
   <a href="https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors">
