@@ -29,7 +29,7 @@ public class UraniumResource implements OreGenResource {
 
 	@Override
 	public String getName() {
-		return "Small Chunks of Uranium";
+		return "一小块铀";
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class UraniumResource implements OreGenResource {
 
 	@Override
 	public String getMeasurementUnit() {
-		return "Piece(s)";
+		return "片";
 	}
 
 	@Override

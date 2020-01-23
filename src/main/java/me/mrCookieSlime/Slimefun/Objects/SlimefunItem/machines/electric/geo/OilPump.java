@@ -46,7 +46,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 					return false;
 				}
 				
-				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("Oil"), b.getLocation())) {
+				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("原油"), b.getLocation())) {
 					SlimefunPlugin.getLocal().sendMessage(p, "gps.geo.scan-required", true);
 					return false;
 				}
@@ -73,7 +73,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&4Oil Pump";
+		return "&4油泵";
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 		else if (inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-					OreGenResource oil = OreGenSystem.getResource("Oil");
+					OreGenResource oil = OreGenSystem.getResource("原油");
 					int supplies = OreGenSystem.getSupplies(oil, b.getLocation(), false);
 					
 					if (supplies > 0) {
