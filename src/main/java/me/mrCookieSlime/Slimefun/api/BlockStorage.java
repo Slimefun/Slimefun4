@@ -84,7 +84,7 @@ public class BlockStorage {
 		if (SlimefunPlugin.getUtilities().worlds.containsKey(w.getName())) return;
 		this.world = w;
 		
-		Slimefun.getLogger().log(Level.INFO, "Loading Blocks for World \"" + w.getName() + "\"");
+		Slimefun.getLogger().log(Level.INFO, "正在加载世界 \"" + w.getName() + "\" 中的方块");
 		Slimefun.getLogger().log(Level.INFO, "This may take a long time...");
 		
 		File f = new File(PATH_BLOCKS + w.getName());

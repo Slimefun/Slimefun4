@@ -45,7 +45,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
 				// Spawn the hologram
-				SimpleHologram.update(b, "&7待机中...");
+				SimpleHologram.update(b, "&7Idling...");
 			}
 
 			@Override
@@ -79,7 +79,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	
 	@Override
 	public String getInventoryTitle() {
-		return "&6GEO 矿机";
+		return "&6GEO-Miner";
 	}
 	
 	@Override

@@ -55,7 +55,7 @@ public class SaltResource implements OreGenResource {
 
 	@Override
 	public String getName() {
-		return "盐";
+		return "Salt";
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class SaltResource implements OreGenResource {
 
 	@Override
 	public String getMeasurementUnit() {
-		return "块";
+		return "Crystal(s)";
 	}
 
 	@Override

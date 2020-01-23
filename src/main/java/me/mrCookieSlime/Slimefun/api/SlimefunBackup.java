@@ -35,7 +35,7 @@ public final class SlimefunBackup {
 
 			for (int i = backups.size() - 20; i > 0; i--) {
 				if (!backups.get(i).delete()) {
-					Slimefun.getLogger().log(Level.WARNING, "Could not delete Backup: " + backups.get(i).getName());
+					Slimefun.getLogger().log(Level.WARNING, "无法删除备份: " + backups.get(i).getName());
 				}
 			}
 		}

@@ -4,22 +4,20 @@ import org.bukkit.ChatColor;
 
 public enum Radioactivity {
 
-	LOW(ChatColor.YELLOW, "低"),
-	MODERATE(ChatColor.YELLOW, "中"),
-	HIGH(ChatColor.DARK_GREEN, "高"),
-	VERY_HIGH(ChatColor.RED, "极高"),
-	VERY_DEADLY(ChatColor.DARK_RED, "致命");
+	LOW(ChatColor.YELLOW),
+	MODERATE(ChatColor.YELLOW),
+	HIGH(ChatColor.DARK_GREEN),
+	VERY_HIGH(ChatColor.RED),
+	VERY_DEADLY(ChatColor.DARK_RED);
 	
 	private final ChatColor color;
-	private final String name;
 	
-	private Radioactivity(ChatColor color, String name) {
+	private Radioactivity(ChatColor color) {
 		this.color = color;
-		this.name = name;
 	}
 	
 	public String getLore() {
-		return ChatColor.GREEN + "\u2622" + ChatColor.GRAY + " 辐射等级: " + color + name.replace('_', ' ');
+		return ChatColor.GREEN + "\u2622" + ChatColor.GRAY + " Radiation level: " + color + toString().replace('_', ' ');
 	}
 	
 	public int getLevel() {

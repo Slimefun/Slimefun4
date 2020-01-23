@@ -6,7 +6,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 
 public final class LoreBuilder {
 	
-	public static final String HAZMAT_SUIT_REQUIRED = "&8\u21E8 &4需要防化服!";
+	public static final String HAZMAT_SUIT_REQUIRED = "&8\u21E8 &4Hazmat Suit required!";
 
 	private LoreBuilder() {}
 	
@@ -19,11 +19,11 @@ public final class LoreBuilder {
 	}
 	
 	public static String speed(float speed) {
-		return "&8\u21E8 &b\u26A1 &7速度: &b" + speed + "x";
+		return "&8\u21E8 &b\u26A1 &7Speed: &b" + speed + "x";
 	}
 	
 	public static String powerBuffer(int power) {
-		return power(power, " 可储存");
+		return power(power, " Buffer");
 	}
 	
 	public static String powerPerSecond(int power) {

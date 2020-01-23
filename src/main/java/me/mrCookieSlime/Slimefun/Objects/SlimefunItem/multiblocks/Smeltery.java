@@ -36,7 +36,7 @@ public class Smeltery extends MultiBlockMachine {
 				Categories.MACHINES_1, 
 				SlimefunItems.SMELTERY, 
 				"SMELTERY",
-				new ItemStack[] {null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispencer (Faced up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null},
+				new ItemStack[] {null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null},
 				new ItemStack[] {
 						SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)
 				}, 

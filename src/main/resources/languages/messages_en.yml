@@ -112,6 +112,11 @@ machines:
 
   ELEVATOR:
     no-destinations: '&4找不到目的地 (检查是否放置了电梯)'
+    pick-a-floor: '&3- 选择一个楼层 -'
+    current-floor: '&e你现在所在的楼层:'
+    click-to-teleport: '&e单击 &7传送至楼层:'
+    enter-name: '&7请为你的楼层起个名字吧! &r(支持颜色代码)'
+    named: '&2成功将此层命名为 &r%floor%'
 
   CARGO_NODES:
     must-be-placed: '&4必须放置在箱子或机器上!'

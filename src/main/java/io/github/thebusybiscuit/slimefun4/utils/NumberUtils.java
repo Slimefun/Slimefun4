@@ -32,16 +32,16 @@ public final class NumberUtils {
 		int hours = (int) ((System.currentTimeMillis() - timestamp) / (1000 * 60 * 60));
 		
 		if (hours == 0) {
-			return "> 1 小时";
+			return "> 1h";
 		}
 		else if ((hours / 24) == 0) {
-			return (hours % 24) + "时";
+			return (hours % 24) + "h";
 		}
 		else if (hours % 24 == 0) {
-			return (hours / 24) + "天";
+			return (hours / 24) + "d";
 		}
 		else {
-			return (hours / 24) + "天 " + (hours % 24) + "时";
+			return (hours / 24) + "d " + (hours % 24) + "h";
 		}
 	}
 	
@@ -50,11 +50,11 @@ public final class NumberUtils {
 		
         int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
-            timeleft += minutes + "分 ";
+            timeleft += minutes + "m ";
         }
         
         seconds -= minutes * 60;
-        return timeleft + seconds + "秒";
+        return timeleft + seconds + "s";
 	}
 
 }
