@@ -26,9 +26,11 @@ public class MagicSugar extends SimpleSlimefunItem<ItemInteractionHandler> {
 	public ItemInteractionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (isItem(item)) {
-				String target = BlockStorage.checkID(e.getClickedBlock());
-				if(target.equals("ANCIENT_PEDESTAL") || target.equals("ANCIENT_ALTAR"))
-					return false;
+				if(e.getClickedBlock() != null) {
+					String target = BlockStorage.checkID(e.getClickedBlock());
+					if ("ANCIENT_PEDESTAL".equals(target) || "ANCIENT_ALTAR".equals(target))
+						return false;
+				}
 				if (p.getGameMode() != GameMode.CREATIVE) ItemUtils.consumeItem(item, false);
 				
 				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
