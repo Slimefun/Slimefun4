@@ -46,6 +46,8 @@
 * Fixed #1364
 * Fixed Bio Reactor not accepting melons
 * Fixed Cargo Networks particles being broken
+* Fixed #1379
+* Fixed #1212
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
