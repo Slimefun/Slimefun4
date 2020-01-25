@@ -56,6 +56,7 @@ public class DebugFishListener implements Listener {
 
                             if (e.getClickedBlock().getState() instanceof Skull) {
                                 p.sendMessage(ChatColors.color("&dSkull: " + "&2\u2714"));
+                                //Check if the skull is a wall skull, and if so use Directional instead of Rotatable.
                                 if (e.getClickedBlock().getType() == Material.PLAYER_WALL_HEAD)
                                     p.sendMessage(ChatColors.color("  &dFacing: &e" + ((Directional) e.getClickedBlock().getBlockData()).getFacing().toString()));
                                 else
