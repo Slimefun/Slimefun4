@@ -84,7 +84,7 @@ public class BackpackListener implements Listener {
 		if (item.getAmount() == 1) {
 			if (Slimefun.hasUnlocked(p, backpack, true)) {
 				if (!PlayerProfile.get(p, profile -> openBackpack(item, profile, backpack.getSize())))
-					Slimefun.getLocal().sendMessage(p, "messages.opening-backpack");
+					SlimefunPlugin.getLocal().sendMessage(p, "messages.opening-backpack");
 			}
 		}
 		else SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);

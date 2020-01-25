@@ -83,7 +83,7 @@ public final class GuideSettings {
 				"&7&oThis is very important when reporting bugs!",
 				"",
 				"&7Minecraft Version: &a" + Bukkit.getBukkitVersion(),
-				"&7Slimefun Version: &a" + Slimefun.getVersion(),
+				"&7Slimefun Version: &a" + SlimefunPlugin.getVersion(),
 				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion()
 		),  ChestMenuUtils.getEmptyClickHandler());
 

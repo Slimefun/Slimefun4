@@ -146,13 +146,17 @@ public class ErrorReport {
 		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
 			if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
 				plugins.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-				if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency))
+				
+				if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
 					addons.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+				}
 			}
 			else {
 				plugins.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-				if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency))
+				
+				if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
 					addons.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+				}
 			}
 		}
 	}

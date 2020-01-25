@@ -10,7 +10,6 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class PlaceholderAPIHook extends PlaceholderExpansion {
 
@@ -65,7 +64,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		}
 		
 		if (params.equals("gps_complexity")) {
-			return String.valueOf(Slimefun.getGPSNetwork().getNetworkComplexity(p.getUniqueId()));
+			return String.valueOf(SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()));
 		}
 		
 		if (params.equals("timings_lag")) {

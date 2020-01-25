@@ -9,7 +9,6 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class GEOScanner {
 	
@@ -18,7 +17,7 @@ public final class GEOScanner {
 	private GEOScanner() {}
 	
 	public static void scanChunk(Player p, Chunk chunk) {
-		if (Slimefun.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {
+		if (SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {
 			SlimefunPlugin.getLocal().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));
 			return;
 		}

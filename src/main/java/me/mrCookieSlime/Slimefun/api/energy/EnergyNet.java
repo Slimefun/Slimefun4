@@ -8,14 +8,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.EnergyHologram;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.network.Network;
-import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
 
 public class EnergyNet extends Network {
 
@@ -58,7 +58,7 @@ public class EnergyNet extends Network {
 	}
 
 	public static EnergyNet getNetworkFromLocation(Location l) {
-		return getNetworkFromLocation(l, EnergyNet.class);
+		return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);
 	}
 
 	public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
@@ -66,7 +66,7 @@ public class EnergyNet extends Network {
 
 		if (energyNetwork == null) {
 			energyNetwork = new EnergyNet(l);
-			registerNetwork(energyNetwork);
+			SlimefunPlugin.getNetworkManager().registerNetwork(energyNetwork);
 		}
 
 		return energyNetwork;

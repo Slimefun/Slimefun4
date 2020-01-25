@@ -25,6 +25,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
@@ -35,8 +37,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.api.network.Network;
-import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
 
 public class CargoNet extends Network {
 
@@ -62,7 +62,7 @@ public class CargoNet extends Network {
 	private final Set<Location> exports = new HashSet<>();
 	
 	public static CargoNet getNetworkFromLocation(Location l) {
-		return getNetworkFromLocation(l, CargoNet.class);
+		return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
 	}
 
 	public static CargoNet getNetworkFromLocationOrCreate(Location l) {
@@ -70,7 +70,7 @@ public class CargoNet extends Network {
 		
 		if (cargoNetwork == null) {
 			cargoNetwork = new CargoNet(l);
-			registerNetwork(cargoNetwork);
+			SlimefunPlugin.getNetworkManager().registerNetwork(cargoNetwork);
 		}
 		
 		return cargoNetwork;

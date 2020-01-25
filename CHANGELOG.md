@@ -31,6 +31,7 @@
 * Added custom model data support for Languages
 * Added Grind Stone Recipes for Prismarine
 * Added String to the Bio Reactor
+* Added a config setting to limit how many Nodes a Network can have
 
 ### Changes
 * Removed Solar Array
@@ -44,6 +45,7 @@
 * Fixed GitHub cache
 * Fixed #1364
 * Fixed Bio Reactor not accepting melons
+* Fixed Cargo Networks particles being broken
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4

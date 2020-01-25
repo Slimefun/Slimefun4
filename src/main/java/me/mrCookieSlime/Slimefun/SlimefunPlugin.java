@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
+import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunTabCompleter;
 import io.github.thebusybiscuit.slimefun4.core.hooks.SlimefunHooks;
@@ -43,7 +44,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.IgnitionChamberListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
@@ -51,6 +51,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfile
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
@@ -93,6 +94,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	private TickerTask ticker;
 	private LocalizationService local;
+	private NetworkManager networkManager;
 	private Config researches;
 	private Config items;
 	private Config whitelist;
@@ -171,6 +173,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 			// Setup messages.yml
 			local = new LocalizationService(this, config.getString("options.language"));
 
+			// Setting up Network classes
+			networkManager = new NetworkManager(config.getInt("options.max-network-size"));
+			
 			// Setting up other stuff
 			utilities = new Utilities();
 			gps = new GPSNetwork();
@@ -391,8 +396,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.whitelist;
 	}
 
-	public GPSNetwork getGPS() {
-		return gps;
+	public static GPSNetwork getGPSNetwork() {
+		return instance.gps;
 	}
 
 	public static SlimefunHooks getHooks() {
@@ -413,6 +418,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static boolean isActive() {
 		return instance != null;
+	}
+	
+	public static String getVersion() {
+		return instance.getDescription().getVersion();
 	}
 
 	public static ProtectionManager getProtectionManager() {
@@ -441,6 +450,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static GitHubService getGitHubService() {
 		return instance.gitHubService;
+	}
+	
+	public static NetworkManager getNetworkManager() {
+		return instance.networkManager;
 	}
 
 }

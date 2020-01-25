@@ -39,13 +39,9 @@ public final class Slimefun {
 		SlimefunPlugin.getUtilities().guideHandlers.put(handler.getTier(), handlers);
 	}
 
-	/**
-	 * Returns the GPSNetwork instance.
-	 *
-	 * @return the GPSNetwork instance.
-	 */
+	@Deprecated
 	public static GPSNetwork getGPSNetwork() {
-		return SlimefunPlugin.instance.getGPS();
+		return SlimefunPlugin.getGPSNetwork();
 	}
 	
 	public static Logger getLogger() {
@@ -316,10 +312,12 @@ public final class Slimefun {
 		return SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(tier, new ArrayList<>());
 	}
 
+	@Deprecated
 	public static String getVersion() {
 		return SlimefunPlugin.instance.getDescription().getVersion();
 	}
-	
+
+	@Deprecated
 	public static LocalizationService getLocal() {
 		return SlimefunPlugin.getLocal();
 	}

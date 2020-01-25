@@ -136,7 +136,7 @@ public class BlockListener implements Listener {
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.GPS_MARKER_TOOL, true)) {
 			e.setCancelled(true);
-			Slimefun.getGPSNetwork().addWaypoint(e.getPlayer(), e.getBlock().getLocation());
+			SlimefunPlugin.getGPSNetwork().addWaypoint(e.getPlayer(), e.getBlock().getLocation());
 		}
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
 			e.setCancelled(true);

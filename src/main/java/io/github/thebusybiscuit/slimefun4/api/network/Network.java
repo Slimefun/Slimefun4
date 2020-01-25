@@ -1,54 +1,25 @@
-package me.mrCookieSlime.Slimefun.api.network;
+package io.github.thebusybiscuit.slimefun4.api.network;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-import java.util.logging.Level;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_13.ParticleEffect;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * An abstract Network class to manage networks in a stateful way
+ * 
+ * @author meiamsome
+ *
+ */
 public abstract class Network {
-	
-	private static List<Network> networkList = new ArrayList<>();
-	
-	public static<T extends Network> T getNetworkFromLocation(Location l, Class<T> type) {
-		for (Network network : networkList) {
-			if (type.isInstance(network) && network.connectsTo(l)) {
-				return type.cast(network);
-			}
-		}
-		return null;
-	}
-
-	public static<T extends Network> List<T> getNetworksFromLocation(Location l, Class<T> type) {
-		List<T> list = new ArrayList<>();
-		for (Network network : networkList) {
-			if (type.isInstance(network) && network.connectsTo(l)) {
-				list.add(type.cast(network));
-			}
-		}
-		return list;
-	}
-
-	public static void registerNetwork(Network n) {
-		networkList.add(n);
-	}
-
-	public static void unregisterNetwork(Network n) {
-		networkList.remove(n);
-	}
-
-	public static void handleAllNetworkLocationUpdate(Location l) {
-		for (Network n : getNetworksFromLocation(l, Network.class)) {
-			n.handleLocationUpdate(l);
-		}
-	}
 
 	public abstract int getRange();
 	public abstract NetworkComponent classifyLocation(Location l);
@@ -79,7 +50,7 @@ public abstract class Network {
 
 	public void handleLocationUpdate(Location l) {
 		if (regulator.equals(l)) {
-			unregisterNetwork(this);
+			SlimefunPlugin.getNetworkManager().unregisterNetwork(this);
 			return;
 		}
 		
@@ -105,6 +76,7 @@ public abstract class Network {
 	}
 
 	private void discoverStep() {
+		int maxSteps = SlimefunPlugin.getNetworkManager().getMaxSize();
 		int steps = 0;
 		
 		while (nodeQueue.peek() != null) {
@@ -115,7 +87,7 @@ public abstract class Network {
 			if (classification != currentAssignment) {
 				if (currentAssignment == NetworkComponent.REGULATOR || currentAssignment == NetworkComponent.CONNECTOR) {
 					// Requires a complete rebuild of the network, so we just throw the current one away.
-					unregisterNetwork(this);
+					SlimefunPlugin.getNetworkManager().unregisterNetwork(this);
 					return;
 				} 
 				else if (currentAssignment == NetworkComponent.TERMINUS) {
@@ -137,9 +109,10 @@ public abstract class Network {
 				locationClassificationChange(l, currentAssignment, classification);
 			}
 			steps += 1;
-			// Consider making this a configuration option so that it can be increased for servers
-			// that can deal with the load.
-			if(steps == 500) break;
+			
+			if (steps >= maxSteps) {
+				break;
+			}
 		}
 	}
 
@@ -161,12 +134,10 @@ public abstract class Network {
 
 	public void display() {
 		Slimefun.runSync(() -> {
+			DustOptions options = new DustOptions(Color.BLUE, 2F);
+			
 			for (Location l : connectedLocations) {
-				try {
-					ParticleEffect.REDSTONE.display(l.clone().add(0.5, 0.5, 0.5), 0, 0, 0, 1, 1);
-				} catch(Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Network Animation for Slimefun " + Slimefun.getVersion(), x);
-				}
+				l.getWorld().spawnParticle(Particle.REDSTONE, l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5, 1, 0, 0, 0, 1, options);
 			}
 		});
 	}
