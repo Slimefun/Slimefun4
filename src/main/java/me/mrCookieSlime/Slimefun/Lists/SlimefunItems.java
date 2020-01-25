@@ -1,18 +1,12 @@
 package me.mrCookieSlime.Slimefun.Lists;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -24,6 +18,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -554,89 +549,17 @@ public final class SlimefunItems {
 	public static final ItemStack SOULBOUND_BOOTS = new SlimefunItemStack("SOULBOUND_BOOTS", Material.DIAMOND_BOOTS, "&cSoulbound Boots");
 	
 	/*		Runes				*/
-	public static final ItemStack BLANK_RUNE;
-	public static final ItemStack RUNE_AIR;
-	public static final ItemStack RUNE_WATER;
-	public static final ItemStack RUNE_FIRE;
-	public static final ItemStack RUNE_EARTH;
-	public static final ItemStack RUNE_ENDER;
-	public static final ItemStack RUNE_RAINBOW;
-	public static final ItemStack RUNE_LIGHTNING;
-	public static final ItemStack RUNE_SOULBOUND;
+	public static final ItemStack BLANK_RUNE = new SlimefunItemStack("BLANK_RUNE", new ColoredFireworkStar(Color.BLACK, "&8Blank Rune"));;
 	
-	static {
-		ItemStack itemB = new ItemStack(Material.FIREWORK_STAR);
-		FireworkEffectMeta imB = (FireworkEffectMeta) itemB.getItemMeta();
-		imB.setEffect(FireworkEffect.builder().with(Type.BURST).with(Type.BURST).withColor(Color.BLACK).build());
-		imB.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&8Blank Rune"));
-		itemB.setItemMeta(imB);
-		BLANK_RUNE = new SlimefunItemStack("BLANK_RUNE", itemB);
-		
-		ItemStack itemA = new ItemStack(Material.FIREWORK_STAR);
-		FireworkEffectMeta imA = (FireworkEffectMeta) itemA.getItemMeta();
-		imA.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.AQUA).build());
-		imA.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&b&lAir&8&l]"));
-		itemA.setItemMeta(imA);
-		RUNE_AIR = new SlimefunItemStack("ANCIENT_RUNE_AIR", itemA);
-		
-		ItemStack itemW = new ItemStack(Material.FIREWORK_STAR);
-		FireworkEffectMeta imW = (FireworkEffectMeta) itemW.getItemMeta();
-		imW.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.BLUE).build());
-		imW.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&1&lWater&8&l]"));
-		itemW.setItemMeta(imW);
-		RUNE_WATER = new SlimefunItemStack("ANCIENT_RUNE_WATER", itemW);
-		
-		ItemStack itemF = new ItemStack(Material.FIREWORK_STAR);
-		FireworkEffectMeta imF = (FireworkEffectMeta) itemF.getItemMeta();
-		imF.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.RED).build());
-		imF.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&4&lFire&8&l]"));
-		itemF.setItemMeta(imF);
-		RUNE_FIRE = new SlimefunItemStack("ANCIENT_RUNE_FIRE", itemF);
-		
-		ItemStack itemE = new ItemStack(Material.FIREWORK_STAR);
-		FireworkEffectMeta imE = (FireworkEffectMeta) itemE.getItemMeta();
-		imE.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(112, 47, 7)).build());
-		imE.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&c&lEarth&8&l]"));
-		itemE.setItemMeta(imE);
-		RUNE_EARTH = new SlimefunItemStack("ANCIENT_RUNE_EARTH", itemE);
-		
-		ItemStack itemN = new ItemStack(Material.FIREWORK_STAR);
-		FireworkEffectMeta imN = (FireworkEffectMeta) itemN.getItemMeta();
-		imN.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
-		imN.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&5&lEnder&8&l]"));
-		itemN.setItemMeta(imN);
-		RUNE_ENDER = new SlimefunItemStack("ANCIENT_RUNE_ENDER", itemN);
-		
-		ItemStack itemR = new ItemStack(Material.FIREWORK_STAR);
-		FireworkEffectMeta imR = (FireworkEffectMeta) itemR.getItemMeta();
-		imR.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.FUCHSIA).build());
-		imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
-		itemR.setItemMeta(imR);
-		RUNE_RAINBOW = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", itemR);
-		
-		ItemStack itemL = new ItemStack(Material.FIREWORK_STAR);
-		FireworkEffectMeta imL = (FireworkEffectMeta) itemL.getItemMeta();
-		imL.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(255, 255, 95)).build());
-		imL.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&e&lLightning&8&l]"));
-		itemL.setItemMeta(imL);
-		RUNE_LIGHTNING = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", itemL);
-
-		ItemStack itemS = new ItemStack(Material.FIREWORK_STAR);
-		FireworkEffectMeta imS = (FireworkEffectMeta) itemS.getItemMeta();
-		imS.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(47, 0, 117)).build());
-		imS.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&5&lSoulbound&8&l]"));
-		List<String> lore = new ArrayList<>();
-		lore.add(ChatColor.YELLOW + "Drop this rune onto a dropped item to");
-		lore.add(ChatColor.DARK_PURPLE + "bind " + ChatColor.YELLOW + "that item to your soul.");
-		lore.add(" ");
-		lore.add(ChatColor.YELLOW + "It is advised that you only use this rune");
-		lore.add(ChatColor.YELLOW + "on " + ChatColor.GOLD + "important " + ChatColor.YELLOW + "items.");
-		lore.add(" ");
-		lore.add(ChatColor.YELLOW + "Items bound to your soul won't drop on death.");
-		imS.setLore(lore);
-		itemS.setItemMeta(imS);
-		RUNE_SOULBOUND = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", itemS);
-	}
+	public static final ItemStack RUNE_AIR = new SlimefunItemStack("ANCIENT_RUNE_AIR", new ColoredFireworkStar(Color.AQUA, "&7Ancient Rune &8&l[&b&lAir&8&l]"));
+	public static final ItemStack RUNE_WATER = new SlimefunItemStack("ANCIENT_RUNE_WATER", new ColoredFireworkStar(Color.BLUE, "&7Ancient Rune &8&l[&1&lWater&8&l]"));;
+	public static final ItemStack RUNE_FIRE = new SlimefunItemStack("ANCIENT_RUNE_FIRE", new ColoredFireworkStar(Color.RED, "&7Ancient Rune &8&l[&4&lFire&8&l]"));;
+	public static final ItemStack RUNE_EARTH = new SlimefunItemStack("ANCIENT_RUNE_EARTH", new ColoredFireworkStar(Color.fromRGB(112, 47, 7), "&7Ancient Rune &8&l[&c&lEarth&8&l]"));;
+	public static final ItemStack RUNE_ENDER = new SlimefunItemStack("ANCIENT_RUNE_ENDER", new ColoredFireworkStar(Color.PURPLE, "&7Ancient Rune &8&l[&5&lEnder&8&l]"));;
+	
+	public static final ItemStack RUNE_RAINBOW  = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", new ColoredFireworkStar(Color.FUCHSIA, "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
+	public static final ItemStack RUNE_LIGHTNING = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", new ColoredFireworkStar(Color.fromRGB(255, 255, 95), "&7Ancient Rune &8&l[&e&lLightning&8&l]"));
+	public static final ItemStack RUNE_SOULBOUND = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", new ColoredFireworkStar(Color.fromRGB(47, 0, 117), "&7Ancient Rune &8&l[&5&lSoulbound&8&l]", "&eDrop this rune onto a dropped item to", "&5bind &ethat item to your soul.", " ", "&eIt is advised that you only use this rune", "&eon &6important &eitems.", " ", "&eItems bound to your soul won't drop on death."));
 	
 	/*		Electricity			*/
 	public static final ItemStack SOLAR_GENERATOR = new SlimefunItemStack("SOLAR_GENERATOR", Material.DAYLIGHT_DETECTOR, "&bSolar Generator", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.GENERATOR), LoreBuilder.powerBuffer(0), LoreBuilder.powerPerSecond(4));

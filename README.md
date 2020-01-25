@@ -59,7 +59,7 @@ if you add too much content to Slimefun 4, you should rather make an Addon for i
 
 ## Data Collection
 Slimefun4 uses various systems that collect or download data.<br>
-We do not collect any personal information from you but here is a full list of what services may collect or download data.
+We do not collect any personal information from you but here is a full list of what services may collect or download other kind of data.
 
 ### Auto-Updates
 Slimefun4 uses an Auto-Updater which connects to https://thebusybiscuit.github.io/builds/ to check for and download updates.<br>
