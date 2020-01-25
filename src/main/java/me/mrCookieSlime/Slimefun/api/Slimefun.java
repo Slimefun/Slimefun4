@@ -266,48 +266,6 @@ public final class Slimefun {
 		return items;
 	}
 
-	/**
-	 * Binds this hint to the SlimefunItem corresponding to this id.
-	 *
-	 * @param  id    the id of the SlimefunItem, not null
-	 * @param  hint  the hint, not null
-	 *
-	 * @since 4.1.10, rename of {@link #addDescription(String, String...)}.
-	 */
-	public static void addHint(String id, String... hint) {
-		getItemConfig().setDefaultValue(id + ".hint", Arrays.asList(hint));
-	}
-
-	/**
-	 * Binds this YouTube link to the SlimefunItem corresponding to this id.
-	 *
-	 * @param  id    the id of the SlimefunItem, not null
-	 * @param  link  the link of the YouTube video, not null
-	 */
-	public static void addYoutubeVideo(String id, String link) {
-		getItemConfig().setDefaultValue(id + ".youtube", link);
-	}
-
-	/**
-	 * Binds this link as a Wiki page to the SlimefunItem corresponding to this id.
-	 *
-	 * @param  id    the id of the SlimefunItem, not null
-	 * @param  link  the link of the Wiki page, not null
-	 */
-	public static void addWikiPage(String id, String link) {
-		getItemConfig().setDefaultValue(id + ".wiki", link);
-	}
-
-	/**
-	 * Convenience method to simplify binding an official Wiki page to the SlimefunItem corresponding to this id.
-	 *
-	 * @param  id    the id of the SlimefunItem, not null
-	 * @param  page  the ending of the link corresponding to the page, not null
-	 */
-	public static void addOfficialWikiPage(String id, String page) {
-		addWikiPage(id, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
-	}
-
 	public static List<GuideHandler> getGuideHandlers(int tier) {
 		return SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(tier, new ArrayList<>());
 	}

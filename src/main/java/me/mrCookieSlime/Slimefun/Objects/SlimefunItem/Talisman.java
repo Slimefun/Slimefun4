@@ -102,12 +102,9 @@ public class Talisman extends SlimefunItem {
         EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(upgrade());
         Research research = Research.getByID(112);
         
-        if (talisman != null) {
-            Slimefun.addOfficialWikiPage(talisman.getID(), "Talismans");
-            if (research != null) talisman.bindToResearch(research);
+        if (talisman != null && research != null) {
+            talisman.bindToResearch(research);
         }
-
-        Slimefun.addOfficialWikiPage(getID(), "Talismans");
     }
 
     private static boolean isTalismanMessage(Talisman talisman){
