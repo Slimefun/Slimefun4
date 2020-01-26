@@ -12,6 +12,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.inventory.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class CargoManager {
@@ -172,7 +173,7 @@ public final class CargoManager {
                     }
                 }
 
-                for(int slot = minSlot; slot < maxSlot; slot++) {
+                for (int slot = minSlot; slot < maxSlot; slot++) {
                     ItemStack is = inv.getContents()[slot];
 
                     if (is == null) {
