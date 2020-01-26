@@ -360,8 +360,12 @@ public class SlimefunItem implements Placeable {
 			else if (recipeType.toItem().isSimilar(RecipeType.ANCIENT_ALTAR.toItem())) {
 				new AltarRecipe(Arrays.asList(recipe), output);
 			}
-			else if (recipeType.getMachine() != null && getByID(recipeType.getMachine().getID()) instanceof SlimefunMachine) {
-				((SlimefunMachine) getByID(recipeType.getMachine().getID())).addRecipe(recipe, output);
+			else if (recipeType.getMachine() != null) {
+				SlimefunItem machine = getByID(recipeType.getMachine().getID());
+				
+				if (machine instanceof SlimefunMachine) {
+					((SlimefunMachine) getByID(recipeType.getMachine().getID())).addRecipe(recipe, output);
+				}
 			}
 			
 			install();
