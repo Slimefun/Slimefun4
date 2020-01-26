@@ -1,19 +1,23 @@
 package me.mrCookieSlime.Slimefun.api.item_transport;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.inventory.BrewerInventory;
+import org.bukkit.inventory.FurnaceInventory;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.inventory.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public final class CargoManager {
 
@@ -34,24 +38,27 @@ public final class CargoManager {
                     if (is.getAmount() > template.getAmount()) {
                         menu.replaceExistingItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                         return template;
-                    } else {
+                    } 
+                    else {
                         menu.replaceExistingItem(slot, null);
                         return is.clone();
                     }
                 }
             }
-        } else {
+        } 
+        else {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
                 Inventory inv = ((InventoryHolder) state).getInventory();
                 int minSlot = 0;
                 int maxSlot = inv.getContents().length;
-
+                
                 if (inv instanceof FurnaceInventory) {
                     minSlot = 2;
                     maxSlot = 3;
-                } else if (inv instanceof BrewerInventory) {
+                } 
+                else if (inv instanceof BrewerInventory) {
                     maxSlot = 3;
                 }
                 for (int slot = minSlot; slot < maxSlot; slot++) {
@@ -61,7 +68,8 @@ public final class CargoManager {
                         if (is.getAmount() > template.getAmount()) {
                             inv.setItem(slot, ChestManipulator.trigger(target, slot, is, new CustomItem(is, is.getAmount() - template.getAmount())));
                             return template;
-                        } else {
+                        } 
+                        else {
                             inv.setItem(slot, ChestManipulator.trigger(target, slot, is, new CustomItem(is, is.getAmount() - template.getAmount())));
                             return is.clone();
                         }
@@ -84,7 +92,8 @@ public final class CargoManager {
                     return new ItemSlot(is.clone(), slot);
                 }
             }
-        } else {
+        } 
+        else {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
@@ -96,7 +105,8 @@ public final class CargoManager {
                 if (inv instanceof FurnaceInventory) {
                     minSlot = 2;
                     maxSlot = 3;
-                } else if (inv instanceof BrewerInventory) {
+                } 
+                else if (inv instanceof BrewerInventory) {
                     maxSlot = 3;
                 }
 
@@ -125,13 +135,15 @@ public final class CargoManager {
                 if (is == null) {
                     menu.replaceExistingItem(slot, stack.clone());
                     return null;
-                } else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+                } 
+                else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
                     int amount = is.getAmount() + stack.getAmount();
 
                     if (amount > is.getType().getMaxStackSize()) {
                         is.setAmount(is.getType().getMaxStackSize());
                         stack.setAmount(amount - is.getType().getMaxStackSize());
-                    } else {
+                    } 
+                    else {
                         is.setAmount(amount);
                         stack = null;
                     }
@@ -140,7 +152,8 @@ public final class CargoManager {
                     return stack;
                 }
             }
-        } else {
+        } 
+        else {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
@@ -155,18 +168,22 @@ public final class CargoManager {
                     if (stack.getType().isFuel()) {
                         minSlot = 1;
                         maxSlot = 2;
-                    } else {
+                    } 
+                    else {
                         maxSlot = 1;
                     }
-                } else if (inv instanceof BrewerInventory) {
+                } 
+                else if (inv instanceof BrewerInventory) {
                     //Check if it goes in the potion slot,
                     if (stack.getType() == Material.POTION || stack.getType() == Material.LINGERING_POTION || stack.getType() == Material.SPLASH_POTION) {
                         maxSlot = 3;
                         //The blaze powder slot,
-                    } else if (stack.getType() == Material.BLAZE_POWDER) {
+                    } 
+                    else if (stack.getType() == Material.BLAZE_POWDER) {
                         minSlot = 4;
                         maxSlot = 5;
-                    } else {
+                    } 
+                    else {
                         //Or the input
                         minSlot = 3;
                         maxSlot = 4;
@@ -179,14 +196,16 @@ public final class CargoManager {
                     if (is == null) {
                         inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
                         return null;
-                    } else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+                    } 
+                    else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
                         int amount = is.getAmount() + stack.getAmount();
                         ItemStack prev = is.clone();
 
                         if (amount > is.getType().getMaxStackSize()) {
                             is.setAmount(is.getType().getMaxStackSize());
                             stack.setAmount(amount - is.getType().getMaxStackSize());
-                        } else {
+                        } 
+                        else {
                             is.setAmount(amount);
                             stack = null;
                         }
@@ -197,6 +216,7 @@ public final class CargoManager {
                 }
             }
         }
+        
         return stack;
     }
 
@@ -239,18 +259,22 @@ public final class CargoManager {
                 BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
 
                 return SlimefunManager.isItemSimilar(item, items.get(index), lore);
-            } else {
+            } 
+            else {
                 for (ItemStack stack : items) {
                     if (SlimefunManager.isItemSimilar(item, stack, lore)) return true;
                 }
+                
                 return false;
             }
-        } else {
+        } 
+        else {
             for (int slot : SLOTS) {
                 if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimilar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
                     return false;
                 }
             }
+            
             return true;
         }
     }

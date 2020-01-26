@@ -32,6 +32,7 @@
 * Added Grind Stone Recipes for Prismarine
 * Added String to the Bio Reactor
 * Added a config setting to limit how many Nodes a Network can have
+* Added support for Furnaces and Brewing Stands to Cargo Networks
 
 ### Changes
 * Removed Solar Array
@@ -48,6 +49,7 @@
 * Fixed Cargo Networks particles being broken
 * Fixed #1379
 * Fixed #1212
+* Fixed #114
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
