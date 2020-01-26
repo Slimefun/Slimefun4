@@ -178,8 +178,7 @@ public final class CargoManager {
 
                     if (is == null) {
                         inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
-                        stack.setAmount(0);
-                        return stack;
+                        return null;
                     } else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
                         int amount = is.getAmount() + stack.getAmount();
                         ItemStack prev = is.clone();
