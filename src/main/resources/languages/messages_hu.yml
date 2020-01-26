@@ -1,0 +1,217 @@
+commands:
+  help: Megjeleníti ezt a súgóképernyőt
+  cheat: Engedélyezi, hogy csalással szerezz Tárgyakat
+  give: Adj valakinek Slimefun Tárgyakat
+  guide: Slimefun Útmutató lekérése.
+  timings: Lag-Információ a szerverről
+  teleporter: Nézd meg a többi Játékos Útpontjait
+  versions: Az összes telepített Kiegészítőt listázza
+  search: Keresés egy kifejezésre az Útmutatóban
+  open_guide: Slimefun útmutató megnyitása könyv nélkül
+  stats: Megmutat pár Statisztikát a Játékosról
+
+  research:
+    description: Feloldod/Visszaállítod a kutatást a játékosnak.
+    reset: '&cVisszaállítottad %player% Ismereteit'
+    reset-target: '&cAz Ismereteid visszaállítódtak'
+
+guide:
+  search:
+    message: '&bMit szeretnél keresni?'
+    name: '&7Keresés...'
+    lore:
+    - '&bMit szeretnél keresni?'
+    - '&7Írd be a keresett kifejezést a chatbe'
+
+  cheat:
+    no-multiblocks: '&4A Multiblokkban nem lehet csalni, meg kell építeni őket!'
+
+  languages:
+    updated: '&aA nyelvet sikeresen átállítottad erre: &b%lang%'
+
+messages:
+  not-researched: '&4Nincs elég ismereted ennek a megértéséhez'
+  not-enough-xp: '&4Nincs elegendő XP-d ennek a feloldásához'
+  unlocked: '&7"%research%" &bfeloldva!'
+  only-players: '&4Ez a parancs csak a Játékosok számára szól'
+  unknown-player: '&4Ismeretlen Játékos: &c%player%'
+  no-permission: '&4Nincs jogosultságod ehhez'
+  usage: '&4Használat: &c%usage%'
+  not-online: '&4%player% &cnincs online!'
+  not-valid-item: '&4%item% &cnem megfelelő Tárgy!'
+  not-valid-amount: '&4%amount% &cnem megfelelő mennyiség : 0-nál nagyobbnak kell lennie!'
+  given-item: '&bKaptál &a%amount% &7"%item%&7"&b-t'
+  give-item: '&bAdtál %player%-nek/nak &a%amount% &7"%item%&7"&b-t'
+  not-valid-research: '&4%research% &cnem megfelelő Kutatás!'
+  give-research: '&bAdtál %player%-nek/nak &7"%research%&7" &bKutatást'
+  hungry: '&cTúl éhes vagy ehhez!'
+  mode-change: '&b%device% mód állítva erre: &9%mode%'
+  disabled-in-world: '&4&lEz a Tárgy tiltva van ebben a világban'
+  disabled-item: '&4&lEz a Tárgy le van tiltva! Egyáltalán hogyan szerezted?'
+
+  talisman:
+    anvil: '&a&oA Talizmánod megmentette az eszközöd a töréstől'
+    miner: '&a&oA Talizmánod megduplázta a dobott tárgyakat'
+    hunter: '&a&oA Talizmánod megduplázta a dobott tárgyakat'
+    lava: '&a&oA Talizmánod megmentett a halálos égéstől'
+    water: '&a&oA Talizmánod megmentett a megfulladástól'
+    angel: '&a&oA Talizmánod megmentett a zuhanástól'
+    fire: '&a&oA Talizmánod megmentett a halálra elégéstől'
+    magician: '&a&oA Talizmánod adott más Fejlesztéseket is'
+    traveller: '&a&oA Talizmánod Gyors sebességet adott neked'
+    warrior: '&a&oA Talizmánodtól növelte az Erőd egy kis időre'
+    knight: '&a&oA Talizmánod adott 5 másodpercre élet Regenerációt'
+    whirlwind: '&a&oA Talizmánod visszavert egy Távolsági lövést'
+    wizard: '&a&oA Talizmánod erősítette a Szerencse Szinjét, de néhány egyéb Fejlesztés Szint kicsit gyengült'
+
+  soulbound-rune:
+    fail: '&cEgyszerre csak egy tárgyat köthetsz a lelkedhez.'
+    success: '&aSikeresen hozzákötötted ezt a tárgyat a lelkedhez! Megmarad, amikor meghalsz.'
+
+  research:
+    start: '&7Az Ősi Lelkek titokzatos szavakat súgnak a füledbe!'
+    progress: '&7Elkezdel kíváncsiskodni a kutatásról, neve: &b%research% &e(%progress%)'
+
+  fire-extinguish: '&7Eloltottad magad!'
+  cannot-place: '&cNem teheted ezt a blokkot oda!'
+  no-pvp: '&cA pvp itt nem engedélyezett!'
+  radiation: '&4Halálos sugárzásnak volt kitéve! &cSzabadulj meg a radioaktív tárgytól, vagy viselj Hazmat Suit-ot!'
+  opening-guide: '&bÚtmutató megnyitása, ez eltarthat pár másodpercig...'
+  opening-backpack: '&bHátizsák megnyitása, ez eltarthat pár másodpercig...'
+    no-iron-golem-heal: '&cEz nem egy Vasrúd. Ezt nem használhatod a Vasgólem gyógyítására!'
+  link-prompt: '&eKattints ide:'
+  diet-cookie: '&eNagyon könnyednek érzed magad...'
+  
+  fortune-cookie:
+  - '&7Segítség, bezártak a Szerencsesüti Gyárba!'
+  - '&7Holnap meghalsz...     egy Creeper által'
+  - '&7Valamikor az életedben valami rossz fog történni!!!'
+  - '&7A következő héten azt fogod észrevenni, hogy ez nem a valóság, egyfajta mátrixba kerültél olyan, mint egy játék. Igen, egy számítógépes játékban vagy'
+  - '&7Ez a süti hamarosan ízleni fog'
+  - '&7Hamarosan megfogsz halni és az utolsó szó, amit hallani fogsz: "KIÍRTANI!!!"'
+  - '&7Bármit is csinálsz, ne ölelj meg egy Creepert.... Én megpróbáltam. Jó érzés, de nem éri meg.'
+  - '&742. A válasz 42.'
+  - '&7Walshy egy nap távol tartja a bajokat.'
+  - '&7Soha ne áss egyenesen!'
+
+machines:
+  pattern-not-found: '&eSajnálom, nem ismerem fel ezt a Receptet. Kérlek, helyezd a Tárgyakat a megfelelő mintában az Adagolóba.'
+  unknown-material: '&eSajnálom, Nem tudtam felismerni a Tárgyat az adagolóban. Kérlek tegyél bele valamit, amit ismerek.'
+  wrong-item: '&eSajnálom, nem ismerem fel azt a Tárgyat, amire kattintottál velem. Ellenőrizd a Recepteket, és nézd meg, mely Tárgyakat használhatod.'
+  full-inventory: '&eSajnálom, tele a tárolóm!'
+  in-use: '&cEnnek a Blokknak a tárolóját éppen megnyitotta egy másik Játékos.'
+  ignition-chamber-no-flint: '&cAz Ignition Chamber-ből hiányik a Kovakő és Acél.'
+
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4Az Altar körül nincs elég Pedestal, ami szükséges a működéséhez &c(%pedestals% / 8)'
+    unknown-catalyst: '&4Ismeretlen Katalizátor! &cEhelyett használd a helyes Receptet!'
+    unknown-recipe: '&4Ismeretlen Recept! &cEhelyett használd a helyes Receptet!'
+
+  ANCIENT_PEDESTAL:
+    obstructed: '&4A Pedestal el van torlaszolva! &cTávolíts el mindent, ami a pedestal felett van!'
+
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7Kérlek, írd be a kívánt Hologram Szöveget a Chatbe. &r(A színkódok is használhatóak!)'
+
+  ELEVATOR:
+    no-destinations: '&4Nem található úticél'
+    pick-a-floor: '&3- Válassz emeletet -'
+    current-floor: '&eEz az emelet, amelyen jelenleg tartózkodik:'
+    click-to-teleport: '&eKattints &7erre az emeletre való teleportáláshoz:'
+    enter-name: '&7Kérlek írd be a kívánt emelet nevet a Chatbe. &r(A Színkódok is támogatottak!)'
+    named: '&2Sikeresen elnevezted ezt az emeletet: &r%floor%'
+    
+  TELEPORTER:
+    teleporting: '&3Teleportálás...'
+    teleported: '&3Teleportálva!'
+    cancelled: '&4Teleportálás megszakítva!'
+    invulnerability: '&b&l30 másodperc Sérthetetlenséget kaptál!'
+    
+  CARGO_NODES:
+    must-be-placed: '&4Ládára vagy gépre kell helyezni'
+
+anvil:
+  not-working: '&4Nem használhatsz Slimefun tárgyat Üllőben'
+
+backpack:
+  already-open: '&cSajnáljuk, ez a Hátizsák valahol máshol már nyitva van!'
+  no-stack: '&cNem lehet halmozni a Táskákat'
+
+miner:
+  no-ores: '&eSajnálom, nem találtam semmilyen Ércet a közelben!'
+
+workbench:
+  not-enhanced: '&4Nem használhatsz Slimefun Tárgyat normális barkácsasztalban'
+
+gps:
+  deathpoint: '&4Halálpont &7%date%'
+  waypoint:
+    new: '&eKérlek, add meg az új útpontot chatben. &7(A Színkódok használhatóak!)'
+    added: '&aSikeresen megadtad az útpontot'
+    max: '&4Elérted a maximális útpontok számát'
+
+  insufficient-complexity:
+  - '&4Hiányos GPS Sokrétűség: &c%complexity%'
+  - '&4a) Még nem telepítetted a GPS Hálózatot'
+  - '&4b) A GPS Hálózatod nem eléggé összetett'
+
+  geo:
+    scan-required: '&4GEO-Vizsgálat szükséges! &cElőbb vizsgáld meg ezt a chunk-ot a GEO-Szkennerrel!'
+
+inventory:
+  no-access: '&4Nincs hozzáférésed ehhez a blokkhoz'
+
+android:
+  started: '&7Az Androidod folytatja a szkript futtatását'
+  stopped: '&7Az Androidod szünetelteti a szkript futtatását'
+  scripts:
+    already-uploaded: '&4Ezt a Szkriptet már feltöltötték.'
+    
+    instructions:
+      START: '&2Szkript indítása'
+      REPEAT: '&9Szkript ismétlése'
+      WAIT: '&eVárjon 0.5s'
+      GO_FORWARD: '&7Menj előre'
+      GO_UP: '&7Menj felfelé'
+      GO_DOWN: '&7Menj lefelé'
+      TURN_LEFT: '&7Fordulj balra'
+      TURN_RIGHT: '&7Fordulj jobbra'
+      DIG_UP: '&bÁss'
+      DIG_FORWARD: '&bÁss előre'
+      DIG_DOWN: '&bÁss le'
+      MOVE_AND_DIG_UP: '&bMenj és Áss felfelé'
+      MOVE_AND_DIG_FORWARD: '&bMenj és Áss előre'
+      MOVE_AND_DIG_DOWN: '&bMenj és Áss lefelé'
+      ATTACK_MOBS_ANIMALS: '&4Támadj &c(Ellenséges Élőlények és Állatok)'
+      ATTACK_MOBS: '&4Támadj &c(Ellenséges Élőlények)'
+      ATTACK_ANIMALS: '&4Támadj &c(Állatok)'
+      ATTACK_ANIMALS_ADULT: '&4Támadj &c(Állatok &7[Felnőtt]&c)'
+      CHOP_TREE: '&cVágj és Ültess'
+      CATCH_FISH: '&bFogj Halat'
+      FARM_FORWARD: '&bSzüretelj és Ültess'
+      FARM_DOWN: '&bSzüretelj és Ültess &7(Blokk alatt)'
+      FARM_EXOTIC_FORWARD: '&bFejlett Szüretelés és Ültetés'
+      FARM_EXOTIC_DOWN: '&bFejlett Szüretelés és Ültetés &7(Blokk alatt)'
+      INTERFACE_ITEMS: '&9Tegye az Eszköztár Tartalmát a faced Interface-be'
+      INTERFACE_FUEL: '&cVegyen ki az Üzemanyagot a faced Interface-ből'
+
+    enter-name:
+    - ''
+    - '&eKérlek, írd be a szkript nevét'
+    - ''
+
+    uploaded:
+    - '&bFeltöltés...'
+    - '&aA szkript sikeresen feltöltve!'
+
+    rating:
+      own: '&4Nem értékelheted a saját szkriptedet!'
+      already: '&4Ezt a szkriptet már értékelted!'
+
+languages:
+  default: Szerver-Alapértelmezett
+  en: 'Angol'
+  de: 'Német'
+  fr: 'Francia'
+  hu: 'Magyar'
+language: hu
