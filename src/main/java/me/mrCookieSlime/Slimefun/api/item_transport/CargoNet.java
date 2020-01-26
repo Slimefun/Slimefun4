@@ -430,7 +430,7 @@ public class CargoNet extends Network {
 							if (cfg.getString("id").startsWith("BARREL_") && cfg.getString("storedItems") != null) {
 								int stored = Integer.parseInt(cfg.getString("storedItems"));
 								
-								for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport(blockMenu, ItemTransportFlow.WITHDRAW, null)) {
+								for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) blockMenu, ItemTransportFlow.WITHDRAW, null)) {
 									ItemStack is = blockMenu.getItemInSlot(slot);
 									
 									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
