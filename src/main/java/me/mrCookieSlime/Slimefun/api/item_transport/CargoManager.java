@@ -72,7 +72,6 @@ public final class CargoManager {
     }
 
     public static ItemSlot withdraw(Block node, Block target, int index) {
-        System.out.println(1);
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
@@ -86,8 +85,6 @@ public final class CargoManager {
             }
         } else {
             BlockState state = target.getState();
-
-            System.out.println(3);
 
             if (state instanceof InventoryHolder) {
                 Inventory inv = ((InventoryHolder) state).getInventory();
