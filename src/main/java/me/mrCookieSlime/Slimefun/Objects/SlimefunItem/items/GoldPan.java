@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -16,11 +17,11 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class GoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implements RecipeDisplayItem {
+public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
 	
 	private final List<ItemStack> recipes;
 	private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
@@ -55,14 +56,16 @@ public class GoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implemen
 	}
 
 	@Override
-	public ItemInteractionHandler getItemHandler() {
-		return (e, p, item) -> {
-			if (isItem(item)) {
-				Block b = e.getClickedBlock();
+	public ItemUseHandler getItemHandler() {
+		return e -> {
+			Optional<Block> block = e.getClickedBlock();
+			
+			if (block.isPresent()) {
+				Block b = block.get();
 				
-				if (b != null && b.getType() == Material.GRAVEL && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+				if (b.getType() == Material.GRAVEL && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 					ItemStack output = randomizer.getRandom();
-							
+					
 					b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 					b.setType(Material.AIR);
 
@@ -70,11 +73,9 @@ public class GoldPan extends SimpleSlimefunItem<ItemInteractionHandler> implemen
 						b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
 					}
 				}
-				
-				e.setCancelled(true);
-				return true;
 			}
-			else return false;
+			
+			e.cancel();
 		};
 	}
 

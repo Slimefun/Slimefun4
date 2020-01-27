@@ -68,7 +68,7 @@ public class BlockListener implements Listener {
 		ItemStack item = e.getItemInHand();
 		
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		if (sfItem != null && !sfItem.isDisabled() && !(sfItem instanceof NotPlaceable)) {
+		if (sfItem != null && Slimefun.isEnabled(e.getPlayer(), sfItem, true) && !(sfItem instanceof NotPlaceable)) {
 			if (!Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
 				e.setCancelled(true);
 			}
@@ -196,6 +196,7 @@ public class BlockListener implements Listener {
 		int fortune = getFortuneLevel(item, e.getBlock());
 		
 		Block block2 = e.getBlock().getRelative(BlockFace.UP);
+		
 		if (sensitiveMaterials.contains(block2.getType())) {
 			SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
 			

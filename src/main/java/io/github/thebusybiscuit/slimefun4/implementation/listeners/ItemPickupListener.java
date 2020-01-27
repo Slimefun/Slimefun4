@@ -1,12 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
+
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * Listens to the ItemPickup events to prevent it if the item has the "no_pickup" metadata or is an ALTAR_PROBE.
@@ -16,6 +16,9 @@ import org.bukkit.event.inventory.InventoryPickupItemEvent;
  * @since 4.1.11
  */
 public class ItemPickupListener implements Listener {
+	
+	private static final String METADATA_JEY = "no_pickup";
+	private static final String ITEM_PREFIX = ChatColors.color("&5&dALTAR &3Probe - &e");
 
 	public ItemPickupListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -23,8 +26,8 @@ public class ItemPickupListener implements Listener {
 
 	@EventHandler
 	public void onPickup(EntityPickupItemEvent e) {
-		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ChatColor.translateAlternateColorCodes('&', "&5&dALTAR &3Probe - &e"))) {
+		if (e.getItem().hasMetadata(METADATA_JEY)) e.setCancelled(true);
+		else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {
 			e.setCancelled(true);
 			e.getItem().remove();
 		}
@@ -32,8 +35,8 @@ public class ItemPickupListener implements Listener {
 
 	@EventHandler
 	public void onMinecartPickup(InventoryPickupItemEvent e) {
-		if (e.getItem().hasMetadata("no_pickup")) e.setCancelled(true);
-		else if (!e.getItem().hasMetadata("no_pickup") && e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ChatColor.translateAlternateColorCodes('&', "&5&dALTAR &3Probe - &e"))) {
+		if (e.getItem().hasMetadata(METADATA_JEY)) e.setCancelled(true);
+		else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {
 			e.setCancelled(true);
 			e.getItem().remove();
 		}

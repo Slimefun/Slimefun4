@@ -48,6 +48,7 @@ messages:
   mode-change: '&b%device% mode changed to: &9%mode%'
   disabled-in-world: '&4&lThis Item has been disabled in this world'
   disabled-item: '&4&lThis Item has been disabled! How did you even get that?'
+  no-tome-yourself: '&cYou cannot use the &4Tome of Knowledge &con yourself...'
 
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'

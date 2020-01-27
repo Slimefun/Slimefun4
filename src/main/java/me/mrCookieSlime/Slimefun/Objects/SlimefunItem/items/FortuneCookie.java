@@ -22,14 +22,10 @@ public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	@Override
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (isItem(item)) {
-				List<String> messages = SlimefunPlugin.getLocal().getMessages(p, "messages.fortune-cookie");
-				String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
-				
-				p.sendMessage(ChatColors.color(message));
-				return true;
-			}
-			return false;
+			List<String> messages = SlimefunPlugin.getLocal().getMessages(p, "messages.fortune-cookie");
+			String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
+			
+			p.sendMessage(ChatColors.color(message));
 		};
 	}
 

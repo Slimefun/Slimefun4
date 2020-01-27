@@ -24,13 +24,7 @@ public class MeatJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
 	@Override
 	public ItemConsumptionHandler getItemHandler() {
-		return (e, p, item) -> {
-			if (isItem(item)) {
-				p.setSaturation(saturation);
-				return true;
-			}
-			return false;
-		};
+		return (e, p, item) -> p.setSaturation(saturation);
 	}
 
 }

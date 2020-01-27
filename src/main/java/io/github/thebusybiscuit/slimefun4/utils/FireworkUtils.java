@@ -7,9 +7,9 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public final class FireworkUtils {
@@ -40,9 +40,9 @@ public final class FireworkUtils {
 	    return fw;
 	}
 	
-	public static void launchRandom(Player p, int amount) {
+	public static void launchRandom(Entity n, int amount) {
 		for (int i = 0; i < amount; i++) {
-			Location l = p.getLocation().clone();
+			Location l = n.getLocation().clone();
 			l.setX(l.getX() + ThreadLocalRandom.current().nextInt(amount));
 			l.setX(l.getX() - ThreadLocalRandom.current().nextInt(amount));
 			l.setZ(l.getZ() + ThreadLocalRandom.current().nextInt(amount));

@@ -1,10 +1,16 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
-import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
+
+/**
+ * 
+ * @deprecated Please use {@link ItemUseHandler} and {@link BlockUseHandler} now.
+ *
+ */
+@Deprecated
 @FunctionalInterface
 public interface ItemInteractionHandler extends ItemHandler {
 	

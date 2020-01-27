@@ -218,10 +218,19 @@ public final class MiscSetup {
 			handler.run(pre, init, post);
 		}
 		
-		sender.sendMessage(ChatColor.GREEN + "###################### - Slimefun - ######################");
+		sender.sendMessage("");
+		sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
+		sender.sendMessage("");
 		sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
-		sender.sendMessage(ChatColor.GREEN + "( " + SlimefunPlugin.getUtilities().vanillaItems + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunPlugin.getUtilities().vanillaItems) + " Items from Addons )");
-		sender.sendMessage(ChatColor.GREEN + "##########################################################");
+		sender.sendMessage(ChatColor.GREEN + "( " + SlimefunPlugin.getUtilities().vanillaItems + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunPlugin.getUtilities().vanillaItems) + " Items from " + Slimefun.getInstalledAddons().size() + " Addons )");
+		sender.sendMessage("");
+		sender.sendMessage(ChatColor.GREEN + "Slimefun is an Open-Source project that is maintained by community developers!");
+		sender.sendMessage("");
+		sender.sendMessage(ChatColor.GREEN + " -- Source Code:   https://github.com/TheBusyBiscuit/Slimefun4");
+		sender.sendMessage(ChatColor.GREEN + " -- Wiki:          https://github.com/TheBusyBiscuit/Slimefun4/wiki");
+		sender.sendMessage(ChatColor.GREEN + " -- Bug Reports:   https://github.com/TheBusyBiscuit/Slimefun4/issues");
+		sender.sendMessage(ChatColor.GREEN + " -- Discord:       https://discord.gg/fsD4Bkh");
+		sender.sendMessage("");
 		
 		SlimefunPlugin.getItemCfg().save();
 		SlimefunPlugin.getResearchCfg().save();

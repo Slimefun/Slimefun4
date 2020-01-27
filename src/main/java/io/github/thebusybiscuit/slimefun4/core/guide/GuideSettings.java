@@ -161,6 +161,7 @@ public final class GuideSettings {
 				"&7Something will be added here later..."
 		),
 		(pl, slot, item, action) -> {
+			// Add something here
 			return false;
 		});
 	}

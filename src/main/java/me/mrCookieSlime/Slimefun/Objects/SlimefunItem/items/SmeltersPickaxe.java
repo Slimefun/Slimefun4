@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
@@ -34,6 +35,7 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 			if (isItem(item)) {
 				if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
 				if (e.getBlock().getType() == Material.PLAYER_HEAD) return true;
+				if (!Slimefun.hasUnlocked(e.getPlayer(), this, true)) return true;
 				
 				Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
 				for (ItemStack drop : blockDrops) {

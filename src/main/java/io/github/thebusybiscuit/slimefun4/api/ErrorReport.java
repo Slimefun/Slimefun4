@@ -76,7 +76,7 @@ public class ErrorReport {
 				Slimefun.getLogger().log(Level.WARNING, "You can put the file on Pastebin and then post it here: https://github.com/TheBusyBiscuit/Slimefun4/issues");
 				Slimefun.getLogger().log(Level.WARNING, "");
 			} catch (FileNotFoundException x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion(), x);
 			}
 		});
 	}

@@ -371,21 +371,15 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 			RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipes().getRecipeInput(recipe);
 
-			if (choices.length == 1) {
-				recipeItems[4] = choices[0].getItemStack();
-
-				if (choices[0] instanceof MaterialChoice && ((MaterialChoice) choices[0]).getChoices().size() > 1) {
-					task.add(RECIPE_SLOTS[4], (MaterialChoice) choices[0]);
-				}
+			if (choices[0] instanceof MaterialChoice && ((MaterialChoice) choices[0]).getChoices().size() > 1) {
+				recipeItems[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));
+				task.add(RECIPE_SLOTS[4], (MaterialChoice) choices[0]);
 			}
 			else {
 				for (int i = 0; i < choices.length; i++) {
-					if (choices[i] != null) {
-						recipeItems[i] = choices[i].getItemStack();
-
-						if (choices[i] instanceof MaterialChoice && ((MaterialChoice) choices[i]).getChoices().size() > 1) {
-							task.add(RECIPE_SLOTS[i], (MaterialChoice) choices[i]);
-						}
+					if (choices[i] instanceof MaterialChoice && ((MaterialChoice) choices[i]).getChoices().size() > 1) {
+						recipeItems[i] = new ItemStack(((MaterialChoice) choices[i]).getChoices().get(0));
+						task.add(RECIPE_SLOTS[i], (MaterialChoice) choices[i]);
 					}
 				}
 			}

@@ -245,7 +245,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			if (config.getBoolean("items.soulbound")) new SoulboundListener(this);
 
 			// Handle Slimefun Guide being given on Join
-			if (config.getBoolean("options.give-guide-on-first-join")) new SlimefunGuideListener(this);
+			new SlimefunGuideListener(this, config.getBoolean("options.give-guide-on-first-join"));
 
 			// Load/Unload Worlds in Slimefun
 			new WorldListener(this);

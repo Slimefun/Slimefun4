@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,10 +21,10 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
+public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
 	
 	public static final int MAX_USES = 8;
 
@@ -46,65 +47,66 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 	}
 	
 	@Override
-	public ItemInteractionHandler getItemHandler() {
-		return (e, p, item) -> {
-			if (isItem(item)) {
-				if (!item.hasItemMeta()) return false;
-				ItemMeta itemMeta = item.getItemMeta();
-				if (!itemMeta.hasLore()) return false;
-				List<String> itemLore = itemMeta.getLore();
+	public ItemUseHandler getItemHandler() {
+		return e -> {
+			Player p = e.getPlayer();
+			ItemStack item = e.getItem();
+			
+			if (!item.hasItemMeta()) return;
+			ItemMeta itemMeta = item.getItemMeta();
+			if (!itemMeta.hasLore()) return;
+			List<String> itemLore = itemMeta.getLore();
 
-				ItemStack sfItem = getItem();
-				ItemMeta sfItemMeta = sfItem.getItemMeta();
-				List<String> sfItemLore = sfItemMeta.getLore();
+			ItemStack sfItem = getItem();
+			ItemMeta sfItemMeta = sfItem.getItemMeta();
+			List<String> sfItemLore = sfItemMeta.getLore();
 
-				// Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
-				if (itemLore.size() < 6 && itemLore.get(1).equals(sfItemLore.get(1)) && itemLore.get(3).equals(sfItemLore.get(3))) {
-					if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
-						// Get a target block with max. 30 blocks of distance
-						Location loc = p.getTargetBlock(null, 30).getLocation();
+			// Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
+			if (itemLore.size() < 6 && itemLore.get(1).equals(sfItemLore.get(1)) && itemLore.get(3).equals(sfItemLore.get(3))) {
+				if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
+					// Get a target block with max. 30 blocks of distance
+					Location loc = p.getTargetBlock(null, 30).getLocation();
 
-						if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
-							if (loc.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(p, loc, ProtectableAction.PVP)) {
-								loc.getWorld().strikeLightning(loc);
+					if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
+						if (loc.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(p, loc, ProtectableAction.PVP)) {
+							loc.getWorld().strikeLightning(loc);
 
-								if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
-									FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
-									Bukkit.getPluginManager().callEvent(event);
-									p.setFoodLevel(event.getFoodLevel());
-								}
-
-								int currentUses = itemMeta.getPersistentDataContainer()
-									.getOrDefault(usageKey, PersistentDataType.INTEGER, MAX_USES);
-
-								e.setCancelled(true);
-								if (currentUses == 1) {
-									p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
-									item.setAmount(0);
-								} 
-								else {
-									itemMeta.getPersistentDataContainer().set(
-										usageKey, PersistentDataType.INTEGER, --currentUses
-									);
-									itemLore.set(4, ChatColor.translateAlternateColorCodes('&',
-										"&e" + currentUses + ' ' + (currentUses > 1 ? "Uses": "Use") + " &7left"));
-									itemMeta.setLore(itemLore);
-									item.setItemMeta(itemMeta);
-								}
-								return true;
+							if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
+								FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
+								Bukkit.getPluginManager().callEvent(event);
+								p.setFoodLevel(event.getFoodLevel());
 							}
+
+							int currentUses = itemMeta.getPersistentDataContainer()
+								.getOrDefault(usageKey, PersistentDataType.INTEGER, MAX_USES);
+
+							e.cancel();
+							if (currentUses == 1) {
+								p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+								item.setAmount(0);
+							} 
 							else {
-								SlimefunPlugin.getLocal().sendMessage(p, "messages.no-pvp", true);
+								itemMeta.getPersistentDataContainer().set(
+									usageKey, PersistentDataType.INTEGER, --currentUses
+								);
+								itemLore.set(4, ChatColor.translateAlternateColorCodes('&',
+									"&e" + currentUses + ' ' + (currentUses > 1 ? "Uses": "Use") + " &7left"));
+								itemMeta.setLore(itemLore);
+								item.setItemMeta(itemMeta);
 							}
+							return;
+						}
+						else {
+							SlimefunPlugin.getLocal().sendMessage(p, "messages.no-pvp", true);
 						}
 					}
-					else {
-						SlimefunPlugin.getLocal().sendMessage(p, "messages.hungry", true);
-					}
-					return true;
 				}
+				else {
+					SlimefunPlugin.getLocal().sendMessage(p, "messages.hungry", true);
+				}
+				
+				return;
 			}
-			return false;
 		};
 	}
 

@@ -39,6 +39,8 @@
 * Removed Solar Array
 * A lot of internal cleanup
 * Performance improvements for GEO Miner and Oil Pump
+* General performance improvements
+* Changed Startup console message
 
 ### Fixes
 * Fixed #1355

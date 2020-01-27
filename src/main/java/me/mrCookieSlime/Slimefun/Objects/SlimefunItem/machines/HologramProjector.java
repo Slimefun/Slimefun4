@@ -20,11 +20,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class HologramProjector extends SimpleSlimefunItem<ItemInteractionHandler> {
+public class HologramProjector extends SimpleSlimefunItem<BlockUseHandler> {
 
 	public HologramProjector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, recipeType, recipe, recipeOutput);
@@ -54,22 +54,16 @@ public class HologramProjector extends SimpleSlimefunItem<ItemInteractionHandler
 	}
 
 	@Override
-	public ItemInteractionHandler getItemHandler() {
-		return (e, p, item) -> {
-			if (e.getClickedBlock() == null) return false;
+	public BlockUseHandler getItemHandler() {
+		return e -> {
+			e.cancel();
 			
-			String id = BlockStorage.checkID(e.getClickedBlock());
-			if (id != null && id.equals(getID())) {
-				e.setCancelled(true);
-
-				if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(p.getUniqueId().toString())) {
-					openEditor(p, e.getClickedBlock());
-				}
-
-				return true;
+			Player p = e.getPlayer();
+			Block b = e.getClickedBlock().get();
+			
+			if (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString())) {
+				openEditor(p, b);
 			}
-			
-			return false;
 		};
 	}
 
