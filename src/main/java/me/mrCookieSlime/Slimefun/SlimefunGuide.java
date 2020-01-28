@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
@@ -33,11 +32,6 @@ public final class SlimefunGuide {
 		layouts.put(SlimefunGuideLayout.CHEST, chestGuide);
 		layouts.put(SlimefunGuideLayout.CHEAT_SHEET, chestGuide);
 		layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
-	}
-
-	@Deprecated
-	public static ItemStack getItem() {
-		return getItem(SlimefunGuideLayout.CHEST);
 	}
 
 	public static ItemStack getItem(SlimefunGuideLayout design) {
@@ -68,23 +62,8 @@ public final class SlimefunGuide {
 		return item;
 	}
 
-	@Deprecated
-	public static ItemStack getItem(boolean book) {
-		return getItem(book ? SlimefunGuideLayout.BOOK: SlimefunGuideLayout.CHEST);
-	}
-
-	@Deprecated
-	public static ItemStack getDeprecatedItem(boolean book) {
-		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&eSlimefun Guide &7(Right Click)", (book ? "": "&2"), "&rThis is your basic Guide for Slimefun", "&rYou can see all Items added by this Plugin", "&ror its Addons including their Recipes", "&ra bit of information and more");
-	}
-
 	public static void openCheatMenu(Player p) {
 		openMainMenuAsync(p, false, SlimefunGuideLayout.CHEAT_SHEET, 1);
-	}
-
-	@Deprecated
-	public static void openGuide(Player p, boolean book) {
-		openGuide(p, book ? SlimefunGuideLayout.BOOK: SlimefunGuideLayout.CHEST);
 	}
 
 	public static void openGuide(Player p, ItemStack guide) {
