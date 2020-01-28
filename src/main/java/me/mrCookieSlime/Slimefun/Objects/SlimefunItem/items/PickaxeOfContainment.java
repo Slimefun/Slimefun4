@@ -46,8 +46,8 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<BlockBreakHandler> 
 				List<String> lore = im.getLore();
 				
 				for (int i = 0; i < lore.size(); i++) {
-					if (lore.get(i).contains("<Type>")) {
-						lore.set(i, lore.get(i).replace("<Type>", ChatUtils.humanize(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
+					if (lore.get(i).contains("<类型>")) {
+						lore.set(i, lore.get(i).replace("<类型>", ChatUtils.humanize(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
 					}
 				}
 				

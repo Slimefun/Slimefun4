@@ -1378,13 +1378,13 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.REPAIRED_SPAWNER, RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.RUNE_ENDER})
+		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"), SlimefunItems.RUNE_ENDER})
 		.register(true, (BlockPlaceHandler) (e, item) -> {
 			if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
 				EntityType type = null;
 				
 				for (String line: item.getItemMeta().getLore()) {
-					if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<类型>")) {
+					if (ChatColor.stripColor(line).startsWith("类型: ") && !line.contains("<类型>")) {
 						type = EntityType.valueOf(ChatColor.stripColor(line).replace("类型: ", "").replace(' ', '_').toUpperCase());
 					}
 				}
