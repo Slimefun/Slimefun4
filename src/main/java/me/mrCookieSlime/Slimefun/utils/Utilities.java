@@ -104,7 +104,6 @@ public final class Utilities {
 	public final Map<UUID, Boolean> jumpState = new HashMap<>();
 	public final Set<UUID> damage = new HashSet<>();
 	public final Map<UUID, Entity[]> remove = new HashMap<>();
-	public final Map<UUID, Integer> mode = new HashMap<>();
 	
 	public final Map<UUID, Integer> enchanting = new HashMap<>();
 	public final Map<UUID, ItemStack> backpack = new HashMap<>();

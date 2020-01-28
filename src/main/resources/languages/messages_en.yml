@@ -28,6 +28,21 @@ guide:
 
   languages:
     updated: '&aYour language was successfully set to: &b%lang%'
+  
+  title:
+    main: 'Slimefun Guide'
+    settings: 'Settings & Info'
+    languages: 'Select your preferred language'
+    credits: 'Slimefun4 Contributors'
+  
+  credits:
+    commit: 'Commit'
+    commits: 'Commits'
+    roles:
+      developer: '&6Developer'
+      wiki: '&3Wiki Editor'
+      resourcepack: '&cResourcepack Artist'
+      translator: '&9Translator'
 
 messages:
   not-researched: '&4You do not have enough knowledge to understand this'
@@ -49,6 +64,7 @@ messages:
   disabled-in-world: '&4&lThis Item has been disabled in this world'
   disabled-item: '&4&lThis Item has been disabled! How did you even get that?'
   no-tome-yourself: '&cYou cannot use the &4Tome of Knowledge &con yourself...'
+  multimeter: '&bStored Energy: &3%stored% &b/ &3%capacity%'
 
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'
@@ -68,7 +84,7 @@ messages:
   soulbound-rune:
     fail: '&cYou can only bind one item to your soul at a time.'
     success: '&aYou have successfully bound this item to your soul! You will keep it when you die.'
-
+  
   research:
     start: '&7The Ancient Spirits whisper mysterious words into your ear!'
     progress: '&7You start to wonder about &b%research% &e(%progress%)'

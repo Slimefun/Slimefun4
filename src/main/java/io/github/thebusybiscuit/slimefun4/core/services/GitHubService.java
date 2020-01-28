@@ -58,9 +58,9 @@ public class GitHubService {
 		this.logging = logging;
 		addDefaultContributors();
 
-		connectors.add(new ContributionsConnector(this, "code", repository, "&6Developer"));
-		connectors.add(new ContributionsConnector(this, "wiki", "TheBusyBiscuit/Slimefun4-wiki", "&3Wiki Editor"));
-		connectors.add(new ContributionsConnector(this, "resourcepack", "TheBusyBiscuit/Slimefun4-Resourcepack", "&cResourcepack Artist"));
+		connectors.add(new ContributionsConnector(this, "code", repository, "developer"));
+		connectors.add(new ContributionsConnector(this, "wiki", "TheBusyBiscuit/Slimefun4-wiki", "wiki"));
+		connectors.add(new ContributionsConnector(this, "resourcepack", "TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
 
 		connectors.add(new GitHubConnector(this) {
 

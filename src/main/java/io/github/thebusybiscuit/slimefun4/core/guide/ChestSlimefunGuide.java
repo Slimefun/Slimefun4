@@ -65,7 +65,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			profile.getGuideHistory().clear();
 		}
 
-		ChestMenu menu = create();
+		ChestMenu menu = create(p);
 
 		List<Category> categories = SlimefunPlugin.getUtilities().enabledCategories;
 		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
@@ -173,7 +173,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			profile.getGuideHistory().add(category);
 		}
 
-		ChestMenu menu = create();
+		ChestMenu menu = create(p);
 		fillInv(p, profile, menu, survival);
 
 		menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList("", ChatColors.color("&rLeft Click: &7Go back to Main Menu")))));
@@ -400,7 +400,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			recipeItems = new ItemStack[] {null, null, null, null, new CustomItem(Material.BARRIER, "&4We are somehow unable to show you this Recipe :/"), null, null, null, null};
 		}
 
-		ChestMenu menu = create();
+		ChestMenu menu = create(p);
 		displayItem(menu, profile, p, item, result, recipeType, recipeItems, addToHistory);
 
 		if (recipes.length > 1) {
@@ -441,7 +441,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		RecipeType recipeType = item.getRecipeType();
 		ItemStack[] recipe = item.getRecipe();
 
-		ChestMenu menu = create();
+		ChestMenu menu = create(p);
 
 		if (item.hasWiki()) {
 			menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, "&rView this Item on our Wiki &7(Slimefun Wiki)", "", "&7\u21E8 Click to open"));
@@ -495,16 +495,6 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			GuideSettings.openSettings(pl, pl.getInventory().getItemInMainHand());
 			return false;
 		});
-
-		/*
-		// Stats
-		menu.addItem(4, new CustomItem(SkullItem.fromPlayer(p), "&7Player Stats: &e" + p.getName(), "", "&7Progress: &a" + Math.round(((profile.getResearches().size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F + "% &e(" + profile.getResearches().size() + " / " + Research.list().size() + ")", "", "&7\u21E8 Click for a full summary"));
-		menu.addMenuClickHandler(4, (player, i, itemStack, clickAction) -> {
-			player.closeInventory();
-			profile.sendStats(player);
-			return false;
-		});
-		 */
 
 		// Search feature!
 		menu.addItem(7, new CustomItem(ChestMenuUtils.getSearchButton(), SlimefunPlugin.getLocal().getMessage(p, "guide.search.name"), SlimefunPlugin.getLocal().getMessages(p, "guide.search.lore").toArray(new String[0])));
@@ -630,8 +620,8 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		}
 	}
 
-	private static ChestMenu create() {
-		ChestMenu menu = new ChestMenu("Slimefun Guide");
+	private static ChestMenu create(Player p) {
+		ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1));

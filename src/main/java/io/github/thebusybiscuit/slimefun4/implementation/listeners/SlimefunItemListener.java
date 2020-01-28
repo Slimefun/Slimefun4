@@ -29,8 +29,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.MultiTool;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MultiTool;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
@@ -107,33 +107,6 @@ public class SlimefunItemListener implements Listener {
 					slimefunItem.callItemHandler(ItemInteractionHandler.class, handler ->
 						handler.onRightClick(e, p, item)
 					);
-
-					if (slimefunItem instanceof MultiTool) {
-						e.setCancelled(true);
-
-						List<Integer> modes = ((MultiTool) slimefunItem).getModes();
-						int index = utilities.mode.getOrDefault(p.getUniqueId(), 0);
-
-						if (!p.isSneaking()) {
-							float charge = ItemEnergy.getStoredEnergy(item);
-							float cost = 0.3F;
-
-							if (charge >= cost) {
-								p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
-								Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item")).getItem().clone(), e.getClickedBlock()));
-							}
-						}
-						else {
-							index++;
-							if (index == modes.size()) index = 0;
-
-							SlimefunItem selectedItem = SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item"));
-							String itemName = selectedItem != null ? selectedItem.getItemName(): "Unknown";
-							SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
-							utilities.mode.put(p.getUniqueId(), index);
-						}
-					}
-					else if (SlimefunManager.isItemSimilar(item, SlimefunItems.HEAVY_CREAM, true)) e.setCancelled(true);
 				}
 				else {
 					e.setCancelled(true);

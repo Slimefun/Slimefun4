@@ -39,7 +39,7 @@ public final class GuideSettings {
 	private GuideSettings() {}
 	
 	public static void openSettings(Player p, ItemStack guide) {
-		ChestMenu menu = new ChestMenu("Settings / Info");
+		ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.settings"));
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -252,7 +252,7 @@ public final class GuideSettings {
 	}
 
 	private static void openLanguages(Player p) {
-		ChestMenu menu = new ChestMenu("Slimefun4 Language Selector");
+		ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.languages"));
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -309,7 +309,7 @@ public final class GuideSettings {
 	}
 
 	private static void openCredits(Player p, int page) {
-		ChestMenu menu = new ChestMenu("Slimefun4's contributors");
+		ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"));
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -355,8 +355,14 @@ public final class GuideSettings {
 			for (Map.Entry<String, Integer> entry : contributor.getContributions()) {
 				String info = entry.getKey();
 				
+				if (!info.startsWith("&")) {
+					info = SlimefunPlugin.getLocal().getMessage(p, "guide.credits.roles." + info);
+				}
+				
 				if (entry.getValue() > 0) {
-					info += " &7(" + entry.getValue() + " Commit" + (entry.getValue() > 1 ? "s": "") + ")";
+					String commits = SlimefunPlugin.getLocal().getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits": "commit"));
+					
+					info += " &7(" + entry.getValue() + " " + commits + ")";
 				}
 				
 				lore.add(ChatColors.color(info));
