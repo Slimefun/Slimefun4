@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class NumberUtils {
@@ -22,7 +23,7 @@ public final class NumberUtils {
 			// We have to create this instance here because it is not thread-safe and should not exist on a static level.
 			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date.replace('T', ' ').replace("Z", ""));
 		} catch (ParseException x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a GitHub-Date for Slimefun " + Slimefun.getVersion(), x);
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a GitHub-Date for Slimefun " + SlimefunPlugin.getVersion(), x);
 			return null;
 		}
 	}

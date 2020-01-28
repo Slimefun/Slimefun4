@@ -18,7 +18,7 @@ public final class GEOScanner {
 	private GEOScanner() {}
 	
 	public static void scanChunk(Player p, Chunk chunk) {
-		if (Slimefun.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {
+		if (SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {
 			SlimefunPlugin.getLocal().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));
 			return;
 		}

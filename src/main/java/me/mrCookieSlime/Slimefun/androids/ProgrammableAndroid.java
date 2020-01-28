@@ -993,7 +993,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			});
 		}
 		catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Script Editor for Slimefun " + Slimefun.getVersion(), x);
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Script Editor for Slimefun " + SlimefunPlugin.getVersion(), x);
 		}
 
 		int i = 10;

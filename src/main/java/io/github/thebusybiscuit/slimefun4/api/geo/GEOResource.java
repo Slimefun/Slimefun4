@@ -29,17 +29,18 @@ public interface GEOResource {
 	ItemStack getItem();
 	
 	/** 
-	 * Measurement Unit e.g. "Buckets"
+	 * Measurement Unit e.g. "Bucket" / "Buckets".
+     * Use the amount parameter to determine whether to use singular or plural.
 	 * 
 	 * @return	The Measurement Unit for this resource, will be treated like a suffix.
 	 */
-	String getMeasurementUnit();
+    String getMeasurementUnit(int amount);
 	
 	/**
 	 * Returns whether this Resource is considered a liquid.
 	 * 
-	 * @return Whether this is a liquid.
+	 * @return Whether you can get obtain this resource using a GEO Miner.
 	 */
-	boolean isLiquid();
+    boolean isObtainableFromGEOMiner();
 
 }

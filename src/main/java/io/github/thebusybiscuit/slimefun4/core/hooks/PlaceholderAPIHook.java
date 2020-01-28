@@ -65,7 +65,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		}
 		
 		if (params.equals("gps_complexity")) {
-			return String.valueOf(Slimefun.getGPSNetwork().getNetworkComplexity(p.getUniqueId()));
+			return String.valueOf(SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()));
 		}
 		
 		if (params.equals("timings_lag")) {

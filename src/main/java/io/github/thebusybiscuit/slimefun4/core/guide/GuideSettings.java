@@ -39,7 +39,7 @@ public final class GuideSettings {
 	private GuideSettings() {}
 	
 	public static void openSettings(Player p, ItemStack guide) {
-		ChestMenu menu = new ChestMenu("Settings / Info");
+		ChestMenu menu = new ChestMenu("设置 / 关于");
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -83,7 +83,7 @@ public final class GuideSettings {
 				"&7&oThis is very important when reporting bugs!",
 				"",
 				"&7Minecraft Version: &a" + Bukkit.getBukkitVersion(),
-				"&7Slimefun Version: &a" + Slimefun.getVersion(),
+				"&7Slimefun Version: &a" + SlimefunPlugin.getVersion(),
 				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion()
 		),  ChestMenuUtils.getEmptyClickHandler());
 

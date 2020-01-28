@@ -31,7 +31,9 @@ public class RecipeType {
 	public static final RecipeType JUICER = new RecipeType((SlimefunItemStack) SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
 	public static final RecipeType ANCIENT_ALTAR = new RecipeType((SlimefunItemStack) SlimefunItems.ANCIENT_ALTAR, "", "&dYou will need to craft this Item", "&dby performing an Ancient Altar Ritual");
 	public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType((SlimefunItemStack) SlimefunItems.HEATED_PRESSURE_CHAMBER, "", "&a&oCraft this Item in a", "&a&oHeated Pressure Chamber");
-	
+    public static final RecipeType FOOD_FABRICATOR = new RecipeType((SlimefunItemStack) SlimefunItems.FOOD_FABRICATOR, "", "&a&oCraft this Item in a", "&a&oFood Fabricator");
+    public static final RecipeType FOOD_COMPOSTER = new RecipeType((SlimefunItemStack) SlimefunItems.FOOD_COMPOSTER, "", "&a&oCraft this Item in a", "&a&oFood Composter");
+
 	public static final RecipeType SHAPED_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&eShaped Recipe", "", "&a&oJust a standard Recipe in the Workbench..."));
 	public static final RecipeType SHAPELESS_RECIPE = new RecipeType(new CustomItem(Material.CRAFTING_TABLE, "&eShapeless Recipe", "", "&a&oJust a standard Recipe in the Workbench..."));
 	public static final RecipeType FURNACE = new RecipeType(new CustomItem(Material.FURNACE, "&eFurnace Recipe", "", "&a&oJust smelt it in a regular Furnace"));

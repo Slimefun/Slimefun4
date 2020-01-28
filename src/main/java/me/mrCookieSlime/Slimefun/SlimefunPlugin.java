@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun;
 import java.io.File;
 import java.util.logging.Level;
 
+import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -93,6 +94,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	private TickerTask ticker;
 	private LocalizationService local;
+    private NetworkManager networkManager;
 	private Config researches;
 	private Config items;
 	private Config whitelist;
@@ -170,7 +172,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 			// Setup messages.yml
 			local = new LocalizationService(this, config.getString("options.language"));
 
-			// Setting up other stuff
+            // Setting up Network classes
+            networkManager = new NetworkManager(config.getInt("options.max-network-size"));
+
+            // Setting up other stuff
 			utilities = new Utilities();
 			gps = new GPSNetwork();
 
@@ -390,8 +395,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.whitelist;
 	}
 
-	public GPSNetwork getGPS() {
-		return gps;
+    public static GPSNetwork getGPSNetwork() {
+		return instance.gps;
 	}
 
 	public static SlimefunHooks getHooks() {
@@ -413,6 +418,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static boolean isActive() {
 		return instance != null;
 	}
+
+    public static String getVersion() {
+        return instance.getDescription().getVersion();
+    }
 
 	public static ProtectionManager getProtectionManager() {
 		return instance.protections;
@@ -442,4 +451,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.gitHubService;
 	}
 
+    public static NetworkManager getNetworkManager() {
+        return instance.networkManager;
+    }
 }
