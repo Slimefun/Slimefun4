@@ -105,11 +105,6 @@ public final class Utilities {
 	public final Set<UUID> damage = new HashSet<>();
 	public final Map<UUID, Entity[]> remove = new HashMap<>();
 	
-	public final Map<UUID, Integer> enchanting = new HashMap<>();
-	public final Map<UUID, ItemStack> backpack = new HashMap<>();
-	
-	public final Set<AltarRecipe> altarRecipes = new HashSet<>();
-	
 	public final List<UUID> blocks = new ArrayList<>();
 	public final List<UUID> cancelPlace = new ArrayList<>();
 	

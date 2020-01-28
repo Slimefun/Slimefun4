@@ -108,6 +108,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	// Supported Versions of Minecraft
 	private final String[] supported = {"v1_14_", "v1_15_"};
+	
+	private AncientAltarListener ancientAltarListener;
+	private BackpackListener backpackListener;
 
 	@Override
 	public void onEnable() {
@@ -237,12 +240,17 @@ public final class SlimefunPlugin extends JavaPlugin {
 			new ExplosionsListener(this);
 			new DebugFishListener(this);
 			new VanillaMachinesListener(this);
+			
+			ancientAltarListener = new AncientAltarListener();
 
 			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);
-			if (config.getBoolean("items.backpacks")) new BackpackListener(this);
 			if (config.getBoolean("items.coolers")) new CoolerListener(this);
 			if (config.getBoolean("items.soulbound")) new SoulboundListener(this);
+
+			if (config.getBoolean("items.backpacks")) {
+				backpackListener = new BackpackListener(this);
+			}
 
 			// Handle Slimefun Guide being given on Join
 			new SlimefunGuideListener(this, config.getBoolean("options.give-guide-on-first-join"));
@@ -263,7 +271,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 					new BlockStorage(world);
 				}
 
-				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener(this);
+				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) {
+					ancientAltarListener.load(this);
+				}
+				
 				if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) new GrapplingHookListener(this);
 				if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) new IgnitionChamberListener(this);
 			}, 0);
@@ -454,6 +465,14 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	public static NetworkManager getNetworkManager() {
 		return instance.networkManager;
+	}
+	
+	public static AncientAltarListener getAncientAltarListener() {
+		return instance.ancientAltarListener;
+	}
+	
+	public static BackpackListener getBackpackListener() {
+		return instance.backpackListener;
 	}
 
 }

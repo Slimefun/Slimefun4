@@ -25,6 +25,8 @@ public class TeleporterCommand extends SubCommand {
 	public void onExecute(CommandSender sender, String[] args) {
 		if (args.length == 2) {
 			if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {
+				
+				@SuppressWarnings("deprecation")
 				OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
 
 				if (player.getName() != null) {

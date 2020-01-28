@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.events.ItemUseEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -47,7 +47,7 @@ public class CargoManagerBlock extends SlimefunItem {
 		}, new BlockUseHandler() {
 
 			@Override
-			public void onRightClick(ItemUseEvent e) {
+			public void onRightClick(PlayerRightClickEvent e) {
 				Optional<Block> block = e.getClickedBlock();
 				if (block.isPresent()) {
 					Player p = e.getPlayer();

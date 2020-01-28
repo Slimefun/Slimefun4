@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class ItemUseEvent extends Event {
+public class PlayerRightClickEvent extends Event {
 
 	private static final HandlerList handlers = new HandlerList();
 
@@ -35,7 +35,7 @@ public class ItemUseEvent extends Event {
 	private Result itemResult = Result.DEFAULT;
 	private Result blockResult = Result.DEFAULT;
 
-	public ItemUseEvent(PlayerInteractEvent e) {
+	public PlayerRightClickEvent(PlayerInteractEvent e) {
 		event = e;
 		player = e.getPlayer();
 		clickedBlock = Optional.ofNullable(e.getClickedBlock());

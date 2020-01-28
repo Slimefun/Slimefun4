@@ -247,7 +247,7 @@ public class SlimefunItem implements Placeable {
 
 			postRegister();
 		} catch(Exception x) {
-			Slimefun.getLogger().log(Level.WARNING, "Registering the Item '" + id + "' for Slimefun " + Slimefun.getVersion() + " has failed", x);
+			Slimefun.getLogger().log(Level.WARNING, "Registering the Item '" + id + "' for Slimefun " + SlimefunPlugin.getVersion() + " has failed", x);
 		}
 	}
 
@@ -582,12 +582,15 @@ public class SlimefunItem implements Placeable {
 		return false;
 	}
 	
-	public <T extends ItemHandler> void callItemHandler(Class<T> c, Consumer<T> callable) {
+	public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {
 		Optional<ItemHandler> handler = itemhandlers.get(c);
 		
 		if (handler.isPresent()) {
 			callable.accept(c.cast(handler.get()));
+			return true;
 		}
+		
+		return false;
 	}
 	
 	public boolean isTicking() {

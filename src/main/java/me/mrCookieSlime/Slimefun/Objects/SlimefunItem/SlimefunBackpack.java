@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
@@ -24,7 +25,13 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
 
 	@Override
 	public ItemUseHandler getItemHandler() {
-		return e -> BackpackListener.openBackpack(e.getPlayer(), e.getItem(), this);
+		return e -> {
+			BackpackListener listener = SlimefunPlugin.getBackpackListener();
+			
+			if (listener != null) {
+				listener.openBackpack(e.getPlayer(), e.getItem(), this);
+			}
+		};
 	}
 
 }

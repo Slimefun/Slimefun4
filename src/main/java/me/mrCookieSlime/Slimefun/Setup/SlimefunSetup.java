@@ -32,7 +32,7 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
-import io.github.thebusybiscuit.slimefun4.api.events.ItemUseEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -1533,7 +1533,7 @@ public final class SlimefunSetup {
 			);
 
 			@Override
-			public void onRightClick(ItemUseEvent e) {
+			public void onRightClick(PlayerRightClickEvent e) {
 				e.cancel();
 				
 				Player p = e.getPlayer();
@@ -1578,8 +1578,6 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.ANCIENT_ALTAR, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, new ItemStack(Material.ENCHANTING_TABLE), null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN)})
 		.register(true);
-
-		// Slimefun 4
 
 		new EnergyRegulator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.ENERGY_REGULATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT})
