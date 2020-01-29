@@ -27,7 +27,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
-import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
@@ -35,7 +34,6 @@ import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemRequest;
 
 /**
  * Really dirty way to store stuff, but you can dump
@@ -78,9 +76,6 @@ public final class Utilities {
 	public final Set<String> energyNetInput = new HashSet<>();
 	public final Set<String> energyNetStorage = new HashSet<>();
 	public final Set<String> energyNetOutput = new HashSet<>();
-	
-	public final Map<Location, Integer> roundRobin = new HashMap<>();
-	public final Set<ItemRequest> itemRequests = new HashSet<>();
 
 	public final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
 	
@@ -100,7 +95,6 @@ public final class Utilities {
 	
 	public final Map<EntityType, List<ItemStack>> drops = new EnumMap<>(EntityType.class);
 
-	public final Map<UUID, ItemStack> arrows = new HashMap<>();
 	public final Map<UUID, Boolean> jumpState = new HashMap<>();
 	public final Set<UUID> damage = new HashSet<>();
 	public final Map<UUID, Entity[]> remove = new HashMap<>();

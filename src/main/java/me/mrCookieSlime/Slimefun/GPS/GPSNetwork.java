@@ -27,7 +27,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.GPSTransmitter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class GPSNetwork {
 	
@@ -196,7 +195,7 @@ public class GPSNetwork {
 		return map;
 	}
 	
-	public void addWaypoint(Player p, final Location l) {
+	public void addWaypoint(Player p, Location l) {
 		if ((getWaypoints(p.getUniqueId()).size() + 2) > inventory.length) {
 			SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.max", true);
 			return;
@@ -231,7 +230,7 @@ public class GPSNetwork {
 		return transmitters.getOrDefault(uuid, new HashSet<>());
 	}
 	
-	public void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) {
+	public void openTeleporterGUI(Player p, UUID uuid, Block b, int complexity) {
 		if (SlimefunPlugin.getUtilities().teleporterUsers.contains(p.getUniqueId())) {
 			return;
 		}
@@ -252,14 +251,14 @@ public class GPSNetwork {
 		Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
 		int index = 0;
 		
-		for (Map.Entry<String, Location> entry : Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
+		for (Map.Entry<String, Location> entry : SlimefunPlugin.getGPSNetwork().getWaypoints(uuid).entrySet()) {
 			if (index >= teleporterInventory.length) break;
 			int slot = teleporterInventory[index];
 			
 			Location l = entry.getValue();
 			ItemStack globe = getIcon(entry);
 			
-			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick to select"));
+			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + (50 / TeleportationSequence.getSpeed(SlimefunPlugin.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick to select"));
 			menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
 				pl.closeInventory();
 				TeleportationSequence.start(pl.getUniqueId(), complexity, source, l, false);

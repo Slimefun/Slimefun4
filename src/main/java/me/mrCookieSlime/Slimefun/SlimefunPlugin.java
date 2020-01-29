@@ -111,48 +111,17 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	private AncientAltarListener ancientAltarListener;
 	private BackpackListener backpackListener;
+	private SlimefunBowListener bowListener;
 
 	@Override
 	public void onEnable() {
 		if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
-
-			String currentVersion = ReflectionUtils.getVersion();
-
-			if (currentVersion.startsWith("v")) {
-				boolean compatibleVersion = false;
-				StringBuilder versions = new StringBuilder();
-
-				int i = 0;
-				for (String version : supported) {
-					if (currentVersion.startsWith(version)) {
-						compatibleVersion = true;
-					}
-
-					String s = version.substring(1).replaceFirst("_", ".").replace("_", ".X");
-					if (i == 0) versions.append(s);
-					else if (i == supported.length - 1) versions.append(" or ").append(s);
-					else versions.append(", ").append(s);
-
-					i++;
-				}
-
-				// Looks like you are using an unsupported Minecraft Version
-				if (!compatibleVersion) {
-					getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
-					getLogger().log(Level.SEVERE, "###");
-					getLogger().log(Level.SEVERE, "### You are using the wrong Version of Minecraft!");
-					getLogger().log(Level.SEVERE, "###");
-					getLogger().log(Level.SEVERE, "### You are using Minecraft " + ReflectionUtils.getVersion());
-					getLogger().log(Level.SEVERE, "### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
-					getLogger().log(Level.SEVERE, "### Minecraft {0}", versions);
-					getLogger().log(Level.SEVERE, "###");
-					getLogger().log(Level.SEVERE, "### Please use an older Version of Slimefun and disable auto-updating");
-					getLogger().log(Level.SEVERE, "### or consider updating your Server Software.");
-					getServer().getPluginManager().disablePlugin(this);
-					return;
-				}
+			
+			if (isVersionUnsupported()) {
+				getServer().getPluginManager().disablePlugin(this);
+				return;
 			}
-
+			
 			instance = this;
 
 			// Creating all necessary Folders
@@ -197,7 +166,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			try {
 				SlimefunSetup.setupItems();
 			} catch (Exception x) {
-				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + Slimefun.getVersion(), x);
+				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
 			}
 
 			getLogger().log(Level.INFO, "Loading Researches...");
@@ -229,7 +198,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 			new GearListener(this);
 			new AutonomousToolsListener(this);
 			new DamageListener(this);
-			new SlimefunBowListener(this);
 			new BlockListener(this);
 			new EnhancedFurnaceListener(this);
 			new TeleporterListener(this);
@@ -240,7 +208,8 @@ public final class SlimefunPlugin extends JavaPlugin {
 			new ExplosionsListener(this);
 			new DebugFishListener(this);
 			new VanillaMachinesListener(this);
-			
+
+			bowListener = new SlimefunBowListener(this);
 			ancientAltarListener = new AncientAltarListener();
 
 			// Toggleable Listeners for performance
@@ -299,7 +268,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 					ticker.run();
 				}
 				catch(Exception x) {
-					getLogger().log(Level.SEVERE, "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + Slimefun.getVersion(), x);
+					getLogger().log(Level.SEVERE, "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + getVersion(), x);
 					ticker.abortTick();
 				}
 			}, 100L, config.getInt("URID.custom-ticker-delay"));
@@ -331,6 +300,46 @@ public final class SlimefunPlugin extends JavaPlugin {
 		}
 	}
 
+	private boolean isVersionUnsupported() {
+		String currentVersion = ReflectionUtils.getVersion();
+
+		if (currentVersion.startsWith("v")) {
+			boolean compatibleVersion = false;
+			StringBuilder versions = new StringBuilder();
+
+			int i = 0;
+			for (String version : supported) {
+				if (currentVersion.startsWith(version)) {
+					compatibleVersion = true;
+				}
+
+				String s = version.substring(1).replaceFirst("_", ".").replace("_", ".X");
+				if (i == 0) versions.append(s);
+				else if (i == supported.length - 1) versions.append(" or ").append(s);
+				else versions.append(", ").append(s);
+
+				i++;
+			}
+
+			// Looks like you are using an unsupported Minecraft Version
+			if (!compatibleVersion) {
+				getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
+				getLogger().log(Level.SEVERE, "###");
+				getLogger().log(Level.SEVERE, "### You are using the wrong Version of Minecraft!");
+				getLogger().log(Level.SEVERE, "###");
+				getLogger().log(Level.SEVERE, "### You are using Minecraft " + ReflectionUtils.getVersion());
+				getLogger().log(Level.SEVERE, "### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
+				getLogger().log(Level.SEVERE, "### Minecraft {0}", versions);
+				getLogger().log(Level.SEVERE, "###");
+				getLogger().log(Level.SEVERE, "### Please use an older Version of Slimefun and disable auto-updating");
+				getLogger().log(Level.SEVERE, "### or consider updating your Server Software.");
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	@Override
 	public void onDisable() {
 		// CS-CoreLib wasn't loaded, just disabling
@@ -359,7 +368,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 					getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
 				}
 			} catch (Exception x) {
-				getLogger().log(Level.SEVERE, "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + Slimefun.getVersion(), x);
+				getLogger().log(Level.SEVERE, "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion(), x);
 			}
 		}
 
@@ -473,6 +482,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	public static BackpackListener getBackpackListener() {
 		return instance.backpackListener;
+	}
+	
+	public static SlimefunBowListener getBowListener() {
+		return instance.bowListener;
 	}
 
 }

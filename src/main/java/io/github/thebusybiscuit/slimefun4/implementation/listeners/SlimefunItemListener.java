@@ -9,7 +9,6 @@ import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -122,7 +121,8 @@ public class SlimefunItemListener implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@Deprecated
+	@EventHandler
 	public void onRightClick(ItemUseEvent e) {
 		if (e.getParentEvent() != null && e.getParentEvent().getHand() != EquipmentSlot.HAND) {
 			return;

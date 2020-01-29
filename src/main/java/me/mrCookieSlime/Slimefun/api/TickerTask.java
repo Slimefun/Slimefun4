@@ -24,9 +24,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
+import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -215,29 +215,31 @@ public class TickerTask implements Runnable {
 				.collect(Collectors.toList());
 
 		if (sender instanceof Player) {
-			TellRawMessage tellraw = new TellRawMessage();
-			tellraw.addText("   &7&oHover for more Info");
-			StringBuilder hover = new StringBuilder();
+			ChatComponent component = new ChatComponent(ChatColors.color("   &7&oHover for more Info"));
+			StringBuilder builder = new StringBuilder();
 			int hidden = 0;
 
 			for (Map.Entry<String, Long> entry : timings) {
 				int count = machineCount.get(entry.getKey());
-				if (entry.getValue() > 500_000)
-				    hover.append("\n&c").append(entry.getKey()).append(" - ")
-						.append(count).append("x &7(").append(toMillis(entry.getValue())).append(", ")
-			            .append(toMillis(entry.getValue() / count)).append(" avg/machine)");
-				else
-				    hidden++;
+				
+				if (entry.getValue() > 500_000) {
+					builder.append("\n&c")
+					.append(entry.getKey())
+					.append(" - ")
+					.append(count)
+					.append("x &7(")
+					.append(toMillis(entry.getValue()))
+					.append(", ")
+		            .append(toMillis(entry.getValue() / count))
+		            .append(" avg/machine)");
+				}
+				else hidden++;
 			}
 
-			hover.append("\n\n&c+ &4").append(hidden).append(" Hidden");
-			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
+			builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
+			component.setHoverEvent(new HoverEvent(builder.toString()));
 
-			try {
-				tellraw.send((Player) sender);
-			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
-			}
+			component.sendMessage((Player) sender);
 		}
 		else {
 			int hidden = 0;
@@ -261,33 +263,33 @@ public class TickerTask implements Runnable {
 				.collect(Collectors.toList());
 
 		if (sender instanceof Player) {
-			TellRawMessage tellraw = new TellRawMessage();
-			tellraw.addText("   &7&oHover for more Info");
-			StringBuilder hover = new StringBuilder();
+			ChatComponent component = new ChatComponent(ChatColors.color("   &7&oHover for more Info"));
+			StringBuilder builder = new StringBuilder();
 			int hidden = 0;
 
 			for (Map.Entry<String, Long> entry : timings) {
 				if (!chunksSkipped.contains(entry.getKey())) {
-					if (entry.getValue() > 0)
-						hover.append("\n&c").append(formatChunk(entry.getKey())).append(" - ")
-								.append(chunkItemCount.getOrDefault(entry.getKey(), 0))
-								.append("x &7(").append(toMillis(entry.getValue())).append(")");
-					else
-					    hidden++;
+					if (entry.getValue() > 0) {
+						builder.append("\n&c")
+						.append(formatChunk(entry.getKey()))
+						.append(" - ")
+						.append(chunkItemCount.getOrDefault(entry.getKey(), 0))
+						.append("x &7(")
+						.append(toMillis(entry.getValue()))
+						.append(")");
+					}
+					else hidden++;
 				}
 			}
 			
-			hover.append("\n\n&c+ &4").append(hidden).append(" Hidden");
-			tellraw.addHoverEvent(HoverAction.SHOW_TEXT, hover.toString());
+			builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
+			component.setHoverEvent(new HoverEvent(builder.toString()));
 			
-			try {
-				tellraw.send((Player) sender);
-			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occurred while sending a Timings Summary for Slimefun " + Slimefun.getVersion(), x);
-			}
+			component.sendMessage((Player) sender);
 		}
 		else {
 			int hidden = 0;
+			
 			for (Map.Entry<String, Long> entry : timings) {
 				if (!chunksSkipped.contains(entry.getKey())) {
 					if (entry.getValue() > 0) sender.sendMessage("  " + formatChunk(entry.getKey()) + " - "
@@ -295,7 +297,8 @@ public class TickerTask implements Runnable {
 					else hidden++;
 				}
 			}
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c+ &4" + hidden + " Hidden"));
+			
+			sender.sendMessage(ChatColors.color("&c+ &4" + hidden + " Hidden"));
 		}
 	}
 	

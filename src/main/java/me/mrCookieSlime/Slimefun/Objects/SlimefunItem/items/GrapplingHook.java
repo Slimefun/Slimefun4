@@ -71,7 +71,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 // To fix issue #253
                 Slimefun.runSync(() -> {
                     if (utilities.jumpState.containsKey(uuid)) {
-                        utilities.arrows.remove(uuid);
+                        SlimefunPlugin.getBowListener().getBows().remove(uuid);
 
                         for (Entity n : utilities.remove.get(uuid)) {
                             if (n.isValid()) n.remove();

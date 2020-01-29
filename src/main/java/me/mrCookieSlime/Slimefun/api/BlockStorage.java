@@ -486,10 +486,11 @@ public class BlockStorage {
 		
 		if (destroy) {
 			if (storage.hasInventory(l)) storage.clearInventory(l);
-			
-			if (storage.hasUniversalInventory(l)) {
-				storage.getUniversalInventory(l).close();
-				storage.getUniversalInventory(l).save();
+
+			UniversalBlockMenu universalInventory = getUniversalInventory(l);
+			if (universalInventory != null) {
+				universalInventory.close();
+				universalInventory.save();
 			}
 			
 			String chunkString = locationToChunkString(l);
@@ -660,7 +661,7 @@ public class BlockStorage {
 		if (menu != null) {
 			for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
 				// Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while holding an item
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, human::closeInventory);
+				Slimefun.runSync(human::closeInventory);
 			}
 
 			inventories.get(l).delete(l);

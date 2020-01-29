@@ -61,6 +61,9 @@ public class CargoNet extends Network {
 	private final Set<Location> imports = new HashSet<>();
 	private final Set<Location> exports = new HashSet<>();
 	
+	private final Map<Location, Integer> roundRobin = new HashMap<>();
+	private final Set<ItemRequest> itemRequests = new HashSet<>();
+	
 	public static CargoNet getNetworkFromLocation(Location l) {
 		return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
 	}
@@ -219,7 +222,7 @@ public class CargoNet extends Network {
 						}
 
 						if (menu.getItemInSlot(17) != null) {
-							SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(bus, 17, menu.getItemInSlot(17), ItemTransportFlow.INSERT));
+							itemRequests.add(new ItemRequest(bus, 17, menu.getItemInSlot(17), ItemTransportFlow.INSERT));
 						}
 					}
 
@@ -246,7 +249,7 @@ public class CargoNet extends Network {
 								if (index > (items.size() - 1)) index = 0;
 
 								BlockStorage.addBlockInfo(bus, "index", String.valueOf(index));
-								SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
+								itemRequests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
 							}
 						}
 					}
@@ -256,11 +259,11 @@ public class CargoNet extends Network {
 						ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);
 
 						if (sendingItem != null) {
-							SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sendingItem, ItemTransportFlow.INSERT));
+							itemRequests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sendingItem, ItemTransportFlow.INSERT));
 						}
 					}
 
-					Iterator<ItemRequest> iterator = SlimefunPlugin.getUtilities().itemRequests.iterator();
+					Iterator<ItemRequest> iterator = itemRequests.iterator();
 					while (iterator.hasNext()) {
 						ItemRequest request = iterator.next();
 						
@@ -367,7 +370,7 @@ public class CargoNet extends Network {
 							List<Location> outputlist = new ArrayList<>(outputs);
 
 							if (roundrobin) {
-								int cIndex = SlimefunPlugin.getUtilities().roundRobin.getOrDefault(input, 0);
+								int cIndex = roundRobin.getOrDefault(input, 0);
 
 								if (cIndex < outputlist.size()) {
 									for (int i = 0; i < cIndex; i++) {
@@ -379,7 +382,7 @@ public class CargoNet extends Network {
 								}
 								else cIndex = 1;
 
-								SlimefunPlugin.getUtilities().roundRobin.put(input, cIndex);
+								roundRobin.put(input, cIndex);
 							}
 
 							for (Location out : outputlist) {
@@ -418,7 +421,7 @@ public class CargoNet extends Network {
 						UniversalBlockMenu menu = BlockStorage.getUniversalInventory(target);
 						
 						if (menu != null) {
-							for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+							for (int slot : menu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) menu, ItemTransportFlow.WITHDRAW, null)) {
 								ItemStack is = menu.getItemInSlot(slot);
 								filter(is, items, l);
 							}
@@ -502,7 +505,7 @@ public class CargoNet extends Network {
 								menu.replaceExistingItem(slot, stack);
 								menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
 									int amount = item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getAmount();
-									SlimefunPlugin.getUtilities().itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
+									itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
 									return false;
 								});
 
@@ -537,7 +540,7 @@ public class CargoNet extends Network {
 		return freq;
 	}
 
-	private void handleWithdraw(BlockMenu menu, List<StoredItem> items, Location l) {
+	private void handleWithdraw(DirtyChestMenu menu, List<StoredItem> items, Location l) {
 		for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 			filter(menu.getItemInSlot(slot), items, l);
 		}

@@ -21,12 +21,13 @@ public class ExplosionsListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent e) {
 		Iterator<Block> blocks = e.blockList().iterator();
 		
 		while (blocks.hasNext()) {
 			Block block = blocks.next();
+			
 			String id = BlockStorage.checkID(block);
     		if (id != null) {
     			blocks.remove();
