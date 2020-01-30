@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -40,7 +39,8 @@ public class GitHubTask implements Runnable {
 					// There cannot be a texture found because it is not a valid MC username
 					contributor.setTexture(null);
 				}
-				catch(TooManyRequestsException x) {
+				catch(Exception x) {
+					// Too many requests
 					break;
 				}
 			}

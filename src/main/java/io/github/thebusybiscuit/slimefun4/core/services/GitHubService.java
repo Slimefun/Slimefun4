@@ -49,7 +49,13 @@ public class GitHubService {
 		fuffles.setContribution("&dSkull Texture Artist", 0);
 		contributors.put(fuffles.getName(), fuffles);
 		
+		// Translators - German
 		addTranslator("TheBusyBiscuit", "de");
+		
+		// Translators - French
+		addTranslator("JustDams", "fr");
+		addTranslator("edkerforne", "fr");
+		addTranslator("tnthomastn", "fr");
 	}
 
 	private void addTranslator(String name, String language) {
