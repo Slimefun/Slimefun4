@@ -245,3 +245,7 @@ languages:
   pl: 'Polish'
   sv: 'Swedish'
   nl: 'Dutch'
+  cs: 'Czech'
+  hu: 'Hungarian'
+  lv: 'Latvian'
+  ru: 'Russian'
