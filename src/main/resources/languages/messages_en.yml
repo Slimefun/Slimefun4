@@ -46,6 +46,7 @@ guide:
   credits:
     commit: 'Commit'
     commits: 'Commits'
+    profile-link: 'Click to visit their profile on GitHub'
     roles:
       developer: '&6Developer'
       wiki: '&3Wiki Editor'

@@ -75,13 +75,13 @@ public final class ChestMenuUtils {
 	public static ItemStack getNextButton(Player p, int page, int pages) {
 		if (pages == 1 || page == pages) {
 			return new CustomItem(NEXT_BUTTON_INACTIVE, meta -> {
-				meta.setDisplayName(ChatColor.DARK_GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E6");
+				meta.setDisplayName(ChatColor.DARK_GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E8");
 				meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
 			});
 		}
 		
 		return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
-			meta.setDisplayName(ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E6");
+			meta.setDisplayName(ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E8");
 			meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
 		});
 	}

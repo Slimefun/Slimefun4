@@ -376,7 +376,7 @@ public final class GuideSettings {
 			
 			if (contributor.getProfile() != null) {
 				lore.add("");
-				lore.add(ChatColors.color("&7\u21E8 Click to visit " + contributor.getName() + "'s profile"));
+				lore.add(ChatColors.color("&7\u21E8 &e") + SlimefunPlugin.getLocal().getMessage(p, "guide.credits.profile-link"));
 			}
 			
 			meta.setLore(lore);
