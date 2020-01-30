@@ -77,6 +77,10 @@ public class Contributor {
 		list.sort(Comparator.comparingInt(entry -> -entry.getValue()));
 		return list;
 	}
+
+	public int getContributions(String role) {
+		return contributions.getOrDefault(role, 0);
+	}
 	
 	/**
 	 * Returns this Creator's head texture.

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

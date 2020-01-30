@@ -45,13 +45,16 @@ public class GitHubService {
 	}
 
 	private void addDefaultContributors() {
-		Contributor thebusybiscuit = new Contributor("TheBusyBiscuit", "https://github.com/TheBusyBiscuit");
-		thebusybiscuit.setContribution("&4Original Creator", 0);
-		contributors.put(thebusybiscuit.getName(), thebusybiscuit);
-
 		Contributor fuffles = new Contributor("Fuffles_");
 		fuffles.setContribution("&dSkull Texture Artist", 0);
 		contributors.put(fuffles.getName(), fuffles);
+		
+		addTranslator("TheBusyBiscuit", "de");
+	}
+
+	private void addTranslator(String name, String language) {
+		Contributor contributor = contributors.computeIfAbsent(name, user -> new Contributor(user, "https://github.com/" + user));
+		contributor.setContribution("translator," + language, 0);
 	}
 
 	public void connect(boolean logging) {

@@ -357,7 +357,12 @@ public final class GuideSettings {
 				String info = entry.getKey();
 				
 				if (!info.startsWith("&")) {
-					info = SlimefunPlugin.getLocal().getMessage(p, "guide.credits.roles." + info);
+					String[] segments = info.split(",");
+					info = SlimefunPlugin.getLocal().getMessage(p, "guide.credits.roles." + segments[0]);
+					
+					if (segments.length == 2) {
+						info += " &7(" + SlimefunPlugin.getLocal().getMessage(p, "languages." + segments[1]) + ")";
+					}
 				}
 				
 				if (entry.getValue() > 0) {
