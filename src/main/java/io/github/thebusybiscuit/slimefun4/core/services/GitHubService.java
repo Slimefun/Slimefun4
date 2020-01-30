@@ -50,17 +50,19 @@ public class GitHubService {
 		contributors.put(fuffles.getName(), fuffles);
 		
 		// Translators - German
-		addTranslator("TheBusyBiscuit", "de");
+		addTranslator("TheBusyBiscuit", "de", false);
 		
 		// Translators - French
-		addTranslator("JustDams", "fr");
-		addTranslator("edkerforne", "fr");
-		addTranslator("tnthomastn", "fr");
+		addTranslator("JustDams", "fr", true);
+		addTranslator("edkerforne", "fr", true);
+		addTranslator("tnthomastn", "fr", true);
 	}
 
-	private void addTranslator(String name, String language) {
+	private void addTranslator(String name, String language, boolean lock) {
 		Contributor contributor = contributors.computeIfAbsent(name, user -> new Contributor(user, "https://github.com/" + user));
 		contributor.setContribution("translator," + language, 0);
+		
+		if (lock) contributor.lock();
 	}
 
 	public void connect(boolean logging) {

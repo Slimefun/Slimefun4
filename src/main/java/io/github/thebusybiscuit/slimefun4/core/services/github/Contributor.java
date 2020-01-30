@@ -26,6 +26,8 @@ public class Contributor {
 	private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
 	private final ComputedOptional<String> headTexture = ComputedOptional.createNew();
 	
+	private boolean locked = false;
+	
 	public Contributor(String name, String profile) {
 		ghName = profile.substring(profile.lastIndexOf('/') + 1);
 		mcName = name;
@@ -39,7 +41,9 @@ public class Contributor {
 	}
 	
 	public void setContribution(String role, int commits) {
-		contributions.put(role, commits);
+		if (!locked) {
+			contributions.put(role, commits);
+		}
 	}
 
 	/**
@@ -122,5 +126,9 @@ public class Contributor {
 
 	public String getDisplayName() {
 		return ChatColor.GRAY + ghName + (!ghName.equals(mcName) ? ChatColor.DARK_GRAY + " (MC: " + mcName + ")" : "");
+	}
+
+	public void lock() {
+		this.locked = true;
 	}
 }
