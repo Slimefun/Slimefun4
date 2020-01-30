@@ -1,0 +1,145 @@
+---
+commands:
+  help: Affiche cet écran d'aide
+  give: Donne à quelqu'un des objets Slimefun
+  guide: Vous donne un guide Slimefun
+  timings: Informations sur la latence de votre serveur
+  teleporter: Affiche les waypoints d'un autre joueur
+  versions: Affiche toutes les extensions  installées
+  stats: Affiche les statistiques d'un joueur
+  research:
+    description: Déverrouille/réinitialise les recherches d'un joueur
+guide:
+  search:
+    lore:
+    - 
+    - "&7Entrez votre terme de recherche dans le chat"
+  languages:
+    updated: "&aVotre langue a été correctement définie à : &b%lang%"
+    translations:
+      name: "&aIl manque quelque chose ?"
+  title:
+    main: Guide Slimefun
+    settings: Paramètres et informations
+    languages: Choisissez votre langue
+  credits:
+    roles:
+      wiki: "&3Éditeur du wiki"
+      resourcepack: "&cArtiste de pack de ressources"
+messages:
+  not-researched: "&4Vous n'avez pas suffisamment de connaissances pour comprendre
+    ceci"
+  not-enough-xp: "&4Vous n'avez pas suffisamment d'expérience pour déverrouiller ceci"
+  unlocked: '&bVous avez déverrouillé &7"%research%"'
+  unknown-player: "&4Joueur inconnu : &c%player%"
+  no-permission: "&4Vous n'avez pas les permissions requises pour faire ceci"
+  talisman:
+    lava: "&a&oVotre talisman vous a sauvé de la lave"
+    water: "&a&oVotre talisman vous a évité la noyade"
+    angel: "&a&oVotre talisman vous a évité de subir des dégâts de chute"
+    fire: "&a&oVotre talisman vous a sauvé du feu"
+    magician: "&a&oVotre talisman vous a donné un enchantement supplémentaire"
+    traveller: "&a&oVotre talisman vous a donné une amélioration de vitesse"
+    warrior: "&a&oVotre talisman a amélioré votre force pour un temps"
+    knight: "&a&oVotre talisman vous a donné 5 secondes de régénération"
+    whirlwind: "&a&oVotre talisman a renvoyé le projectile"
+  research:
+    progress: "&7Vous commencez à vous poser des questions sur &b%research% &e(%progress%)"
+  cannot-place: "&cVous ne pouvez pas placer ce bloc là !"
+  radiation: "&4Vous avez été exposé à des niveaux de radiation mortels ! &cDébarrassez-vous
+    de l'objet radioactif ou équipez-vous d'une combinaison Hazmat !"
+  opening-guide: "&bOuverture du guide, cela peut prendre quelques secondes..."
+  no-iron-golem-heal: "&cCela n'est pas un lingot de fer. Vous ne pouvez pas l'utiliser
+    pour soigner des golems de fer !"
+  link-prompt: "&eCliquez ici :"
+  diet-cookie: "&eVous vous sentez léger comme une plume..."
+  fortune-cookie:
+  - 
+  - 
+  - "&7Quelque chose de mal vous arrivera à un moment de votre vie !"
+  - "&7La semaine prochaine, vous vous rendrez compte que ce monde n'est pas réel
+    et que vous êtes dans un jeu vidéo"
+  - "&7Ce biscuit aura bon goût dans quelques secondes"
+  - 
+  - "&7Quoi que vous fassiez, ne faites pas de câlin à un Creeper... J'ai essayé.
+    Ça fait du bien, mais ça n'en vaut pas la peine."
+  - "&742. La réponse est 42."
+  - "&7Un Walshy par jour éloigne les ennuis."
+  - "&7Ne creusez jamais directement en-dessous de vous !"
+machines:
+  pattern-not-found: "&eDésolé, je ne reconnais pas cette recette. Veuillez disposer
+    les objets correctement dans le distributeur."
+  unknown-material: "&eDésolé, je ne reconnais pas l'objet dans le distributeur. Veuillez
+    y placer quelque chose que je connais."
+  wrong-item: "&eDésolé, je ne reconnais pas l'objet avec lequel vous avez cliqué.
+    Consultez le guide pour savoir quels objets vous pouvez utiliser."
+  full-inventory: "&eDésolé, mon inventaire est plein !"
+  in-use: "&cL'inventaire de ce bloc est déjà ouvert par un autre joueur."
+  ignition-chamber-no-flint: "&cLa chambre d'allumage n'a pas de briquet."
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
+      &c(%pedestals% / 8)"
+    unknown-catalyst: "&4Catalyseur inconnu ! &cVeuillez utiliser la bonne recette
+      !"
+    unknown-recipe: "&4Recette inconnue ! &cVeuillez utiliser la bonne recette !"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4Un piédestal est encombré ! &cRetirez ce qui se trouve au-dessus
+      du piédestal !"
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7Veuillez saisir le texte voulu pour votre hologramme dans le chat.
+      &r(Les codes couleur sont acceptés !)"
+  ELEVATOR:
+    no-destinations: "&4Aucune destination trouvée"
+    pick-a-floor: "&3- Sélectionnez un étage -"
+    current-floor: "&eVous êtes actuellement à cet étage :"
+    click-to-teleport: "&eCliquez &7pour vous téléporter à cet étage :"
+    named: "&2Vous avez bien renommé cet étage : &r%floor%"
+  TELEPORTER:
+    teleporting: "&3Téléportation..."
+    teleported: "&3Téléportation terminée !"
+    cancelled: "&4Téléportation annulée !"
+  CARGO_NODES:
+    must-be-placed: "&4Doit être positionné sur un coffre ou une machine !"
+miner:
+  no-ores: "&eDésolé, je n'ai pas pu trouver de minerai à proximité !"
+workbench:
+  not-enhanced: "&4Vous ne pouvez pas utiliser d'objets Slimefun dans un établi normal"
+gps:
+  insufficient-complexity:
+  - "&4Complexité du réseau GPS insuffisante : &c%complexity%"
+  - "&4a) Vous n'avez pas encore de réseau GPS"
+  - "&4b) Votre réseau GPS n'est pas assez complexe"
+inventory:
+  no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
+android:
+  started: "&7Votre androïde a repris l'exécution de son script"
+  stopped: "&7Votre androïde a mis en pause l'exécution de son script"
+  scripts:
+    instructions:
+      START: "&2Exécuter le script"
+      REPEAT: "&9Répéter le script"
+      GO_FORWARD: "&7Avancer"
+      GO_UP: "&7Monter"
+      GO_DOWN: "&7Descendre"
+      TURN_LEFT: "&7Tourner à gauche"
+      TURN_RIGHT: "&7Tourner à droite"
+      DIG_UP: "&bCreuser vers le haut"
+      DIG_FORWARD: "&bCreuser vers l'avant"
+      DIG_DOWN: "&bCreuser vers le bas"
+      ATTACK_MOBS_ANIMALS: "&4Attaquer &c(monstres hostiles et animaux)"
+      ATTACK_MOBS: "&4Attaquer &c(monstres hostiles)"
+      ATTACK_ANIMALS: "&4Attaquer &c(animaux)"
+      ATTACK_ANIMALS_ADULT: "&4Attaquer &c(animaux &7[adultes]&c)"
+      CHOP_TREE: "&cCouper et replanter"
+      FARM_FORWARD: "&bRécolter et replanter"
+      FARM_DOWN: "&bRécolter et replanter &7(bloc du dessous)"
+      FARM_EXOTIC_FORWARD: "&bRécolter et replanter (avancé)"
+      FARM_EXOTIC_DOWN: "&bRécolter et replanter (avancé)  &7(bloc en dessous)"
+    enter-name:
+    - 
+    - "&eVeuillez saisir un nom pour votre script"
+    rating:
+      own: "&4Vous ne pouvez pas noter votre propre script !"
+      already: "&4Vous avez déjà noté ce script !"
+languages:
+  fr: Français
