@@ -244,7 +244,7 @@ public final class GuideSettings {
 		Language language = SlimefunPlugin.getLocal().getLanguage(p);
 		String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")"): SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
 		
-		menu.addItem(i, new CustomItem(language.getItem(), "&7Selected Language: &a" + languageName, "", "&b(experimental)", "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"),
+		menu.addItem(i, new CustomItem(language.getItem(), "&7Selected Language: &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"),
 		(pl, slot, item, action) -> {
 			openLanguages(pl);
 			return false;
@@ -278,7 +278,7 @@ public final class GuideSettings {
 		}
 		
 		Language defaultLanguage = SlimefunPlugin.getLocal().getDefaultLanguage();
-		menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &eClick to select the default language of the Server"),
+		menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select-default")),
 		(pl, i, item, action) -> {
 			PersistentDataAPI.remove(pl, SlimefunPlugin.getLocal().getKey());
 			
@@ -292,7 +292,7 @@ public final class GuideSettings {
 		int slot = 10;
 		
 		for (Language language : SlimefunPlugin.getLocal().getLanguages()) {
-			menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "", "&7\u21E8 &eClick to select this language"),
+			menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")),
 			(pl, i, item, action) -> {
 				PersistentDataAPI.setString(pl, SlimefunPlugin.getLocal().getKey(), language.getID());
 				

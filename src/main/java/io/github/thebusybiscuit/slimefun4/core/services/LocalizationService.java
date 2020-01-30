@@ -3,13 +3,13 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 
-import io.github.thebusybiscuit.slimefun4.core.services.localization.SupportedLanguage;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.SupportedLanguage;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -103,7 +104,7 @@ public class LocalizationService extends SlimefunLocalization {
 		// Loading in the defaults from our resources folder
 		String path = "/languages/messages_" + language + ".yml";
 
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path)))) {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path), StandardCharsets.UTF_8))) {
 			FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 			getConfig().getConfiguration().setDefaults(config);
 		} catch (IOException e) {
@@ -118,7 +119,7 @@ public class LocalizationService extends SlimefunLocalization {
 			FileConfiguration cfg;
 			String path = "/languages/messages_" + id + ".yml";
 			
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path)))) {
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path), StandardCharsets.UTF_8))) {
 				cfg = YamlConfiguration.loadConfiguration(reader);
 				cfg.setDefaults(getConfig().getConfiguration());
 			} catch (IOException e) {
