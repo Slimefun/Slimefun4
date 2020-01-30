@@ -113,14 +113,6 @@ public class BlockListener implements Listener {
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.PORTABLE_CRAFTER, true)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.PORTABLE_DUSTBIN, true)) e.setCancelled(true);
 		
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BACKPACK_SMALL, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BACKPACK_MEDIUM, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BACKPACK_LARGE, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.WOVEN_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.GILDED_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.RADIANT_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BOUND_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.COOLER, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ENDER_BACKPACK, false)) e.setCancelled(true);
 
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
@@ -56,20 +58,32 @@ public final class ChestMenuUtils {
 		return WIKI_BUTTON;
 	}
 
-	public static ItemStack getPreviousButton(int page, int pages) {
+	public static ItemStack getPreviousButton(Player p, int page, int pages) {
 		if (pages == 1 || page == 1) {
-			return new CustomItem(PREV_BUTTON_INACTIVE, meta -> meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")")));
+			return new CustomItem(PREV_BUTTON_INACTIVE, meta -> {
+				meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.previous"));
+				meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
+			});
 		}
 		
-		return new CustomItem(PREV_BUTTON_ACTIVE, meta -> meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")")));
+		return new CustomItem(PREV_BUTTON_ACTIVE, meta -> {
+			meta.setDisplayName(ChatColor.RESET + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.previous"));
+			meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
+		});
 	}
 
-	public static ItemStack getNextButton(int page, int pages) {
+	public static ItemStack getNextButton(Player p, int page, int pages) {
 		if (pages == 1 || page == pages) {
-			return new CustomItem(NEXT_BUTTON_INACTIVE, meta -> meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")")));
+			return new CustomItem(NEXT_BUTTON_INACTIVE, meta -> {
+				meta.setDisplayName(ChatColor.DARK_GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E6");
+				meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
+			});
 		}
-
-		return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")")));
+		
+		return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
+			meta.setDisplayName(ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E6");
+			meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
+		});
 	}
 	
 	public static void updateProgressbar(BlockMenu menu, int slot, int timeleft, int time, ItemStack indicator) {

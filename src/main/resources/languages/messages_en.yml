@@ -25,9 +25,15 @@ guide:
 
   cheat:
     no-multiblocks: '&4You cannot cheat in Multiblocks, you have to build them!'
+  
+  pages:
+    previous: 'Previous page'
+    next: 'Next page'
 
   languages:
     updated: '&aYour language was successfully set to: &b%lang%'
+    translations:
+      name: '&aIs something missing?'
   
   title:
     main: 'Slimefun Guide'
@@ -231,3 +237,7 @@ languages:
   de: 'German'
   fr: 'French'
   it: 'Italian'
+  es: 'Spanish'
+  pl: 'Polish'
+  sv: 'Swedish'
+  nl: 'Dutch'

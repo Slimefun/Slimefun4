@@ -147,14 +147,14 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			}
 		}
 
-		menu.addItem(46, ChestMenuUtils.getPreviousButton(page, pages));
+		menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
 		menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
 			int next = page - 1;
 			if (next != page && next > 0) openMainMenu(profile, survival, next);
 			return false;
 		});
 
-		menu.addItem(52, ChestMenuUtils.getNextButton(page, pages));
+		menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
 		menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
 			int next = page + 1;
 			if (next != page && next <= pages) openMainMenu(profile, survival, next);
@@ -185,14 +185,14 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		int index = 9;
 		int pages = (category.getItems().size() - 1) / CATEGORY_SIZE + 1;
 
-		menu.addItem(46, ChestMenuUtils.getPreviousButton(page, pages));
+		menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
 		menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
 			int next = page - 1;
 			if (next != page && next > 0) openCategory(profile, category, survival, next);
 			return false;
 		});
 
-		menu.addItem(52, ChestMenuUtils.getNextButton(page, pages));
+		menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
 		menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
 			int next = page + 1;
 			if (next != page && next <= pages) openCategory(profile, category, survival, next);
@@ -408,7 +408,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 			}
 
-			menu.addItem(28, ChestMenuUtils.getPreviousButton(index + 1, recipes.length),
+			menu.addItem(28, ChestMenuUtils.getPreviousButton(p, index + 1, recipes.length),
 			(pl, slot, action, stack) -> {
 				if (index > 0) {
 					showMinecraftRecipe(recipes, index - 1, item, profile, p, false);
@@ -416,7 +416,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 				return false;
 			});
 
-			menu.addItem(34, ChestMenuUtils.getNextButton(index + 1, recipes.length),
+			menu.addItem(34, ChestMenuUtils.getNextButton(p, index + 1, recipes.length),
 			(pl, slot, action, stack) -> {
 				if (index < recipes.length - 1) {
 					showMinecraftRecipe(recipes, index + 1, item, profile, p, false);
@@ -455,7 +455,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		displayItem(menu, profile, p, item, result, recipeType, recipe, addToHistory);
 
 		if (item instanceof RecipeDisplayItem) {
-			displayRecipes(profile, menu, (RecipeDisplayItem) item, 0);
+			displayRecipes(p, profile, menu, (RecipeDisplayItem) item, 0);
 		}
 
 		menu.open(p);
@@ -559,7 +559,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		}
 	}
 
-	private void displayRecipes(PlayerProfile profile, ChestMenu menu, RecipeDisplayItem sfItem, int page) {
+	private void displayRecipes(Player p, PlayerProfile profile, ChestMenu menu, RecipeDisplayItem sfItem, int page) {
 		List<ItemStack> recipes = sfItem.getDisplayRecipes();
 
 		if (!recipes.isEmpty()) {
@@ -574,20 +574,20 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 			int pages = (recipes.size() - 1) / 18 + 1;
 
-			menu.replaceExistingItem(28, ChestMenuUtils.getPreviousButton(page + 1, pages));
+			menu.replaceExistingItem(28, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
 			menu.addMenuClickHandler(28, (pl, slot, itemstack, action) -> {
 				if (page > 0) {
-					displayRecipes(profile, menu, sfItem, page - 1);
+					displayRecipes(pl, profile, menu, sfItem, page - 1);
 					pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
 				}
 				
 				return false;
 			});
 
-			menu.replaceExistingItem(34, ChestMenuUtils.getNextButton(page + 1, pages));
+			menu.replaceExistingItem(34, ChestMenuUtils.getNextButton(p, page + 1, pages));
 			menu.addMenuClickHandler(34, (pl, slot, itemstack, action) -> {
 				if (recipes.size() > (18 * (page + 1))) {
-					displayRecipes(profile, menu, sfItem, page + 1);
+					displayRecipes(pl, profile, menu, sfItem, page + 1);
 					pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
 				}
 				

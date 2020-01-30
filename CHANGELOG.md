@@ -35,6 +35,7 @@
 * Added support for Furnaces and Brewing Stands to Cargo Networks
 * Added Organic Food/Fertilizer for Dried Kelp
 * Added many more strings to the messages.yml
+* Added ability to translate messages for Players
 
 ### Changes
 * Removed Solar Array
@@ -59,6 +60,7 @@
 * Fixed #1394
 * Fixed #1313
 * Fixed #1396
+* Fixed Backpacks being placeable
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4

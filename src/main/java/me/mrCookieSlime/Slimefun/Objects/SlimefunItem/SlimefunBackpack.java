@@ -26,6 +26,8 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
 	@Override
 	public ItemUseHandler getItemHandler() {
 		return e -> {
+			e.cancel();
+			
 			BackpackListener listener = SlimefunPlugin.getBackpackListener();
 			
 			if (listener != null) {

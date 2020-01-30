@@ -266,10 +266,11 @@ public final class GuideSettings {
 				});
 			}
 			else if (i == 7) {
-				menu.addItem(7, new CustomItem(SkullItem.fromHash("3edd20be93520949e6ce789dc4f43efaeb28c717ee6bfcbbe02780142f716"), "&cAdd your Translation", "", "&4This is not possible yet", "&4Stay tuned for updates on this!")
-				, (pl, slot, item, action) -> 
-					false
-				);
+				menu.addItem(7, new CustomItem(SkullItem.fromHash("3edd20be93520949e6ce789dc4f43efaeb28c717ee6bfcbbe02780142f716"), SlimefunPlugin.getLocal().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &eClick to add your own translations")
+				, (pl, slot, item, action) -> {
+					ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun");
+					return false;
+				});
 			}
 			else {
 				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
@@ -386,13 +387,13 @@ public final class GuideSettings {
 			});
 		}
 
-		menu.addItem(46, ChestMenuUtils.getPreviousButton(page + 1, pages));
+		menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
 		menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
 			if (page > 0) openCredits(pl, page - 1);
 			return false;
 		});
 
-		menu.addItem(52, ChestMenuUtils.getNextButton(page + 1, pages));
+		menu.addItem(52, ChestMenuUtils.getNextButton(p, page + 1, pages));
 		menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
 			if (page + 1 < pages) openCredits(pl, page + 1);
 			return false;
