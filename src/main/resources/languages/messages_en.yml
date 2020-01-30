@@ -36,6 +36,7 @@ guide:
     select-default: 'Click to select the default language'
     translations:
       name: '&aIs something missing?'
+      lore: 'Click to add your own translation'
   
   title:
     main: 'Slimefun Guide'

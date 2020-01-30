@@ -62,6 +62,7 @@
 * Fixed #1396
 * Fixed Backpacks being placeable
 * Fixed wrong file encoding for translations
+* Fixed Minecraft recipes not showing correctly
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
