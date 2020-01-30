@@ -36,10 +36,15 @@ guide:
     roles:
       wiki: "&3Éditeur du wiki"
       resourcepack: "&cArtiste de pack de ressources"
+      developer: "&6Développeur"
+      translator: "&9Traducteur"
     commit: Contribution
     commits: Contributions
   cheat:
     no-multiblocks: "&4Vous ne pouvez pas cheat les multiblocs, vous devez les construire!"
+  pages:
+    previous: Page précédente
+    next: Page suivante
 messages:
   not-researched: "&4Vous n'avez pas suffisamment de connaissances pour comprendre
     ceci"
@@ -59,8 +64,12 @@ messages:
     whirlwind: "&a&oVotre talisman a renvoyé le projectile"
     anvil: "&a&oVotre Talisman a empêché votre outil de casser"
     hunter: "&a&oVotre talisman a doublé votre drop"
+    miner: "&a&oVotre talisman a doublé votre récolte"
+    wizard: "&a&oVotre talisman vous a donné un meilleur niveau de Fortune mais a
+      peut-être diminué plusieurs autres enchantements"
   research:
     progress: "&7Vous commencez à vous poser des questions sur &b%research% &e(%progress%)"
+    start: "&7Les esprits anciens vous chuchotent des mots mystérieux à l'oreille!"
   cannot-place: "&cVous ne pouvez pas placer ce bloc là !"
   radiation: "&4Vous avez été exposé à des niveaux de radiation mortels ! &cDébarrassez-vous
     de l'objet radioactif ou équipez-vous d'une combinaison Hazmat !"
@@ -97,9 +106,14 @@ messages:
   multimeter: "&bÉnergie stockée: &3%stored% &b/ &3%capacity%"
   soulbound-rune:
     fail: "&cVous pouvez seulement lier un objet à la fois à votre âme."
+    success: "&aVous avez réussi à lier cet objet à votre âme! Vous le garderez quand
+      vous mourrez."
   fire-extinguish: "&7Vous avez arrêté de brûler"
   no-pvp: "&cVous ne pouvez pas PvP ici !"
   opening-backpack: "&bOuverture du backpack, cela peut prendre quelques secondes..."
+  not-online: "&4%player% &cn'est pas en ligne!"
+  not-valid-research: "&4%research% &cn'est pas une recherche valide!"
+  hungry: "&cVous avez trop faim pour faire ça!"
 machines:
   pattern-not-found: "&eDésolé, je ne reconnais pas cette recette. Veuillez disposer
     les objets correctement dans le distributeur."
@@ -134,6 +148,7 @@ machines:
     teleporting: "&3Téléportation..."
     teleported: "&3Téléportation terminée !"
     cancelled: "&4Téléportation annulée !"
+    invulnerability: "&b&lVous avez reçu 30 secondes d'invulnérabilité !"
   CARGO_NODES:
     must-be-placed: "&4Doit être positionné sur un coffre ou une machine !"
 miner:
@@ -153,6 +168,7 @@ gps:
   geo:
     scan-required: "&4GEO-scan requis ! &cScannez d'abord ce chunk en utilisant un
       GEO-Scanner."
+  deathpoint: "&4Endroit de la mort &7%date%"
 inventory:
   no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
 android:
@@ -183,6 +199,9 @@ android:
       CATCH_FISH: "&bPêcher"
       INTERFACE_ITEMS: "&9Mettre le contenu de l'inventaire à l'interface en face"
       INTERFACE_FUEL: "&cPrendre du carburant de l'interface en face"
+      MOVE_AND_DIG_UP: "&bSe déplacer et creuser vers le haut"
+      MOVE_AND_DIG_FORWARD: "&bSe déplacer et creuser vers l'avant"
+      MOVE_AND_DIG_DOWN: "&bSe déplacer et creuser vers le bas"
     enter-name:
     - 
     - "&eVeuillez saisir un nom pour votre script"
@@ -202,6 +221,9 @@ languages:
   pl: Polonais
   sv: Suédois
   nl: Néerlandais
+  es: |2-
+
+    Español
 anvil:
   not-working: "&4Vous ne pouvez pas utiliser des objets Slimefun dans une enclume
     !"
