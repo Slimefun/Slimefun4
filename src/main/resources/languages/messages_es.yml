@@ -96,11 +96,12 @@ messages:
   opening-guide: "&bAbriendo Guia, esto puede tomar unos segundos..."
   opening-backpack: "&bAbriendo Mochila, esto podría tomar unos segundos..."
   fortune-cookie:
-  - 
-  - 
-  - 
-  - 
-  - 
+  - "&7¡Ayudame, estoy atrapado en una fábrica de galletas de la fortuna!"
+  - "&7Moriras mañana ... por un Creeper"
+  - "&7En algun punto de tu vida algo malo te ocurrira!!!"
+  - "&7La proxima semana notaras que este no es el mundo real, estas en un juego de
+    computadora"
+  - "&7Esta galleta sabra bien en unos segundos"
   - '&7¡La última palabra que oiras será "EXTERMINAR!"'
   - "&7Hagas lo que hagas, no abraces a los creepers... lo he intentado, se siente
     bien, pero no vale la pena."
@@ -110,6 +111,10 @@ messages:
   unlocked: '&bHas desbloqueado &7"%research%"'
   mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
   fire-extinguish: "&7Has dejado de quemarte"
+  no-iron-golem-heal: "&cEso no es un lingote de hierro. ¡No puedes usar esto para
+    sanar a los Golems de Hierro!"
+  link-prompt: "&eHaga clic aquí:"
+  diet-cookie: "&eEmpiezas a sentirte muy ligero ..."
 machines:
   pattern-not-found: "&eLo siento, No puedo reconocer esta receta. Porfavor coloca
     el item en el patrón correcto dentro del Dispensador."
