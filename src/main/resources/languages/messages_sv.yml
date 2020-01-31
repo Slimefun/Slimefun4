@@ -13,6 +13,7 @@ commands:
     description: Låser upp/återställer en spelares forskningar
     reset: "&cDu har återställt %player%s kunskap"
     reset-target: "&cDin kunskap har blivit återställd"
+  cheat: Tillåter dig att fuska fram Föremål
 guide:
   search:
     message: "&bVad vill du söka efter?"
@@ -22,16 +23,28 @@ guide:
     - "&7Skriv din sökterm i chatten"
   languages:
     updated: "&aDitt språk är nu inställt på: &b%lang%"
+    translations:
+      name: "&aIs något som saknas?"
+      lore: Klicka här för att lägga till din egen översättning
+    select: Klicka här för att ändra språk
+    select-default: Klicka här för att välja standard språket
   title:
     main: Slimefun-handbok
     settings: Inställningar & Info
     languages: Välj ditt föredragna språk
+    credits: Slimefun4-medhjälpare
   credits:
     roles:
       developer: "&6Utvecklare"
       wiki: "&3Wiki-redigerare"
       resourcepack: "&cResurspaketskonstnär"
       translator: "&9Översättare"
+    profile-link: Klicka här för att besöka deras profil på GitHub
+  cheat:
+    no-multiblocks: "&4Du kan inte fuska fram Multiblocks, du måste bygga dem!"
+  pages:
+    previous: Förra sidan
+    next: Nästa sida
 messages:
   not-researched: "&4Du har inte tillräckligt mycket kunskap för att förstå detta"
   not-enough-xp: "&4Du har inte tillräckligt mycket XP för att låsa upp detta"
@@ -68,6 +81,7 @@ messages:
     whirlwind: "&a&oDin talisman reflekterade projektilen"
     wizard: "&a&oDin talisman gav dig en bättre fortune-nivå men kan ha sänkt nivån
       för andra förtrollningsnivåer"
+    anvil: "&a&oDin talisman förhindrade ditt verktyg från att gå sönder"
   soulbound-rune:
     fail: "&cDu kan endast binda ett föremål i taget till din själ."
     success: "&aDu har nu bundit detta föremål till din själ! Du kommer behålla det
@@ -122,3 +136,96 @@ machines:
     no-destinations: "&4Ingen destination funnen"
     pick-a-floor: "&3- Välj en våning -"
     current-floor: "&eDetta är våningen som du är på just nu:"
+    click-to-teleport: "&eKlicka &7för att förflyttas till denna våning:"
+    enter-name: "&7Skriv in önskad namn till våningen i chatten. &r(Färg Koder stöds!)"
+    named: "&2Bytte namn till våningen till: &r%floor%"
+  TELEPORTER:
+    teleporting: "&3Teleporterar..."
+    teleported: "&3Teleporterad!"
+    cancelled: "&4Teleportation avslutad!"
+    invulnerability: "&b&lDu har fått 30 sekunder av osårbarhet"
+  CARGO_NODES:
+    must-be-placed: "&4Måste placeras ovanpå en kista eller maskin!"
+anvil:
+  not-working: "&4Du kan inte använda Slimefun Föremål i ett städ!"
+backpack:
+  already-open: "&cDenna Ryggsäck är redan öppen på något annat ställe!"
+  no-stack: "&cDu kan inte stacka Ryggsäckar"
+miner:
+  no-ores: "&eFörlåt, Jag kunde inte hitta någon malm eller mineraler i närhetn!"
+workbench:
+  not-enhanced: "&4Du kan inte använda Slimefun Föremål i en vanlig arbetsbänk"
+gps:
+  deathpoint: "&4Dödsplats&7%date%"
+  waypoint:
+    new: "&7Skriv in önskad namn till vägpunkten i chatten. &r(Färg Koder stöds!)"
+    added: "&aLade till en ny vägpunkt"
+    max: "&4Du har nått max antal av vägpunkter"
+  insufficient-complexity:
+  - "&4Otillräcklig GPS Nätverk Komplication: &c%complexity%"
+  - "&4a) Du har inte satt upp något GPS Nätverk ännu"
+  - "&4b) Ditt GPS Nätverk är inte komplicerad nog"
+  geo:
+    scan-required: "&4GEO-Skan behövs! &cSkanna denna chunk med en GEO-Skannare först!"
+inventory:
+  no-access: "&4Du har inte tillåtelse att använda detta block"
+android:
+  started: "&7Din Android fortsatte att köra sin kod"
+  stopped: "&7Din Android har pausat sin kod"
+  scripts:
+    already-uploaded: "&4Denna kod har redan blivit uppladdad."
+    instructions:
+      START: "&2Starta din kod"
+      REPEAT: "&9Upprepa din kod"
+      WAIT: "&eVänta i 0.5s"
+      GO_FORWARD: "&7Gå frammåt"
+      GO_UP: "&7Gå uppåt"
+      GO_DOWN: "&7Gå neråt\n"
+      TURN_LEFT: "&7Sväng vänster"
+      TURN_RIGHT: "&7Sväng höger"
+      DIG_UP: "&bHugg uppåt"
+      DIG_FORWARD: "&bHugg frammåt"
+      DIG_DOWN: "&bHugg neråt"
+      MOVE_AND_DIG_UP: "&bGå & Hugg uppåt"
+      MOVE_AND_DIG_FORWARD: "&bGå & Hugg frammåt"
+      MOVE_AND_DIG_DOWN: "&bGå & Hugg neråt"
+      ATTACK_MOBS_ANIMALS: "&4Attackera &c(Fientliga Varelse & Djur)"
+      ATTACK_MOBS: "&4Attackera &c(Fientliga Varelser)"
+      ATTACK_ANIMALS: "&4Attackera &c(Djur)"
+      ATTACK_ANIMALS_ADULT: "&4Attackera &c(Djur &7[Vuxna]&c)"
+      CHOP_TREE: "&cHugg and Plantera"
+      CATCH_FISH: "&bFånga Fisk"
+      FARM_FORWARD: "&bSkörda och Plantera"
+      FARM_DOWN: "&bSkörda och Plantera &7(Block under)"
+      FARM_EXOTIC_FORWARD: "&bAvancerad Skördning och Plantering"
+      FARM_EXOTIC_DOWN: "&bAvancerad Skördning och Plantering &7(Blocket under)"
+      INTERFACE_ITEMS: "&9Flytta Inventarie Föremål till det mötande Gränssnittet"
+      INTERFACE_FUEL: "&cDra Bränsle från det mötande Gränssnittet"
+    enter-name:
+    - 
+    - "&eVälj ett namn till din kod"
+    uploaded:
+    - "&bLadda upp..."
+    - "&aLaddade upp din kod!"
+    rating:
+      own: "&4Du kan inte betygsätta din egen kod!"
+      already: "&4Du har redan betygsatt denna kod!"
+languages:
+  default: Serverns Standard Språk
+  en: Engelska
+  de: Tyska
+  fr: Franska
+  it: Italienska
+  es: Spanska
+  pl: Polska
+  sv: 'Svenska
+
+'
+  nl: Holländska
+  cs: Tjeckiska
+  hu: Ungerska
+  lv: Lettiska
+  ru: Ryska
+  sk: Slovakiska
+  zh-TW: Chinesiska (Taiwan)
+  vi: Vietnamesiska
