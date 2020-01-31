@@ -1,0 +1,12 @@
+---
+commands:
+  help: Visualizza questa schermata di aiuto
+  give: Dai a qualcuno alcuni oggetti Slimefun
+guide:
+  title:
+    settings: Impostazioni e informazioni
+    languages: Seleziona la tua lingua preferita
+    credits: Collaboratori di Slimefun4
+languages:
+  default: Server predefinito
+  de: Tedesco
