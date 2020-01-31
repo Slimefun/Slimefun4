@@ -1,83 +1,175 @@
 ---
+android:
+  scripts:
+    already-uploaded: "&4Ce script a déjà été upload."
+    enter-name:
+    - 
+    - "&eVeuillez saisir un nom pour votre script"
+    instructions:
+      ATTACK_ANIMALS: "&4Attaquer &c(animaux)"
+      ATTACK_ANIMALS_ADULT: "&4Attaquer &c(animaux &7[adultes]&c)"
+      ATTACK_MOBS: "&4Attaquer &c(monstres hostiles)"
+      ATTACK_MOBS_ANIMALS: "&4Attaquer &c(monstres hostiles et animaux)"
+      CATCH_FISH: "&bPêcher"
+      CHOP_TREE: "&cCouper et replanter"
+      DIG_DOWN: "&bCreuser vers le bas"
+      DIG_FORWARD: "&bCreuser vers l'avant"
+      DIG_UP: "&bCreuser vers le haut"
+      FARM_DOWN: "&bRécolter et replanter &7(bloc du dessous)"
+      FARM_EXOTIC_DOWN: "&bRécolter et replanter (avancé)  &7(bloc en dessous)"
+      FARM_EXOTIC_FORWARD: "&bRécolter et replanter (avancé)"
+      FARM_FORWARD: "&bRécolter et replanter"
+      GO_DOWN: "&7Descendre"
+      GO_FORWARD: "&7Avancer"
+      GO_UP: "&7Monter"
+      INTERFACE_FUEL: "&cPrendre du carburant de l'interface en face"
+      INTERFACE_ITEMS: "&9Mettre le contenu de l'inventaire à l'interface en face"
+      MOVE_AND_DIG_DOWN: "&bSe déplacer et creuser vers le bas"
+      MOVE_AND_DIG_FORWARD: "&bSe déplacer et creuser vers l'avant"
+      MOVE_AND_DIG_UP: "&bSe déplacer et creuser vers le haut"
+      REPEAT: "&9Répéter le script"
+      START: "&2Exécuter le script"
+      TURN_LEFT: "&7Tourner à gauche"
+      TURN_RIGHT: "&7Tourner à droite"
+      WAIT: "&eAttendre 0,5s"
+    rating:
+      already: "&4Vous avez déjà noté ce script !"
+      own: "&4Vous ne pouvez pas noter votre propre script !"
+    uploaded:
+    - "&bUpload du script..."
+    - "&aVotre script a bien été upload !"
+  started: "&7Votre androïde a repris l'exécution de son script"
+  stopped: "&7Votre androïde a mis en pause l'exécution de son script"
+anvil:
+  not-working: "&4Vous ne pouvez pas utiliser des objets Slimefun dans une enclume
+    !"
+backpack:
+  already-open: "&cDésolé, ce Backpack est ouvert quelque part ailleurs !"
+  no-stack: "&cVous ne pouvez pas stack les Backpacks"
 commands:
-  help: Affiche cet écran d'aide
+  cheat: Vous permet de tricher des objets
   give: Donne à quelqu'un des objets Slimefun
   guide: Vous donne un guide Slimefun
-  timings: Informations sur la latence de votre serveur
-  teleporter: Affiche les waypoints d'un autre joueur
-  versions: Affiche toutes les extensions  installées
-  stats: Affiche les statistiques d'un joueur
+  help: Affiche cet écran d'aide
+  open_guide: Ouvre le guide de Slimefun sans utiliser le livre
   research:
     description: Déverrouille/réinitialise les recherches d'un joueur
     reset: "&cVous avez réinitialisé les recherches de %player%"
     reset-target: "&cVos recherches ont été réinitialisées"
-  cheat: Vous permet de tricher des objets
   search: Recherche dans votre guide le terme donné
-  open_guide: Ouvre le guide de Slimefun sans utiliser le livre
+  stats: Affiche les statistiques d'un joueur
+  teleporter: Affiche les waypoints d'un autre joueur
+  timings: Informations sur la latence de votre serveur
+  versions: Affiche toutes les extensions  installées
+gps:
+  deathpoint: "&4Endroit de la mort &7%date%"
+  geo:
+    scan-required: "&4GEO-scan requis ! &cScannez d'abord ce chunk en utilisant un
+      GEO-Scanner."
+  insufficient-complexity:
+  - "&4Complexité du réseau GPS insuffisante : &c%complexity%"
+  - "&4a) Vous n'avez pas encore de réseau GPS"
+  - "&4b) Votre réseau GPS n'est pas assez complexe"
+  waypoint:
+    added: "&aLe waypoint a bien été ajouté"
+    max: "&4Vous avez atteint le nombre maximum de waypoint"
+    new: "&eEntrez un nom pour votre nouveau waypoint dans le chat. &7(Les codes couleur
+      sont acceptés !)"
 guide:
+  cheat:
+    no-multiblocks: "&4Vous ne pouvez pas cheat les multiblocs, vous devez les construire!"
+  credits:
+    commit: Contribution
+    commits: Contributions
+    roles:
+      developer: "&6Développeur"
+      resourcepack: "&cArtiste de pack de ressources"
+      translator: "&9Traducteur"
+      wiki: "&3Éditeur du wiki"
+    profile-link: Cliquez pour visiter leur profil GitHub
+  languages:
+    select: Cliquez pour sélectionner cette langue
+    select-default: Cliquez pour sélectionner la langue par défaut
+    translations:
+      name: "&aIl manque quelque chose ?"
+      lore: Cliquez pour ajouter votre propre traduction
+    updated: "&aVotre langue a été correctement définie à : &b%lang%"
+  pages:
+    next: Page suivante
+    previous: Page précédente
   search:
     lore:
     - "&bQue souhaitez-vous rechercher?"
     - "&7Entrez votre terme de recherche dans le chat"
     message: "&bQue souhaitez-vous rechercher?"
     name: "&7Rechercher..."
-  languages:
-    updated: "&aVotre langue a été correctement définie à : &b%lang%"
-    translations:
-      name: "&aIl manque quelque chose ?"
-    select: Cliquez pour sélectionner cette langue
-    select-default: Cliquez pour sélectionner la langue par défaut
   title:
+    credits: Contributeurs de Slimefun4
+    languages: Choisissez votre langue
     main: Guide Slimefun
     settings: Paramètres et informations
-    languages: Choisissez votre langue
-    credits: Contributeurs de Slimefun4
-  credits:
-    roles:
-      wiki: "&3Éditeur du wiki"
-      resourcepack: "&cArtiste de pack de ressources"
-      developer: "&6Développeur"
-      translator: "&9Traducteur"
-    commit: Contribution
-    commits: Contributions
-  cheat:
-    no-multiblocks: "&4Vous ne pouvez pas cheat les multiblocs, vous devez les construire!"
-  pages:
-    previous: Page précédente
-    next: Page suivante
+inventory:
+  no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
+languages:
+  de: Allemand
+  default: Paramètre par défaut
+  en: Anglais
+  fr: Français
+  it: Italien
+  nl: Néerlandais
+  pl: Polonais
+  sv: Suédois
+  es: Espagnol
+  cs: Tchèque
+  hu: Hongrois
+  lv: Letton
+  ru: Russe
+  sk: Slovaque
+  zh-TW: Chinois (Taiwan)
+  vi: Vietnamien
+machines:
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
+      &c(%pedestals% / 8)"
+    unknown-catalyst: "&4Catalyseur inconnu ! &cVeuillez utiliser la bonne recette
+      !"
+    unknown-recipe: "&4Recette inconnue ! &cVeuillez utiliser la bonne recette !"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4Un piédestal est encombré ! &cRetirez ce qui se trouve au-dessus
+      du piédestal !"
+  CARGO_NODES:
+    must-be-placed: "&4Doit être positionné sur un coffre ou une machine !"
+  ELEVATOR:
+    click-to-teleport: "&eCliquez &7pour vous téléporter à cet étage :"
+    current-floor: "&eVous êtes actuellement à cet étage :"
+    enter-name: "&7Entrez le nom de cet étage dans le chat. &r(Les codes couleur sont
+      acceptés!)"
+    named: "&2Vous avez bien renommé cet étage : &r%floor%"
+    no-destinations: "&4Aucune destination trouvée"
+    pick-a-floor: "&3- Sélectionnez un étage -"
+  full-inventory: "&eDésolé, mon inventaire est plein !"
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7Veuillez saisir le texte voulu pour votre hologramme dans le chat.
+      &r(Les codes couleur sont acceptés !)"
+  ignition-chamber-no-flint: "&cLa chambre d'allumage n'a pas de briquet."
+  in-use: "&cL'inventaire de ce bloc est déjà ouvert par un autre joueur."
+  pattern-not-found: "&eDésolé, je ne reconnais pas cette recette. Veuillez disposer
+    les objets correctement dans le distributeur."
+  TELEPORTER:
+    cancelled: "&4Téléportation annulée !"
+    invulnerability: "&b&lVous avez reçu 30 secondes d'invulnérabilité !"
+    teleported: "&3Téléportation terminée !"
+    teleporting: "&3Téléportation..."
+  unknown-material: "&eDésolé, je ne reconnais pas l'objet dans le distributeur. Veuillez
+    y placer quelque chose que je connais."
+  wrong-item: "&eDésolé, je ne reconnais pas l'objet avec lequel vous avez cliqué.
+    Consultez le guide pour savoir quels objets vous pouvez utiliser."
 messages:
-  not-researched: "&4Vous n'avez pas suffisamment de connaissances pour comprendre
-    ceci"
-  not-enough-xp: "&4Vous n'avez pas suffisamment d'expérience pour déverrouiller ceci"
-  unlocked: '&bVous avez déverrouillé &7"%research%"'
-  unknown-player: "&4Joueur inconnu : &c%player%"
-  no-permission: "&4Vous n'avez pas les permissions requises pour faire ceci"
-  talisman:
-    lava: "&a&oVotre talisman vous a sauvé de la lave"
-    water: "&a&oVotre talisman vous a évité la noyade"
-    angel: "&a&oVotre talisman vous a évité de subir des dégâts de chute"
-    fire: "&a&oVotre talisman vous a sauvé du feu"
-    magician: "&a&oVotre talisman vous a donné un enchantement supplémentaire"
-    traveller: "&a&oVotre talisman vous a donné une amélioration de vitesse"
-    warrior: "&a&oVotre talisman a amélioré votre force pour un temps"
-    knight: "&a&oVotre talisman vous a donné 5 secondes de régénération"
-    whirlwind: "&a&oVotre talisman a renvoyé le projectile"
-    anvil: "&a&oVotre Talisman a empêché votre outil de casser"
-    hunter: "&a&oVotre talisman a doublé votre drop"
-    miner: "&a&oVotre talisman a doublé votre récolte"
-    wizard: "&a&oVotre talisman vous a donné un meilleur niveau de Fortune mais a
-      peut-être diminué plusieurs autres enchantements"
-  research:
-    progress: "&7Vous commencez à vous poser des questions sur &b%research% &e(%progress%)"
-    start: "&7Les esprits anciens vous chuchotent des mots mystérieux à l'oreille!"
   cannot-place: "&cVous ne pouvez pas placer ce bloc là !"
-  radiation: "&4Vous avez été exposé à des niveaux de radiation mortels ! &cDébarrassez-vous
-    de l'objet radioactif ou équipez-vous d'une combinaison Hazmat !"
-  opening-guide: "&bOuverture du guide, cela peut prendre quelques secondes..."
-  no-iron-golem-heal: "&cCela n'est pas un lingot de fer. Vous ne pouvez pas l'utiliser
-    pour soigner des golems de fer !"
-  link-prompt: "&eCliquez ici :"
   diet-cookie: "&eVous vous sentez léger comme une plume..."
+  disabled-in-world: "&4&lCet item a été désactivé dans ce monde"
+  disabled-item: "&4&lCet Item a été désactivé! Comment t'as fait pour avoir ça?"
+  fire-extinguish: "&7Vous avez arrêté de brûler"
   fortune-cookie:
   - "&7Aidez-moi, je suis coincé dans une usine à Cookie Chinois"
   - "&7Vous allez mourir demain... par un Creeper"
@@ -91,142 +183,57 @@ messages:
   - "&742. La réponse est 42."
   - "&7Un Walshy par jour éloigne les ennuis."
   - "&7Ne creusez jamais directement en-dessous de vous !"
-  only-players: "&4Cette commande est réservée aux joueurs"
-  usage: "&4Utilisation: &c%usage%"
-  not-valid-item: "&4%item% &cn'est pas un item valide!"
+  give-item: '&bVous avez donné &a%amount% &7"%item%&7" à %player%'
+  given-item: '&bVous avez reçu &a%amount%&7 "%item%&7"'
+  give-research: '&bVous avez débloqué la recherche "%research%&7" à %player%'
+  hungry: "&cVous avez trop faim pour faire ça!"
+  link-prompt: "&eCliquez ici :"
+  mode-change: "&b%device% vous avez changez votre mode en : &9%mode%"
+  multimeter: "&bÉnergie stockée: &3%stored% &b/ &3%capacity%"
+  no-iron-golem-heal: "&cCela n'est pas un lingot de fer. Vous ne pouvez pas l'utiliser
+    pour soigner des golems de fer !"
+  no-permission: "&4Vous n'avez pas les permissions requises pour faire ceci"
+  no-pvp: "&cVous ne pouvez pas PvP ici !"
+  not-enough-xp: "&4Vous n'avez pas suffisamment d'expérience pour déverrouiller ceci"
+  no-tome-yourself: "&cVous ne pouvez pas utiliser le &4Tome of Knowledge &csur vous..."
+  not-online: "&4%player% &cn'est pas en ligne!"
+  not-researched: "&4Vous n'avez pas suffisamment de connaissances pour comprendre
+    ceci"
   not-valid-amount: "&4%amount% &cn'est pas un montant valide: il doit être supérieur
     à 0!"
-  given-item: '&bVous avez reçu &a%amount%&7 "%item%&7"'
-  give-item: '&bVous avez donné &a%amount% &7"%item%&7" à %player%'
-  give-research: '&bVous avez débloqué la recherche "%research%&7" à %player%'
-  mode-change: "&b%device% vous avez changez votre mode en : &9%mode%"
-  disabled-in-world: "&4&lCet item a été désactivé dans ce monde"
-  disabled-item: "&4&lCet Item a été désactivé! Comment t'as fait pour avoir ça?"
-  no-tome-yourself: "&cVous ne pouvez pas utiliser le &4Tome of Knowledge &csur vous..."
-  multimeter: "&bÉnergie stockée: &3%stored% &b/ &3%capacity%"
+  not-valid-item: "&4%item% &cn'est pas un item valide!"
+  not-valid-research: "&4%research% &cn'est pas une recherche valide!"
+  only-players: "&4Cette commande est réservée aux joueurs"
+  opening-backpack: "&bOuverture du backpack, cela peut prendre quelques secondes..."
+  opening-guide: "&bOuverture du guide, cela peut prendre quelques secondes..."
+  radiation: "&4Vous avez été exposé à des niveaux de radiation mortels ! &cDébarrassez-vous
+    de l'objet radioactif ou équipez-vous d'une combinaison Hazmat !"
+  research:
+    progress: "&7Vous commencez à vous poser des questions sur &b%research% &e(%progress%)"
+    start: "&7Les esprits anciens vous chuchotent des mots mystérieux à l'oreille!"
   soulbound-rune:
     fail: "&cVous pouvez seulement lier un objet à la fois à votre âme."
     success: "&aVous avez réussi à lier cet objet à votre âme! Vous le garderez quand
       vous mourrez."
-  fire-extinguish: "&7Vous avez arrêté de brûler"
-  no-pvp: "&cVous ne pouvez pas PvP ici !"
-  opening-backpack: "&bOuverture du backpack, cela peut prendre quelques secondes..."
-  not-online: "&4%player% &cn'est pas en ligne!"
-  not-valid-research: "&4%research% &cn'est pas une recherche valide!"
-  hungry: "&cVous avez trop faim pour faire ça!"
-machines:
-  pattern-not-found: "&eDésolé, je ne reconnais pas cette recette. Veuillez disposer
-    les objets correctement dans le distributeur."
-  unknown-material: "&eDésolé, je ne reconnais pas l'objet dans le distributeur. Veuillez
-    y placer quelque chose que je connais."
-  wrong-item: "&eDésolé, je ne reconnais pas l'objet avec lequel vous avez cliqué.
-    Consultez le guide pour savoir quels objets vous pouvez utiliser."
-  full-inventory: "&eDésolé, mon inventaire est plein !"
-  in-use: "&cL'inventaire de ce bloc est déjà ouvert par un autre joueur."
-  ignition-chamber-no-flint: "&cLa chambre d'allumage n'a pas de briquet."
-  ANCIENT_ALTAR:
-    not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
-      &c(%pedestals% / 8)"
-    unknown-catalyst: "&4Catalyseur inconnu ! &cVeuillez utiliser la bonne recette
-      !"
-    unknown-recipe: "&4Recette inconnue ! &cVeuillez utiliser la bonne recette !"
-  ANCIENT_PEDESTAL:
-    obstructed: "&4Un piédestal est encombré ! &cRetirez ce qui se trouve au-dessus
-      du piédestal !"
-  HOLOGRAM_PROJECTOR:
-    enter-text: "&7Veuillez saisir le texte voulu pour votre hologramme dans le chat.
-      &r(Les codes couleur sont acceptés !)"
-  ELEVATOR:
-    no-destinations: "&4Aucune destination trouvée"
-    pick-a-floor: "&3- Sélectionnez un étage -"
-    current-floor: "&eVous êtes actuellement à cet étage :"
-    click-to-teleport: "&eCliquez &7pour vous téléporter à cet étage :"
-    named: "&2Vous avez bien renommé cet étage : &r%floor%"
-    enter-name: "&7Entrez le nom de cet étage dans le chat. &r(Les codes couleur sont
-      acceptés!)"
-  TELEPORTER:
-    teleporting: "&3Téléportation..."
-    teleported: "&3Téléportation terminée !"
-    cancelled: "&4Téléportation annulée !"
-    invulnerability: "&b&lVous avez reçu 30 secondes d'invulnérabilité !"
-  CARGO_NODES:
-    must-be-placed: "&4Doit être positionné sur un coffre ou une machine !"
+  talisman:
+    angel: "&a&oVotre talisman vous a évité de subir des dégâts de chute"
+    anvil: "&a&oVotre Talisman a empêché votre outil de casser"
+    fire: "&a&oVotre talisman vous a sauvé du feu"
+    hunter: "&a&oVotre talisman a doublé votre drop"
+    knight: "&a&oVotre talisman vous a donné 5 secondes de régénération"
+    lava: "&a&oVotre talisman vous a sauvé de la lave"
+    magician: "&a&oVotre talisman vous a donné un enchantement supplémentaire"
+    miner: "&a&oVotre talisman a doublé votre récolte"
+    traveller: "&a&oVotre talisman vous a donné une amélioration de vitesse"
+    warrior: "&a&oVotre talisman a amélioré votre force pour un temps"
+    water: "&a&oVotre talisman vous a évité la noyade"
+    whirlwind: "&a&oVotre talisman a renvoyé le projectile"
+    wizard: "&a&oVotre talisman vous a donné un meilleur niveau de Fortune mais a
+      peut-être diminué plusieurs autres enchantements"
+  unknown-player: "&4Joueur inconnu : &c%player%"
+  unlocked: '&bVous avez déverrouillé &7"%research%"'
+  usage: "&4Utilisation: &c%usage%"
 miner:
   no-ores: "&eDésolé, je n'ai pas pu trouver de minerai à proximité !"
 workbench:
   not-enhanced: "&4Vous ne pouvez pas utiliser d'objets Slimefun dans un établi normal"
-gps:
-  insufficient-complexity:
-  - "&4Complexité du réseau GPS insuffisante : &c%complexity%"
-  - "&4a) Vous n'avez pas encore de réseau GPS"
-  - "&4b) Votre réseau GPS n'est pas assez complexe"
-  waypoint:
-    new: "&eEntrez un nom pour votre nouveau waypoint dans le chat. &7(Les codes couleur
-      sont acceptés !)"
-    added: "&aLe waypoint a bien été ajouté"
-    max: "&4Vous avez atteint le nombre maximum de waypoint"
-  geo:
-    scan-required: "&4GEO-scan requis ! &cScannez d'abord ce chunk en utilisant un
-      GEO-Scanner."
-  deathpoint: "&4Endroit de la mort &7%date%"
-inventory:
-  no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
-android:
-  started: "&7Votre androïde a repris l'exécution de son script"
-  stopped: "&7Votre androïde a mis en pause l'exécution de son script"
-  scripts:
-    instructions:
-      START: "&2Exécuter le script"
-      REPEAT: "&9Répéter le script"
-      GO_FORWARD: "&7Avancer"
-      GO_UP: "&7Monter"
-      GO_DOWN: "&7Descendre"
-      TURN_LEFT: "&7Tourner à gauche"
-      TURN_RIGHT: "&7Tourner à droite"
-      DIG_UP: "&bCreuser vers le haut"
-      DIG_FORWARD: "&bCreuser vers l'avant"
-      DIG_DOWN: "&bCreuser vers le bas"
-      ATTACK_MOBS_ANIMALS: "&4Attaquer &c(monstres hostiles et animaux)"
-      ATTACK_MOBS: "&4Attaquer &c(monstres hostiles)"
-      ATTACK_ANIMALS: "&4Attaquer &c(animaux)"
-      ATTACK_ANIMALS_ADULT: "&4Attaquer &c(animaux &7[adultes]&c)"
-      CHOP_TREE: "&cCouper et replanter"
-      FARM_FORWARD: "&bRécolter et replanter"
-      FARM_DOWN: "&bRécolter et replanter &7(bloc du dessous)"
-      FARM_EXOTIC_FORWARD: "&bRécolter et replanter (avancé)"
-      FARM_EXOTIC_DOWN: "&bRécolter et replanter (avancé)  &7(bloc en dessous)"
-      WAIT: "&eAttendre 0,5s"
-      CATCH_FISH: "&bPêcher"
-      INTERFACE_ITEMS: "&9Mettre le contenu de l'inventaire à l'interface en face"
-      INTERFACE_FUEL: "&cPrendre du carburant de l'interface en face"
-      MOVE_AND_DIG_UP: "&bSe déplacer et creuser vers le haut"
-      MOVE_AND_DIG_FORWARD: "&bSe déplacer et creuser vers l'avant"
-      MOVE_AND_DIG_DOWN: "&bSe déplacer et creuser vers le bas"
-    enter-name:
-    - 
-    - "&eVeuillez saisir un nom pour votre script"
-    rating:
-      own: "&4Vous ne pouvez pas noter votre propre script !"
-      already: "&4Vous avez déjà noté ce script !"
-    already-uploaded: "&4Ce script a déjà été upload."
-    uploaded:
-    - "&bUpload du script..."
-    - "&aVotre script a bien été upload !"
-languages:
-  fr: Français
-  default: Paramètre par défaut
-  en: Anglais
-  de: Allemand
-  it: Italien
-  pl: Polonais
-  sv: Suédois
-  nl: Néerlandais
-  es: |2-
-
-    Español
-anvil:
-  not-working: "&4Vous ne pouvez pas utiliser des objets Slimefun dans une enclume
-    !"
-backpack:
-  already-open: "&cDésolé, ce Backpack est ouvert quelque part ailleurs !"
-  no-stack: "&cVous ne pouvez pas stack les Backpacks"
