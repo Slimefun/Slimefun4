@@ -77,7 +77,7 @@ public class GitHubService {
 		addTranslator("dbzjjoe", "es", true);
 		
 		// Translators - Swedish
-		addTranslator("NihilistBrew", "sv", false);
+		addTranslator("NihilistBrew", "ma1yang2", "sv", false);
 		addTranslator("Tra-sh", "TurretTrash", "sv", true);
 	}
 
