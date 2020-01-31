@@ -78,7 +78,7 @@ public class GitHubService {
 		
 		// Translators - Swedish
 		addTranslator("NihilistBrew", "sv", false);
-		addTranslator("Tra-sh", "sv", true);
+		addTranslator("Tra-sh", "TurretTrash", "sv", true);
 	}
 
 	private void addTranslator(String name, String language, boolean lock) {
