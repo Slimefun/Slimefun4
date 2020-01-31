@@ -11,7 +11,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World.Environment;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -35,10 +34,8 @@ public class GPSNetwork {
 	private final int[] border = {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private final int[] inventory = {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
-	private final int[] teleporterBorder = {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-	private final int[] teleporterInventory = {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
-	
 	private final Map<UUID, Set<Location>> transmitters = new HashMap<>();
+	private final GPSTeleportation teleportation = new GPSTeleportation(this);
 	
 	private final ItemStack deathpointIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFlMzg1NWY5NTJjZDRhMDNjMTQ4YTk0NmUzZjgxMmE1OTU1YWQzNWNiY2I1MjYyN2VhNGFjZDQ3ZDMwODEifX19");
 	private final ItemStack netherIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0=");
@@ -230,45 +227,8 @@ public class GPSNetwork {
 		return transmitters.getOrDefault(uuid, new HashSet<>());
 	}
 	
-	public void openTeleporterGUI(Player p, UUID uuid, Block b, int complexity) {
-		if (SlimefunPlugin.getUtilities().teleporterUsers.contains(p.getUniqueId())) {
-			return;
-		}
-		
-		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-		SlimefunPlugin.getUtilities().teleporterUsers.add(p.getUniqueId());
-		
-		ChestMenu menu = new ChestMenu("&3Teleporter");
-		menu.addMenuCloseHandler(pl -> SlimefunPlugin.getUtilities().teleporterUsers.remove(pl.getUniqueId()));
-		
-		for (int slot : teleporterBorder) {
-			menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-		}
-		
-		menu.addItem(4, new CustomItem(worldIcon, "&7Waypoint Overview &e(Select a Destination)"));
-		menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
-		
-		Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
-		int index = 0;
-		
-		for (Map.Entry<String, Location> entry : SlimefunPlugin.getGPSNetwork().getWaypoints(uuid).entrySet()) {
-			if (index >= teleporterInventory.length) break;
-			int slot = teleporterInventory[index];
-			
-			Location l = entry.getValue();
-			ItemStack globe = getIcon(entry);
-			
-			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + (50 / TeleportationSequence.getSpeed(SlimefunPlugin.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick to select"));
-			menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
-				pl.closeInventory();
-				TeleportationSequence.start(pl.getUniqueId(), complexity, source, l, false);
-				return false;
-			});
-			
-			index++;
-		}
-		
-		menu.open(p);
+	public GPSTeleportation getTeleleportationService() {
+		return teleportation;
 	}
 
 }
