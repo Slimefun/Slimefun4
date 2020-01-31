@@ -43,6 +43,7 @@ guide:
       resourcepack: "&cForráscsomag Művész"
       translator: "&9Fordító"
     profile-link: Kattints ide, hogy meglátogasd a profilját a GitHub-on
+    commits: Commits
   pages:
     previous: Előző oldal
     next: Következő oldal
