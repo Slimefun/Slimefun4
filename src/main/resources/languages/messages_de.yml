@@ -86,12 +86,14 @@ guide:
       resourcepack: "&cRessourcenpaket-Designer"
       translator: "&9Übersetzer"
       wiki: "&3Wiki-Editor"
+    profile-link: Klick um mich auf GitHub zu sehen
   languages:
-    translations:
-      name: "&aFehlt etwas?"
-    updated: "&aFolgende Sprache wurde ausgewählt: &b%lang%"
     select: Klicke hier um diese Sprache auszuwählen
     select-default: Klicke hier um die Standardsprache auszuwählen
+    translations:
+      name: "&aFehlt etwas?"
+      lore: Klicke um eine Übersetzung hinzuzufügen
+    updated: "&aFolgende Sprache wurde ausgewählt: &b%lang%"
   pages:
     next: Nächste Seite
     previous: Vorherige Seite
@@ -118,6 +120,10 @@ languages:
   nl: Niederländisch
   pl: Polnisch
   sv: Schwedisch
+  cs: Tschechisch
+  hu: Ungarisch
+  lv: Lettisch
+  ru: Russisch
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"
