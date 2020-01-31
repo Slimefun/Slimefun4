@@ -41,7 +41,10 @@ guide:
     roles:
       wiki: "&3Editor de Wiki"
       resourcepack: "&cArtista de Resourcepack"
+      developer: "&6Desarrollador"
+      translator: "&9Traductor"
     profile-link: Click para visitar tu perfil en GitHub
+    commits: Contribuciones
   pages:
     previous: Página anterior
     next: Página siguiente
@@ -70,11 +73,22 @@ messages:
     hunter: "&a&oTu talismán ha duplicado el botín"
     lava: "&a&oTu talismán ha evitado que te quemes en lava"
     fire: "&a&oTu talismán ha evitado que te rostices hasta la muerte"
+    water: "&a&oTu talismán ha evitado que mueras ahogado"
+    angel: "&a&oTu talismán ha evitado que sufras daño por caída"
+    magician: "&a&oTu talismán te ha dado un encantamiento adicional"
+    traveller: "&a&oTu talismán te ha dado un impulso de velocidad"
+    warrior: "&a&oTu talismán te ha hecho mas fuerte por un tiempo"
+    knight: "&a&oTu talismán te ha dado 5 segundos de regeneración"
+    whirlwind: "&a&oTu talismán ha reflejado un proyectil"
+    wizard: "&a&oTu talismán te ha dado un mayor nivel de fortuna, pero pudo disminuír
+      el nivel de otros encantamientos"
   soulbound-rune:
     success: "&a¡Has ligado este objeto a tu alma exitosamente! No lo perderás al
       morir."
+    fail: "&cSolo puedes ligar un objeto a tu alma."
   research:
     progress: "&7Empiezas a aprender sobre &b%research% &e(%progress%)"
+    start: "&7Los espíritus antiguos susurran palabras crípticas en tu oído..."
   cannot-place: "&cNo puedes colocar ese bloque ahí!"
   no-pvp: "&cNo puedes pelear aquí!"
   radiation: "&4Te has expuesto a la radiación mortal! &cDesaste del Item Radiactivo
@@ -93,6 +107,9 @@ messages:
   - 
   - "&7Un Walshy al día mantendrá alejados los problemas."
   - "&7Nunca caves hacia abajo!"
+  unlocked: '&bHas desbloqueado &7"%research%"'
+  mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
+  fire-extinguish: "&7Has dejado de quemarte"
 machines:
   pattern-not-found: "&eLo siento, No puedo reconocer esta receta. Porfavor coloca
     el item en el patrón correcto dentro del Dispensador."
