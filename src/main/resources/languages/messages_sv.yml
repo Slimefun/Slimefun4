@@ -40,6 +40,8 @@ guide:
       resourcepack: "&cResurspaketskonstnär"
       translator: "&9Översättare"
     profile-link: Klicka här för att besöka deras profil på GitHub
+    commit: Bidrag
+    commits: Bidrag
   cheat:
     no-multiblocks: "&4Du kan inte fuska fram Multiblocks, du måste bygga dem!"
   pages:
