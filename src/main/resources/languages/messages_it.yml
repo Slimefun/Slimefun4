@@ -43,6 +43,7 @@ guide:
       resourcepack: "&cResourcepack Artist"
       translator: "&9Translator"
     profile-link: Clicca per visitare i loro profili su GitHub
+    commit: Contributo
   pages:
     previous: Pagina precedente
     next: Pagina successiva
