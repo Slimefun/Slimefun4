@@ -127,6 +127,7 @@ languages:
   sk: Slowakisch
   zh-TW: Chinesisch (Taiwan)
   vi: Vietnamesisch
+  id: Indonesisch
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"

@@ -53,16 +53,40 @@ public class GitHubService {
 		addTranslator("TheBusyBiscuit", "de", false);
 		
 		// Translators - French
-		addTranslator("JustDams", "fr", true);
+		addTranslator("JustDams", "D4ms_", "fr", true);
 		addTranslator("edkerforne", "fr", true);
 		addTranslator("tnthomastn", "fr", true);
 		
 		// Translators - Italian
 		addTranslator("xXDOTTORXx", "it", true);
+		
+		// Translators - Latvian
+		addTranslator("AgnisT", "lv", true);
+		
+		// Translators - Hungarian
+		addTranslator("andris155", "hu", true);
+		
+		// Translators - Slovak
+		addTranslator("KillerXCoder", "sk", true);
+		addTranslator("PixelHotDog", "sk", true);
+		
+		// Translators - Spanish
+		addTranslator("Luu7", "_Luu", "es", true);
+		addTranslator("Vravinite", "es", true);
+		addTranslator("NotUmBr4", "es", true);
+		addTranslator("dbzjjoe", "es", true);
+		
+		// Translators - Swedish
+		addTranslator("NihilistBrew", "sv", false);
+		addTranslator("Tra-sh", "sv", true);
 	}
 
 	private void addTranslator(String name, String language, boolean lock) {
-		Contributor contributor = contributors.computeIfAbsent(name, user -> new Contributor(user, "https://github.com/" + user));
+		addTranslator(name, name, language, lock);
+	}
+
+	private void addTranslator(String name, String alias, String language, boolean lock) {
+		Contributor contributor = contributors.computeIfAbsent(name, user -> new Contributor(alias, "https://github.com/" + user));
 		contributor.setContribution("translator," + language, 0);
 		
 		if (lock) contributor.lock();
