@@ -56,6 +56,9 @@ public class GitHubService {
 		addTranslator("JustDams", "fr", true);
 		addTranslator("edkerforne", "fr", true);
 		addTranslator("tnthomastn", "fr", true);
+		
+		// Translators - Italian
+		addTranslator("xXDOTTORXx", "it", true);
 	}
 
 	private void addTranslator(String name, String language, boolean lock) {

@@ -24,7 +24,8 @@ public class ContributionsConnector extends GitHubConnector {
 		"imgbot[bot]",
 		"github-actions[bot]",
 		"gitlocalize-app",
-		"gitlocalize-app[bot]"
+		"gitlocalize-app[bot]",
+		"mt-gitlocalize"
 	);
 
 	// Matches a GitHub name with a Minecraft name.
