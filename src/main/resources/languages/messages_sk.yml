@@ -4,20 +4,36 @@ commands:
   guide: Dá ti Slimefun príručku
   teleporter: Pozrite si waypointy iného hráča
   stats: Ukáže nejaké štatistiky o hráčovi
+  cheat: Umožňuje cheatovať itemy
+  give: Dajte niekomu nejaký Slimefun item
+  timings: Lag-Info o tvojom serveri
+  versions: Zoznam všetkých nainštalovaných doplnkov
+  search: Vyhľadá vo vašej príručke daný výraz
+  open_guide: Otovrí Slimefun príručku bez použitia knížky.
+  research:
+    description: Odomkne/ Resetuje prieskumy pre hráča
+    reset: "&cResetoval si %player%'s znalosť"
+    reset-target: "&cTvoja znalosť bola resetnutá"
 guide:
   search:
     name: "&7Hľadať..."
     lore:
     - "&bČo by si chcel vyhľadať?"
+    - "&7Napíš čo chceš hľadať do chatu"
+    message: "&bČo by si chcel vyhľadať?"
   title:
     main: Slimefun príručka
     settings: Nastavenia a informácie
     credits: Slimefun4 prispievatelia
+    languages: Nastav si preferovaný jazyk
   credits:
     commit: Úprava
     commits: Úprav
     roles:
       developer: "&6Vývojár"
+      wiki: "&3Editor Wiki"
+      resourcepack: "&cNávrhár Resurcepacku"
+      translator: "&9Prekladateľ"
     profile-link: Klikni pre navštívenie profilu na GitHub-e
   pages:
     previous: Predošlá stránka
@@ -28,6 +44,9 @@ guide:
       lore: Klikni pre pridanie svojho prekladu
     select: Klikni pre vybratie tohto jazyka
     select-default: Klikni pre nastavenie východzieho jazyka
+    updated: "&aTvoj jazyk bol úspešne nastavený na: &b%lang%"
+  cheat:
+    no-multiblocks: "&4Nemôžeš cheatovať multiblocky, musíš ich postaviť!"
 messages:
   unlocked: '&bOdomkol si &7"%research%"'
   only-players: "&4Tento príkaz je iba pre hráčov"
@@ -86,6 +105,14 @@ messages:
   - "&742. Odpoveď je 42."
   - "&7Uteč"
   - "&7Nikdy nekop priamo pod seba!"
+  not-researched: "&4Nemáš toľko vedomostí aby si tomu porozumel"
+  not-enough-xp: "&4Nemáš dostatok XP na odomknutie"
+  no-permission: "& 4Na to nemáte potrebné povolenie"
+  usage: "&4Použitie: &c%usage%"
+  not-valid-amount: "&4%amount% &cnie je platné množstvo: Musí byť väčšie ako 0!"
+  not-valid-research: "&4%research% &cnie je platný výskum!"
+  give-research: '&bDal si hráčovi %player% výskum &7"%research%&7"'
+  hungry: "&cSte príliš hladní na to!"
 machines:
   pattern-not-found: "&ePrepáč, nedokážem rozpoznať tento recept. Prosím umiestni
     itemy v správnom vzore do dispensera."
