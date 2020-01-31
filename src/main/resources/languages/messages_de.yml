@@ -81,18 +81,18 @@ guide:
   credits:
     commit: Beitrag
     commits: Beiträge
+    profile-link: Klick um mich auf GitHub zu sehen
     roles:
       developer: "&6Entwickler"
       resourcepack: "&cRessourcenpaket-Designer"
       translator: "&9Übersetzer"
       wiki: "&3Wiki-Editor"
-    profile-link: Klick um mich auf GitHub zu sehen
   languages:
     select: Klicke hier um diese Sprache auszuwählen
     select-default: Klicke hier um die Standardsprache auszuwählen
     translations:
-      name: "&aFehlt etwas?"
       lore: Klicke um eine Übersetzung hinzuzufügen
+      name: "&aFehlt etwas?"
     updated: "&aFolgende Sprache wurde ausgewählt: &b%lang%"
   pages:
     next: Nächste Seite
@@ -111,19 +111,22 @@ guide:
 inventory:
   no-access: "&4Du kannst nicht auf diesen Block zugreifen"
 languages:
+  cs: Tschechisch
   de: Deutsch
   default: Server-Standard
   en: Englisch
   es: Spanisch
   fr: Französisch
+  hu: Ungarisch
   it: Italienisch
+  lv: Lettisch
   nl: Niederländisch
   pl: Polnisch
-  sv: Schwedisch
-  cs: Tschechisch
-  hu: Ungarisch
-  lv: Lettisch
   ru: Russisch
+  sv: Schwedisch
+  sk: Slowakisch
+  zh-TW: Chinesisch (Taiwan)
+  vi: Vietnamesisch
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"
