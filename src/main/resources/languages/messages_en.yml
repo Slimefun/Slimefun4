@@ -249,3 +249,6 @@ languages:
   hu: 'Hungarian'
   lv: 'Latvian'
   ru: 'Russian'
+  sk: 'Slovak'
+  zh-TW: 'Chinese (Taiwan)'
+  vi: 'Vietnamese'
