@@ -81,19 +81,20 @@ guide:
   credits:
     commit: Contribution
     commits: Contributions
+    profile-link: Cliquez pour visiter leur profil GitHub
     roles:
       developer: "&6Développeur"
-      resourcepack: "&cArtiste de pack de ressources"
       translator: "&9Traducteur"
       wiki: "&3Éditeur du wiki"
-    profile-link: Cliquez pour visiter leur profil GitHub
+      resourcepack: "&cArtiste du pack de ressource"
   languages:
     select: Cliquez pour sélectionner cette langue
     select-default: Cliquez pour sélectionner la langue par défaut
     translations:
-      name: "&aIl manque quelque chose ?"
       lore: Cliquez pour ajouter votre propre traduction
+      name: "&aIl manque quelque chose ?"
     updated: "&aVotre langue a été correctement définie à : &b%lang%"
+    selected-language: 'Actuellement sélectionné:'
   pages:
     next: Page suivante
     previous: Page précédente
@@ -108,25 +109,32 @@ guide:
     languages: Choisissez votre langue
     main: Guide Slimefun
     settings: Paramètres et informations
+    addons: Extensions de Slimefun4
+    bugs: Signaler un bug
 inventory:
   no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
 languages:
+  cs: Tchèque
   de: Allemand
   default: Paramètre par défaut
   en: Anglais
+  es: Espagnol
   fr: Français
+  hu: Hongrois
   it: Italien
+  lv: Letton
   nl: Néerlandais
   pl: Polonais
-  sv: Suédois
-  es: Espagnol
-  cs: Tchèque
-  hu: Hongrois
-  lv: Letton
   ru: Russe
   sk: Slovaque
-  zh-TW: Chinois (Taiwan)
+  sv: Suédois
   vi: Vietnamien
+  zh-TW: Chinois (Taiwan)
+  zh-CN: Chinois (Chine)
+  el: Grec
+  he: Hébreu
+  pt: Portugais (Portugal)
+  pt-BR: Portugais (Brésil)
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
