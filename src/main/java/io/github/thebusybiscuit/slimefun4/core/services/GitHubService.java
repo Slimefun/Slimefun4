@@ -74,6 +74,10 @@ public class GitHubService {
 		addTranslator("KillerXCoder", "sk", true);
 		addTranslator("PixelHotDog", "sk", true);
 		
+		// Translators - Russian
+		addTranslator("SoSeDiK", "ru", false);
+		addTranslator("KostaTV", "ru", true);
+		
 		// Translators - Spanish
 		addTranslator("Luu7", "_Luu", "es", true);
 		addTranslator("Vravinite", "es", true);
