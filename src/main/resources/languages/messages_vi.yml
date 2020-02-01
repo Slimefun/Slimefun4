@@ -1,0 +1,53 @@
+---
+commands:
+  help: Hiển thị màn hình trợ giúp này
+  cheat: Cho phép bạn gian lận vật phẩm
+  give: Đưa cho ai đó vài món đồ Slimefun
+  guide: Cung cấp cho bạn một cuốn hướng dẫn Slimefun
+  timings: Thông tin Lag về máy chủ của bạn
+  teleporter: Xem các điểm dịch chuyển của người chơi khác
+  versions: Liệt kê tất cả các tiện ích mở rộng đã cài đặt
+  search: Tìm kiếm Hướng dẫn của bạn cho cụm từ đã cho
+  open_guide: Mở hướng dẫn của Slimefun mà không cần sử dụng sách
+  stats: Hiển thị một số thống kê về người chơi
+  research:
+    description: Mở khóa / Đặt lại nghiên cứu cho người chơi
+    reset: "&cBạn đã đặt lại Kiến thức của %player%"
+    reset-target: "&cKiến thức của bạn đã được đặt lại"
+guide:
+  search:
+    message: "&bBạn muốn tìm kiếm cái gì?"
+    name: "&7Tìm kiếm..."
+    lore:
+    - "&bBạn muốn tìm kiếm cái gì?"
+    - "&7Nhập cụm từ tìm kiếm của bạn vào khung chat"
+  cheat:
+    no-multiblocks: "&4Bạn không thể gian lận trong chế độ Đa khối, bạn phải xây dựng
+      chúng!"
+  languages:
+    updated: "&aNgôn ngữ của bạn đã được đặt thành công: &b%lang%"
+  title:
+    main: Hướng dẫn sử dụng Slimefun
+    settings: Cài đặt và thông tin
+    languages: Chọn ngôn ngữ ưa thích của bạn
+    credits: Người đóng góp cho Slimefun4
+  credits:
+    commit: Commit
+    commits: Commits
+    roles:
+      developer: "&6Nhà phát triển"
+      wiki: "&3Người chỉnh sửa Wiki"
+      resourcepack: "&cNghệ sĩ gói tài nguyên"
+      translator: "&9Đóng góp bản dịch"
+messages:
+  not-researched: "&4Bạn không có đủ kiến thức để hiểu điều này"
+  not-enough-xp: "&4Bạn không có đủ kinh nghiệm để mở khóa"
+  unlocked: '&bBạn đã mở khóa &7"%research%"'
+  only-players: "&4Lệnh này chỉ dành cho người chơi"
+  unknown-player: "&4Người chơi chưa biết: &c%player%"
+  no-permission: "&4Bạn không có quyền để làm điều này"
+  usage: "&4Cách sử dụng: &c%usage%"
+  not-online: "&4%player% &cđang không trực tuyến!"
+  not-valid-item: "&4%item% &ckhông phải là vật phẩm hợp lệ!"
+  not-valid-amount: "&4%amount% &ckhông hợp lệ : phải lớn hơn 0!"
+  given-item: '&bBạn đã được nhận &a%amount% &7"%item%&7"'
