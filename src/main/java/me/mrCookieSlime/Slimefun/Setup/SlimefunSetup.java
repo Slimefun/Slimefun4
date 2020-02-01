@@ -3078,10 +3078,5 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.NETHER_STAR), SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO_EDGED_CAPACITOR})
 		.registerChargeableBlock(true, 4096);
 	}
-	
-	@Deprecated
-	public static void registerPostHandler(PostSlimefunLoadingHandler handler) {
-		SlimefunPlugin.getRegistry().getPostHandlers().add(handler);
-	}
 
 }

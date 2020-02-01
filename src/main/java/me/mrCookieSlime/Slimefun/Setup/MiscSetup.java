@@ -212,10 +212,6 @@ public final class MiscSetup {
 		}
 		
 		CommandSender sender = Bukkit.getConsoleSender();
-		
-		for (PostSlimefunLoadingHandler handler : SlimefunPlugin.getRegistry().getPostHandlers()) {
-			handler.run(pre, init, post);
-		}
 
 		int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
 		int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();

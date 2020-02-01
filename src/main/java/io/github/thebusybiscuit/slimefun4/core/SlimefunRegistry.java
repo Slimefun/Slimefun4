@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +26,6 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
@@ -72,7 +70,6 @@ public class SlimefunRegistry {
 	private final Map<String, Set<Location>> activeTickers = new HashMap<>();
 	
 	private final Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
-	private final List<PostSlimefunLoadingHandler> postHandlers = new ArrayList<>();
 	private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
 	public SlimefunRegistry() {
@@ -185,11 +182,6 @@ public class SlimefunRegistry {
 	@Deprecated
 	public Map<Integer, List<GuideHandler>> getGuideHandlers() {
 		return guideHandlers;
-	}
-	
-	@Deprecated
-	public List<PostSlimefunLoadingHandler> getPostHandlers() {
-		return postHandlers;
 	}
 	
 	@Deprecated
