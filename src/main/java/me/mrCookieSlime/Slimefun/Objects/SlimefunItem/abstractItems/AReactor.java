@@ -249,7 +249,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 			private Set<Location> explode = new HashSet<>();
 
 			@Override
-			public double generateEnergy(final Location l, SlimefunItem sf, Config data) {
+			public double generateEnergy(Location l, SlimefunItem sf, Config data) {
 				BlockMenu menu = BlockStorage.getInventory(l);
 				BlockMenu port = getAccessPort(l);
 

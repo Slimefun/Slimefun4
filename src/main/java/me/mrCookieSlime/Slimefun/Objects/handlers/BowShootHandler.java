@@ -6,7 +6,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 @FunctionalInterface
 public interface BowShootHandler extends ItemHandler {
 	
-	boolean onHit(EntityDamageByEntityEvent e, LivingEntity n);
+	void onHit(EntityDamageByEntityEvent e, LivingEntity n);
 
 	@Override
 	default Class<? extends ItemHandler> getIdentifier() {

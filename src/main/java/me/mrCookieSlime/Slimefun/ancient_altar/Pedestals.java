@@ -66,7 +66,7 @@ public final class Pedestals {
 	}
 
 	private static ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
-		for (AltarRecipe recipe : SlimefunPlugin.getUtilities().altarRecipes) {
+		for (AltarRecipe recipe : SlimefunPlugin.getAncientAltarListener().getRecipes()) {
 			if (SlimefunManager.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
 				for (int i = 0; i < 8; i++) {
 					if (SlimefunManager.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {

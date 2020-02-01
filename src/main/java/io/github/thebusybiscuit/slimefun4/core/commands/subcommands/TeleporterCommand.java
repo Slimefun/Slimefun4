@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TeleporterCommand extends SubCommand {
 
@@ -21,16 +20,17 @@ public class TeleporterCommand extends SubCommand {
 	public String getName() {
 		return "teleporter";
 	}
-
-	@SuppressWarnings("deprecation")
+	
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {
 		if (args.length == 2) {
 			if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {
+				
+				@SuppressWarnings("deprecation")
 				OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
 
 				if (player.getName() != null) {
-					Slimefun.getGPSNetwork().openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
+					SlimefunPlugin.getGPSNetwork().getTeleleportationService().openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
 				}
 				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
 			}

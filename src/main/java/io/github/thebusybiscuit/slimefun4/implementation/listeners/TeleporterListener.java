@@ -15,7 +15,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.ElevatorPlate;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.Teleporter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TeleporterListener implements Listener {
 
@@ -42,7 +41,7 @@ public class TeleporterListener implements Listener {
 				
 				Block block = e.getClickedBlock().getRelative(BlockFace.DOWN);
 				UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
-				SlimefunPlugin.getGPSNetwork().openTeleporterGUI(e.getPlayer(), owner, block, SlimefunPlugin.getGPSNetwork().getNetworkComplexity(owner));
+				SlimefunPlugin.getGPSNetwork().getTeleleportationService().openTeleporterGUI(e.getPlayer(), owner, block, SlimefunPlugin.getGPSNetwork().getNetworkComplexity(owner));
 			}
 		}
 		else if (id.equals("ELEVATOR_PLATE")) {

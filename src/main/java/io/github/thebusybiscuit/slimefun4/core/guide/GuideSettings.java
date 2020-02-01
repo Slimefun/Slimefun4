@@ -29,7 +29,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class GuideSettings {
 	
@@ -39,7 +38,7 @@ public final class GuideSettings {
 	private GuideSettings() {}
 	
 	public static void openSettings(Player p, ItemStack guide) {
-		ChestMenu menu = new ChestMenu("设置 / 关于");
+		ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.settings"));
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -49,13 +48,13 @@ public final class GuideSettings {
 			menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
 		}
 		
-		addMenubar(menu, guide);
+		addMenubar(p, menu, guide);
 		addConfigurableOptions(p, menu, guide);
 
 		menu.open(p);
 	}
 
-	private static void addMenubar(ChestMenu menu, ItemStack guide) {
+	private static void addMenubar(Player p, ChestMenu menu, ItemStack guide) {
 		menu.addItem(0, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 Back", "", "&7Go back to your Slimefun Guide"),
 		(pl, slot, item, action) -> {
 			SlimefunGuide.openGuide(pl, guide);
@@ -63,7 +62,7 @@ public final class GuideSettings {
 		});
 
 		menu.addItem(2, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTk1MmQyYjNmMzUxYTZiMDQ4N2NjNTlkYjMxYmY1ZjI2NDExMzNlNWJhMDAwNmIxODU3NmU5OTZhMDI5M2U1MiJ9fX0="),
-				"&cCredits",
+				"&c" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"),
 				"",
 				"&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(),
 				"",
@@ -80,7 +79,7 @@ public final class GuideSettings {
 		
 		menu.addItem(4, new CustomItem(Material.WRITABLE_BOOK,
 				"&aSlimefun Version",
-				"&7&oThis is very important when reporting bugs!",
+				"&7&o" + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.versions-notice"),
 				"",
 				"&7Minecraft Version: &a" + Bukkit.getBukkitVersion(),
 				"&7Slimefun Version: &a" + SlimefunPlugin.getVersion(),
@@ -109,7 +108,7 @@ public final class GuideSettings {
 		});
 
 		menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, 
-				"&3Slimefun Wiki", 
+				"&3" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.wiki"), 
 				"", 
 				"&7Do you need help with an Item or machine?", 
 				"&7You cannot figure out what to do?", 
@@ -125,13 +124,13 @@ public final class GuideSettings {
 		});
 		
 		menu.addItem(47, new CustomItem(Material.BOOKSHELF, 
-				"&3Slimefun Addons", 
+				"&3" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.addons"), 
 				"",
 				"&7Slimefun is huge. But its addons are what makes",
 				"&7this plugin truly shine. Go check them out, some",
 				"&7of them may be exactly what you were missing out on!",
 				"", 
-				"&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(), 
+				"&7Installed on this Server: &b" + SlimefunPlugin.getInstalledAddons().size(), 
 				"", 
 				"&7\u21E8 &eClick to see all available Addons for Slimefun4"
 		),
@@ -142,7 +141,9 @@ public final class GuideSettings {
 		});
 		
 		menu.addItem(49, new CustomItem(Material.REDSTONE_TORCH, 
-				"&4Report a bug", 
+				"&4" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.bugs"),
+				"",
+				"&7&oBug reports have to be made in English!",
 				"", 
 				"&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), 
 				"&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), 
@@ -161,6 +162,7 @@ public final class GuideSettings {
 				"&7Something will be added here later..."
 		),
 		(pl, slot, item, action) -> {
+			// Add something here
 			return false;
 		});
 	}
@@ -243,7 +245,7 @@ public final class GuideSettings {
 		Language language = SlimefunPlugin.getLocal().getLanguage(p);
 		String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")"): SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
 		
-		menu.addItem(i, new CustomItem(language.getItem(), "&7Selected Language: &a" + languageName, "", "&b(experimental)", "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"),
+		menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + ": &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"),
 		(pl, slot, item, action) -> {
 			openLanguages(pl);
 			return false;
@@ -251,7 +253,7 @@ public final class GuideSettings {
 	}
 
 	private static void openLanguages(Player p) {
-		ChestMenu menu = new ChestMenu("Slimefun4 Language Selector");
+		ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.languages"));
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -265,10 +267,12 @@ public final class GuideSettings {
 				});
 			}
 			else if (i == 7) {
-				menu.addItem(7, new CustomItem(SkullItem.fromHash("3edd20be93520949e6ce789dc4f43efaeb28c717ee6bfcbbe02780142f716"), "&cAdd your Translation", "", "&4This is not possible yet", "&4Stay tuned for updates on this!")
-				, (pl, slot, item, action) -> 
-					false
-				);
+				menu.addItem(7, new CustomItem(SkullItem.fromHash("3edd20be93520949e6ce789dc4f43efaeb28c717ee6bfcbbe02780142f716"), SlimefunPlugin.getLocal().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.translations.lore"))
+				, (pl, slot, item, action) -> {
+					ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun");
+					pl.closeInventory();
+					return false;
+				});
 			}
 			else {
 				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
@@ -276,7 +280,7 @@ public final class GuideSettings {
 		}
 		
 		Language defaultLanguage = SlimefunPlugin.getLocal().getDefaultLanguage();
-		menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &eClick to select the default language of the Server"),
+		menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select-default")),
 		(pl, i, item, action) -> {
 			PersistentDataAPI.remove(pl, SlimefunPlugin.getLocal().getKey());
 			
@@ -290,7 +294,7 @@ public final class GuideSettings {
 		int slot = 10;
 		
 		for (Language language : SlimefunPlugin.getLocal().getLanguages()) {
-			menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "", "&7\u21E8 &eClick to select this language"),
+			menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")),
 			(pl, i, item, action) -> {
 				PersistentDataAPI.setString(pl, SlimefunPlugin.getLocal().getKey(), language.getID());
 				
@@ -308,7 +312,7 @@ public final class GuideSettings {
 	}
 
 	private static void openCredits(Player p, int page) {
-		ChestMenu menu = new ChestMenu("Slimefun4's contributors");
+		ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"));
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -354,8 +358,19 @@ public final class GuideSettings {
 			for (Map.Entry<String, Integer> entry : contributor.getContributions()) {
 				String info = entry.getKey();
 				
+				if (!info.startsWith("&")) {
+					String[] segments = info.split(",");
+					info = SlimefunPlugin.getLocal().getMessage(p, "guide.credits.roles." + segments[0]);
+					
+					if (segments.length == 2) {
+						info += " &7(" + SlimefunPlugin.getLocal().getMessage(p, "languages." + segments[1]) + ")";
+					}
+				}
+				
 				if (entry.getValue() > 0) {
-					info += " &7(" + entry.getValue() + " Commit" + (entry.getValue() > 1 ? "s": "") + ")";
+					String commits = SlimefunPlugin.getLocal().getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits": "commit"));
+					
+					info += " &7(" + entry.getValue() + " " + commits + ")";
 				}
 				
 				lore.add(ChatColors.color(info));
@@ -363,7 +378,7 @@ public final class GuideSettings {
 			
 			if (contributor.getProfile() != null) {
 				lore.add("");
-				lore.add(ChatColors.color("&7\u21E8 Click to visit " + contributor.getName() + "'s profile"));
+				lore.add(ChatColors.color("&7\u21E8 &e") + SlimefunPlugin.getLocal().getMessage(p, "guide.credits.profile-link"));
 			}
 			
 			meta.setLore(lore);
@@ -379,13 +394,13 @@ public final class GuideSettings {
 			});
 		}
 
-		menu.addItem(46, ChestMenuUtils.getPreviousButton(page + 1, pages));
+		menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
 		menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
 			if (page > 0) openCredits(pl, page - 1);
 			return false;
 		});
 
-		menu.addItem(52, ChestMenuUtils.getNextButton(page + 1, pages));
+		menu.addItem(52, ChestMenuUtils.getNextButton(p, page + 1, pages));
 		menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
 			if (page + 1 < pages) openCredits(pl, page + 1);
 			return false;

@@ -49,7 +49,7 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 					
 					SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
 					if (sfItem != null) {
-						if (!SlimefunPlugin.getUtilities().blockHandlers.containsKey(sfItem.getID())) {
+						if (!SlimefunPlugin.getRegistry().getBlockHandlers().containsKey(sfItem.getID())) {
 							block.setType(e.getItem().getType());
 							BlockStorage.store(block, sfItem.getID());
 							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());

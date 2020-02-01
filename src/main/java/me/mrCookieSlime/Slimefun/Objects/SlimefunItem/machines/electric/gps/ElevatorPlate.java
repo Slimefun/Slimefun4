@@ -28,11 +28,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class ElevatorPlate extends SimpleSlimefunItem<ItemInteractionHandler> {
+public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 	
 	private final Set<UUID> users = new HashSet<>();
 
@@ -64,19 +64,13 @@ public class ElevatorPlate extends SimpleSlimefunItem<ItemInteractionHandler> {
 	}
 
 	@Override
-	public ItemInteractionHandler getItemHandler() {
-		return (e, p, item) -> {
-			Block b = e.getClickedBlock();
-			if (b == null) return false;
-			
-			String id = BlockStorage.checkID(b);
-			if (id == null || !id.equals(getID())) return false;
+	public BlockUseHandler getItemHandler() {
+		return e -> {
+			Block b = e.getClickedBlock().get();
 
-			if (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString())) {
-				openEditor(p, b);
+			if (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString())) {
+				openEditor(e.getPlayer(), b);
 			}
-			
-			return true;
 		};
 	}
 	

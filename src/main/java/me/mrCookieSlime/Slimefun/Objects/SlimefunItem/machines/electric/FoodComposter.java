@@ -25,8 +25,8 @@ public abstract class FoodComposter extends AContainer implements RecipeDisplayI
 		registerRecipe(30, new ItemStack[] {SlimefunItems.BEETROOT_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.BEETROOT_FERTILIZER});
 		registerRecipe(30, new ItemStack[] {SlimefunItems.MELON_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.MELON_FERTILIZER});
 		registerRecipe(30, new ItemStack[] {SlimefunItems.APPLE_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.APPLE_FERTILIZER});
-        registerRecipe(30, new ItemStack[] {SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.SWEET_BERRIES_FERTILIZER});
-        registerRecipe(30, new ItemStack[] {SlimefunItems.KELP_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.KELP_FERTILIZER});
+		registerRecipe(30, new ItemStack[] {SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.SWEET_BERRIES_FERTILIZER});
+		registerRecipe(30, new ItemStack[] {SlimefunItems.KELP_ORGANIC_FOOD}, new ItemStack[] {SlimefunItems.KELP_FERTILIZER});
 	}
 	
 	@Override

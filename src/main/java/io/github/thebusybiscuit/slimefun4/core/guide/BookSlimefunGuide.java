@@ -36,7 +36,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 
 	@Override
 	public ItemStack getItem() {
-		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Book GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun 指南 &7(书本界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开 设置 / 关于");
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 
 		int tier = 0;
 
-		for (Category category : Category.list()) {
+		for (Category category : SlimefunPlugin.getRegistry().getEnabledCategories()) {
 			boolean locked = true;
 
 			for (SlimefunItem item : category.getItems()) {
@@ -99,17 +99,17 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 					StringBuilder parents = new StringBuilder(ChatColors.color("&4&lLOCKED\n\n&7In order to unlock this Category,\n&7you need to unlock all Items from\n&7the following Categories first:\n"));
 
 					for (Category parent : ((LockedCategory) category).getParents()) {
-						parents.append(ChatColors.color("\n&c" + ItemUtils.getItemName(parent.getItem())));
+						parents.append(ChatColors.color("\n&c" + ItemUtils.getItemName(parent.getItem(p))));
 					}
 
-					texts.add(ChatColors.color(shorten("&c" , ItemUtils.getItemName(category.getItem()))));
+					texts.add(ChatColors.color(shorten("&c" , ItemUtils.getItemName(category.getItem(p)))));
 					tooltips.add(parents.toString());
 					actions.add(null);
 				}
 				else if (category instanceof SeasonalCategory) {
 					if (((SeasonalCategory) category).isUnlocked()) {
-						texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem()))));
-						tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem())));
+						texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem(p)))));
+						tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem(p))));
 						actions.add(new PlayerRunnable(1) {
 
 							@Override
@@ -121,8 +121,8 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 					}
 				}
 				else {
-					texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem()))));
-					tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem())));
+					texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem(p)))));
+					tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem(p))));
 					actions.add(new PlayerRunnable(1) {
 
 						@Override

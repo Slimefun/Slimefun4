@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.Set;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,8 +31,9 @@ public class DamageListener implements Listener {
             Player p = e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
             
-            if (SlimefunPlugin.getUtilities().drops.containsKey(e.getEntity().getType())) {
-                for (ItemStack drop : SlimefunPlugin.getUtilities().drops.get(e.getEntity().getType())) {
+            Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
+            if (customDrops != null && !customDrops.isEmpty()) {
+                for (ItemStack drop : customDrops) {
                     if (Slimefun.hasUnlocked(p, drop, true)) {
                         if (SlimefunManager.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((boolean) Slimefun.getItemValue("BASIC_CIRCUIT_BOARD", "drop-from-golems"))) {
                         	continue;

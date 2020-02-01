@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.bukkit.Material;
@@ -12,9 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -27,36 +23,23 @@ public final class SlimefunGuide {
 
 	private SlimefunGuide() {}
 
-	static {
-		Map<SlimefunGuideLayout, ISlimefunGuide> layouts = SlimefunPlugin.getUtilities().guideLayouts;
-		ISlimefunGuide chestGuide = new ChestSlimefunGuide();
-		layouts.put(SlimefunGuideLayout.CHEST, chestGuide);
-		layouts.put(SlimefunGuideLayout.CHEAT_SHEET, chestGuide);
-		layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
-	}
-
-	@Deprecated
-	public static ItemStack getItem() {
-		return getItem(SlimefunGuideLayout.CHEST);
-	}
-
 	public static ItemStack getItem(SlimefunGuideLayout design) {
 		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = new LinkedList<>();
-		lore.addAll(Arrays.asList("", ChatColors.color("&e右键 &8\u21E8 &7浏览物品"), ChatColors.color("&eShift + 右键 &8\u21E8 &7打开设置 / 关于")));
+		lore.addAll(Arrays.asList("", ChatColors.color("&e右键 &8\u21E8 &7浏览物品"), ChatColors.color("&eShift + 右键 &8\u21E8 &7打开 设置")));
 
 		switch (design) {
 		case BOOK:
-			meta.setDisplayName(ChatColors.color("&a粘液科技指南 &7(书与笔界面)"));
+			meta.setDisplayName(ChatColors.color("&aSlimefun 指南 &7(书本界面)"));
 			break;
 		case CHEAT_SHEET:
-			meta.setDisplayName(ChatColors.color("&c粘液科技指南 &4(作弊模式)"));
+			meta.setDisplayName(ChatColors.color("&cSlimefun 指南 &4(作弊界面)"));
 			lore.add(0, ChatColors.color("&4&l仅限管理员使用"));
 			lore.add(0, "");
 			break;
 		case CHEST:
-			meta.setDisplayName(ChatColors.color("&a粘液科技指南 &7(箱子界面)"));
+			meta.setDisplayName(ChatColors.color("&aSlimefun 指南 &7(箱子界面)"));
 			break;
 		default:
 			return null;
@@ -68,23 +51,8 @@ public final class SlimefunGuide {
 		return item;
 	}
 
-	@Deprecated
-	public static ItemStack getItem(boolean book) {
-		return getItem(book ? SlimefunGuideLayout.BOOK: SlimefunGuideLayout.CHEST);
-	}
-
-    @Deprecated
-    public static ItemStack getDeprecatedItem(boolean book) {
-        return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&e粘液科技指南 &7(右键打开)", (book ? "": "&2"), "&r这是粘液科技的基础指南", "&r指南内可以查看粘液科技的所有物品", "&r以及扩展的物品和更多信息");
-    }
-
 	public static void openCheatMenu(Player p) {
 		openMainMenuAsync(p, false, SlimefunGuideLayout.CHEAT_SHEET, 1);
-	}
-
-	@Deprecated
-	public static void openGuide(Player p, boolean book) {
-		openGuide(p, book ? SlimefunGuideLayout.BOOK: SlimefunGuideLayout.CHEST);
 	}
 
 	public static void openGuide(Player p, ItemStack guide) {
@@ -103,7 +71,7 @@ public final class SlimefunGuide {
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
 
-		ISlimefunGuide guide = SlimefunPlugin.getUtilities().guideLayouts.get(layout);
+		ISlimefunGuide guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);
 		Object last = null;
 
 		Optional<PlayerProfile> profile = PlayerProfile.find(p);
@@ -122,23 +90,23 @@ public final class SlimefunGuide {
 	}
 
 	public static void openMainMenu(PlayerProfile profile, SlimefunGuideLayout layout, boolean survival, int selectedPage) {
-		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openMainMenu(profile, survival, selectedPage);
+		SlimefunPlugin.getRegistry().getGuideLayout(layout).openMainMenu(profile, survival, selectedPage);
 	}
 
 	public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideLayout layout, boolean survival, int selectedPage) {
 		if (category == null) return;
-		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openCategory(profile, category, survival, selectedPage);
+		SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, survival, selectedPage);
 	}
 
 	public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
-		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
+		SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
 	}
 
 	public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
-		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
+		SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
 	}
 
 	public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
-		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
+		SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
 	}
 }

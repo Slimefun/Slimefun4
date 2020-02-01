@@ -10,7 +10,6 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class PlaceholderAPIHook extends PlaceholderExpansion {
 
@@ -52,12 +51,12 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		}
 		
 		if (params.equals("researches_total_researches")) {
-			return String.valueOf(Research.list());
+			return String.valueOf(SlimefunPlugin.getRegistry().getResearches().size());
 		}
 		
 		if (params.equals("researches_percentage_researches_unlocked")) {
 			Set<Research> set = PlayerProfile.get(p).getResearches();
-			return String.valueOf(Math.round(((set.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F);
+			return String.valueOf(Math.round(((set.size() * 100.0F) / SlimefunPlugin.getRegistry().getResearches().size()) * 100.0F) / 100.0F);
 		}
 		
 		if (params.equals("researches_title")) {

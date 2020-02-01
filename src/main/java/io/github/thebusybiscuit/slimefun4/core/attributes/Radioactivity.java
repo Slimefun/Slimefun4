@@ -17,7 +17,7 @@ public enum Radioactivity {
 	}
 	
 	public String getLore() {
-		return ChatColor.GREEN + "\u2622" + ChatColor.GRAY + " Radiation level: " + color + toString().replace('_', ' ');
+		return ChatColor.GREEN + "\u2622" + ChatColor.GRAY + " 辐射等级: " + color + toString().replace('_', ' ');
 	}
 	
 	public int getLevel() {

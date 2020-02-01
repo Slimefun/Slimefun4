@@ -39,7 +39,8 @@ public class GitHubTask implements Runnable {
 					// There cannot be a texture found because it is not a valid MC username
 					contributor.setTexture(null);
 				}
-				catch(TooManyRequestsException x) {
+				catch(Exception x) {
+					// Too many requests
 					break;
 				}
 			}

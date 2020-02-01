@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,9 +27,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
 
 public class BackpackListener implements Listener {
+	
+	private Map<UUID, ItemStack> backpacks = new HashMap<>();
 	
 	public BackpackListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -34,20 +38,16 @@ public class BackpackListener implements Listener {
 
 	@EventHandler
 	public void onClose(InventoryCloseEvent e) {
-		if (SlimefunPlugin.getUtilities().enchanting.containsKey(e.getPlayer().getUniqueId())) {
-			SlimefunPlugin.getUtilities().enchanting.remove(e.getPlayer().getUniqueId());
-		}
-		
-		if (SlimefunPlugin.getUtilities().backpack.containsKey(e.getPlayer().getUniqueId())) {
+		if (backpacks.containsKey(e.getPlayer().getUniqueId())) {
 			((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-			PlayerProfile.getBackpack(SlimefunPlugin.getUtilities().backpack.get(e.getPlayer().getUniqueId())).markDirty();
-			SlimefunPlugin.getUtilities().backpack.remove(e.getPlayer().getUniqueId());
+			PlayerProfile.getBackpack(backpacks.get(e.getPlayer().getUniqueId())).markDirty();
+			backpacks.remove(e.getPlayer().getUniqueId());
 		}
 	}
 	
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
-		if (SlimefunPlugin.getUtilities().backpack.containsKey(e.getPlayer().getUniqueId())){
+		if (backpacks.containsKey(e.getPlayer().getUniqueId())){
 			ItemStack item = e.getItemDrop().getItemStack();
 			SlimefunItem sfItem = SlimefunItem.getByItem(item);
 			
@@ -57,7 +57,7 @@ public class BackpackListener implements Listener {
 	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
-		ItemStack item = SlimefunPlugin.getUtilities().backpack.get(e.getWhoClicked().getUniqueId());
+		ItemStack item = backpacks.get(e.getWhoClicked().getUniqueId());
 		
 		if (item != null) {
 			if (e.getClick() == ClickType.NUMBER_KEY) {
@@ -80,31 +80,29 @@ public class BackpackListener implements Listener {
 		}
 	}
 
-	public static void openBackpack(Player p, ItemStack item, SlimefunBackpack backpack) {
+	public void openBackpack(Player p, ItemStack item, SlimefunBackpack backpack) {
 		if (item.getAmount() == 1) {
 			if (Slimefun.hasUnlocked(p, backpack, true)) {
 				if (!PlayerProfile.get(p, profile -> openBackpack(item, profile, backpack.getSize())))
-                    SlimefunPlugin.getLocal().sendMessage(p, "messages.opening-backpack");
+					SlimefunPlugin.getLocal().sendMessage(p, "messages.opening-backpack");
 			}
 		}
 		else SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);
 	}
 
-	private static void openBackpack(ItemStack item, PlayerProfile profile, int size) {
+	private void openBackpack(ItemStack item, PlayerProfile profile, int size) {
 		Player p = profile.getPlayer();
 		
 		for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
 			if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-				BackpackInventory backpack = profile.createBackpack(size);
-
-				setBackpackId(p, item, line, backpack.getID());
+				setBackpackId(p, item, line, profile.createBackpack(size).getID());
 				break;
 			}
 		}
 
-		if (!SlimefunPlugin.getUtilities().backpack.containsValue(item)) {
+		if (!backpacks.containsValue(item)) {
 			p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-			SlimefunPlugin.getUtilities().backpack.put(p.getUniqueId(), item);
+			backpacks.put(p.getUniqueId(), item);
 
 			Slimefun.runSync(() -> PlayerProfile.getBackpack(item).open(p));
 		}

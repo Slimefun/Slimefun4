@@ -20,16 +20,11 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	@Override
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {
-			if (isItem(item)) {
-				SlimefunPlugin.getLocal().sendMessage(p, "messages.diet-cookie");
-				p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
+			SlimefunPlugin.getLocal().sendMessage(p, "messages.diet-cookie");
+			p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
 
-				if (p.hasPotionEffect(PotionEffectType.LEVITATION)) p.removePotionEffect(PotionEffectType.LEVITATION);
-				p.addPotionEffect(PotionEffectType.LEVITATION.createEffect(60, 1));
-				
-				return true;
-			}
-			return false;
+			if (p.hasPotionEffect(PotionEffectType.LEVITATION)) p.removePotionEffect(PotionEffectType.LEVITATION);
+			p.addPotionEffect(PotionEffectType.LEVITATION.createEffect(60, 1));
 		};
 	}
 

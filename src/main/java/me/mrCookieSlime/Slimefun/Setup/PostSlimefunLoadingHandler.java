@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+@Deprecated
 @FunctionalInterface
 public interface PostSlimefunLoadingHandler {
 	

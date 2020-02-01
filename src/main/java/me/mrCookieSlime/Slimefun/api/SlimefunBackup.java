@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+
 public final class SlimefunBackup {
 
 	private SlimefunBackup() {}
@@ -35,7 +37,7 @@ public final class SlimefunBackup {
 
 			for (int i = backups.size() - 20; i > 0; i--) {
 				if (!backups.get(i).delete()) {
-					Slimefun.getLogger().log(Level.WARNING, "无法删除备份: " + backups.get(i).getName());
+					Slimefun.getLogger().log(Level.WARNING, "Could not delete Backup: " + backups.get(i).getName());
 				}
 			}
 		}
@@ -118,7 +120,7 @@ public final class SlimefunBackup {
 					Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: " + file.getName());
 				}
 			} catch(IOException x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a World-Backup for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a World-Backup for Slimefun " + SlimefunPlugin.getVersion(), x);
 			}
 		}
 	}

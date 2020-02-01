@@ -1,5 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
+import java.util.Optional;
+
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -11,22 +13,24 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class InfernalBonemeal extends SimpleSlimefunItem<ItemInteractionHandler> {
+public class InfernalBonemeal extends SimpleSlimefunItem<ItemUseHandler> {
 
 	public InfernalBonemeal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, recipeType, recipe, recipeOutput);
 	}
 
 	@Override
-	public ItemInteractionHandler getItemHandler() {
-		return (e, p, item) -> {
-			if (isItem(item)) {
-				Block b = e.getClickedBlock();
+	public ItemUseHandler getItemHandler() {
+		return e -> {
+			Optional<Block> block = e.getClickedBlock();
+			
+			if (block.isPresent()) {
+				Block b = block.get();
 				
-				if (b != null && b.getType() == Material.NETHER_WART) {
+				if (b.getType() == Material.NETHER_WART) {
 					Ageable ageable = (Ageable) b.getBlockData();
 					
 					if (ageable.getAge() < ageable.getMaximumAge()) {
@@ -34,14 +38,12 @@ public class InfernalBonemeal extends SimpleSlimefunItem<ItemInteractionHandler>
 						b.setBlockData(ageable);
 						b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
 						
-						if (p.getGameMode() != GameMode.CREATIVE) {
-							ItemUtils.consumeItem(item, false);
+						if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+							ItemUtils.consumeItem(e.getItem(), false);
 						}
 					}
 				}
-				return true;
 			}
-			return false;
 		};
 	}
 

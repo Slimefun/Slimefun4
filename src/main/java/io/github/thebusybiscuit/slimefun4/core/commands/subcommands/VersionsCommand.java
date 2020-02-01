@@ -13,7 +13,6 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class VersionsCommand extends SubCommand {
 
@@ -35,7 +34,7 @@ public class VersionsCommand extends SubCommand {
 			sender.sendMessage(ChatColors.color("&aSlimefun &2v" + plugin.getDescription().getVersion()));
 			sender.sendMessage("");
 			
-			Collection<Plugin> addons = Slimefun.getInstalledAddons();
+			Collection<Plugin> addons = SlimefunPlugin.getInstalledAddons();
 			sender.sendMessage(ChatColors.color("&7Installed Addons &8(" + addons.size() + ")"));
 			
 			for (Plugin plugin : addons) {

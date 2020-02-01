@@ -68,7 +68,7 @@ public class BlockListener implements Listener {
 		ItemStack item = e.getItemInHand();
 		
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		if (sfItem != null && !sfItem.isDisabled() && !(sfItem instanceof NotPlaceable)) {
+		if (sfItem != null && Slimefun.isEnabled(e.getPlayer(), sfItem, true) && !(sfItem instanceof NotPlaceable)) {
 			if (!Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
 				e.setCancelled(true);
 			}
@@ -82,7 +82,7 @@ public class BlockListener implements Listener {
 				
 				BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
 				
-				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+				SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 				if (blockHandler != null) {
 					blockHandler.onPlace(e.getPlayer(), e.getBlock(), sfItem);
 				} 
@@ -113,14 +113,6 @@ public class BlockListener implements Listener {
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.PORTABLE_CRAFTER, true)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.PORTABLE_DUSTBIN, true)) e.setCancelled(true);
 		
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BACKPACK_SMALL, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BACKPACK_MEDIUM, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BACKPACK_LARGE, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.WOVEN_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.GILDED_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.RADIANT_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BOUND_BACKPACK, false)) e.setCancelled(true);
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.COOLER, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ENDER_BACKPACK, false)) e.setCancelled(true);
 
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
@@ -136,7 +128,7 @@ public class BlockListener implements Listener {
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.GPS_MARKER_TOOL, true)) {
 			e.setCancelled(true);
-            SlimefunPlugin.getGPSNetwork().addWaypoint(e.getPlayer(), e.getBlock().getLocation());
+			SlimefunPlugin.getGPSNetwork().addWaypoint(e.getPlayer(), e.getBlock().getLocation());
 		}
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
 			e.setCancelled(true);
@@ -196,6 +188,7 @@ public class BlockListener implements Listener {
 		int fortune = getFortuneLevel(item, e.getBlock());
 		
 		Block block2 = e.getBlock().getRelative(BlockFace.UP);
+		
 		if (sensitiveMaterials.contains(block2.getType())) {
 			SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
 			
@@ -212,7 +205,7 @@ public class BlockListener implements Listener {
 			}
 			
 			if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+				SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 				
 				if (blockHandler != null) {
 					allow = blockHandler.onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
@@ -244,7 +237,7 @@ public class BlockListener implements Listener {
 		}
 		
 		if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-			SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+			SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 			
 			if (blockHandler != null) {
 				allow = blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);

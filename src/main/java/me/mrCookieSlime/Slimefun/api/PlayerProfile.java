@@ -58,7 +58,7 @@ public final class PlayerProfile {
 
 		cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
 
-		for (Research research : Research.list()) {
+		for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
 			if (cfg.contains("researches." + research.getID())) researches.add(research);
 		}
 	}
@@ -188,7 +188,7 @@ public final class PlayerProfile {
 	public String getTitle() {
 		List<String> titles = SlimefunPlugin.getSettings().researchesTitles;
 
-		float fraction = (float) researches.size() / Research.list().size();
+		float fraction = (float) researches.size() / SlimefunPlugin.getRegistry().getResearches().size();
 		int index = (int) (fraction * (titles.size() -1));
 
 		return titles.get(index);
@@ -198,7 +198,7 @@ public final class PlayerProfile {
 		Set<Research> researched = getResearches();
 		int levels = researched.stream().mapToInt(Research::getCost).sum();
 		
-		String progress = String.valueOf(Math.round(((researched.size() * 100.0F) / Research.list().size()) * 100.0F) / 100.0F);
+		String progress = String.valueOf(Math.round(((researched.size() * 100.0F) / SlimefunPlugin.getRegistry().getResearches().size()) * 100.0F) / 100.0F);
 		if (Float.parseFloat(progress) < 16.0F) progress = "&4" + progress + " &r% ";
 		else if (Float.parseFloat(progress) < 32.0F) progress = "&c" + progress + " &r% ";
 		else if (Float.parseFloat(progress) < 48.0F) progress = "&6" + progress + " &r% ";
@@ -210,7 +210,7 @@ public final class PlayerProfile {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Statistics for Player: &b" + name));
 		sender.sendMessage("");
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Title: &b" + getTitle()));
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Research Progress: " + progress + "&e(" + researched.size() + " / " + Research.list().size() + ")"));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Research Progress: " + progress + "&e(" + researched.size() + " / " + SlimefunPlugin.getRegistry().getResearches().size() + ")"));
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Total XP Levels spent: &b" + levels));
 	}
 
@@ -229,11 +229,11 @@ public final class PlayerProfile {
 	 * @return The PlayerProfile of this player
 	 */
 	public static PlayerProfile fromUUID(UUID uuid) {
-		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
+		PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(uuid);
 		
 		if (profile == null) {
 			profile = new PlayerProfile(uuid);
-			SlimefunPlugin.getUtilities().profiles.put(uuid, profile);
+			SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, profile);
 		}
 		else {
 			profile.markedForDeletion = false;
@@ -243,7 +243,7 @@ public final class PlayerProfile {
 	}
 	
 	public static boolean fromUUID(UUID uuid, Consumer<PlayerProfile> callback) {
-		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(uuid);
+		PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(uuid);
 		
 		if (profile != null) {
 			callback.accept(profile);
@@ -252,7 +252,7 @@ public final class PlayerProfile {
 
 		Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
 			PlayerProfile pp = new PlayerProfile(uuid);
-			SlimefunPlugin.getUtilities().profiles.put(uuid, pp);
+			SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, pp);
 			callback.accept(pp);
 		});
 		return false;
@@ -265,11 +265,11 @@ public final class PlayerProfile {
 	 * @return The PlayerProfile of this player
 	 */
 	public static PlayerProfile get(OfflinePlayer p) {
-		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
+		PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(p.getUniqueId());
 		
 		if (profile == null) {
 			profile = new PlayerProfile(p);
-			SlimefunPlugin.getUtilities().profiles.put(p.getUniqueId(), profile);
+			SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), profile);
 		}
 		else {
 			profile.markedForDeletion = false;
@@ -286,7 +286,7 @@ public final class PlayerProfile {
 	 * @return If the player was cached or not.
 	 */
 	public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
-		PlayerProfile profile = SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId());
+		PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(p.getUniqueId());
 		
 		if (profile != null) {
 			callback.accept(profile);
@@ -295,22 +295,22 @@ public final class PlayerProfile {
 
 		Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
 			PlayerProfile pp = new PlayerProfile(p);
-			SlimefunPlugin.getUtilities().profiles.put(p.getUniqueId(), pp);
+			SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), pp);
 			callback.accept(pp);
 		});
 		return false;
 	}
 
 	public static boolean isLoaded(UUID uuid) {
-		return SlimefunPlugin.getUtilities().profiles.containsKey(uuid);
+		return SlimefunPlugin.getRegistry().getPlayerProfiles().containsKey(uuid);
 	}
 
 	public static Optional<PlayerProfile> find(OfflinePlayer p) {
-		return Optional.ofNullable(SlimefunPlugin.getUtilities().profiles.get(p.getUniqueId()));
+		return Optional.ofNullable(SlimefunPlugin.getRegistry().getPlayerProfiles().get(p.getUniqueId()));
 	}
 
 	public static Iterator<PlayerProfile> iterator() {
-		return SlimefunPlugin.getUtilities().profiles.values().iterator();
+		return SlimefunPlugin.getRegistry().getPlayerProfiles().values().iterator();
 	}
 	
 	public static BackpackInventory getBackpack(ItemStack item) {

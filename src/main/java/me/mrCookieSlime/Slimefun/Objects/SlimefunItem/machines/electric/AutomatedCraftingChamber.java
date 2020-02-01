@@ -241,17 +241,14 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 	private void testInputAgainstRecipes(Block block, String input) {
 		BlockMenu menu = BlockStorage.getInventory(block);
 
-		if (SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.containsKey(input)) {
-			ItemStack output = SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.get(input).clone();
+		ItemStack output = SlimefunPlugin.getRegistry().getAutomatedCraftingChamberRecipes().get(input);
+		if (output != null && menu.fits(output, getOutputSlots())) {
+			menu.pushItem(output.clone(), getOutputSlots());
+			ChargableBlock.addCharge(block, -getEnergyConsumption());
 
-			if (menu.fits(output, getOutputSlots())) {
-				menu.pushItem(output, getOutputSlots());
-				ChargableBlock.addCharge(block, -getEnergyConsumption());
-
-				for (int j = 0; j < 9; j++) {
-					if (menu.getItemInSlot(getInputSlots()[j]) != null) {
-						menu.consumeItem(getInputSlots()[j]);
-					}
+			for (int j = 0; j < 9; j++) {
+				if (menu.getItemInSlot(getInputSlots()[j]) != null) {
+					menu.consumeItem(getInputSlots()[j]);
 				}
 			}
 		}

@@ -3,44 +3,27 @@ options:
   # These builds are much more tested and are far less likely to have any issues.
   # Note: When running a stable build auto-updates ONLY update to other stable builds! Perfect eh?
   # You can download the latest stable build here: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/
-  # 自动更新
-  auto-update: true
-  # 装备状态更新周期
+  
+  auto-update: false
   armor-update-interval: 10
-  # 是否在玩家第一次进入服务器时自动赠送粘液科技指南?
   give-guide-on-first-join: true
-  # 是否在控制台输出插件加载过程的日志
   print-out-loading: false
-  # 是否在控制台完全输出与 Github 的数据检索过程
   print-out-github-data-retrieving: false
-  # 是否启用粘液科技护甲效果
   enable-armor-effects: true
-  # 插件前缀
   prefix: '&a&lSlimefun &7>'
-  # 自动保存周期, 单位为分钟
   auto-save-delay-in-minutes: 10
-  # 是否在指南中展示原版物品合成表
   show-vanilla-recipes-in-guide: true
-  # 是否允许创造模式玩家免费解锁研究
   allow-free-creative-research: true
-  # 绿宝石附魔上限 (扩展选项)
   emerald-enchantment-limit: 2
-  # 是否在解锁时发射烟花 (建议关闭, 一次性批量解锁时卡死人)
   research-unlock-fireworks: true
-  # 是否在解锁时给玩家烟花让玩家自己放
   research-give-fireworks: true
-  # 是否使用洗矿机旧的工作方式
   legacy-ore-washer: false
-  # 是否使用除尘机旧的工作方式
   legacy-dust-washer: false
-  # 是否使用碎矿机旧的工作方式
-  legacy-ore-grinder: false
+  legacy-ore-grinder: true
   max-network-size: 200
-  # 设置文本语言
   language: en
 
 guide:
-  # 是否默认使用书与笔进行GUI的展示
   default-view-book: false
 
 URID:
@@ -49,48 +32,47 @@ URID:
   enable-tickers: true
 
 items:
-  # 是否启用以下物品种类
   talismans: true
   coolers: true
   backpacks: true
+  soulbound: true
 
-# 研究等级，可自行更改
 research-ranks:
-  - Chicken
-  - Cow
-  - Spider
-  - Villager
-  - Beginner
-  - Clumsy Student
-  - Unskilled Student
-  - Incompetent Student
-  - Student
-  - Clumsy Apprentice
-  - Apprentice
-  - Skilled Apprentice
-  - Upcoming Mage
-  - Excellent Mage
-  - Young Magician
-  - Incompetent Magician
-  - Common Magician
-  - Magician
-  - Proficient Magician
-  - Skilled Magician
-  - Accustomed Magician
-  - Great Magician
-  - Clumsy Wizard
-  - Wizard
-  - Common Wizard
-  - Skilled Wizard
-  - Great Wizard
-  - Impressive Wizard
-  - Young Master
-  - Clumsy Master
-  - Upcoming Master
-  - Competent Master
-  - Master
-  - Skilled Master
-  - Excellent Master
-  - Great Master
-  - Proficient Master
-  - The chosen One
+- Chicken
+- Cow
+- Spider
+- Villager
+- Beginner
+- Clumsy Student
+- Unskilled Student
+- Incompetent Student
+- Student
+- Clumsy Apprentice
+- Apprentice
+- Skilled Apprentice
+- Upcoming Mage
+- Excellent Mage
+- Young Magician
+- Incompetent Magician
+- Common Magician
+- Magician
+- Proficient Magician
+- Skilled Magician
+- Accustomed Magician
+- Great Magician
+- Clumsy Wizard
+- Wizard
+- Common Wizard
+- Skilled Wizard
+- Great Wizard
+- Impressive Wizard
+- Young Master
+- Clumsy Master
+- Upcoming Master
+- Competent Master
+- Master
+- Skilled Master
+- Excellent Master
+- Great Master
+- Proficient Master
+- The chosen One

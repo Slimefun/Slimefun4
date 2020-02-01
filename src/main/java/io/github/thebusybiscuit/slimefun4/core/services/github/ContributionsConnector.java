@@ -22,7 +22,10 @@ public class ContributionsConnector extends GitHubConnector {
 		"ImgBotApp",
 		"imgbot",
 		"imgbot[bot]",
-		"github-actions[bot]"
+		"github-actions[bot]",
+		"gitlocalize-app",
+		"gitlocalize-app[bot]",
+		"mt-gitlocalize"
 	);
 
 	// Matches a GitHub name with a Minecraft name.
@@ -34,7 +37,6 @@ public class ContributionsConnector extends GitHubConnector {
 		aliases.put("J3fftw1", "_lagpc_");
 		aliases.put("ajan-12", "ajan_12");
 		aliases.put("LinoxGH", "ajan_12");
-		aliases.put("NihilistBrew", "ma1yang2");
 		aliases.put("mrcoffee1026", "mr_coffee1026");
 		aliases.put("BluGhostYT", "CyberPatriot");
 		aliases.put("BurningBrimstone", "Bluedevil74");

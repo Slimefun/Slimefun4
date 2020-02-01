@@ -1,14 +1,19 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -63,6 +68,21 @@ public class Category {
 		this.items = new ArrayList<>();
 		this.tier = tier;
 	}
+	
+	/**
+	 * Gets the list of the registered categories.
+	 * 
+	 * @deprecated Use {@link SlimefunRegistry#getEnabledCategories()}
+	 * 
+	 * @return the list of the registered categories
+	 * 
+	 * @since 4.0
+	 * @see Categories
+	 */
+	@Deprecated
+	public static List<Category> list() {
+		return SlimefunPlugin.getRegistry().getEnabledCategories();
+	}
 
 	/**
 	 * Registers this category.
@@ -72,31 +92,16 @@ public class Category {
 	 * @since 4.0
 	 */
 	public void register() {
-		SlimefunPlugin.getUtilities().allCategories.add(this);
-		Collections.sort(list(), Comparator.comparingInt(Category::getTier));
-
 		if (this instanceof SeasonalCategory) {
 			if (((SeasonalCategory) this).isUnlocked()) {
-				SlimefunPlugin.getUtilities().enabledCategories.add(this);
+				SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
+				Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
 			}
 		}
 		else {
-			SlimefunPlugin.getUtilities().enabledCategories.add(this);
+			SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
+			Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
 		}
-		
-		Collections.sort(SlimefunPlugin.getUtilities().enabledCategories, Comparator.comparingInt(Category::getTier));
-	}
-
-	/**
-	 * Gets the list of the registered categories.
-	 * 
-	 * @return the list of the registered categories
-	 * 
-	 * @since 4.0
-	 * @see Categories
-	 */
-	public static List<Category> list() {
-		return SlimefunPlugin.getUtilities().allCategories;
 	}
 
 	/**
@@ -109,16 +114,13 @@ public class Category {
 	public void add(SlimefunItem item) {
 		items.add(item);
 	}
-
-	/**
-	 * Returns the display item of this category.
-	 * 
-	 * @return the display item of this category
-     *
-	 * @since 4.0
-	 */
+	
 	public ItemStack getItem() {
-		return item;
+		return item.clone();
+	}
+	
+	public ItemStack getItem(Player p) {
+		return new CustomItem(item, meta -> meta.setLore(Arrays.asList("", ChatColor.GREEN + "> " + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category"))));
 	}
 
 	/**

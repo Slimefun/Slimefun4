@@ -45,7 +45,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
 				// Spawn the hologram
-				SimpleHologram.update(b, "&7Idling...");
+				SimpleHologram.update(b, "&7待机中...");
 			}
 
 			@Override
@@ -79,7 +79,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	
 	@Override
 	public String getInventoryTitle() {
-		return "&6GEO-Miner";
+		return "&6GEO 矿机";
 	}
 	
 	@Override
@@ -121,7 +121,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	
 	@Override
 	public String getRecipeSectionLabel() {
-		return "&7\u21E9 Resources you can obtain \u21E9";
+		return "&7\u21E9 你可以获得的资源 \u21E9";
 	}
 	
 	@Override
@@ -182,7 +182,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 			for (OreGenResource resource : OreGenSystem.listResources()) {
 				if (!resource.isLiquid()) {
 					if (!OreGenSystem.wasResourceGenerated(resource, b.getLocation())) {
-						SimpleHologram.update(b, "&4GEO-Scan required!");
+						SimpleHologram.update(b, "&4需要先进行 GEO 地形扫描!");
 						return;
 					}
 					else {
@@ -195,7 +195,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 							processing.put(b, r);
 							progress.put(b, r.getTicks());
 							OreGenSystem.setSupplies(resource, b.getLocation(), supplies - 1);
-							SimpleHologram.update(b, "&7Mining: &r" + resource.getName());
+							SimpleHologram.update(b, "&7开采中: &r" + resource.getName());
 							return;
 						}
 					}
@@ -203,7 +203,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 				}
 			}
 			
-			SimpleHologram.update(b, "&7Finished");
+			SimpleHologram.update(b, "&7完成");
 		}
 	}
 	

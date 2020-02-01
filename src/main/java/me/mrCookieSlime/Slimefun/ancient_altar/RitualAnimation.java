@@ -21,8 +21,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class RitualAnimation implements Runnable {
 
-	private final AncientAltarListener listener;
-
 	private final List<Block> altars;
 
 	private final Block altar;
@@ -37,9 +35,7 @@ public class RitualAnimation implements Runnable {
 	private boolean running;
 	private int stage;
 
-	public RitualAnimation(AncientAltarListener listener, List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
-		this.listener = listener;
-
+	public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
 		this.dropLocation = drop;
 		this.altar = altar;
 		this.altars = altars;
@@ -121,6 +117,7 @@ public class RitualAnimation implements Runnable {
 
 	private void abort() {
 		running = false;
+		AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
 		pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
 		// This should re-enable altar blocks on craft failure.
@@ -136,6 +133,7 @@ public class RitualAnimation implements Runnable {
 			dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
 			dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
 
+			AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
 			pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
 			// This should re-enable altar blocks on craft completion.

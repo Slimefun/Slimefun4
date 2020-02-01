@@ -18,7 +18,7 @@ public final class OreGenSystem {
 	private OreGenSystem() {}
 	
 	public static Collection<OreGenResource> listResources() {
-		return SlimefunPlugin.getUtilities().resources.values();
+		return SlimefunPlugin.getRegistry().getGEOResources().values();
 	}
 	
 	public static void registerResource(OreGenResource resource) {
@@ -32,14 +32,15 @@ public final class OreGenSystem {
 		cfg.save();
 		
 		if (cfg.getBoolean("enabled")) {
-			Slimefun.getLogger().log(Level.INFO, "正在注册矿物生成器: " + resource.getName());
-			SlimefunPlugin.getUtilities().resources.put(resource.getName(), resource);
-			SlimefunPlugin.getUtilities().resourceConfigs.put(resource.getName(), cfg);
+			Slimefun.getLogger().log(Level.INFO, "Registering Ore Gen: " + resource.getName());
+			
+			SlimefunPlugin.getRegistry().getGEOResources().put(resource.getName(), resource);
+			SlimefunPlugin.getRegistry().getGEOResourceConfigs().put(resource.getName(), cfg);
 		}
 	}
 	
 	public static OreGenResource getResource(String name) {
-		return SlimefunPlugin.getUtilities().resources.get(name);
+		return SlimefunPlugin.getRegistry().getGEOResources().get(name);
 	}
 	
 	private static int getDefault(OreGenResource resource, Biome biome) {
@@ -47,7 +48,7 @@ public final class OreGenSystem {
 			return 0;
 		}
 		else {
-			int supply = SlimefunPlugin.getUtilities().resourceConfigs.get(resource.getName()).getInt("spawn-rates." + biome.toString());
+			int supply = SlimefunPlugin.getRegistry().getGEOResourceConfigs().get(resource.getName()).getInt("spawn-rates." + biome.toString());
 			return supply > 0 ? (supply + ThreadLocalRandom.current().nextInt(3)): 0;
 		}
 	}

@@ -1,15 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -23,54 +22,107 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.MultiTool;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class SlimefunItemListener implements Listener {
 
-	private final Utilities utilities;
-
 	public SlimefunItemListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		utilities = SlimefunPlugin.getUtilities();
 	}
-
-	/*
-	 * Handles Left click use and checks for disabled items.
-	 */
+	
 	@EventHandler
-	public void enabledCheck(PlayerInteractEvent e) {
-		if (e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
-			return;
-		}
+	public void onRightClick(PlayerInteractEvent e) {
+		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			PlayerRightClickEvent event = new PlayerRightClickEvent(e);
+			Bukkit.getPluginManager().callEvent(event);
+			
+			boolean itemUsed = e.getHand() == EquipmentSlot.OFF_HAND;
+			
+			if (event.useItem() != Result.DENY) {
+				Optional<SlimefunItem> optional = event.getSlimefunItem();
+				
+				if (optional.isPresent() && Slimefun.hasUnlocked(e.getPlayer(), optional.get(), true)) {
+					itemUsed = optional.get().callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
+				}
+			}
+			
+			if (!itemUsed && event.useBlock() != Result.DENY) {
+				Optional<SlimefunItem> optional = event.getSlimefunBlock();
 
-		ItemStack item = e.getItem();
-		if (item != null && !Slimefun.isEnabled(e.getPlayer(), item, true)) {
-			e.setCancelled(true);
+				if (optional.isPresent()) {
+					if (!Slimefun.hasUnlocked(e.getPlayer(), optional.get(), true)) {
+						e.setCancelled(true);
+						return;
+					}
+					
+					boolean interactable = optional.get().callItemHandler(BlockUseHandler.class, handler -> handler.onRightClick(event));
+					
+					if (!interactable) {
+						String id = optional.get().getID();
+						Player p = e.getPlayer();
+						ItemStack item = event.getItem();
+						
+						if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getBlockFace()))) {
+							e.setCancelled(true);
+							
+							if (!p.isSneaking() || item == null) {
+								if (BlockStorage.hasUniversalInventory(id)) {
+									UniversalBlockMenu menu = BlockStorage.getUniversalInventory(id);
+
+									if (menu.canOpen(e.getClickedBlock(), p)) {
+										menu.open(p);
+									}
+									else {
+										SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+									}
+								}
+								else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
+									BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
+
+									if (menu.canOpen(e.getClickedBlock(), p)) {
+										menu.open(p);
+									}
+									else {
+										SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+									}
+								}
+							}
+							
+							return;
+						}
+					}
+				}
+			}
+			
+			if (e.useInteractedBlock() != Result.DENY) {
+				e.setUseInteractedBlock(event.useBlock());
+			}
+			
+			if (e.useItemInHand() != Result.DENY) {
+				e.setUseItemInHand(event.useItem());
+			}
 		}
 	}
-
-	@EventHandler(priority = EventPriority.NORMAL)
+	
+	@Deprecated
+	@EventHandler
 	public void onRightClick(ItemUseEvent e) {
 		if (e.getParentEvent() != null && e.getParentEvent().getHand() != EquipmentSlot.HAND) {
 			return;
@@ -79,22 +131,7 @@ public class SlimefunItemListener implements Listener {
 		Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 
-		if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
-			if (p.isSneaking()) GuideSettings.openSettings(p, item);
-			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.BOOK);
-		}
-		else if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
-			if (p.isSneaking()) GuideSettings.openSettings(p, item);
-			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.CHEST);
-		}
-		else if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-			if (p.isSneaking()) GuideSettings.openSettings(p, item);
-			else p.chat("/sf cheat");
-		}
-		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.DEBUG_FISH, true)) {
-			// Ignore the debug fish in here
-		}
-		else {
+		if (!SlimefunManager.isItemSimilar(item, SlimefunItems.DEBUG_FISH, true)) {
 			SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 
 			if (slimefunItem != null) {
@@ -102,38 +139,6 @@ public class SlimefunItemListener implements Listener {
 					slimefunItem.callItemHandler(ItemInteractionHandler.class, handler ->
 						handler.onRightClick(e, p, item)
 					);
-
-					// Open the Backpack (also includes Coolers)
-					if (slimefunItem instanceof SlimefunBackpack) {
-						e.setCancelled(true);
-						BackpackListener.openBackpack(p, item, (SlimefunBackpack) slimefunItem);
-					}
-					else if (slimefunItem instanceof MultiTool) {
-						e.setCancelled(true);
-
-						List<Integer> modes = ((MultiTool) slimefunItem).getModes();
-						int index = utilities.mode.getOrDefault(p.getUniqueId(), 0);
-
-						if (!p.isSneaking()) {
-							float charge = ItemEnergy.getStoredEnergy(item);
-							float cost = 0.3F;
-
-							if (charge >= cost) {
-								p.getEquipment().setItemInMainHand(ItemEnergy.chargeItem(item, -cost));
-								Bukkit.getPluginManager().callEvent(new ItemUseEvent(e.getParentEvent(), SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item")).getItem().clone(), e.getClickedBlock()));
-							}
-						}
-						else {
-							index++;
-							if (index == modes.size()) index = 0;
-
-							SlimefunItem selectedItem = SlimefunItem.getByID((String) Slimefun.getItemValue(slimefunItem.getID(), "mode." + modes.get(index) + ".item"));
-							String itemName = selectedItem != null ? selectedItem.getItemName(): "Unknown";
-							SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
-							utilities.mode.put(p.getUniqueId(), index);
-						}
-					}
-					else if (SlimefunManager.isItemSimilar(item, SlimefunItems.HEAVY_CREAM, true)) e.setCancelled(true);
 				}
 				else {
 					e.setCancelled(true);
@@ -142,36 +147,6 @@ public class SlimefunItemListener implements Listener {
 			else {
 				for (ItemHandler handler : SlimefunItem.getHandlers(ItemInteractionHandler.class)) {
 					if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
-				}
-			}
-		}
-
-
-		if (e.getClickedBlock() != null && BlockStorage.hasBlockInfo(e.getClickedBlock())) {
-			String id = BlockStorage.checkID(e.getClickedBlock());
-
-			if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getParentEvent().getBlockFace())) && (!p.isSneaking() || item == null || item.getType() == Material.AIR)) {
-				e.setCancelled(true);
-
-				if (BlockStorage.hasUniversalInventory(id)) {
-					UniversalBlockMenu menu = BlockStorage.getUniversalInventory(id);
-
-					if (menu.canOpen(e.getClickedBlock(), p)) {
-						menu.open(p);
-					}
-					else {
-						SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
-					}
-				}
-				else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
-					BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
-
-					if (menu.canOpen(e.getClickedBlock(), p)) {
-						menu.open(p);
-					}
-					else {
-						SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
-					}
 				}
 			}
 		}

@@ -43,7 +43,7 @@ public class DebugFishListener implements Listener {
                             if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
                                 BlockStorage.clearBlockInfo(e.getClickedBlock());
                             }
-                        }
+                        } 
                         else e.setCancelled(false);
                         break;
                     case RIGHT_CLICK_BLOCK:
@@ -51,7 +51,7 @@ public class DebugFishListener implements Listener {
                             Block b = e.getClickedBlock().getRelative(e.getBlockFace());
                             b.setType(Material.PLAYER_HEAD);
                             SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
-                        }
+                        } 
                         else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
                             p.sendMessage(" ");
                             p.sendMessage(ChatColors.color("&d" + e.getClickedBlock().getType() + " &e@ X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ()));
@@ -68,7 +68,7 @@ public class DebugFishListener implements Listener {
 
                             if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
                                 p.sendMessage(ChatColors.color("&dInventory: " + "&2\u2714"));
-                            }
+                            } 
                             else {
                                 p.sendMessage(ChatColors.color("&dInventory: " + "&4\u2718"));
                             }
@@ -79,12 +79,12 @@ public class DebugFishListener implements Listener {
                                 p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
                                 p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + SlimefunPlugin.getTicker().getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
                                 p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
-                            }
+                            } 
                             else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
                                 p.sendMessage(ChatColors.color("&dTicking: " + "&b~ &3(Indirect)"));
                                 p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
                                 p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
-                            }
+                            } 
                             else {
                                 p.sendMessage(ChatColors.color("&dTicking: " + "&4\u2718"));
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + "&4\u2718"));
@@ -93,7 +93,7 @@ public class DebugFishListener implements Listener {
                             if (ChargableBlock.isChargable(e.getClickedBlock())) {
                                 p.sendMessage(ChatColors.color("&dChargable: " + "&2\u2714"));
                                 p.sendMessage(ChatColors.color("  &dEnergy: &e" + ChargableBlock.getCharge(e.getClickedBlock()) + " / " + ChargableBlock.getMaxCharge(e.getClickedBlock())));
-                            }
+                            } 
                             else {
                                 p.sendMessage(ChatColors.color("&dChargable: " + "&4\u2718"));
                             }

@@ -31,12 +31,8 @@ public class GrapplingHookListener implements Listener {
 	@EventHandler
 	public void onArrowHit(ProjectileHitEvent e) {
 		Slimefun.runSync(() -> {
-			if (e.getEntity().isValid()) {
-				SlimefunPlugin.getUtilities().arrows.remove(e.getEntity().getUniqueId());
-				
-				if (e.getEntity() instanceof Arrow) {
-					handleGrapplingHook((Arrow) e.getEntity());
-				}
+			if (e.getEntity().isValid() && e.getEntity() instanceof Arrow) {
+				handleGrapplingHook((Arrow) e.getEntity());
 			}
 		}, 4L);
 	}

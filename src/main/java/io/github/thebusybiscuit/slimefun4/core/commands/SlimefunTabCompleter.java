@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -30,7 +31,7 @@ public class SlimefunTabCompleter implements TabCompleter {
 			else if (args[0].equalsIgnoreCase("research")) {
 				List<String> researches = new ArrayList<>();
 				
-				for (Research res : Research.list()) {
+				for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
 					researches.add(res.getName().toUpperCase().replace(' ', '_'));
 				}
 				

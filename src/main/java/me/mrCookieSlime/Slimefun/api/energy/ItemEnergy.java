@@ -3,11 +3,12 @@ package me.mrCookieSlime.Slimefun.api.energy;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 
 public final class ItemEnergy {
 
@@ -20,8 +21,8 @@ public final class ItemEnergy {
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
 
 		for (String line : item.getItemMeta().getLore()) {
-			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
-				return Float.valueOf(line.split(" / ")[0].replace(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7"), ""));
+			if (line.startsWith(ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
+				return Float.valueOf(line.split(" / ")[0].replace(ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7"), ""));
 			}
 		}
 
@@ -33,7 +34,7 @@ public final class ItemEnergy {
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
 
 		for (String line: item.getItemMeta().getLore()) {
-			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
+			if (line.startsWith(ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
 				return Float.valueOf(line.split(" / ")[1].replace(" J", ""));
 			}
 		}
@@ -71,7 +72,7 @@ public final class ItemEnergy {
 		for (int i = 0; i < lore.size(); i++) {
 			String line = lore.get(i);
 
-			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
+			if (line.startsWith(ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
 				index = i;
 				break;
 			}
@@ -79,7 +80,7 @@ public final class ItemEnergy {
 
 		BigDecimal decimal = BigDecimal.valueOf(stored).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-		lore.set(index, ChatColor.translateAlternateColorCodes('&', "&c&o&8\u21E8 &e\u26A1 &7") + decimal.floatValue() + " / " + capacity + " J");
+		lore.set(index, ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7") + decimal.floatValue() + " / " + capacity + " J");
 
 		ItemMeta im = item.getItemMeta();
 		im.setLore(lore);

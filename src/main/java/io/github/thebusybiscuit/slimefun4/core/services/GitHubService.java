@@ -20,168 +20,217 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 public class GitHubService {
 
-	private final String repository;
-	private final Set<GitHubConnector> connectors;
-	private final ConcurrentMap<String, Contributor> contributors;
+    private final String repository;
+    private final Set<GitHubConnector> connectors;
+    private final ConcurrentMap<String, Contributor> contributors;
 
-	private boolean logging = false;
+    private boolean logging = false;
 
-	private int issues = 0;
-	private int pullRequests = 0;
-	private int forks = 0;
-	private int stars = 0;
-	private int codeBytes = 0;
-	private Date lastUpdate = new Date();
+    private int issues = 0;
+    private int pullRequests = 0;
+    private int forks = 0;
+    private int stars = 0;
+    private int codeBytes = 0;
+    private Date lastUpdate = new Date();
 
-	public GitHubService(String repository) {
-		this.repository = repository;
+    public GitHubService(String repository) {
+        this.repository = repository;
 
-		connectors = new HashSet<>();
-		contributors = new ConcurrentHashMap<>();
-	}
+        connectors = new HashSet<>();
+        contributors = new ConcurrentHashMap<>();
+    }
 
-	public void start(Plugin plugin) {
-		plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
-	}
+    public void start(Plugin plugin) {
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
+    }
 
-	private void addDefaultContributors() {
-		Contributor thebusybiscuit = new Contributor("TheBusyBiscuit", "https://github.com/TheBusyBiscuit");
-		thebusybiscuit.setContribution("&4Original Creator", 0);
-		contributors.put(thebusybiscuit.getName(), thebusybiscuit);
+    private void addDefaultContributors() {
+        Contributor fuffles = new Contributor("Fuffles_");
+        fuffles.setContribution("&dSkull Texture Artist", 0);
+        contributors.put(fuffles.getName(), fuffles);
 
-		Contributor fuffles = new Contributor("Fuffles_");
-		fuffles.setContribution("&dSkull Texture Artist", 0);
-		contributors.put(fuffles.getName(), fuffles);
-	}
+        // Translators - German
+        addTranslator("TheBusyBiscuit", "de", false);
 
-	public void connect(boolean logging) {
-		this.logging = logging;
-		addDefaultContributors();
+        // Translators - French
+        addTranslator("JustDams", "D4ms_", "fr", true);
+        addTranslator("edkerforne", "fr", true);
+        addTranslator("tnthomastn", "fr", true);
 
-		connectors.add(new ContributionsConnector(this, "code", repository, "&6Developer"));
-		connectors.add(new ContributionsConnector(this, "wiki", "TheBusyBiscuit/Slimefun4-wiki", "&3Wiki Editor"));
-		connectors.add(new ContributionsConnector(this, "resourcepack", "TheBusyBiscuit/Slimefun4-Resourcepack", "&cResourcepack Artist"));
+        // Translators - Italian
+        addTranslator("xXDOTTORXx", "it", true);
 
-		connectors.add(new GitHubConnector(this) {
+        // Translators - Latvian
+        addTranslator("AgnisT", "lv", true);
 
-			@Override
-			public void onSuccess(JsonElement element) {
-				JsonObject object = element.getAsJsonObject();
-				forks = object.get("forks").getAsInt();
-				stars = object.get("stargazers_count").getAsInt();
-				lastUpdate = NumberUtils.parseGitHubDate(object.get("pushed_at").getAsString());
-			}
+        // Translators - Hungarian
+        addTranslator("andris155", "hu", true);
 
-			@Override
-			public String getRepository() {
-				return repository;
-			}
+        // Translators - Vietnamese
+        addTranslator("huynhqtienvtag", "vi", false);
+        addTranslator("JustMangoT", "JFF_JustMango", "vi", true);
 
-			@Override
-			public String getFileName() {
-				return "repo";
-			}
+        // Translators - Slovak
+        addTranslator("KillerXCoder", "sk", true);
+        addTranslator("PixelHotDog", "sk", true);
 
-			@Override
-			public String getURLSuffix() {
-				return "";
-			}
-		});
+        // Translators - Spanish
+        addTranslator("Luu7", "_Luu", "es", true);
+        addTranslator("Vravinite", "es", true);
+        addTranslator("NotUmBr4", "es", true);
+        addTranslator("dbzjjoe", "es", true);
 
-		connectors.add(new GitHubConnector(this) {
+        // Translators - Swedish
+        addTranslator("NihilistBrew", "ma1yang2", "sv", false);
+        addTranslator("Tra-sh", "TurretTrash", "sv", true);
 
-			@Override
-			public void onSuccess(JsonElement element) {
-				JsonArray array = element.getAsJsonArray();
+        // Translators - Dutch
+        addTranslator("Dr4gonD", "nl", true);
+        addTranslator("svr333", "nl", false);
 
-				int issueCount = 0;
-				int prCount = 0;
+        // Translators - Chinese (China)
+        addTranslator("StarWishsama", "StarWish_Sama", "zh-CN", false);
+    }
 
-				for (JsonElement elem : array) {
-					JsonObject obj = elem.getAsJsonObject();
+    private void addTranslator(String name, String language, boolean lock) {
+        addTranslator(name, name, language, lock);
+    }
 
-					if (obj.has("pull_request")) prCount++;
-					else issueCount++;
-				}
+    private void addTranslator(String name, String alias, String language, boolean lock) {
+        Contributor contributor = contributors.computeIfAbsent(name, user -> new Contributor(alias, "https://github.com/" + user));
+        contributor.setContribution("translator," + language, 0);
 
-				issues = issueCount;
-				pullRequests = prCount;
-			}
+        if (lock) contributor.lock();
+    }
 
-			@Override
-			public String getRepository() {
-				return repository;
-			}
+    public void connect(boolean logging) {
+        this.logging = logging;
+        addDefaultContributors();
 
-			@Override
-			public String getFileName() {
-				return "issues";
-			}
+        connectors.add(new ContributionsConnector(this, "code", repository, "developer"));
+        connectors.add(new ContributionsConnector(this, "wiki", "TheBusyBiscuit/Slimefun4-wiki", "wiki"));
+        connectors.add(new ContributionsConnector(this, "resourcepack", "TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
 
-			@Override
-			public String getURLSuffix() {
-				return "/issues";
-			}
-		});
+        connectors.add(new GitHubConnector(this) {
 
-		connectors.add(new GitHubConnector(this) {
+            @Override
+            public void onSuccess(JsonElement element) {
+                JsonObject object = element.getAsJsonObject();
+                forks = object.get("forks").getAsInt();
+                stars = object.get("stargazers_count").getAsInt();
+                lastUpdate = NumberUtils.parseGitHubDate(object.get("pushed_at").getAsString());
+            }
 
-			@Override
-			public void onSuccess(JsonElement element) {
-				JsonObject object = element.getAsJsonObject();
-				codeBytes = object.get("Java").getAsInt();
-			}
+            @Override
+            public String getRepository() {
+                return repository;
+            }
 
-			@Override
-			public String getRepository() {
-				return repository;
-			}
+            @Override
+            public String getFileName() {
+                return "repo";
+            }
 
-			@Override
-			public String getFileName() {
-				return "languages";
-			}
+            @Override
+            public String getURLSuffix() {
+                return "";
+            }
+        });
 
-			@Override
-			public String getURLSuffix() {
-				return "/languages";
-			}
-		});
-	}
+        connectors.add(new GitHubConnector(this) {
 
-	public Set<GitHubConnector> getConnectors() {
-		return connectors;
-	}
+            @Override
+            public void onSuccess(JsonElement element) {
+                JsonArray array = element.getAsJsonArray();
 
-	public ConcurrentMap<String, Contributor> getContributors() {
-		return contributors;
-	}
+                int issueCount = 0;
+                int prCount = 0;
 
-	public int getForks() {
-		return forks;
-	}
+                for (JsonElement elem : array) {
+                    JsonObject obj = elem.getAsJsonObject();
 
-	public int getStars() {
-		return stars;
-	}
+                    if (obj.has("pull_request")) prCount++;
+                    else issueCount++;
+                }
 
-	public int getIssues() {
-		return issues;
-	}
+                issues = issueCount;
+                pullRequests = prCount;
+            }
 
-	public int getPullRequests() {
-		return pullRequests;
-	}
+            @Override
+            public String getRepository() {
+                return repository;
+            }
 
-	public int getCodeSize() {
-		return codeBytes;
-	}
+            @Override
+            public String getFileName() {
+                return "issues";
+            }
 
-	public Date getLastUpdate() {
-		return lastUpdate;
-	}
+            @Override
+            public String getURLSuffix() {
+                return "/issues";
+            }
+        });
 
-	public boolean isLoggingEnabled() {
-		return logging;
-	}
+        connectors.add(new GitHubConnector(this) {
+
+            @Override
+            public void onSuccess(JsonElement element) {
+                JsonObject object = element.getAsJsonObject();
+                codeBytes = object.get("Java").getAsInt();
+            }
+
+            @Override
+            public String getRepository() {
+                return repository;
+            }
+
+            @Override
+            public String getFileName() {
+                return "languages";
+            }
+
+            @Override
+            public String getURLSuffix() {
+                return "/languages";
+            }
+        });
+    }
+
+    public Set<GitHubConnector> getConnectors() {
+        return connectors;
+    }
+
+    public ConcurrentMap<String, Contributor> getContributors() {
+        return contributors;
+    }
+
+    public int getForks() {
+        return forks;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public int getIssues() {
+        return issues;
+    }
+
+    public int getPullRequests() {
+        return pullRequests;
+    }
+
+    public int getCodeSize() {
+        return codeBytes;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public boolean isLoggingEnabled() {
+        return logging;
+    }
 }

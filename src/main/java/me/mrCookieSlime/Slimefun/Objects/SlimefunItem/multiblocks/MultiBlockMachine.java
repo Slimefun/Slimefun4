@@ -1,8 +1,9 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Container;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -76,14 +77,17 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 	protected Inventory findOutputChest(Block b, ItemStack output) {
 		for (BlockFace face : outputFaces) {
 			Block potentialOutput = b.getRelative(face);
-			String id = BlockStorage.checkID(potentialOutput);
 			
-			if (id != null && id.equals("OUTPUT_CHEST")) {
-				// Found the output chest! Now, let's check if we can fit the product in it.
-				Inventory inv = ((Container) potentialOutput.getState()).getInventory();
+			if (potentialOutput.getType() == Material.CHEST) {
+				String id = BlockStorage.checkID(potentialOutput);
 				
-				if (InvUtils.fits(inv, output)) {
-					return inv;
+				if (id != null && id.equals("OUTPUT_CHEST")) {
+					// Found the output chest! Now, let's check if we can fit the product in it.
+					Inventory inv = ((Chest) potentialOutput.getState()).getInventory();
+					
+					if (InvUtils.fits(inv, output)) {
+						return inv;
+					}
 				}
 			}
 		}

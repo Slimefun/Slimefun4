@@ -76,7 +76,7 @@ public class ErrorReport {
 				Slimefun.getLogger().log(Level.WARNING, "You can put the file on Pastebin and then post it here: https://github.com/TheBusyBiscuit/Slimefun4/issues");
 				Slimefun.getLogger().log(Level.WARNING, "");
 			} catch (FileNotFoundException x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion(), x);
 			}
 		});
 	}
@@ -146,15 +146,17 @@ public class ErrorReport {
 		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
 			if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
 				plugins.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-                if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
-                    addons.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-                }
+				
+				if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
+					addons.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+				}
 			}
 			else {
 				plugins.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-                if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
-                    addons.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-                }
+				
+				if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
+					addons.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+				}
 			}
 		}
 	}

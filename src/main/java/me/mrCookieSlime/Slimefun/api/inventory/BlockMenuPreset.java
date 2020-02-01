@@ -30,7 +30,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		this.inventoryTitle = inventoryTitle;
 		this.init();
 		this.universal = false;
-		SlimefunPlugin.getUtilities().blockMenuPresets.put(id, this);
+		SlimefunPlugin.getRegistry().getMenuPresets().put(id, this);
 	}
 
 	public void registerEvent(ItemManipulationEvent event) {
@@ -43,7 +43,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		this.inventoryTitle = inventoryTitle;
 		this.init();
 		this.universal = universal;
-		SlimefunPlugin.getUtilities().blockMenuPresets.put(id, this);
+		SlimefunPlugin.getRegistry().getMenuPresets().put(id, this);
 	}
 
 	public abstract void init();
@@ -110,15 +110,15 @@ public abstract class BlockMenuPreset extends ChestMenu {
 	}
 
 	public static BlockMenuPreset getPreset(String id) {
-		return id == null ? null: SlimefunPlugin.getUtilities().blockMenuPresets.get(id);
+		return id == null ? null: SlimefunPlugin.getRegistry().getMenuPresets().get(id);
 	}
 
 	public static boolean isInventory(String id) {
-		return SlimefunPlugin.getUtilities().blockMenuPresets.containsKey(id);
+		return SlimefunPlugin.getRegistry().getMenuPresets().containsKey(id);
 	}
 
 	public static boolean isUniversalInventory(String id) {
-		BlockMenuPreset preset = SlimefunPlugin.getUtilities().blockMenuPresets.get(id);
+		BlockMenuPreset preset = SlimefunPlugin.getRegistry().getMenuPresets().get(id);
 		return preset != null && preset.isUniversal();
 	}
 
@@ -126,7 +126,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		return this.universal;
 	}
 
-	public void clone(final BlockMenu menu) {
+	public void clone(BlockMenu menu) {
 		menu.setPlayerInventoryClickable(true);
 
 		for (int slot : occupied) {
@@ -169,7 +169,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		return id;
 	}
 
-	public void newInstance(final BlockMenu menu, final Location l) {
+	public void newInstance(BlockMenu menu, Location l) {
 		Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> newInstance(menu, l.getBlock()));
 	}
 

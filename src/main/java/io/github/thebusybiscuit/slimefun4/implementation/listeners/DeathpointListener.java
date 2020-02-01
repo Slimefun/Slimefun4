@@ -10,7 +10,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class DeathpointListener implements Listener {
 
@@ -26,7 +25,7 @@ public class DeathpointListener implements Listener {
             Player p = (Player) e.getEntity();
             
             if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {
-                SlimefunPlugin.getGPSNetwork().addWaypoint(p, SlimefunPlugin.getLocal().getMessage(p, "gps.deathpoint").replace("%date%", format.format(new Date())), p.getLocation().getBlock().getLocation());
+            	SlimefunPlugin.getGPSNetwork().addWaypoint(p, SlimefunPlugin.getLocal().getMessage(p, "gps.deathpoint").replace("%date%", format.format(new Date())), p.getLocation().getBlock().getLocation());
             }
         }
 	}

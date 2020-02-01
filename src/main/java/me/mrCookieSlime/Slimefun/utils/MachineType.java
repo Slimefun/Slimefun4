@@ -2,10 +2,10 @@ package me.mrCookieSlime.Slimefun.utils;
 
 @Deprecated
 public enum MachineType {
-	
-	CAPACITOR("Capacitor"),
-	GENERATOR("Generator"),
-	MACHINE("Machine");
+
+    CAPACITOR("电容"),
+    GENERATOR("发电机"),
+    MACHINE("机器");
 	
 	private final String suffix;
 	

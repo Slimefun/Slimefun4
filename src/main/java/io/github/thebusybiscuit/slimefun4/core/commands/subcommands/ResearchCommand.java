@@ -13,6 +13,9 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 public class ResearchCommand extends SubCommand {
+	
+	private static final String PLACEHOLDER_PLAYER = "%player%";
+	private static final String PLACEHOLDER_RESEARCH = "%research%";
 
 	public ResearchCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
 		super(plugin, cmd);
@@ -39,20 +42,20 @@ public class ResearchCommand extends SubCommand {
 					
 					PlayerProfile.get(p, profile -> {
 						if (args[2].equalsIgnoreCase("all")) {
-							for (Research res : Research.list()) {
-								if (!profile.hasUnlocked(res)) SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace("%player%", p.getName()).replace("%research%", res.getName()));
+							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
+								if (!profile.hasUnlocked(res)) SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, res.getName()));
 								res.unlock(p, true);
 							}
 						}
 						else if (args[2].equalsIgnoreCase("reset")) {
-							for (Research res : Research.list()) {
+							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
 								profile.setResearched(res, false);
 							}
-							SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace("%player%", args[1]));
+							SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
 						}
 						else {
 							Research research = null;
-							for (Research res : Research.list()) {
+							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
 								if (res.getName().toUpperCase().replace(' ', '_').equalsIgnoreCase(args[2])) {
 									research = res;
 									break;
@@ -62,16 +65,16 @@ public class ResearchCommand extends SubCommand {
 							if (research != null) {
 								research.unlock(p, true);
 								final Research r = research;
-								SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace("%player%", p.getName()).replace("%research%", r.getName()));
+								SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, r.getName()));
 							}
 							else {
-								SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace("%research%", args[2]));
+								SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, args[2]));
 							}
 						}
 					});
 				}
 				else {
-					SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
+					SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
 				}
 			}
 			else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);

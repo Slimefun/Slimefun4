@@ -33,7 +33,7 @@ public class MultiBlockListener implements Listener {
 		Block b = e.getClickedBlock();
 		LinkedList<MultiBlock> multiblocks = new LinkedList<>();
 		
-		for (MultiBlock mb : MultiBlock.list()) {
+		for (MultiBlock mb : SlimefunPlugin.getRegistry().getMultiBlocks()) {
 			Block center = b.getRelative(mb.getTriggerBlock());
 			
 			if (compareMaterials(center, mb.getBuild(), mb.isSymmetric())) {

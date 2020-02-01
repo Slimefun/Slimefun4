@@ -11,9 +11,12 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class GiveCommand extends SubCommand {
+
+	private static final String PLACEHOLDER_PLAYER = "%player%";
+	private static final String PLACEHOLDER_ITEM = "%item%";
+	private static final String PLACEHOLDER_AMOUNT = "%amount%";
 
 	public GiveCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
 		super(plugin, cmd);
@@ -27,44 +30,38 @@ public class GiveCommand extends SubCommand {
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {
 		if (sender.hasPermission("slimefun.cheat.items") || !(sender instanceof Player)) {
-	        if (args.length == 3) {
-	        	Optional<Player> player = PlayerList.findByName(args[1]);
-				
+			if (args.length > 2) {
+				Optional<Player> player = PlayerList.findByName(args[1]);
+
 				if (player.isPresent()) {
 					Player p = player.get();
-					if (Slimefun.listIDs().contains(args[2].toUpperCase())) {
-						SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()).replace("%amount%", "1"));
-						p.getInventory().addItem(SlimefunItem.getByID(args[2].toUpperCase()).getItem());
-						SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace("%player%", args[1]).replace("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()).replace("%amount%", "1"));
+
+					SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase());
+					if (sfItem != null) {
+						int amount = 1;
+						
+						if (args.length == 4 && args[3].chars().allMatch(Character::isDigit)) {
+							amount = Integer.parseInt(args[3]);
+						}
+						else {
+							SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+							return;
+						}
+
+						int finalAmount = amount;
+						
+						if (amount > 0) {
+							SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
+							p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
+							SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
+						}
+						else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
 					}
-					else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace("%item%", args[2]));
+					else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
 				}
-				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
+				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
 			}
-	        else if (args.length == 4) {
-	        	Optional<Player> player = PlayerList.findByName(args[1]);
-				
-				if (player.isPresent()) {
-					Player p = player.get();
-                    if (Slimefun.listIDs().contains(args[2].toUpperCase())) {
-                         try {
-                             int amount = Integer.parseInt(args[3]);
-                             
-                             if (amount > 0) {
-                                 SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()).replace("%amount%", String.valueOf(amount)));
-                                 p.getInventory().addItem(new CustomItem(SlimefunItem.getByID(args[2].toUpperCase()).getItem(), amount));
-                                 SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace("%player%", args[1]).replace("%item%", SlimefunItem.getByID(args[2].toUpperCase()).getItem().getItemMeta().getDisplayName()).replace("%amount%", String.valueOf(amount)));
-                             }
-                             else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace("%amount%", String.valueOf(amount)));
-                        } catch (NumberFormatException e){
-                            SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace("%amount%", args[3]));
-                        }
-                    }
-                    else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace("%item%", args[2]));
-                }
-                else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
-	        }
-	        else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
+			else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
 		}
 		else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
 	}
