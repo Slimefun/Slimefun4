@@ -133,8 +133,14 @@ languages:
   ru: Russisch
   sk: Slowakisch
   sv: Schwedisch
-  vi: Vietnamesisch
-  zh-TW: Chinesisch (Taiwan)
+  zh-CN: 'Chinesisch (China)'
+  zh-TW: 'Chinesisch (Taiwan)'
+  vi: 'Vietnamesisch'
+  id: 'Indonesisch'
+  el: 'Griechisch'
+  he: 'Hebräisch'
+  pt: 'Portugiesisch (Portugal)'
+  pt-BR: 'Portugiesisch (Brasilien)'
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"
