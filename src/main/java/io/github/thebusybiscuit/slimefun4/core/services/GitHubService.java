@@ -66,6 +66,10 @@ public class GitHubService {
 		// Translators - Hungarian
 		addTranslator("andris155", "hu", true);
 		
+		// Translators - Vietnamese
+		addTranslator("huynhqtienvtag", "vi", false);
+		addTranslator("JustMangoT", "JFF_JustMango", "vi", true);
+		
 		// Translators - Slovak
 		addTranslator("KillerXCoder", "sk", true);
 		addTranslator("PixelHotDog", "sk", true);

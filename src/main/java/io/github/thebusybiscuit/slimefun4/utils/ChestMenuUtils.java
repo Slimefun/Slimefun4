@@ -46,11 +46,11 @@ public final class ChestMenuUtils {
 		return BACK_BUTTON;
 	}
 
-	public static ItemStack getMenuButton() {
-		return MENU_BUTTON;
+	public static ItemStack getMenuButton(Player p) {
+		return new CustomItem(MENU_BUTTON, meta -> meta.setDisplayName(ChatColor.YELLOW + SlimefunPlugin.getLocal().getMessage(p, "guide.title.settings")));
 	}
 
-	public static ItemStack getSearchButton() {
+	public static ItemStack getSearchButton(Player p) {
 		return SEARCH_BUTTON;
 	}
 

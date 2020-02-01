@@ -499,14 +499,14 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		}
 
 		// Settings Panel
-		menu.addItem(1, ChestMenuUtils.getMenuButton());
+		menu.addItem(1, ChestMenuUtils.getMenuButton(p));
 		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 			GuideSettings.openSettings(pl, pl.getInventory().getItemInMainHand());
 			return false;
 		});
 
 		// Search feature!
-		menu.addItem(7, new CustomItem(ChestMenuUtils.getSearchButton(), SlimefunPlugin.getLocal().getMessage(p, "guide.search.name"), SlimefunPlugin.getLocal().getMessages(p, "guide.search.lore").toArray(new String[0])));
+		menu.addItem(7, new CustomItem(ChestMenuUtils.getSearchButton(p), SlimefunPlugin.getLocal().getMessage(p, "guide.search.name"), SlimefunPlugin.getLocal().getMessages(p, "guide.search.lore").toArray(new String[0])));
 		menu.addMenuClickHandler(7, (pl, slot, item, action) -> {
 			pl.closeInventory();
 			SlimefunPlugin.getLocal().sendMessage(pl, "guide.search.message");
