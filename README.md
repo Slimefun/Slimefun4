@@ -44,6 +44,8 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 * [Addons for Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons)
 * [Getting Started](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Getting-Started)
 * [Help us expand the Wiki!](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Expanding-the-Wiki)
+* [Help us translate Slimefun!](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun)
+* [Common issues](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Common-Issues)
 
 ## Contributions
 You are allowed, even encouraged, to contribute to Slimefun 4 by making Pull Requests.
