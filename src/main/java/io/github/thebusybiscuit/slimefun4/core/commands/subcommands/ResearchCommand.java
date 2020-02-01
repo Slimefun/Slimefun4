@@ -42,20 +42,20 @@ public class ResearchCommand extends SubCommand {
 					
 					PlayerProfile.get(p, profile -> {
 						if (args[2].equalsIgnoreCase("all")) {
-							for (Research res : Research.list()) {
+							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
 								if (!profile.hasUnlocked(res)) SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, res.getName()));
 								res.unlock(p, true);
 							}
 						}
 						else if (args[2].equalsIgnoreCase("reset")) {
-							for (Research res : Research.list()) {
+							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
 								profile.setResearched(res, false);
 							}
 							SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
 						}
 						else {
 							Research research = null;
-							for (Research res : Research.list()) {
+							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
 								if (res.getName().toUpperCase().replace(' ', '_').equalsIgnoreCase(args[2])) {
 									research = res;
 									break;
