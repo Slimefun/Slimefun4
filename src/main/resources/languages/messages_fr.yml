@@ -111,6 +111,11 @@ guide:
     settings: Paramètres et informations
     addons: Extensions de Slimefun4
     bugs: Signaler un bug
+    wiki: Wiki Slimefun4
+  tooltips:
+    open-category: Cliquez pour ouvrir
+    versions-notice: Ces informations sont très importantes lorsque vous rapportez
+      des bugs !
 inventory:
   no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
 languages:
