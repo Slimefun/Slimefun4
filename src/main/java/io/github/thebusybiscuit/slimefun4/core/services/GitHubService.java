@@ -89,7 +89,7 @@ public class GitHubService {
 		addTranslator("svr333", "nl", false);
 		
 		// Translators - Chinese (China)
-		addTranslator("StarWishsama", "zh-CN", false);
+		addTranslator("StarWishsama", "StarWish_Sama", "zh-CN", false);
 	}
 
 	private void addTranslator(String name, String language, boolean lock) {
