@@ -79,6 +79,13 @@ public class GitHubService {
 		// Translators - Swedish
 		addTranslator("NihilistBrew", "ma1yang2", "sv", false);
 		addTranslator("Tra-sh", "TurretTrash", "sv", true);
+		
+		// Translators - Dutch
+		addTranslator("Dr4gonD", "nl", true);
+		addTranslator("svr333", "nl", false);
+		
+		// Translators - Chinese (China)
+		addTranslator("StarWishsama", "zh-CN", false);
 	}
 
 	private void addTranslator(String name, String language, boolean lock) {
