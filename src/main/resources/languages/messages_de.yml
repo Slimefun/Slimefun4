@@ -94,6 +94,7 @@ guide:
       lore: Klicke um eine Übersetzung hinzuzufügen
       name: "&aFehlt etwas?"
     updated: "&aFolgende Sprache wurde ausgewählt: &b%lang%"
+    selected-language: 'Aktuell ausgewählt:'
   pages:
     next: Nächste Seite
     previous: Vorherige Seite
@@ -108,6 +109,12 @@ guide:
     languages: Wähle deine bevorzugte Sprache
     main: Slimefun-Handbuch
     settings: Einstellungen & Infos
+    wiki: Slimefun4-Wiki
+    addons: Addons für Slimefun4
+    bugs: Fehlermeldungen
+  tooltips:
+    open-category: Klicke zum Öffnen
+    versions-notice: Dies ist sehr wichtig bei Fehlermeldungen!
 inventory:
   no-access: "&4Du kannst nicht auf diesen Block zugreifen"
 languages:
@@ -118,16 +125,16 @@ languages:
   es: Spanisch
   fr: Französisch
   hu: Ungarisch
+  id: Indonesisch
   it: Italienisch
   lv: Lettisch
   nl: Niederländisch
   pl: Polnisch
   ru: Russisch
-  sv: Schwedisch
   sk: Slowakisch
-  zh-TW: Chinesisch (Taiwan)
+  sv: Schwedisch
   vi: Vietnamesisch
-  id: Indonesisch
+  zh-TW: Chinesisch (Taiwan)
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"
