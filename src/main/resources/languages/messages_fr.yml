@@ -135,6 +135,7 @@ languages:
   he: Hébreu
   pt: Portugais (Portugal)
   pt-BR: Portugais (Brésil)
+  id: indonésien
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
