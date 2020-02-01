@@ -82,7 +82,7 @@ public class BlockListener implements Listener {
 				
 				BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
 				
-				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+				SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 				if (blockHandler != null) {
 					blockHandler.onPlace(e.getPlayer(), e.getBlock(), sfItem);
 				} 
@@ -205,7 +205,7 @@ public class BlockListener implements Listener {
 			}
 			
 			if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-				SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+				SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 				
 				if (blockHandler != null) {
 					allow = blockHandler.onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
@@ -237,7 +237,7 @@ public class BlockListener implements Listener {
 		}
 		
 		if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-			SlimefunBlockHandler blockHandler = utilities.blockHandlers.get(sfItem.getID());
+			SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 			
 			if (blockHandler != null) {
 				allow = blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);

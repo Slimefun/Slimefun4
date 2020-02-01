@@ -37,7 +37,7 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
     				
     				Player p = e.getPlayer();
     				p.sendMessage("");
-    				SlimefunPlugin.getLocal().sendMessage(p, "messages.multimeter", str -> str.replace("%stored%", stored).replace("%capacity%", capacity));
+    				SlimefunPlugin.getLocal().sendMessage(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity));
     				p.sendMessage("");
     			}
     		}

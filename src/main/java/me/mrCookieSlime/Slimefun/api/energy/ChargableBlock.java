@@ -15,15 +15,14 @@ public final class ChargableBlock {
 
 	private ChargableBlock() {}
 
-	public static void registerChargableBlock(String id, int capacity, boolean recharge) {
-		SlimefunPlugin.getUtilities().blocksEnergyCapacity.put(id, capacity);
-		if (recharge) SlimefunPlugin.getUtilities().rechargeableItems.add(id);
+	public static void registerChargableBlock(String id, int capacity) {
+		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
+		SlimefunPlugin.getRegistry().getChargeableBlocks().add(id);
 	}
 
 	public static void registerCapacitor(String id, int capacity) {
-		SlimefunPlugin.getUtilities().blocksEnergyCapacity.put(id, capacity);
-		SlimefunPlugin.getUtilities().rechargeableItems.add(id);
-		SlimefunPlugin.getUtilities().capacitorIDs.add(id);
+		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
+		SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
 	}
 
 	public static boolean isChargable(Block b) {
@@ -32,13 +31,13 @@ public final class ChargableBlock {
 
 	public static boolean isChargable(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return false;
-		return SlimefunPlugin.getUtilities().blocksEnergyCapacity.containsKey(BlockStorage.checkID(l));
+		return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(BlockStorage.checkID(l));
 	}
 
 	public static boolean isRechargable(Block b) {
 		if (!BlockStorage.hasBlockInfo(b)) return false;
 		String id = BlockStorage.checkID(b);
-		return SlimefunPlugin.getUtilities().blocksEnergyCapacity.containsKey(id) && SlimefunPlugin.getUtilities().rechargeableItems.contains(id);
+		return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(id) && SlimefunPlugin.getRegistry().getChargeableBlocks().contains(id);
 	}
 
 	public static boolean isCapacitor(Block b) {
@@ -47,7 +46,7 @@ public final class ChargableBlock {
 
 	public static boolean isCapacitor(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return false;
-		return SlimefunPlugin.getUtilities().capacitorIDs.contains(BlockStorage.checkID(l));
+		return SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(BlockStorage.checkID(l));
 	}
 
 	public static int getDefaultCapacity(Block b) {
@@ -56,7 +55,7 @@ public final class ChargableBlock {
 
 	public static int getDefaultCapacity(Location l) {
 		String id = BlockStorage.checkID(l);
-		return id == null ? 0: SlimefunPlugin.getUtilities().blocksEnergyCapacity.get(id);
+		return id == null ? 0: SlimefunPlugin.getRegistry().getEnergyCapacities().get(id);
 	}
 
 	public static int getCharge(Block b) {
@@ -132,14 +131,14 @@ public final class ChargableBlock {
 				setCharge(l, getMaxCharge(l));
 			}
 
-			if (SlimefunPlugin.getUtilities().capacitorIDs.contains(BlockStorage.checkID(l))) {
+			if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(BlockStorage.checkID(l))) {
 				updateTexture(l);
 			}
 		}
 		else if (charge < 0 && energy >= -charge) {
 			setCharge(l, energy + charge);
 
-			if (SlimefunPlugin.getUtilities().capacitorIDs.contains(BlockStorage.checkID(l))) {
+			if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(BlockStorage.checkID(l))) {
 				updateTexture(l);
 			}
 		}

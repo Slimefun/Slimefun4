@@ -22,6 +22,10 @@ guide:
     lore:
     - '&bWhat would you like to search for?'
     - '&7Type your search term into chat'
+    
+  tooltips:
+    open-category: 'Click to open'
+    versions-notice: 'These are very important when reporting bugs!'
 
   cheat:
     no-multiblocks: '&4You cannot cheat in Multiblocks, you have to build them!'
@@ -32,6 +36,7 @@ guide:
 
   languages:
     updated: '&aYour language was successfully set to: &b%lang%'
+    selected-language: 'Currently selected: '
     select: 'Click to select this language'
     select-default: 'Click to select the default language'
     translations:
@@ -43,6 +48,9 @@ guide:
     settings: 'Settings & Info'
     languages: 'Select your preferred language'
     credits: 'Slimefun4 Contributors'
+    wiki: 'Slimefun4 Wiki'
+    addons: 'Addons for Slimefun4'
+    bugs: 'Bug Reports'
   
   credits:
     commit: 'Commit'

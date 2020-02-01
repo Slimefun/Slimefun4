@@ -67,8 +67,8 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 		ChestMenu menu = create(p);
 
-		List<Category> categories = SlimefunPlugin.getUtilities().enabledCategories;
-		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
+		List<Category> categories = SlimefunPlugin.getRegistry().getEnabledCategories();
+		List<GuideHandler> handlers = SlimefunPlugin.getRegistry().getGuideHandlers().values().stream().flatMap(List::stream).collect(Collectors.toList());
 
 		int index = 9;
 		int pages = (categories.size() + handlers.size() - 1) / CATEGORY_SIZE + 1;
@@ -101,7 +101,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 				if (!locked) {
 					if (!(category instanceof LockedCategory)) {
 						if (!(category instanceof SeasonalCategory)) {
-							menu.addItem(index, category.getItem());
+							menu.addItem(index, category.getItem(p));
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 								openCategory(profile, category, survival, 1);
 								return false;
@@ -110,7 +110,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 						}
 						else {
 							if (((SeasonalCategory) category).isUnlocked()) {
-								menu.addItem(index, category.getItem());
+								menu.addItem(index, category.getItem(p));
 								menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 									openCategory(profile, category, survival, 1);
 									return false;
@@ -120,7 +120,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 						}
 					}
 					else if (!survival || ((LockedCategory) category).hasUnlocked(p, profile)) {
-						menu.addItem(index, category.getItem());
+						menu.addItem(index, category.getItem(p));
 						menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 							openCategory(profile, category, survival, 1);
 							return false;
@@ -136,10 +136,10 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 						parents.add("");
 
 						for (Category parent : ((LockedCategory) category).getParents()) {
-							parents.add(parent.getItem().getItemMeta().getDisplayName());
+							parents.add(parent.getItem(p).getItemMeta().getDisplayName());
 						}
 
-						menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem().getItemMeta().getDisplayName(), parents.toArray(new String[0])));
+						menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem(p).getItemMeta().getDisplayName(), parents.toArray(new String[0])));
 						menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
 						index++;
 					}
@@ -292,7 +292,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 		int index = 9;
 		// Find items and add them
-		for (SlimefunItem item : SlimefunItem.list()) {
+		for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
 			String itemName = ChatColor.stripColor(item.getItemName()).toLowerCase();
 
 			if (index == 44) break;
@@ -302,8 +302,11 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 					List<String> lore = null;
 					Category category = item.getCategory();
 
-					if (category != null && category.getItem() != null && category.getItem().hasItemMeta() && category.getItem().getItemMeta().hasDisplayName()) {
-						lore = Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.RESET + item.getCategory().getItem().getItemMeta().getDisplayName());
+					if (category != null) {
+						ItemStack categoryItem = category.getItem(p);
+						if (categoryItem != null && categoryItem.hasItemMeta() && categoryItem.getItemMeta().hasDisplayName()) {
+							lore = Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.RESET + categoryItem.getItemMeta().getDisplayName());
+						}
 					}
 
 					meta.setLore(lore);

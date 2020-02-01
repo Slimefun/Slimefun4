@@ -66,11 +66,11 @@ public final class CargoManager {
 
                     if (SlimefunManager.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
                         if (is.getAmount() > template.getAmount()) {
-                            inv.setItem(slot, ChestManipulator.trigger(target, slot, is, new CustomItem(is, is.getAmount() - template.getAmount())));
+                            inv.setItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                             return template;
                         } 
                         else {
-                            inv.setItem(slot, ChestManipulator.trigger(target, slot, is, new CustomItem(is, is.getAmount() - template.getAmount())));
+                            inv.setItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                             return is.clone();
                         }
                     }
@@ -114,7 +114,7 @@ public final class CargoManager {
                     ItemStack is = inv.getContents()[slot];
 
                     if (matchesFilter(node, is, index)) {
-                        inv.setItem(slot, ChestManipulator.trigger(target, slot, is, null));
+                        inv.setItem(slot, null);
                         return new ItemSlot(is.clone(), slot);
                     }
                 }
@@ -194,13 +194,12 @@ public final class CargoManager {
                     ItemStack is = inv.getContents()[slot];
 
                     if (is == null) {
-                        inv.setItem(slot, ChestManipulator.trigger(target, slot, null, stack.clone()));
+                        inv.setItem(slot, stack.clone());
                         return null;
                     } 
                     else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
                         int amount = is.getAmount() + stack.getAmount();
-                        ItemStack prev = is.clone();
-
+                        
                         if (amount > is.getType().getMaxStackSize()) {
                             is.setAmount(is.getType().getMaxStackSize());
                             stack.setAmount(amount - is.getType().getMaxStackSize());
@@ -210,7 +209,7 @@ public final class CargoManager {
                             stack = null;
                         }
 
-                        inv.setItem(slot, ChestManipulator.trigger(target, slot, prev, is));
+                        inv.setItem(slot, is);
                         return stack;
                     }
                 }

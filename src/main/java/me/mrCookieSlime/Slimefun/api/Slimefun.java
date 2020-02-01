@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -34,9 +33,9 @@ public final class Slimefun {
 	
 	@Deprecated
 	public static void registerGuideHandler(GuideHandler handler) {
-		List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(handler.getTier(), new ArrayList<>());
+		List<GuideHandler> handlers = SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(handler.getTier(), new ArrayList<>());
 		handlers.add(handler);
-		SlimefunPlugin.getUtilities().guideHandlers.put(handler.getTier(), handlers);
+		SlimefunPlugin.getRegistry().getGuideHandlers().put(handler.getTier(), handlers);
 	}
 
 	@Deprecated
@@ -244,6 +243,7 @@ public final class Slimefun {
 	 *
 	 * @return the list of all the IDs of the enabled items.
 	 */
+	@Deprecated
 	public static List<String> listIDs() {
 		List<String> ids = new ArrayList<>();
 		for (SlimefunItem item : SlimefunItem.list()) {
@@ -252,22 +252,9 @@ public final class Slimefun {
 		return ids;
 	}
 
-	/**
-	 * Returns a list of all the ItemStacks representing the registered categories.
-	 *
-	 * @return the list of the display items of all the registered categories.
-	 * @see #currentCategories
-	 */
-	public static List<ItemStack> listCategories() {
-		List<ItemStack> items = new ArrayList<>();
-		for (Category c : Category.list()) {
-			items.add(c.getItem());
-		}
-		return items;
-	}
-
+	@Deprecated
 	public static List<GuideHandler> getGuideHandlers(int tier) {
-		return SlimefunPlugin.getUtilities().guideHandlers.getOrDefault(tier, new ArrayList<>());
+		return SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(tier, new ArrayList<>());
 	}
 
 	@Deprecated
@@ -286,12 +273,5 @@ public final class Slimefun {
 
 	public static BukkitTask runSync(Runnable r, long delay) {
 		return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
-	}
-
-	public static Set<Plugin> getInstalledAddons() {
-		return Arrays.stream(SlimefunPlugin.instance.getServer().getPluginManager().getPlugins())
-				.filter(Plugin::isEnabled)
-				.filter(plugin -> plugin.getDescription().getDepend().contains("Slimefun") || plugin.getDescription().getSoftDepend().contains("Slimefun"))
-				.collect(Collectors.toSet());
 	}
 }

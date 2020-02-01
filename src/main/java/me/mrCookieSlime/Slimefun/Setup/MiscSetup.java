@@ -19,7 +19,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSeriali
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -49,7 +48,7 @@ public final class MiscSetup {
 	}
 	
 	public static void loadItems(ConfigCache settings) {
-		Iterator<SlimefunItem> iterator = SlimefunItem.list().iterator();
+		Iterator<SlimefunItem> iterator = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().iterator();
 		
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
@@ -68,7 +67,7 @@ public final class MiscSetup {
 		List<SlimefunItem> init = new ArrayList<>();
 		List<SlimefunItem> post = new ArrayList<>();
 		
-		for (SlimefunItem item : SlimefunItem.list()) {
+		for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
 			if (item instanceof Alloy || item instanceof ReplacingAlloy) pre.add(item);
 			else if (item instanceof SlimefunMachine) init.add(item);
 			else post.add(item);
@@ -123,7 +122,7 @@ public final class MiscSetup {
 					i++;
 				}
 				
-				SlimefunPlugin.getUtilities().automatedCraftingChamberRecipes.put(builder.toString(), RecipeType.getRecipeOutputList(machine, inputs));
+				SlimefunPlugin.getRegistry().getAutomatedCraftingChamberRecipes().put(builder.toString(), RecipeType.getRecipeOutputList(machine, inputs));
 			}
 			
 		}
@@ -214,15 +213,18 @@ public final class MiscSetup {
 		
 		CommandSender sender = Bukkit.getConsoleSender();
 		
-		for (PostSlimefunLoadingHandler handler : SlimefunPlugin.getUtilities().postHandlers) {
+		for (PostSlimefunLoadingHandler handler : SlimefunPlugin.getRegistry().getPostHandlers()) {
 			handler.run(pre, init, post);
 		}
+
+		int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
+		int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
 		
 		sender.sendMessage("");
 		sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
 		sender.sendMessage("");
-		sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
-		sender.sendMessage(ChatColor.GREEN + "( " + SlimefunPlugin.getUtilities().vanillaItems + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunPlugin.getUtilities().vanillaItems) + " Items from " + Slimefun.getInstalledAddons().size() + " Addons )");
+		sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + total + " Items (" + SlimefunPlugin.getRegistry().getResearches().size() + " Researches)");
+		sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " Items from Slimefun, " + (total - vanilla) + " Items from " + SlimefunPlugin.getInstalledAddons().size() + " Addons )");
 		sender.sendMessage("");
 		sender.sendMessage(ChatColor.GREEN + "Slimefun is an Open-Source project that is maintained by community developers!");
 		sender.sendMessage("");

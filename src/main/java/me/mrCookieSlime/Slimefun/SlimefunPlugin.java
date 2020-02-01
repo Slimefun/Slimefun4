@@ -1,12 +1,16 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
@@ -14,6 +18,7 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
+import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunTabCompleter;
 import io.github.thebusybiscuit.slimefun4.core.hooks.SlimefunHooks;
@@ -84,7 +89,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static SlimefunPlugin instance;
 
 	private RecipeSnapshot recipeSnapshot;
-
+	
+	private final SlimefunRegistry registry = new SlimefunRegistry();
+	
 	private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
 	private final CustomTextureService textureService = new CustomTextureService(this);
 	private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
@@ -177,7 +184,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			MiscSetup.setupMisc();
 			WikiSetup.addWikiPages(this);
-			textureService.setup(utilities.allItems);
+			textureService.setup(registry.getAllSlimefunItems());
 
 			getLogger().log(Level.INFO, "Loading World Generators...");
 
@@ -372,7 +379,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			}
 		}
 
-		for (UniversalBlockMenu menu : utilities.universalInventories.values()) {
+		for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
 			menu.save();
 		}
 
@@ -472,6 +479,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.gitHubService;
 	}
 	
+	public static SlimefunRegistry getRegistry() {
+		return instance.registry;
+	}
+	
 	public static NetworkManager getNetworkManager() {
 		return instance.networkManager;
 	}
@@ -486,6 +497,13 @@ public final class SlimefunPlugin extends JavaPlugin {
 	
 	public static SlimefunBowListener getBowListener() {
 		return instance.bowListener;
+	}
+
+	public static Set<Plugin> getInstalledAddons() {
+		return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
+				.filter(Plugin::isEnabled)
+				.filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName()))
+				.collect(Collectors.toSet());
 	}
 
 }

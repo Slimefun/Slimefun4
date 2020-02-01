@@ -1560,23 +1560,23 @@ public final class SlimefunSetup {
 
 		new SlimefunItem(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SMALL_CAPACITOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.DURALUMIN_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.DURALUMIN_INGOT, new ItemStack(Material.REDSTONE), SlimefunItems.SULFATE, new ItemStack(Material.REDSTONE), SlimefunItems.DURALUMIN_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.DURALUMIN_INGOT})
-		.registerDistibutingCapacitor(true, 128);
+		.registerCapacitor(true, 128);
 
 		new SlimefunItem(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.MEDIUM_CAPACITOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BILLON_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.BILLON_INGOT, new ItemStack(Material.REDSTONE), SlimefunItems.SMALL_CAPACITOR, new ItemStack(Material.REDSTONE), SlimefunItems.BILLON_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.BILLON_INGOT})
-		.registerDistibutingCapacitor(true, 512);
+		.registerCapacitor(true, 512);
 
 		new SlimefunItem(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.BIG_CAPACITOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.STEEL_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.STEEL_INGOT, new ItemStack(Material.REDSTONE), SlimefunItems.MEDIUM_CAPACITOR, new ItemStack(Material.REDSTONE), SlimefunItems.STEEL_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.STEEL_INGOT})
-		.registerDistibutingCapacitor(true, 1024);
+		.registerCapacitor(true, 1024);
 
 		new SlimefunItem(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.LARGE_CAPACITOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.REINFORCED_ALLOY_INGOT, new ItemStack(Material.REDSTONE), SlimefunItems.BIG_CAPACITOR, new ItemStack(Material.REDSTONE), SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.REINFORCED_ALLOY_INGOT})
-		.registerDistibutingCapacitor(true, 8192);
+		.registerCapacitor(true, 8192);
 
 		new SlimefunItem(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.CARBONADO_EDGED_CAPACITOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CARBONADO, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.CARBONADO, new ItemStack(Material.REDSTONE), SlimefunItems.LARGE_CAPACITOR, new ItemStack(Material.REDSTONE), SlimefunItems.CARBONADO, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.CARBONADO})
-		.registerDistibutingCapacitor(true, 65536);
+		.registerCapacitor(true, 65536);
 
 		new SolarGenerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.SOLAR_GENERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_INGOT, null, SlimefunItems.ALUMINUM_INGOT, null}) {
@@ -1924,7 +1924,7 @@ public final class SlimefunSetup {
 				return 8;
 			}
 
-		}.registerUnrechargeableBlock(true, 64);
+		}.registerEnergyGenerator(true, 64);
 
 		new CoalGenerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.COAL_GENERATOR_2, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.MAGMA_BLOCK), SlimefunItems.HEATING_COIL, new ItemStack(Material.MAGMA_BLOCK), SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.COAL_GENERATOR, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
@@ -1934,7 +1934,7 @@ public final class SlimefunSetup {
 				return 15;
 			}
 
-		}.registerUnrechargeableBlock(true, 256);
+		}.registerEnergyGenerator(true, 256);
 
 		new BioGenerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.BIO_REACTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.HEATING_COIL, SlimefunItems.COMPOSTER, SlimefunItems.HEATING_COIL, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}) {
@@ -1944,7 +1944,7 @@ public final class SlimefunSetup {
 				return 4;
 			}
 
-		}.registerUnrechargeableBlock(true, 128);
+		}.registerEnergyGenerator(true, 128);
 
 		new AutoDrier(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.AUTO_DRIER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, SlimefunItems.HEATING_COIL, new ItemStack(Material.SMOKER), SlimefunItems.HEATING_COIL, null, new ItemStack(Material.CAMPFIRE), null})
@@ -1992,7 +1992,7 @@ public final class SlimefunSetup {
 				return 18;
 			}
 
-		}.registerUnrechargeableBlock(true, 128);
+		}.registerEnergyGenerator(true, 128);
 
 		new AutoEnchanter(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.AUTO_ENCHANTER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.ENCHANTING_TABLE), null, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN})
@@ -2610,7 +2610,7 @@ public final class SlimefunSetup {
 				return 10;
 			}
 
-		}.registerUnrechargeableBlock(true, 512);
+		}.registerEnergyGenerator(true, 512);
 
 		new LavaGenerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.LAVA_GENERATOR_2, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.LAVA_GENERATOR, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.HEATING_COIL, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.HEATING_COIL}) {
@@ -2620,7 +2620,7 @@ public final class SlimefunSetup {
 				return 20;
 			}
 
-		}.registerUnrechargeableBlock(true, 1024);
+		}.registerEnergyGenerator(true, 1024);
 
 		new CombustionGenerator(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.COMBUSTION_REACTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.STEEL_INGOT, SlimefunItems.HEATING_COIL}) {
@@ -2630,7 +2630,7 @@ public final class SlimefunSetup {
 				return 12;
 			}
 
-		}.registerUnrechargeableBlock(true, 256);
+		}.registerEnergyGenerator(true, 256);
 
 		new SlimefunItem(Categories.GPS, (SlimefunItemStack) SlimefunItems.GPS_TELEPORTER_PYLON, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.ZINC_INGOT, new ItemStack(Material.GLASS), SlimefunItems.ZINC_INGOT, new ItemStack(Material.GLASS), SlimefunItems.HEATING_COIL, new ItemStack(Material.GLASS), SlimefunItems.ZINC_INGOT, new ItemStack(Material.GLASS), SlimefunItems.ZINC_INGOT}, 
@@ -3079,8 +3079,9 @@ public final class SlimefunSetup {
 		.registerChargeableBlock(true, 4096);
 	}
 	
+	@Deprecated
 	public static void registerPostHandler(PostSlimefunLoadingHandler handler) {
-		SlimefunPlugin.getUtilities().postHandlers.add(handler);
+		SlimefunPlugin.getRegistry().getPostHandlers().add(handler);
 	}
 
 }

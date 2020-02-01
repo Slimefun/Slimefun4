@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
+import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -230,8 +231,7 @@ public class Research {
 						if (instant) {
 							runnable.run();
 						}
-						else if (!SlimefunPlugin.getUtilities().researching.contains(p.getUniqueId())){
-							SlimefunPlugin.getUtilities().researching.add(p.getUniqueId());
+						else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
 							SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName()));
 							
 							for (int i = 1; i < RESEARCH_PROGRESS.length + 1; i++) {
@@ -245,7 +245,7 @@ public class Research {
 							
 							Slimefun.runSync(() -> {
 								runnable.run();
-								SlimefunPlugin.getUtilities().researching.remove(p.getUniqueId());
+								SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().remove(p.getUniqueId());
 							}, (RESEARCH_PROGRESS.length + 1) * 20L);
 						}
 					}
@@ -280,7 +280,7 @@ public class Research {
 		this.cost = SlimefunPlugin.getResearchCfg().getInt(this.getID() + ".cost");
 		this.enabled = SlimefunPlugin.getResearchCfg().getBoolean(this.getID() + ".enabled");
 
-		SlimefunPlugin.getUtilities().allResearches.add(this);
+		SlimefunPlugin.getRegistry().getResearches().add(this);
 		if (SlimefunPlugin.getSettings().printOutLoading) {
 			Slimefun.getLogger().log(Level.INFO, "Loaded Research \"" + this.getName() + "\"");
 		}
@@ -291,11 +291,14 @@ public class Research {
 	 * 
 	 * @return The list of registered researches
 	 * 
+	 * @deprecated Use {@link SlimefunRegistry#getResearches()}
+	 * 
 	 * @since 4.0
 	 * @see ResearchSetup
 	 */
+	@Deprecated
 	public static List<Research> list() {
-		return SlimefunPlugin.getUtilities().allResearches;
+		return SlimefunPlugin.getRegistry().getResearches();
 	}
 
 	/**
@@ -307,7 +310,7 @@ public class Research {
 	 * @since 4.0
 	 */
 	public static boolean isResearching(Player p) {
-		return SlimefunPlugin.getUtilities().researching.contains(p.getUniqueId());
+		return SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId());
 	}
 
 	/**

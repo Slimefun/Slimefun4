@@ -50,11 +50,7 @@ public class MultiBlock {
 	}
 	
 	public void register() {
-		SlimefunPlugin.getUtilities().allMultiblocks.add(this);
-	}
-	
-	public static List<MultiBlock> list() {
-		return SlimefunPlugin.getUtilities().allMultiblocks;
+		SlimefunPlugin.getRegistry().getMultiBlocks().add(this);
 	}
 	
 	@Override

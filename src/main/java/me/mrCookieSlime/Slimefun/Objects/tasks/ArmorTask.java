@@ -96,7 +96,7 @@ public class ArmorTask implements Runnable {
 	}
 	
 	private boolean isRadioactive(Player p, ItemStack item) {
-		for (ItemStack radioactiveItem : utilities.radioactiveItems) {
+		for (ItemStack radioactiveItem : SlimefunPlugin.getRegistry().getRadioactiveItems()) {
 			if (SlimefunManager.isItemSimilar(item, radioactiveItem, true) && Slimefun.isEnabled(p, radioactiveItem, false)) {
 				// If the item is enabled in the world, then make radioactivity do its job
 				SlimefunPlugin.getLocal().sendMessage(p, "messages.radiation");

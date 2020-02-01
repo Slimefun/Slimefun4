@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.bukkit.Material;
@@ -12,8 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -25,14 +22,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public final class SlimefunGuide {
 
 	private SlimefunGuide() {}
-
-	static {
-		Map<SlimefunGuideLayout, ISlimefunGuide> layouts = SlimefunPlugin.getUtilities().guideLayouts;
-		ISlimefunGuide chestGuide = new ChestSlimefunGuide();
-		layouts.put(SlimefunGuideLayout.CHEST, chestGuide);
-		layouts.put(SlimefunGuideLayout.CHEAT_SHEET, chestGuide);
-		layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
-	}
 
 	public static ItemStack getItem(SlimefunGuideLayout design) {
 		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
@@ -82,7 +71,7 @@ public final class SlimefunGuide {
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
 
-		ISlimefunGuide guide = SlimefunPlugin.getUtilities().guideLayouts.get(layout);
+		ISlimefunGuide guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);
 		Object last = null;
 
 		Optional<PlayerProfile> profile = PlayerProfile.find(p);
@@ -101,23 +90,23 @@ public final class SlimefunGuide {
 	}
 
 	public static void openMainMenu(PlayerProfile profile, SlimefunGuideLayout layout, boolean survival, int selectedPage) {
-		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openMainMenu(profile, survival, selectedPage);
+		SlimefunPlugin.getRegistry().getGuideLayout(layout).openMainMenu(profile, survival, selectedPage);
 	}
 
 	public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideLayout layout, boolean survival, int selectedPage) {
 		if (category == null) return;
-		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openCategory(profile, category, survival, selectedPage);
+		SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, survival, selectedPage);
 	}
 
 	public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
-		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
+		SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
 	}
 
 	public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
-		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
+		SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
 	}
 
 	public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
-		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
+		SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
 	}
 }

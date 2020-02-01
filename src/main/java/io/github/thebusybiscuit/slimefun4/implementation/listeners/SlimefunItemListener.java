@@ -120,7 +120,7 @@ public class SlimefunItemListener implements Listener {
 			}
 		}
 	}
-
+	
 	@Deprecated
 	@EventHandler
 	public void onRightClick(ItemUseEvent e) {

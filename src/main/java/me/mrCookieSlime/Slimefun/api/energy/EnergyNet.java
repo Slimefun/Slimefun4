@@ -26,31 +26,31 @@ public class EnergyNet extends Network {
 	}
 
 	public static EnergyNetComponent getComponent(String id) {
-		if (SlimefunPlugin.getUtilities().energyNetInput.contains(id)) return EnergyNetComponent.SOURCE;
-		if (SlimefunPlugin.getUtilities().energyNetStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
-		if (SlimefunPlugin.getUtilities().energyNetOutput.contains(id)) return EnergyNetComponent.CONSUMER;
+		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.SOURCE;
+		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponent.CONSUMER;
 		return EnergyNetComponent.NONE;
 	}
 
 	public static EnergyNetComponent getComponent(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponent.NONE;
 		String id = BlockStorage.checkID(l);
-		if (SlimefunPlugin.getUtilities().energyNetInput.contains(id)) return EnergyNetComponent.SOURCE;
-		if (SlimefunPlugin.getUtilities().energyNetStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
-		if (SlimefunPlugin.getUtilities().energyNetOutput.contains(id)) return EnergyNetComponent.CONSUMER;
+		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.SOURCE;
+		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponent.CONSUMER;
 		return EnergyNetComponent.NONE;
 	}
 
 	public static void registerComponent(String id, EnergyNetComponent component) {
 		switch (component) {
 		case CONSUMER:
-			SlimefunPlugin.getUtilities().energyNetOutput.add(id);
+			SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);
 			break;
 		case DISTRIBUTOR:
-			SlimefunPlugin.getUtilities().energyNetStorage.add(id);
+			SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
 			break;
 		case SOURCE:
-			SlimefunPlugin.getUtilities().energyNetInput.add(id);
+			SlimefunPlugin.getRegistry().getEnergyGenerators().add(id);
 			break;
 		default:
 			break;

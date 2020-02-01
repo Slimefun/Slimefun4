@@ -12,7 +12,7 @@ public final class SlimefunRecipes {
 	private SlimefunRecipes() {}
 	
 	public static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
-		for (SlimefunItem item : SlimefunPlugin.getUtilities().allItems) {
+		for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
 			if (item instanceof AContainer && ((AContainer) item).getMachineIdentifier().equals(machine)) {
 				((AContainer) item).registerRecipe(seconds, input, output);
 			}

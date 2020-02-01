@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -61,9 +62,12 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 									boolean allow = false;
 									
 									if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-										if (SlimefunPlugin.getUtilities().blockHandlers.containsKey(sfItem.getID())) {
-											allow = SlimefunPlugin.getUtilities().blockHandlers.get(sfItem.getID()).onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+										SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
+										
+										if (handler != null) {
+											allow = handler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
 										}
+										
 										if (allow) {
 											drops.add(BlockStorage.retrieve(e.getBlock()));
 										}
