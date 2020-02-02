@@ -17,6 +17,8 @@ public class TranslatorList {
 		addTranslator("JustDams", "D4ms_", "fr", true);
 		addTranslator("edkerforne", "fr", true);
 		addTranslator("tnthomastn", "fr", true);
+		addTranslator("Nouma", "fr", true);
+		addTranslator("ishi-sama", "fr", true);
 		
 		// Translators - Italian
 		addTranslator("xXDOTTORXx", "it", true);
