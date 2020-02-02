@@ -1,0 +1,88 @@
+---
+slimefun:
+  walking_sticks: Gậy đi bộ
+  portable_crafter: Bàn chế tạo di động
+  portable_dustbin: Thùng rác di động
+  meat_jerky: Thịt Jerky
+  armor_forge: Bàn chế tạo giáp
+  glowstone_armor: Giáp quang học
+  lumps: Những cục bướu phép
+  ender_backpack: Balô Ender
+  ender_armor: Giáp Ender
+  magic_eye_of_ender: Mắt Ender ma thuật
+  magic_sugar: Đường ma thuật
+  slime_armor: Giáp chất nhờn
+  basic_circuit_board: Bảng mạch cơ bản
+  advanced_circuit_board: Bảng mạch tiên tiến
+  smeltery: Lò đút
+  steel: Thời đại thép
+  misc_power_items: Vật phẩm quan trọng liên quan đến năng lượng
+  steel_plate: Mạ thép
+  steel_thruster: Máy đẩy thép
+  parachute: Cái dù bay
+  grappling_hook: Cái Móc
+  jetpacks: Giáp phản lực
+  multitools: Đa công cụ
+  solar_panel_and_helmet: Năng lượng mặt trời ( ngôi sao )
+  elemental_staff: Trượng nguyên tố
+  grind_stone: Máy nghiền đá
+  cactus_armor: Bộ đồ xương rồng
+  gold_pan: Sàng vàng
+  magical_book_cover: Cuốn sách ma thuật liên kết
+  ore_crusher: Nhân đôi quặng
+  bronze: Tác phẩm đồng
+  alloys: Hợp kim cao cấp
+  compressor_and_carbon: Tác phẩm Carbon
+  gilded_iron_armor: Giáp sắt mạ vàng
+  synthetic_diamond: Kim cương tổng hợp
+  pressure_chamber: Buồng áp suất
+  synthetic_sapphire: Ngọc bích tổng hợp
+  damascus_steel: Thép Damascus
+  damascus_steel_armor: Giáp thép Damascus
+  reinforced_alloy: Hợp kim gia cố
+  magic_workbench: Bài chế tạo-ma thuật
+  wind_staff: Trượng gió
+  reinforced_armor: Giáp gia cố
+  ore_washer: Vòng đệm quặng ( giặc quặng )
+  common_talisman: Bùa hộ mệnh thông thường
+  anvil_talisman: Bùa hộ mệnh của cái đe
+  miner_talisman: Bùa hộ mệnh khai khác
+  hunter_talisman: Bùa hộ mệnh thợ săn
+  lava_talisman: Bùa hộ mệnh dung nham
+  water_talisman: 'Bùa hộ mệnh nước
+
+'
+  angel_talisman: Bùa hộ mệnh thiên sứ
+  fire_talisman: Bùa hộ mệnh tránh lửa
+  lava_crystal: Pha lê dung nham
+  magician_talisman: Bùa hộ mệnh pháp sư
+  traveller_talisman: Bùa hộ mệnh du hành
+  warrior_talisman: Bùa hộ mệnh chiến binh
+  knight_talisman: Bùa hộ mệnh kỵ sỹ
+  gilded_iron: Sắt mạ vàng
+  synthetic_emerald: ngọc lục bảo tổng hợp
+  chainmail_armor: Giáp Chainmail-mail ( lưới )
+  whirlwind_talisman: Bùa hộ mệnh vòi rồng
+  wizard_talisman: Bùa hộ mệnh Thuật Sĩ
+  lumber_axe: Búa đốn gỗ ( vjp )
+  hazmat_suit: Bộ đồ khử nhiễm
+  crushed_ore: Máy nghiền quặng
+  carbonado_tools: Công cụ kim cương đen
+  night_vision_googles: Kính nhìn đêm
+  pickaxe_of_containment: Cúp ngăn chặn
+  hercules_pickaxe: Cúp Thần Hercules
+  table_saw: Bàn cưa củi
+  slime_steel_armor: Giáp thép trơ
+  blade_of_vampires: Gươm ma cà rồng
+  composter: Khùng tổng hợp
+  farmer_shoes: Giầy làm nông
+  boots_of_the_stomper: Giày cao cổ
+  pickaxe_of_the_seeker: Cúp tìm kiếm
+  woven_backpack: Ba lô kết lại
+  crucible: Nồi nấu kim loại
+  gilded_backpack: Ba lô mạ vàng ( lol )
+  ender_talismans: Bùa hộ mệnh Ender
+  magnet: Nam Châm
+  empowered_android: Chuỗi truyền Hệ điều hành
+  empowered_butcher_android: Chuỗi chuyền Hệ điều hành Chém
+  empowered_fisherman_android: Chuỗi chuyền Hệ điều hành Câu cá
