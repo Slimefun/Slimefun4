@@ -112,6 +112,8 @@ messages:
   - "&7Nigdy nie kop prosto w dół!"
   give-research: '&bTy mieć dany %player% ten Badania &7"%research%&7"'
   fire-extinguish: "&7Ty masz zgasły siebie."
+  no-permission: "&4Brak uprawnień"
+  hungry: "&cJesteś zbyt głodny żeby to zrobić!"
 machines:
   pattern-not-found: "&ePrzepraszamy, nie można rozpoznać tego przepisu. Umieść przedmioty
     we właściwym wzorze w Dozowniku."
