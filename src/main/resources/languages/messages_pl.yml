@@ -13,6 +13,7 @@ commands:
     description: Odblokuj/Zresetuj badania dla gracza
     reset: "&cZresetowano wiedzę gracza %player%"
     reset-target: "&c Twoja wiedza została zresetowana"
+  cheat: Pozwala ty do odrwić przedmiotów.
 guide:
   search:
     message: "&bCo chcesz wyszukać?"
@@ -109,6 +110,8 @@ messages:
   - "&742. Odpowiedź to 42."
   - "&7Walshy dziennie pomoże uniknąć kłopotów."
   - "&7Nigdy nie kop prosto w dół!"
+  give-research: '&bTy mieć dany %player% ten Badania &7"%research%&7"'
+  fire-extinguish: "&7Ty masz zgasły siebie."
 machines:
   pattern-not-found: "&ePrzepraszamy, nie można rozpoznać tego przepisu. Umieść przedmioty
     we właściwym wzorze w Dozowniku."
@@ -204,7 +207,7 @@ android:
     - 
     - "&eProszę wpisać nazwę dla tego skryptu"
     uploaded:
-    - 
+    - "&bPrzesyłanie..."
     - "&aPomyślnie przesłano twój skrypt!"
     rating:
       own: "&4Nie możesz ocenić własnego skryptu!"
@@ -220,3 +223,10 @@ languages:
   id: Indonezyjski
   el: Grecki
   he: Hebrajski
+  en: Język angielski
+  de: Niemiecki
+  fr: Francuski
+  it: Włoski
+  es: Hiszpański
+  sv: Szwedzki
+  nl: Holenderski
