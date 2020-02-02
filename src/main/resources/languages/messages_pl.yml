@@ -10,6 +10,7 @@ android:
       ATTACK_ANIMALS_ADULT: "&4Atakuj &c(Zwierzęta &7[Dorosłe]&c)"
       ATTACK_MOBS: "&4Atakuj &c(Wrogie Moby)"
       ATTACK_MOBS_ANIMALS: "&4Atakuj &c(Wrogie Moby i Zwierzęta)"
+      CATCH_FISH: "&bŁów ryby"
       CHOP_TREE: "&cTnij drzewo i posadź sadzonkę"
       DIG_DOWN: "&bKop w dół"
       DIG_FORWARD: "&bKop do przodu"
@@ -31,7 +32,6 @@ android:
       TURN_LEFT: "&7Skręć w lewo"
       TURN_RIGHT: "&7Skręć w prawo"
       WAIT: "&ePoczekaj 0.5s"
-      CATCH_FISH: "&bŁów ryby"
     rating:
       already: "&4Oceniłeś już ten skrypt!"
       own: "&4Nie możesz ocenić własnego skryptu!"
@@ -46,7 +46,6 @@ backpack:
   already-open: "&cPrzepraszamy, ten plecak jest otwarty gdzie indziej!"
   no-stack: "&cNie możesz stakować plecaków"
 commands:
-  cheat: Pozwala ty do odrwić przedmiotów.
   give: Daj graczowi przedmioty Slimefun
   guide: Daje ci przewodnik Slimefun
   help: Pokazuje ten ekran pomocy
@@ -60,6 +59,7 @@ commands:
   teleporter: Zobacz punkty lokalizacji innych graczy
   timings: Informacje o opóźnieniu na twoim serwerze
   versions: Wyświetla listę wszystkich zainstalowanych dodatków
+  cheat: Daje graczowi przedmioty Slimefun.
 gps:
   deathpoint: "&4Punkt śmierci &7%date%"
   geo:
@@ -119,6 +119,7 @@ inventory:
 languages:
   cs: Czeski
   de: Niemiecki
+  default: Domyślny serwera
   el: Grecki
   en: Język angielski
   es: Hiszpański
@@ -138,7 +139,6 @@ languages:
   vi: Wietnamski
   zh-CN: Chiński (Chiny)
   zh-TW: Chiński (Tajwan)
-  default: Domyślny serwera
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Ołtarz nie jest otoczony potrzebną ilością cokołów &c(%pedestals%
@@ -194,7 +194,6 @@ messages:
   - "&7Nigdy nie kop prosto w dół!"
   give-item: '&bDodano przedmiot do plecaka gracza %player%: &a%amount% &7"%item%&7"'
   given-item: '&bOtrzymano &a%amount% &7"%item%&7"'
-  give-research: '&bTy mieć dany %player% ten Badania &7"%research%&7"'
   hungry: "&cJesteś zbyt głodny żeby to zrobić!"
   link-prompt: "&eKliknij tutaj:"
   mode-change: "&bTryb urządzenia %device% został zmieniony na: &9%mode%"
@@ -241,6 +240,7 @@ messages:
   unknown-player: "&4Nieznany gracz: &c%player%"
   unlocked: '&bOdblokowano &7"%research%"'
   usage: "&4Użycie: &c%usage%"
+  give-research: '&bOdblokowano badanie &7"%research%&7" dla gracza %player%'
 miner:
   no-ores: "&eNie można znaleźć żadnych rud w pobliżu!"
 workbench:
