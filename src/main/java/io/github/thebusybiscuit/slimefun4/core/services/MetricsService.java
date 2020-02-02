@@ -47,15 +47,16 @@ public class MetricsService extends Metrics {
 
 		addCustomChart(new SimplePie("language", () -> {
 			Language language = SlimefunPlugin.getLocal().getDefaultLanguage();
-			return language.getID();
+			return SlimefunPlugin.getLocal().isLanguageLoaded(language.getID()) ? language.getID(): "Unsupported Language";
 		}));
 
 		addCustomChart(new AdvancedPie("player_languages", () -> {
 			Map<String, Integer> languages = new HashMap<>();
 
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				Language lang = SlimefunPlugin.getLocal().getLanguage(p);
-				languages.merge(lang.getID(), 1, Integer::sum);
+				Language language = SlimefunPlugin.getLocal().getLanguage(p);
+				String lang = SlimefunPlugin.getLocal().isLanguageLoaded(language.getID()) ? language.getID(): "Unsupported Language";
+				languages.merge(lang, 1, Integer::sum);
 			}
 
 			return languages;
