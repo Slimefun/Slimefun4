@@ -40,12 +40,14 @@ public class GiveCommand extends SubCommand {
 					if (sfItem != null) {
 						int amount = 1;
 						
-						if (args.length == 4 && args[3].chars().allMatch(Character::isDigit)) {
-							amount = Integer.parseInt(args[3]);
-						}
-						else {
-							SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
-							return;
+						if (args.length == 4) {
+							if (args[3].chars().allMatch(Character::isDigit)) {
+								amount = Integer.parseInt(args[3]);
+							}
+							else {
+								SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+								return;
+							}
 						}
 
 						int finalAmount = amount;

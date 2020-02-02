@@ -37,6 +37,7 @@
 * Added many more strings to the messages.yml
 * Added ability to translate messages for Players
 * Added the ability to translate Researches
+* Added StatusEffect API
 
 ### Changes
 * Removed Solar Array
@@ -66,6 +67,7 @@
 * Fixed Minecraft recipes not showing correctly
 * Fixed #1428
 * Fixed #1435
+* Fixed #1438
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
