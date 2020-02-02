@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Setup;
+package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,6 +24,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutomatedCraftingChamber;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 import me.mrCookieSlime.Slimefun.utils.ConfigCache;
@@ -34,6 +35,7 @@ public final class MiscSetup {
 	
 	public static void setupMisc() {
 		SlimefunItem talisman = SlimefunItem.getByID("COMMON_TALISMAN");
+		
 		if (talisman != null && (boolean) Slimefun.getItemValue(talisman.getID(), "recipe-requires-nether-stars")) {
 			talisman.setRecipe(new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2});
 		}
@@ -76,9 +78,11 @@ public final class MiscSetup {
 		for (SlimefunItem item : pre) {
 			item.load();
 		}
+		
 		for (SlimefunItem item : init) {
 			item.load();
 		}
+		
 		for (SlimefunItem item : post) {
 			item.load();
 		}

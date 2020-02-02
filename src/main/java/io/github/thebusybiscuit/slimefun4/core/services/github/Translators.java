@@ -2,11 +2,11 @@ package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import java.util.concurrent.ConcurrentMap;
 
-public class TranslatorList {
+public class Translators {
 	
 	private final ConcurrentMap<String, Contributor> contributors;
 	
-	public TranslatorList(ConcurrentMap<String, Contributor> contributors) {
+	public Translators(ConcurrentMap<String, Contributor> contributors) {
 		this.contributors = contributors;
 		
 		// Translators - German
@@ -32,6 +32,8 @@ public class TranslatorList {
 		// Translators - Vietnamese
 		addTranslator("huynhqtienvtag", "vi", false);
 		addTranslator("JustMangoT", "JFF_JustMango", "vi", true);
+		addTranslator("Julie-Sigtuna", "vi", true);
+		addTranslator("nahkd123", "vi", true);
 		
 		// Translators - Slovak
 		addTranslator("KillerXCoder", "sk", true);

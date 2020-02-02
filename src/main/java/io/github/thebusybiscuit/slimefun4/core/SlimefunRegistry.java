@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
@@ -75,7 +76,7 @@ public class SlimefunRegistry {
 	private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
 	public SlimefunRegistry() {
-		ISlimefunGuide chestGuide = new ChestSlimefunGuide();
+		ISlimefunGuide chestGuide = new ChestSlimefunGuide(SlimefunPlugin.getCfg().getBoolean("options.show-vanilla-recipes-in-guide"));
 		layouts.put(SlimefunGuideLayout.CHEST, chestGuide);
 		layouts.put(SlimefunGuideLayout.CHEAT_SHEET, chestGuide);
 		layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());

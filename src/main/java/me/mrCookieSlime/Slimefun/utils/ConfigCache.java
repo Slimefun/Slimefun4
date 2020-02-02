@@ -15,15 +15,11 @@ public final class ConfigCache {
 	
 	public final int blocksInfoLoadingDelay;
 	
-	public final boolean guideShowVanillaRecipes;
-	
 	public final int emeraldEnchantsLimit;
 	
 	public final boolean legacyDustWasher;
 	public final boolean legacyOreGrinder;
 	public final boolean legacyOreWasher;
-	
-	public int smelteryFireBreakChance;
 	
 	public ConfigCache(Config cfg) {
 		printOutLoading = cfg.getBoolean("options.print-out-loading");
@@ -33,8 +29,6 @@ public final class ConfigCache {
 		researchFireworksEnabled = cfg.getBoolean("options.research-unlock-fireworks");
 		
 		blocksInfoLoadingDelay = cfg.getInt("URID.info-delay");
-		
-		guideShowVanillaRecipes = cfg.getBoolean("options.show-vanilla-recipes-in-guide");
 		
 		emeraldEnchantsLimit = cfg.getInt("options.emerald-enchantment-limit");
 		

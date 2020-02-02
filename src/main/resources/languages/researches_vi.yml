@@ -49,9 +49,7 @@ slimefun:
   miner_talisman: Bùa hộ mệnh khai khác
   hunter_talisman: Bùa hộ mệnh thợ săn
   lava_talisman: Bùa hộ mệnh dung nham
-  water_talisman: 'Bùa hộ mệnh nước
-
-'
+  water_talisman: Bùa hộ mệnh nước
   angel_talisman: Bùa hộ mệnh thiên sứ
   fire_talisman: Bùa hộ mệnh tránh lửa
   lava_crystal: Pha lê dung nham
@@ -80,7 +78,7 @@ slimefun:
   pickaxe_of_the_seeker: Cúp tìm kiếm
   woven_backpack: Ba lô kết lại
   crucible: Nồi nấu kim loại
-  gilded_backpack: Ba lô mạ vàng ( lol )
+  gilded_backpack: Ba lô mạ vàng
   ender_talismans: Bùa hộ mệnh Ender
   magnet: Nam Châm
   empowered_android: Chuỗi truyền Hệ điều hành
@@ -112,18 +110,14 @@ slimefun:
   seismic_axe: Rìu địa chấn
   pickaxe_of_vein_mining: Cúp đào tĩnh mạch
   bound_weapons: Vũ khí linh hồn
-  bound_tools: 'Dụng cụ linh hồn
-
-'
+  bound_tools: Dụng cụ linh hồn
   bound_armor: Giáp linh hồn
   juicer: Thức uống ngon
   repaired_spawner: Lồng được sửa chữa
   enhanced_furnace: Lò nung cường hóa
   more_enhanced_furnaces: Lò nung tốt hơn
   high_tier_enhanced_furnaces: Lò nung cao cấp
-  reinforced_furnace: 'Lò nung được gia cố
-
-'
+  reinforced_furnace: Lò nung được gia cố
   carbonado_furnace: Lò nung cạnh carbon
   electric_motor: Động cơ điện
   block_placer: Máy đặt khối

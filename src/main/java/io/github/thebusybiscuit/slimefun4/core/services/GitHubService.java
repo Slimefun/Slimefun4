@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.github.ContributionsConn
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubConnector;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
-import io.github.thebusybiscuit.slimefun4.core.services.github.TranslatorList;
+import io.github.thebusybiscuit.slimefun4.core.services.github.Translators;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 public class GitHubService {
@@ -49,7 +49,7 @@ public class GitHubService {
 		fuffles.setContribution("&dSkull Texture Artist", 0);
 		contributors.put(fuffles.getName(), fuffles);
 		
-		new TranslatorList(contributors);
+		new Translators(contributors);
 	}
 
 	public void connect(boolean logging) {
