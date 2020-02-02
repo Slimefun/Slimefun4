@@ -446,9 +446,9 @@ public final class SlimefunItems {
 	public static final ItemStack GOLD_24K_BLOCK = new SlimefunItemStack("GOLD_24K_BLOCK", Material.GOLD_BLOCK, "&rGold Block &7(24-Carat)");
 	
 	/*		 Gems 		*/
-	public static final ItemStack SYNTHETIC_DIAMOND = new SlimefunItemStack("SYNTHETIC_DIAMOND", Material.DIAMOND, "&bSynthetic Diamond");
-	public static final ItemStack SYNTHETIC_EMERALD = new SlimefunItemStack("SYNTHETIC_EMERALD", Material.EMERALD, "&bSynthetic Emerald");
-	public static final ItemStack SYNTHETIC_SAPPHIRE = new SlimefunItemStack("SYNTHETIC_SAPPHIRE", "e35032f4d7d01de8ec99d89f8723012d4e74fa73022c4facf1b57c7ff6ff0", "&bSynthetic Sapphire");
+	public static final ItemStack SYNTHETIC_DIAMOND = new SlimefunItemStack("SYNTHETIC_DIAMOND", Material.DIAMOND, "&bSynthetic Diamond", "", "&rThis item can be used in a", "&rworkbench and acts like a normal Diamond");
+	public static final ItemStack SYNTHETIC_EMERALD = new SlimefunItemStack("SYNTHETIC_EMERALD", Material.EMERALD, "&bSynthetic Emerald", "", "&rThis item can be used to", "&rtrade with Villagers");
+	public static final ItemStack SYNTHETIC_SAPPHIRE = new SlimefunItemStack("SYNTHETIC_SAPPHIRE", "e35032f4d7d01de8ec99d89f8723012d4e74fa73022c4facf1b57c7ff6ff0", "&bSynthetic Sapphire", "", "&rThis item can be used in a", "&rworkbench and acts like Lapis Lazuli");
 	public static final ItemStack CARBONADO = new SlimefunItemStack("CARBONADO", "12f4b1577f5160c6893172571c4a71d8b321cdceaa032c6e0e3b60e0b328fa", "&b&lCarbonado", "", "&7&o\"Black Diamond\"");
 	public static final ItemStack RAW_CARBONADO = new SlimefunItemStack("RAW_CARBONADO", "eb49e6ec10771e899225aea73cd8cf03684f411d1415c7323c93cb9476230", "&bRaw Carbonado");
 	

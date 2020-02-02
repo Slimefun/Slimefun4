@@ -1,16 +1,13 @@
 package me.mrCookieSlime.Slimefun.api;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
@@ -101,6 +98,16 @@ public final class Slimefun {
 	 * @param  items     the items to bind, not null
 	 */
 	public static void registerResearch(Research research, ItemStack... items) {
+		for (ItemStack item : items) {
+			research.addItems(SlimefunItem.getByItem(item));
+		}
+		
+		research.register();
+	}
+	
+	public static void registerResearch(NamespacedKey key, int id, String name, int cost, ItemStack... items) {
+		Research research = new Research(key, id, name, cost);
+		
 		for (ItemStack item : items) {
 			research.addItems(SlimefunItem.getByItem(item));
 		}

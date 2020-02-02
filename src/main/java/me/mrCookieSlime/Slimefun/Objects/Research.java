@@ -3,12 +3,15 @@ package me.mrCookieSlime.Slimefun.Objects;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Keyed;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,15 +38,17 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @author TheBusyBiscuit
  * @since 4.0
  */
-public class Research {
+public class Research implements Keyed {
 
 	private static final int[] RESEARCH_PROGRESS = {23, 44, 57, 92};
 
+	private final NamespacedKey key;
 	private final int id;
-	private final List<SlimefunItem> items;
 	private String name;
 	private int cost;
-	private boolean enabled;
+	
+	private final List<SlimefunItem> items = new LinkedList<>();
+	private boolean enabled = true;
 
 	/**
 	 * The constructor for a Research.
@@ -56,6 +61,8 @@ public class Research {
 	 * To speed up, directly setup the research by calling 
 	 * {@link Slimefun#registerResearch(Research, org.bukkit.inventory.ItemStack...)}.
 	 * 
+	 * @deprecated Use the constuctor with {@link NamespacedKey} instead
+	 * 
 	 * @param id Unique integer ID for this research, used for {@link #getByID(int)} and to
 	 *           register it in Researches.yml
 	 * @param name Display name of the research
@@ -63,12 +70,25 @@ public class Research {
 	 * 
 	 * @since 4.0
 	 */
+	@Deprecated
 	public Research(int id, String name, int cost) {
 		this.id = id;
 		this.name = name;
 		this.cost = cost;
-		this.items = new ArrayList<>();
-		this.enabled = true;
+		
+		this.key = new NamespacedKey(SlimefunPlugin.instance, name.replace(' ', '_'));
+	}
+	
+	public Research(NamespacedKey key, int id, String name, int defaultCost) {
+		this.key = key;
+		this.id = id;
+		this.name = name;
+		this.cost = defaultCost;
+	}
+	
+	@Override
+	public NamespacedKey getKey() {
+		return key;
 	}
 	
 	public boolean isEnabled() {
@@ -89,12 +109,20 @@ public class Research {
 	/**
 	 * Gets the display name of the research.
 	 * 
+	 * @deprecated Use {@link Research#getName(Player)} instead. It is localized.
+	 * 
 	 * @return The display name of the research
 	 * 
 	 * @since 4.0
 	 */
+	@Deprecated
 	public String getName() {
 		return name;
+	}
+	
+	public String getName(Player p) {
+		String localized = SlimefunPlugin.getLocal().getResearchName(p, key);
+		return localized != null ? localized: name;
 	}
 
 	/**
@@ -126,7 +154,7 @@ public class Research {
 	 * @since 4.0
 	 */
 	public void addItems(SlimefunItem... items) {
-		for (SlimefunItem item: items) {
+		for (SlimefunItem item : items) {
 			if (item != null) item.bindToResearch(this);
 		}
 	}
@@ -208,7 +236,7 @@ public class Research {
 		if (!instant) {
 			Slimefun.runSync(() -> {
 				p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-				SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", "0%"));
+				SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName(p)).replace("%progress%", "0%"));
 			}, 10L);
 		}
 		
@@ -216,7 +244,7 @@ public class Research {
 			if (!profile.hasUnlocked(this)) {
 				Runnable runnable = () -> {
 					profile.setResearched(this, true);
-					SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName()));
+					SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName(p)));
 					
 					if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, GuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, GuideSettings.FIREWORKS_KEY) == (byte) 1)) {
 						FireworkUtils.launchRandom(p, 1);
@@ -232,14 +260,14 @@ public class Research {
 							runnable.run();
 						}
 						else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
-							SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName()));
+							SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName(p)));
 							
 							for (int i = 1; i < RESEARCH_PROGRESS.length + 1; i++) {
 								int j = i;
 								
 								Slimefun.runSync(() -> {
 									p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-									SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName()).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
+									SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName(p)).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
 								}, i * 20L);
 							}
 							
@@ -272,17 +300,17 @@ public class Research {
 			return;
 		}
 
-		SlimefunPlugin.getResearchCfg().setDefaultValue(this.getID() + ".name", this.getName());
 		SlimefunPlugin.getResearchCfg().setDefaultValue(this.getID() + ".cost", this.getCost());
 		SlimefunPlugin.getResearchCfg().setDefaultValue(this.getID() + ".enabled", true);
-
-		this.name = SlimefunPlugin.getResearchCfg().getString(this.getID() + ".name");
+		
 		this.cost = SlimefunPlugin.getResearchCfg().getInt(this.getID() + ".cost");
 		this.enabled = SlimefunPlugin.getResearchCfg().getBoolean(this.getID() + ".enabled");
 
 		SlimefunPlugin.getRegistry().getResearches().add(this);
+		SlimefunPlugin.getRegistry().getResearchIds().add(this);
+		
 		if (SlimefunPlugin.getSettings().printOutLoading) {
-			Slimefun.getLogger().log(Level.INFO, "Loaded Research \"" + this.getName() + "\"");
+			Slimefun.getLogger().log(Level.INFO, "Loaded Research \"{0}\"", name);
 		}
 	}
 
@@ -373,21 +401,6 @@ public class Research {
 			if (research.hasUnlocked(uuid)) researched.add(research);
 		}
 		return researched;
-	}
-
-	/**
-	 * Convenience method to get the list of unlocked researches
-	 * for a player using his UUID (specified as a String).
-	 * 
-	 * @param uuid String representing the UUID of the player
-	 * @return the list of unlocked researches for the player
-	 * 
-	 * @since 4.0
-	 * @see #getResearches(UUID)
-	 */
-	@Deprecated
-	public static List<Research> getResearches(String uuid) {
-		return getResearches(UUID.fromString(uuid));
 	}
 	
 	@Override

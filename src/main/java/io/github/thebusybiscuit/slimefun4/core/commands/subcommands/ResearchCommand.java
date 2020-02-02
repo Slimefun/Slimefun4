@@ -43,7 +43,10 @@ public class ResearchCommand extends SubCommand {
 					PlayerProfile.get(p, profile -> {
 						if (args[2].equalsIgnoreCase("all")) {
 							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
-								if (!profile.hasUnlocked(res)) SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, res.getName()));
+								if (!profile.hasUnlocked(res)) {
+									SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, res.getName(p)));
+								}
+								
 								res.unlock(p, true);
 							}
 						}
@@ -54,18 +57,11 @@ public class ResearchCommand extends SubCommand {
 							SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
 						}
 						else {
-							Research research = null;
-							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
-								if (res.getName().toUpperCase().replace(' ', '_').equalsIgnoreCase(args[2])) {
-									research = res;
-									break;
-								}
-							}
+							Optional<Research> research = getResearchFromString(args[2]);
 							
-							if (research != null) {
-								research.unlock(p, true);
-								final Research r = research;
-								SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, r.getName()));
+							if (research.isPresent()) {
+								research.get().unlock(p, true);
+								SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(p)));
 							}
 							else {
 								SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, args[2]));
@@ -82,6 +78,16 @@ public class ResearchCommand extends SubCommand {
 		else {
 			SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf research <Player> <all/reset/Research>"));
 		}
+	}
+
+	private Optional<Research> getResearchFromString(String input) {
+		for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
+			if (research.getName().toUpperCase().replace(' ', '_').equalsIgnoreCase(input)) {
+				return Optional.of(research);
+			}
+		}
+		
+		return Optional.empty();
 	}
 
 }

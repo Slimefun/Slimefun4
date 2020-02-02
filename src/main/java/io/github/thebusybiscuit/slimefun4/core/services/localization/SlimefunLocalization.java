@@ -6,6 +6,7 @@ import java.util.function.UnaryOperator;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -28,12 +29,17 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
 	public String getMessage(Player p, String key) {
 		Language language = getLanguage(p);
-		return language.getConfig().getString(key);
+		return language.getMessages().getString(key);
 	}
 
 	public List<String> getMessages(Player p, String key) {
 		Language language = getLanguage(p);
-		return language.getConfig().getStringList(key);
+		return language.getMessages().getStringList(key);
+	}
+
+	public String getResearchName(Player p, NamespacedKey key) {
+		Language language = getLanguage(p);
+		return language.getResearches().getString(key.getNamespace() + "." + key.getKey());
 	}
 
 	@Override

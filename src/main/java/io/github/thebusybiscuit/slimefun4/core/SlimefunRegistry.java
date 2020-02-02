@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
@@ -39,6 +40,7 @@ public class SlimefunRegistry {
 	private final List<SlimefunItem> slimefunItems = new ArrayList<>();
 	private final List<SlimefunItem> enabledItems = new ArrayList<>();
 
+	private final KeyMap<Research> researchIds = new KeyMap<>();
 	private final List<Category> categories = new ArrayList<>();
 	private final List<Research> researches = new LinkedList<>();
 	private final List<MultiBlock> multiblocks = new LinkedList<>();
@@ -129,6 +131,10 @@ public class SlimefunRegistry {
 	
 	public Map<String, SlimefunItem> getSlimefunItemIds() {
 		return slimefunIds;
+	}
+	
+	public KeyMap<Research> getResearchIds() {
+		return researchIds;
 	}
 	
 	public Map<EntityType, Set<ItemStack>> getMobDrops() {

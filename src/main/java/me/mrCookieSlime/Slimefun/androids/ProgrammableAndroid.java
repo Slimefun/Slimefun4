@@ -427,6 +427,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
 										if (log.getY() == b.getRelative(face).getY()) {
 											Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
+											
 											if (sapling.isPresent()) {
 												log.setType(sapling.get());
 											}

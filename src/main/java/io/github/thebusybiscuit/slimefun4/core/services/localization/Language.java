@@ -10,12 +10,13 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 public final class Language {
 
 	private final String id;
-	private final FileConfiguration config;
 	private final ItemStack item;
 
-	public Language(String id, FileConfiguration config, String hash) {
+	private FileConfiguration messages;
+	private FileConfiguration researches;
+
+	public Language(String id, String hash) {
 		this.id = id;
-		this.config = config;
 		
 		item = SkullItem.fromHash(hash);
 		SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
@@ -24,9 +25,21 @@ public final class Language {
 	public String getID() {
 		return id;
 	}
+	
+	public FileConfiguration getMessages() {
+		return messages;
+	}
+	
+	public FileConfiguration getResearches() {
+		return researches;
+	}
 
-	public FileConfiguration getConfig() {
-		return config;
+	public void setMessages(FileConfiguration config) {
+		this.messages = config;
+	}
+
+	public void setResearches(FileConfiguration config) {
+		this.researches = config;
 	}
 
 	public ItemStack getItem() {
