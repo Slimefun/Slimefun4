@@ -257,7 +257,7 @@ public class BlockListener implements Listener {
 				return;
 			}
 		}
-		else if (item != null) {
+		else if (item.getType() != Material.AIR) {
 			for (ItemHandler handler : SlimefunItem.getHandlers(BlockBreakHandler.class)) {
 				if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
 			}
