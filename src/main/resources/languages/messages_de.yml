@@ -90,11 +90,11 @@ guide:
   languages:
     select: Klicke hier um diese Sprache auszuwählen
     select-default: Klicke hier um die Standardsprache auszuwählen
+    selected-language: 'Aktuell ausgewählt:'
     translations:
       lore: Klicke um eine Übersetzung hinzuzufügen
       name: "&aFehlt etwas?"
     updated: "&aFolgende Sprache wurde ausgewählt: &b%lang%"
-    selected-language: 'Aktuell ausgewählt:'
   pages:
     next: Nächste Seite
     previous: Vorherige Seite
@@ -105,13 +105,13 @@ guide:
     message: "&bWonach möchtest du suchen?"
     name: "&7Suche..."
   title:
+    addons: Addons für Slimefun4
+    bugs: Fehlermeldungen
     credits: 'Slimefun4: Mitwirkende'
     languages: Wähle deine bevorzugte Sprache
     main: Slimefun-Handbuch
     settings: Einstellungen & Infos
     wiki: Slimefun4-Wiki
-    addons: Addons für Slimefun4
-    bugs: Fehlermeldungen
   tooltips:
     open-category: Klicke zum Öffnen
     versions-notice: Dies ist sehr wichtig bei Fehlermeldungen!
@@ -121,26 +121,25 @@ languages:
   cs: Tschechisch
   de: Deutsch
   default: Server-Standard
+  el: Griechisch
   en: Englisch
   es: Spanisch
   fr: Französisch
+  he: Hebräisch
   hu: Ungarisch
   id: Indonesisch
   it: Italienisch
   lv: Lettisch
   nl: Niederländisch
   pl: Polnisch
+  pt: Portugiesisch (Portugal)
+  pt-BR: Portugiesisch (Brasilien)
   ru: Russisch
   sk: Slowakisch
   sv: Schwedisch
-  zh-CN: 'Chinesisch (China)'
-  zh-TW: 'Chinesisch (Taiwan)'
-  vi: 'Vietnamesisch'
-  id: 'Indonesisch'
-  el: 'Griechisch'
-  he: 'Hebräisch'
-  pt: 'Portugiesisch (Portugal)'
-  pt-BR: 'Portugiesisch (Brasilien)'
+  vi: Vietnamesisch
+  zh-CN: Chinesisch (China)
+  zh-TW: Chinesisch (Taiwan)
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"
