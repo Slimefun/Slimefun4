@@ -86,6 +86,10 @@ public class LocalizationService extends SlimefunLocalization {
 		;
 	}
 
+	public boolean isLanguageLoaded(String id) {
+		return languages.containsKey(id);
+	}
+
 	@Override
 	public Language getDefaultLanguage() {
 		return defaultLanguage;
