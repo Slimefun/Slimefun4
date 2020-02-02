@@ -27,12 +27,18 @@ guide:
     updated: "&aTwój język został pomyślnie ustawiony na: &b%lang%"
     translations:
       name: "&aCzegoś brakuje?"
+      lore: Kliknij, aby dodać własne tłumaczenie
+    select: Kliknij, aby wybrać ten język
+    select-default: Kliknij, aby wybrać domyślny język
+    selected-language: 'Aktualnie wybrane:'
   title:
     main: Przewodnik Slimefun
     settings: Ustawienia i informacje
     languages: Wybierz preferowany język
     credits: Autorzy Slimefun4
     wiki: Wiki Slimefun4
+    addons: Dodatki dla Slimefun4
+    bugs: Zgłaszanie błędów
   credits:
     commit: Rejestracja zmian
     commits: Rejestracje zmian
@@ -41,11 +47,13 @@ guide:
       wiki: "&3Edytor Wiki"
       resourcepack: "&cArtysta paczki zasobów"
       translator: "&9Tłumacz"
+    profile-link: Kliknij, aby odwiedzić ich profil na GitHub
   pages:
     previous: Poprzednia strona
     next: Kolejna strona
   tooltips:
     versions-notice: Jest to bardzo ważne przy zgłaszaniu błędów!
+    open-category: Kliknij, aby otworzyć
 messages:
   not-researched: "&4Nie masz wystarczającej wiedzy, aby to zrozumieć"
   not-enough-xp: "&4Nie masz wystarczająco doświadczenia, aby to odblokować"
@@ -232,3 +240,8 @@ languages:
   es: Hiszpański
   sv: Szwedzki
   nl: Holenderski
+  ru: Rosyjski
+  zh-TW: Chiński (Tajwan)
+  zh-CN: Chiński (Chiny)
+  pt: Portugalski (Portugalia)
+  pt-BR: Portugalski (Brazylia)
