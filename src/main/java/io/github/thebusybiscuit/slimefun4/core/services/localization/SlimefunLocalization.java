@@ -39,6 +39,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
 	public String getResearchName(Player p, NamespacedKey key) {
 		Language language = getLanguage(p);
+		if (language == null || language.getResearches() == null) return null;
 		return language.getResearches().getString(key.getNamespace() + "." + key.getKey());
 	}
 
