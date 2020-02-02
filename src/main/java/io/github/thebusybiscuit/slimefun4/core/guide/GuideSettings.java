@@ -89,7 +89,6 @@ public final class GuideSettings {
 		menu.addItem(6, new CustomItem(Material.COMPARATOR, 
 				"&eSource Code", 
 				"", 
-				"&7Bytes of Code: &6" + NumberUtils.formatBigNumber(SlimefunPlugin.getGitHubService().getCodeSize()), 
 				"&7Last Activity: &a" + NumberUtils.timeDelta(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", 
 				"&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), 
 				"&7Stars: &e" + SlimefunPlugin.getGitHubService().getStars(), 

@@ -36,6 +36,7 @@
 * Added Organic Food/Fertilizer for Dried Kelp
 * Added many more strings to the messages.yml
 * Added ability to translate messages for Players
+* Added the ability to translate Researches
 
 ### Changes
 * Removed Solar Array

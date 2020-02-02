@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.github.ContributionsConn
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubConnector;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
+import io.github.thebusybiscuit.slimefun4.core.services.github.TranslatorList;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 public class GitHubService {
@@ -30,7 +31,6 @@ public class GitHubService {
 	private int pullRequests = 0;
 	private int forks = 0;
 	private int stars = 0;
-	private int codeBytes = 0;
 	private Date lastUpdate = new Date();
 
 	public GitHubService(String repository) {
@@ -49,62 +49,7 @@ public class GitHubService {
 		fuffles.setContribution("&dSkull Texture Artist", 0);
 		contributors.put(fuffles.getName(), fuffles);
 		
-		// Translators - German
-		addTranslator("TheBusyBiscuit", "de", false);
-		
-		// Translators - French
-		addTranslator("JustDams", "D4ms_", "fr", true);
-		addTranslator("edkerforne", "fr", true);
-		addTranslator("tnthomastn", "fr", true);
-		
-		// Translators - Italian
-		addTranslator("xXDOTTORXx", "it", true);
-		
-		// Translators - Latvian
-		addTranslator("AgnisT", "lv", true);
-		
-		// Translators - Hungarian
-		addTranslator("andris155", "hu", true);
-		
-		// Translators - Vietnamese
-		addTranslator("huynhqtienvtag", "vi", false);
-		addTranslator("JustMangoT", "JFF_JustMango", "vi", true);
-		
-		// Translators - Slovak
-		addTranslator("KillerXCoder", "sk", true);
-		addTranslator("PixelHotDog", "sk", true);
-		
-		// Translators - Russian
-		addTranslator("SoSeDiK", "ru", false);
-		addTranslator("KostaTV", "ru", true);
-		
-		// Translators - Spanish
-		addTranslator("Luu7", "_Luu", "es", true);
-		addTranslator("Vravinite", "es", true);
-		addTranslator("NotUmBr4", "es", true);
-		addTranslator("dbzjjoe", "es", true);
-		
-		// Translators - Swedish
-		addTranslator("NihilistBrew", "ma1yang2", "sv", false);
-		addTranslator("Tra-sh", "TurretTrash", "sv", true);
-		
-		// Translators - Dutch
-		addTranslator("Dr4gonD", "nl", true);
-		addTranslator("svr333", "nl", false);
-		
-		// Translators - Chinese (China)
-		addTranslator("StarWishsama", "StarWish_Sama", "zh-CN", false);
-	}
-
-	private void addTranslator(String name, String language, boolean lock) {
-		addTranslator(name, name, language, lock);
-	}
-
-	private void addTranslator(String name, String alias, String language, boolean lock) {
-		Contributor contributor = contributors.computeIfAbsent(name, user -> new Contributor(alias, "https://github.com/" + user));
-		contributor.setContribution("translator," + language, 0);
-		
-		if (lock) contributor.lock();
+		new TranslatorList(contributors);
 	}
 
 	public void connect(boolean logging) {
@@ -176,30 +121,6 @@ public class GitHubService {
 				return "/issues";
 			}
 		});
-
-		connectors.add(new GitHubConnector(this) {
-
-			@Override
-			public void onSuccess(JsonElement element) {
-				JsonObject object = element.getAsJsonObject();
-				codeBytes = object.get("Java").getAsInt();
-			}
-
-			@Override
-			public String getRepository() {
-				return repository;
-			}
-
-			@Override
-			public String getFileName() {
-				return "languages";
-			}
-
-			@Override
-			public String getURLSuffix() {
-				return "/languages";
-			}
-		});
 	}
 
 	public Set<GitHubConnector> getConnectors() {
@@ -224,10 +145,6 @@ public class GitHubService {
 
 	public int getPullRequests() {
 		return pullRequests;
-	}
-
-	public int getCodeSize() {
-		return codeBytes;
 	}
 
 	public Date getLastUpdate() {
