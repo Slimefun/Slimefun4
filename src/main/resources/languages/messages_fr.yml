@@ -81,20 +81,20 @@ guide:
   credits:
     commit: Contribution
     commits: Contributions
-    profile-link: Cliquez pour visiter leur profil GitHub
     roles:
       developer: "&6Développeur"
+      resourcepack: "&cArtiste du pack de ressource"
       translator: "&9Traducteur"
       wiki: "&3Éditeur du wiki"
-      resourcepack: "&cArtiste du pack de ressource"
+    profile-link: Cliquez pour visiter leurs profils GitHub
   languages:
     select: Cliquez pour sélectionner cette langue
     select-default: Cliquez pour sélectionner la langue par défaut
+    selected-language: 'Actuellement Sélectionné :'
     translations:
       lore: Cliquez pour ajouter votre propre traduction
       name: "&aIl manque quelque chose ?"
     updated: "&aVotre langue a été correctement définie à : &b%lang%"
-    selected-language: 'Actuellement sélectionné:'
   pages:
     next: Page suivante
     previous: Page précédente
@@ -105,12 +105,12 @@ guide:
     message: "&bQue souhaitez-vous rechercher?"
     name: "&7Rechercher..."
   title:
+    addons: Extensions de Slimefun4
+    bugs: Signaler un bug
     credits: Contributeurs de Slimefun4
     languages: Choisissez votre langue
     main: Guide Slimefun
     settings: Paramètres et informations
-    addons: Extensions de Slimefun4
-    bugs: Signaler un bug
     wiki: Wiki Slimefun4
   tooltips:
     open-category: Cliquez pour ouvrir
@@ -122,25 +122,25 @@ languages:
   cs: Tchèque
   de: Allemand
   default: Paramètre par défaut
+  el: Grec
   en: Anglais
   es: Espagnol
   fr: Français
+  he: Hébreu
   hu: Hongrois
+  id: indonésien
   it: Italien
   lv: Letton
   nl: Néerlandais
   pl: Polonais
+  pt: Portugais (Portugal)
+  pt-BR: Portugais (Brésil)
   ru: Russe
   sk: Slovaque
   sv: Suédois
   vi: Vietnamien
-  zh-TW: Chinois (Taiwan)
   zh-CN: Chinois (Chine)
-  el: Grec
-  he: Hébreu
-  pt: Portugais (Portugal)
-  pt-BR: Portugais (Brésil)
-  id: indonésien
+  zh-TW: Chinois (Taiwan)
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
