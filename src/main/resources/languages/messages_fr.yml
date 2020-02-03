@@ -47,7 +47,6 @@ backpack:
   already-open: "&cDésolé, ce Backpack est ouvert quelque part ailleurs !"
   no-stack: "&cVous ne pouvez pas stack les Backpacks"
 commands:
-  cheat: Vous permet de tricher des objets
   give: Donne à quelqu'un des objets Slimefun
   guide: Vous donne un guide Slimefun
   help: Affiche cet écran d'aide
@@ -61,8 +60,8 @@ commands:
   teleporter: Affiche les waypoints d'un autre joueur
   timings: Informations sur la latence de votre serveur
   versions: Affiche toutes les extensions  installées
+  cheat: Vous permet de vous donnez des objets
 gps:
-  deathpoint: "&4Endroit de la mort &7%date%"
   geo:
     scan-required: "&4GEO-scan requis ! &cScannez d'abord ce chunk en utilisant un
       GEO-Scanner."
@@ -75,18 +74,17 @@ gps:
     max: "&4Vous avez atteint le nombre maximum de waypoint"
     new: "&eEntrez un nom pour votre nouveau waypoint dans le chat. &7(Les codes couleur
       sont acceptés !)"
+  deathpoint: "&4Lieu de votre mort &7%date%"
 guide:
-  cheat:
-    no-multiblocks: "&4Vous ne pouvez pas cheat les multiblocs, vous devez les construire!"
   credits:
     commit: Contribution
     commits: Contributions
+    profile-link: Cliquez pour visiter leurs profils GitHub
     roles:
       developer: "&6Développeur"
       resourcepack: "&cArtiste du pack de ressource"
       translator: "&9Traducteur"
       wiki: "&3Éditeur du wiki"
-    profile-link: Cliquez pour visiter leurs profils GitHub
   languages:
     select: Cliquez pour sélectionner cette langue
     select-default: Cliquez pour sélectionner la langue par défaut
@@ -94,7 +92,7 @@ guide:
     translations:
       lore: Cliquez pour ajouter votre propre traduction
       name: "&aIl manque quelque chose ?"
-    updated: "&aVotre langue a été correctement définie à : &b%lang%"
+    updated: "&aVotre langue a été correctement définie sur : &b%lang%"
   pages:
     next: Page suivante
     previous: Page précédente
@@ -116,6 +114,9 @@ guide:
     open-category: Cliquez pour ouvrir
     versions-notice: Ces informations sont très importantes lorsque vous rapportez
       des bugs !
+  cheat:
+    no-multiblocks: "&4Vous ne pouvez pas vous donnez les multiblocs, vous devez les
+      construire!"
 inventory:
   no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
 languages:
@@ -128,7 +129,6 @@ languages:
   fr: Français
   he: Hébreu
   hu: Hongrois
-  id: indonésien
   it: Italien
   lv: Letton
   nl: Néerlandais
@@ -185,7 +185,7 @@ messages:
   disabled-item: "&4&lCet Item a été désactivé! Comment t'as fait pour avoir ça?"
   fire-extinguish: "&7Vous avez arrêté de brûler"
   fortune-cookie:
-  - "&7Aidez-moi, je suis coincé dans une usine à Cookie Chinois"
+  - 
   - "&7Vous allez mourir demain... par un Creeper"
   - "&7Quelque chose de mal vous arrivera à un moment de votre vie !"
   - "&7La semaine prochaine, vous vous rendrez compte que ce monde n'est pas réel
@@ -202,14 +202,11 @@ messages:
   give-research: '&bVous avez débloqué la recherche "%research%&7" à %player%'
   hungry: "&cVous avez trop faim pour faire ça!"
   link-prompt: "&eCliquez ici :"
-  mode-change: "&b%device% vous avez changez votre mode en : &9%mode%"
   multimeter: "&bÉnergie stockée: &3%stored% &b/ &3%capacity%"
   no-iron-golem-heal: "&cCela n'est pas un lingot de fer. Vous ne pouvez pas l'utiliser
     pour soigner des golems de fer !"
   no-permission: "&4Vous n'avez pas les permissions requises pour faire ceci"
   no-pvp: "&cVous ne pouvez pas PvP ici !"
-  not-enough-xp: "&4Vous n'avez pas suffisamment d'expérience pour déverrouiller ceci"
-  no-tome-yourself: "&cVous ne pouvez pas utiliser le &4Tome of Knowledge &csur vous..."
   not-online: "&4%player% &cn'est pas en ligne!"
   not-researched: "&4Vous n'avez pas suffisamment de connaissances pour comprendre
     ceci"
@@ -226,9 +223,9 @@ messages:
     progress: "&7Vous commencez à vous poser des questions sur &b%research% &e(%progress%)"
     start: "&7Les esprits anciens vous chuchotent des mots mystérieux à l'oreille!"
   soulbound-rune:
-    fail: "&cVous pouvez seulement lier un objet à la fois à votre âme."
     success: "&aVous avez réussi à lier cet objet à votre âme! Vous le garderez quand
       vous mourrez."
+    fail: "&cVous pouvez lier un seul objet à la fois à votre âme"
   talisman:
     angel: "&a&oVotre talisman vous a évité de subir des dégâts de chute"
     anvil: "&a&oVotre Talisman a empêché votre outil de casser"
@@ -237,16 +234,18 @@ messages:
     knight: "&a&oVotre talisman vous a donné 5 secondes de régénération"
     lava: "&a&oVotre talisman vous a sauvé de la lave"
     magician: "&a&oVotre talisman vous a donné un enchantement supplémentaire"
-    miner: "&a&oVotre talisman a doublé votre récolte"
     traveller: "&a&oVotre talisman vous a donné une amélioration de vitesse"
     warrior: "&a&oVotre talisman a amélioré votre force pour un temps"
     water: "&a&oVotre talisman vous a évité la noyade"
     whirlwind: "&a&oVotre talisman a renvoyé le projectile"
     wizard: "&a&oVotre talisman vous a donné un meilleur niveau de Fortune mais a
       peut-être diminué plusieurs autres enchantements"
+    miner: "&a&oVotre talisman a doublé votre drop"
   unknown-player: "&4Joueur inconnu : &c%player%"
   unlocked: '&bVous avez déverrouillé &7"%research%"'
   usage: "&4Utilisation: &c%usage%"
+  not-enough-xp: "&4Vous n'avez pas suffisamment d'XP pour déverrouiller ceci"
+  mode-change: 'Vous avez changé votre &b%device% en mode : &9%mode%'
 miner:
   no-ores: "&eDésolé, je n'ai pas pu trouver de minerai à proximité !"
 workbench:
