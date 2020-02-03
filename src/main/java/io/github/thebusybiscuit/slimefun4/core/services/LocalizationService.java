@@ -79,11 +79,12 @@ public class LocalizationService extends SlimefunLocalization {
 
 	@Override
 	public boolean hasLanguage(String language) {
-		// Checks if our jar files contains a .yml file for this id
-		return 
-			plugin.getClass().getResource("/languages/messages_" + language + ".yml") != null 
-			|| plugin.getClass().getResource("/languages/researches_" + language + ".yml") != null
-		;
+		// Checks if our jar files contains any .yml file for this id
+		return containsResource("messages_" + language) || containsResource("researches_" + language);
+	}
+	
+	private boolean containsResource(String file) {
+		return plugin.getClass().getResource("/languages/" + file + ".yml") != null;
 	}
 
 	public boolean isLanguageLoaded(String id) {
