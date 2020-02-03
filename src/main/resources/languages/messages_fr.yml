@@ -141,6 +141,7 @@ languages:
   vi: Vietnamien
   zh-CN: Chinois (Chine)
   zh-TW: Chinois (Taiwan)
+  id: Indonésien
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
@@ -185,7 +186,7 @@ messages:
   disabled-item: "&4&lCet Item a été désactivé! Comment t'as fait pour avoir ça?"
   fire-extinguish: "&7Vous avez arrêté de brûler"
   fortune-cookie:
-  - 
+  - "&7Aidez-moi, je suis coincé dans une usine à Biscuit Chinois !"
   - "&7Vous allez mourir demain... par un Creeper"
   - "&7Quelque chose de mal vous arrivera à un moment de votre vie !"
   - "&7La semaine prochaine, vous vous rendrez compte que ce monde n'est pas réel
