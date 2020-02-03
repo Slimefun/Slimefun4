@@ -120,7 +120,7 @@ public class Category {
 	}
 	
 	public ItemStack getItem(Player p) {
-		return new CustomItem(item, meta -> meta.setLore(Arrays.asList("", ChatColor.GREEN + "> " + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category"))));
+		return new CustomItem(item, meta -> meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category"))));
 	}
 
 	/**
