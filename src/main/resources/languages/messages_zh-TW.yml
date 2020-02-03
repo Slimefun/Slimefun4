@@ -36,7 +36,7 @@ guide:
       translator: "&9翻譯人員"
       developer: "&6開發人員"
     commit: 成員
-    commits: "\t\n成員"
+    commits: "成員"
     profile-link: 點擊觀看他們在GitHub上的個人資料
   cheat:
     no-multiblocks: "&4您不能靠作弊取得多方塊結構機械，你必須用蓋的！"
@@ -97,9 +97,7 @@ messages:
     success: "&a您已成功將此物品綁定魂綁!死後不會噴掉。"
   research:
     start: "&7遠古之靈在你耳邊低語!"
-    progress: |-
-      &7你開始研究&b%research%
-      &e(%progress%)
+    progress: "&7你開始研究&b%research% &e(%progress%)"
   fire-extinguish: "&7你熄滅身上的火"
   cannot-place: "&c那裡不能放方塊!"
   no-pvp: "&c這裡不准打架!"
@@ -173,7 +171,7 @@ android:
   started: "&7機器人繼續運作"
   stopped: "&7機器人暫停運作"
   scripts:
-    already-uploaded: "&程式已上傳"
+    already-uploaded: "&4程式已上傳"
     instructions:
       START: "&2執行程式"
       REPEAT: "&9重複程式"
