@@ -17,9 +17,7 @@ slimefun:
   sword_of_beheading: Dekapiterings Svärd
   basic_circuit_board: Normalt Kretskort
   advanced_circuit_board: Avancerat Kretskort
-  smeltery: 'Smältnings Station
-
-'
+  smeltery: Smältnings Station
   steel: Järn Åldern
   misc_power_items: Viktiga kraft-relaterade Föremål
   battery: Ditt första Batteri
@@ -68,9 +66,7 @@ slimefun:
   magician_talisman: Magikerns Talisman
   traveller_talisman: Resenärens Talisman
   warrior_talisman: Krigarens Talisman
-  knight_talisman: 'Riddarens Talisman
-
-'
+  knight_talisman: Riddarens Talisman
   gilded_iron: Skinande Järn
   synthetic_emerald: Falsk  Ädelsten
   chainmail_armor: Ring Rustning
@@ -144,9 +140,7 @@ slimefun:
   duct_tape: Silvertejp
   plastic_sheet: Plast
   android_memory_core: Minnes Kärna
-  oil: 'Olja
-
-'
+  oil: Olja
   fuel: Bränsle
   hologram_projector: Hologram
   capacitors: Grad 1 Kondensatorer
@@ -226,9 +220,7 @@ slimefun:
   radiant_backpack: Strålnings Ryggsäck
   auto_drier: En Torr Dag
   diet_cookie: Diet Kaka
-  storm_staff: 'Storm Stav
-
-'
+  storm_staff: Storm Stav
   soulbound_rune: Själsbunden Runa
   geo_miner: GEO-Gruvarbetare
   lightning_rune: Blixt Runa

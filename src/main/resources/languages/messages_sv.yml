@@ -19,7 +19,7 @@ android:
       FARM_EXOTIC_DOWN: "&bAvancerad Skördning och Plantering &7(Blocket under)"
       FARM_EXOTIC_FORWARD: "&bAvancerad Skördning och Plantering"
       FARM_FORWARD: "&bSkörda och Plantera"
-      GO_DOWN: "&7Gå neråt\n"
+      GO_DOWN: "&7Gå neråt"
       GO_FORWARD: "&7Gå frammåt"
       GO_UP: "&7Gå uppåt"
       INTERFACE_FUEL: "&cDra Bränsle från det mötande Gränssnittet"
@@ -107,9 +107,7 @@ guide:
     main: Slimefun-handbok
     settings: Inställningar & Info
     wiki: Slimefun4 Wiki
-    addons: 'Tilläg till Slimefun4
-
-'
+    addons: Tilläg till Slimefun4
     bugs: Bugg Rapporter
   tooltips:
     open-category: Klicka här för att öppna
