@@ -33,17 +33,7 @@ public class MetricsService extends Metrics {
 			}
 		}));
 
-		addCustomChart(new SimplePie("branch", () -> {
-			if (plugin.getDescription().getVersion().startsWith("DEV - ")) {
-				return "master";
-			}
-			else if (plugin.getDescription().getVersion().startsWith("RC - ")) {
-				return "stable";
-			}
-			else {
-				return "Unknown";
-			}
-		}));
+		addCustomChart(new SimplePie("branch", SlimefunPlugin.getUpdater().getBranch()::getName));
 
 		addCustomChart(new SimplePie("language", () -> {
 			Language language = SlimefunPlugin.getLocal().getDefaultLanguage();
