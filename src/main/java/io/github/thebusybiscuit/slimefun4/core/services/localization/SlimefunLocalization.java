@@ -14,7 +14,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-public abstract class SlimefunLocalization extends Localization implements Keyed{
+public abstract class SlimefunLocalization extends Localization implements Keyed {
 
 	public SlimefunLocalization(SlimefunPlugin plugin) {
 		super(plugin);

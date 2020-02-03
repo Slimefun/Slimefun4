@@ -293,7 +293,7 @@ public final class GuideSettings {
 		int slot = 10;
 		
 		for (Language language : SlimefunPlugin.getLocal().getLanguages()) {
-			menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")),
+			menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "&7( " + language.getProgress() + "% )", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")),
 			(pl, i, item, action) -> {
 				PersistentDataAPI.setString(pl, SlimefunPlugin.getLocal().getKey(), language.getID());
 				
