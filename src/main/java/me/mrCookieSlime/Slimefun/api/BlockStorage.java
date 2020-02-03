@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,9 +44,9 @@ public class BlockStorage {
 	private static final String PATH_CHUNKS = "data-storage/Slimefun/stored-chunks/";
 	
 	private World world;
-	private Map<Location, Config> storage = new HashMap<>();
-	private Map<Location, BlockMenu> inventories = new HashMap<>();
-	private Map<String, Config> blocksCache = new HashMap<>();
+	private Map<Location, Config> storage = new ConcurrentHashMap<>();
+	private Map<Location, BlockMenu> inventories = new ConcurrentHashMap<>();
+	private Map<String, Config> blocksCache = new ConcurrentHashMap<>();
 	
 	public static BlockStorage getStorage(World world) {
 		return SlimefunPlugin.getRegistry().getWorlds().get(world.getName());

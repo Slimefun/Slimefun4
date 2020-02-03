@@ -46,6 +46,12 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 	private static final int[] RECIPE_SLOTS = {3, 4, 5, 12, 13, 14, 21, 22, 23};
 	private static final int CATEGORY_SIZE = 36;
 
+    private final boolean showVanillaRecipes;
+
+    public ChestSlimefunGuide(boolean showVanillaRecipes) {
+        this.showVanillaRecipes = showVanillaRecipes;
+    }
+
 	@Override
 	public SlimefunGuideLayout getLayout() {
 		return SlimefunGuideLayout.CHEST;
@@ -346,7 +352,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			return;
 		}
 
-		if (!SlimefunPlugin.getSettings().guideShowVanillaRecipes) {
+		if (!showVanillaRecipes) {
 			return;
 		}
 

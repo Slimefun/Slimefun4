@@ -9,36 +9,49 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class Language {
 
-	private final String id;
-	private final FileConfiguration config;
-	private final ItemStack item;
+    private final String id;
+    private final ItemStack item;
 
-	public Language(String id, FileConfiguration config, String hash) {
-		this.id = id;
-		this.config = config;
-		
-		item = SkullItem.fromHash(hash);
-		SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
-	}
+    private FileConfiguration messages;
+    private FileConfiguration researches;
 
-	public String getID() {
-		return id;
-	}
+    public Language(String id, String hash) {
+        this.id = id;
 
-	public FileConfiguration getConfig() {
-		return config;
-	}
+        item = SkullItem.fromHash(hash);
+        SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
+    }
 
-	public ItemStack getItem() {
-		return item;
-	}
+    public String getID() {
+        return id;
+    }
 
-	public String getName(Player p) {
-		return SlimefunPlugin.getLocal().getMessage(p, "languages." + id);
-	}
+    public FileConfiguration getMessages() {
+        return messages;
+    }
 
-	public boolean isDefault() {
-		return this == SlimefunPlugin.getLocal().getDefaultLanguage();
-	}
+    public FileConfiguration getResearches() {
+        return researches;
+    }
+
+    public void setMessages(FileConfiguration config) {
+        this.messages = config;
+    }
+
+    public void setResearches(FileConfiguration config) {
+        this.researches = config;
+    }
+
+    public ItemStack getItem() {
+        return item;
+    }
+
+    public String getName(Player p) {
+        return SlimefunPlugin.getLocal().getMessage(p, "languages." + id);
+    }
+
+    public boolean isDefault() {
+        return this == SlimefunPlugin.getLocal().getDefaultLanguage();
+    }
 
 }

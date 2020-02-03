@@ -36,7 +36,7 @@ guide:
 
   languages:
     updated: '&aYour language was successfully set to: &b%lang%'
-    selected-language: 'Currently selected: '
+    selected-language: 'Currently selected:'
     select: 'Click to select this language'
     select-default: 'Click to select the default language'
     translations:

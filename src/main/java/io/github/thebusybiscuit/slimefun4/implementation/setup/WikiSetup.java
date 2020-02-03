@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Setup;
+package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import java.io.BufferedReader;
 import java.io.IOException;

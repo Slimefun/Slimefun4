@@ -30,6 +30,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class Smeltery extends MultiBlockMachine {
+    private int fireBreakingChance;
 
 	public Smeltery() {
 		super(
@@ -44,7 +45,14 @@ public class Smeltery extends MultiBlockMachine {
 				new String[] {"chance.fireBreak"}, new Integer[] {34}
 		);
 	}
-	
+
+    @Override
+    public void postRegister() {
+        super.postRegister();
+
+        fireBreakingChance = (int) Slimefun.getItemValue(getID(), "chance.fireBreak");
+    }
+
 	@Override
 	public List<ItemStack> getDisplayRecipes() {
 		List<ItemStack> items = new ArrayList<>();
@@ -87,7 +95,7 @@ public class Smeltery extends MultiBlockMachine {
 
 						Hopper chamber = findHopper(dispBlock, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
-						if (ThreadLocalRandom.current().nextInt(100) < SlimefunPlugin.getSettings().smelteryFireBreakChance) {
+                        if (ThreadLocalRandom.current().nextInt(100) < fireBreakingChance) {
 							if (chamber != null) {
 								if (chamber.getInventory().contains(Material.FLINT_AND_STEEL)) {
 									ItemStack item = chamber.getInventory().getItem(chamber.getInventory().first(Material.FLINT_AND_STEEL));

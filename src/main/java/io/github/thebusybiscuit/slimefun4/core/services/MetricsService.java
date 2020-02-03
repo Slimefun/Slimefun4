@@ -12,54 +12,55 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class MetricsService extends Metrics {
 
-	public MetricsService(SlimefunPlugin plugin) {
-		super(plugin);
+    public MetricsService(SlimefunPlugin plugin) {
+        super(plugin);
 
-		addCustomChart(new SimplePie("auto_updates", () -> 
-			SlimefunPlugin.getCfg().getBoolean("options.auto-update") ? "enabled": "disabled"
-		));
+        addCustomChart(new SimplePie("auto_updates", () ->
+                SlimefunPlugin.getCfg().getBoolean("options.auto-update") ? "enabled": "disabled"
+        ));
 
-		addCustomChart(new SimplePie("resourcepack", () -> {
-			String version = SlimefunPlugin.getItemTextureService().getVersion();
+        addCustomChart(new SimplePie("resourcepack", () -> {
+            String version = SlimefunPlugin.getItemTextureService().getVersion();
 
-			if (version != null && version.startsWith("v")) {
-				return version + " (Official)";
-			}
-			else if (SlimefunPlugin.getItemTextureService().isActive()) {
-				return "Custom / Modified";
-			}
-			else {
-				return "None";
-			}
-		}));
+            if (version != null && version.startsWith("v")) {
+                return version + " (Official)";
+            }
+            else if (SlimefunPlugin.getItemTextureService().isActive()) {
+                return "Custom / Modified";
+            }
+            else {
+                return "None";
+            }
+        }));
 
-		addCustomChart(new SimplePie("branch", () -> {
-			if (plugin.getDescription().getVersion().startsWith("DEV - ")) {
-				return "master";
-			}
-			else if (plugin.getDescription().getVersion().startsWith("RC - ")) {
-				return "stable";
-			}
-			else {
-				return "Unknown";
-			}
-		}));
+        addCustomChart(new SimplePie("branch", () -> {
+            if (plugin.getDescription().getVersion().startsWith("DEV - ")) {
+                return "master";
+            }
+            else if (plugin.getDescription().getVersion().startsWith("RC - ")) {
+                return "stable";
+            }
+            else {
+                return "Unknown";
+            }
+        }));
 
-		addCustomChart(new SimplePie("language", () -> {
-			Language language = SlimefunPlugin.getLocal().getDefaultLanguage();
-			return language.getID();
-		}));
+        addCustomChart(new SimplePie("language", () -> {
+            Language language = SlimefunPlugin.getLocal().getDefaultLanguage();
+            return SlimefunPlugin.getLocal().isLanguageLoaded(language.getID()) ? language.getID(): "Unsupported Language";
+        }));
 
-		addCustomChart(new AdvancedPie("player_languages", () -> {
-			Map<String, Integer> languages = new HashMap<>();
+        addCustomChart(new AdvancedPie("player_languages", () -> {
+            Map<String, Integer> languages = new HashMap<>();
 
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				Language lang = SlimefunPlugin.getLocal().getLanguage(p);
-				languages.merge(lang.getID(), 1, Integer::sum);
-			}
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                Language language = SlimefunPlugin.getLocal().getLanguage(p);
+                String lang = SlimefunPlugin.getLocal().isLanguageLoaded(language.getID()) ? language.getID(): "Unsupported Language";
+                languages.merge(lang, 1, Integer::sum);
+            }
 
-			return languages;
-		}));
-	}
+            return languages;
+        }));
+    }
 
 }

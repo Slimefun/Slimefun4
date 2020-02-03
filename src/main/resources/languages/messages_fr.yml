@@ -83,16 +83,17 @@ guide:
     commits: Contributions
     roles:
       developer: "&6Développeur"
-      resourcepack: "&cArtiste de pack de ressources"
+      resourcepack: "&cArtiste du pack de ressource"
       translator: "&9Traducteur"
       wiki: "&3Éditeur du wiki"
-    profile-link: Cliquez pour visiter leur profil GitHub
+    profile-link: Cliquez pour visiter leurs profils GitHub
   languages:
     select: Cliquez pour sélectionner cette langue
     select-default: Cliquez pour sélectionner la langue par défaut
+    selected-language: 'Actuellement Sélectionné :'
     translations:
-      name: "&aIl manque quelque chose ?"
       lore: Cliquez pour ajouter votre propre traduction
+      name: "&aIl manque quelque chose ?"
     updated: "&aVotre langue a été correctement définie à : &b%lang%"
   pages:
     next: Page suivante
@@ -104,29 +105,42 @@ guide:
     message: "&bQue souhaitez-vous rechercher?"
     name: "&7Rechercher..."
   title:
+    addons: Extensions de Slimefun4
+    bugs: Signaler un bug
     credits: Contributeurs de Slimefun4
     languages: Choisissez votre langue
     main: Guide Slimefun
     settings: Paramètres et informations
+    wiki: Wiki Slimefun4
+  tooltips:
+    open-category: Cliquez pour ouvrir
+    versions-notice: Ces informations sont très importantes lorsque vous rapportez
+      des bugs !
 inventory:
   no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
 languages:
+  cs: Tchèque
   de: Allemand
   default: Paramètre par défaut
+  el: Grec
   en: Anglais
+  es: Espagnol
   fr: Français
+  he: Hébreu
+  hu: Hongrois
+  id: indonésien
   it: Italien
+  lv: Letton
   nl: Néerlandais
   pl: Polonais
-  sv: Suédois
-  es: Espagnol
-  cs: Tchèque
-  hu: Hongrois
-  lv: Letton
+  pt: Portugais (Portugal)
+  pt-BR: Portugais (Brésil)
   ru: Russe
   sk: Slovaque
-  zh-TW: Chinois (Taiwan)
+  sv: Suédois
   vi: Vietnamien
+  zh-CN: Chinois (Chine)
+  zh-TW: Chinois (Taiwan)
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux

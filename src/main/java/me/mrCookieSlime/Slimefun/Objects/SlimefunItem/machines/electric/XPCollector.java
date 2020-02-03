@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.Iterator;
 
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -108,9 +109,9 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			BlockMenu menu = BlockStorage.getInventory(b);
 			
 			for (int level = 0; level < getEXP(b); level = level + 10) {
-				if (menu.fits(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), getOutputSlots())) {
+				if (menu.fits(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, getOutputSlots())) {
 					withdrawn = withdrawn + 10;
-					menu.pushItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), getOutputSlots());
+					menu.pushItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, getOutputSlots());
 				}
 			}
 			BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));

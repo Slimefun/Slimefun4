@@ -62,6 +62,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListe
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
+
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
@@ -71,10 +72,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.tasks.ArmorTask;
-import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
-import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
-import me.mrCookieSlime.Slimefun.Setup.WikiSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.WikiSetup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -90,7 +91,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	private RecipeSnapshot recipeSnapshot;
 	
-	private final SlimefunRegistry registry = new SlimefunRegistry();
+	private SlimefunRegistry registry;
 	
 	private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
 	private final CustomTextureService textureService = new CustomTextureService(this);
@@ -142,6 +143,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 			// Setup config.yml
 			config = new Config(this);
+            registry = new SlimefunRegistry();
 			settings = new ConfigCache(config);
 
 			// Loading all extra configs
@@ -180,7 +182,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 			ResearchSetup.setupResearches();
 
 			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-			settings.smelteryFireBreakChance = (int) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			MiscSetup.setupMisc();
 			WikiSetup.addWikiPages(this);

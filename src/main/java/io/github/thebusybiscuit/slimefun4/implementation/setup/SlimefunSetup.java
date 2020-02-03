@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Setup;
+package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -3078,10 +3079,4 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.NETHER_STAR), SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO_EDGED_CAPACITOR})
 		.registerChargeableBlock(true, 4096);
 	}
-	
-	@Deprecated
-	public static void registerPostHandler(PostSlimefunLoadingHandler handler) {
-		SlimefunPlugin.getRegistry().getPostHandlers().add(handler);
-	}
-
 }

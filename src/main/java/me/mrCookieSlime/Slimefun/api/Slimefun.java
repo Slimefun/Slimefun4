@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -107,6 +108,16 @@ public final class Slimefun {
 		
 		research.register();
 	}
+
+    public static void registerResearch(NamespacedKey key, int id, String name, int cost, ItemStack... items) {
+        Research research = new Research(key, id, name, cost);
+
+        for (ItemStack item : items) {
+            research.addItems(SlimefunItem.getByItem(item));
+        }
+
+        research.register();
+    }
 
 	/**
 	 * Checks if this player can use this item.
