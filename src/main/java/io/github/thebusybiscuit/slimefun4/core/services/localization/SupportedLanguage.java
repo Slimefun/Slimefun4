@@ -21,7 +21,7 @@ public enum SupportedLanguage {
     VIETNAMESE("vi", "8a57b9d7dd04169478cfdb8d0b6fd0b8c82b6566bb28371ee9a7c7c1671ad0bb"),
     INDONESIAN("id", "5db2678ccaba7934412cb97ee16d416463a392574c5906352f18dea42895ee"),
     CHINESE_CHINA("zh-CN", "7f9bc035cdc80f1ab5e1198f29f3ad3fdd2b42d9a69aeb64de990681800b98dc"),
-    CHINESE_TAIWAN("zh-TW", "8a57b9d7dd04169478cfdb8d0b6fd0b8c82b6566bb28371ee9a7c7c1671ad0bb"),
+    CHINESE_TAIWAN("zh-TW", "702a4afb2e1e2e3a1894a8b74272f95cfa994ce53907f9ac140bd3c932f9f"),
     HEBREW("he", "1ba086a2cc7272cf5ba49c80248546c22e5ef1bab54120e8a8e5d9e75b6a");
 
     private final String id;
