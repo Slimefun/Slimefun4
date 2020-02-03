@@ -2,7 +2,7 @@
 欢迎来到 Slimefun 4 的汉化版页面. Slimefun 是一个致力于提供模组般体验的插件. 它提供了你能想到的一切, 从背包到喷气背包!
 它添加了多达 490 种新物品给玩家提供新的生存体验!
 
-除此之外, Slimefun 还有一大堆的附属插件[附属](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons).
+除此之外, Slimefun 还有一大堆的附属插件 [附属列表戳我](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons).
 
 Slimefun 4 以 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE) 协议开源
 
@@ -49,9 +49,9 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 
 ## 数据收集
 Slimefun4 使用多种系统收集或下载数据.<br>
-我们不会收集任何你的个人信息, 这有一份名单, 记录了可能收集或下载其他种类数据的服务.
+我们不会收集任何你的个人信息, 但以下服务可能收集或下载其他种类数据.
 
-### Auto-Updates
+### 自动更新
 Slimefun4 使用连接至 https://thebusybiscuit.github.io/builds/ 的自动更新器检查并下载更新.<br>
 自动更新默认打开, 但你可以在 `/plugins/Slimefun/config.yml` 下关闭<br>
 
