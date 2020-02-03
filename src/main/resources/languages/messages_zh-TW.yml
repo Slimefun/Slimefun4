@@ -12,6 +12,7 @@ commands:
   research:
     description: 解鎖/重置玩家的研究項目
     reset-target: "&c你變回笨蛋了"
+    reset: "&c你已使%player%變回智障"
   versions: 列出所有已安裝的附屬插件
 guide:
   search:
@@ -27,11 +28,13 @@ guide:
     credits: Slimefun4貢獻者
     addons: Slimefun4的附加插件
     bugs: 錯誤報告
+    wiki: Slimefun4 Wiki
   credits:
     roles:
       wiki: "&3Wiki編輯人員"
       resourcepack: "&7資源包製作人員"
       translator: "&9翻譯人員"
+      developer: "&6開發人員"
     commit: 成員
     commits: "\t\n成員"
     profile-link: 點擊觀看他們在GitHub上的個人資料
@@ -113,6 +116,7 @@ messages:
   - "&742, 萬物的答案"
   - "&7Walshy會使你每天開開心心\n"
   - "&7不要垂直往下挖!"
+  hungry: "&c你太餓了，做不了這個！"
 machines:
   pattern-not-found: "&e查無此合成表 請確認使用的機器或合成表的材料"
   unknown-material: "&e這個機器不能處理這個物品 請確認使用的機器或合成表的材料"
