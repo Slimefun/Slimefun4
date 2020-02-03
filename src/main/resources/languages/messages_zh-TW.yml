@@ -1,0 +1,49 @@
+---
+commands:
+  help: 顯示此幫助畫面
+  cheat: 允許您以作弊取得物品
+  give: 給其他玩家Slimefun物品
+  guide: 給自己一個Slimefun指南
+  timings: 關於您的伺服器的卡頓信息
+  teleporter: 查看其他玩家的位置標點
+  search: 在指南中搜索輸入的字句
+  open_guide: 打開Slimefun指南(不使用書本)
+  stats: 顯示玩家的統計數據
+  research:
+    description: 解鎖/重置玩家的研究項目
+guide:
+  search:
+    name: "&7搜尋..."
+    lore:
+    - 
+    - "&7請輸入搜尋字句到聊天"
+  title:
+    main: Slimefun指南
+    settings: 設置及資訊
+    languages: 請選擇您偏好的語言
+    credits: Slimefun4貢獻者
+  credits:
+    roles:
+      wiki: "&3Wiki編輯人員"
+      resourcepack: "&7資源包製作人員"
+      translator: "&9翻譯人員"
+messages:
+  only-players: "&4此命令只可由玩家發送"
+  usage: "&4用法: &c%usage%"
+  not-online: "&4%player% &c還未上線!"
+  not-valid-amount: "&4%amount% &c不是有效數量：數值必須大於0!"
+  given-item: '&b你已獲得 &a%amount% &7"%item%&7"'
+  give-item: '&b你已給予%player% &a%amount% &7"%item%&7"'
+  give-research: '&b你已給予%player% 研究項目&7"%research%&7"'
+  mode-change: "&b%device% 模式切換至: &9%mode%"
+  disabled-in-world: "&4&l此物品在此世界中已被禁用"
+  no-tome-yourself: "&c你不能在自己身上使用 &4知識之書&c..."
+  talisman:
+    anvil: "&a&o你的護符免了您的工具於斷裂"
+    miner: "&a&o你的護符剛雙倍了你的掉落"
+    hunter: "&a&o你的護符剛雙倍了你的掉落"
+    lava: "&a&o你的護符把你從被燒死的命運中救出"
+  radiation: "&4你正暴露在致命的輻射之下!&c立即丟棄放射性物品或裝備完整的防護服!"
+  opening-guide: "&b正在打開指南，這可能需要幾秒鐘的時間..."
+  opening-backpack: "&b正在打開背包，這可能需要幾秒鐘的時間..."
+  diet-cookie: "&e你開始覺得很輕..."
