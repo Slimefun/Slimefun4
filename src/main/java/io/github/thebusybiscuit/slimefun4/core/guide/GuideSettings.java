@@ -55,7 +55,7 @@ public final class GuideSettings {
     }
 
     private static void addMenubar(Player p, ChestMenu menu, ItemStack guide) {
-        menu.addItem(0, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 Back", "", "&7Go back to your Slimefun Guide"),
+        menu.addItem(0, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 返回", "", "&7返回到指南"),
                 (pl, slot, item, action) -> {
                     SlimefunGuide.openGuide(pl, guide);
                     return false;
@@ -64,13 +64,12 @@ public final class GuideSettings {
         menu.addItem(2, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTk1MmQyYjNmMzUxYTZiMDQ4N2NjNTlkYjMxYmY1ZjI2NDExMzNlNWJhMDAwNmIxODU3NmU5OTZhMDI5M2U1MiJ9fX0="),
                         "&c" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"),
                         "",
-                        "&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(),
+                        "&7贡献者: &e" + SlimefunPlugin.getGitHubService().getContributors().size(),
                         "",
-                        "&7Slimefun is an open-source project",
-                        "&7and maintained by a large community.",
-                        "&7Here you can find them all",
+                        "&7Slimefun 是一个由大型社区维护的开源项目.",
+                        "&7在这里你可以找到 TA 们",
                         "",
-                        "&7\u21E8 &eClick to see all of them"
+                        "&7\u21E8 &e单击查看 TA 们"
                 ),
                 (pl, slot, action, item) -> {
                     openCredits(pl, 0);
@@ -78,12 +77,12 @@ public final class GuideSettings {
                 });
 
         menu.addItem(4, new CustomItem(Material.WRITABLE_BOOK,
-                "&aSlimefun Version",
+                "&aSlimefun 版本",
                 "&7&o" + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.versions-notice"),
                 "",
-                "&7Minecraft Version: &a" + Bukkit.getBukkitVersion(),
-                "&7Slimefun Version: &a" + SlimefunPlugin.getVersion(),
-                "&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion()
+                "&7Minecraft 版本: &a" + Bukkit.getBukkitVersion(),
+                "&7Slimefun 版本: &a" + SlimefunPlugin.getVersion(),
+                "&7CS-CoreLib 版本: &a" + CSCoreLib.getLib().getDescription().getVersion()
         ),  ChestMenuUtils.getEmptyClickHandler());
 
         menu.addItem(6, new CustomItem(Material.COMPARATOR,
@@ -93,12 +92,12 @@ public final class GuideSettings {
                         "&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(),
                         "&7Stars: &e" + SlimefunPlugin.getGitHubService().getStars(),
                         "",
-                        "&7&oSlimefun 4 is a community project,",
-                        "&7&othe source code is available on GitHub",
-                        "&7&oand if you want to keep this Plugin alive,",
-                        "&7&othen please consider contributing to it",
+                        "&7&oSlimefun 4 是一个社区型项目,",
+                        "&7&o其代码开源在 Github 上",
+                        "&7&o如果你想让插件保持更新,",
+                        "&7&o请考虑为其做出贡献.",
                         "",
-                        "&7\u21E8 &eClick to go to GitHub"
+                        "&7\u21E8 &e单击前往 Github 页面"
                 ),
                 (pl, slot, item, action) -> {
                     pl.closeInventory();
@@ -109,12 +108,12 @@ public final class GuideSettings {
         menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK,
                         "&3" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.wiki"),
                         "",
-                        "&7Do you need help with an Item or machine?",
-                        "&7You cannot figure out what to do?",
-                        "&7Check out our community-maintained Wiki",
-                        "&7and become one of our Editors!",
+                        "&7对物品或机器有问题?",
+                        "&7不知道该怎么做?",
+                        "&7看看我们社区维护的 Wiki 页面吧",
+                        "&7或许你可以为百科编写做出贡献.",
                         "",
-                        "&7\u21E8 &eClick to go to the official Slimefun Wiki"
+                        "&7\u21E8 &e单击前往官方 Slimefun Wiki"
                 ),
                 (pl, slot, item, action) -> {
                     pl.closeInventory();
@@ -125,13 +124,13 @@ public final class GuideSettings {
         menu.addItem(47, new CustomItem(Material.BOOKSHELF,
                         "&3" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.addons"),
                         "",
-                        "&7Slimefun is huge. But its addons are what makes",
-                        "&7this plugin truly shine. Go check them out, some",
-                        "&7of them may be exactly what you were missing out on!",
+                        "&7尽管 Slimefun 是一个庞大的插件,",
+                        "&7但它的附属插件使它能够真正闪耀.",
+                        "&7所以赶紧去看看有什么附属插件吧!",
                         "",
-                        "&7Installed on this Server: &b" + SlimefunPlugin.getInstalledAddons().size(),
+                        "&7服务器安装的附属个数: &b" + SlimefunPlugin.getInstalledAddons().size(),
                         "",
-                        "&7\u21E8 &eClick to see all available Addons for Slimefun4"
+                        "&7\u21E8 &e单击查看 Slimefun4 可用的附属插件"
                 ),
                 (pl, slot, item, action) -> {
                     pl.closeInventory();
@@ -142,12 +141,12 @@ public final class GuideSettings {
         menu.addItem(49, new CustomItem(Material.REDSTONE_TORCH,
                         "&4" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.bugs"),
                         "",
-                        "&7&oBug reports have to be made in English!",
+                        "&7&oBug 反馈必须使用英语!",
                         "",
-                        "&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(),
-                        "&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(),
+                        "&7未解决的问题: &a" + SlimefunPlugin.getGitHubService().getIssues(),
+                        "&7未合并的合并请求: &a" + SlimefunPlugin.getGitHubService().getPullRequests(),
                         "",
-                        "&7\u21E8 &eClick to go to the Slimefun4 Bug Tracker"
+                        "&7\u21E8 &e单击前往 Slimefun4 问题追踪器"
                 ),
                 (pl, slot, item, action) -> {
                     pl.closeInventory();
@@ -156,9 +155,9 @@ public final class GuideSettings {
                 });
 
         menu.addItem(51, new CustomItem(Material.TOTEM_OF_UNDYING,
-                        "&cSoon",
+                        "&c敬请期待",
                         "",
-                        "&7Something will be added here later..."
+                        "&7之后这里会有新东西的..."
                 ),
                 (pl, slot, item, action) -> {
                     // Add something here
@@ -171,7 +170,7 @@ public final class GuideSettings {
 
         if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
             if (p.hasPermission("slimefun.cheat.items")) {
-                menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
+                menu.addItem(i, new CustomItem(Material.CHEST, "&7指南样式: &e箱子界面", "", "&a箱子界面", "&7书本界面", "&7作弊界面", "", "&7\u21E8 &e单击修改指南样式"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
                     openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -179,7 +178,7 @@ public final class GuideSettings {
                 });
             }
             else {
-                menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&7\u21E8 &eClick to change your layout"));
+                menu.addItem(i, new CustomItem(Material.CHEST, "&7指南样式: &e箱子界面", "", "&a箱子界面", "&7书本界面", "", "&7\u21E8 &e单击修改指南样式"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
                     openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -191,7 +190,7 @@ public final class GuideSettings {
         }
         else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
             if (p.hasPermission("slimefun.cheat.items")) {
-                menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
+                menu.addItem(i, new CustomItem(Material.BOOK, "&7指南样式: &e书本界面", "", "&7箱子界面", "&a书本界面", "&7作弊界面", "", "&7\u21E8 &e单击修改指南样式"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEAT_SHEET));
                     openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -199,7 +198,7 @@ public final class GuideSettings {
                 });
             }
             else {
-                menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&7\u21E8 &eClick to change your layout"));
+                menu.addItem(i, new CustomItem(Material.BOOK, "&7指南样式: &e书本界面", "", "&7箱子界面", "&a书本界面", "", "&7\u21E8 &e单击修改指南样式"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
                     openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -210,7 +209,7 @@ public final class GuideSettings {
             i++;
         }
         else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-            menu.addItem(i, new CustomItem(Material.COMMAND_BLOCK, "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
+            menu.addItem(i, new CustomItem(Material.COMMAND_BLOCK, "&7指南样式: &e作弊界面", "", "&7箱子界面", "&7书本界面", "&a作弊界面", "", "&7\u21E8 &e单击修改指南样式"));
             menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                 pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
                 openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -222,7 +221,7 @@ public final class GuideSettings {
 
         if (SlimefunPlugin.getSettings().researchFireworksEnabled) {
             if (!PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1) {
-                menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &aYes", "", "&7When researching items, you will", "&7be presented with a big firework.", "", "&7\u21E8 &eClick to disable your fireworks"),
+                menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&b烟花: &a启用", "", "&7在解锁物品时, 将会燃放一个大烟花", "", "&7\u21E8 &e单击禁用烟花"),
                         (pl, slot, item, action) -> {
                             PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 0);
                             openSettings(pl, guide);
@@ -230,7 +229,7 @@ public final class GuideSettings {
                         });
             }
             else {
-                menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &4No", "", "&7When researching items, you will", "&7not be presented with a big firework.", "", "&7\u21E8 &eClick to enable your fireworks"),
+                menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&b烟花: &4禁用", "", "&7在解锁物品时, 将会燃放一个大烟花", "", "&7\u21E8 &e单击启用烟花"),
                         (pl, slot, item, action) -> {
                             PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 1);
                             openSettings(pl, guide);
@@ -244,7 +243,7 @@ public final class GuideSettings {
         Language language = SlimefunPlugin.getLocal().getLanguage(p);
         String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")"): SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
 
-        menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"),
+        menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7现在你能选择 Slimefun 的语言", "&7请注意: 只能改变文本的语言", "&7并不能将物品的一起修改", "", "&7\u21E8 &e单击修改你的语言"),
                 (pl, slot, item, action) -> {
                     openLanguages(pl);
                     return false;
@@ -259,7 +258,7 @@ public final class GuideSettings {
 
         for (int i = 0; i < 9; i++) {
             if (i == 1) {
-                menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), "&e\u21E6 Back", "", "&7Go back to the Settings Panel")
+                menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), "&e\u21E6 返回", "", "&7返回到设置面板")
                         , (pl, slot, item, action) -> {
                             openSettings(pl, p.getInventory().getItemInMainHand());
                             return false;
@@ -293,7 +292,7 @@ public final class GuideSettings {
         int slot = 10;
 
         for (Language language : SlimefunPlugin.getLocal().getLanguages()) {
-            menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")),
+            menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "&7( " + language.getProgress() + "% )", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")),
                     (pl, i, item, action) -> {
                         PersistentDataAPI.setString(pl, SlimefunPlugin.getLocal().getKey(), language.getID());
 
@@ -321,7 +320,7 @@ public final class GuideSettings {
                 menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
             else {
-                menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), "&e\u21E6 Back", "", "&7Go back to the Settings Panel"));
+                menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), "&e\u21E6 返回", "", "&7返回设置面板"));
                 menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
                     openSettings(pl, p.getInventory().getItemInMainHand());
                     return false;

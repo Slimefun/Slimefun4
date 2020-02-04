@@ -16,6 +16,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.SupportedLanguage;
@@ -79,11 +80,12 @@ public class LocalizationService extends SlimefunLocalization {
 
     @Override
     public boolean hasLanguage(String language) {
-        // Checks if our jar files contains a .yml file for this id
-        return
-                plugin.getClass().getResource("/languages/messages_" + language + ".yml") != null
-                        || plugin.getClass().getResource("/languages/researches_" + language + ".yml") != null
-                ;
+        // Checks if our jar files contains any .yml file for this id
+        return containsResource("messages_" + language) || containsResource("researches_" + language);
+    }
+
+    private boolean containsResource(String file) {
+        return plugin.getClass().getResource("/languages/" + file + ".yml") != null;
     }
 
     public boolean isLanguageLoaded(String id) {
@@ -141,8 +143,30 @@ public class LocalizationService extends SlimefunLocalization {
             language.setMessages(messages);
             language.setResearches(researches);
 
+            if (!id.equals("en")) {
+                language.setProgress(getProgress(language, languages.get("en")));
+            }
+
             languages.put(id, language);
         }
+    }
+
+    private double getProgress(Language language, Language defaultLang) {
+        return DoubleHandler.fixDouble(100.0 * (getTotalKeys(language) / getTotalKeys(defaultLang)));
+    }
+
+    private double getTotalKeys(Language language) {
+        int keys = 0;
+
+        if (language.getMessages() != null) {
+            keys += language.getMessages().getKeys(true).size();
+        }
+
+        if (language.getResearches() != null) {
+            keys += language.getResearches().getKeys(true).size();
+        }
+
+        return keys;
     }
 
     private FileConfiguration streamConfigFile(String file, FileConfiguration defaults) {

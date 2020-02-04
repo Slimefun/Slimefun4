@@ -40,7 +40,7 @@ public abstract class FoodFabricator extends AContainer {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&cFood Fabricator";
+		return "&c有机食物机";
 	}
 
 }

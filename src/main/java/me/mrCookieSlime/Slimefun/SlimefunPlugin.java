@@ -474,6 +474,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 		return instance.blockDataService;
 	}
 
+    public static UpdaterService getUpdater() {
+        return instance.updaterService;
+    }
+
 	public static GitHubService getGitHubService() {
 		return instance.gitHubService;
 	}

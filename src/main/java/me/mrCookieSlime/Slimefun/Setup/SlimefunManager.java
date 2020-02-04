@@ -211,7 +211,7 @@ public final class SlimefunManager {
 			}
 			else if (item.hasItemMeta()) {
 				ItemMeta im = item.getItemMeta();
-				return (im.hasLore() && im.getLore().contains(ChatColor.GRAY + "Soulbound"));
+				return (im.hasLore() && im.getLore().contains(ChatColor.GRAY + "灵魂绑定"));
 			}
 			return false;
 		}

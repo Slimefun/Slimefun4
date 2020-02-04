@@ -48,11 +48,13 @@ public class ContributionsConnector extends GitHubConnector {
 	private final String prefix;
 	private final String repository;
 	private final String role;
+    private final int page;
 	
-	public ContributionsConnector(GitHubService github, String prefix, String repository, String role) {
+	public ContributionsConnector(GitHubService github, String prefix, int page, String repository, String role) {
 		super(github);
 		
 		this.prefix = prefix;
+        this.page = page;
 		this.repository = repository;
 		this.role = role;
 	}
@@ -74,7 +76,7 @@ public class ContributionsConnector extends GitHubConnector {
 
 	@Override
 	public String getURLSuffix() {
-		return "/contributors?per_page=100";
+        return "/contributors?per_page=100&page=" + page;
 	}
 
 	private void computeContributors(JsonArray array) {

@@ -41,7 +41,7 @@ public abstract class FoodComposter extends AContainer implements RecipeDisplayI
 
 	@Override
 	public String getInventoryTitle() {
-		return "&cFood Composter";
+		return "&c食物堆肥机";
 	}
 
 }

@@ -91,12 +91,12 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 						}
 					}
 
-					texts.add(ChatColors.color("&8\u21E8 &6Tier " + tier));
+					texts.add(ChatColors.color("&8\u21E8 &6等级 " + tier));
 					tooltips.add(null);
 					actions.add(null);
 				}
 				if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p, profile)) {
-					StringBuilder parents = new StringBuilder(ChatColors.color("&4&lLOCKED\n\n&7In order to unlock this Category,\n&7you need to unlock all Items from\n&7the following Categories first:\n"));
+					StringBuilder parents = new StringBuilder(ChatColors.color("&4&l已锁定\n\n&7为了解锁此类别,\n&7你需要先解锁以下类别中的所有物品:\n"));
 
 					for (Category parent : ((LockedCategory) category).getParents()) {
 						parents.append(ChatColors.color("\n&c" + ItemUtils.getItemName(parent.getItem(p))));
@@ -109,7 +109,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 				else if (category instanceof SeasonalCategory) {
 					if (((SeasonalCategory) category).isUnlocked()) {
 						texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem(p)))));
-						tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem(p))));
+						tooltips.add(ChatColors.color("&e单击打开以下类别:\n" + ItemUtils.getItemName(category.getItem(p))));
 						actions.add(new PlayerRunnable(1) {
 
 							@Override
@@ -122,7 +122,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 				}
 				else {
 					texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem(p)))));
-					tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem(p))));
+					tooltips.add(ChatColors.color("&e单击打开以下类别:\n" + ItemUtils.getItemName(category.getItem(p))));
 					actions.add(new PlayerRunnable(1) {
 
 						@Override
@@ -151,7 +151,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 
 		for (int i = 0; i < texts.size(); i = i + 10) {
 			TellRawMessage pageMessage = new TellRawMessage();
-			pageMessage.addText(ChatColors.color("&b&l- Slimefun Guide -\n\n"));
+			pageMessage.addText(ChatColors.color("&b&l- Slimefun 指南 -\n\n"));
 
 			for (int j = i; j < texts.size() && j < i + 10; j++) {
 				pageMessage.addText(texts.get(j) + "\n");
@@ -163,7 +163,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 			pages.add(pageMessage);
 		}
 
-		new CustomBookOverlay("Slimefun Guide", "TheBusyBiscuit", pages.toArray(new TellRawMessage[0])).open(p);
+		new CustomBookOverlay("Slimefun 指南", "TheBusyBiscuit", pages.toArray(new TellRawMessage[0])).open(p);
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 							Research research = item.getResearch();
 
 							texts.add(ChatColors.color(shorten("&7", item.getItemName())));
-							tooltips.add(ChatColors.color(item.getItemName() + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " Levels\n\n&a> Click to unlock"));
+							tooltips.add(ChatColors.color(item.getItemName() + "\n&c&l已锁定\n\n&7消耗等级 " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " 级\n\n&a> 单击解锁"));
 							actions.add(new PlayerRunnable(2) {
 
 								@Override
@@ -231,7 +231,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 								}
 							}
 
-							tooltip.append(ChatColors.color("\n\n&e&oClick for more Info"));
+							tooltip.append(ChatColors.color("\n\n&e&o单击查看更多信息"));
 
 							tooltips.add(tooltip.toString());
 							actions.add(new PlayerRunnable(2) {
@@ -254,7 +254,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 
 			for (int i = 0; i < texts.size(); i = i + 10) {
 				TellRawMessage pageMessage = new TellRawMessage();
-				pageMessage.addText(ChatColors.color("&b&l- Slimefun Guide -\n\n"));
+				pageMessage.addText(ChatColors.color("&b&l- Slimefun 指南 -\n\n"));
 
 				for (int j = i; j < texts.size() && j < i + 10; j++) {
 					pageMessage.addText(texts.get(j) + "\n");
@@ -264,7 +264,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 
 				pageMessage.addText("\n");
 				pageMessage.addText(ChatColors.color("&6\u21E6 &lBack"));
-				pageMessage.addHoverEvent(HoverAction.SHOW_TEXT, ChatColors.color("&eClick to go back to the Category Overview"));
+				pageMessage.addHoverEvent(HoverAction.SHOW_TEXT, ChatColors.color("&e单击返回类别列表"));
 				pageMessage.addClickEvent(new PlayerRunnable(2) {
 
 					@Override
@@ -276,10 +276,10 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 				pages.add(pageMessage);
 			}
 
-			new CustomBookOverlay("Slimefun Guide", "TheBusyBiscuit", pages.toArray(new TellRawMessage[0])).open(p);
+			new CustomBookOverlay("Slimefun 指南", "TheBusyBiscuit", pages.toArray(new TellRawMessage[0])).open(p);
 		}
 		else {
-			p.sendMessage(ChatColor.RED + "That Category is too big to open :/");
+			p.sendMessage(ChatColor.RED + "这个类别太大了打不开 :/");
 		}
 	}
 

@@ -104,7 +104,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 	
 	@Override
 	public String getInventoryTitle() {
-		return "&cHeated Pressure Chamber";
+		return "&c加热压力机";
 	}
 
 	@Override

@@ -85,8 +85,8 @@ public class BlockStorage {
 		if (SlimefunPlugin.getRegistry().getWorlds().containsKey(w.getName())) return;
 		this.world = w;
 		
-		Slimefun.getLogger().log(Level.INFO, "Loading Blocks for World \"" + w.getName() + "\"");
-		Slimefun.getLogger().log(Level.INFO, "This may take a long time...");
+		Slimefun.getLogger().log(Level.INFO, "正在加载世界 \"" + w.getName() + "\" 中的方块");
+		Slimefun.getLogger().log(Level.INFO, "这可能需要一些时间...");
 		
 		File f = new File(PATH_BLOCKS + w.getName());
 		if (f.exists()) {
@@ -99,14 +99,14 @@ public class BlockStorage {
 			try {
 				for (File file : f.listFiles()) {
 					if (file.getName().equals("null.sfb")) {
-						Slimefun.getLogger().log(Level.WARNING, "Corrupted file detected!");
-						Slimefun.getLogger().log(Level.WARNING, "Slimefun will simply skip this File, but you");
-						Slimefun.getLogger().log(Level.WARNING, "should maybe look into it!");
+						Slimefun.getLogger().log(Level.WARNING, "发现损坏文件!");
+						Slimefun.getLogger().log(Level.WARNING, "Slimefun 将会跳过这些文件,");
+						Slimefun.getLogger().log(Level.WARNING, "但你应该去看看这些文件.");
 						Slimefun.getLogger().log(Level.WARNING, file.getPath());
 					}
 					else if (file.getName().endsWith(".sfb")) {
 						if (timestamp + SlimefunPlugin.getSettings().blocksInfoLoadingDelay < System.currentTimeMillis()) {
-							Slimefun.getLogger().log(Level.INFO, "Loading Blocks... " + Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F) + "% done (\"" + w.getName() + "\")");
+							Slimefun.getLogger().log(Level.INFO, "正在加载方块... " + Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F) + "% 已完成 (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
 
@@ -148,11 +148,11 @@ public class BlockStorage {
 				}
 			} finally {
 				long time = (System.currentTimeMillis() - start);
-				Slimefun.getLogger().log(Level.INFO, "Loading Blocks... 100% (FINISHED - {0}ms)", time);
-				Slimefun.getLogger().log(Level.INFO, "Loaded a total of " + totalBlocks + " Blocks for World \"" + world.getName() + "\"");
+				Slimefun.getLogger().log(Level.INFO, "加载方块完成 100% (耗时 - {0}ms)", time);
+				Slimefun.getLogger().log(Level.INFO, "在世界 \"" + world.getName() + "\" 中加载了" + totalBlocks + " 个方块");
 				
 				if (totalBlocks > 0) {
-					Slimefun.getLogger().log(Level.INFO, "Avg: {0}ms/Block", DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3));
+					Slimefun.getLogger().log(Level.INFO, "平均: {0}ms/个方块", DoubleHandler.fixDouble((double) time / (double) totalBlocks, 3));
 				}
 			}
 		}
@@ -239,7 +239,7 @@ public class BlockStorage {
 		if (computeChanges) computeChanges();
 		if (changes == 0) return;
 		
-		Slimefun.getLogger().log(Level.INFO, "Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Change(s) queued)");
+		Slimefun.getLogger().log(Level.INFO, "正在保存世界 \"" + world.getName() + "\" 中的方块 (" + changes + " 个更改在列表中)");
 		
 		Map<String, Config> cache = new HashMap<>(blocksCache);
 		

@@ -25,7 +25,7 @@ public final class ChestMenuUtils {
 	private static final ItemStack BACK_BUTTON = new SlimefunItemStack("_UI_BACK", Material.ENCHANTED_BOOK, "&7\u21E6 返回", meta -> meta.addItemFlags(ItemFlag.HIDE_ENCHANTS));
 	private static final ItemStack MENU_BUTTON = new SlimefunItemStack("_UI_MENU", Material.COMPARATOR, "&e设置 / 关于", "", "&7\u21E8 单击查看更多");
 	private static final ItemStack SEARCH_BUTTON = new SlimefunItemStack("_UI_SEARCH", Material.NAME_TAG, "&b搜索");
-	private static final ItemStack WIKI_BUTTON = new SlimefunItemStack("_UI_WIKI", Material.KNOWLEDGE_BOOK, "&3Slimefun Wiki");
+	private static final ItemStack WIKI_BUTTON = new SlimefunItemStack("_UI_WIKI", Material.KNOWLEDGE_BOOK, "&3Slimefun 维基");
 	
 	private static final ItemStack PREV_BUTTON_ACTIVE = new SlimefunItemStack("_UI_PREVIOUS_ACTIVE", Material.LIME_STAINED_GLASS_PANE, "&r\u21E6 上一页");
 	private static final ItemStack NEXT_BUTTON_ACTIVE = new SlimefunItemStack("_UI_NEXT_ACTIVE", Material.LIME_STAINED_GLASS_PANE, "&r下一页 \u21E8");
@@ -47,7 +47,7 @@ public final class ChestMenuUtils {
 	}
 
 	public static ItemStack getMenuButton(Player p) {
-        return new CustomItem(MENU_BUTTON, meta -> meta.setDisplayName(ChatColor.YELLOW + SlimefunPlugin.getLocal().getMessage(p, "guide.title.settings")));
+        return new CustomItem(MENU_BUTTON, ChatColor.YELLOW + SlimefunPlugin.getLocal().getMessage(p, "guide.title.settings"), "", "&7\u21E8 " + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category"));
 	}
 
 	public static ItemStack getSearchButton(Player p) {
@@ -79,6 +79,7 @@ public final class ChestMenuUtils {
 				meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
 			});
 		}
+
 		
 		return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
 			meta.setDisplayName(ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E8");

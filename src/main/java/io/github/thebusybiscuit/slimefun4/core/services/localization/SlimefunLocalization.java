@@ -14,7 +14,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-public abstract class SlimefunLocalization extends Localization implements Keyed{
+public abstract class SlimefunLocalization extends Localization implements Keyed {
 
     public SlimefunLocalization(SlimefunPlugin plugin) {
         super(plugin);
@@ -39,7 +39,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     public String getResearchName(Player p, NamespacedKey key) {
         Language language = getLanguage(p);
-        if (language == null || language.getResearches() == null) return null;
+        if (language.getResearches() == null) return null;
         return language.getResearches().getString(key.getNamespace() + "." + key.getKey());
     }
 

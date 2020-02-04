@@ -44,7 +44,7 @@ public abstract class ElectrifiedCrucible extends AContainer {
 	
 	@Override
 	public String getInventoryTitle() {
-		return "&4Electrified Crucible";
+		return "&4坩埚";
 	}
 
 }

@@ -42,7 +42,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 	public AutomatedCraftingChamber(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 
-		new BlockMenuPreset(name, "&6Automated Crafting Chamber") {
+		new BlockMenuPreset(name, "&6自动合成机") {
 
 			@Override
 			public void init() {

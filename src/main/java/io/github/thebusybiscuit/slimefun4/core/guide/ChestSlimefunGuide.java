@@ -145,7 +145,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 							parents.add(parent.getItem(p).getItemMeta().getDisplayName());
 						}
 
-						menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem(p).getItemMeta().getDisplayName(), parents.toArray(new String[0])));
+						menu.addItem(index, new CustomItem(Material.BARRIER, "&4已锁定 &7- &r" + category.getItem(p).getItemMeta().getDisplayName(), parents.toArray(new String[0])));
 						menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
 						index++;
 					}
@@ -182,7 +182,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		ChestMenu menu = create(p);
 		fillInv(p, profile, menu, survival);
 
-		menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList("", ChatColors.color("&rLeft Click: &7Go back to Main Menu")))));
+		menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList("", ChatColors.color("&r左键: &7返回主菜单")))));
 		menu.addMenuClickHandler(1, (pl, s, is, action) -> {
 			openMainMenu(profile, survival, 1);
 			return false;
@@ -218,7 +218,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 				if (survival && research != null && !profile.hasUnlocked(research)) {
 					if (Slimefun.hasPermission(p, sfitem, false)) {
-						menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"));
+						menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l已锁定", "", "&a> Click to unlock", "", "&7消耗经验 &b" + research.getCost() + " 级"));
 						menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 							if (!Research.isResearching(pl)) {
 								if (research.canUnlock(pl)) {
@@ -400,10 +400,10 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			}
 
 			if (mcRecipe == MinecraftRecipe.SHAPED_CRAFTING) {
-				recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shaped Recipe"));
+				recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7有序合成表"));
 			}
 			else if (mcRecipe == MinecraftRecipe.SHAPELESS_CRAFTING) {
-				recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shapeless Recipe"));
+				recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7无序合成表"));
 			}
 			else {
 				recipeType = new RecipeType(mcRecipe);
@@ -412,7 +412,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			result = recipe.getResult();
 		}
 		else {
-			recipeItems = new ItemStack[] {null, null, null, null, new CustomItem(Material.BARRIER, "&4We are somehow unable to show you this Recipe :/"), null, null, null, null};
+			recipeItems = new ItemStack[] {null, null, null, null, new CustomItem(Material.BARRIER, "&4我们不知道为什么不能展示合成表了 :/"), null, null, null, null};
 		}
 
 		ChestMenu menu = create(p);
@@ -536,8 +536,8 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 			menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList(
 				"",
-				ChatColors.color("&rLeft Click: &7Go back to previous Page"),
-				ChatColors.color("&rShift + left Click: &7Go back to Main Menu")
+				ChatColors.color("&r左键: &7返回上一页"),
+				ChatColors.color("&rShift + 左键: &7返回主菜单")
 			))));
 
 			menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
@@ -553,7 +553,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 		}
 		else {
-			menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList("", ChatColors.color("&rLeft Click: &7Go back to Main Menu")))));
+			menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList("", ChatColors.color("&r左键: &7返回主菜单")))));
 			menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
 				openMainMenu(profile, survival, 1);
 				return false;
@@ -566,8 +566,8 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 			if (slimefunItem == null) return item;
 
-			String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission";
-			return Slimefun.hasUnlocked(p, slimefunItem, false) ? item: new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&lLOCKED", "", lore);
+			String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&r需要在别处解锁" : "&r你没有权限";
+			return Slimefun.hasUnlocked(p, slimefunItem, false) ? item: new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l已锁定", "", lore);
 		}
 		else {
 			return item;

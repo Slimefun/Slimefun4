@@ -39,7 +39,7 @@ public abstract class CarbonPress extends AContainer implements RecipeDisplayIte
 
 	@Override
 	public String getInventoryTitle() {
-		return "&cCarbon Press";
+		return "&c碳压机";
 	}
 
 }

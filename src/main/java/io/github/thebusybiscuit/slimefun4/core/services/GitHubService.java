@@ -56,9 +56,13 @@ public class GitHubService {
         this.logging = logging;
         addDefaultContributors();
 
-        connectors.add(new ContributionsConnector(this, "code", repository, "developer"));
-        connectors.add(new ContributionsConnector(this, "wiki", "TheBusyBiscuit/Slimefun4-wiki", "wiki"));
-        connectors.add(new ContributionsConnector(this, "resourcepack", "TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
+        // TheBusyBiscuit/Slimefun4 (twice because there may me multiple pages)
+        connectors.add(new ContributionsConnector(this, "code", 1, repository, "developer"));
+        connectors.add(new ContributionsConnector(this, "code2", 2, repository, "developer"));
+        // TheBusyBiscuit/Slimefun4-Wiki
+        connectors.add(new ContributionsConnector(this, "wiki", 1,"TheBusyBiscuit/Slimefun4-wiki", "wiki"));
+        // TheBusyBiscuit/Slimefun4-Resourcepack
+        connectors.add(new ContributionsConnector(this, "resourcepack", 1,"TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
 
         connectors.add(new GitHubConnector(this) {
 

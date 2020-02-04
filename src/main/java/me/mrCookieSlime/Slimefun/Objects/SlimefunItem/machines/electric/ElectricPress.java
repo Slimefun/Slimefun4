@@ -55,7 +55,7 @@ public abstract class ElectricPress extends AContainer implements RecipeDisplayI
 
     @Override
     public String getInventoryTitle() {
-        return "&eElectric Press";
+        return "&e压缩机";
     }
 
     @Override
