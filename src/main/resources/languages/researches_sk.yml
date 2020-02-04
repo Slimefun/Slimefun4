@@ -146,9 +146,7 @@ slimefun:
   advanced_circuit_board: Pokročilá obvodová doska
   smeltery: Taviareň
   steel: Vek ocele
-  misc_power_items: 'Dôležité  veci súvisiace s energiou
-
-'
+  misc_power_items: Dôležité  veci súvisiace s energiou
   battery: Tvoja prvá baterka
   steel_plate: Oceľové pokovovanie
   steel_thruster: Oceľový pohon
@@ -156,9 +154,7 @@ slimefun:
   grappling_hook: Kotviaci hák
   jetpacks: Jetpacky
   multitools: Viac nástrojov
-  solar_panel_and_helmet: 'Solárna energia
-
-'
+  solar_panel_and_helmet: Solárna energia
   elemental_staff: Elementárne tyče
   grind_stone: Brúsiaci kameň
   cactus_armor: Kaktusový oblek
@@ -167,9 +163,7 @@ slimefun:
   slimefun_metals: Nové kovy
   ore_crusher: Zdvojnásobenie rudy
   bronze: Vytvorenie bronzu
-  alloys: 'Pokročilé zliatiny
-
-'
+  alloys: Pokročilé zliatiny
   compressor_and_carbon: Vytvorenie uhlíka
   gilded_iron_armor: Pozlatené železné brnenie
   synthetic_diamond: Umelé diamanty
@@ -233,8 +227,6 @@ slimefun:
   soulbound_rune: Runa duší
   geo_miner: GEO-Miner
   lightning_rune: Runa blesku
-  totem_of_undying: 'Totem večnosti
-
-'
+  totem_of_undying: Totem večnosti
   nether_gold_pan: Zlatá panvica z netheru
   electric_press: Elektrický lis
