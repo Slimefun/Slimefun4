@@ -14,6 +14,7 @@ public class Translators {
 		// Translators - German
 		addTranslator("TheBusyBiscuit", "de", false);
 		addTranslator("MeerBiene", "de", true);
+		addTranslator("daro2404", "de", true);
 		
 		// Translators - French
 		addTranslator("JustDams", "D4ms_", "fr", true);
