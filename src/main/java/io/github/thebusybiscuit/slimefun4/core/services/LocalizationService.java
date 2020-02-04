@@ -156,7 +156,8 @@ public class LocalizationService extends SlimefunLocalization {
 	}
 
 	private double getTotalKeys(Language language) {
-		int keys = 0;
+		// We start with 1 and not zero to prevent any divisions by zero
+		int keys = 1;
 		
 		if (language.getMessages() != null) {
 			keys += language.getMessages().getKeys(true).size();

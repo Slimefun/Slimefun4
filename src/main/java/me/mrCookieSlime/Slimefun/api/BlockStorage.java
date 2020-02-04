@@ -95,6 +95,7 @@ public class BlockStorage {
 			long done = 0;
 			long timestamp = System.currentTimeMillis();
 			long totalBlocks = 0;
+			int delay = SlimefunPlugin.getCfg().getInt("URID.info-delay");
 			
 			try {
 				for (File file : f.listFiles()) {
@@ -105,7 +106,7 @@ public class BlockStorage {
 						Slimefun.getLogger().log(Level.WARNING, file.getPath());
 					}
 					else if (file.getName().endsWith(".sfb")) {
-						if (timestamp + SlimefunPlugin.getSettings().blocksInfoLoadingDelay < System.currentTimeMillis()) {
+						if (timestamp + delay < System.currentTimeMillis()) {
 							Slimefun.getLogger().log(Level.INFO, "Loading Blocks... " + Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
@@ -474,7 +475,7 @@ public class BlockStorage {
 	}
 
 	public static void clearBlockInfo(Location l, boolean destroy) {
-		SlimefunPlugin.getTicker().delete.put(l, destroy);
+		SlimefunPlugin.getTicker().queueDelete(l, destroy);
 	}
 
 	public static void _integrated_removeBlockInfo(Location l, boolean destroy) {
@@ -514,7 +515,7 @@ public class BlockStorage {
 	}
 
 	public static void moveBlockInfo(Location from, Location to) {
-		SlimefunPlugin.getTicker().move.put(from, to);
+		SlimefunPlugin.getTicker().queueMove(from, to);
 	}
 
 	@Deprecated

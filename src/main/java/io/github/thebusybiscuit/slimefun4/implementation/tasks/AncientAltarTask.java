@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.ancient_altar;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarL
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class RitualAnimation implements Runnable {
+public class AncientAltarTask implements Runnable {
 
 	private final List<Block> altars;
 
@@ -35,7 +35,7 @@ public class RitualAnimation implements Runnable {
 	private boolean running;
 	private int stage;
 
-	public RitualAnimation(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
+	public AncientAltarTask(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
 		this.dropLocation = drop;
 		this.altar = altar;
 		this.altars = altars;

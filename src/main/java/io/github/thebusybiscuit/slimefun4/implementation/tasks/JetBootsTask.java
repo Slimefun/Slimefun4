@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.tasks;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -22,7 +22,6 @@ public class JetBootsTask extends SlimefunTask {
 
 	@Override
 	public void executeTask() {
-		Player p = Bukkit.getPlayer(uuid);
 		float cost = 0.075F;
 		float charge = ItemEnergy.getStoredEnergy(p.getInventory().getBoots());
 		double accuracy = DoubleHandler.fixDouble(speed - 0.7);

@@ -13,8 +13,6 @@ public final class ConfigCache {
 	public final boolean researchFireworksEnabled;
 	public final List<String> researchesTitles;
 	
-	public final int blocksInfoLoadingDelay;
-	
 	public final int emeraldEnchantsLimit;
 	
 	public final boolean legacyDustWasher;
@@ -27,8 +25,6 @@ public final class ConfigCache {
 		researchesFreeInCreative = cfg.getBoolean("options.allow-free-creative-research");
 		researchesTitles = cfg.getStringList("research-ranks");
 		researchFireworksEnabled = cfg.getBoolean("options.research-unlock-fireworks");
-		
-		blocksInfoLoadingDelay = cfg.getInt("URID.info-delay");
 		
 		emeraldEnchantsLimit = cfg.getInt("options.emerald-enchantment-limit");
 		

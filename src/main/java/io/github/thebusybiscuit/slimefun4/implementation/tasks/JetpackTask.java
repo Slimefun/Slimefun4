@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.tasks;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -24,7 +24,6 @@ public class JetpackTask extends SlimefunTask {
 
 	@Override
 	public void executeTask() {
-		Player p = Bukkit.getPlayer(uuid);
 		float cost = 0.08F;
 		float charge = ItemEnergy.getStoredEnergy(p.getInventory().getChestplate());
 		

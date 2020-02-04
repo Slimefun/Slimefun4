@@ -63,11 +63,6 @@ public class BlockMenu extends DirtyChestMenu {
 		changes = 0;
 	}
 
-	@Deprecated
-	public void move(Block b) {
-		move(b.getLocation());
-	}
-
 	public void move(Location l) {
 		this.delete(this.location);
 		this.location = l;

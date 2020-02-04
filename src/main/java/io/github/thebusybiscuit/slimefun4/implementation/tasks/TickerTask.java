@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.text.DecimalFormat;
 import java.util.AbstractMap;
@@ -30,30 +30,30 @@ import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TickerTask implements Runnable {
-	
-	private static final DecimalFormat decimalFormat = new DecimalFormat("#.###");
-	
-	private boolean halted = false;
 
-	protected final ConcurrentMap<Location, Location> move = new ConcurrentHashMap<>();
-	protected final ConcurrentMap<Location, Boolean> delete = new ConcurrentHashMap<>();
+	private final DecimalFormat decimalFormat = new DecimalFormat("#.###");
+	private final ConcurrentMap<Location, Location> move = new ConcurrentHashMap<>();
+	private final ConcurrentMap<Location, Boolean> delete = new ConcurrentHashMap<>();
 	private final ConcurrentMap<Location, Long> blockTimings = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Integer> chunkItemCount = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Integer> machineCount = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Long> machineTimings = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, Long> chunkTimings = new ConcurrentHashMap<>();
+	private final ConcurrentMap<Location, Integer> buggedBlocks = new ConcurrentHashMap<>();
+	private final Set<String> chunksSkipped = new HashSet<>();
 	
 	private final Set<BlockTicker> tickers = new HashSet<>();
+	
+	private boolean halted = false;
 	
 	private int skipped = 0;
 	private int chunks = 0;
 	private int machines = 0;
 	private long time = 0;
-	
-	private final ConcurrentMap<String, Integer> chunkItemCount = new ConcurrentHashMap<>();
-	private final ConcurrentMap<String, Integer> machineCount = new ConcurrentHashMap<>();
-	private final ConcurrentMap<String, Long> machineTimings = new ConcurrentHashMap<>();
-	private final ConcurrentMap<String, Long> chunkTimings = new ConcurrentHashMap<>();
-	private final Set<String> chunksSkipped = new HashSet<>();
-	private final ConcurrentMap<Location, Integer> buggedBlocks = new ConcurrentHashMap<>();
 	
 	private boolean running = false;
 	
@@ -348,6 +348,14 @@ public class TickerTask implements Runnable {
 				+ "     chunktime = " + chunkTimings + "\n"
 				+ "     skipped = " + chunksSkipped + "\n"
 				+ "}";
+	}
+
+	public void queueMove(Location from, Location to) {
+		move.put(from, to);
+	}
+
+	public void queueDelete(Location l, boolean destroy) {
+		delete.put(l, destroy);
 	}
 
 }

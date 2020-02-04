@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.tasks;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -19,11 +19,9 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class ArmorTask implements Runnable {
 	
-	private final Utilities utilities = SlimefunPlugin.getUtilities();
 	private final Set<PotionEffect> radiationEffects;
 	
 	public ArmorTask() {
@@ -48,53 +46,63 @@ public class ArmorTask implements Runnable {
 				ItemStack[] armor = p.getInventory().getArmorContents();
 				HashedArmorpiece[] cachedArmor = profile.getArmor();
 				
-				for (int slot = 0; slot < 4; slot++) {
-					ItemStack item = armor[slot];
-					HashedArmorpiece armorpiece = cachedArmor[slot];
-					
-					if (armorpiece.hasDiverged(item)) {
-						SlimefunItem sfItem = SlimefunItem.getByItem(item);
-						if (!(sfItem instanceof SlimefunArmorPiece) || !Slimefun.hasUnlocked(p, sfItem, true)) {
-							sfItem = null;
-						}
-						
-						armorpiece.update(item, sfItem);
-					}
-					
-					if (item != null && armorpiece.getItem().isPresent()) {
-						Slimefun.runSync(() -> {
-							for (PotionEffect effect : armorpiece.getItem().get().getEffects()) {
-								p.removePotionEffect(effect.getType());
-								p.addPotionEffect(effect);
-							}
-						});
-					}
-				}
-				
-				if (SlimefunManager.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) 
-					&& Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) 
-					&& (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) 
-					&& p.getEyeLocation().getBlock().getLightFromSky() == 15) 
-				{
-					ItemEnergy.chargeInventory(p, ((Double) Slimefun.getItemValue("SOLAR_HELMET", "charge-amount")).floatValue());
-				}
-				
-				// Check for a Hazmat Suit
-				if (!SlimefunManager.isItemSimilar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
-						!SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
-						!SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) &&
-						!SlimefunManager.isItemSimilar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true))
-				{
-					for (ItemStack item : p.getInventory()) {
-						if (isRadioactive(p, item)) {
-							break;
-						}
-					}
-				}
+				handleSlimefunArmor(p, armor, cachedArmor);
+				checkForSolarHelmet(p);
+				checkForRadiation(p);
 			});
 		}
 	}
 	
+	private void handleSlimefunArmor(Player p, ItemStack[] armor, HashedArmorpiece[] cachedArmor) {
+		for (int slot = 0; slot < 4; slot++) {
+			ItemStack item = armor[slot];
+			HashedArmorpiece armorpiece = cachedArmor[slot];
+			
+			if (armorpiece.hasDiverged(item)) {
+				SlimefunItem sfItem = SlimefunItem.getByItem(item);
+				if (!(sfItem instanceof SlimefunArmorPiece) || !Slimefun.hasUnlocked(p, sfItem, true)) {
+					sfItem = null;
+				}
+				
+				armorpiece.update(item, sfItem);
+			}
+			
+			if (item != null && armorpiece.getItem().isPresent()) {
+				Slimefun.runSync(() -> {
+					for (PotionEffect effect : armorpiece.getItem().get().getEffects()) {
+						p.removePotionEffect(effect.getType());
+						p.addPotionEffect(effect);
+					}
+				});
+			}
+		}
+	}
+	
+	private void checkForSolarHelmet(Player p) {
+		if (SlimefunManager.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) 
+				&& Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) 
+				&& (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) 
+				&& p.getEyeLocation().getBlock().getLightFromSky() == 15) 
+			{
+				ItemEnergy.chargeInventory(p, ((Double) Slimefun.getItemValue("SOLAR_HELMET", "charge-amount")).floatValue());
+			}
+	}
+	
+	private void checkForRadiation(Player p) {
+		// Check for a Hazmat Suit
+		if (!SlimefunManager.isItemSimilar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) ||
+				!SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) ||
+				!SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) ||
+				!SlimefunManager.isItemSimilar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true))
+		{
+			for (ItemStack item : p.getInventory()) {
+				if (isRadioactive(p, item)) {
+					break;
+				}
+			}
+		}
+	}
+
 	private boolean isRadioactive(Player p, ItemStack item) {
 		for (ItemStack radioactiveItem : SlimefunPlugin.getRegistry().getRadioactiveItems()) {
 			if (SlimefunManager.isItemSimilar(item, radioactiveItem, true) && Slimefun.isEnabled(p, radioactiveItem, false)) {

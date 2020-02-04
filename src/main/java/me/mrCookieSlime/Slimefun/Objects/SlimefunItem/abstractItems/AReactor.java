@@ -271,7 +271,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 							Slimefun.runSync(() -> {
 								if (!l.getBlock().getRelative(cooling[ThreadLocalRandom.current().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 							});
-
+							
 							ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
 							if (needsCooling()) {

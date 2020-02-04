@@ -33,7 +33,7 @@ public class Translators {
 		addTranslator("andris155", "hu", true);
 		
 		// Translators - Vietnamese
-		addTranslator("huynhqtienvtag", "vi", false);
+		addTranslator("HSGamer", "vi", false);
 		addTranslator("JustMangoT", "JFF_JustMango", "vi", true);
 		addTranslator("Julie-Sigtuna", "vi", true);
 		addTranslator("nahkd123", "vi", true);

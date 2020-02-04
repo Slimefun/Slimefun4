@@ -12,10 +12,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public final class ChestMenuUtils {
 	
@@ -86,7 +86,7 @@ public final class ChestMenuUtils {
 		});
 	}
 	
-	public static void updateProgressbar(BlockMenu menu, int slot, int timeleft, int time, ItemStack indicator) {
+	public static void updateProgressbar(ChestMenu menu, int slot, int timeleft, int time, ItemStack indicator) {
 		ItemStack item = indicator.clone();
 		ItemMeta im = item.getItemMeta();
 		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
