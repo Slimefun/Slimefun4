@@ -88,11 +88,11 @@ guide:
   languages:
     select: Klikni pre vybratie tohto jazyka
     select-default: Klikni pre nastavenie východzieho jazyka
+    selected-language: 'Aktuálne vybraný jazyk: '
     translations:
       lore: Klikni pre pridanie svojho prekladu
       name: "&aNiečo chýba?"
     updated: "&aTvoj jazyk bol úspešne nastavený na: &b%lang%"
-    selected-language: 'Aktuálne vybrané:'
   pages:
     next: Ďalšia stránka
     previous: Predošlá stránka
@@ -103,13 +103,13 @@ guide:
     message: "&bČo by si chcel vyhľadať?"
     name: "&7Hľadať..."
   title:
+    addons: Doplnky pre Slimefun4
+    bugs: Report bugov
     credits: Slimefun4 prispievatelia
     languages: Nastav si preferovaný jazyk
     main: Slimefun príručka
     settings: Nastavenia a informácie
     wiki: Slimefun4 Wiki
-    addons: Doplnky pre Slimefun4
-    bugs: Report bugov
   tooltips:
     open-category: Klikni pre otvorenie
     versions-notice: Toto je veľmi dôležité pri nahlasovaní bugov!
@@ -119,25 +119,25 @@ languages:
   cs: Čeština
   de: Nemčina
   default: Východzí jazyk servera
+  el: Gréčtina
   en: Angličtina
   es: Španielčina
   fr: Francúzština
+  he: Hebrejčina
   hu: Maďarčina
+  id: Indonézčina
   it: Taliančina
   lv: Lotyština
   nl: Holandčina
   pl: Poľština
+  pt: Portugalština (Portugalsko)
+  pt-BR: Portugalština (Brazília)
   ru: Ruština
   sk: Slovenčina
   sv: Švédština
   vi: Vietnamčina
-  zh-TW: Čínština (Taiwan)
-  id: Indonézčina
   zh-CN: Čínština (Čína)
-  el: Gréčtina
-  he: Hebrejčina
-  pt: Portugalština (Portugalsko)
-  pt-BR: Portugalština (Brazília)
+  zh-TW: Čínština (Taiwan)
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Oltár nie je obkolesený dostatočným počtom podstáv&c(%pedestals%
