@@ -149,7 +149,7 @@ languages:
   af: 南非语
   da: 丹麦语
   fi: 芬兰语
-  'false': 挪威语
+  'no': 挪威语
   uk: 乌克兰语
   ms: 马来西亚语
 machines:

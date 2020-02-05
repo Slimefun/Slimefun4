@@ -150,7 +150,7 @@ languages:
   af: Afrikánčina
   da: Dánčina
   fi: Fínština
-  'false': Nórština
+  'no': Nórština
   uk: Ukrajinčina
   ms: Malajština
 machines:
