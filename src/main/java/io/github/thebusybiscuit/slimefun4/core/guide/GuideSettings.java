@@ -55,7 +55,7 @@ public final class GuideSettings {
 	}
 
 	private static void addMenubar(Player p, ChestMenu menu, ItemStack guide) {
-		menu.addItem(0, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 Back", "", "&7Go back to your Slimefun Guide"),
+		menu.addItem(0, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")),
 		(pl, slot, item, action) -> {
 			SlimefunGuide.openGuide(pl, guide);
 			return false;
@@ -70,7 +70,7 @@ public final class GuideSettings {
 				"&7and maintained by a large community.",
 				"&7Here you can find them all", 
 				"", 
-				"&7\u21E8 &eClick to see all of them"
+				"&7\u21E8 &eClick to see our contributors"
 		),
 		(pl, slot, action, item) -> {
 			openCredits(pl, 0);
@@ -87,7 +87,7 @@ public final class GuideSettings {
 		),  ChestMenuUtils.getEmptyClickHandler());
 
 		menu.addItem(6, new CustomItem(Material.COMPARATOR, 
-				"&eSource Code", 
+				"&e" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.source"), 
 				"", 
 				"&7Last Activity: &a" + NumberUtils.timeDelta(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", 
 				"&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), 
@@ -241,14 +241,18 @@ public final class GuideSettings {
 			i++;
 		}
 		
-		Language language = SlimefunPlugin.getLocal().getLanguage(p);
-		String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")"): SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
-		
-		menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"),
-		(pl, slot, item, action) -> {
-			openLanguages(pl);
-			return false;
-		});
+		if (SlimefunPlugin.getSettings().translationsEnabled) {
+			Language language = SlimefunPlugin.getLocal().getLanguage(p);
+			String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")"): SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
+			
+			menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"),
+			(pl, slot, item, action) -> {
+				openLanguages(pl);
+				return false;
+			});
+			
+//			i++;
+		}
 	}
 
 	private static void openLanguages(Player p) {
@@ -259,7 +263,7 @@ public final class GuideSettings {
 
 		for (int i = 0; i < 9; i++) {
 			if (i == 1) {
-				menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), "&e\u21E6 Back", "", "&7Go back to the Settings Panel")
+				menu.addItem(1, ChestMenuUtils.getBackButton(p, "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.settings"))
 				, (pl, slot, item, action) -> {
 					openSettings(pl, p.getInventory().getItemInMainHand());
 					return false;
@@ -293,8 +297,13 @@ public final class GuideSettings {
 		int slot = 10;
 		
 		for (Language language : SlimefunPlugin.getLocal().getLanguages()) {
-			menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "&7( " + language.getProgress() + "% )", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")),
-			(pl, i, item, action) -> {
+			menu.addItem(slot, new CustomItem(language.getItem(), 
+				ChatColor.GREEN + language.getName(p), 
+				"&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.progress.messages") + ": " + SlimefunPlugin.getLocal().getProgress(language, Language::getMessages) + '%', 
+				"&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.progress.researches") + ": " + SlimefunPlugin.getLocal().getProgress(language, Language::getResearches) + '%', 
+				"", 
+				"&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")
+			), (pl, i, item, action) -> {
 				PersistentDataAPI.setString(pl, SlimefunPlugin.getLocal().getKey(), language.getID());
 				
 				String name = language.getName(pl);
@@ -321,7 +330,7 @@ public final class GuideSettings {
 				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 			}
 			else {
-				menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), "&e\u21E6 Back", "", "&7Go back to the Settings Panel"));
+				menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.settings"))));
 				menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 					openSettings(pl, p.getInventory().getItemInMainHand());
 					return false;

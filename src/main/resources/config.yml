@@ -22,6 +22,7 @@ options:
   legacy-ore-grinder: true
   max-network-size: 200
   language: en
+  enable-translations: true
 
 guide:
   default-view-book: false

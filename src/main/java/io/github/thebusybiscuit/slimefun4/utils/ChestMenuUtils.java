@@ -42,8 +42,8 @@ public final class ChestMenuUtils {
 		return CLICK_HANDLER;
 	}
 
-	public static ItemStack getBackButton() {
-		return BACK_BUTTON;
+	public static ItemStack getBackButton(Player p, String... lore) {
+		return new CustomItem(BACK_BUTTON, "&7\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), lore);
 	}
 
 	public static ItemStack getMenuButton(Player p) {

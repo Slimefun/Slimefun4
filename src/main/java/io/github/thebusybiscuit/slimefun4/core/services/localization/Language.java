@@ -11,7 +11,6 @@ public final class Language {
 
 	private final String id;
 	private final ItemStack item;
-	private double progress = 100.0;
 
 	private FileConfiguration messages;
 	private FileConfiguration researches;
@@ -25,14 +24,6 @@ public final class Language {
 
 	public String getID() {
 		return id;
-	}
-	
-	public double getProgress() {
-		return progress;
-	}
-	
-	public void setProgress(double progress) {
-		this.progress = progress;
 	}
 	
 	public FileConfiguration getMessages() {
