@@ -151,6 +151,7 @@ languages:
   fi: 芬蘭文
   uk: 烏克蘭文
   ms: 馬來語
+  'no': 挪威
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4此祭壇需要更多基座&c(%pedestals% / 8)"
