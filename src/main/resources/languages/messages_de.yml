@@ -148,7 +148,7 @@ languages:
   af: Afrikaans
   da: Dänisch
   fi: Finnisch
-  no: Norwegisch
+  'no': Norwegisch
   uk: Ukrainisch
   ms: Malaiisch
 machines:
