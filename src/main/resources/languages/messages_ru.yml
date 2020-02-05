@@ -115,11 +115,14 @@ guide:
     main: Руководство Slimefun
     settings: Информация и настройки
     wiki: Slimefun4 Вики
+    source: Исходный код
   tooltips:
     open-category: Нажмите, чтобы открыть
     versions-notice: Это очень важно, когда Вы сообщаете об ошибках!
   back:
     guide: Вернуться к руководству Slimefun
+    title: Назад
+    settings: Вернуться к настройкам
 inventory:
   no-access: "&4У Вас нет доступа к этому блоку"
 languages:
@@ -145,6 +148,13 @@ languages:
   vi: Вьетнамский
   zh-CN: Китайский (Китай)
   zh-TW: Китайский (Тайвань)
+  ar: Арабский
+  af: Бурский
+  da: Датский
+  fi: Финский
+  'false': Норвержский
+  uk: Украинский
+  ms: Малайский
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Алтарь не окружён необходимым количеством пьедесталов
