@@ -299,8 +299,8 @@ public final class GuideSettings {
 		for (Language language : SlimefunPlugin.getLocal().getLanguages()) {
 			menu.addItem(slot, new CustomItem(language.getItem(), 
 				ChatColor.GREEN + language.getName(p), 
-				"&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.progress.messages") + ": " + SlimefunPlugin.getLocal().getProgress(language, Language::getMessages) + '%', 
-				"&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.progress.researches") + ": " + SlimefunPlugin.getLocal().getProgress(language, Language::getResearches) + '%', 
+				"&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.progress.messages") + ": &b" + SlimefunPlugin.getLocal().getProgress(language, Language::getMessages) + '%', 
+				"&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.progress.researches") + ": &b" + SlimefunPlugin.getLocal().getProgress(language, Language::getResearches) + '%', 
 				"", 
 				"&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")
 			), (pl, i, item, action) -> {
