@@ -151,7 +151,7 @@ languages:
   af: Tiếng Nam Phi
   da: Tiếng Đan Mạch
   fi: Tiếng Phần Lan
-  'false': Tiếng Na Uy
+  'no': Tiếng Na Uy
   uk: Tiếng Ukraina
   ms: Tiếng Mã Lai
 machines:
