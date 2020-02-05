@@ -182,7 +182,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		ChestMenu menu = create(p);
 		fillInv(p, profile, menu, survival);
 
-		menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList("", ChatColors.color("&r左键: &7返回主菜单")))));
+        menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide"))));
 		menu.addMenuClickHandler(1, (pl, s, is, action) -> {
 			openMainMenu(profile, survival, 1);
 			return false;
@@ -294,7 +294,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 		menu.setEmptySlotsClickable(false);
 		fillInv(p, profile, menu, survival);
-		addBackButton(menu, 1, profile, survival);
+		addBackButton(menu, 1, p, profile, survival);
 
 		int index = 9;
 		// Find items and add them
@@ -484,7 +484,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			history.add(obj);
 		}
 
-		addBackButton(menu, 0, profile, true);
+		addBackButton(menu, 0, p, profile, true);
 
 		MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
 			displayItem(profile, itemstack, true);
@@ -529,16 +529,16 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		}
 	}
 
-	private void addBackButton(ChestMenu menu, int slot, PlayerProfile profile, boolean survival) {
+	private void addBackButton(ChestMenu menu, int slot, Player p, PlayerProfile profile, boolean survival) {
 		List<Object> playerHistory = profile.getGuideHistory();
 
 		if (playerHistory.size() > 1) {
 
-			menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList(
-				"",
-				ChatColors.color("&r左键: &7返回上一页"),
-				ChatColors.color("&rShift + 左键: &7返回主菜单")
-			))));
+            menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(p,
+                    "",
+                    "&rLeft Click: &7Go back to previous Page",
+                    "&rShift + left Click: &7Go back to Main Menu"
+                    )));
 
 			menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
 				if (action.isShiftClicked()) {
@@ -553,7 +553,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 		}
 		else {
-			menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(), meta -> meta.setLore(Arrays.asList("", ChatColors.color("&r左键: &7返回主菜单")))));
+            menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(p, "", SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide"))));
 			menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
 				openMainMenu(profile, survival, 1);
 				return false;

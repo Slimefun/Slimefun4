@@ -32,7 +32,7 @@ public final class OreGenSystem {
 		cfg.save();
 		
 		if (cfg.getBoolean("enabled")) {
-			Slimefun.getLogger().log(Level.INFO, "Registering Ore Gen: " + resource.getName());
+			Slimefun.getLogger().log(Level.INFO, "正在注册矿物生成器: " + resource.getName());
 			
 			SlimefunPlugin.getRegistry().getGEOResources().put(resource.getName(), resource);
 			SlimefunPlugin.getRegistry().getGEOResourceConfigs().put(resource.getName(), cfg);

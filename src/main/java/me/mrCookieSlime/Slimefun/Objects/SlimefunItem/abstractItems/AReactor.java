@@ -88,7 +88,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 				}
 				
 				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode").equals("generator")) {
-					menu.replaceExistingItem(4, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
+					menu.replaceExistingItem(4, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7模式: &e发电", "", "&6反应堆将会专注于发电", "&6当你的能源网络不需要能量时", "&6它也不会发电", "", "&7> 单击切换模式至 &e制造"));
 					menu.addMenuClickHandler(4, (p, slot, item, action) -> {
 						BlockStorage.addBlockInfo(b, "reactor-mode", "production");
 						newInstance(menu, b);
@@ -96,7 +96,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 					});
 				}
 				else {
-					menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7> Click to change the Focus to &ePower Generation"));
+					menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7模式: &e制造", "", "&6Y反应堆将专注于生产副产物", "&6当你的能源网络不需要能量时", "&6它仍会继续运行并停止发电", "", "&7> 单击切换模式至 &e产能"));
 					menu.addMenuClickHandler(4, (p, slot, item, action) -> {
 						BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 						newInstance(menu, b);
@@ -106,7 +106,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 				
 				BlockMenu port = getAccessPort(b.getLocation());
 				if (port != null) {
-					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
+					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7访问接口", "", "&6已连接", "", "&7> 单击查看访问接口"));
 					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
 						port.open(p);
 						newInstance(menu, b);
@@ -115,7 +115,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 					});
 				} 
 				else {
-					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
+					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7访问接口", "", "&c未连接", "", "&7访问接口必须放置在反应堆上方的第三格处"));
 					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
 						newInstance(menu, b);
 						menu.open(p);
@@ -186,20 +186,20 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 
 		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 
-		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"), ChestMenuUtils.getEmptyClickHandler());
+		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7燃料槽", "", "&r可以放入放射性燃料", "&r例如 &2铀 &r或者 &a镎"), ChestMenuUtils.getEmptyClickHandler());
 
 		for (int i : border_2) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 
 		if (needsCooling()) {
-			preset.addItem(7, new CustomItem(this.getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
+			preset.addItem(7, new CustomItem(this.getCoolant(), "&b冷却剂槽", "", "&r可以放入冷却剂", "&4没了冷却剂, 你的反应堆将会爆炸"));
 		}
 		else {
-			preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
+			preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&b冷却剂槽", "", "&r可以放入冷却剂"));
 
 			for (int i : border_4) {
-				preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"), ChestMenuUtils.getEmptyClickHandler());
+				preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&c暂不需要冷却剂"), ChestMenuUtils.getEmptyClickHandler());
 			}
 		}
 	}
@@ -408,7 +408,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	
 	@Override
 	public String getRecipeSectionLabel() {
-		return "&7\u21E9 Available Types of Fuel \u21E9";
+		return "&7\u21E9 可用的燃料种类 \u21E9";
 	}
 	
 	@Override
@@ -419,9 +419,9 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 			ItemStack item = fuel.getInput().clone();
 			ItemMeta im = item.getItemMeta();
 			List<String> lore = new ArrayList<>();
-			lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
+			lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7剩余 " + getTimeLeft(fuel.getTicks() / 2)));
 			lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + getEnergyProduction() * 2) + " J/s");
-			lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * getEnergyProduction()) + " J in total"));
+			lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7总共 " + DoubleHandler.getFancyDouble((double) fuel.getTicks() * getEnergyProduction()) + " J"));
 			im.setLore(lore);
 			item.setItemMeta(im);
 			list.add(item);

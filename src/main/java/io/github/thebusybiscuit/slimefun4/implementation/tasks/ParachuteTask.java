@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.tasks;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,7 +12,6 @@ public class ParachuteTask extends SlimefunTask {
 
 	@Override
 	void executeTask() {
-		Player p = Bukkit.getPlayer(uuid);
 		Vector vector = new Vector(0, 1, 0);
 		vector.multiply(-0.1);
 		p.setVelocity(vector);

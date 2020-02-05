@@ -29,7 +29,7 @@ public abstract class CombustionGenerator extends AGenerator {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&cCombustion Reactor";
+		return "&c燃烧反应机";
 	}
 
 }

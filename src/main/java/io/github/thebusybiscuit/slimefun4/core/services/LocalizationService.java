@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.logging.Level;
 
 import org.bukkit.NamespacedKey;
@@ -143,30 +144,18 @@ public class LocalizationService extends SlimefunLocalization {
             language.setMessages(messages);
             language.setResearches(researches);
 
-            if (!id.equals("en")) {
-                language.setProgress(getProgress(language, languages.get("en")));
-            }
-
             languages.put(id, language);
         }
     }
 
-    private double getProgress(Language language, Language defaultLang) {
-        return DoubleHandler.fixDouble(100.0 * (getTotalKeys(language) / getTotalKeys(defaultLang)));
+    public double getProgress(Language lang, Function<Language, FileConfiguration> method) {
+        double defaultKeys = getTotalKeys(method.apply(defaultLanguage));
+        if (defaultKeys == 0) return 0;
+        return DoubleHandler.fixDouble(100.0 * (getTotalKeys(method.apply(lang)) / defaultKeys));
     }
 
-    private double getTotalKeys(Language language) {
-        int keys = 0;
-
-        if (language.getMessages() != null) {
-            keys += language.getMessages().getKeys(true).size();
-        }
-
-        if (language.getResearches() != null) {
-            keys += language.getResearches().getKeys(true).size();
-        }
-
-        return keys;
+    private double getTotalKeys(FileConfiguration cfg) {
+        return cfg != null ? cfg.getKeys(true).size(): 0;
     }
 
     private FileConfiguration streamConfigFile(String file, FileConfiguration defaults) {

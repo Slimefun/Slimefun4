@@ -1,6 +1,5 @@
-package me.mrCookieSlime.Slimefun.Objects.tasks;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -15,8 +14,6 @@ public class MagnetTask extends SlimefunTask {
 
 	@Override
 	public void executeTask() {
-		Player p = Bukkit.getPlayer(uuid);
-		
 		for (Entity item : p.getNearbyEntities(6D, 6D, 6D)) {
 			if (item instanceof Item && !item.hasMetadata("no_pickup") && ((Item) item).getPickupDelay() <= 0) {
 				item.teleport(p.getEyeLocation());
@@ -26,8 +23,8 @@ public class MagnetTask extends SlimefunTask {
 	}
 	
 	@Override
-	protected boolean cancelTask() {
-		return super.cancelTask() || p.getGameMode() == GameMode.SPECTATOR;
+	protected boolean isInvalid() {
+		return super.isInvalid() || p.getGameMode() == GameMode.SPECTATOR;
 	}
 
 }

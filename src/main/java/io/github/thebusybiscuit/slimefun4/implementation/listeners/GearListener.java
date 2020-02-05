@@ -5,10 +5,10 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.JetBoots;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Jetpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.tasks.JetBootsTask;
-import me.mrCookieSlime.Slimefun.Objects.tasks.JetpackTask;
-import me.mrCookieSlime.Slimefun.Objects.tasks.MagnetTask;
-import me.mrCookieSlime.Slimefun.Objects.tasks.ParachuteTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.MagnetTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 

@@ -27,14 +27,6 @@ public final class Language {
         return id;
     }
 
-    public double getProgress() {
-        return progress;
-    }
-
-    public void setProgress(double progress) {
-        this.progress = progress;
-    }
-
     public FileConfiguration getMessages() {
         return messages;
     }

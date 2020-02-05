@@ -23,7 +23,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.TickerTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 
 public class ErrorReport {
 	

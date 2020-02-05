@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.github.ContributionsConn
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubConnector;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
-import io.github.thebusybiscuit.slimefun4.core.services.github.Translators;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 public class GitHubService {

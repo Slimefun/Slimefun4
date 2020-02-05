@@ -35,6 +35,8 @@ options:
   max-network-size: 200
   # 文本语言
   language: zh-CN
+  # 启用多语言功能
+  enable-translations: true
 
 guide:
   # 是否默认使用书与笔进行GUI的展示

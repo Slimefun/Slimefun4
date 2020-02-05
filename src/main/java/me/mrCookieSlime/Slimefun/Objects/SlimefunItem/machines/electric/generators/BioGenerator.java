@@ -71,7 +71,7 @@ public abstract class BioGenerator extends AGenerator {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&2Bio Reactor";
+		return "&2生物反应器";
 	}
 
 }

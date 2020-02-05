@@ -22,15 +22,15 @@ public final class GEOScanner {
 			return;
 		}
 		
-		ChestMenu menu = new ChestMenu("&4GEO-Scan Results");
+		ChestMenu menu = new ChestMenu("&4GEO 地形扫描结果");
 		for (int slot : BACKGROUND_SLOTS) {
 			menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
 		menu.addItem(4, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ0OWI5MzE4ZTMzMTU4ZTY0YTQ2YWIwZGUxMjFjM2Q0MDAwMGUzMzMyYzE1NzQ5MzJiM2M4NDlkOGZhMGRjMiJ9fX0="), 
-			"&eScanned Chunk", 
+			"&e已扫描的区块",
 			"", 
-			"&8\u21E8 &7World: " + chunk.getWorld().getName(), 
+			"&8\u21E8 &7世界: " + chunk.getWorld().getName(),
 			"&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ()
 		), ChestMenuUtils.getEmptyClickHandler());
 		

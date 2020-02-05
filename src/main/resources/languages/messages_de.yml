@@ -98,6 +98,10 @@ guide:
   pages:
     next: Nächste Seite
     previous: Vorherige Seite
+  back:
+    title: Zurück
+    guide: Gehe zurück zum Slimefun-Handbuch
+    settings: Gehe zurück zu den Einstellungen
   search:
     lore:
     - "&bWonach möchtest du suchen?"
@@ -140,6 +144,13 @@ languages:
   vi: Vietnamesisch
   zh-CN: Chinesisch (China)
   zh-TW: Chinesisch (Taiwan)
+  ar: Arabisch
+  af: Afrikaans
+  da: Dänisch
+  fi: Finnisch
+  no: Norwegisch
+  uk: Ukrainisch
+  ms: Malaiisch
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"

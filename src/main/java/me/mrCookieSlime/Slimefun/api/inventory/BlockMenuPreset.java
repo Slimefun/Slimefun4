@@ -55,16 +55,6 @@ public abstract class BlockMenuPreset extends ChestMenu {
 		// This method can optionally be overridden by implementations
 	}
 
-	@Deprecated
-	public int[] getSlotsAccessedByItemTransport(BlockMenu menu, ItemTransportFlow flow, ItemStack item) {
-		return getSlotsAccessedByItemTransport((DirtyChestMenu) menu, flow, item);
-	}
-
-	@Deprecated
-	public int[] getSlotsAccessedByItemTransport(UniversalBlockMenu menu, ItemTransportFlow flow, ItemStack item) {
-		return getSlotsAccessedByItemTransport((DirtyChestMenu) menu, flow, item);
-	}
-
 	public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
 		// This method will default to this method, can be overridden though
 		return this.getSlotsAccessedByItemTransport(flow);

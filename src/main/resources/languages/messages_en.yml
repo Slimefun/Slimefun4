@@ -33,15 +33,25 @@ guide:
   pages:
     previous: 'Previous page'
     next: 'Next page'
+    
+  back:
+    title: 'Back'
+    guide: 'Go back to the Slimefun Guide'
+    settings: 'Go back to the Settings Panel'
 
   languages:
     updated: '&aYour language was successfully set to: &b%lang%'
     selected-language: 'Currently selected:'
     select: 'Click to select this language'
     select-default: 'Click to select the default language'
+    
     translations:
       name: '&aIs something missing?'
       lore: 'Click to add your own translation'
+    
+    progress:
+      messages: 'Chat messages'
+      researches: 'Research names'
   
   title:
     main: 'Slimefun Guide'
@@ -51,6 +61,7 @@ guide:
     wiki: 'Slimefun4 Wiki'
     addons: 'Addons for Slimefun4'
     bugs: 'Bug Reports'
+    source: 'Source Code'
   
   credits:
     commit: 'Commit'
@@ -266,3 +277,10 @@ languages:
   he: 'Hebrew'
   pt: 'Portugese (Portugal)'
   pt-BR: 'Portugese (Brazil)'
+  ar: 'Arabic'
+  af: 'Afrikaans'
+  da: 'Danish'
+  fi: 'Finnish'
+  no: 'Norwegian'
+  uk: 'Ukrainian'
+  ms: 'Malay'

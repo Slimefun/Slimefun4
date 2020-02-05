@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.tasks;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Waterlogged;

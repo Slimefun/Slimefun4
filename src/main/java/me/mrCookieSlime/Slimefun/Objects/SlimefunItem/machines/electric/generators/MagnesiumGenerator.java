@@ -28,7 +28,7 @@ public abstract class MagnesiumGenerator extends AGenerator {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&cMagnesium-powered Generator";
+		return "&c镁发电机";
 	}
 
 }
