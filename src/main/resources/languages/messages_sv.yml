@@ -87,11 +87,14 @@ guide:
   languages:
     select: Klicka här för att ändra språk
     select-default: Klicka här för att välja standard språket
+    selected-language: 'Valt Språk:'
     translations:
       lore: Klicka här för att lägga till din egen översättning
       name: "&aIs något som saknas?"
     updated: "&aDitt språk är nu inställt på: &b%lang%"
-    selected-language: 'Valt Språk:'
+    progress:
+      messages: Chat meddelanden
+      researches: Forska namn
   pages:
     next: Nästa sida
     previous: Förra sidan
@@ -102,41 +105,53 @@ guide:
     message: "&bVad vill du söka efter?"
     name: "&7Sök..."
   title:
+    addons: Tilläg till Slimefun4
+    bugs: Bugg Rapporter
     credits: Slimefun4-medhjälpare
     languages: Välj ditt föredragna språk
     main: Slimefun-handbok
     settings: Inställningar & Info
     wiki: Slimefun4 Wiki
-    addons: Tilläg till Slimefun4
-    bugs: Bugg Rapporter
+    source: Källkoden
   tooltips:
     open-category: Klicka här för att öppna
     versions-notice: Dessa är väldigt viktiga när det kommer till att rapportera buggar!
+  back:
+    title: Gå Tillbaka
+    guide: Gå tillbaka till Slimefun Guiden
+    settings: Gå tillbaka till Inställningar
 inventory:
   no-access: "&4Du har inte tillåtelse att använda detta block"
 languages:
   cs: Tjeckiska
   de: Tyska
   default: Serverns Standard Språk
+  el: Grekiska
   en: Engelska
   es: Spanska
   fr: Franska
+  he: Hebreiska
   hu: Ungerska
+  id: Indonesiska
   it: Italienska
   lv: Lettiska
   nl: Holländska
   pl: Polska
+  pt: Portugesiska (Portugal)
+  pt-BR: Portugesiska (Brasilien)
   ru: Ryska
   sk: Slovakiska
   sv: Svenska
   vi: Vietnamesiska
-  zh-TW: Chinesiska (Taiwan)
-  id: Indonesiska
   zh-CN: Chinesiska (China)
-  el: Grekiska
-  he: Hebreiska
-  pt: Portugesiska (Portugal)
-  pt-BR: Portugesiska (Brasilien)
+  zh-TW: Chinesiska (Taiwan)
+  ar: Arabiska
+  af: Afrikaans
+  da: Danska
+  fi: Finska
+  'no': Norska
+  uk: Ukrainska
+  ms: Malaysiska
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Altaret är inte omgivet av det korrekta antalet piedestaler
