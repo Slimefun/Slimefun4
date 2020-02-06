@@ -81,9 +81,9 @@ public final class GuideSettings {
 				"&aSlimefun Version",
 				"&7&o" + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.versions-notice"),
 				"",
-				"&7Minecraft Version: &a" + Bukkit.getBukkitVersion(),
-				"&7Slimefun Version: &a" + SlimefunPlugin.getVersion(),
-				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion()
+				"&rMinecraft Version: &a" + Bukkit.getBukkitVersion(),
+				"&rSlimefun Version: &a" + SlimefunPlugin.getVersion(),
+				"&rCS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion()
 		),  ChestMenuUtils.getEmptyClickHandler());
 
 		menu.addItem(6, new CustomItem(Material.COMPARATOR, 

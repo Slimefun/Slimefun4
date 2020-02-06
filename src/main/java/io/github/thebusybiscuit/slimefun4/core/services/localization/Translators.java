@@ -45,6 +45,7 @@ public class Translators {
 		// Translators - Russian
 		addTranslator("SoSeDiK", "ru", false);
 		addTranslator("KostaTV", "ru", true);
+		addTranslator("TomWiskis", "ru", true);
 		
 		// Translators - Spanish
 		addTranslator("Luu7", "_Luu", "es", true);
