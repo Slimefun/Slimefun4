@@ -150,6 +150,8 @@ languages:
   da: Danska
   fi: Finska
   'no': Norska
+  uk: Ukrainska
+  ms: Malaysiska
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Altaret är inte omgivet av det korrekta antalet piedestaler
