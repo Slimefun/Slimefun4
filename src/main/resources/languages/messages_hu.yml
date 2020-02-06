@@ -93,6 +93,9 @@ guide:
       lore: Kattints a saját fordítás hozzáadásához
       name: "&aHiányzik valami?"
     updated: "&aA nyelvet sikeresen átállítottad erre: &b%lang%"
+    progress:
+      messages: Chat üzenetek
+      researches: Kutatási nevek
   pages:
     next: Következő oldal
     previous: Előző oldal
@@ -110,9 +113,14 @@ guide:
     main: Slimefun Útmutató
     settings: Beállítások és Információk
     wiki: Slimefun4 Wiki
+    source: Forráskód
   tooltips:
     open-category: Kattints a megnyitáshoz
     versions-notice: Ezek nagyon fontosak a hibák jelentésekor!
+  back:
+    title: Vissza
+    guide: Menj vissza a Slimefun Útmutatóba
+    settings: Menj vissza a Beállítások Panelre
 inventory:
   no-access: "&4Nincs hozzáférésed ehhez a blokkhoz"
 languages:
@@ -138,6 +146,13 @@ languages:
   vi: Vietnami
   zh-CN: Kínai (Kína)
   zh-TW: Kínai (Tajvan)
+  ar: Arab
+  af: Afrikánsz
+  da: Dán
+  fi: Finn
+  uk: Ukrán
+  ms: Maláj
+  'no': Norvég
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Az Altar körül nincs elég Pedestal, ami szükséges a működéséhez
