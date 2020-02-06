@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
@@ -247,6 +248,8 @@ public final class Slimefun {
 
 	/**
 	 * Lists all the IDs of the enabled items.
+	 *
+	 * @deprecated Use {@link SlimefunRegistry#getEnabledSlimefunItemIds()}
 	 *
 	 * @return the list of all the IDs of the enabled items.
 	 */

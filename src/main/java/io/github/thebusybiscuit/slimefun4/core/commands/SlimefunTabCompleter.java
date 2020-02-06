@@ -3,13 +3,12 @@ package io.github.thebusybiscuit.slimefun4.core.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.Research;
 
 public class SlimefunTabCompleter implements TabCompleter {
 	
@@ -26,7 +25,7 @@ public class SlimefunTabCompleter implements TabCompleter {
 		}
 		else if (args.length == 3) {
 			if (args[0].equalsIgnoreCase("give")) {
-				return createReturnList(Slimefun.listIDs(), args[2]);
+				return createReturnList(SlimefunPlugin.getRegistry().getEnabledSlimefunItemIds(), args[2]);
 			}
 			else if (args[0].equalsIgnoreCase("research")) {
 				List<String> researches = new ArrayList<>();
