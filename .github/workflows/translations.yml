@@ -14,6 +14,6 @@ jobs:
       - name: Discord Notification
         uses: Ilshidur/action-discord@master
         with:
-          args: '<@&665202905271369776> Slimefun's language files have been updated! https://gitlocalize.com/repo/3841'
+          args: '<@&665202905271369776> Slimefun4''s language files have been updated! https://gitlocalize.com/repo/3841'
         env:
           DISCORD_WEBHOOK: ${{ secrets.TRANSLATOR_WEBHOOK }}
