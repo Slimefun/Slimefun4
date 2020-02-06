@@ -27,7 +27,7 @@ public class Translators {
 		addTranslator("xXDOTTORXx", "it", true);
 		
 		// Translators - Latvian
-		addTranslator("AgnisT", "lv", true);
+		addTranslator("AgnisT", "NIKNAIZ", "lv", true);
 		
 		// Translators - Hungarian
 		addTranslator("andris155", "hu", true);
