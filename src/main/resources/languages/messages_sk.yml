@@ -93,6 +93,9 @@ guide:
       lore: Klikni pre pridanie svojho prekladu
       name: "&aNiečo chýba?"
     updated: "&aTvoj jazyk bol úspešne nastavený na: &b%lang%"
+    progress:
+      messages: Správy v chate
+      researches: Názvy prieskumov
   pages:
     next: Ďalšia stránka
     previous: Predošlá stránka
@@ -110,9 +113,14 @@ guide:
     main: Slimefun príručka
     settings: Nastavenia a informácie
     wiki: Slimefun4 Wiki
+    source: Zdrojový kód
   tooltips:
     open-category: Klikni pre otvorenie
     versions-notice: Toto je veľmi dôležité pri nahlasovaní bugov!
+  back:
+    title: Naspäť
+    guide: Ísť naspäť do Slimefun príručky
+    settings: Ísť naspäť do nastavení
 inventory:
   no-access: "&4Nemáš opŕavnenie na otvorenie tohto bloku"
 languages:
@@ -138,6 +146,13 @@ languages:
   vi: Vietnamčina
   zh-CN: Čínština (Čína)
   zh-TW: Čínština (Taiwan)
+  ar: Arabčina
+  af: Afrikánčina
+  da: Dánčina
+  fi: Fínština
+  'no': Nórština
+  uk: Ukrajinčina
+  ms: Malajština
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Oltár nie je obkolesený dostatočným počtom podstáv&c(%pedestals%

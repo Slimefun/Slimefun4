@@ -94,6 +94,9 @@ guide:
       lore: Nhấn vào đây để thêm bản dịch của riêng bạn
       name: "&aThiếu một cái gì đó?"
     updated: "&aNgôn ngữ của bạn đã được đặt thành công: &b%lang%"
+    progress:
+      messages: Tin nhắn trò chuyện
+      researches: Tên nghiên cứu
   pages:
     next: Trang tiếp theo
     previous: Trang trước
@@ -111,9 +114,14 @@ guide:
     main: Hướng dẫn sử dụng Slimefun
     settings: Cài đặt và thông tin
     wiki: Tài liệu Slimefun4
+    source: Mã nguồn
   tooltips:
     open-category: Nhấn vào đây để mở
     versions-notice: Đây là rất quan trọng khi báo cáo lỗi!
+  back:
+    title: Quay lại
+    guide: Quay trở lại Hướng dẫn Slimefun
+    settings: Quay trở lại Bảng Cài đặt
 inventory:
   no-access: "&4Bạn không được phép truy cập vào khối này"
 languages:
@@ -139,6 +147,13 @@ languages:
   vi: Tiếng Việt
   zh-CN: Tiếng Trung (Trung Quốc)
   zh-TW: Tiếng Trung Quốc (Đài Loan)
+  ar: Tiếng Ả Rập
+  af: Tiếng Nam Phi
+  da: Tiếng Đan Mạch
+  fi: Tiếng Phần Lan
+  'no': Tiếng Na Uy
+  uk: Tiếng Ukraina
+  ms: Tiếng Mã Lai
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Bàn thờ không được bao quanh bởi số lượng cần thiết của
@@ -206,6 +221,7 @@ messages:
   no-permission: "&4Bạn không có quyền để làm điều này"
   no-pvp: "&cBạn không thể đánh nhau ở đây!"
   not-enough-xp: "&4Bạn không có đủ kinh nghiệm để mở khóa"
+  no-tome-yourself: "&cBạn không thể sử dụng &4Bộ kiến thức &ccho chính bạn..."
   not-online: "&4%player% &cđang không trực tuyến!"
   not-researched: "&4Bạn không có đủ kiến thức để hiểu điều này"
   not-valid-amount: "&4%amount% &ckhông hợp lệ : phải lớn hơn 0!"
@@ -224,26 +240,25 @@ messages:
       một thời điểm."
     success: "&aBạn đã liên kết thành công vật phẩm với linh hồn của bạn! Bạn sẽ giữ
       vật phẩm khi chết."
-  unknown-player: "&4Người chơi chưa biết: &c%player%"
-  unlocked: '&bBạn đã mở khóa &7"%research%"'
-  usage: "&4Cách sử dụng: &c%usage%"
-  no-tome-yourself: "&cBạn không thể sử dụng &4Bộ kiến thức &ccho chính bạn..."
   talisman:
-    anvil: "&a&oBùa hộ mệnh của bạn đã lưu công cụ của bạn khỏi bị phá vỡ"
-    miner: "&a&oBùa hộ mệnh của bạn vừa nhân đôi vật phẩm rớt"
-    hunter: "&a&oBùa hộ mệnh của bạn vừa nhân đôi vật phẩm rớt"
-    lava: "&a&oBùa hộ mệnh của bạn cứu bạn khỏi bị thiêu chết"
-    water: "&a&oBùa hộ mệnh của bạn vừa cứu bạn khỏi đuối nước"
     angel: "&a&oBùa hộ mệnh của bạn vừa cứu bạn khỏi bị sát thương khi rơi"
+    anvil: "&a&oBùa hộ mệnh của bạn đã lưu công cụ của bạn khỏi bị phá vỡ"
     fire: "&a&oBùa hộ mệnh của bạn cứu bạn khỏi bị thiêu chết"
+    hunter: "&a&oBùa hộ mệnh của bạn vừa nhân đôi vật phẩm rớt"
+    knight: "&a&oBùa hộ mệnh của bạn đã cho bạn 5 giây hiệu ứng Hồi Máu"
+    lava: "&a&oBùa hộ mệnh của bạn cứu bạn khỏi bị thiêu chết"
     magician: "&a&oBùa hộ mệnh của bạn cho bạn một phù phép bổ sung"
+    miner: "&a&oBùa hộ mệnh của bạn vừa nhân đôi vật phẩm rớt"
     traveller: "&a&oBùa hộ mệnh của bạn cho bạn hiệu ứng Chạy Nhanh"
     warrior: "&a&oBùa hộ mệnh của bạn đã cải thiện Sức mạnh của bạn trong một thời
       gian"
-    knight: "&a&oBùa hộ mệnh của bạn đã cho bạn 5 giây hiệu ứng Hồi Máu"
+    water: "&a&oBùa hộ mệnh của bạn vừa cứu bạn khỏi đuối nước"
     whirlwind: "&a&oBùa hộ mệnhcủa bạn phản lại Phát Bắn"
     wizard: "&a&oBùa hộ mệnh của bạn đã cho bạn một Cấp độ may mắn tốt hơn nhưng cũng
       có thể hạ thấp một số Cấp độ phù phép khác"
+  unknown-player: "&4Người chơi chưa biết: &c%player%"
+  unlocked: '&bBạn đã mở khóa &7"%research%"'
+  usage: "&4Cách sử dụng: &c%usage%"
 miner:
   no-ores: "&eXin lỗi, tôi không thể tìm bất kì Khoáng sản nào xung quanh!"
 workbench:

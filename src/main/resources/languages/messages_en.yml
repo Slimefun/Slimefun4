@@ -281,6 +281,6 @@ languages:
   af: 'Afrikaans'
   da: 'Danish'
   fi: 'Finnish'
-  no: 'Norwegian'
   uk: 'Ukrainian'
   ms: 'Malay'
+  'no': 'Norwegian'

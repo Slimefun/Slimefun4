@@ -75,6 +75,10 @@ gps:
     new: "&eBitte gebe ins Chatfenser einen Namen für deinen Wegpunkt ein. &7(Farbcodes
       werden unterstützt!)"
 guide:
+  back:
+    guide: Gehe zurück zum Slimefun-Handbuch
+    settings: Gehe zurück zu den Einstellungen
+    title: Zurück
   cheat:
     no-multiblocks: "&4Multiblöcke müssen gebaut werden! Du kannst dir diese nicht
       geben."
@@ -95,13 +99,12 @@ guide:
       lore: Klicke um eine Übersetzung hinzuzufügen
       name: "&aFehlt etwas?"
     updated: "&aFolgende Sprache wurde ausgewählt: &b%lang%"
+    progress:
+      messages: Chatnachrichten
+      researches: Namen von Erforschungen
   pages:
     next: Nächste Seite
     previous: Vorherige Seite
-  back:
-    title: Zurück
-    guide: Gehe zurück zum Slimefun-Handbuch
-    settings: Gehe zurück zu den Einstellungen
   search:
     lore:
     - "&bWonach möchtest du suchen?"
@@ -116,41 +119,42 @@ guide:
     main: Slimefun-Handbuch
     settings: Einstellungen & Infos
     wiki: Slimefun4-Wiki
+    source: Quellcode
   tooltips:
     open-category: Klicke zum Öffnen
     versions-notice: Dies ist sehr wichtig bei Fehlermeldungen!
 inventory:
   no-access: "&4Du kannst nicht auf diesen Block zugreifen"
 languages:
+  af: Afrikaans
+  ar: Arabisch
   cs: Tschechisch
+  da: Dänisch
   de: Deutsch
   default: Server-Standard
   el: Griechisch
   en: Englisch
   es: Spanisch
+  fi: Finnisch
   fr: Französisch
   he: Hebräisch
   hu: Ungarisch
   id: Indonesisch
   it: Italienisch
   lv: Lettisch
+  ms: Malaiisch
   nl: Niederländisch
+  'no': Norwegisch
   pl: Polnisch
   pt: Portugiesisch (Portugal)
   pt-BR: Portugiesisch (Brasilien)
   ru: Russisch
   sk: Slowakisch
   sv: Schwedisch
+  uk: Ukrainisch
   vi: Vietnamesisch
   zh-CN: Chinesisch (China)
   zh-TW: Chinesisch (Taiwan)
-  ar: Arabisch
-  af: Afrikaans
-  da: Dänisch
-  fi: Finnisch
-  no: Norwegisch
-  uk: Ukrainisch
-  ms: Malaiisch
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"

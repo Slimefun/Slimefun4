@@ -149,7 +149,7 @@ public class LocalizationService extends SlimefunLocalization {
     }
 
     public double getProgress(Language lang, Function<Language, FileConfiguration> method) {
-        double defaultKeys = getTotalKeys(method.apply(defaultLanguage));
+        double defaultKeys = getTotalKeys(method.apply(languages.get("en")));
         if (defaultKeys == 0) return 0;
         return DoubleHandler.fixDouble(100.0 * (getTotalKeys(method.apply(lang)) / defaultKeys));
     }

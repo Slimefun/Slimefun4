@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.2-UNOFFCIAL-20200205</version>
+    <version>4.2-UNOFFCIAL-20200206</version>
     
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
