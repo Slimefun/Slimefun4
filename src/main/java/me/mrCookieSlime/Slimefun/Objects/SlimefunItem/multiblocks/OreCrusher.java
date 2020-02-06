@@ -19,14 +19,14 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class OreCrusher extends MultiBlockMachine {
 
 	public OreCrusher() {
 		super(
 				Categories.MACHINES_1, 
-				SlimefunItems.ORE_CRUSHER, 
-				"ORE_CRUSHER",
+				(SlimefunItemStack) SlimefunItems.ORE_CRUSHER, 
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS)},
 				new ItemStack[] {
 						new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), 

@@ -181,7 +181,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		ChestMenu menu = create(p);
 		fillInv(p, profile, menu, survival);
 
-		menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide"))));
+		menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide"))));
 		menu.addMenuClickHandler(1, (pl, s, is, action) -> {
 			openMainMenu(profile, survival, 1);
 			return false;

@@ -20,14 +20,14 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class PressureChamber extends MultiBlockMachine {
 
 	public PressureChamber() {
 		super(
 				Categories.MACHINES_1, 
-				SlimefunItems.PRESSURE_CHAMBER, 
-				"PRESSURE_CHAMBER",
+				(SlimefunItemStack) SlimefunItems.PRESSURE_CHAMBER, 
 				new ItemStack[] {new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
 				new ItemStack[] {
 						SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND, 

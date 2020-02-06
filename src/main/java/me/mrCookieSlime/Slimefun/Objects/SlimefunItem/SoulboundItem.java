@@ -4,6 +4,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.Soulbound;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -13,7 +14,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author TheBusyBiscuit
  *
  */
-public class SoulboundItem extends SlimefunItem implements Soulbound {
+public class SoulboundItem extends SlimefunItem implements Soulbound, NotPlaceable {
 
 	public SoulboundItem(Category category, SlimefunItemStack item, ItemStack[] recipe) {
 		this(category, item, RecipeType.MAGIC_WORKBENCH, recipe);
@@ -21,10 +22,6 @@ public class SoulboundItem extends SlimefunItem implements Soulbound {
 
 	public SoulboundItem(Category category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
 		super(category, item, type, recipe);
-	}
-	
-	public SoulboundItem(Category category, ItemStack item, String id, RecipeType type, ItemStack[] recipe) {
-		super(category, item, id, type, recipe);
 	}
 
 }

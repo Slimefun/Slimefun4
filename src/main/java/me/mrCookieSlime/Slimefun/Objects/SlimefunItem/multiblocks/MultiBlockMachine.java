@@ -16,6 +16,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class MultiBlockMachine extends SlimefunMachine {
 	
@@ -27,12 +28,22 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 		    BlockFace.WEST
 	};
 	
+	@Deprecated
 	public MultiBlockMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
 		super(category, item, id, recipe, machineRecipes, trigger);
 	}
+	
+	public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+		super(category, item, recipe, machineRecipes, trigger);
+	}
 
+	@Deprecated
 	public MultiBlockMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
 		super(category, item, id, recipe, machineRecipes, trigger, keys, values);
+	}
+	
+	public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
+		super(category, item, recipe, machineRecipes, trigger, keys, values);
 	}
 	
 	@Override

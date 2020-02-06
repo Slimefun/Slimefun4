@@ -21,6 +21,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 	protected final List<ItemStack> shownRecipes;
 	protected final MultiBlock multiblock;
 
+	@Deprecated
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe);
 		this.recipes = new ArrayList<>();
@@ -37,14 +38,15 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 		this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
 	}
 
-	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, boolean ghost) {
-		super(category, item, id, RecipeType.MULTIBLOCK, recipe, ghost);
+	public SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
+		super(category, item, RecipeType.MULTIBLOCK, recipe, keys, values);
 		this.recipes = new ArrayList<>();
 		this.shownRecipes = new ArrayList<>();
 		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
 		this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
 	}
 
+	@Deprecated
 	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
 		super(category, item, id, RecipeType.MULTIBLOCK, recipe, keys, values);
 		this.recipes = new ArrayList<>();

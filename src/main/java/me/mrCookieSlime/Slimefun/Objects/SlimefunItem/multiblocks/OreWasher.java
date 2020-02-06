@@ -19,14 +19,14 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class OreWasher extends MultiBlockMachine {
 
 	public OreWasher() {
 		super(
 				Categories.MACHINES_1, 
-				SlimefunItems.ORE_WASHER, 
-				"ORE_WASHER",
+				(SlimefunItemStack) SlimefunItems.ORE_WASHER, 
 				new ItemStack[] {null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null},
 				new ItemStack[] {
 						SlimefunItems.SIFTED_ORE, SlimefunItems.IRON_DUST, 

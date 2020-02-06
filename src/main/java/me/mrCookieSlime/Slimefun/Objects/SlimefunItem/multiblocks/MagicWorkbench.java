@@ -27,14 +27,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class MagicWorkbench extends MultiBlockMachine {
 
 	public MagicWorkbench() {
 		super(
 				Categories.MACHINES_1, 
-				SlimefunItems.MAGIC_WORKBENCH, 
-				"MAGIC_WORKBENCH",
+				(SlimefunItemStack) SlimefunItems.MAGIC_WORKBENCH, 
 				new ItemStack[] {null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER)},
 				new ItemStack[0], 
 				BlockFace.UP

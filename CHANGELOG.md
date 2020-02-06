@@ -68,6 +68,7 @@
 * Fixed #1428
 * Fixed #1435
 * Fixed #1438
+* Fixed Multi Tool functioning as unlimited Shears
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4

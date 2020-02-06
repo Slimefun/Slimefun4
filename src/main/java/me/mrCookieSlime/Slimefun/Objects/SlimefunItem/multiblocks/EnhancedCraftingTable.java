@@ -27,14 +27,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class EnhancedCraftingTable extends MultiBlockMachine {
 
 	public EnhancedCraftingTable() {
 		super(
 				Categories.MACHINES_1, 
-				SlimefunItems.ENHANCED_CRAFTING_TABLE, 
-				"ENHANCED_CRAFTING_TABLE",
+				(SlimefunItemStack) SlimefunItems.ENHANCED_CRAFTING_TABLE, 
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null}, 
 				new ItemStack[0], 
 				BlockFace.SELF

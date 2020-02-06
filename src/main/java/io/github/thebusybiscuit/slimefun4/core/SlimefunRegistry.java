@@ -47,7 +47,7 @@ public class SlimefunRegistry {
 	private final List<MultiBlock> multiblocks = new LinkedList<>();
 	
 	private final Set<String> tickers = new HashSet<>();
-	private final Set<ItemStack> radioactive = new HashSet<>();
+	private final Set<SlimefunItem> radioactive = new HashSet<>();
 	private final Set<String> activeChunks = new HashSet<>();
 	private final Set<UUID> researchingPlayers = new HashSet<>();
 
@@ -123,8 +123,8 @@ public class SlimefunRegistry {
 	public Set<ItemStack> getMobDrops(EntityType entity) {
 		return drops.get(entity);
 	}
-
-	public Set<ItemStack> getRadioactiveItems() {
+	
+	public Set<SlimefunItem> getRadioactiveItems() {
 		return radioactive;
 	}
 	

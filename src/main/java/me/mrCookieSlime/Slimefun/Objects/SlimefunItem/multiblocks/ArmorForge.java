@@ -20,14 +20,14 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ArmorForge extends MultiBlockMachine {
 
 	public ArmorForge() {
 		super(
 				Categories.MACHINES_1, 
-				SlimefunItems.ARMOR_FORGE, 
-				"ARMOR_FORGE",
+				(SlimefunItemStack) SlimefunItems.ARMOR_FORGE, 
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 				new ItemStack[0],
 				BlockFace.SELF

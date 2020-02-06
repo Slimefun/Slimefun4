@@ -43,5 +43,6 @@ public final class Categories {
 	public static final SeasonalCategory VALENTINES_DAY = new SeasonalCategory(2, 2, new CustomItem(Material.POPPY, "&dValentine's Day" + " &7(14th February)"));
 	public static final SeasonalCategory EASTER = new SeasonalCategory(4, 2, new CustomItem(Material.EGG, "&6Easter" + " &7(April)"));
 	public static final SeasonalCategory BIRTHDAY = new SeasonalCategory(10, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)"));
+	public static final SeasonalCategory HALLOWEEN = new SeasonalCategory(10, 1, new CustomItem(Material.JACK_O_LANTERN, "&6&lHalloween &7(31st October)"));
 	
 }

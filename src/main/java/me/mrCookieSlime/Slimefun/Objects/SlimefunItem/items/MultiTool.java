@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ChargableItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -88,10 +89,23 @@ public class MultiTool extends ChargableItem {
 		};
 	}
 	
+	private BlockBreakHandler getBlockBreakHandler() {
+		return (e, item, fortune, drops) -> {
+			if (isItem(item)) {
+				e.setCancelled(true);
+				return true;
+			}
+			
+			return false;
+		};
+	}
+	
 	@Override
 	public void preRegister() {
 		super.preRegister();
+		
 		addItemHandler(getItemUseHandler());
+		addItemHandler(getBlockBreakHandler());
 	}
 
 	@Override

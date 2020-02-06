@@ -66,6 +66,7 @@ public class SlimefunItem implements Placeable {
 	private Object[] values;
 	private String wiki = null;
 
+	@Deprecated
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		this(category, item, id, recipeType, recipe, null);
 	}
@@ -74,6 +75,7 @@ public class SlimefunItem implements Placeable {
 		this(category, item, recipeType, recipe, null);
 	}
 
+	@Deprecated
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		this(category, item, id, recipeType, recipe, recipeOutput, null, null);
 	}
@@ -86,20 +88,30 @@ public class SlimefunItem implements Placeable {
 		this(category, item, recipeType, recipe, null, keys, values);
 	}
 
+	@Deprecated
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		this(category, item, id, recipeType, recipe, null, keys, values);
 	}
 
+	@Deprecated
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean hidden) {
 		this(category, item, id, recipeType, recipe);
 		this.hidden = hidden;
 	}
 
-	// Root constructors
+	// Root constructor
 	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
-		this(category, item, item.getItemID(), recipeType, recipe, recipeOutput, keys, values);
+		this.category = category;
+		this.item = item;
+		this.id = item.getItemID();
+		this.recipeType = recipeType;
+		this.recipe = recipe;
+		this.recipeOutput = recipeOutput;
+		this.keys = keys;
+		this.values = values;
 	}
 
+	@Deprecated
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
 		this.category = category;
 		this.item = item;
@@ -335,7 +347,6 @@ public class SlimefunItem implements Placeable {
 
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
 		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
-		else if (this instanceof ChargedItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
 		else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
 		else return SlimefunManager.isItemSimilar(item, this.item, true);		
 	}
@@ -348,6 +359,7 @@ public class SlimefunItem implements Placeable {
 
 			if (recipeType.toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
 				String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
+				
 				try {
 					EntityType entity = EntityType.valueOf(mob);
 					Set<ItemStack> dropping = SlimefunPlugin.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());
@@ -454,7 +466,11 @@ public class SlimefunItem implements Placeable {
 	 */
 	@Deprecated
 	public static void setRadioactive(ItemStack item) {
-		SlimefunPlugin.getRegistry().getRadioactiveItems().add(item);
+		SlimefunItem sfItem = getByItem(item);
+		
+		if (sfItem != null) {
+			SlimefunPlugin.getRegistry().getRadioactiveItems().add(sfItem);
+		}
 	}
 
 	public static ItemStack getItem(String id) {
