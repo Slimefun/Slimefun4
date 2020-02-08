@@ -33,7 +33,7 @@ public final class ItemEnergy {
 		if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return 0F;
 		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
 
-		for (String line: item.getItemMeta().getLore()) {
+		for (String line : item.getItemMeta().getLore()) {
 			if (line.startsWith(ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
 				return Float.valueOf(line.split(" / ")[1].replace(" J", ""));
 			}
@@ -44,7 +44,7 @@ public final class ItemEnergy {
 
 	public static float addStoredEnergy(ItemStack item, float energy) {
 		if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return 0F;
-		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
+		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0;
 
 		float rest = 0F;
 		float capacity = getMaxEnergy(item);
