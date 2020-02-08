@@ -93,9 +93,6 @@ guide:
       lore: Klikni pre pridanie svojho prekladu
       name: "&aNiečo chýba?"
     updated: "&aTvoj jazyk bol úspešne nastavený na: &b%lang%"
-    progress:
-      messages: Správy v chate
-      researches: Názvy prieskumov
   pages:
     next: Ďalšia stránka
     previous: Predošlá stránka

@@ -1,9 +1,11 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
-import org.bukkit.entity.Player;
+import java.util.Optional;
+
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.GEO.GEOScanner;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -19,9 +21,12 @@ public class PortableGEOScanner extends SimpleSlimefunItem<ItemUseHandler> {
 	@Override
 	public ItemUseHandler getItemHandler() {
 		return e -> {
+			Optional<Block> block = e.getClickedBlock();
 			e.cancel();
-			Player p = e.getPlayer();
-			GEOScanner.scanChunk(p, p.getLocation().getChunk());
+			
+			if (block.isPresent()) {
+				SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), block.get());
+			}
 		};
 	}
 

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.GPS;
+package io.github.thebusybiscuit.slimefun4.api.gps;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.api.geo.ResourceManager;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -29,23 +30,24 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class GPSNetwork {
 	
-	private static final String DIRECTORY = "data-storage/Slimefun/waypoints/";
+	private static final String WAYPOINTS_DIRECTORY = "data-storage/Slimefun/waypoints/";
 	
 	private final int[] border = {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private final int[] inventory = {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 	
 	private final Map<UUID, Set<Location>> transmitters = new HashMap<>();
-	private final GPSTeleportation teleportation = new GPSTeleportation(this);
+	private final TeleportationManager teleportation = new TeleportationManager(this);
+	private final ResourceManager resourceManager = new ResourceManager();
 	
 	private final ItemStack deathpointIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFlMzg1NWY5NTJjZDRhMDNjMTQ4YTk0NmUzZjgxMmE1OTU1YWQzNWNiY2I1MjYyN2VhNGFjZDQ3ZDMwODEifX19");
 	private final ItemStack netherIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0=");
 	private final ItemStack endIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzZjYWM1OWIyYWFlNDg5YWEwNjg3YjVkODAyYjI1NTVlYjE0YTQwYmQ2MmIyMWViMTE2ZmE1NjljZGI3NTYifX19");
 	private final ItemStack worldIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0=");
 	
-	public void updateTransmitter(Location l, UUID uuid, NetworkStatus status) {
+	public void updateTransmitter(Location l, UUID uuid, boolean online) {
 		Set<Location> set = transmitters.getOrDefault(uuid, new HashSet<>());
 
-		if (status == NetworkStatus.ONLINE) {
+		if (online) {
 			if (set.add(l)) {
 				transmitters.put(uuid, set);
 			}
@@ -164,7 +166,7 @@ public class GPSNetwork {
 			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &cClick to delete"));
 			menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
 				String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(' ', '_');
-				Config cfg = new Config(DIRECTORY + pl.getUniqueId().toString() + ".yml");
+				Config cfg = new Config(WAYPOINTS_DIRECTORY + pl.getUniqueId().toString() + ".yml");
 				cfg.setValue(id, null);
 				cfg.save();
 				pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
@@ -181,7 +183,7 @@ public class GPSNetwork {
 
 	public Map<String, Location> getWaypoints(UUID uuid) {
 		Map<String, Location> map = new HashMap<>();
-		Config cfg = new Config(DIRECTORY + uuid.toString() + ".yml");
+		Config cfg = new Config(WAYPOINTS_DIRECTORY + uuid.toString() + ".yml");
 		
 		for (String key : cfg.getKeys()) {
 			if (cfg.contains(key + ".world") && Bukkit.getWorld(cfg.getString(key + ".world")) != null) {
@@ -212,7 +214,7 @@ public class GPSNetwork {
 			return;
 		}
 		
-		Config cfg = new Config(DIRECTORY + p.getUniqueId().toString() + ".yml");
+		Config cfg = new Config(WAYPOINTS_DIRECTORY + p.getUniqueId().toString() + ".yml");
 		String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', name)).toUpperCase().replace(' ', '_');
 		
 		cfg.setValue(id, l);
@@ -227,8 +229,12 @@ public class GPSNetwork {
 		return transmitters.getOrDefault(uuid, new HashSet<>());
 	}
 	
-	public GPSTeleportation getTeleleportationService() {
+	public TeleportationManager getTeleleportationService() {
 		return teleportation;
+	}
+
+	public ResourceManager getResourceManager() {
+		return resourceManager;
 	}
 
 }

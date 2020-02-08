@@ -11,10 +11,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;

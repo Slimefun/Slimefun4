@@ -96,9 +96,6 @@ guide:
       lore: Cliquez pour ajouter votre propre traduction
       name: "&aIl manque quelque chose ?"
     updated: "&aVotre langue a été correctement définie sur : &b%lang%"
-    progress:
-      messages: Messages du chat
-      researches: Noms des Recherches
   pages:
     next: Page suivante
     previous: Page précédente

@@ -93,9 +93,6 @@ guide:
       lore: Kattints a saját fordítás hozzáadásához
       name: "&aHiányzik valami?"
     updated: "&aA nyelvet sikeresen átállítottad erre: &b%lang%"
-    progress:
-      messages: Chat üzenetek
-      researches: Kutatási nevek
   pages:
     next: Következő oldal
     previous: Előző oldal

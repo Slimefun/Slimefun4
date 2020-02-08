@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.GEO.GEOScanner;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -27,7 +27,7 @@ public class GEOScannerBlock extends SimpleSlimefunItem<BlockUseHandler> {
 			Block b = e.getClickedBlock().get();
 			
 			e.cancel();
-			GEOScanner.scanChunk(e.getPlayer(), b.getChunk());
+			SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), b);
 		};
 	}
 }

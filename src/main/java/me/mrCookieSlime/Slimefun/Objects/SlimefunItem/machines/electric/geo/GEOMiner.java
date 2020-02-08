@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.OptionalInt;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,12 +11,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
-import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -110,8 +111,8 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	public List<ItemStack> getDisplayRecipes() {
 		List<ItemStack> displayRecipes = new LinkedList<>();
 		
-		for (OreGenResource resource : OreGenSystem.listResources()) {
-			if (!resource.isLiquid()) {
+		for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
+			if (resource.isObtainableFromGEOMiner()) {
 				displayRecipes.add(new CustomItem(resource.getItem(), "&r" + resource.getName()));
 			}
 		}
@@ -175,18 +176,20 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 				processing.remove(b);
 			}
 		}
-		else if (!BlockStorage.hasChunkInfo(b.getChunk())) {
+		else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4)) {
 			SimpleHologram.update(b, "&4GEO-Scan required!");
 		}
 		else {
-			for (OreGenResource resource : OreGenSystem.listResources()) {
-				if (!resource.isLiquid()) {
-					if (!OreGenSystem.wasResourceGenerated(resource, b.getLocation())) {
+			for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
+				if (resource.isObtainableFromGEOMiner()) {
+					OptionalInt optional = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
+					
+					if (!optional.isPresent()) {
 						SimpleHologram.update(b, "&4GEO-Scan required!");
 						return;
 					}
 					else {
-						int supplies = OreGenSystem.getSupplies(resource, b.getLocation(), false);
+						int supplies = optional.getAsInt();
 						
 						if (supplies > 0) {
 							MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[] {resource.getItem().clone()});
@@ -194,7 +197,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 							
 							processing.put(b, r);
 							progress.put(b, r.getTicks());
-							OreGenSystem.setSupplies(resource, b.getLocation(), supplies - 1);
+							SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies - 1);
 							SimpleHologram.update(b, "&7Mining: &r" + resource.getName());
 							return;
 						}

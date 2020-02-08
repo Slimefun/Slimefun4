@@ -43,6 +43,25 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 		return language.getResearches().getString(key.getNamespace() + "." + key.getKey());
 	}
 
+	public String getCategoryName(Player p, NamespacedKey key) {
+		Language language = getLanguage(p);
+		if (language.getCategories() == null) return null;
+		return language.getCategories().getString(key.getNamespace() + "." + key.getKey());
+	}
+
+	public String getResourceString(Player p, String key) {
+		Language language = getLanguage(p);
+		
+		String value = language.getResources() != null ? language.getResources().getString(key): null;
+		
+		if (value != null) {
+			return value;
+		}
+		else {
+			return getLanguage("en").getResources().getString(key);
+		}
+	}
+
 	@Override
 	public void sendMessage(CommandSender sender, String key, boolean addPrefix) {
 		String prefix = addPrefix ? getPrefix(): "";

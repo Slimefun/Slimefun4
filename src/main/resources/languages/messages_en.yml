@@ -48,10 +48,6 @@ guide:
     translations:
       name: '&aIs something missing?'
       lore: 'Click to add your own translation'
-    
-    progress:
-      messages: 'Chat messages'
-      researches: 'Research names'
   
   title:
     main: 'Slimefun Guide'

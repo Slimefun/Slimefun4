@@ -31,9 +31,6 @@ guide:
     select: اضغط لإختيار هذه اللغة
     select-default: اضغط لتحديد اللغة الإفتراضية
     selected-language: 'الإختيار الحالي:'
-    progress:
-      messages: رسائل الشات
-      researches: أسماء الأبحاث
   title:
     main: كتيب سلايم فان
     settings: الإعدادات والمعلومات
