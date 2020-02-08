@@ -153,12 +153,11 @@ public class SlimefunItemListener implements Listener {
 	}
 
 	private boolean canPlaceCargoNodes(Player p, ItemStack item, Block b) {
-		if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true)) return true;
-		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true)) return true;
-		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true)) return true;
-		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CT_IMPORT_BUS, true)) return true;
-		else if (canPlaceBlock(p, b) && SlimefunManager.isItemSimilar(item, SlimefunItems.CT_EXPORT_BUS, true)) return true;
-		else return false;
+		return canPlaceBlock(p, b) && (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true)
+				||  SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true)
+				||  SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true)
+				||  SlimefunManager.isItemSimilar(item, SlimefunItems.CT_IMPORT_BUS, true)
+				||  SlimefunManager.isItemSimilar(item, SlimefunItems.CT_EXPORT_BUS, true));
 	}
 
 	private boolean canPlaceBlock(Player p, Block relative) {
@@ -175,6 +174,7 @@ public class SlimefunItemListener implements Listener {
 			if (Slimefun.hasUnlocked(p, sfItem, true)) {
 				if (sfItem instanceof Juice) {
 					// Fix for Saturation on potions is no longer working
+					
 					for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
 						if (effect.getType().equals(PotionEffectType.SATURATION)) {
 							p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, effect.getDuration(), effect.getAmplifier()));
@@ -182,33 +182,7 @@ public class SlimefunItemListener implements Listener {
 						}
 					}
 
-					// Determine from which hand the juice is being drunk, and its amount
-					int mode = 0;
-					if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
-						if (p.getInventory().getItemInMainHand().getAmount() == 1) {
-							mode = 0;
-						}
-						else {
-							mode = 2;
-						}
-					}
-					else if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
-						if (p.getInventory().getItemInOffHand().getAmount() == 1) {
-							mode = 1;
-						}
-						else {
-							mode = 2;
-						}
-					}
-
-					// Remove the glass bottle once drunk
-					final int m = mode;
-
-					Slimefun.runSync(() -> {
-						if (m == 0) p.getEquipment().getItemInMainHand().setAmount(0);
-						else if (m == 1) p.getEquipment().getItemInOffHand().setAmount(0);
-						else if (m == 2) p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
-					}, 0L);
+					removeGlassBottle(p, item);
 				}
 				else {
 					sfItem.callItemHandler(ItemConsumptionHandler.class, handler ->
@@ -218,6 +192,27 @@ public class SlimefunItemListener implements Listener {
 			}
 			else {
 				e.setCancelled(true);
+			}
+		}
+	}
+
+	private void removeGlassBottle(Player p, ItemStack item) {
+		// Determine from which hand the juice is being drunk, and its amount
+		
+		if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
+			if (p.getInventory().getItemInMainHand().getAmount() == 1) {
+				Slimefun.runSync(() -> p.getEquipment().getItemInMainHand().setAmount(0));
+			}
+			else {
+				Slimefun.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
+			}
+		}
+		else if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
+			if (p.getInventory().getItemInOffHand().getAmount() == 1) {
+				Slimefun.runSync(() -> p.getEquipment().getItemInOffHand().setAmount(0));
+			}
+			else {
+				Slimefun.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
 			}
 		}
 	}
@@ -234,7 +229,7 @@ public class SlimefunItemListener implements Listener {
 			else if (e.getHand() == EquipmentSlot.OFF_HAND) {
 				item = inv.getItemInOffHand();
 			}
-
+			
 			if (item != null && item.getType() == Material.IRON_INGOT && SlimefunItem.getByItem(item) != null) {
 				e.setCancelled(true);
 				SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
