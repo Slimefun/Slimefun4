@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: GEO-Vizsgálat Eredmények
+  chunk: Vizsgált Chunkok
+  world: Világ
+  unit: Egység
+  units: Egységek
+resources:
+  slimefun:
+    oil: Olaj
+    nether_ice: Nether Jég
+    salt: Só
+    uranium: Uránium
+  slimefunorechunks:
+    iron_ore_chunk: Vasérc Chunk
+    gold_ore_chunk: Aranyérc Chunk
+    copper_ore_chunk: Rézérc Chunk
+    tin_ore_chunk: Ónérc Chunk
+    silver_ore_chunk: Ezüstérc Chunk
+    aluminum_ore_chunk: Alumínium Érc Chunk
+    lead_ore_chunk: Ólomérc Chunk
+    zinc_ore_chunk: Cinkérc Chunk
+    nickel_ore_chunk: Nikkelérc Chunk
+    cobalt_ore_chunk: Kobalt Érc Chunk
