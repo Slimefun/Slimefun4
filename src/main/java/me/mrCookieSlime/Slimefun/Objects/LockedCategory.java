@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,8 +41,13 @@ public class LockedCategory extends Category {
 	 * @since 4.0
 	 * @see #LockedCategory(ItemStack, int, Category...)
 	 */
+	@Deprecated
 	public LockedCategory(ItemStack item, Category... parents) {
 		this(item, 3, parents);
+	}
+	
+	public LockedCategory(NamespacedKey key, ItemStack item, Category... parents) {
+		this(key, item, 3, parents);
 	}
 
 	/**
@@ -57,8 +63,14 @@ public class LockedCategory extends Category {
 	 * @since 4.0
 	 * @see #LockedCategory(ItemStack, Category...)
 	 */
+	@Deprecated
 	public LockedCategory(ItemStack item, int tier, Category... parents) {
 		super(item, tier);
+		this.parents = Arrays.asList(parents);
+	}
+
+	public LockedCategory(NamespacedKey key, ItemStack item, int tier, Category... parents) {
+		super(key, item, tier);
 		this.parents = Arrays.asList(parents);
 	}
 

@@ -2,18 +2,19 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.OptionalInt;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
-import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -29,9 +30,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class OilPump extends AContainer implements RecipeDisplayItem {
+	
+	private final GEOResource oil;
 
 	public OilPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
+		
+		oil = SlimefunPlugin.getRegistry().getGEOResources().get(new NamespacedKey(SlimefunPlugin.instance, "oil")).orElse(null);
 		
 		new BlockMenuPreset(getID(), getInventoryTitle()) {
 			
@@ -46,10 +51,11 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 					return false;
 				}
 				
-				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("Oil"), b.getLocation())) {
+				if (!SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4).isPresent()) {
 					SlimefunPlugin.getLocal().sendMessage(p, "gps.geo.scan-required", true);
 					return false;
 				}
+				
 				return true;
 			}
 
@@ -107,16 +113,15 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 		else if (inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-					OreGenResource oil = OreGenSystem.getResource("Oil");
-					int supplies = OreGenSystem.getSupplies(oil, b.getLocation(), false);
+					OptionalInt supplies = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 					
-					if (supplies > 0) {
+					if (supplies.isPresent() && supplies.getAsInt() > 0) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
 
 						inv.consumeItem(slot);
 						processing.put(b, r);
 						progress.put(b, r.getTicks());
-						OreGenSystem.setSupplies(oil, b.getLocation(), supplies - 1);
+						SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);
 					}
 					else {
 						ItemStack item = inv.getItemInSlot(slot).clone();

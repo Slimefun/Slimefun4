@@ -1,50 +1,48 @@
-package io.github.thebusybiscuit.slimefun4.implementation.geo.resources;
+package io.github.thebusybiscuit.slimefun4.implementation.resources;
 
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
+import org.bukkit.NamespacedKey;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
-public class OilResource implements OreGenResource {
+public class OilResource implements GEOResource {
+	
+	private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, "oil");
 	
 	@Override
-	public int getDefaultSupply(Biome biome) {
-		Random random = ThreadLocalRandom.current();
+	public int getDefaultSupply(Environment environment, Biome biome) {
+		
+		if (environment != Environment.NORMAL) {
+			return 0;
+		}
 		
 		switch (biome) {
 		case SNOWY_BEACH:
 		case STONE_SHORE:
 		case BEACH:
-			return random.nextInt(6) + 2;
+			return 6;
 
 		case DESERT:
 		case DESERT_HILLS:
 		case DESERT_LAKES: 
-			return random.nextInt(40) + 19;
+			return 45;
 
 		case MOUNTAINS:
 		case GRAVELLY_MOUNTAINS:
 		case MOUNTAIN_EDGE:
 		case RIVER: 
-			return random.nextInt(14) + 13;
+			return 17;
 
 		case SNOWY_MOUNTAINS:
 		case SNOWY_TUNDRA:
 		case ICE_SPIKES:
 		case FROZEN_OCEAN:
 		case FROZEN_RIVER: 
-			return random.nextInt(11) + 3;
-
-		case THE_END:
-		case END_BARRENS:
-		case END_MIDLANDS:
-		case SMALL_END_ISLANDS:
-		case NETHER:
-			return 0;
+			return 14;
 
 		case BADLANDS:
 		case BADLANDS_PLATEAU:
@@ -54,7 +52,7 @@ public class OilResource implements OreGenResource {
 		case MODIFIED_WOODED_BADLANDS_PLATEAU:
 		case MUSHROOM_FIELDS:
 		case MUSHROOM_FIELD_SHORE:
-			return random.nextInt(24) + 14;
+			return 24;
 
 		case DEEP_OCEAN:
 		case OCEAN:
@@ -65,15 +63,25 @@ public class OilResource implements OreGenResource {
 		case DEEP_WARM_OCEAN:
 		case LUKEWARM_OCEAN:
 		case WARM_OCEAN:
-			return random.nextInt(62) + 24;
+			return 62;
 
 		case SWAMP:
 		case SWAMP_HILLS:
-			return random.nextInt(20) + 4;
+			return 20;
 
 		default:
-			return random.nextInt(10) + 6;
+			return 10;
 		}
+	}
+	
+	@Override
+	public NamespacedKey getKey() {
+		return key;
+	}
+	
+	@Override
+	public int getMaxDeviation() {
+		return 8;
 	}
 
 	@Override
@@ -82,18 +90,13 @@ public class OilResource implements OreGenResource {
 	}
 
 	@Override
-	public ItemStack getIcon() {
+	public ItemStack getItem() {
 		return SlimefunItems.BUCKET_OF_OIL.clone();
 	}
 
 	@Override
-	public String getMeasurementUnit() {
-		return "Bucket(s)";
-	}
-
-	@Override
-	public boolean isLiquid() {
-		return true;
+	public boolean isObtainableFromGEOMiner() {
+		return false;
 	}
 
 }

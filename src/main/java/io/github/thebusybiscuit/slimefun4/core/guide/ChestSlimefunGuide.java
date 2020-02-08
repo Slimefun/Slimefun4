@@ -379,7 +379,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 			RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipes().getRecipeInput(recipe);
 
-			if (choices[0] instanceof MaterialChoice) {
+			if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
 				recipeItems[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));
 				
 				if (((MaterialChoice) choices[0]).getChoices().size() > 1) {

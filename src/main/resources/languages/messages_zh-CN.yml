@@ -92,9 +92,6 @@ guide:
       lore: 单击添加你自己的翻译
       name: "&a少了些什么?"
     updated: "&a你的语言已设为: &b%lang%"
-    progress:
-      messages: 聊天消息
-      researches: 研究名字
   pages:
     next: 下一页
     previous: 上一页

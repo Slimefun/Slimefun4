@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.logging.Level;
 
 import org.bukkit.NamespacedKey;
@@ -44,7 +43,7 @@ public class LocalizationService extends SlimefunLocalization {
 		defaultLanguage.setMessages(getConfig().getConfiguration());
 		
 		for (SupportedLanguage lang : SupportedLanguage.values()) {
-			addLanguage(lang.getId(), lang.getTexture());
+			addLanguage(lang.getID(), lang.getTexture());
 		}
 
 		String language = getConfig().getString(LANGUAGE_PATH);
@@ -82,7 +81,7 @@ public class LocalizationService extends SlimefunLocalization {
 	@Override
 	public boolean hasLanguage(String language) {
 		// Checks if our jar files contains any .yml file for this id
-		return containsResource("messages_" + language) || containsResource("researches_" + language);
+		return containsResource("messages_" + language) || containsResource("researches_" + language) || containsResource("resources_" + language);
 	}
 	
 	private boolean containsResource(String file) {
@@ -118,6 +117,11 @@ public class LocalizationService extends SlimefunLocalization {
 		if (reset) {
 			getConfig().clear();
 		}
+		
+		defaultLanguage.setResearches(streamConfigFile("researches_" + language + ".yml", null));
+		defaultLanguage.setResources(streamConfigFile("resources_" + language + ".yml", null));
+		defaultLanguage.setCategories(streamConfigFile("categories_" + language + ".yml", null));
+
 
 		Slimefun.getLogger().log(Level.INFO, "Loaded language \"{0}\"", language);
 		getConfig().setValue(LANGUAGE_PATH, language);
@@ -139,23 +143,37 @@ public class LocalizationService extends SlimefunLocalization {
 		if (hasLanguage(id)) {
 			FileConfiguration messages = streamConfigFile("messages_" + id + ".yml", getConfig().getConfiguration());
 			FileConfiguration researches = streamConfigFile("researches_" + id + ".yml", null);
+			FileConfiguration resources = streamConfigFile("resources_" + id + ".yml", null);
+			FileConfiguration categories = streamConfigFile("categories_" + id + ".yml", null);
 
 			Language language = new Language(id, hash);
 			language.setMessages(messages);
 			language.setResearches(researches);
+			language.setResources(resources);
+			language.setCategories(categories);
 			
 			languages.put(id, language);
 		}
 	}
 
-	public double getProgress(Language lang, Function<Language, FileConfiguration> method) {
-		double defaultKeys = getTotalKeys(method.apply(languages.get("en")));
+	public double getProgress(Language lang) {
+		double defaultKeys = getTotalKeys(languages.get(SupportedLanguage.ENGLISH.getID()));
 		if (defaultKeys == 0) return 0;
-		return DoubleHandler.fixDouble(100.0 * (getTotalKeys(method.apply(lang)) / defaultKeys));
+		return DoubleHandler.fixDouble(100.0 * (getTotalKeys(lang) / defaultKeys));
 	}
 
-	private double getTotalKeys(FileConfiguration cfg) {
-		return cfg != null ? cfg.getKeys(true).size(): 0;
+	private double getTotalKeys(Language lang) {
+		return getKeys(lang.getMessages(), lang.getResearches(), lang.getResources(), lang.getCategories());
+	}
+
+	private double getKeys(FileConfiguration... files) {
+		int keys = 0;
+		
+		for (FileConfiguration cfg : files) {
+			keys += cfg != null ? cfg.getKeys(true).size() : 0;
+		}
+		
+		return keys;
 	}
 
 	private FileConfiguration streamConfigFile(String file, FileConfiguration defaults) {

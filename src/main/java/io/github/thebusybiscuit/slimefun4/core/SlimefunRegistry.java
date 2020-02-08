@@ -15,13 +15,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
-import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -51,8 +50,7 @@ public class SlimefunRegistry {
 	private final Set<String> activeChunks = new HashSet<>();
 	private final Set<UUID> researchingPlayers = new HashSet<>();
 
-	private final Map<String, OreGenResource> geoResources = new HashMap<>();
-	private final Map<String, Config> geoResourcesConfigs = new HashMap<>();
+	private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 	
 	private final Set<String> energyGenerators = new HashSet<>();
 	private final Set<String> energyCapacitors = new HashSet<>();
@@ -188,12 +186,8 @@ public class SlimefunRegistry {
 		return activeTickers;
 	}
 	
-	public Map<String, OreGenResource> getGEOResources() {
+	public KeyMap<GEOResource> getGEOResources() {
 		return geoResources;
-	}
-	
-	public Map<String, Config> getGEOResourceConfigs() {
-		return geoResourcesConfigs;
 	}
 	
 	@Deprecated

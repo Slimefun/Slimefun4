@@ -99,9 +99,6 @@ guide:
       lore: Klicke um eine Übersetzung hinzuzufügen
       name: "&aFehlt etwas?"
     updated: "&aFolgende Sprache wurde ausgewählt: &b%lang%"
-    progress:
-      messages: Chatnachrichten
-      researches: Namen von Erforschungen
   pages:
     next: Nächste Seite
     previous: Vorherige Seite

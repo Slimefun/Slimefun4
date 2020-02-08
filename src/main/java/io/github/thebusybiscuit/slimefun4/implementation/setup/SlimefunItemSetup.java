@@ -177,11 +177,11 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public final class SlimefunSetup {
+public final class SlimefunItemSetup {
 	
-	private SlimefunSetup() {}
+	private SlimefunItemSetup() {}
 
-	public static void setupItems() {
+	public static void setup() {
 		new SlimefunItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null})
 		.register(true);

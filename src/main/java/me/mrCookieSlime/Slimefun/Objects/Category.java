@@ -7,13 +7,14 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Keyed;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -29,8 +30,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see LockedCategory
  * @see SeasonalCategory
  */
-public class Category {
+public class Category implements Keyed {
 	
+	private final NamespacedKey key;
 	private final ItemStack item;
 	private final List<SlimefunItem> items;
 	private final int tier;
@@ -40,11 +42,17 @@ public class Category {
      * The tier is set to a default value of {@code 3}.
 	 * 
 	 * @param item the display item for this category
+	 * @deprecated Use the alternative with a {@link NamespacedKey} instead
 	 * 
 	 * @since 4.0
 	 */
+	@Deprecated
 	public Category(ItemStack item) {
 		this(item, 3);
+	}
+	
+	public Category(NamespacedKey key, ItemStack item) {
+		this(key, item, 3);
 	}
 
 	/**
@@ -54,11 +62,18 @@ public class Category {
 	 * 
 	 * @param item the display item for this category
 	 * @param tier the tier for this category
+	 * @deprecated Use the alternative with a {@link NamespacedKey} instead
 	 * 
 	 * @since 4.0
 	 */
+	@Deprecated
 	public Category(ItemStack item, int tier) {
+		this(new NamespacedKey(SlimefunPlugin.instance, "invalid_category"), item, tier);
+	}
+	
+	public Category(NamespacedKey key, ItemStack item, int tier) {
 		this.item = item;
+		this.key = key;
 		
 		ItemMeta meta = item.getItemMeta();
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -69,19 +84,9 @@ public class Category {
 		this.tier = tier;
 	}
 	
-	/**
-	 * Gets the list of the registered categories.
-	 * 
-	 * @deprecated Use {@link SlimefunRegistry#getEnabledCategories()}
-	 * 
-	 * @return the list of the registered categories
-	 * 
-	 * @since 4.0
-	 * @see Categories
-	 */
-	@Deprecated
-	public static List<Category> list() {
-		return SlimefunPlugin.getRegistry().getEnabledCategories();
+	@Override
+	public NamespacedKey getKey() {
+		return key;
 	}
 
 	/**
@@ -120,7 +125,13 @@ public class Category {
 	}
 	
 	public ItemStack getItem(Player p) {
-		return new CustomItem(item, meta -> meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category"))));
+		return new CustomItem(item, meta -> {
+			String name = SlimefunPlugin.getLocal().getCategoryName(p, getKey());
+			if (name == null) name = item.getItemMeta().getDisplayName();
+			
+			meta.setDisplayName(ChatColor.GREEN + name);
+			meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
+		});
 	}
 
 	/**

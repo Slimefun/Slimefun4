@@ -92,9 +92,6 @@ guide:
       lore: Klicka här för att lägga till din egen översättning
       name: "&aIs något som saknas?"
     updated: "&aDitt språk är nu inställt på: &b%lang%"
-    progress:
-      messages: Chat meddelanden
-      researches: Forska namn
   pages:
     next: Nästa sida
     previous: Förra sidan
