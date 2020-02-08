@@ -21,7 +21,6 @@ import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -455,22 +454,6 @@ public class SlimefunItem implements Placeable {
 
 	public static Set<ItemHandler> getHandlers(Class<? extends ItemHandler> identifier) {
 		return SlimefunPlugin.getRegistry().getItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
-	}
-
-	/**
-	 * This method marks the item as radioactive.
-	 * 
-	 * @deprecated The Interface {@link Radioactive} should be used instead in the future.
-	 * 
-	 * @param item	The {@link ItemStack} to set as radioactive
-	 */
-	@Deprecated
-	public static void setRadioactive(ItemStack item) {
-		SlimefunItem sfItem = getByItem(item);
-		
-		if (sfItem != null) {
-			SlimefunPlugin.getRegistry().getRadioactiveItems().add(sfItem);
-		}
 	}
 
 	public static ItemStack getItem(String id) {
