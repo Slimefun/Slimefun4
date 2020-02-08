@@ -129,7 +129,13 @@ public class Category implements Keyed {
 			String name = SlimefunPlugin.getLocal().getCategoryName(p, getKey());
 			if (name == null) name = item.getItemMeta().getDisplayName();
 			
-			meta.setDisplayName(ChatColor.GREEN + name);
+			if (this instanceof SeasonalCategory) {
+				meta.setDisplayName(ChatColor.GOLD + name);
+			}
+			else {
+				meta.setDisplayName(ChatColor.YELLOW + name);
+			}
+			
 			meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
 		});
 	}

@@ -1,24 +1,19 @@
-package me.mrCookieSlime.Slimefun.androids;
+package io.github.thebusybiscuit.slimefun4.implementation.android;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -26,43 +21,37 @@ import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
-import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.Animals;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
-import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
-import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.ExoticGarden.ExoticGarden;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -72,47 +61,14 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-public abstract class ProgrammableAndroid extends SlimefunItem implements InventoryBlock {
-
-	// Determines the drops a miner android will get
-	private static final ItemStack EFFECTIVE_PICKAXE = new ItemStack(Material.DIAMOND_PICKAXE);
-
+public abstract class ProgrammableAndroid extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, RecipeDisplayItem {
+	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private static final int[] border_out = {10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41};
-
-	private static final RandomizedSet<ItemStack> fishingLoot = new RandomizedSet<>();
-
-	static {
-		for (Material fish : MaterialCollections.getAllFishItems()) {
-			fishingLoot.add(new ItemStack(fish), 20);
-		}
-
-		fishingLoot.add(new ItemStack(Material.BONE), 10);
-		fishingLoot.add(new ItemStack(Material.STRING), 10);
-		fishingLoot.add(new ItemStack(Material.STICK), 5);
-		fishingLoot.add(new ItemStack(Material.INK_SAC), 4);
-		fishingLoot.add(new ItemStack(Material.ROTTEN_FLESH), 3);
-		fishingLoot.add(new ItemStack(Material.LEATHER), 2);
-	}
-
-	private static final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-
-	private final Set<MachineFuel> recipes = new HashSet<>();
-	private final String texture;
-
-	@Override
-	public int[] getInputSlots() {
-		return new int[0];
-	}
-
-	@Override
-	public int[] getOutputSlots() {
-		return new int[] {20, 21, 22, 29, 30, 31};
-	}
-
-	public abstract AndroidType getAndroidType();
-	public abstract float getFuelEfficiency();
-	public abstract int getTier();
+	
+	protected final List<BlockFace> directions = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
+	protected final Set<MachineFuel> recipes = new HashSet<>();
+	protected final String texture;
 
 	public ProgrammableAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -241,6 +197,60 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			}
 		});
 	}
+	
+	@Override
+	public BlockTicker getItemHandler() {
+		return new BlockTicker() {
+
+			@Override
+			public void tick(Block b, SlimefunItem sf, me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config data) {
+				if (b != null) {
+					ProgrammableAndroid.this.tick(b);
+				}
+			}
+
+			@Override
+			public boolean isSynchronized() {
+				return true;
+			}
+		};
+	}
+	
+	@Override
+	public String getRecipeSectionLabel() {
+		return "&7\u21E9 Available Types of Fuel \u21E9";
+	}
+	
+	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		List<ItemStack> list = new ArrayList<>();
+		
+		for (MachineFuel fuel : recipes) {
+			ItemStack item = fuel.getInput().clone();
+			ItemMeta im = item.getItemMeta();
+			List<String> lore = new ArrayList<>();
+			lore.add(ChatColors.color("&8\u21E8 &7Lasts " + NumberUtils.getTimeLeft(fuel.getTicks() / 2)));
+			im.setLore(lore);
+			item.setItemMeta(im);
+			list.add(item);
+		}
+
+		return list;
+	}
+
+	@Override
+	public int[] getInputSlots() {
+		return new int[0];
+	}
+
+	@Override
+	public int[] getOutputSlots() {
+		return new int[] {20, 21, 22, 29, 30, 31};
+	}
+
+	public abstract AndroidType getAndroidType();
+	public abstract float getFuelEfficiency();
+	public abstract int getTier();
 
 	protected void tick(Block b) {
 		if (b.getType() != Material.PLAYER_HEAD) {
@@ -327,20 +337,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 						mine(b, menu, b.getRelative(BlockFace.DOWN));
 						break;
 					case CATCH_FISH:
-						Block water = b.getRelative(BlockFace.DOWN);
-
-						if (water.getType() == Material.WATER) {
-							water.getWorld().playSound(water.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-
-							if (ThreadLocalRandom.current().nextInt(100) < 10 * getTier()) {
-								ItemStack drop = fishingLoot.getRandom();
-
-								if (menu.fits(drop, getOutputSlots())) {
-									menu.pushItem(drop, getOutputSlots());
-								}
-							}
-
-						}
+						fish(b, menu);
 						break;
 					case MOVE_AND_DIG_FORWARD:
 						movedig(b, menu, face, b.getRelative(face));
@@ -411,33 +408,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 						exoticFarm(menu, b.getRelative(BlockFace.DOWN));
 						break;
 					case CHOP_TREE:
-						if (MaterialCollections.getAllLogs().contains(b.getRelative(face).getType())) {
-							List<Block> list = Vein.find(b.getRelative(face), 180, block -> MaterialCollections.getAllLogs().contains(block.getType()));
-							if (!list.isEmpty()) {
-								refresh = false;
-								Block log = list.get(list.size() - 1);
-								log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
-
-								if (SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), log.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-									ItemStack drop = new ItemStack(log.getType());
-
-									if (menu.fits(drop, getOutputSlots())) {
-										menu.pushItem(drop, getOutputSlots());
-										log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
-
-										if (log.getY() == b.getRelative(face).getY()) {
-											Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
-											
-											if (sapling.isPresent()) {
-												log.setType(sapling.get());
-											}
-										}
-										else log.setType(Material.AIR);
-									}
-
-								}
-							}
-						}
+						refresh = chopTree(b, menu, face);
 						break;
 					case ATTACK_MOBS_ANIMALS:
 						killEntities(b, damage, e -> true);
@@ -455,48 +426,14 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 						break;
 					}
 				}
-				if (refresh) BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
-			}
-		}
-	}
-
-	private void killEntities(Block b, double damage, Predicate<Entity> predicate) {
-		double radius = 4.0 + getTier();
-
-		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.isValid() && predicate.test(n))) {
-			boolean attack = false;
-
-			switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
-			case NORTH:
-				attack = n.getLocation().getZ() < b.getZ();
-				break;
-			case EAST:
-				attack = n.getLocation().getX() > b.getX();
-				break;
-			case SOUTH:
-				attack = n.getLocation().getZ() > b.getZ();
-				break;
-			case WEST:
-				attack = n.getLocation().getX() < b.getX();
-				break;
-			default:
-				break;
-			}
-
-			if (attack) {
-				if (n.hasMetadata("android_killer")) {
-					n.removeMetadata("android_killer", SlimefunPlugin.instance);
+				if (refresh) {
+					BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
 				}
-
-				n.setMetadata("android_killer", new FixedMetadataValue(SlimefunPlugin.instance, new AndroidEntity(this, b)));
-
-				((LivingEntity) n).damage(damage);
-				break;
 			}
 		}
 	}
 
-	private void move(Block b, BlockFace face, Block block) {
+	protected void move(Block b, BlockFace face, Block block) {
 		if (block.getY() > 0 && block.getY() < block.getWorld().getMaxHeight() && (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)) {
 			block.setType(Material.PLAYER_HEAD);
 			Rotatable blockData = (Rotatable) block.getBlockData();
@@ -510,144 +447,32 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		}
 	}
 
-	private void mine(Block b, BlockMenu menu, Block block) {
-		Collection<ItemStack> drops = block.getDrops(EFFECTIVE_PICKAXE);
-
-		if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-			String item = BlockStorage.checkID(block);
-
-			AndroidMineEvent event = new AndroidMineEvent(block, new AndroidEntity(this, b));
-			Bukkit.getPluginManager().callEvent(event);
-
-			if (event.isCancelled()) {
-				return;
-			}
-
-			if (item == null) {
-				for (ItemStack drop : drops) {
-					if (menu.fits(drop, getOutputSlots())) {
-						menu.pushItem(drop, getOutputSlots());
-						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-						block.setType(Material.AIR);
-					}
-				}
-			}
-			/*
-			else if (fits(b, item.getItem())) {
-	            if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-	                if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-	                    pushItems(b, BlockStorage.retrieve(block));
-	                    if (SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
-	                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-	                    block.setType(Material.AIR);
-	                }
-	            }
-        	}*/
-		}
+	protected void killEntities(Block b, double damage, Predicate<Entity> predicate) {
+		throw new UnsupportedOperationException("Non-butcher Android tried to butcher!");
+	}
+	
+	protected void fish(Block b, BlockMenu menu) {
+		throw new UnsupportedOperationException("Non-fishing Android tried to fish!");
 	}
 
-
-	private void movedig(Block b, BlockMenu menu, BlockFace face, Block block) {
-		Collection<ItemStack> drops = block.getDrops(EFFECTIVE_PICKAXE);
-
-		if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-			SlimefunItem item = BlockStorage.check(block);
-
-			AndroidMineEvent event = new AndroidMineEvent(block, new AndroidEntity(this, b));
-			Bukkit.getPluginManager().callEvent(event);
-
-			if (event.isCancelled()) {
-				return;
-			}
-
-			if (item == null) {
-				for (ItemStack drop : drops) {
-					if (menu.fits(drop, getOutputSlots())) {
-						menu.pushItem(drop, getOutputSlots());
-						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-
-						block.setType(Material.AIR);
-						move(b, face, block);
-
-						b.setType(Material.AIR);
-						BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
-					}
-				}
-			}
-			/*
-			else {
-				if (fits(b, item.getItem()) && SlimefunPlugin.getUtilities().blockHandlers.containsKey(item.getID()) && SlimefunPlugin.getUtilities().blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-					pushItems(b, BlockStorage.retrieve(block));
-					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-
-					block.setType(Material.AIR);
-					move(b, face, block);
-
-					b.setType(Material.AIR);
-					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
-				}
-			}*/
-		}
-		else {
-			move(b, face, block);
-		}
+	protected void mine(Block b, BlockMenu menu, Block block) {
+		throw new UnsupportedOperationException("Non-mining Android tried to mine!");
+	}
+	
+	protected void movedig(Block b, BlockMenu menu, BlockFace face, Block block) {
+		throw new UnsupportedOperationException("Non-mining Android tried to mine!");
+	}
+	
+	protected boolean chopTree(Block b, BlockMenu menu, BlockFace face) {
+		throw new UnsupportedOperationException("Non-woodcutter Android tried to chop a Tree!");
 	}
 
-	private boolean isFullGrown(Block block){
-		if (!(block.getBlockData() instanceof Ageable)) return false;
-
-		Ageable ageable = ((Ageable) block.getBlockData());
-		return ageable.getAge() >= ageable.getMaximumAge();
+	protected void farm(BlockMenu menu, Block block) {
+		throw new UnsupportedOperationException("Non-farming Android tried to farm!");
 	}
 
-	private void farm(BlockMenu menu, Block block) {
-		if (isFullGrown(block)) {
-			ItemStack drop = getDropFromCrop(block.getType());
-
-			if (drop != null && menu.fits(drop, getOutputSlots())) {
-				menu.pushItem(drop, getOutputSlots());
-				Ageable ageable = (Ageable) block.getBlockData();
-				ageable.setAge(0);
-				block.setBlockData(ageable);
-				block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-			}
-		}
-	}
-
-	private ItemStack getDropFromCrop(Material crop) {
-		Random random = ThreadLocalRandom.current();
-
-		switch (crop) {
-		case WHEAT:
-			return new ItemStack(Material.WHEAT, random.nextInt(2) + 1);
-		case POTATOES:
-			return new ItemStack(Material.POTATO, random.nextInt(3) + 1);
-		case CARROTS:
-			return new ItemStack(Material.CARROT, random.nextInt(3) + 1);
-		case BEETROOTS:
-			return new ItemStack(Material.BEETROOT, random.nextInt(3) + 1);
-		case COCOA:
-			return new ItemStack(Material.COCOA_BEANS, random.nextInt(3) + 1);
-		case NETHER_WART:
-			return new ItemStack(Material.NETHER_WART, random.nextInt(3) + 1);
-		case SWEET_BERRY_BUSH:
-			return new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
-		default:
-			return null;
-		}
-	}
-
-	private void exoticFarm(BlockMenu menu, Block block) {
-		farm(menu, block);
-
-		if (SlimefunPlugin.getHooks().isExoticGardenInstalled()) {
-			ItemStack drop = ExoticGarden.harvestPlant(block);
-
-			if (drop != null && menu.fits(drop, getOutputSlots())) {
-				menu.pushItem(drop, getOutputSlots());
-				block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-			}
-		}
+	protected void exoticFarm(BlockMenu menu, Block block) {
+		throw new UnsupportedOperationException("Non-farming Android tried to farm!");
 	}
 
 	private void constructMenu(BlockMenuPreset preset) {
@@ -752,7 +577,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 						if (commands.length == 54) return false;
 
 						int j = 0;
-						StringBuilder builder = new StringBuilder("START-");
+						StringBuilder builder = new StringBuilder(ScriptPart.START + "-");
 
 						for (String command : commands) {
 							if (j > 0) {
@@ -764,21 +589,21 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							}
 							j++;
 						}
-						builder.append("REPEAT");
+						builder.append(ScriptPart.REPEAT);
 						BlockStorage.addBlockInfo(b, "script", builder.toString());
 
 						openScript(pl, b, builder.toString());
 					}
 					else if (action.isRightClicked()) {
 						int j = 0;
-						StringBuilder builder = new StringBuilder("START-");
+						StringBuilder builder = new StringBuilder(ScriptPart.START + "-");
 
 						for (String command : commands) {
 							if (j != index && j > 0 && j < commands.length - 1) builder.append(command + "-");
 							j++;
 						}
 
-						builder.append("REPEAT");
+						builder.append(ScriptPart.REPEAT);
 						BlockStorage.addBlockInfo(b, "script", builder.toString());
 
 						openScript(pl, b, builder.toString());
@@ -1031,31 +856,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		}
 	}
 
-	@Override
-	public void register(boolean slimefun) {
-		addItemHandler(new BlockTicker() {
-
-			@Override
-			public void tick(Block b, SlimefunItem sf, me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config data) {
-				if (b != null) {
-					ProgrammableAndroid.this.tick(b);
-				}
-			}
-
-			@Override
-			public boolean isSynchronized() {
-				return true;
-			}
-		});
-
-		super.register(slimefun);
-	}
-
 	public void registerFuel(MachineFuel fuel) {
 		this.recipes.add(fuel);
 	}
 
-	public List<Config> getUploadedScripts() {
+	private List<Config> getUploadedScripts() {
 		List<Config> scripts = new ArrayList<>();
 
 		File directory = new File("plugins/Slimefun/scripts/" + this.getAndroidType().toString());
@@ -1079,7 +884,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		return scripts;
 	}
 
-	public List<ScriptPart> getAccessibleScriptParts() {
+	private List<ScriptPart> getAccessibleScriptParts() {
 		List<ScriptPart> list = new ArrayList<>();
 
 		for (ScriptPart part : ScriptPart.values()) {

@@ -16,8 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.android.AndroidEntity;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.androids.AndroidEntity;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class AndroidKillingListener implements Listener {

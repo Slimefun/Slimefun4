@@ -73,6 +73,7 @@
 * Fixed #1438
 * Fixed Multi Tool functioning as unlimited Shears
 * Fixed #1383
+* Fixed Android Script Component textures
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4

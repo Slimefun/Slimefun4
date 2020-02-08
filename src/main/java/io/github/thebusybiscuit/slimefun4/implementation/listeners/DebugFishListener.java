@@ -76,14 +76,14 @@ public class DebugFishListener implements Listener {
                             if (BlockStorage.check(e.getClickedBlock()).isTicking()) {
                                 p.sendMessage(ChatColors.color("&dTicking: " + "&2\u2714"));
                                 p.sendMessage(ChatColors.color("  &dAsync: &e" + (BlockStorage.check(e.getClickedBlock()).getBlockTicker().isSynchronized() ? "&4\u2718" : "&2\u2714")));
-                                p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
-                                p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + SlimefunPlugin.getTicker().getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ms"));
-                                p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
+                                p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ns"));
+                                p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + SlimefunPlugin.getTicker().getTimings(BlockStorage.checkID(e.getClickedBlock())) + "ns"));
+                                p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ns"));
                             } 
                             else if (BlockStorage.check(e.getClickedBlock()).getEnergyTicker() != null) {
                                 p.sendMessage(ChatColors.color("&dTicking: " + "&b~ &3(Indirect)"));
-                                p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ms"));
-                                p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ms"));
+                                p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock()) + "ns"));
+                                p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(e.getClickedBlock().getChunk()) + "ns"));
                             } 
                             else {
                                 p.sendMessage(ChatColors.color("&dTicking: " + "&4\u2718"));

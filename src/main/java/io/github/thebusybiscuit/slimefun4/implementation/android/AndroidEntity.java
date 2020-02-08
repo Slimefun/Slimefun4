@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.androids;
+package io.github.thebusybiscuit.slimefun4.implementation.android;
 
 import org.bukkit.block.Block;
 
