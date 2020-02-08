@@ -1,0 +1,12 @@
+---
+tooltips:
+  results: Результаты сканирования
+  chunk: Просканированный чанк
+  world: Мир
+  unit: Единица
+  units: Единиц
+resources:
+  slimefun:
+    oil: Нефть
+    salt: Соль
+    uranium: Уран
