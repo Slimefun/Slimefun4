@@ -90,9 +90,6 @@ guide:
       translator: "&9Prekladateľ"
       wiki: "&3Editor Wiki"
   languages:
-    progress:
-      messages: Správy v chate
-      researches: Názvy prieskumov
     select: Klikni pre vybratie tohto jazyka
     select-default: Klikni pre nastavenie východzieho jazyka
     selected-language: 'Aktuálne vybraný jazyk: '
