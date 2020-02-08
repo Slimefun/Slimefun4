@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,8 +26,7 @@ public class Juicer extends MultiBlockMachine {
 	public Juicer() {
 		super(
 				Categories.MACHINES_1, 
-				SlimefunItems.JUICER, 
-				"JUICER",
+                (SlimefunItemStack) SlimefunItems.JUICER,
 				new ItemStack[] {null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 				new ItemStack[0],
 				BlockFace.SELF

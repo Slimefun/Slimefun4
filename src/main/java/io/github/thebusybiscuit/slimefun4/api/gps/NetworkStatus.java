@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.GPS;
+package io.github.thebusybiscuit.slimefun4.api.gps;
 
 public enum NetworkStatus {
 	

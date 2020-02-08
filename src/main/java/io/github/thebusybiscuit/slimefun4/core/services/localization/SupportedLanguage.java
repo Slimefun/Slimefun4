@@ -39,7 +39,7 @@ public enum SupportedLanguage {
         this.textureHash = textureHash;
     }
 
-    public String getId() {
+    public String getID() {
         return id;
     }
 

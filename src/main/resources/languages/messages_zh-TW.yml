@@ -92,9 +92,6 @@ guide:
       lore: 點擊增加您自己的翻譯
       name: "&a缺少什麼嗎?"
     updated: "&a你的語言已改成: &b%lang%"
-    progress:
-      messages: 聊天欄訊息
-      researches: 研究名稱
   pages:
     next: 下一頁
     previous: 上一頁

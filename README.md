@@ -61,14 +61,14 @@ This is solely for statistical purposes, as we are interested in how Servers/Pla
 All available data is anonymous and aggregated, at no point can we see individual server or player information.<br>
 All of the collected data is publicly accessible: https://bstats.org/plugin/bukkit/Slimefun/4574
 
-You can also disable this behaviour under `/plugins/bStats/config.yml`.<br>
-For more info see [bStats' Privacy Policy](https://bstats.org/privacy-policy)
+你可以在 `/plugins/bStats/config.yml` 下关闭.<br>
+详情请查看 [bStats 隐私政策](https://bstats.org/privacy-policy)
 
 ### GitHub Integration
-Lastly, Slimefun4 connects to https://api.github.com/ to gather information about this open-source project.<br>
-No information about your Minecraft Server is sent to GitHub.
+最近, Slimefun4 连接到了 https://api.github.com/ 以收集关于这个开源项目的信息.<br>
+请放心, 你的 Minecraft 服务器信息不会被发送到 Github.
 
-This information includes (but is not limited to)
+这些信息包括 (但不限于)
 * list of contributors, their username and profile link (from the repositories `TheBusyBiscuit/Slimefun4`, `TheBusyBiscuit/Slimefun4-Wiki` and `TheBusyBiscuit/Slimefun4-Resourcepack`)
 * amount of open issues in this repository
 * amount of pending pull requests in this repository
@@ -77,4 +77,4 @@ This information includes (but is not limited to)
 * amount of code-bytes in this repository
 * date of the last commit to this repository
 
-Additionally the plugin connects to https://mojang.com/ to retrieve the Minecraft skins of our contributors (if possible).
+另外, 插件还连接到了 https://mojang.com/ 以获取贡献者的 Minecraft 皮肤 (如果有的话).

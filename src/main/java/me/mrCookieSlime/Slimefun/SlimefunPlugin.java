@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import io.github.thebusybiscuit.slimefun4.implementation.resources.NetherIceResource;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -30,10 +31,9 @@ import io.github.thebusybiscuit.slimefun4.core.services.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
-import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.NetherIceResource;
-import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.OilResource;
-import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.SaltResource;
-import io.github.thebusybiscuit.slimefun4.implementation.geo.resources.UraniumResource;
+import io.github.thebusybiscuit.slimefun4.implementation.resources.OilResource;
+import io.github.thebusybiscuit.slimefun4.implementation.resources.SaltResource;
+import io.github.thebusybiscuit.slimefun4.implementation.resources.UraniumResource;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutonomousToolsListener;
@@ -64,8 +64,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachin
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
-import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
+import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -74,7 +73,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.WikiSetup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
@@ -173,7 +172,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			MiscSetup.setupItemSettings();
 
 			try {
-				SlimefunSetup.setupItems();
+				SlimefunItemSetup.setup();
 			} catch (Exception x) {
 				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
 			}
@@ -190,10 +189,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 			getLogger().log(Level.INFO, "正在加载世界生成器...");
 
 			// Generating Oil as an OreGenResource (it iss a cool API)
-			OreGenSystem.registerResource(new OilResource());
-			OreGenSystem.registerResource(new NetherIceResource());
-			OreGenSystem.registerResource(new UraniumResource());
-			OreGenSystem.registerResource(new SaltResource());
+            new OilResource().register();
+            new NetherIceResource().register();
+			new UraniumResource().register();
+			new SaltResource().register();
 
 			// Setting up GitHub Connectors...
 			gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));

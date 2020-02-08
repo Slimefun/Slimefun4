@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -25,9 +26,8 @@ public class PressureChamber extends MultiBlockMachine {
 
 	public PressureChamber() {
 		super(
-				Categories.MACHINES_1, 
-				SlimefunItems.PRESSURE_CHAMBER, 
-				"PRESSURE_CHAMBER",
+				Categories.MACHINES_1,
+                (SlimefunItemStack) SlimefunItems.PRESSURE_CHAMBER,
 				new ItemStack[] {new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)},
 				new ItemStack[] {
 						SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND, 

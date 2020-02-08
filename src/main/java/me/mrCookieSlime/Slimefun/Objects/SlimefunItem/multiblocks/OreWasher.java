@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -24,9 +25,8 @@ public class OreWasher extends MultiBlockMachine {
 
 	public OreWasher() {
 		super(
-				Categories.MACHINES_1, 
-				SlimefunItems.ORE_WASHER, 
-				"ORE_WASHER",
+				Categories.MACHINES_1,
+                (SlimefunItemStack) SlimefunItems.ORE_WASHER,
 				new ItemStack[] {null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null},
 				new ItemStack[] {
 						SlimefunItems.SIFTED_ORE, SlimefunItems.IRON_DUST, 

@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -23,10 +24,9 @@ public class GrindStone extends MultiBlockMachine {
 
 	public GrindStone() {
 		super(
-				Categories.MACHINES_1, 
-				SlimefunItems.GRIND_STONE, 
-				"GRIND_STONE",
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
+				Categories.MACHINES_1,
+                (SlimefunItemStack) SlimefunItems.GRIND_STONE,
+                new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 				new ItemStack[] {
 						new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4), 
 						new ItemStack(Material.BONE), new ItemStack(Material.BONE_MEAL, 4), 

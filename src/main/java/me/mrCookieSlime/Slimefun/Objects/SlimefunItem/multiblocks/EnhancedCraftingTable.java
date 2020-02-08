@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.List;
 import java.util.UUID;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -32,10 +33,9 @@ public class EnhancedCraftingTable extends MultiBlockMachine {
 
 	public EnhancedCraftingTable() {
 		super(
-				Categories.MACHINES_1, 
-				SlimefunItems.ENHANCED_CRAFTING_TABLE, 
-				"ENHANCED_CRAFTING_TABLE",
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null}, 
+				Categories.MACHINES_1,
+                (SlimefunItemStack) SlimefunItems.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null},
 				new ItemStack[0], 
 				BlockFace.SELF
 		);

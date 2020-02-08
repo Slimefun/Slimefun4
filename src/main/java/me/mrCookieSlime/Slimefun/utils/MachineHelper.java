@@ -21,7 +21,7 @@ public final class MachineHelper {
         
         seconds -= minutes * 60;
         timeleft = String.valueOf(timeleft) + seconds + "s";
-        return ChatColor.translateAlternateColorCodes('&', "&7" + timeleft + " left");
+        return ChatColor.translateAlternateColorCodes('&', "&7剩余 " + timeleft);
 	}
 
 	public static String getProgress(int time, int total) {

@@ -10,6 +10,7 @@ public class DamagableChargableItem extends SlimefunItem {
 	
 	private final String chargeType;
 
+    @Deprecated
 	public DamagableChargableItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String chargeType) {
 		super(category, item, id, recipeType, recipe);
 		this.chargeType = chargeType;
@@ -25,6 +26,7 @@ public class DamagableChargableItem extends SlimefunItem {
 		this.chargeType = chargeType;
 	}
 
+    @Deprecated
 	public DamagableChargableItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String chargeType, String[] keys, Object[] values) {
 		super(category, item, recipeType, recipe, keys, values);
 		this.chargeType = chargeType;

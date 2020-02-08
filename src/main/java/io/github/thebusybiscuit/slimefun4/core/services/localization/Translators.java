@@ -71,6 +71,9 @@ public class Translators {
         // Translators - Chinese (Taiwan)
         addTranslator("BrineYT", "zh-TW", true);
         addTranslator("mio9", "zh-TW", true);
+
+        // Translators - Arabic
+        addTranslator("mohkamfer", "citBabY", "ar", false);
     }
 
     private void addTranslator(String name, String language, boolean lock) {

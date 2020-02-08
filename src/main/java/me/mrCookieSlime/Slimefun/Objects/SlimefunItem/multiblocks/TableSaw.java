@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -25,9 +26,8 @@ public class TableSaw extends MultiBlockMachine {
 
 	public TableSaw() {
 		super(
-				Categories.MACHINES_1, 
-				SlimefunItems.TABLE_SAW, 
-				"TABLE_SAW",
+				Categories.MACHINES_1,
+                (SlimefunItemStack) SlimefunItems.TABLE_SAW,
 				new ItemStack[] {null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null},
 				new ItemStack[0], 
 				BlockFace.SELF

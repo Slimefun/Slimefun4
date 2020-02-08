@@ -39,14 +39,6 @@ public final class MiscSetup {
         if (talisman != null && (boolean) Slimefun.getItemValue(talisman.getID(), "recipe-requires-nether-stars")) {
             talisman.setRecipe(new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2});
         }
-
-        SlimefunItem.setRadioactive(SlimefunItems.URANIUM);
-        SlimefunItem.setRadioactive(SlimefunItems.SMALL_URANIUM);
-        SlimefunItem.setRadioactive(SlimefunItems.BLISTERING_INGOT);
-        SlimefunItem.setRadioactive(SlimefunItems.BLISTERING_INGOT_2);
-        SlimefunItem.setRadioactive(SlimefunItems.BLISTERING_INGOT_3);
-        SlimefunItem.setRadioactive(SlimefunItems.NETHER_ICE);
-        SlimefunItem.setRadioactive(SlimefunItems.ENRICHED_NETHER_ICE);
     }
 
     public static void loadItems(ConfigCache settings) {

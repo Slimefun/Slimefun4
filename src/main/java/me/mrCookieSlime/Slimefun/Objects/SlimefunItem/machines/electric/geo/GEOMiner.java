@@ -2,7 +2,10 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.OptionalInt;
 
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -14,8 +17,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
-import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -110,8 +111,8 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	public List<ItemStack> getDisplayRecipes() {
 		List<ItemStack> displayRecipes = new LinkedList<>();
 		
-		for (OreGenResource resource : OreGenSystem.listResources()) {
-			if (!resource.isLiquid()) {
+		for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
+			if (resource.isObtainableFromGEOMiner()) {
 				displayRecipes.add(new CustomItem(resource.getItem(), "&r" + resource.getName()));
 			}
 		}
@@ -175,36 +176,38 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 				processing.remove(b);
 			}
 		}
-		else if (!BlockStorage.hasChunkInfo(b.getChunk())) {
-			SimpleHologram.update(b, "&4GEO-Scan required!");
+		else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4)) {
+			SimpleHologram.update(b, "&4需要 GEO 地形扫描!");
 		}
-		else {
-			for (OreGenResource resource : OreGenSystem.listResources()) {
-				if (!resource.isLiquid()) {
-					if (!OreGenSystem.wasResourceGenerated(resource, b.getLocation())) {
-						SimpleHologram.update(b, "&4需要先进行 GEO 地形扫描!");
-						return;
-					}
-					else {
-						int supplies = OreGenSystem.getSupplies(resource, b.getLocation(), false);
-						
-						if (supplies > 0) {
-							MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[] {resource.getItem().clone()});
-							if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
-							
-							processing.put(b, r);
-							progress.put(b, r.getTicks());
-							OreGenSystem.setSupplies(resource, b.getLocation(), supplies - 1);
-							SimpleHologram.update(b, "&7开采中: &r" + resource.getName());
-							return;
-						}
-					}
-						
-				}
-			}
-			
-			SimpleHologram.update(b, "&7完成");
-		}
+        else {
+            for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
+                if (resource.isObtainableFromGEOMiner()) {
+                    OptionalInt optional = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
+
+                    if (!optional.isPresent()) {
+                        SimpleHologram.update(b, "&4GEO-Scan required!");
+                        return;
+                    }
+                    else {
+                        int supplies = optional.getAsInt();
+
+                        if (supplies > 0) {
+                            MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[] {resource.getItem().clone()});
+                            if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
+
+                            processing.put(b, r);
+                            progress.put(b, r.getTicks());
+                            SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies - 1);
+                            SimpleHologram.update(b, "&7正在开采 &r" + resource.getName());
+                            return;
+                        }
+                    }
+
+                }
+            }
+
+            SimpleHologram.update(b, "&7开采完成");
+        }
 	}
 	
 }

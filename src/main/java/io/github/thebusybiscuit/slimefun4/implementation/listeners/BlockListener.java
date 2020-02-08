@@ -179,102 +179,102 @@ public class BlockListener implements Listener {
 		}
 		
 	}
-	
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onBlockBreak(BlockBreakEvent e) {
-		boolean allow = true;
-		List<ItemStack> drops = new ArrayList<>();
-		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-		int fortune = getFortuneLevel(item, e.getBlock());
-		
-		Block block2 = e.getBlock().getRelative(BlockFace.UP);
-		
-		if (sensitiveMaterials.contains(block2.getType())) {
-			SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
-			
-			if (sfItem == null) {
-				BlockState state = block2.getState();
-				
-				if (state instanceof TileState) {
-					Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
-					
-					if (blockData.isPresent()) {
-						sfItem = SlimefunItem.getByID(blockData.get());
-					}
-				}
-			}
-			
-			if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-				SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
-				
-				if (blockHandler != null) {
-					allow = blockHandler.onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
-				} 
-				
-				if (allow) {
-					block2.getWorld().dropItemNaturally(block2.getLocation(), BlockStorage.retrieve(block2));
-					block2.setType(Material.AIR);
-				}
-				else {
-					e.setCancelled(true);
-					return;
-				}
-			}
-		}
 
-		SlimefunItem sfItem = BlockStorage.check(e.getBlock());
-		
-		if (sfItem == null) {
-			BlockState state = e.getBlock().getState();
-			
-			if (state instanceof TileState) {
-				Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
-				
-				if (blockData.isPresent()) {
-					sfItem = SlimefunItem.getByID(blockData.get());
-				}
-			}
-		}
-		
-		if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-			SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
-			
-			if (blockHandler != null) {
-				allow = blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
-			} 
-			else {
-				sfItem.callItemHandler(BlockBreakHandler.class, handler ->
-					handler.onBlockBreak(e, item, fortune, drops)
-				);
-			}
-			
-			if (allow) {
-				drops.addAll(sfItem.getDrops());
-				BlockStorage.clearBlockInfo(e.getBlock());
-			}
-			else {
-				e.setCancelled(true);
-				return;
-			}
-		}
-		else if (item.getType() != Material.AIR) {
-			for (ItemHandler handler : SlimefunItem.getHandlers(BlockBreakHandler.class)) {
-				if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
-			}
-		}
-		
-		if (!drops.isEmpty()) {
-			e.getBlock().setType(Material.AIR);
-			
-			if (e.isDropItems()) {
-				for (ItemStack drop : drops) {
-					if (drop != null) {
-						e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
-					}
-				}
-			}
-		}
-	}
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onBlockBreak(BlockBreakEvent e) {
+        boolean allow = true;
+        List<ItemStack> drops = new ArrayList<>();
+        ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+        int fortune = getFortuneLevel(item, e.getBlock());
+
+        Block block2 = e.getBlock().getRelative(BlockFace.UP);
+
+        if (sensitiveMaterials.contains(block2.getType())) {
+            SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
+
+            if (sfItem == null) {
+                BlockState state = block2.getState();
+
+                if (state instanceof TileState) {
+                    Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
+
+                    if (blockData.isPresent()) {
+                        sfItem = SlimefunItem.getByID(blockData.get());
+                    }
+                }
+            }
+
+            if (sfItem != null && !(sfItem instanceof HandledBlock)) {
+                SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
+
+                if (blockHandler != null) {
+                    allow = blockHandler.onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
+                }
+
+                if (allow) {
+                    block2.getWorld().dropItemNaturally(block2.getLocation(), BlockStorage.retrieve(block2));
+                    block2.setType(Material.AIR);
+                }
+                else {
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+        }
+
+        SlimefunItem sfItem = BlockStorage.check(e.getBlock());
+
+        if (sfItem == null) {
+            BlockState state = e.getBlock().getState();
+
+            if (state instanceof TileState) {
+                Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
+
+                if (blockData.isPresent()) {
+                    sfItem = SlimefunItem.getByID(blockData.get());
+                }
+            }
+        }
+
+        if (sfItem != null && !(sfItem instanceof HandledBlock)) {
+            SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
+
+            if (blockHandler != null) {
+                allow = blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+            }
+            else {
+                sfItem.callItemHandler(BlockBreakHandler.class, handler ->
+                        handler.onBlockBreak(e, item, fortune, drops)
+                );
+            }
+
+            if (allow) {
+                drops.addAll(sfItem.getDrops());
+                BlockStorage.clearBlockInfo(e.getBlock());
+            }
+            else {
+                e.setCancelled(true);
+                return;
+            }
+        }
+        else if (item != null) {
+            for (ItemHandler handler : SlimefunItem.getHandlers(BlockBreakHandler.class)) {
+                if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
+            }
+        }
+
+        if (!drops.isEmpty()) {
+            e.getBlock().setType(Material.AIR);
+
+            if (e.isDropItems()) {
+                for (ItemStack drop : drops) {
+                    if (drop != null) {
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+                    }
+                }
+            }
+        }
+    }
 
 	private int getFortuneLevel(ItemStack item, Block b) {
 		int fortune = 1;

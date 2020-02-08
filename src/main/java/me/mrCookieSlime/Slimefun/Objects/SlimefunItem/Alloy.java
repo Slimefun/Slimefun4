@@ -24,6 +24,7 @@ public class Alloy extends SlimefunItem {
 	 * @param  id      the id of this Alloy
 	 * @param  recipe  the recipe to obtain this Alloy in the Smeltery
 	 */
+    @Deprecated
 	public Alloy(ItemStack item, String id, ItemStack[] recipe) {
 		super(Categories.RESOURCES, item, id, RecipeType.SMELTERY, recipe);
 	}
@@ -34,6 +35,7 @@ public class Alloy extends SlimefunItem {
 	 * @param  item    the item corresponding to this Alloy
 	 * @param  recipe  the recipe to obtain this Alloy in the Smeltery
 	 */
+    @Deprecated
 	public Alloy(SlimefunItemStack item, ItemStack[] recipe) {
 		super(Categories.RESOURCES, item, RecipeType.SMELTERY, recipe);
 	}

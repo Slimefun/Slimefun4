@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -39,10 +40,10 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 	private static final int[] border_in = {9, 10, 11, 12, 13, 18, 22, 27, 31, 36, 40, 45, 46, 47, 48, 49};
 	private static final int[] border_out = {23, 24, 25, 26, 32, 35, 41, 42, 43, 44};
 
-	public AutomatedCraftingChamber(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, name, recipeType, recipe);
+	public AutomatedCraftingChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 
-		new BlockMenuPreset(name, "&6自动合成机") {
+		new BlockMenuPreset(getID(), "&6自动合成机") {
 
 			@Override
 			public void init() {
@@ -106,7 +107,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			}
 		};
 
-		registerBlockHandler(name, new SlimefunBlockHandler() {
+		registerBlockHandler(getID(), new SlimefunBlockHandler() {
 
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {

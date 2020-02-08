@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.List;
 import java.util.UUID;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -32,9 +33,8 @@ public class MagicWorkbench extends MultiBlockMachine {
 
 	public MagicWorkbench() {
 		super(
-				Categories.MACHINES_1, 
-				SlimefunItems.MAGIC_WORKBENCH, 
-				"MAGIC_WORKBENCH",
+				Categories.MACHINES_1,
+                (SlimefunItemStack) SlimefunItems.MAGIC_WORKBENCH,
 				new ItemStack[] {null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER)},
 				new ItemStack[0], 
 				BlockFace.UP

@@ -9,6 +9,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class SimpleSlimefunItem<T extends ItemHandler> extends SlimefunItem {
 
+    @Deprecated
 	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 	}
@@ -16,7 +17,8 @@ public abstract class SimpleSlimefunItem<T extends ItemHandler> extends Slimefun
 	public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
-	
+
+    @Deprecated
 	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, id, recipeType, recipe, recipeOutput);
 	}
@@ -24,7 +26,8 @@ public abstract class SimpleSlimefunItem<T extends ItemHandler> extends Slimefun
 	public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, recipeType, recipe, recipeOutput);
 	}
-	
+
+    @Deprecated
 	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		super(category, item, id, recipeType, recipe, keys, values);
 	}

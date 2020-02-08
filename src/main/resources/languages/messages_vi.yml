@@ -94,9 +94,6 @@ guide:
       lore: Nhấn vào đây để thêm bản dịch của riêng bạn
       name: "&aThiếu một cái gì đó?"
     updated: "&aNgôn ngữ của bạn đã được đặt thành công: &b%lang%"
-    progress:
-      messages: Tin nhắn trò chuyện
-      researches: Tên nghiên cứu
   pages:
     next: Trang tiếp theo
     previous: Trang trước

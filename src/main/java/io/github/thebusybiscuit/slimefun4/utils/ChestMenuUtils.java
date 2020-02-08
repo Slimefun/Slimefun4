@@ -97,7 +97,7 @@ public final class ChestMenuUtils {
 		}
 		
 		im.setDisplayName(" ");
-		im.setLore(Arrays.asList(getProgressBar(timeleft, time), "", ChatColor.GRAY + NumberUtils.getTimeLeft(timeleft / 2) + " left"));
+		im.setLore(Arrays.asList(getProgressBar(timeleft, time), "", ChatColor.GRAY + "剩余 " + NumberUtils.getTimeLeft(timeleft / 2)));
 		item.setItemMeta(im);
 		
 		menu.replaceExistingItem(slot, item);

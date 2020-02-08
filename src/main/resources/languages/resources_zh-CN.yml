@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: GEO 区块扫描结果
+  chunk: 已扫描的区块
+  world: 世界
+  unit: 单位
+  units: 单位
+resources:
+  slimefun:
+    oil: 原油
+    nether_ice: 下界冰
+    salt: 盐
+    uranium: 铀
+  slimefunorechunks:
+    iron_ore_chunk: 铁矿区块
+    gold_ore_chunk: 金矿区块
+    copper_ore_chunk: 铜矿区块
+    tin_ore_chunk: 锡矿区块
+    silver_ore_chunk: 银矿区块
+    aluminum_ore_chunk: 铝矿区块
+    lead_ore_chunk: 铅矿区块
+    zinc_ore_chunk: 锌矿区块
+    nickel_ore_chunk: 镍矿区块
+    cobalt_ore_chunk: 钴矿区块

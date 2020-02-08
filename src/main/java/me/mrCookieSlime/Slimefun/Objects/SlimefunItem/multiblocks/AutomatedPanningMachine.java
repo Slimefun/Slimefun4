@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -29,10 +30,9 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
 	public AutomatedPanningMachine() {
 		super(
-				Categories.MACHINES_1, 
-				SlimefunItems.AUTOMATED_PANNING_MACHINE, 
-				"AUTOMATED_PANNING_MACHINE",
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null},
+				Categories.MACHINES_1,
+                (SlimefunItemStack) SlimefunItems.AUTOMATED_PANNING_MACHINE,
+                new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null},
 				new ItemStack[] {
 					new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), 
 					new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE, 

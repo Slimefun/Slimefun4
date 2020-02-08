@@ -182,8 +182,8 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		ChestMenu menu = create(p);
 		fillInv(p, profile, menu, survival);
 
-        menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide"))));
-		menu.addMenuClickHandler(1, (pl, s, is, action) -> {
+        menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide"))));
+        menu.addMenuClickHandler(1, (pl, s, is, action) -> {
 			openMainMenu(profile, survival, 1);
 			return false;
 		});
@@ -380,7 +380,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 			RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipes().getRecipeInput(recipe);
 
-			if (choices[0] instanceof MaterialChoice) {
+            if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
 				recipeItems[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));
 				
 				if (((MaterialChoice) choices[0]).getChoices().size() > 1) {

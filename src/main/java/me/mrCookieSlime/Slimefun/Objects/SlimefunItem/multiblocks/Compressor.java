@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -24,10 +25,9 @@ public class Compressor extends MultiBlockMachine {
 
 	public Compressor() {
 		super(
-				Categories.MACHINES_1, 
-				SlimefunItems.COMPRESSOR, 
-				"COMPRESSOR",
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON)},
+				Categories.MACHINES_1,
+                (SlimefunItemStack) SlimefunItems.COMPRESSOR,
+                new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON)},
 				new ItemStack[] {
 					new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE),
 					new ItemStack(Material.FLINT, 8), new ItemStack(Material.COBBLESTONE)

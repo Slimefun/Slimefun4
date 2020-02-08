@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.GPS;
+package io.github.thebusybiscuit.slimefun4.api.gps;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -23,7 +23,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public final class GPSTeleportation {
+public final class TeleportationManager {
 	
 	private final Set<UUID> teleporterUsers = new HashSet<>();
 	private final int[] teleporterBorder = {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
@@ -31,7 +31,7 @@ public final class GPSTeleportation {
 	
 	private final GPSNetwork network;
 	
-	public GPSTeleportation(GPSNetwork gpsNetwork) {
+	public TeleportationManager(GPSNetwork gpsNetwork) {
 		network = gpsNetwork;
 	}
 
