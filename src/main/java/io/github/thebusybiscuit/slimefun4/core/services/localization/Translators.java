@@ -37,6 +37,7 @@ public class Translators {
 		addTranslator("JustMangoT", "JFF_JustMango", "vi", true);
 		addTranslator("Julie-Sigtuna", "vi", true);
 		addTranslator("nahkd123", "vi", true);
+		addTranslator("JustAPieOP", "vi", true);
 		
 		// Translators - Slovak
 		addTranslator("KillerXCoder", "sk", true);
