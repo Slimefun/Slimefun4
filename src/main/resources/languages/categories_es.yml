@@ -1,0 +1,17 @@
+---
+slimefun:
+  weapons: Armas
+  tools: Herramientas
+  items: Items Útiles
+  food: Comida
+  basic_machines: Máquinas Básicas
+  electricity: Energía y Electricidad
+  gps: GPS-Máquinas Básicas
+  armor: Armadura
+  magical_items: Items Mágicos
+  magical_gadgets: Dispositivos Mágicos
+  misc: Items Variados
+  technical_gadgets: Dispositivos Técnicos
+  resources: Recursos
+  tech_misc: Componentes Técnicos
+  magical_armor: Armadura Mágica
