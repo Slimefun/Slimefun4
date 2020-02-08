@@ -17,3 +17,8 @@ resources:
     copper_ore_chunk: Mảng Quặng Đồng
     tin_ore_chunk: Mảng Quằng Ôxit Thiếc
     silver_ore_chunk: Mảng Quặng Bạc
+    aluminum_ore_chunk: Mảnh quặng nhôm
+    lead_ore_chunk: Mảnh quăng chì
+    zinc_ore_chunk: Mảnh quặng kẽm
+    nickel_ore_chunk: Mảnh quặng ni-ken
+    cobalt_ore_chunk: Mảnh quặng cô-ban
