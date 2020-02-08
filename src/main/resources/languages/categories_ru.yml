@@ -1,0 +1,15 @@
+---
+slimefun:
+  weapons: Оружие
+  tools: Инструменты
+  items: Полезные предметы
+  food: Еда
+  armor: Броня
+  magical_items: Магические предметы
+  misc: Разное
+  resources: Ресурсы
+  cargo: Управление грузом
+  tech_misc: Технические компоненты
+  magical_armor: Магическая броня
+  talismans: Талисманы
+  ender_talismans: Эндер-талисманы
