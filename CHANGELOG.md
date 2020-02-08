@@ -38,6 +38,8 @@
 * Added ability to translate messages for Players
 * Added the ability to translate Researches
 * Added StatusEffect API
+* Added translatibility to categories
+* Added translatibility to geo-resources
 
 ### Changes
 * Removed Solar Array
@@ -45,6 +47,7 @@
 * Performance improvements for GEO Miner and Oil Pump
 * General performance improvements
 * Changed Startup console message
+* Changed GEO-Resources API
 
 ### Fixes
 * Fixed #1355
@@ -69,6 +72,7 @@
 * Fixed #1435
 * Fixed #1438
 * Fixed Multi Tool functioning as unlimited Shears
+* Fixed #1383
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
