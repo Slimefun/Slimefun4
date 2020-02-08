@@ -592,7 +592,14 @@ public class SlimefunItem implements Placeable {
 		Optional<ItemHandler> handler = itemhandlers.get(c);
 		
 		if (handler.isPresent()) {
-			callable.accept(c.cast(handler.get()));
+			try {
+				callable.accept(c.cast(handler.get()));
+			}
+			catch (Throwable x) {
+				// Catch any throwables and give more precise info on where to start debugging
+				String file = x.getStackTrace()[0].getClassName();
+				Bukkit.getLogger().log(Level.SEVERE, "Could not pass \"" + c.getSimpleName() + "\" for the following Item: \"" + getID() + "\" (" + file + ")", x);
+			}
 			return true;
 		}
 		

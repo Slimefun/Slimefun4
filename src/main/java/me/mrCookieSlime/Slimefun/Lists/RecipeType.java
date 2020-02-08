@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunGadget;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -76,33 +75,37 @@ public class RecipeType {
 		return SlimefunItem.getByID(machine);
 	}
 	
-	public static List<ItemStack> getRecipeInputs(SlimefunItem machine) {
+	public static List<ItemStack> getRecipeInputs(SlimefunMachine machine) {
 		if (machine == null) return new ArrayList<>();
-		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
+		List<ItemStack[]> recipes = machine.getRecipes();
 		List<ItemStack> convertible = new ArrayList<>();
+		
 		for (int i = 0; i < recipes.size(); i++) {
 			if (i % 2 == 0) convertible.add(recipes.get(i)[0]);
 		}
+		
 		return convertible;
 	}
 	
-	public static List<ItemStack[]> getRecipeInputList(SlimefunItem machine) {
+	public static List<ItemStack[]> getRecipeInputList(SlimefunMachine machine) {
 		if (machine == null) return new ArrayList<>();
-		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
+		List<ItemStack[]> recipes = machine.getRecipes();
 		List<ItemStack[]> convertible = new ArrayList<>();
+		
 		for (int i = 0; i < recipes.size(); i++) {
 			if (i % 2 == 0) convertible.add(recipes.get(i));
 		}
+		
 		return convertible;
 	}
 	
-	public static ItemStack getRecipeOutput(SlimefunItem machine, ItemStack input) {
-		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
+	public static ItemStack getRecipeOutput(SlimefunMachine machine, ItemStack input) {
+		List<ItemStack[]> recipes = machine.getRecipes();
 		return recipes.get(((getRecipeInputs(machine).indexOf(input) * 2) + 1))[0].clone();
 	}
 	
-	public static ItemStack getRecipeOutputList(SlimefunItem machine, ItemStack[] input) {
-		List<ItemStack[]> recipes = (machine instanceof SlimefunMachine ? ((SlimefunMachine) machine).getRecipes(): ((SlimefunGadget) machine).getRecipes());
+	public static ItemStack getRecipeOutputList(SlimefunMachine machine, ItemStack[] input) {
+		List<ItemStack[]> recipes = machine.getRecipes();
 		return recipes.get(((getRecipeInputList(machine).indexOf(input) * 2) + 1))[0];
 	}
 }
