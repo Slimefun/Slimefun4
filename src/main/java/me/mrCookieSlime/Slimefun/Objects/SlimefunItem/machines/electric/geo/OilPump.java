@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.OptionalInt;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,7 +36,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 	public OilPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 		
-		oil = SlimefunPlugin.getRegistry().getGEOResource("slimefun", "oil");
+		oil = SlimefunPlugin.getRegistry().getGEOResources().get(new NamespacedKey(SlimefunPlugin.instance, "oil")).orElse(null);
 		
 		new BlockMenuPreset(getID(), getInventoryTitle()) {
 			

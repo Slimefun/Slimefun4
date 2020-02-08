@@ -189,16 +189,6 @@ public class SlimefunRegistry {
 	public KeyMap<GEOResource> getGEOResources() {
 		return geoResources;
 	}
-
-	public GEOResource getGEOResource(String namespace, String key) {
-		for (GEOResource resource : geoResources.values()) {
-			if (resource.getKey().toString().equals(namespace + ":" + key)) {
-				return resource;
-			}
-		}
-		
-		return null;
-	}
 	
 	@Deprecated
 	public Map<Integer, List<GuideHandler>> getGuideHandlers() {
