@@ -62,8 +62,6 @@ commands:
   versions: 列出所有已安裝的附屬插件
 gps:
   deathpoint: "&4死亡點&7%date%"
-  geo:
-    scan-required: "&4請先做環境掃描"
   insufficient-complexity:
   - "&4GPS信號不足 &c%complexity%"
   - "&4a) GPS基礎設施未放置"
@@ -72,7 +70,13 @@ gps:
     added: "&a成功新增傳送點"
     max: "&4傳送點已達上限"
     new: "&e輸入傳送點名稱 &7(Color Codes supported!)"
+  geo:
+    scan-required: "&4請先做地質掃描"
 guide:
+  back:
+    guide: 回到Slimefun指南
+    settings: 回到設定介面
+    title: 上一頁
   cheat:
     no-multiblocks: "&4您不能靠作弊取得多方塊結構機械，你必須用蓋的！"
   credits:
@@ -108,47 +112,43 @@ guide:
     languages: 請選擇您偏好的語言
     main: Slimefun指南
     settings: 設置及資訊
-    wiki: Slimefun4 Wiki
     source: 來源代碼
+    wiki: Slimefun4 Wiki
   tooltips:
     open-category: 點擊開啟
     versions-notice: 這些在報告錯誤時非常重要！
-  back:
-    title: 上一頁
-    guide: 回到Slimefun指南
-    settings: 回到設定介面
 inventory:
   no-access: "&4沒有權限使用該物品"
 languages:
+  af: 南非語
+  ar: 阿拉伯文
   cs: 捷克文
+  da: 丹麥文
   de: 德語
   default: 默認
   el: 希臘語
   en: 英語
   es: 西班牙文
+  fi: 芬蘭文
   fr: 法文
   he: 希伯來語
   hu: 匈牙利文
   id: 印尼語
   it: 義大利文
   lv: 拉脫維亞語
+  ms: 馬來語
   nl: 荷蘭語
+  'no': 挪威
   pl: 波蘭語
   pt: 葡萄牙文（葡萄牙）
   pt-BR: 葡萄牙文（巴西）
   ru: 俄語
   sk: 斯洛伐克文
   sv: 瑞典語
+  uk: 烏克蘭文
   vi: 越南文
   zh-CN: 中文（簡體）
   zh-TW: 中文（繁體）
-  ar: 阿拉伯文
-  af: 南非語
-  da: 丹麥文
-  fi: 芬蘭文
-  uk: 烏克蘭文
-  ms: 馬來語
-  'no': 挪威
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4此祭壇需要更多基座&c(%pedestals% / 8)"
