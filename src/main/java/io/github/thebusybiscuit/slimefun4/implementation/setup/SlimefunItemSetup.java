@@ -2039,15 +2039,15 @@ public final class SlimefunItemSetup {
 
 		}.registerChargeableBlock(true, 256);
 
-		new Multimeter(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.MULTIMETER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new Multimeter(Categories.TECH, (SlimefunItemStack) SlimefunItems.MULTIMETER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.COPPER_INGOT, null, SlimefunItems.COPPER_INGOT, null, SlimefunItems.REDSTONE_ALLOY, null, null, SlimefunItems.GOLD_6K, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.PLASTIC_SHEET, RecipeType.HEATED_PRESSURE_CHAMBER,
+		new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.PLASTIC_SHEET, RecipeType.HEATED_PRESSURE_CHAMBER,
 		new ItemStack[] {null, null, null, null, SlimefunItems.BUCKET_OF_OIL, null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.ANDROID_MEMORY_CORE, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.ANDROID_MEMORY_CORE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BRASS_INGOT, new ItemStack(Material.ORANGE_STAINED_GLASS), SlimefunItems.BRASS_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.TIN_DUST, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BRASS_INGOT, new ItemStack(Material.ORANGE_STAINED_GLASS), SlimefunItems.BRASS_INGOT})
 		.register(true);
 
