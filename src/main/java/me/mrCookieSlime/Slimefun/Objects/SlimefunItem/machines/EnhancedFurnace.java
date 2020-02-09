@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
@@ -51,19 +52,21 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 			
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				if (!(b.getState() instanceof Furnace)) {
+				if (b.getType() != Material.FURNACE) {
 					// The Furnace has been destroyed, we can clear the block data
 					BlockStorage.clearBlockInfo(b);
 				}
-				else if (((Furnace) b.getState()).getCookTime() > 0) {
+				else {
 					Furnace furnace = (Furnace) b.getState();
+					
+					if (furnace.getCookTime() > 0) {
+						int newCookTime = furnace.getCookTime() + getSpeed() * 10;
 
-					int newCookTime = furnace.getCookTime() + getSpeed() * 10;
+						if (newCookTime > 200) furnace.setCookTime((short) 188);
+						else furnace.setCookTime((short) newCookTime);
 
-					if (newCookTime > 200) furnace.setCookTime((short) 188);
-					else furnace.setCookTime((short) newCookTime);
-
-					furnace.update(true, false);
+						furnace.update(true, false);
+					}
 				}
 			}
 

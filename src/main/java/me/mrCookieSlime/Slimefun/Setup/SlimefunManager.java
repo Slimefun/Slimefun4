@@ -201,6 +201,7 @@ public final class SlimefunManager {
 			}
 			
 			SlimefunItem sfItem = SlimefunItem.getByItem(strippedItem);
+			
 			if (sfItem instanceof Soulbound && !sfItem.isDisabled()) {
 				return true;
 			}
@@ -208,6 +209,7 @@ public final class SlimefunManager {
 				ItemMeta im = item.getItemMeta();
 				return (im.hasLore() && im.getLore().contains(ChatColor.GRAY + "Soulbound"));
 			}
+			
 			return false;
 		}
 	}

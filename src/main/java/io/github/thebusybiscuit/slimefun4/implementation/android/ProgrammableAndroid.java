@@ -93,7 +93,7 @@ public abstract class ProgrammableAndroid extends SimpleSlimefunItem<BlockTicker
 				registerFuel(new MachineFuel(1, new ItemStack(mat)));
 			}
 		}
-		else if (getTier() == 2){
+		else if (getTier() == 2) {
 			registerFuel(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
 			registerFuel(new MachineFuel(200, SlimefunItems.BUCKET_OF_OIL));
 			registerFuel(new MachineFuel(500, SlimefunItems.BUCKET_OF_FUEL));

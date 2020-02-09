@@ -49,6 +49,7 @@ public class CargoManagerBlock extends SlimefunItem {
 			@Override
 			public void onRightClick(PlayerRightClickEvent e) {
 				Optional<Block> block = e.getClickedBlock();
+				
 				if (block.isPresent()) {
 					Player p = e.getPlayer();
 					Block b = block.get();

@@ -157,16 +157,17 @@ public class LocalizationService extends SlimefunLocalization {
 	}
 
 	public double getProgress(Language lang) {
-		double defaultKeys = getTotalKeys(languages.get(SupportedLanguage.ENGLISH.getID()));
+		int defaultKeys = getTotalKeys(languages.get(SupportedLanguage.ENGLISH.getID()));
 		if (defaultKeys == 0) return 0;
-		return DoubleHandler.fixDouble(100.0 * (getTotalKeys(lang) / defaultKeys));
+		
+		return DoubleHandler.fixDouble(100.0 * (getTotalKeys(lang) / (double) defaultKeys));
 	}
 
-	private double getTotalKeys(Language lang) {
+	private int getTotalKeys(Language lang) {
 		return getKeys(lang.getMessages(), lang.getResearches(), lang.getResources(), lang.getCategories());
 	}
 
-	private double getKeys(FileConfiguration... files) {
+	private int getKeys(FileConfiguration... files) {
 		int keys = 0;
 		
 		for (FileConfiguration cfg : files) {
