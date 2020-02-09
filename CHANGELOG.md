@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **List of Releases**
 
-- [Release Candidate 5 (TBD)](#release-candidate-5-tbd)
+- [Release Candidate 5 (09 Feb 2020)](#release-candidate-5-09-feb-2020)
   - [Additions](#additions)
   - [Changes](#changes)
   - [Fixes](#fixes)
@@ -22,7 +22,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 5 (TBD)
+## Release Candidate 5 (09 Feb 2020)
 
 ### Additions
 * Aded preset messages.yml files
