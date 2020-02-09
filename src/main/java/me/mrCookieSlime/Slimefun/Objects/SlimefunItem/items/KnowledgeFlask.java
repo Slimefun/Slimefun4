@@ -24,7 +24,7 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemUseHandler> {
 			Player p = e.getPlayer();
 			if (p.getLevel() >= 1 && (!e.getClickedBlock().isPresent() || !(e.getClickedBlock().get().getState() instanceof Container))) {
 				p.setLevel(p.getLevel() - 1);
-				p.getInventory().addItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE);
+				p.getInventory().addItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.clone());
 					
 				p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
 					
