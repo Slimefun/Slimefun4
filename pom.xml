@@ -116,13 +116,13 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.9.1</version>
+            <version>0.9.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>1.6</version>
+            <version>1.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

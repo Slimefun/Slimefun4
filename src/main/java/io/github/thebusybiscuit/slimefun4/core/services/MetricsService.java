@@ -13,7 +13,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 public class MetricsService extends Metrics {
 
 	public MetricsService(SlimefunPlugin plugin) {
-		super(plugin);
+		super(plugin, 4574);
 
 		addCustomChart(new SimplePie("auto_updates", () -> 
 			SlimefunPlugin.getCfg().getBoolean("options.auto-update") ? "enabled": "disabled"
