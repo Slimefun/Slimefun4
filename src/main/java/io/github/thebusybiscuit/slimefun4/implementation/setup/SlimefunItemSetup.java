@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
+import io.github.thebusybiscuit.slimefun4.implementation.android.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.*;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -152,8 +153,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.RainbowTicker;
-import me.mrCookieSlime.Slimefun.androids.AndroidType;
-import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -2120,15 +2119,10 @@ public final class SlimefunItemSetup {
 		}
 		.register(true);
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_MINER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new MinerAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_MINER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.DIAMOND_PICKAXE), SlimefunItems.PROGRAMMABLE_ANDROID, new ItemStack(Material.DIAMOND_PICKAXE), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
 			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.MINER;
-			}
-
-			@Override
 			public float getFuelEfficiency() {
 				return 1;
 			}
@@ -2141,15 +2135,10 @@ public final class SlimefunItemSetup {
 		}
 		.register(true);
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_FARMER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new FarmerAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_FARMER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.DIAMOND_HOE), SlimefunItems.PROGRAMMABLE_ANDROID, new ItemStack(Material.DIAMOND_HOE), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
 			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.FARMER;
-			}
-
-			@Override
 			public float getFuelEfficiency() {
 				return 1;
 			}
@@ -2162,15 +2151,10 @@ public final class SlimefunItemSetup {
 		}
 		.register(true);
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_WOODCUTTER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new WoodcutterAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_WOODCUTTER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.DIAMOND_AXE), SlimefunItems.PROGRAMMABLE_ANDROID, new ItemStack(Material.DIAMOND_AXE), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
 			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.WOODCUTTER;
-			}
-
-			@Override
 			public float getFuelEfficiency() {
 				return 1;
 			}
@@ -2183,15 +2167,10 @@ public final class SlimefunItemSetup {
 		}
 		.register(true);
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new FisherAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.FISHING_ROD), SlimefunItems.PROGRAMMABLE_ANDROID, new ItemStack(Material.FISHING_ROD), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
 			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.FISHERMAN;
-			}
-
-			@Override
 			public float getFuelEfficiency() {
 				return 1;
 			}
@@ -2204,13 +2183,8 @@ public final class SlimefunItemSetup {
 		}
 		.register(true);
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_BUTCHER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ButcherAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_BUTCHER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.GPS_TRANSMITTER, null, new ItemStack(Material.DIAMOND_SWORD), SlimefunItems.PROGRAMMABLE_ANDROID, new ItemStack(Material.DIAMOND_SWORD), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
-
-			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.FIGHTER;
-			}
 
 			@Override
 			public float getFuelEfficiency() {
@@ -2255,15 +2229,10 @@ public final class SlimefunItemSetup {
 		}
 		.register(true);
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_2_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new FisherAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_2_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.FISHING_ROD), SlimefunItems.PROGRAMMABLE_ANDROID_2, new ItemStack(Material.FISHING_ROD), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
 			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.FISHERMAN;
-			}
-
-			@Override
 			public float getFuelEfficiency() {
 				return 1.5F;
 			}
@@ -2276,15 +2245,10 @@ public final class SlimefunItemSetup {
 		}
 		.register(true);
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_2_BUTCHER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ButcherAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_2_BUTCHER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.GPS_TRANSMITTER, null, new ItemStack(Material.DIAMOND_SWORD), SlimefunItems.PROGRAMMABLE_ANDROID_2, new ItemStack(Material.DIAMOND_SWORD), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
 			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.FIGHTER;
-			}
-
-			@Override
 			public float getFuelEfficiency() {
 				return 1.5F;
 			}
@@ -2297,90 +2261,75 @@ public final class SlimefunItemSetup {
 		}
 		.register(true);
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_2_FARMER, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, SlimefunItems.GPS_TRANSMITTER, null, new ItemStack(Material.DIAMOND_HOE), SlimefunItems.PROGRAMMABLE_ANDROID_2, new ItemStack(Material.DIAMOND_HOE), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
+        new AdvancedFarmerAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_2_FARMER, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {null, SlimefunItems.GPS_TRANSMITTER, null, new ItemStack(Material.DIAMOND_HOE), SlimefunItems.PROGRAMMABLE_ANDROID_2, new ItemStack(Material.DIAMOND_HOE), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
-			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.ADVANCED_FARMER;
-			}
+            @Override
+            public float getFuelEfficiency() {
+                return 1.5F;
+            }
 
-			@Override
-			public float getFuelEfficiency() {
-				return 1.5F;
-			}
+            @Override
+            public int getTier() {
+                return 2;
+            }
 
-			@Override
-			public int getTier() {
-				return 2;
-			}
-
-		}
-		.register(true);
+        }
+                .register(true);
 
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_3, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.PLASTIC_SHEET, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.PLASTIC_SHEET, SlimefunItems.NUCLEAR_REACTOR, SlimefunItems.PROGRAMMABLE_ANDROID_2, new ItemStack(Material.CHEST), SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BLISTERING_INGOT_3}) {
+        new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_3, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {SlimefunItems.PLASTIC_SHEET, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.PLASTIC_SHEET, SlimefunItems.NUCLEAR_REACTOR, SlimefunItems.PROGRAMMABLE_ANDROID_2, new ItemStack(Material.CHEST), SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BLISTERING_INGOT_3}) {
 
-			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.NONE;
-			}
+            @Override
+            public AndroidType getAndroidType() {
+                return AndroidType.NONE;
+            }
 
-			@Override
-			public float getFuelEfficiency() {
-				return 1F;
-			}
+            @Override
+            public float getFuelEfficiency() {
+                return 1F;
+            }
 
-			@Override
-			public int getTier() {
-				return 3;
-			}
+            @Override
+            public int getTier() {
+                return 3;
+            }
 
-		}
-		.register(true);
+        }
+                .register(true);
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_3_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, null, null, new ItemStack(Material.FISHING_ROD), SlimefunItems.PROGRAMMABLE_ANDROID_3, new ItemStack(Material.FISHING_ROD), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
+        new FisherAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_3_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {null, null, null, new ItemStack(Material.FISHING_ROD), SlimefunItems.PROGRAMMABLE_ANDROID_3, new ItemStack(Material.FISHING_ROD), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
-			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.FISHERMAN;
-			}
+            @Override
+            public float getFuelEfficiency() {
+                return 1F;
+            }
 
-			@Override
-			public float getFuelEfficiency() {
-				return 1F;
-			}
+            @Override
+            public int getTier() {
+                return 3;
+            }
 
-			@Override
-			public int getTier() {
-				return 3;
-			}
+        }
+                .register(true);
 
-		}
-		.register(true);
+        new ButcherAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_3_BUTCHER, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {null, SlimefunItems.GPS_TRANSMITTER_3, null, new ItemStack(Material.DIAMOND_SWORD), SlimefunItems.PROGRAMMABLE_ANDROID_3, new ItemStack(Material.DIAMOND_SWORD), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
 
-		new ProgrammableAndroid(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.PROGRAMMABLE_ANDROID_3_BUTCHER, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, SlimefunItems.GPS_TRANSMITTER_3, null, new ItemStack(Material.DIAMOND_SWORD), SlimefunItems.PROGRAMMABLE_ANDROID_3, new ItemStack(Material.DIAMOND_SWORD), null, SlimefunItems.ELECTRIC_MOTOR, null}) {
+            @Override
+            public float getFuelEfficiency() {
+                return 1F;
+            }
 
-			@Override
-			public AndroidType getAndroidType() {
-				return AndroidType.FIGHTER;
-			}
+            @Override
+            public int getTier() {
+                return 3;
+            }
 
-			@Override
-			public float getFuelEfficiency() {
-				return 1F;
-			}
-
-			@Override
-			public int getTier() {
-				return 3;
-			}
-
-		}
-		.register(true);
+        }
+                .register(true);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, (SlimefunItemStack) SlimefunItems.BLANK_RUNE, RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.OBSIDIAN), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE)})

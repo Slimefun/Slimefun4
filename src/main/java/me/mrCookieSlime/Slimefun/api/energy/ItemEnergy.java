@@ -44,7 +44,7 @@ public final class ItemEnergy {
 
 	public static float addStoredEnergy(ItemStack item, float energy) {
 		if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return 0F;
-		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0F;
+		if (!item.hasItemMeta() || !item.getItemMeta().hasLore()) return 0;
 
 		float rest = 0F;
 		float capacity = getMaxEnergy(item);

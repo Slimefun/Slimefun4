@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: Résultats du GEO-scan
+  chunk: Chunk scanné
+  world: Monde
+  unit: unité
+  units: unités
+resources:
+  slimefun:
+    oil: Pétrole
+    nether_ice: Glace du Nether
+    salt: Sel
+    uranium: Uranium
+  slimefunorechunks:
+    iron_ore_chunk: Morceau de minerai de fer
+    gold_ore_chunk: Morceau de minerai d'or
+    copper_ore_chunk: Morceau de minerai de cuivre
+    tin_ore_chunk: Morceau de minerai d'étain
+    silver_ore_chunk: Morceau de minerai d'argent
+    aluminum_ore_chunk: Morceau de minerai d'aluminium
+    lead_ore_chunk: Morceau de minerai de plomb
+    zinc_ore_chunk: Morceau de minerai de zinc
+    nickel_ore_chunk: Morceau de minerai de nickel
+    cobalt_ore_chunk: Morceau de minerai de cobalt

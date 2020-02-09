@@ -1,0 +1,25 @@
+---
+slimefun:
+  weapons: Vũ Khí
+  tools: Dụng Cụ
+  items: Các Vật Phẩm Thường Dùng
+  food: Thức Ăn
+  basic_machines: Những Máy Móc Cơ Bản
+  electricity: Năng Lượng Và Điện ( Điện Lực )
+  gps: Những Bộ Máy Dựa Trên Hệ Thống Định Vị
+  armor: Giáp
+  magical_items: Những Vật Phẩm Ma Thuật
+  magical_gadgets: Những Đồ Dùng Ma Thuật
+  misc: Những Vật Phẩm Linh Tinh
+  technical_gadgets: Những Đồ Dùng Kỹ Thuật
+  resources: Những Tài Nguyên
+  cargo: Quản Lý Hàng Hoá
+  tech_misc: Những Thành Phần Kỷ Thuật
+  magical_armor: Giáp Ma Thuật
+  talismans: Bùa Hộ Mệnh ( Loại I )
+  ender_talismans: Bùa Hộ Mệnh ( Loại II )
+  christmas: Lễ Giáng Sinh ( Tháng 12 )
+  valentines_day: Ngày Tình Nhân (14 Tháng 2)
+  easter: Lệ Phục Sinh (Tháng Tư)
+  birthday: Sinh Nhật TheBusyBiscuit (26 Tháng 10)
+  halloween: Halloween (31 tháng 10)

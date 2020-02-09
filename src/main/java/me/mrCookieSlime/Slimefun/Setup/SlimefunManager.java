@@ -68,11 +68,6 @@ public final class SlimefunManager {
 		}
 	}
 
-	@Deprecated
-	public static boolean isItemSimiliar(ItemStack item, ItemStack sfitem, boolean lore) {
-		return isItemSimilar(item, sfitem, lore);
-	}
-
 	public static boolean isItemSimilar(ItemStack item, ItemStack sfitem, boolean checkLore) {
 		if (item == null) return sfitem == null;
 		if (sfitem == null) return false;

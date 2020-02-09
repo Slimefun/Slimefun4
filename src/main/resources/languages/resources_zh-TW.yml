@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: 地質掃描結果
+  chunk: 掃描的區塊
+  world: 世界
+  unit: 單位
+  units: 單位
+resources:
+  slimefun:
+    oil: 油
+    nether_ice: 地域冰
+    salt: 鹽
+    uranium: 鈾
+  slimefunorechunks:
+    iron_ore_chunk: 鐵石塊
+    gold_ore_chunk: 金石塊
+    copper_ore_chunk: 銅礦塊
+    tin_ore_chunk: 錫礦塊
+    silver_ore_chunk: 銀石塊
+    aluminum_ore_chunk: 鋁石塊
+    lead_ore_chunk: 鉛石塊
+    zinc_ore_chunk: 鋅礦塊
+    nickel_ore_chunk: 鎳礦塊
+    cobalt_ore_chunk: 鈷石塊

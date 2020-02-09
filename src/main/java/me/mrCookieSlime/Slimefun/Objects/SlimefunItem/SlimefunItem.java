@@ -457,22 +457,6 @@ public class SlimefunItem implements Placeable {
         return SlimefunPlugin.getRegistry().getItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
     }
 
-    /**
-     * This method marks the item as radioactive.
-     *
-     * @deprecated The Interface {@link Radioactive} should be used instead in the future.
-     *
-     * @param item	The {@link ItemStack} to set as radioactive
-     */
-    @Deprecated
-    public static void setRadioactive(ItemStack item) {
-        SlimefunItem sfItem = getByItem(item);
-
-        if (sfItem != null) {
-            SlimefunPlugin.getRegistry().getRadioactiveItems().add(sfItem);
-        }
-    }
-
     public static ItemStack getItem(String id) {
         SlimefunItem item = getByID(id);
         return item != null ? item.getItem(): null;
@@ -592,7 +576,14 @@ public class SlimefunItem implements Placeable {
         Optional<ItemHandler> handler = itemhandlers.get(c);
 
         if (handler.isPresent()) {
-            callable.accept(c.cast(handler.get()));
+            try {
+                callable.accept(c.cast(handler.get()));
+            }
+            catch (Throwable x) {
+                // Catch any throwables and give more precise info on where to start debugging
+                String file = x.getStackTrace()[0].getClassName();
+                Bukkit.getLogger().log(Level.SEVERE, "Could not pass \"" + c.getSimpleName() + "\" for the following Item: \"" + getID() + "\" (" + file + ")", x);
+            }
             return true;
         }
 

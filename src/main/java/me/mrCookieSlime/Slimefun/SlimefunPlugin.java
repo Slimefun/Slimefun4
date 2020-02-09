@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import io.github.thebusybiscuit.slimefun4.core.services.*;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.NetherIceResource;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -23,14 +24,6 @@ import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunTabCompleter;
 import io.github.thebusybiscuit.slimefun4.core.hooks.SlimefunHooks;
-import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
-import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
-import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
-import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
-import io.github.thebusybiscuit.slimefun4.core.services.GitHubService;
-import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
-import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
-import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.OilResource;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.SaltResource;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.UraniumResource;
@@ -78,7 +71,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.setup.WikiSetup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunBackup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.utils.ConfigCache;
@@ -96,8 +88,9 @@ public final class SlimefunPlugin extends JavaPlugin {
 	private final CustomTextureService textureService = new CustomTextureService(this);
 	private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
 	private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
-	private final AutoSavingService autoSavingService = new AutoSavingService();
 	private final UpdaterService updaterService = new UpdaterService(this, getFile());
+    private final AutoSavingService autoSavingService = new AutoSavingService();
+    private final BackupService backupService = new BackupService();
 
 	private TickerTask ticker;
 	private LocalizationService local;
@@ -381,7 +374,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			menu.save();
 		}
 
-		SlimefunBackup.start();
+        backupService.run();
 
 		// Prevent Memory Leaks
 		AContainer.processing = null;
