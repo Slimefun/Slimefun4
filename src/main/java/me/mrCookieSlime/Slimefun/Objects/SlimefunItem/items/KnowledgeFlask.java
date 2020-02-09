@@ -1,12 +1,11 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 
-import org.bukkit.Material;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import org.bukkit.Sound;
 import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -25,7 +24,7 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemUseHandler> {
 			Player p = e.getPlayer();
 			if (p.getLevel() >= 1 && (!e.getClickedBlock().isPresent() || !(e.getClickedBlock().get().getState() instanceof Container))) {
 				p.setLevel(p.getLevel() - 1);
-				p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
+				p.getInventory().addItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE);
 					
 				p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
 					
