@@ -1,6 +1,6 @@
 options:
   # 自动更新
-  auto-update: true
+  auto-update: false
   # 装备状态更新周期
   armor-update-interval: 10
   # 是否在玩家第一次进入服务器时自动赠送粘液科技指南?

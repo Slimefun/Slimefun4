@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.android;
 import java.util.Collection;
 import java.util.UUID;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollection;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
