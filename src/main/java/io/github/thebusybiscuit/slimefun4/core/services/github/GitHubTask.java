@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -47,7 +48,7 @@ public class GitHubTask implements Runnable {
 		}
 	}
 
-	private String grabTexture(Map<String, String> skins, String username) throws TooManyRequestsException {
+	private String grabTexture(Map<String, String> skins, String username) throws TooManyRequestsException, IOException {
 		Optional<UUID> uuid = MinecraftAccount.getUUID(username);
 		
 		if (uuid.isPresent()) {

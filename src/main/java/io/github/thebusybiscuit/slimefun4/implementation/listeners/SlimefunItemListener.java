@@ -23,7 +23,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import me.mrCookieSlime.CSCoreLibPlugin.events.ItemUseEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
@@ -32,7 +31,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -117,37 +115,6 @@ public class SlimefunItemListener implements Listener {
 
             if (e.useItemInHand() != Result.DENY) {
                 e.setUseItemInHand(event.useItem());
-            }
-        }
-    }
-
-    @Deprecated
-    @EventHandler
-    public void onRightClick(ItemUseEvent e) {
-        if (e.getParentEvent() != null && e.getParentEvent().getHand() != EquipmentSlot.HAND) {
-            return;
-        }
-
-        Player p = e.getPlayer();
-        ItemStack item = e.getItem();
-
-        if (!SlimefunManager.isItemSimilar(item, SlimefunItems.DEBUG_FISH, true)) {
-            SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
-
-            if (slimefunItem != null) {
-                if (Slimefun.hasUnlocked(p, slimefunItem, true)) {
-                    slimefunItem.callItemHandler(ItemInteractionHandler.class, handler ->
-                            handler.onRightClick(e, p, item)
-                    );
-                }
-                else {
-                    e.setCancelled(true);
-                }
-            }
-            else {
-                for (ItemHandler handler : SlimefunItem.getHandlers(ItemInteractionHandler.class)) {
-                    if (((ItemInteractionHandler) handler).onRightClick(e, p, item)) return;
-                }
             }
         }
     }
