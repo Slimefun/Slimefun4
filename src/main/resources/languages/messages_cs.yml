@@ -84,11 +84,55 @@ messages:
   multimeter: "&bEnergie: &3%stored% &b/ &3%capacity%"
   talisman:
     anvil: "&a&oTvůj talisman zachránil tvůj nástroj od rozbití"
+    miner: "&a&oTvůj talisman zdvojnásobil tvoje dropy"
+    hunter: "&a&oTvůj talisman zdvojnásobil tvoje dropy"
+    lava: "&a&oTvůj talisman tě zachránil před uhořením"
+    water: "&a&oTvůj talisman tě zachránil před utopením"
+    angel: "&a&oTvůj talisman tě zachránil před poškození pádem"
+    fire: "&a&oTvůj talisman tě zachránil před uhořením"
+    magician: "&a&oTvůj talisman ti dal přídavné enchanty"
+    traveller: "&a&oTvůj talisman ti dal rychlost"
+    warrior: "&a&oTvůj talisman ti dal efekt síly na nějakou tu chvíli"
+    knight: "&a&oTvůj talisman ti dal 5 vteřin regenerace"
+    whirlwind: "&a&oTvůj talisman odrazil projektil"
+    wizard: "&a&oTvůj talisman ti dal větší level Štěstí, ale možná snížil level jiných
+      enchantů"
+  soulbound-rune:
+    fail: "&cKe své duši můžeš přidat jen jeden předmět."
+    success: "&aÚspěšně jsi přidal tento item ke své duši. Pokud zemřeš, item ti zůstane."
+  research:
+    start: "&7Antičtí duchové šeptají magické slova do tvého ucha..."
+    progress: "&7Začal jsi přemýšlet nad &b%research% &e(%progress%)"
+  fire-extinguish: "&7Uhasil ses"
+  cannot-place: "&cZde nemůžeš položit blok!"
+  no-pvp: "&cZde nemůžeš bojovat s hráči!"
+  radiation: "&4Byl jsi vystaven smrtelné radiaci! &cVyhoď radioaktivní předmět nebo
+    si obleč Hazmat oblek."
+  opening-guide: "&bOtevírání příručky, může to pár sekund trvat..."
+  opening-backpack: "&bOtevírání batohu, může to pár sekund trvat..."
+  no-iron-golem-heal: "&cTo není Iron Ingot! S tímto nemůžeš léčit Iron Golemy!"
+  link-prompt: "&eKlikni zde:"
+  diet-cookie: "&eZačínáš se cítit velice lehký..."
+  fortune-cookie:
+  - "&7POMOOC!! Jsem uvězněn v továrně na sušenky štěstí!"
+  - "&7Zítra zemřeš...     s láskou od pana Creepera"
+  - "&7V nějaké části tvého života se stane něco špatného!!!"
+  - "&7Příští týden si uvědomíš, že toto není reálný život, ale jsi v počítačové hře."
+  - "&7Sušenka ti bude za pár vteřin velice chutnat"
+  - '&7Poslední slovo, které uslyšíš bude "VYHUBIT!!!"'
+  - "&7Ať se stane cokoliv, nepokoušej se mazlit Creepera... Zkusil jsem to. Je to
+    dobrý pocit, ale nestojí to za to."
+  - "&742. Odpověď je 42."
+  - "&7Učením češtiny se naučíš Česky. Big Brain time."
+  - "&7Nikdy nekopej pod sebe!"
 machines:
   ELEVATOR:
     current-floor: "&eAktuální patro:"
     enter-name: "&7Prosím, zadejte název podlaží do chatu. &r(Barvy jsou podporovány!)"
     named: "&2Podlaží úspěšně pojmenováno na: &r%floor%"
+    no-destinations: "&4Žádné destinace nebyly nalezeny"
+    pick-a-floor: "&3- Vyber si patro -"
+    click-to-teleport: "&eKliknutím &7se teleportuješ na toto patro:"
   TELEPORTER:
     teleporting: "&3Teleportuji..."
     teleported: "&3Teleportace dokončena!"
@@ -96,6 +140,24 @@ machines:
     invulnerability: "&b&lZískal jsi 30 sekund nezranitelnosti!"
   CARGO_NODES:
     must-be-placed: "&4Musí být umístěn na truhlu nebo stroj!"
+  pattern-not-found: "&eOmlouvám se, ale nerozpoznal jsem tento recept. Dej do dispenseru
+    předměty tak, aby odpovídaly receptu."
+  unknown-material: "&eOmlouvám se, ale nepoznal jsem předmět v dispenseru. Dej tam
+    něco, co znám."
+  wrong-item: "&eOmlouvám se, ale nerozpoznal jsem předmět, se kterým jsi na mě kliknul.
+    Zkontroluj recept a koukni se, jaké předměty můžeš použít."
+  full-inventory: "&eOmlouvám se, můj inventář je plný."
+  in-use: "&cInventář tohoto bloku je právě otevřen jiným hráčem"
+  ignition-chamber-no-flint: "&cIgnition Chamberu chybí Flint and Steel."
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4Altáři chybí podstavce &c(%pedestals% / 8)"
+    unknown-catalyst: "&4Neznámý katalyst. &cPoužij správný recept!"
+    unknown-recipe: "&4Neznámý recept! &cPoužij správný recept!"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4Podstavce jsou obestavené! &cOdstraň cokoliv nad podstavcema!"
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7Napiš do chatu zprávu, kterou chceš, aby Hologram ukazoval. &r(Barvy
+      jsou podporovány!)"
 anvil:
   not-working: "&4Itemy ze Slimefunu nelze použít v kovadlině!"
 backpack:
