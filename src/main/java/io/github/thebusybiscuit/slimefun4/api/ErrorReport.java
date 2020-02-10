@@ -19,6 +19,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.cscorelib2.collections.CappedLinkedList;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -30,7 +31,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class ErrorReport {
 
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-	private static final List<String> errors = new ArrayList<>();
+	private static final CappedLinkedList<String> errors = new CappedLinkedList<>(10);
 
 	private File file;
 	
@@ -197,12 +198,12 @@ public class ErrorReport {
 
 	public static void error(String message, Throwable throwable) {
 		logError(Level.SEVERE, message, throwable);
-		SlimefunPlugin.instance.getLogger().log(Level.SEVERE, message, throwable);
+		Slimefun.getLogger().log(Level.SEVERE, message, throwable);
 	}
 
 	public static void warn(String message) {
 		logError(Level.WARNING, message, null);
-		SlimefunPlugin.instance.getLogger().warning(message);
+		Slimefun.getLogger().warning(message);
 	}
 
 	private static void logError(Level level, String message, Throwable throwable) {
@@ -212,10 +213,6 @@ public class ErrorReport {
 				.map(trace -> "  " + trace.getClassName() + '#' + trace.getMethodName() + ':' + trace.getLineNumber())
 				.collect(Collectors.joining("\n")))
 		);
-
-		// Let's cap this at 10 at the min
-		if (errors.size() > 10)
-			errors.remove(0);
 	}
 
 	public static String sumErrors() {

@@ -134,11 +134,11 @@ public class ReportCommand extends SubCommand {
             i++;
             boolean enabled = Bukkit.getPluginManager().isPluginEnabled(plugin);
             if (plugin.getDescription().getDepend().contains("Slimefun") || plugin.getDescription().getSoftDepend().contains("Slimefun"))
-                addons.append("* ").append(!enabled ? "~~" : "").append(plugin.getName()).append(" - ")
-                        .append(plugin.getDescription().getVersion()).append(!enabled ? "~~" : "").append("\n");
+                addons.append("<ul>").append(!enabled ? "~~" : "").append(plugin.getName()).append(" - ")
+                        .append(plugin.getDescription().getVersion()).append(!enabled ? "~~" : "").append("</ul>\n");
             else
-                plugins.append("* ").append(!enabled ? "~~" : "").append(plugin.getName()).append(" - ")
-                        .append(plugin.getDescription().getVersion()).append(!enabled ? "~~" : "").append("\n");
+                plugins.append("<ul>").append(!enabled ? "~~" : "").append(plugin.getName()).append(" - ")
+                        .append(plugin.getDescription().getVersion()).append(!enabled ? "~~" : "").append("</ul>\n");
         }
 
         return versions + addons
