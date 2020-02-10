@@ -1,3 +1,15 @@
 ---
 commands:
   help: Zobrazí tuto  nápovědu
+  cheat: Umožňuje nacheatovat věci
+  give: Dejte někomu nějaké Slimefun věci
+  guide: Dá vám Slimefun příručku
+  versions: Seznam všech nainstalovaných doplňků
+  search: Vyhledá ve vaší příručce daný příkaz
+  open_guide: Otevře Slimefun příručku bez použití knihy
+  stats: Ukáže statistiky hráče
+  research:
+    reset-target: "&cTvoje znalost byla resetována "
+guide:
+  search:
+    name: "&7Hledat..."
