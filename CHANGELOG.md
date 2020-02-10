@@ -2,21 +2,23 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **List of Releases**
 
+- [Release Candidate 6 (TBD)](#release-candidate-6-tbd)
+  - [Changes](#changes)
 - [Release Candidate 5 (09 Feb 2020)](#release-candidate-5-09-feb-2020)
   - [Additions](#additions)
-  - [Changes](#changes)
+  - [Changes](#changes-1)
   - [Fixes](#fixes)
 - [Release Candidate 4 (06 Jan 2020)](#release-candidate-4-06-jan-2020)
   - [Additions](#additions-1)
-  - [Changes](#changes-1)
+  - [Changes](#changes-2)
   - [Fixes](#fixes-1)
 - [Release Candidate 3 (21 Nov 2019)](#release-candidate-3-21-nov-2019)
   - [Additions](#additions-2)
-  - [Changes](#changes-2)
+  - [Changes](#changes-3)
   - [Fixes](#fixes-2)
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
   - [Additions](#additions-3)
-  - [Changes](#changes-3)
+  - [Changes](#changes-4)
   - [Fixes](#fixes-3)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
