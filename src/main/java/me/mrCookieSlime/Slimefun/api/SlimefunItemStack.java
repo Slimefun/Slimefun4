@@ -9,10 +9,12 @@ import java.util.function.Consumer;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
@@ -59,6 +61,10 @@ public class SlimefunItemStack extends CustomItem {
 			if (im instanceof PotionMeta) {
 				((PotionMeta) im).setColor(color);
 				((PotionMeta) im).addCustomEffect(effect, true);
+				
+				if (effect.getType().equals(PotionEffectType.SATURATION)) {
+					im.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+				}
 			}
 		});
 		

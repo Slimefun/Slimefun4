@@ -1,16 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 
 public class SlimefunTabCompleter implements TabCompleter {
+	
+	private static final int MAX_SUGGESTIONS = 40;
 	
 	private final SlimefunCommand command;
 	
@@ -28,15 +32,17 @@ public class SlimefunTabCompleter implements TabCompleter {
 				return createReturnList(SlimefunPlugin.getRegistry().getEnabledSlimefunItemIds(), args[2]);
 			}
 			else if (args[0].equalsIgnoreCase("research")) {
-				List<String> researches = new ArrayList<>();
+				Set<NamespacedKey> researches = SlimefunPlugin.getRegistry().getResearchIds().keySet();
+				List<String> suggestions = new LinkedList<>();
 				
-				for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
-					researches.add(res.getName().toUpperCase().replace(' ', '_'));
+				suggestions.add("all");
+				suggestions.add("reset");
+				
+				for (NamespacedKey key : researches) {
+					suggestions.add(key.toString());
 				}
 				
-				researches.add("all");
-				researches.add("reset");
-				return createReturnList(researches, args[2]);
+				return createReturnList(suggestions, args[2]);
 			}
 			else {
 				return null;
@@ -56,11 +62,16 @@ public class SlimefunTabCompleter implements TabCompleter {
 	private List<String> createReturnList(List<String> list, String string) {
 		if (string.equals("")) return list;
 
+		String input = string.toLowerCase();
 		List<String> returnList = new ArrayList<>();
 		
 		for (String item : list) {
-			if (item.toLowerCase().startsWith(string.toLowerCase())) {
+			if (item.toLowerCase().contains(input)) {
 				returnList.add(item);
+				
+				if (returnList.size() >= MAX_SUGGESTIONS) {
+					break;
+				}
 			}
 		}
 		

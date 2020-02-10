@@ -41,7 +41,7 @@ public class Contributor {
 	}
 	
 	public void setContribution(String role, int commits) {
-		if (!locked) {
+		if (!locked || role.startsWith("translator,")) {
 			contributions.put(role, commits);
 		}
 	}

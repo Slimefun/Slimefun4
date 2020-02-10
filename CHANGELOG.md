@@ -22,6 +22,11 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Release Candidate 6 (TBD)
+
+### Changes
+* /sf research now uses namespaced keys instead of ids
+
 ## Release Candidate 5 (09 Feb 2020)
 
 ### Additions
