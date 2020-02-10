@@ -43,10 +43,7 @@ public final class GuideSettings {
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
 
-		for (int slot : BACKGROUND_SLOTS) {
-			menu.addItem(slot, ChestMenuUtils.getBackground());
-			menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
-		}
+		ChestMenuUtils.drawBackground(menu, BACKGROUND_SLOTS);
 		
 		addMenubar(p, menu, guide);
 		addConfigurableOptions(p, menu, guide);
@@ -324,72 +321,22 @@ public final class GuideSettings {
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
 
-		for (int i = 0; i < 9; i++) {
-			if (i != 1) {
-				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-			}
-			else {
-				menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.settings"))));
-				menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
-					openSettings(pl, p.getInventory().getItemInMainHand());
-					return false;
-				});
-			}
-		}
+		ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 52);
 		
-		for (int i = 45; i < 54; i++) {
-			if (i != 46 && i != 52) {
-				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-			}
-		}
+		menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.settings"))));
+		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
+			openSettings(pl, p.getInventory().getItemInMainHand());
+			return false;
+		});
 		
 		List<Contributor> contributors = new ArrayList<>(SlimefunPlugin.getGitHubService().getContributors().values());
 		contributors.sort(Comparator.comparingInt(Contributor::index));
 		
 		int pages = (contributors.size() - 1) / 36 + 1;
 		
-		for (int i = page * 36; i < contributors.size(); i++) {
-			if (i >= (page + 1) * 36) {
-				break;
-			}
-			
+		for (int i = page * 36; i < contributors.size() && i < (page + 1) * 36; i++) {
 			Contributor contributor = contributors.get(i);
-			ItemStack skull = SkullItem.fromBase64(contributor.getTexture());
-
-			SkullMeta meta = (SkullMeta) skull.getItemMeta();
-			meta.setDisplayName(contributor.getDisplayName());
-			
-			List<String> lore = new LinkedList<>();
-			lore.add("");
-			
-			for (Map.Entry<String, Integer> entry : contributor.getContributions()) {
-				String info = entry.getKey();
-				
-				if (!info.startsWith("&")) {
-					String[] segments = info.split(",");
-					info = SlimefunPlugin.getLocal().getMessage(p, "guide.credits.roles." + segments[0]);
-					
-					if (segments.length == 2) {
-						info += " &7(" + SlimefunPlugin.getLocal().getMessage(p, "languages." + segments[1]) + ")";
-					}
-				}
-				
-				if (entry.getValue() > 0) {
-					String commits = SlimefunPlugin.getLocal().getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits": "commit"));
-					
-					info += " &7(" + entry.getValue() + " " + commits + ")";
-				}
-				
-				lore.add(ChatColors.color(info));
-			}
-			
-			if (contributor.getProfile() != null) {
-				lore.add("");
-				lore.add(ChatColors.color("&7\u21E8 &e") + SlimefunPlugin.getLocal().getMessage(p, "guide.credits.profile-link"));
-			}
-			
-			meta.setLore(lore);
-			skull.setItemMeta(meta);
+			ItemStack skull = getContributorHead(p, contributor);
 
 			menu.addItem(i - page * 36 + 9, skull);
 			menu.addMenuClickHandler(i - page * 36 + 9, (pl, slot, item, action) -> {
@@ -414,6 +361,46 @@ public final class GuideSettings {
 		});
 
 		menu.open(p);
+	}
+
+	private static ItemStack getContributorHead(Player p, Contributor contributor) {
+		ItemStack skull = SkullItem.fromBase64(contributor.getTexture());
+
+		SkullMeta meta = (SkullMeta) skull.getItemMeta();
+		meta.setDisplayName(contributor.getDisplayName());
+		
+		List<String> lore = new LinkedList<>();
+		lore.add("");
+		
+		for (Map.Entry<String, Integer> entry : contributor.getContributions()) {
+			String info = entry.getKey();
+			
+			if (!info.startsWith("&")) {
+				String[] segments = info.split(",");
+				info = SlimefunPlugin.getLocal().getMessage(p, "guide.credits.roles." + segments[0]);
+				
+				if (segments.length == 2) {
+					info += " &7(" + SlimefunPlugin.getLocal().getMessage(p, "languages." + segments[1]) + ")";
+				}
+			}
+			
+			if (entry.getValue() > 0) {
+				String commits = SlimefunPlugin.getLocal().getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits": "commit"));
+				
+				info += " &7(" + entry.getValue() + " " + commits + ")";
+			}
+			
+			lore.add(ChatColors.color(info));
+		}
+		
+		if (contributor.getProfile() != null) {
+			lore.add("");
+			lore.add(ChatColors.color("&7\u21E8 &e") + SlimefunPlugin.getLocal().getMessage(p, "guide.credits.profile-link"));
+		}
+		
+		meta.setLore(lore);
+		skull.setItemMeta(meta);
+		return skull;
 	}
 
 	private static ItemStack getItem(SlimefunGuideLayout layout) {

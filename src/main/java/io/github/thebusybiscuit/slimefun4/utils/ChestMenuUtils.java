@@ -86,6 +86,12 @@ public final class ChestMenuUtils {
 		});
 	}
 	
+	public static void drawBackground(ChestMenu menu, int... slots) {
+		for (int slot : slots) {
+			menu.addItem(slot, getBackground(), getEmptyClickHandler());
+		}
+	}
+	
 	public static void updateProgressbar(ChestMenu menu, int slot, int timeleft, int time, ItemStack indicator) {
 		ItemStack item = indicator.clone();
 		ItemMeta im = item.getItemMeta();
