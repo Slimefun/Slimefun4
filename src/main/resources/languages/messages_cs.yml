@@ -28,6 +28,8 @@ guide:
       developer: "&6Vývojář"
       wiki: "&3Wiki správce"
     profile-link: Klikni pro navštívení jejich profilu na GitHubu
+    commit: Commit
+    commits: Commits
   pages:
     previous: Předchozí strana
     next: Následující strana
@@ -187,3 +189,4 @@ languages:
   uk: Ukrajinština
   ms: Malajština
   'no': Norština
+  default: Podle Serveru
