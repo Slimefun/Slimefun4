@@ -13,16 +13,20 @@ commands:
     description: Odemkne/Resetuje výzkum daného hráče
     reset: "&cResetoval jsi výzkum hráče %player%"
   timings: Lag-Info vašeho serveru
+  teleporter: "Zobrazí \nznačky \nostatních hráčů"
 guide:
   search:
     name: "&7Hledat..."
     message: "&bCo bys chtěl vyhledat?"
     lore:
     - "&bCo bys chtěl vyhledat?"
+    - "&7Napiš do chatu co chceš vyhledat"
   credits:
     roles:
       resourcepack: "&cTvůrce Resourcepacku"
       translator: "&9Překladač"
+      developer: "&6Vývojář"
+      wiki: "&3Wiki správce"
     profile-link: Klikni pro navštívení jejich profilu na GitHubu
   pages:
     previous: Předchozí strana
@@ -34,6 +38,7 @@ guide:
     select: Klikni pro vybrání jazyka
     select-default: Klikni pro vybrání defaultního jazyka
     selected-language: 'Aktuálně vybráno:'
+    updated: "&aTvůj jazyk byl úspěšně nastaven na:&b%lang%"
   tooltips:
     open-category: Klikni pro otevření
     versions-notice: Tyto jsou velmi důležité při nahlašování chyb!
@@ -42,10 +47,16 @@ guide:
     addons: Addony pro Slimefun4
     bugs: Nahlášení chyb
     source: Zdrojový kód
+    main: Slimefun příručka
+    settings: Nastavení a informace
+    languages: Zvol tvůj oblíbený jazyk
+    credits: Slimefun4 pomocníci
   back:
     title: Zpět
     guide: Zpět do Slimefun Guide
     settings: Zpět do Settings Panel
+  cheat:
+    no-multiblocks: "&4Nemůžeš podvádět v multiblocích, musíš je postavit!"
 messages:
   not-researched: "&4Ještě jsi nepostoupil tak daleko, abys pochopil tuhle věc"
   not-enough-xp: "&4Nemáš dostatek XP levelů na to, abys vyzkoumal tuhle věc"
@@ -54,6 +65,23 @@ messages:
   not-valid-amount: "&4%amount% &cnení platné číslo : musí být větší než 0!"
   give-research: '&bUdělil jsi%player% výzkum&7"%research%&7"'
   hungry: "&cJsi moc hladový na to, abys to zvládl!"
+  unlocked: '&bMáš vyzkoumáno &7"%research%"'
+  only-players: "&4Tenhle příkaz je jenom pro hráče"
+  unknown-player: "&4Neznámý hráč: &c%player%"
+  no-permission: "&4Na tohle nemáš dostatečné povolení"
+  usage: "& 4Využití: & c% usage%"
+  given-item: '&bDostal jsi &a%amount% &7"%item%&7"'
+  give-item: '&bDal jsi %player% &a%amount% &7"%item%&7"'
+  not-valid-research: "&4%research% &c není platný výzkum!"
+  mode-change: "&b%device% mód změněn na: &9%mode%"
+  disabled-in-world: "&4&lTahle věc není v tomhle světě povolená"
+  disabled-item: |-
+    &4&lTahle věc není povolená!
+    Jak jsi ji vůbec dostal?
+  no-tome-yourself: "&cNemůžeš použít svůj &4Tome of Knowledge &c..."
+  multimeter: "&bEnergie: &3%stored% &b/ &3%capacity%"
+  talisman:
+    anvil: "&a&oTvůj talisman zachránil tvůj nástroj od rozbití"
 machines:
   ELEVATOR:
     current-floor: "&eAktuální patro:"
