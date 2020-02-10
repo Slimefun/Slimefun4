@@ -2,6 +2,7 @@
 tooltips:
   results: Výsledky GEO Skenu
   chunk: Skenovaný Chunk
+  world: Svět
 resources:
   slimefun:
     nether_ice: Pekelný led
