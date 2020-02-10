@@ -3,9 +3,14 @@ tooltips:
   results: Výsledky GEO Skenu
   chunk: Skenovaný Chunk
   world: Svět
+  unit: Jednotka
+  units: Jednotky
 resources:
   slimefun:
     nether_ice: Pekelný led
+    oil: Olej
+    salt: Sůl
+    uranium: Uran
   slimefunorechunks:
     iron_ore_chunk: Kus železné rudy
     gold_ore_chunk: Kus zlaté rudy
