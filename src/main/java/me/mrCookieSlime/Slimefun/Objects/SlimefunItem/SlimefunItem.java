@@ -20,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
-import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -39,15 +38,16 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 
 public class SlimefunItem implements Placeable {
-	
-	private String id;
+
 	private ItemState state;
-	private ItemStack item;
-	private Category category;
-	private ItemStack[] recipe;
-	private RecipeType recipeType;
+	
+	protected String id;
+	protected ItemStack item;
+	protected Category category;
+	protected ItemStack[] recipe;
+	protected RecipeType recipeType;
 	protected ItemStack recipeOutput;
-	private Research research;
+	protected Research research;
 	
 	protected boolean enchantable = true;
 	protected boolean disenchantable = true;
@@ -57,13 +57,15 @@ public class SlimefunItem implements Placeable {
 	private boolean addon = false;
 	private String permission = "";
 	private List<String> noPermissionTooltip;
+	
+	private String[] keys;
+	private Object[] values;
+	private String wiki = null;
+	
 	private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
 	private boolean ticking = false;
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
-	private String[] keys;
-	private Object[] values;
-	private String wiki = null;
 
 	@Deprecated
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
@@ -90,12 +92,6 @@ public class SlimefunItem implements Placeable {
 	@Deprecated
 	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		this(category, item, id, recipeType, recipe, null, keys, values);
-	}
-
-	@Deprecated
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, boolean hidden) {
-		this(category, item, id, recipeType, recipe);
-		this.hidden = hidden;
 	}
 
 	// Root constructor
@@ -129,43 +125,73 @@ public class SlimefunItem implements Placeable {
 	 *
 	 * @since 4.1.11, rename of {@link #getName()}.
 	 */
-	public String getID()				{		return id;			}
+	public String getID() {
+		return id;
+	}
 	
-	public ItemState getState()				{		return state;			}
-	public ItemStack getItem()			{		return item;			}
-	public Category getCategory()			{		return category;		}
-	public ItemStack[] getRecipe()			{		return recipe;			}
-	public RecipeType getRecipeType()		{		return recipeType;		}
+	public ItemState getState() {
+		return state;
+	}
 	
-	/**
-	 * @since 4.1.11, rename of {@link #getCustomOutput()}.
-	 */
-	public ItemStack getRecipeOutput()		{		return recipeOutput;		}
-	public Research getResearch()			{		return research;		}
-	public boolean isEnchantable() 			{		return enchantable;		}
-	public boolean isDisenchantable() 		{		return disenchantable;		}
-	/**
-	 * @since 4.1.11
-	 */
-	public boolean isHidden() 			{		return hidden;			}
+	public ItemStack getItem() {
+		return item;
+	}
+	
+	public Category getCategory() {
+		return category;
+	}
+	
+	public ItemStack[] getRecipe() {
+		return recipe;
+	}
+	
+	public RecipeType getRecipeType() {
+		return recipeType;
+	}
+	
+	public ItemStack getRecipeOutput() {
+		return recipeOutput;
+	}
+	
+	public Research getResearch() {
+		return research;
+	}
+	
+	public boolean isEnchantable() {
+		return enchantable;
+	}
+	
+	public boolean isDisenchantable() {
+		return disenchantable;
+	}
 
-	@Deprecated
-	public boolean isReplacing() 			{		return useableInWorkbench;		}
-	public boolean isAddonItem() 			{		return addon;			}
-	/**
-	 * @since 4.1.11
-	 */
-	public String getPermission() 			{		return permission;		}
-	public List<String> getNoPermissionTooltip()    {       return noPermissionTooltip; }
-
-	/**
-	 * @since 4.1.11, rename of {@link #getTicker()}.
-	 */
-	public BlockTicker getBlockTicker()		{		return blockTicker;		}
-	public EnergyTicker getEnergyTicker()		{		return energyTicker;		}
-	public String[] listKeys()			{		return keys;			}
-	public Object[] listValues()			{		return values;			}
-	public boolean isDisabled()			{		return state != ItemState.ENABLED;	}
+	public boolean isHidden() {
+		return hidden;
+	}
+	
+	public boolean isAddonItem() {
+		return addon;
+	}
+	
+	public String getPermission() {
+		return permission;
+	}
+	
+	public List<String> getNoPermissionTooltip() {
+		return noPermissionTooltip;
+	}
+	
+	public BlockTicker getBlockTicker() {
+		return blockTicker;
+	}
+	
+	public EnergyTicker getEnergyTicker() {
+		return energyTicker;
+	}
+	
+	public boolean isDisabled() {
+		return state != ItemState.ENABLED;
+	}
 
 	public void register() {
 		register(false);
@@ -229,8 +255,6 @@ public class SlimefunItem implements Placeable {
 				SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
 				SlimefunPlugin.getRegistry().getSlimefunItemIds().put(this.id, this);
 				
-				create();
-				
 				for (ItemHandler handler : itemhandlers.values()) {
 					if (areItemHandlersPrivate()) continue;
 					
@@ -257,15 +281,6 @@ public class SlimefunItem implements Placeable {
 		}
 	}
 
-	/**
-	 * @deprecated Use {@link SlimefunRegistry#getEnabledSlimefunItems()}
-	 * @return	A list of all enabled Slimefun Items
-	 */
-	@Deprecated
-	public static List<SlimefunItem> list() {
-		return SlimefunPlugin.getRegistry().getEnabledSlimefunItems();
-	}
-
 	public void bindToResearch(Research r) {
 		if (r != null) r.getAffectedItems().add(this);
 		this.research = r;
@@ -287,18 +302,10 @@ public class SlimefunItem implements Placeable {
 		this.recipeOutput = output;
 	}
 	
-	@Deprecated
-	public void setReplacing(boolean replacing) {
-		this.useableInWorkbench = replacing;
-	}
-	
 	public boolean isUseableInWorkbench() {
 		return useableInWorkbench;
 	}
-
-	/**
-	 * @since 4.1.11, rename of {@link #getByName(String)}.
-	 */
+	
 	public static SlimefunItem getByID(String id) {
 		return SlimefunPlugin.getRegistry().getSlimefunItemIds().get(id);
 	}
@@ -385,34 +392,8 @@ public class SlimefunItem implements Placeable {
 		}
 	}
 
-	public static ItemState getState(ItemStack item) {
-		for (SlimefunItem i : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
-			if (i.isItem(item)) {
-				return i.getState();
-			}
-		}
-		return ItemState.ENABLED;
-	}
-
-	public static boolean isDisabled(ItemStack item) {
-		for (SlimefunItem i : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
-			if (i.isItem(item)) {
-				return i.isDisabled();
-			}
-		}
-		return false;
-	}
-
 	@Deprecated
 	public void install() {
-		// Deprecated
-	}
-	
-	/**
-	 *  @deprecated Use {@link SlimefunItem#postRegister()} instead
-	 */
-	@Deprecated
-	public void create()  {
 		// Deprecated
 	}
 	

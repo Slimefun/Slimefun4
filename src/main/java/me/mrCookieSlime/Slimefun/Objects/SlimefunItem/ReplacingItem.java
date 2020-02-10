@@ -11,7 +11,7 @@ public class ReplacingItem extends SlimefunItem {
 	public ReplacingItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe);
 		
-		this.setReplacing(true);
+		useableInWorkbench = true;
 	}
 
 }

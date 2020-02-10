@@ -27,7 +27,7 @@ public class EnderTalisman extends Talisman {
 	}
 	
 	@Override
-	public void create() {
+	public void postRegister() {
 		// Let's override that, otherwise we would be creating Ender Talismans
 		// for every Ender Talisman
 	}

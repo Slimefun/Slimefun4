@@ -12,8 +12,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
-import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
-import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
@@ -128,30 +126,27 @@ public final class Slimefun {
 	 */
 	public static boolean hasUnlocked(Player p, ItemStack item, boolean message) {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		ItemState state = SlimefunItem.getState(item);
 
-		if (sfItem == null) {
-			if (state != ItemState.ENABLED) {
-				if (message && state != ItemState.VANILLA) {
-					SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
-				}
-				
+		if (sfItem != null) {
+			if (sfItem.getState() == ItemState.DISABLED) {
+				if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
 				return false;
 			}
-			else return true;
-		}
-		else if (isEnabled(p, item, message) && hasPermission(p, sfItem, message)) {
-			if (sfItem.getResearch() == null) return true;
-			else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) return true;
-			else {
-				if (message && !(sfItem instanceof VanillaItem)) {
-					SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
+			
+			if (isEnabled(p, item, message) && hasPermission(p, sfItem, message)) {
+				if (sfItem.getResearch() == null) return true;
+				else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) return true;
+				else {
+					if (message && !(sfItem instanceof VanillaItem)) {
+						SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
+					}
+					
+					return false;
 				}
-				
-				return false;
 			}
+			else return false;
 		}
-		else return false;
+		else return true;
 	}
 
 	/**
@@ -208,7 +203,8 @@ public final class Slimefun {
 	 */
 	public static boolean isEnabled(Player p, ItemStack item, boolean message) {
 		SlimefunItem sfItem = SlimefunItem.getByItem(item);
-		if (sfItem == null) return !SlimefunItem.isDisabled(item);
+		
+		if (sfItem == null) return true;
 		else return isEnabled(p, sfItem, message);
 	}
 
@@ -246,35 +242,9 @@ public final class Slimefun {
 		else return true;
 	}
 
-	/**
-	 * Lists all the IDs of the enabled items.
-	 *
-	 * @deprecated Use {@link SlimefunRegistry#getEnabledSlimefunItemIds()}
-	 *
-	 * @return the list of all the IDs of the enabled items.
-	 */
-	@Deprecated
-	public static List<String> listIDs() {
-		List<String> ids = new ArrayList<>();
-		for (SlimefunItem item : SlimefunItem.list()) {
-			ids.add(item.getID());
-		}
-		return ids;
-	}
-
 	@Deprecated
 	public static List<GuideHandler> getGuideHandlers(int tier) {
 		return SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(tier, new ArrayList<>());
-	}
-
-	@Deprecated
-	public static String getVersion() {
-		return SlimefunPlugin.instance.getDescription().getVersion();
-	}
-
-	@Deprecated
-	public static LocalizationService getLocal() {
-		return SlimefunPlugin.getLocal();
 	}
 
 	public static BukkitTask runSync(Runnable r) {

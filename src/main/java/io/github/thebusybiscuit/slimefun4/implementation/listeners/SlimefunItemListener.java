@@ -122,9 +122,7 @@ public class SlimefunItemListener implements Listener {
 	private boolean canPlaceCargoNodes(Player p, ItemStack item, Block b) {
 		return canPlaceBlock(p, b) && (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true)
 				||  SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true)
-				||  SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true)
-				||  SlimefunManager.isItemSimilar(item, SlimefunItems.CT_IMPORT_BUS, true)
-				||  SlimefunManager.isItemSimilar(item, SlimefunItems.CT_EXPORT_BUS, true));
+				||  SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
 	}
 
 	private boolean canPlaceBlock(Player p, Block relative) {
