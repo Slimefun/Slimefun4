@@ -10,6 +10,152 @@ commands:
   stats: Ukáže statistiky hráče
   research:
     reset-target: "&cTvoje znalost byla resetována "
+    description: Odemkne/Resetuje výzkum daného hráče
+    reset: "&cResetoval jsi výzkum hráče %player%"
+  timings: Lag-Info vašeho serveru
 guide:
   search:
     name: "&7Hledat..."
+    message: "&bCo bys chtěl vyhledat?"
+    lore:
+    - "&bCo bys chtěl vyhledat?"
+  credits:
+    roles:
+      resourcepack: "&cTvůrce Resourcepacku"
+      translator: "&9Překladač"
+    profile-link: Klikni pro navštívení jejich profilu na GitHubu
+  pages:
+    previous: Předchozí strana
+    next: Následující strana
+  languages:
+    translations:
+      name: "&aChybí zde něco?"
+      lore: Klikni pro přidání vlastního překladu
+    select: Klikni pro vybrání jazyka
+    select-default: Klikni pro vybrání defaultního jazyka
+    selected-language: 'Aktuálně vybráno:'
+  tooltips:
+    open-category: Klikni pro otevření
+    versions-notice: Tyto jsou velmi důležité při nahlašování chyb!
+  title:
+    wiki: Slimefun4 Wiki
+    addons: Addony pro Slimefun4
+    bugs: Nahlášení chyb
+    source: Zdrojový kód
+  back:
+    title: Zpět
+    guide: Zpět do Slimefun Guide
+    settings: Zpět do Settings Panel
+messages:
+  not-researched: "&4Ještě jsi nepostoupil tak daleko, abys pochopil tuhle věc"
+  not-enough-xp: "&4Nemáš dostatek XP levelů na to, abys vyzkoumal tuhle věc"
+  not-online: "&4%player% &czrovna není připojen!"
+  not-valid-item: "&4%item% &cnení platný item!"
+  not-valid-amount: "&4%amount% &cnení platné číslo : musí být větší než 0!"
+  give-research: '&bUdělil jsi%player% výzkum&7"%research%&7"'
+  hungry: "&cJsi moc hladový na to, abys to zvládl!"
+machines:
+  ELEVATOR:
+    current-floor: "&eAktuální patro:"
+    enter-name: "&7Prosím, zadejte název podlaží do chatu. &r(Barvy jsou podporovány!)"
+    named: "&2Podlaží úspěšně pojmenováno na: &r%floor%"
+  TELEPORTER:
+    teleporting: "&3Teleportuji..."
+    teleported: "&3Teleportace dokončena!"
+    cancelled: "&4Teleportace zrušena!"
+    invulnerability: "&b&lZískal jsi 30 sekund nezranitelnosti!"
+  CARGO_NODES:
+    must-be-placed: "&4Musí být umístěn na truhlu nebo stroj!"
+anvil:
+  not-working: "&4Itemy ze Slimefunu nelze použít v kovadlině!"
+backpack:
+  already-open: "&cOmlouváme se, tento batoh je otevřený již někde jinde!"
+  no-stack: "&cNemůžeš stackovat batohy"
+miner:
+  no-ores: "&eOmlouvám se, nemohu najít rudy v okolí!"
+workbench:
+  not-enhanced: "&4Nemůžeš použít itemy ze Slimefunu v normální výrobě"
+gps:
+  deathpoint: "&4Deathpoint &7%date%"
+  waypoint:
+    new: "&eProsím, zadejte název waypointu do chatu. &7(Barvy jsou podporovány!)"
+    added: "&aÚspěšně přidán nový waypoint"
+    max: "&4Dosáhl jsi maxima waypointů"
+  insufficient-complexity:
+  - "&4Nedostatečná komplexita GPS Networku: &c%complexity%"
+  - "&4a) Nemáš nastavený GPS Network"
+  - "&4b) TvůjGPS Network není dostatečně komplexní"
+  geo:
+    scan-required: "&4GEO-Scan je požadován! &cProzkoumejte tento chunk pomocí GEO-Scanneru!"
+inventory:
+  no-access: "&4Nemáš přístup k tomuto bloku"
+android:
+  started: "&7Tvůj Android právě začal používat jemu přidělený script"
+  stopped: "&7Tvůj Android pozastavil jemu přidělený script"
+  scripts:
+    already-uploaded: "&4Tento script byl již nahrán."
+    instructions:
+      START: "&2Začít Script"
+      REPEAT: "&9Opakovat Script"
+      WAIT: "&ePočkej 0.5s"
+      GO_FORWARD: "&7Posuň se vpřed"
+      GO_UP: "&7Posuň se nahoru"
+      GO_DOWN: "&7Posuň se dolů"
+      TURN_LEFT: "&7Otoč se doleva"
+      TURN_RIGHT: "&7Otoč se doprava"
+      DIG_UP: "&bKopej nahoru"
+      DIG_FORWARD: "&bKopej dopředu"
+      DIG_DOWN: "&bKopej dolů"
+      MOVE_AND_DIG_UP: "&bPosuň se a zároveň kopej nahoru"
+      MOVE_AND_DIG_FORWARD: "&bPosuň se a zároveň kopej dopředu"
+      MOVE_AND_DIG_DOWN: "&bPosuň se a zároveň kopej dolů"
+      ATTACK_MOBS_ANIMALS: "&4Útoč na &cnepřátelské moby a zvířata"
+      ATTACK_MOBS: "&4Útoč na &cnepřátelské moby"
+      ATTACK_ANIMALS: "&4Útoč na &czvířata"
+      ATTACK_ANIMALS_ADULT: "&4Útoč na &czvířata&7[Dospělá]"
+      CHOP_TREE: "&cPokácej a zasaď"
+      CATCH_FISH: "&bRybař"
+      FARM_FORWARD: "&bSkliď a zasaď"
+      FARM_DOWN: "&bSkliď a zasaď &7(Blok pod)"
+      FARM_EXOTIC_FORWARD: "&bSkliď a zasaď &7(Pokročilé)"
+      FARM_EXOTIC_DOWN: "&bSkliď a zasaď &7(Blok pod + Pokročilé)"
+      INTERFACE_ITEMS: "&9Přesuň obsah inventáře do rozhraní na přední straně"
+      INTERFACE_FUEL: "&cVyndej palivo z rozhraní přední strany"
+    enter-name:
+    - 
+    - "&eProsíme, zadejte název vašeho scriptu"
+    uploaded:
+    - "&bNahrávání..."
+    - "&aTvůj script byl úspěšně nahrán!"
+    rating:
+      own: "&4Nemůžeš hodnotit vlastní script!"
+      already: "&4K tomuto scriptu jsi již zanechal hlasování!"
+languages:
+  en: Angličtina
+  de: Němčina
+  fr: Francouzština
+  it: Italština
+  es: Španělština
+  pl: Polština
+  sv: Švédština
+  nl: Holandština
+  cs: Čeština
+  hu: Maďarština
+  lv: Lotyština
+  ru: Ruština
+  sk: Slovenština
+  zh-TW: Čínština (Taiwan)
+  vi: Vietnamština
+  id: Indonéština
+  zh-CN: Čínština (Čína)
+  el: Řečtina
+  he: Hebrejština
+  pt: Portugalština (Portugalsko)
+  pt-BR: Portugalština (Brazílie)
+  ar: Arabština
+  af: Afrikánština
+  da: Dánština
+  fi: Finština
+  uk: Ukrajinština
+  ms: Malajština
+  'no': Norština
