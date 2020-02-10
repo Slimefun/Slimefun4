@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.ReportCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -48,6 +49,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		commands.add(new TeleporterCommand(plugin, this));
 		commands.add(new OpenGuideCommand(plugin, this));
 		commands.add(new SearchCommand(plugin, this));
+		commands.add(new ReportCommand(plugin, this));
 
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}

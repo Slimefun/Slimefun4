@@ -5,11 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.bukkit.Bukkit;
@@ -26,10 +28,15 @@ import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class ErrorReport {
-	
+
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+	private static final List<String> errors = new ArrayList<>();
+
 	private File file;
 	
 	public ErrorReport(Throwable throwable, Consumer<PrintStream> printer) {
+		logError(Level.SEVERE, "", throwable);
+
 		Slimefun.runSync(() -> {
 			file = getNewFile();
 			
@@ -68,7 +75,7 @@ public class ErrorReport {
 				stream.println("Stacktrace:");
 				stream.println();
 				throwable.printStackTrace(stream);
-				
+
 				Slimefun.getLogger().log(Level.WARNING, "");
 				Slimefun.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
 				Slimefun.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/" + file.getName());
@@ -162,7 +169,7 @@ public class ErrorReport {
 	}
 	
 	private File getNewFile() {
-		String path = "plugins/Slimefun/error-reports/" + new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
+		String path = "plugins/Slimefun/error-reports/" + sdf.format(new Date());
 		File newFile = new File(path + ".err");
 		
 		if (newFile.exists()) {
@@ -188,4 +195,30 @@ public class ErrorReport {
 		}
 	}
 
+	public static void error(String message, Throwable throwable) {
+		logError(Level.SEVERE, message, throwable);
+		SlimefunPlugin.instance.getLogger().log(Level.SEVERE, message, throwable);
+	}
+
+	public static void warn(String message) {
+		logError(Level.WARNING, message, null);
+		SlimefunPlugin.instance.getLogger().warning(message);
+	}
+
+	private static void logError(Level level, String message, Throwable throwable) {
+		errors.add('[' + sdf.format(new Date()) + "] [" + level + "}\n"
+				+ message
+				+ (throwable == null ? "" : Arrays.stream(throwable.getStackTrace())
+				.map(trace -> "  " + trace.getClassName() + '#' + trace.getMethodName() + ':' + trace.getLineNumber())
+				.collect(Collectors.joining("\n")))
+		);
+
+		// Let's cap this at 10 at the min
+		if (errors.size() > 10)
+			errors.remove(0);
+	}
+
+	public static String sumErrors() {
+		return String.join("\n\n", errors);
+	}
 }
