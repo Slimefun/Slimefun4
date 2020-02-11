@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
-import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
@@ -30,13 +29,10 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 /**
  * Statically handles researches. Represents a research, which is bound to one
  * {@link SlimefunItem} or more and require XP levels to unlock this/these item(s).
- * <p>
- * See {@link #Research(int, String, int)} to create a research.
- * <p>
+ * 
  * See {@link ResearchSetup} for the built-in researches.
  * 
  * @author TheBusyBiscuit
- * @since 4.0
  */
 public class Research implements Keyed {
 
@@ -52,33 +48,21 @@ public class Research implements Keyed {
 
 	/**
 	 * The constructor for a Research.
-	 * <p>
+	 * 
 	 * Create a new research by calling {@link #Research(int, String, int)}, then
 	 * bind this research to the Slimefun items you want by calling
 	 * {@link #addItems(SlimefunItem...)}. Once you're finished, call {@link #register()}
 	 * to register it.
-	 * <p>
+	 * 
 	 * To speed up, directly setup the research by calling 
 	 * {@link Slimefun#registerResearch(Research, org.bukkit.inventory.ItemStack...)}.
 	 * 
-	 * @deprecated Use the constuctor with {@link NamespacedKey} instead
-	 * 
-	 * @param id Unique integer ID for this research, used for {@link #getByID(int)} and to
-	 *           register it in Researches.yml
+	 * @param key	A unique identifier for this research
+	 * @param id 	old way of identifying researches
 	 * @param name Display name of the research
 	 * @param cost Cost in XP levels to unlock the research
 	 * 
-	 * @since 4.0
 	 */
-	@Deprecated
-	public Research(int id, String name, int cost) {
-		this.id = id;
-		this.name = name;
-		this.cost = cost;
-		
-		this.key = new NamespacedKey(SlimefunPlugin.instance, name.replace(' ', '_'));
-	}
-	
 	public Research(NamespacedKey key, int id, String name, int defaultCost) {
 		this.key = key;
 		this.id = id;
@@ -104,20 +88,6 @@ public class Research implements Keyed {
 	 */
 	public int getID() {
 		return id;
-	}
-
-	/**
-	 * Gets the display name of the research.
-	 * 
-	 * @deprecated Use {@link Research#getName(Player)} instead. It is localized.
-	 * 
-	 * @return The display name of the research
-	 * 
-	 * @since 4.0
-	 */
-	@Deprecated
-	public String getName() {
-		return name;
 	}
 	
 	public String getName(Player p) {
@@ -212,19 +182,6 @@ public class Research implements Keyed {
 	}
 
 	/**
-	 * Locks the research for the specified player.
-	 * 
-	 * @param p Player to lock the research
-	 * 
-	 * @since 4.0
-	 */
-	@Deprecated
-	public void lock(Player p) {
-		PlayerProfile.get(p).setResearched(this, false);
-		SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset-target", true);
-	}
-
-	/**
 	 * Unlocks the research for the specified player.
 	 * 
 	 * @param p Player to unlock the research
@@ -315,21 +272,6 @@ public class Research implements Keyed {
 	}
 
 	/**
-	 * Gets the list of all registered researches.
-	 * 
-	 * @return The list of registered researches
-	 * 
-	 * @deprecated Use {@link SlimefunRegistry#getResearches()}
-	 * 
-	 * @since 4.0
-	 * @see ResearchSetup
-	 */
-	@Deprecated
-	public static List<Research> list() {
-		return SlimefunPlugin.getRegistry().getResearches();
-	}
-
-	/**
 	 * Gets if the specified player is currently unlocking a research.
 	 * 
 	 * @param p Player to check
@@ -339,20 +281,6 @@ public class Research implements Keyed {
 	 */
 	public static boolean isResearching(Player p) {
 		return SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId());
-	}
-
-	/**
-	 * Sends the research statistics and title of the specified player to the command sender.
-	 * 
-	 * @param sender CommandSender to send the statistics
-	 * @param p Player to get the statistics
-	 * 
-	 * @since 4.0
-	 * @see #getTitle(Player, List)
-	 */
-	@Deprecated
-	public static void sendStats(CommandSender sender, Player p) {
-		PlayerProfile.get(p).sendStats(sender);
 	}
 
 	/**
@@ -379,7 +307,7 @@ public class Research implements Keyed {
 	 * @since 4.0
 	 */
 	public static Research getByID(int id) {
-		for (Research research : list()) {
+		for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
 			if (research.getID() == id) return research;
 		}
 		return null;
@@ -397,7 +325,7 @@ public class Research implements Keyed {
 	@Deprecated
 	public static List<Research> getResearches(UUID uuid) {
 		List<Research> researched = new ArrayList<>();
-		for (Research research : list()) {
+		for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
 			if (research.hasUnlocked(uuid)) researched.add(research);
 		}
 		return researched;

@@ -18,7 +18,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * See {@link Category} for the complete documentation.
  * 
  * @author TheBusyBiscuit
- * @since 4.0
  * 
  * @see Category
  * @see SeasonalCategory
@@ -35,17 +34,11 @@ public class LockedCategory extends Category {
 	 * <p>
 	 * Like {@link Category#Category(ItemStack)}, the tier is automatically set to 3.
 	 * 
-	 * @param item The display item for this category
-	 * @param parents The parent categories for this category
+	 * @param key		A unique identifier for this category
+	 * @param item 		The display item for this category
+	 * @param parents 	The parent categories for this category
 	 * 
-	 * @since 4.0
-	 * @see #LockedCategory(ItemStack, int, Category...)
 	 */
-	@Deprecated
-	public LockedCategory(ItemStack item, Category... parents) {
-		this(item, 3, parents);
-	}
-	
 	public LockedCategory(NamespacedKey key, ItemStack item, Category... parents) {
 		this(key, item, 3, parents);
 	}
@@ -56,19 +49,12 @@ public class LockedCategory extends Category {
 	 * See {@link Category#Category(ItemStack, int)} for more information about creating
 	 * a category.
 	 * 
-	 * @param item The display item for this category
-	 * @param tier The tier of this category
-	 * @param parents The parent categories for this category
+	 * @param key		A unique identifier for this category
+	 * @param item 		The display item for this category
+	 * @param tier 		The tier of this category
+	 * @param parents 	The parent categories for this category
 	 * 
-	 * @since 4.0
-	 * @see #LockedCategory(ItemStack, Category...)
 	 */
-	@Deprecated
-	public LockedCategory(ItemStack item, int tier, Category... parents) {
-		super(item, tier);
-		this.parents = Arrays.asList(parents);
-	}
-
 	public LockedCategory(NamespacedKey key, ItemStack item, int tier, Category... parents) {
 		super(key, item, tier);
 		this.parents = Arrays.asList(parents);

@@ -352,7 +352,6 @@ public class SlimefunItem implements Placeable {
 		}
 
 		if (this instanceof ChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
-		else if (this instanceof DamagableChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
 		else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
 		else return SlimefunManager.isItemSimilar(item, this.item, true);		
 	}
@@ -546,8 +545,11 @@ public class SlimefunItem implements Placeable {
 	 * Only use this method if you absolutely know what you are doing and can make sure that the
 	 * Item handler is handled somewhere else.
 	 * 
+	 * @deprecated This method was just a temporary way to add backwards compatibility, it will soon not be needed anymore
+	 * 
 	 * @return	Whether this Item handler is handled directly by the Item itself
 	 */
+	@Deprecated
 	protected boolean areItemHandlersPrivate() {
 		return false;
 	}

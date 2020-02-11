@@ -28,18 +28,8 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 		    BlockFace.WEST
 	};
 	
-	@Deprecated
-	public MultiBlockMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
-		super(category, item, id, recipe, machineRecipes, trigger);
-	}
-	
 	public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
 		super(category, item, recipe, machineRecipes, trigger);
-	}
-
-	@Deprecated
-	public MultiBlockMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
-		super(category, item, id, recipe, machineRecipes, trigger, keys, values);
 	}
 	
 	public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {

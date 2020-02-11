@@ -59,7 +59,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
@@ -102,6 +101,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Rag;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SeismicAxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SmeltersPickaxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SolarHelmet;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SoulboundBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SoulboundRune;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Splint;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
@@ -1418,7 +1418,7 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.FLASK_OF_KNOWLEDGE, 8))
 		.register(true);
 
-		new HandledBlock(Categories.BIRTHDAY, new CustomItem(new ItemStack(Material.CAKE), "&bBirthday Cake"), "BIRTHDAY_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new HandledBlock(Categories.BIRTHDAY, new SlimefunItemStack("BIRTHDAY_CAKE", Material.CAKE, "&bBirthday Cake"), RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.TORCH), null, new ItemStack(Material.SUGAR), new ItemStack(Material.CAKE), new ItemStack(Material.SUGAR), null, null, null})
 		.register(true);
 

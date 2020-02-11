@@ -30,7 +30,7 @@ public class MultiTool extends ChargableItem {
 	private List<Integer> modes;
 
 	public MultiTool(SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String... items) {
-		super(Categories.TECH, item, recipeType, recipe, "Multi Tool", getKeys(items), getValues(items));
+		super(Categories.TECH, item, recipeType, recipe, getKeys(items), getValues(items));
 	}
 
 	private static String[] getKeys(String... items) {

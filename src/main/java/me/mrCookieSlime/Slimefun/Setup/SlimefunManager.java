@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -22,7 +23,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.Soulbound;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public final class SlimefunManager {

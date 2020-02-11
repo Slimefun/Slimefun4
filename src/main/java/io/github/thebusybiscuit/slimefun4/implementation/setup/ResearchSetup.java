@@ -6,7 +6,6 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class ResearchSetup {
@@ -100,10 +99,10 @@ public final class ResearchSetup {
 	    register("table_saw", 92, "Table Saw", 4, SlimefunItems.TABLE_SAW);
 	    register("slime_steel_armor", 93, "Slimy Steel Armor", 27, SlimefunItems.SLIME_HELMET_STEEL, SlimefunItems.SLIME_CHESTPLATE_STEEL, SlimefunItems.SLIME_LEGGINGS_STEEL, SlimefunItems.SLIME_BOOTS_STEEL);
 	    register("blade_of_vampires", 94, "Blade of Vampires", 26, SlimefunItems.BLADE_OF_VAMPIRES);
-	    Slimefun.registerResearch(new Research(95, "Lazy Mining", 40), SlimefunItems.DIGITAL_MINER);
+	    Slimefun.registerResearch(new NamespacedKey(SlimefunPlugin.instance, "digital_miner"), 95, "Lazy Mining", 40, SlimefunItems.DIGITAL_MINER);
 	    register("water_staff", 96, "Water Staff", 8, SlimefunItems.STAFF_WATER);
 	    register("24k_gold_block", 97, "Golden City", 19, SlimefunItems.GOLD_24K_BLOCK);
-	    Slimefun.registerResearch(new Research(98, "Advanced Mining 101", 42), SlimefunItems.ADVANCED_DIGITAL_MINER);
+	    Slimefun.registerResearch(new NamespacedKey(SlimefunPlugin.instance, "advanced_digital_miner"), 98, "Advanced Mining 101", 42, SlimefunItems.ADVANCED_DIGITAL_MINER);
 	    register("composter", 99, "Composting Dirt", 3, SlimefunItems.COMPOSTER);
 	    register("farmer_shoes", 100, "Farmer Shoes", 4, SlimefunItems.FARMER_SHOES);
 	    register("explosive_tools", 101, "Explosive Tools", 30, SlimefunItems.EXPLOSIVE_PICKAXE, SlimefunItems.EXPLOSIVE_SHOVEL);

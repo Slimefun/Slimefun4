@@ -1,11 +1,11 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
+import org.bukkit.inventory.ItemStack;
+
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents an alloy, a {@link SlimefunItem} obtainable using the {@code SMELTERY}.
@@ -16,18 +16,6 @@ import org.bukkit.inventory.ItemStack;
  * @since 4.0
  */
 public class Alloy extends SlimefunItem {
-
-	/**
-	 * Constructs an Alloy bound to {@code Categories.RESOURCES}.
-	 *
-	 * @param  item    the item corresponding to this Alloy
-	 * @param  id      the id of this Alloy
-	 * @param  recipe  the recipe to obtain this Alloy in the Smeltery
-	 */
-	@Deprecated
-	public Alloy(ItemStack item, String id, ItemStack[] recipe) {
-		super(Categories.RESOURCES, item, id, RecipeType.SMELTERY, recipe);
-	}
 
 	/**
 	 * Constructs an Alloy bound to {@code Categories.RESOURCES}.
@@ -48,19 +36,6 @@ public class Alloy extends SlimefunItem {
 	 */
 	public Alloy(Category category, SlimefunItemStack item, ItemStack[] recipe) {
 		super(category, item, RecipeType.SMELTERY, recipe);
-	}
-
-	/**
-	 * Constructs an Alloy with a definable {@link Category}.
-	 *
-	 * @param  category  the category to bind this Alloy to
-	 * @param  item      the item corresponding to this Alloy
-	 * @param  id        the id of this Alloy
-	 * @param  recipe    the recipe to obtain this Alloy in the Smeltery
-	 */
-	@Deprecated
-	public Alloy(Category category, ItemStack item, String id, ItemStack[] recipe) {
-		super(category, item, id, RecipeType.SMELTERY, recipe);
 	}
 
 }
