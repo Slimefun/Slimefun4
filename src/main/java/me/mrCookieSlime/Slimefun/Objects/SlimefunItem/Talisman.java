@@ -81,18 +81,18 @@ public class Talisman extends SlimefunItem {
 
     public SlimefunItemStack upgrade() {
         List<String> lore = new ArrayList<>();
-        lore.add("&7&oEnder Infused");
+        lore.add("&7&o注入末影精华");
         lore.add("");
         
         for (String line : getItem().getItemMeta().getLore()) {
             lore.add(line);
         }
         
-        return new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
+        return new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), "&5末影 " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
     }
 
     @Override
-    public void create() {
+    public void postRegister() {
         EnderTalisman talisman = new EnderTalisman(this);
         talisman.register(!isAddonItem());
     }

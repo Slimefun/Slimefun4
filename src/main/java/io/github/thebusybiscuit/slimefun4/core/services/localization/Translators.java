@@ -27,7 +27,7 @@ public class Translators {
         addTranslator("xXDOTTORXx", "it", true);
 
         // Translators - Latvian
-        addTranslator("AgnisT", "lv", true);
+        addTranslator("AgnisT", "NIKNAIZ", "lv", true);
 
         // Translators - Hungarian
         addTranslator("andris155", "hu", true);
@@ -43,9 +43,15 @@ public class Translators {
         addTranslator("KillerXCoder", "sk", true);
         addTranslator("PixelHotDog", "sk", true);
 
+        // Translators - Czech
+        addTranslator("Nekomitsuki", "cs", true);
+        addTranslator("GGGEDR", "cs", true);
+        addTranslator("jakmanda05", "cs", true);
+
         // Translators - Russian
         addTranslator("SoSeDiK", "ru", false);
         addTranslator("KostaTV", "ru", true);
+        addTranslator("TomWiskis", "ru", true);
 
         // Translators - Spanish
         addTranslator("Luu7", "_Luu", "es", true);

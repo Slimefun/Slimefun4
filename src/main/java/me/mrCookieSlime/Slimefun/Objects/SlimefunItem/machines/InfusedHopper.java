@@ -44,7 +44,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 				Location l = b.getLocation().add(0.5, 1.2, 0.5);
 				boolean sound = false;
 				
-				for (Entity item : b.getWorld().getNearbyEntities(l, 3.5D, 3.5D, 3.5D, n -> n instanceof Item && n.isValid() && !n.hasMetadata("no_pickup") && n.getLocation().distanceSquared(l) > 0.1)) {
+				for (Entity item : b.getWorld().getNearbyEntities(l, 3.5D, 3.5D, 3.5D, n -> n instanceof Item && n.isValid() && !n.hasMetadata("no_pickup") && n.getLocation().distanceSquared(l) > 0.25)) {
 					item.setVelocity(new Vector(0, 0.1, 0));
 					item.teleport(l);
 					sound = true;
