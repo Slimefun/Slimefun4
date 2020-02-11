@@ -64,7 +64,9 @@ public final class SlimefunGuide {
 		}
 		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
 			openGuide(p, SlimefunGuideLayout.CHEAT_SHEET);
-		}
+		} else {
+		    openGuide(p, SlimefunGuideLayout.CHEST);
+        }
 	}
 
 	public static void openGuide(Player p, SlimefunGuideLayout layout) {
