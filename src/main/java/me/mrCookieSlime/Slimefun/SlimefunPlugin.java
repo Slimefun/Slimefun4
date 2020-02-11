@@ -167,6 +167,14 @@ public final class SlimefunPlugin extends JavaPlugin {
 				updaterService.start();
 			}
 
+			// Registering all GEO Resources
+			getLogger().log(Level.INFO, "Loading GEO-Resources...");
+			
+			new OilResource().register();
+			new NetherIceResource().register();
+			new UraniumResource().register();
+			new SaltResource().register();
+
 			getLogger().log(Level.INFO, "Loading Items...");
 			MiscSetup.setupItemSettings();
 
@@ -184,14 +192,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 			MiscSetup.setupMisc();
 			WikiSetup.addWikiPages(this);
 			textureService.setup(registry.getAllSlimefunItems());
-
-			getLogger().log(Level.INFO, "Loading World Generators...");
-
-			// Generating Oil as an OreGenResource (it iss a cool API)
-			new OilResource().register();
-			new NetherIceResource().register();
-			new UraniumResource().register();
-			new SaltResource().register();
 
 			// Setting up GitHub Connectors...
 			gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));

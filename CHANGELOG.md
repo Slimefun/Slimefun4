@@ -29,6 +29,10 @@
 ### Changes
 * /sf research now uses namespaced keys instead of ids
 
+### Fixes
+* Fixed #1515
+* Fixed back-button in guide-settings not working via commands
+
 ## Release Candidate 5 (09 Feb 2020)
 
 ### Additions
