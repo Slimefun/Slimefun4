@@ -146,7 +146,6 @@ public class TalismanListener implements Listener {
 	 */
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		Collection<ItemStack> drops = new ArrayList<>();
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		int fortune = 1;
 		Random random = ThreadLocalRandom.current();
@@ -158,14 +157,10 @@ public class TalismanListener implements Listener {
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
 			}
 
-			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE") && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MINER)) {
-				if (drops.isEmpty()) {
-					drops = e.getBlock().getDrops();
-				}
-
-				for (ItemStack drop : new ArrayList<>(drops)) {
+			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MINER)) {
+				for (ItemStack drop : new ArrayList<>(e.getBlock().getDrops(item))) {
 					if (!drop.getType().isBlock()) {
-						drops.add(new CustomItem(drop, fortune * 2));
+						e.getPlayer().getInventory().addItem(new CustomItem(drop, (fortune * 2) - 1));
 					}
 				}
 			}
