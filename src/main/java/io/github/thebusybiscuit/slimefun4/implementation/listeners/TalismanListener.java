@@ -1,12 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
