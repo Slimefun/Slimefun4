@@ -147,6 +147,7 @@ public class TalismanListener implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+		List<ItemStack> drops = new ArrayList<>(e.getBlock().getDrops(item));
 		int fortune = 1;
 		Random random = ThreadLocalRandom.current();
 
@@ -158,9 +159,9 @@ public class TalismanListener implements Listener {
 			}
 
 			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MINER)) {
-				for (ItemStack drop : new ArrayList<>(e.getBlock().getDrops(item))) {
+				for (ItemStack drop : drops) {
 					if (!drop.getType().isBlock()) {
-						e.getPlayer().getInventory().addItem(new CustomItem(drop, (fortune * 2) - 1));
+						e.getPlayer().getInventory().addItem(new CustomItem(drop, (fortune * 2) - drop.getAmount()));
 					}
 				}
 			}
