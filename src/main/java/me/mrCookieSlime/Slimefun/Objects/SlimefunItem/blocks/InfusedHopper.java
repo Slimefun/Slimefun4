@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,11 +22,6 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 
 	public InfusedHopper(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
 	}
 	
 	@Override

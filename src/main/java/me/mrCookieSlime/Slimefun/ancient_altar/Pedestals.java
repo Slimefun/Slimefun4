@@ -53,7 +53,9 @@ public final class Pedestals {
 		if (input.size() != 8) return null;
 
 		if (SlimefunManager.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
-			if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) return null;
+			if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) {
+				return null;
+			}
 
 			ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
 			ItemMeta im = spawner.getItemMeta();

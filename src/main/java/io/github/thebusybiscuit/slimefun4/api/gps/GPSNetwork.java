@@ -81,20 +81,20 @@ public class GPSNetwork {
 	}
 	
 	public void openTransmitterControlPanel(Player p) {
-		ChestMenu menu = new ChestMenu("&9Control Panel");
+		ChestMenu menu = new ChestMenu(ChatColor.BLUE + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.title"));
 		
 		for (int slot : border) {
 			menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
-		menu.addItem(2, new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&7Transmitter Overview &e(Selected)"));
+		menu.addItem(2, new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&7" + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters")));
 		menu.addMenuClickHandler(2, ChestMenuUtils.getEmptyClickHandler());
 
 		int complexity = getNetworkComplexity(p.getUniqueId());
 		menu.addItem(4, new CustomItem(SlimefunItems.GPS_CONTROL_PANEL, "&7Network Info", "", "&8\u21E8 &7Status: " + (complexity > 0 ? "&2&lONLINE": "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + complexity));
 		menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 		
-		menu.addItem(6, new CustomItem(worldIcon, "&7Waypoint Overview &r(Select)"));
+		menu.addItem(6, new CustomItem(worldIcon, "&7" + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.waypoints"), "", ChatColor.GRAY + "\u21E8 " + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
 		menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
 			openWaypointControlPanel(pl);
 			return false;
@@ -136,13 +136,13 @@ public class GPSNetwork {
 	}
 	
 	public void openWaypointControlPanel(Player p) {
-		ChestMenu menu = new ChestMenu("&9Control Panel");
+		ChestMenu menu = new ChestMenu(ChatColor.BLUE + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.title"));
 		
 		for (int slot : border) {
 			menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
-		menu.addItem(2, new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&7Transmitter Overview &r(Select)"));
+		menu.addItem(2, new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&7" + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters"), "", ChatColor.GRAY + "\u21E8 " + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
 		menu.addMenuClickHandler(2, (pl, slot, item, action) -> {
 			openTransmitterControlPanel(pl);
 			return false;
@@ -152,7 +152,7 @@ public class GPSNetwork {
 		menu.addItem(4, new CustomItem(SlimefunItems.GPS_CONTROL_PANEL, "&7Network Info", "", "&8\u21E8 &7Status: " + (complexity > 0 ? "&2&lONLINE": "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + complexity));
 		menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 		
-		menu.addItem(6, new CustomItem(worldIcon, "&7Waypoint Overview &e(Selected)"));
+		menu.addItem(6, new CustomItem(worldIcon, "&7" + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.waypoints")));
 		menu.addMenuClickHandler(6, ChestMenuUtils.getEmptyClickHandler());
 		
 		int index = 0;

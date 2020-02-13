@@ -27,9 +27,9 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -44,15 +44,14 @@ public class CargoNet extends Network {
 
 	private static final int RANGE = 5;
 
-	private static final int[] slots = new int[] {19, 20, 21, 28, 29, 30, 37, 38, 39};
+	private static final int[] slots = {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
 	// Chest Terminal Stuff
-	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
+	public static final int[] terminal_slots = {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
 	public static final int TERMINAL_OUT_SLOT = 17;
 	
 	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
-	private static final MenuClickHandler terminal_noitem_handler = (p, slot, item, action) -> false;
-
+	
 	private Set<Location> inputNodes = new HashSet<>();
 	private Set<Location> outputNodes = new HashSet<>();
 
@@ -214,7 +213,7 @@ public class CargoNet extends Network {
 
 						if (menu.getItemInSlot(17) == null) {
 							Block target = getAttachedBlock(bus.getBlock());
-							ItemSlot stack = CargoManager.withdraw(bus.getBlock(), target, -1);
+							ItemAndInt stack = CargoUtils.withdraw(bus.getBlock(), target, -1);
 
 							if (stack != null) {
 								menu.replaceExistingItem(17, stack.getItem());
@@ -232,7 +231,7 @@ public class CargoNet extends Network {
 						if (menu.getItemInSlot(17) != null) {
 							Block target = getAttachedBlock(bus.getBlock());
 
-							menu.replaceExistingItem(17, CargoManager.insert(bus.getBlock(), target, menu.getItemInSlot(17), -1));
+							menu.replaceExistingItem(17, CargoUtils.insert(bus.getBlock(), target, menu.getItemInSlot(17), -1));
 						}
 
 						if (menu.getItemInSlot(17) == null) {
@@ -276,7 +275,7 @@ public class CargoNet extends Network {
 
 								for (Location l : destinations) {
 									Block target = getAttachedBlock(l.getBlock());
-									requestedItem = CargoManager.insert(l.getBlock(), target, requestedItem, -1);
+									requestedItem = CargoUtils.insert(l.getBlock(), target, requestedItem, -1);
 									
 									if (requestedItem == null) {
 										menu.replaceExistingItem(request.getSlot(), null);
@@ -304,7 +303,7 @@ public class CargoNet extends Network {
 
 								for (Location l : providers) {
 									Block target = getAttachedBlock(l.getBlock());
-									ItemStack is = CargoManager.withdraw(l.getBlock(), target, requested);
+									ItemStack is = CargoUtils.withdraw(l.getBlock(), target, requested);
 									
 									if (is != null) {
 										if (stack == null) {
@@ -355,11 +354,11 @@ public class CargoNet extends Network {
 					boolean roundrobin = "true".equals(cfg.getString("round-robin"));
 
 					if (inputTarget != null) {
-						ItemSlot slot = CargoManager.withdraw(input.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
+						ItemAndInt slot = CargoUtils.withdraw(input.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
 						
 						if (slot != null) {
 							stack = slot.getItem();
-							previousSlot = slot.getSlot();
+							previousSlot = slot.getInt();
 						}
 					}
 
@@ -389,7 +388,7 @@ public class CargoNet extends Network {
 								Block target = getAttachedBlock(out.getBlock());
 								
 								if (target != null) {
-									stack = CargoManager.insert(out.getBlock(), target, stack, -1);
+									stack = CargoUtils.insert(out.getBlock(), target, stack, -1);
 									if (stack == null) break;
 								}
 							}
@@ -397,7 +396,7 @@ public class CargoNet extends Network {
 					}
 
 					if (stack != null && previousSlot > -1) {
-						DirtyChestMenu menu = CargoManager.getChestMenu(inputTarget);
+						DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
 						
 						if (menu != null) {
 							menu.replaceExistingItem(previousSlot, stack);
@@ -414,7 +413,7 @@ public class CargoNet extends Network {
 				
 				//Chest Terminal Code
 				if (extraChannels) {
-					List<StoredItem> items = new ArrayList<>();
+					List<ItemAndInt> items = new ArrayList<>();
 					
 					for (Location l : providers) {
 						Block target = getAttachedBlock(l.getBlock());
@@ -436,10 +435,10 @@ public class CargoNet extends Network {
 								for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) blockMenu, ItemTransportFlow.WITHDRAW, null)) {
 									ItemStack is = blockMenu.getItemInSlot(slot);
 									
-									if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
+									if (is != null && CargoUtils.matchesFilter(l.getBlock(), is, -1)) {
 										boolean add = true;
 										
-										for (StoredItem item : items) {
+										for (ItemAndInt item : items) {
 											if (SlimefunManager.isItemSimilar(is, item.getItem(), true)) {
 												add = false;
 												item.add(is.getAmount() + stored);
@@ -447,7 +446,7 @@ public class CargoNet extends Network {
 										}
 
 										if (add) {
-											items.add(new StoredItem(new CustomItem(is, 1), is.getAmount() + stored));
+											items.add(new ItemAndInt(new CustomItem(is, 1), is.getAmount() + stored));
 										}
 									}
 								}
@@ -469,7 +468,7 @@ public class CargoNet extends Network {
 						}
 					}
 
-					Collections.sort(items, Comparator.comparingInt(item -> -item.getAmount()));
+					Collections.sort(items, Comparator.comparingInt(item -> -item.getInt()));
 
 					for (Location l : terminals) {
 						BlockMenu menu = BlockStorage.getInventory(l);
@@ -484,15 +483,15 @@ public class CargoNet extends Network {
 							int slot = terminal_slots[i];
 							
 							if (items.size() > i + (terminal_slots.length * (page - 1))) {
-								StoredItem item = items.get(i + (terminal_slots.length * (page - 1)));
+								ItemAndInt item = items.get(i + (terminal_slots.length * (page - 1)));
 
 								ItemStack stack = item.getItem().clone();
 								ItemMeta im = stack.getItemMeta();
 								List<String> lore = new ArrayList<>();
 								lore.add("");
-								lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
+								lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getInt())));
 								
-								if (stack.getMaxStackSize() > 1) lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
+								if (stack.getMaxStackSize() > 1) lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + (item.getInt() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getInt()) + ">"));
 								else lore.add(ChatColors.color("&7<Left Click: Request 1>"));
 
 								lore.add("");
@@ -504,7 +503,7 @@ public class CargoNet extends Network {
 								stack.setItemMeta(im);
 								menu.replaceExistingItem(slot, stack);
 								menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
-									int amount = item.getAmount() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getAmount();
+									int amount = item.getInt() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getInt();
 									itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
 									return false;
 								});
@@ -512,7 +511,7 @@ public class CargoNet extends Network {
 							}
 							else {
 								menu.replaceExistingItem(slot, terminal_noitem_item);
-								menu.addMenuClickHandler(slot, terminal_noitem_handler);
+								menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
 							}
 						}
 					}
@@ -540,17 +539,17 @@ public class CargoNet extends Network {
 		return freq;
 	}
 
-	private void handleWithdraw(DirtyChestMenu menu, List<StoredItem> items, Location l) {
+	private void handleWithdraw(DirtyChestMenu menu, List<ItemAndInt> items, Location l) {
 		for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
 			filter(menu.getItemInSlot(slot), items, l);
 		}
 	}
 
-	private void filter(ItemStack is, List<StoredItem> items, Location l) {
-		if (is != null && CargoManager.matchesFilter(l.getBlock(), is, -1)) {
+	private void filter(ItemStack is, List<ItemAndInt> items, Location l) {
+		if (is != null && CargoUtils.matchesFilter(l.getBlock(), is, -1)) {
 			boolean add = true;
 			
-			for (StoredItem item : items) {
+			for (ItemAndInt item : items) {
 				if (SlimefunManager.isItemSimilar(is, item.getItem(), true)) {
 					add = false;
 					item.add(is.getAmount());
@@ -558,7 +557,7 @@ public class CargoNet extends Network {
 			}
 
 			if (add) {
-				items.add(new StoredItem(new CustomItem(is, 1), is.getAmount()));
+				items.add(new ItemAndInt(new CustomItem(is, 1), is.getAmount()));
 			}
 		}
 	}

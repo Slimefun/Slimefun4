@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,11 +47,6 @@ public class HologramProjector extends SimpleSlimefunItem<BlockUseHandler> {
 			}
 		});
 	}
-	
-	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
 
 	@Override
 	public BlockUseHandler getItemHandler() {
@@ -68,7 +63,7 @@ public class HologramProjector extends SimpleSlimefunItem<BlockUseHandler> {
 	}
 
 	private void openEditor(Player p, Block projector) {
-		ChestMenu menu = new ChestMenu("Hologram Settings");
+		ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "machines.HOLOGRAM_PROJECTOR.inventory-title"));
 		
 		menu.addItem(0, new CustomItem(Material.NAME_TAG, "&7Text &e(Click to edit)", "", "&r" + ChatColors.color(BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
 		menu.addMenuClickHandler(0, (pl, slot, item, action) -> {

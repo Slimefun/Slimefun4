@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api.inventory;
+package io.github.thebusybiscuit.slimefun4.api.player;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -7,7 +7,7 @@ import org.bukkit.inventory.Inventory;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
-public class BackpackInventory {
+public class PlayerBackpack {
 
 	private final PlayerProfile profile;
 	private final int id;
@@ -19,7 +19,7 @@ public class BackpackInventory {
 	/**
 	 * This constructor loads an existing Backpack
 	 */
-	public BackpackInventory(PlayerProfile profile, int id) {
+	public PlayerBackpack(PlayerProfile profile, int id) {
 		this(profile, id, profile.getConfig().getInt("backpacks." + id + ".size"));
 
 		for (int i = 0; i < size; i++) {
@@ -30,7 +30,7 @@ public class BackpackInventory {
 	/**
 	 * This constructor creates a new Backpack
 	 */
-	public BackpackInventory(PlayerProfile profile, int id, int size) {
+	public PlayerBackpack(PlayerProfile profile, int id, int size) {
 		this.profile = profile;
 		this.id = id;
 		this.cfg = profile.getConfig();

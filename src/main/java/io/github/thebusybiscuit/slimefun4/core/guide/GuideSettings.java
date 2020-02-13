@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerLanguageChangeEvent;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -282,6 +283,7 @@ public final class GuideSettings {
 		Language defaultLanguage = SlimefunPlugin.getLocal().getDefaultLanguage();
 		menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select-default")),
 		(pl, i, item, action) -> {
+			SlimefunPlugin.instance.getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, SlimefunPlugin.getLocal().getLanguage(pl), defaultLanguage));
 			PersistentDataAPI.remove(pl, SlimefunPlugin.getLocal().getKey());
 			
 			String name = SlimefunPlugin.getLocal().getMessage(p, "languages.default");
@@ -300,6 +302,7 @@ public final class GuideSettings {
 				"", 
 				"&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")
 			), (pl, i, item, action) -> {
+				SlimefunPlugin.instance.getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, SlimefunPlugin.getLocal().getLanguage(pl), language));
 				PersistentDataAPI.setString(pl, SlimefunPlugin.getLocal().getKey(), language.getID());
 				
 				String name = language.getName(pl);

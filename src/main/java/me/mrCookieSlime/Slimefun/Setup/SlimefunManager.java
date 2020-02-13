@@ -26,7 +26,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public final class SlimefunManager {
-
+	
+	private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
+	private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
+	
 	private SlimefunManager() {}
 
 	public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean special, boolean slimefun) {
@@ -166,17 +169,15 @@ public final class SlimefunManager {
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {
 		StringBuilder string1 = new StringBuilder();
 		StringBuilder string2 = new StringBuilder();
-
-		String colors = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
 		
 		for (String string : lore) {
-			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) {
+			if (!string.equals(SOULBOUND_LORE) && !string.startsWith(EMERALDENCHANTS_LORE)) {
 				string1.append("-NEW LINE-").append(string);
 			}
 		}
 
 		for (String string : lore2) {
-			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) {
+			if (!string.equals(SOULBOUND_LORE) && !string.startsWith(EMERALDENCHANTS_LORE)) {
 				string2.append("-NEW LINE-").append(string);
 			}
 		}
@@ -207,7 +208,7 @@ public final class SlimefunManager {
 			}
 			else if (item.hasItemMeta()) {
 				ItemMeta im = item.getItemMeta();
-				return (im.hasLore() && im.getLore().contains(ChatColor.GRAY + "Soulbound"));
+				return (im.hasLore() && im.getLore().equals(SOULBOUND_LORE));
 			}
 			
 			return false;

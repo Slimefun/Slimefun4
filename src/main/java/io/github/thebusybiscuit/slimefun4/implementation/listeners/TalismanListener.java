@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -42,6 +44,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TalismanListener implements Listener {
 
+	private final int[] armorSlots = {39, 38, 37, 36};
+
 	public TalismanListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -70,8 +74,6 @@ public class TalismanListener implements Listener {
 			}
 		}
 	}
-
-	private final int[] armorSlots = {39, 38, 37, 36};
 
 	@EventHandler
 	public void onItemBreak(PlayerItemBreakEvent e) {
@@ -115,7 +117,8 @@ public class TalismanListener implements Listener {
 		Random random = ThreadLocalRandom.current();
 
 		if (Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MAGICIAN)) {
-			List<String> enchantments = new ArrayList<>();
+			List<String> enchantments = new LinkedList<>();
+			
 			for (Enchantment en : Enchantment.values()) {
 				for (int i = 1; i <= en.getMaxLevel(); i++) {
 					if ((boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i) && en.canEnchantItem(e.getItem())) {
@@ -123,19 +126,21 @@ public class TalismanListener implements Listener {
 					}
 				}
 			}
+			
 			String enchant = enchantments.get(random.nextInt(enchantments.size()));
 			e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchant.split("-")[0])), Integer.parseInt(enchant.split("-")[1]));
 		}
 
 		if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WIZARD)) {
-			if (e.getEnchantsToAdd().containsKey(Enchantment.LOOT_BONUS_BLOCKS)) e.getEnchantsToAdd().remove(Enchantment.LOOT_BONUS_BLOCKS);
 			Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
 
 			for (Enchantment en : enchantments) {
-				if (random.nextInt(100) < 40) e.getEnchantsToAdd().put(en, random.nextInt(3) + 1);
+				if (random.nextInt(100) < 40) {
+					e.getEnchantsToAdd().put(en, random.nextInt(3) + 1);
+				}
 			}
 
-			e.getItem().addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
+			e.getEnchantsToAdd().put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
 		}
 	}
 

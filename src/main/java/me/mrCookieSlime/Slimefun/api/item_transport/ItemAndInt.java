@@ -2,26 +2,26 @@ package me.mrCookieSlime.Slimefun.api.item_transport;
 
 import org.bukkit.inventory.ItemStack;
 
-public class StoredItem {
+public class ItemAndInt {
 	
 	private final ItemStack item;
-	private int amount;
+	private int number;
 	
-	public StoredItem(ItemStack item, int amount) {
-		this.amount = amount;
+	public ItemAndInt(ItemStack item, int amount) {
+		this.number = amount;
 		this.item = item;
 	}
 	
-	public int getAmount() {
-		return this.amount;
+	public int getInt() {
+		return number;
 	}
 	
 	public ItemStack getItem() {
-		return this.item;
+		return item;
 	}
 
 	public void add(int amount) {
-		this.amount = this.amount + amount;
+		number += amount;
 	}
 
 }
