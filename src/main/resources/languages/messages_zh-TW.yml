@@ -38,6 +38,7 @@ android:
     uploaded:
     - "&b上傳中"
     - "&a成功上傳程式!"
+    editor: 程式編輯器
   started: "&7機器人繼續運作"
   stopped: "&7機器人暫停運作"
 anvil:
@@ -62,6 +63,8 @@ commands:
   versions: 列出所有已安裝的附屬插件
 gps:
   deathpoint: "&4死亡點&7%date%"
+  geo:
+    scan-required: "&4請先做地質掃描"
   insufficient-complexity:
   - "&4GPS信號不足 &c%complexity%"
   - "&4a) GPS基礎設施未放置"
@@ -70,8 +73,6 @@ gps:
     added: "&a成功新增傳送點"
     max: "&4傳送點已達上限"
     new: "&e輸入傳送點名稱 &7(Color Codes supported!)"
-  geo:
-    scan-required: "&4請先做地質掃描"
 guide:
   back:
     guide: 回到Slimefun指南
@@ -117,6 +118,12 @@ guide:
   tooltips:
     open-category: 點擊開啟
     versions-notice: 這些在報告錯誤時非常重要！
+    wiki: 在Slimefun官方Wiki上查看此物品
+    recipes:
+      machine: 使用本機械的合成表
+      miner: 此挖礦機可獲取的資源
+      generator: 可以使用的燃料
+      gold-pan: 可以獲取的資源
 inventory:
   no-access: "&4沒有權限使用該物品"
 languages:
@@ -149,6 +156,10 @@ languages:
   vi: 越南文
   zh-CN: 中文（簡體）
   zh-TW: 中文（繁體）
+  ja: 日語
+  fa: 波斯語
+  th: 泰語
+  ro: 羅馬尼亞語
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4此祭壇需要更多基座&c(%pedestals% / 8)"
@@ -168,6 +179,7 @@ machines:
   full-inventory: "&e發射器滿了!(請考慮使用基礎機械輸出箱)"
   HOLOGRAM_PROJECTOR:
     enter-text: "&7輸入你想要的文字 &r(可以輸入顏色代碼!)"
+    inventory-title: 全息投影編輯器
   ignition-chamber-no-flint: "&c點火系統沒有打火石"
   in-use: "&c別人正在使用這台機器"
   pattern-not-found: "&e查無此合成表 請確認使用的機器或合成表的材料"
@@ -178,6 +190,10 @@ machines:
     teleporting: "&3傳送中..."
   unknown-material: "&e這個機器不能處理這個物品 請確認使用的機器或合成表的材料"
   wrong-item: "&e你手持的物品和機器並不相容 請確認使用的機器或合成表的材料"
+  GPS_CONTROL_PANEL:
+    title: GPS控制面板
+    transmitters: 訊號發射器總覽
+    waypoints: 傳送點總覽
 messages:
   cannot-place: "&c那裡不能放方塊!"
   diet-cookie: "&e你開始覺得很輕..."
