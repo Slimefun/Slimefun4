@@ -38,6 +38,7 @@ android:
     uploaded:
     - "&bNahrávam..."
     - "&aSkript bol úspešne nahraný!"
+    editor: Editor skriptu
   started: "&7Tvoj Android pokračuje vo svojom skripte"
   stopped: "&7Tvoj Android pauzol svoj skript"
 anvil:
@@ -118,6 +119,12 @@ guide:
   tooltips:
     open-category: Klikni pre otvorenie
     versions-notice: Toto je veľmi dôležité pri nahlasovaní bugov!
+    wiki: Pozri si tento item na oficiálnej wiki slimefunu
+    recipes:
+      machine: Recepty vytvárané týmto strojom
+      miner: Materiály, ktoré môžeš získať s týmto minerom
+      generator: Dostupné palivá
+      gold-pan: Materiály, ktoré môžeš získať
 inventory:
   no-access: "&4Nemáš opŕavnenie na otvorenie tohto bloku"
 languages:
@@ -150,6 +157,10 @@ languages:
   vi: Vietnamčina
   zh-CN: Čínština (Čína)
   zh-TW: Čínština (Taiwan)
+  ja: Japonština
+  fa: Perština
+  th: Thajčina
+  ro: Rumunčina
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Oltár nie je obkolesený dostatočným počtom podstáv&c(%pedestals%
@@ -170,6 +181,7 @@ machines:
   full-inventory: "&ePrepáč, môj inventár je preplnený!!!"
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Prosím napíš text pre hologram do chatu. &r(Kódy farieb sú podporované!)"
+    inventory-title: Editor hologramu
   ignition-chamber-no-flint: "&cV Ignition Chamber chýba zapalovač."
   in-use: "&cInventár tohto bloku  má aktuálne otvorený iný hráč."
   pattern-not-found: "&ePrepáč, nedokážem rozpoznať tento recept. Prosím umiestni
@@ -183,6 +195,10 @@ machines:
     vlož item, ktorý poznám."
   wrong-item: "&ePrepáč, nedokážem rozpoznať item s ktorým si na mňa klikol pravým
     tlačítkom. Pozri si recepty a pozri, ktoré itemy môžeš použiť."
+  GPS_CONTROL_PANEL:
+    title: Ovládací panel GPS
+    transmitters: Prehľad vysielača
+    waypoints: Prehľad waypointov
 messages:
   cannot-place: "&cNemôžeš tam umiestniť blok!"
   diet-cookie: "&eZačínaš sa cítiť chudší..."
@@ -211,6 +227,7 @@ messages:
   multimeter: "&bUložená energia: &3%stored% &b/ &3%capacity%"
   no-iron-golem-heal: "&cToto nie je železný ingot. Toto nemôžeš použiť na uzdravenie
     iron golema!"
+  no-permission: "&4Na to nemáš potrebné oprávnenie"
   no-pvp: "&cTu nemôžeš útočiť na hráčov!"
   not-enough-xp: "&4Nemáš dostatok XP na odomknutie"
   no-tome-yourself: "&cNemôžeš použiť &4Knihu vedomostí &cna seba..."
@@ -248,7 +265,6 @@ messages:
   unknown-player: "&4Neznámy hráč: &c%player%"
   unlocked: '&bOdomkol si &7"%research%"'
   usage: "&4Použitie: &c%usage%"
-  no-permission: "&4Na to nemáš potrebné oprávnenie"
 miner:
   no-ores: "&ePrepáč, nenašiel som žiadne ore naokolo!"
 workbench:
