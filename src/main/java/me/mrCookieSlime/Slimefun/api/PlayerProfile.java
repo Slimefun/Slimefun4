@@ -22,9 +22,9 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
 
 /**
  * A class that can store a Player's Research Profile for caching
@@ -42,7 +42,7 @@ public final class PlayerProfile {
 	private boolean markedForDeletion = false;
 	
 	private final Set<Research> researches = new HashSet<>();
-	private final Map<Integer, BackpackInventory> backpacks = new HashMap<>();
+	private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
 	private final LinkedList<Object> guideHistory = new LinkedList<>();
 	
 	private final HashedArmorpiece[] armor = {
@@ -102,7 +102,7 @@ public final class PlayerProfile {
 	 * This method will save the Player's Researches and Backpacks to the hard drive
 	 */
 	public void save() {
-		for (BackpackInventory backpack : backpacks.values()) {
+		for (PlayerBackpack backpack : backpacks.values()) {
 			backpack.save();
 		}
 
@@ -164,22 +164,22 @@ public final class PlayerProfile {
 		this.dirty = true;
 	}
 	
-	public BackpackInventory createBackpack(int size) {
+	public PlayerBackpack createBackpack(int size) {
 		IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !cfg.contains("backpacks." + i + ".size"));
 		int id = stream.findFirst().getAsInt();
 		
-		BackpackInventory backpack = new BackpackInventory(this, id, size);
+		PlayerBackpack backpack = new PlayerBackpack(this, id, size);
 		backpacks.put(id, backpack);
 		
 		return backpack;
 	}
 	
-	public BackpackInventory getBackpack(int id) {
-		BackpackInventory backpack = backpacks.get(id);
+	public PlayerBackpack getBackpack(int id) {
+		PlayerBackpack backpack = backpacks.get(id);
 		
 		if (backpack != null) return backpack;
 		else {
-			backpack = new BackpackInventory(this, id);
+			backpack = new PlayerBackpack(this, id);
 			backpacks.put(id, backpack);
 			return backpack;
 		}
@@ -313,7 +313,7 @@ public final class PlayerProfile {
 		return SlimefunPlugin.getRegistry().getPlayerProfiles().values().iterator();
 	}
 	
-	public static BackpackInventory getBackpack(ItemStack item) {
+	public static PlayerBackpack getBackpack(ItemStack item) {
 		if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) return null;
 		
 		Optional<Integer> id = Optional.empty();

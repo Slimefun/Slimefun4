@@ -68,19 +68,10 @@ public class MultiBlockListener implements Listener {
 	}
 	
 	protected boolean compareMaterialsVertical(Block b, Material top, Material center, Material bottom) {
-		if (center != null && !equals(b.getType(), center)) {
-			return false;
-		}
-		
-		if (top != null && !equals(b.getRelative(BlockFace.UP).getType(), top)) {
-			return false;
-		}
-		
-		if (bottom != null && !equals(b.getRelative(BlockFace.DOWN).getType(), bottom)) {
-			return false;
-		}
-					
-		return true;
+		return
+				(center == null || equals(b.getType(), center)) &&
+				(top == null || equals(b.getRelative(BlockFace.UP).getType(), top)) &&
+				(bottom == null || equals(b.getRelative(BlockFace.DOWN).getType(), bottom));
 	}
 	
 	private boolean equals(Material a, Material b) {

@@ -40,32 +40,16 @@ public class ResearchCommand extends SubCommand {
 				if (player.isPresent()) {
 					Player p = player.get();
 					
+					// Getting the PlayerProfile async
 					PlayerProfile.get(p, profile -> {
 						if (args[2].equalsIgnoreCase("all")) {
-							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
-								if (!profile.hasUnlocked(res)) {
-									SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, res.getName(p)));
-								}
-								
-								res.unlock(p, true);
-							}
+							researchAll(sender, profile, p);
 						}
 						else if (args[2].equalsIgnoreCase("reset")) {
-							for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
-								profile.setResearched(res, false);
-							}
-							SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
+							reset(sender, profile, p);
 						}
 						else {
-							Optional<Research> research = getResearchFromString(args[2]);
-							
-							if (research.isPresent()) {
-								research.get().unlock(p, true);
-								SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(p)));
-							}
-							else {
-								SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, args[2]));
-							}
+							giveResearch(sender, profile, p, args[2]);
 						}
 					});
 				}
@@ -78,6 +62,36 @@ public class ResearchCommand extends SubCommand {
 		else {
 			SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf research <Player> <all/reset/Research>"));
 		}
+	}
+
+	private void giveResearch(CommandSender sender, PlayerProfile profile, Player p, String input) {
+		Optional<Research> research = getResearchFromString(input);
+		
+		if (research.isPresent()) {
+			research.get().unlock(p, true);
+			SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(p)));
+		}
+		else {
+			SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));
+		}
+	}
+
+	private void researchAll(CommandSender sender, PlayerProfile profile, Player p) {
+		for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
+			if (!profile.hasUnlocked(res)) {
+				SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, res.getName(p)));
+			}
+			
+			res.unlock(p, true);
+		}
+	}
+
+	private void reset(CommandSender sender, PlayerProfile profile, Player p) {
+		for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
+			profile.setResearched(res, false);
+		}
+		
+		SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()));
 	}
 
 	private Optional<Research> getResearchFromString(String input) {

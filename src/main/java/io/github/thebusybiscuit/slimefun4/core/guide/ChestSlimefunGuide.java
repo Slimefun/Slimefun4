@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -34,7 +35,6 @@ import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
@@ -458,7 +458,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		ChestMenu menu = create(p);
 
 		if (item.hasWiki()) {
-			menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, "&rView this Item on our Wiki &7(Slimefun Wiki)", "", "&7\u21E8 Click to open"));
+			menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, ChatColor.RESET + SlimefunPlugin.getLocal().getMessage("guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
 			menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
 				pl.closeInventory();
 				ChatUtils.sendURL(pl, item.getWiki());
@@ -581,7 +581,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
 			if (page == 0) {
 				for (int i = 27; i < 36; i++) {
-					menu.replaceExistingItem(i, new CustomItem(ChestMenuUtils.getBackground(), sfItem.getRecipeSectionLabel()));
+					menu.replaceExistingItem(i, new CustomItem(ChestMenuUtils.getBackground(), sfItem.getRecipeSectionLabel(p)));
 					menu.addMenuClickHandler(i, ChestMenuUtils.getEmptyClickHandler());
 				}
 			}

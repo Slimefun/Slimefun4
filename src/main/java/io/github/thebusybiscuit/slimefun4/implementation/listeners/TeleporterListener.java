@@ -34,11 +34,7 @@ public class TeleporterListener implements Listener {
 		if (id.equals("GPS_ACTIVATION_DEVICE_SHARED") || (id.equals("GPS_ACTIVATION_DEVICE_PERSONAL") && BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString()))) {
 			SlimefunItem teleporter = BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN));
 
-			if (teleporter instanceof Teleporter) {
-				for (BlockFace face : faces) {
-					if (!BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN).getRelative(face), "GPS_TELEPORTER_PYLON")) return;
-				}
-				
+			if (teleporter instanceof Teleporter && checkForPylons(e.getClickedBlock().getRelative(BlockFace.DOWN))) {
 				Block block = e.getClickedBlock().getRelative(BlockFace.DOWN);
 				UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
 				SlimefunPlugin.getGPSNetwork().getTeleleportationService().openTeleporterGUI(e.getPlayer(), owner, block, SlimefunPlugin.getGPSNetwork().getNetworkComplexity(owner));
@@ -47,6 +43,16 @@ public class TeleporterListener implements Listener {
 		else if (id.equals("ELEVATOR_PLATE")) {
 			((ElevatorPlate) SlimefunItem.getByID("ELEVATOR_PLATE")).open(e.getPlayer(), e.getClickedBlock());
 		}
+	}
+
+	private boolean checkForPylons(Block teleporter) {
+		for (BlockFace face : faces) {
+			if (!BlockStorage.check(teleporter.getRelative(face), "GPS_TELEPORTER_PYLON")) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 }

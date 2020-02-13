@@ -16,8 +16,6 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
-import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -62,6 +60,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks.AncientPedestal;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks.HologramProjector;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks.InfusedHopper;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks.ReactorAccessPort;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks.RepairedSpawner;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks.TrashCan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.AdvancedCargoOutputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoConnector;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoInputNode;
@@ -110,15 +114,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Vitamins;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.WaterStaff;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.WindStaff;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AncientPedestal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Composter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Crucible;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.EnhancedFurnace;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HologramProjector;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.InfusedHopper;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AnimalGrowthAccelerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoAnvil;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoBreeder;
@@ -175,7 +174,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.PressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.TableSaw;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -1298,30 +1296,9 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.SPAWNER), null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.REPAIRED_SPAWNER, RecipeType.ANCIENT_ALTAR,
+		new RepairedSpawner(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.REPAIRED_SPAWNER, RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {SlimefunItems.RUNE_ENDER, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.BROKEN_SPAWNER, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.RUNE_ENDER})
-		.register(true, (BlockPlaceHandler) (e, item) -> {
-			if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
-				EntityType type = null;
-				
-				for (String line: item.getItemMeta().getLore()) {
-					if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>")) {
-						type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(' ', '_').toUpperCase());
-					}
-				}
-				
-				if (type != null) {
-					CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
-					spawner.setSpawnedType(type);
-					spawner.update(true, false);
-				}
-				
-				return true;
-			}
-			else {
-				return false;
-			}
-		});
+		.register(true);
 
 		new EnhancedFurnace(1, 1, 1, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE,
 		new ItemStack[] {null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.FURNACE), SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})

@@ -11,11 +11,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
-import me.mrCookieSlime.Slimefun.api.inventory.BackpackInventory;
 
 public class CoolerListener implements Listener {
 
@@ -30,7 +30,7 @@ public class CoolerListener implements Listener {
 
 			for (ItemStack item : p.getInventory().getContents()) {
 				if (SlimefunManager.isItemSimilar(item, SlimefunItems.COOLER, false)) {
-					BackpackInventory backpack = PlayerProfile.getBackpack(item);
+					PlayerBackpack backpack = PlayerProfile.getBackpack(item);
 
 					if (backpack != null) {
 						Inventory inv = backpack.getInventory();
