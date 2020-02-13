@@ -33,6 +33,7 @@
 ### Fixes
 * Fixed #1515
 * Fixed back-button in guide-settings not working via commands
+* Fixed #1516
 
 ## Release Candidate 5 (09 Feb 2020)
 
