@@ -22,10 +22,17 @@ guide:
     lore:
     - '&bWhat would you like to search for?'
     - '&7Type your search term into chat'
-    
+
   tooltips:
     open-category: 'Click to open'
     versions-notice: 'These are very important when reporting bugs!'
+    wiki: 'View this Item on the official Slimefun Wiki'
+
+    recipes:
+      machine: 'Recipes made in this Machine'
+      miner: 'Resources you can obtain with this Miner'
+      generator: 'Available types of fuel'
+      gold-pan: 'Resources you can obtain'
 
   cheat:
     no-multiblocks: '&4You cannot cheat in Multiblocks, you have to build them!'
@@ -154,7 +161,8 @@ machines:
 
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Please enter your desired Hologram Text into your Chat. &r(Color Codes are supported!)'
-
+    inventory-title: 'Hologram Editor'
+    
   ELEVATOR:
     no-destinations: '&4No destinations found'
     pick-a-floor: '&3- Pick a floor -'
@@ -168,6 +176,11 @@ machines:
     teleported: '&3Teleported!'
     cancelled: '&4Teleportation cancelled!'
     invulnerability: '&b&lYou have been given 30 seconds of Invulnerability!'
+  
+  GPS_CONTROL_PANEL:
+    title: 'GPS - Control Panel'
+    transmitters: 'Transmitter Overview'
+    waypoints: 'Waypoint Overview'
     
   CARGO_NODES:
     must-be-placed: '&4Must be placed onto a chest or machine!'
@@ -206,8 +219,10 @@ inventory:
 android:
   started: '&7Your Android resumed running its script'
   stopped: '&7Your Android has paused its script'
+  
   scripts:
     already-uploaded: '&4This script has already been uploaded.'
+    editor: 'Script Editor'
     
     instructions:
       START: '&2Start Script'
@@ -280,3 +295,7 @@ languages:
   uk: 'Ukrainian'
   ms: 'Malay'
   'no': 'Norwegian'
+  ja: 'Japanese'
+  fa: 'Persian'
+  th: 'Thai'
+  ro: 'Romanian'

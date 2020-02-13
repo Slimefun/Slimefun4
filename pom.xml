@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.2-UNOFFCIAL-200211</version>
+    <version>4.2-UNOFFCIAL-200213</version>
     
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -61,7 +61,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.2</version>
                 
                 <configuration>
                     <relocations>
