@@ -38,6 +38,7 @@ android:
     uploaded:
     - "&bLade dein Skript hoch..."
     - "&aDein Skript wurde erfolgreich hochgeladen!"
+    editor: Skripteditor
   started: "&7Dein Android hat sein Skript fortgesetzt"
   stopped: "&7Dein Android hat sein Skript pausiert"
 anvil:
@@ -115,11 +116,17 @@ guide:
     languages: Wähle deine bevorzugte Sprache
     main: Slimefun-Handbuch
     settings: Einstellungen & Infos
-    wiki: Slimefun4-Wiki
     source: Quellcode
+    wiki: Slimefun4-Wiki
   tooltips:
     open-category: Klicke zum Öffnen
     versions-notice: Dies ist sehr wichtig bei Fehlermeldungen!
+    wiki: Besuche das offizielle Slimefun-Wiki
+    recipes:
+      machine: Rezepte dieser Maschine
+      miner: Ressourcen, die mit dieser Maschine gewonnen werden können
+      generator: Mögliche Treibstoffquellen
+      gold-pan: Ressourcen, die hiermit gewonnen werden können
 inventory:
   no-access: "&4Du kannst nicht auf diesen Block zugreifen"
 languages:
@@ -152,6 +159,10 @@ languages:
   vi: Vietnamesisch
   zh-CN: Chinesisch (China)
   zh-TW: Chinesisch (Taiwan)
+  ja: Japanisch
+  fa: Persisch
+  th: Thailändisch
+  ro: Rumänisch
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"
@@ -175,6 +186,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Bitte gebe ins Chatfenser einen Text für dieses Hologram ein. &r(Farbcodes
       werden unterstützt!)"
+    inventory-title: Hologrammeditor
   ignition-chamber-no-flint: "&cAlle Feuerzeuge wurden aufgebraucht!"
   in-use: "&cDiese Maschine wird derzeit von einem anderen Spieler verwendet."
   pattern-not-found: "&eEs tut mir leid, aber ich konnte kein passendes Rezept finden."
@@ -187,6 +199,10 @@ machines:
     nicht, probier ein anderes Item aus."
   wrong-item: "&eEs tut mir leid, aber ich erkenne das Item in deiner Hand nicht,
     probier ein anderes Item aus."
+  GPS_CONTROL_PANEL:
+    title: GPS - Kontrolltafel
+    transmitters: Satelliten-Übersicht
+    waypoints: Wegpunkte-Übersicht
 messages:
   cannot-place: "&cDu kannst hier keine Blöcke platzieren!"
   diet-cookie: "&eDu beginnst dich sehr leicht zu fühlen..."
