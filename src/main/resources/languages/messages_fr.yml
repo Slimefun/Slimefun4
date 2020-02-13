@@ -38,6 +38,7 @@ android:
     uploaded:
     - "&bUpload du script..."
     - "&aVotre script a bien été upload !"
+    editor: Éditeur de script
   started: "&7Votre androïde a repris l'exécution de son script"
   stopped: "&7Votre androïde a mis en pause l'exécution de son script"
 anvil:
@@ -122,6 +123,12 @@ guide:
     open-category: Cliquez pour ouvrir
     versions-notice: Ces informations sont très importantes lorsque vous rapportez
       des bugs !
+    wiki: Voir cet objet sur le wiki officiel de Slimefun
+    recipes:
+      machine: Recettes fabriquées dans cette machine
+      miner: Ressources pouvant être obtenues avec ce mineur
+      generator: Types de carburant disponibles
+      gold-pan: Ressources pouvant être obtenues
 inventory:
   no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
 languages:
@@ -154,6 +161,10 @@ languages:
   vi: Vietnamien
   zh-CN: Chinois (Chine)
   zh-TW: Chinois (Taiwan)
+  ja: Japonais
+  fa: Persan
+  th: Thaï
+  ro: Roumain
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
@@ -178,6 +189,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Veuillez saisir le texte voulu pour votre hologramme dans le chat.
       &r(Les codes couleur sont acceptés !)"
+    inventory-title: Éditeur d'hologramme
   ignition-chamber-no-flint: "&cLa chambre d'allumage n'a pas de briquet."
   in-use: "&cL'inventaire de ce bloc est déjà ouvert par un autre joueur."
   pattern-not-found: "&eDésolé, je ne reconnais pas cette recette. Veuillez disposer
@@ -191,6 +203,10 @@ machines:
     y placer quelque chose que je connais."
   wrong-item: "&eDésolé, je ne reconnais pas l'objet avec lequel vous avez cliqué.
     Consultez le guide pour savoir quels objets vous pouvez utiliser."
+  GPS_CONTROL_PANEL:
+    title: Panneau de configuration GPS
+    transmitters: Vue d'ensemble de l'émetteur
+    waypoints: Vue d'ensemble des waypoints
 messages:
   cannot-place: "&cVous ne pouvez pas placer ce bloc là !"
   diet-cookie: "&eVous vous sentez léger comme une plume..."
