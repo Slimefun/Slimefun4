@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -150,8 +151,8 @@ public class TalismanListener implements Listener {
 	 */
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		Collection<ItemStack> drops = new ArrayList<>();
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+		List<ItemStack> drops = new ArrayList<>(e.getBlock().getDrops(item));
 		int fortune = 1;
 		Random random = ThreadLocalRandom.current();
 
@@ -162,14 +163,11 @@ public class TalismanListener implements Listener {
 				fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
 			}
 
-			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE") && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MINER)) {
-				if (drops.isEmpty()) {
-					drops = e.getBlock().getDrops();
-				}
-
-				for (ItemStack drop : new ArrayList<>(drops)) {
+			if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MINER)) {
+				for (ItemStack drop : drops) {
 					if (!drop.getType().isBlock()) {
-						drops.add(new CustomItem(drop, fortune * 2));
+						int amount = Math.max(1, (fortune * 2) - drop.getAmount());
+						e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
 					}
 				}
 			}
