@@ -15,7 +15,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -60,7 +60,12 @@ public class NetherGoldPan extends SimpleSlimefunItem<ItemUseHandler> implements
 		randomizer.add(item, chance);
 		weights += chance;
 	}
-	
+
+    @Override
+    public String getLabelLocalPath() {
+        return "guide.tooltips.recipes.gold-pan";
+    }
+
 	@Override
 	public ItemUseHandler getItemHandler() {
 		return e -> {

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerLanguageChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -281,6 +282,7 @@ public final class GuideSettings {
         Language defaultLanguage = SlimefunPlugin.getLocal().getDefaultLanguage();
         menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select-default")),
                 (pl, i, item, action) -> {
+                    SlimefunPlugin.instance.getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, SlimefunPlugin.getLocal().getLanguage(pl), defaultLanguage));
                     PersistentDataAPI.remove(pl, SlimefunPlugin.getLocal().getKey());
 
                     String name = SlimefunPlugin.getLocal().getMessage(p, "languages.default");
@@ -298,6 +300,7 @@ public final class GuideSettings {
                     "&b" + SlimefunPlugin.getLocal().getProgress(language) + '%',
                     "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")
             ), (pl, i, item, action) -> {
+                SlimefunPlugin.instance.getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, SlimefunPlugin.getLocal().getLanguage(pl), language));
                 PersistentDataAPI.setString(pl, SlimefunPlugin.getLocal().getKey(), language.getID());
 
                 String name = language.getName(pl);

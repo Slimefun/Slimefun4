@@ -1,12 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -42,6 +43,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TalismanListener implements Listener {
 
+    private final int[] armorSlots = {39, 38, 37, 36};
+
     public TalismanListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -70,8 +73,6 @@ public class TalismanListener implements Listener {
             }
         }
     }
-
-    private final int[] armorSlots = {39, 38, 37, 36};
 
     @EventHandler
     public void onItemBreak(PlayerItemBreakEvent e) {
@@ -115,7 +116,8 @@ public class TalismanListener implements Listener {
         Random random = ThreadLocalRandom.current();
 
         if (Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MAGICIAN)) {
-            List<String> enchantments = new ArrayList<>();
+            List<String> enchantments = new LinkedList<>();
+
             for (Enchantment en : Enchantment.values()) {
                 for (int i = 1; i <= en.getMaxLevel(); i++) {
                     if ((boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i) && en.canEnchantItem(e.getItem())) {
@@ -123,19 +125,21 @@ public class TalismanListener implements Listener {
                     }
                 }
             }
+
             String enchant = enchantments.get(random.nextInt(enchantments.size()));
             e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchant.split("-")[0])), Integer.parseInt(enchant.split("-")[1]));
         }
 
         if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WIZARD)) {
-            if (e.getEnchantsToAdd().containsKey(Enchantment.LOOT_BONUS_BLOCKS)) e.getEnchantsToAdd().remove(Enchantment.LOOT_BONUS_BLOCKS);
             Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
 
             for (Enchantment en : enchantments) {
-                if (random.nextInt(100) < 40) e.getEnchantsToAdd().put(en, random.nextInt(3) + 1);
+                if (random.nextInt(100) < 40) {
+                    e.getEnchantsToAdd().put(en, random.nextInt(3) + 1);
+                }
             }
 
-            e.getItem().addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
+            e.getEnchantsToAdd().put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
         }
     }
 
@@ -146,8 +150,8 @@ public class TalismanListener implements Listener {
      */
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        Collection<ItemStack> drops = new ArrayList<>();
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+        List<ItemStack> drops = new ArrayList<>(e.getBlock().getDrops(item));
         int fortune = 1;
         Random random = ThreadLocalRandom.current();
 
@@ -158,14 +162,11 @@ public class TalismanListener implements Listener {
                 fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
             }
 
-            if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && e.getBlock().getType().toString().endsWith("_ORE") && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MINER)) {
-                if (drops.isEmpty()) {
-                    drops = e.getBlock().getDrops();
-                }
-
-                for (ItemStack drop : new ArrayList<>(drops)) {
+            if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MINER)) {
+                for (ItemStack drop : drops) {
                     if (!drop.getType().isBlock()) {
-                        drops.add(new CustomItem(drop, fortune * 2));
+                        int amount = Math.max(1, (fortune * 2) - drop.getAmount());
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
                     }
                 }
             }

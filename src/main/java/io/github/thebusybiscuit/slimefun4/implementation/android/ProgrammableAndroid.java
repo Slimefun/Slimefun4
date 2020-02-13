@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -51,7 +52,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -216,8 +217,8 @@ public abstract class ProgrammableAndroid extends SimpleSlimefunItem<BlockTicker
         };
     }
     @Override
-    public String getRecipeSectionLabel() {
-        return "&7\u21E9 可用的燃料种类 \u21E9";
+    public String getLabelLocalPath() {
+        return "guide.tooltips.recipes.generator";
     }
 
     @Override
@@ -476,10 +477,10 @@ public abstract class ProgrammableAndroid extends SimpleSlimefunItem<BlockTicker
 
     private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
         }
         for (int i : border_out) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : getOutputSlots()) {
@@ -497,19 +498,21 @@ public abstract class ProgrammableAndroid extends SimpleSlimefunItem<BlockTicker
             });
         }
 
+        ItemStack generator = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==");
+
         if (getTier() == 1) {
-            preset.addItem(34, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这个机器人使用固体燃料", "&r例如煤, 木头等..."), (p, slot, item, action) -> false);
+            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这个机器人使用固体燃料", "&r例如煤, 木头等..."), ChestMenuUtils.getEmptyClickHandler());
         }
         else if (getTier() == 2){
-            preset.addItem(34, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这个机器人使用液体燃料", "&r例如岩浆, 原油, 燃油等..."), (p, slot, item, action) -> false);
+            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这个机器人使用液体燃料", "&r例如岩浆, 原油, 燃油等..."), ChestMenuUtils.getEmptyClickHandler());
         }
         else {
-            preset.addItem(34, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这个机器人使用放射性燃料", "&r例如铀, 镎, 强化铀"), (p, slot, item, action) -> false);
+            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这个机器人使用放射性燃料", "&r例如铀, 镎, 强化铀"), ChestMenuUtils.getEmptyClickHandler());
         }
     }
 
     public void openScriptEditor(Player p, Block b) {
-        ChestMenu menu = new ChestMenu("&e脚本编辑器");
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
 
         menu.addItem(1, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> 编辑脚本", "", "&a编辑你自己的脚本"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
@@ -539,7 +542,7 @@ public abstract class ProgrammableAndroid extends SimpleSlimefunItem<BlockTicker
     }
 
     public void openScript(Player p, Block b, String script) {
-        ChestMenu menu = new ChestMenu("&e脚本编辑器");
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
         String[] commands = script.split("-");
 
         menu.addItem(0, new CustomItem(ScriptPart.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &e左键 &7返回机器人交互面板"));
@@ -619,7 +622,7 @@ public abstract class ProgrammableAndroid extends SimpleSlimefunItem<BlockTicker
     }
 
     private void openScriptDownloader(Player p, Block b, int page) {
-        ChestMenu menu = new ChestMenu("Android Scripts");
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F));
 
         List<Config> scripts = getUploadedScripts();
@@ -793,33 +796,26 @@ public abstract class ProgrammableAndroid extends SimpleSlimefunItem<BlockTicker
     }
 
     protected void openScriptComponentEditor(Player p, Block b, String script, int index) {
-        ChestMenu menu = new ChestMenu("&eScript Editor");
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
         String[] commands = script.split("-");
 
-        for (int i = 0; i < 9; i++) {
-            menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (pl, slot, item, action) -> false);
-        }
+        ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
-        try {
-            menu.addItem(9, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&r什么都不做"), (pl, slot, item, action) -> {
-                int i = 0;
-                StringBuilder builder = new StringBuilder("START-");
+        menu.addItem(9, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"), (pl, slot, item, action) -> {
+            int i = 0;
+            StringBuilder builder = new StringBuilder("START-");
 
-                for (String command : commands) {
-                    if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
-                    i++;
-                }
+            for (String command : commands) {
+                if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
+                i++;
+            }
 
-                builder.append("REPEAT");
-                BlockStorage.addBlockInfo(b, "script", builder.toString());
+            builder.append("REPEAT");
+            BlockStorage.addBlockInfo(b, "script", builder.toString());
 
-                openScript(p, b, builder.toString());
-                return false;
-            });
-        }
-        catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Script Editor for Slimefun " + SlimefunPlugin.getVersion(), x);
-        }
+            openScript(p, b, builder.toString());
+            return false;
+        });
 
         int i = 10;
         for (ScriptPart part : getAccessibleScriptParts()) {

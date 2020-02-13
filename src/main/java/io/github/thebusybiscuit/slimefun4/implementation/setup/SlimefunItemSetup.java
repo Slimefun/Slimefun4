@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.android.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.*;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks.*;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.*;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import org.bukkit.Bukkit;
@@ -21,8 +23,6 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
-import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -47,57 +47,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoConnector;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoInputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoManagerBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoOutputNode;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Bandage;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.DietCookie;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.EnderBackpack;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosiveBow;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosivePickaxe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.ExplosiveShovel;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.FortuneCookie;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GoldPan;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.GrapplingHook;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.HerculesPickaxe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.HunterTalisman;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.IcyBow;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.InfernalBonemeal;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeFlask;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.KnowledgeTome;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.LumberAxe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicEyeOfEnder;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MagicSugar;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MeatJerky;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Medicine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MonsterJerky;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.MultiTool;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Multimeter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.NetherGoldPan;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfContainment;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfTheSeeker;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfVeinMining;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PortableCrafter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PortableDustbin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PortableGEOScanner;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Rag;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SeismicAxe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SmeltersPickaxe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SolarHelmet;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SoulboundRune;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Splint;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SwordOfBeheading;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Vitamins;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.WaterStaff;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.WindStaff;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AncientPedestal;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Composter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Crucible;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.EnhancedFurnace;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HologramProjector;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.InfusedHopper;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AnimalGrowthAccelerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoAnvil;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoBreeder;
@@ -149,7 +102,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.PressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.TableSaw;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.RainbowTicker;
@@ -1272,30 +1224,9 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.SPAWNER), null, null, null, null})
 		.register(true);
 
-		new SlimefunItem(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.REPAIRED_SPAWNER, RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&a学识之瓶"), SlimefunItems.RUNE_ENDER})
-		.register(true, (BlockPlaceHandler) (e, item) -> {
-			if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
-				EntityType type = null;
-				
-				for (String line: item.getItemMeta().getLore()) {
-					if (ChatColor.stripColor(line).startsWith("类型: ") && !line.contains("<类型>")) {
-						type = EntityType.valueOf(ChatColor.stripColor(line).replace("类型: ", "").replace(' ', '_').toUpperCase());
-					}
-				}
-				
-				if (type != null) {
-					CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
-					spawner.setSpawnedType(type);
-					spawner.update(true, false);
-				}
-				
-				return true;
-			}
-			else {
-				return false;
-			}
-		});
+        new RepairedSpawner(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.REPAIRED_SPAWNER, RecipeType.ANCIENT_ALTAR,
+        new ItemStack[] {SlimefunItems.RUNE_ENDER, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.BROKEN_SPAWNER, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.RUNE_ENDER})
+        .register(true);
 
 		new EnhancedFurnace(1, 1, 1, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE,
 		new ItemStack[] {null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.FURNACE), SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
@@ -1392,7 +1323,7 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.FLASK_OF_KNOWLEDGE, 8))
 		.register(true);
 
-		new HandledBlock(Categories.BIRTHDAY, new CustomItem(new ItemStack(Material.CAKE), "&bBirthday Cake"), "BIRTHDAY_CAKE", RecipeType.ENHANCED_CRAFTING_TABLE,
+        new HandledBlock(Categories.BIRTHDAY, new SlimefunItemStack("BIRTHDAY_CAKE", Material.CAKE, "&b生日蛋糕"), RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.TORCH), null, new ItemStack(Material.SUGAR), new ItemStack(Material.CAKE), new ItemStack(Material.SUGAR), null, null, null})
 		.register(true);
 

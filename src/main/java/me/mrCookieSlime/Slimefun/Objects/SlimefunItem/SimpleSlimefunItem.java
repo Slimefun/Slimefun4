@@ -9,43 +9,28 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class SimpleSlimefunItem<T extends ItemHandler> extends SlimefunItem {
 
-    @Deprecated
-	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
-	}
-	
-	public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-    @Deprecated
-	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, id, recipeType, recipe, recipeOutput);
-	}
-	
-	public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, recipeType, recipe, recipeOutput);
-	}
+    public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(category, item, recipeType, recipe, recipeOutput);
+    }
 
-    @Deprecated
-	public SimpleSlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, id, recipeType, recipe, keys, values);
-	}
-	
-	public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, recipeType, recipe, keys, values);
-	}
-	
-	@Override
-	protected boolean areItemHandlersPrivate() {
-		return true;
-	}
-	
-	@Override
-	public void preRegister() {
-		addItemHandler(getItemHandler());
-	}
+    public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+        super(category, item, recipeType, recipe, keys, values);
+    }
 
-	public abstract T getItemHandler();
+    @Override
+    protected boolean areItemHandlersPrivate() {
+        return true;
+    }
+
+    @Override
+    public void preRegister() {
+        addItemHandler(getItemHandler());
+    }
+
+    public abstract T getItemHandler();
 
 }

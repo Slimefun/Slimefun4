@@ -30,8 +30,8 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.blocks.ReactorAccessPort;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -407,9 +407,9 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	}
 	
 	@Override
-	public String getRecipeSectionLabel() {
-		return "&7\u21E9 可用的燃料种类 \u21E9";
-	}
+    public String getLabelLocalPath(){
+        return "guide.tooltips.recipes.generator";
+    }
 	
 	@Override
 	public List<ItemStack> getDisplayRecipes() {

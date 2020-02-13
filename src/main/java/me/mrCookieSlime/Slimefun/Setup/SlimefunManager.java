@@ -22,10 +22,12 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.Soulbound;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public final class SlimefunManager {
+    private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
+    private static final String SOULBOUND_LORE = ChatColor.GRAY + "灵魂绑定";
 
 	private SlimefunManager() {}
 
@@ -166,17 +168,15 @@ public final class SlimefunManager {
 	private static boolean equalsLore(List<String> lore, List<String> lore2) {
 		StringBuilder string1 = new StringBuilder();
 		StringBuilder string2 = new StringBuilder();
-
-		String colors = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
 		
 		for (String string : lore) {
-			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) {
+			if (!string.equals(SOULBOUND_LORE) && !string.startsWith(EMERALDENCHANTS_LORE)) {
 				string1.append("-NEW LINE-").append(string);
 			}
 		}
 
 		for (String string : lore2) {
-			if (!string.equals(ChatColor.GRAY + "Soulbound") && !string.startsWith(colors)) {
+			if (!string.equals(SOULBOUND_LORE) && !string.startsWith(EMERALDENCHANTS_LORE)) {
 				string2.append("-NEW LINE-").append(string);
 			}
 		}

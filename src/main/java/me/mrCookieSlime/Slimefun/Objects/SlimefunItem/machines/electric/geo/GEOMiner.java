@@ -25,7 +25,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -121,8 +121,8 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	}
 	
 	@Override
-	public String getRecipeSectionLabel() {
-		return "&7\u21E9 你可以获得的资源 \u21E9";
+    public String getLabelLocalPath() {
+        return "guide.tooltips.recipes.miner";
 	}
 	
 	@Override
