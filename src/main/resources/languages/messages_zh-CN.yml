@@ -38,6 +38,7 @@ android:
     uploaded:
     - "&b上传中..."
     - "&a脚本上传成功!"
+    editor: 脚本编辑器
   started: "&7你的机器人开始运行脚本"
   stopped: "&7你的机器人暂停运行了脚本"
 anvil:
@@ -73,6 +74,10 @@ gps:
     max: "&4你已到达设置传送点个数的最大上限"
     new: "&e给你的路径点起个名字吧 &7(支持彩色代码!)"
 guide:
+  back:
+    guide: 返回 Slimefun 指南
+    settings: 返回设置面板
+    title: 返回
   cheat:
     no-multiblocks: "&4你不能通过作弊来获得方块结构的机器, 你必须自己建造!"
   credits:
@@ -108,47 +113,53 @@ guide:
     languages: 选择你想要的语言
     main: Slimefun 指南
     settings: 设置 & 关于
-    wiki: Slimefun4 维基
     source: 源代码
+    wiki: Slimefun4 维基
   tooltips:
     open-category: 单击打开
     versions-notice: 在反馈问题时这些很重要!
-  back:
-    title: 返回
-    guide: 返回 Slimefun 指南
-    settings: 返回设置面板
+    wiki: 在官方 Slimefun 维基上查看此物品
+    recipes:
+      machine: 此机器可用的合成配方
+      miner: 此采矿机可以获得的资源
+      generator: 可用的燃料种类
+      gold-pan: 你可以获得的资源
 inventory:
   no-access: "&4你没有权限使用这个方块"
 languages:
+  af: 南非语
+  ar: 阿拉伯语
   cs: 捷克语
+  da: 丹麦语
   de: 德语
   default: 服务器默认语言
   el: 希腊语
   en: 英语
   es: 西班牙语
+  fi: 芬兰语
   fr: 法语
   he: 希伯来语
   hu: 匈牙利语
   id: 印尼语
   it: 意大利语
   lv: 拉脱维亚语
+  ms: 马来西亚语
   nl: 荷兰语
+  'no': 挪威语
   pl: 波兰语
   pt: 葡萄牙语 (葡萄牙)
   pt-BR: 葡萄牙语 (巴西)
   ru: 俄语
   sk: 斯洛伐克文
   sv: 瑞典语
+  uk: 乌克兰语
   vi: 越南文
   zh-CN: 简体中文 (中国)
   zh-TW: 繁体中文 (台湾)
-  ar: 阿拉伯语
-  af: 南非语
-  da: 丹麦语
-  fi: 芬兰语
-  'no': 挪威语
-  uk: 乌克兰语
-  ms: 马来西亚语
+  ja: 日语
+  fa: 波斯语
+  th: 泰语
+  ro: 罗马尼亚语
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4古代基座不足. 目前已摆放的基座数: &c(%pedestals% / 8)"
@@ -168,6 +179,7 @@ machines:
   full-inventory: "&e抱歉, 背包已经满了!"
   HOLOGRAM_PROJECTOR:
     enter-text: "&7请写下想显示在全息文本上的话. &r(支持颜色代码)"
+    inventory-title: 全息图像编辑器
   ignition-chamber-no-flint: "&c自动点火机缺少打火石."
   in-use: "&c这个机器正在被其他玩家使用."
   pattern-not-found: "&e抱歉, 你记错合成表了吧. 这不是一个正确的合成方式, 请检查发射器里放置的物品."
@@ -178,6 +190,10 @@ machines:
     teleporting: "&3传送中..."
   unknown-material: "&e抱歉, 我无法识别在发射器里的物品. 请按照合成表放置物品."
   wrong-item: "&e抱歉, 我无法识别你右键的物品. 检查指南书看看哪些物品可以使用."
+  GPS_CONTROL_PANEL:
+    title: GPS - 控制面板
+    transmitters: 信号发射器概览
+    waypoints: 传送点列表
 messages:
   cannot-place: "&c你不能在这里放置方块!"
   diet-cookie: "&e你感觉变轻了..."
