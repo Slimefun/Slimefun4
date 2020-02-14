@@ -85,6 +85,9 @@ public class Translators {
 		
 		// Translators - Arabic
 		addTranslator("mohkamfer", "citBabY", "ar", false);
+		
+		// Translators - Japanese
+		addTranslator("bito-blosh", "ja", true);
 	}
 
 	private void addTranslator(String name, String language, boolean lock) {
