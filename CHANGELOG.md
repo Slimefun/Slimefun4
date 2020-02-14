@@ -34,6 +34,7 @@
 * Fixed #1515
 * Fixed back-button in guide-settings not working via commands
 * Fixed #1516
+* Fixed magician talisman not being able to enchant books
 
 ## Release Candidate 5 (09 Feb 2020)
 

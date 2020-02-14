@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.attributes;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
 
 import java.util.List;
 

@@ -240,11 +240,9 @@ public final class CargoUtils {
     public static boolean matchesFilter(Block block, ItemStack item, int index) {
         if (item == null) return false;
 
-        String id = BlockStorage.checkID(block);
-        if (id.equals("CARGO_NODE_OUTPUT")) return true;
-
         // Store the returned Config instance to avoid heavy calls
         Config blockInfo = BlockStorage.getLocationInfo(block.getLocation());
+        if (blockInfo.getString("id").equals("CARGO_NODE_OUTPUT")) return true;
 
         BlockMenu menu = BlockStorage.getInventory(block.getLocation());
         boolean lore = "true".equals(blockInfo.getString("filter-lore"));
@@ -271,7 +269,9 @@ public final class CargoUtils {
             } 
             else {
                 for (ItemStack stack : items) {
-                    if (SlimefunManager.isItemSimilar(item, stack, lore)) return true;
+                    if (SlimefunManager.isItemSimilar(item, stack, lore)) {
+                    	return true;
+                    }
                 }
                 
                 return false;
