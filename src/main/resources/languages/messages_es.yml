@@ -162,6 +162,7 @@ languages:
   ja: Japonés
   th: Tailandés
   ro: Rumano
+  fa: Persa
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4El Altar no esta rodeado por la cantidad correcta de
@@ -200,6 +201,8 @@ machines:
     Revisa las recetas y mira que objetos puedes usar."
   GPS_CONTROL_PANEL:
     title: GPS - Panel de Control
+    transmitters: Visor General de Transmisores
+    waypoints: Visor de Puntos de Referencia
 messages:
   cannot-place: "&c¡No puedes colocar ese bloque ahí!"
   diet-cookie: "&eEmpiezas a sentirte muy ligero ..."
