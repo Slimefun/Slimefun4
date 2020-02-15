@@ -15,3 +15,13 @@ slimefun:
 
 '
   cargo: Cargo systém
+  misc: Smíšené itemy
+  tech_misc: Technické komponenty
+  magical_armor: Magická zbroj
+  talismans: Talismany (Tier I)
+  ender_talismans: Ender Talismany(Tier II)
+  christmas: Vánoce (Prosinec)
+  valentines_day: Svatého Valentýna (14. Ůnora)
+  easter: Velikonoce (Duben)
+  birthday: TheBusyBiscuitovy narozeniny (26. Říjen)
+  halloween: Halloween (31. Října)
