@@ -51,6 +51,8 @@ public class Translators {
 		addTranslator("Tengoblinekcz", "cs", true);
 		addTranslator("sirhCCC", "cs", true);
 		addTranslator("Thezerix", "cs", true);
+		addTranslator("IsLineCZ", "cs", true);
+		addTranslator("MrFriggo", "cs", true);
 		
 		// Translators - Russian
 		addTranslator("SoSeDiK", "ru", false);
