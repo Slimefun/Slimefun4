@@ -15,10 +15,10 @@ android:
       DIG_DOWN: "&bKop w dół"
       DIG_FORWARD: "&bKop do przodu"
       DIG_UP: "&bKop w górę"
-      FARM_DOWN: "&bZbieraj i posadź spowrotem &7(Blok pod spodem)"
-      FARM_EXOTIC_DOWN: "&bZaawansowanie zbieraj i posadź spowrotem &7(Blok pod spodem)"
-      FARM_EXOTIC_FORWARD: "&6Zaawansowanie zbieraj i posadź spowrotem"
-      FARM_FORWARD: "&bZbieraj i posadź spowrotem"
+      FARM_DOWN: "&bZbieraj i posadź z powrotem &7(Blok pod spodem)"
+      FARM_EXOTIC_DOWN: "&bZaawansowanie zbieraj i posadź z powrotem &7(Blok pod spodem)"
+      FARM_EXOTIC_FORWARD: "&6Zaawansowanie zbieraj i posadź z powrotem"
+      FARM_FORWARD: "&bZbieraj i posadź z powrotem"
       GO_DOWN: "&7Idź w dół"
       GO_FORWARD: "&7Idź do przodu"
       GO_UP: "&7Idź do góry"
@@ -160,7 +160,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Wprowadź żądany tekst hologramu na czacie. &r(Kody kolorów są obsługiwane!)"
   ignition-chamber-no-flint: "&cDo Komory Zapłonowej brakuje Krzesiwa."
-  in-use: "&cEkwipunek tego bloku jest narazie otworzony przez innego gracza."
+  in-use: "&cEkwipunek tego bloku jest na razie otworzony przez innego gracza."
   pattern-not-found: "&ePrzepraszamy, nie można rozpoznać tego przepisu. Umieść przedmioty
     we właściwym wzorze w Dozowniku."
   TELEPORTER:
@@ -183,7 +183,7 @@ messages:
   - "&7Pomóż mi, jestem uwięziony w fabryce ciastek z wróżbami!"
   - "&7Jutro umrzesz... przez Creepera"
   - "&7W pewnym momencie w twoim życiu wydarzy się coś złego!"
-  - "&7W następnym tygodniu zauważysz że to nie jest prawdziwe życie, i że jesteś
+  - "&7W następnym tygodniu zauważysz, że to nie jest prawdziwe życie, i że jesteś
     w grze komputerowej"
   - "&7To ciastko będzie dobrze smakowało za kilka sekund"
   - "&7Ostatnim słowem, które usłyszysz, będzie „WYTĘPIĆ!!!”"
@@ -194,7 +194,7 @@ messages:
   - "&7Nigdy nie kop prosto w dół!"
   give-item: '&bDodano przedmiot do plecaka gracza %player%: &a%amount% &7"%item%&7"'
   given-item: '&bOtrzymano &a%amount% &7"%item%&7"'
-  hungry: "&cJesteś zbyt głodny żeby to zrobić!"
+  hungry: "&cJesteś zbyt głodny, żeby to zrobić!"
   link-prompt: "&eKliknij tutaj:"
   mode-change: "&bTryb urządzenia %device% został zmieniony na: &9%mode%"
   multimeter: "&bZmagazynowana energia: &3%stored% &b/ &3%capacity%"
