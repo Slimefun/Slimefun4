@@ -38,6 +38,7 @@ android:
     uploaded:
     - "&bFeltöltés..."
     - "&aA szkript sikeresen feltöltve!"
+    editor: Szkript Szerkesztő
   started: "&7Az Androidod folytatja a szkript futtatását"
   stopped: "&7Az Androidod szünetelteti a szkript futtatását"
 anvil:
@@ -74,6 +75,10 @@ gps:
     max: "&4Elérted a maximális útpontok számát"
     new: "&eKérlek, add meg az új útpontot chatben. &7(A Színkódok használhatóak!)"
 guide:
+  back:
+    guide: Menj vissza a Slimefun Útmutatóba
+    settings: Menj vissza a Beállítások Panelre
+    title: Vissza
   cheat:
     no-multiblocks: "&4A Multiblokkban nem tudsz csalni, meg kell építened!"
   credits:
@@ -109,47 +114,53 @@ guide:
     languages: Válaszd ki a kívánt nyelvet
     main: Slimefun Útmutató
     settings: Beállítások és Információk
-    wiki: Slimefun4 Wiki
     source: Forráskód
+    wiki: Slimefun4 Wiki
   tooltips:
     open-category: Kattints a megnyitáshoz
     versions-notice: Ezek nagyon fontosak a hibák jelentésekor!
-  back:
-    title: Vissza
-    guide: Menj vissza a Slimefun Útmutatóba
-    settings: Menj vissza a Beállítások Panelre
+    wiki: Tekintsd meg ezt a tárgyat a hivatalos Slimefun Wikin
+    recipes:
+      machine: Ebben a Gépben készített receptek
+      miner: Erőforrások, amelyeket ezzel a Bányásszal szerezhetsz be
+      generator: Rendelkezésre álló üzemanyagtípusok
+      gold-pan: Megszerezhető források
 inventory:
   no-access: "&4Nincs hozzáférésed ehhez a blokkhoz"
 languages:
+  af: Afrikánsz
+  ar: Arab
   cs: Cseh
+  da: Dán
   de: Német
   default: Szerver-Alapértelmezett
   el: Görög
   en: Angol
   es: Spanyol
+  fi: Finn
   fr: Francia
   he: Héber
   hu: Magyar
   id: Indonéz
   it: Olasz
   lv: Lett
+  ms: Maláj
   nl: Holland
+  'no': Norvég
   pl: Lengyel
   pt: Portugál (Portugália)
   pt-BR: Portugál (Brazília)
   ru: Orosz
   sk: Szlovák
   sv: Svéd
+  uk: Ukrán
   vi: Vietnami
   zh-CN: Kínai (Kína)
   zh-TW: Kínai (Tajvan)
-  ar: Arab
-  af: Afrikánsz
-  da: Dán
-  fi: Finn
-  uk: Ukrán
-  ms: Maláj
-  'no': Norvég
+  ja: Japán
+  fa: Perzsa
+  th: Thai
+  ro: Román
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Az Altar körül nincs elég Pedestal, ami szükséges a működéséhez
@@ -173,6 +184,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Kérlek, írd be a kívánt Hologram Szöveget a Chatbe. &r(A színkódok
       is használhatóak!)"
+    inventory-title: Hologram Szerkesztő
   ignition-chamber-no-flint: "&cAz Ignition Chamber-ből hiányik a Kovakő és Acél."
   in-use: "&cEnnek a Blokknak a tárolóját éppen megnyitotta egy másik Játékos."
   pattern-not-found: "&eSajnálom, nem ismerem fel ezt a Receptet. Kérlek, helyezd
@@ -186,6 +198,10 @@ machines:
     tegyél bele valamit, amit ismerek."
   wrong-item: "&eSajnálom, nem ismerem fel azt a Tárgyat, amire kattintottál velem.
     Ellenőrizd a Recepteket, és nézd meg, mely Tárgyakat használhatod."
+  GPS_CONTROL_PANEL:
+    title: GPS - Vezérlőpult
+    transmitters: Transzmitter Áttekintése
+    waypoints: Útpont Áttekintése
 messages:
   cannot-place: "&cNem teheted ezt a blokkot oda!"
   diet-cookie: "&eNagyon könnyednek érzed magad..."
