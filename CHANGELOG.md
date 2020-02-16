@@ -26,7 +26,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 6 (TBD)
+## Release Candidate 6 (16 Feb 2020)
 
 ### Additions
 * Added a new language: Japanese
