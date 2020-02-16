@@ -55,6 +55,12 @@ guide:
   tooltips:
     open-category: Clique aqui para abrir
     versions-notice: Isso é muito importante ao relatar erros!
+    wiki: Veja mais sobre esse item na Wiki oficial do Slimefun
+    recipes:
+      machine: Receitas utilizadas nessa maquina
+      miner: Recursos que você pode obter com essa Mineradora
+      generator: Tipos disponíveis de combustível
+      gold-pan: Recursos que você pode obter
   back:
     title: Voltar
     guide: Voltar Para o Guia do Slimefun
@@ -147,6 +153,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Digite o nome do holograma no bate-papo. &r(Códigos de cores são
       suportados!)"
+    inventory-title: Editor de Holograma
   ELEVATOR:
     no-destinations: "&4Nenhum destino encontrado!"
     pick-a-floor: "&3- Escolha um andar -"
@@ -161,6 +168,10 @@ machines:
     invulnerability: "&b&lVocê recebeu 30 segundos de invulnerabilidade!"
   CARGO_NODES:
     must-be-placed: "&4Deve ser colocado em um baú ou uma máquina!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Painel de Controle
+    transmitters: Informação de Transmissores
+    waypoints: Informação de Locais de Teleporte
 anvil:
   not-working: "&4Você não pode usar os itens do Slimefun em uma bigorna!"
 backpack:
@@ -227,6 +238,7 @@ android:
     rating:
       own: "&4Você não pode avaliar seu próprio script!"
       already: "&4Você já avaliou este script!"
+    editor: Editor de Scripts
 languages:
   default: Padrão do Servidor
   en: Inglês
@@ -257,3 +269,7 @@ languages:
   uk: Ucraniano
   ms: Malaio
   'no': Norueguês
+  ja: Japonês
+  fa: Persa
+  th: Tailandês
+  ro: Romena
