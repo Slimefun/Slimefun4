@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **List of Releases**
 
-- [Release Candidate 6 (TBD)](#release-candidate-6-tbd)
+- [Release Candidate 6 (16 Feb 2020)](#release-candidate-6-16-feb-2020)
   - [Additions](#additions)
   - [Changes](#changes)
   - [Fixes](#fixes)
