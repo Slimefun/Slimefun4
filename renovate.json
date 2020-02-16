@@ -2,9 +2,7 @@
   "extends": [
     "config:base"
   ],
-  "assignees": [
-    "TheBusyBiscuit"
-  ],
+  "assignees": [],
   "labels": [
     "Dependency Update"
   ]
