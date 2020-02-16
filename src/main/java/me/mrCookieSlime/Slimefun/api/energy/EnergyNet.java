@@ -26,8 +26,8 @@ public class EnergyNet extends Network {
 	}
 
 	public static EnergyNetComponent getComponent(String id) {
-		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.SOURCE;
-		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.GENERATOR;
+		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.CAPACITOR;
 		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponent.CONSUMER;
 		return EnergyNetComponent.NONE;
 	}
@@ -35,8 +35,8 @@ public class EnergyNet extends Network {
 	public static EnergyNetComponent getComponent(Location l) {
 		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponent.NONE;
 		String id = BlockStorage.checkID(l);
-		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.SOURCE;
-		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.DISTRIBUTOR;
+		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.GENERATOR;
+		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.CAPACITOR;
 		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponent.CONSUMER;
 		return EnergyNetComponent.NONE;
 	}
@@ -46,10 +46,10 @@ public class EnergyNet extends Network {
 		case CONSUMER:
 			SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);
 			break;
-		case DISTRIBUTOR:
+		case CAPACITOR:
 			SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
 			break;
-		case SOURCE:
+		case GENERATOR:
 			SlimefunPlugin.getRegistry().getEnergyGenerators().add(id);
 			break;
 		default:
@@ -87,10 +87,10 @@ public class EnergyNet extends Network {
 	public NetworkComponent classifyLocation(Location l) {
 		if (regulator.equals(l)) return NetworkComponent.REGULATOR;
 		switch (getComponent(l)) {
-		case DISTRIBUTOR:
+		case CAPACITOR:
 			return NetworkComponent.CONNECTOR;
 		case CONSUMER:
-		case SOURCE:
+		case GENERATOR:
 			return NetworkComponent.TERMINUS;
 		default:
 			return null;
@@ -104,13 +104,13 @@ public class EnergyNet extends Network {
 		}
 
 		switch (getComponent(l)) {
-		case DISTRIBUTOR:
+		case CAPACITOR:
 			if (ChargableBlock.isCapacitor(l)) storage.add(l);
 			break;
 		case CONSUMER:
 			output.add(l);
 			break;
-		case SOURCE:
+		case GENERATOR:
 			input.add(l);
 			break;
 		default:

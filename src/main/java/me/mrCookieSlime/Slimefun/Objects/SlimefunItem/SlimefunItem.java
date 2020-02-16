@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -40,6 +41,7 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 public class SlimefunItem implements Placeable {
 
 	private ItemState state;
+	private SlimefunAddon addon;
 	
 	protected String id;
 	protected ItemStack item;
@@ -54,7 +56,6 @@ public class SlimefunItem implements Placeable {
 	protected boolean hidden = false;
 	protected boolean useableInWorkbench = false;
 	
-	private boolean addon = false;
 	private String permission = "";
 	private List<String> noPermissionTooltip;
 	
@@ -170,7 +171,7 @@ public class SlimefunItem implements Placeable {
 	}
 	
 	public boolean isAddonItem() {
-		return addon;
+		return !(addon instanceof SlimefunPlugin);
 	}
 	
 	public String getPermission() {
@@ -192,13 +193,38 @@ public class SlimefunItem implements Placeable {
 	public boolean isDisabled() {
 		return state != ItemState.ENABLED;
 	}
-
+	
+	/**
+	 * This method is deprecated.
+	 * 
+	 * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
+	 * @param slimefun	deprecated.
+	 */
+	@Deprecated
 	public void register() {
-		register(false);
+		register((SlimefunAddon) null);
 	}
 	
+	/**
+	 * This method is deprecated.
+	 * 
+	 * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
+	 * @param slimefun	deprecated.
+	 */
+	@Deprecated
 	public void register(boolean slimefun) {
-		this.addon = !slimefun;
+		register(slimefun ? SlimefunPlugin.instance: null);
+	}
+	
+	/**
+	 * This method registers this {@link SlimefunItem}.
+	 * Always call this method after your {@link SlimefunItem} has been initialized.
+	 * Never call it more than once!
+	 * 
+	 * @param addon	The {@link SlimefunAddon} that this {@link SlimefunItem} belongs to.
+	 */
+	public void register(SlimefunAddon addon) {
+		this.addon = addon;
 		
 		try {
 			preRegister();
@@ -407,26 +433,56 @@ public class SlimefunItem implements Placeable {
 			}
 			else if (handler instanceof EnergyTicker) {
 				energyTicker = (EnergyTicker) handler;
-				EnergyNet.registerComponent(getID(), EnergyNetComponent.SOURCE);
+				EnergyNet.registerComponent(getID(), EnergyNetComponent.GENERATOR);
 			}
 		}
 	}
-
+	
+	/**
+	 * This method is deprecated.
+	 * 
+	 * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
+	 * @param vanilla	deprecated.
+	 * @param handlers	deprecated.
+	 */
+	@Deprecated
 	public void register(boolean vanilla, ItemHandler... handlers) {
 		addItemHandler(handlers);
 		register(vanilla);
 	}
-
+	
+	/**
+	 * This method is deprecated.
+	 * 
+	 * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
+	 * @param handlers	deprecated.
+	 */
+	@Deprecated
 	public void register(ItemHandler... handlers) {
 		addItemHandler(handlers);
 		register(false);
 	}
-
+	
+	/**
+	 * This method is deprecated.
+	 * 
+	 * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
+	 * @param vanilla	deprecated.
+	 * @param handler	deprecated.
+	 */
+	@Deprecated
 	public void register(boolean vanilla, SlimefunBlockHandler handler) {
 		SlimefunPlugin.getRegistry().getBlockHandlers().put(getID(), handler);
 		register(vanilla);
 	}
-
+	
+	/**
+	 * This method is deprecated.
+	 * 
+	 * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
+	 * @param handler	deprecated.
+	 */
+	@Deprecated
 	public void register(SlimefunBlockHandler handler) {
 		SlimefunPlugin.getRegistry().getBlockHandlers().put(getID(), handler);
 		register(false);
@@ -442,24 +498,29 @@ public class SlimefunItem implements Placeable {
 	}
 
 	public void registerChargeableBlock(int capacity) {
-		this.registerChargeableBlock(false, capacity);
+		registerChargeableBlock(false, capacity);
 	}
 	
 	public void registerEnergyGenerator(boolean slimefun, int capacity) {
-		this.register(slimefun);
+		register(slimefun);
 		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
 	}
 
 	public void registerChargeableBlock(boolean slimefun, int capacity) {
-		this.register(slimefun);
+		register(slimefun);
 		ChargableBlock.registerChargableBlock(id, capacity);
 		EnergyNet.registerComponent(id, EnergyNetComponent.CONSUMER);
 	}
 	
 	public void registerCapacitor(boolean slimefun, int capacity) {
-		this.register(slimefun);
-		EnergyNet.registerComponent(id, EnergyNetComponent.DISTRIBUTOR);
+		register(slimefun);
+		EnergyNet.registerComponent(id, EnergyNetComponent.CAPACITOR);
 		ChargableBlock.registerCapacitor(id, capacity);
+	}
+
+	public void registerChargeableBlock(boolean vanilla, int capacity, ItemHandler... handlers) {
+		addItemHandler(handlers);
+		registerChargeableBlock(vanilla, capacity);
 	}
 
 	public void preRegister() {
@@ -484,11 +545,6 @@ public class SlimefunItem implements Placeable {
 		SlimefunPlugin.getRegistry().getBlockHandlers().put(id, handler);
 	}
 
-	public void registerChargeableBlock(boolean vanilla, int capacity, ItemHandler... handlers) {
-		addItemHandler(handlers);
-		registerChargeableBlock(vanilla, capacity);
-	}
-
 	/**
 	 * This method will assign the given wiki page to this Item.
 	 * Note that you only need to provide the page name itself,
@@ -496,13 +552,13 @@ public class SlimefunItem implements Placeable {
 	 * 
 	 * @param page	The associated wiki page
 	 */
-	public void addWikipage(String page) {
+	public void addOficialWiki(String page) {
 		wiki = "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page;
 	}
 	
 	/**
 	 * This method returns whether this item has been assigned a wiki page.
-	 * @see SlimefunItem#addWikipage(String)
+	 * @see SlimefunItem#addOficialWiki(String)
 	 * 
 	 * @return	Whether this Item has a wiki page
 	 */
@@ -513,7 +569,7 @@ public class SlimefunItem implements Placeable {
 	/**
 	 * This method returns the wiki page that has been asigned to this item.
 	 * It will return null, if no wiki page was found.
-	 * @see SlimefunItem#addWikipage(String)
+	 * @see SlimefunItem#addOficialWiki(String)
 	 * 
 	 * @return	This item's wiki page
 	 */
@@ -578,7 +634,7 @@ public class SlimefunItem implements Placeable {
 	
 	@Override
 	public String toString() {
-		return "SlimefunItem: " + id + " (" + state + ", vanilla=" + !addon + ")";
+		return "SlimefunItem: " + id + " (" + state + ", addon=" + (addon == null ? "Unknown": addon.getJavaPlugin().getName()) + ")";
 	}
 
 	@Override

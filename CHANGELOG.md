@@ -27,6 +27,13 @@
 
 ## Release Candidate 6 (TBD)
 
+### Additions
+* Added a new language: Japanese
+* Added a new language: Swedish
+* Added a new language: Czech
+* Added a new language: Portuguese (Brazil)
+* Added a new language: Arabic
+
 ### Changes
 * /sf research now uses namespaced keys instead of ids
 
