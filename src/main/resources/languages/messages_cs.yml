@@ -83,7 +83,7 @@ guide:
   credits:
     commit: Commit
     commits: Commits
-    profile-link: Klikni pro navštívení jejich profilu na GitHubu
+    profile-link: Klikni pro navštívení jeho profilu na GitHubu
     roles:
       developer: "&6Vývojář"
       resourcepack: "&cTvůrce Resourcepacku"
