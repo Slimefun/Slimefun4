@@ -83,7 +83,7 @@ guide:
   credits:
     commit: Commit
     commits: Commits
-    profile-link: Klikni pro navštívení jejich profilu na GitHubu
+    profile-link: Klikni pro navštívení jeho profilu na GitHubu
     roles:
       developer: "&6Vývojář"
       resourcepack: "&cTvůrce Resourcepacku"
@@ -263,7 +263,7 @@ messages:
       enchantů"
   unknown-player: "&4Neznámý hráč: &c%player%"
   unlocked: '&bMáš vyzkoumáno &7"%research%"'
-  usage: "&4Využití: & c% usage%"
+  usage: "&4Využití: &c%usage%"
 miner:
   no-ores: "&eOmlouvám se, nemohu najít rudy v okolí!"
 workbench:
