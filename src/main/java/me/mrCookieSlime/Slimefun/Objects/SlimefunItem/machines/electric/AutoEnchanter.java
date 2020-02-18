@@ -59,10 +59,9 @@ public class AutoEnchanter extends AContainer {
 				if (ChargableBlock.isChargable(b)) {
 					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 					ChargableBlock.addCharge(b, -getEnergyConsumption());
-					progress.put(b, timeleft - 1);
-				}
-				else progress.put(b, timeleft - 1);
-			}
+                }
+                progress.put(b, timeleft - 1);
+            }
 			else {
 				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 				pushItems(b, processing.get(b).getOutput());
@@ -78,7 +77,7 @@ public class AutoEnchanter extends AContainer {
 				ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
 				// Check if enchantable
 				SlimefunItem sfTarget = SlimefunItem.getByItem(target);
-				if(sfTarget != null && !sfTarget.isEnchantable()) return;
+				if (sfTarget != null && !sfTarget.isEnchantable()) return;
 				
 				ItemStack item = menu.getItemInSlot(slot);
 				

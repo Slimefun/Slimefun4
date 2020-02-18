@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.services.*;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.NetherIceResource;
 import org.bukkit.Bukkit;
@@ -76,7 +77,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 import me.mrCookieSlime.Slimefun.utils.Utilities;
 
-public final class SlimefunPlugin extends JavaPlugin {
+public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
 	public static SlimefunPlugin instance;
 
@@ -173,7 +174,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			MiscSetup.setupItemSettings();
 
 			try {
-				SlimefunItemSetup.setup();
+				SlimefunItemSetup.setup(this);
 			} catch (Exception x) {
 				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
 			}
@@ -501,4 +502,13 @@ public final class SlimefunPlugin extends JavaPlugin {
 				.collect(Collectors.toSet());
 	}
 
+    @Override
+    public JavaPlugin getJavaPlugin() {
+        return this;
+    }
+
+    @Override
+    public String getBugTrackerURL() {
+        return "https://github.com/TheBusyBiscuit/Slimefun4/issues";
+    }
 }

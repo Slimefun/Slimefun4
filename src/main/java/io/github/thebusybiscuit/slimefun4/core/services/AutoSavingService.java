@@ -60,7 +60,7 @@ public class AutoSavingService {
 		}
 
 		if (!worlds.isEmpty()) {
-			Slimefun.getLogger().log(Level.INFO, "Auto-Saving Block Data... (Next Auto-Save: {0}m)", interval);
+			Slimefun.getLogger().log(Level.INFO, "正在自动保存方块... (下次保存在 {0} 分钟后)", interval);
 
 			for (BlockStorage storage : worlds) {
 				storage.save(false);
