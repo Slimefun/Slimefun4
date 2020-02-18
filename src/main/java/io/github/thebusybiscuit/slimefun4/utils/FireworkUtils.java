@@ -7,12 +7,11 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
@@ -32,9 +31,8 @@ public final class FireworkUtils {
 		final FireworkEffect effect = getRandomEffect(ThreadLocalRandom.current(), color);
 		meta.addEffect(effect);
 		meta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);
-		meta.getPersistentDataContainer().set(new NamespacedKey(SlimefunPlugin.instance, "slime"),
-				PersistentDataType.INTEGER, 1);
 		fw.setFireworkMeta(meta);
+		fw.setMetadata("slime", new FixedMetadataValue(SlimefunPlugin.instance, true));
 	}
 
 	public static Firework createFirework(final Location l, final Color color) {
