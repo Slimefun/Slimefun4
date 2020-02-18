@@ -20,7 +20,9 @@ public class ResearchListener implements Listener {
 	public void onResearchFireworkDamage(final EntityDamageByEntityEvent e) {
 		if (e.getEntityType() == EntityType.PLAYER && e.getDamager() instanceof Firework)
 			if (((Firework) e.getDamager()).getFireworkMeta().getPersistentDataContainer()
-					.get(new NamespacedKey(SlimefunPlugin.instance, "slime"), PersistentDataType.INTEGER) == 1)
+					.get(new NamespacedKey(SlimefunPlugin.instance, "slime"), PersistentDataType.INTEGER) != null
+					&& ((Firework) e.getDamager()).getFireworkMeta().getPersistentDataContainer()
+							.get(new NamespacedKey(SlimefunPlugin.instance, "slime"), PersistentDataType.INTEGER) == 1)
 				e.setCancelled(true);
 	}
 }
