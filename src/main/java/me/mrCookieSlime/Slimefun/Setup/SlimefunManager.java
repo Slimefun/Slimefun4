@@ -208,7 +208,7 @@ public final class SlimefunManager {
 			}
 			else if (item.hasItemMeta()) {
 				ItemMeta im = item.getItemMeta();
-				return (im.hasLore() && im.getLore().equals(SOULBOUND_LORE));
+				return (im.hasLore() && im.getLore().contains(SOULBOUND_LORE));
 			}
 			
 			return false;
