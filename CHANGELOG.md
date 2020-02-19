@@ -37,6 +37,7 @@
 ### Changes
 
 ### Fixes
+* Fixed #1553
 
 ## Release Candidate 6 (16 Feb 2020)
 
