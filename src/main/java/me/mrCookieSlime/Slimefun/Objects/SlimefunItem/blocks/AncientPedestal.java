@@ -17,13 +17,12 @@ public class AncientPedestal extends SlimefunItem {
 		
 		SlimefunItem.registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			Item stack = AncientAltarListener.findItem(b);
-			
-			if (stack != null) { 
-				stack.removeMetadata("item_placed", SlimefunPlugin.instance);
-				b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
-				stack.remove();
-			}
-			return true;
+            if (stack != null) {
+                stack.removeMetadata("item_placed", SlimefunPlugin.instance);
+                b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                stack.remove();
+            }
+            return true;
 		});
 	}
 }

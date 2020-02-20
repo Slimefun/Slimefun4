@@ -1,11 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import org.bukkit.ChatColor;
@@ -42,6 +37,7 @@ public class AncientAltarListener implements Listener {
 
 	private final Set<AltarRecipe> altarRecipes = new HashSet<>();
 	private final Set<Location> altarsInUse = new HashSet<>();
+	private final static Map<Location, Player> pedestalsInUse = new LinkedHashMap<>();
 
 	private final List<Block> altars = new ArrayList<>();
 	private final Set<UUID> removedItems = new HashSet<>();
@@ -53,6 +49,10 @@ public class AncientAltarListener implements Listener {
 	public Set<Location> getAltarsInUse() {
 		return altarsInUse;
 	}
+
+	public static Map<Location, Player> getPedestalsInUse() {
+	    return pedestalsInUse;
+    }
 
 	@EventHandler
 	public void onInteract(PlayerRightClickEvent e) {
@@ -89,14 +89,20 @@ public class AncientAltarListener implements Listener {
 				insertItem(e.getPlayer(), b);
 			}
 			else if (!removedItems.contains(stack.getUniqueId())) {
-				UUID uuid = stack.getUniqueId();
-				removedItems.add(uuid);
+			    if (getPedestalsInUse().containsKey(b.getLocation()) || getPedestalsInUse().get(b.getLocation()) == e.getPlayer()) {
+                    UUID uuid = stack.getUniqueId();
+                    removedItems.add(uuid);
 
-				Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
+                    Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
 
-				stack.remove();
-				e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
-				e.getPlayer().playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
+                    stack.remove();
+                    e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                    e.getPlayer().playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
+                    getPedestalsInUse().remove(b.getLocation());
+                } else {
+                    SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_PEDESTAL.in-use", true);
+                    return;
+                }
 			}
 		}
 		else if (id.equals("ANCIENT_ALTAR")) {
@@ -203,20 +209,25 @@ public class AncientAltarListener implements Listener {
 	}
 
 	private void insertItem(Player p, Block b) {
-		ItemStack hand = p.getInventory().getItemInMainHand();
-		ItemStack stack = new CustomItem(hand, 1);
+	    if (!getPedestalsInUse().containsKey(b.getLocation())) {
+            ItemStack hand = p.getInventory().getItemInMainHand();
+            ItemStack stack = new CustomItem(hand, 1);
 
-		if (p.getGameMode() != GameMode.CREATIVE) {
-			ItemUtils.consumeItem(hand, false);
-		}
+            if (p.getGameMode() != GameMode.CREATIVE) {
+                ItemUtils.consumeItem(hand, false);
+            }
 
-		String nametag = ItemUtils.getItemName(stack);
-		Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
-		entity.setVelocity(new Vector(0, 0.1, 0));
-		entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
-		entity.setCustomNameVisible(true);
-		entity.setCustomName(nametag);
-		p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
+            String nametag = ItemUtils.getItemName(stack);
+            Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
+            entity.setVelocity(new Vector(0, 0.1, 0));
+            entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
+            entity.setCustomNameVisible(true);
+            entity.setCustomName(nametag);
+            p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
+            getPedestalsInUse().put(b.getLocation(), p);
+        } else {
+            SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use", true);
+        }
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
