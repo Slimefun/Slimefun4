@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -16,26 +17,30 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class AutonomousToolsListener implements Listener {
 	
-	public AutonomousToolsListener(SlimefunPlugin plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-	
-	@EventHandler
-	public void onBlockDispensing(BlockDispenseEvent e) {
-		Block dispenser = e.getBlock();
-		if (dispenser.getType() == Material.DISPENSER) {
-			Dispenser d = (Dispenser) dispenser.getState();
+    public AutonomousToolsListener(SlimefunPlugin plugin) {
+         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
 
-			BlockFace face = ((Directional) dispenser.getBlockData()).getFacing();
+    @EventHandler
+    public void onBlockDispensing(BlockDispenseEvent e) {
+        Block dispenser = e.getBlock();
+        if (dispenser.getType() == Material.DISPENSER) {
+            Dispenser d = (Dispenser) dispenser.getState();
 
-			Block block = dispenser.getRelative(face);
-			Block chest = dispenser.getRelative(face.getOppositeFace());
-			SlimefunItem machine = BlockStorage.check(dispenser);
-			
-			if (machine != null) {
-				machine.callItemHandler(AutonomousMachineHandler.class, handler -> handler.onBlockDispense(e, dispenser, d, block, chest, machine));
-			}
-		}
-	}
+            BlockFace face = ((Directional) dispenser.getBlockData()).getFacing();
 
+            Block block = dispenser.getRelative(face);
+            Block chest = dispenser.getRelative(face.getOppositeFace());
+            SlimefunItem machine = BlockStorage.check(dispenser);
+
+            if (machine != null) {
+                if (machine.isItem(SlimefunItems.BLOCK_PLACER) && dispenser.getRelative(BlockFace.DOWN).getType() == Material.HOPPER){
+                    e.setCancelled(true);
+                } else {
+                    machine.callItemHandler(AutonomousMachineHandler.class, handler -> handler.onBlockDispense(e, dispenser, d, block, chest, machine));
+                }
+
+            }
+        }
+    }
 }
