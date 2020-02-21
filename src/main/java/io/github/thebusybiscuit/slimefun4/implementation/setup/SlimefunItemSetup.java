@@ -1,15 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -23,11 +20,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.android.AdvancedFarmerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.android.AndroidType;
@@ -38,7 +33,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.android.MinerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.android.ProgrammableAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.android.WoodcutterAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.RainbowTicker;
-import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
@@ -110,6 +104,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SoulboundBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SoulboundRune;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Splint;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SurpriseGift;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SwordOfBeheading;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.Vitamins;
@@ -175,7 +170,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.PressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.TableSaw;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -211,7 +205,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.LEAD_INGOT, new ItemStack(Material.HOPPER), SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, new ItemStack(Material.CHEST), SlimefunItems.LEAD_INGOT, null, SlimefunItems.LEAD_INGOT, null})
 		.register(plugin);
 		
-		new EnhancedCraftingTable().register();
+		new EnhancedCraftingTable().register(plugin);
 
 		new PortableDustbin(Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.PORTABLE_DUSTBIN, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT)})
@@ -246,10 +240,10 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.KELP_COOKIE, 2))
 		.register(plugin);
 
-		new GrindStone().register();
-		new ArmorForge().register();
-		new OreCrusher().register();
-		new Compressor().register();
+		new GrindStone().register(plugin);
+		new ArmorForge().register(plugin);
+		new OreCrusher().register(plugin);
+		new Compressor().register(plugin);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, (SlimefunItemStack) SlimefunItems.MAGIC_LUMP_1, RecipeType.GRIND_STONE,
 		new ItemStack[] {new ItemStack(Material.NETHER_WART), null, null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2))
@@ -356,13 +350,13 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {new ItemStack(Material.GRAVEL), null, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Smeltery().register();
+		new Smeltery().register(plugin);
 		
 		new SlimefunItem(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.IGNITION_CHAMBER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.STEEL_PLATE, SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.FLINT_AND_STEEL), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_PLATE, SlimefunItems.ELECTRIC_MOTOR, null, new ItemStack(Material.HOPPER), null})
 		.register(plugin);
 		
-		new PressureChamber().register();
+		new PressureChamber().register(plugin);
 
 		new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.BATTERY, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT})
@@ -608,7 +602,7 @@ public final class SlimefunItemSetup {
 		new String[] {"despawn-seconds"}, new Object[] {60})
 		.register(plugin);
 
-		new MagicWorkbench().register();
+		new MagicWorkbench().register(plugin);
 
 		new SlimefunItem(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.STAFF_ELEMENTAL, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.MAGIC_LUMP_3, null, new ItemStack(Material.STICK), SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.MAGIC_LUMP_3, null, null})
@@ -659,7 +653,7 @@ public final class SlimefunItemSetup {
 		"PORTABLE_CRAFTER", "MAGIC_EYE_OF_ENDER", "STAFF_ELEMENTAL_WIND", "GRAPPLING_HOOK", "GOLD_PAN", "NETHER_GOLD_PAN")
 		.register(plugin);
 
-		new OreWasher().register();
+		new OreWasher().register(plugin);
 
 		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.GOLD_24K, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_22K, null, null, null, null, null, null, null})
@@ -933,7 +927,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
 		.register(plugin);
                 
-		new TableSaw().register();
+		new TableSaw().register(plugin);
 
 		new SlimefunItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SLIME_HELMET_STEEL, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), null, null, null})
@@ -1113,7 +1107,7 @@ public final class SlimefunItemSetup {
 		new String[] {"damage-on-use"}, new Object[] {false})
 		.register(plugin);
 
-		new AutomatedPanningMachine().register();
+		new AutomatedPanningMachine().register(plugin);
 
 		new SlimefunItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.BOOTS_OF_THE_STOMPER, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.YELLOW_WOOL), null, new ItemStack(Material.YELLOW_WOOL), new ItemStack(Material.PISTON), null, new ItemStack(Material.PISTON)})
@@ -1267,7 +1261,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_BOOTS), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new Juicer().register();
+		new Juicer().register(plugin);
 
 		new Juice(Categories.FOOD, (SlimefunItemStack) SlimefunItems.APPLE_JUICE, RecipeType.JUICER,
 		new ItemStack[] {new ItemStack(Material.APPLE), null, null, null, null, null, null, null, null})
@@ -1473,35 +1467,17 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 2))
 		.register(plugin);
 
-		new SlimefunItem(Categories.EASTER, (SlimefunItemStack) SlimefunItems.EASTER_EGG, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SurpriseGift(Categories.EASTER, (SlimefunItemStack) SlimefunItems.EASTER_EGG, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.LIME_DYE), new ItemStack(Material.EGG), new ItemStack(Material.PURPLE_DYE), null, null, null}, 
-		new CustomItem(SlimefunItems.EASTER_EGG, 2))
-		.register(true, new ItemUseHandler() {
-			
-			private final List<ItemStack> gifts = Arrays.asList(
-				new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4),
-				new CustomItem(SlimefunItems.CARROT_JUICE, 1),
-				new ItemStack(Material.EMERALD),
-				new ItemStack(Material.CAKE),
-				new ItemStack(Material.RABBIT_FOOT),
-				new ItemStack(Material.GOLDEN_CARROT, 4)
-			);
-
-			@Override
-			public void onRightClick(PlayerRightClickEvent e) {
-				e.cancel();
-				
-				Player p = e.getPlayer();
-				
-				if (p.getGameMode() != GameMode.CREATIVE) {
-					ItemUtils.consumeItem(e.getItem(), false);
-				}
-				
-				FireworkUtils.launchRandom(p, 2);
-
-				p.getWorld().dropItemNaturally(p.getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
-			}
-		});
+		new CustomItem(SlimefunItems.EASTER_EGG, 2),
+		// Gifts:
+			new CustomItem(SlimefunItems.EASTER_CARROT_PIE, 4),
+			new CustomItem(SlimefunItems.CARROT_JUICE, 1),
+			new ItemStack(Material.EMERALD),
+			new ItemStack(Material.CAKE),
+			new ItemStack(Material.RABBIT_FOOT),
+			new ItemStack(Material.GOLDEN_CARROT, 4)
+		).register(plugin);
 
 		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.REINFORCED_PLATE, RecipeType.COMPRESSOR,
 		new ItemStack[] {new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), null, null, null, null, null, null, null, null})

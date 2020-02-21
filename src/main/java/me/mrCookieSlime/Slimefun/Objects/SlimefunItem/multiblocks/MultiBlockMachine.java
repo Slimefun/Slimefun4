@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
@@ -37,8 +38,9 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 	}
 	
 	@Override
-	public void register() {
-		register(true, getInteractionHandler());
+	public void register(SlimefunAddon addon) {
+		addItemHandler(getInteractionHandler());
+		super.register(addon);
 	}
 	
 	protected MultiBlockInteractionHandler getInteractionHandler() {
