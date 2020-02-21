@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -46,16 +45,13 @@ public class GPSNetwork {
 	private final ItemStack worldIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0=");
 	
 	public void updateTransmitter(Location l, UUID uuid, boolean online) {
-		Set<Location> set = transmitters.getOrDefault(uuid, new HashSet<>());
+		Set<Location> set = transmitters.computeIfAbsent(uuid, id -> new HashSet<>());
 
 		if (online) {
-			if (set.add(l)) {
-				transmitters.put(uuid, set);
-			}
+			set.add(l);
 		}
 		else {
 			set.remove(l);
-			transmitters.put(uuid, set);
 		}
 	}
 	

@@ -46,10 +46,10 @@ public class ResearchCommand extends SubCommand {
 							researchAll(sender, profile, p);
 						}
 						else if (args[2].equalsIgnoreCase("reset")) {
-							reset(sender, profile, p);
+							reset(profile, p);
 						}
 						else {
-							giveResearch(sender, profile, p, args[2]);
+							giveResearch(sender, p, args[2]);
 						}
 					});
 				}
@@ -64,7 +64,7 @@ public class ResearchCommand extends SubCommand {
 		}
 	}
 
-	private void giveResearch(CommandSender sender, PlayerProfile profile, Player p, String input) {
+	private void giveResearch(CommandSender sender, Player p, String input) {
 		Optional<Research> research = getResearchFromString(input);
 		
 		if (research.isPresent()) {
@@ -86,7 +86,7 @@ public class ResearchCommand extends SubCommand {
 		}
 	}
 
-	private void reset(CommandSender sender, PlayerProfile profile, Player p) {
+	private void reset(PlayerProfile profile, Player p) {
 		for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
 			profile.setResearched(res, false);
 		}

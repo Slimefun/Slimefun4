@@ -5,6 +5,11 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * 
+ * @deprecated The method name is very misleading, therefore it should be renamed
+ *
+ */
 @Deprecated
 public class ReplacingItem extends SlimefunItem {
 

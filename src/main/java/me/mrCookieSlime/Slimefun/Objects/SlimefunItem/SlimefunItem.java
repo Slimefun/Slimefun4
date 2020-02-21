@@ -21,6 +21,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
+import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -41,9 +42,9 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 public class SlimefunItem implements Placeable {
 
 	private ItemState state;
-	private SlimefunAddon addon;
 	
 	protected String id;
+	protected SlimefunAddon addon;
 	protected ItemStack item;
 	protected Category category;
 	protected ItemStack[] recipe;
@@ -166,12 +167,35 @@ public class SlimefunItem implements Placeable {
 		return disenchantable;
 	}
 
+	/**
+	 * This method returns whether this {@link SlimefunItem} was hidden from the
+	 * {@link SlimefunGuide}.
+	 * 
+	 * @return	Whether this {@link SlimefunItem} is hidden.
+	 */
 	public boolean isHidden() {
 		return hidden;
 	}
 	
+	/**
+	 * This method returns whether this {@link SlimefunItem} was added by an addon.
+	 * 
+	 * @return	Whether this {@link SlimefunItem} was added by an addon.
+	 */
 	public boolean isAddonItem() {
 		return !(addon instanceof SlimefunPlugin);
+	}
+	
+	/**
+	 * This method returns the {@link SlimefunAddon} that registered this
+	 * {@link SlimefunItem}. If this Item is from Slimefun itself, the current
+	 * instance of {@link SlimefunPlugin} will be returned.
+	 * Use an instanceof check or {@link SlimefunItem#isAddonItem()} to account for that.
+	 * 
+	 * @return	The {@link SlimefunAddon} that registered this {@link SlimefunItem}
+	 */
+	public SlimefunAddon getAddon() {
+		return addon;
 	}
 	
 	public String getPermission() {
@@ -190,6 +214,11 @@ public class SlimefunItem implements Placeable {
 		return energyTicker;
 	}
 	
+	/**
+	 * This method returns whether this {@link SlimefunItem} is disabled.
+	 * 
+	 * @return	Whether this {@link SlimefunItem} is disabled.
+	 */
 	public boolean isDisabled() {
 		return state != ItemState.ENABLED;
 	}
@@ -202,7 +231,6 @@ public class SlimefunItem implements Placeable {
 	 */
 	@Deprecated
 	public void register() {
-//		Slimefun.getLogger().log(Level.WARNING, "Another Plugin tried to register an Item (\"{0}\") without assigning it a SlimefunAddon. Please contact the author and notify them to update their Plugin. This is just a warning, performance or your overall experience will NOT be affected. (DO NOT REPORT THIS TO SLIMEFUN)", ChatColor.stripColor(getItemName()));
 		register((SlimefunAddon) null);
 	}
 	
@@ -635,7 +663,7 @@ public class SlimefunItem implements Placeable {
 	
 	@Override
 	public String toString() {
-		return "SlimefunItem: " + id + " (" + state + ", addon=" + (addon == null ? "Unknown": addon.getJavaPlugin().getName()) + ")";
+		return "SlimefunItem: " + id + " (" + state + ", addon=" + (addon == null ? "Unknown": addon.getName()) + ")";
 	}
 
 	@Override

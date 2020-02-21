@@ -94,7 +94,7 @@ public class Talisman extends SlimefunItem {
     @Override
     public void postRegister() {
         EnderTalisman talisman = new EnderTalisman(this);
-        talisman.register(!isAddonItem());
+        talisman.register(addon);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    private static boolean isTalismanMessage(Talisman talisman){
+    private static boolean hasMessage(Talisman talisman){
         return !("").equalsIgnoreCase(talisman.getSuffix());
     }
     
@@ -168,7 +168,7 @@ public class Talisman extends SlimefunItem {
     }
 
     private static void sendMessage(Player p, Talisman talisman){
-        if (isTalismanMessage(talisman)) {
+        if (hasMessage(talisman)) {
         	SlimefunPlugin.getLocal().sendMessage(p, "messages.talisman." + talisman.getSuffix(), true);
         }
     }
