@@ -16,12 +16,12 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.AutonomousMachineHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockDispenseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
+public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
 	
 	private String[] blacklist;
 	
@@ -35,67 +35,65 @@ public class BlockPlacer extends SimpleSlimefunItem<AutonomousMachineHandler> {
 	}
 	
 	@Override
-	public AutonomousMachineHandler getItemHandler() {
-		return (e, dispenser, d, block, chest, machine) -> {
-			if (machine.getID().equalsIgnoreCase(getID())) {
-				e.setCancelled(true);
+	public BlockDispenseHandler getItemHandler() {
+		return (e, dispenser, facedBlock, machine) -> {
+			e.setCancelled(true);
+			
+			if ((facedBlock.getType() == null || facedBlock.getType() == Material.AIR) && e.getItem().getType().isBlock()) {
+				for (String blockType : blacklist) {
+					if (e.getItem().getType().toString().equals(blockType)) {
+						return;
+					}
+				}
 				
-				if ((block.getType() == null || block.getType() == Material.AIR) && e.getItem().getType().isBlock()) {
-					for (String blockType : blacklist) {
-						if (e.getItem().getType().toString().equals(blockType)) {
-							return false;
-						}
-					}
-					
-					SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
-					if (sfItem != null) {
-						if (!SlimefunPlugin.getRegistry().getBlockHandlers().containsKey(sfItem.getID())) {
-							block.setType(e.getItem().getType());
-							BlockStorage.store(block, sfItem.getID());
-							block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
-							
-							if (d.getInventory().containsAtLeast(e.getItem(), 2)) {
-								d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
-							}
-							else {
-								Slimefun.runSync(() -> d.getInventory().removeItem(e.getItem()), 2L);
-							}
-						}
-					}
-					else {
-						block.setType(e.getItem().getType());
+				SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
+				
+				if (sfItem != null) {
+					if (!SlimefunPlugin.getRegistry().getBlockHandlers().containsKey(sfItem.getID())) {
+						facedBlock.setType(e.getItem().getType());
+						BlockStorage.store(facedBlock, sfItem.getID());
+						facedBlock.getWorld().playEffect(facedBlock.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
 						
-						if (e.getItem().hasItemMeta() && e.getItem().getItemMeta() instanceof BlockStateMeta) {
-							BlockState itemBlockState = ((BlockStateMeta) e.getItem().getItemMeta()).getBlockState();
-							BlockState blockState = block.getState();
-							
-							if ((blockState instanceof Nameable) && e.getItem().getItemMeta().hasDisplayName()) {
-								((Nameable) blockState).setCustomName(e.getItem().getItemMeta().getDisplayName());
-							}
-							
-							//Update block state after changing name
-							blockState.update();
-							
-							//Changing the inventory of the block based on the inventory of the block's itemstack (Currently only applies to shulker boxes)
-							//Inventory has to be changed after blockState.update() as updating it will create a different Inventory for the object
-							if (block.getState() instanceof BlockInventoryHolder) {
-								((BlockInventoryHolder) block.getState()).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());
-							}
-							
-						}
-						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
-						
-						if (d.getInventory().containsAtLeast(e.getItem(), 2)) {
-							d.getInventory().removeItem(new CustomItem(e.getItem(), 1));
+						if (dispenser.getInventory().containsAtLeast(e.getItem(), 2)) {
+							dispenser.getInventory().removeItem(new CustomItem(e.getItem(), 1));
 						}
 						else {
-							Slimefun.runSync(() -> d.getInventory().removeItem(e.getItem()), 2L);
+							Slimefun.runSync(() -> dispenser.getInventory().removeItem(e.getItem()), 2L);
 						}
 					}
 				}
-				return true;
+				else {
+					facedBlock.setType(e.getItem().getType());
+					
+					if (e.getItem().hasItemMeta() && e.getItem().getItemMeta() instanceof BlockStateMeta) {
+						BlockState itemBlockState = ((BlockStateMeta) e.getItem().getItemMeta()).getBlockState();
+						BlockState blockState = facedBlock.getState();
+						
+						if ((blockState instanceof Nameable) && e.getItem().getItemMeta().hasDisplayName()) {
+							((Nameable) blockState).setCustomName(e.getItem().getItemMeta().getDisplayName());
+						}
+						
+						//Update block state after changing name
+						blockState.update();
+						
+						//Changing the inventory of the block based on the inventory of the block's itemstack (Currently only applies to shulker boxes)
+						//Inventory has to be changed after blockState.update() as updating it will create a different Inventory for the object
+						if (facedBlock.getState() instanceof BlockInventoryHolder) {
+							((BlockInventoryHolder) facedBlock.getState()).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());
+						}
+						
+					}
+					
+					facedBlock.getWorld().playEffect(facedBlock.getLocation(), Effect.STEP_SOUND, e.getItem().getType());
+					
+					if (dispenser.getInventory().containsAtLeast(e.getItem(), 2)) {
+						dispenser.getInventory().removeItem(new CustomItem(e.getItem(), 1));
+					}
+					else {
+						Slimefun.runSync(() -> dispenser.getInventory().removeItem(e.getItem()), 2L);
+					}
+				}
 			}
-			else return false;
 		};
 	}
 

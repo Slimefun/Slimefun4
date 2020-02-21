@@ -35,7 +35,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillingListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutonomousToolsListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
@@ -203,7 +203,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 			new BlockPhysicsListener(this);
 			new MultiBlockListener(this);
 			new GearListener(this);
-			new AutonomousToolsListener(this);
+			new DispenserListener(this);
 			new DamageListener(this);
 			new BlockListener(this);
 			new EnhancedFurnaceListener(this);
