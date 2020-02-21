@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import org.bukkit.Material;
 import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.Player;

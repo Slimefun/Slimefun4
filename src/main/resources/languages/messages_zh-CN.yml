@@ -167,6 +167,7 @@ machines:
     unknown-recipe: "&4未知合成表! &c请使用正确的合成方式!"
   ANCIENT_PEDESTAL:
     obstructed: "&4基座被挡住了! &c把基座上面的东西移开!"
+    in-use: '&4基座上还有物品没被物主拿走!'
   CARGO_NODES:
     must-be-placed: "&4必须放置在箱子或机器上!"
   ELEVATOR:
