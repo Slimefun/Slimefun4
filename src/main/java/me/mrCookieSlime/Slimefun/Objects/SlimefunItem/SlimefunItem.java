@@ -202,6 +202,7 @@ public class SlimefunItem implements Placeable {
 	 */
 	@Deprecated
 	public void register() {
+//		Slimefun.getLogger().log(Level.WARNING, "Another Plugin tried to register an Item (\"{0}\") without assigning it a SlimefunAddon. Please contact the author and notify them to update their Plugin. This is just a warning, performance or your overall experience will NOT be affected. (DO NOT REPORT THIS TO SLIMEFUN)", ChatColor.stripColor(getItemName()));
 		register((SlimefunAddon) null);
 	}
 	

@@ -26,10 +26,10 @@ import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.StatsCommand
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.TeleporterCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.TimingsCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.VersionsCommand;
+import io.github.thebusybiscuit.slimefun4.implementation.items.gps.ElevatorPlate;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.ElevatorPlate;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class SlimefunCommand implements CommandExecutor, Listener {

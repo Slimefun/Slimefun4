@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,12 +21,12 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.geo.ResourceManager;
+import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitter;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.GPSTransmitter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class GPSNetwork {
@@ -87,7 +88,11 @@ public class GPSNetwork {
 			menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
-		menu.addItem(2, new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&7" + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters")));
+		menu.addItem(2, new CustomItem(SlimefunItems.GPS_TRANSMITTER, im -> {
+			im.setDisplayName(ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters"));
+			im.setLore(null);
+		}));
+		
 		menu.addMenuClickHandler(2, ChestMenuUtils.getEmptyClickHandler());
 
 		int complexity = getNetworkComplexity(p.getUniqueId());

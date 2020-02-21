@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
@@ -32,11 +31,6 @@ public final class Slimefun {
 		List<GuideHandler> handlers = SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(handler.getTier(), new ArrayList<>());
 		handlers.add(handler);
 		SlimefunPlugin.getRegistry().getGuideHandlers().put(handler.getTier(), handlers);
-	}
-
-	@Deprecated
-	public static GPSNetwork getGPSNetwork() {
-		return SlimefunPlugin.getGPSNetwork();
 	}
 	
 	public static Logger getLogger() {

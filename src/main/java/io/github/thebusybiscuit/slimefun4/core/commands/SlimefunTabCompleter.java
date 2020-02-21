@@ -1,8 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.bukkit.NamespacedKey;
@@ -39,7 +41,7 @@ public class SlimefunTabCompleter implements TabCompleter {
 				suggestions.add("reset");
 				
 				for (NamespacedKey key : researches) {
-					suggestions.add(key.toString());
+					suggestions.add(key.toString().toLowerCase(Locale.ROOT));
 				}
 				
 				return createReturnList(suggestions, args[2]);
@@ -62,16 +64,19 @@ public class SlimefunTabCompleter implements TabCompleter {
 	private List<String> createReturnList(List<String> list, String string) {
 		if (string.equals("")) return list;
 
-		String input = string.toLowerCase();
+		String input = string.toLowerCase(Locale.ROOT);
 		List<String> returnList = new ArrayList<>();
 		
 		for (String item : list) {
-			if (item.toLowerCase().contains(input)) {
+			if (item.contains(input)) {
 				returnList.add(item);
 				
 				if (returnList.size() >= MAX_SUGGESTIONS) {
 					break;
 				}
+			}
+			else if (item.equals(input)) {
+				return Collections.emptyList();
 			}
 		}
 		

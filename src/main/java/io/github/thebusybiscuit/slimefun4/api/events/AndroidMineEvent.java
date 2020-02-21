@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.thebusybiscuit.slimefun4.implementation.android.AndroidEntity;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidEntity;
 
 /**
  * This event is fired before a miner android mines a block.

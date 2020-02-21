@@ -7,11 +7,11 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -23,6 +23,7 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
@@ -34,6 +35,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
@@ -72,6 +74,26 @@ public class TalismanListener implements Listener {
 				}
 			}
 		}
+	}
+	
+	@EventHandler(ignoreCancelled=true)
+	public void onKill(EntityDeathEvent e) {
+		if (e.getEntity().getKiller() != null && !(e.getEntity() instanceof Player) && !e.getEntity().getCanPickupItems() && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_HUNTER)) {
+			List<ItemStack> extraDrops = new ArrayList<>(e.getDrops());
+            
+        	if (e.getEntity() instanceof ChestedHorse) {
+        		for (ItemStack invItem : ((ChestedHorse) e.getEntity()).getInventory().getStorageContents()) {
+        			extraDrops.remove(invItem);
+        		}
+        		
+        		//The chest is not included in getStorageContents()
+        		extraDrops.remove(new ItemStack(Material.CHEST));
+        	}
+        	
+            for (ItemStack drop: extraDrops) {
+                e.getDrops().add(drop);
+            }
+        }
 	}
 
 	@EventHandler
