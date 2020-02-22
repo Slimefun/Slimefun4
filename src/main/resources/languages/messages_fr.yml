@@ -165,6 +165,9 @@ languages:
   vi: Vietnamien
   zh-CN: Chinois (Chine)
   zh-TW: Chinois (Taiwan)
+  bg: Bulgare
+  ko: Coréen
+  tr: Turc
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
