@@ -89,7 +89,7 @@ public class Translators {
 		addTranslator("mohkamfer", "citBabY", "ar", false);
 		
 		// Translators - Japanese
-		addTranslator("bito-blosh", "ja", true);
+		addTranslator("bito-blosh", "Bloshop", "ja", true);
 		
 		// Translators - Portuguese (Brazil)
 		addTranslator("G4stavoM1ster", "pt-BR", true);

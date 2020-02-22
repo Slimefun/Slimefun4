@@ -36,12 +36,14 @@
 * Added translations for Recipe Types
 
 ### Changes
+* Researches now use their namespaced keys in the Researches.yml
 
 ### Fixes
 * Fixed #1553
 * Fixed #1513
 * Fixed #1557
 * Fixed #1558
+* Fixed a translation not showing properly
 
 ## Release Candidate 6 (16 Feb 2020)
 
