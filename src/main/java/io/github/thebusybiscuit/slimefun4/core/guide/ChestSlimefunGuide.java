@@ -398,16 +398,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 				}
 			}
 
-			if (mcRecipe == MinecraftRecipe.SHAPED_CRAFTING) {
-				recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shaped Recipe"));
-			}
-			else if (mcRecipe == MinecraftRecipe.SHAPELESS_CRAFTING) {
-				recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7Shapeless Recipe"));
-			}
-			else {
-				recipeType = new RecipeType(mcRecipe);
-			}
-
+			recipeType = new RecipeType(mcRecipe);
 			result = recipe.getResult();
 		}
 		else {
@@ -494,7 +485,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			menu.addItem(RECIPE_SLOTS[i], getDisplayItem(p, isSlimefunRecipe, recipe[i]), clickHandler);
 		}
 
-		menu.addItem(10, recipeType.toItem(), ChestMenuUtils.getEmptyClickHandler());
+		menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
 		menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
 	}
 

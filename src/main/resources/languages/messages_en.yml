@@ -299,3 +299,6 @@ languages:
   fa: 'Persian'
   th: 'Thai'
   ro: 'Romanian'
+  bg: 'Bulgarian'
+  ko: 'Korean'
+  tr: 'Turkish'

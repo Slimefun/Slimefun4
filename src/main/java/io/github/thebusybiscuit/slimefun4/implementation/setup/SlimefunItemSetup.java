@@ -160,8 +160,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.JetBoots;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Jetpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.RadioactiveItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -418,12 +416,14 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.LEAD_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_INGOT, null, null, null, null, null, null})
 		.register(plugin);
 
-		new ReplacingAlloy(SlimefunItems.SYNTHETIC_SAPPHIRE, "SYNTHETIC_SAPPHIRE",
+		new Alloy((SlimefunItemStack) SlimefunItems.SYNTHETIC_SAPPHIRE,
 		new ItemStack[] {SlimefunItems.ALUMINUM_DUST, new ItemStack(Material.GLASS), new ItemStack(Material.GLASS_PANE), SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.LAPIS_LAZULI), null, null, null, null})
+		.setUseableInWorkbench(true)
 		.register(plugin);
 
-		new ReplacingItem(Categories.RESOURCES, SlimefunItems.SYNTHETIC_DIAMOND, "SYNTHETIC_DIAMOND", RecipeType.PRESSURE_CHAMBER,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.SYNTHETIC_DIAMOND, RecipeType.PRESSURE_CHAMBER,
 		new ItemStack[] {SlimefunItems.CARBON_CHUNK, null, null, null, null, null, null, null, null})
+		.setUseableInWorkbench(true)
 		.register(plugin);
 
 		new Alloy((SlimefunItemStack) SlimefunItems.RAW_CARBONADO,
@@ -795,8 +795,9 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.IRON_DUST, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new ReplacingAlloy(SlimefunItems.SYNTHETIC_EMERALD, "SYNTHETIC_EMERALD",
+		new Alloy((SlimefunItemStack) SlimefunItems.SYNTHETIC_EMERALD,
 		new ItemStack[] {SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.GLASS_PANE), null, null, null, null, null})
+		.setUseableInWorkbench(true)
 		.register(plugin);
 
 		SlimefunManager.registerArmorSet(SlimefunItems.CHAIN, new ItemStack[] {new ItemStack(Material.CHAINMAIL_HELMET), new ItemStack(Material.CHAINMAIL_CHESTPLATE), new ItemStack(Material.CHAINMAIL_LEGGINGS), new ItemStack(Material.CHAINMAIL_BOOTS)}, "CHAIN", true, true);

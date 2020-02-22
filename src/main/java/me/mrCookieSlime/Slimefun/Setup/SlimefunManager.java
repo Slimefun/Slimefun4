@@ -44,10 +44,10 @@ public final class SlimefunManager {
 
 		for (int i = 0; i < 4; i++) {
 			if (i < effects.length && effects[i].length > 0) {
-				new SlimefunArmorPiece(category, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(slimefun);
+				new SlimefunArmorPiece(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(slimefun);
 			}
 			else {
-				new SlimefunItem(category, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
+				new SlimefunItem(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
 			}
 		}
 	}
@@ -66,7 +66,7 @@ public final class SlimefunManager {
 				new VanillaItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
 			}
 			else {
-				new SlimefunItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
+				new SlimefunItem(cat, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
 			}
 		}
 	}

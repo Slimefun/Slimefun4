@@ -21,12 +21,11 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 
 public final class MiscSetup {
@@ -62,7 +61,7 @@ public final class MiscSetup {
 		List<SlimefunItem> post = new ArrayList<>();
 		
 		for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-			if (item instanceof Alloy || item instanceof ReplacingAlloy) pre.add(item);
+			if (item instanceof Alloy) pre.add(item);
 			else if (item instanceof SlimefunMachine) init.add(item);
 			else post.add(item);
 		}
@@ -82,26 +81,6 @@ public final class MiscSetup {
 		AutomatedCraftingChamber crafter = (AutomatedCraftingChamber) SlimefunItem.getByID("AUTOMATED_CRAFTING_CHAMBER");
 		
 		if (crafter != null) {
-//			Iterator<Recipe> recipes = Bukkit.recipeIterator();
-//			
-//			while (recipes.hasNext()) {
-//				Recipe r = recipes.next();
-//				boolean allow = true;
-//				if (Bukkit.getPluginManager().isPluginEnabled("SensibleToolbox")) {
-//					BaseSTBItem item = SensibleToolbox.getItemRegistry().fromItemStack(r.getResult());
-//					allow = item == null;
-//				}
-//				
-//				if (allow) {
-//					if (r instanceof ShapedRecipe) {
-//						
-//					}
-//					else if (r instanceof ShapelessRecipe) {
-//						
-//					}
-//				}
-//			}
-			
 			SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE");
 			
 			for (ItemStack[] inputs : RecipeType.getRecipeInputList(machine)) {
@@ -166,7 +145,7 @@ public final class MiscSetup {
 			stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
 		}
 		
-		stream.forEach(recipe -> SlimefunRecipes.registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {recipe[0]}, new ItemStack[] {recipe[1]}));
+		stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {recipe[0]}, new ItemStack[] {recipe[1]}));
 		
 		SlimefunItem smeltery = SlimefunItem.getByID("SMELTERY");
 		if (smeltery != null) {
@@ -198,7 +177,7 @@ public final class MiscSetup {
 
 						// We want to exclude Dust to Ingot Recipes
 						if (!(dust && inputs.size() == 1)) {
-							SlimefunRecipes.registerMachineRecipe("ELECTRIC_SMELTERY", 12, inputs.toArray(new ItemStack[inputs.size()]), new ItemStack[] {recipe[0]});
+							registerMachineRecipe("ELECTRIC_SMELTERY", 12, inputs.toArray(new ItemStack[0]), new ItemStack[] {recipe[0]});
 						}
 					}
 					
@@ -229,6 +208,14 @@ public final class MiscSetup {
 		SlimefunPlugin.getItemCfg().save();
 		SlimefunPlugin.getResearchCfg().save();
 		SlimefunPlugin.getWhitelist().save();
+	}
+	
+	private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
+		for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
+			if (item instanceof AContainer && ((AContainer) item).getMachineIdentifier().equals(machine)) {
+				((AContainer) item).registerRecipe(seconds, input, output);
+			}
+		}
 	}
 
 	public static void setupItemSettings() {
