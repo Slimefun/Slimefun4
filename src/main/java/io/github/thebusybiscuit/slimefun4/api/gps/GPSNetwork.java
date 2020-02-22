@@ -25,7 +25,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.GPSTransmitter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class GPSNetwork {
@@ -45,16 +45,13 @@ public class GPSNetwork {
 	private final ItemStack worldIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0=");
 	
 	public void updateTransmitter(Location l, UUID uuid, boolean online) {
-		Set<Location> set = transmitters.getOrDefault(uuid, new HashSet<>());
+        Set<Location> set = transmitters.computeIfAbsent(uuid, id -> new HashSet<>());
 
 		if (online) {
-			if (set.add(l)) {
-				transmitters.put(uuid, set);
-			}
+            set.add(l);
 		}
 		else {
 			set.remove(l);
-			transmitters.put(uuid, set);
 		}
 	}
 	
@@ -87,7 +84,10 @@ public class GPSNetwork {
 			menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 
-        menu.addItem(2, new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&7" + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters")));
+        menu.addItem(2, new CustomItem(SlimefunItems.GPS_TRANSMITTER, im -> {
+            im.setDisplayName(ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters"));
+            im.setLore(null);
+        }));
 		menu.addMenuClickHandler(2, ChestMenuUtils.getEmptyClickHandler());
 
 		int complexity = getNetworkComplexity(p.getUniqueId());

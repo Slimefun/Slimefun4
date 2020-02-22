@@ -34,11 +34,6 @@ public final class Slimefun {
         SlimefunPlugin.getRegistry().getGuideHandlers().put(handler.getTier(), handlers);
     }
 
-    @Deprecated
-    public static GPSNetwork getGPSNetwork() {
-        return SlimefunPlugin.getGPSNetwork();
-    }
-
     public static Logger getLogger() {
         return SlimefunPlugin.instance.getLogger();
     }

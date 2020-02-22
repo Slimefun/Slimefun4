@@ -81,20 +81,20 @@ public class Talisman extends SlimefunItem {
 
     public SlimefunItemStack upgrade() {
         List<String> lore = new ArrayList<>();
-        lore.add("&7&o注入末影精华");
+        lore.add("&7&oEnder Infused");
         lore.add("");
 
         for (String line : getItem().getItemMeta().getLore()) {
             lore.add(line);
         }
 
-        return new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), "&5末影 " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
+        return new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
     }
 
     @Override
     public void postRegister() {
         EnderTalisman talisman = new EnderTalisman(this);
-        talisman.register(!isAddonItem());
+        talisman.register(addon);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    private static boolean isTalismanMessage(Talisman talisman){
+    private static boolean hasMessage(Talisman talisman){
         return !("").equalsIgnoreCase(talisman.getSuffix());
     }
 
@@ -168,7 +168,7 @@ public class Talisman extends SlimefunItem {
     }
 
     private static void sendMessage(Player p, Talisman talisman){
-        if (isTalismanMessage(talisman)) {
+        if (hasMessage(talisman)) {
             SlimefunPlugin.getLocal().sendMessage(p, "messages.talisman." + talisman.getSuffix(), true);
         }
     }

@@ -1,9 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;

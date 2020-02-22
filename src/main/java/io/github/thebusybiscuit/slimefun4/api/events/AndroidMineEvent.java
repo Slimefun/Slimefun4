@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import io.github.thebusybiscuit.slimefun4.implementation.android.AndroidEntity;
+import io.github.thebusybiscuit.slimefun4.implementation.items.android.AndroidEntity;
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
