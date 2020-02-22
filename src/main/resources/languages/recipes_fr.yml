@@ -39,7 +39,7 @@ slimefun:
   gold_pan:
     name: Gold Pan
     lore:
-    - 
+    - Utilisez un Gold Pan pour
     - obtenir cet objet
   compressor:
     name: Compressor
