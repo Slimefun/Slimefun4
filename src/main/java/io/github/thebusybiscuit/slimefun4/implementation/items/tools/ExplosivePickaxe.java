@@ -25,6 +25,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
+
     private boolean damageOnUse;
 
     public ExplosivePickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
@@ -43,6 +44,7 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                 if (Slimefun.hasUnlocked(e.getPlayer(), this, true)) {
                     e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
                     e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
+
                     for (int x = -1; x <= 1; x++) {
                         for (int y = -1; y <= 1; y++) {
                             for (int z = -1; z <= 1; z++) {
@@ -63,11 +65,13 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                                         SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 
                                         if (handler != null) {
-                                            allow = handler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
+                                            allow = handler.onBreak(e.getPlayer(), b, sfItem, UnregisterReason.PLAYER_BREAK);
                                         }
 
                                         if (allow) {
-                                            drops.add(BlockStorage.retrieve(e.getBlock()));
+                                            if (b.getType() == Material.AIR) {
+                                                drops.add(BlockStorage.retrieve(b));
+                                            }
                                         }
                                     }
                                     else if (b.getType() == Material.PLAYER_HEAD) {
