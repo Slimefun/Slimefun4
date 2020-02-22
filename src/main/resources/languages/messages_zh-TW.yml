@@ -2,6 +2,7 @@
 android:
   scripts:
     already-uploaded: "&4程式已上傳"
+    editor: 程式編輯器
     enter-name:
     - 
     - "&e輸入程式名稱"
@@ -38,7 +39,6 @@ android:
     uploaded:
     - "&b上傳中"
     - "&a成功上傳程式!"
-    editor: 程式編輯器
   started: "&7機器人繼續運作"
   stopped: "&7機器人暫停運作"
 anvil:
@@ -117,13 +117,13 @@ guide:
     wiki: Slimefun4 Wiki
   tooltips:
     open-category: 點擊開啟
-    versions-notice: 這些在報告錯誤時非常重要！
-    wiki: 在Slimefun官方Wiki上查看此物品
     recipes:
-      machine: 使用本機械的合成表
-      miner: 此挖礦機可獲取的資源
       generator: 可以使用的燃料
       gold-pan: 可以獲取的資源
+      machine: 使用本機械的合成表
+      miner: 此挖礦機可獲取的資源
+    versions-notice: 這些在報告錯誤時非常重要！
+    wiki: 在Slimefun官方Wiki上查看此物品
 inventory:
   no-access: "&4沒有權限使用該物品"
 languages:
@@ -136,12 +136,14 @@ languages:
   el: 希臘語
   en: 英語
   es: 西班牙文
+  fa: 波斯語
   fi: 芬蘭文
   fr: 法文
   he: 希伯來語
   hu: 匈牙利文
   id: 印尼語
   it: 義大利文
+  ja: 日語
   lv: 拉脫維亞語
   ms: 馬來語
   nl: 荷蘭語
@@ -149,17 +151,15 @@ languages:
   pl: 波蘭語
   pt: 葡萄牙文（葡萄牙）
   pt-BR: 葡萄牙文（巴西）
+  ro: 羅馬尼亞語
   ru: 俄語
   sk: 斯洛伐克文
   sv: 瑞典語
+  th: 泰語
   uk: 烏克蘭文
   vi: 越南文
   zh-CN: 中文（簡體）
   zh-TW: 中文（繁體）
-  ja: 日語
-  fa: 波斯語
-  th: 泰語
-  ro: 羅馬尼亞語
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4此祭壇需要更多基座&c(%pedestals% / 8)"
@@ -177,6 +177,10 @@ machines:
     no-destinations: "&4沒有目的地"
     pick-a-floor: "&3選擇樓層"
   full-inventory: "&e發射器滿了!(請考慮使用基礎機械輸出箱)"
+  GPS_CONTROL_PANEL:
+    title: GPS控制面板
+    transmitters: 訊號發射器總覽
+    waypoints: 傳送點總覽
   HOLOGRAM_PROJECTOR:
     enter-text: "&7輸入你想要的文字 &r(可以輸入顏色代碼!)"
     inventory-title: 全息投影編輯器
@@ -190,10 +194,6 @@ machines:
     teleporting: "&3傳送中..."
   unknown-material: "&e這個機器不能處理這個物品 請確認使用的機器或合成表的材料"
   wrong-item: "&e你手持的物品和機器並不相容 請確認使用的機器或合成表的材料"
-  GPS_CONTROL_PANEL:
-    title: GPS控制面板
-    transmitters: 訊號發射器總覽
-    waypoints: 傳送點總覽
 messages:
   cannot-place: "&c那裡不能放方塊!"
   diet-cookie: "&e你開始覺得很輕..."
