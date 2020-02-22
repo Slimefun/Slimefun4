@@ -2,6 +2,7 @@
 android:
   scripts:
     already-uploaded: "&4Ce script a déjà été upload."
+    editor: Éditeur de script
     enter-name:
     - 
     - "&eVeuillez saisir un nom pour votre script"
@@ -38,7 +39,6 @@ android:
     uploaded:
     - "&bUpload du script..."
     - "&aVotre script a bien été upload !"
-    editor: Éditeur de script
   started: "&7Votre androïde a repris l'exécution de son script"
   stopped: "&7Votre androïde a mis en pause l'exécution de son script"
 anvil:
@@ -121,14 +121,14 @@ guide:
     wiki: Wiki Slimefun4
   tooltips:
     open-category: Cliquez pour ouvrir
+    recipes:
+      generator: Types de carburant disponibles
+      gold-pan: Ressources pouvant être obtenues
+      machine: Recettes fabriquées dans cette machine
+      miner: Ressources pouvant être obtenues avec ce mineur
     versions-notice: Ces informations sont très importantes lorsque vous rapportez
       des bugs !
     wiki: Voir cet objet sur le wiki officiel de Slimefun
-    recipes:
-      machine: Recettes fabriquées dans cette machine
-      miner: Ressources pouvant être obtenues avec ce mineur
-      generator: Types de carburant disponibles
-      gold-pan: Ressources pouvant être obtenues
 inventory:
   no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
 languages:
@@ -141,12 +141,14 @@ languages:
   el: Grec
   en: Anglais
   es: Espagnol
+  fa: Persan
   fi: Finnois
   fr: Français
   he: Hébreu
   hu: Hongrois
   id: Indonésien
   it: Italien
+  ja: Japonais
   lv: Letton
   ms: Malais
   nl: Néerlandais
@@ -154,17 +156,15 @@ languages:
   pl: Polonais
   pt: Portugais (Portugal)
   pt-BR: Portugais (Brésil)
+  ro: Roumain
   ru: Russe
   sk: Slovaque
   sv: Suédois
+  th: Thaï
   uk: Ukrainien
   vi: Vietnamien
   zh-CN: Chinois (Chine)
   zh-TW: Chinois (Taiwan)
-  ja: Japonais
-  fa: Persan
-  th: Thaï
-  ro: Roumain
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
@@ -186,6 +186,10 @@ machines:
     no-destinations: "&4Aucune destination trouvée"
     pick-a-floor: "&3- Sélectionnez un étage -"
   full-inventory: "&eDésolé, mon inventaire est plein !"
+  GPS_CONTROL_PANEL:
+    title: Panneau de configuration GPS
+    transmitters: Vue d'ensemble de l'émetteur
+    waypoints: Vue d'ensemble des waypoints
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Veuillez saisir le texte voulu pour votre hologramme dans le chat.
       &r(Les codes couleur sont acceptés !)"
@@ -203,10 +207,6 @@ machines:
     y placer quelque chose que je connais."
   wrong-item: "&eDésolé, je ne reconnais pas l'objet avec lequel vous avez cliqué.
     Consultez le guide pour savoir quels objets vous pouvez utiliser."
-  GPS_CONTROL_PANEL:
-    title: Panneau de configuration GPS
-    transmitters: Vue d'ensemble de l'émetteur
-    waypoints: Vue d'ensemble des waypoints
 messages:
   cannot-place: "&cVous ne pouvez pas placer ce bloc là !"
   diet-cookie: "&eVous vous sentez léger comme une plume..."
