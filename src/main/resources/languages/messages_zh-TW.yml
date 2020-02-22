@@ -160,6 +160,9 @@ languages:
   vi: 越南文
   zh-CN: 中文（簡體）
   zh-TW: 中文（繁體）
+  bg: 保加利亞語
+  ko: 韓語
+  tr: 土耳其
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4此祭壇需要更多基座&c(%pedestals% / 8)"
