@@ -2,6 +2,7 @@
 android:
   scripts:
     already-uploaded: "&4Ezt a szkriptet már feltöltötték."
+    editor: Szkript Szerkesztő
     enter-name:
     - 
     - "&eKérlek, írd be a szkript nevét"
@@ -38,7 +39,6 @@ android:
     uploaded:
     - "&bFeltöltés..."
     - "&aA szkript sikeresen feltöltve!"
-    editor: Szkript Szerkesztő
   started: "&7Az Androidod folytatja a szkript futtatását"
   stopped: "&7Az Androidod szünetelteti a szkript futtatását"
 anvil:
@@ -118,13 +118,13 @@ guide:
     wiki: Slimefun4 Wiki
   tooltips:
     open-category: Kattints a megnyitáshoz
-    versions-notice: Ezek nagyon fontosak a hibák jelentésekor!
-    wiki: Tekintsd meg ezt a tárgyat a hivatalos Slimefun Wikin
     recipes:
-      machine: Ebben a Gépben készített receptek
-      miner: Erőforrások, amelyeket ezzel a Bányásszal szerezhetsz be
       generator: Rendelkezésre álló üzemanyagtípusok
       gold-pan: Megszerezhető források
+      machine: Ebben a Gépben készített receptek
+      miner: Erőforrások, amelyeket ezzel a Bányásszal szerezhetsz be
+    versions-notice: Ezek nagyon fontosak a hibák jelentésekor!
+    wiki: Tekintsd meg ezt a tárgyat a hivatalos Slimefun Wikin
 inventory:
   no-access: "&4Nincs hozzáférésed ehhez a blokkhoz"
 languages:
@@ -137,12 +137,14 @@ languages:
   el: Görög
   en: Angol
   es: Spanyol
+  fa: Perzsa
   fi: Finn
   fr: Francia
   he: Héber
   hu: Magyar
   id: Indonéz
   it: Olasz
+  ja: Japán
   lv: Lett
   ms: Maláj
   nl: Holland
@@ -150,17 +152,18 @@ languages:
   pl: Lengyel
   pt: Portugál (Portugália)
   pt-BR: Portugál (Brazília)
+  ro: Román
   ru: Orosz
   sk: Szlovák
   sv: Svéd
+  th: Thai
   uk: Ukrán
   vi: Vietnami
   zh-CN: Kínai (Kína)
   zh-TW: Kínai (Tajvan)
-  ja: Japán
-  fa: Perzsa
-  th: Thai
-  ro: Román
+  bg: Bolgár
+  ko: Koreai
+  tr: Török
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Az Altar körül nincs elég Pedestal, ami szükséges a működéséhez
@@ -181,6 +184,10 @@ machines:
     no-destinations: "&4Nem található úticél"
     pick-a-floor: "&3- Válassz emeletet -"
   full-inventory: "&eSajnálom, tele a tárolóm!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Vezérlőpult
+    transmitters: Transzmitter Áttekintése
+    waypoints: Útpont Áttekintése
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Kérlek, írd be a kívánt Hologram Szöveget a Chatbe. &r(A színkódok
       is használhatóak!)"
@@ -198,10 +205,6 @@ machines:
     tegyél bele valamit, amit ismerek."
   wrong-item: "&eSajnálom, nem ismerem fel azt a Tárgyat, amire kattintottál velem.
     Ellenőrizd a Recepteket, és nézd meg, mely Tárgyakat használhatod."
-  GPS_CONTROL_PANEL:
-    title: GPS - Vezérlőpult
-    transmitters: Transzmitter Áttekintése
-    waypoints: Útpont Áttekintése
 messages:
   cannot-place: "&cNem teheted ezt a blokkot oda!"
   diet-cookie: "&eNagyon könnyednek érzed magad..."
