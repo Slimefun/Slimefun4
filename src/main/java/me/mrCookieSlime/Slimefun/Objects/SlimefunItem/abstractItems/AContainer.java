@@ -39,8 +39,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	private static final int[] BORDER_IN = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
 	private static final int[] BORDER_OUT = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
-	public AContainer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		
 		createPreset(this, getInventoryTitle(), this::constructMenu);
 		
@@ -70,13 +70,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 		this.registerDefaultRecipes();
 	}
 
-	public AContainer(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		this(category, item, id, recipeType, recipe);
+	public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+		this(category, item, recipeType, recipe);
 		this.recipeOutput = recipeOutput;
-	}
-
-	public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		this(category, item, item.getItemID(), recipeType, recipe);
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {

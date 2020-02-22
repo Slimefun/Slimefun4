@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -58,7 +59,7 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
 					FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlock().getBlockData());
 					block.setDropItem(false);
 					block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-					SlimefunPlugin.getUtilities().blocks.add(block.getUniqueId());
+					block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance, "fake_block"));
 				}
 				
 				for (Entity n : ground.getChunk().getEntities()) {

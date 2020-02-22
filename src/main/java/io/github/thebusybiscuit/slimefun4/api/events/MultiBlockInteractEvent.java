@@ -1,12 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
-
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 
 public class MultiBlockInteractEvent extends Event implements Cancellable {
 	

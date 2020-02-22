@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools;
+package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;

@@ -1,17 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreWasher;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -22,8 +22,17 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class ElectricDustWasher extends AContainer {
 	
+	private OreWasher oreWasher;
+	
 	public ElectricDustWasher(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
+	}
+	
+	@Override
+	public void preRegister() {
+		super.preRegister();
+		
+		oreWasher = (OreWasher) SlimefunItem.getByID("ORE_WASHER");
 	}
 
 	@Override
@@ -67,8 +76,6 @@ public abstract class ElectricDustWasher extends AContainer {
 			}
 		}
 		else {
-			ItemStack[] items = SlimefunPlugin.getUtilities().oreWasherOutputs;
-			
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
 					if (!SlimefunPlugin.getSettings().legacyDustWasher) {
@@ -83,7 +90,7 @@ public abstract class ElectricDustWasher extends AContainer {
 						if (!emptySlot) return;
 					}
 					
-					ItemStack adding = items[ThreadLocalRandom.current().nextInt(items.length)];
+					ItemStack adding = oreWasher.getRandomDust();
 					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {adding});
 					if (SlimefunPlugin.getSettings().legacyDustWasher && !menu.fits(r.getOutput()[0], getOutputSlots())) return;
 					menu.consumeItem(slot);

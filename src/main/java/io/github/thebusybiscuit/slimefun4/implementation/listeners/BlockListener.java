@@ -39,17 +39,14 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class BlockListener implements Listener {
 	
 	// Materials that require a Block under it, e.g. Pressure Plates
 	private final Set<Material> sensitiveMaterials = new HashSet<>();
-	private final Utilities utilities;
 	
 	public BlockListener(SlimefunPlugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		utilities = SlimefunPlugin.getUtilities();
 		
 		sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
 		sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
@@ -103,9 +100,6 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e) {
 		ItemStack item = e.getItemInHand();
-		
-		if (utilities.cancelPlace.remove(e.getPlayer().getUniqueId()))
-			e.setCancelled(true);
 
 		if (SlimefunManager.isItemSimilar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
 		else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);

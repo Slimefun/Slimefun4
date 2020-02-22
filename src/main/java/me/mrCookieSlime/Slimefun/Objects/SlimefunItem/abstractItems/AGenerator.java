@@ -50,8 +50,8 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 	private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
 	private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
-	public AGenerator(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
+	public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
 		
 		new BlockMenuPreset(id, getInventoryTitle()) {
 			
@@ -97,13 +97,9 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
 		this.registerDefaultRecipes();
 	}
 
-	public AGenerator(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		this(category, item, id, recipeType, recipe);
+	public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+		this(category, item, recipeType, recipe);
 		this.recipeOutput = recipeOutput;
-	}
-
-	public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		this(category, item, item.getItemID(), recipeType, recipe);
 	}
 	
 	private void constructMenu(BlockMenuPreset preset) {

@@ -6,8 +6,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -50,14 +48,6 @@ public class DamageListener implements Listener {
             		sfItem.callItemHandler(EntityKillHandler.class, handler -> handler.onKill(e, e.getEntity(), p, item));
             	}
             }
-        }
-    }
-
-	@EventHandler
-    public void onArrowHit(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && SlimefunPlugin.getUtilities().damage.contains(e.getEntity().getUniqueId())) {
-            e.setCancelled(true);
-            SlimefunPlugin.getUtilities().damage.remove(e.getEntity().getUniqueId());
         }
     }
 }

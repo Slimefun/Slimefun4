@@ -41,7 +41,6 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem {
 
@@ -82,7 +81,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 			}
 
 			@Override
-			public void newInstance(final BlockMenu menu, final Block b) {
+			public void newInstance(BlockMenu menu, Block b) {
 				if (BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode") == null){
 					BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 				}
@@ -223,7 +222,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	}
 
 	public int[] getCoolantSlots() {
-		return needsCooling() ? new int[] {25, 34, 43} : new int[]{};
+		return needsCooling() ? new int[] {25, 34, 43} : new int[0];
 	}
 
 	public int[] getOutputSlots() {
@@ -246,7 +245,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 	public void preRegister() {
 		addItemHandler(new EnergyTicker() {
 
-			private Set<Location> explode = new HashSet<>();
+			private final Set<Location> explode = new HashSet<>();
 
 			@Override
 			public double generateEnergy(Location l, SlimefunItem sf, Config data) {
@@ -303,7 +302,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 									}
 								}
 								else {
-									ReactorHologram.update(l, "&b\u2744 &7" + MachineHelper.getPercentage(timeleft, processing.get(l).getTicks()) + "%");
+									ReactorHologram.update(l, "&b\u2744 &7" + getPercentage(timeleft, processing.get(l).getTicks()) + "%");
 								}
 							}
 
@@ -367,6 +366,11 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 				return explosion;
 			}
 		});
+	}
+
+	private float getPercentage(int time, int total) {
+		int passed = ((total - time) % 25);
+		return Math.round(((((25 - passed) * 100.0F) / 25) * 100.0F) / 100.0F);
 	}
 	
 	private void restockFuel(BlockMenu menu, BlockMenu port) {

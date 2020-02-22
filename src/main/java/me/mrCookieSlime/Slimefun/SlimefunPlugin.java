@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,7 +34,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillingListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
@@ -43,6 +41,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListene
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DamageListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
@@ -72,7 +71,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.setup.WikiSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
@@ -82,7 +80,6 @@ import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.utils.ConfigCache;
-import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
@@ -109,7 +106,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
 	private GPSNetwork gps;
 	private ProtectionManager protections;
-	private Utilities utilities;
 	private ConfigCache settings;
 	private SlimefunHooks hooks;
 
@@ -118,6 +114,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 	
 	private AncientAltarListener ancientAltarListener;
 	private BackpackListener backpackListener;
+	private GrapplingHookListener grapplingHookListener;
 	private SlimefunBowListener bowListener;
 
 	@Override
@@ -157,7 +154,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 			networkManager = new NetworkManager(config.getInt("options.max-network-size"));
 			
 			// Setting up other stuff
-			utilities = new Utilities();
 			gps = new GPSNetwork();
 
 			// Setting up bStats
@@ -218,6 +214,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
 			bowListener = new SlimefunBowListener(this);
 			ancientAltarListener = new AncientAltarListener();
+			grapplingHookListener = new GrapplingHookListener();
 
 			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);
@@ -251,7 +248,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 					ancientAltarListener.load(this);
 				}
 				
-				if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) new GrapplingHookListener(this);
+				if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) {
+					grapplingHookListener.load(this);
+				}
+				
 				if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) new IgnitionChamberListener(this);
 			}, 0);
 
@@ -285,8 +285,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 			// Hooray!
 			getLogger().log(Level.INFO, "Finished!");
 			hooks = new SlimefunHooks(this);
-
-			utilities.oreWasherOutputs = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};
 
 			// Do not show /sf elevator command in our Log, it could get quite spammy
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
@@ -431,10 +429,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 		return instance.hooks;
 	}
 
-	public static Utilities getUtilities() {
-		return instance.utilities;
-	}
-
 	public static ConfigCache getSettings() {
 		return instance.settings;
 	}
@@ -493,6 +487,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 	
 	public static AncientAltarListener getAncientAltarListener() {
 		return instance.ancientAltarListener;
+	}
+
+	public static GrapplingHookListener getGrapplingHookListener() {
+		return instance.grapplingHookListener;
 	}
 	
 	public static BackpackListener getBackpackListener() {

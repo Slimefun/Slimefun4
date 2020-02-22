@@ -54,12 +54,11 @@ public class OreWasher extends MultiBlockMachine {
 		Block dispBlock = b.getRelative(BlockFace.UP);
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		Inventory inv = disp.getInventory();
-		ItemStack[] items = SlimefunPlugin.getUtilities().oreWasherOutputs;
 
 		for (ItemStack current : inv.getContents()) {
 			if (current != null) {
 				if (SlimefunManager.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
-					ItemStack adding = items[ThreadLocalRandom.current().nextInt(items.length)];
+					ItemStack adding = getRandomDust();
 					Inventory outputInv = null;
 
 					if (!SlimefunPlugin.getSettings().legacyOreWasher) {
@@ -120,6 +119,11 @@ public class OreWasher extends MultiBlockMachine {
 			}
 		}
 		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+	}
+
+	public ItemStack getRandomDust() {
+		int index = ThreadLocalRandom.current().nextInt(shownRecipes.size() / 2);
+		return shownRecipes.get(index * 2 + 1).clone();
 	}
 
 }
