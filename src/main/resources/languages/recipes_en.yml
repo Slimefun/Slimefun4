@@ -96,7 +96,7 @@ slimefun:
     name: 'Food Fabricator'
     lore:
     - 'Craft this Item as shown'
-    - 'using a Heated Pressure Chamber'
+    - 'using a Food Fabricator'
     
   food_composter:
     name: 'Food Composter'
