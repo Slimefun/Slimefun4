@@ -2,6 +2,7 @@
 android:
   scripts:
     already-uploaded: "&4Denna kod har redan blivit uppladdad."
+    editor: Manusändrare
     enter-name:
     - 
     - "&eVälj ett namn till din kod"
@@ -38,7 +39,6 @@ android:
     uploaded:
     - "&bLadda upp..."
     - "&aLaddade upp din kod!"
-    editor: Manusändrare
   started: "&7Din Android fortsatte att köra sin kod"
   stopped: "&7Din Android har pausat sin kod"
 anvil:
@@ -117,13 +117,13 @@ guide:
     wiki: Slimefun4 Wiki
   tooltips:
     open-category: Klicka här för att öppna
-    versions-notice: Dessa är väldigt viktiga när det kommer till att rapportera buggar!
-    wiki: Visar detta föremål på den Officiella Slimefun Wikin
     recipes:
-      machine: Recept gjorda i denna maskin
-      miner: Resurser du kan få med denna Gruvarbetare
       generator: Tillgängliga typer av bränsle
       gold-pan: Resurser du kan få
+      machine: Recept gjorda i denna maskin
+      miner: Resurser du kan få med denna Gruvarbetare
+    versions-notice: Dessa är väldigt viktiga när det kommer till att rapportera buggar!
+    wiki: Visar detta föremål på den Officiella Slimefun Wikin
 inventory:
   no-access: "&4Du har inte tillåtelse att använda detta block"
 languages:
@@ -136,30 +136,33 @@ languages:
   el: Grekiska
   en: Engelska
   es: Spanska
+  fa: Persiska
   fi: Finska
   fr: Franska
   he: Hebreiska
   hu: Ungerska
   id: Indonesiska
   it: Italienska
+  ja: Japanska
   lv: Lettiska
   ms: Malaysiska
   nl: Holländska
   'no': Norska
   pl: Polska
-  pt: Portugesiska (Portugal)
-  pt-BR: Portugesiska (Brasilien)
+  pt: Portugisiska (Portugal)
+  pt-BR: Portugisiska (Brasilien)
+  ro: Romanska
   ru: Ryska
   sk: Slovakiska
   sv: Svenska
+  th: Thailändska
   uk: Ukrainska
   vi: Vietnamesiska
   zh-CN: Chinesiska (China)
   zh-TW: Chinesiska (Taiwan)
-  ja: Japanska
-  fa: Persiska
-  th: Thailändska
-  ro: Romanska
+  bg: Bulgariska
+  ko: Koreanska
+  tr: Turkiska
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Altaret är inte omgivet av det korrekta antalet piedestaler
@@ -178,6 +181,10 @@ machines:
     no-destinations: "&4Ingen destination funnen"
     pick-a-floor: "&3- Välj en våning -"
   full-inventory: "&eTyvärr, mitt förråd är fullt!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Kontrollpanel
+    transmitters: Sändar Översikt
+    waypoints: Vägpunkts Översikt
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Skriv in önskad hologramtext i chatten &r(färgkoder stöds!)"
     inventory-title: Hologramändrare
@@ -194,10 +201,6 @@ machines:
     någonting som jag känner till."
   wrong-item: "&Jag kände tyvärr inte igen det föremål som du högerklickade mig med.
     Kontrollera att receptet är korrekt och vilka föremål som du kan använda."
-  GPS_CONTROL_PANEL:
-    title: GPS - Kontrollpanel
-    transmitters: Sändar Översikt
-    waypoints: Vägpunkts Översikt
 messages:
   cannot-place: "&cDu kan inte placera det blocket där!"
   diet-cookie: "&eDu börjar känna dig mycket lätt..."
