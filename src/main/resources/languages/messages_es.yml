@@ -39,6 +39,7 @@ android:
     uploaded:
     - "&bSubiendo..."
     - "&a¡Script cargado correctamente!"
+    editor: Editor de Guión
   started: "&7Tu androide ha comenzado a correr el script."
   stopped: "&7Tu androide ha pausado el script."
 anvil:
@@ -76,6 +77,10 @@ gps:
     new: "&ePor favor, escribe en el chat el nombre de tu nuevo waypoint. &7(¡Se permiten
       códigos de color!)"
 guide:
+  back:
+    guide: Volver a la guía de Slimefun
+    settings: Volver al panel de configuración
+    title: Volver
   cheat:
     no-multiblocks: "&4¡No puedes obtener los Multiblocks, tienes que construirlos!"
   credits:
@@ -111,47 +116,53 @@ guide:
     languages: Selecciona tu idioma.
     main: Guia de Slimefun.
     settings: Configuración e Información.
-    wiki: Wiki de Slimefun4
     source: Código base
+    wiki: Wiki de Slimefun4
   tooltips:
     open-category: Clic para abrir
     versions-notice: "¡Esto es muy importante cuando se reportan bugs!"
-  back:
-    title: Volver
-    guide: Volver a la guía de Slimefun
-    settings: Volver al panel de configuración
+    wiki: Ve este item en la wiki oficial de Slimefun
+    recipes:
+      machine: Crafteos echo en esta máquina
+      miner: Recursos que puedes obtener con este minero
+      generator: Tipo de combustible disponibles
+      gold-pan: Recursos que puedes obtener
 inventory:
   no-access: "&4No tienes permitido el acceso a este bloque."
 languages:
+  af: Africano
+  ar: Árabe
   cs: Checo
+  da: Danés
   de: Alemán
   default: Server-Default
+  el: Griego
   en: Inglés
   es: Español
+  fi: Finés
   fr: Francés
+  he: Hebreo
   hu: Húngaro
   id: Indonesio
   it: Italiano
   lv: Letón
+  ms: Malayo
   nl: Holandés
+  'no': Noruego
   pl: Polaco
+  pt: Portugués (Portugal)
+  pt-BR: Portugés (Brazil)
   ru: Ruso
   sk: Esloveno
   sv: Sueco
-  vi: Vietnamita
-  zh-TW: Chino (Taiwan)
-  zh-CN: Chino (China)
-  el: Griego
-  he: Hebreo
-  pt: Portugués (Portugal)
-  pt-BR: Portugés (Brazil)
-  ar: Árabe
-  af: Africano
-  da: Danés
-  fi: Finés
   uk: Ucraniano
-  ms: Malayo
-  'no': Noruego
+  vi: Vietnamita
+  zh-CN: Chino (China)
+  zh-TW: Chino (Taiwan)
+  ja: Japonés
+  th: Tailandés
+  ro: Rumano
+  fa: Persa
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4El Altar no esta rodeado por la cantidad correcta de
@@ -174,6 +185,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Por favor, escribe en el chat el texto deseado. &r(¡Se permiten
       códigos de color!)"
+    inventory-title: Editor de Holograma
   ignition-chamber-no-flint: "&cEl Ignition Chamber no tiene pedernal."
   in-use: "&cEl inventario de este bloque esta siendo usado por otro jugador."
   pattern-not-found: "&eLo siento, no puedo reconocer esta receta. Por favor coloca
@@ -187,6 +199,10 @@ machines:
     Por favor coloca algo que si conozca."
   wrong-item: "&eLo siento, no puedo reconocer el objeto con el que me has hecho clic.
     Revisa las recetas y mira que objetos puedes usar."
+  GPS_CONTROL_PANEL:
+    title: GPS - Panel de Control
+    transmitters: Visor General de Transmisores
+    waypoints: Visor de Puntos de Referencia
 messages:
   cannot-place: "&c¡No puedes colocar ese bloque ahí!"
   diet-cookie: "&eEmpiezas a sentirte muy ligero ..."

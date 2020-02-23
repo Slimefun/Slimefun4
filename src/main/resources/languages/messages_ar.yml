@@ -256,8 +256,6 @@ messages:
     wizard: "&a&oحسنت تعويذتك حالة حظك لكن غالبا سوءت حالات أخرى"
   unknown-player: "&4لاعب غير معروف: &c%player%"
   unlocked: '&bتم فتح &7"%research%"'
-
-'
   usage: "&4طريقة الإستعمال: &c%usage%"
 miner:
   no-ores: "&eعفوا، لم أجد أي ركيزة بالجوار!"

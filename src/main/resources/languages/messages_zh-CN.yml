@@ -2,9 +2,10 @@
 android:
   scripts:
     already-uploaded: "&4这个脚本已经上传过了."
+    editor: 脚本编辑器
     enter-name:
-    - 
-    - "&e给你的脚本起个名字吧"
+      -
+      - "&e给你的脚本起个名字吧"
     instructions:
       ATTACK_ANIMALS: "&4攻击 &c(动物)"
       ATTACK_ANIMALS_ADULT: "&4攻击 &c(成年动物)"
@@ -36,9 +37,8 @@ android:
       already: "&4你已经给这个脚本留下评价了!"
       own: "&4你不能评价你自己的脚本!"
     uploaded:
-    - "&b上传中..."
-    - "&a脚本上传成功!"
-    editor: 脚本编辑器
+      - "&b上传中..."
+      - "&a脚本上传成功!"
   started: "&7你的机器人开始运行脚本"
   stopped: "&7你的机器人暂停运行了脚本"
 anvil:
@@ -66,9 +66,9 @@ gps:
   geo:
     scan-required: "&4需要先进行 GEO 地形扫描! &c请先使用 GEO 地形扫描器!"
   insufficient-complexity:
-  - "&4GPS网络复杂度不足: &c%complexity%"
-  - "&4a) 你还没有设置一个 GPS 网络"
-  - "&4b) 你的 GPS 网络复杂度不够, 多放置几个 GPS 信号发射机"
+    - "&4GPS网络复杂度不足: &c%complexity%"
+    - "&4a) 你还没有设置一个 GPS 网络"
+    - "&4b) 你的 GPS 网络复杂度不够, 多放置几个 GPS 信号发射机"
   waypoint:
     added: "&a成功添加了新的传送点"
     max: "&4你已到达设置传送点个数的最大上限"
@@ -102,8 +102,8 @@ guide:
     previous: 上一页
   search:
     lore:
-    - "&b你想要搜索什么?"
-    - "&7将要搜索的物品的名字输入在聊天栏上"
+      - "&b你想要搜索什么?"
+      - "&7将要搜索的物品的名字输入在聊天栏上"
     message: "&b你想要搜索什么?"
     name: "&7搜索..."
   title:
@@ -117,13 +117,13 @@ guide:
     wiki: Slimefun4 维基
   tooltips:
     open-category: 单击打开
-    versions-notice: 在反馈问题时这些很重要!
-    wiki: 在官方 Slimefun 维基上查看此物品
     recipes:
-      machine: 此机器可用的合成配方
-      miner: 此采矿机可以获得的资源
       generator: 可用的燃料种类
       gold-pan: 你可以获得的资源
+      machine: 此机器可用的合成配方
+      miner: 此采矿机可以获得的资源
+    versions-notice: 在反馈问题时这些很重要!
+    wiki: 在官方 Slimefun 维基上查看此物品
 inventory:
   no-access: "&4你没有权限使用这个方块"
 languages:
@@ -136,12 +136,14 @@ languages:
   el: 希腊语
   en: 英语
   es: 西班牙语
+  fa: 波斯语
   fi: 芬兰语
   fr: 法语
   he: 希伯来语
   hu: 匈牙利语
   id: 印尼语
   it: 意大利语
+  ja: 日语
   lv: 拉脱维亚语
   ms: 马来西亚语
   nl: 荷兰语
@@ -149,17 +151,18 @@ languages:
   pl: 波兰语
   pt: 葡萄牙语 (葡萄牙)
   pt-BR: 葡萄牙语 (巴西)
+  ro: 罗马尼亚语
   ru: 俄语
   sk: 斯洛伐克文
   sv: 瑞典语
+  th: 泰语
   uk: 乌克兰语
   vi: 越南文
   zh-CN: 简体中文 (中国)
   zh-TW: 繁体中文 (台湾)
-  ja: 日语
-  fa: 波斯语
-  th: 泰语
-  ro: 罗马尼亚语
+  bg: 保加利亚语
+  ko: 韩语
+  tr: 土耳其语
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4古代基座不足. 目前已摆放的基座数: &c(%pedestals% / 8)"
@@ -167,7 +170,6 @@ machines:
     unknown-recipe: "&4未知合成表! &c请使用正确的合成方式!"
   ANCIENT_PEDESTAL:
     obstructed: "&4基座被挡住了! &c把基座上面的东西移开!"
-    in-use: '&4基座上还有物品没被物主拿走!'
   CARGO_NODES:
     must-be-placed: "&4必须放置在箱子或机器上!"
   ELEVATOR:
@@ -178,6 +180,10 @@ machines:
     no-destinations: "&4找不到目的地"
     pick-a-floor: "&3- 选择一个楼层 -"
   full-inventory: "&e抱歉, 背包已经满了!"
+  GPS_CONTROL_PANEL:
+    title: GPS - 控制面板
+    transmitters: 信号发射器概览
+    waypoints: 传送点列表
   HOLOGRAM_PROJECTOR:
     enter-text: "&7请写下想显示在全息文本上的话. &r(支持颜色代码)"
     inventory-title: 全息图像编辑器
@@ -191,10 +197,6 @@ machines:
     teleporting: "&3传送中..."
   unknown-material: "&e抱歉, 我无法识别在发射器里的物品. 请按照合成表放置物品."
   wrong-item: "&e抱歉, 我无法识别你右键的物品. 检查指南书看看哪些物品可以使用."
-  GPS_CONTROL_PANEL:
-    title: GPS - 控制面板
-    transmitters: 信号发射器概览
-    waypoints: 传送点列表
 messages:
   cannot-place: "&c你不能在这里放置方块!"
   diet-cookie: "&e你感觉变轻了..."
@@ -202,16 +204,16 @@ messages:
   disabled-item: "&4&l这个物品已经被禁用了! 你是怎么得到它的"
   fire-extinguish: "&7你灭掉了身上的火"
   fortune-cookie:
-  - "&7救救我! 我被困在了幸运饼干工厂里!"
-  - "&7你明天将会死在...     苦力怕的手下"
-  - "&7在你人生的某时某刻将会有坏事发生!!!"
-  - "&7下周你将会发现你不是在现实世界, 而是在游戏里!"
-  - "&7这块曲奇将在几秒内变得很好吃"
-  - '&7你很快将会死亡而且你最后听到的词将会是 "毁灭!!!"'
-  - "&7无论你要做什么, 都不要抱苦力怕... 我试过了. 感觉不错, 但不值得."
-  - "&742. 答案是 42."
-  - "&7一天一 Walshy, 问题远离我."
-  - "&7永远不要往下挖!"
+    - "&7救救我! 我被困在了幸运饼干工厂里!"
+    - "&7你明天将会死在...     苦力怕的手下"
+    - "&7在你人生的某时某刻将会有坏事发生!!!"
+    - "&7下周你将会发现你不是在现实世界, 而是在游戏里!"
+    - "&7这块曲奇将在几秒内变得很好吃"
+    - '&7你很快将会死亡而且你最后听到的词将会是 "毁灭!!!"'
+    - "&7无论你要做什么, 都不要抱苦力怕... 我试过了. 感觉不错, 但不值得."
+    - "&742. 答案是 42."
+    - "&7一天一 Walshy, 问题远离我."
+    - "&7永远不要往下挖!"
   give-item: '&b成功给予玩家 %player% &a%amount% &7"%item%&7"'
   given-item: '&b你收到了 &a%amount% &7"%item%&7"'
   give-research: '&b你成功解锁了玩家 %player% 的研究 &7"%research%&7"'

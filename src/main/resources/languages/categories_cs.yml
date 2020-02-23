@@ -1,0 +1,25 @@
+---
+slimefun:
+  weapons: Zbraně
+  tools: Nástroje
+  items: Užitečné itemy
+  food: Jídlo
+  basic_machines: Základní stroje
+  gps: GPS stroje
+  armor: Brnění
+  magical_items: Magické itemy
+  electricity: Energie a elektrika
+  magical_gadgets: Magické pomůcky
+  technical_gadgets: Technické pomůcky
+  resources: Materiály
+  cargo: Cargo systém
+  misc: Smíšené itemy
+  tech_misc: Technické komponenty
+  magical_armor: Magická zbroj
+  talismans: Talismany (Tier I)
+  ender_talismans: Ender Talismany (Tier II)
+  christmas: Vánoce (Prosinec)
+  valentines_day: Svatého Valentýna (14. Ůnora)
+  easter: Velikonoce (Duben)
+  birthday: TheBusyBiscuitovy narozeniny (26. Říjen)
+  halloween: Halloween (31. Října)

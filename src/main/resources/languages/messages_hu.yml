@@ -2,6 +2,7 @@
 android:
   scripts:
     already-uploaded: "&4Ezt a szkriptet már feltöltötték."
+    editor: Szkript Szerkesztő
     enter-name:
     - 
     - "&eKérlek, írd be a szkript nevét"
@@ -74,6 +75,10 @@ gps:
     max: "&4Elérted a maximális útpontok számát"
     new: "&eKérlek, add meg az új útpontot chatben. &7(A Színkódok használhatóak!)"
 guide:
+  back:
+    guide: Menj vissza a Slimefun Útmutatóba
+    settings: Menj vissza a Beállítások Panelre
+    title: Vissza
   cheat:
     no-multiblocks: "&4A Multiblokkban nem tudsz csalni, meg kell építened!"
   credits:
@@ -109,47 +114,56 @@ guide:
     languages: Válaszd ki a kívánt nyelvet
     main: Slimefun Útmutató
     settings: Beállítások és Információk
-    wiki: Slimefun4 Wiki
     source: Forráskód
+    wiki: Slimefun4 Wiki
   tooltips:
     open-category: Kattints a megnyitáshoz
+    recipes:
+      generator: Rendelkezésre álló üzemanyagtípusok
+      gold-pan: Megszerezhető források
+      machine: Ebben a Gépben készített receptek
+      miner: Erőforrások, amelyeket ezzel a Bányásszal szerezhetsz be
     versions-notice: Ezek nagyon fontosak a hibák jelentésekor!
-  back:
-    title: Vissza
-    guide: Menj vissza a Slimefun Útmutatóba
-    settings: Menj vissza a Beállítások Panelre
+    wiki: Tekintsd meg ezt a tárgyat a hivatalos Slimefun Wikin
 inventory:
   no-access: "&4Nincs hozzáférésed ehhez a blokkhoz"
 languages:
+  af: Afrikánsz
+  ar: Arab
   cs: Cseh
+  da: Dán
   de: Német
   default: Szerver-Alapértelmezett
   el: Görög
   en: Angol
   es: Spanyol
+  fa: Perzsa
+  fi: Finn
   fr: Francia
   he: Héber
   hu: Magyar
   id: Indonéz
   it: Olasz
+  ja: Japán
   lv: Lett
+  ms: Maláj
   nl: Holland
+  'no': Norvég
   pl: Lengyel
   pt: Portugál (Portugália)
   pt-BR: Portugál (Brazília)
+  ro: Román
   ru: Orosz
   sk: Szlovák
   sv: Svéd
+  th: Thai
+  uk: Ukrán
   vi: Vietnami
   zh-CN: Kínai (Kína)
   zh-TW: Kínai (Tajvan)
-  ar: Arab
-  af: Afrikánsz
-  da: Dán
-  fi: Finn
-  uk: Ukrán
-  ms: Maláj
-  'no': Norvég
+  bg: Bolgár
+  ko: Koreai
+  tr: Török
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Az Altar körül nincs elég Pedestal, ami szükséges a működéséhez
@@ -170,9 +184,14 @@ machines:
     no-destinations: "&4Nem található úticél"
     pick-a-floor: "&3- Válassz emeletet -"
   full-inventory: "&eSajnálom, tele a tárolóm!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Vezérlőpult
+    transmitters: Transzmitter Áttekintése
+    waypoints: Útpont Áttekintése
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Kérlek, írd be a kívánt Hologram Szöveget a Chatbe. &r(A színkódok
       is használhatóak!)"
+    inventory-title: Hologram Szerkesztő
   ignition-chamber-no-flint: "&cAz Ignition Chamber-ből hiányik a Kovakő és Acél."
   in-use: "&cEnnek a Blokknak a tárolóját éppen megnyitotta egy másik Játékos."
   pattern-not-found: "&eSajnálom, nem ismerem fel ezt a Receptet. Kérlek, helyezd
