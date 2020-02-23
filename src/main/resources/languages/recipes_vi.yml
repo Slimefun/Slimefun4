@@ -1,0 +1,17 @@
+---
+slimefun:
+  multiblock:
+    name: Đa khối
+  enhanced_crafting_table:
+    lore:
+    - Chế tạo vật phẩm được hiển thị
+    - vào Enhanced Crafting Table.
+minecraft:
+  shaped:
+    lore:
+    - Chế tạo vật phẩm
+    - trong bàn chế tạo thường.
+  shapeless:
+    lore:
+    - Chế tạo vật phẩm này
+    - trong bàn chế tạo thường
