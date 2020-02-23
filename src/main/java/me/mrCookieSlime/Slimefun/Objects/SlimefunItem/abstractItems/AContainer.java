@@ -184,9 +184,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
                 if (ChargableBlock.isChargable(b)) {
                     if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
-                    progress.put(b, timeleft - 1);
                 }
-                else progress.put(b, timeleft - 1);
+                progress.put(b, timeleft - 1);
             }
             else {
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));

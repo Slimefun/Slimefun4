@@ -18,14 +18,10 @@ public class AncientPedestal extends SlimefunItem {
 		SlimefunItem.registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			Item stack = AncientAltarListener.findItem(b);
             if (stack != null) {
-                if (!AncientAltarListener.getPlacedItem().containsKey(b.getLocation()) || AncientAltarListener.getPlacedItem().get(b.getLocation()) == p) {
-                    stack.removeMetadata("item_placed", SlimefunPlugin.instance);
-                    b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
-                    AncientAltarListener.getPlacedItem().remove(b.getLocation());
-                    stack.remove();
-                } else {
-                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use", true);
-                }
+                stack.removeMetadata("item_placed", SlimefunPlugin.instance);
+                b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                AncientAltarListener.getPlacedItem().remove(b.getLocation());
+                stack.remove();
             }
             return true;
 		});
