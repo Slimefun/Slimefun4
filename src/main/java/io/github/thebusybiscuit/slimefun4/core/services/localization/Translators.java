@@ -57,7 +57,7 @@ public class Translators {
 		// Translators - Russian
 		addTranslator("SoSeDiK", "ru", false);
 		addTranslator("KostaTV", "ru", true);
-		addTranslator("TomWiskis", "ru", true);
+		addTranslator("TomWiskis", "MrWiskis", "ru", true);
 		
 		// Translators - Spanish
 		addTranslator("Luu7", "_Luu", "es", true);
@@ -70,7 +70,7 @@ public class Translators {
 		addTranslator("Tra-sh", "TurretTrash", "sv", true);
 		
 		// Translators - Dutch
-		addTranslator("Dr4gonD", "nl", true);
+		addTranslator("Dr4gonD", "DragonD", "nl", true);
 		addTranslator("svr333", "nl", false);
 		
 		// Translators - Polish
@@ -82,7 +82,7 @@ public class Translators {
 		addTranslator("StarWishsama", "StarWish_Sama", "zh-CN", false);
 		
 		// Translators - Chinese (Taiwan)
-		addTranslator("BrineYT", "zh-TW", true);
+		addTranslator("BrineYT", "HeroBrineKing", "zh-TW", true);
 		addTranslator("mio9", "zh-TW", true);
 		
 		// Translators - Arabic
