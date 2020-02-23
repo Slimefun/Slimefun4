@@ -9,6 +9,7 @@ slimefun:
     lore:
     - Chế tạo vật phẩm được hiển thị
     - vào Enhanced Crafting Table.
+    name: Bàn chế tạo phù phép
   armor_forge:
     name: Lò rèn giáp
     lore:
@@ -76,6 +77,7 @@ minecraft:
     lore:
     - Chế tạo vật phẩm
     - trong bàn chế tạo thường.
+    - Hình dạng rất quan trọng.
     name: Công thức chế tạo vô dạng
   shapeless:
     lore:
