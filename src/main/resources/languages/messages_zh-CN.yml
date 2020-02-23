@@ -2,6 +2,7 @@
 android:
   scripts:
     already-uploaded: "&4这个脚本已经上传过了."
+    editor: 脚本编辑器
     enter-name:
     - 
     - "&e给你的脚本起个名字吧"
@@ -38,7 +39,6 @@ android:
     uploaded:
     - "&b上传中..."
     - "&a脚本上传成功!"
-    editor: 脚本编辑器
   started: "&7你的机器人开始运行脚本"
   stopped: "&7你的机器人暂停运行了脚本"
 anvil:
@@ -117,13 +117,13 @@ guide:
     wiki: Slimefun4 维基
   tooltips:
     open-category: 单击打开
-    versions-notice: 在反馈问题时这些很重要!
-    wiki: 在官方 Slimefun 维基上查看此物品
     recipes:
-      machine: 此机器可用的合成配方
-      miner: 此采矿机可以获得的资源
       generator: 可用的燃料种类
       gold-pan: 你可以获得的资源
+      machine: 此机器可用的合成配方
+      miner: 此采矿机可以获得的资源
+    versions-notice: 在反馈问题时这些很重要!
+    wiki: 在官方 Slimefun 维基上查看此物品
 inventory:
   no-access: "&4你没有权限使用这个方块"
 languages:
@@ -136,12 +136,14 @@ languages:
   el: 希腊语
   en: 英语
   es: 西班牙语
+  fa: 波斯语
   fi: 芬兰语
   fr: 法语
   he: 希伯来语
   hu: 匈牙利语
   id: 印尼语
   it: 意大利语
+  ja: 日语
   lv: 拉脱维亚语
   ms: 马来西亚语
   nl: 荷兰语
@@ -149,17 +151,18 @@ languages:
   pl: 波兰语
   pt: 葡萄牙语 (葡萄牙)
   pt-BR: 葡萄牙语 (巴西)
+  ro: 罗马尼亚语
   ru: 俄语
   sk: 斯洛伐克文
   sv: 瑞典语
+  th: 泰语
   uk: 乌克兰语
   vi: 越南文
   zh-CN: 简体中文 (中国)
   zh-TW: 繁体中文 (台湾)
-  ja: 日语
-  fa: 波斯语
-  th: 泰语
-  ro: 罗马尼亚语
+  bg: 保加利亚语
+  ko: 韩语
+  tr: 土耳其语
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4古代基座不足. 目前已摆放的基座数: &c(%pedestals% / 8)"
@@ -177,6 +180,10 @@ machines:
     no-destinations: "&4找不到目的地"
     pick-a-floor: "&3- 选择一个楼层 -"
   full-inventory: "&e抱歉, 背包已经满了!"
+  GPS_CONTROL_PANEL:
+    title: GPS - 控制面板
+    transmitters: 信号发射器概览
+    waypoints: 传送点列表
   HOLOGRAM_PROJECTOR:
     enter-text: "&7请写下想显示在全息文本上的话. &r(支持颜色代码)"
     inventory-title: 全息图像编辑器
@@ -190,10 +197,6 @@ machines:
     teleporting: "&3传送中..."
   unknown-material: "&e抱歉, 我无法识别在发射器里的物品. 请按照合成表放置物品."
   wrong-item: "&e抱歉, 我无法识别你右键的物品. 检查指南书看看哪些物品可以使用."
-  GPS_CONTROL_PANEL:
-    title: GPS - 控制面板
-    transmitters: 信号发射器概览
-    waypoints: 传送点列表
 messages:
   cannot-place: "&c你不能在这里放置方块!"
   diet-cookie: "&e你感觉变轻了..."
