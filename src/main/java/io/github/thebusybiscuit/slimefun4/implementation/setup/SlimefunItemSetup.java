@@ -38,15 +38,13 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.JetBoots;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Jetpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.RadioactiveItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -58,7 +56,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.AncientPed
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramProjector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.InfusedHopper;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.ReactorAccessPort;
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.TrashCan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.AdvancedCargoOutputNode;
@@ -68,7 +66,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoManage
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoOutputNode;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Bandage;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.DietCookie;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.EnderBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.EnderBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.ExplosiveBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosivePickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
@@ -77,11 +75,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.HerculesPickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.InfernalBonemeal;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.KnowledgeFlask;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.KnowledgeTome;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfernalBonemeal;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeFlask;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeTome;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.LumberAxe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.MagicEyeOfEnder;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeOfEnder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MagicSugar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MeatJerky;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Medicine;
@@ -99,16 +97,16 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Rag;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.SolarHelmet;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.SoulboundBackpack;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.SoulboundRune;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Splint;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.StormStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EasterEgg;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SwordOfBeheading;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.TelepositionScroll;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.TelepositionScroll;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Vitamins;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.WaterStaff;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.WindStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.WaterStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.WindStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
@@ -362,7 +360,12 @@ public final class SlimefunItemSetup {
                 .register(plugin);
 
         SlimefunManager.registerArmorSet(new ItemStack(Material.GLOWSTONE), new ItemStack[] {SlimefunItems.GLOWSTONE_HELMET, SlimefunItems.GLOWSTONE_CHESTPLATE, SlimefunItems.GLOWSTONE_LEGGINGS, SlimefunItems.GLOWSTONE_BOOTS}, "GLOWSTONE",
-                new PotionEffect[][] {new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}, new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}, new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}, new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}}, true, true);
+                new PotionEffect[][] {
+                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)},
+                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)},
+                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)},
+                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}
+                }, true, plugin);
 
         SlimefunManager.registerArmorSet(SlimefunItems.DAMASCUS_STEEL_INGOT, new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_HELMET, SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, SlimefunItems.DAMASCUS_STEEL_LEGGINGS, SlimefunItems.DAMASCUS_STEEL_BOOTS}, "DAMASCUS_STEEL", true, false);
 
@@ -418,12 +421,14 @@ public final class SlimefunItemSetup {
                 new ItemStack[] {SlimefunItems.LEAD_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_INGOT, null, null, null, null, null, null})
                 .register(plugin);
 
-        new ReplacingAlloy(SlimefunItems.SYNTHETIC_SAPPHIRE, "SYNTHETIC_SAPPHIRE",
+        new Alloy((SlimefunItemStack) SlimefunItems.SYNTHETIC_SAPPHIRE,
                 new ItemStack[] {SlimefunItems.ALUMINUM_DUST, new ItemStack(Material.GLASS), new ItemStack(Material.GLASS_PANE), SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.LAPIS_LAZULI), null, null, null, null})
+                .setUseableInWorkbench(true)
                 .register(plugin);
 
-        new ReplacingItem(Categories.RESOURCES, SlimefunItems.SYNTHETIC_DIAMOND, "SYNTHETIC_DIAMOND", RecipeType.PRESSURE_CHAMBER,
+        new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.SYNTHETIC_DIAMOND, RecipeType.PRESSURE_CHAMBER,
                 new ItemStack[] {SlimefunItems.CARBON_CHUNK, null, null, null, null, null, null, null, null})
+                .setUseableInWorkbench(true)
                 .register(plugin);
 
         new Alloy((SlimefunItemStack) SlimefunItems.RAW_CARBONADO,
@@ -795,11 +800,18 @@ public final class SlimefunItemSetup {
                 new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.IRON_DUST, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new ReplacingAlloy(SlimefunItems.SYNTHETIC_EMERALD, "SYNTHETIC_EMERALD",
+        new Alloy((SlimefunItemStack) SlimefunItems.SYNTHETIC_EMERALD,
                 new ItemStack[] {SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.GLASS_PANE), null, null, null, null, null})
+                .setUseableInWorkbench(true)
                 .register(plugin);
 
-        SlimefunManager.registerArmorSet(SlimefunItems.CHAIN, new ItemStack[] {new ItemStack(Material.CHAINMAIL_HELMET), new ItemStack(Material.CHAINMAIL_CHESTPLATE), new ItemStack(Material.CHAINMAIL_LEGGINGS), new ItemStack(Material.CHAINMAIL_BOOTS)}, "CHAIN", true, true);
+        SlimefunManager.registerArmorSet(new ItemStack(Material.GLOWSTONE), new ItemStack[] {SlimefunItems.GLOWSTONE_HELMET, SlimefunItems.GLOWSTONE_CHESTPLATE, SlimefunItems.GLOWSTONE_LEGGINGS, SlimefunItems.GLOWSTONE_BOOTS}, "GLOWSTONE",
+                new PotionEffect[][] {
+                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)},
+                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)},
+                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)},
+                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}
+                }, true, plugin);
 
         new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_WHIRLWIND,
                 new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.STAFF_WIND, SlimefunItems.TALISMAN_TRAVELLER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3}

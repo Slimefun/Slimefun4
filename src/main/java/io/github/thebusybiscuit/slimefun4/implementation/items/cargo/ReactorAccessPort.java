@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
+package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

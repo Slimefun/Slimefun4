@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import org.bukkit.ChatColor;
@@ -37,7 +38,7 @@ public class AncientAltarListener implements Listener {
 
 	private final Set<AltarRecipe> altarRecipes = new HashSet<>();
 	private final Set<Location> altarsInUse = new HashSet<>();
-	private final static Map<Location, Player> pedestalsInUse = new LinkedHashMap<>();
+	private final static Map<Location, Player> placedItem = new ConcurrentHashMap<>();
 
 	private final List<Block> altars = new ArrayList<>();
 	private final Set<UUID> removedItems = new HashSet<>();
@@ -50,8 +51,8 @@ public class AncientAltarListener implements Listener {
 		return altarsInUse;
 	}
 
-	public static Map<Location, Player> getPedestalsInUse() {
-	    return pedestalsInUse;
+	public static Map<Location, Player> getPlacedItem() {
+	    return placedItem;
     }
 
 	@EventHandler
@@ -89,7 +90,7 @@ public class AncientAltarListener implements Listener {
 				insertItem(e.getPlayer(), b);
 			}
 			else if (!removedItems.contains(stack.getUniqueId())) {
-			    if (getPedestalsInUse().containsKey(b.getLocation()) || getPedestalsInUse().get(b.getLocation()) == e.getPlayer()) {
+			    if (getPlacedItem().get(b.getLocation()) == e.getPlayer()) {
                     UUID uuid = stack.getUniqueId();
                     removedItems.add(uuid);
 
@@ -98,7 +99,7 @@ public class AncientAltarListener implements Listener {
                     stack.remove();
                     e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
                     e.getPlayer().playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
-                    getPedestalsInUse().remove(b.getLocation());
+                    getPlacedItem().remove(b.getLocation());
                 } else {
                     SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_PEDESTAL.in-use", true);
                     return;
@@ -209,7 +210,7 @@ public class AncientAltarListener implements Listener {
 	}
 
 	private void insertItem(Player p, Block b) {
-	    if (!getPedestalsInUse().containsKey(b.getLocation())) {
+	    if (!getPlacedItem().containsKey(b.getLocation())) {
             ItemStack hand = p.getInventory().getItemInMainHand();
             ItemStack stack = new CustomItem(hand, 1);
 
@@ -224,7 +225,7 @@ public class AncientAltarListener implements Listener {
             entity.setCustomNameVisible(true);
             entity.setCustomName(nametag);
             p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
-            getPedestalsInUse().put(b.getLocation(), p);
+            getPlacedItem().put(b.getLocation(), p);
         } else {
             SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use", true);
         }

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.multiblocks;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import org.bukkit.Material;

@@ -35,7 +35,7 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Objects.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -398,15 +398,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 				}
 			}
 
-			if (mcRecipe == MinecraftRecipe.SHAPED_CRAFTING) {
-				recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7有序合成表"));
-			}
-			else if (mcRecipe == MinecraftRecipe.SHAPELESS_CRAFTING) {
-				recipeType = new RecipeType(new CustomItem(mcRecipe.getMachine(), null, "&7无序合成表"));
-			}
-			else {
-				recipeType = new RecipeType(mcRecipe);
-			}
+            recipeType = new RecipeType(mcRecipe);
 
 			result = recipe.getResult();
 		}
@@ -458,7 +450,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		ChestMenu menu = create(p);
 
 		if (item.hasWiki()) {
-            menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, ChatColor.RESET + SlimefunPlugin.getLocal().getMessage("guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
+            menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
 			menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
 				pl.closeInventory();
 				ChatUtils.sendURL(pl, item.getWiki());
@@ -494,7 +486,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 			menu.addItem(RECIPE_SLOTS[i], getDisplayItem(p, isSlimefunRecipe, recipe[i]), clickHandler);
 		}
 
-		menu.addItem(10, recipeType.toItem(), ChestMenuUtils.getEmptyClickHandler());
+		menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
 		menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
 	}
 

@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools.StormStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public final class SlimefunItems {

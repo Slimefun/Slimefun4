@@ -27,7 +27,7 @@ public class BlockPhysicsListener implements Listener {
 	@EventHandler
 	public void onBlockFall(EntityChangeBlockEvent e) {
 		if (e.getEntity() instanceof FallingBlock) {
-			if (SlimefunPlugin.getUtilities().blocks.contains(e.getEntity().getUniqueId())) {
+            if (e.getEntity().hasMetadata("seismic_axe")) {
 				e.setCancelled(true);
 				e.getEntity().remove();
 			}

@@ -1,11 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -13,7 +10,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
@@ -141,34 +137,6 @@ public class Research implements Keyed {
     }
 
     /**
-     * Convenience method to check if the player unlocked this research.
-     *
-     * @param p Player to check
-     * @return true if he unlocked the research, otherwise false
-     *
-     * @since 4.0
-     * @see #hasUnlocked(UUID)
-     */
-    @Deprecated
-    public boolean hasUnlocked(Player p) {
-        return hasUnlocked(p.getUniqueId());
-    }
-
-    /**
-     * Checks if the player unlocked this research.
-     *
-     * @param uuid UUID of the player to check
-     * @return true if he unlocked the research, otherwise false
-     *
-     * @since 4.0
-     * @see #hasUnlocked(Player)
-     */
-    @Deprecated
-    public boolean hasUnlocked(UUID uuid) {
-        return PlayerProfile.fromUUID(uuid).hasUnlocked(this);
-    }
-
-    /**
      * Checks if the player can unlock this research.
      *
      * @param p Player to check
@@ -247,7 +215,10 @@ public class Research implements Keyed {
     public void register() {
         SlimefunPlugin.getResearchCfg().setDefaultValue("enable-researching", true);
 
-        if (SlimefunPlugin.getResearchCfg().contains(this.getID() + ".enabled") && !SlimefunPlugin.getResearchCfg().getBoolean(this.getID() + ".enabled")) {
+        String path = key.getNamespace() + "." + key.getKey();
+        migrate(id, path);
+
+        if (SlimefunPlugin.getResearchCfg().contains(path + ".enabled") && !SlimefunPlugin.getResearchCfg().getBoolean(path + ".enabled")) {
             Iterator<SlimefunItem> iterator = items.iterator();
             while (iterator.hasNext()) {
                 SlimefunItem item = iterator.next();
@@ -257,11 +228,11 @@ public class Research implements Keyed {
             return;
         }
 
-        SlimefunPlugin.getResearchCfg().setDefaultValue(this.getID() + ".cost", this.getCost());
-        SlimefunPlugin.getResearchCfg().setDefaultValue(this.getID() + ".enabled", true);
+        SlimefunPlugin.getResearchCfg().setDefaultValue(path + ".cost", this.getCost());
+        SlimefunPlugin.getResearchCfg().setDefaultValue(path + ".enabled", true);
 
-        this.cost = SlimefunPlugin.getResearchCfg().getInt(this.getID() + ".cost");
-        this.enabled = SlimefunPlugin.getResearchCfg().getBoolean(this.getID() + ".enabled");
+        this.cost = SlimefunPlugin.getResearchCfg().getInt(path + ".cost");
+        this.enabled = SlimefunPlugin.getResearchCfg().getBoolean(path + ".enabled");
 
         SlimefunPlugin.getRegistry().getResearches().add(this);
         SlimefunPlugin.getRegistry().getResearchIds().add(this);
@@ -269,6 +240,18 @@ public class Research implements Keyed {
         if (SlimefunPlugin.getSettings().printOutLoading) {
             Slimefun.getLogger().log(Level.INFO, "Loaded Research \"{0}\"", name);
         }
+    }
+
+    private void migrate(int id, String path) {
+        if (SlimefunPlugin.getResearchCfg().contains(id + ".enabled")) {
+            SlimefunPlugin.getResearchCfg().setValue(path + ".enabled", SlimefunPlugin.getResearchCfg().getBoolean(id + ".enabled"));
+        }
+
+        if (SlimefunPlugin.getResearchCfg().contains(id + ".cost")) {
+            SlimefunPlugin.getResearchCfg().setValue(path + ".cost", SlimefunPlugin.getResearchCfg().getInt(id + ".cost"));
+        }
+
+        SlimefunPlugin.getResearchCfg().setValue(String.valueOf(id), null);
     }
 
     /**
@@ -284,21 +267,6 @@ public class Research implements Keyed {
     }
 
     /**
-     * Gets the title of the specified player.
-     *
-     * @param p Player to get the rank
-     * @param researched List of the player's unlocked researches
-     * @return the title of the specified player
-     *
-     * @since 4.0
-     * @see #sendStats(CommandSender, Player)
-     */
-    @Deprecated
-    public static String getTitle(Player p, Collection<Research> researched) {
-        return PlayerProfile.get(p).getTitle();
-    }
-
-    /**
      * Attempts to get the research with the given ID.
      *
      * @param id ID of the research to get
@@ -311,24 +279,6 @@ public class Research implements Keyed {
             if (research.getID() == id) return research;
         }
         return null;
-    }
-
-    /**
-     * Gets the list of unlocked researches for a player using his UUID.
-     *
-     * @param uuid UUID of the player
-     * @return the list of unlocked researches for the player
-     *
-     * @since 4.0
-     * @see #getResearches(String)
-     */
-    @Deprecated
-    public static List<Research> getResearches(UUID uuid) {
-        List<Research> researched = new ArrayList<>();
-        for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (research.hasUnlocked(uuid)) researched.add(research);
-        }
-        return researched;
     }
 
     @Override

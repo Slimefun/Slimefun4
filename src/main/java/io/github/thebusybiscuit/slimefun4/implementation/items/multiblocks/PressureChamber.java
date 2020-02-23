@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import me.mrCookieSlime.Slimefun.Objects.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;

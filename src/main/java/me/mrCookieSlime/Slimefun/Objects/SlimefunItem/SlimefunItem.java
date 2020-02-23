@@ -361,6 +361,11 @@ public class SlimefunItem implements Placeable {
         return useableInWorkbench;
     }
 
+    public SlimefunItem setUseableInWorkbench(boolean useable) {
+        this.useableInWorkbench = useable;
+        return this;
+    }
+
     public static SlimefunItem getByID(String id) {
         return SlimefunPlugin.getRegistry().getSlimefunItemIds().get(id);
     }
@@ -417,7 +422,7 @@ public class SlimefunItem implements Placeable {
             ItemStack output = item.clone();
             if (recipeOutput != null) output = recipeOutput.clone();
 
-            if (recipeType.toItem().isSimilar(RecipeType.MOB_DROP.toItem())) {
+            if (recipeType == RecipeType.MOB_DROP) {
                 String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
 
                 try {
@@ -429,7 +434,7 @@ public class SlimefunItem implements Placeable {
                     Slimefun.getLogger().log(Level.WARNING, "An Exception occured when setting a Drop for the Mob: " + mob + " (" + x.getClass().getSimpleName() + ")");
                 }
             }
-            else if (recipeType.toItem().isSimilar(RecipeType.ANCIENT_ALTAR.toItem())) {
+            else if (recipeType == RecipeType.ANCIENT_ALTAR) {
                 new AltarRecipe(Arrays.asList(recipe), output);
             }
             else if (recipeType.getMachine() != null) {

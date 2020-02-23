@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

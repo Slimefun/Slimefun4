@@ -109,7 +109,7 @@ public abstract class ElectricSmeltery extends AContainer {
 	}
 	
 	private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
-		return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
+		return Comparator.comparingInt(slot -> menu.getItemInSlot(slot).getAmount());
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public abstract class ElectricSmeltery extends AContainer {
 
 				@Override
 				public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-					return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
+					return cursor == null || cursor.getType() == Material.AIR;
 				}
 			});
 		}

@@ -16,6 +16,7 @@ public final class Language {
     private FileConfiguration researches;
     private FileConfiguration resources;
     private FileConfiguration categories;
+    private FileConfiguration recipeTypes;
 
     public Language(String id, String hash) {
         this.id = id;
@@ -44,6 +45,10 @@ public final class Language {
         return categories;
     }
 
+    public FileConfiguration getRecipeTypes() {
+        return recipeTypes;
+    }
+
     public void setMessages(FileConfiguration config) {
         this.messages = config;
     }
@@ -58,6 +63,10 @@ public final class Language {
 
     public void setCategories(FileConfiguration config) {
         this.categories = config;
+    }
+
+    public void setRecipeTypes(FileConfiguration config) {
+        this.recipeTypes = config;
     }
 
     public ItemStack getItem() {

@@ -81,7 +81,11 @@ public class LocalizationService extends SlimefunLocalization {
     @Override
     public boolean hasLanguage(String language) {
         // Checks if our jar files contains any .yml file for this id
-        return containsResource("messages_" + language) || containsResource("researches_" + language) || containsResource("resources_" + language);
+        return containsResource("messages_" + language)
+                || containsResource("researches_" + language)
+                || containsResource("resources_" + language)
+                || containsResource("categories_" + language)
+                || containsResource("recipes_" + language);
     }
 
     private boolean containsResource(String file) {
@@ -121,7 +125,7 @@ public class LocalizationService extends SlimefunLocalization {
         defaultLanguage.setResearches(streamConfigFile("researches_" + language + ".yml", null));
         defaultLanguage.setResources(streamConfigFile("resources_" + language + ".yml", null));
         defaultLanguage.setCategories(streamConfigFile("categories_" + language + ".yml", null));
-
+        defaultLanguage.setRecipeTypes(streamConfigFile("recipes_" + language + ".yml", null));
 
         Slimefun.getLogger().log(Level.INFO, "Loaded language \"{0}\"", language);
         getConfig().setValue(LANGUAGE_PATH, language);
@@ -145,12 +149,14 @@ public class LocalizationService extends SlimefunLocalization {
             FileConfiguration researches = streamConfigFile("researches_" + id + ".yml", null);
             FileConfiguration resources = streamConfigFile("resources_" + id + ".yml", null);
             FileConfiguration categories = streamConfigFile("categories_" + id + ".yml", null);
+            FileConfiguration recipes = streamConfigFile("recipes_" + id + ".yml", null);
 
             Language language = new Language(id, hash);
             language.setMessages(messages);
             language.setResearches(researches);
             language.setResources(resources);
             language.setCategories(categories);
+            language.setRecipeTypes(recipes);
 
             languages.put(id, language);
         }
@@ -164,7 +170,7 @@ public class LocalizationService extends SlimefunLocalization {
     }
 
     private int getTotalKeys(Language lang) {
-        return getKeys(lang.getMessages(), lang.getResearches(), lang.getResources(), lang.getCategories());
+        return getKeys(lang.getMessages(), lang.getResearches(), lang.getResources(), lang.getCategories(), lang.getRecipeTypes());
     }
 
     private int getKeys(FileConfiguration... files) {

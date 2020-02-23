@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.magic_tools;
+package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import org.bukkit.inventory.ItemStack;

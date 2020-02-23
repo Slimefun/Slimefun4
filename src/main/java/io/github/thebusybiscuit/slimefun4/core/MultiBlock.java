@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects;
+package io.github.thebusybiscuit.slimefun4.core;
 
 import java.util.Arrays;
 import java.util.List;

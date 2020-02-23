@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 

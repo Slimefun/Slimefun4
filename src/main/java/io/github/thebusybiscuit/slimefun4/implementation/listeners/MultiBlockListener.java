@@ -16,7 +16,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 
 public class MultiBlockListener implements Listener {

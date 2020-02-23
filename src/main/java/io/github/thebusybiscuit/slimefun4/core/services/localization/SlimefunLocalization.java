@@ -8,11 +8,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 
 public abstract class SlimefunLocalization extends Localization implements Keyed {
 
@@ -60,6 +64,29 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         else {
             return getLanguage("en").getResources().getString(key);
         }
+    }
+
+    public ItemStack getRecipeTypeItem(Player p, RecipeType recipeType) {
+        Language language = getLanguage(p);
+        ItemStack item = recipeType.toItem();
+        NamespacedKey key = recipeType.getKey();
+
+        if (language.getRecipeTypes() == null || !language.getRecipeTypes().contains(key.getNamespace() + "." + key.getKey())) {
+            language = getLanguage("en");
+        }
+
+        if (!language.getRecipeTypes().contains(key.getNamespace() + "." + key.getKey())) {
+            return item;
+        }
+
+        FileConfiguration config = language.getRecipeTypes();
+
+        return new CustomItem(item, meta -> {
+            meta.setDisplayName(ChatColor.AQUA + config.getString(key.getNamespace() + "." + key.getKey() + ".name"));
+            List<String> lore = config.getStringList(key.getNamespace() + "." + key.getKey() + ".lore");
+            lore.replaceAll(str -> ChatColor.GRAY + str);
+            meta.setLore(lore);
+        });
     }
 
     @Override
