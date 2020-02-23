@@ -146,17 +146,17 @@ public class CargoNet extends Network {
 
     public void tick(Block b) {
         if (!regulator.equals(b.getLocation())) {
-            SimpleHologram.update(b, "&4Multiple Cargo Regulators connected");
+            SimpleHologram.update(b, "&4已连接至多个货运调节器");
             return;
         }
 
         super.tick();
 
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-            SimpleHologram.update(b, "&cNo Cargo Nodes found");
+            SimpleHologram.update(b, "&c找不到货运节点");
         }
         else {
-            SimpleHologram.update(b, "&7Status: &a&lONLINE");
+            SimpleHologram.update(b, "&7状态: &a&l在线");
             Map<Integer, List<Location>> output = new HashMap<>();
 
             List<Location> list = new LinkedList<>();
@@ -420,7 +420,7 @@ public class CargoNet extends Network {
                         UniversalBlockMenu menu = BlockStorage.getUniversalInventory(target);
 
                         if (menu != null) {
-                            for (int slot : menu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) menu, ItemTransportFlow.WITHDRAW, null)) {
+                            for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
                                 ItemStack is = menu.getItemInSlot(slot);
                                 filter(is, items, l);
                             }
@@ -432,7 +432,7 @@ public class CargoNet extends Network {
                             if (cfg.getString("id").startsWith("BARREL_") && cfg.getString("storedItems") != null) {
                                 int stored = Integer.parseInt(cfg.getString("storedItems"));
 
-                                for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) blockMenu, ItemTransportFlow.WITHDRAW, null)) {
+                                for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport(blockMenu, ItemTransportFlow.WITHDRAW, null)) {
                                     ItemStack is = blockMenu.getItemInSlot(slot);
 
                                     if (is != null && CargoUtils.matchesFilter(l.getBlock(), is, -1)) {
@@ -468,7 +468,7 @@ public class CargoNet extends Network {
                         }
                     }
 
-                    Collections.sort(items, Comparator.comparingInt(item -> -item.getInt()));
+                    items.sort(Comparator.comparingInt(item -> -item.getInt()));
 
                     for (Location l : terminals) {
                         BlockMenu menu = BlockStorage.getInventory(l);
@@ -489,10 +489,10 @@ public class CargoNet extends Network {
                                 ItemMeta im = stack.getItemMeta();
                                 List<String> lore = new ArrayList<>();
                                 lore.add("");
-                                lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getInt())));
+                                lore.add(ChatColors.color("&7已储存的物品: &r" + DoubleHandler.getFancyDouble(item.getInt())));
 
-                                if (stack.getMaxStackSize() > 1) lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + (item.getInt() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getInt()) + ">"));
-                                else lore.add(ChatColors.color("&7<Left Click: Request 1>"));
+                                if (stack.getMaxStackSize() > 1) lore.add(ChatColors.color("&7<左键: 请求1个物品 | 右键: 请求" + (Math.min(item.getInt(), stack.getMaxStackSize())) + ">"));
+                                else lore.add(ChatColors.color("&7<左键: 请求1个物品>"));
 
                                 lore.add("");
                                 if (im.hasLore()) {
@@ -503,7 +503,7 @@ public class CargoNet extends Network {
                                 stack.setItemMeta(im);
                                 menu.replaceExistingItem(slot, stack);
                                 menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
-                                    int amount = item.getInt() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getInt();
+                                    int amount = Math.min(item.getInt(), item.getItem().getMaxStackSize());
                                     itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
                                     return false;
                                 });

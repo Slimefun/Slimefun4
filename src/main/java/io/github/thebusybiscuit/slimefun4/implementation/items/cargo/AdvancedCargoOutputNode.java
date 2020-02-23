@@ -81,7 +81,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 				}
 				
 				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
-					menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
+					menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7判断 Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
 					menu.addMenuClickHandler(25, (p, slot, item, action) -> {
 						BlockStorage.addBlockInfo(b, "filter-lore", "false");
 						newInstance(menu, b);
@@ -89,7 +89,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 					});
 				}
 				else {
-					menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
+					menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7判断 Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
 					menu.addMenuClickHandler(25, (p, slot, item, action) -> {
 						BlockStorage.addBlockInfo(b, "filter-lore", "true");
 						newInstance(menu, b);
