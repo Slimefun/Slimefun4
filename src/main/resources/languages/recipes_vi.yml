@@ -9,6 +9,7 @@ slimefun:
     lore:
     - Chế tạo vật phẩm được hiển thị
     - vào Enhanced Crafting Table.
+    - Một bàn chế tạo bình thường sẽ không đủ!
     name: Bàn chế tạo phù phép
   armor_forge:
     name: Lò rèn giáp
@@ -23,9 +24,13 @@ slimefun:
   smeltery:
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng lò nung
+    name: Lò nung
   ore_crusher:
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng máy nghiền quặng
+    name: Máy nghiền quặng
   mob_drop:
     name: Vật phẩm bị rơi ra từ con vật bị giết
     lore:
@@ -35,10 +40,12 @@ slimefun:
     lore:
     - Dùng chảo vàng để
     - lấy vật phẩm này
+    name: Chảo vàng
   compressor:
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
     - sử dụng một máy nén
+    name: Máy nén
   pressure_chamber:
     name: Buồng áp suất nóng
     lore:
@@ -47,10 +54,13 @@ slimefun:
   ore_washer:
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng máy rửa quặng
+    name: Máy rửa quặng
   juicer:
     lore:
     - Chế tạo nước ép này như đã hiển thị
     - sử dụng máy ép trái cây
+    name: Máy ép trái cây
   ancient_altar:
     name: Cột trụ cổ
     lore:
@@ -72,6 +82,11 @@ slimefun:
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
     - sử dụng một máy tổng hợp thức ăn
+  magic_workbench:
+    name: Bàn làm việc ma thuật
+    lore:
+    - Chế tạo vật phẩm này như hình
+    - sử dụng bàn chế tạo ma thuật
 minecraft:
   shaped:
     lore:
@@ -84,10 +99,11 @@ minecraft:
     - Chế tạo vật phẩm này
     - trong bàn chế tạo thường
     - Công thức này vô dạng.
+    name: Công thức chế tạo hình
   furnace:
     name: Công thức nung lò nung
     lore:
-    - 
+    - Nung vật phẩm này trong lò
     - để chế tạo vật phẩm bạn muốn
   blasting:
     name: Công thức lò nung phản ứng
