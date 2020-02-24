@@ -1,0 +1,150 @@
+---
+android:
+  scripts:
+    instructions:
+      INTERFACE_FUEL: "&cVegyen ki az Üzemanyagot a csatlakozási Felületről"
+      INTERFACE_ITEMS: "&9Tegye az Eszköztár Tartalmát a csatlakozási Felületbe"
+gps:
+  geo:
+    scan-required: "&4GEO-Vizsgálat szükséges! &cElőbb vizsgáld meg ezt a chunkot
+      a GEO-Szkennerrel!"
+guide:
+  languages:
+    selected-language: 'Jelenleg kiválasztva:'
+languages:
+  pt: Portugál (Portugália)
+  pt-BR: Portugál (Brazília)
+machines:
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4Az Oltár körül nincs elég Talapzat, ami szükséges a működéséhez
+      &c(%pedestals% / 8)"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4A Talapzat el van torlaszolva! &cTávolíts el mindent, ami a talapzat
+      felett van!"
+  ignition-chamber-no-flint: "&cA Gyújtókamrából hiányzik a Kovakő és Acél."
+slimefun:
+  multiblock:
+    name: Multiblock
+    lore:
+    - Építsd meg a látott szerkezetet
+    - az ábra alapján. Ez nem barkácsolás.
+  enhanced_crafting_table:
+    name: Enhanced Crafting Table
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Enhanced Crafting Table-ben.
+    - A normális Barkácsasztal nem lesz elegendő!
+  armor_forge:
+    name: Armor Forge
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Armor Forge segítségével
+  grind_stone:
+    name: Grind Stone
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Grind Stone segítségével
+  smeltery:
+    name: Smeltery
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Smeltery segítségével
+  ore_crusher:
+    name: Ore Crusher
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Ore Crusher segítségével
+  mob_drop:
+    name: Mob Drop
+    lore:
+    - Öld meg ezt az Élőlényt,
+    - hogy megszerezd ezt a tárgyat
+  gold_pan:
+    name: Gold Pan
+    lore:
+    - Használd az Gold Pan-t,
+    - hogy megszerezd ezt a tárgyat
+  compressor:
+    name: Compressor
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Compressor segítségével
+  pressure_chamber:
+    name: Pressure Chamber
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Pressure Chamber segítségével
+  ore_washer:
+    name: Ore Washer
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Ore Washer segítségével
+  juicer:
+    name: Juicer
+    lore:
+    - Készítsd el ezt a Gyümölcslevet az ábra alapján
+    - egy Juicer segítségével
+  magic_workbench:
+    name: Magic Workbench
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Magic Workbench segítségével
+  ancient_altar:
+    name: Ancient Altar
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Ancient Altar segítségével.
+    - Keress utána az Ancient Altar-nak a további információkért
+  heated_pressure_chamber:
+    name: Heated Pressure Chamber
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Heated Pressure Chamber segítségével
+  food_fabricator:
+    name: Food Fabricator
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Food Fabricator használatával
+  food_composter:
+    name: Food Composter
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Food Composter segítségével
+minecraft:
+  shaped:
+    name: Barkácsrecept Forma
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Normális Barkácsasztal segítségével.
+    - A forma fontos.
+  shapeless:
+    name: Forma Nélküli Barkácsrecept
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Normális Barkácsasztal segítségével.
+    - Ez a Recept forma nélküli.
+  furnace:
+    name: Kemence Recept
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Kemencében,
+    - hogy elkészítsd a kívánt tárgyat
+  blasting:
+    name: Kohó Recept
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Kohóban,
+    - hogy elkészítsd a kívánt tárgyat
+  smoking:
+    name: Füstölő Recept
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Füstölőben,
+    - hogy elkészítsd a kívánt tárgyat
+  campfire:
+    name: Tábortűz Recept
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Tábortűzön,
+    - hogy elkészítsd a kívánt tárgyat
+  stonecutting:
+    name: Kővágó Recept
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Kővágó használatával
