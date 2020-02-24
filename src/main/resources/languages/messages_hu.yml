@@ -23,8 +23,6 @@ android:
       GO_DOWN: "&7Menj lefelé"
       GO_FORWARD: "&7Menj előre"
       GO_UP: "&7Menj felfelé"
-      INTERFACE_FUEL: "&cVegyen ki az Üzemanyagot a faced Interface-ből"
-      INTERFACE_ITEMS: "&9Tegye az Eszköztár Tartalmát a faced Interface-be"
       MOVE_AND_DIG_DOWN: "&bMenj és Áss lefelé"
       MOVE_AND_DIG_FORWARD: "&bMenj és Áss előre"
       MOVE_AND_DIG_UP: "&bMenj és Áss felfelé"
@@ -33,6 +31,8 @@ android:
       TURN_LEFT: "&7Fordulj balra"
       TURN_RIGHT: "&7Fordulj jobbra"
       WAIT: "&eVárjon 0.5s"
+      INTERFACE_ITEMS: "&9Tegye az Eszköztár Tartalmát a csatlakozási Felületbe"
+      INTERFACE_FUEL: "&cVegyen ki az Üzemanyagot a csatlakozási Felületről"
     rating:
       already: "&4Ezt a szkriptet már értékelted!"
       own: "&4Nem értékelheted a saját szkriptedet!"
@@ -63,9 +63,6 @@ commands:
   versions: Az összes telepített Kiegészítőt listázza
 gps:
   deathpoint: "&4Halálpont &7%date%"
-  geo:
-    scan-required: "&4GEO-Vizsgálat szükséges! &cElőbb vizsgáld meg ezt a chunk-ot
-      a GEO-Szkennerrel!"
   insufficient-complexity:
   - "&4Nem megfelelő a GPS Hálózat Komplexitása: &c%complexity%"
   - "&4a) Még nem telepítetted a GPS Hálózatot"
@@ -74,6 +71,9 @@ gps:
     added: "&aSikeresen megadtad az útpontot"
     max: "&4Elérted a maximális útpontok számát"
     new: "&eKérlek, add meg az új útpontot chatben. &7(A Színkódok használhatóak!)"
+  geo:
+    scan-required: "&4GEO-Vizsgálat szükséges! &cElőbb vizsgáld meg ezt a chunkot
+      a GEO-Szkennerrel!"
 guide:
   back:
     guide: Menj vissza a Slimefun Útmutatóba
@@ -130,6 +130,7 @@ inventory:
 languages:
   af: Afrikánsz
   ar: Arab
+  bg: Bolgár
   cs: Cseh
   da: Dán
   de: Német
@@ -145,6 +146,7 @@ languages:
   id: Indonéz
   it: Olasz
   ja: Japán
+  ko: Koreai
   lv: Lett
   ms: Maláj
   nl: Holland
@@ -157,22 +159,17 @@ languages:
   sk: Szlovák
   sv: Svéd
   th: Thai
+  tr: Török
   uk: Ukrán
   vi: Vietnami
   zh-CN: Kínai (Kína)
   zh-TW: Kínai (Tajvan)
-  bg: Bolgár
-  ko: Koreai
-  tr: Török
 machines:
   ANCIENT_ALTAR:
-    not-enough-pedestals: "&4Az Altar körül nincs elég Pedestal, ami szükséges a működéséhez
-      &c(%pedestals% / 8)"
     unknown-catalyst: "&4Ismeretlen Katalizátor! &cEhelyett használd a helyes Receptet!"
     unknown-recipe: "&4Ismeretlen Recept! &cEhelyett használd a helyes Receptet!"
-  ANCIENT_PEDESTAL:
-    obstructed: "&4A Pedestal el van torlaszolva! &cTávolíts el mindent, ami a pedestal
-      felett van!"
+    not-enough-pedestals: "&4Az Oltár körül nincs elég Talapzat, ami szükséges a működéséhez
+      &c(%pedestals% / 8)"
   CARGO_NODES:
     must-be-placed: "&4Ládára vagy gépre kell helyezni!"
   ELEVATOR:
@@ -192,7 +189,6 @@ machines:
     enter-text: "&7Kérlek, írd be a kívánt Hologram Szöveget a Chatbe. &r(A színkódok
       is használhatóak!)"
     inventory-title: Hologram Szerkesztő
-  ignition-chamber-no-flint: "&cAz Ignition Chamber-ből hiányik a Kovakő és Acél."
   in-use: "&cEnnek a Blokknak a tárolóját éppen megnyitotta egy másik Játékos."
   pattern-not-found: "&eSajnálom, nem ismerem fel ezt a Receptet. Kérlek, helyezd
     a Tárgyakat a megfelelő mintában az Adagolóba."
@@ -205,6 +201,10 @@ machines:
     tegyél bele valamit, amit ismerek."
   wrong-item: "&eSajnálom, nem ismerem fel azt a Tárgyat, amire kattintottál velem.
     Ellenőrizd a Recepteket, és nézd meg, mely Tárgyakat használhatod."
+  ignition-chamber-no-flint: "&cA Gyújtókamrából hiányzik a Kovakő és Acél."
+  ANCIENT_PEDESTAL:
+    obstructed: "&4A Talapzat el van torlaszolva! &cTávolíts el mindent, ami a talapzat
+      felett van!"
 messages:
   cannot-place: "&cNem teheted ezt a blokkot oda!"
   diet-cookie: "&eNagyon könnyednek érzed magad..."
