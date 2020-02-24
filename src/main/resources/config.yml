@@ -47,7 +47,7 @@ guide:
 
 URID:
   info-delay: 3000
-  custom-ticker-delay: 12
+  custom-ticker-delay: 24
   enable-tickers: true
 
 items:
