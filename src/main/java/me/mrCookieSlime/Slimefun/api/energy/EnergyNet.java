@@ -1,21 +1,20 @@
 package me.mrCookieSlime.Slimefun.api.energy;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.EnergyHologram;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class EnergyNet extends Network {
 
@@ -120,7 +119,7 @@ public class EnergyNet extends Network {
 
 	public void tick(Block b) {
 		if (!regulator.equals(b.getLocation())) {
-			SimpleHologram.update(b, "&4Multiple Energy Regulators connected");
+			SimpleHologram.update(b, "&4已连接到多个能源调节器");
 			return;
 		}
 		super.tick();
@@ -128,7 +127,7 @@ public class EnergyNet extends Network {
 		double demand = 0.0D;
 
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-			SimpleHologram.update(b, "&4No Energy Network found");
+			SimpleHologram.update(b, "&4找不到能源网络");
 		}
 		else {
 			Set<Location> exploded = new HashSet<>();

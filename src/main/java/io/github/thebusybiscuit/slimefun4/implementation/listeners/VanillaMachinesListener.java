@@ -1,5 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunGuide;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,13 +17,6 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class VanillaMachinesListener implements Listener {
 
@@ -44,7 +43,7 @@ public class VanillaMachinesListener implements Listener {
 
 			if (sfItem != null && !sfItem.isUseableInWorkbench()) {
 				e.setCancelled(true);
-				SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
+				SlimefunPlugin.getLocal().sendMessage(e.getWhoClicked(), "workbench.not-enhanced", true);
 				break;
 			}
 		}
@@ -70,7 +69,7 @@ public class VanillaMachinesListener implements Listener {
 			
 			if (!SlimefunManager.isItemSimilar(item1, SlimefunItems.ELYTRA, true) && checkForUnallowedItems(item1, item2)) {
 				e.setCancelled(true);
-				SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
+				SlimefunPlugin.getLocal().sendMessage(e.getWhoClicked(), "anvil.not-working", true);
 			}
 		}
 	}
@@ -96,12 +95,9 @@ public class VanillaMachinesListener implements Listener {
 		else {
 			SlimefunItem sfItem1 = SlimefunItem.getByItem(item1);
 			SlimefunItem sfItem2 = SlimefunItem.getByItem(item2);
-			
-			if ((sfItem1 != null && !sfItem1.isDisabled()) || (sfItem2 != null && !sfItem2.isDisabled())) {
-				return true;
-			}
+
+            return (sfItem1 != null && !sfItem1.isDisabled()) || (sfItem2 != null && !sfItem2.isDisabled());
 		}
-		
-		return false;
-	}
+
+    }
 }

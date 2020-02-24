@@ -1,44 +1,37 @@
  package me.mrCookieSlime.Slimefun.api;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+ import com.google.gson.JsonElement;
+ import com.google.gson.JsonObject;
+ import com.google.gson.JsonParser;
+ import com.google.gson.JsonPrimitive;
+ import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+ import org.bukkit.Bukkit;
+ import org.bukkit.Chunk;
+ import org.bukkit.Location;
+ import org.bukkit.World;
+ import org.bukkit.block.Block;
+ import org.bukkit.block.TileState;
+ import org.bukkit.configuration.file.FileConfiguration;
+ import org.bukkit.configuration.file.YamlConfiguration;
+ import org.bukkit.entity.HumanEntity;
+ import org.bukkit.inventory.ItemStack;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.TileState;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.inventory.ItemStack;
+ import java.io.File;
+ import java.io.IOException;
+ import java.nio.file.Files;
+ import java.nio.file.StandardCopyOption;
+ import java.util.*;
+ import java.util.concurrent.ConcurrentHashMap;
+ import java.util.logging.Level;
+ import java.util.logging.Logger;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-
-public class BlockStorage {
+ public class BlockStorage {
 	
 	private static final String PATH_BLOCKS = "data-storage/Slimefun/stored-blocks/";
 	private static final String PATH_CHUNKS = "data-storage/Slimefun/stored-chunks/";
@@ -411,24 +404,26 @@ public class BlockStorage {
 	}
 
 	public static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
-		BlockStorage storage = getStorage(l.getWorld());
-		storage.storage.put(l, cfg);
-		
-		if (BlockMenuPreset.isInventory(cfg.getString("id"))) {
-			if (BlockMenuPreset.isUniversalInventory(cfg.getString("id"))) {
-				if (!SlimefunPlugin.getRegistry().getUniversalInventories().containsKey(cfg.getString("id"))) {
-					storage.loadUniversalInventory(BlockMenuPreset.getPreset(cfg.getString("id")));
-				}
-			}
-			else if (!storage.hasInventory(l)) {
-				File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
-				
-				if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(cfg.getString("id")), l, new io.github.thebusybiscuit.cscorelib2.config.Config(file)));
-				else storage.loadInventory(l, BlockMenuPreset.getPreset(cfg.getString("id")));
-			}
-		}
-		
-		refreshCache(getStorage(l.getWorld()), l, cfg.getString("id"), serializeBlockInfo(cfg), updateTicker);
+	    if (l.getWorld() != null) {
+            BlockStorage storage = getStorage(l.getWorld());
+            storage.storage.put(l, cfg);
+
+            if (BlockMenuPreset.isInventory(cfg.getString("id"))) {
+                if (BlockMenuPreset.isUniversalInventory(cfg.getString("id"))) {
+                    if (!SlimefunPlugin.getRegistry().getUniversalInventories().containsKey(cfg.getString("id"))) {
+                        storage.loadUniversalInventory(BlockMenuPreset.getPreset(cfg.getString("id")));
+                    }
+                } else if (!storage.hasInventory(l)) {
+                    File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
+
+                    if (file.exists())
+                        storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(cfg.getString("id")), l, new io.github.thebusybiscuit.cscorelib2.config.Config(file)));
+                    else storage.loadInventory(l, BlockMenuPreset.getPreset(cfg.getString("id")));
+                }
+            }
+
+            refreshCache(getStorage(l.getWorld()), l, cfg.getString("id"), serializeBlockInfo(cfg), updateTicker);
+        }
 	}
 	
 	public static void setBlockInfo(Block b, String json, boolean updateTicker) {
@@ -523,26 +518,27 @@ public class BlockStorage {
 	}
 
 	private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
-		Config cfg = storage.blocksCache.computeIfAbsent(key, k -> new Config(PATH_BLOCKS + l.getWorld().getName() + '/' + key + ".sfb"));
-		cfg.setValue(serializeLocation(l), value);
-		
-		if (updateTicker) {
-			SlimefunItem item = SlimefunItem.getByID(key);
-			
-			if (item != null && item.isTicking()) {
-				String chunkString = locationToChunkString(l);
-				
-				if (value != null) {
-					Set<Location> locations = SlimefunPlugin.getRegistry().getActiveTickers().get(chunkString);
-					if (locations == null) locations = new HashSet<>();
-					
-					locations.add(l);
-					SlimefunPlugin.getRegistry().getActiveTickers().put(chunkString, locations);
-					SlimefunPlugin.getRegistry().getActiveChunks().add(chunkString);
-				}
-			}
-		}
-	}
+        Config cfg = storage.blocksCache.computeIfAbsent(key, k -> new Config(PATH_BLOCKS + l.getWorld().getName() + '/' + key + ".sfb"));
+
+        cfg.setValue(serializeLocation(l), value);
+
+        if (updateTicker) {
+            SlimefunItem item = SlimefunItem.getByID(key);
+
+            if (item != null && item.isTicking()) {
+                String chunkString = locationToChunkString(l);
+
+                if (value != null) {
+                    Set<Location> locations = SlimefunPlugin.getRegistry().getActiveTickers().get(chunkString);
+                    if (locations == null) locations = new HashSet<>();
+
+                    locations.add(l);
+                    SlimefunPlugin.getRegistry().getActiveTickers().put(chunkString, locations);
+                    SlimefunPlugin.getRegistry().getActiveChunks().add(chunkString);
+                }
+            }
+        }
+    }
 
 	public static SlimefunItem check(Block block) {
 		return check(block.getLocation());

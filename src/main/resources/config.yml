@@ -31,6 +31,9 @@ options:
   legacy-dust-washer: false
   # 是否使用碎矿机旧的工作方式
   legacy-ore-grinder: true
+  # 是否启用反基座刷物品
+  # 请注意: 启用后只有从基座上把物品拿下才能拆除
+  anti-altar-glitch: false
   # 网络最大上限 (?)
   max-network-size: 200
   # 文本语言

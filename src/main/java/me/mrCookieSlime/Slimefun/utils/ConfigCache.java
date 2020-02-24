@@ -1,8 +1,8 @@
 package me.mrCookieSlime.Slimefun.utils;
 
-import java.util.List;
-
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+
+import java.util.List;
 
 public final class ConfigCache {
 
@@ -21,6 +21,8 @@ public final class ConfigCache {
     public final boolean legacyOreGrinder;
     public final boolean legacyOreWasher;
 
+    public final boolean antiAltarGlitch;
+
     public ConfigCache(Config cfg) {
         printOutLoading = cfg.getBoolean("options.print-out-loading");
         translationsEnabled = cfg.getBoolean("options.enable-translations");
@@ -34,6 +36,8 @@ public final class ConfigCache {
         legacyDustWasher = cfg.getBoolean("options.legacy-dust-washer");
         legacyOreWasher = cfg.getBoolean("options.legacy-ore-washer");
         legacyOreGrinder = cfg.getBoolean("options.legacy-ore-grinder");
+
+        antiAltarGlitch = cfg.getBoolean("options.anti-altar-glitch");
     }
 
 }
