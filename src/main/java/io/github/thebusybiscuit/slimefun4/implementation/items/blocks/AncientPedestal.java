@@ -25,12 +25,17 @@ public class AncientPedestal extends SlimefunItem {
                     return false;
                 }
             } else {
-                if (stack != null) {
+                if (!AncientAltarListener.getPlacedItem().containsKey(b.getLocation()) ||
+                        AncientAltarListener.getPlacedItem().get(b.getLocation()) == p) {
                     stack.removeMetadata("item_placed", SlimefunPlugin.instance);
                     b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                    AncientAltarListener.getPlacedItem().remove(b.getLocation());
                     stack.remove();
+                    return true;
+                } else {
+                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use", true);
+                    return false;
                 }
-                return true;
             }
         });
 	}
