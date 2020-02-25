@@ -1,17 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -19,7 +7,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenu
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -27,12 +14,24 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public abstract class AutomatedCraftingChamber extends SlimefunItem implements InventoryBlock {
 
@@ -53,7 +52,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			@Override
 			public void newInstance(BlockMenu menu, Block b) {
 				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
-					menu.replaceExistingItem(6, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
+					menu.replaceExistingItem(6, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7状态: &4\u2718", "", "&e> 单击启用机器"));
 					menu.addMenuClickHandler(6, (p, slot, item, action) -> {
 						BlockStorage.addBlockInfo(b, "enabled", "true");
 						newInstance(menu, b);
@@ -61,7 +60,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 					});
 				}
 				else {
-					menu.replaceExistingItem(6, new CustomItem(new ItemStack(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
+					menu.replaceExistingItem(6, new CustomItem(new ItemStack(Material.REDSTONE), "&7状态: &2\u2714", "", "&e> 单击禁用机器"));
 					menu.addMenuClickHandler(6, (p, slot, item, action) -> {
 						BlockStorage.addBlockInfo(b, "enabled", "false");
 						newInstance(menu, b);
@@ -69,7 +68,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 					});
 				}
 
-				menu.replaceExistingItem(7, new CustomItem(new ItemStack(Material.CRAFTING_TABLE), "&7Craft Last", "", "&e> Click to craft the last shaped recipe", "&cOnly works with the last one"));
+				menu.replaceExistingItem(7, new CustomItem(new ItemStack(Material.CRAFTING_TABLE), "&7合成上次的物品", "", "&e> 单击使用上次使用的合成表合成物品"));
 				menu.addMenuClickHandler(7, (p, slot, item, action) -> {
 					tick(b, true);
 					return false;
@@ -137,7 +136,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 	}
 
 	private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
-		return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
+		return Comparator.comparingInt(slot -> menu.getItemInSlot(slot).getAmount());
 	}
 
 	protected void constructMenu(BlockMenuPreset preset) {
@@ -163,7 +162,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
 				@Override
 				public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-					return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
+					return cursor == null ||  cursor.getType() == Material.AIR;
 				}
 			});
 		}

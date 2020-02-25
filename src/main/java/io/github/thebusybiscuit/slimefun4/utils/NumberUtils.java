@@ -1,14 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
-
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class NumberUtils {
 	
@@ -51,7 +51,7 @@ public final class NumberUtils {
 		
         int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
-            timeleft += minutes + "分 ";
+            timeleft += minutes + "分";
         }
         
         seconds -= minutes * 60;
