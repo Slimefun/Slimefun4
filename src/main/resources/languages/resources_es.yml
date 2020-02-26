@@ -1,24 +1,24 @@
 ---
-tooltips:
-  results: GEO-Scan Resultados
-  chunk: Chunk Escaneado
-  world: Mundo
-  unit: Unidad
-  units: Unidades
 resources:
   slimefun:
+    nether_ice: Hielo de Nether
     oil: Petróleo
     salt: Sal
     uranium: Uranio
-    nether_ice: Hielo de Nether
   slimefunorechunks:
-    iron_ore_chunk: Chunk de Mineral de Hierro
-    gold_ore_chunk: Chunk de Mineral de Oro
-    copper_ore_chunk: Chunk de Mineral de Cobre
-    tin_ore_chunk: Chunk de Mineral de Estaño
-    silver_ore_chunk: Chunk de Mineral de Plata
     aluminum_ore_chunk: Chunk de Mineral de Aluminio
-    lead_ore_chunk: Chunk de Mineral de Plomo
-    zinc_ore_chunk: Chunk de Mineral de Zinc
-    nickel_ore_chunk: Chunk de Mineral de Nickel
     cobalt_ore_chunk: Chunk de Mineral de Cobalto
+    copper_ore_chunk: Chunk de Mineral de Cobre
+    gold_ore_chunk: Chunk de Mineral de Oro
+    iron_ore_chunk: Chunk de Mineral de Hierro
+    lead_ore_chunk: Chunk de Mineral de Plomo
+    nickel_ore_chunk: Chunk de Mineral de Nickel
+    silver_ore_chunk: Chunk de Mineral de Plata
+    tin_ore_chunk: Chunk de Mineral de Estaño
+    zinc_ore_chunk: Chunk de Mineral de Zinc
+tooltips:
+  chunk: Chunk Escaneado
+  unit: Unidad
+  units: Unidades
+  world: Mundo
+  results: 'Resultados del GEO-Scan '
