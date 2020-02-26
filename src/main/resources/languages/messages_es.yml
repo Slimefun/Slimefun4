@@ -2,6 +2,7 @@
 android:
   scripts:
     already-uploaded: "&4Este script ya ha sido subido."
+    editor: Editor de Guión
     enter-name:
     - 
     - "&ePor favor, escribe en el chat el nombre para tu script."
@@ -39,7 +40,6 @@ android:
     uploaded:
     - "&bSubiendo..."
     - "&a¡Script cargado correctamente!"
-    editor: Editor de Guión
   started: "&7Tu androide ha comenzado a correr el script."
   stopped: "&7Tu androide ha pausado el script."
 anvil:
@@ -97,8 +97,8 @@ guide:
     select-default: Clic para seleccionar el idioma predeterminado.
     selected-language: 'Actualmente seleccionado:'
     translations:
-      lore: Clicc para agregar tu propia traducción.
       name: "&a¿Falta algo?"
+      lore: Clic para agregar tu propia traducción.
     updated: "&aTu lenguaje fue cambiado a: &b%lang%"
   pages:
     next: Página siguiente
@@ -120,13 +120,13 @@ guide:
     wiki: Wiki de Slimefun4
   tooltips:
     open-category: Clic para abrir
+    recipes:
+      gold-pan: Recursos que puedes obtener
+      machine: Recetas hechas en esta máquina
+      miner: Recursos que puedes obtener con el Miner
+      generator: Tipos de combustible disponibles
     versions-notice: "¡Esto es muy importante cuando se reportan bugs!"
     wiki: Ve este item en la wiki oficial de Slimefun
-    recipes:
-      machine: Crafteos echo en esta máquina
-      miner: Recursos que puedes obtener con este minero
-      generator: Tipo de combustible disponibles
-      gold-pan: Recursos que puedes obtener
 inventory:
   no-access: "&4No tienes permitido el acceso a este bloque."
 languages:
@@ -135,34 +135,37 @@ languages:
   cs: Checo
   da: Danés
   de: Alemán
-  default: Server-Default
   el: Griego
   en: Inglés
   es: Español
+  fa: Persa
   fi: Finés
   fr: Francés
   he: Hebreo
   hu: Húngaro
   id: Indonesio
   it: Italiano
+  ja: Japonés
   lv: Letón
   ms: Malayo
   nl: Holandés
   'no': Noruego
   pl: Polaco
   pt: Portugués (Portugal)
-  pt-BR: Portugés (Brazil)
+  pt-BR: Portugués (Brasil)
+  ro: Rumano
   ru: Ruso
   sk: Esloveno
   sv: Sueco
+  th: Tailandés
   uk: Ucraniano
   vi: Vietnamita
   zh-CN: Chino (China)
   zh-TW: Chino (Taiwan)
-  ja: Japonés
-  th: Tailandés
-  ro: Rumano
-  fa: Persa
+  default: Predeterminado
+  bg: Búlgaro
+  ko: Coreano
+  tr: Turco
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4El Altar no esta rodeado por la cantidad correcta de
@@ -182,6 +185,10 @@ machines:
     no-destinations: "&4No se han encontrado destinos."
     pick-a-floor: "&3- Selecciona un piso -"
   full-inventory: "&e¡Perdón, mi inventario esta lleno!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Panel de Control
+    transmitters: Visor General de Transmisores
+    waypoints: Visor de Waypoints
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Por favor, escribe en el chat el texto deseado. &r(¡Se permiten
       códigos de color!)"
@@ -199,10 +206,6 @@ machines:
     Por favor coloca algo que si conozca."
   wrong-item: "&eLo siento, no puedo reconocer el objeto con el que me has hecho clic.
     Revisa las recetas y mira que objetos puedes usar."
-  GPS_CONTROL_PANEL:
-    title: GPS - Panel de Control
-    transmitters: Visor General de Transmisores
-    waypoints: Visor de Puntos de Referencia
 messages:
   cannot-place: "&c¡No puedes colocar ese bloque ahí!"
   diet-cookie: "&eEmpiezas a sentirte muy ligero ..."
