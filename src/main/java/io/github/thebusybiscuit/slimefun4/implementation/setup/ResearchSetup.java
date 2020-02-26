@@ -149,7 +149,7 @@ public final class ResearchSetup {
 	    register("ancient_runes", 155, "Elemental Runes", 15, SlimefunItems.BLANK_RUNE, SlimefunItems.RUNE_EARTH, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_FIRE);
 	    register("special_runes", 156, "Purple Runes", 18, SlimefunItems.RUNE_ENDER, SlimefunItems.RUNE_RAINBOW);
 	    register("infernal_bonemeal", 157, "Infernal Bonemeal", 12, SlimefunItems.INFERNAL_BONEMEAL);
-	    register("rainbow_blocks", 158, "Rainbow Blocks", 24, SlimefunItems.RAINBOW_CLAY, SlimefunItems.RAINBOW_GLASS, SlimefunItems.RAINBOW_GLASS_PANE, SlimefunItems.RAINBOW_WOOL);
+	    register("rainbow_blocks", 158, "Rainbow Blocks", 24, SlimefunItems.RAINBOW_CLAY, SlimefunItems.RAINBOW_GLASS, SlimefunItems.RAINBOW_GLASS_PANE, SlimefunItems.RAINBOW_WOOL, SlimefunItems.RAINBOW_CONCRETE, SlimefunItems.RAINBOW_CONCRETE_POWDER, SlimefunItems.RAINBOW_GLAZED_TERRACOTTA);
 	    register("infused_hopper", 159, "Infused Hopper", 22, SlimefunItems.INFUSED_HOPPER);
 	    register("wither_proof_glass", 160, "Wither-Proof Glass", 20, SlimefunItems.WITHER_PROOF_GLASS);
 	    register("duct_tape", 161, "Duct Tape", 14, SlimefunItems.DUCT_TAPE);
