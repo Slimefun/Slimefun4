@@ -152,7 +152,7 @@ languages:
   'no': Noruego
   pl: Polaco
   pt: Portugués (Portugal)
-  pt-BR: Portugés (Brazil)
+  pt-BR: Portugués (Brasil)
   ro: Rumano
   ru: Ruso
   sk: Esloveno
@@ -188,6 +188,7 @@ machines:
   GPS_CONTROL_PANEL:
     title: GPS - Panel de Control
     transmitters: Visor General de Transmisores
+    waypoints: Visor de Waypoints
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Por favor, escribe en el chat el texto deseado. &r(¡Se permiten
       códigos de color!)"
