@@ -2406,11 +2406,6 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.RAINBOW_CONCRETE, 8), new RainbowTicker(MaterialCollections.getAllConcreteColors()))
 		.register(plugin);
 		
-		new RainbowBlock(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.RAINBOW_CONCRETE_POWDER, RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.WHITE_CONCRETE_POWDER), new ItemStack(Material.WHITE_CONCRETE_POWDER), new ItemStack(Material.WHITE_CONCRETE_POWDER), new ItemStack(Material.WHITE_CONCRETE_POWDER), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_CONCRETE_POWDER), new ItemStack(Material.WHITE_CONCRETE_POWDER), new ItemStack(Material.WHITE_CONCRETE_POWDER), new ItemStack(Material.WHITE_CONCRETE_POWDER)}, 
-		new CustomItem(SlimefunItems.RAINBOW_CONCRETE_POWDER, 8), new RainbowTicker(MaterialCollections.getAllConcretePowderColors()))
-		.register(plugin);
-		
 		new RainbowBlock(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.RAINBOW_GLAZED_TERRACOTTA, RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA)}, 
 		new CustomItem(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA, 8), new RainbowTicker(MaterialCollections.getAllGlazedTerracottaColors()))
@@ -2441,11 +2436,6 @@ public final class SlimefunItemSetup {
 		new RainbowBlock(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.RAINBOW_CONCRETE_XMAS, RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_CONCRETE), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.RED_DYE)}, 
 		new CustomItem(SlimefunItems.RAINBOW_CONCRETE_XMAS, 2), new RainbowTicker(Material.RED_CONCRETE, Material.GREEN_CONCRETE))
-		.register(plugin);
-		
-		new RainbowBlock(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.RAINBOW_CONCRETE_POWDER_XMAS, RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_CONCRETE_POWDER), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_CONCRETE_POWDER), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE, new ItemStack(Material.RED_DYE)}, 
-		new CustomItem(SlimefunItems.RAINBOW_CONCRETE_POWDER_XMAS, 2), new RainbowTicker(Material.RED_CONCRETE_POWDER, Material.GREEN_CONCRETE_POWDER))
 		.register(plugin);
 		
 		new RainbowBlock(Categories.CHRISTMAS, (SlimefunItemStack) SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_XMAS, RecipeType.ANCIENT_ALTAR,
@@ -2480,11 +2470,6 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.RAINBOW_CONCRETE_VALENTINE, 2), new RainbowTicker(Material.MAGENTA_CONCRETE, Material.PINK_CONCRETE))
 		.register(plugin);
 		
-		new RainbowBlock(Categories.VALENTINES_DAY, (SlimefunItemStack) SlimefunItems.RAINBOW_CONCRETE_POWDER_VALENTINE, RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_CONCRETE_POWDER), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_CONCRETE_POWDER), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)}, 
-		new CustomItem(SlimefunItems.RAINBOW_CONCRETE_POWDER_VALENTINE, 2), new RainbowTicker(Material.MAGENTA_CONCRETE_POWDER, Material.PINK_CONCRETE_POWDER))
-		.register(plugin);
-		
 		new RainbowBlock(Categories.VALENTINES_DAY, (SlimefunItemStack) SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_VALENTINE, RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)}, 
 		new CustomItem(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_VALENTINE, 2), new RainbowTicker(Material.MAGENTA_GLAZED_TERRACOTTA, Material.PINK_GLAZED_TERRACOTTA))
@@ -2515,11 +2500,6 @@ public final class SlimefunItemSetup {
 		new RainbowBlock(Categories.HALLOWEEN, (SlimefunItemStack) SlimefunItems.RAINBOW_CONCRETE_HALLOWEEN, RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.ORANGE_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.WHITE_CONCRETE), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.ORANGE_DYE)}, 
 		new CustomItem(SlimefunItems.RAINBOW_CONCRETE_HALLOWEEN, 2), new RainbowTicker(Material.ORANGE_CONCRETE, Material.BLACK_CONCRETE))
-		.register(plugin);
-		
-		new RainbowBlock(Categories.HALLOWEEN, (SlimefunItemStack) SlimefunItems.RAINBOW_CONCRETE_POWDER_HALLOWEEN, RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {new ItemStack(Material.ORANGE_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.WHITE_CONCRETE_POWDER), SlimefunItems.RUNE_RAINBOW, new ItemStack(Material.WHITE_CONCRETE_POWDER), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.ORANGE_DYE)}, 
-		new CustomItem(SlimefunItems.RAINBOW_CONCRETE_POWDER_HALLOWEEN, 2), new RainbowTicker(Material.ORANGE_CONCRETE_POWDER, Material.BLACK_CONCRETE_POWDER))
 		.register(plugin);
 		
 		new RainbowBlock(Categories.HALLOWEEN, (SlimefunItemStack) SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN, RecipeType.ANCIENT_ALTAR,
