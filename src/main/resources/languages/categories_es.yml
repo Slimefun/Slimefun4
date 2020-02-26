@@ -12,14 +12,14 @@ slimefun:
   items: Items Útiles
   magical_armor: Armadura Mágica
   magical_gadgets: Dispositivos Mágicos
-  magical_items: Items Mágicos
   misc: Items Variados
   resources: Recursos
   talismans: Talismanes (Rango I)
   tech_misc: Componentes Técnicos
   technical_gadgets: Dispositivos Técnicos
   tools: Herramientas
-  weapons: Armas
   valentines_day: Día de San Valentín (14 de Febrero)
-  easter: Huevos de Pascua (Abril)
-  birthday: El cumpleaños de Busybiscuit (26 de Octubre)
+  weapons: Armas
+  magical_items: Objetos Mágicos
+  easter: Pascuas (Abríl)
+  birthday: El cumpleaños de TheBusyBiscuit (26 de Octubre)
