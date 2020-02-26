@@ -34,6 +34,8 @@
 
 ### Additions
 * Added translations for Recipe Types
+* Added Rainbow Concrete
+* Added Rainbow Glazed Terracotta
 
 ### Changes
 * Researches now use their namespaced keys in the Researches.yml
