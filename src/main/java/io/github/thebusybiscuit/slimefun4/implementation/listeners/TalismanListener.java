@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -142,16 +143,17 @@ public class TalismanListener implements Listener {
 			
 			for (Enchantment en : Enchantment.values()) {
 				for (int i = 1; i <= en.getMaxLevel(); i++) {
-					if ((boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i)) {
-                        			if (en.canEnchantItem(e.getItem()) || e.getItem().getType() == Material.BOOK) {
-                        		    		enchantments.add(en.getKey().getKey() + '-' + i);
-						}
-                        		}
+					if ((boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i)
+						&& en.canEnchantItem(e.getItem()) || e.getItem().getType() == Material.BOOK
+					) {
+						enchantments.add(en.getKey().getKey() + '-' + i);
+					}
 				}
 			}
 			
 			String enchant = enchantments.get(random.nextInt(enchantments.size()));
-			e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchant.split("-")[0])), Integer.parseInt(enchant.split("-")[1]));
+			String[] enchantSplit = PatternUtils.SLASH_SEPARATOR.split(enchant);
+			e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchantSplit[0])), Integer.parseInt(enchantSplit[1]));
 		}
 
 		if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WIZARD)) {

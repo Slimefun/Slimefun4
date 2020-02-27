@@ -45,8 +45,7 @@ public class Research implements Keyed {
 	/**
 	 * The constructor for a Research.
 	 * 
-	 * Create a new research by calling {@link #Research(int, String, int)}, then
-	 * bind this research to the Slimefun items you want by calling
+	 * Create a new research, then bind this research to the Slimefun items you want by calling
 	 * {@link #addItems(SlimefunItem...)}. Once you're finished, call {@link #register()}
 	 * to register it.
 	 * 
@@ -56,7 +55,7 @@ public class Research implements Keyed {
 	 * @param key	A unique identifier for this research
 	 * @param id 	old way of identifying researches
 	 * @param name Display name of the research
-	 * @param cost Cost in XP levels to unlock the research
+	 * @param defaultCost Cost in XP levels to unlock the research
 	 * 
 	 */
 	public Research(NamespacedKey key, int id, String name, int defaultCost) {
@@ -215,7 +214,7 @@ public class Research implements Keyed {
 	public void register() {
 		SlimefunPlugin.getResearchCfg().setDefaultValue("enable-researching", true);
 		
-		String path = key.getNamespace() + "." + key.getKey();
+		String path = key.getNamespace() + '.' + key.getKey();
 		migrate(id, path);
 
 		if (SlimefunPlugin.getResearchCfg().contains(path + ".enabled") && !SlimefunPlugin.getResearchCfg().getBoolean(path + ".enabled")) {
