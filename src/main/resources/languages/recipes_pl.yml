@@ -1,0 +1,151 @@
+slimefun:
+
+  multiblock:
+    name: 'Multiblok'
+    lore:
+    - 'Zbuduj pokazaną strukture'
+    - 'Nie można tego stworzyć.'
+
+  enhanced_crafting_table:
+    name: 'Ulepszony Stół Rzemieślniczy'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'w Ulepszony Stole Rzemieślniczym.'
+    - 'Zwykły stół rzemieślniczy nie wystarczy!'
+
+  armor_forge:
+    name: 'Kuźnia'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Kuźni.'
+
+  grind_stone:
+    name: 'Kamień szlifierski'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Kamienia Szlifierskiego'
+
+  smeltery:
+    name: 'Huta'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Huty'
+
+  ore_crusher:
+    name: 'Kruszarka'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Kruszarki'
+
+  mob_drop:
+    name: 'Wypada z Moba'
+    lore:
+    - 'Zabij tego Moba,'
+    - 'aby zdobyć pożądany przedmiot'
+
+  gold_pan:
+    name: 'Złota Patelnia'
+    lore:
+    - 'Użyj Złotej Patelni, aby'
+    - 'zdobyć ten przedmiot'
+
+  compressor:
+    name: 'Kompresor'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Kompresora'
+
+  pressure_chamber:
+    name: 'Komora Ciśnieniowa'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Komory Ciśnieniowej'
+
+  ore_washer:
+    name: 'Płukaczka Rud'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Płukaczki Rud'
+
+  juicer:
+    name: 'Sokowirówka'
+    lore:
+    - 'Wytwórz ten Sok, jak pokazano'
+    - 'używając Sokowirówki'
+
+  magic_workbench:
+    name: 'Magiczny Stół Rzemieślniczy'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Magicznego Stołu Rzemieślniczego'
+
+  ancient_altar:
+    name: 'Starożytny Ołtarz'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'urzywająć Starożytnego Ołtarza.'
+    - 'Więcej informacji znajdziesz w Starożytnym Ołtarzu'
+    
+  heated_pressure_chamber:
+    name: 'Ogrzewana Komora Ciśnieniowa'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Ogrzewanej Komory Ciśnieniowej'
+    
+  food_fabricator:
+    name: 'Producent Żywności'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Producenta Żywności'
+    
+  food_composter:
+    name: 'Kompostownik'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Kompostownika.'
+    
+minecraft:
+
+  shaped:
+    name: 'Kształtny Przepis Wytwarzania'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'w Normalnym Stole Rzemieślniczym.'
+    - 'Ułożenie jest ważne.'
+    
+  shapeless:
+    name: 'Bezkształtny Przepis Wytwarzania'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'w Normalnym Stole Rzemieślniczym.'
+    - 'Ułożenie nie ma znaczenia.'
+    
+  furnace:
+    name: 'Piec'
+    lore:
+    - 'Przepal ten przedmiot w piecu,'
+    - 'aby stworzyć pożądaną rzecz'
+    
+  blasting:
+    name: 'Piec Hutniczy'
+    lore:
+    - 'Przepal ten przedmiot w Piecu Hutniczym,'
+    - 'aby stworzyć pożądaną rzecz'
+    
+  smoking:
+    name: 'Wędzarka'
+    lore:
+    - 'Przepal ten przedmiot w Wędzarce,'
+    - 'aby stworzyć pożądaną rzecz'
+    
+  campfire:
+    name: 'Ognisko'
+    lore:
+    - 'Przepal ten przedmiot w Ognisku,'
+    - 'aby stworzyć pożądaną rzecz'
+    
+  stonecutting:
+    name: 'Przecinarka'
+    lore:
+    - 'Wytwórz ten przedmiot, jak pokazano'
+    - 'używając Przecinarki'
