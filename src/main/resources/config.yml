@@ -22,7 +22,7 @@ options:
   # 绿宝石附魔上限 (扩展选项)
   emerald-enchantment-limit: 2
   # 是否在解锁时发射烟花 (建议关闭, 一次性批量解锁时卡死人)
-  research-unlock-fireworks: true
+  research-unlock-fireworks: false
   # 是否在解锁时给玩家烟花让玩家自己放
   research-give-fireworks: true
   # 是否使用洗矿机旧的工作方式
@@ -35,7 +35,7 @@ options:
   # 请注意: 启用后只有从基座上把物品拿下才能拆除
   anti-altar-glitch: false
   # 网络最大上限 (?)
-  max-network-size: 200
+  max-network-size: 150
   # 文本语言
   language: zh-CN
   # 启用多语言功能
@@ -46,8 +46,8 @@ guide:
   default-view-book: false
 
 URID:
-  info-delay: 3000
-  custom-ticker-delay: 24
+  info-delay: 3100
+  custom-ticker-delay: 15
   enable-tickers: true
 
 items:

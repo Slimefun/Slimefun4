@@ -1,12 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class ResearchSetup {
 
@@ -24,7 +23,7 @@ public final class ResearchSetup {
         register("ender_backpack", 9, "Ender Backpack", 4, SlimefunItems.ENDER_BACKPACK);
         register("ender_armor", 10, "Ender Armor", 4, SlimefunItems.ENDER_HELMET, SlimefunItems.ENDER_CHESTPLATE, SlimefunItems.ENDER_LEGGINGS, SlimefunItems.ENDER_BOOTS);
         register("magic_eye_of_ender", 11, "Magic Eye of Ender", 4, SlimefunItems.MAGIC_EYE_OF_ENDER);
-        register("magic_sugar", 12, "Magic Sugar", 4, SlimefunItems.MAGIC_SUGAR);
+        register("magic_sugar",12, "Magic Sugar", 4, SlimefunItems.MAGIC_SUGAR);
         register("monster_jerky", 13, "Monster Jerky", 5, SlimefunItems.MONSTER_JERKY);
         register("slime_armor", 14, "Slime Armor", 5, SlimefunItems.SLIME_HELMET, SlimefunItems.SLIME_CHESTPLATE, SlimefunItems.SLIME_LEGGINGS, SlimefunItems.SLIME_BOOTS);
         register("sword_of_beheading", 15, "Sword of Beheading", 6, SlimefunItems.SWORD_OF_BEHEADING);
@@ -149,7 +148,7 @@ public final class ResearchSetup {
         register("ancient_runes", 155, "Elemental Runes", 15, SlimefunItems.BLANK_RUNE, SlimefunItems.RUNE_EARTH, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_FIRE);
         register("special_runes", 156, "Purple Runes", 18, SlimefunItems.RUNE_ENDER, SlimefunItems.RUNE_RAINBOW);
         register("infernal_bonemeal", 157, "Infernal Bonemeal", 12, SlimefunItems.INFERNAL_BONEMEAL);
-        register("rainbow_blocks", 158, "Rainbow Blocks", 24, SlimefunItems.RAINBOW_CLAY, SlimefunItems.RAINBOW_GLASS, SlimefunItems.RAINBOW_GLASS_PANE, SlimefunItems.RAINBOW_WOOL);
+        register("rainbow_blocks", 158, "Rainbow Blocks", 24, SlimefunItems.RAINBOW_CLAY, SlimefunItems.RAINBOW_GLASS, SlimefunItems.RAINBOW_GLASS_PANE, SlimefunItems.RAINBOW_WOOL, SlimefunItems.RAINBOW_CONCRETE, SlimefunItems.RAINBOW_GLAZED_TERRACOTTA);
         register("infused_hopper", 159, "Infused Hopper", 22, SlimefunItems.INFUSED_HOPPER);
         register("wither_proof_glass", 160, "Wither-Proof Glass", 20, SlimefunItems.WITHER_PROOF_GLASS);
         register("duct_tape", 161, "Duct Tape", 14, SlimefunItems.DUCT_TAPE);

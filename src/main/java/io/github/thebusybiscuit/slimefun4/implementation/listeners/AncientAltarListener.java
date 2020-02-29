@@ -1,14 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
+import me.mrCookieSlime.Slimefun.ancient_altar.Pedestals;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -23,16 +26,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
-import me.mrCookieSlime.Slimefun.ancient_altar.Pedestals;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AncientAltarListener implements Listener {
 
@@ -50,10 +45,6 @@ public class AncientAltarListener implements Listener {
 	public Set<Location> getAltarsInUse() {
 		return altarsInUse;
 	}
-
-	public static Map<Location, Player> getPlacedItem() {
-	    return placedItem;
-    }
 
 	@EventHandler
 	public void onInteract(PlayerRightClickEvent e) {
@@ -90,20 +81,14 @@ public class AncientAltarListener implements Listener {
 				insertItem(e.getPlayer(), b);
 			}
 			else if (!removedItems.contains(stack.getUniqueId())) {
-			    if (getPlacedItem().get(b.getLocation()) == e.getPlayer()) {
-                    UUID uuid = stack.getUniqueId();
-                    removedItems.add(uuid);
+                UUID uuid = stack.getUniqueId();
+                removedItems.add(uuid);
 
-                    Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
+                Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
 
-                    stack.remove();
-                    e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
-                    e.getPlayer().playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
-                    getPlacedItem().remove(b.getLocation());
-                } else {
-                    SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_PEDESTAL.in-use", true);
-                    return;
-                }
+                stack.remove();
+                e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                e.getPlayer().playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
 			}
 		}
 		else if (id.equals("ANCIENT_ALTAR")) {
@@ -210,25 +195,20 @@ public class AncientAltarListener implements Listener {
 	}
 
 	private void insertItem(Player p, Block b) {
-	    if (!getPlacedItem().containsKey(b.getLocation())) {
-            ItemStack hand = p.getInventory().getItemInMainHand();
-            ItemStack stack = new CustomItem(hand, 1);
+        ItemStack hand = p.getInventory().getItemInMainHand();
+        ItemStack stack = new CustomItem(hand, 1);
 
-            if (p.getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(hand, false);
-            }
-
-            String nametag = ItemUtils.getItemName(stack);
-            Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
-            entity.setVelocity(new Vector(0, 0.1, 0));
-            entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
-            entity.setCustomNameVisible(true);
-            entity.setCustomName(nametag);
-            p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
-            getPlacedItem().put(b.getLocation(), p);
-        } else {
-            SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use", true);
+        if (p.getGameMode() != GameMode.CREATIVE) {
+            ItemUtils.consumeItem(hand, false);
         }
+
+        String nametag = ItemUtils.getItemName(stack);
+        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
+        entity.setVelocity(new Vector(0, 0.1, 0));
+        entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
+        entity.setCustomNameVisible(true);
+        entity.setCustomName(nametag);
+        p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
