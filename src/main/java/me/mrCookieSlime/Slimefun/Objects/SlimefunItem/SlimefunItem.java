@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +23,8 @@ import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -32,11 +36,9 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponent;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 
 public class SlimefunItem implements Placeable {
@@ -291,6 +293,20 @@ public class SlimefunItem implements Placeable {
 				this.state = ItemState.DISABLED;
 				return;
 			}
+			
+			if (this instanceof Radioactive) {
+				SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
+			}
+			
+			if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {
+				EnergyNet.registerComponent(id, ((EnergyNetComponent) this).getEnergyComponentType());
+				
+				int capacity = ((EnergyNetComponent) this).getCapacity();
+				
+				if (capacity > 0) {
+					SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
+				}
+			}
 
 			if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
 				
@@ -318,7 +334,7 @@ public class SlimefunItem implements Placeable {
 				}
 
 				if (SlimefunPlugin.getSettings().printOutLoading) {
-					Slimefun.getLogger().log(Level.INFO, "Loaded Item \"{0}\"", this.id);
+					info("Loaded Item \"" + id + "\"");
 				}
 			} 
 			else {
@@ -332,7 +348,7 @@ public class SlimefunItem implements Placeable {
 
 			postRegister();
 		} catch(Exception x) {
-			Slimefun.getLogger().log(Level.WARNING, "Registering the Item '" + id + "' for Slimefun " + SlimefunPlugin.getVersion() + " has failed", x);
+			error("Registering the Item '" + id + "' has failed", x);
 		}
 	}
 
@@ -431,7 +447,7 @@ public class SlimefunItem implements Placeable {
 					dropping.add(output);
 					SlimefunPlugin.getRegistry().getMobDrops().put(entity, dropping);
 				} catch(Exception x) {
-					Slimefun.getLogger().log(Level.WARNING, "An Exception occured when setting a Drop for the Mob: " + mob + " (" + x.getClass().getSimpleName() + ")");
+					error("An Exception occured when setting a Drop for the Mob Type: \"" + mob + "\"", x);
 				}
 			}
 			else if (recipeType == RecipeType.ANCIENT_ALTAR) {
@@ -447,7 +463,7 @@ public class SlimefunItem implements Placeable {
 			
 			install();
 		} catch(Exception x) {
-			Slimefun.getLogger().log(Level.WARNING, "Item Setup failed: " + id + " (" + x.getClass().getSimpleName() + ")");
+			error("Item Setup failed for Item \"" + id + "\"", x);
 		}
 	}
 
@@ -467,7 +483,7 @@ public class SlimefunItem implements Placeable {
 			}
 			else if (handler instanceof EnergyTicker) {
 				energyTicker = (EnergyTicker) handler;
-				EnergyNet.registerComponent(getID(), EnergyNetComponent.GENERATOR);
+				EnergyNet.registerComponent(getID(), EnergyNetComponentType.GENERATOR);
 			}
 		}
 	}
@@ -531,27 +547,58 @@ public class SlimefunItem implements Placeable {
 		return item != null ? item.getItem(): null;
 	}
 
+	/**
+	 * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
+	 * @param capacity	The capacity of this Block
+	 */
+	@Deprecated
 	public void registerChargeableBlock(int capacity) {
 		registerChargeableBlock(false, capacity);
 	}
-	
+
+	/**
+	 * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
+	 * @param slimefun	Whether this is from Slimefun or from an Addon.
+	 * @param capacity	The capacity of this Block
+	 */
+	@Deprecated
 	public void registerEnergyGenerator(boolean slimefun, int capacity) {
 		register(slimefun);
 		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
 	}
 
+	/**
+	 * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
+	 * @param slimefun	Whether this is from Slimefun or from an Addon.
+	 * @param capacity	The capacity of this Block
+	 */
+	@Deprecated
 	public void registerChargeableBlock(boolean slimefun, int capacity) {
 		register(slimefun);
-		ChargableBlock.registerChargableBlock(id, capacity);
-		EnergyNet.registerComponent(id, EnergyNetComponent.CONSUMER);
-	}
-	
-	public void registerCapacitor(boolean slimefun, int capacity) {
-		register(slimefun);
-		EnergyNet.registerComponent(id, EnergyNetComponent.CAPACITOR);
-		ChargableBlock.registerCapacitor(id, capacity);
+		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
+		EnergyNet.registerComponent(id, EnergyNetComponentType.CONSUMER);
 	}
 
+	/**
+	 * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
+	 * @param slimefun	Whether this is from Slimefun or from an Addon.
+	 * @param capacity	The capacity of this Block
+	 */
+	@Deprecated
+	public void registerCapacitor(boolean slimefun, int capacity) {
+		register(slimefun);
+		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
+		SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
+		EnergyNet.registerComponent(id, EnergyNetComponentType.CAPACITOR);
+	}
+
+	/**
+	 * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
+	 * @param slimefun	Whether this is from Slimefun or from an Addon.
+	 * @param capacity	The capacity of this Block
+	 * @param handlers	Your Item Handlers
+	 */
+	@Deprecated
 	public void registerChargeableBlock(boolean vanilla, int capacity, ItemHandler... handlers) {
 		addItemHandler(handlers);
 		registerChargeableBlock(vanilla, capacity);
@@ -652,10 +699,9 @@ public class SlimefunItem implements Placeable {
 				callable.accept(c.cast(handler.get()));
 			}
 			catch (Throwable x) {
-				// Catch any throwables and give more precise info on where to start debugging
-				String file = x.getStackTrace()[0].getClassName();
-				Bukkit.getLogger().log(Level.SEVERE, "Could not pass \"" + c.getSimpleName() + "\" for the following Item: \"" + getID() + "\" (" + file + ")", x);
+				error("Could not pass \"" + c.getSimpleName() + "\" for the following Item: \"" + getID() + "\"", x);
 			}
+			
 			return true;
 		}
 		
@@ -679,5 +725,47 @@ public class SlimefunItem implements Placeable {
 	@Override
 	public Collection<ItemStack> getDrops(Player p) {
 		return getDrops();
+	}
+	
+	private Logger getLogger() {
+		if (addon != null) {
+			return addon.getLogger();
+		}
+		else {
+			// This can be removed once SlimefunAddon is required for registration.
+			Logger customLogger = new Logger("UNKNOWN SLIMEFUN ADDON", null) {
+				
+				@Override
+				public void log(LogRecord logRecord) {
+					logRecord.setMessage("[Unknown Slimefun Addon] " + logRecord.getMessage());
+					super.log(logRecord);
+				}
+				
+			};
+			
+			customLogger.setParent(SlimefunPlugin.instance.getServer().getLogger());
+			customLogger.setLevel(Level.ALL);
+			
+			return customLogger;
+		}
+	}
+	
+	private String getLoggerPrefix() {
+		return (addon != null ? (addon.getName() + " v" + addon.getPluginVersion() + " - "): "");
+	}
+	
+	public void info(String message) {
+		message = getLoggerPrefix() + message;
+		getLogger().log(Level.INFO, message);
+	}
+	
+	public void warn(String message) {
+		message = getLoggerPrefix() + message;
+		getLogger().log(Level.WARNING, message);
+	}
+	
+	public void error(String message, Throwable throwable) {
+		message = getLoggerPrefix() + message;
+		getLogger().log(Level.SEVERE, message, throwable);
 	}
 }

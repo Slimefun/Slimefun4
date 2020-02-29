@@ -115,24 +115,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
             for (int slot : getInputSlots()) {
                 ItemStack item = menu.getItemInSlot(slot);
                 if (item != null) {
-                    Material mat = item.getType();
-                    ItemStack output = null;
-                    
-                    for (int i = 0; i < recipeList.size(); i += 2) {
-                    	if (SlimefunManager.isItemSimilar(item, recipeList.get(i), true)) {
-                    		output = recipeList.get(i + 1);
-                    	}
-                    }
-                    
-                    if (Tag.SAPLINGS.isTagged(mat)) {
-                        output = new ItemStack(Material.STICK, 2);
-                    }
-                    else if (Tag.LEAVES.isTagged(mat)) {
-                        output = new ItemStack(Material.STICK, 1);
-                    }
-                    else if (mat == Material.SPLASH_POTION || mat == Material.LINGERING_POTION) {
-                        output = new ItemStack(Material.GLASS_BOTTLE);
-                    }
+                    ItemStack output = getOutput(item);
                     
                     if (output != null) {
                     	r = new MachineRecipe(6, new ItemStack[] {item}, new ItemStack[] {output.clone()});
@@ -153,7 +136,27 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
         }
     }
 
-    @Override
+    private ItemStack getOutput(ItemStack item) {
+    	for (int i = 0; i < recipeList.size(); i += 2) {
+        	if (SlimefunManager.isItemSimilar(item, recipeList.get(i), true)) {
+        		return recipeList.get(i + 1);
+        	}
+        }
+        
+        if (Tag.SAPLINGS.isTagged(item.getType())) {
+            return new ItemStack(Material.STICK, 2);
+        }
+        else if (Tag.LEAVES.isTagged(item.getType())) {
+        	return new ItemStack(Material.STICK, 1);
+        }
+        else if (item.getType() == Material.SPLASH_POTION || item.getType() == Material.LINGERING_POTION) {
+        	return new ItemStack(Material.GLASS_BOTTLE);
+        }
+        
+        return null;
+	}
+
+	@Override
     public int getEnergyConsumption() {
         return 5;
     }
@@ -162,6 +165,11 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
     public int getSpeed() {
         return 1;
     }
+
+	@Override
+	public int getCapacity() {
+		return 128;
+	}
 
     @Override
     public String getMachineIdentifier() {

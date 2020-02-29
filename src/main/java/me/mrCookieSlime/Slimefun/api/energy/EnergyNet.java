@@ -21,27 +21,27 @@ public class EnergyNet extends Network {
 
 	private static final int RANGE = 6;
 
-	public static EnergyNetComponent getComponent(Block b) {
+	public static EnergyNetComponentType getComponent(Block b) {
 		return getComponent(b.getLocation());
 	}
 
-	public static EnergyNetComponent getComponent(String id) {
-		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.GENERATOR;
-		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.CAPACITOR;
-		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponent.CONSUMER;
-		return EnergyNetComponent.NONE;
+	public static EnergyNetComponentType getComponent(String id) {
+		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponentType.GENERATOR;
+		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponentType.CAPACITOR;
+		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponentType.CONSUMER;
+		return EnergyNetComponentType.NONE;
 	}
 
-	public static EnergyNetComponent getComponent(Location l) {
-		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponent.NONE;
+	public static EnergyNetComponentType getComponent(Location l) {
+		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponentType.NONE;
 		String id = BlockStorage.checkID(l);
-		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.GENERATOR;
-		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.CAPACITOR;
-		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponent.CONSUMER;
-		return EnergyNetComponent.NONE;
+		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponentType.GENERATOR;
+		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponentType.CAPACITOR;
+		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponentType.CONSUMER;
+		return EnergyNetComponentType.NONE;
 	}
 
-	public static void registerComponent(String id, EnergyNetComponent component) {
+	public static void registerComponent(String id, EnergyNetComponentType component) {
 		switch (component) {
 		case CONSUMER:
 			SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);

@@ -52,6 +52,11 @@ public class AutoDisenchanter extends AContainer {
 	}
 
 	@Override
+	public int getCapacity() {
+		return 128;
+	}
+
+	@Override
 	protected void tick(Block b) {
 		BlockMenu menu = BlockStorage.getInventory(b);
 

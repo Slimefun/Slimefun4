@@ -21,6 +21,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
@@ -37,12 +38,13 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem {
+public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem, EnergyNetComponent {
 
 	public static Map<Location, MachineFuel> processing = new HashMap<>();
 	public static Map<Location, Integer> progress = new HashMap<>();
@@ -227,6 +229,11 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 
 	public int[] getOutputSlots() {
 		return new int[] {40};
+	}
+	
+	@Override
+	public EnergyNetComponentType getEnergyComponentType() {
+		return EnergyNetComponentType.GENERATOR;
 	}
 
 	public MachineFuel getProcessing(Location l) {

@@ -15,16 +15,6 @@ public final class ChargableBlock {
 
 	private ChargableBlock() {}
 
-	public static void registerChargableBlock(String id, int capacity) {
-		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-		SlimefunPlugin.getRegistry().getChargeableBlocks().add(id);
-	}
-
-	public static void registerCapacitor(String id, int capacity) {
-		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-		SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
-	}
-
 	public static boolean isChargable(Block b) {
 		return isChargable(b.getLocation());
 	}

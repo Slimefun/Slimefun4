@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -25,10 +26,11 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
-public abstract class AContainer extends SlimefunItem implements InventoryBlock {
+public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 	
 	public static Map<Block, MachineRecipe> processing = new HashMap<>();
 	public static Map<Block, Integer> progress = new HashMap<>();
@@ -137,6 +139,19 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock 
 	@Override
 	public int[] getOutputSlots() {
 		return new int[] {24, 25};
+	}
+	
+	@Override
+	public EnergyNetComponentType getEnergyComponentType() {
+		return EnergyNetComponentType.CONSUMER;
+	}
+
+	@Override
+	public int getCapacity() {
+		// Absolutely override this.
+		// This is just a temporary compiler-workaround.
+		// This default implementation will soon be removed.
+		return 0;
 	}
 	
 	public MachineRecipe getProcessing(Block b) {

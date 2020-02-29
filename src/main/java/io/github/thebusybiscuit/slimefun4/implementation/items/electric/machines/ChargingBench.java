@@ -33,6 +33,11 @@ public class ChargingBench extends AContainer {
 	public int getEnergyConsumption() {
 		return 10;
 	}
+	
+	@Override
+	public int getCapacity() {
+		return 128;
+	}
 
 	@Override
 	protected void tick(Block b) {
