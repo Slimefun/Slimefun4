@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -175,7 +176,9 @@ public class TalismanListener implements Listener {
         int fortune = 1;
         Random random = ThreadLocalRandom.current();
 
-        if (item.getType() != Material.AIR && item.getAmount() > 0 && !e.isCancelled()) {
+        if (item.getType() != Material.AIR && item.getAmount() > 0 && !e.isCancelled() && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), e.getBlock().getLocation(), ProtectableAction.BREAK_BLOCK)) {
+            SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), ProtectableAction.BREAK_BLOCK);
+
             if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
                 fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
                 if (fortune <= 0) fortune = 1;
