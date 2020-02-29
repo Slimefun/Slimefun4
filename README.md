@@ -8,9 +8,15 @@ Slimefun 4 以 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/mast
 
 ## 下载 Slimefun 4
 ![编译状态](https://github.com/StarWishsama/Slimefun4/workflows/Java%20CI/badge.svg)
+<a href="https://github.com/StarWishsama/Slimefun4/issues">
+  <img src="https://img.shields.io/github/issues/StarWishsama/Slimefun4.svg?style=popout">
+</a> 
 
 [稳定版(无汉化)](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)<br>
-[开发版(已汉化)](https://github.com/StarWishsama/Slimefun4/releases/latest)</br>
+开发版(已汉化)
+<a href="https://github.com/StarWishsama/Slimefun4/releases/latest">
+  <img src="https://img.shields.io/github/v/release/StarWishSama/Slimefun4?include_prereleases">
+</a></br>
 
 ## Discord
 你现在可以在 Discord 上与 Slimefun 服务器中的人聊天!<br>
