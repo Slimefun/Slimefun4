@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
-import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -171,7 +171,7 @@ public class Research implements Keyed {
 					profile.setResearched(this, true);
 					SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName(p)));
 					
-					if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, GuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, GuideSettings.FIREWORKS_KEY) == (byte) 1)) {
+					if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, SlimefunGuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, SlimefunGuideSettings.FIREWORKS_KEY) == (byte) 1)) {
 						FireworkUtils.launchRandom(p, 1);
 					}
 				};

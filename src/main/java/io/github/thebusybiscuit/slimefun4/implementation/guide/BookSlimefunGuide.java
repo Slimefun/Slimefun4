@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.guide;
+package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,14 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
@@ -27,7 +30,7 @@ import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class BookSlimefunGuide implements ISlimefunGuide {
+public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
 	@Override
 	public SlimefunGuideLayout getLayout() {
@@ -102,13 +105,13 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 						parents.append(ChatColors.color("\n&c" + ItemUtils.getItemName(parent.getItem(p))));
 					}
 
-					texts.add(ChatColors.color(shorten("&c" , ItemUtils.getItemName(category.getItem(p)))));
+					texts.add(ChatColors.color(ChatUtils.crop(ChatColor.RED, ItemUtils.getItemName(category.getItem(p)))));
 					tooltips.add(parents.toString());
 					actions.add(null);
 				}
 				else if (category instanceof SeasonalCategory) {
 					if (((SeasonalCategory) category).isUnlocked()) {
-						texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem(p)))));
+						texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, ItemUtils.getItemName(category.getItem(p)))));
 						tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem(p))));
 						actions.add(new PlayerRunnable(1) {
 
@@ -121,7 +124,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 					}
 				}
 				else {
-					texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem(p)))));
+					texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, ItemUtils.getItemName(category.getItem(p)))));
 					tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem(p))));
 					actions.add(new PlayerRunnable(1) {
 
@@ -188,7 +191,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 						if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
 							Research research = item.getResearch();
 
-							texts.add(ChatColors.color(shorten("&7", item.getItemName())));
+							texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GRAY, item.getItemName())));
 							tooltips.add(ChatColors.color(item.getItemName() + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " Levels\n\n&a> Click to unlock"));
 							actions.add(new PlayerRunnable(2) {
 
@@ -220,7 +223,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 							});
 						}
 						else {
-							texts.add(ChatColors.color(shorten("&a", item.getItemName())));
+							texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, item.getItemName())));
 
 							StringBuilder tooltip = new StringBuilder();
 							tooltip.append(item.getItemName());
@@ -246,7 +249,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 					}
 				}
 				else {
-					texts.add(ChatColors.color(shorten("&4", ItemUtils.getItemName(item.getItem()))));
+					texts.add(ChatColors.color(ChatUtils.crop(ChatColor.DARK_RED, ItemUtils.getItemName(item.getItem()))));
 					tooltips.add(ChatColors.color("&cNo Permission!"));
 					actions.add(null);
 				}

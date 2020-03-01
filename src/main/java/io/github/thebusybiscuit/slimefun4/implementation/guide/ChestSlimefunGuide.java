@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.guide;
+package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,11 +22,14 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -40,7 +43,7 @@ import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class ChestSlimefunGuide implements ISlimefunGuide {
+public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
 	private static final int[] RECIPE_SLOTS = {3, 4, 5, 12, 13, 14, 21, 22, 23};
 	private static final int CATEGORY_SIZE = 36;
@@ -284,7 +287,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		Player p = profile.getPlayer();
 		if (p == null) return;
 
-		ChestMenu menu = new ChestMenu("Searching for: " + shorten("", input));
+		ChestMenu menu = new ChestMenu("Searching for: " + ChatUtils.crop(ChatColor.RESET, input));
 		String searchTerm = input.toLowerCase();
 
 		if (addToHistory) {
@@ -497,7 +500,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		// Settings Panel
 		menu.addItem(1, ChestMenuUtils.getMenuButton(p));
 		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
-			GuideSettings.openSettings(pl, pl.getInventory().getItemInMainHand());
+			SlimefunGuideSettings.openSettings(pl, pl.getInventory().getItemInMainHand());
 			return false;
 		});
 
@@ -536,7 +539,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 				}
 				else {
 					Object last = getLastEntry(profile, true);
-					handleHistory(profile, last, survival);
+					openEntry(profile, last, survival);
 				}
 				return false;
 			});
