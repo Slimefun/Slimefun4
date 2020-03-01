@@ -2,12 +2,12 @@ package me.mrCookieSlime.Slimefun.api.item_transport;
 
 import org.bukkit.inventory.ItemStack;
 
-public class ItemAndInt {
+class ItemStackAndInteger {
 	
 	private final ItemStack item;
 	private int number;
 	
-	public ItemAndInt(ItemStack item, int amount) {
+	public ItemStackAndInteger(ItemStack item, int amount) {
 		this.number = amount;
 		this.item = item;
 	}

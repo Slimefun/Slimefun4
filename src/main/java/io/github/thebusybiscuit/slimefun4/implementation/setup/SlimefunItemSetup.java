@@ -45,7 +45,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSp
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.AdvancedCargoOutputNode;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoConnector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoInputNode;
-import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoManagerBlock;
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoManager;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoOutputNode;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.TrashCan;
@@ -3136,7 +3136,7 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.CARGO_MOTOR, 4))
 		.register(plugin);
 
-		new CargoManagerBlock(Categories.CARGO, (SlimefunItemStack) SlimefunItems.CARGO_MANAGER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new CargoManager(Categories.CARGO, (SlimefunItemStack) SlimefunItems.CARGO_MANAGER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.HOLOGRAM_PROJECTOR, null, SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARGO_MOTOR, SlimefunItems.REINFORCED_PLATE, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.ALUMINUM_BRONZE_INGOT})
 		.register(plugin);
 

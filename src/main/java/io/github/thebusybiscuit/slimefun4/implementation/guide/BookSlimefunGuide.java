@@ -116,7 +116,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 						actions.add(new PlayerRunnable(1) {
 
 							@Override
-							public void run(final Player p) {
+							public void run(Player p) {
 								Slimefun.runSync(() -> openCategory(profile, category, survival, 1), 1L);
 							}
 
@@ -129,7 +129,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 					actions.add(new PlayerRunnable(1) {
 
 						@Override
-						public void run(final Player p) {
+						public void run(Player p) {
 							Slimefun.runSync(() -> openCategory(profile, category, survival, 1), 1L);
 						}
 
@@ -196,8 +196,8 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 							actions.add(new PlayerRunnable(2) {
 
 								@Override
-								public void run(final Player p) {
-									if (!Research.isResearching(p)) {
+								public void run(Player p) {
+									if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
 										if (research.canUnlock(p)) {
 											if (profile.hasUnlocked(research)) {
 												openCategory(profile, category, true, page);
@@ -271,7 +271,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 				pageMessage.addClickEvent(new PlayerRunnable(2) {
 
 					@Override
-					public void run(final Player p) {
+					public void run(Player p) {
 						openMainMenu(profile, survival, 1);
 					}
 

@@ -19,9 +19,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 
-public class CargoManagerBlock extends SlimefunItem {
+public class CargoManager extends SlimefunItem {
 
-	public CargoManagerBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+	public CargoManager(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {

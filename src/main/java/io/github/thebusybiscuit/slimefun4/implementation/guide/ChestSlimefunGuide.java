@@ -222,9 +222,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 					if (Slimefun.hasPermission(p, sfitem, false)) {
 						menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"));
 						menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-							if (!Research.isResearching(pl)) {
+							if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(pl.getUniqueId())) {
 								if (research.canUnlock(pl)) {
-
 									if (profile.hasUnlocked(research)) {
 										openCategory(profile, category, true, page);
 									}
@@ -243,7 +242,9 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 										}
 									}
 								}
-								else SlimefunPlugin.getLocal().sendMessage(pl, "messages.not-enough-xp", true);
+								else {
+									SlimefunPlugin.getLocal().sendMessage(pl, "messages.not-enough-xp", true);
+								}
 							}
 							return false;
 						});

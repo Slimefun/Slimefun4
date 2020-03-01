@@ -86,7 +86,7 @@ public final class CargoUtils {
         return null;
 	}
 
-	public static ItemAndInt withdraw(Block node, Block target, int index) {
+	public static ItemStackAndInteger withdraw(Block node, Block target, int index) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
@@ -95,7 +95,7 @@ public final class CargoUtils {
 
                 if (matchesFilter(node, is, index)) {
                     menu.replaceExistingItem(slot, null);
-                    return new ItemAndInt(is.clone(), slot);
+                    return new ItemStackAndInteger(is.clone(), slot);
                 }
             }
         } 
@@ -121,7 +121,7 @@ public final class CargoUtils {
 
                     if (matchesFilter(node, is, index)) {
                         inv.setItem(slot, null);
-                        return new ItemAndInt(is.clone(), slot);
+                        return new ItemStackAndInteger(is.clone(), slot);
                     }
                 }
             }

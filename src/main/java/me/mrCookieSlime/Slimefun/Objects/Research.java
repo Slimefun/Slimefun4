@@ -150,12 +150,10 @@ public class Research implements Keyed {
 	}
 
 	/**
-	 * Unlocks the research for the specified player.
+	 * Unlocks this {@link Research} for the specified {@link Player}.
 	 * 
-	 * @param p Player to unlock the research
-	 * @param instant Whether to unlock the research instantly
-	 * 
-	 * @since 4.0
+	 * @param p 		The {@link Player} for which to unlock this {@link Research}
+	 * @param instant 	Whether to unlock the research instantly
 	 */
 	public void unlock(final Player p, boolean instant) {
 		if (!instant) {
@@ -208,9 +206,7 @@ public class Research implements Keyed {
 	}
 
 	/**
-	 * Registers the research.
-	 * 
-	 * @since 4.0
+	 * Registers this {@link Research}.
 	 */
 	public void register() {
 		SlimefunPlugin.getResearchCfg().setDefaultValue("enable-researching", true);
@@ -242,6 +238,7 @@ public class Research implements Keyed {
 		}
 	}
 
+	// Temporary migration method from ids to Namespaced Keys.
 	private void migrate(int id, String path) {
 		if (SlimefunPlugin.getResearchCfg().contains(id + ".enabled")) {
 			SlimefunPlugin.getResearchCfg().setValue(path + ".enabled", SlimefunPlugin.getResearchCfg().getBoolean(id + ".enabled"));
@@ -255,24 +252,10 @@ public class Research implements Keyed {
 	}
 
 	/**
-	 * Gets if the specified player is currently unlocking a research.
-	 * 
-	 * @param p Player to check
-	 * @return true if the player is unlocking a research, otherwise false
-	 * 
-	 * @since 4.0
-	 */
-	public static boolean isResearching(Player p) {
-		return SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId());
-	}
-
-	/**
-	 * Attempts to get the research with the given ID.
+	 * Attempts to get a {@link Research} with the given ID.
 	 * 
 	 * @param id ID of the research to get
 	 * @return Research if found, or null
-	 * 
-	 * @since 4.0
 	 */
 	public static Research getByID(int id) {
 		for (Research research : SlimefunPlugin.getRegistry().getResearches()) {

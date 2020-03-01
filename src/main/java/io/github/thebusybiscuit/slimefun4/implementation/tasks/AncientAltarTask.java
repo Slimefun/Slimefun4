@@ -135,7 +135,7 @@ public class AncientAltarTask implements Runnable {
 
 			AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
 			pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
-
+			
 			// This should re-enable altar blocks on craft completion.
 			listener.getAltarsInUse().remove(altar.getLocation());
 			altars.remove(altar);
