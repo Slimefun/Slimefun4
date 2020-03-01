@@ -46,6 +46,8 @@
 * Fixed #1557
 * Fixed #1558
 * Fixed a translation not showing properly
+* Fixed #1577
+* Fixed #1597
 
 ## Release Candidate 6 (16 Feb 2020)
 
