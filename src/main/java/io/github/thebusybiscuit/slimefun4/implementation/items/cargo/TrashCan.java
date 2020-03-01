@@ -1,8 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
+package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -16,6 +12,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 public class TrashCan extends SlimefunItem implements InventoryBlock {
 	

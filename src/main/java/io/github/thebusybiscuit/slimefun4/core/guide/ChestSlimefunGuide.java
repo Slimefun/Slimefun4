@@ -498,7 +498,7 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		});
 
 		// Search feature!
-		menu.addItem(7, new CustomItem(ChestMenuUtils.getSearchButton(p), SlimefunPlugin.getLocal().getMessage(p, "guide.search.name"), SlimefunPlugin.getLocal().getMessages(p, "guide.search.lore").toArray(new String[0])));
+        menu.addItem(7, ChestMenuUtils.getSearchButton(p));
 		menu.addMenuClickHandler(7, (pl, slot, item, action) -> {
 			pl.closeInventory();
 			SlimefunPlugin.getLocal().sendMessage(pl, "guide.search.message");
@@ -522,8 +522,8 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 
             menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(p,
                     "",
-                    "&rLeft Click: &7Go back to previous Page",
-                    "&rShift + left Click: &7Go back to Main Menu"
+                    "&r左键: &7返回上一页",
+                    "&rShift + 左键: &7返回主菜单"
                     )));
 
 			menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
@@ -560,66 +560,66 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
 		}
 	}
 
-	private void displayRecipes(Player p, PlayerProfile profile, ChestMenu menu, RecipeDisplayItem sfItem, int page) {
-		List<ItemStack> recipes = sfItem.getDisplayRecipes();
+    private void displayRecipes(Player p, PlayerProfile profile, ChestMenu menu, RecipeDisplayItem sfItem, int page) {
+        List<ItemStack> recipes = sfItem.getDisplayRecipes();
 
-		if (!recipes.isEmpty()) {
-			menu.addItem(53, null);
+        if (!recipes.isEmpty()) {
+            menu.addItem(53, null);
 
-			if (page == 0) {
-				for (int i = 27; i < 36; i++) {
+            if (page == 0) {
+                for (int i = 27; i < 36; i++) {
                     menu.replaceExistingItem(i, new CustomItem(ChestMenuUtils.getBackground(), sfItem.getRecipeSectionLabel(p)));
-					menu.addMenuClickHandler(i, ChestMenuUtils.getEmptyClickHandler());
-				}
-			}
+                    menu.addMenuClickHandler(i, ChestMenuUtils.getEmptyClickHandler());
+                }
+            }
 
-			int pages = (recipes.size() - 1) / 18 + 1;
+            int pages = (recipes.size() - 1) / 18 + 1;
 
-			menu.replaceExistingItem(28, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
-			menu.addMenuClickHandler(28, (pl, slot, itemstack, action) -> {
-				if (page > 0) {
-					displayRecipes(pl, profile, menu, sfItem, page - 1);
-					pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
-				}
-				
-				return false;
-			});
+            menu.replaceExistingItem(28, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
+            menu.addMenuClickHandler(28, (pl, slot, itemstack, action) -> {
+                if (page > 0) {
+                    displayRecipes(pl, profile, menu, sfItem, page - 1);
+                    pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
+                }
 
-			menu.replaceExistingItem(34, ChestMenuUtils.getNextButton(p, page + 1, pages));
-			menu.addMenuClickHandler(34, (pl, slot, itemstack, action) -> {
-				if (recipes.size() > (18 * (page + 1))) {
-					displayRecipes(pl, profile, menu, sfItem, page + 1);
-					pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
-				}
-				
-				return false;
-			});
+                return false;
+            });
 
-			int inputs = 36;
-			int outputs = 45;
+            menu.replaceExistingItem(34, ChestMenuUtils.getNextButton(p, page + 1, pages));
+            menu.addMenuClickHandler(34, (pl, slot, itemstack, action) -> {
+                if (recipes.size() > (18 * (page + 1))) {
+                    displayRecipes(pl, profile, menu, sfItem, page + 1);
+                    pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
+                }
 
-			for (int i = 0; i < 18; i++) {
-				int slot = i % 2 == 0 ? inputs++: outputs++;
+                return false;
+            });
 
-				if ((i + (page * 18)) < recipes.size()) {
-					if (page == 0) {
-						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
-						menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
-							displayItem(profile, itemstack, true);
-							return false;
-						});
-					}
-					else {
-						menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
-					}
-				}
-				else {
-					menu.replaceExistingItem(slot, null);
-					menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
-				}
-			}
-		}
-	}
+            int inputs = 36;
+            int outputs = 45;
+
+            for (int i = 0; i < 18; i++) {
+                int slot = i % 2 == 0 ? inputs++: outputs++;
+
+                if ((i + (page * 18)) < recipes.size()) {
+                    if (page == 0) {
+                        menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
+                        menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
+                            displayItem(profile, itemstack, true);
+                            return false;
+                        });
+                    }
+                    else {
+                        menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
+                    }
+                }
+                else {
+                    menu.replaceExistingItem(slot, null);
+                    menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
+                }
+            }
+        }
+    }
 
 	private static ChestMenu create(Player p) {
 		ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));

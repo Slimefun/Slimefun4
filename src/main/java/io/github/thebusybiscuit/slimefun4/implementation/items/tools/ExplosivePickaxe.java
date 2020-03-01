@@ -1,15 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import org.bukkit.Effect;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -20,9 +13,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.DamageableItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
 
@@ -68,10 +67,8 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                                             allow = handler.onBreak(e.getPlayer(), b, sfItem, UnregisterReason.PLAYER_BREAK);
                                         }
 
-                                        if (allow) {
-                                            if (b.getType() == Material.AIR) {
-                                                drops.add(BlockStorage.retrieve(b));
-                                            }
+                                        if (allow && b.getType() == Material.AIR) {
+                                            drops.add(BlockStorage.retrieve(b));
                                         }
                                     }
                                     else if (b.getType() == Material.PLAYER_HEAD) {

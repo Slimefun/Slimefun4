@@ -1,18 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.geo;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.OptionalInt;
-
-import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -25,12 +15,21 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.OptionalInt;
 
 public abstract class GEOMiner extends AContainer implements InventoryBlock, RecipeDisplayItem {
 	
@@ -102,10 +101,8 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	public int[] getOutputSlots() {
 		return OUTPUT_SLOTS;
 	}
-	
-	public int getProcessingTime() {
-		return 18;
-	}
+
+    public abstract int getProcessingTime();
 	
 	@Override
 	public List<ItemStack> getDisplayRecipes() {

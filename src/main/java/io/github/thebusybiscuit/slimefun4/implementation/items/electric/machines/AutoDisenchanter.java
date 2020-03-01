@@ -37,7 +37,7 @@ public class AutoDisenchanter extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return "&5自动祛魔机";
+        return "&5Auto-Disenchanter";
     }
 
     @Override
@@ -51,20 +51,25 @@ public class AutoDisenchanter extends AContainer {
     }
 
     @Override
+    public int getCapacity() {
+        return 128;
+    }
+
+    @Override
     protected void tick(Block b) {
         BlockMenu menu = BlockStorage.getInventory(b);
 
         if (isProcessing(b)) {
             int timeleft = progress.get(b);
-
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
                 if (ChargableBlock.isChargable(b)) {
                     if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
+                    progress.put(b, timeleft - 1);
                 }
-                progress.put(b, timeleft - 1);
+                else progress.put(b, timeleft - 1);
             }
             else {
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));

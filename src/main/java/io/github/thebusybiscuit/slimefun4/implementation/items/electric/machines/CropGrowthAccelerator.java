@@ -1,15 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.EnumMap;
-import java.util.Map;
-
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.Ageable;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -22,10 +14,19 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.inventory.ItemStack;
 
-public abstract class CropGrowthAccelerator extends SlimefunItem implements InventoryBlock {
+import java.util.EnumMap;
+import java.util.Map;
+
+public abstract class CropGrowthAccelerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 	private static final Map<Material, Integer> crops = new EnumMap<>(Material.class);
@@ -78,6 +79,16 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 	public int[] getOutputSlots() {
 		return new int[0];
 	}
+
+    @Override
+    public EnergyNetComponentType getEnergyComponentType() {
+        return EnergyNetComponentType.CONSUMER;
+    }
+
+    @Override
+    public int getCapacity() {
+        return 1024;
+    }
 	
 	@Override
 	public void preRegister() {

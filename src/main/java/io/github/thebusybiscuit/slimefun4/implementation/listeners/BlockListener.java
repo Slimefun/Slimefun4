@@ -1,13 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -23,22 +31,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BlockListener implements Listener {
 
@@ -104,11 +98,6 @@ public class BlockListener implements Listener {
         if (SlimefunManager.isItemSimilar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
 
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.PORTABLE_CRAFTER, true)) e.setCancelled(true);
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.PORTABLE_DUSTBIN, true)) e.setCancelled(true);
-
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ENDER_BACKPACK, false)) e.setCancelled(true);
-
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.COMPRESSED_CARBON, false)) e.setCancelled(true);
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARBON_CHUNK, false)) e.setCancelled(true);
@@ -120,10 +109,7 @@ public class BlockListener implements Listener {
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
 
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.GPS_MARKER_TOOL, true)) {
-            e.setCancelled(true);
-            SlimefunPlugin.getGPSNetwork().addWaypoint(e.getPlayer(), e.getBlock().getLocation());
-        }
+
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
             e.setCancelled(true);
 

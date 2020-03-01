@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
+package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;

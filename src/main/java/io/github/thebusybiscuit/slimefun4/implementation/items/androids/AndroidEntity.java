@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.android;
+package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import org.bukkit.block.Block;
 

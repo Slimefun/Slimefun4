@@ -1,5 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,14 +20,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 
 public class DebugFishListener implements Listener {
 
@@ -97,6 +97,8 @@ public class DebugFishListener implements Listener {
                             else {
                                 p.sendMessage(ChatColors.color("&dChargable: " + "&4\u2718"));
                             }
+
+                            p.sendMessage(ChatColors.color("  &dEnergyNet Type: &e" + EnergyNet.getComponent(e.getClickedBlock())));
 
                             p.sendMessage(ChatColors.color("&6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock())));
                             p.sendMessage(" ");

@@ -1,8 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import java.util.Arrays;
-
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,11 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import java.util.Arrays;
+import java.util.List;
 
 public final class ChestMenuUtils {
 	
@@ -51,7 +51,13 @@ public final class ChestMenuUtils {
 	}
 
 	public static ItemStack getSearchButton(Player p) {
-		return SEARCH_BUTTON;
+        return new CustomItem(SEARCH_BUTTON, meta -> {
+            meta.setDisplayName(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "guide.search.name")));
+
+            List<String> lore = SlimefunPlugin.getLocal().getMessages(p, "guide.search.lore");
+            lore.replaceAll(ChatColors::color);
+            meta.setLore(lore);
+        });
 	}
 
 	public static ItemStack getWikiButton() {

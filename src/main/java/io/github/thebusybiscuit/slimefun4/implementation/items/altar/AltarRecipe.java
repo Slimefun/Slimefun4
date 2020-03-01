@@ -1,11 +1,10 @@
-package me.mrCookieSlime.Slimefun.ancient_altar;
+package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
+
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bukkit.inventory.ItemStack;
-
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class AltarRecipe {
 

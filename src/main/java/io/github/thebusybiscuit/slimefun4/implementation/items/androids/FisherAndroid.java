@@ -1,12 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.android;
-
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.inventory.ItemStack;
+package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
@@ -14,6 +6,13 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class FisherAndroid extends ProgrammableAndroid {
 

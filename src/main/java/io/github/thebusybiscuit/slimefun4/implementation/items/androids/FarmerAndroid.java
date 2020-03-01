@@ -1,18 +1,17 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.android;
+package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class FarmerAndroid extends ProgrammableAndroid {
 

@@ -1,37 +1,25 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import java.text.DecimalFormat;
-import java.util.AbstractMap;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class TickerTask implements Runnable {
 
@@ -237,7 +225,7 @@ public class TickerTask implements Runnable {
             }
 
             builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
-            component.setHoverEvent(new HoverEvent(builder.toString()));
+            component.setHoverEvent(new HoverEvent(ChatColors.color(builder.toString())));
 
             component.sendMessage((Player) sender);
         }
@@ -283,7 +271,7 @@ public class TickerTask implements Runnable {
             }
 
             builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
-            component.setHoverEvent(new HoverEvent(builder.toString()));
+            component.setHoverEvent(new HoverEvent(ChatColors.color(builder.toString())));
 
             component.sendMessage((Player) sender);
         }

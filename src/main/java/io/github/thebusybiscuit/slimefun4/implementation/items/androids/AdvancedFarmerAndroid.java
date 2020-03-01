@@ -1,15 +1,14 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.android;
+package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
+import me.mrCookieSlime.ExoticGarden.ExoticGarden;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-
-import me.mrCookieSlime.ExoticGarden.ExoticGarden;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class AdvancedFarmerAndroid extends FarmerAndroid {
 

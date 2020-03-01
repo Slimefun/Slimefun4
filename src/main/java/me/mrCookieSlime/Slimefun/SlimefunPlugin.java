@@ -217,7 +217,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     grapplingHookListener.load(this);
                 }
 
-				if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) new IgnitionChamberListener(this);
+				if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) {
+				    new IgnitionChamberListener(this);
+                }
+
+                if (SlimefunItem.getByID("BLADE_OF_VAMPIRES") != null) {
+                    new VampireBladeListener(this);
+                }
 			}, 0);
 
 			SlimefunCommand command = new SlimefunCommand(this);
@@ -467,7 +473,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
 	public static Set<Plugin> getInstalledAddons() {
 		return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
-				.filter(Plugin::isEnabled)
 				.filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName()))
 				.collect(Collectors.toSet());
 	}

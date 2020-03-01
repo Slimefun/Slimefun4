@@ -1,8 +1,7 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.android;
-
-import org.bukkit.inventory.ItemStack;
+package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import org.bukkit.inventory.ItemStack;
 
 public enum ScriptPart {
 

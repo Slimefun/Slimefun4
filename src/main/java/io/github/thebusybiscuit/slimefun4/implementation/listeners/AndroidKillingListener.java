@@ -1,10 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidEntity;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -16,9 +14,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.android.AndroidEntity;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class AndroidKillingListener implements Listener {
 	

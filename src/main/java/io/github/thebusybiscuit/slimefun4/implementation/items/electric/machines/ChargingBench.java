@@ -1,9 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -12,6 +8,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 public class ChargingBench extends AContainer {
 
@@ -33,6 +32,11 @@ public class ChargingBench extends AContainer {
 	public int getEnergyConsumption() {
 		return 10;
 	}
+
+    @Override
+    public int getCapacity() {
+        return 128;
+    }
 
 	@Override
 	protected void tick(Block b) {
