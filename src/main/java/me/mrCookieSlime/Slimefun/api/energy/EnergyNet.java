@@ -10,7 +10,6 @@ import org.bukkit.block.Block;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.EnergyHologram;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -216,7 +215,16 @@ public class EnergyNet extends Network {
 				}
 			}
 
-			EnergyHologram.update(b, supply, demand);
+			updateHologram(b, supply, demand);
+		}
+	}
+	
+	private static void updateHologram(Block b, double supply, double demand) {
+		if (demand > supply) {
+			SimpleHologram.update(b, "&4&l- &c" + DoubleHandler.getFancyDouble(Math.abs(supply - demand)) + " &7J &e\u26A1");
+		}
+		else {
+			SimpleHologram.update(b, "&2&l+ &a" + DoubleHandler.getFancyDouble(supply - demand) + " &7J &e\u26A1");
 		}
 	}
 }

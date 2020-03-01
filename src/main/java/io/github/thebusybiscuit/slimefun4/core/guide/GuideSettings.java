@@ -281,13 +281,14 @@ public final class GuideSettings {
 		}
 		
 		Language defaultLanguage = SlimefunPlugin.getLocal().getDefaultLanguage();
-		menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select-default")),
+		String defaultLanguageString = SlimefunPlugin.getLocal().getMessage(p, "languages.default");
+		
+		menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + defaultLanguageString + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select-default")),
 		(pl, i, item, action) -> {
 			SlimefunPlugin.instance.getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, SlimefunPlugin.getLocal().getLanguage(pl), defaultLanguage));
 			PersistentDataAPI.remove(pl, SlimefunPlugin.getLocal().getKey());
 			
-			String name = SlimefunPlugin.getLocal().getMessage(p, "languages.default");
-			SlimefunPlugin.getLocal().sendMessage(pl, "guide.languages.updated", msg -> msg.replace("%lang%", name));
+			SlimefunPlugin.getLocal().sendMessage(pl, "guide.languages.updated", msg -> msg.replace("%lang%", defaultLanguageString));
 			
 			openSettings(pl, p.getInventory().getItemInMainHand());
 			return false;

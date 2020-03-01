@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -25,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -35,7 +35,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
@@ -416,21 +415,15 @@ public class SlimefunItem implements Placeable {
 
 	public void load() {
 		try {
-			if (!hidden) category.add(this);
-			ItemStack output = item.clone();
-			if (recipeOutput != null) output = recipeOutput.clone();
-
+			if (!hidden) {
+				category.add(this);
+			}
+			
+			ItemStack output = recipeOutput == null ? item.clone(): recipeOutput.clone();
+			
 			if (recipeType == RecipeType.MOB_DROP) {
 				String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
-				
-				try {
-					EntityType entity = EntityType.valueOf(mob);
-					Set<ItemStack> dropping = SlimefunPlugin.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());
-					dropping.add(output);
-					SlimefunPlugin.getRegistry().getMobDrops().put(entity, dropping);
-				} catch(Exception x) {
-					error("An Exception occured when setting a Drop for the Mob Type: \"" + mob + "\"", x);
-				}
+				registerMobDrop(mob, output);
 			}
 			else if (recipeType == RecipeType.ANCIENT_ALTAR) {
 				new AltarRecipe(Arrays.asList(recipe), output);
@@ -445,7 +438,18 @@ public class SlimefunItem implements Placeable {
 			
 			install();
 		} catch(Exception x) {
-			error("Item Setup failed for Item \"" + id + "\"", x);
+			error("Failed to properly load the Item \"" + id + "\"", x);
+		}
+	}
+
+	private void registerMobDrop(String mob, ItemStack output) {
+		try {
+			EntityType entity = EntityType.valueOf(mob);
+			Set<ItemStack> dropping = SlimefunPlugin.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());
+			dropping.add(output);
+			SlimefunPlugin.getRegistry().getMobDrops().put(entity, dropping);
+		} catch(Exception x) {
+			error("An Exception occured when setting a Drop for the Mob Type: \"" + mob + "\"", x);
 		}
 	}
 
@@ -715,25 +719,12 @@ public class SlimefunItem implements Placeable {
 		}
 		else {
 			// This can be removed once SlimefunAddon is required for registration.
-			Logger customLogger = new Logger("UNKNOWN SLIMEFUN ADDON", null) {
-				
-				@Override
-				public void log(LogRecord logRecord) {
-					logRecord.setMessage("[Unknown Slimefun Addon] " + logRecord.getMessage());
-					super.log(logRecord);
-				}
-				
-			};
-			
-			customLogger.setParent(SlimefunPlugin.instance.getServer().getLogger());
-			customLogger.setLevel(Level.ALL);
-			
-			return customLogger;
+			return Bukkit.getLogger();
 		}
 	}
 	
 	private String getLoggerPrefix() {
-		return (addon != null ? (addon.getName() + " v" + addon.getPluginVersion() + " - "): "");
+		return (addon != null ? (addon.getName() + " v" + addon.getPluginVersion() + " - "): "UNKNOWN SLIMEFUN ADDON - ");
 	}
 	
 	public void info(String message) {

@@ -103,9 +103,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 		return OUTPUT_SLOTS;
 	}
 	
-	public int getProcessingTime() {
-		return 18;
-	}
+	public abstract int getProcessingTime();
 	
 	@Override
 	public List<ItemStack> getDisplayRecipes() {

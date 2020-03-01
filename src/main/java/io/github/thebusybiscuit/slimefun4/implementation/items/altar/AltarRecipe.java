@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.ancient_altar;
+package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
 import java.util.ArrayList;
 import java.util.List;

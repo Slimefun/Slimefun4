@@ -68,10 +68,8 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 											allow = handler.onBreak(e.getPlayer(), b, sfItem, UnregisterReason.PLAYER_BREAK);
 										}
 										
-										if (allow) {
-											if (b.getType() == Material.AIR) {
-												drops.add(BlockStorage.retrieve(b));
-											}
+										if (allow && b.getType() == Material.AIR) {
+											drops.add(BlockStorage.retrieve(b));
 										}
 									}
 									else if (b.getType() == Material.PLAYER_HEAD) {

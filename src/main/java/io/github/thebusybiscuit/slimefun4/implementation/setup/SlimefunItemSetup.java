@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AdvancedFarmerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
@@ -33,7 +34,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FisherAn
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ProgrammableAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.WoodcutterAndroid;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
@@ -174,7 +174,6 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 
 /**
  * This static utility class holds the recipes of all items.
@@ -2720,6 +2719,11 @@ public final class SlimefunItemSetup {
 			@Override
 			public int getEnergyConsumption() {
 				return 24;
+			}
+			
+			@Override
+			public int getProcessingTime() {
+				return 18;
 			}
 			
 		}.register(plugin);

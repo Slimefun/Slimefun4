@@ -57,24 +57,7 @@ public class MagicWorkbench extends MultiBlockMachine {
 		List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
 		for (int i = 0; i < inputs.size(); i++) {
-			boolean craft = true;
-			
-			for (int j = 0; j < inv.getContents().length; j++) {
-				if (!SlimefunManager.isItemSimilar(inv.getContents()[j], inputs.get(i)[j], true)) {
-					if (SlimefunItem.getByItem(inputs.get(i)[j]) instanceof SlimefunBackpack) {
-						if (!SlimefunManager.isItemSimilar(inv.getContents()[j], inputs.get(i)[j], false)) {
-							craft = false;
-							break;
-						}
-					}
-					else {
-						craft = false;
-						break;
-					}
-				}
-			}
-
-			if (craft) {
+			if (isCraftable(inv, inputs.get(i))) {
 				ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 				
 				if (Slimefun.hasUnlocked(p, adding, true)) {
@@ -164,6 +147,23 @@ public class MagicWorkbench extends MultiBlockMachine {
 			}
 		}
 		SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
+	}
+
+	private boolean isCraftable(Inventory inv, ItemStack[] recipe) {
+		for (int j = 0; j < inv.getContents().length; j++) {
+			if (!SlimefunManager.isItemSimilar(inv.getContents()[j], recipe[j], true)) {
+				if (SlimefunItem.getByItem(recipe[j]) instanceof SlimefunBackpack) {
+					if (!SlimefunManager.isItemSimilar(inv.getContents()[j], recipe[j], false)) {
+						return false;
+					}
+				}
+				else {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 
 }
