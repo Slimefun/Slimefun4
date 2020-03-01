@@ -44,6 +44,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 
 	public CropGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
+		
 		createPreset(this, this::constructMenu);
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
