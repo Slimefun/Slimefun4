@@ -58,6 +58,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemL
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.NetherIceResource;
@@ -254,6 +255,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 				
 				if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) {
 					new IgnitionChamberListener(this);
+				}
+				
+				if (SlimefunItem.getByID("BLADE_OF_VAMPIRES") != null) {
+					new VampireBladeListener(this);
 				}
 			}, 0);
 

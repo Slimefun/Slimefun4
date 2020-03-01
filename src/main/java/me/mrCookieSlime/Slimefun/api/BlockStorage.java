@@ -414,21 +414,23 @@ public class BlockStorage {
 		BlockStorage storage = getStorage(l.getWorld());
 		storage.storage.put(l, cfg);
 		
-		if (BlockMenuPreset.isInventory(cfg.getString("id"))) {
-			if (BlockMenuPreset.isUniversalInventory(cfg.getString("id"))) {
-				if (!SlimefunPlugin.getRegistry().getUniversalInventories().containsKey(cfg.getString("id"))) {
-					storage.loadUniversalInventory(BlockMenuPreset.getPreset(cfg.getString("id")));
+		String id = cfg.getString("id");
+		
+		if (BlockMenuPreset.isInventory(id)) {
+			if (BlockMenuPreset.isUniversalInventory(id)) {
+				if (!SlimefunPlugin.getRegistry().getUniversalInventories().containsKey(id)) {
+					storage.loadUniversalInventory(BlockMenuPreset.getPreset(id));
 				}
 			}
 			else if (!storage.hasInventory(l)) {
 				File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
 				
-				if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(cfg.getString("id")), l, new io.github.thebusybiscuit.cscorelib2.config.Config(file)));
-				else storage.loadInventory(l, BlockMenuPreset.getPreset(cfg.getString("id")));
+				if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(id), l, new io.github.thebusybiscuit.cscorelib2.config.Config(file)));
+				else storage.loadInventory(l, BlockMenuPreset.getPreset(id));
 			}
 		}
 		
-		refreshCache(getStorage(l.getWorld()), l, cfg.getString("id"), serializeBlockInfo(cfg), updateTicker);
+		refreshCache(getStorage(l.getWorld()), l, id, serializeBlockInfo(cfg), updateTicker);
 	}
 	
 	public static void setBlockInfo(Block b, String json, boolean updateTicker) {
@@ -523,6 +525,12 @@ public class BlockStorage {
 	}
 
 	private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
+		if (key == null) {
+			// This Block is no longer valid...
+			// Fixes #1577
+			return;
+		}
+		
 		Config cfg = storage.blocksCache.computeIfAbsent(key, k -> new Config(PATH_BLOCKS + l.getWorld().getName() + '/' + key + ".sfb"));
 		cfg.setValue(serializeLocation(l), value);
 		
