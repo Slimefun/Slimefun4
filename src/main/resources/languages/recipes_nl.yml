@@ -1,0 +1,127 @@
+---
+slimefun:
+  multiblock:
+    name: Multiblok
+    lore:
+    - Bouw de getoonde structuur
+    - zoals afgebeeld. Het wordt niet gemaakt in een Werkbank.
+  enhanced_crafting_table:
+    name: Verbeterde Werkbank
+    lore:
+    - Maak dit item zoals afgebeeld
+    - in een Verbeterde Werkbank.
+    - Een normale Werkbank volstaat niet!
+  armor_forge:
+    name: Uitrustingsmederij
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Uitrustingsmederij.
+  grind_stone:
+    name: Slijpsteen
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Slijpsteen.
+  smeltery:
+    name: Smelterij
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Smelterij.
+  ore_crusher:
+    name: Ertsbreker
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Ertsbreker.
+  mob_drop:
+    name: Monster buit
+    lore:
+    - Dood dat monster om
+    - dit voorwerp te verkrijgen.
+  gold_pan:
+    name: Goudpan
+    lore:
+    - Gebruik een Goudpan om
+    - dit voorwerp te verkrijgen.
+  compressor:
+    name: Compressor
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Compressor.
+  pressure_chamber:
+    name: Hogedruk Kamer
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Hogedruk Kamer.
+  ore_washer:
+    name: Ertswasser
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Ertswasser.
+  juicer:
+    name: Sapcentrifuge
+    lore:
+    - Maak dit sap zoals afgebeeld
+    - met behulp van een Sapcentrifuge.
+  magic_workbench:
+    name: Magische Werkbank
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Magische Werkbank.
+  ancient_altar:
+    name: Oud Altaar
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Oud Altaar.
+    - Zoek het Oude Altaar op voor meer info.
+  heated_pressure_chamber:
+    name: Verhitte Hogedruk Kamer
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Verhitte Hogedruk Kamer.
+  food_fabricator:
+    name: Voedselfabricator
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Voedselfabricator.
+  food_composter:
+    name: Voedselcompostbak
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Voedselcompostbak.
+minecraft:
+  shaped:
+    name: Gevormd Verwerkingsrecept
+    lore:
+    - Maak dit item zoals afgebeeld
+    - in een normale Werkbank.
+    - De vorm is belangrijk.
+  shapeless:
+    name: Vormloos Verwerkingsrecept
+    lore:
+    - Maak dit item zoals afgebeeld
+    - in een normale Werkbank.
+    - Dit recept is vormloos.
+  furnace:
+    name: Ovenrecept
+    lore:
+    - Smelt dit item in een Oven
+    - om het gewenste item te maken.
+  blasting:
+    name: Hoogovenrecept
+    lore:
+    - Smelt dit item in een Hoogoven
+    - om het gewenste item te maken.
+  smoking:
+    name: Rokerrecept
+    lore:
+    - Smelt dit item in een Roker
+    - om het gewenste item te maken.
+  campfire:
+    name: Kampvuurrecept
+    lore:
+    - Smelt dit item boven een kampvuur
+    - om het gewenste item te maken.
+  stonecutting:
+    name: Steenzaagrecept
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Steenzaag.
