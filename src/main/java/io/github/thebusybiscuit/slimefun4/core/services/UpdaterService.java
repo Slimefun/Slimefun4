@@ -11,19 +11,16 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 
 public class UpdaterService {
 
+	private final Plugin plugin;
 	private final Updater updater;
 	private final SlimefunBranch branch;
 
 	public UpdaterService(Plugin plugin, File file) {
+		this.plugin = plugin;
 		String version = plugin.getDescription().getVersion();
 
-		if (version.equals("UNOFFICIAL")) {
+		if (version.contains("UNOFFICIAL")) {
 			// This Server is using a modified build that is not a public release.
-			plugin.getLogger().log(Level.WARNING, "##################################################");
-			plugin.getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
-			plugin.getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
-			plugin.getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun.");
-			plugin.getLogger().log(Level.WARNING, "##################################################");
 			updater = null;
 			branch = SlimefunBranch.UNOFFICIAL;
 		}
@@ -51,6 +48,30 @@ public class UpdaterService {
 		if (updater != null) {
 			updater.start();
 		}
+		else {
+			drawBorder();
+			plugin.getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
+			plugin.getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
+			plugin.getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun to any official sources.");
+			drawBorder();
+		}
+	}
+
+	public void disable() {
+		drawBorder();
+		plugin.getLogger().log(Level.WARNING, "It looks like you have disabled auto-updates for Slimefun!");
+		plugin.getLogger().log(Level.WARNING, "Auto-Updates keep your server safe, performant and bug-free.");
+		plugin.getLogger().log(Level.WARNING, "We respect your decision.");
+		
+		if (branch != SlimefunBranch.STABLE) {
+			plugin.getLogger().log(Level.WARNING, "If you are just scared of Slimefun breaking, then please consider using a \"stable\" build instead of disabling auto-updates.");
+		}
+		
+		drawBorder();
+	}
+	
+	private void drawBorder() {
+		plugin.getLogger().log(Level.WARNING, "#######################################################");
 	}
 
 }
