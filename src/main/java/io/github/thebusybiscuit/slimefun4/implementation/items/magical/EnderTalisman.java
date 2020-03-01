@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
+package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -9,7 +9,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 /**
  * @since 4.0
  */
-public class EnderTalisman extends Talisman {
+class EnderTalisman extends Talisman {
 
 	public EnderTalisman(Talisman parent) {
 		super(Categories.TALISMANS_2, parent.upgrade(), new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, null, parent.getItem(), null, SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3}, parent.isConsumable(), parent.isEventCancelled(), parent.getSuffix(), parent.getChance(), parent.getEffects());
