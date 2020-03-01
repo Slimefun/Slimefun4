@@ -139,7 +139,7 @@ public class TalismanListener implements Listener {
 			}
 			
 			String enchant = enchantments.get(random.nextInt(enchantments.size()));
-			String[] enchantSplit = PatternUtils.SLASH_SEPARATOR.split(enchant);
+			String[] enchantSplit = PatternUtils.DASH.split(enchant);
 			e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchantSplit[0])), Integer.parseInt(enchantSplit[1]));
 		}
 
