@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.api.energy;
 
-public enum EnergyNetComponent {
+public enum EnergyNetComponentType {
 
 	GENERATOR,
 	CAPACITOR,

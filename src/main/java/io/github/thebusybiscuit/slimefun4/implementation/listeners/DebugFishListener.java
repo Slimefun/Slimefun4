@@ -20,6 +20,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 
 public class DebugFishListener implements Listener {
 
@@ -97,6 +98,8 @@ public class DebugFishListener implements Listener {
                             else {
                                 p.sendMessage(ChatColors.color("&dChargable: " + "&4\u2718"));
                             }
+                            
+                            p.sendMessage(ChatColors.color("  &dEnergyNet Type: &e" + EnergyNet.getComponent(e.getClickedBlock())));
 
                             p.sendMessage(ChatColors.color("&6" + BlockStorage.getBlockInfoAsJson(e.getClickedBlock())));
                             p.sendMessage(" ");

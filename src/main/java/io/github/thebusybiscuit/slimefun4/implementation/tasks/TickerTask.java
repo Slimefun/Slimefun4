@@ -238,7 +238,7 @@ public class TickerTask implements Runnable {
 			}
 
 			builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
-			component.setHoverEvent(new HoverEvent(builder.toString()));
+			component.setHoverEvent(new HoverEvent(ChatColors.color(builder.toString())));
 
 			component.sendMessage((Player) sender);
 		}
@@ -284,7 +284,7 @@ public class TickerTask implements Runnable {
 			}
 			
 			builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
-			component.setHoverEvent(new HoverEvent(builder.toString()));
+			component.setHoverEvent(new HoverEvent(ChatColors.color(builder.toString())));
 			
 			component.sendMessage((Player) sender);
 		}

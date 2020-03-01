@@ -69,22 +69,37 @@ public class BackpackListener implements Listener {
 					}
 				}
 			}
-			else if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
-				SlimefunItem sfItem = SlimefunItem.getByItem(e.getCurrentItem());
-				if ((SlimefunManager.isItemSimilar(item, SlimefunItems.COOLER, false) && !(sfItem instanceof Juice)) ||
-						e.getCurrentItem().getType().toString().contains("SHULKER_BOX") ||
-						sfItem instanceof SlimefunBackpack)
-
-							e.setCancelled(true);
+			else if (!isItemAllowed(item, e.getCurrentItem())) {
+				e.setCancelled(true);
 			}
 		}
 	}
 
+	private boolean isItemAllowed(ItemStack backpack, ItemStack item) {
+		if (item == null || item.getType() == Material.AIR) {
+			return true;
+		}
+		
+		if (item.getType().toString().contains("SHULKER_BOX")) {
+			return false;
+		}
+		
+		SlimefunItem sfItem = SlimefunItem.getByItem(item);
+		
+		if (sfItem instanceof SlimefunBackpack) {
+			return false;
+		}
+		else if (SlimefunManager.isItemSimilar(backpack, SlimefunItems.COOLER, false)) {
+			return sfItem instanceof Juice;
+		}
+		
+		return true;
+	}
+
 	public void openBackpack(Player p, ItemStack item, SlimefunBackpack backpack) {
 		if (item.getAmount() == 1) {
-			if (Slimefun.hasUnlocked(p, backpack, true)) {
-				if (!PlayerProfile.get(p, profile -> openBackpack(item, profile, backpack.getSize())))
-					SlimefunPlugin.getLocal().sendMessage(p, "messages.opening-backpack");
+			if (Slimefun.hasUnlocked(p, backpack, true) && !PlayerProfile.get(p, profile -> openBackpack(item, profile, backpack.getSize()))) {
+				SlimefunPlugin.getLocal().sendMessage(p, "messages.opening-backpack");
 			}
 		}
 		else SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);

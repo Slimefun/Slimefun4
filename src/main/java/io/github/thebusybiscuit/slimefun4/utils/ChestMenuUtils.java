@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -51,7 +52,13 @@ public final class ChestMenuUtils {
 	}
 
 	public static ItemStack getSearchButton(Player p) {
-		return SEARCH_BUTTON;
+		return new CustomItem(SEARCH_BUTTON, meta -> {
+			meta.setDisplayName(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "guide.search.name")));
+			
+			List<String> lore = SlimefunPlugin.getLocal().getMessages(p, "guide.search.lore");
+			lore.replaceAll(ChatColors::color);
+			meta.setLore(lore);
+		});
 	}
 
 	public static ItemStack getWikiButton() {

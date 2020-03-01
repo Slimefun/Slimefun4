@@ -33,6 +33,13 @@ import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
+/**
+ * This class houses a lot of instances of {@link Map} and {@link List} that hold
+ * various mappings and collections related to {@link SlimefunItem}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class SlimefunRegistry {
 
 	private final Map<String, SlimefunItem> slimefunIds = new HashMap<>();

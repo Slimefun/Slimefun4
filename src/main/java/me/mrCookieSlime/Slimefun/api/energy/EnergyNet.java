@@ -10,7 +10,6 @@ import org.bukkit.block.Block;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.EnergyHologram;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -21,27 +20,27 @@ public class EnergyNet extends Network {
 
 	private static final int RANGE = 6;
 
-	public static EnergyNetComponent getComponent(Block b) {
+	public static EnergyNetComponentType getComponent(Block b) {
 		return getComponent(b.getLocation());
 	}
 
-	public static EnergyNetComponent getComponent(String id) {
-		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.GENERATOR;
-		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.CAPACITOR;
-		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponent.CONSUMER;
-		return EnergyNetComponent.NONE;
+	public static EnergyNetComponentType getComponent(String id) {
+		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponentType.GENERATOR;
+		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponentType.CAPACITOR;
+		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponentType.CONSUMER;
+		return EnergyNetComponentType.NONE;
 	}
 
-	public static EnergyNetComponent getComponent(Location l) {
-		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponent.NONE;
+	public static EnergyNetComponentType getComponent(Location l) {
+		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponentType.NONE;
 		String id = BlockStorage.checkID(l);
-		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponent.GENERATOR;
-		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponent.CAPACITOR;
-		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponent.CONSUMER;
-		return EnergyNetComponent.NONE;
+		if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponentType.GENERATOR;
+		if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponentType.CAPACITOR;
+		if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponentType.CONSUMER;
+		return EnergyNetComponentType.NONE;
 	}
 
-	public static void registerComponent(String id, EnergyNetComponent component) {
+	public static void registerComponent(String id, EnergyNetComponentType component) {
 		switch (component) {
 		case CONSUMER:
 			SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);
@@ -105,7 +104,7 @@ public class EnergyNet extends Network {
 
 		switch (getComponent(l)) {
 		case CAPACITOR:
-			if (ChargableBlock.isCapacitor(l)) storage.add(l);
+			storage.add(l);
 			break;
 		case CONSUMER:
 			output.add(l);
@@ -216,7 +215,16 @@ public class EnergyNet extends Network {
 				}
 			}
 
-			EnergyHologram.update(b, supply, demand);
+			updateHologram(b, supply, demand);
+		}
+	}
+	
+	private static void updateHologram(Block b, double supply, double demand) {
+		if (demand > supply) {
+			SimpleHologram.update(b, "&4&l- &c" + DoubleHandler.getFancyDouble(Math.abs(supply - demand)) + " &7J &e\u26A1");
+		}
+		else {
+			SimpleHologram.update(b, "&2&l+ &a" + DoubleHandler.getFancyDouble(supply - demand) + " &7J &e\u26A1");
 		}
 	}
 }

@@ -56,4 +56,9 @@ public abstract class Freezer extends AContainer implements RecipeDisplayItem {
 		return "FREEZER";
 	}
 
+	@Override
+	public int getCapacity() {
+		return 256;
+	}
+
 }

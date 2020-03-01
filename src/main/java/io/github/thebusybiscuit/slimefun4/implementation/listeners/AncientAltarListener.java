@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -29,16 +31,18 @@ import org.bukkit.util.Vector;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
-import me.mrCookieSlime.Slimefun.ancient_altar.Pedestals;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class AncientAltarListener implements Listener {
+	
+	private static final String PEDESTAL_ID = "ANCIENT_PEDESTAL";
 
 	private final Set<AltarRecipe> altarRecipes = new HashSet<>();
 	private final Set<Location> altarsInUse = new HashSet<>();
@@ -52,6 +56,10 @@ public class AncientAltarListener implements Listener {
 
 	public Set<Location> getAltarsInUse() {
 		return altarsInUse;
+	}
+
+	public Set<AltarRecipe> getRecipes() {
+		return altarRecipes;
 	}
 
 	@EventHandler
@@ -69,7 +77,7 @@ public class AncientAltarListener implements Listener {
 		
 		String id = slimefunBlock.get().getID();
 		
-		if (id.equals("ANCIENT_PEDESTAL")) {
+		if (id.equals(PEDESTAL_ID)) {
 			e.cancel();
 
 			if (altarsInUse.contains(b.getLocation())) {
@@ -110,7 +118,7 @@ public class AncientAltarListener implements Listener {
 			e.cancel();
 
 			ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
-			List<Block> pedestals = Pedestals.getPedestals(b);
+			List<Block> pedestals = getPedestals(b);
 
 			if (!altars.contains(b)) {
 				altars.add(b);
@@ -124,7 +132,7 @@ public class AncientAltarListener implements Listener {
 							if (stack != null) input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
 						}
 
-						ItemStack result = Pedestals.getRecipeOutput(catalyst, input);
+						ItemStack result = getRecipeOutput(catalyst, input);
 						if (result != null) {
 							if (Slimefun.hasUnlocked(e.getPlayer(), result, true)) {
 								List<ItemStack> consumed = new ArrayList<>();
@@ -176,6 +184,20 @@ public class AncientAltarListener implements Listener {
 		}
 	}
 
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	public void onBlockPlace(BlockPlaceEvent e) {
+		Block pedestal = e.getBlockPlaced().getRelative(BlockFace.DOWN);
+		
+		if (pedestal.getType() == Material.DISPENSER) {
+			String id = BlockStorage.checkID(pedestal);
+
+			if (id != null && id.equals(PEDESTAL_ID)) {
+				SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.cannot-place", true);
+				e.setCancelled(true);
+			}
+		}
+	}
+
 	public static ItemStack fixItemStack(ItemStack itemStack, String customName) {
 		ItemStack stack = itemStack.clone();
 
@@ -219,19 +241,74 @@ public class AncientAltarListener implements Listener {
 		p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onBlockPlace(BlockPlaceEvent e) {
-		Block b = e.getBlockPlaced().getRelative(0, -1, 0);
-		String item = BlockStorage.checkID(b);
+	private List<Block> getPedestals(Block altar) {
+		List<Block> list = new ArrayList<>();
 
-		if (item != null && item.equalsIgnoreCase("ANCIENT_PEDESTAL")) {
-			SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.cannot-place", true);
-			e.setCancelled(true);
+		if (BlockStorage.check(altar.getRelative(2, 0, -2), PEDESTAL_ID)) {
+			list.add(altar.getRelative(2, 0, -2));
 		}
+		if (BlockStorage.check(altar.getRelative(3, 0, 0), PEDESTAL_ID)) {
+			list.add(altar.getRelative(3, 0, 0));
+		}
+		if (BlockStorage.check(altar.getRelative(2, 0, 2), PEDESTAL_ID)) {
+			list.add(altar.getRelative(2, 0, 2));
+		}
+		if (BlockStorage.check(altar.getRelative(0, 0, 3), PEDESTAL_ID)) {
+			list.add(altar.getRelative(0, 0, 3));
+		}
+		if (BlockStorage.check(altar.getRelative(-2, 0, 2), PEDESTAL_ID)) {
+			list.add(altar.getRelative(-2, 0, 2));
+		}
+		if (BlockStorage.check(altar.getRelative(-3, 0, 0), PEDESTAL_ID)) {
+			list.add(altar.getRelative(-3, 0, 0));
+		}
+		if (BlockStorage.check(altar.getRelative(-2, 0, -2), PEDESTAL_ID)) {
+			list.add(altar.getRelative(-2, 0, -2));
+		}
+		if (BlockStorage.check(altar.getRelative(0, 0, -3), PEDESTAL_ID)) {
+			list.add(altar.getRelative(0, 0, -3));
+		}
+
+		return list;
 	}
 
-	public Set<AltarRecipe> getRecipes() {
-		return altarRecipes;
+	public ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
+		if (input.size() != 8) return null;
+
+		if (SlimefunManager.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
+			if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) {
+				return null;
+			}
+
+			ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
+			ItemMeta im = spawner.getItemMeta();
+			im.setLore(Arrays.asList(catalyst.getItemMeta().getLore().get(0)));
+			spawner.setItemMeta(im);
+			return spawner;
+		}
+
+		return checkRecipe(catalyst, input);
+	}
+
+	private ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
+		for (AltarRecipe recipe : altarRecipes) {
+			if (SlimefunManager.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
+				for (int i = 0; i < 8; i++) {
+					if (SlimefunManager.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
+						for (int j = 1; j < 8; j++) {
+							if (!SlimefunManager.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
+								break;
+							}
+							else if (j == 7) {
+								return recipe.getOutput();
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 
 }

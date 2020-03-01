@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
+package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;

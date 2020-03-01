@@ -58,6 +58,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemL
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.NetherIceResource;
@@ -252,7 +253,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 					grapplingHookListener.load(this);
 				}
 				
-				if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) new IgnitionChamberListener(this);
+				if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) {
+					new IgnitionChamberListener(this);
+				}
+				
+				if (SlimefunItem.getByID("BLADE_OF_VAMPIRES") != null) {
+					new VampireBladeListener(this);
+				}
 			}, 0);
 
 			SlimefunCommand command = new SlimefunCommand(this);
@@ -503,7 +510,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
 	public static Set<Plugin> getInstalledAddons() {
 		return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
-				.filter(Plugin::isEnabled)
 				.filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName()))
 				.collect(Collectors.toSet());
 	}

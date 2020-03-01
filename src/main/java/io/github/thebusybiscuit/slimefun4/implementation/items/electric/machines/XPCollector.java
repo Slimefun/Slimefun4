@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -22,10 +23,11 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
-public class XPCollector extends SlimefunItem implements InventoryBlock {
+public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
@@ -68,6 +70,16 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	@Override
 	public int[] getOutputSlots() {
 		return new int[] {12, 13, 14};
+	}
+	
+	@Override
+	public EnergyNetComponentType getEnergyComponentType() {
+		return EnergyNetComponentType.CONSUMER;
+	}
+
+	@Override
+	public int getCapacity() {
+		return 1024;
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {

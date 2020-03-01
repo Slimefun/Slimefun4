@@ -58,7 +58,7 @@ public abstract class BioGenerator extends AGenerator {
 			registerFuel(new MachineFuel(1, new ItemStack(m)));
 		}
 		
-		// Small Flowers (formally just dandelions and poppies.
+		// Small Flowers (formally just dandelions and poppies).
 		for (Material m : Tag.SMALL_FLOWERS.getValues()) {
 			registerFuel(new MachineFuel(1, new ItemStack(m)));
 		}

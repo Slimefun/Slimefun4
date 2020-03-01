@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -25,10 +26,11 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
+import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
-public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock {
+public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, EnergyNetComponent {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22};
 	private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
@@ -78,6 +80,16 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 	@Override
 	public int[] getOutputSlots() {
 		return new int[] {24, 25};
+	}
+	
+	@Override
+	public EnergyNetComponentType getEnergyComponentType() {
+		return EnergyNetComponentType.CONSUMER;
+	}
+
+	@Override
+	public int getCapacity() {
+		return 512;
 	}
 	
 	protected void tick(Block b) {

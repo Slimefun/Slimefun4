@@ -1,9 +1,9 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
+package io.github.thebusybiscuit.slimefun4.implementation.items.gps;
 
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -11,9 +11,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class PortableCrafter extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
+public class GPSMarkerTool extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
-	public PortableCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+	public GPSMarkerTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
 	
@@ -22,9 +22,10 @@ public class PortableCrafter extends SimpleSlimefunItem<ItemUseHandler> implemen
 		return e -> {
 			e.cancel();
 			
-			Player p = e.getPlayer();
-			p.openWorkbench(p.getLocation(), true);
-			p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
+			if (e.getClickedBlock().isPresent()) {
+				Block b = e.getClickedBlock().get().getRelative(e.getClickedFace());
+				SlimefunPlugin.getGPSNetwork().addWaypoint(e.getPlayer(), b.getLocation());
+			}
 		};
 	}
 }

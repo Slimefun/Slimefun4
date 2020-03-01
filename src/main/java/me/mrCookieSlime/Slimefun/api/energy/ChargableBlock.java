@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -15,16 +14,6 @@ public final class ChargableBlock {
 
 	private ChargableBlock() {}
 
-	public static void registerChargableBlock(String id, int capacity) {
-		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-		SlimefunPlugin.getRegistry().getChargeableBlocks().add(id);
-	}
-
-	public static void registerCapacitor(String id, int capacity) {
-		SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-		SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
-	}
-
 	public static boolean isChargable(Block b) {
 		return isChargable(b.getLocation());
 	}
@@ -34,37 +23,16 @@ public final class ChargableBlock {
 		return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(BlockStorage.checkID(l));
 	}
 
-	public static boolean isRechargable(Block b) {
-		if (!BlockStorage.hasBlockInfo(b)) return false;
-		String id = BlockStorage.checkID(b);
-		return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(id) && SlimefunPlugin.getRegistry().getChargeableBlocks().contains(id);
-	}
-
-	public static boolean isCapacitor(Block b) {
-		return isCapacitor(b.getLocation());
-	}
-
-	public static boolean isCapacitor(Location l) {
-		if (!BlockStorage.hasBlockInfo(l)) return false;
-		return SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(BlockStorage.checkID(l));
-	}
-
-	public static int getDefaultCapacity(Block b) {
-		return getDefaultCapacity(b.getLocation());
-	}
-
-	public static int getDefaultCapacity(Location l) {
-		String id = BlockStorage.checkID(l);
-		return id == null ? 0: SlimefunPlugin.getRegistry().getEnergyCapacities().get(id);
-	}
-
 	public static int getCharge(Block b) {
 		return getCharge(b.getLocation());
 	}
 
 	public static int getCharge(Location l) {
 		String charge = BlockStorage.getLocationInfo(l, "energy-charge");
-		if (charge != null) return Integer.parseInt(charge);
+		
+		if (charge != null) {
+			return Integer.parseInt(charge);
+		}
 		else {
 			BlockStorage.addBlockInfo(l, "energy-charge", "0", false);
 			return 0;
@@ -76,40 +44,27 @@ public final class ChargableBlock {
 	}
 
 	public static void setCharge(Location l, int charge) {
-		if (charge < 0) charge = 0;
+		if (charge < 0) {
+			charge = 0;
+		}
 		else {
 			int capacity = getMaxCharge(l);
 			if (charge > capacity) charge = capacity;
 		}
-		if (charge != getCharge(l)) BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
+		
+		if (charge != getCharge(l)) {
+			BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
+		}
 	}
 
 	public static void setUnsafeCharge(Location l, int charge, boolean updateTexture) {
 		if (charge != getCharge(l)) {
 			BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
+			
 			if (updateTexture) {
-				updateTexture(l);
+				updateCapacitor(l);
 			}
 		}
-	}
-
-	private static void updateTexture(final Location l) {
-		Slimefun.runSync(() -> {
-			Block b = l.getBlock();
-			int charge = getCharge(b);
-			int capacity = getMaxCharge(b);
-
-			if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.PLAYER_WALL_HEAD) {
-				if (charge < (int) (capacity * 0.25D)) SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTEzNjFlNTc2YjQ5M2NiZmRmYWUzMjg2NjFjZWRkMWFkZDU1ZmFiNGU1ZWI0MThiOTJjZWJmNjI3NWY4YmI0In19fQ==");
-				else if (charge < (int) (capacity * 0.5D)) SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA1MzIzMzk0YTdkOTFiZmIzM2RmMDZkOTJiNjNjYjQxNGVmODBmMDU0ZDA0NzM0ZWEwMTVhMjNjNTM5In19fQ==");
-				else if (charge < (int) (capacity * 0.75D)) SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU4NDQzMmFmNmYzODIxNjcxMjAyNThkMWVlZThjODdjNmU3NWQ5ZTQ3OWU3YjBkNGM3YjZhZDQ4Y2ZlZWYifX19");
-				else SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2EyNTY5NDE1YzE0ZTMxYzk4ZWM5OTNhMmY5OWU2ZDY0ODQ2ZGIzNjdhMTNiMTk5OTY1YWQ5OWM0MzhjODZjIn19fQ==");
-			}
-		});
-	}
-
-	public static String formatEnergy(Block b) {
-		return DoubleHandler.getFancyDouble(getCharge(b)) + " J";
 	}
 
 	public static int addCharge(Block b, int charge) {
@@ -132,17 +87,32 @@ public final class ChargableBlock {
 			}
 
 			if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(BlockStorage.checkID(l))) {
-				updateTexture(l);
+				updateCapacitor(l);
 			}
 		}
 		else if (charge < 0 && energy >= -charge) {
 			setCharge(l, energy + charge);
 
 			if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(BlockStorage.checkID(l))) {
-				updateTexture(l);
+				updateCapacitor(l);
 			}
 		}
 		return rest;
+	}
+
+	private static void updateCapacitor(Location l) {
+		Slimefun.runSync(() -> {
+			Block b = l.getBlock();
+			int charge = getCharge(b);
+			int capacity = getMaxCharge(b);
+
+			if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.PLAYER_WALL_HEAD) {
+				if (charge < (int) (capacity * 0.25D)) SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTEzNjFlNTc2YjQ5M2NiZmRmYWUzMjg2NjFjZWRkMWFkZDU1ZmFiNGU1ZWI0MThiOTJjZWJmNjI3NWY4YmI0In19fQ==");
+				else if (charge < (int) (capacity * 0.5D)) SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA1MzIzMzk0YTdkOTFiZmIzM2RmMDZkOTJiNjNjYjQxNGVmODBmMDU0ZDA0NzM0ZWEwMTVhMjNjNTM5In19fQ==");
+				else if (charge < (int) (capacity * 0.75D)) SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU4NDQzMmFmNmYzODIxNjcxMjAyNThkMWVlZThjODdjNmU3NWQ5ZTQ3OWU3YjBkNGM3YjZhZDQ4Y2ZlZWYifX19");
+				else SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2EyNTY5NDE1YzE0ZTMxYzk4ZWM5OTNhMmY5OWU2ZDY0ODQ2ZGIzNjdhMTNiMTk5OTY1YWQ5OWM0MzhjODZjIn19fQ==");
+			}
+		});
 	}
 
 	public static int getMaxCharge(Block b) {
@@ -161,8 +131,9 @@ public final class ChargableBlock {
 			return Integer.parseInt(cfg.getString("energy-capacity"));
 		}
 		else {
-			BlockStorage.addBlockInfo(l, "energy-capacity", String.valueOf(getDefaultCapacity(l)), false);
-			return getDefaultCapacity(l);
+			int capacity = SlimefunPlugin.getRegistry().getEnergyCapacities().get(cfg.getString("id"));
+			BlockStorage.addBlockInfo(l, "energy-capacity", String.valueOf(capacity), false);
+			return capacity;
 		}
 	}
 

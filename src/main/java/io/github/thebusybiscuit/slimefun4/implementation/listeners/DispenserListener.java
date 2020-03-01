@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockDispenseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -23,23 +22,16 @@ public class DispenserListener implements Listener {
 
     @EventHandler
     public void onBlockDispensing(BlockDispenseEvent e) {
-        Block dispenser = e.getBlock();
+        Block b = e.getBlock();
         
-        if (dispenser.getType() == Material.DISPENSER) {
-            Dispenser d = (Dispenser) dispenser.getState();
-
-            BlockFace face = ((Directional) dispenser.getBlockData()).getFacing();
-
-            Block block = dispenser.getRelative(face);
-            SlimefunItem machine = BlockStorage.check(dispenser);
+        if (b.getType() == Material.DISPENSER && b.getRelative(BlockFace.DOWN).getType() != Material.HOPPER) {
+        	SlimefunItem machine = BlockStorage.check(b);
 
             if (machine != null) {
-                if (machine.isItem(SlimefunItems.BLOCK_PLACER) && dispenser.getRelative(BlockFace.DOWN).getType() == Material.HOPPER){
-                    e.setCancelled(true);
-                } 
-                else {
-                    machine.callItemHandler(BlockDispenseHandler.class, handler -> handler.onBlockDispense(e, d, block, machine));
-                }
+                Dispenser dispenser = (Dispenser) b.getState();
+                BlockFace face = ((Directional) b.getBlockData()).getFacing();
+                Block block = b.getRelative(face);
+            	machine.callItemHandler(BlockDispenseHandler.class, handler -> handler.onBlockDispense(e, dispenser, block, machine));
             }
         }
     }

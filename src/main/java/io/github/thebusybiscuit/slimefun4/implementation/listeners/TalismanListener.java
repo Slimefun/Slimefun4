@@ -10,7 +10,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.LivingEntity;
@@ -31,8 +30,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -40,7 +37,6 @@ import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -52,27 +48,20 @@ public class TalismanListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(priority=EventPriority.MONITOR)
+	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onDamageGet(EntityDamageEvent e) {
-		if (!e.isCancelled()) {
-			if (e instanceof EntityDamageByEntityEvent && ((EntityDamageByEntityEvent) e).getDamager() instanceof Player && ThreadLocalRandom.current().nextInt(100) < 45 && SlimefunManager.isItemSimilar(((Player) ((EntityDamageByEntityEvent) e).getDamager()).getInventory().getItemInMainHand(), SlimefunItems.BLADE_OF_VAMPIRES, true)) {
-				((Player) ((EntityDamageByEntityEvent) e).getDamager()).playSound(((EntityDamageByEntityEvent) e).getDamager().getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
-				((Player) ((EntityDamageByEntityEvent) e).getDamager()).addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
-			}
-
-			if (e.getEntity() instanceof Player) {
-				if (e.getCause() == DamageCause.LAVA) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_LAVA);
-				if (e.getCause() == DamageCause.DROWNING) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WATER);
-				if (e.getCause() == DamageCause.FALL) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_ANGEL);
-				if (e.getCause() == DamageCause.FIRE) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_FIRE);
-				if (e.getCause() == DamageCause.ENTITY_ATTACK) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WARRIOR);
-				if (e.getCause() == DamageCause.ENTITY_ATTACK) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_KNIGHT);
-				if (e.getCause() == DamageCause.PROJECTILE && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WHIRLWIND) && ((EntityDamageByEntityEvent) e).getDamager() instanceof Projectile) {
-					Vector direction = ((Player) e.getEntity()).getEyeLocation().getDirection().multiply(2.0);
-					Projectile projectile = (Projectile) e.getEntity().getWorld().spawnEntity(((LivingEntity) e.getEntity()).getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), ((EntityDamageByEntityEvent) e).getDamager().getType());
-					projectile.setVelocity(direction);
-					((EntityDamageByEntityEvent) e).getDamager().remove();
-				}
+		if (e.getEntity() instanceof Player) {
+			if (e.getCause() == DamageCause.LAVA) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_LAVA);
+			if (e.getCause() == DamageCause.DROWNING) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WATER);
+			if (e.getCause() == DamageCause.FALL) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_ANGEL);
+			if (e.getCause() == DamageCause.FIRE) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_FIRE);
+			if (e.getCause() == DamageCause.ENTITY_ATTACK) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WARRIOR);
+			if (e.getCause() == DamageCause.ENTITY_ATTACK) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_KNIGHT);
+			if (e.getCause() == DamageCause.PROJECTILE && ((EntityDamageByEntityEvent) e).getDamager() instanceof Projectile && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WHIRLWIND)) {
+				Vector direction = ((Player) e.getEntity()).getEyeLocation().getDirection().multiply(2.0);
+				Projectile projectile = (Projectile) e.getEntity().getWorld().spawnEntity(((LivingEntity) e.getEntity()).getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), ((EntityDamageByEntityEvent) e).getDamager().getType());
+				projectile.setVelocity(direction);
+				((EntityDamageByEntityEvent) e).getDamager().remove();
 			}
 		}
 	}
@@ -91,7 +80,7 @@ public class TalismanListener implements Listener {
         		extraDrops.remove(new ItemStack(Material.CHEST));
         	}
         	
-            for (ItemStack drop: extraDrops) {
+            for (ItemStack drop : extraDrops) {
                 e.getDrops().add(drop);
             }
         }
@@ -143,9 +132,7 @@ public class TalismanListener implements Listener {
 			
 			for (Enchantment en : Enchantment.values()) {
 				for (int i = 1; i <= en.getMaxLevel(); i++) {
-					if ((boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i)
-						&& en.canEnchantItem(e.getItem()) || e.getItem().getType() == Material.BOOK
-					) {
+					if ((en.canEnchantItem(e.getItem()) || e.getItem().getType() == Material.BOOK) && (boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i)) {
 						enchantments.add(en.getKey().getKey() + '-' + i);
 					}
 				}
@@ -174,7 +161,7 @@ public class TalismanListener implements Listener {
 	 * @param e BlockBreakEvent
 	 * @since 4.2.0
 	 */
-	@EventHandler
+	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
 	public void onBlockBreak(BlockBreakEvent e) {
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		List<ItemStack> drops = new ArrayList<>(e.getBlock().getDrops(item));
