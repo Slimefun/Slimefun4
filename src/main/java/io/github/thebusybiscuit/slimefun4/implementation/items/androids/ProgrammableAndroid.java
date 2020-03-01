@@ -39,7 +39,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -47,7 +46,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-public abstract class ProgrammableAndroid extends ScriptHolder implements InventoryBlock, RecipeDisplayItem {
+public abstract class ProgrammableAndroid extends Android implements InventoryBlock, RecipeDisplayItem {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 	private static final int[] border_out = {10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41};
@@ -186,24 +185,6 @@ public abstract class ProgrammableAndroid extends ScriptHolder implements Invent
 			registerFuel(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
 			registerFuel(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
 		}
-	}
-
-	@Override
-	public BlockTicker getItemHandler() {
-		return new BlockTicker() {
-
-			@Override
-			public void tick(Block b, SlimefunItem sf, me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config data) {
-				if (b != null) {
-					ProgrammableAndroid.this.tick(b);
-				}
-			}
-
-			@Override
-			public boolean isSynchronized() {
-				return true;
-			}
-		};
 	}
 	
 	@Override

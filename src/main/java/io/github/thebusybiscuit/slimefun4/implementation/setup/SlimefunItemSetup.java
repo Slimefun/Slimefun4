@@ -176,6 +176,13 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 
+/**
+ * This static utility class holds the recipes of all items.
+ * This is the place where all items from Slimefun are registered.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public final class SlimefunItemSetup {
 
 	private SlimefunItemSetup() {}

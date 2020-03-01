@@ -27,19 +27,45 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-abstract class ScriptHolder extends SimpleSlimefunItem<BlockTicker> {
+abstract class Android extends SlimefunItem {
 	
-	public ScriptHolder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+	public Android(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 	}
 	
 	public abstract AndroidType getAndroidType();
+	protected abstract void tick(Block b);
+	
+	@Override
+	protected boolean areItemHandlersPrivate() {
+		return true;
+	}
+	
+	@Override
+	public void preRegister() {
+		super.preRegister();
+		
+		addItemHandler(new BlockTicker() {
+
+			@Override
+			public void tick(Block b, SlimefunItem sf, me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config data) {
+				if (b != null) {
+					Android.this.tick(b);
+				}
+			}
+
+			@Override
+			public boolean isSynchronized() {
+				return true;
+			}
+		});
+	}
 
 	protected void killEntities(Block b, double damage, Predicate<Entity> predicate) {
 		throw new UnsupportedOperationException("Non-butcher Android tried to butcher!");

@@ -105,7 +105,7 @@ public class EnergyNet extends Network {
 
 		switch (getComponent(l)) {
 		case CAPACITOR:
-			if (ChargableBlock.isCapacitor(l)) storage.add(l);
+			storage.add(l);
 			break;
 		case CONSUMER:
 			output.add(l);

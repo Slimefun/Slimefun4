@@ -71,18 +71,8 @@ public class SlimefunItem implements Placeable {
 	private BlockTicker blockTicker;
 	private EnergyTicker energyTicker;
 
-	@Deprecated
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		this(category, item, id, recipeType, recipe, null);
-	}
-
 	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		this(category, item, recipeType, recipe, null);
-	}
-
-	@Deprecated
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		this(category, item, id, recipeType, recipe, recipeOutput, null, null);
 	}
 
 	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -91,11 +81,6 @@ public class SlimefunItem implements Placeable {
 
 	public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
 		this(category, item, recipeType, recipe, null, keys, values);
-	}
-
-	@Deprecated
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		this(category, item, id, recipeType, recipe, null, keys, values);
 	}
 
 	// Root constructor
@@ -109,17 +94,14 @@ public class SlimefunItem implements Placeable {
 		this.keys = keys;
 		this.values = values;
 	}
-
-	@Deprecated
-	public SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
+	
+	// Previously deprecated constructor, now only for internal purposes
+	protected SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		this.category = category;
 		this.item = item;
 		this.id = id;
 		this.recipeType = recipeType;
 		this.recipe = recipe;
-		this.recipeOutput = recipeOutput;
-		this.keys = keys;
-		this.values = values;
 	}
 
 	/**
