@@ -13,6 +13,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -320,10 +321,11 @@ public final class PlayerProfile {
 		String uuid = "";
 		
 		for (String line : item.getItemMeta().getLore()) {
-			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
+			if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.indexOf('#') != -1) {
 				try {
-					id = Optional.of(Integer.parseInt(line.split("#")[1]));
-					uuid = line.split("#")[0].replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
+					String[] splitLine = PatternUtils.HASH.split(line);
+					id = Optional.of(Integer.parseInt(splitLine[1]));
+					uuid = splitLine[0].replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
 				} catch(NumberFormatException x) {
 					return null;
 				}

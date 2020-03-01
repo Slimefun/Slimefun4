@@ -35,11 +35,11 @@ public final class ChestMenuUtils {
 	
 	private static final MenuClickHandler CLICK_HANDLER = (p, s, i, a) -> false;
 	
-	public static final ItemStack getBackground() {
+	public static ItemStack getBackground() {
 		return UI_BACKGROUND;
 	}
 	
-	public static final MenuClickHandler getEmptyClickHandler() {
+	public static MenuClickHandler getEmptyClickHandler() {
 		return CLICK_HANDLER;
 	}
 
@@ -99,17 +99,17 @@ public final class ChestMenuUtils {
 		}
 	}
 	
-	public static void updateProgressbar(ChestMenu menu, int slot, int timeleft, int time, ItemStack indicator) {
+	public static void updateProgressbar(ChestMenu menu, int slot, int timeLeft, int time, ItemStack indicator) {
 		ItemStack item = indicator.clone();
 		ItemMeta im = item.getItemMeta();
 		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		
 		if (im instanceof Damageable) {
-			((Damageable) im).setDamage(getDurability(item, timeleft, time));
+			((Damageable) im).setDamage(getDurability(item, timeLeft, time));
 		}
 		
 		im.setDisplayName(" ");
-		im.setLore(Arrays.asList(getProgressBar(timeleft, time), "", ChatColor.GRAY + NumberUtils.getTimeLeft(timeleft / 2) + " left"));
+		im.setLore(Arrays.asList(getProgressBar(timeLeft, time), "", ChatColor.GRAY + NumberUtils.getTimeLeft(timeLeft / 2) + " left"));
 		item.setItemMeta(im);
 		
 		menu.replaceExistingItem(slot, item);
@@ -118,32 +118,32 @@ public final class ChestMenuUtils {
 	public static String getProgressBar(int time, int total) {
 		StringBuilder progress = new StringBuilder();
 		float percentage = Math.round(((((total - time) * 100.0F) / total) * 100.0F) / 100.0F);
-		
+
 		if (percentage < 16.0F) progress.append("&4");
 		else if (percentage < 32.0F) progress.append("&c");
 		else if (percentage < 48.0F) progress.append("&6");
 		else if (percentage < 64.0F) progress.append("&e");
 		else if (percentage < 80.0F) progress.append("&2");
-		else progress = progress.append("&a");
-		
+		else progress.append("&a");
+
 		int rest = 20;
 		for (int i = (int) percentage; i >= 5; i = i - 5) {
-			progress.append(":");
+			progress.append(':');
 			rest--;
 		}
 		
 		progress.append("&7");
 		
 		for (int i = 0; i < rest; i++) {
-			progress.append(":");
+			progress.append(':');
 		}
 		
-		progress.append(" - " + percentage + "%");
+		progress.append(" - ").append(percentage).append('%');
 		return ChatColors.color(progress.toString());
 	}
 
-	private static short getDurability(ItemStack item, int timeleft, int max) {
-		return (short) ((item.getType().getMaxDurability() / max) * timeleft);
+	private static short getDurability(ItemStack item, int timeLeft, int max) {
+		return (short) ((item.getType().getMaxDurability() / max) * timeLeft);
 	}
 	
 }

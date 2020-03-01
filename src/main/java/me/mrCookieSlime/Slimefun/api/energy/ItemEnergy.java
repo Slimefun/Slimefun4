@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.api.energy;
 import java.math.BigDecimal;
 import java.util.List;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +23,7 @@ public final class ItemEnergy {
 
 		for (String line : item.getItemMeta().getLore()) {
 			if (line.startsWith(ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
-				return Float.valueOf(line.split(" / ")[0].replace(ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7"), ""));
+				return Float.parseFloat(PatternUtils.SLASH_SEPARATOR.split(line)[0].replace(ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7"), ""));
 			}
 		}
 
@@ -35,7 +36,7 @@ public final class ItemEnergy {
 
 		for (String line : item.getItemMeta().getLore()) {
 			if (line.startsWith(ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7")) && line.contains(" / ") && line.endsWith(" J")) {
-				return Float.valueOf(line.split(" / ")[1].replace(" J", ""));
+				return Float.parseFloat(PatternUtils.SLASH_SEPARATOR.split(line)[1].replace(" J", ""));
 			}
 		}
 

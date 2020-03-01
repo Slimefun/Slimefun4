@@ -23,8 +23,8 @@ public class MagnetTask extends SlimefunTask {
 	}
 	
 	@Override
-	protected boolean isInvalid() {
-		return super.isInvalid() || p.getGameMode() == GameMode.SPECTATOR;
+	protected boolean isValid() {
+		return super.isValid() && p.getGameMode() != GameMode.SPECTATOR;
 	}
 
 }

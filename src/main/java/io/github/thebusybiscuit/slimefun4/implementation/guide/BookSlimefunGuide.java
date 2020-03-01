@@ -230,7 +230,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
 							if (item.getItem().hasItemMeta() && item.getItem().getItemMeta().hasLore()) {
 								for (String line : item.getItem().getItemMeta().getLore()) {
-									tooltip.append("\n" + line);
+									tooltip.append('\n').append(line);
 								}
 							}
 

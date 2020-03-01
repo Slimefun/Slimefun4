@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -379,18 +380,18 @@ public final class SlimefunGuideSettings {
 			String info = entry.getKey();
 			
 			if (!info.startsWith("&")) {
-				String[] segments = info.split(",");
+				String[] segments = PatternUtils.COMMA.split(info);
 				info = SlimefunPlugin.getLocal().getMessage(p, "guide.credits.roles." + segments[0]);
 				
 				if (segments.length == 2) {
-					info += " &7(" + SlimefunPlugin.getLocal().getMessage(p, "languages." + segments[1]) + ")";
+					info += " &7(" + SlimefunPlugin.getLocal().getMessage(p, "languages." + segments[1]) + ')';
 				}
 			}
 			
 			if (entry.getValue() > 0) {
 				String commits = SlimefunPlugin.getLocal().getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits": "commit"));
 				
-				info += " &7(" + entry.getValue() + " " + commits + ")";
+				info += " &7(" + entry.getValue() + ' ' + commits + ')';
 			}
 			
 			lore.add(ChatColors.color(info));

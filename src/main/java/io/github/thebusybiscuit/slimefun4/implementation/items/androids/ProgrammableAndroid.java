@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -252,7 +253,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 				}
 			}
 			else {
-				String[] script = BlockStorage.getLocationInfo(b.getLocation(), "script").split("-");
+				String[] script = PatternUtils.DASH.split(BlockStorage.getLocationInfo(b.getLocation(), "script"));
 
 				int index = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "index")) + 1;
 				if (index >= script.length) index = 0;

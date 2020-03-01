@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -84,7 +85,7 @@ public class StatusEffect implements Keyed {
 		Optional<String> optional = PersistentDataAPI.getOptionalString(p, getKey());
 		
 		if (optional.isPresent()) {
-			String[] data = optional.get().split(";");
+			String[] data = PatternUtils.SEMICOLON.split(optional.get());
 			long timestamp = Long.parseLong(data[1]);
 			
 			if (timestamp == 0 || timestamp >= System.currentTimeMillis()) {
@@ -109,7 +110,7 @@ public class StatusEffect implements Keyed {
 		Optional<String> optional = PersistentDataAPI.getOptionalString(p, getKey());
 		
 		if (optional.isPresent()) {
-			String[] data = optional.get().split(";");
+			String[] data = PatternUtils.SEMICOLON.split(optional.get());
 			return OptionalInt.of(Integer.parseInt(data[0]));
 			
 		}

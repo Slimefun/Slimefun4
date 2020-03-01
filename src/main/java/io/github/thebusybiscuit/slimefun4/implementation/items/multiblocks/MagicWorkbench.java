@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.List;
 import java.util.UUID;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -88,7 +89,8 @@ public class MagicWorkbench extends MultiBlockMachine {
 								for (String line : backpack.getItemMeta().getLore()) {
 									if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
 										id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-										PlayerProfile.fromUUID(UUID.fromString(id.split("#")[0])).getBackpack(Integer.parseInt(id.split("#")[1])).setSize(size);
+										String[] idSplit = PatternUtils.HASH.split(id);
+										PlayerProfile.fromUUID(UUID.fromString(idSplit[0])).getBackpack(Integer.parseInt(idSplit[1])).setSize(size);
 										break;
 									}
 								}

@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -276,7 +277,7 @@ public class TickerTask implements Runnable {
 						.append(chunkItemCount.getOrDefault(entry.getKey(), 0))
 						.append("x &7(")
 						.append(toMillis(entry.getValue()))
-						.append(")");
+						.append(')');
 					}
 					else hidden++;
 				}
@@ -303,8 +304,8 @@ public class TickerTask implements Runnable {
 	}
 	
 	private String formatChunk(String chunk) {
-		String[] components = chunk.split(";");
-		return components[0] + " [" + components[2] + "," + components[3] + "]";
+		String[] components = PatternUtils.SEMICOLON.split(chunk);
+		return components[0] + " [" + components[2] + ',' + components[3] + ']';
 	}
 	
 	public long getTimings(Block b) {

@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -69,12 +70,12 @@ public class BlockStorage {
 	}
 	
 	private static String serializeChunk(World world, int x, int z) {
-		return world.getName() + ";Chunk;" + x + ";" + z;
+		return world.getName() + ";Chunk;" + x + ';' + z;
 	}
 	
 	private static Location deserializeLocation(String l) {
 		try {
-			String[] components = l.split(";");
+			String[] components = PatternUtils.SEMICOLON.split(l);
 			if (components.length != 4) return null;
 			
 			World w = Bukkit.getWorld(components[0]);
@@ -170,7 +171,7 @@ public class BlockStorage {
 			
 			for (String key : cfg.getKeys(false)) {
 				try {
-					if (world.getName().equals(key.split(";")[0])) {
+					if (world.getName().equals(PatternUtils.SEMICOLON.split(key)[0])) {
 						SlimefunPlugin.getRegistry().getChunks().put(key, new BlockInfoConfig(parseJSON(cfg.getString(key))));
 					}
 				} catch (Exception x) {
