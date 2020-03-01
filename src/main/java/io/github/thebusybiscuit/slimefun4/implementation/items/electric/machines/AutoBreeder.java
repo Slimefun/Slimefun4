@@ -27,9 +27,9 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 	
-	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-
-	protected int energyConsumption = 60;
+	private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+	
+	private static final int ENERGY_CONSUMPTION = 60;
 	
 	public AutoBreeder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -38,6 +38,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {
 			BlockMenu inv = BlockStorage.getInventory(b);
+			
 			if (inv != null) {
 				for (int slot : getInputSlots()) {
 					if (inv.getItemInSlot(slot) != null) {
@@ -98,9 +99,9 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, n -> n instanceof Animals && n.isValid() && ((Animals) n).isAdult() && !((Animals) n).isLoveMode())) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
-					if (ChargableBlock.getCharge(b) < energyConsumption) return;
+					if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return;
 					
-					ChargableBlock.addCharge(b, -energyConsumption);
+					ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
 					inv.consumeItem(slot);
 					
 					((Animals) n).setLoveModeTicks(600);

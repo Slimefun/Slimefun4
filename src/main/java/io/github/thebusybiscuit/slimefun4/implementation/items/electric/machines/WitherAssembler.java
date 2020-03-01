@@ -33,12 +33,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
-	
-	private static final int[] border = {0, 2, 3, 4, 5, 6, 8, 12, 14, 21, 23, 30, 32, 39, 40, 41};
-	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 37, 38};
-	private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 43, 44};
 
-	protected int energyConsumption = 4096;
+	private static final int ENERGY_CONSUMPTION = 4096;
+	
+	private final int[] border = {0, 2, 3, 4, 5, 6, 8, 12, 14, 21, 23, 30, 32, 39, 40, 41};
+	private final int[] skullBorder = {9, 10, 11, 18, 20, 27, 29, 36, 37, 38};
+	private final int[] sandBorder = {15, 16, 17, 24, 26, 33, 35, 42, 43, 44};
+	
 	private int lifetime = 0;
 	
 	public WitherAssembler(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -140,11 +141,11 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 			preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
-		for (int i : border_1) {
+		for (int i : skullBorder) {
 			preset.addItem(i, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
-		for (int i : border_2) {
+		for (int i : sandBorder) {
 			preset.addItem(i, new CustomItem(Material.BROWN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
@@ -184,7 +185,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 				if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
 				
 				if (lifetime % 60 == 0) {
-					if (ChargableBlock.getCharge(b) < energyConsumption) return;
+					if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return;
 					
 					int soulsand = 0;
 					int skulls = 0;
@@ -244,7 +245,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 							}
 						}
 						
-						ChargableBlock.addCharge(b, -energyConsumption);
+						ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
 						double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 						
 						Slimefun.runSync(() -> b.getWorld().spawnEntity(new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D), EntityType.WITHER));

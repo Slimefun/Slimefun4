@@ -25,9 +25,8 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public class CargoOutputNode extends SlimefunItem {
 	
-	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-
-
+	private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+	
 	public CargoOutputNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
 		super(category, item, recipeType, recipe, recipeOutput);
 		
@@ -43,10 +42,12 @@ public class CargoOutputNode extends SlimefunItem {
 				menu.replaceExistingItem(12, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
 				menu.addMenuClickHandler(12, (p, slot, item, action) -> {
 					int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
+					
 					if (channel < 0) {
 						if (CargoNet.extraChannels) channel = 16;
 						else channel = 15;
 					}
+					
 					BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
 					newInstance(menu, b);
 					return false;

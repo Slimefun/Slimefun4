@@ -32,11 +32,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, EnergyNetComponent {
 	
-	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22};
-	private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
-	private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
+	private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22};
+	private final int[] inputBorder = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
+	private final int[] outputBorder = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
-	protected int energyConsumption = 32;
+	private static final int ENERGY_CONSUMPTION = 32;
 	
 	public FluidPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -49,10 +49,10 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
-		for (int i : border_in) {
+		for (int i : inputBorder) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
-		for (int i : border_out) {
+		for (int i : outputBorder) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 		
@@ -103,14 +103,14 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 			output = new ItemStack(Material.WATER_BUCKET);
 		}
 		
-		if (output != null && ChargableBlock.getCharge(b) >= energyConsumption) {
+		if (output != null && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
 			BlockMenu menu = BlockStorage.getInventory(b);
 			
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					if (!menu.fits(output, getOutputSlots())) return;
 
-					ChargableBlock.addCharge(b, -energyConsumption);
+					ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
 	                menu.consumeItem(slot);
 					menu.pushItem(output, getOutputSlots());
 					

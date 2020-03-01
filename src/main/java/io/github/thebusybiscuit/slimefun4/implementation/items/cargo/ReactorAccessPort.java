@@ -24,13 +24,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public class ReactorAccessPort extends SlimefunItem {
-
-	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 21, 23};
-	private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
-	private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
-	private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 50};
 	
 	private static final int INFO_SLOT = 49;
+
+	private final int[] background = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 21, 23};
+	private final int[] fuelBorder = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
+	private final int[] inputBorder = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
+	private final int[] outputBorder = {30, 31, 32, 39, 41, 48, 50};
 
 	public ReactorAccessPort(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -119,19 +119,19 @@ public class ReactorAccessPort extends SlimefunItem {
 	}
 
 	private void constructMenu(BlockMenuPreset preset) {
-		for (int i : border) {
+		for (int i : background) {
 			preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 
-		for (int i : border_1) {
+		for (int i : fuelBorder) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 
-		for (int i : border_2) {
+		for (int i : inputBorder) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 
-		for (int i : border_3) {
+		for (int i : outputBorder) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 

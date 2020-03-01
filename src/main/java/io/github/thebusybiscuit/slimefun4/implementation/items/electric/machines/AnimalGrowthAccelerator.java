@@ -27,9 +27,9 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 	
-	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-
-	protected int energyConsumption = 14;
+	private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+	
+	private static final int ENERGY_CONSUMPTION = 14;
 	
 	public AnimalGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -99,9 +99,9 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 		for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 3.0, 3.0, 3.0, n -> n instanceof Ageable && n.isValid() && !((Ageable) n).isAdult())) {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
-					if (ChargableBlock.getCharge(b) < energyConsumption) return;
+					if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return;
 					
-					ChargableBlock.addCharge(b, -energyConsumption);
+					ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
 					inv.consumeItem(slot);
 					((Ageable) n).setAge(((Ageable) n).getAge() + 2000);
 					

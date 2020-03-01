@@ -38,9 +38,9 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class AutomatedCraftingChamber extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
-	private static final int[] border = {0, 1, 3, 4, 5, 7, 8, 13, 14, 15, 16, 17, 50, 51, 52, 53};
-	private static final int[] border_in = {9, 10, 11, 12, 13, 18, 22, 27, 31, 36, 40, 45, 46, 47, 48, 49};
-	private static final int[] border_out = {23, 24, 25, 26, 32, 35, 41, 42, 43, 44};
+	private final int[] border = {0, 1, 3, 4, 5, 7, 8, 13, 14, 15, 16, 17, 50, 51, 52, 53};
+	private final int[] inputBorder = {9, 10, 11, 12, 13, 18, 22, 27, 31, 36, 40, 45, 46, 47, 48, 49};
+	private final int[] outputBorder = {23, 24, 25, 26, 32, 35, 41, 42, 43, 44};
 
 	public AutomatedCraftingChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -147,11 +147,11 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 
-		for (int i : border_in) {
+		for (int i : inputBorder) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.BLUE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 
-		for (int i : border_out) {
+		for (int i : outputBorder) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
 		}
 

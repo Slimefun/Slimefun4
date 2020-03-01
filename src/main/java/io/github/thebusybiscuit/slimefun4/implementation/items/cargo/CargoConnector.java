@@ -18,7 +18,6 @@ public class CargoConnector extends SimpleSlimefunItem<BlockUseHandler> {
 		super(category, item, recipeType, recipe, recipeOutput);
 	}
 	
-
 	@Override
 	public BlockUseHandler getItemHandler() {
 		return e -> {
