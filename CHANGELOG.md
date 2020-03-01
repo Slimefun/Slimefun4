@@ -48,6 +48,7 @@
 * Fixed a translation not showing properly
 * Fixed #1577
 * Fixed #1597
+* Fixed disabled Slimefun Addons not showing under /sf versions
 
 ## Release Candidate 6 (16 Feb 2020)
 

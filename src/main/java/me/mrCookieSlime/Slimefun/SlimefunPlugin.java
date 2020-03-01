@@ -164,6 +164,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 			if (config.getBoolean("options.auto-update")) {
 				updaterService.start();
 			}
+			else {
+				updaterService.disable();
+			}
 
 			// Registering all GEO Resources
 			getLogger().log(Level.INFO, "Loading GEO-Resources...");

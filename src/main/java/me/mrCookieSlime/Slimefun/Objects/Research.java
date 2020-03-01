@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
-import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -149,12 +149,10 @@ public class Research implements Keyed {
 	}
 
 	/**
-	 * Unlocks the research for the specified player.
+	 * Unlocks this {@link Research} for the specified {@link Player}.
 	 * 
-	 * @param p Player to unlock the research
-	 * @param instant Whether to unlock the research instantly
-	 * 
-	 * @since 4.0
+	 * @param p 		The {@link Player} for which to unlock this {@link Research}
+	 * @param instant 	Whether to unlock the research instantly
 	 */
 	public void unlock(final Player p, boolean instant) {
 		if (!instant) {
@@ -170,7 +168,7 @@ public class Research implements Keyed {
 					profile.setResearched(this, true);
 					SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName(p)));
 					
-					if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, GuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, GuideSettings.FIREWORKS_KEY) == (byte) 1)) {
+					if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, SlimefunGuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, SlimefunGuideSettings.FIREWORKS_KEY) == (byte) 1)) {
 						FireworkUtils.launchRandom(p, 1);
 					}
 				};
@@ -207,9 +205,7 @@ public class Research implements Keyed {
 	}
 
 	/**
-	 * Registers the research.
-	 * 
-	 * @since 4.0
+	 * Registers this {@link Research}.
 	 */
 	public void register() {
 		SlimefunPlugin.getResearchCfg().setDefaultValue("enable-researching", true);
@@ -241,6 +237,7 @@ public class Research implements Keyed {
 		}
 	}
 
+	// Temporary migration method from ids to Namespaced Keys.
 	private void migrate(int id, String path) {
 		if (SlimefunPlugin.getResearchCfg().contains(id + ".enabled")) {
 			SlimefunPlugin.getResearchCfg().setValue(path + ".enabled", SlimefunPlugin.getResearchCfg().getBoolean(id + ".enabled"));
@@ -254,24 +251,10 @@ public class Research implements Keyed {
 	}
 
 	/**
-	 * Gets if the specified player is currently unlocking a research.
-	 * 
-	 * @param p Player to check
-	 * @return true if the player is unlocking a research, otherwise false
-	 * 
-	 * @since 4.0
-	 */
-	public static boolean isResearching(Player p) {
-		return SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId());
-	}
-
-	/**
-	 * Attempts to get the research with the given ID.
+	 * Attempts to get a {@link Research} with the given ID.
 	 * 
 	 * @param id ID of the research to get
 	 * @return Research if found, or null
-	 * 
-	 * @since 4.0
 	 */
 	public static Research getByID(int id) {
 		for (Research research : SlimefunPlugin.getRegistry().getResearches()) {

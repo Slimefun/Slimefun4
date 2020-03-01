@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun;
+package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -11,8 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -74,13 +73,13 @@ public final class SlimefunGuide {
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
 
-		ISlimefunGuide guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);
+		SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);
 		Object last = null;
 
 		Optional<PlayerProfile> profile = PlayerProfile.find(p);
 		if (profile.isPresent()) {
 			last = guide.getLastEntry(profile.get(), false);
-			guide.handleHistory(profile.get(), last, true);
+			guide.openEntry(profile.get(), last, true);
 		}
 		else {
 			openMainMenuAsync(p, true, layout, 1);

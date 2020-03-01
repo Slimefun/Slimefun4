@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.guide;
+package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
 import java.util.HashMap;
 import java.util.Map;

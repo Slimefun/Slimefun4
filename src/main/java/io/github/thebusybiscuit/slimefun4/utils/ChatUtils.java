@@ -20,6 +20,15 @@ public final class ChatUtils {
 		sender.sendMessage(ChatColors.color("&7&o" + url));
 		sender.sendMessage("");
 	}
+	
+	public static String crop(ChatColor color, String string) {
+		if (ChatColor.stripColor(color + string).length() > 19) {
+			return (color + ChatColor.stripColor(string)).substring(0, 18) + "...";
+		}
+		else {
+			return color + ChatColor.stripColor(string);
+		}
+	}
 
 	public static String christmas(String text) {
 		return ChatColors.alternating(text, ChatColor.GREEN, ChatColor.RED);

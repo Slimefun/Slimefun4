@@ -5,8 +5,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.MagnetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.JetBoots;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Jetpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -15,6 +13,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.MagnetTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
 
 public class GearListener implements Listener {
 
