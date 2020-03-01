@@ -72,7 +72,7 @@ abstract class ScriptHolder extends SimpleSlimefunItem<BlockTicker> {
 
 	public void openScript(Player p, Block b, String script) {
 		ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
-		String[] commands = PatternUtils.SLASH_SEPARATOR.split(script);
+		String[] commands = PatternUtils.DASH.split(script);
 
 		menu.addItem(0, new CustomItem(ScriptPart.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
 		menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
@@ -392,7 +392,7 @@ abstract class ScriptHolder extends SimpleSlimefunItem<BlockTicker> {
 
 	protected void openScriptComponentEditor(Player p, Block b, String script, int index) {
 		ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
-		String[] commands = PatternUtils.SLASH_SEPARATOR.split(script);
+		String[] commands = PatternUtils.DASH.split(script);
 
 		ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 

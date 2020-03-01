@@ -25,33 +25,40 @@ public class GearListener implements Listener {
     @EventHandler
     public void onToggleSneak(PlayerToggleSneakEvent e) {
         if (!e.isSneaking()) return;
-		Player p = e.getPlayer();
+        Player p = e.getPlayer();
 
         if (p.getInventory().getChestplate() != null) {
             SlimefunItem chestplate = SlimefunItem.getByItem(p.getInventory().getChestplate());
-            if (chestplate == null || !Slimefun.hasUnlocked(p, chestplate, true)) return;
-
-            if (chestplate instanceof Jetpack) {
-                double thrust = ((Jetpack) chestplate).getThrust();
-
-                if (thrust > 0.2)
-                    new JetpackTask(p, thrust).scheduleRepeating(0, 3);
-            } else if (chestplate.getID().equals("PARACHUTE"))
-                new ParachuteTask(p).scheduleRepeating(0, 3);
+            handleChestplate(p, chestplate);
         }
 
         if (p.getInventory().getBoots() != null) {
             SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
-
-            if (boots instanceof JetBoots && Slimefun.hasUnlocked(p, boots, true)) {
-                double speed = ((JetBoots) boots).getSpeed();
-
-                if (speed > 0.2)
-                    new JetBootsTask(p, speed).scheduleRepeating(0, 2);
-            }
+            handleBoots(p, boots);
         }
 
         if (SlimefunManager.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true))
             new MagnetTask(p).scheduleRepeating(0, 8);
+    }
+
+    private void handleChestplate(Player p, SlimefunItem chestplate) {
+        if (chestplate == null || !Slimefun.hasUnlocked(p, chestplate, true)) return;
+
+        if (chestplate instanceof Jetpack) {
+            double thrust = ((Jetpack) chestplate).getThrust();
+
+            if (thrust > 0.2)
+                new JetpackTask(p, thrust).scheduleRepeating(0, 3);
+        } else if (chestplate.getID().equals("PARACHUTE"))
+            new ParachuteTask(p).scheduleRepeating(0, 3);
+    }
+
+    private void handleBoots(Player p, SlimefunItem boots) {
+        if (boots instanceof JetBoots && Slimefun.hasUnlocked(p, boots, true)) {
+            double speed = ((JetBoots) boots).getSpeed();
+
+            if (speed > 0.2)
+                new JetBootsTask(p, speed).scheduleRepeating(0, 2);
+        }
     }
 }
