@@ -13,7 +13,7 @@ commands:
   slimefun:
     description: basic Slimefun command
     aliases: sf
-    usage: /sf <argument>
+    usage: You either forgot to install CS-CoreLib or you installed an unsupported version.
 permissions:
   slimefun.cheat.items:
     description: Allows you to cheat Items

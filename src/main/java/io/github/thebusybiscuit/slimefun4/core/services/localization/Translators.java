@@ -91,6 +91,9 @@ public class Translators {
 		// Translators - Japanese
 		addTranslator("bito-blosh", "Bloshop", "ja", true);
 		
+		// Translators - Turkish
+		addTranslator("Yunuskrn", "tr", true);
+		
 		// Translators - Portuguese (Brazil)
 		addTranslator("G4stavoM1ster", "pt-BR", true);
 		addTranslator("yurinogueira", "pt-BR", true);
