@@ -5,6 +5,7 @@
  import com.google.gson.JsonParser;
  import com.google.gson.JsonPrimitive;
  import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
  import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -62,12 +63,12 @@
 	}
 
     private static String serializeChunk(World world, int x, int z) {
-        return world.getName() + ";Chunk;" + x + ";" + z;
+        return world.getName() + ";Chunk;" + x + ';' + z;
     }
 	
 	private static Location deserializeLocation(String l) {
 		try {
-			String[] components = l.split(";");
+            String[] components = PatternUtils.SEMICOLON.split(l);
 			if (components.length != 4) return null;
 			
 			World w = Bukkit.getWorld(components[0]);
@@ -163,7 +164,7 @@
 			
 			for (String key : cfg.getKeys(false)) {
 				try {
-					if (world.getName().equals(key.split(";")[0])) {
+                    if (world.getName().equals(PatternUtils.SEMICOLON.split(key)[0])) {
 						SlimefunPlugin.getRegistry().getChunks().put(key, new BlockInfoConfig(parseJSON(cfg.getString(key))));
 					}
 				} catch (Exception x) {

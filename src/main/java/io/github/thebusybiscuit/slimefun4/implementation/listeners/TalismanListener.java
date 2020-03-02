@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -133,7 +134,8 @@ public class TalismanListener implements Listener {
             }
 
             String enchant = enchantments.get(random.nextInt(enchantments.size()));
-            e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchant.split("-")[0])), Integer.parseInt(enchant.split("-")[1]));
+            String[] enchantSplit = PatternUtils.DASH.split(enchant);
+            e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchantSplit[0])), Integer.parseInt(enchantSplit[1]));
         }
 
         if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WIZARD)) {

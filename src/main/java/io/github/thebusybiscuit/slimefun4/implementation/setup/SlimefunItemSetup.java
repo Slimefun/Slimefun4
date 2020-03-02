@@ -13,6 +13,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Multimeter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.SolarHelmet;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
@@ -3010,7 +3012,7 @@ public final class SlimefunItemSetup {
                 new CustomItem(SlimefunItems.CARGO_MOTOR, 4))
                 .register(plugin);
 
-        new CargoManagerBlock(Categories.CARGO, (SlimefunItemStack) SlimefunItems.CARGO_MANAGER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new CargoManager(Categories.CARGO, (SlimefunItemStack) SlimefunItems.CARGO_MANAGER, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, SlimefunItems.HOLOGRAM_PROJECTOR, null, SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARGO_MOTOR, SlimefunItems.REINFORCED_PLATE, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.ALUMINUM_BRONZE_INGOT})
                 .register(plugin);
 

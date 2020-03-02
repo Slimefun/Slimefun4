@@ -10,10 +10,10 @@ import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -22,12 +22,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
-public final class GuideSettings {
+public final class SlimefunGuideSettings {
 
     public static final NamespacedKey FIREWORKS_KEY = new NamespacedKey(SlimefunPlugin.instance, "research_fireworks");
     private static final int[] BACKGROUND_SLOTS = {1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50, 52, 53};
 
-    private GuideSettings() {}
+    private SlimefunGuideSettings() {}
 
     public static void openSettings(Player p, ItemStack guide) {
         ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.settings"));
@@ -231,7 +231,7 @@ public final class GuideSettings {
 
         if (SlimefunPlugin.getSettings().translationsEnabled) {
             Language language = SlimefunPlugin.getLocal().getLanguage(p);
-            String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")"): SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
+            String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ')'): SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
 
             menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"),
                     (pl, slot, item, action) -> {
@@ -273,7 +273,7 @@ public final class GuideSettings {
         Language defaultLanguage = SlimefunPlugin.getLocal().getDefaultLanguage();
 
         String defaultLanguageString = SlimefunPlugin.getLocal().getMessage(p, "languages.default");
-        menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + defaultLanguageString + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select-default")),
+        menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + defaultLanguageString + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ')', "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select-default")),
                 (pl, i, item, action) -> {
                     SlimefunPlugin.instance.getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, SlimefunPlugin.getLocal().getLanguage(pl), defaultLanguage));
                     PersistentDataAPI.remove(pl, SlimefunPlugin.getLocal().getKey());
@@ -369,18 +369,18 @@ public final class GuideSettings {
             String info = entry.getKey();
 
             if (!info.startsWith("&")) {
-                String[] segments = info.split(",");
+                String[] segments = PatternUtils.COMMA.split(info);
                 info = SlimefunPlugin.getLocal().getMessage(p, "guide.credits.roles." + segments[0]);
 
                 if (segments.length == 2) {
-                    info += " &7(" + SlimefunPlugin.getLocal().getMessage(p, "languages." + segments[1]) + ")";
+                    info += " &7(" + SlimefunPlugin.getLocal().getMessage(p, "languages." + segments[1]) + ')';
                 }
             }
 
             if (entry.getValue() > 0) {
                 String commits = SlimefunPlugin.getLocal().getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits": "commit"));
 
-                info += " &7(" + entry.getValue() + " " + commits + ")";
+                info += " &7(" + entry.getValue() + ' ' + commits + ')';
             }
 
             lore.add(ChatColors.color(info));

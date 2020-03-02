@@ -1,33 +1,35 @@
-package io.github.thebusybiscuit.slimefun4.core.guide;
+package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
+import me.mrCookieSlime.Slimefun.Objects.Research;
+import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.GuideHandler;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
-import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.GuideHandler;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BookSlimefunGuide implements ISlimefunGuide {
+public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
 	@Override
 	public SlimefunGuideLayout getLayout() {
@@ -102,18 +104,18 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 						parents.append(ChatColors.color("\n&c" + ItemUtils.getItemName(parent.getItem(p))));
 					}
 
-					texts.add(ChatColors.color(shorten("&c" , ItemUtils.getItemName(category.getItem(p)))));
+					texts.add(ChatColors.color(ChatUtils.crop(ChatColor.RED, ItemUtils.getItemName(category.getItem(p)))));
 					tooltips.add(parents.toString());
 					actions.add(null);
 				}
 				else if (category instanceof SeasonalCategory) {
 					if (((SeasonalCategory) category).isUnlocked()) {
-						texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem(p)))));
+						texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, ItemUtils.getItemName(category.getItem(p)))));
 						tooltips.add(ChatColors.color("&e单击打开以下类别:\n" + ItemUtils.getItemName(category.getItem(p))));
 						actions.add(new PlayerRunnable(1) {
 
 							@Override
-							public void run(final Player p) {
+							public void run(Player p) {
 								Slimefun.runSync(() -> openCategory(profile, category, survival, 1), 1L);
 							}
 
@@ -121,12 +123,12 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 					}
 				}
 				else {
-					texts.add(ChatColors.color(shorten("&a", ItemUtils.getItemName(category.getItem(p)))));
+					texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, ItemUtils.getItemName(category.getItem(p)))));
 					tooltips.add(ChatColors.color("&e单击打开以下类别:\n" + ItemUtils.getItemName(category.getItem(p))));
 					actions.add(new PlayerRunnable(1) {
 
 						@Override
-						public void run(final Player p) {
+						public void run(Player p) {
 							Slimefun.runSync(() -> openCategory(profile, category, survival, 1), 1L);
 						}
 
@@ -188,12 +190,12 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 						if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
 							Research research = item.getResearch();
 
-							texts.add(ChatColors.color(shorten("&7", item.getItemName())));
+							texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GRAY, item.getItemName())));
 							tooltips.add(ChatColors.color(item.getItemName() + "\n&c&l已锁定\n\n&7消耗等级 " + (p.getLevel() >= research.getCost() ? "&b": "&4") + research.getCost() + " 级\n\n&a> 单击解锁"));
 							actions.add(new PlayerRunnable(2) {
 
 								@Override
-								public void run(final Player p) {
+								public void run(Player p) {
 									if (!Research.isResearching(p)) {
 										if (research.canUnlock(p)) {
 											if (profile.hasUnlocked(research)) {
@@ -220,14 +222,14 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 							});
 						}
 						else {
-							texts.add(ChatColors.color(shorten("&a", item.getItemName())));
+							texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, item.getItemName())));
 
 							StringBuilder tooltip = new StringBuilder();
 							tooltip.append(item.getItemName());
 
 							if (item.getItem().hasItemMeta() && item.getItem().getItemMeta().hasLore()) {
 								for (String line : item.getItem().getItemMeta().getLore()) {
-									tooltip.append("\n" + line);
+                                    tooltip.append('\n').append(line);
 								}
 							}
 
@@ -246,7 +248,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 					}
 				}
 				else {
-					texts.add(ChatColors.color(shorten("&4", ItemUtils.getItemName(item.getItem()))));
+					texts.add(ChatColors.color(ChatUtils.crop(ChatColor.DARK_RED, ItemUtils.getItemName(item.getItem()))));
 					tooltips.add(ChatColors.color("&cNo Permission!"));
 					actions.add(null);
 				}
@@ -268,7 +270,7 @@ public class BookSlimefunGuide implements ISlimefunGuide {
 				pageMessage.addClickEvent(new PlayerRunnable(2) {
 
 					@Override
-					public void run(final Player p) {
+					public void run(Player p) {
 						openMainMenu(profile, survival, 1);
 					}
 

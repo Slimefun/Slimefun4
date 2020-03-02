@@ -1,13 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
-import java.util.Optional;
-
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -18,10 +10,16 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
+import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-public class CargoManagerBlock extends SlimefunItem {
+import java.util.Optional;
 
-	public CargoManagerBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+public class CargoManager extends SlimefunItem {
+
+	public CargoManager(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
 		
 		registerBlockHandler(getID(), (p, b, tool, reason) -> {

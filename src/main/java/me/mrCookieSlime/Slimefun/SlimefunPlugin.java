@@ -183,7 +183,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
 			// Toggleable Listeners for performance
 			if (config.getBoolean("items.talismans")) new TalismanListener(this);
-			if (config.getBoolean("items.coolers")) new CoolerListener(this);
 			if (config.getBoolean("items.soulbound")) new SoulboundListener(this);
 
 			if (config.getBoolean("items.backpacks")) {
@@ -223,6 +222,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
                 if (SlimefunItem.getByID("BLADE_OF_VAMPIRES") != null) {
                     new VampireBladeListener(this);
+                }
+                if (SlimefunItem.getByID("COOLER") != null) {
+                    new CoolerListener(this);
                 }
 			}, 0);
 

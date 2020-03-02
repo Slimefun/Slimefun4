@@ -1,17 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
 
-import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
-
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
+import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 
-public abstract class SolarGenerator extends SimpleSlimefunItem<EnergyTicker> {
+public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker> {
 
 	public SolarGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -25,8 +24,8 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<EnergyTicker> {
 	}
 	
 	@Override
-	public EnergyTicker getItemHandler() {
-		return new EnergyTicker() {
+	public GeneratorTicker getItemHandler() {
+		return new GeneratorTicker() {
 
 			@Override
 			public double generateEnergy(Location l, SlimefunItem item, Config data) {

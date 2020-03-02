@@ -1,11 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.stream.Stream;
-
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,19 +21,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.utils.ConfigCache;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.stream.Stream;
 
 public final class MiscSetup {
 
@@ -191,6 +190,7 @@ public final class MiscSetup {
         int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
         int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
 
+
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
         sender.sendMessage("");
@@ -199,10 +199,9 @@ public final class MiscSetup {
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "Slimefun 是一个由社区开发者维护的开源项目!");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + " -- 源代码:   https://github.com/TheBusyBiscuit/Slimefun4");
-        sender.sendMessage(ChatColor.GREEN + " -- Wiki:          https://github.com/TheBusyBiscuit/Slimefun4/wiki");
-        sender.sendMessage(ChatColor.GREEN + " -- Bug 反馈:   https://github.com/TheBusyBiscuit/Slimefun4/issues");
-        sender.sendMessage(ChatColor.GREEN + " -- Discord:       https://discord.gg/fsD4Bkh");
+        sender.sendMessage(ChatColor.GREEN + " -- 源代码:   https://github.com/StarWishsama/Slimefun4");
+        sender.sendMessage(ChatColor.GREEN + " -- Wiki:   https://github.com/TheBusyBiscuit/Slimefun4/wiki");
+        sender.sendMessage(ChatColor.GREEN + " -- Bug 反馈:   https://github.com/StarWishsama/Slimefun4/issues");
         sender.sendMessage("");
 
         SlimefunPlugin.getItemCfg().save();

@@ -1,15 +1,14 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
-import java.util.Arrays;
-import java.util.List;
-
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Represents a {@link Category} that cannot be opened until the parent category/categories
@@ -83,7 +82,9 @@ public class LockedCategory extends Category {
      * @see #removeParent(Category)
      */
     public void addParent(Category category) {
-        if (category == this || category == null) throw new IllegalArgumentException("Category '" + this.getItem().getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
+        if (category == this || category == null) {
+            throw new IllegalArgumentException("Category '" + item.getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
+        }
 
         this.parents.add(category);
     }

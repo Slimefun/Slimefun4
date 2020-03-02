@@ -1,23 +1,18 @@
 package me.mrCookieSlime.Slimefun.api.item_transport;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.inventory.BrewerInventory;
-import org.bukkit.inventory.FurnaceInventory;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.inventory.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class CargoUtils {
 
@@ -86,7 +81,7 @@ public final class CargoUtils {
         return null;
     }
 
-    public static ItemAndInt withdraw(Block node, Block target, int index) {
+    public static ItemStackAndInteger withdraw(Block node, Block target, int index) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
@@ -95,7 +90,7 @@ public final class CargoUtils {
 
                 if (matchesFilter(node, is, index)) {
                     menu.replaceExistingItem(slot, null);
-                    return new ItemAndInt(is.clone(), slot);
+                    return new ItemStackAndInteger(is.clone(), slot);
                 }
             }
         }
@@ -121,7 +116,7 @@ public final class CargoUtils {
 
                     if (matchesFilter(node, is, index)) {
                         inv.setItem(slot, null);
-                        return new ItemAndInt(is.clone(), slot);
+                        return new ItemStackAndInteger(is.clone(), slot);
                     }
                 }
             }

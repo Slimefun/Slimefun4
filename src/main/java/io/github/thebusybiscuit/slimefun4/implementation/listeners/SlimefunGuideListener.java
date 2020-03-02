@@ -1,18 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class SlimefunGuideListener implements Listener {
 	
@@ -43,19 +42,19 @@ public class SlimefunGuideListener implements Listener {
 		if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
 			e.cancel();
 			
-			if (p.isSneaking()) GuideSettings.openSettings(p, item);
+			if (p.isSneaking()) SlimefunGuideSettings.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.BOOK);
 		}
 		else if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
 			e.cancel();
 			
-			if (p.isSneaking()) GuideSettings.openSettings(p, item);
+			if (p.isSneaking()) SlimefunGuideSettings.openSettings(p, item);
 			else SlimefunGuide.openGuide(p, SlimefunGuideLayout.CHEST);
 		}
 		else if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
 			e.cancel();
 			
-			if (p.isSneaking()) GuideSettings.openSettings(p, item);
+			if (p.isSneaking()) SlimefunGuideSettings.openSettings(p, item);
 			else {
 				// We rather just run the command here,
 				// all necessary permission checks will be handled there.

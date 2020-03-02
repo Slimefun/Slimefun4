@@ -1,8 +1,7 @@
-package io.github.thebusybiscuit.slimefun4.core.guide;
+package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -10,8 +9,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
-import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import java.util.HashMap;
+import java.util.Map;
 
 class RecipeChoiceTask implements Runnable {
 	

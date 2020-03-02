@@ -53,7 +53,6 @@ URID:
 items:
   # 是否启用以下物品类别
   talismans: true
-  coolers: true
   backpacks: true
   soulbound: true
 

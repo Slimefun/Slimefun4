@@ -1,26 +1,21 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
+import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
-import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
-import io.github.thebusybiscuit.slimefun4.core.guide.GuideSettings;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
-import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Statically handles researches. Represents a research, which is bound to one
@@ -171,7 +166,7 @@ public class Research implements Keyed {
                     profile.setResearched(this, true);
                     SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName(p)));
 
-                    if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, GuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, GuideSettings.FIREWORKS_KEY) == (byte) 1)) {
+                    if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, SlimefunGuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, SlimefunGuideSettings.FIREWORKS_KEY) == (byte) 1)) {
                         FireworkUtils.launchRandom(p, 1);
                     }
                 };
@@ -215,7 +210,7 @@ public class Research implements Keyed {
     public void register() {
         SlimefunPlugin.getResearchCfg().setDefaultValue("enable-researching", true);
 
-        String path = key.getNamespace() + "." + key.getKey();
+        String path = key.getNamespace() + '.' + key.getKey();
         migrate(id, path);
 
         if (SlimefunPlugin.getResearchCfg().contains(path + ".enabled") && !SlimefunPlugin.getResearchCfg().getBoolean(path + ".enabled")) {

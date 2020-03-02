@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -93,7 +94,7 @@ abstract class Android extends SlimefunItem {
 
     public void openScript(Player p, Block b, String script) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
-        String[] commands = script.split("-");
+        String[] commands = PatternUtils.DASH.split(script);
 
         menu.addItem(0, new CustomItem(ScriptPart.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &e左键 &7返回机器人控制面板"));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
@@ -134,10 +135,10 @@ abstract class Android extends SlimefunItem {
                         for (String command : commands) {
                             if (j > 0) {
                                 if (j == index) {
-                                    builder.append(commands[j] + "-");
-                                    builder.append(commands[j] + "-");
+                                    builder.append(commands[j]).append('-')
+                                            .append(commands[j]).append('-');
                                 }
-                                else if (j < commands.length - 1) builder.append(command + "-");
+                                else if (j < commands.length - 1) builder.append(command).append('-');
                             }
                             j++;
                         }
@@ -151,7 +152,7 @@ abstract class Android extends SlimefunItem {
                         StringBuilder builder = new StringBuilder(ScriptPart.START + "-");
 
                         for (String command : commands) {
-                            if (j != index && j > 0 && j < commands.length - 1) builder.append(command + "-");
+                            if (j != index && j > 0 && j < commands.length - 1) builder.append(command).append('-');
                             j++;
                         }
 
@@ -413,7 +414,7 @@ abstract class Android extends SlimefunItem {
 
     protected void openScriptComponentEditor(Player p, Block b, String script, int index) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
-        String[] commands = script.split("-");
+        String[] commands = PatternUtils.DASH.split(script);
 
         ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
@@ -422,7 +423,7 @@ abstract class Android extends SlimefunItem {
             StringBuilder builder = new StringBuilder("START-");
 
             for (String command : commands) {
-                if (i != index && i > 0 && i < commands.length - 1) builder.append(command + "-");
+                if (i != index && i > 0 && i < commands.length - 1) builder.append(command).append('-');
                 i++;
             }
 
@@ -441,8 +442,8 @@ abstract class Android extends SlimefunItem {
 
                 for (String command : commands) {
                     if (j > 0) {
-                        if (j == index) builder.append(part.toString() + "-");
-                        else if (j < commands.length - 1) builder.append(command + "-");
+                        if (j == index) builder.append(part).append('-');
+                        else if (j < commands.length - 1) builder.append(command).append('-');
                     }
                     j++;
                 }

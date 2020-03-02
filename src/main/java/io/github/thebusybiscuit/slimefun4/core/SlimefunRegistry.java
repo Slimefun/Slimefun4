@@ -1,37 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.core;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
-import io.github.thebusybiscuit.slimefun4.core.guide.BookSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.ChestSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.ISlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.*;
 
 public class SlimefunRegistry {
 
@@ -59,7 +50,7 @@ public class SlimefunRegistry {
     private final Map<String, BlockStorage> worlds = new HashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
     private final Map<UUID, PlayerProfile> profiles = new HashMap<>();
-    private final Map<SlimefunGuideLayout, ISlimefunGuide> layouts = new EnumMap<>(SlimefunGuideLayout.class);
+    private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
     private final Map<EntityType, Set<ItemStack>> drops = new EnumMap<>(EntityType.class);
     private final Map<String, Integer> capacities = new HashMap<>();
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
@@ -73,7 +64,7 @@ public class SlimefunRegistry {
     private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
     public SlimefunRegistry() {
-        ISlimefunGuide chestGuide = new ChestSlimefunGuide(SlimefunPlugin.getCfg().getBoolean("options.show-vanilla-recipes-in-guide"));
+        SlimefunGuideImplementation chestGuide = new ChestSlimefunGuide(SlimefunPlugin.getCfg().getBoolean("options.show-vanilla-recipes-in-guide"));
         layouts.put(SlimefunGuideLayout.CHEST, chestGuide);
         layouts.put(SlimefunGuideLayout.CHEAT_SHEET, chestGuide);
         layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
@@ -113,7 +104,7 @@ public class SlimefunRegistry {
         return multiblocks;
     }
 
-    public ISlimefunGuide getGuideLayout(SlimefunGuideLayout layout) {
+    public SlimefunGuideImplementation getGuideLayout(SlimefunGuideLayout layout) {
         return layouts.get(layout);
     }
 

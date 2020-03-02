@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -13,14 +14,13 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -61,7 +61,7 @@ public class SlimefunItem implements Placeable {
     private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
     private boolean ticking = false;
     private BlockTicker blockTicker;
-    private EnergyTicker energyTicker;
+    private GeneratorTicker energyTicker;
 
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(category, item, recipeType, recipe, null);
@@ -186,7 +186,7 @@ public class SlimefunItem implements Placeable {
         return blockTicker;
     }
 
-    public EnergyTicker getEnergyTicker() {
+    public GeneratorTicker getEnergyTicker() {
         return energyTicker;
     }
 
@@ -460,8 +460,8 @@ public class SlimefunItem implements Placeable {
                 SlimefunPlugin.getRegistry().getTickerBlocks().add(getID());
                 blockTicker = (BlockTicker) handler;
             }
-            else if (handler instanceof EnergyTicker) {
-                energyTicker = (EnergyTicker) handler;
+            else if (handler instanceof GeneratorTicker) {
+                energyTicker = (GeneratorTicker) handler;
                 EnergyNet.registerComponent(getID(), EnergyNetComponentType.GENERATOR);
             }
         }

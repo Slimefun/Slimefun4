@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -247,7 +248,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
                 }
             }
             else {
-                String[] script = BlockStorage.getLocationInfo(b.getLocation(), "script").split("-");
+                String[] script = PatternUtils.DASH.split(BlockStorage.getLocationInfo(b.getLocation(), "script"));
 
                 int index = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "index")) + 1;
                 if (index >= script.length) index = 0;

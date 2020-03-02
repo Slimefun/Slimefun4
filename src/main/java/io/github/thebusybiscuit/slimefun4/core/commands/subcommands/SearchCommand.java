@@ -1,15 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import java.util.Arrays;
-
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
-import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import java.util.Arrays;
 
 public class SearchCommand extends SubCommand {
 
