@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.tasks;
+package me.mrCookieSlime.Slimefun.Objects.handlers;
 
 import java.util.Arrays;
 
@@ -11,8 +11,15 @@ import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollection;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
+/**
+ * This is a {@link BlockTicker} that is exclusively used for Rainbow blocks.
+ * On every tick it cycles through the {@link LoopIterator} and chooses the next {@link Material}
+ * and sets itself to that.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class RainbowTicker extends BlockTicker {
 
 	private final LoopIterator<Material> iterator;

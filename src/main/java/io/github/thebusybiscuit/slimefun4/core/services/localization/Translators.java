@@ -77,6 +77,7 @@ public class Translators {
 		addTranslator("kbartek05", "kbartek_", "pl", true);
 		addTranslator("Xylitus", "pl", true);
 		addTranslator("Wirusiu", "pl", true);
+		addTranslator("koloksk", "pl", true);
 		
 		// Translators - Chinese (China)
 		addTranslator("StarWishsama", "StarWish_Sama", "zh-CN", false);

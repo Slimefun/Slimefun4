@@ -118,6 +118,7 @@ public class LockedCategory extends Category {
 	public boolean hasUnlocked(Player p, PlayerProfile profile) {
 		for (Category category : parents) {
 			for (SlimefunItem item : category.getItems()) {
+				// Should we replace this all with Slimefun.hasUnlocked() ?
 				if (Slimefun.isEnabled(p, item, false)
 						&& Slimefun.hasPermission(p, item, false)
 						&& item.getResearch() != null

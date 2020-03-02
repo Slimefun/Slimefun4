@@ -14,7 +14,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -28,6 +27,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -176,7 +176,7 @@ public class TickerTask implements Runnable {
 
 		if (errors == 1) {
 			// Generate a new Error-Report
-			new ErrorReport(x, this, l, item);
+			new ErrorReport(x, l, item);
 
 			buggedBlocks.put(l, errors);
 		}

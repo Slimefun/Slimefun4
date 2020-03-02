@@ -6,6 +6,16 @@ import org.bukkit.entity.Player;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 
+/**
+ * A {@link SlimefunBlockHandler} handles breaking and placing of blocks.
+ * You can use this class to initialize block data but also to correctly
+ * destroy blocks.
+ * 
+ * {@code SlimefunItem.registerBlockHandler(String, SlimefunBlockHandler); }
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 @FunctionalInterface
 public interface SlimefunBlockHandler {
 	
@@ -22,8 +32,8 @@ public interface SlimefunBlockHandler {
 	}
 	
 	/**
-	 * This method gets called when the Block is broken
-	 * p is nullable if the Block is exploded
+	 * This method gets called when the Block is broken.
+	 * The {@link Player} will be null if the Block is exploded
 	 * 
 	 * @param p			The Player who broke the Block
 	 * @param b			The Block that was broken

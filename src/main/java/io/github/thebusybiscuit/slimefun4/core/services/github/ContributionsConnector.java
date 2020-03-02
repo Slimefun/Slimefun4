@@ -38,7 +38,7 @@ public class ContributionsConnector extends GitHubConnector {
 		aliases.put("ajan-12", "ajan_12");
 		aliases.put("LinoxGH", "ajan_12");
 		aliases.put("mrcoffee1026", "mr_coffee1026");
-		aliases.put("BluGhostYT", "CyberPatriot");
+		aliases.put("Cyber-MC", "CyberPatriot");
 		aliases.put("BurningBrimstone", "Bluedevil74");
 		aliases.put("bverhoeven", "soczol");
 		aliases.put("ramdon-person", "ramdon_person");

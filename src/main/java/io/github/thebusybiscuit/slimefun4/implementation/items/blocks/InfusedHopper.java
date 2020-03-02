@@ -19,6 +19,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
+	
+	protected boolean silent = false;
 
 	public InfusedHopper(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, recipeType, recipe);
@@ -45,7 +47,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 					sound = true;
 				}
 				
-				if (sound) {
+				if (sound && !silent) {
 					b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
 				}
 			}

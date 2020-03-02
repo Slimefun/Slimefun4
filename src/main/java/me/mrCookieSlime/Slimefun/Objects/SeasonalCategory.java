@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
  * See {@link Category} for the complete documentation.
  * 
  * @author TheBusyBiscuit
- * @since 4.0
  * 
  * @see Category
  * @see LockedCategory
@@ -27,11 +26,10 @@ public class SeasonalCategory extends Category {
 	 * See {@link Category#Category(ItemStack, int)} for more information about creating
 	 * a category.
 	 * 
+	 * @param key	The {@link NamespacedKey} that is used to identify this {@link Category}
 	 * @param month The month when the category should be displayed (from 1 = January ; to 12 = December)
-	 * @param tier The tier for this category
-	 * @param item The display item for this category
-	 * 
-	 * @since 4.0
+	 * @param tier 	The tier of this category
+	 * @param item 	The display item for this category
 	 */
 	public SeasonalCategory(NamespacedKey key, int month, int tier, ItemStack item) {
 		super(key, item, tier);
@@ -46,22 +44,17 @@ public class SeasonalCategory extends Category {
 	/**
 	 * Gets the month during which the category should be displayed.
 	 * 
-	 * @return the month id (from 1 = January ; to 12 = December)
-	 * 
-	 * @since 4.0
-	 * @see #isUnlocked()
+	 * @return	the id of the month this {@link SeasonalCategory} is assigned to (from 1 = January ; to 12 = December)
 	 */
 	public int getMonth() {
 		return this.month;
 	}
 
 	/**
-	 * Checks if the category should be displayed in the Guide.
+	 * Checks if the category should currently be displayed in the Guide.
+	 * This is based on {@link SeasonalCategory#getMonth()}.
 	 * 
-	 * @return true if it should, otherwise false
-	 * 
-	 * @since 4.0
-	 * @see #getMonth()
+	 * @return 	true if it should, otherwise false
 	 */
 	public boolean isUnlocked() {
 		Calendar calendar = Calendar.getInstance();

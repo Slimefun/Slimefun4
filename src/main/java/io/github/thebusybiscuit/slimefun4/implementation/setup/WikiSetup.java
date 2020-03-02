@@ -31,7 +31,7 @@ public final class WikiSetup {
             	SlimefunItem item = SlimefunItem.getByID(entry.getKey());
             	
             	if (item != null) {
-            		item.addOficialWiki(entry.getValue().getAsString());
+            		item.addOficialWikipage(entry.getValue().getAsString());
             	}
             }
         } catch (IOException e) {

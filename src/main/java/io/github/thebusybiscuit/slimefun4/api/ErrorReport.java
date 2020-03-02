@@ -17,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -72,8 +71,7 @@ public class ErrorReport {
 				Slimefun.getLogger().log(Level.WARNING, "");
 				Slimefun.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
 				Slimefun.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/" + file.getName());
-				Slimefun.getLogger().log(Level.WARNING, "Please consider sending this File to the developer(s) of Slimefun, this message does not have to be included.");
-				Slimefun.getLogger().log(Level.WARNING, "You can put the file on Pastebin and then post it here: https://github.com/TheBusyBiscuit/Slimefun4/issues");
+				Slimefun.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developers. This message does not have to be included.");
 				Slimefun.getLogger().log(Level.WARNING, "");
 			} catch (FileNotFoundException x) {
 				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion(), x);
@@ -81,7 +79,7 @@ public class ErrorReport {
 		});
 	}
 
-	public ErrorReport(Throwable throwable, TickerTask task, Location l, SlimefunItem item) {
+	public ErrorReport(Throwable throwable, Location l, SlimefunItem item) {
 		this(throwable, stream -> {
 			stream.println("Block Info:");
 			stream.println("  World: " + l.getWorld().getName());
@@ -89,16 +87,25 @@ public class ErrorReport {
 			stream.println("  Y: " + l.getBlockY());
 			stream.println("  Z: " + l.getBlockZ());
 			stream.println("  Material: " + l.getBlock().getType());
+			stream.println("  Block Data: " + l.getBlock().getBlockData().getClass().getName());
 			stream.println("  State: " + l.getBlock().getState().getClass().getName());
 			stream.println();
 			stream.println("Ticker-Info:");
 			stream.println("  Type: " + (item.getBlockTicker().isSynchronized() ? "Synchronized": "Asynchronous"));
-			stream.println("  Object Dump: " + task.toString());
 			stream.println();
 			stream.println("Slimefun Data:");
 			stream.println("  ID: " + item.getID());
 			stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
 			stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
+			stream.println();
+		});
+	}
+
+	public ErrorReport(Throwable throwable, SlimefunItem item) {
+		this(throwable, stream -> {
+			stream.println("SlimefunItem:");
+			stream.println("  ID: " + item.getID());
+			stream.println("  Plugin: " + (item.getAddon() == null ? "Unknown": item.getAddon().getName()));
 			stream.println();
 		});
 	}

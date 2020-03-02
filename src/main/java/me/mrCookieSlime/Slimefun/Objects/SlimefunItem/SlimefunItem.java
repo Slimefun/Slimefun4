@@ -619,28 +619,28 @@ public class SlimefunItem implements Placeable {
 	 * 
 	 * @param page	The associated wiki page
 	 */
-	public void addOficialWiki(String page) {
+	public void addOficialWikipage(String page) {
 		wiki = "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page;
 	}
 	
 	/**
 	 * This method returns whether this item has been assigned a wiki page.
-	 * @see SlimefunItem#addOficialWiki(String)
+	 * @see SlimefunItem#addOficialWikipage(String)
 	 * 
 	 * @return	Whether this Item has a wiki page
 	 */
-	public boolean hasWiki() {
+	public boolean hasWikipage() {
 		return wiki != null;
 	}
 	
 	/**
 	 * This method returns the wiki page that has been asigned to this item.
 	 * It will return null, if no wiki page was found.
-	 * @see SlimefunItem#addOficialWiki(String)
+	 * @see SlimefunItem#addOficialWikipage(String)
 	 * 
 	 * @return	This item's wiki page
 	 */
-	public String getWiki() {
+	public String getWikipage() {
 		return wiki;
 	}
 	
@@ -677,6 +677,14 @@ public class SlimefunItem implements Placeable {
 		return false;
 	}
 	
+	/**
+	 * This method calls every {@link ItemHandler} of the given {@link Class}
+	 * and performs the action as specified via the {@link Consumer}.
+	 * 
+	 * @param c			The {@link Class} of the {@link ItemHandler} to call.
+	 * @param callable	A {@link Consumer} that is called for any found {@link ItemHandler}.
+	 * @return			Whether or not an {@link ItemHandler} was found.
+	 */
 	public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {
 		Optional<ItemHandler> handler = itemhandlers.get(c);
 		
@@ -713,7 +721,7 @@ public class SlimefunItem implements Placeable {
 		return getDrops();
 	}
 	
-	private Logger getLogger() {
+	protected Logger getLogger() {
 		if (addon != null) {
 			return addon.getLogger();
 		}
@@ -723,22 +731,31 @@ public class SlimefunItem implements Placeable {
 		}
 	}
 	
-	private String getLoggerPrefix() {
-		return (addon != null ? (addon.getName() + " v" + addon.getPluginVersion() + " - "): "UNKNOWN SLIMEFUN ADDON - ");
-	}
-	
 	public void info(String message) {
-		message = getLoggerPrefix() + message;
 		getLogger().log(Level.INFO, message);
 	}
 	
 	public void warn(String message) {
-		message = getLoggerPrefix() + message;
 		getLogger().log(Level.WARNING, message);
 	}
 	
+	/**
+	 * This will throw a {@link Throwable} to the console and signal that
+	 * this was caused by this {@link SlimefunItem}.
+	 * 
+	 * @param message	The message to display alongside this Stacktrace
+	 * @param throwable	The {@link Throwable} to throw as a stacktrace.
+	 */
 	public void error(String message, Throwable throwable) {
-		message = getLoggerPrefix() + message;
+		if (addon != null && addon.getBugTrackerURL() != null) {
+			getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] {id, addon.getName(), addon.getPluginVersion()});
+			getLogger().log(Level.SEVERE, "Report this here: {0}", addon.getBugTrackerURL());
+		}
+		else {
+			getLogger().log(Level.SEVERE, "DO NOT REPORT THIS TO SLIMEFUN");
+			getLogger().log(Level.SEVERE, "This is caused by an Addon that added \"{0}\"", id);
+		}
+		
 		getLogger().log(Level.SEVERE, message, throwable);
 	}
 }
