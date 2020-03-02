@@ -87,11 +87,12 @@ public class Smeltery extends MultiBlockMachine {
 					if (outputInv != null) {
 						for (ItemStack removing : inputs.get(i)) {
 							if (removing != null) {
+							    //Yes I know you need redstone BLOCKS in redstone alloy ingots
+                                outputInv.addItem(adding);
 								InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunManager.isItemSimilar(stack, removing, true));
 							}
 						}
-						
-						outputInv.addItem(adding);
+
 						p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
 						p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 
