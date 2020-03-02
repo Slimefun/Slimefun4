@@ -1,0 +1,25 @@
+---
+slimefun:
+  weapons: Silahlar
+  tools: Araçlar
+  items: Yararlı Öğeler
+  food: Yemek
+  basic_machines: Temel Makineler
+  electricity: Enerji ve Elektrik
+  gps: GPS Tabanlı Makineler
+  armor: Zırh
+  magical_items: Büyülü Eşyalar
+  magical_gadgets: Büyülü Aletler
+  misc: Çeşitli Eşyalar
+  technical_gadgets: Teknik Aletler
+  resources: Kaynaklar
+  cargo: Kargo Yönetimi
+  tech_misc: Teknik bileşenler
+  magical_armor: Büyülü Zırh
+  talismans: Tılsımlar (Seviye I)
+  ender_talismans: Ender Tılsımları (Seviye II)
+  christmas: Noel (Aralık)
+  valentines_day: Sevgililer Günü (14 Şubat)
+  easter: Paskalya (Nisan)
+  birthday: TheBusyBiscuit in doğum günü (26 Ekim)
+  halloween: Cadılar Bayramı (31 Ekim)
