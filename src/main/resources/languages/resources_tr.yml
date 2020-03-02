@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: GEO Tarama Sonuçları
+  chunk: Taranan Küme
+  world: Dünya
+  unit: Birim
+  units: Birimler
+resources:
+  slimefun:
+    oil: Petrol
+    nether_ice: Nether Buzu
+    salt: Tuz
+    uranium: Uranyum
+  slimefunorechunks:
+    iron_ore_chunk: Demir Madeni Kümesi
+    gold_ore_chunk: Altın Madeni Kümesi
+    copper_ore_chunk: Bakır Madeni Kümesi
+    tin_ore_chunk: Kalay Madeni Kümesi
+    silver_ore_chunk: Gümüş Madeni Kümesi
+    aluminum_ore_chunk: Alüminyum Madeni Kümesi
+    lead_ore_chunk: Kurşun Madeni Kümesi
+    zinc_ore_chunk: Çinko Madeni Kümesi
+    nickel_ore_chunk: Nikel Madeni Kümesi
+    cobalt_ore_chunk: Kobalt Madeni Kümesi
