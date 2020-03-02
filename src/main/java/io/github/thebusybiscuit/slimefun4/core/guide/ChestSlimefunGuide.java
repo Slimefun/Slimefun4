@@ -601,16 +601,17 @@ public class ChestSlimefunGuide implements ISlimefunGuide {
             for (int i = 0; i < 18; i++) {
                 int slot = i % 2 == 0 ? inputs++: outputs++;
 
-                if ((i + (page * 18)) < recipes.size()) {
+                if ((i + (page * 18)) < recipes.size() && recipes.get(i + (page * 18)) != null) {
+                    ItemStack stack = recipes.get(i + (page * 18));
                     if (page == 0) {
-                        menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
+                        menu.replaceExistingItem(slot, stack.clone());
                         menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
                             displayItem(profile, itemstack, true);
                             return false;
                         });
                     }
                     else {
-                        menu.replaceExistingItem(slot, recipes.get(i + (page * 18)).clone());
+                        menu.replaceExistingItem(slot, stack.clone());
                     }
                 }
                 else {
