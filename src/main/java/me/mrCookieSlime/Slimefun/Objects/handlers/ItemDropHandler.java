@@ -13,4 +13,9 @@ public interface ItemDropHandler extends ItemHandler {
 	default Class<? extends ItemHandler> getIdentifier() {
 		return ItemDropHandler.class;
 	}
+	
+	@Override
+	default boolean isPrivate() {
+		return false;
+	}
 }

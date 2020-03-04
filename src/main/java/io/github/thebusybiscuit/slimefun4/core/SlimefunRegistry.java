@@ -42,184 +42,184 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  */
 public class SlimefunRegistry {
 
-	private final Map<String, SlimefunItem> slimefunIds = new HashMap<>();
-	private final List<SlimefunItem> slimefunItems = new ArrayList<>();
-	private final List<SlimefunItem> enabledItems = new ArrayList<>();
+    private final Map<String, SlimefunItem> slimefunIds = new HashMap<>();
+    private final List<SlimefunItem> slimefunItems = new ArrayList<>();
+    private final List<SlimefunItem> enabledItems = new ArrayList<>();
 
-	private final KeyMap<Research> researchIds = new KeyMap<>();
-	private final List<Category> categories = new ArrayList<>();
-	private final List<Research> researches = new LinkedList<>();
-	private final List<MultiBlock> multiblocks = new LinkedList<>();
-	
-	private final Set<String> tickers = new HashSet<>();
-	private final Set<SlimefunItem> radioactive = new HashSet<>();
-	private final Set<String> activeChunks = new HashSet<>();
-	private final Set<UUID> researchingPlayers = new HashSet<>();
+    private final KeyMap<Research> researchIds = new KeyMap<>();
+    private final List<Category> categories = new ArrayList<>();
+    private final List<Research> researches = new LinkedList<>();
+    private final List<MultiBlock> multiblocks = new LinkedList<>();
 
-	private final KeyMap<GEOResource> geoResources = new KeyMap<>();
-	
-	private final Set<String> energyGenerators = new HashSet<>();
-	private final Set<String> energyCapacitors = new HashSet<>();
-	private final Set<String> energyConsumers = new HashSet<>();
-	private final Set<String> chargeableBlocks = new HashSet<>();
+    private final Set<String> tickers = new HashSet<>();
+    private final Set<SlimefunItem> radioactive = new HashSet<>();
+    private final Set<String> activeChunks = new HashSet<>();
+    private final Set<UUID> researchingPlayers = new HashSet<>();
 
-	private final Map<String, BlockStorage> worlds = new HashMap<>();
-	private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
-	private final Map<UUID, PlayerProfile> profiles = new HashMap<>();
-	private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
-	private final Map<EntityType, Set<ItemStack>> drops = new EnumMap<>(EntityType.class);
-	private final Map<String, Integer> capacities = new HashMap<>();
-	private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
-	private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
-	private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> itemHandlers = new HashMap<>();
-	private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
+    private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 
-	private final Map<String, Set<Location>> activeTickers = new HashMap<>();
-	
-	private final Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
-	private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
+    private final Set<String> energyGenerators = new HashSet<>();
+    private final Set<String> energyCapacitors = new HashSet<>();
+    private final Set<String> energyConsumers = new HashSet<>();
+    private final Set<String> chargeableBlocks = new HashSet<>();
 
-	public SlimefunRegistry() {
-		SlimefunGuideImplementation chestGuide = new ChestSlimefunGuide(SlimefunPlugin.getCfg().getBoolean("options.show-vanilla-recipes-in-guide"));
-		layouts.put(SlimefunGuideLayout.CHEST, chestGuide);
-		layouts.put(SlimefunGuideLayout.CHEAT_SHEET, chestGuide);
-		layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
-	}
-	
-	public List<Category> getEnabledCategories() {
-		return categories;
-	}
-	
-	public List<SlimefunItem> getAllSlimefunItems() {
-		return slimefunItems;
-	}
-	
-	public List<SlimefunItem> getEnabledSlimefunItems() {
-		return enabledItems;
-	}
-	
-	public List<String> getEnabledSlimefunItemIds() {
-		List<String> list = new ArrayList<>(enabledItems.size());
-		
-		for (SlimefunItem item : enabledItems) {
-			list.add(item.getID());
-		}
-		
-		return list;
-	}
+    private final Map<String, BlockStorage> worlds = new HashMap<>();
+    private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
+    private final Map<UUID, PlayerProfile> profiles = new HashMap<>();
+    private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
+    private final Map<EntityType, Set<ItemStack>> drops = new EnumMap<>(EntityType.class);
+    private final Map<String, Integer> capacities = new HashMap<>();
+    private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
+    private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
+    private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> itemHandlers = new HashMap<>();
+    private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 
-	public int countVanillaItems() {
-		return (int) getEnabledSlimefunItems().stream().filter(item -> !item.isAddonItem()).count();
-	}
-	
-	public List<Research> getResearches() {
-		return researches;
-	}
-	
-	public List<MultiBlock> getMultiBlocks() {
-		return multiblocks;
-	}
-	
-	public SlimefunGuideImplementation getGuideLayout(SlimefunGuideLayout layout) {
-		return layouts.get(layout);
-	}
-	
-	public Set<ItemStack> getMobDrops(EntityType entity) {
-		return drops.get(entity);
-	}
-	
-	public Set<SlimefunItem> getRadioactiveItems() {
-		return radioactive;
-	}
-	
-	public Set<String> getTickerBlocks() {
-		return tickers;
-	}
-	
-	public Set<String> getActiveChunks() {
-		return activeChunks;
-	}
-	
-	public Set<UUID> getCurrentlyResearchingPlayers() {
-		return researchingPlayers;
-	}
-	
-	public Map<String, SlimefunItem> getSlimefunItemIds() {
-		return slimefunIds;
-	}
-	
-	public KeyMap<Research> getResearchIds() {
-		return researchIds;
-	}
-	
-	public Map<EntityType, Set<ItemStack>> getMobDrops() {
-		return drops;
-	}
-	
-	public Map<String, Integer> getEnergyCapacities() {
-		return capacities;
-	}
+    private final Map<String, Set<Location>> activeTickers = new HashMap<>();
 
-	public Map<String, BlockMenuPreset> getMenuPresets() {
-		return blockMenuPresets;
-	}
+    private final Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
+    private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
-	public Map<String, UniversalBlockMenu> getUniversalInventories() {
-		return universalInventories;
-	}
-	
-	public Map<UUID, PlayerProfile> getPlayerProfiles() {
-		return profiles;
-	}
-	
-	public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getItemHandlers() {
-		return itemHandlers;
-	}
-	
-	public Map<String, SlimefunBlockHandler> getBlockHandlers() {
-		return blockHandlers;
-	}
-	
-	public Map<String, BlockStorage> getWorlds() {
-		return worlds;
-	}
-	
-	public Map<String, BlockInfoConfig> getChunks() {
-		return chunks;
-	}
-	
-	public Map<String, Set<Location>> getActiveTickers() {
-		return activeTickers;
-	}
-	
-	public KeyMap<GEOResource> getGEOResources() {
-		return geoResources;
-	}
-	
-	@Deprecated
-	public Map<Integer, List<GuideHandler>> getGuideHandlers() {
-		return guideHandlers;
-	}
-	
-	@Deprecated
-	public Map<String, ItemStack> getAutomatedCraftingChamberRecipes() {
-		return automatedCraftingChamberRecipes;
-	}
-	
-	public Set<String> getEnergyGenerators() {
-		return energyGenerators;
-	}
-	
-	public Set<String> getEnergyCapacitors() {
-		return energyCapacitors;
-	}
-	
-	public Set<String> getEnergyConsumers() {
-		return energyConsumers;
-	}
-	
-	public Set<String> getChargeableBlocks() {
-		return chargeableBlocks;
-	}
-	
+    public SlimefunRegistry() {
+        SlimefunGuideImplementation chestGuide = new ChestSlimefunGuide(SlimefunPlugin.getCfg().getBoolean("options.show-vanilla-recipes-in-guide"));
+        layouts.put(SlimefunGuideLayout.CHEST, chestGuide);
+        layouts.put(SlimefunGuideLayout.CHEAT_SHEET, chestGuide);
+        layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
+    }
+
+    public List<Category> getEnabledCategories() {
+        return categories;
+    }
+
+    public List<SlimefunItem> getAllSlimefunItems() {
+        return slimefunItems;
+    }
+
+    public List<SlimefunItem> getEnabledSlimefunItems() {
+        return enabledItems;
+    }
+
+    public List<String> getEnabledSlimefunItemIds() {
+        List<String> list = new ArrayList<>(enabledItems.size());
+
+        for (SlimefunItem item : enabledItems) {
+            list.add(item.getID());
+        }
+
+        return list;
+    }
+
+    public int countVanillaItems() {
+        return (int) getEnabledSlimefunItems().stream().filter(item -> !item.isAddonItem()).count();
+    }
+
+    public List<Research> getResearches() {
+        return researches;
+    }
+
+    public List<MultiBlock> getMultiBlocks() {
+        return multiblocks;
+    }
+
+    public SlimefunGuideImplementation getGuideLayout(SlimefunGuideLayout layout) {
+        return layouts.get(layout);
+    }
+
+    public Set<ItemStack> getMobDrops(EntityType entity) {
+        return drops.get(entity);
+    }
+
+    public Set<SlimefunItem> getRadioactiveItems() {
+        return radioactive;
+    }
+
+    public Set<String> getTickerBlocks() {
+        return tickers;
+    }
+
+    public Set<String> getActiveChunks() {
+        return activeChunks;
+    }
+
+    public Set<UUID> getCurrentlyResearchingPlayers() {
+        return researchingPlayers;
+    }
+
+    public Map<String, SlimefunItem> getSlimefunItemIds() {
+        return slimefunIds;
+    }
+
+    public KeyMap<Research> getResearchIds() {
+        return researchIds;
+    }
+
+    public Map<EntityType, Set<ItemStack>> getMobDrops() {
+        return drops;
+    }
+
+    public Map<String, Integer> getEnergyCapacities() {
+        return capacities;
+    }
+
+    public Map<String, BlockMenuPreset> getMenuPresets() {
+        return blockMenuPresets;
+    }
+
+    public Map<String, UniversalBlockMenu> getUniversalInventories() {
+        return universalInventories;
+    }
+
+    public Map<UUID, PlayerProfile> getPlayerProfiles() {
+        return profiles;
+    }
+
+    public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getItemHandlers() {
+        return itemHandlers;
+    }
+
+    public Map<String, SlimefunBlockHandler> getBlockHandlers() {
+        return blockHandlers;
+    }
+
+    public Map<String, BlockStorage> getWorlds() {
+        return worlds;
+    }
+
+    public Map<String, BlockInfoConfig> getChunks() {
+        return chunks;
+    }
+
+    public Map<String, Set<Location>> getActiveTickers() {
+        return activeTickers;
+    }
+
+    public KeyMap<GEOResource> getGEOResources() {
+        return geoResources;
+    }
+
+    @Deprecated
+    public Map<Integer, List<GuideHandler>> getGuideHandlers() {
+        return guideHandlers;
+    }
+
+    @Deprecated
+    public Map<String, ItemStack> getAutomatedCraftingChamberRecipes() {
+        return automatedCraftingChamberRecipes;
+    }
+
+    public Set<String> getEnergyGenerators() {
+        return energyGenerators;
+    }
+
+    public Set<String> getEnergyCapacitors() {
+        return energyCapacitors;
+    }
+
+    public Set<String> getEnergyConsumers() {
+        return energyConsumers;
+    }
+
+    public Set<String> getChargeableBlocks() {
+        return chargeableBlocks;
+    }
+
 }

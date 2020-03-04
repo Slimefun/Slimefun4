@@ -5,85 +5,93 @@ import java.util.logging.Level;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This class holds all interactions and hooks with third-party plugins that are
+ * not dependencies or addons.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public final class SlimefunHooks {
-	
-	private SlimefunPlugin plugin;
-	
-	private boolean exoticGarden = false;
-	private boolean emeraldEnchants = false;
-	private boolean coreProtect = false;
-	private boolean clearLag = false;
-	private boolean worldEdit = false;
-	private boolean placeHolderAPI = false;
-	
-	public SlimefunHooks(SlimefunPlugin plugin) {
-		this.plugin = plugin;
-		
-		if (isPluginInstalled("PlaceholderAPI")) {
-			placeHolderAPI = true;
-			new PlaceholderAPIHook().register();
-		}
-		
-		/*
-		 *  These Items are not marked as soft-dependencies and 
-		 *  therefore need to be loaded after the Server has finished 
-		 *  loading all plugins
-		 */
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-			if (isPluginInstalled("ClearLag")) {
-				clearLag = true;
-				new ClearLagHook(plugin);
-			}
-			
-			exoticGarden = isPluginInstalled("ExoticGarden");
-			emeraldEnchants = isPluginInstalled("EmeraldEnchants");
 
-			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
-			if (isPluginInstalled("WorldEdit")) {
-				try {
-					Class.forName("com.sk89q.worldedit.extent.Extent");
-					worldEdit = true;
-					new WorldEditHook();
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.WARNING, "Failed to hook into WorldEdit!");
-					Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
-				}
-			}
-		});
-	}
-	
-	private boolean isPluginInstalled(String hook) {
-		if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
-			Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+    private final SlimefunPlugin plugin;
 
-	public boolean isExoticGardenInstalled() {
-		return exoticGarden;
-	}
-	
-	public boolean isEmeraldEnchantsInstalled() {
-		return emeraldEnchants;
-	}
+    private boolean exoticGarden = false;
+    private boolean emeraldEnchants = false;
+    private boolean coreProtect = false;
+    private boolean clearLag = false;
+    private boolean worldEdit = false;
+    private boolean placeHolderAPI = false;
 
-	public boolean isCoreProtectInstalled() {
-		return coreProtect;
-	}
+    public SlimefunHooks(SlimefunPlugin plugin) {
+        this.plugin = plugin;
 
-	public boolean isClearLagInstalled() {
-		return clearLag;
-	}
+        if (isPluginInstalled("PlaceholderAPI")) {
+            placeHolderAPI = true;
+            new PlaceholderAPIHook().register();
+        }
 
-	public boolean isWorldEditInstalled() {
-		return worldEdit;
-	}
+        /*
+         * These Items are not marked as soft-dependencies and
+         * therefore need to be loaded after the Server has finished
+         * loading all plugins
+         */
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+            if (isPluginInstalled("ClearLag")) {
+                clearLag = true;
+                new ClearLagHook(plugin);
+            }
 
-	public boolean isPlaceholderAPIInstalled() {
-		return placeHolderAPI;
-	}
-	
+            exoticGarden = isPluginInstalled("ExoticGarden");
+            emeraldEnchants = isPluginInstalled("EmeraldEnchants");
+
+            // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
+            if (isPluginInstalled("WorldEdit")) {
+                try {
+                    Class.forName("com.sk89q.worldedit.extent.Extent");
+                    worldEdit = true;
+                    new WorldEditHook();
+                }
+                catch (Exception x) {
+                    Slimefun.getLogger().log(Level.WARNING, "Failed to hook into WorldEdit!");
+                    Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
+                }
+            }
+        });
+    }
+
+    private boolean isPluginInstalled(String hook) {
+        if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
+            Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean isExoticGardenInstalled() {
+        return exoticGarden;
+    }
+
+    public boolean isEmeraldEnchantsInstalled() {
+        return emeraldEnchants;
+    }
+
+    public boolean isCoreProtectInstalled() {
+        return coreProtect;
+    }
+
+    public boolean isClearLagInstalled() {
+        return clearLag;
+    }
+
+    public boolean isWorldEditInstalled() {
+        return worldEdit;
+    }
+
+    public boolean isPlaceholderAPIInstalled() {
+        return placeHolderAPI;
+    }
+
 }

@@ -20,46 +20,46 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 
-	public SmeltersPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public SmeltersPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
+    @Override
+    protected boolean areItemHandlersPrivate() {
+        return false;
+    }
 
-	@Override
-	public BlockBreakHandler getItemHandler() {
-		return (e, item, fortune, drops) -> {
-			if (isItem(item)) {
-				if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
-				if (e.getBlock().getType() == Material.PLAYER_HEAD) return true;
-				if (!Slimefun.hasUnlocked(e.getPlayer(), this, true)) return true;
-				
-				Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
-				for (ItemStack drop : blockDrops) {
-					if (drop != null) {
-						ItemStack output = drop;
-						
-						if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
-							output.setAmount(fortune);
-							
-							Optional<ItemStack> furnaceOutput = SlimefunPlugin.getMinecraftRecipes().getRecipeOutput(MinecraftRecipe.FURNACE, drop);
-							if (furnaceOutput.isPresent()) {
-								e.getBlock().getWorld().playEffect(e.getBlock().getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-								output.setType(furnaceOutput.get().getType());
-							}
-						}
-						
-						drops.add(output);
-					}
-				}
+    @Override
+    public BlockBreakHandler getItemHandler() {
+        return (e, item, fortune, drops) -> {
+            if (isItem(item)) {
+                if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
+                if (e.getBlock().getType() == Material.PLAYER_HEAD) return true;
+                if (!Slimefun.hasUnlocked(e.getPlayer(), this, true)) return true;
 
-				return true;
-			}
-			else return false;
-		};
-	}
+                Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
+                for (ItemStack drop : blockDrops) {
+                    if (drop != null) {
+                        ItemStack output = drop;
+
+                        if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
+                            output.setAmount(fortune);
+
+                            Optional<ItemStack> furnaceOutput = SlimefunPlugin.getMinecraftRecipes().getRecipeOutput(MinecraftRecipe.FURNACE, drop);
+                            if (furnaceOutput.isPresent()) {
+                                e.getBlock().getWorld().playEffect(e.getBlock().getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+                                output.setType(furnaceOutput.get().getType());
+                            }
+                        }
+
+                        drops.add(output);
+                    }
+                }
+
+                return true;
+            }
+            else return false;
+        };
+    }
 
 }

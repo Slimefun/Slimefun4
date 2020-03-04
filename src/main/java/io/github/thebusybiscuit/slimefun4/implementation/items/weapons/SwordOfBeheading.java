@@ -21,35 +21,35 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
-	
-	private int chanceZombie;
-	private int chanceSkeleton;
-	private int chanceCreeper;
-	private int chanceWitherSkeleton;
-	private int chancePlayer;
-	
-	public SwordOfBeheading(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, recipeType, recipe, keys, values);
-	}
 
-	@Override
-	public EntityKillHandler getItemHandler() {
-		return (e, entity, killer, item) -> {
-			Random random = ThreadLocalRandom.current();
-			
-			if (e.getEntity() instanceof Zombie) {
+    private int chanceZombie;
+    private int chanceSkeleton;
+    private int chanceCreeper;
+    private int chanceWitherSkeleton;
+    private int chancePlayer;
+
+    public SwordOfBeheading(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+        super(category, item, recipeType, recipe, keys, values);
+    }
+
+    @Override
+    public EntityKillHandler getItemHandler() {
+        return (e, entity, killer, item) -> {
+            Random random = ThreadLocalRandom.current();
+
+            if (e.getEntity() instanceof Zombie) {
                 if (random.nextInt(100) < chanceZombie) {
                     e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
                 }
             }
             else if (e.getEntity() instanceof WitherSkeleton) {
                 if (random.nextInt(100) < chanceWitherSkeleton) {
-                	e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+                    e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                 }
             }
             else if (e.getEntity() instanceof Skeleton) {
                 if (random.nextInt(100) < chanceSkeleton) {
-                	e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
+                    e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
                 }
             }
             else if (e.getEntity() instanceof Creeper) {
@@ -58,23 +58,23 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
                 }
             }
             else if (e.getEntity() instanceof Player && random.nextInt(100) < chancePlayer) {
-            	ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+                ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
                 ItemMeta meta = skull.getItemMeta();
                 ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());
                 skull.setItemMeta(meta);
 
                 e.getDrops().add(skull);
             }
-		};
-	}
-	
-	@Override
-	public void postRegister() {
-		chanceZombie = (int) Slimefun.getItemValue(getID(), "chance.ZOMBIE");
-		chanceSkeleton = (int) Slimefun.getItemValue(getID(), "chance.SKELETON");
-		chanceCreeper = (int) Slimefun.getItemValue(getID(), "chance.CREEPER");
-		chanceWitherSkeleton = (int) Slimefun.getItemValue(getID(), "chance.WITHER_SKELETON");
-		chancePlayer = (int) Slimefun.getItemValue(getID(), "chance.PLAYER");
-	}
+        };
+    }
+
+    @Override
+    public void postRegister() {
+        chanceZombie = (int) Slimefun.getItemValue(getID(), "chance.ZOMBIE");
+        chanceSkeleton = (int) Slimefun.getItemValue(getID(), "chance.SKELETON");
+        chanceCreeper = (int) Slimefun.getItemValue(getID(), "chance.CREEPER");
+        chanceWitherSkeleton = (int) Slimefun.getItemValue(getID(), "chance.WITHER_SKELETON");
+        chancePlayer = (int) Slimefun.getItemValue(getID(), "chance.PLAYER");
+    }
 
 }

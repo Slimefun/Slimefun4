@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -8,8 +9,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * This Item will then not be dropped upon death.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see SoulboundItem
  *
  */
 public interface Soulbound {
-	
+
 }

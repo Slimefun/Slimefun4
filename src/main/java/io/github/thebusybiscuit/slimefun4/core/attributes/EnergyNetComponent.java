@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks
@@ -16,21 +16,21 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
  *
  */
 public interface EnergyNetComponent {
-	
-	/**
-	 * This method returns the Type of {@link EnergyNetComponentType} this {@link SlimefunItem} represents.
-	 * It describes how this Block will interact with an {@link EnergyNet}.
-	 * 
-	 * @return	The {@link EnergyNetComponentType} this {@link SlimefunItem} represents.
-	 */
-	EnergyNetComponentType getEnergyComponentType();
-	
-	/**
-	 * This method returns the max amount of electricity this Block can hold.
-	 * If the capacity is zero, then this Block cannot hold any electricity.
-	 * 
-	 * @return	The max amount of electricity this Block can store.
-	 */
-	int getCapacity();
+
+    /**
+     * This method returns the Type of {@link EnergyNetComponentType} this {@link SlimefunItem} represents.
+     * It describes how this Block will interact with an {@link EnergyNet}.
+     * 
+     * @return The {@link EnergyNetComponentType} this {@link SlimefunItem} represents.
+     */
+    EnergyNetComponentType getEnergyComponentType();
+
+    /**
+     * This method returns the max amount of electricity this Block can hold.
+     * If the capacity is zero, then this Block cannot hold any electricity.
+     * 
+     * @return The max amount of electricity this Block can store.
+     */
+    int getCapacity();
 
 }

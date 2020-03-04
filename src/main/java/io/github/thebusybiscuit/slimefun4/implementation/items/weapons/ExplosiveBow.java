@@ -9,21 +9,19 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ExplosiveBow extends SlimefunBow {
 
-	public ExplosiveBow(SlimefunItemStack item, ItemStack[] recipe) {
-		super(item, recipe);
-	}
+    public ExplosiveBow(SlimefunItemStack item, ItemStack[] recipe) {
+        super(item, recipe);
+    }
 
-	@Override
-	public BowShootHandler onShoot() {
-		return (e, n) -> {
-			Vector vector = n.getVelocity();
-			vector.setY(0.6);
-			n.setVelocity(vector);
-			n.getWorld().createExplosion(n.getLocation(), 0F);
-			n.getWorld().playSound(n.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
-		};
-	}
-	
-	
+    @Override
+    public BowShootHandler onShoot() {
+        return (e, n) -> {
+            Vector vector = n.getVelocity();
+            vector.setY(0.6);
+            n.setVelocity(vector);
+            n.getWorld().createExplosion(n.getLocation(), 0F);
+            n.getWorld().playSound(n.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+        };
+    }
 
 }

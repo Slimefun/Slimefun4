@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -13,26 +14,26 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * An alloy is generally made up of several minerals.
  * As an example, {@code BRASS_INGOT} is made up of {@code COPPER_DUST}, {@code ZINC_DUST} and {@code COPPER_INGOT}.
  *
- * @since 4.0
+ * @author TheBusyBiscuit
  */
 public class Alloy extends SlimefunItem {
 
 	/**
-	 * Constructs an Alloy bound to {@code Categories.RESOURCES}.
+	 * Constructs an {@link Alloy} bound to {@code Categories.RESOURCES}.
 	 *
-	 * @param  item    the item corresponding to this Alloy
-	 * @param  recipe  the recipe to obtain this Alloy in the Smeltery
+	 * @param  item    the {@link SlimefunItemStack} corresponding to this {@link Alloy}
+	 * @param  recipe  the recipe to obtain this {@link Alloy} in the {@link Smeltery}
 	 */
 	public Alloy(SlimefunItemStack item, ItemStack[] recipe) {
 		super(Categories.RESOURCES, item, RecipeType.SMELTERY, recipe);
 	}
 
 	/**
-	 * Constructs an Alloy bound to the specified Category.
+	 * Constructs an {@link Alloy} bound to the specified {@link Category}.
 	 *
-	 * @param  category the category for this Item
-	 * @param  item    the item corresponding to this Alloy
-	 * @param  recipe  the recipe to obtain this Alloy in the Smeltery
+	 * @param  category	the {@link Category} for this Item
+	 * @param  item    	the {@link SlimefunItemStack} corresponding to this {@link Alloy}
+	 * @param  recipe  	the recipe to obtain this {@link Alloy} in the {@link Smeltery}
 	 */
 	public Alloy(Category category, SlimefunItemStack item, ItemStack[] recipe) {
 		super(category, item, RecipeType.SMELTERY, recipe);

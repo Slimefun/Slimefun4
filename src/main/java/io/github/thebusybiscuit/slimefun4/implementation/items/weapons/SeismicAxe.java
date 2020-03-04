@@ -29,63 +29,63 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable, DamageableItem {
 
-	public SeismicAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public SeismicAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public ItemUseHandler getItemHandler() {
-		return e -> {
-			Player p = e.getPlayer();
-			List<Block> blocks = p.getLineOfSight(null, 10);
-			
-			for (int i = 0; i < blocks.size(); i++) {
-				Block b = blocks.get(i);
-				Location ground = b.getLocation();
-				
-				if (b.getType() == null || b.getType() == Material.AIR) {
-					for (int y = ground.getBlockY(); y > 0; y--) {
-						if (b.getWorld().getBlockAt(b.getX(), y, b.getZ()) != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != Material.AIR) {
-							ground = new Location(b.getWorld(), b.getX(), y, b.getZ());
-							break;
-						}
-					}
-				}
-				
-				b.getWorld().playEffect(ground, Effect.STEP_SOUND, ground.getBlock().getType());
-				
-				if (ground.getBlock().getRelative(BlockFace.UP).getType() == null || ground.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR) {
-					Location loc = ground.getBlock().getRelative(BlockFace.UP).getLocation().add(0.5, 0.0, 0.5);
-					FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlock().getBlockData());
-					block.setDropItem(false);
-					block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-					block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance, "fake_block"));
-				}
-				
-				for (Entity n : ground.getChunk().getEntities()) {
-					if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
-						Vector vector = n.getLocation().toVector().subtract(p.getLocation().toVector()).normalize().multiply(1.4);
-						vector.setY(0.9);
-						n.setVelocity(vector);
-						
-						if (p.getWorld().getPVP()) {
-							EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n, DamageCause.ENTITY_ATTACK, 6D);
-							Bukkit.getPluginManager().callEvent(event);
-							if (!event.isCancelled()) ((LivingEntity) n).damage(6D);
-						}
-					}
-				}
-			}
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            Player p = e.getPlayer();
+            List<Block> blocks = p.getLineOfSight(null, 10);
 
-			for (int i = 0; i < 4; i++) {
-				damageItem(p, e.getItem());
-			}
-		};
-	}
+            for (int i = 0; i < blocks.size(); i++) {
+                Block b = blocks.get(i);
+                Location ground = b.getLocation();
 
-	@Override
-	public boolean isDamageable() {
-		return true;
-	}
+                if (b.getType() == null || b.getType() == Material.AIR) {
+                    for (int y = ground.getBlockY(); y > 0; y--) {
+                        if (b.getWorld().getBlockAt(b.getX(), y, b.getZ()) != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != Material.AIR) {
+                            ground = new Location(b.getWorld(), b.getX(), y, b.getZ());
+                            break;
+                        }
+                    }
+                }
+
+                b.getWorld().playEffect(ground, Effect.STEP_SOUND, ground.getBlock().getType());
+
+                if (ground.getBlock().getRelative(BlockFace.UP).getType() == null || ground.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR) {
+                    Location loc = ground.getBlock().getRelative(BlockFace.UP).getLocation().add(0.5, 0.0, 0.5);
+                    FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlock().getBlockData());
+                    block.setDropItem(false);
+                    block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
+                    block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance, "fake_block"));
+                }
+
+                for (Entity n : ground.getChunk().getEntities()) {
+                    if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
+                        Vector vector = n.getLocation().toVector().subtract(p.getLocation().toVector()).normalize().multiply(1.4);
+                        vector.setY(0.9);
+                        n.setVelocity(vector);
+
+                        if (p.getWorld().getPVP()) {
+                            EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n, DamageCause.ENTITY_ATTACK, 6D);
+                            Bukkit.getPluginManager().callEvent(event);
+                            if (!event.isCancelled()) ((LivingEntity) n).damage(6D);
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < 4; i++) {
+                damageItem(p, e.getItem());
+            }
+        };
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return true;
+    }
 
 }

@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
+import io.github.thebusybiscuit.slimefun4.implementation.items.EasterEgg;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AdvancedFarmerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidType;
@@ -90,6 +91,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.XPCollector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.BirthdayCake;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.DietCookie;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.FortuneCookie;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MagicSugar;
@@ -159,8 +161,6 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EasterEgg;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.RadioactiveItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
@@ -1404,7 +1404,7 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.FLASK_OF_KNOWLEDGE, 8))
 		.register(plugin);
 
-		new HandledBlock(Categories.BIRTHDAY, new SlimefunItemStack("BIRTHDAY_CAKE", Material.CAKE, "&bBirthday Cake"), RecipeType.ENHANCED_CRAFTING_TABLE,
+		new BirthdayCake(Categories.BIRTHDAY, new SlimefunItemStack("BIRTHDAY_CAKE", Material.CAKE, "&bBirthday Cake"), RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.TORCH), null, new ItemStack(Material.SUGAR), new ItemStack(Material.CAKE), new ItemStack(Material.SUGAR), null, null, null})
 		.register(plugin);
 

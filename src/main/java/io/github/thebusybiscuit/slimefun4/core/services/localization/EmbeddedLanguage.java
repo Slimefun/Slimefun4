@@ -1,6 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
-public enum SupportedLanguage {
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+
+/**
+ * This enum holds info about a {@link Language} that is embedded in our resources folder.
+ * Every enum constant holds the key of that {@link Language} as well as a texture hash
+ * for the {@link SkullItem} to display.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Language
+ *
+ */
+enum EmbeddedLanguage {
 
     ENGLISH("en", "a1701f21835a898b20759fb30a583a38b994abf60d3912ab4ce9f2311e74f72"),
     GERMAN("de", "5e7899b4806858697e283f084d9173fe487886453774626b24bd8cfecc77b3f"),
@@ -41,7 +53,7 @@ public enum SupportedLanguage {
     private final String id;
     private final String textureHash;
 
-    SupportedLanguage(String id, String textureHash) {
+    private EmbeddedLanguage(String id, String textureHash) {
         this.id = id;
         this.textureHash = textureHash;
     }

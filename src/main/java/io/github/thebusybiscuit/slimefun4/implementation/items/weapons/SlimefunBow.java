@@ -19,16 +19,16 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public abstract class SlimefunBow extends SlimefunItem {
 
-	public SlimefunBow(SlimefunItemStack item, ItemStack[] recipe) {
-		super(Categories.WEAPONS, item, RecipeType.MAGIC_WORKBENCH, recipe);
-	}
-	
-	@Override
-	public void preRegister() {
-		super.preRegister();
-		addItemHandler(onShoot());
-	}
-	
-	public abstract BowShootHandler onShoot();
+    public SlimefunBow(SlimefunItemStack item, ItemStack[] recipe) {
+        super(Categories.WEAPONS, item, RecipeType.MAGIC_WORKBENCH, recipe);
+    }
+
+    @Override
+    public void preRegister() {
+        super.preRegister();
+        addItemHandler(onShoot());
+    }
+
+    public abstract BowShootHandler onShoot();
 
 }

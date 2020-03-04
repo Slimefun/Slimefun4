@@ -17,10 +17,11 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * <p>
  * See {@link Category} for the complete documentation.
  * 
- * @author TheBusyBiscuit
- * 
  * @see Category
  * @see SeasonalCategory
+ * 
+ * @author TheBusyBiscuit
+ * 
  */
 public class LockedCategory extends Category {
 
@@ -61,11 +62,10 @@ public class LockedCategory extends Category {
 	}
 
 	/**
-	 * Gets the list of parent categories for this category.
+	 * Gets the list of parent categories for this {@link LockedCategory}.
 	 * 
-	 * @return the list of the parent categories
+	 * @return	the list of parent categories
 	 * 
-	 * @since 4.0
 	 * @see #addParent(Category)
 	 * @see #removeParent(Category)
 	 */
@@ -74,11 +74,10 @@ public class LockedCategory extends Category {
 	}
 
 	/**
-	 * Adds a parent category to this category.
+	 * Adds a parent {@link Category} to this {@link LockedCategory}.
 	 * 
-	 * @param category Category to add as a parent
+	 * @param category	The {@link Category} to add as a parent
 	 *
-	 * @since 4.0
 	 * @see #getParents()
 	 * @see #removeParent(Category)
 	 */
@@ -91,11 +90,10 @@ public class LockedCategory extends Category {
 	}
 
 	/**
-	 * Removes a category as parent to this category.
+	 * Removes a {@link Category} from the parents of this {@link LockedCategory}.
 	 * 
-	 * @param category Category to remove from parents
+	 * @param category	The {@link Category} to remove from the parents of this {@link LockedCategory}
 	 * 
-	 * @since 4.0
 	 * @see #getParents()
 	 * @see #addParent(Category)
 	 */
@@ -104,12 +102,10 @@ public class LockedCategory extends Category {
 	}
 
 	/**
-	 * Checks if the player has fully unlocked parent categories.
+	 * Checks if the {@link Player} has fully unlocked all parent categories.
 	 * 
-	 * @param p Player to check
-	 * @return true if the player has fully completed the parent categories, otherwise false
-	 * 
-	 * @since 4.0
+	 * @param p	The {@link Player} to check
+	 * @return 	Whether the {@link Player} has fully completed all parent categories, otherwise false
 	 */
 	public boolean hasUnlocked(Player p) {
 		return hasUnlocked(p, PlayerProfile.get(p));

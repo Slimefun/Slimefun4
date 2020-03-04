@@ -22,6 +22,7 @@ jobs:
             * [ ] We were unable to reproduce issue, if you think your issue still persists then please comment down below and give a better description on how to reproduce it.
             * [ ] Your issue was posted in a foreign language, we only accept english issues on here.
             * [ ] Your issue is not a bug, it is either intended or something we cannot change.
+            * [ ] Your issue is not a bug, please only use this issue tracker to report bugs. Any other kind of communication should happen on discord or elsewhere.
             * [ ] Your issue was already reported, it is a duplicate. Check the other open issues first before posting!
             * [ ] You posted an error without using pastebin. Please always post errors via pastebin.
             * [ ] You have posted multiple issues at once. Please post a seperate issue for each bug you encountered.

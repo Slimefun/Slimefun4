@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -13,7 +14,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 
 public class EnergyRegulator extends SlimefunItem {
 

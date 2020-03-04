@@ -25,6 +25,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -37,8 +39,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 
 public class SlimefunItem implements Placeable {
 

@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
@@ -9,6 +10,13 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * This class represents a {@link SlimefunItem} that is considered a Backpack.
+ * Right-Clicking will open the {@link Inventory} of the currently held Backpack.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
 	
 	private final int size;

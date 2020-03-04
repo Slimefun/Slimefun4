@@ -13,13 +13,13 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  *
  */
 public interface Radioactive {
-	
-	/**
-	 * This method returns the level of {@link Radioactivity} for this {@link Radioactive} item.
-	 * Higher levels cause more severe radiation effects.
-	 * 
-	 * @return	The level of {@link Radioactivity} of this item.
-	 */
-	Radioactivity getRadioactivity();
+
+    /**
+     * This method returns the level of {@link Radioactivity} for this {@link Radioactive} item.
+     * Higher levels cause more severe radiation effects.
+     * 
+     * @return The level of {@link Radioactivity} of this item.
+     */
+    Radioactivity getRadioactivity();
 
 }

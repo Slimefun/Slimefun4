@@ -26,10 +26,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * <p>
  * See {@link Categories} for the built-in categories.
  *
- * @since 4.0
- *
  * @see LockedCategory
  * @see SeasonalCategory
+ * 
+ * @author TheBusyBiscuit
+ * 
  */
 public class Category implements Keyed {
 	
@@ -44,8 +45,6 @@ public class Category implements Keyed {
 	 * 
 	 * @param item the display item for this category
 	 * @deprecated Use the alternative with a {@link NamespacedKey} instead
-	 * 
-	 * @since 4.0
 	 */
 	@Deprecated
 	public Category(ItemStack item) {
@@ -69,11 +68,9 @@ public class Category implements Keyed {
      * </br>
      * A lower tier results in this category being displayed first.
 	 * 
-	 * @param item the display item for this category
-	 * @param tier the tier for this category
-	 * @deprecated Use the alternative with a {@link NamespacedKey} instead
-	 * 
-	 * @since 4.0
+	 * @param item 	the display item for this category
+	 * @param tier 	the tier for this category
+	 * @deprecated 	Use the alternative with a {@link NamespacedKey} instead
 	 */
 	@Deprecated
 	public Category(ItemStack item, int tier) {
@@ -110,8 +107,6 @@ public class Category implements Keyed {
 	 * Registers this category.
 	 * <p>
 	 * By default, a category is automatically registered when a {@link SlimefunItem} is bound to it.
-	 * 
-	 * @since 4.0
 	 */
 	public void register() {
 		if (this instanceof SeasonalCategory) {
@@ -168,10 +163,10 @@ public class Category implements Keyed {
 	}
 
 	/**
-	 * Returns the tier of this category.
+	 * Returns the tier of this {@link Category}.
 	 * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
 	 * 
-	 * @return the tier of this category
+	 * @return the tier of this {@link Category}
 	 */
 	public int getTier() {
 		return tier;

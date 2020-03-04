@@ -7,78 +7,87 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
+/**
+ * This Class represents a {@link Language} that Slimefun can recognize and use.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see LocalizationService
+ * @see EmbeddedLanguage
+ *
+ */
 public final class Language {
 
-	private final String id;
-	private final ItemStack item;
+    private final String id;
+    private final ItemStack item;
 
-	private FileConfiguration messages;
-	private FileConfiguration researches;
-	private FileConfiguration resources;
-	private FileConfiguration categories;
-	private FileConfiguration recipeTypes;
+    private FileConfiguration messages;
+    private FileConfiguration researches;
+    private FileConfiguration resources;
+    private FileConfiguration categories;
+    private FileConfiguration recipeTypes;
 
-	public Language(String id, String hash) {
-		this.id = id;
-		
-		item = SkullItem.fromHash(hash);
-		SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
-	}
+    public Language(String id, String hash) {
+        this.id = id;
 
-	public String getID() {
-		return id;
-	}
-	
-	public FileConfiguration getMessages() {
-		return messages;
-	}
-	
-	public FileConfiguration getResearches() {
-		return researches;
-	}
-	
-	public FileConfiguration getResources() {
-		return resources;
-	}
-	
-	public FileConfiguration getCategories() {
-		return categories;
-	}
-	
-	public FileConfiguration getRecipeTypes() {
-		return recipeTypes;
-	}
+        item = SkullItem.fromHash(hash);
+        SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
+    }
 
-	public void setMessages(FileConfiguration config) {
-		this.messages = config;
-	}
+    public String getID() {
+        return id;
+    }
 
-	public void setResearches(FileConfiguration config) {
-		this.researches = config;
-	}
+    public FileConfiguration getMessages() {
+        return messages;
+    }
 
-	public void setResources(FileConfiguration config) {
-		this.resources = config;
-	}
+    public FileConfiguration getResearches() {
+        return researches;
+    }
 
-	public void setCategories(FileConfiguration config) {
-		this.categories = config;
-	}
+    public FileConfiguration getResources() {
+        return resources;
+    }
 
-	public void setRecipeTypes(FileConfiguration config) {
-		this.recipeTypes = config;
-	}
+    public FileConfiguration getCategories() {
+        return categories;
+    }
 
-	public ItemStack getItem() {
-		return item;
-	}
+    public FileConfiguration getRecipeTypes() {
+        return recipeTypes;
+    }
 
-	public String getName(Player p) {
-		return SlimefunPlugin.getLocal().getMessage(p, "languages." + id);
-	}
+    public void setMessages(FileConfiguration config) {
+        this.messages = config;
+    }
 
-	public boolean isDefault() {
-		return this == SlimefunPlugin.getLocal().getDefaultLanguage();
-	}
+    public void setResearches(FileConfiguration config) {
+        this.researches = config;
+    }
+
+    public void setResources(FileConfiguration config) {
+        this.resources = config;
+    }
+
+    public void setCategories(FileConfiguration config) {
+        this.categories = config;
+    }
+
+    public void setRecipeTypes(FileConfiguration config) {
+        this.recipeTypes = config;
+    }
+
+    public ItemStack getItem() {
+        return item;
+    }
+
+    public String getName(Player p) {
+        return SlimefunPlugin.getLocal().getMessage(p, "languages." + id);
+    }
+
+    public boolean isDefault() {
+        return this == SlimefunPlugin.getLocal().getDefaultLanguage();
+    }
 
 }

@@ -21,31 +21,31 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
-	
+
     private long despawnTicks;
 
-	public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, recipeType, recipe, keys, values);
-	}
+    public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+        super(category, item, recipeType, recipe, keys, values);
+    }
 
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
-        	Player p = e.getPlayer();
-        	UUID uuid = p.getUniqueId();
-            
+            Player p = e.getPlayer();
+            UUID uuid = p.getUniqueId();
+
             if (!e.getClickedBlock().isPresent() && !SlimefunPlugin.getGrapplingHookListener().isJumping(uuid)) {
                 e.cancel();
-                
+
                 ItemStack item = e.getItem();
-                
+
                 if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
                     // Cancel, to fix dupe #740
                     return;
                 }
-                
+
                 if (item.getType() == Material.LEAD) {
-                	item.setAmount(item.getAmount() - 1);
+                    item.setAmount(item.getAmount() - 1);
                 }
 
                 Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -67,6 +67,6 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
     @Override
     public void postRegister() {
-	    despawnTicks = (int) Slimefun.getItemValue(getID(), "despawn-seconds") * 20L;
+        despawnTicks = (int) Slimefun.getItemValue(getID(), "despawn-seconds") * 20L;
     }
 }

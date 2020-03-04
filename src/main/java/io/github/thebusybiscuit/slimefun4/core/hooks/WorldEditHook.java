@@ -14,30 +14,33 @@ import com.sk89q.worldedit.world.block.BlockStateHolder;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class WorldEditHook {
+class WorldEditHook {
 
-	public WorldEditHook() {
-		WorldEdit.getInstance().getEventBus().register(this);
-	}
+    public WorldEditHook() {
+        WorldEdit.getInstance().getEventBus().register(this);
+    }
 
-	@Subscribe
+    @Subscribe
     public void wrapForLogging(final EditSessionEvent event) {
-		event.setExtent(new AbstractDelegateExtent(event.getExtent()) {
-			
-			@Override
-			public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 pos, T block) throws WorldEditException {
-				if (block.getBlockType().getMaterial().isAir()) {
-					World world = Bukkit.getWorld(event.getWorld().getName());
-					
-					if (world != null) {
-						Location l = new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
-						if (BlockStorage.hasBlockInfo(l)) BlockStorage.clearBlockInfo(l);
-					}
-				}
+        event.setExtent(new AbstractDelegateExtent(event.getExtent()) {
+
+            @Override
+            public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 pos, T block) throws WorldEditException {
+                if (block.getBlockType().getMaterial().isAir()) {
+                    World world = Bukkit.getWorld(event.getWorld().getName());
+
+                    if (world != null) {
+                        Location l = new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
+
+                        if (BlockStorage.hasBlockInfo(l)) {
+                            BlockStorage.clearBlockInfo(l);
+                        }
+                    }
+                }
                 return getExtent().setBlock(pos, block);
             }
-			
-		});
+
+        });
     }
 
 }

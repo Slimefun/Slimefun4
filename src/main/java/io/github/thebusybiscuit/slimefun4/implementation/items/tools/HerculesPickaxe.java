@@ -14,36 +14,36 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
 
-	public HerculesPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public HerculesPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
+    @Override
+    protected boolean areItemHandlersPrivate() {
+        return false;
+    }
 
-	@Override
-	public BlockBreakHandler getItemHandler() {
-		return (e, item, fortune, drops) -> {
-			if (isItem(item) && e.getBlock().getType().toString().endsWith("_ORE")) {
-				if (!Slimefun.hasUnlocked(e.getPlayer(), this, true)) return true;
-				
-				if (e.getBlock().getType() == Material.IRON_ORE) {
-					drops.add(new CustomItem(SlimefunItems.IRON_DUST, 2));
-				}
-				else if (e.getBlock().getType() == Material.GOLD_ORE) {
-					drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
-				}
-				else {
-					for (ItemStack drop : e.getBlock().getDrops(getItem())) {
-						drops.add(new CustomItem(drop, drop.getAmount() * 2));
-					}
-				}
-				return true;
-			}
-			else return false;
-		};
-	}
+    @Override
+    public BlockBreakHandler getItemHandler() {
+        return (e, item, fortune, drops) -> {
+            if (isItem(item) && e.getBlock().getType().toString().endsWith("_ORE")) {
+                if (!Slimefun.hasUnlocked(e.getPlayer(), this, true)) return true;
+
+                if (e.getBlock().getType() == Material.IRON_ORE) {
+                    drops.add(new CustomItem(SlimefunItems.IRON_DUST, 2));
+                }
+                else if (e.getBlock().getType() == Material.GOLD_ORE) {
+                    drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
+                }
+                else {
+                    for (ItemStack drop : e.getBlock().getDrops(getItem())) {
+                        drops.add(new CustomItem(drop, drop.getAmount() * 2));
+                    }
+                }
+                return true;
+            }
+            else return false;
+        };
+    }
 
 }
