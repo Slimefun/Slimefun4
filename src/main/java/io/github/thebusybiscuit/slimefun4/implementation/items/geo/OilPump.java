@@ -30,107 +30,107 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class OilPump extends AContainer implements RecipeDisplayItem {
-	
-	private final GEOResource oil;
 
-	public OilPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-		
-		oil = SlimefunPlugin.getRegistry().getGEOResources().get(new NamespacedKey(SlimefunPlugin.instance, "oil")).orElse(null);
-		
-		new BlockMenuPreset(getID(), getInventoryTitle()) {
-			
-			@Override
-			public void init() {
-				constructMenu(this);
-			}
+    private final GEOResource oil;
 
-			@Override
-			public boolean canOpen(Block b, Player p) {
-				if (!(p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES))) {
-					return false;
-				}
-				
-				if (!SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4).isPresent()) {
-					SlimefunPlugin.getLocal().sendMessage(p, "gps.geo.scan-required", true);
-					return false;
-				}
-				
-				return true;
-			}
+    public OilPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
 
-			@Override
-			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
-				else return getOutputSlots();
-			}
-		};
-	}
-	
-	@Override
-	public List<ItemStack> getDisplayRecipes() {
-		return Arrays.asList(new ItemStack(Material.BUCKET), SlimefunItems.BUCKET_OF_OIL);
-	}
-	
-	@Override
-	public String getMachineIdentifier() {
-		return "OIL_PUMP";
-	}
+        oil = SlimefunPlugin.getRegistry().getGEOResources().get(new NamespacedKey(SlimefunPlugin.instance, "oil")).orElse(null);
 
-	@Override
-	public String getInventoryTitle() {
-		return "&4Oil Pump";
-	}
+        new BlockMenuPreset(getID(), getInventoryTitle()) {
 
-	@Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.DIAMOND_SHOVEL);
-	}
+            @Override
+            public void init() {
+                constructMenu(this);
+            }
 
-	@Override
-	protected void tick(Block b) {
-		BlockMenu inv = BlockStorage.getInventory(b);
-		
-		if (isProcessing(b)) {
-			int timeleft = progress.get(b);
-			
-			if (timeleft > 0) {
-				ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
-				
-				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-				ChargableBlock.addCharge(b, -getEnergyConsumption());
-				
-				progress.put(b, timeleft - 1);
-			}
-			else {
-				inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-				inv.pushItem(SlimefunItems.BUCKET_OF_OIL, getOutputSlots());
-				
-				progress.remove(b);
-				processing.remove(b);
-			}
-		}
-		else if (inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
-			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-					OptionalInt supplies = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
-					
-					if (supplies.isPresent() && supplies.getAsInt() > 0) {
-						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
+            @Override
+            public boolean canOpen(Block b, Player p) {
+                if (!(p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES))) {
+                    return false;
+                }
 
-						inv.consumeItem(slot);
-						processing.put(b, r);
-						progress.put(b, r.getTicks());
-						SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);
-					}
-					else {
-						ItemStack item = inv.getItemInSlot(slot).clone();
-						inv.replaceExistingItem(slot, null);
-						inv.pushItem(item, getOutputSlots());
-					}
-					break;
-				}
-			}
-		}
-	}
+                if (!SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4).isPresent()) {
+                    SlimefunPlugin.getLocal().sendMessage(p, "gps.geo.scan-required", true);
+                    return false;
+                }
+
+                return true;
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                if (flow == ItemTransportFlow.INSERT) return getInputSlots();
+                else return getOutputSlots();
+            }
+        };
+    }
+
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        return Arrays.asList(new ItemStack(Material.BUCKET), SlimefunItems.BUCKET_OF_OIL);
+    }
+
+    @Override
+    public String getMachineIdentifier() {
+        return "OIL_PUMP";
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&4Oil Pump";
+    }
+
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.DIAMOND_SHOVEL);
+    }
+
+    @Override
+    protected void tick(Block b) {
+        BlockMenu inv = BlockStorage.getInventory(b);
+
+        if (isProcessing(b)) {
+            int timeleft = progress.get(b);
+
+            if (timeleft > 0) {
+                ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                ChargableBlock.addCharge(b, -getEnergyConsumption());
+
+                progress.put(b, timeleft - 1);
+            }
+            else {
+                inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
+                inv.pushItem(SlimefunItems.BUCKET_OF_OIL, getOutputSlots());
+
+                progress.remove(b);
+                processing.remove(b);
+            }
+        }
+        else if (inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
+            for (int slot : getInputSlots()) {
+                if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+                    OptionalInt supplies = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
+
+                    if (supplies.isPresent() && supplies.getAsInt() > 0) {
+                        MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] { SlimefunItems.BUCKET_OF_OIL });
+
+                        inv.consumeItem(slot);
+                        processing.put(b, r);
+                        progress.put(b, r.getTicks());
+                        SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);
+                    }
+                    else {
+                        ItemStack item = inv.getItemInSlot(slot).clone();
+                        inv.replaceExistingItem(slot, null);
+                        inv.pushItem(item, getOutputSlots());
+                    }
+                    break;
+                }
+            }
+        }
+    }
 }

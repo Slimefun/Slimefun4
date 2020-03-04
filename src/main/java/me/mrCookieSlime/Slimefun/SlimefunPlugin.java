@@ -28,9 +28,9 @@ import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
+import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillingListener;
@@ -38,7 +38,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListe
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.DamageListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityKillListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
@@ -61,14 +61,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.NetherIceResource;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.OilResource;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.SaltResource;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.UraniumResource;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.WikiSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
@@ -179,11 +176,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Registering all GEO Resources
             getLogger().log(Level.INFO, "Loading GEO-Resources...");
-
-            new OilResource().register();
-            new NetherIceResource().register();
-            new UraniumResource().register();
-            new SaltResource().register();
+            GEOResourcesSetup.setup();
 
             getLogger().log(Level.INFO, "Loading Items...");
             MiscSetup.setupItemSettings();
@@ -215,7 +208,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new MultiBlockListener(this);
             new GearListener(this);
             new DispenserListener(this);
-            new DamageListener(this);
+            new EntityKillListener(this);
             new BlockListener(this);
             new EnhancedFurnaceListener(this);
             new TeleporterListener(this);

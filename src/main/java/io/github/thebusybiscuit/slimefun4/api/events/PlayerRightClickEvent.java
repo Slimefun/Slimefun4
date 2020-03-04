@@ -18,117 +18,117 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class PlayerRightClickEvent extends Event {
 
-	private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
-	private final PlayerInteractEvent event;
-	private final Player player;
+    private final PlayerInteractEvent event;
+    private final Player player;
 
-	private final Optional<ItemStack> itemStack;
-	private final Optional<Block> clickedBlock;
+    private final Optional<ItemStack> itemStack;
+    private final Optional<Block> clickedBlock;
 
-	private final EquipmentSlot hand;
-	private final BlockFace face;
+    private final EquipmentSlot hand;
+    private final BlockFace face;
 
-	private ComputedOptional<SlimefunItem> slimefunItem = ComputedOptional.createNew();
-	private ComputedOptional<SlimefunItem> slimefunBlock = ComputedOptional.createNew();
+    private ComputedOptional<SlimefunItem> slimefunItem = ComputedOptional.createNew();
+    private ComputedOptional<SlimefunItem> slimefunBlock = ComputedOptional.createNew();
 
-	private Result itemResult = Result.DEFAULT;
-	private Result blockResult = Result.DEFAULT;
+    private Result itemResult = Result.DEFAULT;
+    private Result blockResult = Result.DEFAULT;
 
-	public PlayerRightClickEvent(PlayerInteractEvent e) {
-		event = e;
-		player = e.getPlayer();
-		clickedBlock = Optional.ofNullable(e.getClickedBlock());
-		face = e.getBlockFace();
-		hand = e.getHand();
+    public PlayerRightClickEvent(PlayerInteractEvent e) {
+        event = e;
+        player = e.getPlayer();
+        clickedBlock = Optional.ofNullable(e.getClickedBlock());
+        face = e.getBlockFace();
+        hand = e.getHand();
 
-		if (e.getItem() == null || e.getItem().getType() == Material.AIR || e.getItem().getAmount() == 0) {
-			itemStack = Optional.empty();
-		}
-		else {
-			itemStack = Optional.of(e.getItem());
-		}
-	}
+        if (e.getItem() == null || e.getItem().getType() == Material.AIR || e.getItem().getAmount() == 0) {
+            itemStack = Optional.empty();
+        }
+        else {
+            itemStack = Optional.of(e.getItem());
+        }
+    }
 
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	public PlayerInteractEvent getInteractEvent() {
-		return event;
-	}
+    public PlayerInteractEvent getInteractEvent() {
+        return event;
+    }
 
-	public Player getPlayer() {
-		return player;
-	}
+    public Player getPlayer() {
+        return player;
+    }
 
-	public ItemStack getItem() {
-		return itemStack.orElse(new ItemStack(Material.AIR));
-	}
+    public ItemStack getItem() {
+        return itemStack.orElse(new ItemStack(Material.AIR));
+    }
 
-	public EquipmentSlot getHand() {
-		return hand;
-	}
+    public EquipmentSlot getHand() {
+        return hand;
+    }
 
-	public Optional<Block> getClickedBlock() {
-		return clickedBlock;
-	}
+    public Optional<Block> getClickedBlock() {
+        return clickedBlock;
+    }
 
-	public BlockFace getClickedFace() {
-		return face;
-	}
+    public BlockFace getClickedFace() {
+        return face;
+    }
 
-	public Optional<SlimefunItem> getSlimefunItem() {
+    public Optional<SlimefunItem> getSlimefunItem() {
 
-		if (!slimefunItem.isComputed()) {
-			if (itemStack.isPresent()) {
-				slimefunItem.compute(SlimefunItem.getByItem(itemStack.get()));
-			}
-			else {
-				slimefunItem = ComputedOptional.empty();
-			}
-		}
+        if (!slimefunItem.isComputed()) {
+            if (itemStack.isPresent()) {
+                slimefunItem.compute(SlimefunItem.getByItem(itemStack.get()));
+            }
+            else {
+                slimefunItem = ComputedOptional.empty();
+            }
+        }
 
-		return slimefunItem.getAsOptional();
-	}
+        return slimefunItem.getAsOptional();
+    }
 
-	public Optional<SlimefunItem> getSlimefunBlock() {
+    public Optional<SlimefunItem> getSlimefunBlock() {
 
-		if (!slimefunBlock.isComputed()) {
-			if (clickedBlock.isPresent()) {
-				slimefunBlock.compute(BlockStorage.check(clickedBlock.get()));
-			}
-			else {
-				slimefunBlock = ComputedOptional.empty();
-			}
-		}
+        if (!slimefunBlock.isComputed()) {
+            if (clickedBlock.isPresent()) {
+                slimefunBlock.compute(BlockStorage.check(clickedBlock.get()));
+            }
+            else {
+                slimefunBlock = ComputedOptional.empty();
+            }
+        }
 
-		return slimefunBlock.getAsOptional();
-	}
+        return slimefunBlock.getAsOptional();
+    }
 
-	public void cancel() {
-		itemResult = Result.DENY;
-		blockResult = Result.DENY;
-	}
+    public void cancel() {
+        itemResult = Result.DENY;
+        blockResult = Result.DENY;
+    }
 
-	public Result useItem() {
-		return itemResult;
-	}
+    public Result useItem() {
+        return itemResult;
+    }
 
-	public Result useBlock() {
-		return blockResult;
-	}
+    public Result useBlock() {
+        return blockResult;
+    }
 
-	public void setUseItem(Result result) {
-		itemResult = result;
-	}
+    public void setUseItem(Result result) {
+        itemResult = result;
+    }
 
-	public void setUseBlock(Result result) {
-		blockResult = result;
-	}
+    public void setUseBlock(Result result) {
+        blockResult = result;
+    }
 
 }

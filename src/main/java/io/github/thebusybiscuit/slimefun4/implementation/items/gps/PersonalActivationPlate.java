@@ -13,21 +13,21 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class PersonalActivationPlate extends SlimefunItem {
-	
-	public PersonalActivationPlate(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-		
-		SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
 
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-			}
+    public PersonalActivationPlate(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
 
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				return true;
-			}
-		});
-	}
+        SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
+
+            @Override
+            public void onPlace(Player p, Block b, SlimefunItem item) {
+                BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
+            }
+
+            @Override
+            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
+                return true;
+            }
+        });
+    }
 }

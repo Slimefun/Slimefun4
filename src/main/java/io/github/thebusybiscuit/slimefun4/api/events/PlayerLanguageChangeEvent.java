@@ -8,36 +8,36 @@ import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 
 public class PlayerLanguageChangeEvent extends Event {
 
-	private static final HandlerList handlers = new HandlerList();
-	
-	private final Player player;
-	private final Language from;
-	private final Language to;
+    private static final HandlerList handlers = new HandlerList();
 
-	public PlayerLanguageChangeEvent(Player p, Language from, Language to) {
-		player = p;
-		this.from = from;
-		this.to = to;
-	}
+    private final Player player;
+    private final Language from;
+    private final Language to;
 
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    public PlayerLanguageChangeEvent(Player p, Language from, Language to) {
+        player = p;
+        this.from = from;
+        this.to = to;
+    }
 
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
-	public Player getPlayer() {
-		return player;
-	}
-	
-	public Language getPreviousLanguage() {
-		return from;
-	}
-	
-	public Language getNewLanguage() {
-		return to;
-	}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Language getPreviousLanguage() {
+        return from;
+    }
+
+    public Language getNewLanguage() {
+        return to;
+    }
 
 }

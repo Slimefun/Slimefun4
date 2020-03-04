@@ -23,56 +23,57 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 
 public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
 
-	public GPSTransmitter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-		
-		SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
+    public GPSTransmitter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
 
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-			}
+        SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
 
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
-				SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
-				return true;
-			}
-		});
-	}
-	
-	public abstract int getMultiplier(int y);
-	public abstract int getEnergyConsumption();
+            @Override
+            public void onPlace(Player p, Block b, SlimefunItem item) {
+                BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
+            }
 
-	@Override
-	public BlockTicker getItemHandler() {
-		return new BlockTicker() {
-			
-			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				int charge = ChargableBlock.getCharge(b);
-				UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
-				
-				if (charge >= getEnergyConsumption()) {
-					SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, true);
-					ChargableBlock.setCharge(b.getLocation(), charge - getEnergyConsumption());
-				}
-				else {
-					SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
-				}
-			}
-			
-			@Override
-			public boolean isSynchronized() {
-				return false;
-			}
-		};
-	}
-	
-	@Override
-	public EnergyNetComponentType getEnergyComponentType() {
-		return EnergyNetComponentType.CONSUMER;
-	}
+            @Override
+            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
+                UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
+                SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
+                return true;
+            }
+        });
+    }
+
+    public abstract int getMultiplier(int y);
+
+    public abstract int getEnergyConsumption();
+
+    @Override
+    public BlockTicker getItemHandler() {
+        return new BlockTicker() {
+
+            @Override
+            public void tick(Block b, SlimefunItem item, Config data) {
+                int charge = ChargableBlock.getCharge(b);
+                UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
+
+                if (charge >= getEnergyConsumption()) {
+                    SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, true);
+                    ChargableBlock.setCharge(b.getLocation(), charge - getEnergyConsumption());
+                }
+                else {
+                    SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
+                }
+            }
+
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
+        };
+    }
+
+    @Override
+    public EnergyNetComponentType getEnergyComponentType() {
+        return EnergyNetComponentType.CONSUMER;
+    }
 
 }

@@ -24,18 +24,18 @@ public class MagicSugar extends SimpleSlimefunItem<ItemUseHandler> {
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
-            //Check if it is being placed into an ancient altar.
+            // Check if it is being placed into an ancient altar.
             if (e.getClickedBlock().isPresent()) {
-            	Material block = e.getClickedBlock().get().getType();
-            	
-            	if (block == Material.DISPENSER || block == Material.ENCHANTING_TABLE) {
-            		return;
-            	}
+                Material block = e.getClickedBlock().get().getType();
+
+                if (block == Material.DISPENSER || block == Material.ENCHANTING_TABLE) {
+                    return;
+                }
             }
 
             Player p = e.getPlayer();
             if (p.getGameMode() != GameMode.CREATIVE) {
-            	ItemUtils.consumeItem(e.getItem(), false);
+                ItemUtils.consumeItem(e.getItem(), false);
             }
 
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);

@@ -17,10 +17,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class SoulboundItem extends SlimefunItem implements Soulbound, NotPlaceable {
 
-	public SoulboundItem(Category category, SlimefunItemStack item, ItemStack[] recipe) {
-		this(category, item, RecipeType.MAGIC_WORKBENCH, recipe);
-	}
-
 	public SoulboundItem(Category category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
 		super(category, item, type, recipe);
 	}

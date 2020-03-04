@@ -13,19 +13,19 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class GPSMarkerTool extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
-	public GPSMarkerTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public ItemUseHandler getItemHandler() {
-		return e -> {
-			e.cancel();
-			
-			if (e.getClickedBlock().isPresent()) {
-				Block b = e.getClickedBlock().get().getRelative(e.getClickedFace());
-				SlimefunPlugin.getGPSNetwork().addWaypoint(e.getPlayer(), b.getLocation());
-			}
-		};
-	}
+    public GPSMarkerTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
+
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            e.cancel();
+
+            if (e.getClickedBlock().isPresent()) {
+                Block b = e.getClickedBlock().get().getRelative(e.getClickedFace());
+                SlimefunPlugin.getGPSNetwork().addWaypoint(e.getPlayer(), b.getLocation());
+            }
+        };
+    }
 }

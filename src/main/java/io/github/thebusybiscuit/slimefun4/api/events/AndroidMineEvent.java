@@ -20,8 +20,10 @@ public class AndroidMineEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     /**
-     * @param block - mined block
-     * @param android - the block of the android
+     * @param block
+     *            - mined block
+     * @param android
+     *            - the block of the android
      */
     public AndroidMineEvent(Block block, AndroidEntity android) {
         this.block = block;

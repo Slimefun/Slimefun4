@@ -15,23 +15,23 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockDispenseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class DispenserListener implements Listener {
-	
+
     public DispenserListener(SlimefunPlugin plugin) {
-         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onBlockDispensing(BlockDispenseEvent e) {
         Block b = e.getBlock();
-        
+
         if (b.getType() == Material.DISPENSER && b.getRelative(BlockFace.DOWN).getType() != Material.HOPPER) {
-        	SlimefunItem machine = BlockStorage.check(b);
+            SlimefunItem machine = BlockStorage.check(b);
 
             if (machine != null) {
                 Dispenser dispenser = (Dispenser) b.getState();
                 BlockFace face = ((Directional) b.getBlockData()).getFacing();
                 Block block = b.getRelative(face);
-            	machine.callItemHandler(BlockDispenseHandler.class, handler -> handler.onBlockDispense(e, dispenser, block, machine));
+                machine.callItemHandler(BlockDispenseHandler.class, handler -> handler.onBlockDispense(e, dispenser, block, machine));
             }
         }
     }

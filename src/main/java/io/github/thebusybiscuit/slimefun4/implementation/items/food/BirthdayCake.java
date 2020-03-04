@@ -10,8 +10,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class BirthdayCake extends SlimefunItem implements NotPlaceable {
 
-	public BirthdayCake(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public BirthdayCake(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
 }

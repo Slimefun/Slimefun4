@@ -14,19 +14,19 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
-	
-	public FortuneCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
 
-	@Override
-	public ItemConsumptionHandler getItemHandler() {
-		return (e, p, item) -> {
-			List<String> messages = SlimefunPlugin.getLocal().getMessages(p, "messages.fortune-cookie");
-			String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
-			
-			p.sendMessage(ChatColors.color(message));
-		};
-	}
+    public FortuneCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
+
+    @Override
+    public ItemConsumptionHandler getItemHandler() {
+        return (e, p, item) -> {
+            List<String> messages = SlimefunPlugin.getLocal().getMessages(p, "messages.fortune-cookie");
+            String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
+
+            p.sendMessage(ChatColors.color(message));
+        };
+    }
 
 }

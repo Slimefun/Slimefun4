@@ -38,22 +38,18 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         return (e, p, i) -> {
             ItemStack item = i.getItemStack();
             if (isItem(item)) {
-                
-            	if (!Slimefun.hasUnlocked(p, SlimefunItems.RUNE_SOULBOUND, true)) {
-                	return true;
+
+                if (!Slimefun.hasUnlocked(p, SlimefunItems.RUNE_SOULBOUND, true)) {
+                    return true;
                 }
-            	
-            	Slimefun.runSync(() -> {
+
+                Slimefun.runSync(() -> {
                     // Being sure the entity is still valid and not picked up or whatsoever.
                     if (!i.isValid()) return;
 
                     Location l = i.getLocation();
-                    Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1.5, 1.5, 1.5,
-                            entity -> 	entity instanceof Item && 
-                            			!SlimefunManager.isItemSoulbound(((Item) entity).getItemStack()) &&
-                            			!SlimefunManager.isItemSimilar(((Item) entity).getItemStack(), SlimefunItems.RUNE_SOULBOUND, true)
-                    );
-                    
+                    Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1.5, 1.5, 1.5, this::findCompatibleItem);
+
                     if (entites.isEmpty()) return;
 
                     Entity entity = entites.stream().findFirst().get();
@@ -64,11 +60,11 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                         e.setCancelled(true);
 
                         ItemMeta enchMeta = ench.getItemMeta();
-                        List<String> lore = enchMeta.hasLore() ? enchMeta.getLore(): new ArrayList<>();
+                        List<String> lore = enchMeta.hasLore() ? enchMeta.getLore() : new ArrayList<>();
 
                         // This lightning is just an effect, it deals no damage.
                         l.getWorld().strikeLightningEffect(l);
-                        
+
                         Slimefun.runSync(() -> {
 
                             // Being sure entities are still valid and not picked up or whatsoever.
@@ -89,16 +85,26 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                                 SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.success", true);
                             }
                         }, 10L);
-                    } 
+                    }
                     else {
                         SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.fail", true);
                     }
                 }, 20L);
-                
+
                 return true;
             }
             return false;
         };
+    }
+
+    private boolean findCompatibleItem(Entity n) {
+        if (n instanceof Item) {
+            Item item = (Item) n;
+
+            return !SlimefunManager.isItemSoulbound(item.getItemStack()) && !isItem(item.getItemStack());
+        }
+
+        return false;
     }
 
 }

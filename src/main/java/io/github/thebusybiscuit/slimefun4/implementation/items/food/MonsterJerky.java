@@ -13,19 +13,19 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class MonsterJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
-	public MonsterJerky(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public MonsterJerky(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public ItemConsumptionHandler getItemHandler() {
-		return (e, p, item) -> Slimefun.runSync(() -> {
-			if (p.hasPotionEffect(PotionEffectType.HUNGER)) {
-				p.removePotionEffect(PotionEffectType.HUNGER);
-			}
-			
-			p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 5, 0));
-		}, 1L);
-	}
+    @Override
+    public ItemConsumptionHandler getItemHandler() {
+        return (e, p, item) -> Slimefun.runSync(() -> {
+            if (p.hasPotionEffect(PotionEffectType.HUNGER)) {
+                p.removePotionEffect(PotionEffectType.HUNGER);
+            }
+
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 5, 0));
+        }, 1L);
+    }
 
 }

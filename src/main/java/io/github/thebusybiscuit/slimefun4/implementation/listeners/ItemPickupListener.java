@@ -10,35 +10,37 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * Listens to the ItemPickup events to prevent it if the item has the "no_pickup" metadata or is an ALTAR_PROBE.
- *
- * This Listener uses the new {@link EntityPickupItemEvent} due to the deprecation of {@link org.bukkit.event.player.PlayerPickupItemEvent}.
- *
- * @since 4.1.11
+ * 
+ * @author TheBusyBiscuit
  */
 public class ItemPickupListener implements Listener {
-	
-	private static final String METADATA_JEY = "no_pickup";
-	private static final String ITEM_PREFIX = ChatColors.color("&5&dALTAR &3Probe - &e");
 
-	public ItemPickupListener(SlimefunPlugin plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
+    private static final String METADATA_JEY = "no_pickup";
+    private static final String ITEM_PREFIX = ChatColors.color("&5&dALTAR &3Probe - &e");
 
-	@EventHandler
-	public void onPickup(EntityPickupItemEvent e) {
-		if (e.getItem().hasMetadata(METADATA_JEY)) e.setCancelled(true);
-		else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {
-			e.setCancelled(true);
-			e.getItem().remove();
-		}
-	}
+    public ItemPickupListener(SlimefunPlugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
 
-	@EventHandler
-	public void onMinecartPickup(InventoryPickupItemEvent e) {
-		if (e.getItem().hasMetadata(METADATA_JEY)) e.setCancelled(true);
-		else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {
-			e.setCancelled(true);
-			e.getItem().remove();
-		}
-	}
+    @EventHandler
+    public void onPickup(EntityPickupItemEvent e) {
+        if (e.getItem().hasMetadata(METADATA_JEY)) {
+            e.setCancelled(true);
+        }
+        else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {
+            e.setCancelled(true);
+            e.getItem().remove();
+        }
+    }
+
+    @EventHandler
+    public void onMinecartPickup(InventoryPickupItemEvent e) {
+        if (e.getItem().hasMetadata(METADATA_JEY)) {
+            e.setCancelled(true);
+        }
+        else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {
+            e.setCancelled(true);
+            e.getItem().remove();
+        }
+    }
 }

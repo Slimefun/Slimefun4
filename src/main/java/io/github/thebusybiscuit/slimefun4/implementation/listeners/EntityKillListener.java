@@ -16,37 +16,37 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class DamageListener implements Listener {
+public class EntityKillListener implements Listener {
 
-    public DamageListener(SlimefunPlugin plugin) {
+    public EntityKillListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
-    public void onDamage(EntityDeathEvent e) {
+    public void onEntityKill(EntityDeathEvent e) {
         if (e.getEntity().getKiller() != null) {
             Player p = e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
-            
+
             Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
             if (customDrops != null && !customDrops.isEmpty()) {
                 for (ItemStack drop : customDrops) {
                     if (Slimefun.hasUnlocked(p, drop, true)) {
                         if (SlimefunManager.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((boolean) Slimefun.getItemValue("BASIC_CIRCUIT_BOARD", "drop-from-golems"))) {
-                        	continue;
+                            continue;
                         }
-                        
+
                         e.getDrops().add(drop);
                     }
                 }
             }
-            
+
             if (item.getType() != Material.AIR) {
-            	SlimefunItem sfItem = SlimefunItem.getByItem(item);
-            	
-            	if (sfItem != null && Slimefun.hasUnlocked(p, sfItem, true)) {
-            		sfItem.callItemHandler(EntityKillHandler.class, handler -> handler.onKill(e, e.getEntity(), p, item));
-            	}
+                SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+                if (sfItem != null && Slimefun.hasUnlocked(p, sfItem, true)) {
+                    sfItem.callItemHandler(EntityKillHandler.class, handler -> handler.onKill(e, e.getEntity(), p, item));
+                }
             }
         }
     }

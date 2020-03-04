@@ -13,19 +13,22 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
-	public DietCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public DietCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public ItemConsumptionHandler getItemHandler() {
-		return (e, p, item) -> {
-			SlimefunPlugin.getLocal().sendMessage(p, "messages.diet-cookie");
-			p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
+    @Override
+    public ItemConsumptionHandler getItemHandler() {
+        return (e, p, item) -> {
+            SlimefunPlugin.getLocal().sendMessage(p, "messages.diet-cookie");
+            p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
 
-			if (p.hasPotionEffect(PotionEffectType.LEVITATION)) p.removePotionEffect(PotionEffectType.LEVITATION);
-			p.addPotionEffect(PotionEffectType.LEVITATION.createEffect(60, 1));
-		};
-	}
+            if (p.hasPotionEffect(PotionEffectType.LEVITATION)) {
+                p.removePotionEffect(PotionEffectType.LEVITATION);
+            }
+
+            p.addPotionEffect(PotionEffectType.LEVITATION.createEffect(60, 1));
+        };
+    }
 
 }

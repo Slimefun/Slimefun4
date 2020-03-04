@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.services.localization;
+package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +18,9 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.EmbeddedLanguage;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 

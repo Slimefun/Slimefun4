@@ -20,74 +20,74 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class BlockPhysicsListener implements Listener {
 
-	public BlockPhysicsListener(SlimefunPlugin plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
+    public BlockPhysicsListener(SlimefunPlugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
 
-	@EventHandler
-	public void onBlockFall(EntityChangeBlockEvent e) {
-		if (e.getEntity() instanceof FallingBlock) {
-			if (e.getEntity().hasMetadata("seismic_axe")) {
-				e.setCancelled(true);
-				e.getEntity().remove();
-			}
-			else if (BlockStorage.hasBlockInfo(e.getBlock())) {
-				e.setCancelled(true);
-				FallingBlock fb = (FallingBlock) e.getEntity();
+    @EventHandler
+    public void onBlockFall(EntityChangeBlockEvent e) {
+        if (e.getEntity() instanceof FallingBlock) {
+            if (e.getEntity().hasMetadata("seismic_axe")) {
+                e.setCancelled(true);
+                e.getEntity().remove();
+            }
+            else if (BlockStorage.hasBlockInfo(e.getBlock())) {
+                e.setCancelled(true);
+                FallingBlock fb = (FallingBlock) e.getEntity();
 
-				if (fb.getDropItem()) {
-					fb.getWorld().dropItemNaturally(fb.getLocation(), new ItemStack(fb.getBlockData().getMaterial(), 1));
-				}
-			}
-		}
-	}
+                if (fb.getDropItem()) {
+                    fb.getWorld().dropItemNaturally(fb.getLocation(), new ItemStack(fb.getBlockData().getMaterial(), 1));
+                }
+            }
+        }
+    }
 
-	@EventHandler
-	public void onPistonExtend(BlockPistonExtendEvent e) {
-		for (Block b : e.getBlocks()) {
-			if (BlockStorage.hasBlockInfo(b) || b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
-				e.setCancelled(true);
-				return;
-			}
-		}
-	}
+    @EventHandler
+    public void onPistonExtend(BlockPistonExtendEvent e) {
+        for (Block b : e.getBlocks()) {
+            if (BlockStorage.hasBlockInfo(b) || b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+                e.setCancelled(true);
+                return;
+            }
+        }
+    }
 
-	@EventHandler
-	public void onPistonRetract(BlockPistonRetractEvent e) {
-		if (e.isSticky()) {
-			for (Block b : e.getBlocks()) {
-				if (BlockStorage.hasBlockInfo(b) || b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
-					e.setCancelled(true);
-					return;
-				}
-			}
-		}
-	}
+    @EventHandler
+    public void onPistonRetract(BlockPistonRetractEvent e) {
+        if (e.isSticky()) {
+            for (Block b : e.getBlocks()) {
+                if (BlockStorage.hasBlockInfo(b) || b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+        }
+    }
 
-	@EventHandler
-	public void onLiquidFlow(BlockFromToEvent e) {
-		Block block = e.getToBlock();
-		String item = BlockStorage.checkID(block);
-		if (item != null) e.setCancelled(true);
-	}
+    @EventHandler
+    public void onLiquidFlow(BlockFromToEvent e) {
+        Block block = e.getToBlock();
+        String item = BlockStorage.checkID(block);
+        if (item != null) e.setCancelled(true);
+    }
 
-	@EventHandler
-	public void onBucketUse(PlayerBucketEmptyEvent e) {
-		// Fix for placing water on player heads
-		Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
-		if (BlockStorage.hasBlockInfo(l)) {
-			e.setCancelled(true);
-		}
-	}
+    @EventHandler
+    public void onBucketUse(PlayerBucketEmptyEvent e) {
+        // Fix for placing water on player heads
+        Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
+        if (BlockStorage.hasBlockInfo(l)) {
+            e.setCancelled(true);
+        }
+    }
 
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onWitherDestroy(EntityChangeBlockEvent e) {
-		if (e.getEntity() instanceof Wither) {
-			String id = BlockStorage.checkID(e.getBlock());
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onWitherDestroy(EntityChangeBlockEvent e) {
+        if (e.getEntity() instanceof Wither) {
+            String id = BlockStorage.checkID(e.getBlock());
 
-			if (id != null && id.startsWith("WITHER_PROOF_")) {
-				e.setCancelled(true);
-			}
-		}
-	}
+            if (id != null && id.startsWith("WITHER_PROOF_")) {
+                e.setCancelled(true);
+            }
+        }
+    }
 }

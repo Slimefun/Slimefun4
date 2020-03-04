@@ -15,6 +15,13 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This static setup class is used to add all wiki pages to the corresponding
+ * instances of {@link SlimefunItem}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public final class WikiSetup {
 
     private WikiSetup() {}

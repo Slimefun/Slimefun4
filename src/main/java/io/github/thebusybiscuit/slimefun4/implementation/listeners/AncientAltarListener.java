@@ -41,274 +41,274 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class AncientAltarListener implements Listener {
-	
-	private static final String PEDESTAL_ID = "ANCIENT_PEDESTAL";
 
-	private final Set<AltarRecipe> altarRecipes = new HashSet<>();
-	private final Set<Location> altarsInUse = new HashSet<>();
+    private static final String PEDESTAL_ID = "ANCIENT_PEDESTAL";
 
-	private final List<Block> altars = new ArrayList<>();
-	private final Set<UUID> removedItems = new HashSet<>();
+    private final Set<AltarRecipe> altarRecipes = new HashSet<>();
+    private final Set<Location> altarsInUse = new HashSet<>();
 
-	public void load(SlimefunPlugin plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
+    private final List<Block> altars = new ArrayList<>();
+    private final Set<UUID> removedItems = new HashSet<>();
 
-	public Set<Location> getAltarsInUse() {
-		return altarsInUse;
-	}
+    public void load(SlimefunPlugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
 
-	public Set<AltarRecipe> getRecipes() {
-		return altarRecipes;
-	}
+    public Set<Location> getAltarsInUse() {
+        return altarsInUse;
+    }
 
-	@EventHandler
-	public void onInteract(PlayerRightClickEvent e) {
-		if (e.useBlock() == Result.DENY) return;
-		
-		Optional<Block> blockOptional = e.getClickedBlock();
-		if (!blockOptional.isPresent()) return;
-		
-		Block b = blockOptional.get();
-		if (b.getType() != Material.ENCHANTING_TABLE && b.getType() != Material.DISPENSER) return;
-		
-		Optional<SlimefunItem> slimefunBlock = e.getSlimefunBlock();
-		if (!slimefunBlock.isPresent()) return;
-		
-		String id = slimefunBlock.get().getID();
-		
-		if (id.equals(PEDESTAL_ID)) {
-			e.cancel();
+    public Set<AltarRecipe> getRecipes() {
+        return altarRecipes;
+    }
 
-			if (altarsInUse.contains(b.getLocation())) {
-				return;
-			}
+    @EventHandler
+    public void onInteract(PlayerRightClickEvent e) {
+        if (e.useBlock() == Result.DENY) return;
 
-			Item stack = findItem(b);
+        Optional<Block> blockOptional = e.getClickedBlock();
+        if (!blockOptional.isPresent()) return;
 
-			if (stack == null) {
-				if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) return;
+        Block b = blockOptional.get();
+        if (b.getType() != Material.ENCHANTING_TABLE && b.getType() != Material.DISPENSER) return;
 
-				if (b.getRelative(0, 1, 0).getType() != Material.AIR) {
-					SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
-					return;
-				}
+        Optional<SlimefunItem> slimefunBlock = e.getSlimefunBlock();
+        if (!slimefunBlock.isPresent()) return;
 
-				insertItem(e.getPlayer(), b);
-			}
-			else if (!removedItems.contains(stack.getUniqueId())) {
-				UUID uuid = stack.getUniqueId();
-				removedItems.add(uuid);
+        String id = slimefunBlock.get().getID();
 
-				Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
+        if (id.equals(PEDESTAL_ID)) {
+            e.cancel();
 
-				stack.remove();
-				e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
-				e.getPlayer().playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
-			}
-		}
-		else if (id.equals("ANCIENT_ALTAR")) {
-			if (!Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR, true) || altarsInUse.contains(b.getLocation())) {
-				e.cancel();
-				return;
-			}
+            if (altarsInUse.contains(b.getLocation())) {
+                return;
+            }
 
-			// Make altarinuse simply because that was the last block clicked.
-			altarsInUse.add(b.getLocation());
-			e.cancel();
+            Item stack = findItem(b);
 
-			ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
-			List<Block> pedestals = getPedestals(b);
+            if (stack == null) {
+                if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) return;
 
-			if (!altars.contains(b)) {
-				altars.add(b);
-				if (pedestals.size() == 8) {
-					pedestals.forEach(block -> altarsInUse.add(block.getLocation()));
+                if (b.getRelative(0, 1, 0).getType() != Material.AIR) {
+                    SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
+                    return;
+                }
 
-					if (catalyst.getType() != Material.AIR) {
-						List<ItemStack> input = new ArrayList<>();
-						for (Block pedestal : pedestals) {
-							Item stack = findItem(pedestal);
-							if (stack != null) input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
-						}
+                insertItem(e.getPlayer(), b);
+            }
+            else if (!removedItems.contains(stack.getUniqueId())) {
+                UUID uuid = stack.getUniqueId();
+                removedItems.add(uuid);
 
-						ItemStack result = getRecipeOutput(catalyst, input);
-						if (result != null) {
-							if (Slimefun.hasUnlocked(e.getPlayer(), result, true)) {
-								List<ItemStack> consumed = new ArrayList<>();
-								consumed.add(catalyst);
+                Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
 
-								if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-									ItemUtils.consumeItem(e.getPlayer().getInventory().getItemInMainHand(), false);
-								}
+                stack.remove();
+                e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                e.getPlayer().playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
+            }
+        }
+        else if (id.equals("ANCIENT_ALTAR")) {
+            if (!Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR, true) || altarsInUse.contains(b.getLocation())) {
+                e.cancel();
+                return;
+            }
 
-								Slimefun.runSync(new AncientAltarTask(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
-							}
-							else {
-								altars.remove(b);
+            // Make altarinuse simply because that was the last block clicked.
+            altarsInUse.add(b.getLocation());
+            e.cancel();
 
-								pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+            ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
+            List<Block> pedestals = getPedestals(b);
 
-								// Item not unlocked, no longer in use.
-								altarsInUse.remove(b.getLocation());
-							}
-						}
-						else {
-							altars.remove(b);
-							SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
+            if (!altars.contains(b)) {
+                altars.add(b);
+                if (pedestals.size() == 8) {
+                    pedestals.forEach(block -> altarsInUse.add(block.getLocation()));
 
-							pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+                    if (catalyst.getType() != Material.AIR) {
+                        List<ItemStack> input = new ArrayList<>();
+                        for (Block pedestal : pedestals) {
+                            Item stack = findItem(pedestal);
+                            if (stack != null) input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                        }
 
-							// Bad recipe, no longer in use.
-							altarsInUse.remove(b.getLocation());
-						}
-					}
-					else {
-						altars.remove(b);
-						SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
+                        ItemStack result = getRecipeOutput(catalyst, input);
+                        if (result != null) {
+                            if (Slimefun.hasUnlocked(e.getPlayer(), result, true)) {
+                                List<ItemStack> consumed = new ArrayList<>();
+                                consumed.add(catalyst);
 
-						pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+                                if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                                    ItemUtils.consumeItem(e.getPlayer().getInventory().getItemInMainHand(), false);
+                                }
 
-						// Unknown catalyst, no longer in use
-						altarsInUse.remove(b.getLocation());
-					}
-				}
-				else {
-					altars.remove(b);
-					SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
+                                Slimefun.runSync(new AncientAltarTask(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
+                            }
+                            else {
+                                altars.remove(b);
 
-					// Not a valid altar so remove from inuse
-					altarsInUse.remove(b.getLocation());  
-				}
-			}
-		}
-	}
+                                pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onBlockPlace(BlockPlaceEvent e) {
-		Block pedestal = e.getBlockPlaced().getRelative(BlockFace.DOWN);
-		
-		if (pedestal.getType() == Material.DISPENSER) {
-			String id = BlockStorage.checkID(pedestal);
+                                // Item not unlocked, no longer in use.
+                                altarsInUse.remove(b.getLocation());
+                            }
+                        }
+                        else {
+                            altars.remove(b);
+                            SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
 
-			if (id != null && id.equals(PEDESTAL_ID)) {
-				SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.cannot-place", true);
-				e.setCancelled(true);
-			}
-		}
-	}
+                            pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
 
-	public static ItemStack fixItemStack(ItemStack itemStack, String customName) {
-		ItemStack stack = itemStack.clone();
+                            // Bad recipe, no longer in use.
+                            altarsInUse.remove(b.getLocation());
+                        }
+                    }
+                    else {
+                        altars.remove(b);
+                        SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 
-		if (customName.equals(ItemUtils.getItemName(new ItemStack(itemStack.getType())))) {
-			ItemMeta im = stack.getItemMeta();
-			im.setDisplayName(null);
-			stack.setItemMeta(im);
-		} 
-		else {
-			ItemMeta im = stack.getItemMeta();
-			if (!customName.startsWith(String.valueOf(ChatColor.COLOR_CHAR))) customName = ChatColor.RESET + customName;
-			im.setDisplayName(customName);
-			stack.setItemMeta(im);
-		}
-		return stack;
-	}
+                        pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
 
-	public static Item findItem(Block b) {
-		for (Entity n : b.getChunk().getEntities()) {
-			if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) {
-				return (Item) n;
-			}
-		}
-		return null;
-	}
+                        // Unknown catalyst, no longer in use
+                        altarsInUse.remove(b.getLocation());
+                    }
+                }
+                else {
+                    altars.remove(b);
+                    SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
 
-	private void insertItem(Player p, Block b) {
-		ItemStack hand = p.getInventory().getItemInMainHand();
-		ItemStack stack = new CustomItem(hand, 1);
+                    // Not a valid altar so remove from inuse
+                    altarsInUse.remove(b.getLocation());
+                }
+            }
+        }
+    }
 
-		if (p.getGameMode() != GameMode.CREATIVE) {
-			ItemUtils.consumeItem(hand, false);
-		}
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBlockPlace(BlockPlaceEvent e) {
+        Block pedestal = e.getBlockPlaced().getRelative(BlockFace.DOWN);
 
-		String nametag = ItemUtils.getItemName(stack);
-		Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
-		entity.setVelocity(new Vector(0, 0.1, 0));
-		entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
-		entity.setCustomNameVisible(true);
-		entity.setCustomName(nametag);
-		p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
-	}
+        if (pedestal.getType() == Material.DISPENSER) {
+            String id = BlockStorage.checkID(pedestal);
 
-	private List<Block> getPedestals(Block altar) {
-		List<Block> list = new ArrayList<>();
+            if (id != null && id.equals(PEDESTAL_ID)) {
+                SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.cannot-place", true);
+                e.setCancelled(true);
+            }
+        }
+    }
 
-		if (BlockStorage.check(altar.getRelative(2, 0, -2), PEDESTAL_ID)) {
-			list.add(altar.getRelative(2, 0, -2));
-		}
-		if (BlockStorage.check(altar.getRelative(3, 0, 0), PEDESTAL_ID)) {
-			list.add(altar.getRelative(3, 0, 0));
-		}
-		if (BlockStorage.check(altar.getRelative(2, 0, 2), PEDESTAL_ID)) {
-			list.add(altar.getRelative(2, 0, 2));
-		}
-		if (BlockStorage.check(altar.getRelative(0, 0, 3), PEDESTAL_ID)) {
-			list.add(altar.getRelative(0, 0, 3));
-		}
-		if (BlockStorage.check(altar.getRelative(-2, 0, 2), PEDESTAL_ID)) {
-			list.add(altar.getRelative(-2, 0, 2));
-		}
-		if (BlockStorage.check(altar.getRelative(-3, 0, 0), PEDESTAL_ID)) {
-			list.add(altar.getRelative(-3, 0, 0));
-		}
-		if (BlockStorage.check(altar.getRelative(-2, 0, -2), PEDESTAL_ID)) {
-			list.add(altar.getRelative(-2, 0, -2));
-		}
-		if (BlockStorage.check(altar.getRelative(0, 0, -3), PEDESTAL_ID)) {
-			list.add(altar.getRelative(0, 0, -3));
-		}
+    public static ItemStack fixItemStack(ItemStack itemStack, String customName) {
+        ItemStack stack = itemStack.clone();
 
-		return list;
-	}
+        if (customName.equals(ItemUtils.getItemName(new ItemStack(itemStack.getType())))) {
+            ItemMeta im = stack.getItemMeta();
+            im.setDisplayName(null);
+            stack.setItemMeta(im);
+        }
+        else {
+            ItemMeta im = stack.getItemMeta();
+            if (!customName.startsWith(String.valueOf(ChatColor.COLOR_CHAR))) customName = ChatColor.RESET + customName;
+            im.setDisplayName(customName);
+            stack.setItemMeta(im);
+        }
+        return stack;
+    }
 
-	public ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
-		if (input.size() != 8) return null;
+    public static Item findItem(Block b) {
+        for (Entity n : b.getChunk().getEntities()) {
+            if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) {
+                return (Item) n;
+            }
+        }
+        return null;
+    }
 
-		if (SlimefunManager.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
-			if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) {
-				return null;
-			}
+    private void insertItem(Player p, Block b) {
+        ItemStack hand = p.getInventory().getItemInMainHand();
+        ItemStack stack = new CustomItem(hand, 1);
 
-			ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
-			ItemMeta im = spawner.getItemMeta();
-			im.setLore(Arrays.asList(catalyst.getItemMeta().getLore().get(0)));
-			spawner.setItemMeta(im);
-			return spawner;
-		}
+        if (p.getGameMode() != GameMode.CREATIVE) {
+            ItemUtils.consumeItem(hand, false);
+        }
 
-		return checkRecipe(catalyst, input);
-	}
+        String nametag = ItemUtils.getItemName(stack);
+        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
+        entity.setVelocity(new Vector(0, 0.1, 0));
+        entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
+        entity.setCustomNameVisible(true);
+        entity.setCustomName(nametag);
+        p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
+    }
 
-	private ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
-		for (AltarRecipe recipe : altarRecipes) {
-			if (SlimefunManager.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
-				for (int i = 0; i < 8; i++) {
-					if (SlimefunManager.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
-						for (int j = 1; j < 8; j++) {
-							if (!SlimefunManager.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
-								break;
-							}
-							else if (j == 7) {
-								return recipe.getOutput();
-							}
-						}
-					}
-				}
-			}
-		}
+    private List<Block> getPedestals(Block altar) {
+        List<Block> list = new ArrayList<>();
 
-		return null;
-	}
+        if (BlockStorage.check(altar.getRelative(2, 0, -2), PEDESTAL_ID)) {
+            list.add(altar.getRelative(2, 0, -2));
+        }
+        if (BlockStorage.check(altar.getRelative(3, 0, 0), PEDESTAL_ID)) {
+            list.add(altar.getRelative(3, 0, 0));
+        }
+        if (BlockStorage.check(altar.getRelative(2, 0, 2), PEDESTAL_ID)) {
+            list.add(altar.getRelative(2, 0, 2));
+        }
+        if (BlockStorage.check(altar.getRelative(0, 0, 3), PEDESTAL_ID)) {
+            list.add(altar.getRelative(0, 0, 3));
+        }
+        if (BlockStorage.check(altar.getRelative(-2, 0, 2), PEDESTAL_ID)) {
+            list.add(altar.getRelative(-2, 0, 2));
+        }
+        if (BlockStorage.check(altar.getRelative(-3, 0, 0), PEDESTAL_ID)) {
+            list.add(altar.getRelative(-3, 0, 0));
+        }
+        if (BlockStorage.check(altar.getRelative(-2, 0, -2), PEDESTAL_ID)) {
+            list.add(altar.getRelative(-2, 0, -2));
+        }
+        if (BlockStorage.check(altar.getRelative(0, 0, -3), PEDESTAL_ID)) {
+            list.add(altar.getRelative(0, 0, -3));
+        }
+
+        return list;
+    }
+
+    public ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
+        if (input.size() != 8) return null;
+
+        if (SlimefunManager.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
+            if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) {
+                return null;
+            }
+
+            ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
+            ItemMeta im = spawner.getItemMeta();
+            im.setLore(Arrays.asList(catalyst.getItemMeta().getLore().get(0)));
+            spawner.setItemMeta(im);
+            return spawner;
+        }
+
+        return checkRecipe(catalyst, input);
+    }
+
+    private ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
+        for (AltarRecipe recipe : altarRecipes) {
+            if (SlimefunManager.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
+                for (int i = 0; i < 8; i++) {
+                    if (SlimefunManager.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
+                        for (int j = 1; j < 8; j++) {
+                            if (!SlimefunManager.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
+                                break;
+                            }
+                            else if (j == 7) {
+                                return recipe.getOutput();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
 
 }

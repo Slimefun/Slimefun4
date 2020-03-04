@@ -14,21 +14,21 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Teleporter extends SlimefunItem {
 
-	public Teleporter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-		
-		SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
-			
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-			}
-			
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				return true;
-			}
-		});
-	}
+    public Teleporter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+
+        SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
+
+            @Override
+            public void onPlace(Player p, Block b, SlimefunItem item) {
+                BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
+            }
+
+            @Override
+            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
+                return true;
+            }
+        });
+    }
 
 }

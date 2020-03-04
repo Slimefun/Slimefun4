@@ -12,22 +12,17 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class GEOScannerBlock extends SimpleSlimefunItem<BlockUseHandler> {
 
-	public GEOScannerBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
+    public GEOScannerBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public BlockUseHandler getItemHandler() {
-		return e -> {
-			Block b = e.getClickedBlock().get();
-			
-			e.cancel();
-			SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), b);
-		};
-	}
+    @Override
+    public BlockUseHandler getItemHandler() {
+        return e -> {
+            Block b = e.getClickedBlock().get();
+
+            e.cancel();
+            SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), b);
+        };
+    }
 }

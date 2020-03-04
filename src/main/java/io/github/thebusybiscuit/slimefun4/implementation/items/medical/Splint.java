@@ -23,16 +23,16 @@ public class Splint extends SimpleSlimefunItem<ItemUseHandler> {
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
-        	Player p = e.getPlayer();
-        	
-        	if (p.getGameMode() != GameMode.CREATIVE) {
-        		ItemUtils.consumeItem(e.getItem(), false);
-        	}
-        	
-        	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_SKELETON_HURT, 1, 1);
-			p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0));
-			
-			e.cancel();
+            Player p = e.getPlayer();
+
+            if (p.getGameMode() != GameMode.CREATIVE) {
+                ItemUtils.consumeItem(e.getItem(), false);
+            }
+
+            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_SKELETON_HURT, 1, 1);
+            p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0));
+
+            e.cancel();
         };
     }
 

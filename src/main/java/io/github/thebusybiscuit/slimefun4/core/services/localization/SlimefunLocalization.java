@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 
@@ -27,7 +28,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
  * @see LocalizationService
  *
  */
-abstract class SlimefunLocalization extends Localization implements Keyed {
+public abstract class SlimefunLocalization extends Localization implements Keyed {
 
     public SlimefunLocalization(SlimefunPlugin plugin) {
         super(plugin);

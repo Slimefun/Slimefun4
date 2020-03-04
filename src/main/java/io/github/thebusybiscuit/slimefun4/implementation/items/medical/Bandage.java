@@ -24,17 +24,17 @@ public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
-        	Player p = e.getPlayer();
-        	
-        	if (p.getGameMode() != GameMode.CREATIVE) {
-        		ItemUtils.consumeItem(e.getItem(), false);
-        	}
-        	
-        	p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, Material.WHITE_WOOL);
-			p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
-			p.setFireTicks(0);
-			
-			e.cancel();
+            Player p = e.getPlayer();
+
+            if (p.getGameMode() != GameMode.CREATIVE) {
+                ItemUtils.consumeItem(e.getItem(), false);
+            }
+
+            p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, Material.WHITE_WOOL);
+            p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
+            p.setFireTicks(0);
+
+            e.cancel();
         };
     }
 

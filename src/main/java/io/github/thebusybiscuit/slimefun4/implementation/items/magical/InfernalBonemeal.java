@@ -18,33 +18,33 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class InfernalBonemeal extends SimpleSlimefunItem<ItemUseHandler> {
 
-	public InfernalBonemeal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, recipeType, recipe, recipeOutput);
-	}
+    public InfernalBonemeal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(category, item, recipeType, recipe, recipeOutput);
+    }
 
-	@Override
-	public ItemUseHandler getItemHandler() {
-		return e -> {
-			Optional<Block> block = e.getClickedBlock();
-			
-			if (block.isPresent()) {
-				Block b = block.get();
-				
-				if (b.getType() == Material.NETHER_WART) {
-					Ageable ageable = (Ageable) b.getBlockData();
-					
-					if (ageable.getAge() < ageable.getMaximumAge()) {
-						ageable.setAge(ageable.getMaximumAge());
-						b.setBlockData(ageable);
-						b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
-						
-						if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-							ItemUtils.consumeItem(e.getItem(), false);
-						}
-					}
-				}
-			}
-		};
-	}
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            Optional<Block> block = e.getClickedBlock();
+
+            if (block.isPresent()) {
+                Block b = block.get();
+
+                if (b.getType() == Material.NETHER_WART) {
+                    Ageable ageable = (Ageable) b.getBlockData();
+
+                    if (ageable.getAge() < ageable.getMaximumAge()) {
+                        ageable.setAge(ageable.getMaximumAge());
+                        b.setBlockData(ageable);
+                        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
+
+                        if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                            ItemUtils.consumeItem(e.getItem(), false);
+                        }
+                    }
+                }
+            }
+        };
+    }
 
 }

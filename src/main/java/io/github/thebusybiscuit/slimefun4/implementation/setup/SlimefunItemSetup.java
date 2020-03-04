@@ -1231,47 +1231,47 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {new ItemStack(Material.EMERALD_ORE), SlimefunItems.SYNTHETIC_DIAMOND, new ItemStack(Material.EMERALD_ORE), null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_SWORD,
+		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_SWORD, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_SWORD), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 		
-		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_TRIDENT,
+		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_TRIDENT, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.TRIDENT), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_BOW,
+		new SoulboundItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SOULBOUND_BOW, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.BOW), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_PICKAXE,
+		new SoulboundItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_PICKAXE, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_PICKAXE), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_AXE,
+		new SoulboundItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_AXE, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_AXE), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_SHOVEL,
+		new SoulboundItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_SHOVEL, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_SHOVEL), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_HOE,
+		new SoulboundItem(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.SOULBOUND_HOE, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_HOE), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_HELMET,
+		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_HELMET, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_HELMET), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_CHESTPLATE,
+		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_CHESTPLATE, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_CHESTPLATE), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_LEGGINGS,
+		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_LEGGINGS, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_LEGGINGS), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_BOOTS,
+		new SoulboundItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.SOULBOUND_BOOTS, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_BOOTS), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 

@@ -11,16 +11,16 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class IgnitionChamberListener implements Listener {
 
-	public IgnitionChamberListener(SlimefunPlugin plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
+    public IgnitionChamberListener(SlimefunPlugin plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
 
-	@EventHandler
-	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
-		InventoryHolder holder = e.getInitiator().getHolder();
-		
-		if (holder instanceof Hopper && BlockStorage.check(((Hopper) holder).getBlock(), "IGNITION_CHAMBER")) {
-			e.setCancelled(true);
-		}
-	}
+    @EventHandler
+    public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
+        InventoryHolder holder = e.getInitiator().getHolder();
+
+        if (holder instanceof Hopper && BlockStorage.check(((Hopper) holder).getBlock(), "IGNITION_CHAMBER")) {
+            e.setCancelled(true);
+        }
+    }
 }
