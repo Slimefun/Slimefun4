@@ -9,7 +9,7 @@ Rules for all types of posts:
 
 1. Follow our Templates for Issues and Pull Request, they are designed to tell you what exact Information we need and how you should present it to us.
 2. Be nice and give constructive criticism. Insulting, Harassment, Racism, Sexism or any form of bullying or discrimination is not tolerated.
-3. Try to engage in conversations by pointing out scenarios to replicate Issues, providing fix approaches or another kind of help.
+3. Try to engage in conversations by pointing out scenarios to replicate issues, providing approaches for fixes or other kind of help.
 4. Advertisement is inappropriate and will be removed, especially advertisement for Minecraft Servers is completely unaccepted.
 
 ## GitHub Issues
