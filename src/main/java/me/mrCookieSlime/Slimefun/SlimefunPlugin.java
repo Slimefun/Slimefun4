@@ -183,12 +183,18 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             try {
                 SlimefunItemSetup.setup(this);
             }
-            catch (Exception x) {
+            catch (Throwable x) {
                 getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
             }
 
             getLogger().log(Level.INFO, "Loading Researches...");
-            ResearchSetup.setupResearches();
+
+            try {
+                ResearchSetup.setupResearches();
+            }
+            catch (Throwable x) {
+                getLogger().log(Level.SEVERE, "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion(), x);
+            }
             settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 
             MiscSetup.setupMisc();
@@ -271,6 +277,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 }
             }, 0);
 
+            // Setting up the command /sf and all subcommands
             new SlimefunCommand(this);
 
             // Armor Update Task

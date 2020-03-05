@@ -26,6 +26,8 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.items.EasterEgg;
+import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AdvancedFarmerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidType;
@@ -35,6 +37,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FisherAn
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ProgrammableAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.WoodcutterAndroid;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
@@ -54,6 +57,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacito
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.BioGenerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.CoalGenerator;
@@ -92,8 +96,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.BirthdayCake;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.DietCookie;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.FortuneCookie;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MagicSugar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MeatJerky;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MonsterJerky;
@@ -150,6 +156,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfTh
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfVeinMining;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PortableCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PortableDustbin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.ExplosiveBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
@@ -161,13 +168,8 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.RadioactiveItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.VanillaItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.RainbowTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -376,11 +378,11 @@ public final class SlimefunItemSetup {
 			new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}
 		}, true, plugin);
 
-		SlimefunManager.registerArmorSet(SlimefunItems.DAMASCUS_STEEL_INGOT, new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_HELMET, SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, SlimefunItems.DAMASCUS_STEEL_LEGGINGS, SlimefunItems.DAMASCUS_STEEL_BOOTS}, "DAMASCUS_STEEL", true, false);
+		SlimefunManager.registerArmorSet(SlimefunItems.DAMASCUS_STEEL_INGOT, new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_HELMET, SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, SlimefunItems.DAMASCUS_STEEL_LEGGINGS, SlimefunItems.DAMASCUS_STEEL_BOOTS}, "DAMASCUS_STEEL", false, plugin);
 
-		SlimefunManager.registerArmorSet(SlimefunItems.REINFORCED_ALLOY_INGOT, new ItemStack[] {SlimefunItems.REINFORCED_ALLOY_HELMET, SlimefunItems.REINFORCED_ALLOY_CHESTPLATE, SlimefunItems.REINFORCED_ALLOY_LEGGINGS, SlimefunItems.REINFORCED_ALLOY_BOOTS}, "REINFORCED_ALLOY", true, false);
+		SlimefunManager.registerArmorSet(SlimefunItems.REINFORCED_ALLOY_INGOT, new ItemStack[] {SlimefunItems.REINFORCED_ALLOY_HELMET, SlimefunItems.REINFORCED_ALLOY_CHESTPLATE, SlimefunItems.REINFORCED_ALLOY_LEGGINGS, SlimefunItems.REINFORCED_ALLOY_BOOTS}, "REINFORCED_ALLOY", false, plugin);
 
-		SlimefunManager.registerArmorSet(new ItemStack(Material.CACTUS), new ItemStack[] {SlimefunItems.CACTUS_HELMET, SlimefunItems.CACTUS_CHESTPLATE, SlimefunItems.CACTUS_LEGGINGS, SlimefunItems.CACTUS_BOOTS}, "CACTUS", true, false);
+		SlimefunManager.registerArmorSet(new ItemStack(Material.CACTUS), new ItemStack[] {SlimefunItems.CACTUS_HELMET, SlimefunItems.CACTUS_CHESTPLATE, SlimefunItems.CACTUS_LEGGINGS, SlimefunItems.CACTUS_BOOTS}, "CACTUS", false, plugin);
 
 		new Alloy((SlimefunItemStack) SlimefunItems.REINFORCED_ALLOY_INGOT,
 		new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.SOLDER_INGOT, SlimefunItems.BILLON_INGOT, SlimefunItems.GOLD_24K, null, null, null})
@@ -593,7 +595,7 @@ public final class SlimefunItemSetup {
 		0.7)
 		.register(plugin);
 
-		new SlimefunItem(Categories.TECH, (SlimefunItemStack) SlimefunItems.PARACHUTE, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new Parachute(Categories.TECH, (SlimefunItemStack) SlimefunItems.PARACHUTE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CHAIN, null, SlimefunItems.CHAIN, null, null, null})
 		.register(plugin);
 
@@ -814,7 +816,9 @@ public final class SlimefunItemSetup {
 		.setUseableInWorkbench(true)
 		.register(plugin);
 
-		SlimefunManager.registerArmorSet(SlimefunItems.CHAIN, new ItemStack[] {new ItemStack(Material.CHAINMAIL_HELMET), new ItemStack(Material.CHAINMAIL_CHESTPLATE), new ItemStack(Material.CHAINMAIL_LEGGINGS), new ItemStack(Material.CHAINMAIL_BOOTS)}, "CHAIN", true, true);
+		SlimefunManager.registerArmorSet(SlimefunItems.CHAIN, new ItemStack[] {
+		    new ItemStack(Material.CHAINMAIL_HELMET), new ItemStack(Material.CHAINMAIL_CHESTPLATE), new ItemStack(Material.CHAINMAIL_LEGGINGS), new ItemStack(Material.CHAINMAIL_BOOTS)
+		}, "CHAIN", true, plugin);
 
 		new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_WHIRLWIND,
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.STAFF_WIND, SlimefunItems.TALISMAN_TRAVELLER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3}
@@ -847,7 +851,9 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.HEAVY_CREAM, SlimefunItems.SALT, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		SlimefunManager.registerArmorSet(SlimefunItems.GILDED_IRON, new ItemStack[] {SlimefunItems.GILDED_IRON_HELMET, SlimefunItems.GILDED_IRON_CHESTPLATE, SlimefunItems.GILDED_IRON_LEGGINGS, SlimefunItems.GILDED_IRON_BOOTS}, "GILDED_IRON", true, false);
+		SlimefunManager.registerArmorSet(SlimefunItems.GILDED_IRON, new ItemStack[] {
+		     SlimefunItems.GILDED_IRON_HELMET, SlimefunItems.GILDED_IRON_CHESTPLATE, SlimefunItems.GILDED_IRON_LEGGINGS, SlimefunItems.GILDED_IRON_BOOTS
+		}, "GILDED_IRON", false, plugin);
 
 		new SlimefunArmorPiece(Categories.ARMOR, (SlimefunItemStack) SlimefunItems.SCUBA_HELMET, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.BLACK_WOOL), new ItemStack(Material.GLASS_PANE), new ItemStack(Material.BLACK_WOOL), null, null, null},
@@ -895,7 +901,9 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {new ItemStack(Material.REDSTONE), new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.FERROSILICON, SlimefunItems.HARDENED_METAL_INGOT, null, null, null, null, null})
 		.register(plugin);
 
-		SlimefunManager.registerArmorSet(SlimefunItems.GOLD_12K, new ItemStack[] {SlimefunItems.GOLD_HELMET, SlimefunItems.GOLD_CHESTPLATE, SlimefunItems.GOLD_LEGGINGS, SlimefunItems.GOLD_BOOTS}, "GOLD_12K", true, false);
+		SlimefunManager.registerArmorSet(SlimefunItems.GOLD_12K, new ItemStack[] {
+		    SlimefunItems.GOLD_HELMET, SlimefunItems.GOLD_CHESTPLATE, SlimefunItems.GOLD_LEGGINGS, SlimefunItems.GOLD_BOOTS
+		}, "GOLD_12K", false, plugin);
 
 		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.CLOTH, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.WHITE_WOOL), null, null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.CLOTH, 8))
@@ -1506,7 +1514,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {new ItemStack(Material.ICE), new ItemStack(Material.ICE), new ItemStack(Material.ICE), SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.ICE), new ItemStack(Material.ICE), new ItemStack(Material.ICE)})
 		.register(plugin);
 
-		new SlimefunBackpack(27, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.COOLER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new Cooler(27, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.COOLER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.COOLING_UNIT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT})
 		.register(plugin);
 

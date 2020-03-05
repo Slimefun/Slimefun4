@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -17,6 +18,8 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * An abstract Network class to manage networks in a stateful way
  * 
  * @author meiamsome
+ * 
+ * @see NetworkListener
  *
  */
 public abstract class Network {

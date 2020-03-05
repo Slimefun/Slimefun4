@@ -6,7 +6,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
  * It is notably used by
  * {@link me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler#onBreak(org.bukkit.entity.Player, org.bukkit.block.Block, SlimefunItem, UnregisterReason)}.
  *
- * @since 4.0
  */
 public enum UnregisterReason {
 

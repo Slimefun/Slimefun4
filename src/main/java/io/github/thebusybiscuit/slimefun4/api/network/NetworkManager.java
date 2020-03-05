@@ -6,6 +6,18 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
+
+/**
+ * The {@link NetworkManager} is responsible for holding all instances of {@link Network}
+ * and providing some utility methods that would have probably been static otherwise.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Network
+ * @see NetworkListener
+ *
+ */
 public final class NetworkManager {
 
     private final int maxNodes;

@@ -11,9 +11,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
@@ -69,7 +69,7 @@ public class ArmorTask implements Runnable {
 
             if (item != null && armorpiece.getItem().isPresent()) {
                 Slimefun.runSync(() -> {
-                    for (PotionEffect effect : armorpiece.getItem().get().getEffects()) {
+                    for (PotionEffect effect : armorpiece.getItem().get().getPotionEffects()) {
                         p.removePotionEffect(effect.getType());
                         p.addPotionEffect(effect);
                     }

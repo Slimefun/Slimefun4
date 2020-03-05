@@ -19,15 +19,24 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This {@link Listener} is responsible for all events centered around a {@link SlimefunBackpack}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see SlimefunBackpack
+ * @see PlayerBackpack
+ *
+ */
 public class BackpackListener implements Listener {
 
     private Map<UUID, ItemStack> backpacks = new HashMap<>();
@@ -51,7 +60,9 @@ public class BackpackListener implements Listener {
             ItemStack item = e.getItemDrop().getItemStack();
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-            if (sfItem instanceof SlimefunBackpack) e.setCancelled(true);
+            if (sfItem instanceof SlimefunBackpack) {
+                e.setCancelled(true);
+            }
         }
     }
 
@@ -89,7 +100,7 @@ public class BackpackListener implements Listener {
         if (sfItem instanceof SlimefunBackpack) {
             return false;
         }
-        else if (SlimefunManager.isItemSimilar(backpack, SlimefunItems.COOLER, false)) {
+        else if (sfItem instanceof Cooler) {
             return sfItem instanceof Juice;
         }
 

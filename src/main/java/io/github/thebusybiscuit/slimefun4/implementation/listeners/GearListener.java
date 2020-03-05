@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.MagnetTask;
@@ -56,7 +57,7 @@ public class GearListener implements Listener {
                 new JetpackTask(p, thrust).scheduleRepeating(0, 3);
             }
         }
-        else if (chestplate.getID().equals("PARACHUTE")) {
+        else if (chestplate instanceof Parachute) {
             new ParachuteTask(p).scheduleRepeating(0, 3);
         }
     }
