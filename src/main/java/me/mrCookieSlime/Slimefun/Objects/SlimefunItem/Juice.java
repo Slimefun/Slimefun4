@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -11,6 +12,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * of a Cooler.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see CoolerListener
  *
  */
 public class Juice extends SlimefunItem {

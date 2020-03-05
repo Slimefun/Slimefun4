@@ -9,12 +9,14 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
- * Represents an alloy, a {@link SlimefunItem} obtainable using the {@code SMELTERY}.
+ * Represents an alloy, a {@link SlimefunItem} obtainable using the {@link Smeltery}.
  * <p>
  * An alloy is generally made up of several minerals.
- * As an example, {@code BRASS_INGOT} is made up of {@code COPPER_DUST}, {@code ZINC_DUST} and {@code COPPER_INGOT}.
+ * As an example, a {@code BRASS_INGOT} is made up of {@code COPPER_DUST}, {@code ZINC_DUST} and {@code COPPER_INGOT}.
  *
  * @author TheBusyBiscuit
+ * 
+ * @see
  */
 public class Alloy extends SlimefunItem {
 
@@ -27,7 +29,7 @@ public class Alloy extends SlimefunItem {
      *            the recipe to obtain this {@link Alloy} in the {@link Smeltery}
      */
     public Alloy(SlimefunItemStack item, ItemStack[] recipe) {
-        super(Categories.RESOURCES, item, RecipeType.SMELTERY, recipe);
+        this(Categories.RESOURCES, item, recipe);
     }
 
     /**

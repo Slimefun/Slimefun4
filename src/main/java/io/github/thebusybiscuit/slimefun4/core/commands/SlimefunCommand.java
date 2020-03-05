@@ -30,6 +30,9 @@ public class SlimefunCommand implements CommandExecutor, Listener {
     public SlimefunCommand(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
+        plugin.getCommand("slimefun").setExecutor(this);
+        plugin.getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter(this));
+
         this.plugin = plugin;
         CommandSetup.addCommands(this, commands);
     }

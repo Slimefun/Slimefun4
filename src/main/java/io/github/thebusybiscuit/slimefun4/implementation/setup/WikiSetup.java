@@ -20,6 +20,8 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * instances of {@link SlimefunItem}.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see SlimefunItem
  *
  */
 public final class WikiSetup {

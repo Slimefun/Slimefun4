@@ -25,11 +25,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * Represents a category, which structure multiple {@link SlimefunItem} in the guide.
  * <p>
  * See {@link Categories} for the built-in categories.
+ * 
+ * @author TheBusyBiscuit
  *
  * @see LockedCategory
  * @see SeasonalCategory
- * 
- * @author TheBusyBiscuit
  * 
  */
 public class Category implements Keyed {

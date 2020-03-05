@@ -21,7 +21,6 @@ import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
-import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunTabCompleter;
 import io.github.thebusybiscuit.slimefun4.core.hooks.SlimefunHooks;
 import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
@@ -38,11 +37,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListe
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityKillListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityKillListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
@@ -272,10 +271,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 }
             }, 0);
 
-            SlimefunCommand command = new SlimefunCommand(this);
-
-            getCommand("slimefun").setExecutor(command);
-            getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter(command));
+            new SlimefunCommand(this);
 
             // Armor Update Task
             if (config.getBoolean("options.enable-armor-effects")) {

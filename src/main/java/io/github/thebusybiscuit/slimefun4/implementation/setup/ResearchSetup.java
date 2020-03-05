@@ -6,8 +6,18 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This static setup class is used to register all default implementations of
+ * {@link Research} on startup.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Research
+ *
+ */
 public final class ResearchSetup {
 
     private ResearchSetup() {}

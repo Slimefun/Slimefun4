@@ -15,6 +15,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * Simply specify a level of {@link Radioactivity} in the constructor.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see Radioactive
+ * @see Radioactivity
  *
  */
 public class RadioactiveItem extends SlimefunItem implements Radioactive {

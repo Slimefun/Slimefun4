@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -18,6 +20,17 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This is a static utility class that provides convenient access to the methods
+ * of {@link SlimefunGuideImplementation} that abstracts away the actual implementation.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see SlimefunGuideImplementation
+ * @see ChestSlimefunGuide
+ * @see BookSlimefunGuide
+ *
+ */
 public final class SlimefunGuide {
 
     private SlimefunGuide() {}

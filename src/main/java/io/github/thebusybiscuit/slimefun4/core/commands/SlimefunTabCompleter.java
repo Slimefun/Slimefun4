@@ -14,7 +14,7 @@ import org.bukkit.command.TabCompleter;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-public class SlimefunTabCompleter implements TabCompleter {
+class SlimefunTabCompleter implements TabCompleter {
 
     private static final int MAX_SUGGESTIONS = 40;
 

@@ -17,10 +17,10 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * <p>
  * See {@link Category} for the complete documentation.
  * 
+ * @author TheBusyBiscuit
+ * 
  * @see Category
  * @see SeasonalCategory
- * 
- * @author TheBusyBiscuit
  * 
  */
 public class LockedCategory extends Category {

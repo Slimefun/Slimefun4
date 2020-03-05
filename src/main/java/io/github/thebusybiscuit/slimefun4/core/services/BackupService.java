@@ -18,8 +18,15 @@ import java.util.zip.ZipOutputStream;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class BackupService {
+/**
+ * This Service creates a Backup of your Slimefun world data on every server shutdown.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class BackupService implements Runnable {
 
+    @Override
     public void run() {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 
