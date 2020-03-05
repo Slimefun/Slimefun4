@@ -118,7 +118,9 @@ public class Translators {
         Contributor contributor = contributors.computeIfAbsent(name, user -> new Contributor(alias, "https://github.com/" + user));
         contributor.setContribution("translator," + language, 0);
 
-        if (lock) contributor.lock();
+        if (lock) {
+            contributor.lock();
+        }
     }
 
 }

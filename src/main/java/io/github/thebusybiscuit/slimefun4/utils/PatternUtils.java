@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
  * Every time something like {@link String#split(String)} is called it will compile a {@link Pattern},
  * for code that is called often this can be a massive performance loss.
  * This class solves that, one compile but many uses!
+ * 
+ * @author Walshy
  */
 public final class PatternUtils {
 

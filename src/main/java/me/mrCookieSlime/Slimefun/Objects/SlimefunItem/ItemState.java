@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 /**
  * Defines whether a SlimefunItem is enabled, disabled or fall-back to its vanilla behavior.
  *
- * @since 4.1.10
+ * @author Poslovitch
  */
 public enum ItemState {
 

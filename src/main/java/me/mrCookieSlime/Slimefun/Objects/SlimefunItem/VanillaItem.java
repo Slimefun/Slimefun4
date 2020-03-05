@@ -9,13 +9,15 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
  * Represents a vanilla item that is overridden by Slimefun (like {@code ELYTRA}).
  * <p>
  * A {@link VanillaItem} uses a non-modified {@link ItemStack} (no display name neither lore).
- * When a {@link VanillaItem} gets disabled, its {@link SlimefunItem.State} goes on {@code State.VANILLA} which
+ * When a {@link VanillaItem} gets disabled, its {@link ItemState} goes on {@code State.VANILLA} which
  * automatically
  * replace it in the recipes by its vanilla equivalent.
  * 
  * A {@link VanillaItem} is also automatically useable in workbenches.
  *
  * @author TheBusyBiscuit
+ * 
+ * @see SlimefunItem
  *
  */
 public class VanillaItem extends SlimefunItem {

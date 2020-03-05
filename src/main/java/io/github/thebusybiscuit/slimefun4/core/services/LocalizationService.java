@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.EmbeddedLanguage;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -50,9 +49,7 @@ public class LocalizationService extends SlimefunLocalization {
 
         defaultLanguage.setMessages(getConfig().getConfiguration());
 
-        for (EmbeddedLanguage lang : EmbeddedLanguage.values()) {
-            addLanguage(lang.getID(), lang.getTexture());
-        }
+        loadEmbeddedLanguages();
 
         String language = getConfig().getString(LANGUAGE_PATH);
         if (language == null) language = serverDefaultLanguage;
@@ -148,7 +145,8 @@ public class LocalizationService extends SlimefunLocalization {
         save();
     }
 
-    private void addLanguage(String id, String hash) {
+    @Override
+    protected void addLanguage(String id, String hash) {
         if (hasLanguage(id)) {
             FileConfiguration messages = streamConfigFile("messages_" + id + ".yml", getConfig().getConfiguration());
             FileConfiguration researches = streamConfigFile("researches_" + id + ".yml", null);
@@ -168,7 +166,7 @@ public class LocalizationService extends SlimefunLocalization {
     }
 
     public double getProgress(Language lang) {
-        int defaultKeys = getTotalKeys(languages.get(EmbeddedLanguage.ENGLISH.getID()));
+        int defaultKeys = getTotalKeys(languages.get("en"));
         if (defaultKeys == 0) return 0;
 
         return DoubleHandler.fixDouble(100.0 * (getTotalKeys(lang) / (double) defaultKeys));

@@ -72,7 +72,10 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
         }
 
         if (params.equals("language")) {
-            if (!(p instanceof Player)) return "Unknown";
+            if (!(p instanceof Player)) {
+                return "Unknown";
+            }
+
             return SlimefunPlugin.getLocal().getLanguage((Player) p).getName((Player) p);
         }
 

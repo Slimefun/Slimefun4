@@ -124,6 +124,10 @@ public class SlimefunRegistry {
         return layouts.get(layout);
     }
 
+    public Map<EntityType, Set<ItemStack>> getMobDrops() {
+        return drops;
+    }
+
     public Set<ItemStack> getMobDrops(EntityType entity) {
         return drops.get(entity);
     }
@@ -150,10 +154,6 @@ public class SlimefunRegistry {
 
     public KeyMap<Research> getResearchIds() {
         return researchIds;
-    }
-
-    public Map<EntityType, Set<ItemStack>> getMobDrops() {
-        return drops;
     }
 
     public Map<String, Integer> getEnergyCapacities() {

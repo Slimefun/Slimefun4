@@ -13,7 +13,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -85,10 +84,9 @@ public class VanillaMachinesListener implements Listener {
     }
 
     private boolean checkForUnallowedItems(ItemStack item1, ItemStack item2) {
-        if (SlimefunManager.isItemSimilar(item1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) return true;
-        else if (SlimefunManager.isItemSimilar(item1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) return true;
-        else if (SlimefunManager.isItemSimilar(item2, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) return true;
-        else if (SlimefunManager.isItemSimilar(item2, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) return true;
+        if (SlimefunGuide.isGuideItem(item1) || SlimefunGuide.isGuideItem(item2)) {
+            return true;
+        }
         else {
             SlimefunItem sfItem1 = SlimefunItem.getByItem(item1);
             SlimefunItem sfItem2 = SlimefunItem.getByItem(item2);

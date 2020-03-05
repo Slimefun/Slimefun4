@@ -8,11 +8,22 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
+/**
+ * A {@link RecipeChoiceTask} is an asynchronously repeating task that cycles
+ * through the different variants of {@link Material} that a {@link MaterialChoice} or {@link Tag} can represent.
+ * 
+ * It is used in the {@link ChestSlimefunGuide} for any {@link ItemStack} from Minecraft
+ * that accepts more than one {@link Material} in its {@link Recipe}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 class RecipeChoiceTask implements Runnable {
 
     private static final int UPDATE_INTERVAL = 15;
