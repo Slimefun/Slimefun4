@@ -15,8 +15,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class Juice extends SlimefunItem {
 
-	public Juice(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public Juice(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
 }

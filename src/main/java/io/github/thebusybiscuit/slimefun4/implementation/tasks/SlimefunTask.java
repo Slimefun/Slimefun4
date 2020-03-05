@@ -5,12 +5,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public abstract class SlimefunTask implements Runnable {
-	
+
     protected int id;
     protected Player p;
 
     public SlimefunTask(Player p) {
-    	this.p = p;
+        this.p = p;
     }
 
     public void setID(int id) {
@@ -28,7 +28,7 @@ public abstract class SlimefunTask implements Runnable {
     @Override
     public void run() {
         if (isValid()) {
-        	executeTask();
+            executeTask();
         }
     }
 
@@ -36,14 +36,14 @@ public abstract class SlimefunTask implements Runnable {
      * This method checks if this {@link SlimefunTask} should be continued or cancelled.
      * It will also cancel this {@link SlimefunTask} if it became invalid.
      * 
-     * @return	Whether this {@link SlimefunTask} is still valid
+     * @return Whether this {@link SlimefunTask} is still valid
      */
     protected boolean isValid() {
         if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isSneaking()) {
             Bukkit.getScheduler().cancelTask(id);
             return false;
         }
-        
+
         return true;
     }
 

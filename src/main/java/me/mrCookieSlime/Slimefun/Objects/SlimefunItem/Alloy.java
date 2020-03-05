@@ -18,25 +18,30 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class Alloy extends SlimefunItem {
 
-	/**
-	 * Constructs an {@link Alloy} bound to {@code Categories.RESOURCES}.
-	 *
-	 * @param  item    the {@link SlimefunItemStack} corresponding to this {@link Alloy}
-	 * @param  recipe  the recipe to obtain this {@link Alloy} in the {@link Smeltery}
-	 */
-	public Alloy(SlimefunItemStack item, ItemStack[] recipe) {
-		super(Categories.RESOURCES, item, RecipeType.SMELTERY, recipe);
-	}
+    /**
+     * Constructs an {@link Alloy} bound to {@code Categories.RESOURCES}.
+     *
+     * @param item
+     *            the {@link SlimefunItemStack} corresponding to this {@link Alloy}
+     * @param recipe
+     *            the recipe to obtain this {@link Alloy} in the {@link Smeltery}
+     */
+    public Alloy(SlimefunItemStack item, ItemStack[] recipe) {
+        super(Categories.RESOURCES, item, RecipeType.SMELTERY, recipe);
+    }
 
-	/**
-	 * Constructs an {@link Alloy} bound to the specified {@link Category}.
-	 *
-	 * @param  category	the {@link Category} for this Item
-	 * @param  item    	the {@link SlimefunItemStack} corresponding to this {@link Alloy}
-	 * @param  recipe  	the recipe to obtain this {@link Alloy} in the {@link Smeltery}
-	 */
-	public Alloy(Category category, SlimefunItemStack item, ItemStack[] recipe) {
-		super(category, item, RecipeType.SMELTERY, recipe);
-	}
+    /**
+     * Constructs an {@link Alloy} bound to the specified {@link Category}.
+     *
+     * @param category
+     *            the {@link Category} for this Item
+     * @param item
+     *            the {@link SlimefunItemStack} corresponding to this {@link Alloy}
+     * @param recipe
+     *            the recipe to obtain this {@link Alloy} in the {@link Smeltery}
+     */
+    public Alloy(Category category, SlimefunItemStack item, ItemStack[] recipe) {
+        super(category, item, RecipeType.SMELTERY, recipe);
+    }
 
 }

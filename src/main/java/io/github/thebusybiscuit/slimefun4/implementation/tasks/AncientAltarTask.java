@@ -21,127 +21,127 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class AncientAltarTask implements Runnable {
 
-	private final List<Block> altars;
+    private final List<Block> altars;
 
-	private final Block altar;
-	private final Location dropLocation;
-	private final ItemStack output;
-	private final List<Block> pedestals;
-	private final List<ItemStack> items;
+    private final Block altar;
+    private final Location dropLocation;
+    private final ItemStack output;
+    private final List<Block> pedestals;
+    private final List<ItemStack> items;
 
-	private final Collection<Location> particleLocations = new LinkedList<>();
-	private final Map<Item, Location> itemLock = new HashMap<>();
+    private final Collection<Location> particleLocations = new LinkedList<>();
+    private final Map<Item, Location> itemLock = new HashMap<>();
 
-	private boolean running;
-	private int stage;
+    private boolean running;
+    private int stage;
 
-	public AncientAltarTask(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
-		this.dropLocation = drop;
-		this.altar = altar;
-		this.altars = altars;
-		this.output = output;
-		this.pedestals = pedestals;
-		this.items = items;
+    public AncientAltarTask(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
+        this.dropLocation = drop;
+        this.altar = altar;
+        this.altars = altars;
+        this.output = output;
+        this.pedestals = pedestals;
+        this.items = items;
 
-		this.running = true;
-		this.stage = 0;
+        this.running = true;
+        this.stage = 0;
 
-		for (Block pedestal : this.pedestals) {
-			Item item = AncientAltarListener.findItem(pedestal);
-			this.itemLock.put(item, item.getLocation().clone());
-		}
-	}
+        for (Block pedestal : this.pedestals) {
+            Item item = AncientAltarListener.findItem(pedestal);
+            this.itemLock.put(item, item.getLocation().clone());
+        }
+    }
 
-	@Override
-	public void run() {
-		idle();
+    @Override
+    public void run() {
+        idle();
 
-		if (!checkLockedItems()) {
-			abort();
-			return;
-		}
+        if (!checkLockedItems()) {
+            abort();
+            return;
+        }
 
-		if (this.stage == 36) {
-			finish();
-			return;
-		}
+        if (this.stage == 36) {
+            finish();
+            return;
+        }
 
-		if (this.stage > 0 && this.stage % 4 == 0) {
-			checkPedestal(pedestals.get(this.stage / 4 - 1));
-		}
+        if (this.stage > 0 && this.stage % 4 == 0) {
+            checkPedestal(pedestals.get(this.stage / 4 - 1));
+        }
 
-		this.stage += 1;
-		Slimefun.runSync(this, 8);
-	}
+        this.stage += 1;
+        Slimefun.runSync(this, 8);
+    }
 
-	private boolean checkLockedItems() {
-		for (Map.Entry<Item, Location> entry : itemLock.entrySet()) {
-			if (entry.getKey().getLocation().distanceSquared(entry.getValue()) > 0.1) {
-				return false;
-			}
-		}
+    private boolean checkLockedItems() {
+        for (Map.Entry<Item, Location> entry : itemLock.entrySet()) {
+            if (entry.getKey().getLocation().distanceSquared(entry.getValue()) > 0.1) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	private void idle() {
-		dropLocation.getWorld().spawnParticle(Particle.SPELL_WITCH, dropLocation,16, 1.2F, 0F, 1.2F);
-		dropLocation.getWorld().spawnParticle(Particle.FIREWORKS_SPARK,dropLocation,8, 0.2F, 0F, 0.2F);
+    private void idle() {
+        dropLocation.getWorld().spawnParticle(Particle.SPELL_WITCH, dropLocation, 16, 1.2F, 0F, 1.2F);
+        dropLocation.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, dropLocation, 8, 0.2F, 0F, 0.2F);
 
-		for (Location loc : particleLocations) {
-			dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, loc,16, 0.3F, 0.2F, 0.3F);
-			dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC,loc,8, 0.3F, 0.2F, 0.3F);
-		}
-	}
+        for (Location loc : particleLocations) {
+            dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, loc, 16, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC, loc, 8, 0.3F, 0.2F, 0.3F);
+        }
+    }
 
-	private void checkPedestal(Block pedestal) {
-		Item item = AncientAltarListener.findItem(pedestal);
+    private void checkPedestal(Block pedestal) {
+        Item item = AncientAltarListener.findItem(pedestal);
 
-		if(item == null || itemLock.remove(item) == null) {	
-			abort();
-		}
-		else {
-			particleLocations.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
-			items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
-			pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
+        if (item == null || itemLock.remove(item) == null) {
+            abort();
+        }
+        else {
+            particleLocations.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
+            items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
+            pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
 
-			dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
-			dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC,pedestal.getLocation().add(0.5, 1.5, 0.5), 8, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC, pedestal.getLocation().add(0.5, 1.5, 0.5), 8, 0.3F, 0.2F, 0.3F);
 
-			itemLock.remove(item);
-			item.remove();
+            itemLock.remove(item);
+            item.remove();
 
-			pedestal.removeMetadata("item_placed", SlimefunPlugin.instance);
-		}
-	}
+            pedestal.removeMetadata("item_placed", SlimefunPlugin.instance);
+        }
+    }
 
-	private void abort() {
-		running = false;
-		AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
-		pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
+    private void abort() {
+        running = false;
+        AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
+        pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
-		// This should re-enable altar blocks on craft failure.
-		listener.getAltarsInUse().remove(altar.getLocation());
-		dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1F, 1F);
-		itemLock.clear();
-		altars.remove(altar);
-	}
+        // This should re-enable altar blocks on craft failure.
+        listener.getAltarsInUse().remove(altar.getLocation());
+        dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1F, 1F);
+        itemLock.clear();
+        altars.remove(altar);
+    }
 
-	private void finish() {
-		if (running) {
-			dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
-			dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
-			dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
+    private void finish() {
+        if (running) {
+            dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
+            dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
+            dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
 
-			AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
-			pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
-			
-			// This should re-enable altar blocks on craft completion.
-			listener.getAltarsInUse().remove(altar.getLocation());
-			altars.remove(altar);
-		}
-		else {
-			dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 1F);
-		}
-	}
+            AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
+            pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
+
+            // This should re-enable altar blocks on craft completion.
+            listener.getAltarsInUse().remove(altar.getLocation());
+            altars.remove(altar);
+        }
+        else {
+            dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 1F);
+        }
+    }
 }

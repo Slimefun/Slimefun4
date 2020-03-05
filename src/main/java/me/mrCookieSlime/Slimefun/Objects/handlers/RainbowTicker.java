@@ -22,40 +22,40 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class RainbowTicker extends BlockTicker {
 
-	private final LoopIterator<Material> iterator;
-	private Material material;
+    private final LoopIterator<Material> iterator;
+    private Material material;
 
-	public RainbowTicker(Material... materials) {
-		iterator = new LoopIterator<>(Arrays.asList(materials));
-		material = iterator.next();
-	}
+    public RainbowTicker(Material... materials) {
+        iterator = new LoopIterator<>(Arrays.asList(materials));
+        material = iterator.next();
+    }
 
-	public RainbowTicker(MaterialCollection collection) {
-		this(collection.getAsArray());
-	}
+    public RainbowTicker(MaterialCollection collection) {
+        this(collection.getAsArray());
+    }
 
-	@Override
-	public void tick(Block b, SlimefunItem item, Config data) {
-		BlockData blockData = b.getBlockData();
-		boolean waterlogged = blockData instanceof Waterlogged && ((Waterlogged) blockData).isWaterlogged();
-		
-		b.setType(material, true);
-		
-		if (waterlogged) {
-			Waterlogged block = (Waterlogged) b.getBlockData();
-			block.setWaterlogged(true);
-			b.setBlockData(block);
-		}
-	}
+    @Override
+    public void tick(Block b, SlimefunItem item, Config data) {
+        BlockData blockData = b.getBlockData();
+        boolean waterlogged = blockData instanceof Waterlogged && ((Waterlogged) blockData).isWaterlogged();
 
-	@Override
-	public void uniqueTick() {
-		material = iterator.next();
-	}
+        b.setType(material, true);
 
-	@Override
-	public boolean isSynchronized() {
-		return true;
-	}
+        if (waterlogged) {
+            Waterlogged block = (Waterlogged) b.getBlockData();
+            block.setWaterlogged(true);
+            b.setBlockData(block);
+        }
+    }
+
+    @Override
+    public void uniqueTick() {
+        material = iterator.next();
+    }
+
+    @Override
+    public boolean isSynchronized() {
+        return true;
+    }
 
 }

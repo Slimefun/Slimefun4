@@ -7,11 +7,11 @@ import org.bukkit.inventory.ItemStack;
 
 @FunctionalInterface
 public interface BlockBreakHandler extends ItemHandler {
-	
-	boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops);
 
-	@Override
-	default Class<? extends ItemHandler> getIdentifier() {
-		return BlockBreakHandler.class;
-	}
+    boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops);
+
+    @Override
+    default Class<? extends ItemHandler> getIdentifier() {
+        return BlockBreakHandler.class;
+    }
 }

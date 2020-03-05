@@ -6,48 +6,48 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 
 public class UniversalBlockMenu extends DirtyChestMenu {
 
-	public UniversalBlockMenu(BlockMenuPreset preset) {
-		super(preset);
+    public UniversalBlockMenu(BlockMenuPreset preset) {
+        super(preset);
 
-		preset.clone(this);
+        preset.clone(this);
 
-		save();
-	}
+        save();
+    }
 
-	public UniversalBlockMenu(BlockMenuPreset preset, Config cfg) {
-		super(preset);
+    public UniversalBlockMenu(BlockMenuPreset preset, Config cfg) {
+        super(preset);
 
-		for (int i = 0; i < 54; i++) {
-			if (cfg.contains(String.valueOf(i))) {
-				addItem(i, cfg.getItem(String.valueOf(i)));
-			}
-		}
+        for (int i = 0; i < 54; i++) {
+            if (cfg.contains(String.valueOf(i))) {
+                addItem(i, cfg.getItem(String.valueOf(i)));
+            }
+        }
 
-		preset.clone(this);
+        preset.clone(this);
 
-		if (preset.getSize() > -1 && !preset.getPresetSlots().contains(preset.getSize() - 1) && cfg.contains(String.valueOf(preset.getSize() - 1))) {
-			addItem(preset.getSize() - 1, cfg.getItem(String.valueOf(preset.getSize() - 1)));
-		}
+        if (preset.getSize() > -1 && !preset.getPresetSlots().contains(preset.getSize() - 1) && cfg.contains(String.valueOf(preset.getSize() - 1))) {
+            addItem(preset.getSize() - 1, cfg.getItem(String.valueOf(preset.getSize() - 1)));
+        }
 
-		this.getContents();
-	}
+        this.getContents();
+    }
 
-	public void save() {
-		if (!isDirty()) return;
-		// To force CS-CoreLib to build the Inventory
-		this.getContents();
+    public void save() {
+        if (!isDirty()) return;
+        // To force CS-CoreLib to build the Inventory
+        this.getContents();
 
-		File file = new File("data-storage/Slimefun/universal-inventories/" + preset.getID() + ".sfi");
-		Config cfg = new Config(file);
-		cfg.setValue("preset", preset.getID());
+        File file = new File("data-storage/Slimefun/universal-inventories/" + preset.getID() + ".sfi");
+        Config cfg = new Config(file);
+        cfg.setValue("preset", preset.getID());
 
-		for (int slot : preset.getInventorySlots()) {
-			cfg.setValue(String.valueOf(slot), getItemInSlot(slot));
-		}
+        for (int slot : preset.getInventorySlots()) {
+            cfg.setValue(String.valueOf(slot), getItemInSlot(slot));
+        }
 
-		cfg.save();
+        cfg.save();
 
-		changes = 0;
-	}
+        changes = 0;
+    }
 
 }

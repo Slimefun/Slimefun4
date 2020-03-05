@@ -29,7 +29,7 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 		    BlockFace.WEST
 	};
 	
-	public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+    public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
 		super(category, item, recipe, machineRecipes, trigger);
 	}
 	

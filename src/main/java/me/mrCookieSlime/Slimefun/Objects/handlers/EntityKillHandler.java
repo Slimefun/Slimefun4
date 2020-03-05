@@ -17,11 +17,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 @FunctionalInterface
 public interface EntityKillHandler extends ItemHandler {
-	
-	void onKill(EntityDeathEvent e, Entity entity, Player killer, ItemStack item);
 
-	@Override
-	default Class<? extends ItemHandler> getIdentifier() {
-		return EntityKillHandler.class;
-	}
+    void onKill(EntityDeathEvent e, Entity entity, Player killer, ItemStack item);
+
+    @Override
+    default Class<? extends ItemHandler> getIdentifier() {
+        return EntityKillHandler.class;
+    }
 }

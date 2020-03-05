@@ -8,11 +8,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 @FunctionalInterface
 public interface BlockDispenseHandler extends ItemHandler {
-	
-	void onBlockDispense(BlockDispenseEvent e, Dispenser dispenser, Block facedBlock, SlimefunItem machine);
-	
-	@Override
-	default Class<? extends ItemHandler> getIdentifier() {
-		return BlockDispenseHandler.class;
-	}
+
+    void onBlockDispense(BlockDispenseEvent e, Dispenser dispenser, Block facedBlock, SlimefunItem machine);
+
+    @Override
+    default Class<? extends ItemHandler> getIdentifier() {
+        return BlockDispenseHandler.class;
+    }
 }

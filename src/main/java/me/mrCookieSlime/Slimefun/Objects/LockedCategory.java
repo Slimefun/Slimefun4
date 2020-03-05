@@ -25,105 +25,110 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class LockedCategory extends Category {
 
-	private final List<Category> parents;
+    private final List<Category> parents;
 
-	/**
-	 * The basic constructor for a LockedCategory.
-	 * <p>
-	 * See {@link Category#Category(ItemStack, int)} for more information about creating
-	 * a category.
-	 * <p>
-	 * Like {@link Category#Category(ItemStack)}, the tier is automatically set to 3.
-	 * 
-	 * @param key		A unique identifier for this category
-	 * @param item 		The display item for this category
-	 * @param parents 	The parent categories for this category
-	 * 
-	 */
-	public LockedCategory(NamespacedKey key, ItemStack item, Category... parents) {
-		this(key, item, 3, parents);
-	}
+    /**
+     * The basic constructor for a LockedCategory.
+     * <p>
+     * See {@link Category#Category(ItemStack, int)} for more information about creating
+     * a category.
+     * <p>
+     * Like {@link Category#Category(ItemStack)}, the tier is automatically set to 3.
+     * 
+     * @param key
+     *            A unique identifier for this category
+     * @param item
+     *            The display item for this category
+     * @param parents
+     *            The parent categories for this category
+     * 
+     */
+    public LockedCategory(NamespacedKey key, ItemStack item, Category... parents) {
+        this(key, item, 3, parents);
+    }
 
-	/**
-	 * The constructor for a LockedCategory.
-	 * <p>
-	 * See {@link Category#Category(ItemStack, int)} for more information about creating
-	 * a category.
-	 * 
-	 * @param key		A unique identifier for this category
-	 * @param item 		The display item for this category
-	 * @param tier 		The tier of this category
-	 * @param parents 	The parent categories for this category
-	 * 
-	 */
-	public LockedCategory(NamespacedKey key, ItemStack item, int tier, Category... parents) {
-		super(key, item, tier);
-		this.parents = Arrays.asList(parents);
-	}
+    /**
+     * The constructor for a LockedCategory.
+     * <p>
+     * See {@link Category#Category(ItemStack, int)} for more information about creating
+     * a category.
+     * 
+     * @param key
+     *            A unique identifier for this category
+     * @param item
+     *            The display item for this category
+     * @param tier
+     *            The tier of this category
+     * @param parents
+     *            The parent categories for this category
+     * 
+     */
+    public LockedCategory(NamespacedKey key, ItemStack item, int tier, Category... parents) {
+        super(key, item, tier);
+        this.parents = Arrays.asList(parents);
+    }
 
-	/**
-	 * Gets the list of parent categories for this {@link LockedCategory}.
-	 * 
-	 * @return	the list of parent categories
-	 * 
-	 * @see #addParent(Category)
-	 * @see #removeParent(Category)
-	 */
-	public List<Category> getParents() {
-		return parents;
-	}
+    /**
+     * Gets the list of parent categories for this {@link LockedCategory}.
+     * 
+     * @return the list of parent categories
+     * 
+     * @see #addParent(Category)
+     * @see #removeParent(Category)
+     */
+    public List<Category> getParents() {
+        return parents;
+    }
 
-	/**
-	 * Adds a parent {@link Category} to this {@link LockedCategory}.
-	 * 
-	 * @param category	The {@link Category} to add as a parent
-	 *
-	 * @see #getParents()
-	 * @see #removeParent(Category)
-	 */
-	public void addParent(Category category) {
-		if (category == this || category == null) {
-			throw new IllegalArgumentException("Category '" + item.getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
-		}
-		
-		this.parents.add(category);
-	}
+    /**
+     * Adds a parent {@link Category} to this {@link LockedCategory}.
+     * 
+     * @param category
+     *            The {@link Category} to add as a parent
+     *
+     * @see #getParents()
+     * @see #removeParent(Category)
+     */
+    public void addParent(Category category) {
+        if (category == this || category == null) {
+            throw new IllegalArgumentException("Category '" + item.getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
+        }
 
-	/**
-	 * Removes a {@link Category} from the parents of this {@link LockedCategory}.
-	 * 
-	 * @param category	The {@link Category} to remove from the parents of this {@link LockedCategory}
-	 * 
-	 * @see #getParents()
-	 * @see #addParent(Category)
-	 */
-	public void removeParent(Category category) {
-		this.parents.remove(category);
-	}
+        this.parents.add(category);
+    }
 
-	/**
-	 * Checks if the {@link Player} has fully unlocked all parent categories.
-	 * 
-	 * @param p	The {@link Player} to check
-	 * @return 	Whether the {@link Player} has fully completed all parent categories, otherwise false
-	 */
-	public boolean hasUnlocked(Player p) {
-		return hasUnlocked(p, PlayerProfile.get(p));
-	}
+    /**
+     * Removes a {@link Category} from the parents of this {@link LockedCategory}.
+     * 
+     * @param category
+     *            The {@link Category} to remove from the parents of this {@link LockedCategory}
+     * 
+     * @see #getParents()
+     * @see #addParent(Category)
+     */
+    public void removeParent(Category category) {
+        this.parents.remove(category);
+    }
 
-	public boolean hasUnlocked(Player p, PlayerProfile profile) {
-		for (Category category : parents) {
-			for (SlimefunItem item : category.getItems()) {
-				// Should we replace this all with Slimefun.hasUnlocked() ?
-				if (Slimefun.isEnabled(p, item, false)
-						&& Slimefun.hasPermission(p, item, false)
-						&& item.getResearch() != null
-						&& !profile.hasUnlocked(item.getResearch())
-				)
-					return false;
-			}
-		}
-		
-		return true;
-	}
+    /**
+     * Checks if the {@link Player} has fully unlocked all parent categories.
+     * 
+     * @param p
+     *            The {@link Player} to check
+     * @return Whether the {@link Player} has fully completed all parent categories, otherwise false
+     */
+    public boolean hasUnlocked(Player p) {
+        return hasUnlocked(p, PlayerProfile.get(p));
+    }
+
+    public boolean hasUnlocked(Player p, PlayerProfile profile) {
+        for (Category category : parents) {
+            for (SlimefunItem item : category.getItems()) {
+                // Should we replace this all with Slimefun.hasUnlocked() ?
+                if (Slimefun.isEnabled(p, item, false) && Slimefun.hasPermission(p, item, false) && item.getResearch() != null && !profile.hasUnlocked(item.getResearch())) return false;
+            }
+        }
+
+        return true;
+    }
 }

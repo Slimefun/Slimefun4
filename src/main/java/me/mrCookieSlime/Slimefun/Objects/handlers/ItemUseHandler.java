@@ -12,12 +12,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 @FunctionalInterface
 public interface ItemUseHandler extends ItemHandler {
-	
-	void onRightClick(PlayerRightClickEvent e);
 
-	@Override
-	default Class<? extends ItemHandler> getIdentifier() {
-		return ItemUseHandler.class;
-	}
+    void onRightClick(PlayerRightClickEvent e);
+
+    @Override
+    default Class<? extends ItemHandler> getIdentifier() {
+        return ItemUseHandler.class;
+    }
 
 }

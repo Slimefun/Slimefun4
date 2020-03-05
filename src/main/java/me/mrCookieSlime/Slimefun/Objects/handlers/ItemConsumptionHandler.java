@@ -6,12 +6,12 @@ import org.bukkit.inventory.ItemStack;
 
 @FunctionalInterface
 public interface ItemConsumptionHandler extends ItemHandler {
-	
-	void onConsume(PlayerItemConsumeEvent e, Player p, ItemStack item);
 
-	@Override
-	default Class<? extends ItemHandler> getIdentifier() {
-		return ItemConsumptionHandler.class;
-	}
+    void onConsume(PlayerItemConsumeEvent e, Player p, ItemStack item);
+
+    @Override
+    default Class<? extends ItemHandler> getIdentifier() {
+        return ItemConsumptionHandler.class;
+    }
 
 }

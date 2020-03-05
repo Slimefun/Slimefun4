@@ -14,8 +14,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 @Deprecated
 public class HandledBlock extends SlimefunItem {
 
-	public HandledBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public HandledBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
 }

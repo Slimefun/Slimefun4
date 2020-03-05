@@ -17,88 +17,88 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
-	protected final List<ItemStack[]> recipes;
-	protected final List<ItemStack> shownRecipes;
-	protected final MultiBlock multiblock;
+    protected final List<ItemStack[]> recipes;
+    protected final List<ItemStack> shownRecipes;
+    protected final MultiBlock multiblock;
 
-	public SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
-		super(category, item, RecipeType.MULTIBLOCK, recipe);
-		this.recipes = new ArrayList<>();
-		this.shownRecipes = new ArrayList<>();
-		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
-		this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
-	}
+    public SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+        super(category, item, RecipeType.MULTIBLOCK, recipe);
+        this.recipes = new ArrayList<>();
+        this.shownRecipes = new ArrayList<>();
+        this.shownRecipes.addAll(Arrays.asList(machineRecipes));
+        this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
+    }
 
-	@Deprecated
-	public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
-		super(category, item, id, RecipeType.MULTIBLOCK, recipe);
-		this.recipes = new ArrayList<>();
-		this.shownRecipes = new ArrayList<>();
-		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
-		this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
-	}
+    @Deprecated
+    public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+        super(category, item, id, RecipeType.MULTIBLOCK, recipe);
+        this.recipes = new ArrayList<>();
+        this.shownRecipes = new ArrayList<>();
+        this.shownRecipes.addAll(Arrays.asList(machineRecipes));
+        this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
+    }
 
-	public SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
-		super(category, item, RecipeType.MULTIBLOCK, recipe, keys, values);
-		this.recipes = new ArrayList<>();
-		this.shownRecipes = new ArrayList<>();
-		this.shownRecipes.addAll(Arrays.asList(machineRecipes));
-		this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
-	}
+    public SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
+        super(category, item, RecipeType.MULTIBLOCK, recipe, keys, values);
+        this.recipes = new ArrayList<>();
+        this.shownRecipes = new ArrayList<>();
+        this.shownRecipes.addAll(Arrays.asList(machineRecipes));
+        this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
+    }
 
-	public List<ItemStack[]> getRecipes() {
-		return recipes;
-	}
+    public List<ItemStack[]> getRecipes() {
+        return recipes;
+    }
 
-	@Override
-	public List<ItemStack> getDisplayRecipes() {
-		return shownRecipes;
-	}
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        return shownRecipes;
+    }
 
-	public void addRecipe(ItemStack[] input, ItemStack output) {
-		if (output == null) throw new IllegalArgumentException("Recipes must have an Output!");
-		
-		recipes.add(input);
-		recipes.add(new ItemStack[] {output});
-	}
+    public void addRecipe(ItemStack[] input, ItemStack output) {
+        if (output == null) throw new IllegalArgumentException("Recipes must have an Output!");
 
-	@Override
-	public void postRegister() {
-		multiblock.register();
-	}
+        recipes.add(input);
+        recipes.add(new ItemStack[] { output });
+    }
 
-	@Override
-	public void install() {
-		for (ItemStack recipeItem : shownRecipes) {
-			SlimefunItem item = SlimefunItem.getByItem(recipeItem);
-			
-			if (item == null || !item.isDisabled()) {
-				this.recipes.add(new ItemStack[] {recipeItem});
-			}
-		}
-	}
+    @Override
+    public void postRegister() {
+        multiblock.register();
+    }
 
-	private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
-		List<Material> mats = new ArrayList<>();
-		for (ItemStack item : items) {
-			if (item == null) mats.add(null);
-			else if (item.getType() == Material.FLINT_AND_STEEL) mats.add(Material.FIRE);
-			else mats.add(item.getType());
-		}
+    @Override
+    public void install() {
+        for (ItemStack recipeItem : shownRecipes) {
+            SlimefunItem item = SlimefunItem.getByItem(recipeItem);
 
-		return mats.toArray(new Material[0]);
-	}
-	
-	@Override
-	protected boolean areItemHandlersPrivate() {
-		return true;
-	}
+            if (item == null || !item.isDisabled()) {
+                this.recipes.add(new ItemStack[] { recipeItem });
+            }
+        }
+    }
 
-	public Iterator<ItemStack[]> recipeIterator() {
-		return this.recipes.iterator();
-	}
-	
-	public MultiBlock getMultiBlock() {
-		return multiblock;
-	}
+    private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
+        List<Material> mats = new ArrayList<>();
+        for (ItemStack item : items) {
+            if (item == null) mats.add(null);
+            else if (item.getType() == Material.FLINT_AND_STEEL) mats.add(Material.FIRE);
+            else mats.add(item.getType());
+        }
+
+        return mats.toArray(new Material[0]);
+    }
+
+    @Override
+    protected boolean areItemHandlersPrivate() {
+        return true;
+    }
+
+    public Iterator<ItemStack[]> recipeIterator() {
+        return this.recipes.iterator();
+    }
+
+    public MultiBlock getMultiBlock() {
+        return multiblock;
+    }
 }

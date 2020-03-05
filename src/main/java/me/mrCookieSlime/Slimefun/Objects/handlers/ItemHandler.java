@@ -16,24 +16,24 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 @FunctionalInterface
 public interface ItemHandler {
 
-	/**
-	 * This method is used to determine whether this {@link ItemHandler} can be
-	 * safely associated with one particular {@link SlimefunItem}.
-	 * 
-	 * Should this {@link ItemHandler} not be private, then it will not be linked
-	 * to a {@link SlimefunItem}.
-	 * 
-	 * @return	Whether this {@link ItemHandler} is considered private.
-	 */
-	default boolean isPrivate() {
-		return true;
-	}
+    /**
+     * This method is used to determine whether this {@link ItemHandler} can be
+     * safely associated with one particular {@link SlimefunItem}.
+     * 
+     * Should this {@link ItemHandler} not be private, then it will not be linked
+     * to a {@link SlimefunItem}.
+     * 
+     * @return Whether this {@link ItemHandler} is considered private.
+     */
+    default boolean isPrivate() {
+        return true;
+    }
 
-	/**
-	 * This method returns the identifier for this {@link ItemHandler}.
-	 * We use a {@link Class} identifier to group Item Handlers together.
-	 * 
-	 * @return	The {@link Class} identifier for this {@link ItemHandler}
-	 */
-	Class<? extends ItemHandler> getIdentifier();
+    /**
+     * This method returns the identifier for this {@link ItemHandler}.
+     * We use a {@link Class} identifier to group Item Handlers together.
+     * 
+     * @return The {@link Class} identifier for this {@link ItemHandler}
+     */
+    Class<? extends ItemHandler> getIdentifier();
 }
