@@ -8,8 +8,8 @@ Without your help, this project is going to die.
 Rules for all types of posts:
 
 1. Follow our Templates for Issues and Pull Request, they are designed to tell you what exact Information we need and how you should present it to us.
-2. Be nice and give constructive critism. Insulting, Harassment, Racism, Sexism or any form of bullying or discrimination is not tolerated.
-3. Try to engage in conversations by pointing out scenarios to replicate Issues, providing fix approaches or other kind of help.
+2. Be nice and give constructive criticism. Insulting, Harassment, Racism, Sexism or any form of bullying or discrimination is not tolerated.
+3. Try to engage in conversations by pointing out scenarios to replicate Issues, providing fix approaches or another kind of help.
 4. Advertisement is inappropriate and will be removed, especially advertisement for Minecraft Servers is completely unaccepted.
 
 ## GitHub Issues
@@ -23,7 +23,7 @@ Rules for posting an Issue on GitHub:
 5. Do not post your Issue more than once, this is considered spam and does not benefit our community in any way. Do not repost your Issue if it was closed either.
 6. Give us all available information right away, it may be a bit of time-wasting for us to keep asking for more Info. And this includes any Information to reproduce your Issue step-by-step.
 7. Check whether there are newer versions available than the ones you are using, it might be that your Issue has been fixed already.
-8. All text logs must be posted via a link to http://pastebin.com or similiar websites.
+8. All text logs must be posted via a link to http://pastebin.com or similar websites.
 
 Your Issue will be CLOSED WITHOUT WARNING if we think you violated these Rules.
 
@@ -31,10 +31,19 @@ Your Issue will be CLOSED WITHOUT WARNING if we think you violated these Rules.
 
 Guidelines for making a Pull Request on GitHub:
 
-1. Try to be reasonable with your additions. No, a Bacon flavoured unicorn that flies on a rainbow while dancing Gangnam Style is NOT a reasonable addition to this Project.
-2. Try to make your values configurable in the config.yml / Items.yml or any additional file. This may not be necessary at every instance but it does give the end-users a way to customize their experience.
-3. If your Pull Request is made in response to an Issue opened on GitHub, comment on that Issue and reference your Pull Request to show that you are proposing a fix for it.
-4. Name your commits appropriately. Standards like "Add files via upload" or "Update Readme.md" are lame. Make sure that the commit message stands for it's changes. (e.g. "Fixed Furnaces duplicating Items")
+1. Your code **must** follow our [code style and guidelines](#code-style-and-guidelines)
+2. Try to be reasonable with your additions. No, a Bacon flavoured unicorn that flies on a rainbow while dancing Gangnam Style is NOT a reasonable addition to this Project.
+3. Try to make your values configurable in the `config.yml` / `items.yml` or any additional file. This may not be necessary at every instance but it does give the end-users a way to customize their experience.
+4. If your Pull Request is made in response to an Issue opened on GitHub, comment on that Issue and reference your Pull Request to show that you are proposing a fix for it.
+5. Name your commits appropriately. Standards like "Add files via upload" or "Update Readme.md" are lame. Make sure that the commit message stands for its changes. (e.g. "Fixed Furnaces duplicating Items")
+
+### Code style and guidelines
+<!-- If we make any amendments then this is where we should put those -->
+Here at Slimefun, we follow the [Google Java code style](https://google.github.io/styleguide/javaguide.html), please make sure your code adheres to this.  
+We also want to make sure that **all** API methods are documented. This means proper JavaDocs (not just a short description).
+To follow on from this, if you're working on a method which does not have any JavaDocs but you believe it should then while it is not required it would be nice if you could document it.
+
+Finally, if you're writing some code which is relatively complex please do comment it so that others can understand what is going on. In a perfect world, it'd be readable enough to where anyone could understand it but we realise this is not always possible. 
 
 ## Troubleshooting Guide
 
@@ -47,10 +56,10 @@ Both, [Slimefun](http://dev.bukkit.org/bukkit-plugins/slimefun/files) and [CS-Co
 You should be sure that you run the latest Versions (at the time you post your Issue) of both Plugins.
 
 ### Step 3: Does it have to do with Items called 'CS-CoreLib's Head'?
-Well in that case, you have been the victim of corruption, unless you have an Error/Crash Report that we can work with, there is literally nothing we can do about it.
+Well, in that case, you have been the victim of corruption, unless you have an Error/Crash Report that we can work with, there is literally nothing we can do about it.
 Corrupting Files/Data can happen from time to time and getting completely rid of it would require a ton of work and even then it is still not completely impossible to occur.
 
-### Step 4: Do you get an Error, do you have an Error Report?
+### Step 4: Do you get an error, do you have an Error Report?
 Check your /plugins/Slimefun/error-reports/ directory and if it contains any Files, then please upload those to http://pastebin.com
 and provide us with a link.
 
