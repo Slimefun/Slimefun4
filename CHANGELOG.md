@@ -30,15 +30,17 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 7 (TBD)
+## Release Candidate 7 (06 Mar 2020)
 
 ### Additions
 * Added translations for Recipe Types
 * Added Rainbow Concrete
 * Added Rainbow Glazed Terracotta
+* Added more internal documentation
 
 ### Changes
 * Researches now use their namespaced keys in the Researches.yml
+* A lot of API changes
 
 ### Fixes
 * Fixed #1553
@@ -49,6 +51,7 @@
 * Fixed #1577
 * Fixed #1597
 * Fixed disabled Slimefun Addons not showing under /sf versions
+* Fixed #1613
 
 ## Release Candidate 6 (16 Feb 2020)
 
