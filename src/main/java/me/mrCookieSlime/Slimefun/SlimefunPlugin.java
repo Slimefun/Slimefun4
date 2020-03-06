@@ -115,6 +115,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private ProtectionManager protections;
     private ConfigCache settings;
     private SlimefunHooks hooks;
+    private SlimefunCommand command;
 
     // Supported Versions of Minecraft, to ensure people dont use it on the wrong version.
     private final String[] supportedMinecraftVersions = { "v1_14_", "v1_15_" };
@@ -278,7 +279,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }, 0);
 
             // Setting up the command /sf and all subcommands
-            new SlimefunCommand(this);
+            command = new SlimefunCommand(this);
 
             // Armor Update Task
             if (config.getBoolean("options.enable-armor-effects")) {
@@ -539,6 +540,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static Set<Plugin> getInstalledAddons() {
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins()).filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName())).collect(Collectors.toSet());
+    }
+
+    public static SlimefunCommand getCommand() {
+        return instance.command;
     }
 
     @Override

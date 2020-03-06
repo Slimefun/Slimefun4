@@ -34,6 +34,10 @@ public class MetricsService {
         metrics.addCustomChart(new BranchChart());
         metrics.addCustomChart(new ServerLanguageChart());
         metrics.addCustomChart(new PlayerLanguageChart());
+        metrics.addCustomChart(new ResearchesEnabledChart());
+        metrics.addCustomChart(new GuideLayoutChart());
+        metrics.addCustomChart(new AddonsChart());
+        metrics.addCustomChart(new CommandChart());
     }
 
 }

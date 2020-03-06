@@ -37,8 +37,10 @@
 ## Release Candidate 8 (TBD)
 
 ### Additions
+* Added some new charts to bStats
 
 ### Changes
+* Removed some deprecated parts of the API
 
 ### Fixes
 

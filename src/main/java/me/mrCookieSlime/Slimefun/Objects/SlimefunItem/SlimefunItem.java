@@ -497,62 +497,6 @@ public class SlimefunItem implements Placeable {
         }
     }
 
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param vanilla
-     *            deprecated.
-     * @param handlers
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(boolean vanilla, ItemHandler... handlers) {
-        addItemHandler(handlers);
-        register(vanilla);
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param handlers
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(ItemHandler... handlers) {
-        addItemHandler(handlers);
-        register(false);
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param vanilla
-     *            deprecated.
-     * @param handler
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(boolean vanilla, SlimefunBlockHandler handler) {
-        SlimefunPlugin.getRegistry().getBlockHandlers().put(getID(), handler);
-        register(vanilla);
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param handler
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(SlimefunBlockHandler handler) {
-        SlimefunPlugin.getRegistry().getBlockHandlers().put(getID(), handler);
-        register(false);
-    }
-
     public static Set<ItemHandler> getHandlers(Class<? extends ItemHandler> identifier) {
         return SlimefunPlugin.getRegistry().getItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
     }
@@ -569,64 +513,9 @@ public class SlimefunItem implements Placeable {
      */
     @Deprecated
     public void registerChargeableBlock(int capacity) {
-        registerChargeableBlock(false, capacity);
-    }
-
-    /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param slimefun
-     *            Whether this is from Slimefun or from an Addon.
-     * @param capacity
-     *            The capacity of this Block
-     */
-    @Deprecated
-    public void registerEnergyGenerator(boolean slimefun, int capacity) {
-        register(slimefun);
-        SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-    }
-
-    /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param slimefun
-     *            Whether this is from Slimefun or from an Addon.
-     * @param capacity
-     *            The capacity of this Block
-     */
-    @Deprecated
-    public void registerChargeableBlock(boolean slimefun, int capacity) {
-        register(slimefun);
+        register();
         SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
         EnergyNet.registerComponent(id, EnergyNetComponentType.CONSUMER);
-    }
-
-    /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param slimefun
-     *            Whether this is from Slimefun or from an Addon.
-     * @param capacity
-     *            The capacity of this Block
-     */
-    @Deprecated
-    public void registerCapacitor(boolean slimefun, int capacity) {
-        register(slimefun);
-        SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-        SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
-        EnergyNet.registerComponent(id, EnergyNetComponentType.CAPACITOR);
-    }
-
-    /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param slimefun
-     *            Whether this is from Slimefun or from an Addon.
-     * @param capacity
-     *            The capacity of this Block
-     * @param handlers
-     *            Your Item Handlers
-     */
-    @Deprecated
-    public void registerChargeableBlock(boolean vanilla, int capacity, ItemHandler... handlers) {
-        addItemHandler(handlers);
-        registerChargeableBlock(vanilla, capacity);
     }
 
     public void preRegister() {

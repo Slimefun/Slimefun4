@@ -973,10 +973,10 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, new ItemStack(Material.WITHER_SKELETON_SKULL), null, null, new ItemStack(Material.WITHER_SKELETON_SKULL), null, null, new ItemStack(Material.BLAZE_ROD), null})
 		.register(plugin);
 
-		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.DIGITAL_MINER, "DIGITAL_MINER",
+		SlimefunMachine miner = new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.DIGITAL_MINER, "DIGITAL_MINER",
 		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.DISPENSER), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.HOPPER), new ItemStack(Material.IRON_BLOCK)},
-		new ItemStack[0], BlockFace.SELF)
-		.register(true, new MultiBlockInteractionHandler() {
+		new ItemStack[0], BlockFace.SELF);
+		miner.addItemHandler(new MultiBlockInteractionHandler() {
 
 			@Override
 			public boolean onInteract(Player p, MultiBlock mb, Block b) {
@@ -1031,11 +1031,12 @@ public final class SlimefunItemSetup {
 				else return false;
 			}
 		});
+		miner.register(plugin);
 
-		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ADVANCED_DIGITAL_MINER, "ADVANCED_DIGITAL_MINER",
+		SlimefunMachine advancedMiner = new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ADVANCED_DIGITAL_MINER, "ADVANCED_DIGITAL_MINER",
 		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.DISPENSER), SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.HOPPER), SlimefunItems.GOLD_24K_BLOCK},
-		new ItemStack[0], BlockFace.SELF)
-		.register(true, new MultiBlockInteractionHandler() {
+		new ItemStack[0], BlockFace.SELF);
+		advancedMiner.addItemHandler(new MultiBlockInteractionHandler() {
 			// Determines the drops an Advanced Digital Miner will get
 			private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
 			
@@ -1106,6 +1107,7 @@ public final class SlimefunItemSetup {
 				else return false;
 			}
 		});
+		advancedMiner.register(plugin);
 
 		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.GOLD_24K_BLOCK, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K})

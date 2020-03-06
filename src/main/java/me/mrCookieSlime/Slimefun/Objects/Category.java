@@ -40,19 +40,6 @@ public class Category implements Keyed {
     protected final int tier;
 
     /**
-     * Constructs a Category with the given display item.
-     * The tier is set to a default value of {@code 3}.
-     * 
-     * @param item
-     *            the display item for this category
-     * @deprecated Use the alternative with a {@link NamespacedKey} instead
-     */
-    @Deprecated
-    public Category(ItemStack item) {
-        this(item, 3);
-    }
-
-    /**
      * Constructs a new {@link Category} with the given {@link NamespacedKey} as an identifier
      * and the given {@link ItemStack} as its display item.
      * The tier is set to a default value of {@code 3}.
@@ -64,22 +51,6 @@ public class Category implements Keyed {
      */
     public Category(NamespacedKey key, ItemStack item) {
         this(key, item, 3);
-    }
-
-    /**
-     * Constructs a Category with the given display item and the provided tier.
-     * </br>
-     * A lower tier results in this category being displayed first.
-     * 
-     * @param item
-     *            the display item for this category
-     * @param tier
-     *            the tier for this category
-     * @deprecated Use the alternative with a {@link NamespacedKey} instead
-     */
-    @Deprecated
-    public Category(ItemStack item, int tier) {
-        this(new NamespacedKey(SlimefunPlugin.instance, "invalid_category"), item, tier);
     }
 
     /**
