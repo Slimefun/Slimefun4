@@ -130,6 +130,7 @@ inventory:
 languages:
   af: Afrikánčina
   ar: Arabčina
+  bg: Bulharčina
   cs: Čeština
   da: Dánčina
   de: Nemčina
@@ -145,6 +146,7 @@ languages:
   id: Indonézčina
   it: Taliančina
   ja: Japonština
+  ko: Kórejčina
   lv: Lotyština
   ms: Malajština
   nl: Holandčina
@@ -157,13 +159,11 @@ languages:
   sk: Slovenčina
   sv: Švédština
   th: Thajčina
+  tr: Turečtina
   uk: Ukrajinčina
   vi: Vietnamčina
   zh-CN: Čínština (Čína)
   zh-TW: Čínština (Taiwan)
-  bg: Bulharčina
-  ko: Kórejčina
-  tr: Turečtina
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Oltár nie je obkolesený dostatočným počtom podstáv&c(%pedestals%
