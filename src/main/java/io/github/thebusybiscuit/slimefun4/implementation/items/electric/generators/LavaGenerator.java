@@ -15,8 +15,8 @@ public abstract class LavaGenerator extends AGenerator {
 		super(category, item, recipeType, recipe);
 	}
 	
-	@Override
-	public void registerDefaultRecipes() {
+    @Override
+    protected void registerDefaultFuelTypes() {
 		registerFuel(new MachineFuel(40, new ItemStack(Material.LAVA_BUCKET)));
 	}
 

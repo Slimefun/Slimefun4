@@ -11,23 +11,23 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class ElectricOreGrinder extends AContainer implements RecipeDisplayItem {
 
-	public ElectricOreGrinder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public String getMachineIdentifier() {
-		return "ELECTRIC_ORE_GRINDER";
-	}
-	
-	@Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.IRON_PICKAXE);
-	}
+    public ElectricOreGrinder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public String getInventoryTitle() {
-		return "&bElectric Ore Grinder";
-	}
+    @Override
+    public String getMachineIdentifier() {
+        return "ELECTRIC_ORE_GRINDER";
+    }
+
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.IRON_PICKAXE);
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&bElectric Ore Grinder";
+    }
 
 }

@@ -13,27 +13,27 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class AdvancedFarmerAndroid extends FarmerAndroid {
 
-	public AdvancedFarmerAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public AndroidType getAndroidType() {
-		return AndroidType.ADVANCED_FARMER;
-	}
-	
-	@Override
-	protected void exoticFarm(BlockMenu menu, Block block) {
-		farm(menu, block);
+    public AdvancedFarmerAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-		if (SlimefunPlugin.getHooks().isExoticGardenInstalled()) {
-			ItemStack drop = ExoticGarden.harvestPlant(block);
+    @Override
+    public AndroidType getAndroidType() {
+        return AndroidType.ADVANCED_FARMER;
+    }
 
-			if (drop != null && menu.fits(drop, getOutputSlots())) {
-				menu.pushItem(drop, getOutputSlots());
-				block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-			}
-		}
-	}
+    @Override
+    protected void exoticFarm(BlockMenu menu, Block block) {
+        farm(menu, block);
+
+        if (SlimefunPlugin.getHooks().isExoticGardenInstalled()) {
+            ItemStack drop = ExoticGarden.harvestPlant(block);
+
+            if (drop != null && menu.fits(drop, getOutputSlots())) {
+                menu.pushItem(drop, getOutputSlots());
+                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+            }
+        }
+    }
 
 }

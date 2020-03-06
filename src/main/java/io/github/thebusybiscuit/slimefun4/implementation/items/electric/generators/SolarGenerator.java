@@ -13,39 +13,53 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker> {
 
-	public SolarGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	public abstract double getDayEnergy();
-	
-	public double getNightEnergy() {
-		// Override this as necessary for highly advanced Solar Generators
-		return 0;
-	}
-	
-	@Override
-	public GeneratorTicker getItemHandler() {
-		return new GeneratorTicker() {
+    public SolarGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-			@Override
-			public double generateEnergy(Location l, SlimefunItem item, Config data) {
-				if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) {
-					return 0D;
-				}
-				
-				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) {
-					return getDayEnergy();
-				}
-				
-				return getNightEnergy();
-			}
+    /**
+     * This method returns the amount of energy that this {@link SolarGenerator}
+     * produces during the day.
+     * 
+     * @return The amount of energy generated at daylight
+     */
+    public abstract double getDayEnergy();
 
-			@Override
-			public boolean explode(Location l) {
-				return false;
-			}
-		};
-	}
+    /**
+     * This method returns the amount of energy that this {@link SolarGenerator}
+     * produces during the night.
+     * 
+     * This is 0 by default.
+     * 
+     * @return The amount of energy generated at night time
+     */
+    public double getNightEnergy() {
+        // Override this as necessary for highly advanced Solar Generators
+        return 0;
+    }
+
+    @Override
+    public GeneratorTicker getItemHandler() {
+        return new GeneratorTicker() {
+
+            @Override
+            public double generateEnergy(Location l, SlimefunItem item, Config data) {
+                if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) {
+                    return 0D;
+                }
+
+                if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) {
+                    return getDayEnergy();
+                }
+
+                return getNightEnergy();
+            }
+
+            @Override
+            public boolean explode(Location l) {
+                return false;
+            }
+        };
+    }
 
 }

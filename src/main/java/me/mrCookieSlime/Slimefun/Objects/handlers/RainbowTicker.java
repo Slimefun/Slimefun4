@@ -9,6 +9,7 @@ import org.bukkit.block.data.Waterlogged;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollection;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -18,6 +19,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * and sets itself to that.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see RainbowBlock
  *
  */
 public class RainbowTicker extends BlockTicker {

@@ -23,70 +23,70 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class Refinery extends AContainer implements RecipeDisplayItem {
 
-	public Refinery(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public Refinery(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public String getInventoryTitle() {
-		return "&cRefinery";
-	}
+    @Override
+    public String getInventoryTitle() {
+        return "&cRefinery";
+    }
 
-	@Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.FLINT_AND_STEEL);
-	}
-	
-	@Override
-	public String getMachineIdentifier() {
-		return "REFINERY";
-	}
-	
-	@Override
-	public List<ItemStack> getDisplayRecipes() {
-		return Arrays.asList(SlimefunItems.BUCKET_OF_OIL, SlimefunItems.BUCKET_OF_FUEL);
-	}
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.FLINT_AND_STEEL);
+    }
 
-	@Override
-	protected void tick(Block b) {
-		BlockMenu menu = BlockStorage.getInventory(b);
-		
-		if (isProcessing(b)) {
-			int timeleft = progress.get(b);
-			
-			if (timeleft > 0) {
-				ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
-				
-				if (ChargableBlock.isChargable(b)) {
-					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-					
-					ChargableBlock.addCharge(b, -getEnergyConsumption());
-					progress.put(b, timeleft - 1);
-				}
-				else progress.put(b, timeleft - 1);
-			}
-			else {
-				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
-				
-				progress.remove(b);
-				processing.remove(b);
-			}
-		}
-		else {
-			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.BUCKET_OF_OIL, true)) {
-					MachineRecipe r = new MachineRecipe(40, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_FUEL});
-					
-					if (!menu.fits(SlimefunItems.BUCKET_OF_FUEL, getOutputSlots())) return;
-					
-					menu.consumeItem(slot);
-					processing.put(b, r);
-					progress.put(b, r.getTicks());
-					break;
-				}
-			}
-		}
-	}
+    @Override
+    public String getMachineIdentifier() {
+        return "REFINERY";
+    }
+
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        return Arrays.asList(SlimefunItems.BUCKET_OF_OIL, SlimefunItems.BUCKET_OF_FUEL);
+    }
+
+    @Override
+    protected void tick(Block b) {
+        BlockMenu menu = BlockStorage.getInventory(b);
+
+        if (isProcessing(b)) {
+            int timeleft = progress.get(b);
+
+            if (timeleft > 0) {
+                ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+
+                if (ChargableBlock.isChargable(b)) {
+                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+
+                    ChargableBlock.addCharge(b, -getEnergyConsumption());
+                    progress.put(b, timeleft - 1);
+                }
+                else progress.put(b, timeleft - 1);
+            }
+            else {
+                menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+                menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
+
+                progress.remove(b);
+                processing.remove(b);
+            }
+        }
+        else {
+            for (int slot : getInputSlots()) {
+                if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.BUCKET_OF_OIL, true)) {
+                    MachineRecipe r = new MachineRecipe(40, new ItemStack[0], new ItemStack[] { SlimefunItems.BUCKET_OF_FUEL });
+
+                    if (!menu.fits(SlimefunItems.BUCKET_OF_FUEL, getOutputSlots())) return;
+
+                    menu.consumeItem(slot);
+                    processing.put(b, r);
+                    progress.put(b, r.getTicks());
+                    break;
+                }
+            }
+        }
+    }
 
 }

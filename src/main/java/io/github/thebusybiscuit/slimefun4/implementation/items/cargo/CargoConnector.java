@@ -14,22 +14,22 @@ import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 
 public class CargoConnector extends SimpleSlimefunItem<BlockUseHandler> {
 
-	public CargoConnector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, recipeType, recipe, recipeOutput);
-	}
-	
-	@Override
-	public BlockUseHandler getItemHandler() {
-		return e -> {
-			Player p = e.getPlayer();
-			Block b = e.getClickedBlock().get();
+    public CargoConnector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(category, item, recipeType, recipe, recipeOutput);
+    }
 
-			if (CargoNet.getNetworkFromLocation(b.getLocation()) != null) {
-				p.sendMessage(ChatColors.color("&7Connected: " + "&2\u2714"));
-			}
-			else {
-				p.sendMessage(ChatColors.color("&7Connected: " + "&4\u2718"));
-			}
-		};
-	}
+    @Override
+    public BlockUseHandler getItemHandler() {
+        return e -> {
+            Player p = e.getPlayer();
+            Block b = e.getClickedBlock().get();
+
+            if (CargoNet.getNetworkFromLocation(b.getLocation()) != null) {
+                p.sendMessage(ChatColors.color("&7Connected: " + "&2\u2714"));
+            }
+            else {
+                p.sendMessage(ChatColors.color("&7Connected: " + "&4\u2718"));
+            }
+        };
+    }
 }

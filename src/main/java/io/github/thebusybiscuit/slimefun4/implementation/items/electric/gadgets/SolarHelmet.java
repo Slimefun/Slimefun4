@@ -9,8 +9,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SolarHelmet extends SlimefunItem {
 
-	public SolarHelmet(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-		super(category, item, recipeType, recipe, keys, values);
-	}
+    public SolarHelmet(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
+        super(category, item, recipeType, recipe, keys, values);
+    }
 
 }

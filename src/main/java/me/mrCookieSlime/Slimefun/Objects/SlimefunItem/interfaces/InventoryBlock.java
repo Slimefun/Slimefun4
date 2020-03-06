@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
 
+import java.lang.reflect.Array;
 import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
@@ -19,65 +20,78 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public interface InventoryBlock {
-	
-	int[] getInputSlots();
-	int[] getOutputSlots();
-	
-	default void createPreset(SlimefunItem item, Consumer<BlockMenuPreset> setup) {
-		createPreset(item, item.getItemName(), setup);
-	}
-	
-	default void createPreset(SlimefunItem item, String title, Consumer<BlockMenuPreset> setup) {
-		new BlockMenuPreset(item.getID(), title) {
-			
-			@Override
-			public void init() {
-				setup.accept(this);
-			}
-			
-			@Override
-			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
-				else return getOutputSlots();
-			}
-			
-			@Override
-			public boolean canOpen(Block b, Player p) {
-				return p.hasPermission("slimefun.inventory.bypass") || (SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES) && Slimefun.hasUnlocked(p, item, false));
-			}
-		};
-	}
-	
-	@Deprecated
-	default Inventory inject(Block b) {
-		int size = getOutputSlots().length;
-		Inventory inv = Bukkit.createInventory(null, ((int) Math.ceil(size / 9F)) * 9);
-		
-		for (int i = 0; i < inv.getSize(); i++) {
-			if (i < size) {
-				inv.setItem(i, BlockStorage.getInventory(b).getItemInSlot(getOutputSlots()[i]));
-			}
-			else {
-				inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
-			}
-		}
-		
-		return inv;
-	}
 
-	@Deprecated
-	default boolean fits(Block b, ItemStack... items) {
-		return inject(b).addItem(items).isEmpty();
-	}
+    /**
+     * This method returns an {@link Array} of slots that serve as the input
+     * for the {@link Inventory} of this block.
+     * 
+     * @return The input slots for the {@link Inventory} of this block
+     */
+    int[] getInputSlots();
 
-	@Deprecated
-	default void pushItems(Block b, ItemStack... items) {
-		Inventory inv = inject(b);
-		inv.addItem(items);
-		
-		for (int i = 0; i < getOutputSlots().length; i++) {
-			BlockStorage.getInventory(b).replaceExistingItem(getOutputSlots()[i], inv.getItem(i));
-		}
-	}
+    /**
+     * This method returns an {@link Array} of slots that serve as the output
+     * for the {@link Inventory} of this block.
+     * 
+     * @return The output slots for the {@link Inventory} of this block
+     */
+    int[] getOutputSlots();
+
+    default void createPreset(SlimefunItem item, Consumer<BlockMenuPreset> setup) {
+        createPreset(item, item.getItemName(), setup);
+    }
+
+    default void createPreset(SlimefunItem item, String title, Consumer<BlockMenuPreset> setup) {
+        new BlockMenuPreset(item.getID(), title) {
+
+            @Override
+            public void init() {
+                setup.accept(this);
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                if (flow == ItemTransportFlow.INSERT) return getInputSlots();
+                else return getOutputSlots();
+            }
+
+            @Override
+            public boolean canOpen(Block b, Player p) {
+                return p.hasPermission("slimefun.inventory.bypass") || (SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES) && Slimefun.hasUnlocked(p, item, false));
+            }
+        };
+    }
+
+    @Deprecated
+    default Inventory inject(Block b) {
+        int size = getOutputSlots().length;
+        Inventory inv = Bukkit.createInventory(null, ((int) Math.ceil(size / 9F)) * 9);
+
+        for (int i = 0; i < inv.getSize(); i++) {
+            if (i < size) {
+                inv.setItem(i, BlockStorage.getInventory(b).getItemInSlot(getOutputSlots()[i]));
+            }
+            else {
+                inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
+            }
+        }
+
+        return inv;
+    }
+
+    @Deprecated
+    default boolean fits(Block b, ItemStack... items) {
+        return inject(b).addItem(items).isEmpty();
+    }
+
+    @Deprecated
+    default void pushItems(Block b, ItemStack... items) {
+        Inventory inv = inject(b);
+        inv.addItem(items);
+
+        for (int i = 0; i < getOutputSlots().length; i++) {
+            BlockStorage.getInventory(b).replaceExistingItem(getOutputSlots()[i], inv.getItem(i));
+        }
+    }
 
 }

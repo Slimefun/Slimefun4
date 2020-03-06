@@ -12,39 +12,39 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class CoalGenerator extends AGenerator {
 
-	public CoalGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public void registerDefaultRecipes() {
-		registerFuel(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
-		registerFuel(new MachineFuel(12, new ItemStack(Material.BLAZE_ROD)));
-		
-		// Coals
-		for (Material mat : Tag.ITEMS_COALS.getValues()) {
-			registerFuel(new MachineFuel(8, new ItemStack(mat)));
-		}
-		
-		// Logs
-		for (Material mat : Tag.LOGS.getValues()) {
-			registerFuel(new MachineFuel(2, new ItemStack(mat)));
-		}
+    public CoalGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-		// Wooden Planks
-		for (Material mat : Tag.PLANKS.getValues()) {
-			registerFuel(new MachineFuel(1, new ItemStack(mat)));
-		}
-	}
+    @Override
+    protected void registerDefaultFuelTypes() {
+        registerFuel(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
+        registerFuel(new MachineFuel(12, new ItemStack(Material.BLAZE_ROD)));
 
-	@Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.FLINT_AND_STEEL);
-	}
+        // Coals
+        for (Material mat : Tag.ITEMS_COALS.getValues()) {
+            registerFuel(new MachineFuel(8, new ItemStack(mat)));
+        }
 
-	@Override
-	public String getInventoryTitle() {
-		return "&cCoal Generator";
-	}
+        // Logs
+        for (Material mat : Tag.LOGS.getValues()) {
+            registerFuel(new MachineFuel(2, new ItemStack(mat)));
+        }
+
+        // Wooden Planks
+        for (Material mat : Tag.PLANKS.getValues()) {
+            registerFuel(new MachineFuel(1, new ItemStack(mat)));
+        }
+    }
+
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.FLINT_AND_STEEL);
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&cCoal Generator";
+    }
 
 }

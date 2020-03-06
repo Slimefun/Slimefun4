@@ -13,6 +13,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * You can also specify a capacity for this Block via {@link EnergyNetComponent#getCapacity()}.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see EnergyNetComponentType
+ * @see EnergyNet
  *
  */
 public interface EnergyNetComponent {

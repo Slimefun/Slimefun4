@@ -24,11 +24,20 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public abstract class Network {
 
+    /**
+     * This method returns the range of the {@link Network}.
+     * The range determines how far the {@link Network} will search for
+     * nearby nodes from any given node.
+     * 
+     * It basically translates to the maximum distance between nodes.
+     * 
+     * @return the range of this {@link Network}
+     */
     public abstract int getRange();
 
     public abstract NetworkComponent classifyLocation(Location l);
 
-    public abstract void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
+    public abstract void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
 
     protected Location regulator;
     private Queue<Location> nodeQueue = new ArrayDeque<>();
@@ -62,6 +71,13 @@ public abstract class Network {
         nodeQueue.add(l.clone());
     }
 
+    /**
+     * This method checks whether the given {@link Location} is part of this {@link Network}.
+     * 
+     * @param l
+     *            The {@link Location} to check for
+     * @return Whether the given {@link Location} is part of this {@link Network}
+     */
     public boolean connectsTo(Location l) {
         return connectedLocations.contains(l);
     }
@@ -111,7 +127,7 @@ public abstract class Network {
                     terminusNodes.add(l);
                 }
 
-                locationClassificationChange(l, currentAssignment, classification);
+                onClassificationChange(l, currentAssignment, classification);
             }
             steps += 1;
 

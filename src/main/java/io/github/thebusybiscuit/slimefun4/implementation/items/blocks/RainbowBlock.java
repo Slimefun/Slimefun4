@@ -10,17 +10,17 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class RainbowBlock extends SimpleSlimefunItem<RainbowTicker> {
 
-	private final RainbowTicker ticker;
-	
-	public RainbowBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, RainbowTicker ticker) {
-		super(category, item, recipeType, recipe, recipeOutput);
-		
-		this.ticker = ticker;
-	}
+    private final RainbowTicker ticker;
 
-	@Override
-	public RainbowTicker getItemHandler() {
-		return ticker;
-	}
+    public RainbowBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, RainbowTicker ticker) {
+        super(category, item, recipeType, recipe, recipeOutput);
+
+        this.ticker = ticker;
+    }
+
+    @Override
+    public RainbowTicker getItemHandler() {
+        return ticker;
+    }
 
 }

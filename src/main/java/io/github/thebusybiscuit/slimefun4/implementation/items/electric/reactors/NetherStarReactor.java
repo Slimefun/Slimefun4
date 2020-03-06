@@ -18,31 +18,31 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class NetherStarReactor extends AReactor {
-	
-	public NetherStarReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
 
-	@Override
-	public String getInventoryTitle() {
-		return "&fNether Star Reactor";
-	}
+    public NetherStarReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public void registerDefaultRecipes() {
-		registerFuel(new MachineFuel(1800, new ItemStack(Material.NETHER_STAR)));
-	}
+    @Override
+    public String getInventoryTitle() {
+        return "&fNether Star Reactor";
+    }
 
-	@Override
-	public void extraTick(final Location l) {
-		Slimefun.runSync(() -> {
-			for (Entity entity : ReactorHologram.getArmorStand(l, true).getNearbyEntities(5, 5, 5)) {
-				if (entity instanceof LivingEntity) {
-					((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
-				}
-			}
-		}, 0L);
-	}
+    @Override
+    protected void registerDefaultFuelTypes() {
+        registerFuel(new MachineFuel(1800, new ItemStack(Material.NETHER_STAR)));
+    }
+
+    @Override
+    public void extraTick(final Location l) {
+        Slimefun.runSync(() -> {
+            for (Entity entity : ReactorHologram.getArmorStand(l, true).getNearbyEntities(5, 5, 5)) {
+                if (entity instanceof LivingEntity) {
+                    ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
+                }
+            }
+        }, 0L);
+    }
 
     @Override
     public ItemStack getCoolant() {
@@ -50,8 +50,8 @@ public abstract class NetherStarReactor extends AReactor {
     }
 
     @Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.NETHER_STAR);
-	}
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.NETHER_STAR);
+    }
 
 }

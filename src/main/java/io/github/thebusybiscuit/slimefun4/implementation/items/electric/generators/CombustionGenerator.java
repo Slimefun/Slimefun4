@@ -12,24 +12,24 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class CombustionGenerator extends AGenerator {
 
-	public CombustionGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public void registerDefaultRecipes() {
-		registerFuel(new MachineFuel(30, SlimefunItems.BUCKET_OF_OIL));
-		registerFuel(new MachineFuel(90, SlimefunItems.BUCKET_OF_FUEL));
-	}
+    public CombustionGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.FLINT_AND_STEEL);
-	}
+    @Override
+    protected void registerDefaultFuelTypes() {
+        registerFuel(new MachineFuel(30, SlimefunItems.BUCKET_OF_OIL));
+        registerFuel(new MachineFuel(90, SlimefunItems.BUCKET_OF_FUEL));
+    }
 
-	@Override
-	public String getInventoryTitle() {
-		return "&cCombustion Reactor";
-	}
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.FLINT_AND_STEEL);
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&cCombustion Reactor";
+    }
 
 }

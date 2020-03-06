@@ -81,10 +81,12 @@ public class EnergyNet extends Network {
         super(l);
     }
 
+    @Override
     public int getRange() {
         return RANGE;
     }
 
+    @Override
     public NetworkComponent classifyLocation(Location l) {
         if (regulator.equals(l)) return NetworkComponent.REGULATOR;
         switch (getComponent(l)) {
@@ -98,7 +100,8 @@ public class EnergyNet extends Network {
         }
     }
 
-    public void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+    @Override
+    public void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
         if (from == NetworkComponent.TERMINUS) {
             input.remove(l);
             output.remove(l);
@@ -224,7 +227,7 @@ public class EnergyNet extends Network {
         }
     }
 
-    private static void updateHologram(Block b, double supply, double demand) {
+    private void updateHologram(Block b, double supply, double demand) {
         if (demand > supply) {
             String netLoss = DoubleHandler.getFancyDouble(Math.abs(supply - demand));
             SimpleHologram.update(b, "&4&l- &c" + netLoss + " &7J &e\u26A1");

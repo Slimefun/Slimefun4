@@ -21,52 +21,52 @@ import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 
 public class CargoManager extends SlimefunItem {
 
-	public CargoManager(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-		
-		registerBlockHandler(getID(), (p, b, tool, reason) -> {
-			SimpleHologram.remove(b);
-			return true;
-		});
-	}
-	
-	@Override
-	public void preRegister() {
-		addItemHandler(new BlockTicker() {
+    public CargoManager(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
 
-			@Override
-			public void tick(Block b, SlimefunItem item, Config data) {
-				CargoNet.getNetworkFromLocationOrCreate(b.getLocation()).tick(b);
-			}
+        registerBlockHandler(getID(), (p, b, tool, reason) -> {
+            SimpleHologram.remove(b);
+            return true;
+        });
+    }
 
-			@Override
-			public boolean isSynchronized() {
-				return false;
-			}
-			
-		}, new BlockUseHandler() {
-			
-			private String visualizerKey = "visualizer";
+    @Override
+    public void preRegister() {
+        addItemHandler(new BlockTicker() {
 
-			@Override
-			public void onRightClick(PlayerRightClickEvent e) {
-				Optional<Block> block = e.getClickedBlock();
-				
-				if (block.isPresent()) {
-					Player p = e.getPlayer();
-					Block b = block.get();
+            @Override
+            public void tick(Block b, SlimefunItem item, Config data) {
+                CargoNet.getNetworkFromLocationOrCreate(b.getLocation()).tick(b);
+            }
 
-					if (BlockStorage.getLocationInfo(b.getLocation(), visualizerKey) == null) {
-						BlockStorage.addBlockInfo(b, visualizerKey, "disabled");
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
-					}
-					else {
-						BlockStorage.addBlockInfo(b, visualizerKey, null);
-						p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
-					}
-				}
-			}
-		});
-	}
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
+
+        }, new BlockUseHandler() {
+
+            private String visualizerKey = "visualizer";
+
+            @Override
+            public void onRightClick(PlayerRightClickEvent e) {
+                Optional<Block> block = e.getClickedBlock();
+
+                if (block.isPresent()) {
+                    Player p = e.getPlayer();
+                    Block b = block.get();
+
+                    if (BlockStorage.getLocationInfo(b.getLocation(), visualizerKey) == null) {
+                        BlockStorage.addBlockInfo(b, visualizerKey, "disabled");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
+                    }
+                    else {
+                        BlockStorage.addBlockInfo(b, visualizerKey, null);
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
+                    }
+                }
+            }
+        });
+    }
 
 }

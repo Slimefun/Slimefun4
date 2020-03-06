@@ -112,7 +112,7 @@ public class CargoNet extends Network {
 		}
 	}
 
-	public void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+	public void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
 		if (from == NetworkComponent.TERMINUS) {
 			inputNodes.remove(l);
 			outputNodes.remove(l);

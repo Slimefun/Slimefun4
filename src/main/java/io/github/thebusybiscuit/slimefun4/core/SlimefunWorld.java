@@ -14,7 +14,9 @@ import io.github.thebusybiscuit.slimefun4.api.blocks.BlockLocation;
 import io.github.thebusybiscuit.slimefun4.api.blocks.SlimefunBlock;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-// This class is currently not used anywhere.
+/**
+ * This class is currently not used anywhere.
+ */
 public class SlimefunWorld {
 
     private final UUID uuid;

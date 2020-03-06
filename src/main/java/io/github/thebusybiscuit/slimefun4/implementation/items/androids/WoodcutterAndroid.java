@@ -24,48 +24,48 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class WoodcutterAndroid extends ProgrammableAndroid {
 
-	public WoodcutterAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public AndroidType getAndroidType() {
-		return AndroidType.WOODCUTTER;
-	}
-	
-	@Override
-	protected boolean chopTree(Block b, BlockMenu menu, BlockFace face) {
-		if (MaterialCollections.getAllLogs().contains(b.getRelative(face).getType())) {
-			List<Block> list = Vein.find(b.getRelative(face), 180, block -> MaterialCollections.getAllLogs().contains(block.getType()));
-			
-			if (!list.isEmpty()) {
-				Block log = list.get(list.size() - 1);
-				log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+    public WoodcutterAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-				if (SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), log.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-					ItemStack drop = new ItemStack(log.getType());
+    @Override
+    public AndroidType getAndroidType() {
+        return AndroidType.WOODCUTTER;
+    }
 
-					if (menu.fits(drop, getOutputSlots())) {
-						menu.pushItem(drop, getOutputSlots());
-						log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+    @Override
+    protected boolean chopTree(Block b, BlockMenu menu, BlockFace face) {
+        if (MaterialCollections.getAllLogs().contains(b.getRelative(face).getType())) {
+            List<Block> list = Vein.find(b.getRelative(face), 180, block -> MaterialCollections.getAllLogs().contains(block.getType()));
 
-						if (log.getY() == b.getRelative(face).getY()) {
-							Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
-							
-							if (sapling.isPresent()) {
-								log.setType(sapling.get());
-							}
-						}
-						else log.setType(Material.AIR);
-					}
+            if (!list.isEmpty()) {
+                Block log = list.get(list.size() - 1);
+                log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 
-				}
-				
-				return false;
-			}
-		}
-		
-		return true;
-	}
+                if (SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), log.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+                    ItemStack drop = new ItemStack(log.getType());
+
+                    if (menu.fits(drop, getOutputSlots())) {
+                        menu.pushItem(drop, getOutputSlots());
+                        log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+
+                        if (log.getY() == b.getRelative(face).getY()) {
+                            Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
+
+                            if (sapling.isPresent()) {
+                                log.setType(sapling.get());
+                            }
+                        }
+                        else log.setType(Material.AIR);
+                    }
+
+                }
+
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 }

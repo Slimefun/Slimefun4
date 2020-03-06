@@ -19,43 +19,43 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
-	
-	protected boolean silent = false;
 
-	public InfusedHopper(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public BlockTicker getItemHandler() {
-		return new BlockTicker() {
+    protected boolean silent = false;
 
-			@Override
-			public void tick(Block b, SlimefunItem sfItem, Config data) {
-				if (b.getType() != Material.HOPPER) {
-					// we're no longer a hopper, we were probably destroyed. skipping this tick.
-					BlockStorage.clearBlockInfo(b);
-					return;
-				}
-				
-				Location l = b.getLocation().add(0.5, 1.2, 0.5);
-				boolean sound = false;
-				
-				for (Entity item : b.getWorld().getNearbyEntities(l, 3.5D, 3.5D, 3.5D, n -> n instanceof Item && n.isValid() && !n.hasMetadata("no_pickup") && n.getLocation().distanceSquared(l) > 0.25)) {
-					item.setVelocity(new Vector(0, 0.1, 0));
-					item.teleport(l);
-					sound = true;
-				}
-				
-				if (sound && !silent) {
-					b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
-				}
-			}
+    public InfusedHopper(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-			@Override
-			public boolean isSynchronized() {
-				return true;
-			}
-		};
-	}
+    @Override
+    public BlockTicker getItemHandler() {
+        return new BlockTicker() {
+
+            @Override
+            public void tick(Block b, SlimefunItem sfItem, Config data) {
+                if (b.getType() != Material.HOPPER) {
+                    // we're no longer a hopper, we were probably destroyed. skipping this tick.
+                    BlockStorage.clearBlockInfo(b);
+                    return;
+                }
+
+                Location l = b.getLocation().add(0.5, 1.2, 0.5);
+                boolean sound = false;
+
+                for (Entity item : b.getWorld().getNearbyEntities(l, 3.5D, 3.5D, 3.5D, n -> n instanceof Item && n.isValid() && !n.hasMetadata("no_pickup") && n.getLocation().distanceSquared(l) > 0.25)) {
+                    item.setVelocity(new Vector(0, 0.1, 0));
+                    item.teleport(l);
+                    sound = true;
+                }
+
+                if (sound && !silent) {
+                    b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
+                }
+            }
+
+            @Override
+            public boolean isSynchronized() {
+                return true;
+            }
+        };
+    }
 }

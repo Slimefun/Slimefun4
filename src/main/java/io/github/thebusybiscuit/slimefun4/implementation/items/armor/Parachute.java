@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
+package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
 import org.bukkit.inventory.ItemStack;
 

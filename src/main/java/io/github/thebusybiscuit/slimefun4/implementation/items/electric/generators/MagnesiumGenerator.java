@@ -12,23 +12,23 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class MagnesiumGenerator extends AGenerator {
 
-	public MagnesiumGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public void registerDefaultRecipes() {
-		registerFuel(new MachineFuel(12, SlimefunItems.MAGNESIUM_SALT));
-	}
+    public MagnesiumGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.FLINT_AND_STEEL);
-	}
+    @Override
+    protected void registerDefaultFuelTypes() {
+        registerFuel(new MachineFuel(12, SlimefunItems.MAGNESIUM_SALT));
+    }
 
-	@Override
-	public String getInventoryTitle() {
-		return "&cMagnesium-powered Generator";
-	}
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.FLINT_AND_STEEL);
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&cMagnesium-powered Generator";
+    }
 
 }

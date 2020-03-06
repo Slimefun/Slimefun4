@@ -17,39 +17,39 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
 
-	public RepairedSpawner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
+    public RepairedSpawner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	public BlockPlaceHandler getItemHandler() {
-		return (e, item) -> {
-			if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
-				EntityType type = null;
-				
-				for (String line : item.getItemMeta().getLore()) {
-					if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>")) {
-						type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(' ', '_').toUpperCase(Locale.ROOT));
-					}
-				}
-				
-				if (type != null) {
-					CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
-					spawner.setSpawnedType(type);
-					spawner.update(true, false);
-				}
-				
-				return true;
-			}
-			else {
-				return false;
-			}
-		};
-	}
+    @Override
+    protected boolean areItemHandlersPrivate() {
+        return false;
+    }
+
+    @Override
+    public BlockPlaceHandler getItemHandler() {
+        return (e, item) -> {
+            if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
+                EntityType type = null;
+
+                for (String line : item.getItemMeta().getLore()) {
+                    if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>")) {
+                        type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(' ', '_').toUpperCase(Locale.ROOT));
+                    }
+                }
+
+                if (type != null) {
+                    CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
+                    spawner.setSpawnedType(type);
+                    spawner.update(true, false);
+                }
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+    }
 
 }
