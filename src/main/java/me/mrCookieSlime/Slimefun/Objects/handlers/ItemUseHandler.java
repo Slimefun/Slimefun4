@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -9,6 +10,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * 
  * @author TheBusyBiscuit
  *
+ * @see ItemHandler
+ * @see SimpleSlimefunItem
+ * 
  */
 @FunctionalInterface
 public interface ItemUseHandler extends ItemHandler {

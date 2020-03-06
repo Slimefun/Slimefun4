@@ -13,6 +13,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMach
  * a class that inherits from {@link MultiBlockMachine}.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see ItemHandler
+ * @see MultiBlock
+ * @see MultiBlockMachine
  *
  */
 @FunctionalInterface

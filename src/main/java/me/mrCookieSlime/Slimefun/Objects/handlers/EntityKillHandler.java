@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -14,6 +15,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * 
  * @author TheBusyBiscuit
  *
+ * @see ItemHandler
+ * @see SimpleSlimefunItem
+ * 
  */
 @FunctionalInterface
 public interface EntityKillHandler extends ItemHandler {
