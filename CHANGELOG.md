@@ -41,6 +41,7 @@
 
 ### Changes
 * Removed some deprecated parts of the API
+* Changed Automatic Ignition Chamber to be a Dropper
 
 ### Fixes
 

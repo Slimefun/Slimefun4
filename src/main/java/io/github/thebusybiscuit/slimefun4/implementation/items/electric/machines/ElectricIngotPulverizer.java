@@ -14,6 +14,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link ElectricIngotPulverizer} is an implementation of {@link AContainer} that allows
+ * you to turn various Slimefun Ingots back into their dusts.
+ * 
+ * @author John000708
+ * 
+ * @see ElectricIngotFactory
+ *
+ */
 public class ElectricIngotPulverizer extends AContainer implements RecipeDisplayItem {
 
     public ElectricIngotPulverizer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

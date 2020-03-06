@@ -23,7 +23,7 @@ public class MetricsService {
     }
 
     public void start() {
-        Metrics metrics = new Metrics(plugin, 4575);
+        Metrics metrics = new Metrics(plugin, 4574);
 
         if (SlimefunPlugin.getUpdater().getBranch().isOfficial()) {
             // We really do not need this data if it is an unofficially modified build...

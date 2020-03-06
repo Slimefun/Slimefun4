@@ -15,6 +15,8 @@ import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
  * Represents a contributor on Slimefun4's GitHub repository.
  *
  * @author TheBusyBiscuit
+ * @author Walshy
+ * 
  */
 public class Contributor {
 

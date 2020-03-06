@@ -45,7 +45,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityKillLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.IgnitionChamberListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
@@ -263,10 +262,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
                 if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) {
                     grapplingHookListener.load(this);
-                }
-
-                if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) {
-                    new IgnitionChamberListener(this);
                 }
 
                 if (SlimefunItem.getByID("BLADE_OF_VAMPIRES") != null) {

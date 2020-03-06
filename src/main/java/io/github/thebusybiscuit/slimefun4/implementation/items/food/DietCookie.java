@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -11,6 +12,16 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link DietCookie} gives you a {@link PotionEffect} of Type {@code PotionEffectType.LEVITATION}
+ * when consumed.
+ * 
+ * @author Linox
+ * 
+ * @see FortuneCookie
+ * @see ItemConsumptionHandler
+ *
+ */
 public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     public DietCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

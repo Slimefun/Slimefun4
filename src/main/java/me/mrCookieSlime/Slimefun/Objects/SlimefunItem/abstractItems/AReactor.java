@@ -25,6 +25,8 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
@@ -46,6 +48,17 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+/**
+ * The abstract {@link AReactor} class is very similar to {@link AGenerator} but is
+ * exclusively used for Reactors.
+ * 
+ * @author John000708
+ * 
+ * @see AGenerator
+ * @see NuclearReactor
+ * @see NetherStarReactor
+ *
+ */
 public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem, InventoryBlock, EnergyNetComponent {
 
     public static Map<Location, MachineFuel> processing = new HashMap<>();
@@ -230,9 +243,15 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 
     public abstract void extraTick(Location l);
 
+    /**
+     * This method returns the {@link ItemStack} that is required to cool this {@link AReactor}.
+     * If it returns null, then no cooling is required.
+     * 
+     * @return The {@link ItemStack} required to cool this {@link AReactor}
+     */
     public abstract ItemStack getCoolant();
 
-    public boolean needsCooling() {
+    private boolean needsCooling() {
         return getCoolant() != null;
     }
 
@@ -298,7 +317,9 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
                             progress.put(l, timeleft - 1);
 
                             Slimefun.runSync(() -> {
-                                if (!l.getBlock().getRelative(cooling[ThreadLocalRandom.current().nextInt(cooling.length)]).isLiquid()) explode.add(l);
+                                if (!l.getBlock().getRelative(cooling[ThreadLocalRandom.current().nextInt(cooling.length)]).isLiquid()) {
+                                    explode.add(l);
+                                }
                             });
 
                             ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
@@ -342,6 +363,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
                     }
                     else {
                         menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+
                         if (processing.get(l).getOutput() != null) {
                             menu.pushItem(processing.get(l).getOutput(), getOutputSlots());
                         }

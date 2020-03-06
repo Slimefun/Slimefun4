@@ -21,6 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
  * to recognize that machine in a {@link MultiBlockInteractEvent}.
  * 
  * @author TheBusyBiscuit
+ * @author Liruxo
  * 
  * @see MultiBlockMachine
  * @see MultiBlockInteractionHandler

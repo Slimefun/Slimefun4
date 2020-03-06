@@ -18,6 +18,15 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link ExplosiveShovel} works similar to the {@link ExplosivePickaxe}.
+ * However it can only break blocks that a shovel can break.
+ * 
+ * @author Linox
+ * 
+ * @see ExplosivePickaxe
+ *
+ */
 public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
 
     private boolean damageOnUse;

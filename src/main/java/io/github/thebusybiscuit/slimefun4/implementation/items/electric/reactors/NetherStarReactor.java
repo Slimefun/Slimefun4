@@ -17,6 +17,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link NetherStarReactor} is an implementation of {@link AReactor} that consumes
+ * Nether Stars and adds Withering to any nearby {@link LivingEntity}
+ * 
+ * @author John000708
+ * 
+ * @see NuclearReactor
+ *
+ */
 public abstract class NetherStarReactor extends AReactor {
 
     public NetherStarReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

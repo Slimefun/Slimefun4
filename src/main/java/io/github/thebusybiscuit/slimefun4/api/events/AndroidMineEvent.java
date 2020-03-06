@@ -10,6 +10,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidE
 /**
  * This event is fired before a miner android mines a block.
  * If this event is cancelled, the block will not be mined.
+ * 
+ * @author poma123
+ * 
  */
 public class AndroidMineEvent extends Event implements Cancellable {
 

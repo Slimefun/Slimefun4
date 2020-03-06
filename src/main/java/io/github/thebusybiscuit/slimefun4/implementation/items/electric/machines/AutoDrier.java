@@ -22,6 +22,14 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+/**
+ * The {@link AutoDrier} is an implementation of {@link AContainer} that features recipes
+ * related to "drying out" items.
+ * It also allows you to convert Rotten Flesh into Leather.
+ * 
+ * @author Linox
+ *
+ */
 public class AutoDrier extends AContainer implements RecipeDisplayItem {
 
     private final List<ItemStack> recipeList = new ArrayList<>();

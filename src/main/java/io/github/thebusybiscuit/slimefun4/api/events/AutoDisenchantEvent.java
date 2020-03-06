@@ -10,6 +10,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 /**
  * An {@link Event} that is called whenever an {@link AutoDisenchanter} has
  * disenchanted an {@link ItemStack}.
+ * 
+ * @author poma123
  *
  */
 public class AutoDisenchantEvent extends Event implements Cancellable {

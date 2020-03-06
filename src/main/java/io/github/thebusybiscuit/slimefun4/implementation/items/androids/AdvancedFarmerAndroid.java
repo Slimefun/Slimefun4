@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.ExoticGarden.ExoticGarden;
@@ -11,6 +12,16 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+/**
+ * The {@link AdvancedFarmerAndroid} is an extension of the {@link FarmerAndroid}.
+ * It also allows the {@link Player} to harvest plants from the addon ExoticGarden.
+ * 
+ * @author John000708
+ * @author TheBusyBiscuit
+ * 
+ * @see FarmerAndroid
+ *
+ */
 public abstract class AdvancedFarmerAndroid extends FarmerAndroid {
 
     public AdvancedFarmerAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
