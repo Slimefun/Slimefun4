@@ -1,10 +1,10 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
-import org.bukkit.inventory.ItemStack;
-
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Talisman;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * @since 4.0

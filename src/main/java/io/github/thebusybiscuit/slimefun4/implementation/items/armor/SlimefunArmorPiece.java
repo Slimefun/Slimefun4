@@ -1,7 +1,8 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
+package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -15,12 +16,7 @@ public class SlimefunArmorPiece extends SlimefunItem {
         this.effects = effects;
     }
 
-    public SlimefunArmorPiece(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects, String[] keys, Object[] values) {
-        super(category, item, recipeType, recipe, keys, values);
-        this.effects = effects;
-    }
-
-    public PotionEffect[] getEffects() {
+    public PotionEffect[] getPotionEffects() {
         return this.effects;
     }
 

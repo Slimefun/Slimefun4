@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -84,20 +83,14 @@ public class VanillaMachinesListener implements Listener {
 	}
 	
 	private boolean checkForUnallowedItems(ItemStack item1, ItemStack item2) {
-		if (SlimefunManager.isItemSimilar(item1, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
-			return true;
-		else if (SlimefunManager.isItemSimilar(item1, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
-			return true;
-		else if (SlimefunManager.isItemSimilar(item2, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true))
-			return true;
-		else if (SlimefunManager.isItemSimilar(item2, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true))
-			return true;
-		else {
-			SlimefunItem sfItem1 = SlimefunItem.getByItem(item1);
-			SlimefunItem sfItem2 = SlimefunItem.getByItem(item2);
+        if (SlimefunGuide.isGuideItem(item1) || SlimefunGuide.isGuideItem(item2)) {
+            return true;
+        } else {
+            SlimefunItem sfItem1 = SlimefunItem.getByItem(item1);
+            SlimefunItem sfItem2 = SlimefunItem.getByItem(item2);
 
             return (sfItem1 != null && !sfItem1.isDisabled()) || (sfItem2 != null && !sfItem2.isDisabled());
-		}
+        }
 
     }
 }

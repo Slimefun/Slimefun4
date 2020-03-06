@@ -102,7 +102,7 @@ public class CargoNet extends Network {
         }
     }
 
-    public void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+    public void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
         if (from == NetworkComponent.TERMINUS) {
             inputNodes.remove(l);
             outputNodes.remove(l);
@@ -111,7 +111,7 @@ public class CargoNet extends Network {
             exports.remove(l);
         }
         if (to == NetworkComponent.TERMINUS) {
-            switch(BlockStorage.checkID(l)) {
+            switch (BlockStorage.checkID(l)) {
                 case "CARGO_NODE_INPUT":
                     inputNodes.add(l);
                     break;

@@ -1,14 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
+import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount.TooManyRequestsException;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
-import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
-import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount.TooManyRequestsException;
-import io.github.thebusybiscuit.slimefun4.core.services.GitHubService;
 
 public class GitHubTask implements Runnable {
 	

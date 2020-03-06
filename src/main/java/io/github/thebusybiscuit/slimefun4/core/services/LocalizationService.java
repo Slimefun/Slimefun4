@@ -1,5 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,19 +22,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 
-import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.SupportedLanguage;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-
+/**
+ * As the name suggests, this Service is responsible for Localization.
+ * It is used for managing the {@link Language} of a {@link Player} and the entire {@link Server}.
+ *
+ * @author TheBusyBiscuit
+ */
 public class LocalizationService extends SlimefunLocalization {
 
     private static final String LANGUAGE_PATH = "language";
@@ -42,9 +47,7 @@ public class LocalizationService extends SlimefunLocalization {
 
         defaultLanguage.setMessages(getConfig().getConfiguration());
 
-        for (SupportedLanguage lang : SupportedLanguage.values()) {
-            addLanguage(lang.getID(), lang.getTexture());
-        }
+        loadEmbeddedLanguages();
 
         String language = getConfig().getString(LANGUAGE_PATH);
         if (language == null) language = serverDefaultLanguage;
@@ -81,11 +84,7 @@ public class LocalizationService extends SlimefunLocalization {
     @Override
     public boolean hasLanguage(String language) {
         // Checks if our jar files contains any .yml file for this id
-        return containsResource("messages_" + language)
-                || containsResource("researches_" + language)
-                || containsResource("resources_" + language)
-                || containsResource("categories_" + language)
-                || containsResource("recipes_" + language);
+        return containsResource("messages_" + language) || containsResource("researches_" + language) || containsResource("resources_" + language) || containsResource("categories_" + language) || containsResource("recipes_" + language);
     }
 
     private boolean containsResource(String file) {
@@ -143,7 +142,8 @@ public class LocalizationService extends SlimefunLocalization {
         save();
     }
 
-    private void addLanguage(String id, String hash) {
+    @Override
+    protected void addLanguage(String id, String hash) {
         if (hasLanguage(id)) {
             FileConfiguration messages = streamConfigFile("messages_" + id + ".yml", getConfig().getConfiguration());
             FileConfiguration researches = streamConfigFile("researches_" + id + ".yml", null);
@@ -163,7 +163,7 @@ public class LocalizationService extends SlimefunLocalization {
     }
 
     public double getProgress(Language lang) {
-        int defaultKeys = getTotalKeys(languages.get(SupportedLanguage.ENGLISH.getID()));
+        int defaultKeys = getTotalKeys(languages.get("en"));
         if (defaultKeys == 0) return 0;
 
         return DoubleHandler.fixDouble(100.0 * (getTotalKeys(lang) / (double) defaultKeys));

@@ -1,12 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
-import org.bukkit.inventory.ItemStack;
-
+import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.bukkit.inventory.ItemStack;
 
 public class SoulboundBackpack extends SlimefunBackpack implements Soulbound {
 

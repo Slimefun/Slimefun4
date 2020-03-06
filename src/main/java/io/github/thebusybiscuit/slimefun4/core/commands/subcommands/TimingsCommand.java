@@ -1,22 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 
-public class TimingsCommand extends SubCommand {
+class TimingsCommand extends SubCommand {
 
-	public TimingsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-		super(plugin, cmd);
-	}
+    public TimingsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+        super(plugin, cmd);
+    }
 
-	@Override
-	public String getName() {
-		return "timings";
-	}
+    @Override
+    public String getName() {
+        return "timings";
+    }
 
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {

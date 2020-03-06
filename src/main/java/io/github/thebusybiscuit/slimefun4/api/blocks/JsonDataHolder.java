@@ -1,22 +1,22 @@
-package io.github.thebusybiscuit.slimefun4.api;
-
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.IntFunction;
+package io.github.thebusybiscuit.slimefun4.api.blocks;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+
 public abstract class JsonDataHolder {
 
-	protected final JsonObject data;
-	private boolean dirty;
-	
-	public JsonDataHolder() {
-		this(null);
-	}
+    protected final JsonObject data;
+    private boolean dirty;
+
+    public JsonDataHolder() {
+        this(null);
+    }
 	
 	public JsonDataHolder(JsonObject data) {
 		this.data = data != null ? data: new JsonObject();

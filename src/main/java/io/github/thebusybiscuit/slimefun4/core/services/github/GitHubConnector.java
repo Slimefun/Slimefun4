@@ -1,99 +1,94 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.logging.Level;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+abstract class GitHubConnector {
 
-import io.github.thebusybiscuit.slimefun4.core.services.GitHubService;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+    protected File file;
+    protected final GitHubService github;
 
-public abstract class GitHubConnector {
+    public GitHubConnector(GitHubService github) {
+        this.github = github;
+    }
 
-	protected File file;
-	protected final GitHubService github;
+    public abstract String getFileName();
 
-	public GitHubConnector(GitHubService github) {
-		this.github = github;
-	}
+    public abstract String getRepository();
 
-	public abstract String getFileName();
-	public abstract String getRepository();
-	public abstract String getURLSuffix();
-	public abstract void onSuccess(JsonElement element);
-	
-	public void onFailure() {
-		// Don't do anything by default
-	}
+    public abstract String getURLSuffix();
 
-	public void pullFile() {
-		file = new File("plugins/Slimefun/cache/github/" + getFileName() + ".json");
-		
-		if (github.isLoggingEnabled()) {
-			Slimefun.getLogger().log(Level.INFO, "Retrieving '" + this.getFileName() + ".json' from GitHub...");
-		}
-	
-		try {
-			URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
+    public abstract void onSuccess(JsonElement element);
 
-			URLConnection connection = website.openConnection();
-			connection.setConnectTimeout(3000);
-			connection.addRequestProperty("User-Agent", "Slimefun 4 GitHub Agent (by TheBusyBiscuit)");
-			connection.setDoOutput(true);
+    public void onFailure() {
+        // Don't do anything by default
+    }
 
-			try (ReadableByteChannel channel = Channels.newChannel(connection.getInputStream())) {
-				try (FileOutputStream stream = new FileOutputStream(file)) {
-					stream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
-					parseData();
-				}
-			}
-		} catch (IOException e) {
-			if (github.isLoggingEnabled()) {
-				Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.");
-			}
+    public void pullFile() {
+        file = new File("plugins/Slimefun/cache/github/" + getFileName() + ".json");
 
-			if (hasData()) {
-				parseData();
-			}
-			else {
-				onFailure();
-			}
-		}
-	}
+        if (github.isLoggingEnabled()) {
+            Slimefun.getLogger().log(Level.INFO, "Retrieving '" + this.getFileName() + ".json' from GitHub...");
+        }
 
-	public boolean hasData() {
-		return getFile().exists();
-	}
+        try {
+            URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
 
-	public File getFile() {
-		return file;
-	}
+            URLConnection connection = website.openConnection();
+            connection.setConnectTimeout(3000);
+            connection.addRequestProperty("User-Agent", "Slimefun 4 GitHub Agent (by TheBusyBiscuit)");
+            connection.setDoOutput(true);
 
-	public void parseData() {
-		try (BufferedReader reader = new BufferedReader(new FileReader(getFile()))) {
-			StringBuilder builder = new StringBuilder();
+            try (ReadableByteChannel channel = Channels.newChannel(connection.getInputStream())) {
+                try (FileOutputStream stream = new FileOutputStream(file)) {
+                    stream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
+                    parseData();
+                }
+            }
+        } catch (IOException e) {
+            if (github.isLoggingEnabled()) {
+                Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.");
+            }
 
-			String line;
-			while ((line = reader.readLine()) != null) {
-				builder.append(line);
-			}
+            if (hasData()) {
+                parseData();
+            } else {
+                onFailure();
+            }
+        }
+    }
 
-			JsonElement element = new JsonParser().parse(builder.toString());
-			onSuccess(element);
-		} 
-		catch (IOException x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing GitHub-Data for Slimefun " + SlimefunPlugin.getVersion(), x);
-			onFailure();
-		}
-	}
+    public boolean hasData() {
+        return getFile().exists();
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void parseData() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(getFile()))) {
+            StringBuilder builder = new StringBuilder();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+
+            JsonElement element = new JsonParser().parse(builder.toString());
+            onSuccess(element);
+        } catch (IOException x) {
+            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing GitHub-Data for Slimefun " + SlimefunPlugin.getVersion(), x);
+            onFailure();
+        }
+    }
 }

@@ -2,8 +2,6 @@ package io.github.thebusybiscuit.slimefun4.api.blocks;
 
 import com.google.gson.JsonObject;
 
-import io.github.thebusybiscuit.slimefun4.api.JsonDataHolder;
-
 public class SlimefunBlock extends JsonDataHolder {
 
 	private String id;

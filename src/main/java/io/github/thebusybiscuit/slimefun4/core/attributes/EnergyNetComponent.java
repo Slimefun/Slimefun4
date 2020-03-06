@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNetComponentType;
 
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks

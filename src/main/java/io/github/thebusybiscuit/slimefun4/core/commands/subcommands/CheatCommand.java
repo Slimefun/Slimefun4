@@ -7,16 +7,16 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CheatCommand extends SubCommand {
+class CheatCommand extends SubCommand {
 
-	public CheatCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-		super(plugin, cmd);
-	}
+    public CheatCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+        super(plugin, cmd);
+    }
 
-	@Override
-	public String getName() {
-		return "cheat";
-	}
+    @Override
+    public String getName() {
+        return "cheat";
+    }
 
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {

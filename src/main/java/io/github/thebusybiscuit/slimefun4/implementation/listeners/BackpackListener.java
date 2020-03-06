@@ -1,10 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Juice;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -87,8 +86,7 @@ public class BackpackListener implements Listener {
 
         if (sfItem instanceof SlimefunBackpack) {
             return false;
-        }
-        else if (SlimefunManager.isItemSimilar(backpack, SlimefunItems.COOLER, false)) {
+        } else if (sfItem instanceof Cooler) {
             return sfItem instanceof Juice;
         }
 

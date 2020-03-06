@@ -1,39 +1,39 @@
 package io.github.thebusybiscuit.slimefun4.api.network;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
-
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * An abstract Network class to manage networks in a stateful way
- * 
- * @author meiamsome
  *
+ * @author meiamsome
  */
 public abstract class Network {
 
-	public abstract int getRange();
-	public abstract NetworkComponent classifyLocation(Location l);
-	public abstract void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
+    public abstract int getRange();
 
-	protected Location regulator;
-	private Queue<Location> nodeQueue = new ArrayDeque<>();
+    public abstract NetworkComponent classifyLocation(Location l);
 
-	protected Set<Location> connectedLocations = new HashSet<>();
-	protected Set<Location> regulatorNodes = new HashSet<>();
-	protected Set<Location> connectorNodes = new HashSet<>();
-	protected Set<Location> terminusNodes = new HashSet<>();
+    public abstract void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
 
-	protected Network(Location regulator) {
+    protected Location regulator;
+    private Queue<Location> nodeQueue = new ArrayDeque<>();
+
+    protected Set<Location> connectedLocations = new HashSet<>();
+    protected Set<Location> regulatorNodes = new HashSet<>();
+    protected Set<Location> connectorNodes = new HashSet<>();
+    protected Set<Location> terminusNodes = new HashSet<>();
+
+    protected Network(Location regulator) {
 		this.regulator = regulator;
 		connectedLocations.add(regulator);
 		nodeQueue.add(regulator.clone());
@@ -96,19 +96,17 @@ public abstract class Network {
 				
 				if (classification == NetworkComponent.REGULATOR) {
 					regulatorNodes.add(l);
-					discoverNeighbors(l);
-				} 
-				else if(classification == NetworkComponent.CONNECTOR) {
-					connectorNodes.add(l);
-					discoverNeighbors(l);
-				} 
-				else if(classification == NetworkComponent.TERMINUS) {
-					terminusNodes.add(l);
-				}
-				
-				locationClassificationChange(l, currentAssignment, classification);
-			}
-			steps += 1;
+                    discoverNeighbors(l);
+                } else if (classification == NetworkComponent.CONNECTOR) {
+                    connectorNodes.add(l);
+                    discoverNeighbors(l);
+                } else if (classification == NetworkComponent.TERMINUS) {
+                    terminusNodes.add(l);
+                }
+
+                onClassificationChange(l, currentAssignment, classification);
+            }
+            steps += 1;
 			
 			if (steps >= maxSteps) {
 				break;

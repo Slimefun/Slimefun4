@@ -1,27 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.core.hooks;
 
-import java.util.Set;
-import java.util.stream.Stream;
-
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import me.mrCookieSlime.Slimefun.Objects.Research;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import java.util.Set;
+import java.util.stream.Stream;
 
-public class PlaceholderAPIHook extends PlaceholderExpansion {
+class PlaceholderAPIHook extends PlaceholderExpansion {
 
-	@Override
-	public String getAuthor() {
-		return SlimefunPlugin.instance.getDescription().getAuthors().toString();
-	}
+    @Override
+    public String getAuthor() {
+        return SlimefunPlugin.instance.getDescription().getAuthors().toString();
+    }
 
-	@Override
-	public String getIdentifier() {
-		return "slimefun";
-	}
+    @Override
+    public String getIdentifier() {
+        return "slimefun";
+    }
 
 	@Override
 	public String getVersion() {

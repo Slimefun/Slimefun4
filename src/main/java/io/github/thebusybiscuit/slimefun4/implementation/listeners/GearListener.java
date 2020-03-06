@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
@@ -49,7 +50,7 @@ public class GearListener implements Listener {
 
             if (thrust > 0.2)
                 new JetpackTask(p, thrust).scheduleRepeating(0, 3);
-        } else if (chestplate.getID().equals("PARACHUTE"))
+        } else if (chestplate instanceof Parachute)
             new ParachuteTask(p).scheduleRepeating(0, 3);
     }
 

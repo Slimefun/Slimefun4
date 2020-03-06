@@ -10,16 +10,16 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
-public class SearchCommand extends SubCommand {
+class SearchCommand extends SubCommand {
 
-	public SearchCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-		super(plugin, cmd);
-	}
+    public SearchCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+        super(plugin, cmd);
+    }
 
-	@Override
-	public String getName() {
-		return "search";
-	}
+    @Override
+    public String getName() {
+        return "search";
+    }
 
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {

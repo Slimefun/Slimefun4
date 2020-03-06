@@ -1,25 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
-import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+class TeleporterCommand extends SubCommand {
 
-public class TeleporterCommand extends SubCommand {
+    public TeleporterCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+        super(plugin, cmd);
+    }
 
-	public TeleporterCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-		super(plugin, cmd);
-	}
-
-	@Override
-	public String getName() {
-		return "teleporter";
-	}
+    @Override
+    public String getName() {
+        return "teleporter";
+    }
 	
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {

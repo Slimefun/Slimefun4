@@ -1,18 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import java.util.Optional;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.players.PlayerList;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-public class GiveCommand extends SubCommand {
+import java.util.Optional;
+
+class GiveCommand extends SubCommand {
 
     private static final String PLACEHOLDER_PLAYER = "%player%";
     private static final String PLACEHOLDER_ITEM = "%item%";

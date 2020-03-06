@@ -32,19 +32,19 @@ import java.util.List;
 import java.util.OptionalInt;
 
 public abstract class GEOMiner extends AContainer implements InventoryBlock, RecipeDisplayItem {
-	
-	private static final int[] BORDER = {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 53};
-	private static final int[] BORDER_OUT = {19, 20, 21, 22, 23, 24, 25, 28, 34, 37, 43, 46, 47, 48, 49, 50, 51, 52};
-	private static final int[] OUTPUT_SLOTS = {29, 30, 31, 32, 33, 38, 39, 40, 41, 42};
-	
-	public GEOMiner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-		
-		registerBlockHandler(getID(), new SlimefunBlockHandler() {
 
-			@Override
-			public void onPlace(Player p, Block b, SlimefunItem item) {
-				// Spawn the hologram
+    private static final int[] BORDER = {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 53};
+    private static final int[] OUTPUT_BORDER = {19, 20, 21, 22, 23, 24, 25, 28, 34, 37, 43, 46, 47, 48, 49, 50, 51, 52};
+    private static final int[] OUTPUT_SLOTS = {29, 30, 31, 32, 33, 38, 39, 40, 41, 42};
+
+    public GEOMiner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+
+        registerBlockHandler(getID(), new SlimefunBlockHandler() {
+
+            @Override
+            public void onPlace(Player p, Block b, SlimefunItem item) {
+                // Spawn the hologram
 				SimpleHologram.update(b, "&7待机中...");
 			}
 
@@ -124,21 +124,21 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	
 	@Override
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i : BORDER) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
-		}
-		
-		for (int i : BORDER_OUT) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
-		}
-		
-		preset.addItem(4, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
-		
-		for (int i : getOutputSlots()) {
-			preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
-				
-				@Override
-				public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
+        for (int i : BORDER) {
+            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+        }
+
+        for (int i : OUTPUT_BORDER) {
+            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+        }
+
+        preset.addItem(4, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+
+        for (int i : getOutputSlots()) {
+            preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
+
+                @Override
+                public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
 					return false;
 				}
 

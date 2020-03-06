@@ -99,14 +99,18 @@ public final class SlimefunGuide {
 	}
 
 	public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
-		SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
-	}
+        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
+    }
 
-	public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
-		SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
-	}
+    public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
+        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
+    }
 
-	public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
-		SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
-	}
+    public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
+        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
+    }
+
+    public static boolean isGuideItem(ItemStack item) {
+        return SlimefunManager.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEST), true) || SlimefunManager.isItemSimilar(item, getItem(SlimefunGuideLayout.BOOK), true) || SlimefunManager.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEAT_SHEET), true);
+    }
 }

@@ -1,20 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import java.util.*;
 
-public class SlimefunTabCompleter implements TabCompleter {
+class SlimefunTabCompleter implements TabCompleter {
 
     private static final int MAX_SUGGESTIONS = 40;
 

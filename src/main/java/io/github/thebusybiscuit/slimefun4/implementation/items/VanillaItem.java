@@ -1,9 +1,9 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
-
-import org.bukkit.inventory.ItemStack;
+package io.github.thebusybiscuit.slimefun4.implementation.items;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents a vanilla item that is overridden by Slimefun (like {@code ELYTRA}).

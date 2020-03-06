@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.geo;
 
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Chunk;
 import org.bukkit.Keyed;
 import org.bukkit.World.Environment;
@@ -7,31 +9,28 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-
 public interface GEOResource extends Keyed {
 
     /**
-     *  Returns the default supply of this resource in that biome
+     * Returns the default supply of this resource in that biome
      *
-     *  @param environment	The {@link Environment} this area is currently in (NORMAL / NETHER / THE_END)
-     *  @param biome		The {@link Biome} this area is currently in.
-     *
-     *  @return The default supply found in a {@link Chunk} with the given {@link Biome}
+     * @param environment The {@link Environment} this area is currently in (NORMAL / NETHER / THE_END)
+     * @param biome       The {@link Biome} this area is currently in.
+     * @return The default supply found in a {@link Chunk} with the given {@link Biome}
      */
     int getDefaultSupply(Environment environment, Biome biome);
 
     /**
      * Returns how much the value may deviate from the default supply (positive only).
      *
-     * @return	The deviation or spread of the supply
+     * @return The deviation or spread of the supply
      */
     int getMaxDeviation();
 
     /**
-     *  Returns the name of this resource (e.g. "Oil")
+     * Returns the name of this resource (e.g. "Oil")
      *
-     *  @return	The name of this Resource
+     * @return The name of this Resource
      */
     String getName();
 
@@ -58,9 +57,16 @@ public interface GEOResource extends Keyed {
         SlimefunPlugin.getGPSNetwork().getResourceManager().register(this);
     }
 
+    /**
+     * This method returns a localized name for this {@link GEOResource} in the
+     * {@link Language} the given {@link Player} selected.
+     *
+     * @param p The {@link Player} to localize the name for.
+     * @return The localized name for this {@link GEOResource}
+     */
     default String getName(Player p) {
         String name = SlimefunPlugin.getLocal().getResourceString(p, "resources." + getKey().getNamespace() + "." + getKey().getKey());
-        return name == null ? getName(): name;
+        return name == null ? getName() : name;
     }
 
 }

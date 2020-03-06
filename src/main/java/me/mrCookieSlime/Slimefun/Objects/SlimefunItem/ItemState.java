@@ -1,14 +1,16 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+
 /**
  * Defines whether a SlimefunItem is enabled, disabled or fall-back to its vanilla behavior.
  *
  * @since 4.1.10
  */
 public enum ItemState {
-	
-	/**
-	 * This SlimefunItem is enabled.
+
+    /**
+     * This SlimefunItem is enabled.
 	 */
 	ENABLED,
 

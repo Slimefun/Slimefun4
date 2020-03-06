@@ -2,12 +2,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import me.mrCookieSlime.Slimefun.api.energy.EnergyNet;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,7 +29,9 @@ public class DebugFishListener implements Listener {
 
     @EventHandler
     public void onDebug(PlayerInteractEvent e) {
-        if (e.getAction() == Action.PHYSICAL || e.getHand() != EquipmentSlot.HAND) return;
+        if (e.getAction() == Action.PHYSICAL || e.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
 
         Player p = e.getPlayer();
 
@@ -59,7 +61,7 @@ public class DebugFishListener implements Listener {
 
                             if (e.getClickedBlock().getState() instanceof Skull) {
                                 p.sendMessage(ChatColors.color("&dSkull: " + "&2\u2714"));
-                                //Check if the skull is a wall skull, and if so use Directional instead of Rotatable.
+                                // Check if the skull is a wall skull, and if so use Directional instead of Rotatable.
                                 if (e.getClickedBlock().getType() == Material.PLAYER_WALL_HEAD)
                                     p.sendMessage(ChatColors.color("  &dFacing: &e" + ((Directional) e.getClickedBlock().getBlockData()).getFacing().toString()));
                                 else

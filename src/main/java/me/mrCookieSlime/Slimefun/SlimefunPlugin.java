@@ -9,14 +9,12 @@ import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
-import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunTabCompleter;
 import io.github.thebusybiscuit.slimefun4.core.hooks.SlimefunHooks;
 import io.github.thebusybiscuit.slimefun4.core.services.*;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
+import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.*;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.NetherIceResource;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.OilResource;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.SaltResource;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.UraniumResource;
+import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
@@ -132,50 +130,52 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.INFO, "正在加载世界生成器...");
 
             // Generating Oil as an OreGenResource (it iss a cool API)
-            new OilResource().register();
-            new NetherIceResource().register();
-            new UraniumResource().register();
-            new SaltResource().register();
+            GEOResourcesSetup.setup();
 
-			getLogger().log(Level.INFO, "正在加载物品...");
-			MiscSetup.setupItemSettings();
+            getLogger().log(Level.INFO, "正在加载物品...");
+            MiscSetup.setupItemSettings();
 
-			try {
-				SlimefunItemSetup.setup(this);
-			} catch (Exception x) {
-				getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
-			}
+            try {
+                SlimefunItemSetup.setup(this);
+            } catch (Throwable x) {
+                getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
+            }
 
-			getLogger().log(Level.INFO, "正在加载研究项目...");
-			ResearchSetup.setupResearches();
+            getLogger().log(Level.INFO, "正在加载研究项目...");
 
-			settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
+            try {
+                ResearchSetup.setupResearches();
+            } catch (Throwable x) {
+                getLogger().log(Level.SEVERE, "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion(), x);
+            }
 
-			MiscSetup.setupMisc();
-			WikiSetup.addWikiPages(this);
-			textureService.setup(registry.getAllSlimefunItems());
+            settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 
-			// Setting up GitHub Connectors...
-			gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
+            MiscSetup.setupMisc();
+            WikiSetup.addWikiPages(this);
+            textureService.setup(registry.getAllSlimefunItems());
 
-			// All Slimefun Listeners
-			new SlimefunBootsListener(this);
-			new SlimefunItemListener(this);
-			new BlockPhysicsListener(this);
-			new MultiBlockListener(this);
-			new GearListener(this);
-			new DispenserListener(this);
-			new DamageListener(this);
-			new BlockListener(this);
-			new EnhancedFurnaceListener(this);
-			new TeleporterListener(this);
-			new AndroidKillingListener(this);
-			new NetworkListener(this);
-			new ItemPickupListener(this);
-			new DeathpointListener(this);
-			new ExplosionsListener(this);
-			new DebugFishListener(this);
-			new VanillaMachinesListener(this);
+            // Setting up GitHub Connectors...
+            gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
+
+            // All Slimefun Listeners
+            new SlimefunBootsListener(this);
+            new SlimefunItemListener(this);
+            new BlockPhysicsListener(this);
+            new MultiBlockListener(this);
+            new GearListener(this);
+            new DispenserListener(this);
+            new EntityKillListener(this);
+            new BlockListener(this);
+            new EnhancedFurnaceListener(this);
+            new TeleporterListener(this);
+            new AndroidKillingListener(this);
+            new NetworkListener(this);
+            new ItemPickupListener(this);
+            new DeathpointListener(this);
+            new ExplosionsListener(this);
+            new DebugFishListener(this);
+            new VanillaMachinesListener(this);
 
 			bowListener = new SlimefunBowListener(this);
 			ancientAltarListener = new AncientAltarListener();
@@ -226,21 +226,19 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 if (SlimefunItem.getByID("COOLER") != null) {
                     new CoolerListener(this);
                 }
-			}, 0);
+            }, 0);
 
-			SlimefunCommand command = new SlimefunCommand(this);
+            // Setting up the command /sf and all subcommands
+            new SlimefunCommand(this);
 
-			getCommand("slimefun").setExecutor(command);
-			getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter(command));
+            // Armor Update Task
+            if (config.getBoolean("options.enable-armor-effects")) {
+                getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
+            }
 
-			// Armor Update Task
-			if (config.getBoolean("options.enable-armor-effects")) {
-				getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
-			}
+            ticker = new TickerTask();
 
-			ticker = new TickerTask();
-
-			autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
+            autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
 
 			// Starting all ASYNC Tasks
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {

@@ -1,4 +1,11 @@
-package io.github.thebusybiscuit.slimefun4.core.services;
+package io.github.thebusybiscuit.slimefun4.core.services.github;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -6,19 +13,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.bukkit.plugin.Plugin;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import io.github.thebusybiscuit.slimefun4.core.services.github.ContributionsConnector;
-import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
-import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubConnector;
-import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubTask;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-
+/**
+ * This Service is responsible for grabbing every {@link Contributor} to this project
+ * from GitHub and holding data associated to the project repository, such
+ * as open issues or pending pull requests.
+ *
+ * @author TheBusyBiscuit
+ */
 public class GitHubService {
 
     private final String repository;
@@ -59,10 +60,12 @@ public class GitHubService {
         // TheBusyBiscuit/Slimefun4 (twice because there may me multiple pages)
         connectors.add(new ContributionsConnector(this, "code", 1, repository, "developer"));
         connectors.add(new ContributionsConnector(this, "code2", 2, repository, "developer"));
+
         // TheBusyBiscuit/Slimefun4-Wiki
-        connectors.add(new ContributionsConnector(this, "wiki", 1,"TheBusyBiscuit/Slimefun4-wiki", "wiki"));
+        connectors.add(new ContributionsConnector(this, "wiki", 1, "TheBusyBiscuit/Slimefun4-wiki", "wiki"));
+
         // TheBusyBiscuit/Slimefun4-Resourcepack
-        connectors.add(new ContributionsConnector(this, "resourcepack", 1,"TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
+        connectors.add(new ContributionsConnector(this, "resourcepack", 1, "TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
 
         connectors.add(new GitHubConnector(this) {
 

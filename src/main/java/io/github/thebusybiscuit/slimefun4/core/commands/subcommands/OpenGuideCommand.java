@@ -8,16 +8,16 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class OpenGuideCommand extends SubCommand {
+class OpenGuideCommand extends SubCommand {
 
-	public OpenGuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-		super(plugin, cmd);
-	}
+    public OpenGuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+        super(plugin, cmd);
+    }
 
-	@Override
-	public String getName() {
-		return "open_guide";
-	}
+    @Override
+    public String getName() {
+        return "open_guide";
+    }
 
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {

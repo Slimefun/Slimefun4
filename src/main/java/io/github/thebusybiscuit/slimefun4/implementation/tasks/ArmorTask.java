@@ -1,24 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
+import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ArmorTask implements Runnable {
 
@@ -69,7 +68,7 @@ public class ArmorTask implements Runnable {
 
             if (item != null && armorpiece.getItem().isPresent()) {
                 Slimefun.runSync(() -> {
-                    for (PotionEffect effect : armorpiece.getItem().get().getEffects()) {
+                    for (PotionEffect effect : armorpiece.getItem().get().getPotionEffects()) {
                         p.removePotionEffect(effect.getType());
                         p.addPotionEffect(effect);
                     }
