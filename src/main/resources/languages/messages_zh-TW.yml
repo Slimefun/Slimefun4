@@ -129,6 +129,7 @@ inventory:
 languages:
   af: 南非語
   ar: 阿拉伯文
+  bg: 保加利亞語
   cs: 捷克文
   da: 丹麥文
   de: 德語
@@ -144,6 +145,7 @@ languages:
   id: 印尼語
   it: 義大利文
   ja: 日語
+  ko: 韓語
   lv: 拉脫維亞語
   ms: 馬來語
   nl: 荷蘭語
@@ -156,13 +158,11 @@ languages:
   sk: 斯洛伐克文
   sv: 瑞典語
   th: 泰語
+  tr: 土耳其
   uk: 烏克蘭文
   vi: 越南文
   zh-CN: 中文（簡體）
   zh-TW: 中文（繁體）
-  bg: 保加利亞語
-  ko: 韓語
-  tr: 土耳其
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4此祭壇需要更多基座&c(%pedestals% / 8)"
