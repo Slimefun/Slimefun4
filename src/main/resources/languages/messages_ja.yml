@@ -129,6 +129,7 @@ inventory:
 languages:
   af: アフリカーンス語
   ar: アラビア語
+  bg: ブルガリア語
   cs: チェコ語
   da: デンマーク語
   de: ドイツ語
@@ -144,6 +145,7 @@ languages:
   id: インドネシア語
   it: イタリア語
   ja: 日本語
+  ko: 韓国語
   lv: ラトビア語
   ms: マレー語
   nl: オランダ語
@@ -156,13 +158,11 @@ languages:
   sk: スロバキア語
   sv: スウェーデン語
   th: タイ語
+  tr: トルコ語
   uk: ウクライナ語
   vi: ベトナム語
   zh-CN: 中国語（中国）
   zh-TW: 中国語（台湾）
-  bg: ブルガリア語
-  ko: 韓国語
-  tr: トルコ語
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4祭壇にAncient Pedestalが不足しています &c(%pedestals% / 8)"
