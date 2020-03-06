@@ -1,15 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import io.github.thebusybiscuit.slimefun4.core.services.GitHubService;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import io.github.thebusybiscuit.slimefun4.core.services.GitHubService;
 
 public class ContributionsConnector extends GitHubConnector {
 
@@ -38,7 +37,7 @@ public class ContributionsConnector extends GitHubConnector {
 		aliases.put("ajan-12", "ajan_12");
 		aliases.put("LinoxGH", "ajan_12");
 		aliases.put("mrcoffee1026", "mr_coffee1026");
-		aliases.put("BluGhostYT", "CyberPatriot");
+		aliases.put("Cyber-MC", "CyberPatriot");
 		aliases.put("BurningBrimstone", "Bluedevil74");
 		aliases.put("bverhoeven", "soczol");
 		aliases.put("ramdon-person", "ramdon_person");

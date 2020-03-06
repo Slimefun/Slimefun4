@@ -13,7 +13,7 @@ commands:
   slimefun:
     description: basic Slimefun command
     aliases: sf
-    usage: /sf <argument>
+    usage: '你没有安装前置 CS-CoreLib 或者你安装的版本服务器不支持.'
 permissions:
   slimefun.cheat.items:
     description: Allows you to cheat Items

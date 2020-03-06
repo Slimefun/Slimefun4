@@ -1,17 +1,24 @@
-package io.github.thebusybiscuit.slimefun4.implementation.tasks;
-
-import java.util.Arrays;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Waterlogged;
+package me.mrCookieSlime.Slimefun.Objects.handlers;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollection;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Waterlogged;
+
+import java.util.Arrays;
+
+/**
+ * This is a {@link BlockTicker} that is exclusively used for Rainbow blocks.
+ * On every tick it cycles through the {@link LoopIterator} and chooses the next {@link Material}
+ * and sets itself to that.
+ *
+ * @author TheBusyBiscuit
+ *
+ */
 
 public class RainbowTicker extends BlockTicker {
 

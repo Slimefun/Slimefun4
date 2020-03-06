@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
-import java.util.concurrent.ConcurrentMap;
-
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
+
+import java.util.concurrent.ConcurrentMap;
 
 public class Translators {
 
@@ -71,6 +71,7 @@ public class Translators {
         addTranslator("kbartek05", "kbartek_", "pl", true);
         addTranslator("Xylitus", "pl", true);
         addTranslator("Wirusiu", "pl", true);
+        addTranslator("koloksk", "pl", true);
 
         // Translators - Chinese (China)
         addTranslator("StarWishsama", "StarWish_Sama", "zh-CN", false);
@@ -84,6 +85,9 @@ public class Translators {
 
         // Translators - Japanese
         addTranslator("bito-blosh", "Bloshop", "ja", true);
+
+        // Translators - Turkish
+        addTranslator("Yunuskrn", "tr", true);
 
         // Translators - Portuguese (Brazil)
         addTranslator("G4stavoM1ster", "pt-BR", true);

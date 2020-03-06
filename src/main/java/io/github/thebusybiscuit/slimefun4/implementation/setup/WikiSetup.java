@@ -1,19 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class WikiSetup {
 
@@ -31,7 +30,7 @@ public final class WikiSetup {
                 SlimefunItem item = SlimefunItem.getByID(entry.getKey());
 
                 if (item != null) {
-                    item.addOficialWiki(entry.getValue().getAsString());
+                    item.addOficialWikipage(entry.getValue().getAsString());
                 }
             }
         } catch (IOException e) {

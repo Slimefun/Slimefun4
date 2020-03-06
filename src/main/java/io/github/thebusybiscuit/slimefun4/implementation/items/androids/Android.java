@@ -198,38 +198,7 @@ abstract class Android extends SlimefunItem {
 
         menu.addItem(48, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&e上传脚本", "", "&6单击 &7将你的机器人脚本", "&7上传到数据库"));
         menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
-            String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
-            int num = 1;
-
-            for (Config script: getUploadedScripts()) {
-                if (script.getString("author").equals(pl.getUniqueId().toString())) num++;
-                if (script.getString("code").equals(code)) {
-                    SlimefunPlugin.getLocal().sendMessage(pl, "android.scripts.already-uploaded", true);
-                    return false;
-                }
-            }
-
-            int id = num;
-
-            pl.closeInventory();
-            SlimefunPlugin.getLocal().sendMessages(pl, "android.scripts.enter-name");
-
-            ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, msg -> {
-                Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + '/' + p.getName() + ' ' + id + ".sfs");
-
-                script.setValue("author", pl.getUniqueId().toString());
-                script.setValue("author_name", pl.getName());
-                script.setValue("name", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', msg)));
-                script.setValue("code", code);
-                script.setValue("downloads", 0);
-                script.setValue("android", getAndroidType().toString());
-                script.setValue("rating.positive", new ArrayList<String>());
-                script.setValue("rating.negative", new ArrayList<String>());
-                script.save();
-
-                SlimefunPlugin.getLocal().sendMessages(pl, "android.scripts.uploaded");
-                openScriptDownloader(pl, b, page);
-            });
+            uploadScript(pl, b, page);
             return false;
         });
 
@@ -323,6 +292,44 @@ abstract class Android extends SlimefunItem {
         menu.open(p);
     }
 
+    private void uploadScript(Player p, Block b, int page) {
+        String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
+        int num = 1;
+
+        for (Config script : getUploadedScripts()) {
+            if (script.getString("author").equals(p.getUniqueId().toString())) {
+                num++;
+            }
+
+            if (script.getString("code").equals(code)) {
+                SlimefunPlugin.getLocal().sendMessage(p, "android.scripts.already-uploaded", true);
+                return;
+            }
+        }
+
+        int id = num;
+
+        p.closeInventory();
+        SlimefunPlugin.getLocal().sendMessages(p, "android.scripts.enter-name");
+
+        ChatInput.waitForPlayer(SlimefunPlugin.instance, p, msg -> {
+            Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + '/' + p.getName() + ' ' + id + ".sfs");
+
+            script.setValue("author", p.getUniqueId().toString());
+            script.setValue("author_name", p.getName());
+            script.setValue("name", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', msg)));
+            script.setValue("code", code);
+            script.setValue("downloads", 0);
+            script.setValue("android", getAndroidType().toString());
+            script.setValue("rating.positive", new ArrayList<String>());
+            script.setValue("rating.negative", new ArrayList<String>());
+            script.save();
+
+            SlimefunPlugin.getLocal().sendMessages(p, "android.scripts.uploaded");
+            openScriptDownloader(p, b, page);
+        });
+    }
+
     public void openScriptEditor(Player p, Block b) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
 
@@ -360,15 +367,19 @@ abstract class Android extends SlimefunItem {
         if (!directory.exists()) directory.mkdirs();
 
         for (File script : directory.listFiles()) {
-            if (script.getName().endsWith("sfs")) scripts.add(new Config(script));
+            if (script.getName().endsWith("sfs")) {
+                scripts.add(new Config(script));
+            }
         }
 
         if (getAndroidType() != AndroidType.NONE) {
-            File directory2 = new File("plugins/Slimefun/scripts/NONE");
-            if (!directory2.exists()) directory2.mkdirs();
+            File mainDirectory = new File("plugins/Slimefun/scripts/NONE");
+            if (!mainDirectory.exists()) mainDirectory.mkdirs();
 
-            for (File script : directory2.listFiles()) {
-                if (script.getName().endsWith("sfs")) scripts.add(new Config(script));
+            for (File script : mainDirectory.listFiles()) {
+                if (script.getName().endsWith("sfs")) {
+                    scripts.add(new Config(script));
+                }
             }
         }
 
@@ -437,27 +448,31 @@ abstract class Android extends SlimefunItem {
         int i = 10;
         for (ScriptPart part : getAccessibleScriptParts()) {
             menu.addItem(i, new CustomItem(part.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + part.name())), (pl, slot, item, action) -> {
-                int j = 0;
-                StringBuilder builder = new StringBuilder("START-");
-
-                for (String command : commands) {
-                    if (j > 0) {
-                        if (j == index) builder.append(part).append('-');
-                        else if (j < commands.length - 1) builder.append(command).append('-');
-                    }
-                    j++;
-                }
-
-                builder.append("REPEAT");
-                BlockStorage.addBlockInfo(b, "script", builder.toString());
-
-                openScript(pl, b, builder.toString());
+                addInstruction(pl, b, index, part, commands);
                 return false;
             });
             i++;
         }
 
         menu.open(p);
+    }
+
+    private void addInstruction(Player p, Block b, int index, ScriptPart part, String[] commands) {
+        int j = 0;
+        StringBuilder builder = new StringBuilder("START-");
+
+        for (String command : commands) {
+            if (j > 0) {
+                if (j == index) builder.append(part).append('-');
+                else if (j < commands.length - 1) builder.append(command).append('-');
+            }
+            j++;
+        }
+
+        builder.append("REPEAT");
+        BlockStorage.addBlockInfo(b, "script", builder.toString());
+
+        openScript(p, b, builder.toString());
     }
 
 }
