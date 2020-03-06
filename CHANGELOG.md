@@ -30,6 +30,14 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Release Candidate 8 (TBD)
+
+### Additions
+
+### Changes
+
+### Fixes
+
 ## Release Candidate 7 (06 Mar 2020)
 
 ### Additions
