@@ -115,6 +115,7 @@ public class AutoEnchanter extends AContainer {
 
                     if (amount > 0 && specialAmount <= SlimefunPlugin.getSettings().emeraldEnchantsLimit) {
                         ItemStack newItem = target.clone();
+                        newItem.setAmount(1);
 
                         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
                             newItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
