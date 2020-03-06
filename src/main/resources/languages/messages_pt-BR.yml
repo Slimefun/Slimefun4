@@ -161,6 +161,9 @@ languages:
   vi: Vietnamita
   zh-CN: Chinês (China)
   zh-TW: Chinês (Taiwan)
+  bg: Búlgaro
+  ko: Coreano
+  tr: Turco
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4O altar não está rodeado pela quantidade necessária de
