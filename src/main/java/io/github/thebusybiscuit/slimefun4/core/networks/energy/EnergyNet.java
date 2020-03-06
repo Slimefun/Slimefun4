@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -34,14 +35,32 @@ public class EnergyNet extends Network {
     }
 
     public static EnergyNetComponentType getComponent(Location l) {
-        if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponentType.NONE;
+        if (!BlockStorage.hasBlockInfo(l)) {
+            return EnergyNetComponentType.NONE;
+        }
+
         String id = BlockStorage.checkID(l);
-        if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponentType.GENERATOR;
-        if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponentType.CAPACITOR;
-        if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponentType.CONSUMER;
+
+        if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) {
+            return EnergyNetComponentType.GENERATOR;
+        }
+
+        if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
+            return EnergyNetComponentType.CAPACITOR;
+        }
+
+        if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) {
+            return EnergyNetComponentType.CONSUMER;
+        }
+
         return EnergyNetComponentType.NONE;
     }
 
+    /**
+     * @deprecated This is now inside the register() method of {@link SlimefunItem} if it implements
+     *             {@link EnergyNetComponent}
+     */
+    @Deprecated
     public static void registerComponent(String id, EnergyNetComponentType component) {
         switch (component) {
         case CONSUMER:
@@ -142,19 +161,25 @@ public class EnergyNet extends Network {
                 long timestamp = System.currentTimeMillis();
                 SlimefunItem item = BlockStorage.check(source);
                 Config config = BlockStorage.getLocationInfo(source);
-                double energy = item.getEnergyTicker().generateEnergy(source, item, config);
 
-                if (item.getEnergyTicker().explode(source)) {
-                    exploded.add(source);
-                    BlockStorage.clearBlockInfo(source);
+                try {
+                    double energy = item.getEnergyTicker().generateEnergy(source, item, config);
 
-                    Slimefun.runSync(() -> {
-                        source.getBlock().setType(Material.LAVA);
-                        source.getWorld().createExplosion(source, 0F, false);
-                    });
+                    if (item.getEnergyTicker().explode(source)) {
+                        exploded.add(source);
+                        BlockStorage.clearBlockInfo(source);
+
+                        Slimefun.runSync(() -> {
+                            source.getBlock().setType(Material.LAVA);
+                            source.getWorld().createExplosion(source, 0F, false);
+                        });
+                    }
+                    else {
+                        supply = supply + energy;
+                    }
                 }
-                else {
-                    supply = supply + energy;
+                catch (Throwable t) {
+                    item.error("An error occured while generating energy", t);
                 }
 
                 SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);

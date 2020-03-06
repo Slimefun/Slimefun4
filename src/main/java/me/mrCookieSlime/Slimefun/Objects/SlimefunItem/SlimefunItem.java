@@ -285,13 +285,7 @@ public class SlimefunItem implements Placeable {
             }
 
             if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {
-                EnergyNet.registerComponent(id, ((EnergyNetComponent) this).getEnergyComponentType());
-
-                int capacity = ((EnergyNetComponent) this).getCapacity();
-
-                if (capacity > 0) {
-                    SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-                }
+                registerEnergyNetComponent((EnergyNetComponent) this);
             }
 
             if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
@@ -336,6 +330,28 @@ public class SlimefunItem implements Placeable {
         }
         catch (Exception x) {
             error("Registering the Item '" + id + "' has failed", x);
+        }
+    }
+
+    private void registerEnergyNetComponent(EnergyNetComponent component) {
+        switch (component.getEnergyComponentType()) {
+        case CONSUMER:
+            SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);
+            break;
+        case CAPACITOR:
+            SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
+            break;
+        case GENERATOR:
+            SlimefunPlugin.getRegistry().getEnergyGenerators().add(id);
+            break;
+        default:
+            break;
+        }
+
+        int capacity = component.getCapacity();
+
+        if (capacity > 0) {
+            SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
         }
     }
 
@@ -477,7 +493,6 @@ public class SlimefunItem implements Placeable {
             }
             else if (handler instanceof GeneratorTicker) {
                 energyTicker = (GeneratorTicker) handler;
-                EnergyNet.registerComponent(getID(), EnergyNetComponentType.GENERATOR);
             }
         }
     }

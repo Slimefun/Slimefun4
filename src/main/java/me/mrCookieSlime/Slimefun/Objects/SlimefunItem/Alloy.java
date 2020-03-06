@@ -15,8 +15,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * As an example, a {@code BRASS_INGOT} is made up of {@code COPPER_DUST}, {@code ZINC_DUST} and {@code COPPER_INGOT}.
  *
  * @author TheBusyBiscuit
- * 
- * @see
  */
 public class Alloy extends SlimefunItem {
 

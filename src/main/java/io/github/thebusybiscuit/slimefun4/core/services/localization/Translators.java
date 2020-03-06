@@ -108,6 +108,7 @@ public class Translators {
         // Translators - Portuguese (Brazil)
         addTranslator("G4stavoM1ster", "pt-BR", true);
         addTranslator("yurinogueira", "pt-BR", true);
+        addTranslator("Sakanas", "pt-BR", true);
     }
 
     private void addTranslator(String name, String language, boolean lock) {

@@ -45,6 +45,8 @@ public final class SlimefunHooks {
             exoticGarden = isPluginInstalled("ExoticGarden");
             emeraldEnchants = isPluginInstalled("EmeraldEnchants");
 
+            SlimefunPlugin.getNetworkManager().setChestTerminalInstalled(isPluginInstalled("ChestTerminal"));
+
             // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
             if (isPluginInstalled("WorldEdit")) {
                 try {
