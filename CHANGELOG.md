@@ -34,7 +34,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 8 (TBD)
+## Release Candidate 10 (TBD)
 
 ### Additions
 * Added some new charts to bStats
@@ -44,6 +44,16 @@
 * Changed Automatic Ignition Chamber to be a Dropper
 
 ### Fixes
+
+## Release Candidate 9 (07 Mar 2020)
+
+### Fixes
+* Fixed Solar Generators not working
+
+## Release Candidate 8 (06 Mar 2020)
+
+## Fixes
+Fixed bStats Metrics not sending properly
 
 ## Release Candidate 7 (06 Mar 2020)
 
