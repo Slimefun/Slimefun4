@@ -38,6 +38,7 @@ android:
     uploaded:
     - "&bBezig met uploaden..."
     - "&aHet script is succesvol geupload!"
+    editor: Scripteditor
   started: "&7Je robot gaat weer door met het script"
   stopped: "&7Je robot is gestopt met het script"
 anvil:
@@ -117,6 +118,12 @@ guide:
   tooltips:
     open-category: Klik om te openen
     versions-notice: Deze zijn erg belangrijk voor het rapporteren van fouten!
+    wiki: Bekijk dit voorwerp op de officiële Slimefun Wiki
+    recipes:
+      machine: Recepten gemaakt in deze Machine
+      miner: Grondstoffen die je met deze Miner kunt verkrijgen
+      generator: Beschikbare soorten brandstof
+      gold-pan: Grondstoffen die je kunt verkrijgen
   back:
     title: Terug
     guide: Ga terug naar de Slimefun Handleiding
@@ -153,6 +160,13 @@ languages:
   uk: Oekraïens
   ms: Maleis
   'no': Noors
+  ja: Japans
+  fa: Perzisch
+  th: Thais
+  ro: Roemeens
+  bg: Bulgaars
+  ko: Koreaans
+  tr: Turks
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Het altaar is niet omringt met het nodige aantal sokkels
@@ -175,6 +189,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Type astublieft de gewenste text in het gespreksvenster. &r(Kleurcodes
       zijn ondersteund)"
+    inventory-title: Hologram-editor
   ignition-chamber-no-flint: "&cDe ontstekingskamer heeft geen aansteker meer"
   in-use: "&cDit blok is al in gebruik door een andere speler"
   pattern-not-found: "&eSorry, ik heb het recept niet herkend. Plaats astublieft de
@@ -188,6 +203,10 @@ machines:
     er astublieft iets in dat ik herken"
   wrong-item: "& eSorry, ik heb het object waarmee je mij aan hebt geklikt niet herkend.
     Controleer de recepten en kijk welke spullen je kan gebruiken"
+  GPS_CONTROL_PANEL:
+    title: GPS - Configuratiescherm
+    transmitters: Transmitter-overzicht
+    waypoints: Waypoint-overzicht
 messages:
   cannot-place: "&cJe kan dat blok daar niet plaatsen!"
   diet-cookie: "&eJe begint je zo ligt als een veertje te voelen..."
