@@ -1,0 +1,36 @@
+---
+slimefun:
+  armor: Zırh
+  basic_machines: Temel Makineler
+  birthday: TheBusyBiscuit'ün doğum günü (26 Ekim)
+  cargo: Kargo Yönetimi
+  christmas: Noel (Aralık)
+  easter: Paskalya (Nisan)
+  electricity: Enerji ve Elektrik
+  ender_talismans: Ender Tılsımları (Seviye II)
+  food: Yemek
+  gps: GPS Tabanlı Makineler
+  halloween: Cadılar Bayramı (31 Ekim)
+  items: Yararlı Eşyalar
+  magical_armor: Büyülü Zırh
+  magical_gadgets: Büyülü Cihazlar
+  magical_items: Büyülü Eşyalar
+  misc: Çeşitli Eşyalar
+  resources: Kaynaklar
+  talismans: Tılsımlar (Seviye I)
+  tech_misc: Teknik Bileşenler
+  technical_gadgets: Teknik Cihazlar
+  tools: Aletler
+  valentines_day: Sevgililer Günü (14 Şubat)
+  weapons: Silahlar
+tooltips:
+  results: GEO Tarama Sonuçları
+  world: Dünya
+  unit: Birim
+  units: Birimler
+resources:
+  slimefun:
+    oil: Petrol
+    nether_ice: Nether Buzu
+    salt: Tuz
+    uranium: Uranyum
