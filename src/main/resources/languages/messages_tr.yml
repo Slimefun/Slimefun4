@@ -1,0 +1,153 @@
+---
+commands:
+  help: Yardım ekranını görüntüler
+  teleporter: Diğer Bir Oyuncunun Yer Noktalarına Bakın
+  open_guide: Kitabı kullanmadan Slimefun Rehberini açar
+  stats: Oyuncu hakkında bazı İstatistikleri Gösterir
+  research:
+    reset: "&c %player%'ın Bilgisini sıfırladınız"
+guide:
+  credits:
+    commit: Geliştiirme
+    commits: Geliştirmeler
+  back:
+    title: Geri
+    guide: Slimefun Rehberine geri dön
+    settings: Ayarlar Paneline geri dön
+  title:
+    source: Kaynak Kodu
+  tooltips:
+    wiki: Bu eşyayı Slimefun Wikisinde görüntüle
+    recipes:
+      machine: Bu makinede üretilen tarifler
+      miner: Bu madenciyle elde edebileceğin kaynaklar
+      generator: Müsait yakıt türleri
+      gold-pan: Elde edebileceğin kaynaklar
+messages:
+  not-valid-item: "&4%item% &cgeçerli bir eşya değil!"
+  hungry: "&cBunu yapmak için çok açsın!"
+  disabled-in-world: "&4&lBu eşya bu dünyada devre dışı bırakıldı."
+  no-tome-yourself: "&4Tome of Knowledge &cı kendin için kullanamazsın..."
+  talisman:
+    miner: "&a&oTılsımın madenini ikiye katladı"
+    hunter: "&a&oTılsımın ganimetini ikiye katladı"
+    lava: "&a&oTılsımın seni yanarak ölmekten kurtardı"
+    angel: "&a&oTılsımın seni düşme hasarından kurtardı"
+    fire: "&a&oTılsımın seni yanarak ölmekten kurtardı"
+    magician: "&a&oTılsımın sana fazladan bir Büyü verdi"
+    traveller: "&a&oTılsımın sana bir Hız Artışı verdi"
+    warrior: "&a&oTılsımın bir süreliğine seni güçlendirdi"
+    knight: "&a&oTılsımın sana 5 Saniye Yenilenme verdi"
+    whirlwind: "&a&oTılsımın Mermiyi yansıttı"
+    wizard: "&a&oTılsımın sana daha yüksek seviye Servet verdi ama başka bir Büyünün
+      seviyesini düşürmüş olabilir."
+  soulbound-rune:
+    fail: "&cBir seferde sadece bir eşyayı ruhuna bağlayabilirsin."
+    success: "&aBu eşyayı ruhuna başarıyla bağladın! Öldüğünde saklayacaksın."
+  research:
+    start: "&7Kadim Ruhlar gizemli kelimeleri kulağına fısıldıyor!"
+  radiation: "&4Ölümcül radyasyona maruz kaldınız! &cRadyoaktif maddeden kurtulun
+    veya koruyucu takımın tamamını giyinin!"
+  fortune-cookie:
+  - 
+  - 
+  - "&7Hayatınızın bir noktasında kötü bir şey gerçekleşecek!!!"
+  - "&7Haftaya bunun gerçek dünya olmadığını fark edeceksiniz, bir bilgisayar oyunundasınız"
+machines:
+  pattern-not-found: "&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya
+    doğru şekilde yerleştirin."
+  unknown-material: "&eÜzgünüm, fırlatıcıdaki Eşyayı tanıyamadım. Lütfen bildiğim
+    bir şey koy."
+  wrong-item: "&eÜzgünüm, bana sağ tıkladığınız Eşyayı tanıyamadım. Tarifleri kontrol
+    edin ve hangi Eşyaları kullanabileceğinizi görün."
+  ignition-chamber-no-flint: "&cAteşleme Odasında Çakmak eksik."
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4Altar, gerekli Sütun miktarı ile çevrili değil &c(%pedestals%
+      / 8)"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4Sütun tıkandı! &cSütunun üstündeki herhangi bir şeyi kaldırın!"
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7Lütfen Sohbette istediğiniz Hologram Metnini yazın. &r(Renk Kodları
+      destekleniyor!)"
+    inventory-title: Hologram Editörü
+  ELEVATOR:
+    no-destinations: "&4Varış noktası bulunamadı"
+    current-floor: "&eŞu anda bulunduğunuz kat:"
+    enter-name: "&7Lütfen sohbette yeni katınız için bir ad yazın. &r(Renk kodları
+      destekleniyor!)"
+  TELEPORTER:
+    teleporting: "&3Işınlanılıyor..."
+  CARGO_NODES:
+    must-be-placed: "&4Mutlaka bir sandık veya makineye bağlanmalı!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Kontrol Paneli
+    transmitters: Verici Genel Bakışı
+    waypoints: Yer Noktası Genel Bakışı
+workbench:
+  not-enhanced: "&4Slimefun Eşyalarını normal bir üretim masasında kullanamazsınız"
+gps:
+  waypoint:
+    new: "&eLütfen sohbette yeni yer noktanız için bir ad yazın. &7(Renk Kodları destekleniyor!)"
+    max: "&4Maksimum yer noktası sayısına ulaştınız"
+  geo:
+    scan-required: "&4GEO-Taraması gerekli! &cİlk önce bir GEO-Tarayıcı kullanarak
+      bu bölgeyi tarayın!"
+android:
+  started: "&7Androidiniz senaryoyu uygulamaya devam ediyor"
+  stopped: "&7Androidiniz senaryoyu duraklattı"
+  scripts:
+    already-uploaded: "&4Bu senaryo zaten yüklendi."
+    instructions:
+      START: "&2Senaryoyu başlat"
+      REPEAT: "&9Senaryoyu Tekrar Et"
+      WAIT: "&e0.5s Bekle"
+      GO_FORWARD: "&7İleri Git"
+      GO_UP: "&7Yukarı Çık"
+      GO_DOWN: "&7Aşağıya İn"
+      TURN_LEFT: "&7Sola Dön"
+      TURN_RIGHT: "&7Sağa Dön"
+      DIG_UP: "&bYukarıyı Kaz"
+      DIG_FORWARD: "&bİleriyi Kaz"
+      DIG_DOWN: "&bAltını Kaz"
+      MOVE_AND_DIG_UP: "&bİlerle ve Yukarıyı Kaz"
+      MOVE_AND_DIG_FORWARD: "&bİlerle ve İleriyi Kaz"
+      MOVE_AND_DIG_DOWN: "&bİlerle ve Altını Kaz"
+      CHOP_TREE: "&cKes ve Ek"
+      CATCH_FISH: "&bBalık Tut"
+      FARM_FORWARD: "&bTopla ve Ek"
+      FARM_DOWN: "&bToplama ve Ekim &7(Altındaki blok)"
+      FARM_EXOTIC_FORWARD: "&bGelişmişce Topla ve Ek"
+      FARM_EXOTIC_DOWN: "&bGelişmişce Topla ve Ek &7(Altındaki blok)"
+      INTERFACE_ITEMS: "&9Envanter İçeriğini öndeki Arayüze aktar"
+      INTERFACE_FUEL: "&cÖndeki Arayüzden Yakıt çek"
+    enter-name:
+    - 
+    - "&eLütfen senaryonuz için bir ad yazınız"
+    uploaded:
+    - 
+    - "&aSenaryon başarıyla yüklendi!"
+    rating:
+      own: "&4Kendi senaryonu oylayamazın!"
+      already: "&4Bu senaryo için zaten oy kullandın!"
+    editor: Senaryo Editörü
+languages:
+  default: Sunucu Varsayılanı
+  ru: Rusça
+  sk: Slovakça
+  el: Yunanca
+  ar: Arapça
+  af: Afrikanca
+  da: Danca
+  fi: Fince
+  uk: Ukraynaca
+  ms: Malayca
+  'no': Norveçce
+  ja: Japonca
+  fa: Persçe
+  th: Tayca
+  ro: Romanca
+  pt: Portekizce (Portekiz)
+  pt-BR: Portekizce (Brezilya)
+  bg: Bulgarca
+  ko: Korece
+  tr: Türkçe
