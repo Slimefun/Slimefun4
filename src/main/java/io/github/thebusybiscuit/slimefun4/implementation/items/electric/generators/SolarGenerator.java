@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generat
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -11,7 +13,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker> {
+public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker> implements EnergyNetComponent {
 
     public SolarGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -35,6 +37,16 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
      */
     public double getNightEnergy() {
         // Override this as necessary for highly advanced Solar Generators
+        return 0;
+    }
+
+    @Override
+    public EnergyNetComponentType getEnergyComponentType() {
+        return EnergyNetComponentType.GENERATOR;
+    }
+
+    @Override
+    public int getCapacity() {
         return 0;
     }
 
