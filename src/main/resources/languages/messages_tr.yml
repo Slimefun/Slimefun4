@@ -1,0 +1,543 @@
+---
+minecraft:
+  blasting:
+    lore:
+    - İstediğiniz eşyayı üretmek için
+    - bu öğeyi Maden Fırınında pişirin.
+    name: Maden Fırını Tarifi
+  campfire:
+    lore:
+    - İstediğiniz eşyayı hazırlamak için
+    - bu öğeyi Kamp Ateşinde pişirin.
+    name: Kamp Ateşi Tarifi
+  furnace:
+    lore:
+    - İstediğiniz eşyayı üretmek için
+    - bu öğeyi Fırında pişirin.
+    name: Fırın Tarifi
+  shaped:
+    lore:
+    - Bu eşyayı normal Üretim Masası kullanarak
+    - gösterildiği gibi üretin.
+    - Tarifin şekline dikkat edin.
+    name: Biçimli Üretim Tarifi
+  shapeless:
+    lore:
+    - Bu eşyayı normal Üretim Masası kullanarak
+    - gösterildiği gibi üretin.
+    - Tarifin şekli önemli değil.
+    name: Biçimsiz Üretim Tarifi
+  smoking:
+    lore:
+    - İstediğiniz eşyayı hazırlamak için
+    - bu öğeyi Duman Fırınında pişirin.
+    name: Duman Fırını Tarifi
+  stonecutting:
+    lore:
+    - İstediğiniz eşyayı üretmek için
+    - Taş Kesici kullanın.
+    name: Taş Kesici Tarifi
+resources:
+  slimefun:
+    nether_ice: Nether Buzu
+    oil: Petrol
+    salt: Tuz
+    uranium: Uranyum
+  slimefunorechunks:
+    aluminum_ore_chunk: Alüminyum Madeni Bölgesi
+    cobalt_ore_chunk: Kobalt Madeni Bölgesi
+    copper_ore_chunk: Bakır Madeni Bölgesi
+    gold_ore_chunk: Altın Madeni Bölgesi
+    iron_ore_chunk: Demir Madeni Bölgesi
+    lead_ore_chunk: Kurşun Madeni Bölgesi
+    nickel_ore_chunk: Nikel Madeni Bölgesi
+    silver_ore_chunk: Gümüş Madeni Bölgesi
+    tin_ore_chunk: Kalay Madeni Bölgesi
+    zinc_ore_chunk: Çinko Madeni Bölgesi
+slimefun:
+  24k_gold_block: Altın Şehir
+  advanced_android: Gelişmiş Androidler
+  advanced_butcher_android: Gelişmiş Androidler - Kasap
+  advanced_circuit_board: Gelişmiş Devre Kartı
+  advanced_electric_smeltery: Gelişmiş Elektrikli Dökümhane
+  advanced_farmer_android: Gelişmiş Androidler - Çiftçi
+  advanced_fisherman_android: Gelişmiş Androidler - Balıkçı
+  advanced_output_node: Gelişmiş Çıkış Noktası
+  alloys: Gelişmiş Alaşımlar
+  ancient_altar:
+    lore:
+    - Bu eşyayı Antik Sunak kullanarak
+    - gösterildiği gibi üretin.
+    - Daha fazla bilgi için Antik Sunak sayfasına bakın.
+    name: Antik Sunak
+  ancient_runes: Elementsel Rünler
+  android_interfaces: Android Arayüzleri
+  android_memory_core: Bellek Çekirdeği
+  angel_talisman: Melek Tılsımı
+  animal_growth_accelerator: Hayvan Büyüme Manipülasyonu
+  anvil_talisman: Örs Tılsımı
+  armor: Zırh
+  armored_jetboots: Zırhlı Jet Botlar
+  armored_jetpack: Zırhlı Jetpack
+  armor_forge:
+    lore:
+    - Bu öğeyi bir Zırh Üretim Masası kullanarak
+    - gösterildiği gibi üretin.
+    name: Zırh Üretim Masası
+  auto_anvil: Otomatik Örs
+  auto_breeder: Otomatik Besleme
+  auto_drier: Kuru Bir Gün
+  auto_enchanting: Otomatik Büyüleyici ve Büyü Sökücü
+  automated_crafting_chamber: Otomatik Üretim
+  automated_panning_machine: Otomatik Altın Tavası
+  automatic_ignition_chamber: Otomatik Ateşleme Odası
+  backpacks: Sırt Çantaları
+  basic_circuit_board: Temel Devre Kartı
+  basic_machines: Temel Makineler
+  battery: İlk Piliniz
+  better_carbon_press: Gelişmiş Karbon Presi
+  better_crop_growth_accelerator: Gelişmiş Bitki Büyümesi Hızlandırıcı
+  better_electric_crucibles: Sıcak Potalar
+  better_electric_furnace: Gelişmiş Elektrikli Fırın
+  better_food_fabricator: Gelişmiş Yemek Üretimi
+  better_freezer: Gelişmiş Dondurucu
+  better_gps_transmitters: Gelişmiş Vericiler
+  better_heated_pressure_chamber: Gelişmiş Isıtmalı Basınç Odası
+  better_solar_generators: Gelişmiş Güneş Enerjisi Jeneratörleri
+  bio_reactor: Biyo-Reaktör
+  birthday: TheBusyBiscuit'ün doğum günü (26 Ekim)
+  blade_of_vampires: Vampirlerin Bıçağı
+  blistering_ingots: Parlayan Radyoaktivite
+  block_placer: Blok Yerleştirici
+  boosted_uranium: Sonsuz Döngü
+  boots_of_the_stomper: Ağır Ayak Çizmeleri
+  bound_armor: Ruh Bağlı Zırhlar
+  bound_backpack: Ruh Bağlı Depolama
+  bound_tools: Ruh Bağlı Aletler
+  bound_weapons: Ruh Bağlı Silahlar
+  bronze: Bronz Üretimi
+  butcher_androids: Kasap Androidleri
+  cactus_armor: Kaktüs Takımı
+  capacitors: Seviye 1 Kapasitörler
+  carbonado: Siyah Elmaslar
+  carbonado_furnace: Kara Elmas Kaplamalı Fırın
+  carbonado_tools: Üst Seviye Makineler
+  carbon_press: Karbon Presi
+  cargo: Kargo Yönetimi
+  cargo_basics: Kargo Temelleri
+  cargo_nodes: Kargo Kurulumu
+  chainmail_armor: Zincir Zırh
+  charging_bench: Şarj Tezgahı
+  christmas: Noel (Aralık)
+  coal_generator: Kömür Jeneratörü
+  cobalt_pickaxe: Hızlı Kazma
+  combustion_reactor: İçten Yanmalı Reaktör
+  common_talisman: Sıradan Tılsım
+  composter: Toprak Gübreleme
+  compressor_and_carbon: Karbon Üretimi
+  compressor:
+    lore:
+    - Bu eşyayı Kompresör kullanarak
+    - gösterildiği gibi üretin.
+    name: Kompresör
+  cooler: Portatif İçecekler
+  copper_wire: İnceltilmiş İletkenlik
+  crop_growth_accelerator: Bitki Büyümesi Hızlandırması
+  crucible: Pota
+  crushed_ore: Maden Arıtma
+  damascus_steel: Şam Çeliği
+  damascus_steel_armor: Şam Çeliği Zırhı
+  diet_cookie: Diyet Kurabiyesi
+  duct_tape: Koli Bandı
+  easter: Paskalya (Nisan)
+  electric_crucible: Elektrikli Pota
+  electric_furnaces: Elektrikli Fırın
+  electric_ingot_machines: Elektrikli Külçe İmalatı
+  electricity: Enerji ve Elektrik
+  electric_motor: Kızışıyor
+  electric_ore_grinding: Kırma ve Öğütme
+  electric_press: Elektrikli Pres
+  electric_smeltery: Elektrikli Dökümhane
+  elemental_staff: Elementsel Asalar
+  elevator: Asansörler
+  elytra: Elytralar
+  empowered_android: Güçlendirilmiş Androidler
+  empowered_butcher_android: Güçlendirilmiş Androidler - Kasap
+  empowered_fisherman_android: Güçlendirilmiş Androidler - Balıkçı
+  ender_armor: Ender Zırhı
+  ender_backpack: Ender Sırt Çantası
+  ender_talismans: Ender Tılsımları (Seviye II)
+  energized_gps_transmitter: Üst Seviye Verici
+  energized_solar_generator: Tam Zamanlı Güneş Enerjisi
+  energy_regulator: Enerji Ağları 101
+  enhanced_crafting_table:
+    lore:
+    - Bu öğeyi Geliştirilmiş Üretim Masasında
+    - gösterildiği gibi üretin.
+    - Normal bir Üretim Masası yeterli olmayacak!
+    name: Gelişmiş Üretim Masası
+  enhanced_furnace: Geliştirilmiş Fırın
+  essence_of_afterlife: Nekromansi
+  explosive_tools: Patlayıcı Aletler
+  farmer_shoes: Çiftçi Ayakkabıları
+  fire_staff: Ateş Asası
+  fire_talisman: İtfaiyeci Tılsımı
+  first_aid: İlk yardım
+  flask_of_knowledge: XP Depolama
+  fluid_pump: Sıvı Pompası
+  food: Yemek
+  food_composter:
+    lore:
+    - Bu eşyayı Gıda Gübresi Üreticisi kullanarak
+    - gösterildiği gibi üretin.
+    name: Gıda Gübresi Üreticisi
+  food_fabricator:
+    lore:
+    - Bu öğeyi Yemek Üretici kullanarak
+    - gösterildiği gibi üretin.
+    name: Yemek Üretici
+  fortune_cookie: Şans Kurabiyesi
+  freezer: Bay Donmuş
+  fuel: Yakıt
+  geo_miner: GEO-Madenci
+  geo_scanner: GEO-Taramalar
+  gilded_backpack: Yaldızlı Sırt Çantası
+  gilded_iron: Parlak Demir
+  gilded_iron_armor: Yaldızlı Demir Zırhı
+  glowstone_armor: Işık Taşı Zırhı
+  gold_armor: Parlak Zırh
+  gold_carats: Saf Altın
+  golden_apple_juice: Altın iksir
+  gold_pan:
+    lore:
+    - Bu eşyayı almak için
+    - Altın Tavası kullanın.
+    name: Altın Tavası
+  gps: GPS Tabanlı Makineler
+  gps_emergency_transmitter: GPS Acil Durum Noktası
+  gps_setup: Temel GPS Kurulumu
+  grappling_hook: Kanca
+  grind_stone:
+    lore:
+    - Bu öğeyi Taş Öğütücü kullanarak
+    - gösterildiği gibi üretin.
+    name: Taş Öğütücü
+  halloween: Cadılar Bayramı (31 Ekim)
+  hardened_glass: Patlamalara Dayanıklı
+  hazmat_suit: Koruyucu Takım
+  heated_pressure_chamber:
+    lore:
+    - Bu öğeyi Isıtmalı Basınç Odası kullanarak
+    - gösterildiği gibi üretin.
+    name: Isıtmalı Basınç Odası
+  hercules_pickaxe: Herkülün Kazması
+  high_tier_capacitors: Seviye 2 Kapasitörler
+  high_tier_carbon_press: Güçlü Karbon Presi
+  high_tier_electric_ingot_machines: Süper Hızlı Külçe İmalatı
+  high_tier_enhanced_furnaces: Yüksek Seviye Fırın
+  hologram_projector: Hologramlar
+  hunter_talisman: Avcı Tılsımı
+  infernal_bonemeal: Şeytani Kemik Tozu
+  infused_hopper: Büyülü Huni
+  infused_magnet: Büyülü Mıknatıslar
+  items: Yararlı Eşyalar
+  jetboots: Jet Botlar
+  jetpacks: Jetpackler
+  juicer:
+    lore:
+    - Bu eşyayı Meyve Sıkacağı kullanarak
+    - gösterildiği gibi üretin.
+    name: Meyve Sıkacağı
+  kelp_cookie: Lezzetli Yosun
+  knight_talisman: Şövalye Tılsımı
+  lava_crystal: Ateşli Durum
+  lava_generator: Lav Jeneratörü
+  lava_talisman: Lavda Yürüyen Tılsımı
+  lightning_rune: Yıldırım Rünü
+  lumber_axe: Kereste Baltası
+  lumps: Yumrular ve Büyü
+  magical_armor: Büyülü Zırh
+  magical_book_cover: Sihirli Kitap Eşleme
+  magical_gadgets: Büyülü Cihazlar
+  magical_items: Büyülü Eşyalar
+  magic_eye_of_ender: Sihirli Ender Gözü
+  magician_talisman: Sihirbaz Tılsımı
+  magic_sugar: Sihirli Şeker
+  magic_workbench:
+    lore:
+    - Bu eşyayı Sihirli Üretim Masası kullanarak
+    - gösterildiği gibi üretin.
+    name: Sihirli Üretim Masası
+  magnesium_generator: Magnezyum Elektriği
+  magnet: Manyetik Metaller
+  meat_jerky: Yağsız Et
+  miner_talisman: Madenci Tılsımı
+  misc: Çeşitli Eşyalar
+  misc_power_items: Güçle ilgili önemli eşyalar
+  mob_drop:
+    lore:
+    - Bu eşyayı almak için
+    - yaratığı öldürün.
+    name: Yaratıktan Düşürme
+  monster_jerky: Yağsız Yaratık Eti
+  more_enhanced_furnaces: Daha İyi Fırınlar
+  multiblock:
+    lore:
+    - Gösterilen yapıyı olduğu gibi inşa edin.
+    - Üretim masasında üretilmez.
+    name: Yapı İnşa Etme
+  multimeter: Elektrik Ölçümü
+  multitools: Çoklu Aletler
+  nether_gold_pan: Nether Altın Tavası
+  nether_ice: Nether Buzu Soğutucu
+  nether_star_reactor: Nether Yıldız Reaktörü
+  nickel_and_cobalt: Daha fazla Maden
+  night_vision_googles: Gece Görüş Gözlüğü
+  nuclear_reactor: Nükleer Enerji Santrali
+  oil: Petrol
+  ore_crusher:
+    lore:
+    - Bu öğeyi Maden Öğütücüsü kullanarak
+    - gösterildiği gibi üretin.
+    name: Maden Öğütücüsü
+  ore_washer:
+    lore:
+    - Bu eşyayı Maden Yıkayıcı kullanarak
+    - gösterildiği gibi üretin.
+    name: Maden Yıkayıcı
+  organic_fertilizer: Organik Gübreleme
+  organic_food: Organik Yemek
+  output_chest: Temel Makine Çıkış Sandığı
+  parachute: Paraşüt
+  pickaxe_of_containment: Kapsama Kazması
+  pickaxe_of_the_seeker: Arayıcının Kazması
+  pickaxe_of_vein_mining: Damar Madenciliği Kazması
+  plastic_sheet: Plastik
+  portable_crafter: Portatif Üretim Masası
+  portable_dustbin: Portatif Çöp Kovası
+  pressure_chamber:
+    lore:
+    - Bu eşyayı Basınç Odası kullanarak
+    - gösterildiği gibi üretin.
+    name: Basınç Odası
+  programmable_androids: Programlanabilir Androidler
+  radiant_backpack: Göz Alıcı Sırt Çantası
+  rainbow_blocks: Gökkuşağı Blokları
+  reactor_access_port: Reaktör Etkileşimi
+  reactor_essentials: Reaktör Temelleri
+  redstone_alloy: Kızıltaş Alaşımı
+  reinforced_alloy: Güçlendirilmiş Alaşım
+  reinforced_armor: Güçlendirilmiş Zırh
+  reinforced_furnace: Güçlendirilmiş Fırın
+  repaired_spawner: Çağırıcı Tamiratı
+  resources: Kaynaklar
+  scroll_of_dimensional_teleposition: Bir şeyleri etrafında çevirmek
+  seismic_axe: Sismik Balta
+  silicon: Silikon Vadisi
+  slime_armor: Balçık Zırhı
+  slimefun_metals: Yeni Metaller
+  slime_steel_armor: Çelik Balçık Zırhı
+  smelters_pickaxe: Demircinin Kazması
+  smeltery:
+    lore:
+    - Bu öğeyi Dökümhane kullanarak
+    - gösterildiği gibi üretin.
+    name: Dökümhane
+  solar_generators: Güneş Enerjisi Elektrik Santrali
+  solar_panel_and_helmet: Güneş Enerjisi
+  soulbound_rune: Ruh Bağı Rünü
+  special_bows: Robin Hood
+  special_elytras: Özel Elytralar
+  special_runes: Mor Rünler
+  steel: Çelik Çağı
+  steel_plate: Çelik Kaplama
+  steel_thruster: Çelik İtici
+  storm_staff: Fırtına Asası
+  sword_of_beheading: Baş Kesme Kılıcı
+  synthetic_diamond: Sentetik Elmaslar
+  synthetic_emerald: Sahte Mücevher
+  synthetic_sapphire: Sentetik Safirler
+  table_saw: Masa Testeresi
+  talismans: Tılsımlar (Seviye I)
+  tech_misc: Teknik Bileşenler
+  technical_gadgets: Teknik Cihazlar
+  teleporter: Işınlayıcı Temel Bileşenleri
+  teleporter_activation_plates: Işınlayıcı Etkinleştirmesi
+  tome_of_knowledge_sharing: Arkadaşlarla paylaşma
+  tools: Aletler
+  totem_of_undying: Ölümsüzlük Totemi
+  trash_can: Çöp
+  traveller_talisman: Gezgin Tılsımı
+  uranium: Radyoaktif
+  valentines_day: Sevgililer Günü (14 Şubat)
+  walking_sticks: Bastonlar
+  warrior_talisman: Savaşçı Tılsımı
+  water_staff: Su Asası
+  water_talisman: Suda Nefes Alan Tılsımı
+  weapons: Silahlar
+  whirlwind_talisman: Kasırga Tılsımı
+  wind_staff: Rüzgar Asası
+  wither_assembler: Otomatik Wither Öldürücü
+  wither_proof_glass: Wither-Geçirmez Cam
+  wither_proof_obsidian: Wither-Geçirmez Obsidyen
+  wizard_talisman: Büyücü Tılsımı
+  woven_backpack: Dokuma Sırt Çantası
+  xp_collector: XP Toplayıcı
+tooltips:
+  chunk: Taranan Bölge
+  results: GEO Tarama Sonuçları
+  unit: Birim
+  units: Birimler
+  world: Dünya
+commands:
+  help: Yardım ekranını görüntüler
+  teleporter: Diğer Bir Oyuncunun Yer Noktalarına Bakın
+  open_guide: Kitabı kullanmadan Slimefun Rehberini açar
+  stats: Oyuncu hakkında bazı İstatistikleri Gösterir
+  research:
+    reset: "&c %player%'ın Bilgisini sıfırladınız"
+guide:
+  credits:
+    commit: Geliştiirme
+    commits: Geliştirmeler
+  back:
+    title: Geri
+    guide: Slimefun Rehberine geri dön
+    settings: Ayarlar Paneline geri dön
+  title:
+    source: Kaynak Kodu
+  tooltips:
+    wiki: Bu eşyayı Slimefun Wikisinde görüntüle
+    recipes:
+      machine: Bu makinede üretilen tarifler
+      miner: Bu madenciyle elde edebileceğin kaynaklar
+      generator: Müsait yakıt türleri
+      gold-pan: Elde edebileceğin kaynaklar
+messages:
+  not-valid-item: "&4%item% &cgeçerli bir eşya değil!"
+  hungry: "&cBunu yapmak için çok açsın!"
+  disabled-in-world: "&4&lBu eşya bu dünyada devre dışı bırakıldı."
+  no-tome-yourself: "&4Tome of Knowledge &cı kendin için kullanamazsın..."
+  talisman:
+    miner: "&a&oTılsımın madenini ikiye katladı"
+    hunter: "&a&oTılsımın ganimetini ikiye katladı"
+    lava: "&a&oTılsımın seni yanarak ölmekten kurtardı"
+    angel: "&a&oTılsımın seni düşme hasarından kurtardı"
+    fire: "&a&oTılsımın seni yanarak ölmekten kurtardı"
+    magician: "&a&oTılsımın sana fazladan bir Büyü verdi"
+    traveller: "&a&oTılsımın sana bir Hız Artışı verdi"
+    warrior: "&a&oTılsımın bir süreliğine seni güçlendirdi"
+    knight: "&a&oTılsımın sana 5 Saniye Yenilenme verdi"
+    whirlwind: "&a&oTılsımın Mermiyi yansıttı"
+    wizard: "&a&oTılsımın sana daha yüksek seviye Servet verdi ama başka bir Büyünün
+      seviyesini düşürmüş olabilir."
+  soulbound-rune:
+    fail: "&cBir seferde sadece bir eşyayı ruhuna bağlayabilirsin."
+    success: "&aBu eşyayı ruhuna başarıyla bağladın! Öldüğünde saklayacaksın."
+  research:
+    start: "&7Kadim Ruhlar gizemli kelimeleri kulağına fısıldıyor!"
+  radiation: "&4Ölümcül radyasyona maruz kaldınız! &cRadyoaktif maddeden kurtulun
+    veya koruyucu takımın tamamını giyinin!"
+  fortune-cookie:
+  - 
+  - 
+  - "&7Hayatınızın bir noktasında kötü bir şey gerçekleşecek!!!"
+  - "&7Haftaya bunun gerçek dünya olmadığını fark edeceksiniz, bir bilgisayar oyunundasınız"
+machines:
+  pattern-not-found: "&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya
+    doğru şekilde yerleştirin."
+  unknown-material: "&eÜzgünüm, fırlatıcıdaki Eşyayı tanıyamadım. Lütfen bildiğim
+    bir şey koy."
+  wrong-item: "&eÜzgünüm, bana sağ tıkladığınız Eşyayı tanıyamadım. Tarifleri kontrol
+    edin ve hangi Eşyaları kullanabileceğinizi görün."
+  ignition-chamber-no-flint: "&cAteşleme Odasında Çakmak eksik."
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4Altar, gerekli Sütun miktarı ile çevrili değil &c(%pedestals%
+      / 8)"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4Sütun tıkandı! &cSütunun üstündeki herhangi bir şeyi kaldırın!"
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7Lütfen Sohbette istediğiniz Hologram Metnini yazın. &r(Renk Kodları
+      destekleniyor!)"
+    inventory-title: Hologram Editörü
+  ELEVATOR:
+    no-destinations: "&4Varış noktası bulunamadı"
+    current-floor: "&eŞu anda bulunduğunuz kat:"
+    enter-name: "&7Lütfen sohbette yeni katınız için bir ad yazın. &r(Renk kodları
+      destekleniyor!)"
+  TELEPORTER:
+    teleporting: "&3Işınlanılıyor..."
+  CARGO_NODES:
+    must-be-placed: "&4Mutlaka bir sandık veya makineye bağlanmalı!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Kontrol Paneli
+    transmitters: Verici Genel Bakışı
+    waypoints: Yer Noktası Genel Bakışı
+workbench:
+  not-enhanced: "&4Slimefun Eşyalarını normal bir üretim masasında kullanamazsınız"
+gps:
+  waypoint:
+    new: "&eLütfen sohbette yeni yer noktanız için bir ad yazın. &7(Renk Kodları destekleniyor!)"
+    max: "&4Maksimum yer noktası sayısına ulaştınız"
+  geo:
+    scan-required: "&4GEO-Taraması gerekli! &cİlk önce bir GEO-Tarayıcı kullanarak
+      bu bölgeyi tarayın!"
+android:
+  started: "&7Androidiniz senaryoyu uygulamaya devam ediyor"
+  stopped: "&7Androidiniz senaryoyu duraklattı"
+  scripts:
+    already-uploaded: "&4Bu senaryo zaten yüklendi."
+    instructions:
+      START: "&2Senaryoyu başlat"
+      REPEAT: "&9Senaryoyu Tekrar Et"
+      WAIT: "&e0.5s Bekle"
+      GO_FORWARD: "&7İleri Git"
+      GO_UP: "&7Yukarı Çık"
+      GO_DOWN: "&7Aşağıya İn"
+      TURN_LEFT: "&7Sola Dön"
+      TURN_RIGHT: "&7Sağa Dön"
+      DIG_UP: "&bYukarıyı Kaz"
+      DIG_FORWARD: "&bİleriyi Kaz"
+      DIG_DOWN: "&bAltını Kaz"
+      MOVE_AND_DIG_UP: "&bİlerle ve Yukarıyı Kaz"
+      MOVE_AND_DIG_FORWARD: "&bİlerle ve İleriyi Kaz"
+      MOVE_AND_DIG_DOWN: "&bİlerle ve Altını Kaz"
+      CHOP_TREE: "&cKes ve Ek"
+      CATCH_FISH: "&bBalık Tut"
+      FARM_FORWARD: "&bTopla ve Ek"
+      FARM_DOWN: "&bToplama ve Ekim &7(Altındaki blok)"
+      FARM_EXOTIC_FORWARD: "&bGelişmişce Topla ve Ek"
+      FARM_EXOTIC_DOWN: "&bGelişmişce Topla ve Ek &7(Altındaki blok)"
+      INTERFACE_ITEMS: "&9Envanter İçeriğini öndeki Arayüze aktar"
+      INTERFACE_FUEL: "&cÖndeki Arayüzden Yakıt çek"
+    enter-name:
+    - 
+    - "&eLütfen senaryonuz için bir ad yazınız"
+    uploaded:
+    - 
+    - "&aSenaryon başarıyla yüklendi!"
+    rating:
+      own: "&4Kendi senaryonu oylayamazın!"
+      already: "&4Bu senaryo için zaten oy kullandın!"
+    editor: Senaryo Editörü
+languages:
+  default: Sunucu Varsayılanı
+  ru: Rusça
+  sk: Slovakça
+  el: Yunanca
+  ar: Arapça
+  af: Afrikanca
+  da: Danca
+  fi: Fince
+  uk: Ukraynaca
+  ms: Malayca
+  'no': Norveçce
+  ja: Japonca
+  fa: Persçe
+  th: Tayca
+  ro: Romanca
+  pt: Portekizce (Portekiz)
+  pt-BR: Portekizce (Brezilya)
+  bg: Bulgarca
+  ko: Korece
+  tr: Türkçe
