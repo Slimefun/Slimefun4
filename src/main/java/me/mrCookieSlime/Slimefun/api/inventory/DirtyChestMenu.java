@@ -1,16 +1,16 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
-import java.util.ArrayList;
-
+import io.github.starwishsama.miscs.ResidenceChecker;
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import java.util.ArrayList;
 
 public class DirtyChestMenu extends ChestMenu {
 
@@ -41,8 +41,8 @@ public class DirtyChestMenu extends ChestMenu {
 	}
 
 	public boolean canOpen(Block b, Player p) {
-		return this.preset.canOpen(b, p);
-	}
+        return this.preset.canOpen(b, p) || ResidenceChecker.check(p, b, false);
+    }
 
 	public void close() {
 		for (HumanEntity human : new ArrayList<>(toInventory().getViewers())) {

@@ -6,6 +6,8 @@
 
 Slimefun 4 以 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE) 协议开源
 
+MCBBS 链接: https://www.mcbbs.net/thread-827594-1-1.html
+
 ## 下载 Slimefun 4
 ![编译状态](https://github.com/StarWishsama/Slimefun4/workflows/Java%20CI/badge.svg)
 <a href="https://github.com/StarWishsama/Slimefun4/issues">
@@ -46,7 +48,7 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 ## 贡献
 我们鼓励你通过提交 PR 的方式为 Slimefun 4 做出贡献.
 这是一个开源的社区性项目, 所以你的贡献将会使插件保持更新!
-这些 PR 可以是修复某些问题, 一些更改甚至是新增物品或玩法, but please keep in mind that
+这些 PR 可以是修复某些问题, 一些更改甚至是新增物品或玩法,
 但请注意, 如果你想加入大量内容, 请考虑自己制作一个附属插件吧!
 
 <p align="center">
@@ -65,9 +67,9 @@ Slimefun4 使用连接至 https://thebusybiscuit.github.io/builds/ 的自动更�
 
 ### 指标与统计
 Slimefun4 使用 [bStats](https://bstats.org/plugin/bukkit/Slimefun/4574) 收集关于此插件的用途的匿名信息.<br>
-This is solely for statistical purposes, as we are interested in how Servers/Players use this plugin.<br>
-All available data is anonymous and aggregated, at no point can we see individual server or player information.<br>
-All of the collected data is publicly accessible: https://bstats.org/plugin/bukkit/Slimefun/4574
+这仅出于统计目的, 因为我们对服务器/玩家如何使用粘液科技感兴趣.<br>
+所有可用数据都是匿名且汇总的, 我们绝无可能看到单个服务器或玩家的信息.<br>
+所有收集的数据都是公开可见的, 你可以在这里查看: https://bstats.org/plugin/bukkit/Slimefun/4574
 
 你可以在 `/plugins/bStats/config.yml` 下关闭.<br>
 详情请查看 [bStats 隐私政策](https://bstats.org/privacy-policy)
@@ -77,12 +79,12 @@ All of the collected data is publicly accessible: https://bstats.org/plugin/bukk
 请放心, 你的 Minecraft 服务器信息不会被发送到 Github.
 
 这些信息包括 (但不限于)
-* list of contributors, their username and profile link (from the repositories `TheBusyBiscuit/Slimefun4`, `TheBusyBiscuit/Slimefun4-Wiki` and `TheBusyBiscuit/Slimefun4-Resourcepack`)
-* amount of open issues in this repository
-* amount of pending pull requests in this repository
-* amount of stars in this repository
-* amount of forks of this repository
-* amount of code-bytes in this repository
-* date of the last commit to this repository
+* 协作者名单, 他们的用户名和个人档案链接 (来自 `TheBusyBiscuit/Slimefun4`, `TheBusyBiscuit/Slimefun4-Wiki` 和 `TheBusyBiscuit/Slimefun4-Resourcepack` 等项目)
+* 还未解决的问题数量
+* 待合并的请求数量
+* 被点赞的次数
+* 项目的分支个数
+* 项目的代码大小
+* 上次提交的日期
 
-另外, 插件还连接到了 https://mojang.com/ 以获取贡献者的 Minecraft 皮肤 (如果有的话).
+另外, 插件还连接到了 https://mojang.com/ 以获取协作者的 Minecraft 皮肤 (如果有的话).

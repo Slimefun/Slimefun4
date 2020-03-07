@@ -41,6 +41,7 @@ android:
       - "&a脚本上传成功!"
   started: "&7你的机器人开始运行脚本"
   stopped: "&7你的机器人暂停运行了脚本"
+  no-permission: "&c你的机器人不能破坏他人领地内的方块!"
 anvil:
   not-working: "&4你不能在铁砧里使用 Slimefun 的物品"
 backpack:

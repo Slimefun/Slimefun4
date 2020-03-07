@@ -424,9 +424,9 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
             ItemStack item = fuel.getInput().clone();
             ItemMeta im = item.getItemMeta();
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7剩余 " + getTimeLeft(fuel.getTicks() / 2)));
             lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + getEnergyProduction() * 2) + " J/s");
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * getEnergyProduction()) + " J in total"));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7总共生产了 " + DoubleHandler.getFancyDouble((double) fuel.getTicks() * getEnergyProduction()) + " J"));
             im.setLore(lore);
             item.setItemMeta(im);
             list.add(item);
@@ -440,11 +440,11 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
         int minutes = (int) (seconds / 60L);
 
         if (minutes > 0) {
-            timeleft += minutes + "m ";
+            timeleft += minutes + "分钟 ";
         }
 
         seconds -= minutes * 60;
-        return "&7" + timeleft + seconds + "s";
+        return "&7" + timeleft + seconds + "秒";
     }
 
 }

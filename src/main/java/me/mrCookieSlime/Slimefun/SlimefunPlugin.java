@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun;
 
+import io.github.starwishsama.miscs.ResidenceChecker;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
@@ -227,6 +228,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     new CoolerListener(this);
                 }
             }, 0);
+
+            if (ResidenceChecker.isInstalled(this)) {
+                getServer().getLogger().log(Level.INFO, "已检测到领地插件, 正在接入");
+                new ResidenceChecker(this);
+            }
 
             // Setting up the command /sf and all subcommands
             new SlimefunCommand(this);
