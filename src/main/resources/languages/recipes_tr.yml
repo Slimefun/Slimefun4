@@ -33,12 +33,13 @@ slimefun:
     - gösterildiği gibi üretin.
   mob_drop:
     lore:
-    - 
+    - Bu eşyayı almak için
     - yaratığı öldürün.
+    name: Yaratıktan Düşürme
   gold_pan:
     name: Gold Pan
     lore:
-    - 
+    - Bu eşyayı almak için
     - Gold Pan kullanın.
   compressor:
     name: Compressor
@@ -80,6 +81,7 @@ slimefun:
     lore:
     - Bu eşyayı Food Fabricator kullanarak
     - gösterildiği gibi üretin.
+    name: Food Fabricator
   food_composter:
     name: Food Composter
     lore:
@@ -88,31 +90,38 @@ slimefun:
 minecraft:
   shaped:
     lore:
-    - 
+    - Bu eşyayı normal Üretim Masası kullanarak
     - gösterildiği gibi üretin.
     - Tarifin şekline dikkat edin.
+    name: Biçimli Üretim Tarifi
   shapeless:
     lore:
-    - 
+    - Bu eşyayı normal Üretim Masası kullanarak
     - gösterildiği gibi üretin.
     - Tarifin şekli önemli değil.
+    name: Biçimsiz Üretim Tarifi
   furnace:
     lore:
     - İstediğiniz eşyayı üretmek için
     - bu eşyayı Fırında pişirin.
+    name: Fırın Tarifi
   blasting:
     lore:
     - İstediğiniz eşyayı üretmek için
     - bu eşyayı Maden Fırınında pişirin.
+    name: Maden Fırını Tarifi
   smoking:
     lore:
-    - 
+    - İstediğiniz eşyayı hazırlamak için
     - bu eşyayı Duman Fırınında pişirin.
+    name: Duman Fırını Tarifi
   campfire:
     lore:
-    - 
+    - İstediğiniz eşyayı hazırlamak için
     - bu eşyayı Kamp Ateşinde pişirin.
+    name: Kamp Ateşi Tarifi
   stonecutting:
     lore:
     - İstediğiniz eşyayı üretmek için
     - Taş Kesici kullanın.
+    name: Taş Kesici Tarifi
