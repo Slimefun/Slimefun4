@@ -1,0 +1,78 @@
+---
+slimefun:
+  walking_sticks: Bastonlar
+  portable_crafter: Portatif Üretim Masası
+  portable_dustbin: Portatif Çöp Kovası
+  glowstone_armor: Işık Taşı Zırhı
+  sword_of_beheading: Baş Kesme Kılıcı
+  smeltery: Dökümhane
+  misc_power_items: Güçle ilgili önemli eşyalar
+  multitools: Çoklu Aletler
+  solar_panel_and_helmet: Güneş Enerjisi
+  elemental_staff: Elementsel Asalar
+  cactus_armor: Kaktüs Takımı
+  gold_pan: Altın Tavası
+  magical_book_cover: Sihirli Kitap Eşleme
+  gilded_iron_armor: Yaldızlı Demir Zırhı
+  synthetic_sapphire: Sentetik Safirler
+  damascus_steel_armor: Şam Çeliği Zırhı
+  magic_workbench: Sihirli Üretim Masası
+  wind_staff: Rüzgar Asası
+  fire_staff: Ateş Asası
+  smelters_pickaxe: Demircinin Kazması
+  hazmat_suit: Koruyucu Takım
+  redstone_alloy: Kızıltaş Alaşımı
+  carbonado_tools: Üst Seviye Makineler
+  pickaxe_of_containment: Kapsama Kazması
+  hercules_pickaxe: Herkülün Kazması
+  slime_steel_armor: Çelik Balçık Zırhı
+  blade_of_vampires: Vampirlerin Bıçağı
+  water_staff: Su Asası
+  composter: Toprak Gübreleme
+  farmer_shoes: Çiftçi Ayakkabıları
+  explosive_tools: Patlayıcı Aletler
+  automated_panning_machine: Otomatik Altın Tavası
+  pickaxe_of_the_seeker: Arayıcının Kazması
+  infused_magnet: Büyülü Mıknatıslar
+  essence_of_afterlife: Nekromansi
+  pickaxe_of_vein_mining: Damar Madenciliği Kazması
+  bound_tools: Ruh Bağlı Aletler
+  repaired_spawner: Çağırıcı Tamiratı
+  carbonado_furnace: Kara Elmas Kaplamalı Fırın
+  tome_of_knowledge_sharing: Arkadaşlarla paylaşma
+  cooler: Portatif İçecekler
+  ancient_runes: Elementsel Rünler
+  special_runes: Mor Rünler
+  infused_hopper: Büyülü Huni
+  solar_generators: Güneş Enerjisi Elektrik Santrali
+  bio_reactor: Biyo-Reaktör
+  multimeter: Elektrik Ölçümü
+  combustion_reactor: İçten Yanmalı Reaktör
+  teleporter: Işınlayıcı Temel Bileşenleri
+  teleporter_activation_plates: Işınlayıcı Etkinleştirmesi
+  better_solar_generators: Gelişmiş Güneş Enerjisi Jeneratörleri
+  better_gps_transmitters: Gelişmiş Vericiler
+  organic_food: Organik Yemek
+  organic_fertilizer: Organik Gübreleme
+  crop_growth_accelerator: Bitki Büyümesi Hızlandırması
+  better_crop_growth_accelerator: Gelişmiş Bitki Büyümesi Hızlandırıcı
+  nuclear_reactor: Nükleer Enerji Santrali
+  freezer: Bay Donmuş
+  better_food_fabricator: Gelişmiş Yemek Üretimi
+  better_freezer: Gelişmiş Dondurucu
+  boosted_uranium: Sonsuz Döngü
+  advanced_output_node: Gelişmiş Çıkış Noktası
+  carbon_press: Karbon Presi
+  electric_smeltery: Elektrikli Dökümhane
+  better_electric_furnace: Gelişmiş Elektrikli Fırın
+  better_carbon_press: Gelişmiş Karbon Presi
+  empowered_android: Güçlendirilmiş Androidler
+  high_tier_carbon_press: Güçlü Karbon Presi
+  better_heated_pressure_chamber: Gelişmiş Isıtmalı Basınç Odası
+  advanced_electric_smeltery: Gelişmiş Elektrikli Dökümhane
+  blistering_ingots: Parlayan Radyoaktivite
+  radiant_backpack: Göz Alıcı Sırt Çantası
+  storm_staff: Fırtına Asası
+  nether_gold_pan: Nether Altın Tavası
+  magnesium_generator: Magnezyum Elektriği
+  kelp_cookie: Lezzetli Yosun
