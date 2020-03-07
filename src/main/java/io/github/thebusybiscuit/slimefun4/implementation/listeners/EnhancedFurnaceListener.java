@@ -17,6 +17,15 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
+/**
+ * This {@link Listener} is responsible for enforcing the "fuel efficiency" and "fortune" policies
+ * of an {@link EnhancedFurnace}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see EnhancedFurnace
+ *
+ */
 public class EnhancedFurnaceListener implements Listener {
 
     public EnhancedFurnaceListener(SlimefunPlugin plugin) {

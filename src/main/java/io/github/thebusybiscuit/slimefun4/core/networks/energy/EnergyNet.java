@@ -10,7 +10,6 @@ import org.bukkit.block.Block;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -54,27 +53,6 @@ public class EnergyNet extends Network {
         }
 
         return EnergyNetComponentType.NONE;
-    }
-
-    /**
-     * @deprecated This is now inside the register() method of {@link SlimefunItem} if it implements
-     *             {@link EnergyNetComponent}
-     */
-    @Deprecated
-    public static void registerComponent(String id, EnergyNetComponentType component) {
-        switch (component) {
-        case CONSUMER:
-            SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);
-            break;
-        case CAPACITOR:
-            SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
-            break;
-        case GENERATOR:
-            SlimefunPlugin.getRegistry().getEnergyGenerators().add(id);
-            break;
-        default:
-            break;
-        }
     }
 
     public static EnergyNet getNetworkFromLocation(Location l) {
@@ -148,50 +126,15 @@ public class EnergyNet extends Network {
         }
 
         super.tick();
-        double supply = 0.0D;
-        double demand = 0.0D;
 
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
             SimpleHologram.update(b, "&4No Energy Network found");
         }
         else {
-            Set<Location> exploded = new HashSet<>();
+            double supply = DoubleHandler.fixDouble(tickAllGenerators() + tickAllCapacitors());
+            double demand = 0;
 
-            for (Location source : input) {
-                long timestamp = System.currentTimeMillis();
-                SlimefunItem item = BlockStorage.check(source);
-                Config config = BlockStorage.getLocationInfo(source);
-
-                try {
-                    double energy = item.getEnergyTicker().generateEnergy(source, item, config);
-
-                    if (item.getEnergyTicker().explode(source)) {
-                        exploded.add(source);
-                        BlockStorage.clearBlockInfo(source);
-
-                        Slimefun.runSync(() -> {
-                            source.getBlock().setType(Material.LAVA);
-                            source.getWorld().createExplosion(source, 0F, false);
-                        });
-                    }
-                    else {
-                        supply = supply + energy;
-                    }
-                }
-                catch (Throwable t) {
-                    item.error("An error occured while generating energy", t);
-                }
-
-                SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);
-            }
-
-            input.removeAll(exploded);
-
-            for (Location battery : storage) {
-                supply = supply + ChargableBlock.getCharge(battery);
-            }
-
-            int available = (int) DoubleHandler.fixDouble(supply);
+            int available = (int) supply;
 
             for (Location destination : output) {
                 int capacity = ChargableBlock.getMaxCharge(destination);
@@ -199,7 +142,7 @@ public class EnergyNet extends Network {
 
                 if (charge < capacity) {
                     int rest = capacity - charge;
-                    demand = demand + rest;
+                    demand += rest;
 
                     if (available > 0) {
                         if (available > rest) {
@@ -250,6 +193,53 @@ public class EnergyNet extends Network {
 
             updateHologram(b, supply, demand);
         }
+    }
+
+    private double tickAllGenerators() {
+        double supply = 0;
+        Set<Location> exploded = new HashSet<>();
+
+        for (Location source : input) {
+            long timestamp = System.currentTimeMillis();
+            SlimefunItem item = BlockStorage.check(source);
+            Config config = BlockStorage.getLocationInfo(source);
+
+            try {
+                double energy = item.getEnergyTicker().generateEnergy(source, item, config);
+
+                if (item.getEnergyTicker().explode(source)) {
+                    exploded.add(source);
+                    BlockStorage.clearBlockInfo(source);
+
+                    Slimefun.runSync(() -> {
+                        source.getBlock().setType(Material.LAVA);
+                        source.getWorld().createExplosion(source, 0F, false);
+                    });
+                }
+                else {
+                    supply += energy;
+                }
+            }
+            catch (Throwable t) {
+                item.error("An error occured while generating energy", t);
+            }
+
+            SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);
+        }
+
+        input.removeAll(exploded);
+
+        return supply;
+    }
+
+    private double tickAllCapacitors() {
+        double supply = 0;
+
+        for (Location battery : storage) {
+            supply += ChargableBlock.getCharge(battery);
+        }
+
+        return supply;
     }
 
     private void updateHologram(Block b, double supply, double demand) {

@@ -19,6 +19,17 @@ import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 
+/**
+ * This {@link Listener} is responsible for listening to a {@link PlayerInteractEvent} and
+ * triggering any {@link MultiBlockInteractionHandler}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see MultiBlock
+ * @see MultiBlockInteractionHandler
+ * @see MultiBlockInteractEvent
+ *
+ */
 public class MultiBlockListener implements Listener {
 
     public MultiBlockListener(SlimefunPlugin plugin) {

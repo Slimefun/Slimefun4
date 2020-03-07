@@ -80,13 +80,13 @@ public class BackpackListener implements Listener {
                     }
                 }
             }
-            else if (!isItemAllowed(item, e.getCurrentItem())) {
+            else if (!isItemAllowed(e.getCurrentItem())) {
                 e.setCancelled(true);
             }
         }
     }
 
-    private boolean isItemAllowed(ItemStack backpack, ItemStack item) {
+    private boolean isItemAllowed(ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }

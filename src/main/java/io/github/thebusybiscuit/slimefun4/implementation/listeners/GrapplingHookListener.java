@@ -67,7 +67,9 @@ public class GrapplingHookListener implements Listener {
                 }
 
                 for (Entity n : temporaryEntities.get(p.getUniqueId())) {
-                    if (n.isValid()) n.remove();
+                    if (n.isValid()) {
+                        n.remove();
+                    }
                 }
 
                 Slimefun.runSync(() -> {

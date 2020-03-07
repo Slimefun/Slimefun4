@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidEntity;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -29,7 +29,7 @@ public class AndroidKillingListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         if (e.getEntity().hasMetadata("android_killer")) {
-            AndroidEntity obj = (AndroidEntity) e.getEntity().getMetadata("android_killer").get(0).value();
+            AndroidInstance obj = (AndroidInstance) e.getEntity().getMetadata("android_killer").get(0).value();
 
             Slimefun.runSync(() -> {
                 List<ItemStack> items = new ArrayList<>();

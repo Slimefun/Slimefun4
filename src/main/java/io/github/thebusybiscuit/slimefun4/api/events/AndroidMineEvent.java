@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidEntity;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 
 /**
  * This event is fired before a miner android mines a block.
@@ -19,7 +19,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final Block block;
-    private final AndroidEntity android;
+    private final AndroidInstance android;
     private boolean cancelled;
 
     /**
@@ -28,7 +28,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      * @param android
      *            - the block of the android
      */
-    public AndroidMineEvent(Block block, AndroidEntity android) {
+    public AndroidMineEvent(Block block, AndroidInstance android) {
         this.block = block;
         this.android = android;
     }
@@ -56,7 +56,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      *
      * @return the block of the android
      */
-    public AndroidEntity getAndroid() {
+    public AndroidInstance getAndroid() {
         return android;
     }
 

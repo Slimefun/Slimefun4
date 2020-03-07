@@ -16,6 +16,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
@@ -25,8 +26,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
@@ -106,16 +105,23 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * Returns the identifier of this SlimefunItem.
+     * Returns the identifier of this {@link SlimefunItem}.
      *
-     * @return the identifier of this SlimefunItem
-     *
-     * @since 4.1.11, rename of {@link #getName()}.
+     * @return the identifier of this {@link SlimefunItem}
      */
     public String getID() {
         return id;
     }
 
+    /**
+     * This method returns the {@link ItemState} this {@link SlimefunItem}
+     * is currently in. This can be used to determine whether a {@link SlimefunItem}
+     * is enabled or disabled.
+     * 
+     * {@link VanillaItem} represents a special case here.
+     * 
+     * @return The {@link ItemState} of this {@link SlimefunItem}
+     */
     public ItemState getState() {
         return state;
     }
@@ -213,23 +219,10 @@ public class SlimefunItem implements Placeable {
      * 
      * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
      * @param slimefun
-     *            deprecated.
      */
     @Deprecated
     public void register() {
         register((SlimefunAddon) null);
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param slimefun
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(boolean slimefun) {
-        register(slimefun ? SlimefunPlugin.instance : null);
     }
 
     /**
@@ -515,7 +508,7 @@ public class SlimefunItem implements Placeable {
     public void registerChargeableBlock(int capacity) {
         register();
         SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-        EnergyNet.registerComponent(id, EnergyNetComponentType.CONSUMER);
+        SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);
     }
 
     public void preRegister() {
@@ -577,9 +570,9 @@ public class SlimefunItem implements Placeable {
 
     /**
      * This method will return this Item's Name (The name that is displayed when
-     * hovering over this Item in an Inventory).
+     * hovering over this {@link ItemStack} in an {@link Inventory}).
      * 
-     * @return This item's name in ItemStack form
+     * @return This item's name in {@link ItemStack} form
      */
     public final String getItemName() {
         return ItemUtils.getItemName(item);
