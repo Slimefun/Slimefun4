@@ -47,8 +47,10 @@ slimefun:
     - Üretim masasında üretilmez.
   enhanced_crafting_table:
     lore:
-    - 
+    - Bu öğeyi Geliştirilmiş Üretim Masasında
     - gösterildiği gibi üretin.
+    - Normal bir Üretim Masası yeterli olmayacak!
+    name: Gelişmiş Üretim Masası
   armor_forge:
     name: Zırh Üretim Masası
     lore:
@@ -56,54 +58,65 @@ slimefun:
     - gösterildiği gibi üretin.
   grind_stone:
     lore:
-    - 
+    - Bu öğeyi Taş Öğütücü kullanarak
     - gösterildiği gibi üretin.
+    name: Taş Öğütücü
   smeltery:
     lore:
-    - 
+    - Bu öğeyi Dökümhane kullanarak
     - gösterildiği gibi üretin.
+    name: Dökümhane
   ore_crusher:
     lore:
-    - 
+    - Bu öğeyi Maden Öğütücüsü kullanarak
     - gösterildiği gibi üretin.
+    name: Maden Öğütücüsü
   mob_drop:
     lore:
-    - 
+    - Bu eşyayı almak için
     - yaratığı öldürün.
+    name: Yaratıktan Düşürme
   gold_pan:
     name: Altın Tavası
     lore:
-    - 
+    - Bu eşyayı almak için
     - Altın Tavası kullanın.
   compressor:
     lore:
-    - 
+    - Bu eşyayı Kompresör kullanarak
     - gösterildiği gibi üretin.
+    name: Kompresör
   pressure_chamber:
     lore:
-    - 
+    - Bu eşyayı Basınç Odası kullanarak
     - gösterildiği gibi üretin.
+    name: Basınç Odası
   ore_washer:
     lore:
-    - 
+    - Bu eşyayı Maden Yıkayıcı kullanarak
     - gösterildiği gibi üretin.
+    name: Maden Yıkayıcı
   juicer:
     lore:
-    - 
+    - Bu eşyayı Meyve Sıkacağı kullanarak
     - gösterildiği gibi üretin.
+    name: Meyve Sıkacağı
   magic_workbench:
     lore:
-    - 
+    - Bu eşyayı Sihirli Üretim Masası kullanarak
     - gösterildiği gibi üretin.
+    name: Sihirli Üretim Masası
   ancient_altar:
     lore:
-    - 
+    - Bu eşyayı Antik Sunak kullanarak
     - gösterildiği gibi üretin.
     - Daha fazla bilgi için Antik Sunak sayfasına bakın.
+    name: Antik Sunak
   heated_pressure_chamber:
     lore:
-    - 
+    - Bu öğeyi Isıtmalı Basınç Odası kullanarak
     - gösterildiği gibi üretin.
+    name: Isıtmalı Basınç Odası
   food_fabricator:
     name: Yemek Üretici
     lore:
@@ -111,8 +124,9 @@ slimefun:
     - gösterildiği gibi üretin.
   food_composter:
     lore:
-    - 
+    - Bu eşyayı Gıda Gübresi Üreticisi kullanarak
     - gösterildiği gibi üretin.
+    name: Gıda Gübresi Üreticisi
 tooltips:
   chunk: Taranan Bölge
   results: GEO Tarama Sonuçları
@@ -122,31 +136,38 @@ tooltips:
 minecraft:
   shaped:
     lore:
-    - 
+    - Bu eşyayı normal Üretim Masası kullanarak
     - gösterildiği gibi üretin.
     - Tarifin şekline dikkat edin.
+    name: Biçimli Üretim Tarifi
   shapeless:
     lore:
-    - 
+    - Bu eşyayı normal Üretim Masası kullanarak
     - gösterildiği gibi üretin.
     - Tarifin şekli önemli değil.
+    name: Biçimsiz Üretim Tarifi
   furnace:
     lore:
     - İstediğiniz eşyayı üretmek için
     - bu öğeyi Fırında pişirin.
+    name: Fırın Tarifi
   blasting:
     lore:
     - İstediğiniz eşyayı üretmek için
     - bu öğeyi Maden Fırınında pişirin.
+    name: Maden Fırını Tarifi
   smoking:
     lore:
-    - 
+    - İstediğiniz eşyayı hazırlamak için
     - bu öğeyi Duman Fırınında pişirin.
+    name: Duman Fırını Tarifi
   campfire:
     lore:
-    - 
+    - İstediğiniz eşyayı hazırlamak için
     - bu öğeyi Kamp Ateşinde pişirin.
+    name: Kamp Ateşi Tarifi
   stonecutting:
     lore:
     - İstediğiniz eşyayı üretmek için
     - Taş Kesici kullanın.
+    name: Taş Kesici Tarifi
