@@ -1,0 +1,152 @@
+---
+resources:
+  slimefun:
+    nether_ice: Nether Buzu
+    oil: Petrol
+    salt: Tuz
+    uranium: Uranyum
+  slimefunorechunks:
+    aluminum_ore_chunk: Alüminyum Madeni Bölgesi
+    cobalt_ore_chunk: Kobalt Madeni Bölgesi
+    copper_ore_chunk: Bakır Madeni Bölgesi
+    gold_ore_chunk: Altın Madeni Bölgesi
+    iron_ore_chunk: Demir Madeni Bölgesi
+    lead_ore_chunk: Kurşun Madeni Bölgesi
+    nickel_ore_chunk: Nikel Madeni Bölgesi
+    silver_ore_chunk: Gümüş Madeni Bölgesi
+    tin_ore_chunk: Kalay Madeni Bölgesi
+    zinc_ore_chunk: Çinko Madeni Bölgesi
+slimefun:
+  armor: Zırh
+  basic_machines: Temel Makineler
+  birthday: TheBusyBiscuit'ün doğum günü (26 Ekim)
+  cargo: Kargo Yönetimi
+  christmas: Noel (Aralık)
+  easter: Paskalya (Nisan)
+  electricity: Enerji ve Elektrik
+  ender_talismans: Ender Tılsımları (Seviye II)
+  food: Yemek
+  gps: GPS Tabanlı Makineler
+  halloween: Cadılar Bayramı (31 Ekim)
+  items: Yararlı Eşyalar
+  magical_armor: Büyülü Zırh
+  magical_gadgets: Büyülü Cihazlar
+  magical_items: Büyülü Eşyalar
+  misc: Çeşitli Eşyalar
+  resources: Kaynaklar
+  talismans: Tılsımlar (Seviye I)
+  tech_misc: Teknik Bileşenler
+  technical_gadgets: Teknik Cihazlar
+  tools: Aletler
+  valentines_day: Sevgililer Günü (14 Şubat)
+  weapons: Silahlar
+  multiblock:
+    name: Yapı İnşa Etme
+    lore:
+    - Gösterilen yapıyı olduğu gibi inşa edin.
+    - Üretim masasında üretilmez.
+  enhanced_crafting_table:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  armor_forge:
+    name: Zırh Üretim Masası
+    lore:
+    - Bu öğeyi bir Zırh Üretim Masası kullanarak
+    - gösterildiği gibi üretin.
+  grind_stone:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  smeltery:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  ore_crusher:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  mob_drop:
+    lore:
+    - 
+    - yaratığı öldürün.
+  gold_pan:
+    name: Altın Tavası
+    lore:
+    - 
+    - Altın Tavası kullanın.
+  compressor:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  pressure_chamber:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  ore_washer:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  juicer:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  magic_workbench:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  ancient_altar:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+    - Daha fazla bilgi için Antik Sunak sayfasına bakın.
+  heated_pressure_chamber:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+  food_fabricator:
+    name: Yemek Üretici
+    lore:
+    - Bu öğeyi Yemek Üretici kullanarak
+    - gösterildiği gibi üretin.
+  food_composter:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+tooltips:
+  chunk: Taranan Bölge
+  results: GEO Tarama Sonuçları
+  unit: Birim
+  units: Birimler
+  world: Dünya
+minecraft:
+  shaped:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+    - Tarifin şekline dikkat edin.
+  shapeless:
+    lore:
+    - 
+    - gösterildiği gibi üretin.
+    - Tarifin şekli önemli değil.
+  furnace:
+    lore:
+    - İstediğiniz eşyayı üretmek için
+    - bu öğeyi Fırında pişirin.
+  blasting:
+    lore:
+    - İstediğiniz eşyayı üretmek için
+    - bu öğeyi Maden Fırınında pişirin.
+  smoking:
+    lore:
+    - 
+    - bu öğeyi Duman Fırınında pişirin.
+  campfire:
+    lore:
+    - 
+    - bu öğeyi Kamp Ateşinde pişirin.
+  stonecutting:
+    lore:
+    - İstediğiniz eşyayı üretmek için
+    - Taş Kesici kullanın.
