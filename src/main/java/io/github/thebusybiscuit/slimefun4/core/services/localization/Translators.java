@@ -82,6 +82,7 @@ public class Translators {
         // Translators - Dutch
         addTranslator("Dr4gonD", "DragonD", "nl", true);
         addTranslator("svr333", "nl", false);
+        addTranslator("PabloMarcendo", "nl", true);
 
         // Translators - Polish
         addTranslator("kbartek05", "kbartek_", "pl", true);
@@ -104,6 +105,7 @@ public class Translators {
 
         // Translators - Turkish
         addTranslator("Yunuskrn", "tr", true);
+        addTranslator("LinoxGH", "ajan_12", "tr", false);
 
         // Translators - Portuguese (Brazil)
         addTranslator("G4stavoM1ster", "pt-BR", true);
