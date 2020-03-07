@@ -1,0 +1,12 @@
+---
+tooltips:
+  results: GEO Tarama Sonuçları
+  world: Dünya
+  unit: Birim
+  units: Birimler
+resources:
+  slimefun:
+    oil: Petrol
+    nether_ice: Nether Buzu
+    salt: Tuz
+    uranium: Uranyum
