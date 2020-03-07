@@ -42,6 +42,7 @@
 
 ### Additions
 * Added some new charts to bStats
+* Added Turkish
 
 ### Changes
 * Removed some deprecated parts of the API
