@@ -2,14 +2,33 @@ package io.github.thebusybiscuit.slimefun4.api.geo;
 
 import org.bukkit.Chunk;
 import org.bukkit.Keyed;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
+/**
+ * A {@link GEOResource} is a virtual resource that can be thought of as world-gen.
+ * However it cannot be found in a {@link World}.
+ * 
+ * This resource only exists in memory and can be retrieved through a {@link GEOMiner}
+ * or similar devices.
+ * 
+ * A {@link GEOResource} can be detected via the {@link GEOScanner}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see ResourceManager
+ * @see GEOMiner
+ * @see GEOScanner
+ *
+ */
 public interface GEOResource extends Keyed {
 
     /**

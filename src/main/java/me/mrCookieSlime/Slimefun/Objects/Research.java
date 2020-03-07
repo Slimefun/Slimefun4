@@ -27,9 +27,11 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * Statically handles researches. Represents a research, which is bound to one
  * {@link SlimefunItem} or more and require XP levels to unlock this/these item(s).
  * 
- * See {@link ResearchSetup} for the built-in researches.
- * 
  * @author TheBusyBiscuit
+ * 
+ * @see ResearchSetup
+ * @see ResearchUnlockEvent
+ * 
  */
 public class Research implements Keyed {
 
@@ -75,6 +77,13 @@ public class Research implements Keyed {
         return key;
     }
 
+    /**
+     * This method returns whether this {@link Research} is enabled.
+     * {@code false} can mean that this particular {@link Research} was disabled or that
+     * researches alltogether have been disabled.
+     * 
+     * @return Whether this {@link Research} is enabled or not
+     */
     public boolean isEnabled() {
         return SlimefunPlugin.getSettings().researchesEnabled && enabled;
     }

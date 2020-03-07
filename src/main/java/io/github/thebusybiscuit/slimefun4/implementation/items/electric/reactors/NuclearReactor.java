@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -11,6 +12,16 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link NuclearReactor} is an implementation of {@link AReactor} that uses
+ * any {@link Radioactive} material to generate energy.
+ * It needs water coolant as well as a steady supply of Reactor Coolant Cells
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see NetherStarReactor
+ *
+ */
 public abstract class NuclearReactor extends AReactor {
 
     public NuclearReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

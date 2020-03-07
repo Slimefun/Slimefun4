@@ -10,9 +10,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class GEOScannerBlock extends SimpleSlimefunItem<BlockUseHandler> {
+public class GEOScanner extends SimpleSlimefunItem<BlockUseHandler> {
 
-    public GEOScannerBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public GEOScanner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 

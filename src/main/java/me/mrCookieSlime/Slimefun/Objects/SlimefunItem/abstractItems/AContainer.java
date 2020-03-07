@@ -192,14 +192,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         return EnergyNetComponentType.CONSUMER;
     }
 
-    @Override
-    public int getCapacity() {
-        // Absolutely override this.
-        // This is just a temporary compiler-workaround.
-        // This default implementation will soon be removed.
-        return 0;
-    }
-
     public MachineRecipe getProcessing(Block b) {
         return processing.get(b);
     }

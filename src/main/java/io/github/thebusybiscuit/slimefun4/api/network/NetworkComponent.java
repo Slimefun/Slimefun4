@@ -7,6 +7,7 @@ package io.github.thebusybiscuit.slimefun4.api.network;
  * @author meiamsome
  * 
  * @see Network
+ * @see NetworkManager
  *
  */
 public enum NetworkComponent {

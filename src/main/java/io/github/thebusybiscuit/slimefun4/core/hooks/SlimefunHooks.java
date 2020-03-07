@@ -10,6 +10,8 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * not dependencies or addons.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see SlimefunPlugin
  *
  */
 public final class SlimefunHooks {

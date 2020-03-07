@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.DietCookie;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.FortuneCookie;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -18,10 +20,24 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see ItemHandler
  * @see SimpleSlimefunItem
  * 
+ * @see FortuneCookie
+ * @see DietCookie
+ * 
  */
 @FunctionalInterface
 public interface ItemConsumptionHandler extends ItemHandler {
 
+    /**
+     * This method gets fired whenever a {@link PlayerItemConsumeEvent} involving this
+     * {@link SlimefunItem} has been triggered.
+     * 
+     * @param e
+     *            The {@link PlayerItemConsumeEvent} that was fired
+     * @param p
+     *            The {@link Player} who consumed the given {@link ItemStack}
+     * @param item
+     *            The {@link ItemStack} that was consumed
+     */
     void onConsume(PlayerItemConsumeEvent e, Player p, ItemStack item);
 
     @Override

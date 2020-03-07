@@ -473,6 +473,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance != null;
     }
 
+    /**
+     * This returns the version of Slimefun that is currently installed.
+     * 
+     * @return The currently installed version of Slimefun
+     */
     public static String getVersion() {
         return instance.getDescription().getVersion();
     }
@@ -501,10 +506,22 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.blockDataService;
     }
 
+    /**
+     * This method returns the {@link UpdaterService} of Slimefun.
+     * It is used to handle automatic updates.
+     * 
+     * @return The {@link UpdaterService} for Slimefun
+     */
     public static UpdaterService getUpdater() {
         return instance.updaterService;
     }
 
+    /**
+     * This method returns the {@link GitHubService} of Slimefun.
+     * It is used to retrieve data from GitHub repositories.
+     * 
+     * @return The {@link GitHubService} for Slimefun
+     */
     public static GitHubService getGitHubService() {
         return instance.gitHubService;
     }
@@ -533,6 +550,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.bowListener;
     }
 
+    /**
+     * This method returns a {@link Set} of every {@link Plugin} that lists Slimefun
+     * as a required or optional dependency.
+     * 
+     * We will just assume this to be a list of our addons.
+     * 
+     * @return A {@link Set} of every {@link Plugin} that is dependent on Slimefun
+     */
     public static Set<Plugin> getInstalledAddons() {
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins()).filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName())).collect(Collectors.toSet());
     }

@@ -20,6 +20,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @author meiamsome
  * 
  * @see NetworkListener
+ * @see NetworkManager
  *
  */
 public abstract class Network {
@@ -35,6 +36,14 @@ public abstract class Network {
      */
     public abstract int getRange();
 
+    /**
+     * This method assigns the given {@link Location} a type of {@link NetworkComponent}
+     * for classification.
+     * 
+     * @param l
+     *            The {@link Location} to classify
+     * @return The assigned type of {@link NetworkComponent} for this {@link Location}
+     */
     public abstract NetworkComponent classifyLocation(Location l);
 
     public abstract void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to);

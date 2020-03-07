@@ -20,8 +20,8 @@ public interface ItemHandler {
      * This method is used to determine whether this {@link ItemHandler} can be
      * safely associated with one particular {@link SlimefunItem}.
      * 
-     * Should this {@link ItemHandler} not be private, then it will not be linked
-     * to a {@link SlimefunItem}.
+     * Should this {@link ItemHandler} not be private, then it will never be
+     * permanently linked to a {@link SlimefunItem}.
      * 
      * @return Whether this {@link ItemHandler} is considered private.
      */

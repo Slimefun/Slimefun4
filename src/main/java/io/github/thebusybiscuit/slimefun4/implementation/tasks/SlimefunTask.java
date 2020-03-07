@@ -4,7 +4,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public abstract class SlimefunTask implements Runnable {
+abstract class SlimefunTask implements Runnable {
 
     protected int id;
     protected Player p;

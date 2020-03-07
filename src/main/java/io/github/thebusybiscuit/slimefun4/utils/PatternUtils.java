@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
  * This class solves that, one compile but many uses!
  * 
  * @author Walshy
+ * 
  */
 public final class PatternUtils {
 

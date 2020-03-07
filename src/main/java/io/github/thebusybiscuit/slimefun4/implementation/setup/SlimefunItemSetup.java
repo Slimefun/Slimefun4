@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
+import io.github.thebusybiscuit.slimefun4.implementation.items.Alloy;
 import io.github.thebusybiscuit.slimefun4.implementation.items.EasterEgg;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -104,7 +105,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.food.MagicSugar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MeatJerky;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MonsterJerky;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
-import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScannerBlock;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.OilPump;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.PortableGEOScanner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.ElevatorPlate;
@@ -167,7 +168,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
@@ -2685,7 +2685,7 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.WITHER_PROOF_GLASS, 4))
 		.register(plugin);
 
-		new GEOScannerBlock(Categories.GPS, (SlimefunItemStack) SlimefunItems.GPS_GEO_SCANNER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new GEOScanner(Categories.GPS, (SlimefunItemStack) SlimefunItems.GPS_GEO_SCANNER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, SlimefunItems.ELECTRO_MAGNET, null, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ELECTRO_MAGNET})
 		.register(plugin);
 
