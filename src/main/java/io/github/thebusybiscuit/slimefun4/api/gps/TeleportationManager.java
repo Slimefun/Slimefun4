@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -63,7 +64,7 @@ public final class TeleportationManager {
             Location l = entry.getValue();
             ItemStack globe = network.getIcon(entry);
 
-            menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + (50 / getSpeed(network.getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick to select"));
+            menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + DoubleHandler.fixDouble(0.5 * getTeleportationTime(network.getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick to select"));
             menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
                 pl.closeInventory();
                 start(pl.getUniqueId(), complexity, source, l, false);
@@ -79,23 +80,25 @@ public final class TeleportationManager {
     public void start(UUID uuid, int complexity, Location source, Location destination, boolean resistance) {
         teleporterUsers.add(uuid);
 
-        updateProgress(uuid, getSpeed(complexity, source, destination), 1, source, destination, resistance);
+        int time = getTeleportationTime(complexity, source, destination);
+        updateProgress(uuid, 100 / time, 1, source, destination, resistance);
     }
 
-    public int getSpeed(int complexity, Location source, Location destination) {
-        int speed = complexity / 200;
-        if (speed > 50) speed = 50;
-        speed = speed - (distance(source, destination) / 200);
-
-        return speed < 1 ? 1 : speed;
+    public int getTeleportationTime(int complexity, Location source, Location destination) {
+        if (complexity < 100) return 100;
+        
+        int speed = 75_000 + complexity * complexity;
+        return 1 + Math.min(2 * distanceSquared(source, destination) / speed, 40);
     }
 
-    private int distance(Location source, Location destination) {
-        if (source.getWorld().getName().equals(destination.getWorld().getName())) {
-            int distance = (int) source.distance(destination);
-            return distance > 8000 ? 8000 : distance;
+    private int distanceSquared(Location source, Location destination) {
+        if (source.getWorld().getUID().equals(destination.getWorld().getUID())) {
+            int distance = (int) source.distanceSquared(destination);
+            return Math.min(distance, 100_000_000);
         }
-        else return 8000;
+        else {
+            return 100_000_000;
+        }
     }
 
     private boolean isValid(Player p, Location source) {
@@ -137,7 +140,9 @@ public final class TeleportationManager {
                 Slimefun.runSync(() -> updateProgress(uuid, speed, progress + speed, source, destination, resistance), 10L);
             }
         }
-        else cancel(uuid, p);
+        else {
+            cancel(uuid, p);
+        }
     }
 
 }
