@@ -74,7 +74,7 @@ Slimefun4 使用 [bStats](https://bstats.org/plugin/bukkit/Slimefun/4574) 收集
 你可以在 `/plugins/bStats/config.yml` 下关闭.<br>
 详情请查看 [bStats 隐私政策](https://bstats.org/privacy-policy)
 
-### GitHub Integration
+### GitHub 信息整合
 最近, Slimefun4 连接到了 https://api.github.com/ 以收集关于这个开源项目的信息.<br>
 请放心, 你的 Minecraft 服务器信息不会被发送到 Github.
 
