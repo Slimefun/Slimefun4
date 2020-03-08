@@ -50,6 +50,14 @@ public class GrapplingHookListener implements Listener {
         }, 4L);
     }
 
+    @EventHandler
+    public void onArrowHit(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && invulnerable.contains(e.getEntity().getUniqueId())) {
+            e.setCancelled(true);
+            invulnerable.remove(e.getEntity().getUniqueId());
+        }
+    }
+
     private void handleGrapplingHook(Arrow arrow) {
         if (arrow != null && arrow.getShooter() instanceof Player && jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
             Player p = (Player) arrow.getShooter();
@@ -106,14 +114,6 @@ public class GrapplingHookListener implements Listener {
                     temporaryEntities.remove(p.getUniqueId());
                 }, 20L);
             }
-        }
-    }
-
-    @EventHandler
-    public void onArrowHit(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && invulnerable.contains(e.getEntity().getUniqueId())) {
-            e.setCancelled(true);
-            invulnerable.remove(e.getEntity().getUniqueId());
         }
     }
 

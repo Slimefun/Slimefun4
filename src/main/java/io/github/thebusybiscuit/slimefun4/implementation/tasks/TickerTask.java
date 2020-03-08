@@ -293,8 +293,9 @@ public class TickerTask implements Runnable {
 			
 			for (Map.Entry<String, Long> entry : timings) {
 				if (!chunksSkipped.contains(entry.getKey())) {
-					if (entry.getValue() > 0) sender.sendMessage("  " + formatChunk(entry.getKey()) + " - "
-							+ (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x (" + toMillis(entry.getValue()) + ")");
+					if (entry.getValue() > 0) {
+					    sender.sendMessage("  " + formatChunk(entry.getKey()) + " - " + (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x (" + toMillis(entry.getValue()) + ")");
+					}
 					else hidden++;
 				}
 			}

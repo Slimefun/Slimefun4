@@ -63,7 +63,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesS
 import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.WikiSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
@@ -198,9 +197,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 
             MiscSetup.setupMisc();
-
-            Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
-            WikiSetup.addWikiPages(this);
+            
             textureService.setup(registry.getAllSlimefunItems());
 
             // Setting up GitHub Connectors...

@@ -24,7 +24,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @see SlimefunItem
  *
  */
-public final class WikiSetup {
+final class WikiSetup {
 
     private WikiSetup() {}
 

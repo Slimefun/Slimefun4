@@ -53,12 +53,16 @@ public class UpdaterService {
      * This can be used to determine whether we are dealing with an official build
      * or a build that was unofficially modified.
      * 
-     * @return  The branch this build of Slimefun is on.
+     * @return The branch this build of Slimefun is on.
      */
     public SlimefunBranch getBranch() {
         return branch;
     }
 
+    /**
+     * This will start the {@link UpdaterService} and check for updates.
+     * If it can find an update it will automatically be installed.
+     */
     public void start() {
         if (updater != null) {
             updater.start();
@@ -72,6 +76,9 @@ public class UpdaterService {
         }
     }
 
+    /**
+     * This method is called when the {@link UpdaterService} was disabled.
+     */
     public void disable() {
         drawBorder();
         plugin.getLogger().log(Level.WARNING, "It looks like you have disabled auto-updates for Slimefun!");

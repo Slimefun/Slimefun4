@@ -40,14 +40,14 @@ abstract class Android extends SlimefunItem {
         super(category, item, recipeType, recipe);
     }
 
+    /**
+     * This returns the {@link AndroidType} that is associated with this {@link ProgrammableAndroid}.
+     * 
+     * @return The type of this {@link ProgrammableAndroid}
+     */
     public abstract AndroidType getAndroidType();
 
     protected abstract void tick(Block b);
-
-    @Override
-    protected boolean areItemHandlersPrivate() {
-        return true;
-    }
 
     @Override
     public void preRegister() {

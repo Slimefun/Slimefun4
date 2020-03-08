@@ -57,12 +57,14 @@ public class PressureChamber extends MultiBlockMachine {
 		for (ItemStack current: inv.getContents()) {
 			for (ItemStack convert: RecipeType.getRecipeInputs(this)) {
 				if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
-					final ItemStack adding = RecipeType.getRecipeOutput(this, convert);
-					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
+					ItemStack output = RecipeType.getRecipeOutput(this, convert);
+					Inventory outputInv = findOutputInventory(output, dispBlock, inv);
+					
 					if (outputInv != null) {
 						ItemStack removing = current.clone();
 						removing.setAmount(convert.getAmount());
 						inv.removeItem(removing);
+						
 						for (int i = 0; i < 4; i++) {
 							int j = i;
 							
@@ -77,9 +79,9 @@ public class PressureChamber extends MultiBlockMachine {
 								} 
 								else {
 									p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-									outputInv.addItem(adding);
+									outputInv.addItem(output);
 								}
-							}, i*20L);
+							}, i * 20L);
 						}
 					}
 					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);

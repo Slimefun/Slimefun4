@@ -22,11 +22,6 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
     }
 
     @Override
-    protected boolean areItemHandlersPrivate() {
-        return false;
-    }
-
-    @Override
     public BlockPlaceHandler getItemHandler() {
         return (e, item) -> {
             if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {

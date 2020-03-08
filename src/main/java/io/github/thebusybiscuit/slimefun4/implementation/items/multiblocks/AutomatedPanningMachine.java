@@ -33,7 +33,11 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 		super(
 				Categories.MACHINES_1, 
 				(SlimefunItemStack) SlimefunItems.AUTOMATED_PANNING_MACHINE, 
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null},
+				new ItemStack[] {
+				    null, null, null, 
+				    null, new ItemStack(Material.OAK_TRAPDOOR), null, 
+				    null, new ItemStack(Material.CAULDRON), null
+				},
 				new ItemStack[] {
 					new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), 
 					new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE, 
@@ -92,10 +96,10 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 	
 	@Override
 	public void onInteract(Player p, Block b) {
-		final ItemStack input = p.getInventory().getItemInMainHand();
+		ItemStack input = p.getInventory().getItemInMainHand();
 		
 		if (SlimefunManager.isItemSimilar(input, new ItemStack(Material.GRAVEL), true) || SlimefunManager.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true)) {
-			final Material block = input.getType();
+			Material block = input.getType();
 			
 			if (p.getGameMode() != GameMode.CREATIVE) {
 				ItemUtils.consumeItem(input, false);

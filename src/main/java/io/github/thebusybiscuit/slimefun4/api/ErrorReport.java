@@ -20,10 +20,21 @@ import org.bukkit.plugin.Plugin;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This clas represents an {@link ErrorReport}.
+ * Error reports are thrown when a {@link BlockTicker} is causing problems.
+ * To ensure that the console doesn't get too spammy, we destroy the block and generate
+ * an {@link ErrorReport} instead.
+ * Error reports get saved in the plugin folder.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class ErrorReport {
 
     private File file;

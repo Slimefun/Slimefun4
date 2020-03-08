@@ -58,7 +58,9 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
                 if (ChargableBlock.isChargable(b)) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                        return;
+                    }
 
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
                     progress.put(b, timeleft - 1);
@@ -78,7 +80,9 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
                 if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.BUCKET_OF_OIL, true)) {
                     MachineRecipe r = new MachineRecipe(40, new ItemStack[0], new ItemStack[] { SlimefunItems.BUCKET_OF_FUEL });
 
-                    if (!menu.fits(SlimefunItems.BUCKET_OF_FUEL, getOutputSlots())) return;
+                    if (!menu.fits(SlimefunItems.BUCKET_OF_FUEL, getOutputSlots())) {
+                        return;
+                    }
 
                     menu.consumeItem(slot);
                     processing.put(b, r);

@@ -49,19 +49,8 @@ abstract class BackpackCrafter extends MultiBlockMachine {
             }
         }
 
-        String id = "";
         int size = backpack.getSize();
-
-        if (backpackItem != null) {
-            for (String line : backpackItem.getItemMeta().getLore()) {
-                if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
-                    id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-                    String[] idSplit = PatternUtils.HASH.split(id);
-                    PlayerProfile.fromUUID(UUID.fromString(idSplit[0])).getBackpack(Integer.parseInt(idSplit[1])).setSize(size);
-                    break;
-                }
-            }
-        }
+        String id = retrieveID(backpackItem, size);
 
         if (id.equals("")) {
             for (int line = 0; line < output.getItemMeta().getLore().size(); line++) {
@@ -84,6 +73,21 @@ abstract class BackpackCrafter extends MultiBlockMachine {
                 }
             }
         }
+    }
+
+    private String retrieveID(ItemStack backpack, int size) {
+        if (backpack != null) {
+            for (String line : backpack.getItemMeta().getLore()) {
+                if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.contains("#")) {
+                    String id = line.replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
+                    String[] idSplit = PatternUtils.HASH.split(id);
+                    PlayerProfile.fromUUID(UUID.fromString(idSplit[0])).getBackpack(Integer.parseInt(idSplit[1])).setSize(size);
+                    return id;
+                }
+            }
+        }
+        
+        return "";
     }
 
 }

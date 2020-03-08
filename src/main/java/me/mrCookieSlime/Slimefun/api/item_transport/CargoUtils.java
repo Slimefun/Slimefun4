@@ -19,7 +19,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 
-public final class CargoUtils {
+final class CargoUtils {
 
     //Whitelist or blacklist slots
     private static final int[] SLOTS = {19, 20, 21, 28, 29, 30, 37, 38, 39};

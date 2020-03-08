@@ -42,6 +42,9 @@ public final class MiscSetup {
 				SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2
 			});
 		}
+
+        Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
+        WikiSetup.addWikiPages(SlimefunPlugin.instance);
 	}
 	
 	public static void loadItems(ConfigCache settings) {

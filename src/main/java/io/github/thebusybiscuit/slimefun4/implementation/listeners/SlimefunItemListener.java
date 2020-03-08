@@ -209,7 +209,7 @@ public class SlimefunItemListener implements Listener {
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent e) {
-        for (ItemHandler handler : SlimefunItem.getHandlers(ItemDropHandler.class)) {
+        for (ItemHandler handler : SlimefunItem.getPublicItemHandlers(ItemDropHandler.class)) {
             if (((ItemDropHandler) handler).onItemDrop(e, e.getPlayer(), e.getItemDrop())) {
                 return;
             }

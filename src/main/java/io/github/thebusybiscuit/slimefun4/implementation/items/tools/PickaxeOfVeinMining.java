@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
@@ -25,15 +26,17 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
     }
 
     @Override
-    protected boolean areItemHandlersPrivate() {
-        return false;
-    }
-
-    @Override
     public BlockBreakHandler getItemHandler() {
-        return (e, item, fortune, drops) -> {
-            if (isItem(item)) {
-                if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
+        return new BlockBreakHandler() {
+
+            @Override
+            public boolean isPrivate() {
+                return false;
+            }
+
+            @Override
+            public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
+                if (MaterialCollections.getAllOres().contains(e.getBlock().getType()) && isItem(item)) {
                     List<Block> blocks = Vein.find(e.getBlock(), 16, MaterialCollections.getAllOres());
 
                     for (Block b : blocks) {
@@ -47,11 +50,11 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
                             b.setType(Material.AIR);
                         }
                     }
-                }
 
-                return true;
+                    return true;
+                }
+                else return false;
             }
-            else return false;
         };
     }
 

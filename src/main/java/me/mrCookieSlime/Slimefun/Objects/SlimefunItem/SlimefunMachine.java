@@ -73,7 +73,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
             SlimefunItem item = SlimefunItem.getByItem(recipeItem);
 
             if (item == null || !item.isDisabled()) {
-                this.recipes.add(new ItemStack[] { recipeItem });
+                recipes.add(new ItemStack[] { recipeItem });
             }
         }
     }
@@ -87,11 +87,6 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
         }
 
         return mats.toArray(new Material[0]);
-    }
-
-    @Override
-    protected boolean areItemHandlersPrivate() {
-        return true;
     }
 
     public Iterator<ItemStack[]> recipeIterator() {

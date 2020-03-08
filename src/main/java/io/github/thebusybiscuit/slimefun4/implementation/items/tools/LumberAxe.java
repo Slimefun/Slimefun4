@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
@@ -26,17 +27,21 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
     }
 
     @Override
-    protected boolean areItemHandlersPrivate() {
-        return false;
-    }
-
-    @Override
     public BlockBreakHandler getItemHandler() {
-        return (e, item, fortune, drops) -> {
-            if (isItem(item)) {
-                if (!Slimefun.hasUnlocked(e.getPlayer(), this, true)) return true;
+        return new BlockBreakHandler() {
 
-                if (MaterialCollections.getAllLogs().contains(e.getBlock().getType())) {
+            @Override
+            public boolean isPrivate() {
+                return false;
+            }
+
+            @Override
+            public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
+                if (MaterialCollections.getAllLogs().contains(e.getBlock().getType()) && isItem(item)) {
+                    if (!Slimefun.hasUnlocked(e.getPlayer(), LumberAxe.this, true)) {
+                        return true;
+                    }
+
                     List<Block> logs = Vein.find(e.getBlock(), 100, b -> MaterialCollections.getAllLogs().contains(b.getType()));
 
                     if (logs.contains(e.getBlock())) {
@@ -54,10 +59,11 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
                             b.setType(Material.AIR);
                         }
                     }
+
+                    return true;
                 }
-                return true;
+                else return false;
             }
-            else return false;
         };
     }
 

@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -85,6 +86,9 @@ public class SlimefunItem implements Placeable {
 
     // Root constructor
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
+        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(item, "'item' is not allowed to be null!");
+
         this.category = category;
         this.item = item;
         this.id = item.getItemID();
@@ -126,10 +130,22 @@ public class SlimefunItem implements Placeable {
         return state;
     }
 
+    /**
+     * This returns the {@link ItemStack} of this {@link SlimefunItem}.
+     * The {@link ItemStack} describes the look and feel of this {@link SlimefunItem}.
+     * 
+     * @return The {@link ItemStack} that this {@link SlimefunItem} represents
+     */
     public ItemStack getItem() {
         return item;
     }
 
+    /**
+     * This returns the {@link Category} of our {@link SlimefunItem}, every {@link SlimefunItem}
+     * is associated with exactly one {@link Category}.
+     * 
+     * @return The {@link Category} that this {@link SlimefunItem} belongs to
+     */
     public Category getCategory() {
         return category;
     }
@@ -300,10 +316,10 @@ public class SlimefunItem implements Placeable {
                 SlimefunPlugin.getRegistry().getSlimefunItemIds().put(this.id, this);
 
                 for (ItemHandler handler : itemhandlers.values()) {
-                    if (areItemHandlersPrivate()) continue;
-
-                    Set<ItemHandler> handlerset = getHandlers(handler.getIdentifier());
-                    handlerset.add(handler);
+                    if (!handler.isPrivate() || !areItemHandlersPrivate()) {
+                        Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
+                        handlerset.add(handler);
+                    }
                 }
 
                 if (SlimefunPlugin.getSettings().printOutLoading) {
@@ -349,7 +365,10 @@ public class SlimefunItem implements Placeable {
     }
 
     public void bindToResearch(Research r) {
-        if (r != null) r.getAffectedItems().add(this);
+        if (r != null) {
+            r.getAffectedItems().add(this);
+        }
+
         this.research = r;
     }
 
@@ -369,6 +388,16 @@ public class SlimefunItem implements Placeable {
         this.recipeOutput = output;
     }
 
+    /**
+     * This method returns whether or not this {@link SlimefunItem} is allowed to
+     * be used in a Crafting Table.
+     * 
+     * Items of type {@link VanillaItem} may be used in workbenches for example.
+     * 
+     * @see #setUseableInWorkbench(boolean)
+     * 
+     * @return Whether this {@link SlimefunItem} may be used in a Workbench.
+     */
     public boolean isUseableInWorkbench() {
         return useableInWorkbench;
     }
@@ -490,8 +519,8 @@ public class SlimefunItem implements Placeable {
         }
     }
 
-    public static Set<ItemHandler> getHandlers(Class<? extends ItemHandler> identifier) {
-        return SlimefunPlugin.getRegistry().getItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
+    public static Set<ItemHandler> getPublicItemHandlers(Class<? extends ItemHandler> identifier) {
+        return SlimefunPlugin.getRegistry().getPublicItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
     }
 
     public static ItemStack getItem(String id) {
@@ -500,22 +529,19 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param capacity
-     *            The capacity of this Block
+     * This method is called before {@link #register(SlimefunAddon)}.
+     * Override this method to add any additional setup, adding an {@link ItemHandler} for example.
      */
-    @Deprecated
-    public void registerChargeableBlock(int capacity) {
-        register();
-        SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-        SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);
-    }
-
     public void preRegister() {
         // Override this method to execute code before the Item has been registered
         // Useful for calls to addItemHandler(...)
     }
 
+    /**
+     * This method is called after {@link #register(SlimefunAddon)}.
+     * Override this method to add any additional setup that needs to happen after
+     * the original registration of this {@link SlimefunItem}.
+     */
     public void postRegister() {
         // Override this method to execute code after the Item has been registered
         // Useful for calls to Slimefun.getItemValue(...)

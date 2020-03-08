@@ -51,12 +51,14 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler
     public void onPrepareCraft(PrepareItemCraftEvent e) {
-        for (ItemStack item : e.getInventory().getContents()) {
-            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        if (e.getInventory().getResult() != null) {
+            for (ItemStack item : e.getInventory().getContents()) {
+                SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-            if (sfItem != null && !sfItem.isUseableInWorkbench()) {
-                e.getInventory().setResult(null);
-                break;
+                if (sfItem != null && !sfItem.isUseableInWorkbench()) {
+                    e.getInventory().setResult(null);
+                    break;
+                }
             }
         }
     }

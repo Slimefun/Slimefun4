@@ -71,7 +71,10 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
                         if (p.getWorld().getPVP()) {
                             EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n, DamageCause.ENTITY_ATTACK, 6D);
                             Bukkit.getPluginManager().callEvent(event);
-                            if (!event.isCancelled()) ((LivingEntity) n).damage(6D);
+
+                            if (!event.isCancelled()) {
+                                ((LivingEntity) n).damage(6D);
+                            }
                         }
                     }
                 }

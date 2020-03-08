@@ -108,7 +108,9 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
             for (int slot : getInputSlots()) {
                 if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-                    if (!menu.fits(output, getOutputSlots())) return;
+                    if (!menu.fits(output, getOutputSlots())) {
+                        return;
+                    }
 
                     ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
                     menu.consumeItem(slot);

@@ -68,7 +68,10 @@ public class BlockPhysicsListener implements Listener {
     public void onLiquidFlow(BlockFromToEvent e) {
         Block block = e.getToBlock();
         String item = BlockStorage.checkID(block);
-        if (item != null) e.setCancelled(true);
+        
+        if (item != null) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler

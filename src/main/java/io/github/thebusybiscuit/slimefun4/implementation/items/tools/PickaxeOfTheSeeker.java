@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
@@ -24,18 +25,10 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
     public ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
-            Block closest = null;
+            Block closest = findClosestOre(p);
 
-            for (int x = -4; x <= 4; x++) {
-                for (int y = -4; y <= 4; y++) {
-                    for (int z = -4; z <= 4; z++) {
-                        if (MaterialCollections.getAllOres().contains(p.getLocation().getBlock().getRelative(x, y, z).getType()) && (closest == null || p.getLocation().distanceSquared(closest.getLocation()) > p.getLocation().distanceSquared(p.getLocation().getBlock().getRelative(x, y, z).getLocation()))) {
-                            closest = p.getLocation().getBlock().getRelative(x, y, z);
-                        }
-                    }
-                }
-            }
-
+            e.setUseBlock(Result.DENY);
+            
             if (closest == null) {
                 SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores");
             }
@@ -56,6 +49,22 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
 
             damageItem(p, e.getItem());
         };
+    }
+
+    private Block findClosestOre(Player p) {
+        Block closest = null;
+
+        for (int x = -4; x <= 4; x++) {
+            for (int y = -4; y <= 4; y++) {
+                for (int z = -4; z <= 4; z++) {
+                    if (MaterialCollections.getAllOres().contains(p.getLocation().getBlock().getRelative(x, y, z).getType()) && (closest == null || p.getLocation().distanceSquared(closest.getLocation()) > p.getLocation().distanceSquared(p.getLocation().getBlock().getRelative(x, y, z).getLocation()))) {
+                        closest = p.getLocation().getBlock().getRelative(x, y, z);
+                    }
+                }
+            }
+        }
+
+        return closest;
     }
 
     @Override

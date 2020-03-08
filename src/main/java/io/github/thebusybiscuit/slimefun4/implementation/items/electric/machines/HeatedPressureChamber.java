@@ -168,7 +168,9 @@ public abstract class HeatedPressureChamber extends AContainer {
             MachineRecipe recipe = findRecipe(menu, found);
 
             if (recipe != null) {
-                if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) return;
+                if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) {
+                    return;
+                }
 
                 for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
                     menu.consumeItem(entry.getKey(), entry.getValue());
@@ -190,6 +192,7 @@ public abstract class HeatedPressureChamber extends AContainer {
                     }
                 }
             }
+            
             if (found.size() == recipe.getInput().length) {
                 return recipe;
             }

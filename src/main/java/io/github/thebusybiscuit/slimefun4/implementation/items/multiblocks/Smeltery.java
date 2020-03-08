@@ -37,7 +37,15 @@ public class Smeltery extends MultiBlockMachine {
     private int fireBreakingChance;
 
     public Smeltery() {
-        super(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.SMELTERY, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, new ItemStack[] { SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT) }, BlockFace.DOWN, new String[] { "chance.fireBreak" }, new Integer[] { 34 });
+        super(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.SMELTERY, new ItemStack[] { 
+              null, new ItemStack(Material.NETHER_BRICK_FENCE), null, 
+              new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), 
+              null, new ItemStack(Material.FLINT_AND_STEEL), null 
+        }, 
+        new ItemStack[] { 
+              SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT) 
+        }, 
+        BlockFace.DOWN, new String[] { "chance.fireBreak" }, new Integer[] { 34 });
     }
 
     @Override
@@ -72,52 +80,13 @@ public class Smeltery extends MultiBlockMachine {
 
         for (int i = 0; i < inputs.size(); i++) {
             if (canCraft(inv, inputs, i)) {
-                ItemStack adding = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
-                if (Slimefun.hasUnlocked(p, adding, true)) {
-                    Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
+                ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+
+                if (Slimefun.hasUnlocked(p, output, true)) {
+                    Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
                     if (outputInv != null) {
-                        for (ItemStack removing : inputs.get(i)) {
-                            if (removing != null) {
-                                InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunManager.isItemSimilar(stack, removing, true));
-                            }
-                        }
-
-                        outputInv.addItem(adding);
-                        p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
-                        p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-
-                        Inventory chamber = findIgnitionChamber(dispBlock);
-
-                        if (ThreadLocalRandom.current().nextInt(100) < fireBreakingChance) {
-                            if (chamber != null) {
-                                if (chamber.contains(Material.FLINT_AND_STEEL)) {
-                                    ItemStack item = chamber.getItem(chamber.first(Material.FLINT_AND_STEEL));
-                                    ItemMeta meta = item.getItemMeta();
-                                    ((Damageable) meta).setDamage(((Damageable) meta).getDamage() + 1);
-                                    item.setItemMeta(meta);
-
-                                    if (((Damageable) item.getItemMeta()).getDamage() >= item.getType().getMaxDurability()) {
-                                        item.setAmount(0);
-                                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
-                                    }
-
-                                    p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
-                                }
-                                else {
-                                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ignition-chamber-no-flint", true);
-
-                                    Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
-                                    fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
-                                    fire.setType(Material.AIR);
-                                }
-                            }
-                            else {
-                                Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
-                                fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
-                                fire.setType(Material.AIR);
-                            }
-                        }
+                        craft(p, dispBlock, b, inv, inputs.get(i), output, outputInv);
                     }
                     else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
                 }
@@ -126,6 +95,54 @@ public class Smeltery extends MultiBlockMachine {
             }
         }
         SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
+    }
+
+    private void craft(Player p, Block dispenser, Block b, Inventory inv, ItemStack[] recipe, ItemStack output, Inventory outputInv) {
+        for (ItemStack removing : recipe) {
+            if (removing != null) {
+                InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunManager.isItemSimilar(stack, removing, true));
+            }
+        }
+
+        outputInv.addItem(output);
+        p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
+        p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+
+        if (ThreadLocalRandom.current().nextInt(100) < fireBreakingChance) {
+            consumeFire(p, dispenser, b);
+        }
+    }
+
+    private void consumeFire(Player p, Block dispenser, Block b) {
+        Inventory chamber = findIgnitionChamber(dispenser);
+
+        if (chamber != null) {
+            if (chamber.contains(Material.FLINT_AND_STEEL)) {
+                ItemStack item = chamber.getItem(chamber.first(Material.FLINT_AND_STEEL));
+                ItemMeta meta = item.getItemMeta();
+                ((Damageable) meta).setDamage(((Damageable) meta).getDamage() + 1);
+                item.setItemMeta(meta);
+
+                if (((Damageable) item.getItemMeta()).getDamage() >= item.getType().getMaxDurability()) {
+                    item.setAmount(0);
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+                }
+
+                p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
+            }
+            else {
+                SlimefunPlugin.getLocal().sendMessage(p, "machines.ignition-chamber-no-flint", true);
+
+                Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
+                fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
+                fire.setType(Material.AIR);
+            }
+        }
+        else {
+            Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
+            fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
+            fire.setType(Material.AIR);
+        }
     }
 
     private boolean canCraft(Inventory inv, List<ItemStack[]> inputs, int i) {

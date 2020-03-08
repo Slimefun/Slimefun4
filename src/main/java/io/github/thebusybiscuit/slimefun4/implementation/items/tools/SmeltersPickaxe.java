@@ -1,10 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Effect;
-import org.bukkit.Material;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
@@ -25,24 +26,24 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
     }
 
     @Override
-    protected boolean areItemHandlersPrivate() {
-        return false;
-    }
-
-    @Override
     public BlockBreakHandler getItemHandler() {
-        return (e, item, fortune, drops) -> {
-            if (isItem(item)) {
-                if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
-                if (e.getBlock().getType() == Material.PLAYER_HEAD) return true;
-                if (!Slimefun.hasUnlocked(e.getPlayer(), this, true)) return true;
+        return new BlockBreakHandler() {
 
-                Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
-                for (ItemStack drop : blockDrops) {
-                    if (drop != null) {
-                        ItemStack output = drop;
+            @Override
+            public boolean isPrivate() {
+                return false;
+            }
 
-                        if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
+            @Override
+            public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
+                if (MaterialCollections.getAllOres().contains(e.getBlock().getType()) && isItem(item)) {
+                    if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
+                    if (!Slimefun.hasUnlocked(e.getPlayer(), SmeltersPickaxe.this, true)) return true;
+
+                    Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
+                    for (ItemStack drop : blockDrops) {
+                        if (drop != null) {
+                            ItemStack output = drop;
                             output.setAmount(fortune);
 
                             Optional<ItemStack> furnaceOutput = SlimefunPlugin.getMinecraftRecipes().getRecipeOutput(MinecraftRecipe.FURNACE, drop);
@@ -50,15 +51,15 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
                                 e.getBlock().getWorld().playEffect(e.getBlock().getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
                                 output.setType(furnaceOutput.get().getType());
                             }
+
+                            drops.add(output);
                         }
-
-                        drops.add(output);
                     }
-                }
 
-                return true;
+                    return true;
+                }
+                else return false;
             }
-            else return false;
         };
     }
 
