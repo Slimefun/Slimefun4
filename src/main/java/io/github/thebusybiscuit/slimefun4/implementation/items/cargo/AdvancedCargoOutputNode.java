@@ -15,7 +15,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -99,9 +98,9 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 				menu.addMenuClickHandler(41, (p, slot, item, action) -> {
 					int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
 					if (channel < 0) {
-						if (CargoNet.extraChannels) channel = 16;
-						else channel = 15;
-					}
+                        if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) channel = 16;
+                        else channel = 15;
+                    }
 					BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
 					newInstance(menu, b);
 					return false;
@@ -120,19 +119,18 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 
 				menu.replaceExistingItem(43, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&b频道", "", "&e> 单击将频道 ID 加 1"));
 				menu.addMenuClickHandler(43, (p, slot, item, action) -> {
-					int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
+                    int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
 
-					if (CargoNet.extraChannels) {
-						if (channeln > 16) channeln = 0;
-					}
-					else {
-						if (channeln > 15) channeln = 0;
-					}
+                    if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) {
+                        if (channeln > 16) channeln = 0;
+                    } else {
+                        if (channeln > 15) channeln = 0;
+                    }
 
-					BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channeln));
-					newInstance(menu, b);
-					return false;
-				});
+                    BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channeln));
+                    newInstance(menu, b);
+                    return false;
+                });
 			}
 
 			@Override

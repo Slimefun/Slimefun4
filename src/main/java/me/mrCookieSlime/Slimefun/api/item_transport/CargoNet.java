@@ -30,22 +30,19 @@ import java.util.logging.Level;
 
 public class CargoNet extends Network {
 
-    public static boolean extraChannels = false;
-
     private static final int RANGE = 5;
-
     private static final int[] slots = {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
     // Chest Terminal Stuff
-    public static final int[] terminal_slots = {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
+    public static final int[] TERMINAL_SLOTS = {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
     public static final int TERMINAL_OUT_SLOT = 17;
 
-    private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
+    private final ItemStack terminalPlaceholderItem = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 
     private Set<Location> inputNodes = new HashSet<>();
     private Set<Location> outputNodes = new HashSet<>();
 
-    //Chest Terminal Stuff
+    // Chest Terminal Stuff
     private final Set<Location> terminals = new HashSet<>();
     private final Set<Location> imports = new HashSet<>();
     private final Set<Location> exports = new HashSet<>();
@@ -85,7 +82,7 @@ public class CargoNet extends Network {
         String id = BlockStorage.checkID(l);
         if (id == null) return null;
 
-        switch(id) {
+        switch (id) {
             case "CARGO_MANAGER":
                 return NetworkComponent.REGULATOR;
             case "CARGO_NODE":
@@ -136,17 +133,17 @@ public class CargoNet extends Network {
 
     public void tick(Block b) {
         if (!regulator.equals(b.getLocation())) {
-            SimpleHologram.update(b, "&4已连接至多个货运调节器");
+            SimpleHologram.update(b, "&4Multiple Cargo Regulators connected");
             return;
         }
 
         super.tick();
 
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-            SimpleHologram.update(b, "&c找不到货运节点");
+            SimpleHologram.update(b, "&cNo Cargo Nodes found");
         }
         else {
-            SimpleHologram.update(b, "&7状态: &a&l在线");
+            SimpleHologram.update(b, "&7Status: &a&lONLINE");
             Map<Integer, List<Location>> output = new HashMap<>();
 
             List<Location> list = new LinkedList<>();
@@ -175,7 +172,7 @@ public class CargoNet extends Network {
                 });
             }
 
-            //Chest Terminal Stuff
+            // Chest Terminal Stuff
             Set<Location> providers = new HashSet<>();
             Set<Location> destinations = new HashSet<>();
 
@@ -196,8 +193,8 @@ public class CargoNet extends Network {
                     display();
                 }
 
-                //Chest Terminal Code
-                if (extraChannels) {
+                // Chest Terminal Code
+                if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) {
                     for (Location bus : imports) {
                         BlockMenu menu = BlockStorage.getInventory(bus);
 
@@ -328,7 +325,8 @@ public class CargoNet extends Network {
                     }
                 }
 
-                // All operations happen here: Everything gets iterated from the Input Nodes. (Apart from ChestTerminal Buses)
+                // All operations happen here: Everything gets iterated from the Input Nodes. (Apart from ChestTerminal
+                // Buses)
                 for (Location input : inputNodes) {
                     int frequency = getFrequency(input);
 
@@ -390,8 +388,7 @@ public class CargoNet extends Network {
 
                         if (menu != null) {
                             menu.replaceExistingItem(previousSlot, stack);
-                        }
-                        else {
+                        } else {
                             BlockState state = inputTarget.getState();
                             if (state instanceof InventoryHolder) {
                                 Inventory inv = ((InventoryHolder) state).getInventory();
@@ -401,8 +398,8 @@ public class CargoNet extends Network {
                     }
                 }
 
-                //Chest Terminal Code
-                if (extraChannels) {
+                // Chest Terminal Code
+                if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) {
                     List<ItemStackAndInteger> items = new ArrayList<>();
 
                     for (Location l : providers) {
@@ -458,31 +455,32 @@ public class CargoNet extends Network {
                         }
                     }
 
-                    items.sort(Comparator.comparingInt(item -> -item.getInt()));
+                    Collections.sort(items, Comparator.comparingInt(item -> -item.getInt()));
 
                     for (Location l : terminals) {
                         BlockMenu menu = BlockStorage.getInventory(l);
                         int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
 
-                        if (!items.isEmpty() && items.size() < (page - 1) * terminal_slots.length + 1) {
+                        if (!items.isEmpty() && items.size() < (page - 1) * TERMINAL_SLOTS.length + 1) {
                             page = 1;
                             BlockStorage.addBlockInfo(l, "page", String.valueOf(1));
                         }
 
-                        for (int i = 0; i < terminal_slots.length; i++) {
-                            int slot = terminal_slots[i];
+                        for (int i = 0; i < TERMINAL_SLOTS.length; i++) {
+                            int slot = TERMINAL_SLOTS[i];
 
-                            if (items.size() > i + (terminal_slots.length * (page - 1))) {
-                                ItemStackAndInteger item = items.get(i + (terminal_slots.length * (page - 1)));
+                            if (items.size() > i + (TERMINAL_SLOTS.length * (page - 1))) {
+                                ItemStackAndInteger item = items.get(i + (TERMINAL_SLOTS.length * (page - 1)));
 
                                 ItemStack stack = item.getItem().clone();
                                 ItemMeta im = stack.getItemMeta();
                                 List<String> lore = new ArrayList<>();
                                 lore.add("");
-                                lore.add(ChatColors.color("&7已储存的物品: &r" + DoubleHandler.getFancyDouble(item.getInt())));
+                                lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getInt())));
 
-                                if (stack.getMaxStackSize() > 1) lore.add(ChatColors.color("&7<左键: 请求1个物品 | 右键: 请求" + (Math.min(item.getInt(), stack.getMaxStackSize())) + ">"));
-                                else lore.add(ChatColors.color("&7<左键: 请求1个物品>"));
+                                if (stack.getMaxStackSize() > 1)
+                                    lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + (item.getInt() > stack.getMaxStackSize() ? stack.getMaxStackSize() : item.getInt()) + ">"));
+                                else lore.add(ChatColors.color("&7<Left Click: Request 1>"));
 
                                 lore.add("");
                                 if (im.hasLore()) {
@@ -493,14 +491,14 @@ public class CargoNet extends Network {
                                 stack.setItemMeta(im);
                                 menu.replaceExistingItem(slot, stack);
                                 menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
-                                    int amount = Math.min(item.getInt(), item.getItem().getMaxStackSize());
+                                    int amount = item.getInt() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getInt();
                                     itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
                                     return false;
                                 });
 
                             }
                             else {
-                                menu.replaceExistingItem(slot, terminal_noitem_item);
+                                menu.replaceExistingItem(slot, terminalPlaceholderItem);
                                 menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
                             }
                         }

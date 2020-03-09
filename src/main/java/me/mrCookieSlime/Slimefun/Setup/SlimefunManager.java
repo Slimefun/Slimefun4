@@ -70,29 +70,6 @@ public final class SlimefunManager {
         }
     }
 
-    /**
-     * @deprecated Use the version with {@link SlimefunAddon} instead.
-     */
-
-    @Deprecated
-    public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean slimefun, boolean vanilla) {
-        String[] components = new String[]{"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
-        Category cat = Categories.ARMOR;
-        List<ItemStack[]> recipes = new ArrayList<>();
-        recipes.add(new ItemStack[]{baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, null, null, null});
-        recipes.add(new ItemStack[]{baseComponent, null, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent});
-        recipes.add(new ItemStack[]{baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
-        recipes.add(new ItemStack[]{null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
-
-        for (int i = 0; i < 4; i++) {
-            if (vanilla) {
-                new VanillaItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
-            } else {
-                new SlimefunItem(cat, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(slimefun);
-            }
-        }
-    }
-
     public static boolean isItemSimilar(ItemStack item, ItemStack sfitem, boolean checkLore) {
         if (item == null) return sfitem == null;
         if (sfitem == null) return false;

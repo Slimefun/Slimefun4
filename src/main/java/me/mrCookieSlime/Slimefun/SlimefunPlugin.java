@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesS
 import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.WikiSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
@@ -72,6 +71,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 	private ProtectionManager protections;
 	private ConfigCache settings;
 	private SlimefunHooks hooks;
+    private SlimefunCommand command;
 
 	// Supported Versions of Minecraft
 	private final String[] supported = {"v1_14_", "v1_15_"};
@@ -153,7 +153,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 
             MiscSetup.setupMisc();
-            WikiSetup.addWikiPages(this);
+
             textureService.setup(registry.getAllSlimefunItems());
 
             // Setting up GitHub Connectors...
@@ -217,10 +217,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     grapplingHookListener.load(this);
                 }
 
-				if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) {
-				    new IgnitionChamberListener(this);
-                }
-
                 if (SlimefunItem.getByID("BLADE_OF_VAMPIRES") != null) {
                     new VampireBladeListener(this);
                 }
@@ -230,12 +226,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }, 0);
 
             if (ResidenceChecker.isInstalled(this)) {
-                getServer().getLogger().log(Level.INFO, "已检测到领地插件, 正在接入");
+                getLogger().log(Level.INFO, "已检测到领地插件, 正在接入");
                 new ResidenceChecker(this);
             }
 
             // Setting up the command /sf and all subcommands
-            new SlimefunCommand(this);
+            command = new SlimefunCommand(this);
 
             // Armor Update Task
             if (config.getBoolean("options.enable-armor-effects")) {
@@ -472,16 +468,20 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 	public static BackpackListener getBackpackListener() {
 		return instance.backpackListener;
 	}
-	
-	public static SlimefunBowListener getBowListener() {
-		return instance.bowListener;
-	}
 
-	public static Set<Plugin> getInstalledAddons() {
-		return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
-				.filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName()))
-				.collect(Collectors.toSet());
-	}
+    public static SlimefunBowListener getBowListener() {
+        return instance.bowListener;
+    }
+
+    public static Set<Plugin> getInstalledAddons() {
+        return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
+                .filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName()))
+                .collect(Collectors.toSet());
+    }
+
+    public static SlimefunCommand getCommand() {
+        return instance.command;
+    }
 
     @Override
     public JavaPlugin getJavaPlugin() {

@@ -14,9 +14,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-public final class WikiSetup {
+final class WikiSetup {
 
-    private WikiSetup() {}
+    private WikiSetup() {
+    }
 
     public static void addWikiPages(SlimefunPlugin plugin) {
         JsonParser parser = new JsonParser();

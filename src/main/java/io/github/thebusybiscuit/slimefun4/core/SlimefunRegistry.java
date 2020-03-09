@@ -156,7 +156,7 @@ public class SlimefunRegistry {
         return profiles;
     }
 
-    public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getItemHandlers() {
+    public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getPublicItemHandlers() {
         return itemHandlers;
     }
 

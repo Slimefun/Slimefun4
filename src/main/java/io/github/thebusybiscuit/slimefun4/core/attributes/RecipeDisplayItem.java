@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
-import java.util.List;
-
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import java.util.List;
 
 public interface RecipeDisplayItem {
 

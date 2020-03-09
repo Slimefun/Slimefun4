@@ -1,16 +1,18 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
-import java.util.*;
-
+import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
@@ -70,7 +72,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
             SlimefunItem item = SlimefunItem.getByItem(recipeItem);
 
             if (item == null || !item.isDisabled()) {
-                this.recipes.add(new ItemStack[] {recipeItem});
+                recipes.add(new ItemStack[]{recipeItem});
             }
         }
     }
@@ -86,10 +88,6 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
         return mats.toArray(new Material[0]);
     }
 
-    @Override
-    protected boolean areItemHandlersPrivate() {
-        return true;
-    }
 
     public Iterator<ItemStack[]> recipeIterator() {
         return this.recipes.iterator();

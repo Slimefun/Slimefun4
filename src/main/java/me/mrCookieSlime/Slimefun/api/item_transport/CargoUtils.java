@@ -14,12 +14,13 @@ import org.bukkit.inventory.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CargoUtils {
+final class CargoUtils {
 
     //Whitelist or blacklist slots
     private static final int[] SLOTS = {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
-    private CargoUtils() {}
+    private CargoUtils() {
+    }
 
     public static ItemStack withdraw(Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);

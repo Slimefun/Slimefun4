@@ -37,7 +37,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     public abstract Language getDefaultLanguage();
 
-    public abstract boolean hasLanguage(String id);
+    protected abstract boolean hasLanguage(String id);
 
     public abstract Collection<Language> getLanguages();
 

@@ -35,12 +35,15 @@ public final class MiscSetup {
         SlimefunItem talisman = SlimefunItem.getByID("COMMON_TALISMAN");
 
         if (talisman != null && (boolean) Slimefun.getItemValue(talisman.getID(), "recipe-requires-nether-stars")) {
-            talisman.setRecipe(new ItemStack[] {
+            talisman.setRecipe(new ItemStack[]{
                     SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2,
                     null, new ItemStack(Material.NETHER_STAR), null,
                     SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2
             });
         }
+
+        Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
+        WikiSetup.addWikiPages(SlimefunPlugin.instance);
     }
 
     public static void loadItems(ConfigCache settings) {

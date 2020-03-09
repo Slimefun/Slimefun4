@@ -1,6 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
+import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
+import me.mrCookieSlime.Slimefun.Lists.Categories;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -11,15 +19,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class AutomatedPanningMachine extends MultiBlockMachine {
 	
@@ -92,20 +91,20 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 	
 	@Override
 	public void onInteract(Player p, Block b) {
-		final ItemStack input = p.getInventory().getItemInMainHand();
-		
-		if (SlimefunManager.isItemSimilar(input, new ItemStack(Material.GRAVEL), true) || SlimefunManager.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true)) {
-			final Material block = input.getType();
-			
-			if (p.getGameMode() != GameMode.CREATIVE) {
-				ItemUtils.consumeItem(input, false);
-			}
-			
-			ItemStack output = getRandomDrop(block);
-			TaskQueue queue = new TaskQueue();
-			
-			queue.thenRepeatEvery(20, 5, () ->
-				b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, block)
+        ItemStack input = p.getInventory().getItemInMainHand();
+
+        if (SlimefunManager.isItemSimilar(input, new ItemStack(Material.GRAVEL), true) || SlimefunManager.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true)) {
+            Material block = input.getType();
+
+            if (p.getGameMode() != GameMode.CREATIVE) {
+                ItemUtils.consumeItem(input, false);
+            }
+
+            ItemStack output = getRandomDrop(block);
+            TaskQueue queue = new TaskQueue();
+
+            queue.thenRepeatEvery(20, 5, () ->
+                    b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, block)
 			);
 			
 			queue.thenRun(20, () -> {

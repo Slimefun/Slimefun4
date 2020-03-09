@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidEntity;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
@@ -28,17 +28,17 @@ public class AndroidKillingListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onDeath(EntityDeathEvent e) {
 		if (e.getEntity().hasMetadata("android_killer")) {
-			AndroidEntity obj = (AndroidEntity) e.getEntity().getMetadata("android_killer").get(0).value();
-					
-			Slimefun.runSync(() -> {
-				List<ItemStack> items = new ArrayList<>();
-				
-				for (Entity n : e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
-					if (n instanceof Item && !n.hasMetadata("no_pickup")) {
-						items.add(((Item) n).getItemStack());
-						n.remove();
-					}
-				}
+            AndroidInstance obj = (AndroidInstance) e.getEntity().getMetadata("android_killer").get(0).value();
+
+            Slimefun.runSync(() -> {
+                List<ItemStack> items = new ArrayList<>();
+
+                for (Entity n : e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
+                    if (n instanceof Item && !n.hasMetadata("no_pickup")) {
+                        items.add(((Item) n).getItemStack());
+                        n.remove();
+                    }
+                }
 				
 				addExtraDrops(items, e.getEntityType());
 				

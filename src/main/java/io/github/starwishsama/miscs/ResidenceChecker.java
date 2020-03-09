@@ -45,7 +45,6 @@ public class ResidenceChecker implements Listener {
                 return true;
             }
 
-
             if (res != null && !p.hasPermission("residence.bypass.build") && !p.hasPermission("residence.bypass.destroy")) {
                 ResidencePermissions perms = res.getPermissions();
                 if (res.getOwnerUUID() == p.getUniqueId()) {

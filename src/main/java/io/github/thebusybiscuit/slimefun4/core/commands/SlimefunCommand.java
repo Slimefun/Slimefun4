@@ -17,14 +17,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SlimefunCommand implements CommandExecutor, Listener {
 
     private final SlimefunPlugin plugin;
     private final List<SubCommand> commands = new LinkedList<>();
+    private final Map<SubCommand, Integer> commandUsage = new HashMap<>();
 
     public SlimefunCommand(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -38,6 +41,10 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 
     public SlimefunPlugin getPlugin() {
         return plugin;
+    }
+
+    public Map<SubCommand, Integer> getCommandUsage() {
+        return commandUsage;
     }
 
     @Override
@@ -74,6 +81,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
             } else {
                 for (SubCommand command : commands) {
                     if (args[0].equalsIgnoreCase(command.getName())) {
+                        commandUsage.merge(command, 1, Integer::sum);
                         command.onExecute(sender, args);
                         return true;
                     }

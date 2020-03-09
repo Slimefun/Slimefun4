@@ -21,8 +21,7 @@ import java.util.*;
  * <p>
  * See {@link Categories} for the built-in categories.
  *
- * @since 4.0
- *
+ * @author TheBusyBiscuit
  * @see LockedCategory
  * @see SeasonalCategory
  */
@@ -34,54 +33,30 @@ public class Category implements Keyed {
     protected final int tier;
 
     /**
-     * Constructs a Category with the given display item.
-     * The tier is set to a default value of {@code 3}.
-     *
-     * @param item the display item for this category
-     * @deprecated Use the alternative with a {@link NamespacedKey} instead
-     *
-     * @since 4.0
-     */
-    @Deprecated
-    public Category(ItemStack item) {
-        this(item, 3);
-    }
-
-    /**
      * Constructs a new {@link Category} with the given {@link NamespacedKey} as an identifier
      * and the given {@link ItemStack} as its display item.
      * The tier is set to a default value of {@code 3}.
      *
-     * @param key	The {@link NamespacedKey} that is used to identify this {@link Category}
-     * @param item	The {@link ItemStack} that is used to display this {@link Category}
+     * @param key
+     *            The {@link NamespacedKey} that is used to identify this {@link Category}
+     * @param item
+     *            The {@link ItemStack} that is used to display this {@link Category}
      */
     public Category(NamespacedKey key, ItemStack item) {
         this(key, item, 3);
     }
 
     /**
-     * Constructs a Category with the given display item and the provided tier.
-     * </br>
-     * A lower tier results in this category being displayed first.
-     *
-     * @param item the display item for this category
-     * @param tier the tier for this category
-     * @deprecated Use the alternative with a {@link NamespacedKey} instead
-     *
-     * @since 4.0
-     */
-    @Deprecated
-    public Category(ItemStack item, int tier) {
-        this(new NamespacedKey(SlimefunPlugin.instance, "invalid_category"), item, tier);
-    }
-
-    /**
      * Constructs a new {@link Category} with the given {@link NamespacedKey} as an identifier
      * and the given {@link ItemStack} as its display item.
      *
-     * @param key	The {@link NamespacedKey} that is used to identify this {@link Category}
-     * @param item	The {@link ItemStack} that is used to display this {@link Category}
-     * @param tier	The tier of this {@link Category}, higher tiers will make this {@link Category} appear further down in the {@link SlimefunGuide}
+     * @param key
+     *            The {@link NamespacedKey} that is used to identify this {@link Category}
+     * @param item
+     *            The {@link ItemStack} that is used to display this {@link Category}
+     * @param tier
+     *            The tier of this {@link Category}, higher tiers will make this {@link Category} appear further down in
+     *            the {@link SlimefunGuide}
      */
     public Category(NamespacedKey key, ItemStack item, int tier) {
         this.item = item;
@@ -105,8 +80,6 @@ public class Category implements Keyed {
      * Registers this category.
      * <p>
      * By default, a category is automatically registered when a {@link SlimefunItem} is bound to it.
-     *
-     * @since 4.0
      */
     public void register() {
         if (this instanceof SeasonalCategory) {
@@ -124,7 +97,8 @@ public class Category implements Keyed {
     /**
      * Adds the given {@link SlimefunItem} to this {@link Category}.
      *
-     * @param item	the {@link SlimefunItem} that should be added to this {@link Category}
+     * @param item
+     *            the {@link SlimefunItem} that should be added to this {@link Category}
      */
     public void add(SlimefunItem item) {
         items.add(item);
@@ -134,8 +108,9 @@ public class Category implements Keyed {
      * This method returns a localized display item of this {@link Category}
      * for the specified {@link Player}.
      *
-     * @param p	The Player to create this {@link ItemStack} for
-     * @return	A localized display item for this {@link Category}
+     * @param p
+     *            The Player to create this {@link ItemStack} for
+     * @return A localized display item for this {@link Category}
      */
     public ItemStack getItem(Player p) {
         return new CustomItem(item, meta -> {
@@ -163,10 +138,10 @@ public class Category implements Keyed {
     }
 
     /**
-     * Returns the tier of this category.
+     * Returns the tier of this {@link Category}.
      * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
      *
-     * @return the tier of this category
+     * @return the tier of this {@link Category}
      */
     public int getTier() {
         return tier;

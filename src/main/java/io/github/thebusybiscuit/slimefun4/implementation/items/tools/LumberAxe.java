@@ -15,28 +15,33 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
 public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable {
 
-	public LumberAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    public LumberAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-	@Override
-	protected boolean areItemHandlersPrivate() {
-		return false;
-	}
+    @Override
+    public BlockBreakHandler getItemHandler() {
+        return new BlockBreakHandler() {
 
-	@Override
-	public BlockBreakHandler getItemHandler() {
-		return (e, item, fortune, drops) -> {
-			if (isItem(item)) {
-				if (!Slimefun.hasUnlocked(e.getPlayer(), this, true)) return true;
-				
-				if (MaterialCollections.getAllLogs().contains(e.getBlock().getType())) {
+            @Override
+            public boolean isPrivate() {
+                return false;
+            }
+
+            @Override
+            public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
+                if (MaterialCollections.getAllLogs().contains(e.getBlock().getType()) && isItem(item)) {
+                    if (!Slimefun.hasUnlocked(e.getPlayer(), LumberAxe.this, true)) {
+                        return true;
+                    }
+
                     List<Block> logs = Vein.find(e.getBlock(), 100, b -> MaterialCollections.getAllLogs().contains(b.getType()));
 
                     logs.remove(e.getBlock());
@@ -53,11 +58,11 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
                             b.setType(Material.AIR);
                         }
                     }
-				}
-				return true;
-			}
-			else return false;
-		};
-	}
+
+                    return true;
+                } else return false;
+            }
+        };
+    }
 
 }

@@ -40,11 +40,6 @@ abstract class Android extends SlimefunItem {
     protected abstract void tick(Block b);
 
     @Override
-    protected boolean areItemHandlersPrivate() {
-        return true;
-    }
-
-    @Override
     public void preRegister() {
         super.preRegister();
 

@@ -4,10 +4,18 @@ import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * This class holds all {@link Translators} of this project.
+ * A translator is equivalent to the class {@link Contributor} as it also uses that internally.
+ *
+ * @author TheBusyBiscuit
+ * @see Contributor
+ */
 public class Translators {
 
     private final ConcurrentMap<String, Contributor> contributors;
 
+    // We maybe should switch to a json file in our resources folder at some point.
     public Translators(ConcurrentMap<String, Contributor> contributors) {
         this.contributors = contributors;
 
@@ -47,11 +55,17 @@ public class Translators {
         addTranslator("Nekomitsuki", "cs", true);
         addTranslator("GGGEDR", "cs", true);
         addTranslator("jakmanda05", "cs", true);
+        addTranslator("Aile-Minicraftcz", "cs", true);
+        addTranslator("Tengoblinekcz", "cs", true);
+        addTranslator("sirhCCC", "cs", true);
+        addTranslator("Thezerix", "cs", true);
+        addTranslator("IsLineCZ", "cs", true);
+        addTranslator("MrFriggo", "cs", true);
 
         // Translators - Russian
         addTranslator("SoSeDiK", "ru", false);
         addTranslator("KostaTV", "ru", true);
-        addTranslator("TomWiskis", "ru", true);
+        addTranslator("TomWiskis", "MrWiskis", "ru", true);
 
         // Translators - Spanish
         addTranslator("Luu7", "_Luu", "es", true);
@@ -64,8 +78,9 @@ public class Translators {
         addTranslator("Tra-sh", "TurretTrash", "sv", true);
 
         // Translators - Dutch
-        addTranslator("Dr4gonD", "nl", true);
+        addTranslator("Dr4gonD", "DragonD", "nl", true);
         addTranslator("svr333", "nl", false);
+        addTranslator("PabloMarcendo", "nl", true);
 
         // Translators - Polish
         addTranslator("kbartek05", "kbartek_", "pl", true);
@@ -77,7 +92,7 @@ public class Translators {
         addTranslator("StarWishsama", "StarWish_Sama", "zh-CN", false);
 
         // Translators - Chinese (Taiwan)
-        addTranslator("BrineYT", "zh-TW", true);
+        addTranslator("BrineYT", "HeroBrineKing", "zh-TW", true);
         addTranslator("mio9", "zh-TW", true);
 
         // Translators - Arabic
@@ -88,10 +103,12 @@ public class Translators {
 
         // Translators - Turkish
         addTranslator("Yunuskrn", "tr", true);
+        addTranslator("LinoxGH", "ajan_12", "tr", false);
 
         // Translators - Portuguese (Brazil)
         addTranslator("G4stavoM1ster", "pt-BR", true);
         addTranslator("yurinogueira", "pt-BR", true);
+        addTranslator("Sakanas", "pt-BR", true);
     }
 
     private void addTranslator(String name, String language, boolean lock) {

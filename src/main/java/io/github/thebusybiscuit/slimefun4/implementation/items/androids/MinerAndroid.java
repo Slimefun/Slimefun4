@@ -41,7 +41,7 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
         if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
             String item = BlockStorage.checkID(block);
 
-            AndroidMineEvent event = new AndroidMineEvent(block, new AndroidEntity(this, b));
+            AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
             Bukkit.getPluginManager().callEvent(event);
 
             if (event.isCancelled()) {
@@ -57,17 +57,6 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
                     }
                 }
             }
-			/*
-			else if (fits(b, item.getItem())) {
-	            if (SlimefunItem.blockhandler.containsKey(item.getID())) {
-	                if (SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-	                    pushItems(b, BlockStorage.retrieve(block));
-	                    if (SlimefunItem.blockhandler.containsKey(item.getID())) SlimefunItem.blockhandler.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG);
-	                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-	                    block.setType(Material.AIR);
-	                }
-	            }
-        	}*/
         }
     }
 
@@ -78,7 +67,7 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
         if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
             SlimefunItem item = BlockStorage.check(block);
 
-            AndroidMineEvent event = new AndroidMineEvent(block, new AndroidEntity(this, b));
+            AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
             Bukkit.getPluginManager().callEvent(event);
 
             if (event.isCancelled()) {
@@ -99,17 +88,6 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
                     }
                 }
             }
-			/*
-			else {
-				if (fits(b, item.getItem()) && SlimefunPlugin.getUtilities().blockHandlers.containsKey(item.getID()) && SlimefunPlugin.getUtilities().blockHandlers.get(item.getID()).onBreak(null, block, item, UnregisterReason.ANDROID_DIG)) {
-					pushItems(b, BlockStorage.retrieve(block));
-					block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-					block.setType(Material.AIR);
-					move(b, face, block);
-					b.setType(Material.AIR);
-					BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
-				}
-			}*/
         }
         else {
             move(b, face, block);

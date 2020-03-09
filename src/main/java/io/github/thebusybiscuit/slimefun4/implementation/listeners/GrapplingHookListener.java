@@ -1,11 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
@@ -20,9 +17,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.*;
 
 public class GrapplingHookListener implements Listener {
 
@@ -50,11 +45,19 @@ public class GrapplingHookListener implements Listener {
         }, 4L);
     }
 
+    @EventHandler
+    public void onArrowHit(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && invulnerable.contains(e.getEntity().getUniqueId())) {
+            e.setCancelled(true);
+            invulnerable.remove(e.getEntity().getUniqueId());
+        }
+    }
+
     private void handleGrapplingHook(Arrow arrow) {
         if (arrow != null && arrow.getShooter() instanceof Player && jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
             Player p = (Player) arrow.getShooter();
 
-            if (p.getGameMode() != GameMode.CREATIVE && (boolean) jumpState.get(p.getUniqueId())) {
+            if (p.getGameMode() != GameMode.CREATIVE && jumpState.get(p.getUniqueId())) {
                 arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItems.GRAPPLING_HOOK);
             }
 
@@ -104,14 +107,6 @@ public class GrapplingHookListener implements Listener {
                     temporaryEntities.remove(p.getUniqueId());
                 }, 20L);
             }
-        }
-    }
-
-    @EventHandler
-    public void onArrowHit(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && invulnerable.contains(e.getEntity().getUniqueId())) {
-            e.setCancelled(true);
-            invulnerable.remove(e.getEntity().getUniqueId());
         }
     }
 
