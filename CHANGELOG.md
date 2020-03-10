@@ -46,6 +46,7 @@
 
 ### Changes
 * Removed some deprecated parts of the API
+* Internal clean up and further documentation
 * Changed Automatic Ignition Chamber to be a Dropper
 * Teleporters are now significantly faster
 
