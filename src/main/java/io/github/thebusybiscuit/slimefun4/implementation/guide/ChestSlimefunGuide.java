@@ -145,17 +145,20 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             return true;
         }
         else {
-            List<String> parents = new ArrayList<>();
-            parents.add("");
-            parents.add(ChatColor.translateAlternateColorCodes('&', "&rYou need to unlock all Items"));
-            parents.add(ChatColor.translateAlternateColorCodes('&', "&rfrom the following Categories first:"));
-            parents.add("");
+            List<String> lore = new ArrayList<>();
+            lore.add("");
+            
+            for (String line : SlimefunPlugin.getLocal().getMessages(p, "guide.locked-category")) {
+                lore.add(ChatColor.RESET + line);
+            }
+            
+            lore.add("");
 
             for (Category parent : ((LockedCategory) category).getParents()) {
-                parents.add(parent.getItem(p).getItemMeta().getDisplayName());
+                lore.add(parent.getItem(p).getItemMeta().getDisplayName());
             }
 
-            menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem(p).getItemMeta().getDisplayName(), parents.toArray(new String[0])));
+            menu.addItem(index, new CustomItem(Material.BARRIER, "&4" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked") + " &7- &r" + category.getItem(p).getItemMeta().getDisplayName(), lore.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
             return true;
         }
@@ -209,7 +212,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
                 if (survival && research != null && !profile.hasUnlocked(research)) {
                     if (Slimefun.hasPermission(p, sfitem, false)) {
-                        menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&lLOCKED", "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"));
+                        menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level"));
                         menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                             if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(pl.getUniqueId())) {
                                 if (research.canUnlock(pl)) {
@@ -223,7 +226,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
                                         if (pl.getGameMode() == GameMode.CREATIVE) {
                                             research.unlock(pl, SlimefunPlugin.getSettings().researchesFreeInCreative);
-                                            openCategory(profile, category, survival, page);
+                                            Slimefun.runSync(() -> openCategory(profile, category, survival, page), 5L);
                                         }
                                         else {
                                             research.unlock(pl, false);
@@ -277,7 +280,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         Player p = profile.getPlayer();
         if (p == null) return;
 
-        ChestMenu menu = new ChestMenu("Searching for: " + ChatUtils.crop(ChatColor.RESET, input));
+        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.search.inventory").replace("%item%", ChatUtils.crop(ChatColor.RESET, input)));
         String searchTerm = input.toLowerCase();
 
         if (addToHistory) {
@@ -542,7 +545,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             if (slimefunItem == null) return item;
 
             String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission";
-            return Slimefun.hasUnlocked(p, slimefunItem, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&lLOCKED", "", lore);
+            return Slimefun.hasUnlocked(p, slimefunItem, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", lore);
         }
         else {
             return item;

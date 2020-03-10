@@ -173,7 +173,7 @@ public class Research implements Keyed {
      * @param instant
      *            Whether to unlock the research instantly
      */
-    public void unlock(final Player p, boolean instant) {
+    public void unlock(Player p, boolean instant) {
         if (!instant) {
             Slimefun.runSync(() -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);

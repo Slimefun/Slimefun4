@@ -31,11 +31,7 @@ public class PermissionsService {
     public void load() {
         config = new Config(plugin, "permissions.yml");
 
-        config.getConfiguration().options().header(
-            "This file is used to assign permission nodes to items from Slimefun or any of its addons.\n" +
-            "To assign an item a certain permission node you simply have to set the 'permission' attribute\n" +
-            "to your desired permission node. You can also customize the text that is displayed when a Player does not have that permission."
-        );
+        config.getConfiguration().options().header("This file is used to assign permission nodes to items from Slimefun or any of its addons.\n" + "To assign an item a certain permission node you simply have to set the 'permission' attribute\n" + "to your desired permission node. You can also customize the text that is displayed when a Player does not have that permission.");
 
         config.getConfiguration().options().copyHeader(true);
     }
@@ -56,18 +52,23 @@ public class PermissionsService {
         String permission = SlimefunPlugin.getItemCfg().getString(item.getID() + ".required-permission");
 
         if (permission != null) {
-            config.setDefaultValue(item.getID() + ".permission", permission.length() == 0 ? "none": permission);
+            config.setDefaultValue(item.getID() + ".permission", permission.length() == 0 ? "none" : permission);
             config.setDefaultValue(item.getID() + ".lore", SlimefunPlugin.getItemCfg().getString(item.getID() + ".no-permission-tooltip"));
 
             SlimefunPlugin.getItemCfg().setValue(item.getID() + ".required-permission", null);
             SlimefunPlugin.getItemCfg().setValue(item.getID() + ".no-permission-tooltip", null);
             return true;
         }
-        
+
         return false;
     }
 
     public boolean hasPermission(Player p, SlimefunItem item) {
+        if (item == null) {
+            // Failsafe
+            return true;
+        }
+
         String permission = config.getString(item.getID() + ".permission");
 
         return permission == null || permission.equals("none") || p.hasPermission(permission);
@@ -75,7 +76,7 @@ public class PermissionsService {
 
     public List<String> getLore(SlimefunItem item) {
         List<String> lore = config.getStringList(item.getID() + ".lore");
-        return lore == null ? Arrays.asList("LORE NOT FOUND"): lore;
+        return lore == null ? Arrays.asList("LORE NOT FOUND") : lore;
     }
 
 }
