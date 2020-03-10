@@ -38,6 +38,7 @@ public class LocalizationService extends SlimefunLocalization {
 
     // All supported languages are stored in this LinkedHashMap, it is Linked so we keep the order
     private final Map<String, Language> languages = new LinkedHashMap<>();
+    private final boolean translationsEnabled;
     private final SlimefunPlugin plugin;
     private final NamespacedKey languageKey;
     private final Language defaultLanguage;
@@ -46,6 +47,7 @@ public class LocalizationService extends SlimefunLocalization {
         super(plugin);
 
         this.plugin = plugin;
+        translationsEnabled = SlimefunPlugin.getCfg().getBoolean("options.enable-translations");
         languageKey = new NamespacedKey(plugin, LANGUAGE_PATH);
         defaultLanguage = new Language(serverDefaultLanguage, "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
 
@@ -208,5 +210,9 @@ public class LocalizationService extends SlimefunLocalization {
             Slimefun.getLogger().log(Level.SEVERE, "Failed to load language file into memory: \"" + path + "\"", e);
             return null;
         }
+    }
+
+    public boolean isEnabled() {
+        return translationsEnabled;
     }
 }

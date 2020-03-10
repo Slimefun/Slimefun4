@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+// This class will be deprecated at some point too, we now got MultiBlockMachine.java
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
     protected final List<ItemStack[]> recipes;

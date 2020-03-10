@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.Objects;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -251,10 +250,6 @@ public class Research implements Keyed {
 
         SlimefunPlugin.getRegistry().getResearches().add(this);
         SlimefunPlugin.getRegistry().getResearchIds().add(this);
-
-        if (SlimefunPlugin.getSettings().printOutLoading) {
-            Slimefun.getLogger().log(Level.INFO, "Loaded Research \"{0}\"", name);
-        }
     }
 
     // Temporary migration method from ids to Namespaced Keys.

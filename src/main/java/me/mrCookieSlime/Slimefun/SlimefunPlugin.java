@@ -201,7 +201,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             textureService.setup(registry.getAllSlimefunItems());
 
             // Setting up GitHub Connectors...
-            gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
+            gitHubService.connect(false);
 
             // All Slimefun Listeners
             new SlimefunBootsListener(this);
@@ -247,7 +247,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             Slimefun.runSync(() -> {
                 recipeSnapshot = new RecipeSnapshot(this);
                 protections = new ProtectionManager(getServer());
-                MiscSetup.loadItems(settings);
+                MiscSetup.loadItems();
 
                 for (World world : Bukkit.getWorlds()) {
                     new BlockStorage(world);

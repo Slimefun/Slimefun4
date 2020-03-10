@@ -23,6 +23,8 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class OreWasher extends MultiBlockMachine {
+    
+    private final boolean legacyMode;
 
 	public OreWasher() {
 		super(
@@ -42,6 +44,8 @@ public class OreWasher extends MultiBlockMachine {
 				},
 				BlockFace.SELF
 		);
+		
+		legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-ore-washer");
 	}
 	
 	@Override
@@ -61,7 +65,7 @@ public class OreWasher extends MultiBlockMachine {
 					ItemStack adding = getRandomDust();
 					Inventory outputInv = null;
 
-					if (!SlimefunPlugin.getSettings().legacyOreWasher) {
+					if (!legacyMode) {
 						// This is a fancy way of checking if there is empty space in the inv; by checking if an unobtainable item could fit in it.
 						// However, due to the way the method findValidOutputInv() functions, the dummyAdding will never actually be added to the real inventory,
 						// so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH however, signals that it's

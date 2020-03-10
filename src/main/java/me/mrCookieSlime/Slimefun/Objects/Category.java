@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Statically handles categories.
@@ -157,6 +158,26 @@ public class Category implements Keyed {
     @Override
     public String toString() {
         return "Slimefun Category {" + key + ",tier=" + tier + "}";
+    }
+
+    /**
+     * This method checks whether this {@link Category} will be hidden for the specified
+     * {@link Player}.
+     * 
+     * Categories are hidden if all of their items have been disabled.
+     * 
+     * @param p
+     *            The {@link Player} to check for
+     * @return Whether this {@link Category} will be hidden to the given {@link Player}
+     */
+    public boolean isHidden(Player p) {
+        for (SlimefunItem slimefunItem : getItems()) {
+            if (Slimefun.isEnabled(p, slimefunItem, false)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

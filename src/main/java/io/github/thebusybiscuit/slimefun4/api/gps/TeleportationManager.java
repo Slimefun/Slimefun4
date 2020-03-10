@@ -64,8 +64,8 @@ public final class TeleportationManager {
             Location l = entry.getValue();
             ItemStack globe = network.getIcon(entry);
 
-            menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + DoubleHandler.fixDouble(0.5 * getTeleportationTime(network.getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick to select"));
-            menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
+            menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Estimated Teleportation Time: &r" + DoubleHandler.fixDouble(0.5 * getTeleportationTime(complexity, source, l)) + "s", "", "&8\u21E8 &cClick to select"));
+            menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                 pl.closeInventory();
                 start(pl.getUniqueId(), complexity, source, l, false);
                 return false;
@@ -81,14 +81,14 @@ public final class TeleportationManager {
         teleporterUsers.add(uuid);
 
         int time = getTeleportationTime(complexity, source, destination);
-        updateProgress(uuid, 100 / time, 1, source, destination, resistance);
+        updateProgress(uuid, 100 / time, 0, source, destination, resistance);
     }
 
     public int getTeleportationTime(int complexity, Location source, Location destination) {
         if (complexity < 100) return 100;
         
-        int speed = 75_000 + complexity * complexity;
-        return 1 + Math.min(2 * distanceSquared(source, destination) / speed, 40);
+        int speed = 50_000 + complexity * complexity;
+        return 1 + Math.min(4 * distanceSquared(source, destination) / speed, 40);
     }
 
     private int distanceSquared(Location source, Location destination) {

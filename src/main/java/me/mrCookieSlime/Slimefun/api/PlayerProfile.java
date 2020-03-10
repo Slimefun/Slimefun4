@@ -28,9 +28,13 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 
 /**
- * A class that can store a Player's Research Profile for caching
+ * A class that can store a Player's {@link Research} progress for caching purposes.
+ * It also holds the backpacks of a {@link Player}.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see Research
+ * @see PlayerBackpack
  *
  */
 public final class PlayerProfile {
@@ -60,7 +64,9 @@ public final class PlayerProfile {
         cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
 
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (cfg.contains("researches." + research.getID())) researches.add(research);
+            if (cfg.contains("researches." + research.getID())) {
+                researches.add(research);
+            }
         }
     }
 

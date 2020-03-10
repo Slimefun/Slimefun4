@@ -23,9 +23,12 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public abstract class ElectricDustWasher extends AContainer {
 
     private OreWasher oreWasher;
+    private final boolean legacyMode;
 
     public ElectricDustWasher(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-dust-washer");
     }
 
     @Override
@@ -78,7 +81,7 @@ public abstract class ElectricDustWasher extends AContainer {
         else {
             for (int slot : getInputSlots()) {
                 if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
-                    if (!SlimefunPlugin.getSettings().legacyDustWasher) {
+                    if (!legacyMode) {
                         boolean emptySlot = false;
 
                         for (int outputSlot : getOutputSlots()) {
@@ -92,7 +95,7 @@ public abstract class ElectricDustWasher extends AContainer {
 
                     ItemStack adding = oreWasher.getRandomDust();
                     MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { adding });
-                    if (SlimefunPlugin.getSettings().legacyDustWasher && !menu.fits(r.getOutput()[0], getOutputSlots())) return;
+                    if (legacyMode && !menu.fits(r.getOutput()[0], getOutputSlots())) return;
                     menu.consumeItem(slot);
                     processing.put(b, r);
                     progress.put(b, r.getTicks());

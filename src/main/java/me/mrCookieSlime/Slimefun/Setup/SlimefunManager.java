@@ -21,7 +21,6 @@ import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -190,29 +189,33 @@ public final class SlimefunManager {
         if (item == null || item.getType() == Material.AIR) {
             return false;
         }
-        else if (isItemSimilar(item, SlimefunItems.BOUND_BACKPACK, false)) {
-            return !SlimefunItem.getByID("BOUND_BACKPACK").isDisabled();
-        }
         else {
-            ItemStack strippedItem = item.clone();
+            SlimefunItem backpack = SlimefunItem.getByID("BOUND_BACKPACK");
 
-            if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
-                for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-                    EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
+            if (backpack != null && backpack.isItem(item)) {
+                return !backpack.isDisabled();
+            }
+            else {
+                ItemStack strippedItem = item.clone();
+
+                if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+                    for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
+                        EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
+                    }
                 }
-            }
 
-            SlimefunItem sfItem = SlimefunItem.getByItem(strippedItem);
+                SlimefunItem sfItem = SlimefunItem.getByItem(strippedItem);
 
-            if (sfItem instanceof Soulbound && !sfItem.isDisabled()) {
-                return true;
-            }
-            else if (item.hasItemMeta()) {
-                ItemMeta im = item.getItemMeta();
-                return (im.hasLore() && im.getLore().contains(SOULBOUND_LORE));
-            }
+                if (sfItem instanceof Soulbound && !sfItem.isDisabled()) {
+                    return true;
+                }
+                else if (item.hasItemMeta()) {
+                    ItemMeta im = item.getItemMeta();
+                    return (im.hasLore() && im.getLore().contains(SOULBOUND_LORE));
+                }
 
-            return false;
+                return false;
+            }
         }
     }
 }
