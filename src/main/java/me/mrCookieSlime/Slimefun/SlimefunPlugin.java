@@ -28,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
@@ -91,7 +92,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private RecipeSnapshot recipeSnapshot;
     private SlimefunRegistry registry;
 
-    // Services
+    // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
     private final CustomTextureService textureService = new CustomTextureService(this);
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
@@ -100,6 +101,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final AutoSavingService autoSavingService = new AutoSavingService();
     private final BackupService backupService = new BackupService();
     private final MetricsService metricsService = new MetricsService(this);
+    private final PermissionsService permissionsService = new PermissionsService(this);
 
     private TickerTask ticker;
     private LocalizationService local;
@@ -153,8 +155,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             items = new Config(this, "Items.yml");
             whitelist = new Config(this, "whitelist.yml");
 
-            // Setup messages.yml
+            // Setup various config files
             textureService.load();
+            permissionsService.load();
             local = new LocalizationService(this, config.getString("options.language"));
 
             // Setting up Network classes
@@ -201,7 +204,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 
             MiscSetup.setupMisc();
-            textureService.register(registry.getAllSlimefunItems());
 
             // Setting up GitHub Connectors...
             gitHubService.connect(false);
@@ -248,8 +250,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
             Slimefun.runSync(() -> {
+                textureService.register(registry.getAllSlimefunItems());
+                permissionsService.register(registry.getAllSlimefunItems());
+
                 recipeSnapshot = new RecipeSnapshot(this);
                 protections = new ProtectionManager(getServer());
+
                 MiscSetup.loadItems();
 
                 for (World world : Bukkit.getWorlds()) {
@@ -500,6 +506,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static CustomTextureService getItemTextureService() {
         return instance.textureService;
+    }
+
+    public static PermissionsService getPermissionsService() {
+        return instance.permissionsService;
     }
 
     public static BlockDataService getBlockDataService() {

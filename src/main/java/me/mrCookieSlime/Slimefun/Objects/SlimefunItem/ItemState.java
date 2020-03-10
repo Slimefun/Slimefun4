@@ -13,6 +13,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 public enum ItemState {
 
     /**
+     * This {@link SlimefunItem} has not been registered (yet).
+     */
+    UNREGISTERED,
+
+    /**
      * This {@link SlimefunItem} is enabled.
      */
     ENABLED,

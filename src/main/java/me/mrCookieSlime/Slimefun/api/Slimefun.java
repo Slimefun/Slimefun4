@@ -173,14 +173,14 @@ public final class Slimefun {
             if (sfItem.getResearch() == null) {
                 return true;
             }
-            else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())){
+            else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) {
                 return true;
             }
             else {
                 if (message && !(sfItem instanceof VanillaItem)) {
                     SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
                 }
-                
+
                 return false;
             }
         }
@@ -204,10 +204,7 @@ public final class Slimefun {
         if (item == null) {
             return true;
         }
-        else if (item.getPermission().equalsIgnoreCase("")) {
-            return true;
-        }
-        else if (p.hasPermission(item.getPermission())) {
+        else if (SlimefunPlugin.getPermissionsService().hasPermission(p, item)) {
             return true;
         }
         else {
@@ -253,7 +250,7 @@ public final class Slimefun {
             if (message) {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
             }
-            
+
             return false;
         }
 

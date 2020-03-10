@@ -26,7 +26,7 @@ class EnderTalisman extends Talisman {
     }
 
     @Override
-    public void install() {
+    public void createEnderTalisman() {
         // Let's override that, otherwise we would be creating Ender Talismans
         // for every Ender Talisman
     }

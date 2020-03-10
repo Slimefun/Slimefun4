@@ -69,7 +69,12 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
     }
 
     @Override
-    public void install() {
+    public void load() {
+        super.load();
+        loadDefaultRecipes();
+    }
+
+    protected void loadDefaultRecipes() {
         for (ItemStack recipeItem : shownRecipes) {
             SlimefunItem item = SlimefunItem.getByItem(recipeItem);
 

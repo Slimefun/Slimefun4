@@ -241,7 +241,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                         index++;
                     }
                     else {
-                        List<String> message = sfitem.getNoPermissionTooltip();
+                        List<String> message = SlimefunPlugin.getPermissionsService().getLore(sfitem);
                         menu.addItem(index, new CustomItem(Material.BARRIER, sfitem.getItemName(), message.toArray(new String[message.size()])));
                         menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
                         index++;
