@@ -28,7 +28,7 @@ import java.util.Optional;
 public final class SlimefunManager {
 
     private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
-    private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
+    private static final String SOULBOUND_LORE = ChatColor.GRAY + "灵魂绑定";
 
     private SlimefunManager() {
     }
