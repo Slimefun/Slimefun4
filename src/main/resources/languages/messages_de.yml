@@ -109,6 +109,8 @@ guide:
     - "&7Gib den Begriff, nach dem du suchen willst, in das Chatfenster ein"
     message: "&bWonach möchtest du suchen?"
     name: "&7Suche..."
+    tooltip: "&bKlicke um die Suche zu starten"
+    inventory: 'Suche nach: %item%'
   title:
     addons: Addons für Slimefun4
     bugs: Fehlermeldungen
@@ -127,11 +129,17 @@ guide:
       miner: Ressourcen, die mit dieser Maschine gewonnen werden können
     versions-notice: Dies ist sehr wichtig bei Fehlermeldungen!
     wiki: Besuche das offizielle Slimefun-Wiki
+  locked: GESPERRT
+  locked-category:
+  - Um diese Kategorie freizuschalten,
+  - müssen zuerst sämtliche Items der
+  - folgenden Kategorien freigeschaltet werden
 inventory:
   no-access: "&4Du kannst nicht auf diesen Block zugreifen"
 languages:
   af: Afrikaans
   ar: Arabisch
+  bg: Bulgarisch
   cs: Tschechisch
   da: Dänisch
   de: Deutsch
@@ -147,6 +155,7 @@ languages:
   id: Indonesisch
   it: Italienisch
   ja: Japanisch
+  ko: Koreanisch
   lv: Lettisch
   ms: Malaiisch
   nl: Niederländisch
@@ -159,13 +168,11 @@ languages:
   sk: Slowakisch
   sv: Schwedisch
   th: Thailändisch
+  tr: Türkisch
   uk: Ukrainisch
   vi: Vietnamesisch
   zh-CN: Chinesisch (China)
   zh-TW: Chinesisch (Taiwan)
-  bg: Bulgarisch
-  ko: Koreanisch
-  tr: Türkisch
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"
@@ -202,6 +209,10 @@ machines:
     invulnerability: "&b&lDu bist nun für 30 Sekunden unverwundbar!"
     teleported: "&3Erfolgreich teleportiert!"
     teleporting: "&3Du wirst teleportiert..."
+    gui:
+      title: Deine Wegpunkte
+      tooltip: Klicke zum teleportieren
+      time: Voraussichtliche Dauer
   unknown-material: "&eEs tut mir leid, aber ich erkenne das Item in meinem Werfer
     nicht, probier ein anderes Item aus."
   wrong-item: "&eEs tut mir leid, aber ich erkenne das Item in deiner Hand nicht,
