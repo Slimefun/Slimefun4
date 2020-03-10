@@ -28,7 +28,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -424,6 +423,7 @@ public class SlimefunItem implements Placeable {
             }
         }
 
+        // Support for legacy items
         if (this instanceof ChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
         else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
         else return SlimefunManager.isItemSimilar(item, this.item, true);
@@ -436,13 +436,12 @@ public class SlimefunItem implements Placeable {
             }
 
             ItemStack output = recipeOutput == null ? item.clone() : recipeOutput.clone();
+            recipeType.register(recipe, output);
 
+            // These two blocks will soon be moved to RecipeType#register() too
             if (recipeType == RecipeType.MOB_DROP) {
                 String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
                 registerMobDrop(mob, output);
-            }
-            else if (recipeType == RecipeType.ANCIENT_ALTAR) {
-                new AltarRecipe(Arrays.asList(recipe), output);
             }
             else if (recipeType.getMachine() != null) {
                 SlimefunItem machine = getByID(recipeType.getMachine().getID());
@@ -480,6 +479,7 @@ public class SlimefunItem implements Placeable {
         for (ItemHandler handler : handlers) {
             itemhandlers.put(handler.getIdentifier(), handler);
 
+            // Tickers are a special case (at the moment at least)
             if (handler instanceof BlockTicker) {
                 ticking = true;
                 SlimefunPlugin.getRegistry().getTickerBlocks().add(getID());
@@ -640,6 +640,7 @@ public class SlimefunItem implements Placeable {
         addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
 
         if (addon.getBugTrackerURL() != null) {
+            // We can prompt the server operator to report it to the addon's bug tracker
             addon.getLogger().log(Level.SEVERE, "You can report it here: {0}", addon.getBugTrackerURL());
         }
 
@@ -665,6 +666,8 @@ public class SlimefunItem implements Placeable {
             }
         }
 
+        // Quite expensive performance-wise
+        // But necessary for supporting legacy items
         for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
             if (sfi.isItem(item)) {
                 // If we have to loop all items for the given item, then at least
@@ -674,6 +677,7 @@ public class SlimefunItem implements Placeable {
                 return sfi;
             }
         }
+
         if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
         if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
 

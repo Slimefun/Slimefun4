@@ -18,14 +18,19 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class CustomTextureService {
 
-    private final Config config;
+    private final Plugin plugin;
+    private Config config;
     private boolean modified = false;
 
     public CustomTextureService(Plugin plugin) {
-        this.config = new Config(plugin, "item-models.yml");
+        this.plugin = plugin;
     }
 
-    public void setup(Iterable<SlimefunItem> items) {
+    public void load() {
+        config = new Config(plugin, "item-models.yml");
+    }
+
+    public void register(Iterable<SlimefunItem> items) {
         config.setDefaultValue("SLIMEFUN_GUIDE", 0);
 
         config.setDefaultValue("_UI_BACKGROUND", 0);

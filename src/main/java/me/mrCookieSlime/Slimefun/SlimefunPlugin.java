@@ -115,7 +115,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private SlimefunHooks hooks;
     private SlimefunCommand command;
 
-    // Supported Versions of Minecraft, to ensure people dont use it on the wrong version.
+    // Supported Versions of Minecraft, to ensure people
+    // do not use it on the wrong version.
+    // May not be the best design choice since we have to update that from time to time.
     private final String[] supportedMinecraftVersions = { "v1_14_", "v1_15_" };
 
     // Listeners that need to be accessed elsewhere
@@ -152,6 +154,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             whitelist = new Config(this, "whitelist.yml");
 
             // Setup messages.yml
+            textureService.load();
             local = new LocalizationService(this, config.getString("options.language"));
 
             // Setting up Network classes
@@ -194,11 +197,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             catch (Throwable x) {
                 getLogger().log(Level.SEVERE, "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion(), x);
             }
+
             settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 
             MiscSetup.setupMisc();
-            
-            textureService.setup(registry.getAllSlimefunItems());
+            textureService.register(registry.getAllSlimefunItems());
 
             // Setting up GitHub Connectors...
             gitHubService.connect(false);

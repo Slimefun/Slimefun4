@@ -1,8 +1,10 @@
 package me.mrCookieSlime.Slimefun.Lists;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.BiConsumer;
 
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -12,10 +14,10 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class RecipeType implements Keyed {
@@ -33,7 +35,11 @@ public class RecipeType implements Keyed {
     public static final RecipeType ORE_WASHER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ore_washer"), (SlimefunItemStack) SlimefunItems.ORE_WASHER, "", "&a&oWash it in an Ore Washer");
     public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "enhanced_crafting_table"), (SlimefunItemStack) SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power...");
     public static final RecipeType JUICER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "juicer"), (SlimefunItemStack) SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
-    public static final RecipeType ANCIENT_ALTAR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ancient_altar"), (SlimefunItemStack) SlimefunItems.ANCIENT_ALTAR, "", "&dYou will need to craft this Item", "&dby performing an Ancient Altar Ritual");
+
+    public static final RecipeType ANCIENT_ALTAR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ancient_altar"), (SlimefunItemStack) SlimefunItems.ANCIENT_ALTAR, (recipe, output) -> {
+        AltarRecipe altarRecipe = new AltarRecipe(Arrays.asList(recipe), output);
+        SlimefunPlugin.getAncientAltarListener().getRecipes().add(altarRecipe);
+    }, "", "&dYou will need to craft this Item", "&dby performing an Ancient Altar Ritual");
 
     public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "heated_pressure_chamber"), (SlimefunItemStack) SlimefunItems.HEATED_PRESSURE_CHAMBER, "", "&a&oCraft this Item in a", "&a&oHeated Pressure Chamber");
     public static final RecipeType FOOD_FABRICATOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "food_fabricator"), (SlimefunItemStack) SlimefunItems.FOOD_FABRICATOR, "", "&a&oCraft this Item in a", "&a&oFood Fabricator");
@@ -44,6 +50,7 @@ public class RecipeType implements Keyed {
     private final ItemStack item;
     private final NamespacedKey key;
     private final String machine;
+    private BiConsumer<ItemStack[], ItemStack> consumer;
 
     private RecipeType() {
         this.item = null;
@@ -64,9 +71,14 @@ public class RecipeType implements Keyed {
     }
 
     public RecipeType(NamespacedKey key, SlimefunItemStack slimefunItem, String... lore) {
+        this(key, slimefunItem, null, lore);
+    }
+
+    public RecipeType(NamespacedKey key, SlimefunItemStack slimefunItem, BiConsumer<ItemStack[], ItemStack> callback, String... lore) {
         this.item = new CustomItem(slimefunItem, null, lore);
         this.machine = slimefunItem.getItemID();
         this.key = key;
+        this.consumer = callback;
     }
 
     @Deprecated
@@ -98,15 +110,9 @@ public class RecipeType implements Keyed {
         this.key = NamespacedKey.minecraft(recipe.getRecipeClass().getSimpleName().toLowerCase(Locale.ROOT).replace("recipe", ""));
     }
 
-    public RecipeType(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
-        this.machine = machine;
-        this.item = getMachine().getItem();
-        this.key = new NamespacedKey(SlimefunPlugin.instance, machine.toLowerCase());
-
-        for (SlimefunItem sfItem : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-            if (sfItem instanceof AContainer && ((AContainer) sfItem).getMachineIdentifier().equals(machine)) {
-                ((AContainer) sfItem).registerRecipe(seconds, input, output);
-            }
+    public void register(ItemStack[] recipe, ItemStack result) {
+        if (consumer != null) {
+            consumer.accept(recipe, result);
         }
     }
 
