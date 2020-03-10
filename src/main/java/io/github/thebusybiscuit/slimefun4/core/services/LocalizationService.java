@@ -173,7 +173,7 @@ public class LocalizationService extends SlimefunLocalization {
         int defaultKeys = getTotalKeys(languages.get("en"));
         if (defaultKeys == 0) return 0;
 
-        return DoubleHandler.fixDouble(100.0 * (getTotalKeys(lang) / (double) defaultKeys));
+        return Math.min(DoubleHandler.fixDouble(100.0 * (getTotalKeys(lang) / (double) defaultKeys)), 100.0);
     }
 
     private int getTotalKeys(Language lang) {

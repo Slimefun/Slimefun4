@@ -51,6 +51,7 @@
 * Teleporters are now significantly faster
 
 ### Fixes
+* Fixed some languages showing numbers larger than 100%
 
 ## Release Candidate 9 (07 Mar 2020)
 
