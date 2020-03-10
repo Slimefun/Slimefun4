@@ -14,7 +14,7 @@ commands:
     description: Unlock/Reset researches for a player
     reset: '&cYou have reset %player%''s Knowledge'
     reset-target: '&cYour Knowledge has been reset'
-
+    
 guide:
   locked: 'LOCKED'
   
