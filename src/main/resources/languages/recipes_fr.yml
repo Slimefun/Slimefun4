@@ -125,3 +125,8 @@ slimefun:
     - Fabriquez cet objet comme indiqué
     - dans une Smeltery
     name: Smeltery
+  freezer:
+    name: Freezer
+    lore:
+    - 
+    - à l'aide d'un Freezer
