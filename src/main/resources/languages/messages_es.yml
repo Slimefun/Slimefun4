@@ -284,6 +284,7 @@ messages:
   not-valid-item: "&c¡&4%item% &cno es un objeto válido!"
   give-research: '&bLe has dado a %player% la investigación &7"%research%&7"'
   opening-guide: "&bAbriendo la guía, esto puede tomar unos segundos..."
+  multimeter: "&bEnergía almacenada: &3%stored% &b/ &3%capacity%"
 miner:
   no-ores: "&ePerdón, ¡No encuentro ningún mineral cerca!"
 workbench:
