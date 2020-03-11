@@ -104,7 +104,7 @@ guide:
   locked: VERROUILLÉ
   locked-category:
   - Pour déverrouiller cette catégorie, vous devrez
-  - 
+  - déverrouiller tous les objets des
   - catégories suivantes
   pages:
     next: Page suivante
@@ -116,6 +116,7 @@ guide:
     message: "&bQue souhaitez-vous rechercher?"
     name: "&7Rechercher..."
     inventory: 'Rechercher: %item%'
+    tooltip: "&bCliquez pour rechercher un objet"
   title:
     addons: Extensions de Slimefun4
     bugs: Signaler un bug
