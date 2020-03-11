@@ -150,6 +150,15 @@ public class SlimefunItemStack extends CustomItem {
         return id;
     }
 
+    /**
+     * Gets the {@link SlimefunItem} associated for this SlimefunItemStack. Null if no item is found.
+     *
+     * @return The {@link SlimefunItem} for this SlimefunItemStack, null if not found.
+     */
+    public SlimefunItem getItem() {
+        return SlimefunItem.getById(this.id);
+    }
+
     public ImmutableItemMeta getImmutableMeta() {
         return immutableMeta;
     }
