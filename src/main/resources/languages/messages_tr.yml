@@ -1,100 +1,228 @@
 ---
+android:
+  scripts:
+    already-uploaded: "&4Bu senaryo zaten yüklendi."
+    editor: Senaryo Editörü
+    enter-name:
+    - 
+    - "&eLütfen senaryonuz için bir ad yazınız"
+    instructions:
+      ATTACK_ANIMALS: "&4Saldır &c(Hayvanlar)"
+      ATTACK_ANIMALS_ADULT: "&4Saldır &c(Hayvanlar &7[Yetişkin]&c)"
+      ATTACK_MOBS: "&4Saldır &c(Canavarlar)"
+      ATTACK_MOBS_ANIMALS: "&4Saldır &c(Canavarlar & Hayvanlar)"
+      CATCH_FISH: "&bBalık Tut"
+      CHOP_TREE: "&cKes ve Ek"
+      DIG_DOWN: "&bAltını Kaz"
+      DIG_FORWARD: "&bİleriyi Kaz"
+      DIG_UP: "&bYukarıyı Kaz"
+      FARM_DOWN: "&bToplama ve Ekim &7(Altındaki blok)"
+      FARM_EXOTIC_DOWN: "&bGelişmişce Topla ve Ek &7(Altındaki blok)"
+      FARM_EXOTIC_FORWARD: "&bGelişmişce Topla ve Ek"
+      FARM_FORWARD: "&bTopla ve Ek"
+      GO_DOWN: "&7Aşağıya İn"
+      GO_FORWARD: "&7İleri Git"
+      GO_UP: "&7Yukarı Çık"
+      INTERFACE_FUEL: "&cÖndeki Arayüzden Yakıt çek"
+      INTERFACE_ITEMS: "&9Envanter İçeriğini öndeki Arayüze aktar"
+      MOVE_AND_DIG_DOWN: "&bİlerle ve Altını Kaz"
+      MOVE_AND_DIG_FORWARD: "&bİlerle ve İleriyi Kaz"
+      MOVE_AND_DIG_UP: "&bİlerle ve Yukarıyı Kaz"
+      REPEAT: "&9Senaryoyu Tekrar Et"
+      START: "&2Senaryoyu başlat"
+      TURN_LEFT: "&7Sola Dön"
+      TURN_RIGHT: "&7Sağa Dön"
+      WAIT: "&e0.5s Bekle"
+    rating:
+      already: "&4Bu senaryo için zaten oy kullandın!"
+      own: "&4Kendi senaryonu oylayamazın!"
+    uploaded:
+    - "&bYükleniyor..."
+    - "&aSenaryon başarıyla yüklendi!"
+  started: "&7Androidiniz senaryoyu uygulamaya devam ediyor"
+  stopped: "&7Androidiniz senaryoyu duraklattı"
+anvil:
+  not-working: "&4Slimefun eşyalarını örste kullanamazsın!"
+backpack:
+  already-open: "&cÜzgünüm, bu Sırt Çantası başka bir yerde açık!"
+  no-stack: "&cSırt Çantalarını istifleyemezsiniz"
 commands:
-  help: Yardım ekranını görüntüler
-  teleporter: Diğer Bir Oyuncunun Yer Noktalarına Bakın
-  open_guide: Kitabı kullanmadan Slimefun Rehberini açar
-  stats: Oyuncu hakkında bazı İstatistikleri Gösterir
-  research:
-    reset: "&c %player%'ın Bilgisini sıfırladınız"
-    description: Bir oyuncu için araştırmaların kilidini açma / sıfırlama
-    reset-target: "&cBilginiz sıfırlandı"
   cheat: Hile Yapmanıza olanak sağlar
   give: Birisine Slimefun Eşyası verir
   guide: Kendinize bir Slimefun Rehberi verir
+  help: Yardım ekranını görüntüler
+  open_guide: Kitabı kullanmadan Slimefun Rehberini açar
+  research:
+    description: Bir oyuncu için araştırmaların kilidini açma / sıfırlama
+    reset: "&c %player%'ın Bilgisini sıfırladınız"
+    reset-target: "&cBilginiz sıfırlandı"
+  search: Rehberinizde belirtilen eşyayı arar
+  stats: Oyuncu hakkında bazı İstatistikleri Gösterir
+  teleporter: Diğer Bir Oyuncunun Yer Noktalarına Bakın
   timings: |-
     Sunucunuz Hakkında Gecikme Bilgisini
     gösterir
   versions: Yüklü tüm Eklentileri listeler
-  search: Rehberinizde belirtilen eşyayı arar
+gps:
+  deathpoint: "&4Ölüm Noktası &7%date%"
+  geo:
+    scan-required: "&4GEO-Taraması gerekli! &cİlk önce bir GEO-Tarayıcı kullanarak
+      bu bölgeyi tarayın!"
+  insufficient-complexity:
+  - "&4Yetersiz GPS Ağ Gücü: &c%complexity%"
+  - "&4a) Henüz bir GPS Ağı kurulumunuz yok"
+  - "&4b) GPS Ağınız yeterince güçlü değil"
+  waypoint:
+    added: "&aYeni bir yer noktası başarıyla eklendi"
+    max: "&4Maksimum yer noktası sayısına ulaştınız"
+    new: "&eLütfen sohbette yeni yer noktanız için bir ad yazın. &7(Renk Kodları destekleniyor!)"
 guide:
+  back:
+    guide: Slimefun Rehberine geri dön
+    settings: Ayarlar Paneline geri dön
+    title: Geri
+  cheat:
+    no-multiblocks: "&4Yapı Oluşturmada hile yapamazsınız, onları inşa etmelisiniz!"
   credits:
     commit: Geliştiirme
     commits: Geliştirmeler
+    profile-link: GitHubdaki profillerini ziyaret etmek için tıklayın
     roles:
       developer: "&6Geliştirici"
-      wiki: "&3Wiki Editörü"
       resourcepack: "&cKaynak Paketi Tasarımcısı"
       translator: "&9Çevirmen"
-    profile-link: GitHubdaki profillerini ziyaret etmek için tıklayın
-  back:
-    title: Geri
-    guide: Slimefun Rehberine geri dön
-    settings: Ayarlar Paneline geri dön
-  title:
-    source: Kaynak Kodu
-    main: Slimefun Rehberi
-    settings: Ayarlar & Bilgi
-    languages: Tercih ettiğiniz dili seçin
-    credits: Slimefun4 Katkıda Bulunanlar
-    wiki: Slimefun4 Wiki
-    addons: Slimefun4 için Eklentiler
-    bugs: Hata Raporları
-  tooltips:
-    wiki: Bu eşyayı Slimefun Wikisinde görüntüle
-    recipes:
-      machine: Bu makinede üretilen tarifler
-      miner: Bu madenciyle elde edebileceğin kaynaklar
-      generator: Müsait yakıt türleri
-      gold-pan: Elde edebileceğin kaynaklar
-    open-category: Açmak için tıklayın
-    versions-notice: Hata bildirirken bunlar çok önemlidir!
-  search:
-    message: "&bNe aramak istersiniz?"
-    name: "&7Ara..."
-    lore:
-    - "&bNe aramak istersiniz?"
-    - "&7Arama teriminizi sohbete yazınız."
-  cheat:
-    no-multiblocks: "&4Yapı Oluşturmada hile yapamazsınız, onları inşa etmelisiniz!"
+      wiki: "&3Wiki Editörü"
   languages:
-    updated: "&aDiliniz başarıyla ayarlandı: &b%lang%"
-    translations:
-      name: "&aBir şeyler mi eksik?"
-      lore: Kendi çevirinizi eklemek için tıklayın
     select: Bu dili seçmek için tıklayın
     select-default: Varsayılan dili seçmek için tıklayın
     selected-language: 'Şuan seçili:'
+    translations:
+      lore: Kendi çevirinizi eklemek için tıklayın
+      name: "&aBir şeyler mi eksik?"
+    updated: "&aDiliniz başarıyla ayarlandı: &b%lang%"
   pages:
-    previous: Önceki sayfa
     next: Sonraki sayfa
+    previous: Önceki sayfa
+  search:
+    lore:
+    - "&bNe aramak istersiniz?"
+    - "&7Arama teriminizi sohbete yazınız."
+    message: "&bNe aramak istersiniz?"
+    name: "&7Ara..."
+    tooltip: "&bBir eşyayı aramak için tıklayın"
+    inventory: 'Eşya aranıyor: %item%'
+  title:
+    addons: Slimefun4 için Eklentiler
+    bugs: Hata Raporları
+    credits: Slimefun4 Katkıda Bulunanlar
+    languages: Tercih ettiğiniz dili seçin
+    main: Slimefun Rehberi
+    settings: Ayarlar & Bilgi
+    source: Kaynak Kodu
+    wiki: Slimefun4 Wiki
+  tooltips:
+    open-category: Açmak için tıklayın
+    recipes:
+      generator: Müsait yakıt türleri
+      gold-pan: Elde edebileceğin kaynaklar
+      machine: Bu makinede üretilen tarifler
+      miner: Bu madenciyle elde edebileceğin kaynaklar
+    versions-notice: Hata bildirirken bunlar çok önemlidir!
+    wiki: Bu eşyayı Slimefun Wikisinde görüntüle
+  locked: KİLİTLİ
+  locked-category:
+  - Bu kategoriyi açmak için
+  - aşağıdaki kategorilerde bulunan
+  - bütün eşyaları açın
+inventory:
+  no-access: "&4Bu bloğa erişmenize izin verilmiyor"
+languages:
+  af: Afrikanca
+  ar: Arapça
+  bg: Bulgarca
+  cs: Çekce
+  da: Danca
+  de: Almanca
+  default: Sunucu Varsayılanı
+  el: Yunanca
+  en: İngilizce
+  es: İspanyolca
+  fa: Persçe
+  fi: Fince
+  fr: Fransızca
+  he: İbranice
+  hu: Macarca
+  id: Endonezyaca
+  it: İtalyanca
+  ja: Japonca
+  ko: Korece
+  lv: Letonyaca
+  ms: Malayca
+  nl: Flemenkçe
+  'no': Norveçce
+  pl: Lehçe
+  pt: Portekizce (Portekiz)
+  pt-BR: Portekizce (Brezilya)
+  ro: Romanca
+  ru: Rusça
+  sk: Slovakça
+  sv: İsveççe
+  th: Tayca
+  tr: Türkçe
+  uk: Ukraynaca
+  vi: Vietnamca
+  zh-CN: Çince (Çin)
+  zh-TW: Çince (Tayvan)
+machines:
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4Altar, gerekli Sütun miktarı ile çevrili değil &c(%pedestals%
+      / 8)"
+    unknown-catalyst: "&4Bilinmeyen Katalizör! &cDoğru Tarifi kullanın!"
+    unknown-recipe: "&4Bilinmeyen Tarif! &cDoğru Tarifi kullanın!"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4Sütun tıkandı! &cSütunun üstündeki herhangi bir şeyi kaldırın!"
+  CARGO_NODES:
+    must-be-placed: "&4Mutlaka bir sandık veya makineye bağlanmalı!"
+  ELEVATOR:
+    click-to-teleport: "&7Bu yere ışınlanmak için &eTıkla:"
+    current-floor: "&eŞu anda bulunduğunuz kat:"
+    enter-name: "&7Lütfen sohbette yeni katınız için bir ad yazın. &r(Renk kodları
+      destekleniyor!)"
+    named: "&2Bu kat başarıyla isimlendirildi: &r%floor%"
+    no-destinations: "&4Varış noktası bulunamadı"
+    pick-a-floor: "&3- Bir kat seçin -"
+  full-inventory: "&eÜzgünüm, envanterim çok dolu!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Kontrol Paneli
+    transmitters: Verici Genel Bakışı
+    waypoints: Yer Noktası Genel Bakışı
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7Lütfen Sohbette istediğiniz Hologram Metnini yazın. &r(Renk Kodları
+      destekleniyor!)"
+    inventory-title: Hologram Editörü
+  ignition-chamber-no-flint: "&cAteşleme Odasında Çakmak eksik."
+  in-use: "&cBu Bloğun envanteri şu anda farklı bir Oyuncu tarafından açıldı."
+  pattern-not-found: "&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya
+    doğru şekilde yerleştirin."
+  TELEPORTER:
+    cancelled: "&4Işınlanma İptal Edildi!"
+    invulnerability: "&b&l30 saniye boyunca dokunulmazsın!"
+    teleported: "&3Işınlanıldı!"
+    teleporting: "&3Işınlanılıyor..."
+    gui:
+      title: Yer noktaların
+      tooltip: Işınlanmak için tıklayın
+      time: Tahmini süre
+  unknown-material: "&eÜzgünüm, fırlatıcıdaki Eşyayı tanıyamadım. Lütfen bildiğim
+    bir şey koy."
+  wrong-item: "&eÜzgünüm, bana sağ tıkladığınız Eşyayı tanıyamadım. Tarifleri kontrol
+    edin ve hangi Eşyaları kullanabileceğinizi görün."
 messages:
-  not-valid-item: "&4%item% &cgeçerli bir eşya değil!"
-  hungry: "&cBunu yapmak için çok açsın!"
+  cannot-place: "&cBu bloğu oraya yerleştiremezsiniz!"
+  diet-cookie: "&eKendinizi çok hafif hissetmeye başlıyorsunuz..."
   disabled-in-world: "&4&lBu eşya bu dünyada devre dışı bırakıldı."
-  no-tome-yourself: "&4Tome of Knowledge &cı kendin için kullanamazsın..."
-  talisman:
-    miner: "&a&oTılsımın madenini ikiye katladı"
-    hunter: "&a&oTılsımın ganimetini ikiye katladı"
-    lava: "&a&oTılsımın seni yanarak ölmekten kurtardı"
-    angel: "&a&oTılsımın seni düşme hasarından kurtardı"
-    fire: "&a&oTılsımın seni yanarak ölmekten kurtardı"
-    magician: "&a&oTılsımın sana fazladan bir Büyü verdi"
-    traveller: "&a&oTılsımın sana bir Hız Artışı verdi"
-    warrior: "&a&oTılsımın bir süreliğine seni güçlendirdi"
-    knight: "&a&oTılsımın sana 5 Saniye Yenilenme verdi"
-    whirlwind: "&a&oTılsımın Mermiyi yansıttı"
-    wizard: "&a&oTılsımın sana daha yüksek seviye Servet verdi ama başka bir Büyünün
-      seviyesini düşürmüş olabilir."
-    anvil: "&a&oTılsım aletinizi kırılmadan kurtardı"
-    water: "&a&oTılsımın seni boğulmaktan kurtardı"
-  soulbound-rune:
-    fail: "&cBir seferde sadece bir eşyayı ruhuna bağlayabilirsin."
-    success: "&aBu eşyayı ruhuna başarıyla bağladın! Öldüğünde saklayacaksın."
-  research:
-    start: "&7Kadim Ruhlar gizemli kelimeleri kulağına fısıldıyor!"
-    progress: "&b%research% &7hakkında bazı şeyler merak etmeye başlıyorsun &e(%progress%)"
-  radiation: "&4Ölümcül radyasyona maruz kaldınız! &cRadyoaktif maddeden kurtulun
-    veya koruyucu takımın tamamını giyinin!"
+  disabled-item: "&4&lBu eşya devre dışı bırakıldı! Bunu nasıl aldın?"
+  fire-extinguish: "&7Kendini söndürdün"
   fortune-cookie:
   - "&7Bana yardım et, Şans Kurabiyesi Fabrikasında mahsur kaldım!"
   - "&7Yarın öleceksiniz ... bir Creeper tarafından"
@@ -107,171 +235,54 @@ messages:
   - "&742. Cevap 42."
   - "&7Bir Walshy bir gün sıkıntıları uzak tutacaktır."
   - "&7Hiçbir zaman doğrudan aşağıyı kazmayın!"
-  not-researched: "&4Bunu anlayacak kadar bilgin yok"
-  not-enough-xp: "&4Bunun kilidini açmak için yeterli XP niz yok"
-  unlocked: '&bKilidini açtın &7"%research%"'
-  only-players: "&4Bu komut yalnızca oyuncular için"
-  unknown-player: "&4Bilinmeyen oyuncu: &c%player%"
-  no-permission: "&4Bunu yapmak için gerekli izniniz yok"
-  usage: "&4Kullanış: &c%usage%"
-  not-online: "&4%player% &coyunda değil!"
-  not-valid-amount: "&4%amount% &cgeçerli bir miktar değil : 0 dan büyük olmalı!"
-  given-item: '&a%amount% &badet &7"%item%&7" &bsana verildi.'
   give-item: '&b%player% adlı oyuncuya &a%amount% &badet &7"%item%&7" &bverdin.'
-  not-valid-research: "&4%research% &cgeçerli bir araştırma değil!"
+  given-item: '&a%amount% &badet &7"%item%&7" &bsana verildi.'
   give-research: '&b%player% adlı oyuncu için bir araştırmayı açtın: &7"%research%&7"'
+  hungry: "&cBunu yapmak için çok açsın!"
+  link-prompt: "&eBuraya tıklayın:"
   mode-change: "&b%device% modu değişti: &9%mode%"
-  disabled-item: "&4&lBu eşya devre dışı bırakıldı! Bunu nasıl aldın?"
   multimeter: "&bDepolanmış Enerji: &3%stored% &b/ &3%capacity%"
-  fire-extinguish: "&7Kendini söndürdün"
-  cannot-place: "&cBu bloğu oraya yerleştiremezsiniz!"
-  no-pvp: "&cBurada pvp yapamazsınız!"
-  opening-guide: "&bRehber açılıyor, bu birkaç saniye sürebilir..."
-  opening-backpack: "&bSırt çantası açılıyor, bu birkaç saniye sürebilir..."
   no-iron-golem-heal: "&cBu bir Demir Külçe değil. Demir Golemleri iyileştirmek için
     bunu kullanamazsın!"
-  link-prompt: "&eBuraya tıklayın:"
-  diet-cookie: "&eKendinizi çok hafif hissetmeye başlıyorsunuz..."
-machines:
-  pattern-not-found: "&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya
-    doğru şekilde yerleştirin."
-  unknown-material: "&eÜzgünüm, fırlatıcıdaki Eşyayı tanıyamadım. Lütfen bildiğim
-    bir şey koy."
-  wrong-item: "&eÜzgünüm, bana sağ tıkladığınız Eşyayı tanıyamadım. Tarifleri kontrol
-    edin ve hangi Eşyaları kullanabileceğinizi görün."
-  ignition-chamber-no-flint: "&cAteşleme Odasında Çakmak eksik."
-  ANCIENT_ALTAR:
-    not-enough-pedestals: "&4Altar, gerekli Sütun miktarı ile çevrili değil &c(%pedestals%
-      / 8)"
-    unknown-catalyst: "&4Bilinmeyen Katalizör! &cDoğru Tarifi kullanın!"
-    unknown-recipe: "&4Bilinmeyen Tarif! &cDoğru Tarifi kullanın!"
-  ANCIENT_PEDESTAL:
-    obstructed: "&4Sütun tıkandı! &cSütunun üstündeki herhangi bir şeyi kaldırın!"
-  HOLOGRAM_PROJECTOR:
-    enter-text: "&7Lütfen Sohbette istediğiniz Hologram Metnini yazın. &r(Renk Kodları
-      destekleniyor!)"
-    inventory-title: Hologram Editörü
-  ELEVATOR:
-    no-destinations: "&4Varış noktası bulunamadı"
-    current-floor: "&eŞu anda bulunduğunuz kat:"
-    enter-name: "&7Lütfen sohbette yeni katınız için bir ad yazın. &r(Renk kodları
-      destekleniyor!)"
-    pick-a-floor: "&3- Bir kat seçin -"
-    click-to-teleport: "&7Bu yere ışınlanmak için &eTıkla:"
-    named: "&2Bu kat başarıyla isimlendirildi: &r%floor%"
-  TELEPORTER:
-    teleporting: "&3Işınlanılıyor..."
-    teleported: "&3Işınlanıldı!"
-    cancelled: "&4Işınlanma İptal Edildi!"
-    invulnerability: "&b&l30 saniye boyunca dokunulmazsın!"
-  CARGO_NODES:
-    must-be-placed: "&4Mutlaka bir sandık veya makineye bağlanmalı!"
-  GPS_CONTROL_PANEL:
-    title: GPS - Kontrol Paneli
-    transmitters: Verici Genel Bakışı
-    waypoints: Yer Noktası Genel Bakışı
-  full-inventory: "&eÜzgünüm, envanterim çok dolu!"
-  in-use: "&cBu Bloğun envanteri şu anda farklı bir Oyuncu tarafından açıldı."
-workbench:
-  not-enhanced: "&4Slimefun Eşyalarını normal bir üretim masasında kullanamazsınız"
-gps:
-  waypoint:
-    new: "&eLütfen sohbette yeni yer noktanız için bir ad yazın. &7(Renk Kodları destekleniyor!)"
-    max: "&4Maksimum yer noktası sayısına ulaştınız"
-    added: "&aYeni bir yer noktası başarıyla eklendi"
-  geo:
-    scan-required: "&4GEO-Taraması gerekli! &cİlk önce bir GEO-Tarayıcı kullanarak
-      bu bölgeyi tarayın!"
-  deathpoint: "&4Ölüm Noktası &7%date%"
-  insufficient-complexity:
-  - "&4Yetersiz GPS Ağ Gücü: &c%complexity%"
-  - "&4a) Henüz bir GPS Ağı kurulumunuz yok"
-  - "&4b) GPS Ağınız yeterince güçlü değil"
-android:
-  started: "&7Androidiniz senaryoyu uygulamaya devam ediyor"
-  stopped: "&7Androidiniz senaryoyu duraklattı"
-  scripts:
-    already-uploaded: "&4Bu senaryo zaten yüklendi."
-    instructions:
-      START: "&2Senaryoyu başlat"
-      REPEAT: "&9Senaryoyu Tekrar Et"
-      WAIT: "&e0.5s Bekle"
-      GO_FORWARD: "&7İleri Git"
-      GO_UP: "&7Yukarı Çık"
-      GO_DOWN: "&7Aşağıya İn"
-      TURN_LEFT: "&7Sola Dön"
-      TURN_RIGHT: "&7Sağa Dön"
-      DIG_UP: "&bYukarıyı Kaz"
-      DIG_FORWARD: "&bİleriyi Kaz"
-      DIG_DOWN: "&bAltını Kaz"
-      MOVE_AND_DIG_UP: "&bİlerle ve Yukarıyı Kaz"
-      MOVE_AND_DIG_FORWARD: "&bİlerle ve İleriyi Kaz"
-      MOVE_AND_DIG_DOWN: "&bİlerle ve Altını Kaz"
-      CHOP_TREE: "&cKes ve Ek"
-      CATCH_FISH: "&bBalık Tut"
-      FARM_FORWARD: "&bTopla ve Ek"
-      FARM_DOWN: "&bToplama ve Ekim &7(Altındaki blok)"
-      FARM_EXOTIC_FORWARD: "&bGelişmişce Topla ve Ek"
-      FARM_EXOTIC_DOWN: "&bGelişmişce Topla ve Ek &7(Altındaki blok)"
-      INTERFACE_ITEMS: "&9Envanter İçeriğini öndeki Arayüze aktar"
-      INTERFACE_FUEL: "&cÖndeki Arayüzden Yakıt çek"
-      ATTACK_MOBS_ANIMALS: "&4Saldır &c(Canavarlar & Hayvanlar)"
-      ATTACK_MOBS: "&4Saldır &c(Canavarlar)"
-      ATTACK_ANIMALS: "&4Saldır &c(Hayvanlar)"
-      ATTACK_ANIMALS_ADULT: "&4Saldır &c(Hayvanlar &7[Yetişkin]&c)"
-    enter-name:
-    - 
-    - "&eLütfen senaryonuz için bir ad yazınız"
-    uploaded:
-    - "&bYükleniyor..."
-    - "&aSenaryon başarıyla yüklendi!"
-    rating:
-      own: "&4Kendi senaryonu oylayamazın!"
-      already: "&4Bu senaryo için zaten oy kullandın!"
-    editor: Senaryo Editörü
-languages:
-  default: Sunucu Varsayılanı
-  ru: Rusça
-  sk: Slovakça
-  el: Yunanca
-  ar: Arapça
-  af: Afrikanca
-  da: Danca
-  fi: Fince
-  uk: Ukraynaca
-  ms: Malayca
-  'no': Norveçce
-  ja: Japonca
-  fa: Persçe
-  th: Tayca
-  ro: Romanca
-  pt: Portekizce (Portekiz)
-  pt-BR: Portekizce (Brezilya)
-  bg: Bulgarca
-  ko: Korece
-  tr: Türkçe
-  en: İngilizce
-  de: Almanca
-  fr: Fransızca
-  it: İtalyanca
-  es: İspanyolca
-  pl: Lehçe
-  sv: İsveççe
-  nl: Flemenkçe
-  cs: Çekce
-  hu: Macarca
-  lv: Letonyaca
-  zh-TW: Çince (Tayvan)
-  vi: Vietnamca
-  id: Endonezyaca
-  zh-CN: Çince (Çin)
-  he: İbranice
-anvil:
-  not-working: "&4Slimefun eşyalarını örste kullanamazsın!"
-backpack:
-  already-open: "&cÜzgünüm, bu Sırt Çantası başka bir yerde açık!"
-  no-stack: "&cSırt Çantalarını istifleyemezsiniz"
+  no-permission: "&4Bunu yapmak için gerekli izniniz yok"
+  no-pvp: "&cBurada pvp yapamazsınız!"
+  not-enough-xp: "&4Bunun kilidini açmak için yeterli XP niz yok"
+  no-tome-yourself: "&4Tome of Knowledge &cı kendin için kullanamazsın..."
+  not-online: "&4%player% &coyunda değil!"
+  not-researched: "&4Bunu anlayacak kadar bilgin yok"
+  not-valid-amount: "&4%amount% &cgeçerli bir miktar değil : 0 dan büyük olmalı!"
+  not-valid-item: "&4%item% &cgeçerli bir eşya değil!"
+  not-valid-research: "&4%research% &cgeçerli bir araştırma değil!"
+  only-players: "&4Bu komut yalnızca oyuncular için"
+  opening-backpack: "&bSırt çantası açılıyor, bu birkaç saniye sürebilir..."
+  opening-guide: "&bRehber açılıyor, bu birkaç saniye sürebilir..."
+  radiation: "&4Ölümcül radyasyona maruz kaldınız! &cRadyoaktif maddeden kurtulun
+    veya koruyucu takımın tamamını giyinin!"
+  research:
+    progress: "&b%research% &7hakkında bazı şeyler merak etmeye başlıyorsun &e(%progress%)"
+    start: "&7Kadim Ruhlar gizemli kelimeleri kulağına fısıldıyor!"
+  soulbound-rune:
+    fail: "&cBir seferde sadece bir eşyayı ruhuna bağlayabilirsin."
+    success: "&aBu eşyayı ruhuna başarıyla bağladın! Öldüğünde saklayacaksın."
+  talisman:
+    angel: "&a&oTılsımın seni düşme hasarından kurtardı"
+    anvil: "&a&oTılsım aletinizi kırılmadan kurtardı"
+    fire: "&a&oTılsımın seni yanarak ölmekten kurtardı"
+    hunter: "&a&oTılsımın ganimetini ikiye katladı"
+    knight: "&a&oTılsımın sana 5 Saniye Yenilenme verdi"
+    lava: "&a&oTılsımın seni yanarak ölmekten kurtardı"
+    magician: "&a&oTılsımın sana fazladan bir Büyü verdi"
+    miner: "&a&oTılsımın madenini ikiye katladı"
+    traveller: "&a&oTılsımın sana bir Hız Artışı verdi"
+    warrior: "&a&oTılsımın bir süreliğine seni güçlendirdi"
+    water: "&a&oTılsımın seni boğulmaktan kurtardı"
+    whirlwind: "&a&oTılsımın Mermiyi yansıttı"
+    wizard: "&a&oTılsımın sana daha yüksek seviye Servet verdi ama başka bir Büyünün
+      seviyesini düşürmüş olabilir."
+  unknown-player: "&4Bilinmeyen oyuncu: &c%player%"
+  unlocked: '&bKilidini açtın &7"%research%"'
+  usage: "&4Kullanış: &c%usage%"
 miner:
   no-ores: "&eÜzgünüm, yakınlarda herhangi bir cevher bulamadım!"
-inventory:
-  no-access: "&4Bu bloğa erişmenize izin verilmiyor"
+workbench:
+  not-enhanced: "&4Slimefun Eşyalarını normal bir üretim masasında kullanamazsınız"
