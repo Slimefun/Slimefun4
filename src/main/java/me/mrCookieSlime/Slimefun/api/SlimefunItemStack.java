@@ -152,9 +152,9 @@ public class SlimefunItemStack extends CustomItem {
     }
 
     /**
-     * Gets the {@link SlimefunItem} associated for this SlimefunItemStack. Null if no item is found.
+     * Gets the {@link SlimefunItem} associated for this {@link SlimefunItemStack}. Null if no item is found.
      *
-     * @return The {@link SlimefunItem} for this SlimefunItemStack, null if not found.
+     * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
      */
     public SlimefunItem getItem() {
         return SlimefunItem.getByID(this.id);
