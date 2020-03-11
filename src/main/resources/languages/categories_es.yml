@@ -7,12 +7,9 @@ slimefun:
   electricity: Energía y Electricidad
   ender_talismans: Talismanes de Ender (Rango II)
   food: Comida
-  gps: GPS-Máquinas Básicas
   halloween: Halloween (31 de Octubre)
-  items: Items Útiles
   magical_armor: Armadura Mágica
   magical_gadgets: Dispositivos Mágicos
-  misc: Items Variados
   resources: Recursos
   talismans: Talismanes (Rango I)
   tech_misc: Componentes Técnicos
@@ -20,6 +17,9 @@ slimefun:
   tools: Herramientas
   valentines_day: Día de San Valentín (14 de Febrero)
   weapons: Armas
+  items: Objetos Útiles
+  gps: Máquinas basadas en GPS
   magical_items: Objetos Mágicos
+  misc: Objetos Variados
   easter: Pascuas (Abríl)
   birthday: El cumpleaños de TheBusyBiscuit (26 de Octubre)
