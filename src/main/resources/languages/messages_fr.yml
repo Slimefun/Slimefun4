@@ -115,6 +115,7 @@ guide:
     - "&7Entrez votre terme de recherche dans le chat"
     message: "&bQue souhaitez-vous rechercher?"
     name: "&7Rechercher..."
+    inventory: 'Rechercher: %item%'
   title:
     addons: Extensions de Slimefun4
     bugs: Signaler un bug
