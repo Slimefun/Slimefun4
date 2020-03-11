@@ -45,6 +45,7 @@ slimefun:
   compressor_and_carbon: Creaciones de Carbón
   cooler: Bebidas Portables
   copper_wire: Conductividad de Baja Potencia
+  crop_growth_accelerator: Acelerador de Cultivos
   damascus_steel: Acero de Damasco
   damascus_steel_armor: Armadura de Damasco
   diet_cookie: Galleta Dietética
@@ -212,11 +213,9 @@ slimefun:
   electric_ore_grinding: Triturar y Moler
   coal_generator: Generador de Carbón
   gps_setup: Configuración GPS Básica
-  teleporter_activation_plates: Activadoción de Teletransportador
   better_gps_transmitters: Transmisores Mejorados
   energized_solar_generator: Energía Solar sin descanso
   energized_gps_transmitter: Transmisor de Punta
-  crop_growth_accelerator: Aceleradoción de Cultivos
   reactor_essentials: Esenciales de Reactores
   cargo_basics: Fundamentos de Cargas
   high_tier_electric_ingot_machines: Lingotes Super Rápidos
@@ -230,3 +229,4 @@ slimefun:
   magnesium_generator: Poder de Magnesio
   crucible: Crisol
   advanced_output_node: Nodo de Salida Avanzado
+  teleporter_activation_plates: Activación de Teletransportador
