@@ -101,6 +101,11 @@ guide:
       lore: Cliquez pour ajouter votre propre traduction
       name: "&aIl manque quelque chose ?"
     updated: "&aVotre langue a été correctement définie sur : &b%lang%"
+  locked: VERROUILLÉ
+  locked-category:
+  - Pour déverrouiller cette catégorie, vous devrez
+  - 
+  - catégories suivantes
   pages:
     next: Page suivante
     previous: Page précédente
@@ -110,8 +115,6 @@ guide:
     - "&7Entrez votre terme de recherche dans le chat"
     message: "&bQue souhaitez-vous rechercher?"
     name: "&7Rechercher..."
-    tooltip: "&bCliquez pour rechercher un élément"
-    inventory: Recherche de:% item%
   title:
     addons: Extensions de Slimefun4
     bugs: Signaler un bug
@@ -131,11 +134,6 @@ guide:
     versions-notice: Ces informations sont très importantes lorsque vous rapportez
       des bugs !
     wiki: Voir cet objet sur le wiki officiel de Slimefun
-  locked: VERROUILLÉ
-  locked-category:
-  - Pour déverrouiller cette catégorie, vous devrez
-  - déverrouiller tous les éléments de la
-  - catégories suivantes
 inventory:
   no-access: "&4Vous n'avez pas la permission d'accéder à ce bloc"
 languages:
@@ -210,13 +208,13 @@ machines:
     les objets correctement dans le distributeur."
   TELEPORTER:
     cancelled: "&4Téléportation annulée !"
+    gui:
+      time: Temps estimé
+      title: Vos waypoints
+      tooltip: Cliquez pour vous téléporter
     invulnerability: "&b&lVous avez reçu 30 secondes d'invulnérabilité !"
     teleported: "&3Téléportation terminée !"
     teleporting: "&3Téléportation..."
-    gui:
-      title: Vos waypoints
-      tooltip: Cliquez pour vous téléporter
-      time: Temps estimé
   unknown-material: "&eDésolé, je ne reconnais pas l'objet dans le distributeur. Veuillez
     y placer quelque chose que je connais."
   wrong-item: "&eDésolé, je ne reconnais pas l'objet avec lequel vous avez cliqué.
