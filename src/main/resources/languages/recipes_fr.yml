@@ -128,5 +128,15 @@ slimefun:
   freezer:
     name: Freezer
     lore:
-    - 
+    - Fabriquez cet objet comme indiqué
     - à l'aide d'un Freezer
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - Cet objet peut être collecté
+    - en utilisant un GEO Miner
+  nuclear_reactor:
+    name: Réacteur nucléaire
+    lore:
+    - Cet objet est un sous-produit
+    - de l'exploitation d'un réacteur nucléaire
