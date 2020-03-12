@@ -148,3 +148,18 @@ slimefun:
     - Készítsd el ezt a Tárgyat az ábra alapján
     - egy Smeltery segítségével
     name: Smeltery
+  freezer:
+    name: Freezer
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Freezer segítségével
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - Ez a tárgy összegyűjthető
+    - egy GEO Miner segítségével
+  nuclear_reactor:
+    name: Nuclear Reactor
+    lore:
+    - Ez a tárgy mellékterméke
+    - a Nuclear Reactor működésének
