@@ -2623,8 +2623,8 @@ public final class SlimefunItemSetup {
                 new ItemStack[] {null, null, null, null, SlimefunItems.BUCKET_OF_OIL, null, null, null, null})
                 .register(plugin);
 
-        new RadioactiveItem(Categories.RESOURCES, Radioactivity.MODERATE, (SlimefunItemStack) SlimefunItems.NETHER_ICE, new RecipeType(SlimefunItems.GEO_MINER),
-                new ItemStack[] {null, null, null, null, null, null, null, null, null})
+        new RadioactiveItem(Categories.RESOURCES, Radioactivity.MODERATE, (SlimefunItemStack) SlimefunItems.NETHER_ICE, RecipeType.GEO_MINER,
+                new ItemStack[]{null, null, null, null, null, null, null, null, null})
                 .register(plugin);
 
         new Refinery(Categories.ELECTRICITY, (SlimefunItemStack) SlimefunItems.REFINERY, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2968,20 +2968,20 @@ public final class SlimefunItemSetup {
 
         }.register(plugin);
 
-        new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.REACTOR_COOLANT_CELL, new RecipeType(SlimefunItems.FREEZER),
-                new ItemStack[] {new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
+        new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.REACTOR_COOLANT_CELL, RecipeType.FREEZER,
+                new ItemStack[]{new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
         new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
                 new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE, null, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new RadioactiveItem(Categories.RESOURCES, Radioactivity.HIGH, (SlimefunItemStack) SlimefunItems.NEPTUNIUM, new RecipeType(SlimefunItems.NUCLEAR_REACTOR),
-                new ItemStack[] {SlimefunItems.URANIUM, null, null, null, null, null, null, null, null})
+        new RadioactiveItem(Categories.RESOURCES, Radioactivity.HIGH, (SlimefunItemStack) SlimefunItems.NEPTUNIUM, RecipeType.NUCLEAR_REACTOR,
+                new ItemStack[]{SlimefunItems.URANIUM, null, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new RadioactiveItem(Categories.RESOURCES, Radioactivity.VERY_HIGH, (SlimefunItemStack) SlimefunItems.PLUTONIUM, new RecipeType(SlimefunItems.NUCLEAR_REACTOR),
-                new ItemStack[] {SlimefunItems.NEPTUNIUM, null, null, null, null, null, null, null, null})
+        new RadioactiveItem(Categories.RESOURCES, Radioactivity.VERY_HIGH, (SlimefunItemStack) SlimefunItems.PLUTONIUM, RecipeType.NUCLEAR_REACTOR,
+                new ItemStack[]{SlimefunItems.NEPTUNIUM, null, null, null, null, null, null, null, null})
                 .register(plugin);
 
         new RadioactiveItem(Categories.RESOURCES, Radioactivity.VERY_HIGH, (SlimefunItemStack) SlimefunItems.BOOSTED_URANIUM, RecipeType.HEATED_PRESSURE_CHAMBER,

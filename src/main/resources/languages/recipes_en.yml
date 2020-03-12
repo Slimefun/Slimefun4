@@ -95,15 +95,33 @@ slimefun:
   food_fabricator:
     name: 'Food Fabricator'
     lore:
-    - 'Craft this Item as shown'
-    - 'using a Food Fabricator'
-    
+      - 'Craft this Item as shown'
+      - 'using a Food Fabricator'
+
   food_composter:
     name: 'Food Composter'
     lore:
-    - 'Craft this Item as shown'
-    - 'using a Food Composter'
-    
+      - 'Craft this Item as shown'
+      - 'using a Food Composter'
+
+  freezer:
+    name: 'Freezer'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Freezer'
+
+  geo_miner:
+    name: 'GEO Miner'
+    lore:
+      - 'This Item can be gathered'
+      - 'by using a GEO Miner'
+
+  nuclear_reactor:
+    name: 'Nuclear Reactor'
+    lore:
+      - 'This Item is a byproduct'
+      - 'of running a Nuclear Reactor'
+
 minecraft:
 
   shaped:

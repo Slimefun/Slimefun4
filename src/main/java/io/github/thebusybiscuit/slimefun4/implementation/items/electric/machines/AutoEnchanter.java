@@ -24,13 +24,17 @@ import java.util.*;
 
 public class AutoEnchanter extends AContainer {
 
-	public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+    private final int emeraldEnchantsLimit;
 
-	@Override
-	public String getInventoryTitle() {
-		return "&5自动附魔机";
+    public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+
+        emeraldEnchantsLimit = SlimefunPlugin.getCfg().getInt("options.emerald-enchantment-limit");
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&5自动附魔机";
 	}
 
 	@Override
@@ -102,27 +106,27 @@ public class AutoEnchanter extends AContainer {
 
                     if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
 						for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-							if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment())
+                            if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment())
                                     && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
-								amount++;
-								specialAmount++;
-								emeraldEnchantments.add(enchantment);
-							}
-						}
-						specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
-					}
-					
-					if (amount > 0 && specialAmount <= SlimefunPlugin.getSettings().emeraldEnchantsLimit) {
-						ItemStack newItem = target.clone();
-						newItem.setAmount(1);
-						
-						for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-							newItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
-						}
-						
-						for (ItemEnchantment ench : emeraldEnchantments) {
-							EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, ench.getEnchantment(), ench.getLevel());
-						}
+                                amount++;
+                                specialAmount++;
+                                emeraldEnchantments.add(enchantment);
+                            }
+                        }
+                        specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
+                    }
+
+                    if (amount > 0 && specialAmount <= emeraldEnchantsLimit) {
+                        ItemStack newItem = target.clone();
+                        newItem.setAmount(1);
+
+                        for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+                            newItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
+                        }
+
+                        for (ItemEnchantment ench : emeraldEnchantments) {
+                            EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, ench.getEnchantment(), ench.getLevel());
+                        }
 						
 						recipe = new MachineRecipe(75 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, new ItemStack(Material.BOOK)});
 					}

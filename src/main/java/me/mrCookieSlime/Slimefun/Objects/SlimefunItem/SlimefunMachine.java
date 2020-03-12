@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+// This class will be deprecated at some point too, we now got MultiBlockMachine.java
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
     protected final List<ItemStack[]> recipes;
@@ -58,7 +59,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
         if (output == null) throw new IllegalArgumentException("Recipes must have an Output!");
 
         recipes.add(input);
-        recipes.add(new ItemStack[] {output});
+        recipes.add(new ItemStack[]{output});
     }
 
     @Override
@@ -67,7 +68,12 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
     }
 
     @Override
-    public void install() {
+    public void load() {
+        super.load();
+        loadDefaultRecipes();
+    }
+
+    protected void loadDefaultRecipes() {
         for (ItemStack recipeItem : shownRecipes) {
             SlimefunItem item = SlimefunItem.getByItem(recipeItem);
 
@@ -87,7 +93,6 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
         return mats.toArray(new Material[0]);
     }
-
 
     public Iterator<ItemStack[]> recipeIterator() {
         return this.recipes.iterator();

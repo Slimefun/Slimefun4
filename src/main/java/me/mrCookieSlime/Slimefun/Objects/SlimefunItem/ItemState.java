@@ -8,16 +8,20 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
  * @since 4.1.10
  */
 public enum ItemState {
+    /**
+     * This {@link SlimefunItem} has not been registered (yet).
+     */
+    UNREGISTERED,
 
     /**
      * This SlimefunItem is enabled.
-	 */
-	ENABLED,
+     */
+    ENABLED,
 
-	/**
-	 * This SlimefunItem is disabled and is not a {@link VanillaItem}.
-	 */
-	DISABLED,
+    /**
+     * This SlimefunItem is disabled and is not a {@link VanillaItem}.
+     */
+    DISABLED,
 
 	/**
 	 * This SlimefunItem is fall-back to its vanilla behavior, because it is disabled and is a {@link VanillaItem}.

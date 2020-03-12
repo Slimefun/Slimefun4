@@ -12,7 +12,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -42,11 +41,11 @@ public final class MiscSetup {
             });
         }
 
-        Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
+        Slimefun.getLogger().log(Level.INFO, "正在加载 Wiki 页面...");
         WikiSetup.addWikiPages(SlimefunPlugin.instance);
     }
 
-    public static void loadItems(ConfigCache settings) {
+    public static void loadItems() {
         Iterator<SlimefunItem> iterator = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().iterator();
 
         while (iterator.hasNext()) {
@@ -55,8 +54,7 @@ public final class MiscSetup {
             if (item == null) {
                 Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
                 iterator.remove();
-            }
-            else if (item.getItem() == null) {
+            } else if (item.getItem() == null) {
                 Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('" + item.getID() + "')");
                 iterator.remove();
             }
@@ -147,7 +145,7 @@ public final class MiscSetup {
         // Favour 8 Cobblestone -> 1 Sand Recipe over 1 Cobblestone -> 1 Gravel Recipe
         Stream<ItemStack[]> stream = grinderRecipes.stream();
 
-        if (!settings.legacyOreGrinder) {
+        if (!SlimefunPlugin.getCfg().getBoolean("options.legacy-ore-grinder")) {
             stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
         }
 
@@ -201,7 +199,7 @@ public final class MiscSetup {
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "成功载入了 " + total + " 个物品 (" + SlimefunPlugin.getRegistry().getResearches().size() + " 个研究)");
+        sender.sendMessage(ChatColor.GREEN + "成功载入了 " + total + " 个物品和" + SlimefunPlugin.getRegistry().getResearches().size() + " 个研究)");
         sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " 物品来自 Slimefun, " + (total - vanilla) + " 物品来自 " + SlimefunPlugin.getInstalledAddons().size() + " 个扩展 )");
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "Slimefun 是一个由社区开发者维护的开源项目!");

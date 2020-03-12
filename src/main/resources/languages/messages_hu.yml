@@ -23,8 +23,8 @@ android:
       GO_DOWN: "&7Menj lefelé"
       GO_FORWARD: "&7Menj előre"
       GO_UP: "&7Menj felfelé"
-      INTERFACE_FUEL: "&cVegyen ki az Üzemanyagot a faced Interface-ből"
-      INTERFACE_ITEMS: "&9Tegye az Eszköztár Tartalmát a faced Interface-be"
+      INTERFACE_FUEL: "&cVegyen ki az Üzemanyagot a csatlakozási Felületről"
+      INTERFACE_ITEMS: "&9Tegye az Eszköztár Tartalmát a csatlakozási Felületbe"
       MOVE_AND_DIG_DOWN: "&bMenj és Áss lefelé"
       MOVE_AND_DIG_FORWARD: "&bMenj és Áss előre"
       MOVE_AND_DIG_UP: "&bMenj és Áss felfelé"
@@ -64,7 +64,7 @@ commands:
 gps:
   deathpoint: "&4Halálpont &7%date%"
   geo:
-    scan-required: "&4GEO-Vizsgálat szükséges! &cElőbb vizsgáld meg ezt a chunk-ot
+    scan-required: "&4GEO-Vizsgálat szükséges! &cElőbb vizsgáld meg ezt a chunkot
       a GEO-Szkennerrel!"
   insufficient-complexity:
   - "&4Nem megfelelő a GPS Hálózat Komplexitása: &c%complexity%"
@@ -130,6 +130,7 @@ inventory:
 languages:
   af: Afrikánsz
   ar: Arab
+  bg: Bolgár
   cs: Cseh
   da: Dán
   de: Német
@@ -145,6 +146,7 @@ languages:
   id: Indonéz
   it: Olasz
   ja: Japán
+  ko: Koreai
   lv: Lett
   ms: Maláj
   nl: Holland
@@ -157,21 +159,19 @@ languages:
   sk: Szlovák
   sv: Svéd
   th: Thai
+  tr: Török
   uk: Ukrán
   vi: Vietnami
   zh-CN: Kínai (Kína)
   zh-TW: Kínai (Tajvan)
-  bg: Bolgár
-  ko: Koreai
-  tr: Török
 machines:
   ANCIENT_ALTAR:
-    not-enough-pedestals: "&4Az Altar körül nincs elég Pedestal, ami szükséges a működéséhez
+    not-enough-pedestals: "&4Az Oltár körül nincs elég Talapzat, ami szükséges a működéséhez
       &c(%pedestals% / 8)"
     unknown-catalyst: "&4Ismeretlen Katalizátor! &cEhelyett használd a helyes Receptet!"
     unknown-recipe: "&4Ismeretlen Recept! &cEhelyett használd a helyes Receptet!"
   ANCIENT_PEDESTAL:
-    obstructed: "&4A Pedestal el van torlaszolva! &cTávolíts el mindent, ami a pedestal
+    obstructed: "&4A Talapzat el van torlaszolva! &cTávolíts el mindent, ami a talapzat
       felett van!"
   CARGO_NODES:
     must-be-placed: "&4Ládára vagy gépre kell helyezni!"
@@ -192,7 +192,7 @@ machines:
     enter-text: "&7Kérlek, írd be a kívánt Hologram Szöveget a Chatbe. &r(A színkódok
       is használhatóak!)"
     inventory-title: Hologram Szerkesztő
-  ignition-chamber-no-flint: "&cAz Ignition Chamber-ből hiányik a Kovakő és Acél."
+  ignition-chamber-no-flint: "&cA Gyújtókamrából hiányzik a Kovakő és Acél."
   in-use: "&cEnnek a Blokknak a tárolóját éppen megnyitotta egy másik Játékos."
   pattern-not-found: "&eSajnálom, nem ismerem fel ezt a Receptet. Kérlek, helyezd
     a Tárgyakat a megfelelő mintában az Adagolóba."

@@ -2,6 +2,7 @@
 android:
   scripts:
     already-uploaded: "&4Đoạn mã này đã được tải lên."
+    editor: Trình chỉnh sửa kịch bản
     enter-name:
     - 
     - "&eVui lòng nhập tên cho đoạn mã của bạn"
@@ -74,6 +75,10 @@ gps:
     new: "&eVui lòng nhập tên cho điểm tham chiếu mới của bạn trên khung chat. &7(Mã
       màu được hỗ trợ!)"
 guide:
+  back:
+    guide: Quay trở lại Hướng dẫn Slimefun
+    settings: Quay trở lại Bảng Cài đặt
+    title: Quay lại
   cheat:
     no-multiblocks: "&4Bạn không thể gian lận trong chế độ Đa khối, bạn phải xây dựng
       chúng!"
@@ -99,10 +104,12 @@ guide:
     previous: Trang trước
   search:
     lore:
-    - "&bBạn muốn tìm kiếm cái gì?"
-    - "&7Nhập cụm từ tìm kiếm của bạn vào khung chat"
+      - "&bBạn muốn tìm kiếm cái gì?"
+      - "&7Nhập cụm từ tìm kiếm của bạn vào khung chat"
     message: "&bBạn muốn tìm kiếm cái gì?"
     name: "&7Tìm kiếm..."
+    tooltip: "&bBấm để tìm vật phẩm"
+    inventory: 'Đang tìm: %item%'
   title:
     addons: Các bổ sung cho Slimefun4
     bugs: Báo cáo lỗi
@@ -110,47 +117,61 @@ guide:
     languages: Chọn ngôn ngữ ưa thích của bạn
     main: Hướng dẫn sử dụng Slimefun
     settings: Cài đặt và thông tin
-    wiki: Tài liệu Slimefun4
     source: Mã nguồn
+    wiki: Tài liệu Slimefun4
   tooltips:
     open-category: Nhấn vào đây để mở
+    recipes:
+      generator: Các loại nguyên liệu có thể dùng
+      gold-pan: Tài nguyên bạn có thể kiếm được
+      machine: Các công thức được chế tạo ở máy này
+      miner: Tài nguyên bạn có thể kiếm được với máy đào này
     versions-notice: Đây là rất quan trọng khi báo cáo lỗi!
-  back:
-    title: Quay lại
-    guide: Quay trở lại Hướng dẫn Slimefun
-    settings: Quay trở lại Bảng Cài đặt
+    wiki: Xem vật phẩm này trên trang wiki chính thức của Slimefun
+  locked: ĐÃ KHÓA
+  locked-category:
+    - Để mở khóa danh mục này, bạn
+    - cần phải mở khóa các vật phẩm trong
+    - danh mục sau
 inventory:
   no-access: "&4Bạn không được phép truy cập vào khối này"
 languages:
+  af: Tiếng Nam Phi
+  ar: Tiếng Ả Rập
+  bg: Tiếng Bulgaria
   cs: Tiếng Séc
+  da: Tiếng Đan Mạch
   de: Tiếng Đức
   default: Máy chủ-Mặc định
   el: Tiếng Hy Lạp
   en: Tiếng Anh
   es: Tiếng Tây Ban Nha
+  fa: Tiếng Ba Tư
+  fi: Tiếng Phần Lan
   fr: Tiếng Pháp
   he: Tiếng Do Thái
   hu: Tiếng Hungary
   id: Tiếng Indonesia
   it: Tiếng Ý
+  ja: Tiếng Nhật
+  ko: Tiếng Hàn
   lv: Tiếng Latvia
+  ms: Tiếng Mã Lai
   nl: Tiếng Hà Lan
+  'no': Tiếng Na Uy
   pl: Tiếng Ba Lan
   pt: Tiếng Bồ Đào Nha (Bồ Đào Nha)
   pt-BR: Tiếng Bồ Đào Nha (Brazil)
+  ro: Tiếng Rumani
   ru: Tiếng Nga
   sk: Tiếng Slovak
   sv: Tiếng Thụy Điển
+  th: Tiếng Thái
+  tr: Tiếng Thổ Nhĩ Kỳ
+  uk: Tiếng Ukraina
   vi: Tiếng Việt
   zh-CN: Tiếng Trung (Trung Quốc)
   zh-TW: Tiếng Trung Quốc (Đài Loan)
-  ar: Tiếng Ả Rập
-  af: Tiếng Nam Phi
-  da: Tiếng Đan Mạch
-  fi: Tiếng Phần Lan
-  'no': Tiếng Na Uy
-  uk: Tiếng Ukraina
-  ms: Tiếng Mã Lai
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Bàn thờ không được bao quanh bởi số lượng cần thiết của
@@ -170,9 +191,14 @@ machines:
     no-destinations: "&4Không tìm thấy điểm đến"
     pick-a-floor: "&4- Chọn một tầng -"
   full-inventory: "&eXin lỗi, kho đồ của tôi đã quá đầy!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Bảng điều khiển
+    transmitters: Tổng quan về các máy phát tín hiệu
+    waypoints: Tổng quan về các vị trí dịch chuyển
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Vui lòng nhập Văn Bản Ba Chiều mong muốn của bạn vào Khung trò
       chuyện. &r(Mã màu được hỗ trợ!)"
+    inventory-title: Trình chỉnh sửa ảnh ba chiều
   ignition-chamber-no-flint: "&cIgnition Chamber đang thiếu Bật Lửa."
   in-use: "&cKhối trong túi đồ này hiện đang được mở bởi người chơi khác."
   pattern-not-found: "&eXin lỗi, tôi không thể nhận ra Công Thức này. Vui lòng đặt
@@ -182,6 +208,10 @@ machines:
     invulnerability: "&b&lBạn đã được cho 30 giây Bất Tử!"
     teleported: "&3Đã dịch chuyển!"
     teleporting: "&3Đang dịch chuyển..."
+    gui:
+      title: Địa điểm của bạn
+      tooltip: Bấm để dịch chuyển
+      time: Thời gian dự kiến
   unknown-material: "&eXin lỗi, tôi không thể nhận ra vật phẩm trong máy phân phát.
     Vui lòng đặt thứ gì đó trong đó mà tôi biết."
   wrong-item: "&eXin lỗi, tôi không thể nhận ra vật phẩm mà bạn nhấp chuột phải vào

@@ -8,10 +8,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -39,34 +36,34 @@ public final class TeleportationManager {
 		if (teleporterUsers.contains(p.getUniqueId())) {
 			return;
 		}
-		
-		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-		teleporterUsers.add(p.getUniqueId());
-		
-		ChestMenu menu = new ChestMenu("&3传送机");
-		menu.addMenuCloseHandler(pl -> teleporterUsers.remove(pl.getUniqueId()));
-		
-		for (int slot : teleporterBorder) {
-			menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-		}
-		
-		menu.addItem(4, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &e(Select a Destination)"));
-		menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
-		
-		Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
-		int index = 0;
-		
-		for (Map.Entry<String, Location> entry : network.getWaypoints(uuid).entrySet()) {
+
+        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
+        teleporterUsers.add(p.getUniqueId());
+
+        ChestMenu menu = new ChestMenu("&3传送机");
+        menu.addMenuCloseHandler(pl -> teleporterUsers.remove(pl.getUniqueId()));
+
+        for (int slot : teleporterBorder) {
+            menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+        }
+
+        menu.addItem(4, new CustomItem(SkullItem.fromHash("c9c8881e42915a9d29bb61a16fb26d059913204d265df5b439b3d792acd56"), ChatColor.YELLOW + SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.gui.title")));
+        menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
+
+        Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
+        int index = 0;
+
+        for (Map.Entry<String, Location> entry : network.getWaypoints(uuid).entrySet()) {
             if (index >= teleporterInventory.length) break;
             int slot = teleporterInventory[index];
 
             Location l = entry.getValue();
             ItemStack globe = network.getIcon(entry);
 
-            menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7世界: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7预计传送时间: &r" + DoubleHandler.fixDouble(0.5 * getTeleportationTime(network.getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &c单击选择"));
-            menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
+            menu.addItem(slot, new CustomItem(globe, entry.getKey(), "", "&8\u21E8 &7" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.world") + ": &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7" + SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.gui.time") + ": &r" + DoubleHandler.fixDouble(0.5 * getTeleportationTime(complexity, source, l)) + "s", "", "&8\u21E8 &c" + SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.gui.tooltip")));
+            menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                 pl.closeInventory();
-                start(pl.getUniqueId(), complexity, source, l, false);
+                teleport(pl.getUniqueId(), complexity, source, l, false);
                 return false;
             });
 
@@ -76,18 +73,18 @@ public final class TeleportationManager {
         menu.open(p);
     }
 
-    public void start(UUID uuid, int complexity, Location source, Location destination, boolean resistance) {
+    public void teleport(UUID uuid, int complexity, Location source, Location destination, boolean resistance) {
         teleporterUsers.add(uuid);
 
         int time = getTeleportationTime(complexity, source, destination);
-        updateProgress(uuid, 100 / time, 1, source, destination, resistance);
+        updateProgress(uuid, 100 / time, 0, source, destination, resistance);
     }
 
     public int getTeleportationTime(int complexity, Location source, Location destination) {
         if (complexity < 100) return 100;
 
-        int speed = 75_000 + complexity * complexity;
-        return 1 + Math.min(2 * distanceSquared(source, destination) / speed, 40);
+        int speed = 50_000 + complexity * complexity;
+        return 1 + Math.min(4 * distanceSquared(source, destination) / speed, 40);
     }
 
     private int distanceSquared(Location source, Location destination) {

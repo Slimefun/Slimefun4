@@ -43,7 +43,7 @@ public class PressureChamber extends MultiBlockMachine {
     }
 
     @Override
-    public void install() {
+    public void createEnderTalisman() {
         // Do nothing to prevent double-registration of recipes
     }
 

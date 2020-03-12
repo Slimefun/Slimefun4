@@ -5,7 +5,6 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.EnderTalisman;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -27,9 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * @since 4.0
- */
 public class Talisman extends SlimefunItem {
 
     protected final String suffix;
@@ -99,7 +95,12 @@ public class Talisman extends SlimefunItem {
     }
 
     @Override
-    public void install() {
+    public void load() {
+        super.load();
+        createEnderTalisman();
+    }
+
+    protected void createEnderTalisman() {
         EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(upgrade());
         Research research = Research.getByID(112);
 
@@ -108,7 +109,7 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    private static boolean hasMessage(Talisman talisman){
+    private static boolean hasMessage(Talisman talisman) {
         return !("").equalsIgnoreCase(talisman.getSuffix());
     }
 
@@ -156,25 +157,25 @@ public class Talisman extends SlimefunItem {
         sendMessage(p, talisman);
     }
 
-    private static void applyTalismanEffects(Player p, Talisman talisman){
+    private static void applyTalismanEffects(Player p, Talisman talisman) {
         for (PotionEffect effect : talisman.getEffects()) {
             p.addPotionEffect(effect);
         }
     }
 
-    private static void cancelEvent(Event e, Talisman talisman){
+    private static void cancelEvent(Event e, Talisman talisman) {
         if (e instanceof Cancellable && talisman.isEventCancelled()) {
             ((Cancellable) e).setCancelled(true);
         }
     }
 
-    private static void sendMessage(Player p, Talisman talisman){
+    private static void sendMessage(Player p, Talisman talisman) {
         if (hasMessage(talisman)) {
             SlimefunPlugin.getLocal().sendMessage(p, "messages.talisman." + talisman.getSuffix(), true);
         }
     }
 
-    private static void consumeItem(Inventory inv, Talisman talisman){
+    private static void consumeItem(Inventory inv, Talisman talisman) {
         if (talisman.isConsumable()) {
             inv.removeItem(talisman.getItem());
         }

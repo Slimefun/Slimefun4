@@ -9,7 +9,6 @@ import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -28,27 +27,9 @@ import java.util.Optional;
 public final class SlimefunManager {
 
     private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
-    private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
+    private static final String SOULBOUND_LORE = ChatColor.GRAY + "灵魂绑定";
 
     private SlimefunManager() {
-    }
-
-    public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, SlimefunAddon addon) {
-        String[] components = new String[]{"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
-        Category cat = Categories.ARMOR;
-        List<ItemStack[]> recipes = new ArrayList<>();
-        recipes.add(new ItemStack[]{baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, null, null, null});
-        recipes.add(new ItemStack[]{baseComponent, null, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent});
-        recipes.add(new ItemStack[]{baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
-        recipes.add(new ItemStack[]{null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
-
-        for (int i = 0; i < 4; i++) {
-            if (vanilla) {
-                new VanillaItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
-            } else {
-                new SlimefunItem(cat, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
-            }
-        }
     }
 
     public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean magical, SlimefunAddon addon) {
@@ -66,6 +47,24 @@ public final class SlimefunManager {
                 new SlimefunArmorPiece(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(addon);
             } else {
                 new SlimefunItem(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
+            }
+        }
+    }
+
+    public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, SlimefunAddon addon) {
+        String[] components = new String[]{"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
+        Category cat = Categories.ARMOR;
+        List<ItemStack[]> recipes = new ArrayList<>();
+        recipes.add(new ItemStack[]{baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, null, null, null});
+        recipes.add(new ItemStack[]{baseComponent, null, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent});
+        recipes.add(new ItemStack[]{baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
+        recipes.add(new ItemStack[]{null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
+
+        for (int i = 0; i < 4; i++) {
+            if (vanilla) {
+                new VanillaItem(cat, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
+            } else {
+                new SlimefunItem(cat, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
             }
         }
     }
@@ -187,30 +186,31 @@ public final class SlimefunManager {
     public static boolean isItemSoulbound(ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return false;
-        }
-        else if (isItemSimilar(item, SlimefunItems.BOUND_BACKPACK, false)) {
-            return !SlimefunItem.getByID("BOUND_BACKPACK").isDisabled();
-        }
-        else {
-            ItemStack strippedItem = item.clone();
+        } else {
+            SlimefunItem backpack = SlimefunItem.getByID("BOUND_BACKPACK");
 
-            if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
-                for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)){
-                    EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
+            if (backpack != null && backpack.isItem(item)) {
+                return !backpack.isDisabled();
+            } else {
+                ItemStack strippedItem = item.clone();
+
+                if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+                    for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
+                        EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
+                    }
                 }
-            }
 
-            SlimefunItem sfItem = SlimefunItem.getByItem(strippedItem);
+                SlimefunItem sfItem = SlimefunItem.getByItem(strippedItem);
 
-            if (sfItem instanceof Soulbound && !sfItem.isDisabled()) {
-                return true;
-            }
-            else if (item.hasItemMeta()) {
-                ItemMeta im = item.getItemMeta();
-                return (im.hasLore() && im.getLore().contains(SOULBOUND_LORE));
-            }
+                if (sfItem instanceof Soulbound && !sfItem.isDisabled()) {
+                    return true;
+                } else if (item.hasItemMeta()) {
+                    ItemMeta im = item.getItemMeta();
+                    return (im.hasLore() && im.getLore().contains(SOULBOUND_LORE));
+                }
 
-            return false;
+                return false;
+            }
         }
     }
 }

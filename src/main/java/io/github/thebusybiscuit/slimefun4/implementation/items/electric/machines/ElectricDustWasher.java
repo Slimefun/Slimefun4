@@ -1,13 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreWasher;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -15,17 +10,24 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class ElectricDustWasher extends AContainer {
 
     private OreWasher oreWasher;
+    private final boolean legacyMode;
 
     public ElectricDustWasher(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-dust-washer");
     }
 
     @Override
@@ -37,7 +39,7 @@ public abstract class ElectricDustWasher extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return "&b洗矿机";
+        return "&b电动洗矿机";
     }
 
     @Override
@@ -78,7 +80,7 @@ public abstract class ElectricDustWasher extends AContainer {
         else {
             for (int slot : getInputSlots()) {
                 if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
-                    if (!SlimefunPlugin.getSettings().legacyDustWasher) {
+                    if (!legacyMode) {
                         boolean emptySlot = false;
 
                         for (int outputSlot : getOutputSlots()) {
@@ -91,15 +93,15 @@ public abstract class ElectricDustWasher extends AContainer {
                     }
 
                     ItemStack adding = oreWasher.getRandomDust();
-                    MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {adding});
-                    if (SlimefunPlugin.getSettings().legacyDustWasher && !menu.fits(r.getOutput()[0], getOutputSlots())) return;
+                    MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[]{adding});
+                    if (legacyMode && !menu.fits(r.getOutput()[0], getOutputSlots())) return;
                     menu.consumeItem(slot);
                     processing.put(b, r);
                     progress.put(b, r.getTicks());
                     break;
                 }
                 else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
-                    MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER});
+                    MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[]{SlimefunItems.PURE_ORE_CLUSTER});
                     if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
                     menu.consumeItem(slot);
                     processing.put(b, r);

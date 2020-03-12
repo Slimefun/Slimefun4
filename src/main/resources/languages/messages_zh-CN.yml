@@ -41,12 +41,11 @@ android:
       - "&a脚本上传成功!"
   started: "&7你的机器人开始运行脚本"
   stopped: "&7你的机器人暂停运行了脚本"
-  no-permission: "&c你的机器人不能破坏他人领地内的方块!"
 anvil:
   not-working: "&4你不能在铁砧里使用 Slimefun 的物品"
 backpack:
   already-open: "&c抱歉, 这个背包已在别处打开了!"
-  no-stack: "&c你不能把背包放到背包里"
+  no-stack: "&c你不能将背包堆叠起来"
 commands:
   cheat: 允许你通过作弊获取 Slimefun 的物品
   give: 给某人 Slimefun 物品
@@ -107,6 +106,8 @@ guide:
       - "&7将要搜索的物品的名字输入在聊天栏上"
     message: "&b你想要搜索什么?"
     name: "&7搜索..."
+    tooltip: "&b单击搜索物品"
+    inventory: '正在搜索: %item%'
   title:
     addons: Slimefun4 扩展
     bugs: 问题反馈
@@ -125,11 +126,17 @@ guide:
       miner: 此采矿机可以获得的资源
     versions-notice: 在反馈问题时这些很重要!
     wiki: 在官方 Slimefun 维基上查看此物品
+  locked: 已锁定
+  locked-category:
+    - 为了解锁这一类别
+    - 你需要先解锁以下
+    - 类别里的所有物品
 inventory:
   no-access: "&4你没有权限使用这个方块"
 languages:
   af: 南非语
   ar: 阿拉伯语
+  bg: 保加利亚语
   cs: 捷克语
   da: 丹麦语
   de: 德语
@@ -145,6 +152,7 @@ languages:
   id: 印尼语
   it: 意大利语
   ja: 日语
+  ko: 韩语
   lv: 拉脱维亚语
   ms: 马来西亚语
   nl: 荷兰语
@@ -157,13 +165,11 @@ languages:
   sk: 斯洛伐克文
   sv: 瑞典语
   th: 泰语
+  tr: 土耳其语
   uk: 乌克兰语
   vi: 越南文
   zh-CN: 简体中文 (中国)
   zh-TW: 繁体中文 (台湾)
-  bg: 保加利亚语
-  ko: 韩语
-  tr: 土耳其语
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4古代基座不足. 目前已摆放的基座数: &c(%pedestals% / 8)"
@@ -171,7 +177,7 @@ machines:
     unknown-recipe: "&4未知合成表! &c请使用正确的合成方式!"
   ANCIENT_PEDESTAL:
     obstructed: "&4基座被挡住了! &c把基座上面的东西移开!"
-    in-use: "&4基座上的物品还没有拿走!"
+    in-use: "&4基座上还有东西没有拿走!"
   CARGO_NODES:
     must-be-placed: "&4必须放置在箱子或机器上!"
   ELEVATOR:
@@ -181,7 +187,7 @@ machines:
     named: "&2成功将此层命名为: &r%floor%"
     no-destinations: "&4找不到目的地"
     pick-a-floor: "&3- 选择一个楼层 -"
-  full-inventory: "&e抱歉, 背包已经满了!"
+  full-inventory: "&e抱歉, 物品栏已经满了!"
   GPS_CONTROL_PANEL:
     title: GPS - 控制面板
     transmitters: 信号发射器概览
@@ -197,6 +203,10 @@ machines:
     invulnerability: "&b&l你获得了 30 秒的无敌效果!"
     teleported: "&3传送成功!"
     teleporting: "&3传送中..."
+    gui:
+      title: 你的传送点
+      tooltip: 单击传送
+      time: 预计时间
   unknown-material: "&e抱歉, 我无法识别在发射器里的物品. 请按照合成表放置物品."
   wrong-item: "&e抱歉, 我无法识别你右键的物品. 检查指南书看看哪些物品可以使用."
 messages:

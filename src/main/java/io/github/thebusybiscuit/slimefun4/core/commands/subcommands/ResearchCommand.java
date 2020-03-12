@@ -86,8 +86,8 @@ class ResearchCommand extends SubCommand {
     }
 
     private void reset(PlayerProfile profile, Player p) {
-        for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
-            profile.setResearched(res, false);
+        for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
+            profile.setResearched(research, false);
         }
 
         SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()));

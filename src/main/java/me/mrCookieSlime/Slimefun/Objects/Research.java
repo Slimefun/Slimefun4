@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Statically handles researches. Represents a research, which is bound to one
@@ -147,12 +146,11 @@ public class Research implements Keyed {
     /**
      * Unlocks the research for the specified player.
      *
-     * @param p Player to unlock the research
+     * @param p       Player to unlock the research
      * @param instant Whether to unlock the research instantly
-     *
      * @since 4.0
      */
-    public void unlock(final Player p, boolean instant) {
+    public void unlock(Player p, boolean instant) {
         if (!instant) {
             Slimefun.runSync(() -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
@@ -231,10 +229,6 @@ public class Research implements Keyed {
 
         SlimefunPlugin.getRegistry().getResearches().add(this);
         SlimefunPlugin.getRegistry().getResearchIds().add(this);
-
-        if (SlimefunPlugin.getSettings().printOutLoading) {
-            Slimefun.getLogger().log(Level.INFO, "Loaded Research \"{0}\"", name);
-        }
     }
 
     private void migrate(int id, String path) {

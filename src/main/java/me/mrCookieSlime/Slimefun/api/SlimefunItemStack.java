@@ -1,11 +1,10 @@
 package me.mrCookieSlime.Slimefun.api;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
-
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -14,12 +13,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
-
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 public class SlimefunItemStack extends CustomItem {
 	
@@ -139,26 +139,35 @@ public class SlimefunItemStack extends CustomItem {
 		this.id = id;
 		
 		ItemMeta meta = getItemMeta();
-		
-		SlimefunPlugin.getItemDataService().setItemData(meta, id);
-		SlimefunPlugin.getItemTextureService().setTexture(meta, id);
-		
-		setItemMeta(meta);
-	}
 
-	public String getItemID() {
-		return id;
-	}
-	
-	public ImmutableItemMeta getImmutableMeta() {
-		return immutableMeta;
-	}
-	
-	@Override
-	public boolean setItemMeta(ItemMeta meta) {
-		immutableMeta = new ImmutableItemMeta(meta);
-		
-		return super.setItemMeta(meta);
+        SlimefunPlugin.getItemDataService().setItemData(meta, id);
+        SlimefunPlugin.getItemTextureService().setTexture(meta, id);
+
+        setItemMeta(meta);
+    }
+
+    public String getItemID() {
+        return id;
+    }
+
+    /**
+     * Gets the {@link SlimefunItem} associated for this {@link SlimefunItemStack}. Null if no item is found.
+     *
+     * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
+     */
+    public SlimefunItem getItem() {
+        return SlimefunItem.getByID(this.id);
+    }
+
+    public ImmutableItemMeta getImmutableMeta() {
+        return immutableMeta;
+    }
+
+    @Override
+    public boolean setItemMeta(ItemMeta meta) {
+        immutableMeta = new ImmutableItemMeta(meta);
+
+        return super.setItemMeta(meta);
 	}
 	
 	@Override

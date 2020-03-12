@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -22,8 +23,10 @@ import java.util.*;
  * See {@link Categories} for the built-in categories.
  *
  * @author TheBusyBiscuit
+ *
  * @see LockedCategory
  * @see SeasonalCategory
+ *
  */
 public class Category implements Keyed {
 
@@ -87,8 +90,7 @@ public class Category implements Keyed {
                 SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
                 Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
             }
-        }
-        else {
+        } else {
             SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
             Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
         }
@@ -119,8 +121,7 @@ public class Category implements Keyed {
 
             if (this instanceof SeasonalCategory) {
                 meta.setDisplayName(ChatColor.GOLD + name);
-            }
-            else {
+            } else {
                 meta.setDisplayName(ChatColor.YELLOW + name);
             }
 
@@ -150,6 +151,25 @@ public class Category implements Keyed {
     @Override
     public String toString() {
         return "Slimefun Category {" + key + ",tier=" + tier + "}";
+    }
+
+    /**
+     * This method checks whether this {@link Category} will be hidden for the specified
+     * {@link Player}.
+     * <p>
+     * Categories are hidden if all of their items have been disabled.
+     *
+     * @param p The {@link Player} to check for
+     * @return Whether this {@link Category} will be hidden to the given {@link Player}
+     */
+    public boolean isHidden(Player p) {
+        for (SlimefunItem slimefunItem : getItems()) {
+            if (Slimefun.isEnabled(p, slimefunItem, false)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

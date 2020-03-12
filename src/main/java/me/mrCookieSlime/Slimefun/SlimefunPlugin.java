@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun;
 
-import io.github.starwishsama.miscs.ResidenceChecker;
+import io.github.starwishsama.utils.ResidenceChecker;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
@@ -58,6 +58,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 	private final UpdaterService updaterService = new UpdaterService(this, getFile());
     private final AutoSavingService autoSavingService = new AutoSavingService();
     private final BackupService backupService = new BackupService();
+    private final PermissionsService permissionsService = new PermissionsService(this);
 
 	private TickerTask ticker;
 	private LocalizationService local;
@@ -154,10 +155,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             MiscSetup.setupMisc();
 
-            textureService.setup(registry.getAllSlimefunItems());
-
             // Setting up GitHub Connectors...
-            gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
+            gitHubService.connect(false);
 
             // All Slimefun Listeners
             new SlimefunBootsListener(this);
@@ -201,17 +200,20 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			Slimefun.runSync(() -> {
-				recipeSnapshot = new RecipeSnapshot(this);
-				protections = new ProtectionManager(getServer());
-				MiscSetup.loadItems(settings);
+                textureService.register(registry.getAllSlimefunItems());
+                permissionsService.register(registry.getAllSlimefunItems());
 
-				for (World world : Bukkit.getWorlds()) {
-					new BlockStorage(world);
-				}
+                recipeSnapshot = new RecipeSnapshot(this);
+                protections = new ProtectionManager(getServer());
+                MiscSetup.loadItems();
 
-				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) {
-					ancientAltarListener.load(this);
-				}
+                for (World world : Bukkit.getWorlds()) {
+                    new BlockStorage(world);
+                }
+
+                if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) {
+                    ancientAltarListener.load(this);
+                }
 
                 if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) {
                     grapplingHookListener.load(this);
@@ -427,25 +429,29 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
 	public static RecipeSnapshot getMinecraftRecipes() {
 		return instance.recipeSnapshot;
-	}
+    }
 
-	public static CustomItemDataService getItemDataService() {
-		return instance.itemDataService;
-	}
+    public static CustomItemDataService getItemDataService() {
+        return instance.itemDataService;
+    }
 
-	public static CustomTextureService getItemTextureService() {
-		return instance.textureService;
-	}
+    public static CustomTextureService getItemTextureService() {
+        return instance.textureService;
+    }
 
-	public static BlockDataService getBlockDataService() {
-		return instance.blockDataService;
-	}
+    public static PermissionsService getPermissionsService() {
+        return instance.permissionsService;
+    }
+
+    public static BlockDataService getBlockDataService() {
+        return instance.blockDataService;
+    }
 
     public static UpdaterService getUpdater() {
         return instance.updaterService;
     }
 
-	public static GitHubService getGitHubService() {
+    public static GitHubService getGitHubService() {
 		return instance.gitHubService;
 	}
 	

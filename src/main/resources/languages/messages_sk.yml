@@ -103,10 +103,12 @@ guide:
     previous: Predošlá stránka
   search:
     lore:
-    - "&bČo by si chcel vyhľadať?"
-    - "&7Napíš čo chceš hľadať do chatu"
+      - "&bČo by si chcel vyhľadať?"
+      - "&7Napíš čo chceš hľadať do chatu"
     message: "&bČo by si chcel vyhľadať?"
     name: "&7Hľadať..."
+    tooltip: "&bKlikni pre hľadanie itemu"
+    inventory: 'Hľadám: %item%'
   title:
     addons: Doplnky pre Slimefun4
     bugs: Report bugov
@@ -125,11 +127,17 @@ guide:
       miner: Materiály, ktoré môžeš získať s týmto minerom
     versions-notice: Toto je veľmi dôležité pri nahlasovaní bugov!
     wiki: Pozri si tento item na oficiálnej wiki slimefunu
+  locked: ZAMKNUTÉ
+  locked-category:
+    - Pre odomknutie tejto kategórie
+    - budeš musieť odomknúť všetky itemy
+    - z nasledujúcich kategórií
 inventory:
   no-access: "&4Nemáš opŕavnenie na otvorenie tohto bloku"
 languages:
   af: Afrikánčina
   ar: Arabčina
+  bg: Bulharčina
   cs: Čeština
   da: Dánčina
   de: Nemčina
@@ -145,6 +153,7 @@ languages:
   id: Indonézčina
   it: Taliančina
   ja: Japonština
+  ko: Kórejčina
   lv: Lotyština
   ms: Malajština
   nl: Holandčina
@@ -157,13 +166,11 @@ languages:
   sk: Slovenčina
   sv: Švédština
   th: Thajčina
+  tr: Turečtina
   uk: Ukrajinčina
   vi: Vietnamčina
   zh-CN: Čínština (Čína)
   zh-TW: Čínština (Taiwan)
-  bg: Bulharčina
-  ko: Kórejčina
-  tr: Turečtina
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Oltár nie je obkolesený dostatočným počtom podstáv&c(%pedestals%
@@ -198,6 +205,10 @@ machines:
     invulnerability: "&b&lSi na 30 sekúnd nezraniteľný!"
     teleported: "&3Bol si teleportovaný!"
     teleporting: "&3Teleportujem..."
+    gui:
+      title: Tvoje waypointy
+      tooltip: Klikni pre teleport
+      time: Odhadovaný čas
   unknown-material: "&ePrepáč, nedokážem rozpoznať item v mojom dispenseri. Prosím
     vlož item, ktorý poznám."
   wrong-item: "&ePrepáč, nedokážem rozpoznať item s ktorým si na mňa klikol pravým

@@ -83,89 +83,78 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 		while (target < (categories.size() + handlers.size() - 1) && index < CATEGORY_SIZE + 9) {
 			target++;
 
-			if (target >= categories.size()) {
-				if (!survival) {
-					break;
-				}
+            if (target >= categories.size()) {
+                if (!survival) {
+                    break;
+                }
 
-				index = handlers.get(target - categories.size()).next(p, index, menu);
-			}
-			else {
-				Category category = categories.get(target);
-				boolean locked = true;
+                index = handlers.get(target - categories.size()).next(p, index, menu);
+            } else {
+                Category category = categories.get(target);
 
-				for (SlimefunItem item : category.getItems()) {
-					if (Slimefun.isEnabled(p, item, false)) {
-						locked = false;
-						break;
-					}
-				}
+                if (!category.isHidden(p) && displayCategory(menu, p, profile, survival, category, index)) {
+                    index++;
+                }
+            }
+        }
 
-				if (!locked) {
-					if (!(category instanceof LockedCategory)) {
-						if (!(category instanceof SeasonalCategory)) {
-							menu.addItem(index, category.getItem(p));
-							menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-								openCategory(profile, category, survival, 1);
-								return false;
-							});
-							index++;
-						}
-						else {
-							if (((SeasonalCategory) category).isUnlocked()) {
-								menu.addItem(index, category.getItem(p));
-								menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-									openCategory(profile, category, survival, 1);
-									return false;
-								});
-								index++;
-							}
-						}
-					}
-					else if (!survival || ((LockedCategory) category).hasUnlocked(p, profile)) {
-						menu.addItem(index, category.getItem(p));
-						menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-							openCategory(profile, category, survival, 1);
-							return false;
-						});
+        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
+        menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
+            int next = page - 1;
+            if (next != page && next > 0) openMainMenu(profile, survival, next);
+            return false;
+        });
 
-						index++;
-					}
-					else {
-						List<String> parents = new ArrayList<>();
-						parents.add("");
-						parents.add(ChatColor.translateAlternateColorCodes('&', "&rYou need to unlock all Items"));
-						parents.add(ChatColor.translateAlternateColorCodes('&', "&rfrom the following Categories first:"));
-						parents.add("");
+        menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
+        menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
+            int next = page + 1;
+            if (next != page && next <= pages) openMainMenu(profile, survival, next);
+            return false;
+        });
 
-						for (Category parent : ((LockedCategory) category).getParents()) {
-							parents.add(parent.getItem(p).getItemMeta().getDisplayName());
-						}
+        menu.open(p);
+    }
 
-						menu.addItem(index, new CustomItem(Material.BARRIER, "&4已锁定 &7- &r" + category.getItem(p).getItemMeta().getDisplayName(), parents.toArray(new String[0])));
-						menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
-						index++;
-					}
-				}
-			}
-		}
+    private boolean displayCategory(ChestMenu menu, Player p, PlayerProfile profile, boolean survival, Category category, int index) {
+        if (!(category instanceof LockedCategory)) {
+            if (!(category instanceof SeasonalCategory) || ((SeasonalCategory) category).isUnlocked()) {
+                menu.addItem(index, category.getItem(p));
+                menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
+                    openCategory(profile, category, survival, 1);
+                    return false;
+                });
 
-		menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
-		menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
-			int next = page - 1;
-			if (next != page && next > 0) openMainMenu(profile, survival, next);
-			return false;
-		});
+                return true;
+            }
 
-		menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
-		menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
-			int next = page + 1;
-			if (next != page && next <= pages) openMainMenu(profile, survival, next);
-			return false;
-		});
+            return false;
+        } else if (!survival || ((LockedCategory) category).hasUnlocked(p, profile)) {
+            menu.addItem(index, category.getItem(p));
+            menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
+                openCategory(profile, category, survival, 1);
+                return false;
+            });
 
-		menu.open(p);
-	}
+            return true;
+        } else {
+            List<String> lore = new ArrayList<>();
+            lore.add("");
+
+            for (String line : SlimefunPlugin.getLocal().getMessages(p, "guide.locked-category")) {
+                lore.add(ChatColor.RESET + line);
+            }
+
+            lore.add("");
+
+            for (Category parent : ((LockedCategory) category).getParents()) {
+                lore.add(parent.getItem(p).getItemMeta().getDisplayName());
+            }
+
+            menu.addItem(index, new CustomItem(Material.BARRIER, "&4" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked") + " &7- &r" + category.getItem(p).getItemMeta().getDisplayName(), lore.toArray(new String[0])));
+            menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
+            return true;
+        }
+    }
 
 	@Override
 	public void openCategory(PlayerProfile profile, Category category, boolean survival, int page) {
@@ -215,22 +204,21 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
 				if (survival && research != null && !profile.hasUnlocked(research)) {
 					if (Slimefun.hasPermission(p, sfitem, false)) {
-						menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l已锁定", "", "&a> 单击解锁", "", "&7消耗经验 &b" + research.getCost() + " 级"));
-						menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-							if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(pl.getUniqueId())) {
-								if (research.canUnlock(pl)) {
+                        menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + research.getCost() + " 级经验"));
+                        menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
+                            if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(pl.getUniqueId())) {
+                                if (research.canUnlock(pl)) {
 
-									if (profile.hasUnlocked(research)) {
-										openCategory(profile, category, true, page);
-									}
-									else {
-										if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative)) {
-											pl.setLevel(pl.getLevel() - research.getCost());
-										}
+                                    if (profile.hasUnlocked(research)) {
+                                        openCategory(profile, category, true, page);
+                                    } else {
+                                        if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative)) {
+                                            pl.setLevel(pl.getLevel() - research.getCost());
+                                        }
 
 										if (pl.getGameMode() == GameMode.CREATIVE) {
-											research.unlock(pl, SlimefunPlugin.getSettings().researchesFreeInCreative);
-											openCategory(profile, category, survival, page);
+                                            research.unlock(pl, SlimefunPlugin.getSettings().researchesFreeInCreative);
+                                            Slimefun.runSync(() -> openCategory(profile, category, survival, page), 5L);
 										}
 										else {
 											research.unlock(pl, false);
@@ -246,11 +234,11 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 						index++;
 					}
 					else {
-						List<String> message = sfitem.getNoPermissionTooltip();
-						menu.addItem(index, new CustomItem(Material.BARRIER, sfitem.getItemName(), message.toArray(new String[message.size()])));
-						menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
-						index++;
-					}
+                        List<String> message = SlimefunPlugin.getPermissionsService().getLore(sfitem);
+                        menu.addItem(index, new CustomItem(Material.BARRIER, sfitem.getItemName(), message.toArray(new String[message.size()])));
+                        menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
+                        index++;
+                    }
 				}
 				else {
 					menu.addItem(index, sfitem.getItem());
@@ -282,8 +270,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 		Player p = profile.getPlayer();
 		if (p == null) return;
 
-		ChestMenu menu = new ChestMenu("Searching for: " + ChatUtils.crop(ChatColor.RESET, input));
-		String searchTerm = input.toLowerCase();
+        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.search.inventory").replace("%item%", ChatUtils.crop(ChatColor.RESET, input)));
+        String searchTerm = input.toLowerCase();
 
 		if (addToHistory) {
 			profile.getGuideHistory().add(searchTerm);
@@ -556,7 +544,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 			if (slimefunItem == null) return item;
 
 			String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&r需要在别处解锁" : "&r你没有权限";
-			return Slimefun.hasUnlocked(p, slimefunItem, false) ? item: new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l已锁定", "", lore);
+            return Slimefun.hasUnlocked(p, slimefunItem, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", lore);
 		}
 		else {
 			return item;
@@ -602,26 +590,31 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             int outputs = 45;
 
             for (int i = 0; i < 18; i++) {
-                int slot = i % 2 == 0 ? inputs++: outputs++;
-
-                if ((i + (page * 18)) < recipes.size() && recipes.get(i + (page * 18)) != null) {
-                    ItemStack stack = recipes.get(i + (page * 18));
-                    if (page == 0) {
-                        menu.replaceExistingItem(slot, stack.clone());
-                        menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
-                            displayItem(profile, itemstack, true);
-                            return false;
-                        });
-                    }
-                    else {
-                        menu.replaceExistingItem(slot, stack.clone());
-                    }
-                }
-                else {
-                    menu.replaceExistingItem(slot, null);
-                    menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
-                }
+                int slot = i % 2 == 0 ? inputs++ : outputs++;
+                addDisplayRecipe(menu, profile, recipes, slot, i, page);
             }
+        }
+    }
+
+    private void addDisplayRecipe(ChestMenu menu, PlayerProfile profile, List<ItemStack> recipes, int slot, int i, int page) {
+        if ((i + (page * 18)) < recipes.size()) {
+            ItemStack item = recipes.get(i + (page * 18));
+
+            // We want to clone this item to avoid corrupting the original
+            // but we wanna make sure no stupid addon creator sneaked some nulls in here
+            if (item != null) item = item.clone();
+
+            menu.replaceExistingItem(slot, item);
+
+            if (page == 0) {
+                menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
+                    displayItem(profile, itemstack, true);
+                    return false;
+                });
+            }
+        } else {
+            menu.replaceExistingItem(slot, null);
+            menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
         }
     }
 

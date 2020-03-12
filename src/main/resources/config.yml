@@ -5,10 +5,6 @@ options:
   armor-update-interval: 10
   # 是否在玩家第一次进入服务器时自动赠送粘液科技指南?
   give-guide-on-first-join: true
-  # 是否在控制台输出插件加载过程的日志
-  print-out-loading: false
-  # 是否在控制台完全输出与 Github 的数据检索过程
-  print-out-github-data-retrieving: false
   # 是否启用粘液科技护甲效果
   enable-armor-effects: true
   # 插件前缀
@@ -21,8 +17,6 @@ options:
   allow-free-creative-research: true
   # 绿宝石附魔上限 (扩展选项)
   emerald-enchantment-limit: 2
-  # 是否在解锁时发射烟花 (建议关闭, 一次性批量解锁时卡死人)
-  research-unlock-fireworks: false
   # 是否在解锁时给玩家烟花让玩家自己放
   research-give-fireworks: true
   # 是否使用洗矿机旧的工作方式

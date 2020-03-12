@@ -1,6 +1,5 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
+package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Talisman;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -19,12 +18,12 @@ public class EnderTalisman extends Talisman {
 	public SlimefunItemStack upgrade() {
 		throw new UnsupportedOperationException();
 	}
-	
-	@Override
-	public void install() {
-		// Let's override that, otherwise we would be creating Ender Talismans
-		// for every Ender Talisman
-	}
+
+    @Override
+    public void createEnderTalisman() {
+        // Let's override that, otherwise we would be creating Ender Talismans
+        // for every Ender Talisman
+    }
 	
 	@Override
 	public void postRegister() {

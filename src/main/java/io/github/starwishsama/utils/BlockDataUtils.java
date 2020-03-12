@@ -1,4 +1,4 @@
-package io.github.starwishsama.miscs;
+package io.github.starwishsama.utils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

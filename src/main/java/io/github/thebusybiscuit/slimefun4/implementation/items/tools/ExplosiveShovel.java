@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import io.github.starwishsama.miscs.ResidenceChecker;
+import io.github.starwishsama.utils.ResidenceChecker;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;

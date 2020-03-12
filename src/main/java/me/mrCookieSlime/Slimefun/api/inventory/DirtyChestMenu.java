@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
-import io.github.starwishsama.miscs.ResidenceChecker;
+import io.github.starwishsama.utils.ResidenceChecker;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
