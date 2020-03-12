@@ -104,10 +104,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             instance = this;
 
             // Creating all necessary Folders
-            getLogger().log(Level.INFO, "Loading Files...");
+            getLogger().log(Level.INFO, "加载文件中...");
             createDirectories();
 
-            getLogger().log(Level.INFO, "Loading Config...");
+            getLogger().log(Level.INFO, "加载配置中...");
 
             // Setup config.yml
             config = new Config(this);
@@ -140,10 +140,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
 
             // Registering all GEO Resources
-            getLogger().log(Level.INFO, "Loading GEO-Resources...");
+            getLogger().log(Level.INFO, "加载 GEO 资源中...");
             GEOResourcesSetup.setup();
 
-            getLogger().log(Level.INFO, "Loading Items...");
+            getLogger().log(Level.INFO, "加载物品中...");
             MiscSetup.setupItemSettings();
 
             try {
@@ -152,7 +152,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
             }
 
-            getLogger().log(Level.INFO, "Loading Researches...");
+            getLogger().log(Level.INFO, "加载研究项目中...");
 
             try {
                 ResearchSetup.setupResearches();
