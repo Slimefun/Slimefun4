@@ -119,26 +119,24 @@
 								Config blockInfo = parseBlockInfo(l, json);
 								if (blockInfo == null || !blockInfo.contains("id")) continue;
 								if (storage.containsKey(l)) {
-									// It should not be possible to have two blocks on the same location. Ignore the
-									// new entry if a block is already present and print an error to the console.
+                                    // It should not be possible to have two blocks on the same location. Ignore the
+                                    // new entry if a block is already present and print an error to the console.
 
-									Slimefun.getLogger().log(Level.INFO, "Ignoring duplicate block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
-									Slimefun.getLogger().log(Level.INFO, "Old block data: " + serializeBlockInfo(storage.get(l)));
-									Slimefun.getLogger().log(Level.INFO, "New block data (" + key + "): " + json);
-									continue;
-								}
-								storage.put(l, blockInfo);
+                                    Slimefun.getLogger().log(Level.INFO, "Ignoring duplicate block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+                                    Slimefun.getLogger().log(Level.INFO, "Old block data: " + serializeBlockInfo(storage.get(l)));
+                                    Slimefun.getLogger().log(Level.INFO, "New block data (" + key + "): " + json);
+                                    continue;
+                                }
+                                storage.put(l, blockInfo);
 
-								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
-									Set<Location> locations = SlimefunPlugin.getRegistry().getActiveTickers().getOrDefault(chunkString, new HashSet<>());
-									locations.add(l);
-									SlimefunPlugin.getRegistry().getActiveTickers().put(chunkString, locations);
-									
-									if (!SlimefunPlugin.getRegistry().getActiveChunks().contains(chunkString)) {
-										SlimefunPlugin.getRegistry().getActiveChunks().add(chunkString);
-									}
-								}
-							} catch (Exception x) {
+                                if (SlimefunPlugin.getRegistry().getTickerBlocks().contains(file.getName().replace(".sfb", ""))) {
+                                    Set<Location> locations = SlimefunPlugin.getRegistry().getActiveTickers().getOrDefault(chunkString, new HashSet<>());
+                                    locations.add(l);
+                                    SlimefunPlugin.getRegistry().getActiveTickers().put(chunkString, locations);
+
+                                    SlimefunPlugin.getRegistry().getActiveChunks().add(chunkString);
+                                }
+                            } catch (Exception x) {
 								Slimefun.getLogger().log(Level.WARNING, "Failed to load " + file.getName() + '(' + key + ") for Slimefun " + SlimefunPlugin.getVersion(), x);
 							}
 						}

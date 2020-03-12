@@ -16,11 +16,6 @@ public class GEOScanner extends SimpleSlimefunItem<BlockUseHandler> {
     }
 
     @Override
-    protected boolean areItemHandlersPrivate() {
-        return false;
-    }
-
-    @Override
     public BlockUseHandler getItemHandler() {
         return e -> {
             Block b = e.getClickedBlock().get();

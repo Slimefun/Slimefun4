@@ -28,11 +28,6 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
     }
 
     @Override
-    protected boolean areItemHandlersPrivate() {
-        return false;
-    }
-
-    @Override
     public ItemDropHandler getItemHandler() {
         return (e, p, i) -> {
             ItemStack item = i.getItemStack();
