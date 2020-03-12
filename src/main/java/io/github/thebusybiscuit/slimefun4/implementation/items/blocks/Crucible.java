@@ -121,32 +121,27 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
                             Slimefun.runSync(() -> {
                                 if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
-                                    if (water) {
-                                        if (block.getBlockData() instanceof Waterlogged) {
-                                            Waterlogged wl = (Waterlogged) block.getBlockData();
-                                            wl.setWaterlogged(true);
-                                            block.setBlockData(wl, false);
-                                            block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-                                            return;
-                                        }
-
-                                        block.getWorld().playSound(block.getLocation(), Sound.BLOCK_METAL_BREAK, 1F, 1F);
+                                    block.setType(water ? Material.WATER : Material.LAVA);
+                                }
+                                else {
+                                    if (water && block.getBlockData() instanceof Waterlogged) {
+                                        Waterlogged wl = (Waterlogged) block.getBlockData();
+                                        wl.setWaterlogged(true);
+                                        block.setBlockData(wl, false);
+                                        block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
                                         return;
                                     }
 
                                     if (BlockStorage.hasBlockInfo(block)) {
                                         BlockStorage.clearBlockInfo(block);
                                     }
-
-                                    block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
                                 }
 
-                                block.setType(water ? Material.WATER : Material.LAVA);
                                 runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1);
 
                             }, 50L);
 
-                            break;
+                            return;
                         }
                     }
 
@@ -170,6 +165,9 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
         if (times < 8) {
             Slimefun.runSync(() -> runPostTask(block, sound, times + 1), 50L);
+        }
+        else {
+            block.getWorld().playSound(block.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
         }
     }
 
