@@ -1,7 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
-import java.util.List;
-
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.DamageableItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -18,14 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.DamageableItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import java.util.List;
 
 public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable, DamageableItem {
 

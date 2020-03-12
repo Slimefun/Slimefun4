@@ -1,12 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Furnace;
-import org.bukkit.inventory.ItemStack;
-
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -15,6 +8,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Furnace;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 

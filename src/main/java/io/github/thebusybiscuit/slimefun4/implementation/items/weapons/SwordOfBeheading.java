@@ -1,24 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.bukkit.Material;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.WitherSkeleton;
-import org.bukkit.entity.Zombie;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.bukkit.Material;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
 

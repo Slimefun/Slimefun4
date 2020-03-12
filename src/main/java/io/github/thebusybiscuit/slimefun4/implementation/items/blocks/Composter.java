@@ -1,9 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -12,17 +19,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements RecipeDisplayItem {
 

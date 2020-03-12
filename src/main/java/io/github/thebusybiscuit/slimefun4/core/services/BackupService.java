@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,11 +18,14 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+/**
+ * This Service creates a Backup of your Slimefun world data on every server shutdown.
+ *
+ * @author TheBusyBiscuit
+ */
+public class BackupService implements Runnable {
 
-public class BackupService {
-
+    @Override
     public void run() {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 
@@ -40,11 +46,10 @@ public class BackupService {
                     }
 
                     Slimefun.getLogger().log(Level.INFO, "Backed up Data to: " + file.getName());
-                }
-                else {
+                } else {
                     Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: " + file.getName());
                 }
-            } catch(IOException x) {
+            } catch (IOException x) {
                 Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a World-Backup for Slimefun " + SlimefunPlugin.getVersion(), x);
             }
         }

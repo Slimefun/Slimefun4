@@ -1,25 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ChargableItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.*;
 
 public class MultiTool extends ChargableItem {
 
@@ -83,7 +78,7 @@ public class MultiTool extends ChargableItem {
 
                 SlimefunItem selectedItem = SlimefunItem.getByID((String) Slimefun.getItemValue(getID(), "mode." + modes.get(index) + ".item"));
                 String itemName = selectedItem != null ? selectedItem.getItemName(): "Unknown";
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "多功能工具").replace("%mode%", ChatColor.stripColor(itemName)));
                 selectedMode.put(p.getUniqueId(), index);
             }
         };

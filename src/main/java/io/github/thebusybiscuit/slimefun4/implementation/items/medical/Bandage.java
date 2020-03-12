@@ -1,5 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -7,13 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
 

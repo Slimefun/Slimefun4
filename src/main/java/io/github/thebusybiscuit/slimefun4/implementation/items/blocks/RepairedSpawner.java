@@ -45,5 +45,4 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
             }
         };
     }
-
 }

@@ -1,18 +1,16 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class EasterEgg extends SimpleSlimefunItem<ItemUseHandler> {
 

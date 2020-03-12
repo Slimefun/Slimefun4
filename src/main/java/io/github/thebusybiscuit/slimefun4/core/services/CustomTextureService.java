@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
  * We simply use {@link ItemMeta#setCustomModelData(Integer)} for this.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class CustomTextureService {
 

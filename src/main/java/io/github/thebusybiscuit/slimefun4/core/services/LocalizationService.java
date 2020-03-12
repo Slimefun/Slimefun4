@@ -27,6 +27,7 @@ import java.util.logging.Level;
  * It is used for managing the {@link Language} of a {@link Player} and the entire {@link Server}.
  *
  * @author TheBusyBiscuit
+ * @see Language
  */
 public class LocalizationService extends SlimefunLocalization {
 
