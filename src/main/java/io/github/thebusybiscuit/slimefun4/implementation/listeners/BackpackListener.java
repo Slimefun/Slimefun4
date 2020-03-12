@@ -102,22 +102,27 @@ public class BackpackListener implements Listener {
     }
 
     private void openBackpack(ItemStack item, PlayerProfile profile, int size) {
-        Player p = profile.getPlayer();
+        if (profile != null && item != null) {
+            Player p = profile.getPlayer();
 
-        for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-            if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
-                setBackpackId(p, item, line, profile.createBackpack(size).getID());
-                break;
+            if (p != null) {
+                if (item.getItemMeta() != null && item.getItemMeta().getLore() != null) {
+                    for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
+                        if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+                            setBackpackId(p, item, line, profile.createBackpack(size).getID());
+                            break;
+                        }
+                    }
+                }
+
+                if (!backpacks.containsValue(item)) {
+                    p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+                    backpacks.put(p.getUniqueId(), item);
+
+                    Slimefun.runSync(() -> PlayerProfile.getBackpack(item).open(p));
+                } else SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
             }
         }
-
-        if (!backpacks.containsValue(item)) {
-            p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-            backpacks.put(p.getUniqueId(), item);
-
-            Slimefun.runSync(() -> PlayerProfile.getBackpack(item).open(p));
-        }
-        else SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
     }
 
     public static void setBackpackId(Player p, ItemStack item, int line, int id) {
