@@ -32,7 +32,7 @@ public class ExplosionsListener implements Listener {
             if (id != null) {
                 blocks.remove();
 
-                if (!id.equalsIgnoreCase("HARDENED_GLASS") && !id.equalsIgnoreCase("WITHER_PROOF_OBSIDIAN") && !id.equalsIgnoreCase("WITHER_PROOF_GLASS")) {
+                if (!id.equalsIgnoreCase("HARDENED_GLASS") && !SlimefunPlugin.getRegistry().getWitherProofBlocks().contains(id)) {
                     boolean success = true;
                     SlimefunItem sfItem = SlimefunItem.getByID(id);
 

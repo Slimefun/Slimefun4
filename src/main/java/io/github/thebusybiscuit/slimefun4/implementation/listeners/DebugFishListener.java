@@ -24,14 +24,14 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 
 public class DebugFishListener implements Listener {
 
-    private final String yes;
-    private final String no;
+    private final String enabledTooltip;
+    private final String disabledTooltip;
 
     public DebugFishListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
-        yes = "&2\u2714";
-        no = "&4\u2718";
+        enabledTooltip = "&2\u2714";
+        disabledTooltip = "&4\u2718";
     }
 
     @EventHandler
@@ -74,7 +74,7 @@ public class DebugFishListener implements Listener {
         p.sendMessage(ChatColors.color("&dID: " + "&e" + BlockStorage.checkID(b)));
 
         if (b.getState() instanceof Skull) {
-            p.sendMessage(ChatColors.color("&dSkull: " + yes));
+            p.sendMessage(ChatColors.color("&dSkull: " + enabledTooltip));
 
             // Check if the skull is a wall skull, and if so use Directional instead of Rotatable.
             if (b.getType() == Material.PLAYER_WALL_HEAD) {
@@ -86,15 +86,15 @@ public class DebugFishListener implements Listener {
         }
 
         if (BlockStorage.getStorage(b.getWorld()).hasInventory(b.getLocation())) {
-            p.sendMessage(ChatColors.color("&dInventory: " + yes));
+            p.sendMessage(ChatColors.color("&dInventory: " + enabledTooltip));
         }
         else {
-            p.sendMessage(ChatColors.color("&dInventory: " + no));
+            p.sendMessage(ChatColors.color("&dInventory: " + disabledTooltip));
         }
 
         if (BlockStorage.check(b).isTicking()) {
-            p.sendMessage(ChatColors.color("&dTicker: " + yes));
-            p.sendMessage(ChatColors.color("  &dAsync: &e" + (BlockStorage.check(b).getBlockTicker().isSynchronized() ? no : yes)));
+            p.sendMessage(ChatColors.color("&dTicker: " + enabledTooltip));
+            p.sendMessage(ChatColors.color("  &dAsync: &e" + (BlockStorage.check(b).getBlockTicker().isSynchronized() ? disabledTooltip : enabledTooltip)));
             p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(b) + "ns"));
             p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + SlimefunPlugin.getTicker().getTimings(BlockStorage.checkID(b)) + "ns"));
             p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(b.getChunk()) + "ns"));
@@ -105,16 +105,16 @@ public class DebugFishListener implements Listener {
             p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(b.getChunk()) + "ns"));
         }
         else {
-            p.sendMessage(ChatColors.color("&dTicker: " + no));
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + no));
+            p.sendMessage(ChatColors.color("&dTicker: " + disabledTooltip));
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dTicking: " + disabledTooltip));
         }
 
         if (ChargableBlock.isChargable(b)) {
-            p.sendMessage(ChatColors.color("&dChargeable: " + yes));
+            p.sendMessage(ChatColors.color("&dChargeable: " + enabledTooltip));
             p.sendMessage(ChatColors.color("  &dEnergy: &e" + ChargableBlock.getCharge(b) + " / " + ChargableBlock.getMaxCharge(b)));
         }
         else {
-            p.sendMessage(ChatColors.color("&dChargeable: " + no));
+            p.sendMessage(ChatColors.color("&dChargeable: " + disabledTooltip));
         }
 
         p.sendMessage(ChatColors.color("  &dEnergyNet Type: &e" + EnergyNet.getComponent(b)));

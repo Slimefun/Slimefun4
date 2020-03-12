@@ -62,6 +62,7 @@ public class SlimefunRegistry {
     private final Set<String> energyCapacitors = new HashSet<>();
     private final Set<String> energyConsumers = new HashSet<>();
     private final Set<String> chargeableBlocks = new HashSet<>();
+    private final Set<String> witherProofBlocks = new HashSet<>();
 
     private final Map<String, BlockStorage> worlds = new HashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
@@ -220,6 +221,10 @@ public class SlimefunRegistry {
 
     public Set<String> getChargeableBlocks() {
         return chargeableBlocks;
+    }
+
+    public Set<String> getWitherProofBlocks() {
+        return witherProofBlocks;
     }
 
 }

@@ -21,7 +21,6 @@ import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
-import io.github.thebusybiscuit.slimefun4.core.hooks.SlimefunHooks;
 import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
@@ -32,11 +31,12 @@ import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
+import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
@@ -53,6 +53,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfile
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemConsumeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
@@ -102,19 +103,20 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final BackupService backupService = new BackupService();
     private final MetricsService metricsService = new MetricsService(this);
     private final PermissionsService permissionsService = new PermissionsService(this);
+    private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
+    private LocalizationService local;
+
+    private NetworkManager networkManager;
+    private ProtectionManager protections;
 
     private TickerTask ticker;
-    private LocalizationService local;
-    private NetworkManager networkManager;
     private Config researches;
     private Config items;
     private Config whitelist;
     private Config config;
 
     private GPSNetwork gps;
-    private ProtectionManager protections;
     private ConfigCache settings;
-    private SlimefunHooks hooks;
     private SlimefunCommand command;
 
     // Supported Versions of Minecraft, to ensure people
@@ -211,6 +213,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // All Slimefun Listeners
             new SlimefunBootsListener(this);
             new SlimefunItemListener(this);
+            new SlimefunItemConsumeListener(this);
             new BlockPhysicsListener(this);
             new MultiBlockListener(this);
             new GearListener(this);
@@ -218,9 +221,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new EntityKillListener(this);
             new BlockListener(this);
             new EnhancedFurnaceListener(this);
-            new TeleporterListener(this);
-            new AndroidKillingListener(this);
-            new NetworkListener(this);
             new ItemPickupListener(this);
             new DeathpointListener(this);
             new ExplosionsListener(this);
@@ -232,8 +232,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             grapplingHookListener = new GrapplingHookListener();
 
             // Toggleable Listeners for performance
-            if (config.getBoolean("items.talismans")) new TalismanListener(this);
-            if (config.getBoolean("items.soulbound")) new SoulboundListener(this);
+            if (config.getBoolean("items.talismans")) {
+                new TalismanListener(this);
+            }
+
+            if (config.getBoolean("items.soulbound")) {
+                new SoulboundListener(this);
+            }
 
             if (config.getBoolean("items.backpacks")) {
                 backpackListener = new BackpackListener(this);
@@ -262,21 +267,34 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     new BlockStorage(world);
                 }
 
-                if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) {
+                if (isEnabled("ANCIENT_ALTAR")) {
                     ancientAltarListener.load(this);
                 }
 
-                if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) {
+                if (isEnabled("GRAPPLING_HOOK")) {
                     grapplingHookListener.load(this);
                 }
 
-                if (SlimefunItem.getByID("BLADE_OF_VAMPIRES") != null) {
+                if (isEnabled("BLADE_OF_VAMPIRES")) {
                     new VampireBladeListener(this);
                 }
 
-                if (SlimefunItem.getByID("COOLER") != null) {
+                if (isEnabled("COOLER")) {
                     new CoolerListener(this);
                 }
+
+                if (isEnabled("ELEVATOR_PLATE", "GPS_ACTIVATION_DEVICE_SHARED", "GPS_ACTIVATION_DEVICE_PERSONAL")) {
+                    new TeleporterListener(this);
+                }
+
+                if (isEnabled("PROGRAMMABLE_ANDROID_BUTCHER", "PROGRAMMABLE_ANDROID_2_BUTCHER", "PROGRAMMABLE_ANDROID_3_BUTCHER")) {
+                    new ButcherAndroidListener(this);
+                }
+
+                if (isEnabled("ENERGY_REGULATOR", "CARGO_MANAGER")) {
+                    new NetworkListener(this);
+                }
+
             }, 0);
 
             // Setting up the command /sf and all subcommands
@@ -306,7 +324,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Hooray!
             getLogger().log(Level.INFO, "Finished!");
-            hooks = new SlimefunHooks(this);
+            thirdPartySupportService.start();
 
             // Do not show /sf elevator command in our Log, it could get quite spammy
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
@@ -325,6 +343,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 return true;
             });
         }
+    }
+
+    private boolean isEnabled(String... itemIds) {
+        for (String id : itemIds) {
+            SlimefunItem item = SlimefunItem.getByID(id);
+
+            if (item != null && !item.isDisabled()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isVersionUnsupported() {
@@ -463,10 +492,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.gps;
     }
 
-    public static SlimefunHooks getHooks() {
-        return instance.hooks;
-    }
-
     public static ConfigCache getSettings() {
         return instance.settings;
     }
@@ -514,6 +539,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static BlockDataService getBlockDataService() {
         return instance.blockDataService;
+    }
+
+    public static ThirdPartyPluginService getThirdPartySupportService() {
+        return instance.thirdPartySupportService;
     }
 
     /**

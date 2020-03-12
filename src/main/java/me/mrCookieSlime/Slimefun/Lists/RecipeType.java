@@ -98,13 +98,6 @@ public class RecipeType implements Keyed {
         }
     }
 
-    @Deprecated
-    public RecipeType(SlimefunItemStack slimefunItem, String... lore) {
-        this.item = new CustomItem(slimefunItem, null, lore);
-        this.machine = slimefunItem.getItemID();
-        this.key = new NamespacedKey(SlimefunPlugin.instance, machine.toLowerCase());
-    }
-
     /**
      * @deprecated Use the constructor with {@link NamespacedKey} instead
      * @param item

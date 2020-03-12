@@ -68,7 +68,7 @@ public class BlockPhysicsListener implements Listener {
     public void onLiquidFlow(BlockFromToEvent e) {
         Block block = e.getToBlock();
         String item = BlockStorage.checkID(block);
-        
+
         if (item != null) {
             e.setCancelled(true);
         }
@@ -88,7 +88,7 @@ public class BlockPhysicsListener implements Listener {
         if (e.getEntity() instanceof Wither) {
             String id = BlockStorage.checkID(e.getBlock());
 
-            if (id != null && id.startsWith("WITHER_PROOF_")) {
+            if (id != null && SlimefunPlugin.getRegistry().getWitherProofBlocks().contains(id)) {
                 e.setCancelled(true);
             }
         }

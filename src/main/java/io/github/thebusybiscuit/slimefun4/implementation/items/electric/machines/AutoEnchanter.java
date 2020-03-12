@@ -106,7 +106,7 @@ public class AutoEnchanter extends AContainer {
                         }
                     }
 
-                    if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+                    if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
                         for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
                             if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
                                 amount++;

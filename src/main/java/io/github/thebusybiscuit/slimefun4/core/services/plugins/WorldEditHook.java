@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.hooks;
+package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

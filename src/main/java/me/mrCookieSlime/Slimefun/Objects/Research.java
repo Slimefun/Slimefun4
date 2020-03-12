@@ -39,10 +39,10 @@ public class Research implements Keyed {
     private final NamespacedKey key;
     private final int id;
     private String name;
+    private boolean enabled = true;
     private int cost;
 
     private final List<SlimefunItem> items = new LinkedList<>();
-    private boolean enabled = true;
 
     /**
      * The constructor for a {@link Research}.
@@ -276,7 +276,9 @@ public class Research implements Keyed {
      */
     public static Research getByID(int id) {
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (research.getID() == id) return research;
+            if (research.getID() == id) {
+                return research;
+            }
         }
         return null;
     }

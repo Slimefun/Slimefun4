@@ -20,9 +20,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidI
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class AndroidKillingListener implements Listener {
+public class ButcherAndroidListener implements Listener {
 
-    public AndroidKillingListener(SlimefunPlugin plugin) {
+    public ButcherAndroidListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

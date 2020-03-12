@@ -115,7 +115,7 @@ public class AutoDisenchanter extends AContainer {
                         amount++;
                     }
 
-                    if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+                    if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
                         for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
                             amount++;
                             emeraldEnchantments.add(enchantment);

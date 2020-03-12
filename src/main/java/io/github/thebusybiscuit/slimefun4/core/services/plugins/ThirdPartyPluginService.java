@@ -1,35 +1,40 @@
-package io.github.thebusybiscuit.slimefun4.core.hooks;
+package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
 import java.util.logging.Level;
 
+import org.bukkit.plugin.Plugin;
+
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * This class holds all interactions and hooks with third-party plugins that are
- * not dependencies or addons.
+ * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
+ * that are not a dependency or a {@link SlimefunAddon}.
+ * 
+ * Integration with these plugins happens inside Slimefun itself.
  * 
  * @author TheBusyBiscuit
  * 
  * @see SlimefunPlugin
  *
  */
-public final class SlimefunHooks {
+public class ThirdPartyPluginService {
 
     private final SlimefunPlugin plugin;
 
-    private boolean exoticGarden = false;
-    private boolean emeraldEnchants = false;
-    private boolean coreProtect = false;
-    private boolean clearLag = false;
-    private boolean worldEdit = false;
-    private boolean placeHolderAPI = false;
+    private boolean isExoticGardenInstalled = false;
+    private boolean isEmeraldEnchantsInstalled = false;
+    private boolean isCoreProtectInstalled = false;
+    private boolean isPlaceholderAPIInstalled = false;
 
-    public SlimefunHooks(SlimefunPlugin plugin) {
+    public ThirdPartyPluginService(SlimefunPlugin plugin) {
         this.plugin = plugin;
+    }
 
+    public void start() {
         if (isPluginInstalled("PlaceholderAPI")) {
-            placeHolderAPI = true;
+            isPlaceholderAPIInstalled = true;
             new PlaceholderAPIHook().register();
         }
 
@@ -40,12 +45,11 @@ public final class SlimefunHooks {
          */
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             if (isPluginInstalled("ClearLag")) {
-                clearLag = true;
                 new ClearLagHook(plugin);
             }
 
-            exoticGarden = isPluginInstalled("ExoticGarden");
-            emeraldEnchants = isPluginInstalled("EmeraldEnchants");
+            isExoticGardenInstalled = isPluginInstalled("ExoticGarden");
+            isEmeraldEnchantsInstalled = isPluginInstalled("EmeraldEnchants");
 
             SlimefunPlugin.getNetworkManager().setChestTerminalInstalled(isPluginInstalled("ChestTerminal"));
 
@@ -53,7 +57,6 @@ public final class SlimefunHooks {
             if (isPluginInstalled("WorldEdit")) {
                 try {
                     Class.forName("com.sk89q.worldedit.extent.Extent");
-                    worldEdit = true;
                     new WorldEditHook();
                 }
                 catch (Exception x) {
@@ -75,27 +78,19 @@ public final class SlimefunHooks {
     }
 
     public boolean isExoticGardenInstalled() {
-        return exoticGarden;
+        return isExoticGardenInstalled;
     }
 
     public boolean isEmeraldEnchantsInstalled() {
-        return emeraldEnchants;
+        return isEmeraldEnchantsInstalled;
     }
 
     public boolean isCoreProtectInstalled() {
-        return coreProtect;
-    }
-
-    public boolean isClearLagInstalled() {
-        return clearLag;
-    }
-
-    public boolean isWorldEditInstalled() {
-        return worldEdit;
+        return isCoreProtectInstalled;
     }
 
     public boolean isPlaceholderAPIInstalled() {
-        return placeHolderAPI;
+        return isPlaceholderAPIInstalled;
     }
 
 }

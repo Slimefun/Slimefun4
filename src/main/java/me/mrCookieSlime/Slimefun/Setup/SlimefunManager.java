@@ -198,7 +198,7 @@ public final class SlimefunManager {
             else {
                 ItemStack strippedItem = item.clone();
 
-                if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+                if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
                     for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
                         EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
                     }

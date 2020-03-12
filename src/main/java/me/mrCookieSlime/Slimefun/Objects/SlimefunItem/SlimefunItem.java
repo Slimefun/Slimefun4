@@ -19,11 +19,12 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.IDConflictException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
@@ -240,7 +241,7 @@ public class SlimefunItem implements Placeable {
             SlimefunItem conflicting = getByID(id);
 
             if (conflicting != null) {
-                throw new IDConflictException(this, conflicting);
+                throw new IdConflictException(this, conflicting);
             }
 
             if (recipe == null || recipe.length < 9) {
@@ -273,6 +274,10 @@ public class SlimefunItem implements Placeable {
 
             if (this instanceof Radioactive) {
                 SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
+            }
+
+            if (this instanceof WitherProof) {
+                SlimefunPlugin.getRegistry().getWitherProofBlocks().add(id);
             }
 
             if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {
