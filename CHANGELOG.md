@@ -45,7 +45,7 @@
 
 #### Additions
 * Added some new charts to bStats
-* Added Turkish
+* Added a new language: Turkish
 
 #### Changes
 * Removed some deprecated parts of the API
@@ -66,7 +66,7 @@
 ## Release Candidate 8 (06 Mar 2020)
 
 #### Fixes
-Fixed bStats Metrics not sending properly
+* Fixed bStats Metrics not sending properly
 
 ## Release Candidate 7 (06 Mar 2020)
 
