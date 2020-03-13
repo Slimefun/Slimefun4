@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -21,6 +23,12 @@ class ElevatorCommand extends SubCommand {
         super(plugin, cmd);
 
         elevatorPlate = ((ElevatorPlate) SlimefunItem.getByID("ELEVATOR_PLATE"));
+    }
+    
+    @Override
+    public void recordUsage(Map<SubCommand, Integer> commandUsage) {
+        // This command is only for internal purposes, we do not wanna record the
+        // usage of this one.
     }
 
     @Override

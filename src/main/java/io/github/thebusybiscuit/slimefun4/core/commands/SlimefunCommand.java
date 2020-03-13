@@ -51,7 +51,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
         if (args.length > 0) {
             for (SubCommand command : commands) {
                 if (args[0].equalsIgnoreCase(command.getName())) {
-                    commandUsage.merge(command, 1, Integer::sum);
+                    command.recordUsage(commandUsage);
                     command.onExecute(sender, args);
                     return true;
                 }

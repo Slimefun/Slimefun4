@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
+import java.util.Map;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,6 +29,10 @@ public abstract class SubCommand {
     }
 
     public abstract String getName();
+
+    public void recordUsage(Map<SubCommand, Integer> commandUsage) {
+        commandUsage.merge(this, 1, Integer::sum);
+    }
 
     public abstract void onExecute(CommandSender sender, String[] args);
 
