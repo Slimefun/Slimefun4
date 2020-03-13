@@ -1,3 +1,5 @@
+<details>
+  <summary>Table of contents</summary>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **List of Releases**
@@ -37,6 +39,7 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+</details>
 
 ## Release Candidate 10 (TBD)
 
