@@ -50,15 +50,19 @@ Development builds are uploaded automatically making the maintenance of a proper
 * [download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)
 
 ## Discord
-You can find Slimefun's community on Discord!<br>
+You can find Slimefun's community on Discord and connect with **over 1250** users of this plugin from all over the world.<br>
 Click the badge down below to join the server for suggestions/questions or other discussions about this plugin.<br>
 We are also hosting a community event every so often, join us to find out more.<br>
 **Important**: We do **not** accept bug reports on discord, please use our [Issue Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues) to submit bug reports!
 
+Due to the sheer size of this discord server, we need to enforce some [important rules](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Discord-Rules).<br>
+Not following these rules can lead to a kick or even a ban from the server.
+
 <p align="center">
   <a href="https://discord.gg/fsD4Bkh">
     <img src="https://img.shields.io/discord/565557184348422174?color=7289DA&label=Discord&style=for-the-badge" alt="Discord Invite"/>
-  </a>
+  </a><br>
+  (Click the badge to join)
 </p>
 
 ## Wiki
