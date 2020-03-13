@@ -1,27 +1,4 @@
 ---
-android:
-  scripts:
-    instructions:
-      INTERFACE_FUEL: "&cVegyen ki az Üzemanyagot a csatlakozási Felületről"
-      INTERFACE_ITEMS: "&9Tegye az Eszköztár Tartalmát a csatlakozási Felületbe"
-gps:
-  geo:
-    scan-required: "&4GEO-Vizsgálat szükséges! &cElőbb vizsgáld meg ezt a chunkot
-      a GEO-Szkennerrel!"
-guide:
-  languages:
-    selected-language: 'Jelenleg kiválasztva:'
-languages:
-  pt: Portugál (Portugália)
-  pt-BR: Portugál (Brazília)
-machines:
-  ANCIENT_ALTAR:
-    not-enough-pedestals: "&4Az Oltár körül nincs elég Talapzat, ami szükséges a működéséhez
-      &c(%pedestals% / 8)"
-  ANCIENT_PEDESTAL:
-    obstructed: "&4A Talapzat el van torlaszolva! &cTávolíts el mindent, ami a talapzat
-      felett van!"
-  ignition-chamber-no-flint: "&cA Gyújtókamrából hiányzik a Kovakő és Acél."
 minecraft:
   blasting:
     lore:
