@@ -2,7 +2,7 @@
   <summary>Table of contents</summary>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**List of Releases**
+
 
 - [Release Candidate 10 (TBD)](#release-candidate-10-tbd)
   - [Additions](#additions)
