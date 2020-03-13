@@ -77,7 +77,7 @@ public class MultiTool extends ChargableItem {
                 if (index == modes.size()) index = 0;
 
                 SlimefunItem selectedItem = SlimefunItem.getByID((String) Slimefun.getItemValue(getID(), "mode." + modes.get(index) + ".item"));
-                String itemName = selectedItem != null ? selectedItem.getItemName(): "Unknown";
+                String itemName = selectedItem != null ? selectedItem.getItemName() : "Unknown";
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "多功能工具").replace("%mode%", ChatColor.stripColor(itemName)));
                 selectedMode.put(p.getUniqueId(), index);
             }
@@ -88,10 +88,10 @@ public class MultiTool extends ChargableItem {
         return (e, item, fortune, drops) -> {
             if (isItem(item)) {
                 e.setCancelled(true);
-                return true;
+                //return true;
             }
-
-            return false;
+            //return false;
+            return true;
         };
     }
 

@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -21,6 +23,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * This {@link SlimefunItem} allows you to convert any {@link ItemStack} into a
+ * {@link SoulboundItem}. It is also one of the very few utilisations of {@link ItemDropHandler}.
+ *
+ * @author Linox
+ * @see ItemDropHandler
+ * @see Soulbound
+ */
 public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     public SoulboundRune(Category category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {

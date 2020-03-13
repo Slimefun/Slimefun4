@@ -1,7 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.UUID;
-
+import io.github.thebusybiscuit.slimefun4.implementation.items.gps.ElevatorPlate;
+import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -10,11 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.ElevatorPlate;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import java.util.UUID;
 
 public class TeleporterListener implements Listener {
 
@@ -24,7 +23,7 @@ public class TeleporterListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPressurePlateEnter(PlayerInteractEvent e) {
         if (e.getAction() != Action.PHYSICAL || e.getClickedBlock() == null) return;
 

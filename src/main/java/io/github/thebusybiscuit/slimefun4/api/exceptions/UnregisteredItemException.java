@@ -20,7 +20,8 @@ public class UnregisteredItemException extends RuntimeException {
     /**
      * Constructs a new {@link UnregisteredItemException} with the given {@link SlimefunItem}
      *
-     * @param item The {@link SlimefunItem} that was affected by this
+     * @param item
+     *            The {@link SlimefunItem} that was affected by this
      */
     public UnregisteredItemException(SlimefunItem item) {
         super(item.toString() + " has not been registered yet.");

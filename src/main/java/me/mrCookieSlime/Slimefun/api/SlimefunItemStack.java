@@ -22,123 +22,123 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class SlimefunItemStack extends CustomItem {
-	
-	private String id;
-	private ImmutableItemMeta immutableMeta;
-	
-	private final String texture;
 
-	public SlimefunItemStack(String id, Material type, String name, String... lore) {
-		super(type, name, lore);
-		texture = null;
-		
-		setID(id);
-	}
+    private String id;
+    private ImmutableItemMeta immutableMeta;
 
-	public SlimefunItemStack(String id, Material type, Color color, String name, String... lore) {
-		super(new ItemStack(type), color, name, lore);
-		texture = null;
+    private final String texture;
 
-		setID(id);
-	}
+    public SlimefunItemStack(String id, Material type, String name, String... lore) {
+        super(type, name, lore);
+        texture = null;
 
-	public SlimefunItemStack(String id, Color color, PotionEffect effect, String name, String... lore) {
-		super(Material.POTION, im -> {
-			if (name != null) {
-				im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-			}
-			
-			if (lore.length > 0) {
-				List<String> lines = new ArrayList<>();
-				
-				for (String line : lore) {
-					lines.add(ChatColor.translateAlternateColorCodes('&', line));
-				}
-				
-				im.setLore(lines);
-			}
-			
-			if (im instanceof PotionMeta) {
-				((PotionMeta) im).setColor(color);
-				((PotionMeta) im).addCustomEffect(effect, true);
+        setID(id);
+    }
+
+    public SlimefunItemStack(String id, Material type, Color color, String name, String... lore) {
+        super(new ItemStack(type), color, name, lore);
+        texture = null;
+
+        setID(id);
+    }
+
+    public SlimefunItemStack(String id, Color color, PotionEffect effect, String name, String... lore) {
+        super(Material.POTION, im -> {
+            if (name != null) {
+                im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+            }
+
+            if (lore.length > 0) {
+                List<String> lines = new ArrayList<>();
+
+                for (String line : lore) {
+                    lines.add(ChatColor.translateAlternateColorCodes('&', line));
+                }
+
+                im.setLore(lines);
+            }
+
+            if (im instanceof PotionMeta) {
+                ((PotionMeta) im).setColor(color);
+                ((PotionMeta) im).addCustomEffect(effect, true);
 
                 if (effect.getType().equals(PotionEffectType.SATURATION)) {
                     im.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
                 }
-			}
-		});
-		
-		texture = null;
+            }
+        });
 
-		setID(id);
-	}
+        texture = null;
 
-	public SlimefunItemStack(String id, ItemStack item, String name, String... lore) {
-		super(item, name, lore);
-		texture = null;
+        setID(id);
+    }
 
-		setID(id);
-	}
+    public SlimefunItemStack(String id, ItemStack item, String name, String... lore) {
+        super(item, name, lore);
+        texture = null;
 
-	public SlimefunItemStack(String id, ItemStack item) {
-		super(item);
-		texture = null;
+        setID(id);
+    }
 
-		setID(id);
-	}
+    public SlimefunItemStack(String id, ItemStack item) {
+        super(item);
+        texture = null;
 
-	public SlimefunItemStack(String id, ItemStack item, Consumer<ItemMeta> consumer) {
-		super(item, consumer);
-		texture = null;
+        setID(id);
+    }
 
-		setID(id);
-	}
+    public SlimefunItemStack(String id, ItemStack item, Consumer<ItemMeta> consumer) {
+        super(item, consumer);
+        texture = null;
 
-	public SlimefunItemStack(String id, Material type, String name, Consumer<ItemMeta> consumer) {
-		super(type, meta -> {
-			if (name != null) {
-				meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-			}
-			
-			consumer.accept(meta);
-		});
+        setID(id);
+    }
 
-		texture = null;
-		setID(id);
-	}
+    public SlimefunItemStack(String id, Material type, String name, Consumer<ItemMeta> consumer) {
+        super(type, meta -> {
+            if (name != null) {
+                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+            }
 
-	public SlimefunItemStack(String id, String texture, String name, String... lore) {
-		super(getSkull(texture), name, lore);
-		this.texture = texture;
-		
-		setID(id);
-	}
+            consumer.accept(meta);
+        });
 
-	public SlimefunItemStack(String id, String texture, String name, Consumer<ItemMeta> consumer) {
-		super(getSkull(texture), meta -> {
-			if (name != null) {
-				meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-			}
-			
-			consumer.accept(meta);
-		});
-		
-		this.texture = texture;
-		
-		setID(id);
-	}
+        texture = null;
+        setID(id);
+    }
 
-	public SlimefunItemStack(String id, String texture, Consumer<ItemMeta> consumer) {
-		super(getSkull(texture), consumer);
-		this.texture = texture;
-		
-		setID(id);
-	}
+    public SlimefunItemStack(String id, String texture, String name, String... lore) {
+        super(getSkull(texture), name, lore);
+        this.texture = texture;
 
-	private void setID(String id) {
-		this.id = id;
-		
-		ItemMeta meta = getItemMeta();
+        setID(id);
+    }
+
+    public SlimefunItemStack(String id, String texture, String name, Consumer<ItemMeta> consumer) {
+        super(getSkull(texture), meta -> {
+            if (name != null) {
+                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+            }
+
+            consumer.accept(meta);
+        });
+
+        this.texture = texture;
+
+        setID(id);
+    }
+
+    public SlimefunItemStack(String id, String texture, Consumer<ItemMeta> consumer) {
+        super(getSkull(texture), consumer);
+        this.texture = texture;
+
+        setID(id);
+    }
+
+    private void setID(String id) {
+        this.id = id;
+
+        ItemMeta meta = getItemMeta();
 
         SlimefunPlugin.getItemDataService().setItemData(meta, id);
         SlimefunPlugin.getItemTextureService().setTexture(meta, id);
@@ -168,28 +168,28 @@ public class SlimefunItemStack extends CustomItem {
         immutableMeta = new ImmutableItemMeta(meta);
 
         return super.setItemMeta(meta);
-	}
-	
-	@Override
-	public ItemStack clone() {
-		SlimefunItemStack item = (SlimefunItemStack) super.clone();
-		item.id = getItemID();
-		return item;
-	}
+    }
 
-	public Optional<String> getBase64Texture() {
-		return Optional.ofNullable(texture);
-	}
-	
-	private static ItemStack getSkull(String texture) {
-		String base64 = texture;
-		
-		// At this point we can be sure it's not a base64 encoded texture
-		if (!texture.startsWith("ey")) {
-			base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes());
-		}
-		
-		return SkullItem.fromBase64(base64);
-	}
+    @Override
+    public ItemStack clone() {
+        SlimefunItemStack item = (SlimefunItemStack) super.clone();
+        item.id = getItemID();
+        return item;
+    }
+
+    public Optional<String> getBase64Texture() {
+        return Optional.ofNullable(texture);
+    }
+
+    private static ItemStack getSkull(String texture) {
+        String base64 = texture;
+
+        // At this point we can be sure it's not a base64 encoded texture
+        if (!texture.startsWith("ey")) {
+            base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes());
+        }
+
+        return SkullItem.fromBase64(base64);
+    }
 
 }

@@ -19,10 +19,12 @@ import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 /**
- * A class that can store a Player's Research Profile for caching
+ * A class that can store a Player's {@link Research} progress for caching purposes.
+ * It also holds the backpacks of a {@link Player}.
  *
  * @author TheBusyBiscuit
- *
+ * @see Research
+ * @see PlayerBackpack
  */
 public final class PlayerProfile {
 
@@ -51,7 +53,9 @@ public final class PlayerProfile {
         cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
 
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (cfg.contains("researches." + research.getID())) researches.add(research);
+            if (cfg.contains("researches." + research.getID())) {
+                researches.add(research);
+            }
         }
     }
 
@@ -75,7 +79,7 @@ public final class PlayerProfile {
      * This method returns whether the Player has logged off.
      * If this is true, then the Profile can be removed from RAM.
      *
-     * @return	Whether the Profile is marked for deletion
+     * @return Whether the Profile is marked for deletion
      */
     public boolean isMarkedForDeletion() {
         return markedForDeletion;
@@ -84,7 +88,7 @@ public final class PlayerProfile {
     /**
      * This method returns whether the Profile has unsaved changes
      *
-     * @return	Whether there are unsaved changes
+     * @return Whether there are unsaved changes
      */
     public boolean isDirty() {
         return dirty;
@@ -106,8 +110,10 @@ public final class PlayerProfile {
      * This method sets the Player's "researched" status for this Research.
      * Use the boolean to unlock or lock the Research
      *
-     * @param research	The Research that should be unlocked or locked
-     * @param unlock	Whether the Research should be unlocked or locked
+     * @param research
+     *            The Research that should be unlocked or locked
+     * @param unlock
+     *            Whether the Research should be unlocked or locked
      */
     public void setResearched(Research research, boolean unlock) {
         dirty = true;
@@ -125,8 +131,9 @@ public final class PlayerProfile {
     /**
      * This method returns whether the Player has unlocked the given Research
      *
-     * @param research	The Research that is being queried
-     * @return			Whether this Research has been unlocked
+     * @param research
+     *            The Research that is being queried
+     * @return Whether this Research has been unlocked
      */
     public boolean hasUnlocked(Research research) {
         return !research.isEnabled() || researches.contains(research);
@@ -135,7 +142,7 @@ public final class PlayerProfile {
     /**
      * This Method will return all Researches that this Player has unlocked
      *
-     * @return	A Hashset<Research> of all Researches this Player has unlocked
+     * @return A Hashset<Research> of all Researches this Player has unlocked
      */
     public Set<Research> getResearches() {
         return researches;
@@ -181,7 +188,7 @@ public final class PlayerProfile {
         List<String> titles = SlimefunPlugin.getSettings().researchesTitles;
 
         float fraction = (float) researches.size() / SlimefunPlugin.getRegistry().getResearches().size();
-        int index = (int) (fraction * (titles.size() -1));
+        int index = (int) (fraction * (titles.size() - 1));
 
         return titles.get(index);
     }
@@ -217,7 +224,8 @@ public final class PlayerProfile {
     /**
      * This is now deprecated, use {@link #fromUUID(UUID, Consumer)} instead
      *
-     * @param uuid The UUID of the profile you are trying to retrieve.
+     * @param uuid
+     *            The UUID of the profile you are trying to retrieve.
      * @return The PlayerProfile of this player
      */
     public static PlayerProfile fromUUID(UUID uuid) {
@@ -253,7 +261,8 @@ public final class PlayerProfile {
     /**
      * This is now deprecated, use {@link #get(OfflinePlayer, Consumer)} instead
      *
-     * @param p The player's profile you wish to retrieve
+     * @param p
+     *            The player's profile you wish to retrieve
      * @return The PlayerProfile of this player
      */
     public static PlayerProfile get(OfflinePlayer p) {
@@ -273,8 +282,10 @@ public final class PlayerProfile {
     /**
      * Get the PlayerProfile for a player asynchronously.
      *
-     * @param p 	   The player who's profile to retrieve
-     * @param callback The callback with the PlayerProfile
+     * @param p
+     *            The player who's profile to retrieve
+     * @param callback
+     *            The callback with the PlayerProfile
      * @return If the player was cached or not.
      */
     public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
@@ -317,7 +328,7 @@ public final class PlayerProfile {
                     String[] splitLine = PatternUtils.HASH.split(line);
                     id = Optional.of(Integer.parseInt(splitLine[1]));
                     uuid = splitLine[0].replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-                } catch(NumberFormatException x) {
+                } catch (NumberFormatException x) {
                     return null;
                 }
             }

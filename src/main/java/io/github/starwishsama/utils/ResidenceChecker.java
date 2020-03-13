@@ -4,6 +4,9 @@ import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.containers.Flags;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.ResidencePermissions;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -13,6 +16,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.UUID;
+import java.util.logging.Level;
+
 public class ResidenceChecker implements Listener {
     private static boolean installed = false;
 
@@ -20,7 +26,7 @@ public class ResidenceChecker implements Listener {
     public void onAndroidInteract(AndroidMineEvent e) {
         Block android = e.getAndroid().getBlock();
         Block block = e.getBlock();
-        final Player p = Bukkit.getPlayer(BlockDataUtils.getOwnerByJson(BlockStorage.getBlockInfoAsJson(android)));
+        final Player p = Bukkit.getPlayer(getOwnerByJson(BlockStorage.getBlockInfoAsJson(android)));
 
         if (!check(p, block, true) && p != null) {
             e.setCancelled(true);
@@ -29,7 +35,12 @@ public class ResidenceChecker implements Listener {
     }
 
     public ResidenceChecker(SlimefunPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        if (isInstalled(plugin)) {
+            plugin.getServer().getPluginManager().registerEvents(this, plugin);
+            plugin.getLogger().log(Level.INFO, "检测到领地插件, 领地相关功能已开启");
+        } else {
+            plugin.getLogger().log(Level.WARNING, "未检测到领地插件, 领地相关功能将自动关闭");
+        }
     }
 
     public static boolean isInstalled(SlimefunPlugin plugin) {
@@ -60,5 +71,16 @@ public class ResidenceChecker implements Listener {
             }
         }
         return true;
+    }
+
+    private static UUID getOwnerByJson(String json) {
+        if (json != null) {
+            JsonElement element = new JsonParser().parse(json);
+            if (!element.isJsonNull()) {
+                JsonObject object = element.getAsJsonObject();
+                return UUID.fromString(object.get("owner").getAsString());
+            }
+        }
+        return null;
     }
 }

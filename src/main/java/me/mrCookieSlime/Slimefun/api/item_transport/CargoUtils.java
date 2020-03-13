@@ -33,15 +33,13 @@ final class CargoUtils {
                     if (is.getAmount() > template.getAmount()) {
                         menu.replaceExistingItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                         return template;
-                    }
-                    else {
+                    } else {
                         menu.replaceExistingItem(slot, null);
                         return is.clone();
                     }
                 }
             }
-        }
-        else {
+        } else {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
@@ -59,8 +57,7 @@ final class CargoUtils {
         if (inv instanceof FurnaceInventory) {
             minSlot = 2;
             maxSlot = 3;
-        }
-        else if (inv instanceof BrewerInventory) {
+        } else if (inv instanceof BrewerInventory) {
             maxSlot = 3;
         }
 
@@ -71,8 +68,7 @@ final class CargoUtils {
                 if (is.getAmount() > template.getAmount()) {
                     inv.setItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                     return template;
-                }
-                else {
+                } else {
                     inv.setItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                     return is.clone();
                 }
@@ -94,8 +90,7 @@ final class CargoUtils {
                     return new ItemStackAndInteger(is.clone(), slot);
                 }
             }
-        }
-        else {
+        } else {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
@@ -107,8 +102,7 @@ final class CargoUtils {
                 if (inv instanceof FurnaceInventory) {
                     minSlot = 2;
                     maxSlot = 3;
-                }
-                else if (inv instanceof BrewerInventory) {
+                } else if (inv instanceof BrewerInventory) {
                     maxSlot = 3;
                 }
 
@@ -137,15 +131,13 @@ final class CargoUtils {
                 if (is == null) {
                     menu.replaceExistingItem(slot, stack.clone());
                     return null;
-                }
-                else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+                } else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
                     int amount = is.getAmount() + stack.getAmount();
 
                     if (amount > is.getType().getMaxStackSize()) {
                         is.setAmount(is.getType().getMaxStackSize());
                         stack.setAmount(amount - is.getType().getMaxStackSize());
-                    }
-                    else {
+                    } else {
                         is.setAmount(amount);
                         stack = null;
                     }
@@ -154,8 +146,7 @@ final class CargoUtils {
                     return stack;
                 }
             }
-        }
-        else {
+        } else {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
@@ -176,22 +167,18 @@ final class CargoUtils {
             if (stack.getType().isFuel()) {
                 minSlot = 1;
                 maxSlot = 2;
-            }
-            else {
+            } else {
                 maxSlot = 1;
             }
-        }
-        else if (inv instanceof BrewerInventory) {
+        } else if (inv instanceof BrewerInventory) {
             //Check if it goes in the potion slot,
             if (stack.getType() == Material.POTION || stack.getType() == Material.LINGERING_POTION || stack.getType() == Material.SPLASH_POTION) {
                 maxSlot = 3;
                 //The blaze powder slot,
-            }
-            else if (stack.getType() == Material.BLAZE_POWDER) {
+            } else if (stack.getType() == Material.BLAZE_POWDER) {
                 minSlot = 4;
                 maxSlot = 5;
-            }
-            else {
+            } else {
                 //Or the input
                 minSlot = 3;
                 maxSlot = 4;
@@ -204,15 +191,13 @@ final class CargoUtils {
             if (is == null) {
                 inv.setItem(slot, stack.clone());
                 return null;
-            }
-            else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+            } else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
                 int amount = is.getAmount() + stack.getAmount();
 
                 if (amount > is.getType().getMaxStackSize()) {
                     is.setAmount(is.getType().getMaxStackSize());
                     stack.setAmount(amount - is.getType().getMaxStackSize());
-                }
-                else {
+                } else {
                     is.setAmount(amount);
                     stack = null;
                 }
@@ -262,8 +247,7 @@ final class CargoUtils {
                 BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
 
                 return SlimefunManager.isItemSimilar(item, items.get(index), lore);
-            }
-            else {
+            } else {
                 for (ItemStack stack : items) {
                     if (SlimefunManager.isItemSimilar(item, stack, lore)) {
                         return true;
@@ -272,8 +256,7 @@ final class CargoUtils {
 
                 return false;
             }
-        }
-        else {
+        } else {
             for (int slot : SLOTS) {
                 if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimilar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
                     return false;

@@ -51,6 +51,7 @@ public class Compressor extends MultiBlockMachine {
             for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
                 if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
                     ItemStack output = RecipeType.getRecipeOutput(this, convert);
+                    output.setAmount(Math.max(current.getAmount() / convert.getAmount(), 1));
                     Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
                     if (outputInv != null) {

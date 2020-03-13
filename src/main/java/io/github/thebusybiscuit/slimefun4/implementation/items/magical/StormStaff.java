@@ -5,10 +5,12 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.*;
+import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -17,90 +19,89 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
+/**
+ * This {@link SlimefunItem} casts a {@link LightningStrike} where you are pointing.
+ * Unlike the other Staves, it has a limited amount of uses.
+ *
+ * @author Linox
+ */
 public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
-	
-	public static final int MAX_USES = 8;
 
-	private static final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance, "stormstaff_usage");
+    public static final int MAX_USES = 8;
 
-	public StormStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe, getCraftedOutput());
-	}
-	
-	private static ItemStack getCraftedOutput() {
-		ItemStack item = SlimefunItems.STAFF_STORM.clone();
-		ItemMeta im = item.getItemMeta();
-		List<String> lore = im.getLore();
+    private static final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance, "stormstaff_usage");
 
-        lore.set(4, ChatColor.translateAlternateColorCodes('&', "&7剩余 &e" + MAX_USES + " 次"));
-		
-		im.setLore(lore);
-		item.setItemMeta(im);
-		return item;
-	}
-	
-	@Override
-	public ItemUseHandler getItemHandler() {
-		return e -> {
-			Player p = e.getPlayer();
-			ItemStack item = e.getItem();
-			
-			if (!item.hasItemMeta()) return;
-			ItemMeta itemMeta = item.getItemMeta();
-			if (!itemMeta.hasLore()) return;
-			List<String> itemLore = itemMeta.getLore();
+    public StormStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe, getCraftedOutput());
+    }
 
-			ItemStack sfItem = getItem();
-			ItemMeta sfItemMeta = sfItem.getItemMeta();
-			List<String> sfItemLore = sfItemMeta.getLore();
+    private static ItemStack getCraftedOutput() {
+        ItemStack item = SlimefunItems.STAFF_STORM.clone();
+        ItemMeta im = item.getItemMeta();
+        List<String> lore = im.getLore();
 
-			// Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
-			if (itemLore.size() < 6 && itemLore.get(1).equals(sfItemLore.get(1)) && itemLore.get(3).equals(sfItemLore.get(3))) {
-				if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
-					// Get a target block with max. 30 blocks of distance
-					Location loc = p.getTargetBlock(null, 30).getLocation();
+        lore.set(4, ChatColor.translateAlternateColorCodes('&', "&7还可以使用 &e" + MAX_USES + " 次"));
 
-					if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
-						if (loc.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(p, loc, ProtectableAction.PVP)) {
-							loc.getWorld().strikeLightning(loc);
+        im.setLore(lore);
+        item.setItemMeta(im);
+        return item;
+    }
 
-							if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
-								FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
-								Bukkit.getPluginManager().callEvent(event);
-								p.setFoodLevel(event.getFoodLevel());
-							}
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            Player p = e.getPlayer();
+            ItemStack item = e.getItem();
 
-							int currentUses = itemMeta.getPersistentDataContainer()
-								.getOrDefault(usageKey, PersistentDataType.INTEGER, MAX_USES);
+            if (!item.hasItemMeta()) return;
+            ItemMeta itemMeta = item.getItemMeta();
+            if (!itemMeta.hasLore()) return;
+            List<String> itemLore = itemMeta.getLore();
 
-							e.cancel();
-							if (currentUses == 1) {
-								p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
-								item.setAmount(0);
-							} 
-							else {
-								itemMeta.getPersistentDataContainer().set(
-									usageKey, PersistentDataType.INTEGER, --currentUses
-								);
-								itemLore.set(4, ChatColor.translateAlternateColorCodes('&',
-                                        "&7剩余 &e" + currentUses + ' ' + " 次"));
-								itemMeta.setLore(itemLore);
-								item.setItemMeta(itemMeta);
-							}
-							return;
-						}
-						else {
-							SlimefunPlugin.getLocal().sendMessage(p, "messages.no-pvp", true);
-						}
-					}
-				}
-				else {
-					SlimefunPlugin.getLocal().sendMessage(p, "messages.hungry", true);
-				}
-				
-				return;
-			}
-		};
-	}
+            ItemStack sfItem = getItem();
+            ItemMeta sfItemMeta = sfItem.getItemMeta();
+            List<String> sfItemLore = sfItemMeta.getLore();
+
+            // Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
+            if (itemLore.size() < 6 && itemLore.get(1).equals(sfItemLore.get(1)) && itemLore.get(3).equals(sfItemLore.get(3))) {
+                if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
+                    // Get a target block with max. 30 blocks of distance
+                    Location loc = p.getTargetBlock(null, 30).getLocation();
+
+                    if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
+                        if (loc.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(p, loc, ProtectableAction.PVP)) {
+                            loc.getWorld().strikeLightning(loc);
+
+                            if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
+                                FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
+                                Bukkit.getPluginManager().callEvent(event);
+                                p.setFoodLevel(event.getFoodLevel());
+                            }
+
+                            int currentUses = itemMeta.getPersistentDataContainer().getOrDefault(usageKey, PersistentDataType.INTEGER, MAX_USES);
+
+                            e.cancel();
+                            if (currentUses == 1) {
+                                p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+                                item.setAmount(0);
+                            } else {
+                                itemMeta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, --currentUses);
+                                itemLore.set(4, ChatColor.translateAlternateColorCodes('&', "&7还可以使用 &e" + currentUses + " 次"));
+                                itemMeta.setLore(itemLore);
+                                item.setItemMeta(itemMeta);
+                            }
+                            return;
+                        } else {
+                            SlimefunPlugin.getLocal().sendMessage(p, "messages.no-pvp", true);
+                        }
+                    }
+                } else {
+                    SlimefunPlugin.getLocal().sendMessage(p, "messages.hungry", true);
+                }
+
+                return;
+            }
+        };
+    }
 
 }

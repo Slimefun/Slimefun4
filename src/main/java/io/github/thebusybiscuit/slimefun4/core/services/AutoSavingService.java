@@ -48,7 +48,7 @@ public class AutoSavingService {
         }
 
         if (players > 0) {
-            Slimefun.getLogger().log(Level.INFO, "已储存了 {0} 个玩家的数据!", players);
+            Slimefun.getLogger().log(Level.INFO, "Auto-Saved Player Data for {0} Player(s)!", players);
         }
     }
 
@@ -67,7 +67,7 @@ public class AutoSavingService {
         }
 
         if (!worlds.isEmpty()) {
-            Slimefun.getLogger().log(Level.INFO, "正在自动保存方块数据... (下一次在 {0} 分钟后)", interval);
+            Slimefun.getLogger().log(Level.INFO, "Auto-Saving Block Data... (Next Auto-Save: {0}m)", interval);
 
             for (BlockStorage storage : worlds) {
                 storage.save(false);

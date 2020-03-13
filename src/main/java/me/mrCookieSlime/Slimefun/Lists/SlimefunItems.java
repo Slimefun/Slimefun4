@@ -44,7 +44,7 @@ public final class SlimefunItems {
     public static final ItemStack NETHER_GOLD_PAN = new SlimefunItemStack("NETHER_GOLD_PAN", Material.BOWL, "&4下界淘金盘", "", "&7&e右键&7 从灵魂沙中淘金");
     public static final ItemStack PARACHUTE = new SlimefunItemStack("PARACHUTE", Material.LEATHER_CHESTPLATE, Color.WHITE, "&r&l降落伞", "", "&7按住 &eShift&7 使用");
     public static final ItemStack GRAPPLING_HOOK = new SlimefunItemStack("GRAPPLING_HOOK", Material.LEAD, "&6抓钩", "", "&7&e右键&7 使用");
-    public static final ItemStack SOLAR_HELMET = new SlimefunItemStack("SOLAR_HELMET", Material.IRON_HELMET, "&b太阳能头盔", "", "&a&oCharges held Items and Armor");
+    public static final ItemStack SOLAR_HELMET = new SlimefunItemStack("SOLAR_HELMET", Material.IRON_HELMET, "&b太阳能头盔", "", "&a&o为你拿着的物品和装备充电");
     public static final ItemStack CLOTH = new SlimefunItemStack("CLOTH", Material.PAPER, "&b布");
     public static final ItemStack CAN = new SlimefunItemStack("CAN", "94da97f080e395b842c4cc82a840823d4dbd8ca688a206853e5783e4bfdc012", "&r锡罐");
     public static final ItemStack NIGHT_VISION_GOGGLES = new SlimefunItemStack("NIGHT_VISION_GOGGLES", Material.LEATHER_HELMET, Color.BLACK, "&a夜视眼镜", "", "&9+ 夜视效果");

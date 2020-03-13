@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import org.bukkit.inventory.ItemStack;
 
-public enum ScriptPart {
+enum ScriptPart {
 
     // Start and End Parts
     START(AndroidType.NONE, "4ae29422db4047efdb9bac2cdae5a0719eb772fccc88a66d912320b343c341"),
@@ -15,7 +15,7 @@ public enum ScriptPart {
     GO_UP(AndroidType.NON_FIGHTER, "105a2cab8b68ea57e3af992a36e47c8ff9aa87cc8776281966f8c3cf31a38"),
     GO_DOWN(AndroidType.NON_FIGHTER, "c01586e39f6ffa63b4fb301b65ca7da8a92f7353aaab89d3886579125dfbaf9"),
 
-    //Directions
+    // Directions
     TURN_LEFT(AndroidType.NONE, "a185c97dbb8353de652698d24b64327b793a3f32a98be67b719fbedab35e"),
     TURN_RIGHT(AndroidType.NONE, "31c0ededd7115fc1b23d51ce966358b27195daf26ebb6e45a66c34c69c34091"),
 
@@ -52,11 +52,10 @@ public enum ScriptPart {
     INTERFACE_ITEMS(AndroidType.NONE, "90a4dbf6625c42be57a8ba2c330954a76bdf22785540e87a5c9672685238ec"),
     INTERFACE_FUEL(AndroidType.NONE, "2432f5282a50745b912be14deda581bd4a09b977a3c32d7e9578491fee8fa7");
 
-
     private final ItemStack item;
     private final AndroidType type;
 
-    private ScriptPart(AndroidType type, String texture) {
+    ScriptPart(AndroidType type, String texture) {
         this.type = type;
         this.item = SkullItem.fromHash(texture);
     }

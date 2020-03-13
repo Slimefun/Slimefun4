@@ -146,7 +146,7 @@ public abstract class ElectricSmeltery extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return "&c冶炼机";
+        return "&cElectric Smeltery";
     }
 
     @Override
@@ -156,12 +156,12 @@ public abstract class ElectricSmeltery extends AContainer {
 
     @Override
     public int[] getInputSlots() {
-        return new int[] {10, 11, 19, 20, 28, 29};
+        return new int[]{10, 11, 19, 20, 28, 29};
     }
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] {24, 25};
+        return new int[]{24, 25};
     }
 
     @Override

@@ -17,10 +17,8 @@ import org.bukkit.inventory.ItemStack;
  * Right-Clicking will open the {@link Inventory} of the currently held Backpack.
  *
  * @author TheBusyBiscuit
- *
  * @see BackpackListener
  * @see PlayerBackpack
- *
  */
 public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
 

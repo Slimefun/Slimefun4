@@ -1,19 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.api.chunks;
 
-import java.util.Objects;
-
 import org.bukkit.Chunk;
 import org.bukkit.World;
 
+import java.util.Objects;
+
 public final class ChunkLocation {
-	
-	private final World world;
-	private final int x;
-	private final int z;
-	
-	public ChunkLocation(Chunk chunk) {
-		this(chunk.getWorld(), chunk.getX(), chunk.getZ());
-	}
+
+    private final World world;
+    private final int x;
+    private final int z;
+
+    public ChunkLocation(Chunk chunk) {
+        this(chunk.getWorld(), chunk.getX(), chunk.getZ());
+    }
 	
 	public ChunkLocation(World world, int x, int z) {
 		this.world = world;

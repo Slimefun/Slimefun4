@@ -9,8 +9,13 @@ public interface ItemDropHandler extends ItemHandler {
 
     boolean onItemDrop(PlayerDropItemEvent e, Player p, Item item);
 
-	@Override
-	default Class<? extends ItemHandler> getIdentifier() {
-		return ItemDropHandler.class;
-	}
+    @Override
+    default Class<? extends ItemHandler> getIdentifier() {
+        return ItemDropHandler.class;
+    }
+
+    @Override
+    default boolean isPrivate() {
+        return false;
+    }
 }

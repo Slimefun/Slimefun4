@@ -14,18 +14,18 @@ import org.bukkit.inventory.ItemStack;
 
 public class PortableDustbin extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
-	public PortableDustbin(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public ItemUseHandler getItemHandler() {
-		return e -> {
-			e.cancel();
-			
-			Player p = e.getPlayer();
-			p.openInventory(Bukkit.createInventory(null, 9 * 3, ChatColor.DARK_RED + "垃圾桶"));
-			p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 1);
-		};
-	}
+    public PortableDustbin(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
+
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            e.cancel();
+
+            Player p = e.getPlayer();
+            p.openInventory(Bukkit.createInventory(null, 9 * 3, ChatColor.DARK_RED + "Delete Items"));
+            p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 1);
+        };
+    }
 }

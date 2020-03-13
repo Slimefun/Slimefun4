@@ -27,11 +27,16 @@ abstract class SlimefunTask implements Runnable {
 
     @Override
     public void run() {
-        if (isValid()) executeTask();
+        if (isValid()) {
+            executeTask();
+        }
     }
 
     /**
-     * @return True if task was cancelled.
+     * This method checks if this {@link SlimefunTask} should be continued or cancelled.
+     * It will also cancel this {@link SlimefunTask} if it became invalid.
+     *
+     * @return Whether this {@link SlimefunTask} is still valid
      */
     protected boolean isValid() {
         if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isSneaking()) {

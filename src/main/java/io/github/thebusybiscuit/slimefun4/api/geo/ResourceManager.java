@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.api.geo;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -15,6 +17,15 @@ import org.bukkit.inventory.ItemStack;
 import java.util.OptionalInt;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * The {@link ResourceManager} is responsible for registering and managing a {@link GEOResource}.
+ * You have to use the {@link ResourceManager} if you want to generate or consume a {@link GEOResource} too.
+ *
+ * @author TheBusyBiscuit
+ * @see GEOResource
+ * @see GEOMiner
+ * @see GEOScanner
+ */
 public class ResourceManager {
 
     private final int[] backgroundSlots = {0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
@@ -42,8 +53,7 @@ public class ResourceManager {
 
         if (value != null) {
             return OptionalInt.of(Integer.parseInt(value));
-        }
-        else {
+        } else {
             return OptionalInt.empty();
         }
     }
@@ -80,12 +90,7 @@ public class ResourceManager {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(4, new CustomItem(chunkTexture,
-                "&e" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.chunk"),
-                "",
-                "&8\u21E8 &7" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(),
-                "&8\u21E8 &7X: " + x + " Z: " + z
-        ), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(4, new CustomItem(chunkTexture, "&e" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
 
         int index = 10;
 
@@ -97,7 +102,7 @@ public class ResourceManager {
             ItemStack item = new CustomItem(resource.getItem(), "&r" + resource.getName(p), "&8\u21E8 &e" + supplies + ' ' + suffix);
 
             if (supplies > 1) {
-                item.setAmount(supplies > item.getMaxStackSize() ? item.getMaxStackSize(): supplies);
+                item.setAmount(supplies > item.getMaxStackSize() ? item.getMaxStackSize() : supplies);
             }
 
             menu.addItem(index, item, ChestMenuUtils.getEmptyClickHandler());

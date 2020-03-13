@@ -55,14 +55,14 @@ class GiveCommand extends SubCommand {
                             SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
                             p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
                             SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
-                        }
-                        else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
-                    }
-                    else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
-                }
-                else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
-            }
-            else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <玩家> <Slimefun 物品> [数量]"));
+                        } else
+                            SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
+                    } else
+                        SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
+                } else
+                    SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
+            } else
+                SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
         }
         else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
     }

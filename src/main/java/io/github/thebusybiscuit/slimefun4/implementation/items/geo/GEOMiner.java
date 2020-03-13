@@ -45,85 +45,85 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
                 // Spawn the hologram
-				SimpleHologram.update(b, "&7待机中...");
-			}
+                SimpleHologram.update(b, "&7待机中...");
+            }
 
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				SimpleHologram.remove(b);
-				
-				BlockMenu inv = BlockStorage.getInventory(b);
-				
-				if (inv != null) {
-					for (int slot : getInputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-					
-					for (int slot : getOutputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
-					}
-				}
-				
-				progress.remove(b);
-				processing.remove(b);
-				return true;
-			}
-		});
-	}
-	
-	@Override
-	public String getInventoryTitle() {
-		return "&6GEO 矿机";
-	}
-	
-	@Override
-	public String getMachineIdentifier() {
-		return "GEO_MINER";
-	}
-	
-	@Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.DIAMOND_PICKAXE);
-	}
-	
-	@Override
-	public int[] getInputSlots() {
-		return new int[0];
-	}
-	
-	@Override
-	public int[] getOutputSlots() {
-		return OUTPUT_SLOTS;
-	}
+            @Override
+            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
+                SimpleHologram.remove(b);
+
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    for (int slot : getInputSlots()) {
+                        if (inv.getItemInSlot(slot) != null) {
+                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                            inv.replaceExistingItem(slot, null);
+                        }
+                    }
+
+                    for (int slot : getOutputSlots()) {
+                        if (inv.getItemInSlot(slot) != null) {
+                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                            inv.replaceExistingItem(slot, null);
+                        }
+                    }
+                }
+
+                progress.remove(b);
+                processing.remove(b);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public String getInventoryTitle() {
+        return "&6GEO 资源开采机";
+    }
+
+    @Override
+    public String getMachineIdentifier() {
+        return "GEO_MINER";
+    }
+
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.DIAMOND_PICKAXE);
+    }
+
+    @Override
+    public int[] getInputSlots() {
+        return new int[0];
+    }
+
+    @Override
+    public int[] getOutputSlots() {
+        return OUTPUT_SLOTS;
+    }
 
     public abstract int getProcessingTime();
-	
-	@Override
-	public List<ItemStack> getDisplayRecipes() {
-		List<ItemStack> displayRecipes = new LinkedList<>();
-		
-		for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
-			if (resource.isObtainableFromGEOMiner()) {
-				displayRecipes.add(new CustomItem(resource.getItem(), "&r" + resource.getName()));
-			}
-		}
-		
-		return displayRecipes;
-	}
-	
-	@Override
+
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        List<ItemStack> displayRecipes = new LinkedList<>();
+
+        for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
+            if (resource.isObtainableFromGEOMiner()) {
+                displayRecipes.add(new CustomItem(resource.getItem(), "&r" + resource.getName()));
+            }
+        }
+
+        return displayRecipes;
+    }
+
+    @Override
     public String getLabelLocalPath() {
         return "guide.tooltips.recipes.miner";
-	}
-	
-	@Override
-	protected void constructMenu(BlockMenuPreset preset) {
+    }
+
+    @Override
+    protected void constructMenu(BlockMenuPreset preset) {
         for (int i : BORDER) {
             preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
         }
@@ -139,57 +139,53 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 
                 @Override
                 public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
-					return false;
-				}
+                    return false;
+                }
 
-				@Override
-				public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-					return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
-				}
-			});
-		}
-	}
+                @Override
+                public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
+                    return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
+                }
+            });
+        }
+    }
 
-	@Override
-	protected void tick(Block b) {
-		BlockMenu menu = BlockStorage.getInventory(b);
-		
-		if (isProcessing(b)) {
-			int timeleft = progress.get(b);
-			
-			if (timeleft > 0) {
-				ChestMenuUtils.updateProgressbar(menu, 4, timeleft, processing.get(b).getTicks(), getProgressBar());
-				
-				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-				ChargableBlock.addCharge(b, -getEnergyConsumption());
-				
-				progress.put(b, timeleft - 1);
-			}
-			else {
-				menu.replaceExistingItem(4, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
-				
-				progress.remove(b);
-				processing.remove(b);
-			}
-		}
-		else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4)) {
-			SimpleHologram.update(b, "&4需要 GEO 地形扫描!");
-		}
-        else {
+    @Override
+    protected void tick(Block b) {
+        BlockMenu menu = BlockStorage.getInventory(b);
+
+        if (isProcessing(b)) {
+            int timeleft = progress.get(b);
+
+            if (timeleft > 0) {
+                ChestMenuUtils.updateProgressbar(menu, 4, timeleft, processing.get(b).getTicks(), getProgressBar());
+
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                ChargableBlock.addCharge(b, -getEnergyConsumption());
+
+                progress.put(b, timeleft - 1);
+            } else {
+                menu.replaceExistingItem(4, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+                menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
+
+                progress.remove(b);
+                processing.remove(b);
+            }
+        } else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4)) {
+            SimpleHologram.update(b, "&4GEO-Scan required!");
+        } else {
             for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
                 if (resource.isObtainableFromGEOMiner()) {
                     OptionalInt optional = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (!optional.isPresent()) {
-                        SimpleHologram.update(b, "&4GEO-Scan required!");
+                        SimpleHologram.update(b, "&4需要先进行地形扫描!");
                         return;
-                    }
-                    else {
+                    } else {
                         int supplies = optional.getAsInt();
 
                         if (supplies > 0) {
-                            MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[] {resource.getItem().clone()});
+                            MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[]{resource.getItem().clone()});
                             if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
 
                             processing.put(b, r);
@@ -203,8 +199,8 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
                 }
             }
 
-            SimpleHologram.update(b, "&7开采完成");
+            SimpleHologram.update(b, "&7完成");
         }
-	}
-	
+    }
+
 }

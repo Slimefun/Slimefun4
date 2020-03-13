@@ -21,8 +21,10 @@ public class Alloy extends SlimefunItem {
     /**
      * Constructs an {@link Alloy} bound to {@code Categories.RESOURCES}.
      *
-     * @param item   the {@link SlimefunItemStack} corresponding to this {@link Alloy}
-     * @param recipe the recipe to obtain this {@link Alloy} in the {@link Smeltery}
+     * @param item
+     *            the {@link SlimefunItemStack} corresponding to this {@link Alloy}
+     * @param recipe
+     *            the recipe to obtain this {@link Alloy} in the {@link Smeltery}
      */
     public Alloy(SlimefunItemStack item, ItemStack[] recipe) {
         this(Categories.RESOURCES, item, recipe);
@@ -31,9 +33,12 @@ public class Alloy extends SlimefunItem {
     /**
      * Constructs an {@link Alloy} bound to the specified {@link Category}.
      *
-     * @param category the {@link Category} for this Item
-     * @param item     the {@link SlimefunItemStack} corresponding to this {@link Alloy}
-     * @param recipe   the recipe to obtain this {@link Alloy} in the {@link Smeltery}
+     * @param category
+     *            the {@link Category} for this Item
+     * @param item
+     *            the {@link SlimefunItemStack} corresponding to this {@link Alloy}
+     * @param recipe
+     *            the recipe to obtain this {@link Alloy} in the {@link Smeltery}
      */
     public Alloy(Category category, SlimefunItemStack item, ItemStack[] recipe) {
         super(category, item, RecipeType.SMELTERY, recipe);

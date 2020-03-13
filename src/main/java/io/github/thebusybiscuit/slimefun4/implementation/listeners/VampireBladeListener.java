@@ -20,7 +20,7 @@ public class VampireBladeListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player && ThreadLocalRandom.current().nextInt(100) < 45) {
             Player p = (Player) e.getDamager();

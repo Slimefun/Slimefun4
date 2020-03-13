@@ -17,7 +17,6 @@ import java.util.List;
  * See {@link Category} for the complete documentation.
  *
  * @author TheBusyBiscuit
- *
  * @see Category
  * @see SeasonalCategory
  */
@@ -33,9 +32,12 @@ public class LockedCategory extends Category {
      * <p>
      * Like {@link Category#Category(ItemStack)}, the tier is automatically set to 3.
      *
-     * @param key		A unique identifier for this category
-     * @param item 		The display item for this category
-     * @param parents 	The parent categories for this category
+     * @param key
+     *            A unique identifier for this category
+     * @param item
+     *            The display item for this category
+     * @param parents
+     *            The parent categories for this category
      *
      */
     public LockedCategory(NamespacedKey key, ItemStack item, Category... parents) {
@@ -48,10 +50,14 @@ public class LockedCategory extends Category {
      * See {@link Category#Category(ItemStack, int)} for more information about creating
      * a category.
      *
-     * @param key		A unique identifier for this category
-     * @param item 		The display item for this category
-     * @param tier 		The tier of this category
-     * @param parents 	The parent categories for this category
+     * @param key
+     *            A unique identifier for this category
+     * @param item
+     *            The display item for this category
+     * @param tier
+     *            The tier of this category
+     * @param parents
+     *            The parent categories for this category
      *
      */
     public LockedCategory(NamespacedKey key, ItemStack item, int tier, Category... parents) {
@@ -60,11 +66,10 @@ public class LockedCategory extends Category {
     }
 
     /**
-     * Gets the list of parent categories for this category.
+     * Gets the list of parent categories for this {@link LockedCategory}.
      *
-     * @return the list of the parent categories
+     * @return the list of parent categories
      *
-     * @since 4.0
      * @see #addParent(Category)
      * @see #removeParent(Category)
      */
@@ -73,11 +78,11 @@ public class LockedCategory extends Category {
     }
 
     /**
-     * Adds a parent category to this category.
+     * Adds a parent {@link Category} to this {@link LockedCategory}.
      *
-     * @param category Category to add as a parent
+     * @param category
+     *            The {@link Category} to add as a parent
      *
-     * @since 4.0
      * @see #getParents()
      * @see #removeParent(Category)
      */
@@ -90,11 +95,11 @@ public class LockedCategory extends Category {
     }
 
     /**
-     * Removes a category as parent to this category.
+     * Removes a {@link Category} from the parents of this {@link LockedCategory}.
      *
-     * @param category Category to remove from parents
+     * @param category
+     *            The {@link Category} to remove from the parents of this {@link LockedCategory}
      *
-     * @since 4.0
      * @see #getParents()
      * @see #addParent(Category)
      */
@@ -103,12 +108,11 @@ public class LockedCategory extends Category {
     }
 
     /**
-     * Checks if the player has fully unlocked parent categories.
+     * Checks if the {@link Player} has fully unlocked all parent categories.
      *
-     * @param p Player to check
-     * @return true if the player has fully completed the parent categories, otherwise false
-     *
-     * @since 4.0
+     * @param p
+     *            The {@link Player} to check
+     * @return Whether the {@link Player} has fully completed all parent categories, otherwise false
      */
     public boolean hasUnlocked(Player p) {
         return hasUnlocked(p, PlayerProfile.get(p));
@@ -117,12 +121,10 @@ public class LockedCategory extends Category {
     public boolean hasUnlocked(Player p, PlayerProfile profile) {
         for (Category category : parents) {
             for (SlimefunItem item : category.getItems()) {
-                if (Slimefun.isEnabled(p, item, false)
-                        && Slimefun.hasPermission(p, item, false)
-                        && item.getResearch() != null
-                        && !profile.hasUnlocked(item.getResearch())
-                )
+                // Should we replace this all with Slimefun.hasUnlocked() ?
+                if (Slimefun.isEnabled(p, item, false) && Slimefun.hasPermission(p, item, false) && item.getResearch() != null && !profile.hasUnlocked(item.getResearch())) {
                     return false;
+                }
             }
         }
 

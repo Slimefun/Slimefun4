@@ -48,6 +48,7 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
                 return;
             }
 
+            // We only want to break non-Slimefun blocks
             if (item == null) {
                 for (ItemStack drop : drops) {
                     if (menu.fits(drop, getOutputSlots())) {
@@ -74,6 +75,7 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
                 return;
             }
 
+            // We only want to break non-Slimefun blocks
             if (item == null) {
                 for (ItemStack drop : drops) {
                     if (menu.fits(drop, getOutputSlots())) {

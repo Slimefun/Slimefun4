@@ -85,7 +85,7 @@ public class AutoDisenchanter extends AContainer {
             Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
 
             for (int slot : getInputSlots()) {
-                ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1]: getInputSlots()[0]);
+                ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
                 ItemStack item = menu.getItemInSlot(slot);
 
                 // Check if disenchantable
@@ -114,7 +114,7 @@ public class AutoDisenchanter extends AContainer {
                         amount++;
                     }
 
-                    if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+                    if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
                         for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
                             amount++;
                             emeraldEnchantments.add(enchantment);
@@ -137,7 +137,7 @@ public class AutoDisenchanter extends AContainer {
 
                         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
 
-                        for (Map.Entry<Enchantment,Integer> entry : enchantments.entrySet()) {
+                        for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
                             newItem.removeEnchantment(entry.getKey());
                             meta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
                         }
@@ -149,7 +149,7 @@ public class AutoDisenchanter extends AContainer {
                             EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, ench.getEnchantment(), 0);
                         }
 
-                        recipe = new MachineRecipe(100 * amount, new ItemStack[] {target, item}, new ItemStack[] {newItem, book});
+                        recipe = new MachineRecipe(100 * amount, new ItemStack[]{target, item}, new ItemStack[]{newItem, book});
                         break;
                     }
                 }

@@ -37,7 +37,7 @@ public class CargoNet extends Network {
     public static final int[] TERMINAL_SLOTS = {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
     public static final int TERMINAL_OUT_SLOT = 17;
 
-    private final ItemStack terminalPlaceholderItem = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
+    private final ItemStack terminalPlaceholderItem = new CustomItem(new ItemStack(Material.BARRIER), "&4无物品缓存");
 
     private Set<Location> inputNodes = new HashSet<>();
     private Set<Location> outputNodes = new HashSet<>();
@@ -133,17 +133,17 @@ public class CargoNet extends Network {
 
     public void tick(Block b) {
         if (!regulator.equals(b.getLocation())) {
-            SimpleHologram.update(b, "&4Multiple Cargo Regulators connected");
+            SimpleHologram.update(b, "&4检测到连接了多个调节器");
             return;
         }
 
         super.tick();
 
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-            SimpleHologram.update(b, "&cNo Cargo Nodes found");
+            SimpleHologram.update(b, "&c找不到货运网络节点");
         }
         else {
-            SimpleHologram.update(b, "&7Status: &a&lONLINE");
+            SimpleHologram.update(b, "&7状态: &a&l在线");
             Map<Integer, List<Location>> output = new HashMap<>();
 
             List<Location> list = new LinkedList<>();
@@ -295,15 +295,13 @@ public class CargoNet extends Network {
                                         if (is != null) {
                                             if (stack == null) {
                                                 stack = is;
-                                            }
-                                            else {
+                                            } else {
                                                 stack = new CustomItem(stack, stack.getAmount() + is.getAmount());
                                             }
 
                                             if (is.getAmount() == requested.getAmount()) {
                                                 break;
-                                            }
-                                            else {
+                                            } else {
                                                 requested = new CustomItem(requested, requested.getAmount() - is.getAmount());
                                             }
                                         }
@@ -313,7 +311,8 @@ public class CargoNet extends Network {
                                         ItemStack prev = menu.getItemInSlot(slot);
 
                                         if (prev == null) menu.replaceExistingItem(slot, stack);
-                                        else menu.replaceExistingItem(slot, new CustomItem(stack, stack.getAmount() + prev.getAmount()));
+                                        else
+                                            menu.replaceExistingItem(slot, new CustomItem(stack, stack.getAmount() + prev.getAmount()));
                                     }
 
                                     iterator.remove();

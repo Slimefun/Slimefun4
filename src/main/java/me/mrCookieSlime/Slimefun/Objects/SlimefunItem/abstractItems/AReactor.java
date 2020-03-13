@@ -8,6 +8,8 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
@@ -16,6 +18,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -32,28 +35,28 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem, EnergyNetComponent {
+/**
+ * The abstract {@link AReactor} class is very similar to {@link AGenerator} but is
+ * exclusively used for Reactors.
+ *
+ * @author John000708
+ * @see AGenerator
+ * @see NuclearReactor
+ * @see NetherStarReactor
+ */
+public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem, InventoryBlock, EnergyNetComponent {
 
     public static Map<Location, MachineFuel> processing = new HashMap<>();
     public static Map<Location, Integer> progress = new HashMap<>();
 
-    private static final BlockFace[] cooling =
-            {
-                    BlockFace.NORTH,
-                    BlockFace.NORTH_EAST,
-                    BlockFace.EAST,
-                    BlockFace.SOUTH_EAST,
-                    BlockFace.SOUTH,
-                    BlockFace.SOUTH_WEST,
-                    BlockFace.WEST,
-                    BlockFace.NORTH_WEST
-            };
+    private static final BlockFace[] cooling = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
 
     private final Set<MachineFuel> recipes = new HashSet<>();
 
@@ -78,7 +81,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                if (BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode") == null){
+                if (BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode") == null) {
                     BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
                 }
 
@@ -118,7 +121,6 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
                     });
                 }
             }
-
 
             @Override
             public boolean canOpen(Block b, Player p) {
@@ -163,7 +165,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
             return true;
         });
 
-        this.registerDefaultRecipes();
+        this.registerDefaultFuelTypes();
     }
 
     private void constructMenu(BlockMenuPreset preset) {
@@ -189,8 +191,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 
         if (needsCooling()) {
             preset.addItem(7, new CustomItem(this.getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
-        }
-        else {
+        } else {
             preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
 
             for (int i : border_4) {
@@ -199,30 +200,68 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
         }
     }
 
+    /**
+     * This method returns the title that is used for the {@link Inventory} of an
+     * {@link AGenerator} that has been opened by a Player.
+     * <p>
+     * Override this method to set the title.
+     *
+     * @return The title of the {@link Inventory} of this {@link AGenerator}
+     */
     public abstract String getInventoryTitle();
-    public abstract void registerDefaultRecipes();
+
+    /**
+     * This method returns the {@link ItemStack} that this {@link AGenerator} will
+     * use as a progress bar.
+     * <p>
+     * Override this method to set the progress bar.
+     *
+     * @return The {@link ItemStack} to use as the progress bar
+     */
+    public abstract ItemStack getProgressBar();
+
+    /**
+     * This method returns the amount of energy that is produced per tick.
+     *
+     * @return The rate of energy generation
+     */
     public abstract int getEnergyProduction();
+
+    /**
+     * This method is used to register the default fuel types.
+     */
+    protected abstract void registerDefaultFuelTypes();
+
     public abstract void extraTick(Location l);
+
+    /**
+     * This method returns the {@link ItemStack} that is required to cool this {@link AReactor}.
+     * If it returns null, then no cooling is required.
+     *
+     * @return The {@link ItemStack} required to cool this {@link AReactor}
+     */
     public abstract ItemStack getCoolant();
 
     private boolean needsCooling() {
         return getCoolant() != null;
     }
 
+    @Override
     public int[] getInputSlots() {
-        return new int[] {19, 28, 37, 25, 34, 43};
+        return new int[]{19, 28, 37, 25, 34, 43};
     }
 
     public int[] getFuelSlots() {
-        return new int[] {19, 28, 37};
+        return new int[]{19, 28, 37};
     }
 
     public int[] getCoolantSlots() {
-        return needsCooling() ? new int[] {25, 34, 43} : new int[0];
+        return needsCooling() ? new int[]{25, 34, 43} : new int[0];
     }
 
+    @Override
     public int[] getOutputSlots() {
-        return new int[] {40};
+        return new int[]{40};
     }
 
     @Override
@@ -269,7 +308,9 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
                             progress.put(l, timeleft - 1);
 
                             Slimefun.runSync(() -> {
-                                if (!l.getBlock().getRelative(cooling[ThreadLocalRandom.current().nextInt(cooling.length)]).isLiquid()) explode.add(l);
+                                if (!l.getBlock().getRelative(cooling[ThreadLocalRandom.current().nextInt(cooling.length)]).isLiquid()) {
+                                    explode.add(l);
+                                }
                             });
 
                             ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
@@ -313,6 +354,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
                     }
                     else {
                         menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+
                         if (processing.get(l).getOutput() != null) {
                             menu.pushItem(processing.get(l).getOutput(), getOutputSlots());
                         }
@@ -398,17 +440,18 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
         return null;
     }
 
-    public abstract ItemStack getProgressBar();
-
     public Set<MachineFuel> getFuelTypes() {
         return this.recipes;
     }
 
-    public BlockMenu getAccessPort(Location l) {
+    protected BlockMenu getAccessPort(Location l) {
         Location portL = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
 
-        if (BlockStorage.check(portL, "REACTOR_ACCESS_PORT")) return BlockStorage.getInventory(portL);
-        return null;
+        if (BlockStorage.check(portL, "REACTOR_ACCESS_PORT")) {
+            return BlockStorage.getInventory(portL);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -424,9 +467,9 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
             ItemStack item = fuel.getInput().clone();
             ItemMeta im = item.getItemMeta();
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7剩余 " + getTimeLeft(fuel.getTicks() / 2)));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
             lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + getEnergyProduction() * 2) + " J/s");
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7总共生产了 " + DoubleHandler.getFancyDouble((double) fuel.getTicks() * getEnergyProduction()) + " J"));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * getEnergyProduction()) + " J in total"));
             im.setLore(lore);
             item.setItemMeta(im);
             list.add(item);
@@ -440,11 +483,11 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
         int minutes = (int) (seconds / 60L);
 
         if (minutes > 0) {
-            timeleft += minutes + "分钟 ";
+            timeleft += minutes + "m ";
         }
 
         seconds -= minutes * 60;
-        return "&7" + timeleft + seconds + "秒";
+        return "&7" + timeleft + seconds + "s";
     }
 
 }

@@ -30,19 +30,23 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
 	public AutomatedPanningMachine() {
 		super(
-				Categories.MACHINES_1,
+                Categories.MACHINES_1,
                 (SlimefunItemStack) SlimefunItems.AUTOMATED_PANNING_MACHINE,
-                new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null},
-				new ItemStack[] {
-					new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), 
-					new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE, 
-					new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL), 
-					new ItemStack(Material.GRAVEL), new ItemStack(Material.IRON_NUGGET), 
-					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.QUARTZ), 
-					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GOLD_NUGGET), 
-					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.NETHER_WART), 
-					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.BLAZE_POWDER), 
-					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GLOWSTONE_DUST), 
+                new ItemStack[]{
+                        null, null, null,
+                        null, new ItemStack(Material.OAK_TRAPDOOR), null,
+                        null, new ItemStack(Material.CAULDRON), null
+                },
+                new ItemStack[]{
+                        new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT),
+                        new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE,
+                        new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL),
+                        new ItemStack(Material.GRAVEL), new ItemStack(Material.IRON_NUGGET),
+                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.QUARTZ),
+                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GOLD_NUGGET),
+                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.NETHER_WART),
+                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.BLAZE_POWDER),
+                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GLOWSTONE_DUST),
 					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GHAST_TEAR)
 				}, 
 				BlockFace.SELF
@@ -105,16 +109,15 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
             queue.thenRepeatEvery(20, 5, () ->
                     b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, block)
-			);
-			
-			queue.thenRun(20, () -> {
-				if (output.getType() != Material.AIR) {
-					Inventory outputChest = findOutputChest(b.getRelative(BlockFace.DOWN), output);
-					
-					if (outputChest != null) {
-						outputChest.addItem(output.clone());
-					}
-					else {
+            );
+
+            queue.thenRun(20, () -> {
+                if (output.getType() != Material.AIR) {
+                    Inventory outputChest = findOutputChest(b.getRelative(BlockFace.DOWN), output);
+
+                    if (outputChest != null) {
+                        outputChest.addItem(output.clone());
+                    } else {
 						b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
 					}
 					

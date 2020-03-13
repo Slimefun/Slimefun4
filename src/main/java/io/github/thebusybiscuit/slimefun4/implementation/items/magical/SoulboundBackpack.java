@@ -9,8 +9,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class SoulboundBackpack extends SlimefunBackpack implements Soulbound {
 
-	public SoulboundBackpack(int size, Category category, SlimefunItemStack item, ItemStack[] recipe) {
-		super(size, category, item, RecipeType.MAGIC_WORKBENCH, recipe);
-	}
+    public SoulboundBackpack(int size, Category category, SlimefunItemStack item, ItemStack[] recipe) {
+        super(size, category, item, RecipeType.MAGIC_WORKBENCH, recipe);
+    }
 
 }

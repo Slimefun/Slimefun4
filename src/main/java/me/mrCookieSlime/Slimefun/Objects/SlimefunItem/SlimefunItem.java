@@ -3,11 +3,12 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.IDConflictException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
@@ -110,7 +111,7 @@ public class SlimefunItem implements Placeable {
      * This method returns the {@link ItemState} this {@link SlimefunItem}
      * is currently in. This can be used to determine whether a {@link SlimefunItem}
      * is enabled or disabled.
-     *
+     * <p>
      * {@link VanillaItem} represents a special case here.
      *
      * @return The {@link ItemState} of this {@link SlimefunItem}
@@ -234,7 +235,7 @@ public class SlimefunItem implements Placeable {
             SlimefunItem conflicting = getByID(id);
 
             if (conflicting != null) {
-                throw new IDConflictException(this, conflicting);
+                throw new IdConflictException(this, conflicting);
             }
 
             if (recipe == null || recipe.length < 9) {
@@ -267,6 +268,10 @@ public class SlimefunItem implements Placeable {
 
             if (this instanceof Radioactive) {
                 SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
+            }
+
+            if (this instanceof WitherProof) {
+                SlimefunPlugin.getRegistry().getWitherProofBlocks().add(id);
             }
 
             if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {
@@ -358,11 +363,12 @@ public class SlimefunItem implements Placeable {
     /**
      * This method returns whether or not this {@link SlimefunItem} is allowed to
      * be used in a Crafting Table.
-     * <p>
+     *
      * Items of type {@link VanillaItem} may be used in workbenches for example.
      *
-     * @return Whether this {@link SlimefunItem} may be used in a Workbench.
      * @see #setUseableInWorkbench(boolean)
+     *
+     * @return Whether this {@link SlimefunItem} may be used in a Workbench.
      */
     public boolean isUseableInWorkbench() {
         return useableInWorkbench;
@@ -372,7 +378,9 @@ public class SlimefunItem implements Placeable {
      * This sets whether or not this {@link SlimefunItem} is allowed to be
      * used in a normal Crafting Table.
      *
-     * @param useable Whether this {@link SlimefunItem} should be useable in a workbench
+     * @param useable
+     *            Whether this {@link SlimefunItem} should be useable in a workbench
+     *
      * @return This instance of {@link SlimefunItem}
      */
     public SlimefunItem setUseableInWorkbench(boolean useable) {
@@ -384,7 +392,9 @@ public class SlimefunItem implements Placeable {
      * This method checks whether the provided {@link ItemStack} represents
      * this {@link SlimefunItem}.
      *
-     * @param item The {@link ItemStack} to compare
+     * @param item
+     *            The {@link ItemStack} to compare
+     *
      * @return Whether the given {@link ItemStack} represents this {@link SlimefunItem}
      */
     public boolean isItem(ItemStack item) {

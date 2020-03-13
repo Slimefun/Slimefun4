@@ -61,9 +61,7 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
 
                                     Block b = e.getBlock().getRelative(x, y, z);
 
-                                    if (MaterialTools.getBreakableByShovel().contains(b.getType())
-                                            && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)
-                                            && ResidenceChecker.check(e.getPlayer(), b, false)) {
+                                    if (MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK) && ResidenceChecker.check(e.getPlayer(), b, false)) {
                                         SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK);
 
                                         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());

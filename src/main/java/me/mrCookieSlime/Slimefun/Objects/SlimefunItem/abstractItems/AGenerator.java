@@ -16,6 +16,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -30,12 +31,13 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-public abstract class AGenerator extends SlimefunItem implements RecipeDisplayItem, EnergyNetComponent {
+public abstract class AGenerator extends SlimefunItem implements RecipeDisplayItem, InventoryBlock, EnergyNetComponent {
 
     public static Map<Location, MachineFuel> processing = new HashMap<>();
     public static Map<Location, Integer> progress = new HashMap<>();
@@ -90,7 +92,7 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
             return true;
         });
 
-        this.registerDefaultRecipes();
+        this.registerDefaultFuelTypes();
     }
 
     public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -104,14 +106,14 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
         }
 
         for (int i : border_in) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        for (int i: border_out) {
+        for (int i : border_out) {
             preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        for (int i: getOutputSlots()) {
+        for (int i : getOutputSlots()) {
             preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
 
                 @Override
@@ -129,17 +131,46 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
         preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
     }
 
+    /**
+     * This method returns the title that is used for the {@link Inventory} of an
+     * {@link AGenerator} that has been opened by a Player.
+     * <p>
+     * Override this method to set the title.
+     *
+     * @return The title of the {@link Inventory} of this {@link AGenerator}
+     */
     public abstract String getInventoryTitle();
+
+    /**
+     * This method returns the {@link ItemStack} that this {@link AGenerator} will
+     * use as a progress bar.
+     * <p>
+     * Override this method to set the progress bar.
+     *
+     * @return The {@link ItemStack} to use as the progress bar
+     */
     public abstract ItemStack getProgressBar();
-    public abstract void registerDefaultRecipes();
+
+    /**
+     * This method returns the amount of energy that is produced per tick.
+     *
+     * @return The rate of energy generation
+     */
     public abstract int getEnergyProduction();
 
+    /**
+     * This method is used to register the default fuel types.
+     */
+    protected abstract void registerDefaultFuelTypes();
+
+    @Override
     public int[] getInputSlots() {
-        return new int[] {19, 20};
+        return new int[]{19, 20};
     }
 
+    @Override
     public int[] getOutputSlots() {
-        return new int[] {24, 25};
+        return new int[]{24, 25};
     }
 
     @Override
@@ -189,9 +220,7 @@ public abstract class AGenerator extends SlimefunItem implements RecipeDisplayIt
                     else {
                         ItemStack fuel = processing.get(l).getInput();
 
-                        if (SlimefunManager.isItemSimilar(fuel, new ItemStack(Material.LAVA_BUCKET), true)
-                                || SlimefunManager.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_FUEL, true)
-                                || SlimefunManager.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
+                        if (SlimefunManager.isItemSimilar(fuel, new ItemStack(Material.LAVA_BUCKET), true) || SlimefunManager.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_FUEL, true) || SlimefunManager.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
                             inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                         }
 

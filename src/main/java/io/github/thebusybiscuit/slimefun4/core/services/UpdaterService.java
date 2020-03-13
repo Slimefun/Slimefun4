@@ -8,7 +8,15 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.util.logging.Level;
 
+/**
+ * This Class represents our {@link Updater} Service.
+ * If enabled, it will automatically connect to https://thebusybiscuit.github.io/builds/
+ * to check for updates and to download them automatically.
+ *
+ * @author TheBusyBiscuit
+ */
 public class UpdaterService {
+
     private final Plugin plugin;
     private final Updater updater;
     private final SlimefunBranch branch;
@@ -17,41 +25,49 @@ public class UpdaterService {
         this.plugin = plugin;
         String version = plugin.getDescription().getVersion();
 
-        if (version.contains("NIGHTLY") || version.contains("WEEKLY")) {
-            // This Server is using a modified build that is not a public release.
-            updater = null;
-            branch = SlimefunBranch.UNOFFICIAL;
-        }
-        else if (version.startsWith("DEV - ")) {
+        if (version.startsWith("DEV - ")) {
             // If we are using a development build, we want to switch to our custom
             updater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/master");
             branch = SlimefunBranch.DEVELOPMENT;
-        }
-        else if (version.startsWith("RC - ")) {
+        } else if (version.startsWith("RC - ")) {
             // If we are using a "stable" build, we want to switch to our custom
             updater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/stable", "RC - ");
             branch = SlimefunBranch.STABLE;
-        }
-        else {
+        } else {
             updater = null;
-            branch = SlimefunBranch.UNKNOWN;
+            branch = SlimefunBranch.DEVELOPMENT;
         }
     }
 
+    /**
+     * This method returns the branch the current build of Slimefun is running on.
+     * This can be used to determine whether we are dealing with an official build
+     * or a build that was unofficially modified.
+     *
+     * @return The branch this build of Slimefun is on.
+     */
     public SlimefunBranch getBranch() {
         return branch;
     }
 
+    /**
+     * This will start the {@link UpdaterService} and check for updates.
+     * If it can find an update it will automatically be installed.
+     */
     public void start() {
         if (updater != null) {
             updater.start();
         }
-        else {
-            drawBorder();
-            plugin.getLogger().log(Level.WARNING, "自动更新已被关闭.");
-            plugin.getLogger().log(Level.WARNING, "请注意: 在官方渠道下使用此版本反馈问题不会被回应.");
-            drawBorder();
-        }
+    }
+
+    /**
+     * This method is called when the {@link UpdaterService} was disabled.
+     */
+    public void disable() {
+        drawBorder();
+        plugin.getLogger().log(Level.WARNING, "Slimefun 的自动更新已关闭.");
+        plugin.getLogger().log(Level.WARNING, "我们尊重你的选择.");
+        drawBorder();
     }
 
     private void drawBorder() {

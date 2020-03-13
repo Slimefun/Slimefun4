@@ -2,32 +2,37 @@ package io.github.thebusybiscuit.slimefun4.implementation.items;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents a vanilla item that is overridden by Slimefun (like {@code ELYTRA}).
  * <p>
- * A VanillaItem uses a non-modified ItemStack (no display name neither lore).
- * When a VanillaItem gets disabled, its {@link SlimefunItem.State} goes on {@code State.VANILLA} which automatically
+ * A {@link VanillaItem} uses a non-modified {@link ItemStack} (no display name neither lore).
+ * When a {@link VanillaItem} gets disabled, its {@link ItemState} goes on {@code State.VANILLA} which
+ * automatically
  * replace it in the recipes by its vanilla equivalent.
+ * <p>
+ * A {@link VanillaItem} is also automatically useable in workbenches.
  *
- * @since 4.1.6
+ * @author TheBusyBiscuit
+ * @see SlimefunItem
  */
 public class VanillaItem extends SlimefunItem {
 
-	/**
-	 * Constructs a VanillaItem.
-	 *
-	 * @param  category    the category to bind this VanillaItem to
-	 * @param  item        the item corresponding to this VanillaItem
-	 * @param  id          the id of this VanillaItem
-	 * @param  recipeType  the type of the recipe to obtain this VanillaItem
-	 * @param  recipe      the recipe to obtain this VanillaItem
-	 */
-	public VanillaItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, id, recipeType, recipe);
-		
-		useableInWorkbench = true;
-	}
+    /**
+     * Instantiates a new {@link VanillaItem} with the given arguments.
+     *
+     * @param category   the category to bind this {@link VanillaItem} to
+     * @param item       the item corresponding to this {@link VanillaItem}
+     * @param id         the id of this {@link VanillaItem}
+     * @param recipeType the type of the recipe to obtain this {@link VanillaItem}
+     * @param recipe     the recipe to obtain this {@link VanillaItem}
+     */
+    public VanillaItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, id, recipeType, recipe);
+
+        useableInWorkbench = true;
+    }
 }

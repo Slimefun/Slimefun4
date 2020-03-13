@@ -15,6 +15,15 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * The {@link EnhancedFurnace} is an upgraded version of a {@link Furnace}.
+ * It has a custom speed, efficiency and also a level of fortune.
+ * All of these values are tweaked for every instance of this class.
+ * <p>
+ * It uses a {@link BlockTicker} to manipulate the {@link Furnace} into working faster.
+ *
+ * @author TheBusyBiscuit
+ */
 public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 
     private final int speed;
@@ -54,8 +63,7 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
                 if (b.getType() != Material.FURNACE) {
                     // The Furnace has been destroyed, we can clear the block data
                     BlockStorage.clearBlockInfo(b);
-                }
-                else {
+                } else {
                     Furnace furnace = (Furnace) b.getState();
 
                     if (furnace.getCookTime() > 0) {

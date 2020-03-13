@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 
 import java.util.Arrays;
@@ -61,7 +61,7 @@ public class PermissionsService {
         return false;
     }
 
-    public boolean hasPermission(Player p, SlimefunItem item) {
+    public boolean hasPermission(Permissible p, SlimefunItem item) {
         if (item == null) {
             // Failsafe
             return true;

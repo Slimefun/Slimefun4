@@ -10,20 +10,20 @@ import org.bukkit.inventory.ItemStack;
 
 public class MeatJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
-	private int saturation;
-	
-	public MeatJerky(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe, new String[] {"Saturation"}, new Object[] {18});
-	}
-	
-	@Override
-	public void postRegister() {
-		saturation = (int) Slimefun.getItemValue(getID(), "Saturation");
-	}
+    private int saturation;
 
-	@Override
-	public ItemConsumptionHandler getItemHandler() {
-		return (e, p, item) -> p.setSaturation(saturation);
-	}
+    public MeatJerky(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe, new String[]{"Saturation"}, new Object[]{18});
+    }
+
+    @Override
+    public void postRegister() {
+        saturation = (int) Slimefun.getItemValue(getID(), "Saturation");
+    }
+
+    @Override
+    public ItemConsumptionHandler getItemHandler() {
+        return (e, p, item) -> p.setSaturation(saturation);
+    }
 
 }

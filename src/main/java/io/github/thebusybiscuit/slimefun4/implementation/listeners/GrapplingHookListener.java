@@ -30,7 +30,7 @@ public class GrapplingHookListener implements Listener {
     }
 
     @EventHandler
-    public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
+    public void onArrowHitEntity(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Arrow) {
             handleGrapplingHook((Arrow) e.getDamager());
         }
@@ -70,7 +70,9 @@ public class GrapplingHookListener implements Listener {
                 }
 
                 for (Entity n : temporaryEntities.get(p.getUniqueId())) {
-                    if (n.isValid()) n.remove();
+                    if (n.isValid()) {
+                        n.remove();
+                    }
                 }
 
                 Slimefun.runSync(() -> {

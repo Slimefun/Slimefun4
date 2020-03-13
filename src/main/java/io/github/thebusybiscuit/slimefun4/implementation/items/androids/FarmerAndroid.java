@@ -24,7 +24,7 @@ public abstract class FarmerAndroid extends ProgrammableAndroid {
         return AndroidType.FARMER;
     }
 
-    private boolean isFullGrown(Block block){
+    private boolean isFullGrown(Block block) {
         if (!(block.getBlockData() instanceof Ageable)) return false;
 
         Ageable ageable = ((Ageable) block.getBlockData());

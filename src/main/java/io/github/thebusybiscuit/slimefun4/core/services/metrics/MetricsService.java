@@ -16,10 +16,20 @@ public class MetricsService {
 
     private final SlimefunPlugin plugin;
 
+    /**
+     * This creates a new {@link MetricsService}. The constructor does not set up
+     * anything related to bStats yet, that happens in the {@link MetricsService#start()} method.
+     *
+     * @param plugin
+     *            The instance of our {@link SlimefunPlugin}
+     */
     public MetricsService(SlimefunPlugin plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * This method intializes and starts the metrics collection.
+     */
     public void start() {
         Metrics metrics = new Metrics(plugin, 4574);
 

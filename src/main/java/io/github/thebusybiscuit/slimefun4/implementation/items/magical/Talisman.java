@@ -85,7 +85,7 @@ public class Talisman extends SlimefunItem {
             lore.add(line);
         }
 
-        return new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
+        return new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), "&5末影 " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
     }
 
     @Override

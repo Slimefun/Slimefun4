@@ -8,10 +8,34 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * A quick and easy implementation of {@link SlimefunItem} that also implements the
+ * interface {@link Radioactive}.
+ * <p>
+ * Simply specify a level of {@link Radioactivity} in the constructor.
+ *
+ * @author TheBusyBiscuit
+ * @see Radioactive
+ * @see Radioactivity
+ */
 public class RadioactiveItem extends SlimefunItem implements Radioactive {
 
     private final Radioactivity radioactivity;
 
+    /**
+     * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
+     *
+     * @param category
+     *            The {@link Category} of this {@link SlimefunItem}
+     * @param radioactivity
+     *            the level of {@link Radioactivity}
+     * @param item
+     *            the {@link SlimefunItemStack} this {@link SlimefunItem} represents
+     * @param recipeType
+     *            The {@link RecipeType} for this item
+     * @param recipe
+     *            The recipe of how to craft this {@link SlimefunItem}
+     */
     public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 

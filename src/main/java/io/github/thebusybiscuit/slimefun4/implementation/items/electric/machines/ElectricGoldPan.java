@@ -1,27 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
@@ -77,8 +76,8 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 
 	@Override
 	public String getInventoryTitle() {
-		return "&6电力淘金机";
-	}
+        return "&6Electric Gold Pan";
+    }
 
 	@Override
 	public ItemStack getProgressBar() {

@@ -41,7 +41,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-
 public abstract class ProgrammableAndroid extends Android implements InventoryBlock, RecipeDisplayItem {
 
     private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
@@ -57,7 +56,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
         this.texture = item.getBase64Texture().orElse(null);
         registerDefaultFuelTypes();
 
-        new BlockMenuPreset(getID(), "可编程式机器人") {
+        new BlockMenuPreset(getID(), "Programmable Android") {
 
             @Override
             public void init() {
@@ -77,7 +76,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                menu.replaceExistingItem(15, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTAxYzdiNTcyNjE3ODk3NGIzYjNhMDFiNDJhNTkwZTU0MzY2MDI2ZmQ0MzgwOGYyYTc4NzY0ODg0M2E3ZjVhIn19fQ=="), "&a启动/继续运行"));
+                menu.replaceExistingItem(15, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTAxYzdiNTcyNjE3ODk3NGIzYjNhMDFiNDJhNTkwZTU0MzY2MDI2ZmQ0MzgwOGYyYTc4NzY0ODg0M2E3ZjVhIn19fQ=="), "&aStart/Continue"));
                 menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                     SlimefunPlugin.getLocal().sendMessage(p, "android.started", true);
                     BlockStorage.addBlockInfo(b, "paused", "false");
@@ -85,14 +84,14 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
                     return false;
                 });
 
-                menu.replaceExistingItem(17, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&4暂停"));
+                menu.replaceExistingItem(17, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&4Pause"));
                 menu.addMenuClickHandler(17, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
                     SlimefunPlugin.getLocal().sendMessage(p, "android.stopped", true);
                     return false;
                 });
 
-                menu.replaceExistingItem(16, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&b内存核心", "", "&8\u21E8 &7单击打开脚本编辑器"));
+                menu.replaceExistingItem(16, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&bMemory Core", "", "&8\u21E8 &7Click to open the Script Editor"));
                 menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
                     SlimefunPlugin.getLocal().sendMessage(p, "android.stopped", true);
@@ -196,7 +195,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
             ItemStack item = fuel.getInput().clone();
             ItemMeta im = item.getItemMeta();
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColors.color("&8\u21E8 &7剩余 " + NumberUtils.getTimeLeft(fuel.getTicks() / 2)));
+            lore.add(ChatColors.color("&8\u21E8 &7Lasts " + NumberUtils.getTimeLeft(fuel.getTicks() / 2)));
             im.setLore(lore);
             item.setItemMeta(im);
             list.add(item);
@@ -212,11 +211,13 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] {20, 21, 22, 29, 30, 31};
+        return new int[]{20, 21, 22, 29, 30, 31};
     }
 
     public abstract AndroidType getAndroidType();
+
     public abstract float getFuelEfficiency();
+
     public abstract int getTier();
 
     protected void tick(Block b) {
@@ -327,8 +328,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
                                         if (optional.isPresent()) {
                                             menu.replaceExistingItem(slot, optional.get());
-                                        }
-                                        else {
+                                        } else {
                                             menu.replaceExistingItem(slot, null);
                                         }
                                     }
@@ -347,12 +347,11 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
                                             menu.replaceExistingItem(43, item);
                                             d.getInventory().setItem(slot, null);
                                             break;
-                                        }
-                                        else if (SlimefunManager.isItemSimilar(item, menu.getItemInSlot(43), true)) {
+                                        } else if (SlimefunManager.isItemSimilar(item, menu.getItemInSlot(43), true)) {
                                             int rest = item.getType().getMaxStackSize() - menu.getItemInSlot(43).getAmount();
 
                                             if (rest > 0) {
-                                                int amt = Math.min(item.getAmount(), rest);
+                                                int amt = item.getAmount() > rest ? rest : item.getAmount();
                                                 menu.replaceExistingItem(43, new CustomItem(item, menu.getItemInSlot(43).getAmount() + amt));
                                                 ItemUtils.consumeItem(item, amt, false);
                                             }
@@ -432,7 +431,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
                 @Override
                 public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return cursor == null || cursor.getType() == Material.AIR;
+                    return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
                 }
             });
         }
@@ -440,13 +439,13 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
         ItemStack generator = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==");
 
         if (getTier() == 1) {
-            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这个机器人使用固体燃料", "&r例如煤, 木头等..."), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on solid Fuel", "&re.g. Coal, Wood, etc..."), ChestMenuUtils.getEmptyClickHandler());
         }
         else if (getTier() == 2) {
-            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这个机器人使用液体燃料", "&r例如岩浆, 原油, 燃油等..."), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on liquid Fuel", "&re.g. Lava, Oil, Fuel, etc..."), ChestMenuUtils.getEmptyClickHandler());
         }
         else {
-            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这个机器人使用放射性燃料", "&r例如铀, 镎, 强化铀"), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on radioactive Fuel", "&re.g. Uranium, Neptunium or Boosted Uranium"), ChestMenuUtils.getEmptyClickHandler());
         }
     }
 

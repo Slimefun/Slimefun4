@@ -16,6 +16,13 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
+/**
+ * This {@link Listener} is responsible for enforcing the "fuel efficiency" and "fortune" policies
+ * of an {@link EnhancedFurnace}.
+ *
+ * @author TheBusyBiscuit
+ * @see EnhancedFurnace
+ */
 public class EnhancedFurnaceListener implements Listener {
 
     public EnhancedFurnaceListener(SlimefunPlugin plugin) {

@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.hooks;
+package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
@@ -29,7 +29,10 @@ class WorldEditHook {
 
                     if (world != null) {
                         Location l = new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
-                        if (BlockStorage.hasBlockInfo(l)) BlockStorage.clearBlockInfo(l);
+
+                        if (BlockStorage.hasBlockInfo(l)) {
+                            BlockStorage.clearBlockInfo(l);
+                        }
                     }
                 }
                 return getExtent().setBlock(pos, block);

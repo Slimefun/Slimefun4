@@ -19,19 +19,17 @@ class GuideCommand extends SubCommand {
         return "guide";
     }
 
-	@Override
-	public void onExecute(CommandSender sender, String[] args) {
-		if (sender instanceof Player) {
-			if (sender.hasPermission("slimefun.command.guide")) {
-				((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunPlugin.getCfg().getBoolean("guide.default-view-book") ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST));
-			}
-			else {
-				SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
-			}
-		}
-		else {
-			SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
-		}
-	}
+    @Override
+    public void onExecute(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            if (sender.hasPermission("slimefun.command.guide")) {
+                ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunPlugin.getCfg().getBoolean("guide.default-view-book") ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST));
+            } else {
+                SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+            }
+        } else {
+            SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
+        }
+    }
 
 }

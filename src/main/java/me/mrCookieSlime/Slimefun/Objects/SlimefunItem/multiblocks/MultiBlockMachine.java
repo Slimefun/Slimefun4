@@ -1,6 +1,15 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
+import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -8,16 +17,6 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class MultiBlockMachine extends SlimefunMachine {
 
@@ -51,8 +50,7 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
                 }
 
                 return true;
-            }
-            else return false;
+            } else return false;
         };
     }
 
@@ -71,8 +69,7 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
         // This if-clause will trigger if no suitable output chest was found. It's functionally the same as the old fit check for the dispenser, only refactored.
         if (outputInv == null && InvUtils.fits(placeCheckerInv, product)) {
             return dispInv;
-        }
-        else {
+        } else {
             return outputInv;
         }
     }

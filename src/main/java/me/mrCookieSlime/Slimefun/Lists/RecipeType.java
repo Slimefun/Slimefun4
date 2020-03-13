@@ -90,13 +90,6 @@ public class RecipeType implements Keyed {
         }
     }
 
-    @Deprecated
-    public RecipeType(SlimefunItemStack slimefunItem, String... lore) {
-        this.item = new CustomItem(slimefunItem, null, lore);
-        this.machine = slimefunItem.getItemID();
-        this.key = new NamespacedKey(SlimefunPlugin.instance, machine.toLowerCase());
-    }
-
     /**
      * @param item The {@link ItemStack} to use for this {@link RecipeType}
      * @deprecated Use the constructor with {@link NamespacedKey} instead
@@ -167,7 +160,10 @@ public class RecipeType implements Keyed {
         List<ItemStack> convertible = new ArrayList<>();
 
         for (int i = 0; i < recipes.size(); i++) {
-            if (i % 2 == 0) convertible.add(recipes.get(i)[0]);
+            if (i % 2 == 0) {
+                convertible.add(recipes.get(i)[0]);
+                System.out.println(recipes.get(i)[0].getItemMeta().getDisplayName() + recipes.get(i)[0].getAmount());
+            }
         }
 
         return convertible;

@@ -35,15 +35,14 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
         return (e, dispenser, facedBlock, machine) -> {
             e.setCancelled(true);
 
-            if (facedBlock.getType() == Material.AIR && e.getItem().getType().isBlock() && !isBlacklisted(e.getItem().getType())) {
+            if ((facedBlock.getType() == null || facedBlock.getType() == Material.AIR) && e.getItem().getType().isBlock() && !isBlacklisted(e.getItem().getType())) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
 
                 if (sfItem != null) {
                     if (!SlimefunPlugin.getRegistry().getBlockHandlers().containsKey(sfItem.getID())) {
                         placeSlimefunBlock(sfItem, e.getItem(), facedBlock, dispenser);
                     }
-                }
-                else {
+                } else {
                     placeBlock(e.getItem(), facedBlock, dispenser);
                 }
             }
@@ -84,11 +83,13 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
                 ((Nameable) blockState).setCustomName(item.getItemMeta().getDisplayName());
             }
 
-            //Update block state after changing name
+            // Update block state after changing name
             blockState.update();
 
-            //Changing the inventory of the block based on the inventory of the block's itemstack (Currently only applies to shulker boxes)
-            //Inventory has to be changed after blockState.update() as updating it will create a different Inventory for the object
+            // Changing the inventory of the block based on the inventory of the block's itemstack (Currently only
+            // applies to shulker boxes)
+            // Inventory has to be changed after blockState.update() as updating it will create a different Inventory
+            // for the object
             if (facedBlock.getState() instanceof BlockInventoryHolder) {
                 ((BlockInventoryHolder) facedBlock.getState()).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());
             }

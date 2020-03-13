@@ -24,6 +24,12 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
+/**
+ * This class houses a lot of instances of {@link Map} and {@link List} that hold
+ * various mappings and collections related to {@link SlimefunItem}.
+ *
+ * @author TheBusyBiscuit
+ */
 public class SlimefunRegistry {
 
     private final Map<String, SlimefunItem> slimefunIds = new HashMap<>();
@@ -46,6 +52,7 @@ public class SlimefunRegistry {
     private final Set<String> energyCapacitors = new HashSet<>();
     private final Set<String> energyConsumers = new HashSet<>();
     private final Set<String> chargeableBlocks = new HashSet<>();
+    private final Set<String> witherProofBlocks = new HashSet<>();
 
     private final Map<String, BlockStorage> worlds = new HashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
@@ -108,6 +115,10 @@ public class SlimefunRegistry {
         return layouts.get(layout);
     }
 
+    public Map<EntityType, Set<ItemStack>> getMobDrops() {
+        return drops;
+    }
+
     public Set<ItemStack> getMobDrops(EntityType entity) {
         return drops.get(entity);
     }
@@ -134,10 +145,6 @@ public class SlimefunRegistry {
 
     public KeyMap<Research> getResearchIds() {
         return researchIds;
-    }
-
-    public Map<EntityType, Set<ItemStack>> getMobDrops() {
-        return drops;
     }
 
     public Map<String, Integer> getEnergyCapacities() {
@@ -204,6 +211,10 @@ public class SlimefunRegistry {
 
     public Set<String> getChargeableBlocks() {
         return chargeableBlocks;
+    }
+
+    public Set<String> getWitherProofBlocks() {
+        return witherProofBlocks;
     }
 
 }

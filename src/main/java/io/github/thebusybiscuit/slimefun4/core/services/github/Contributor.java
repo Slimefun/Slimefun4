@@ -11,9 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Represents a contributor on Slimefun4's GitHub repository.
+ * Represents a {@link Contributor} who contributed to a GitHub repository.
  *
  * @author TheBusyBiscuit
+ * @author Walshy
+ * @see GitHubService
  */
 public class Contributor {
 
@@ -83,7 +85,8 @@ public class Contributor {
      * This method gives you the amount of contributions this {@link Contributor}
      * has submmited in the name of the given role.
      *
-     * @param role The role for which to count the contributions.
+     * @param role
+     *            The role for which to count the contributions.
      * @return The amount of contributions this {@link Contributor} submitted as the given role
      */
     public int getContributions(String role) {

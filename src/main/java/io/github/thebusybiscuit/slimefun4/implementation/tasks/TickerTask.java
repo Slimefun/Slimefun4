@@ -104,17 +104,16 @@ public class TickerTask implements Runnable {
                                             Integer chunk = chunkItemCount.get(tickedChunk);
                                             Integer machine = machineCount.get(item.getID());
 
-                                            machineTimings.put(item.getID(), (machinetime != null ? machinetime: 0) + (System.nanoTime() - timestamp3));
-                                            chunkItemCount.put(tickedChunk, (chunk != null ? chunk: 0) + 1);
-                                            machineCount.put(item.getID(), (machine != null ? machine: 0) + 1);
+                                            machineTimings.put(item.getID(), (machinetime != null ? machinetime : 0) + (System.nanoTime() - timestamp3));
+                                            chunkItemCount.put(tickedChunk, (chunk != null ? chunk : 0) + 1);
+                                            machineCount.put(item.getID(), (machine != null ? machine : 0) + 1);
                                             blockTimings.put(l, System.nanoTime() - timestamp3);
                                         } catch (Exception x) {
                                             int errors = bugged.getOrDefault(l, 0);
                                             reportErrors(l, item, x, errors);
                                         }
                                     });
-                                }
-                                else {
+                                } else {
                                     long timestamp3 = System.nanoTime();
                                     item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
 
@@ -129,10 +128,8 @@ public class TickerTask implements Runnable {
                                 int errors = bugged.getOrDefault(l, 0);
                                 reportErrors(l, item, x, errors);
                             }
-                        }
-                        else skipped++;
-                    }
-                    else {
+                        } else skipped++;
+                    } else {
                         skipped += BlockStorage.getTickingLocations(tickedChunk).size();
                         chunksSkipped.add(tickedChunk);
                         chunks--;
@@ -167,8 +164,7 @@ public class TickerTask implements Runnable {
             new ErrorReport(x, l, item);
 
             buggedBlocks.put(l, errors);
-        }
-        else if (errors == 4) {
+        } else if (errors == 4) {
             Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + '(' + item.getID() + ")");
             Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
             Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
@@ -177,8 +173,7 @@ public class TickerTask implements Runnable {
             BlockStorage._integrated_removeBlockInfo(l, true);
 
             Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
-        }
-        else {
+        } else {
             buggedBlocks.put(l, errors);
         }
     }
@@ -221,24 +216,21 @@ public class TickerTask implements Runnable {
                             .append(", ")
                             .append(toMillis(entry.getValue() / count))
                             .append(" avg/machine)");
-                }
-                else hidden++;
+                } else hidden++;
             }
 
             builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
             component.setHoverEvent(new HoverEvent(ChatColors.color(builder.toString())));
 
             component.sendMessage((Player) sender);
-        }
-        else {
+        } else {
             int hidden = 0;
 
             for (Map.Entry<String, Long> entry : timings) {
                 int count = machineCount.get(entry.getKey());
                 if (entry.getValue() > 500_000) {
                     sender.sendMessage("  " + entry.getKey() + " - " + count + "x (" + toMillis(entry.getValue()) + ", " + toMillis(entry.getValue() / count) + " avg/machine)");
-                }
-                else hidden++;
+                } else hidden++;
             }
 
             sender.sendMessage("+ " + hidden + " Hidden");
@@ -266,8 +258,7 @@ public class TickerTask implements Runnable {
                                 .append("x &7(")
                                 .append(toMillis(entry.getValue()))
                                 .append(')');
-                    }
-                    else hidden++;
+                    } else hidden++;
                 }
             }
 
@@ -275,15 +266,14 @@ public class TickerTask implements Runnable {
             component.setHoverEvent(new HoverEvent(ChatColors.color(builder.toString())));
 
             component.sendMessage((Player) sender);
-        }
-        else {
+        } else {
             int hidden = 0;
 
             for (Map.Entry<String, Long> entry : timings) {
                 if (!chunksSkipped.contains(entry.getKey())) {
-                    if (entry.getValue() > 0) sender.sendMessage("  " + formatChunk(entry.getKey()) + " - "
-                            + (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x (" + toMillis(entry.getValue()) + ")");
-                    else hidden++;
+                    if (entry.getValue() > 0) {
+                        sender.sendMessage("  " + formatChunk(entry.getKey()) + " - " + (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x (" + toMillis(entry.getValue()) + ")");
+                    } else hidden++;
                 }
             }
 

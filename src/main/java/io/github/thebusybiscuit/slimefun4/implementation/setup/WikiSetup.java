@@ -14,6 +14,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+/**
+ * This static setup class is used to add all wiki pages to the corresponding
+ * instances of {@link SlimefunItem}.
+ *
+ * @author TheBusyBiscuit
+ * @see SlimefunItem
+ */
 final class WikiSetup {
 
     private WikiSetup() {
@@ -21,7 +28,6 @@ final class WikiSetup {
 
     public static void addWikiPages(SlimefunPlugin plugin) {
         JsonParser parser = new JsonParser();
-        Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream("/wiki.json")))) {
             JsonElement element = parser.parse(reader.lines().collect(Collectors.joining("")));

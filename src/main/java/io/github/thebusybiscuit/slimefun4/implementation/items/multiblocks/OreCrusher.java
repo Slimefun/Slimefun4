@@ -1,9 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import me.mrCookieSlime.Slimefun.Lists.Categories;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -14,32 +18,27 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OreCrusher extends MultiBlockMachine {
 
 	public OreCrusher() {
 		super(
-				Categories.MACHINES_1,
+                Categories.MACHINES_1,
                 (SlimefunItemStack) SlimefunItems.ORE_CRUSHER,
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS)},
-				new ItemStack[] {
-						new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.GRAVEL, 1),
-						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST,
-						new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND),
-						
-						new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1), 
-						new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
-						new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8: 4),
-						new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2: 1), 
-						new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2: 1)
-				},
+                new ItemStack[]{null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS)},
+                new ItemStack[]{
+                        new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1),
+                        SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST,
+                        new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND),
+
+                        new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2 : 1),
+                        new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14 : 7),
+                        new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8 : 4),
+                        new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2 : 1),
+                        new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2 : 1)
+                },
 				BlockFace.SELF
 		);
 	}

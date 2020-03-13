@@ -22,6 +22,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -107,20 +108,65 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         }
     }
 
+    /**
+     * This method returns the title that is used for the {@link Inventory} of an
+     * {@link AContainer} that has been opened by a Player.
+     * <p>
+     * Override this method to set the title.
+     *
+     * @return The title of the {@link Inventory} of this {@link AContainer}
+     */
     public abstract String getInventoryTitle();
+
+    /**
+     * This method returns the {@link ItemStack} that this {@link AContainer} will
+     * use as a progress bar.
+     * <p>
+     * Override this method to set the progress bar.
+     *
+     * @return The {@link ItemStack} to use as the progress bar
+     */
     public abstract ItemStack getProgressBar();
+
+    /**
+     * This method returns the amount of energy that is consumed per operation.
+     *
+     * @return The rate of energy consumption
+     */
     public abstract int getEnergyConsumption();
+
+    /**
+     * This method returns the speed at which this machine will operate.
+     * This can be implemented on an instantiation-level to create different tiers
+     * of machines.
+     *
+     * @return The speed of this machine
+     */
     public abstract int getSpeed();
+
+    /**
+     * This method returns an internal identifier that is used to identify this {@link AContainer}
+     * and its recipes.
+     * <p>
+     * When adding recipes to an {@link AContainer} we will use this identifier to
+     * identify all instances of the same {@link AContainer}.
+     * This way we can add the recipes to all instances of the same machine.
+     *
+     * @return The identifier of this machine
+     */
     public abstract String getMachineIdentifier();
 
-    public void registerDefaultRecipes() {
+    /**
+     * This method registers all default recipes for this machine.
+     */
+    protected void registerDefaultRecipes() {
         // Override this method to register your machine recipes
     }
 
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
 
-        for (MachineRecipe recipe: recipes) {
+        for (MachineRecipe recipe : recipes) {
             if (recipe.getInput().length != 1) continue;
 
             displayRecipes.add(recipe.getInput()[0]);
@@ -132,12 +178,12 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
     @Override
     public int[] getInputSlots() {
-        return new int[] {19, 20};
+        return new int[]{19, 20 };
     }
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] {24, 25};
+        return new int[]{24, 25 };
     }
 
     @Override
@@ -190,8 +236,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 if (ChargableBlock.isChargable(b)) {
                     if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
-                }
-                progress.put(b, timeleft - 1);
+                    progress.put(b, timeleft - 1);
+                } else progress.put(b, timeleft - 1);
             }
             else {
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));

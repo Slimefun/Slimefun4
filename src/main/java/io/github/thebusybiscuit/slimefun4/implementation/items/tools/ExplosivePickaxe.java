@@ -60,9 +60,7 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 
                                     Block b = e.getBlock().getRelative(x, y, z);
 
-                                    if (b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType())
-                                            && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)
-                                            && ResidenceChecker.check(e.getPlayer(), b, false)) {
+                                    if (b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK) && ResidenceChecker.check(e.getPlayer(), b, false)) {
                                         SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK);
 
                                         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());

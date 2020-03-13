@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -20,9 +21,9 @@ import java.util.List;
  * Statically handles researches. Represents a research, which is bound to one
  * {@link SlimefunItem} or more and require XP levels to unlock this/these item(s).
  *
- * See {@link ResearchSetup} for the built-in researches.
- *
  * @author TheBusyBiscuit
+ * @see ResearchSetup
+ * @see ResearchUnlockEvent
  */
 public class Research implements Keyed {
 
@@ -31,26 +32,29 @@ public class Research implements Keyed {
     private final NamespacedKey key;
     private final int id;
     private String name;
+    private boolean enabled = true;
     private int cost;
 
     private final List<SlimefunItem> items = new LinkedList<>();
-    private boolean enabled = true;
 
     /**
-     * The constructor for a Research.
+     * The constructor for a {@link Research}.
      *
-     * Create a new research by calling {@link #Research(int, String, int)}, then
-     * bind this research to the Slimefun items you want by calling
+     * Create a new research, then bind this research to the Slimefun items you want by calling
      * {@link #addItems(SlimefunItem...)}. Once you're finished, call {@link #register()}
      * to register it.
      *
      * To speed up, directly setup the research by calling
      * {@link Slimefun#registerResearch(Research, org.bukkit.inventory.ItemStack...)}.
      *
-     * @param key	A unique identifier for this research
-     * @param id 	old way of identifying researches
-     * @param name Display name of the research
-     * @param cost Cost in XP levels to unlock the research
+     * @param key
+     *            A unique identifier for this {@link Research}
+     * @param id
+     *            old way of identifying researches
+     * @param name
+     *            The displayed name of this {@link Research}
+     * @param defaultCost
+     *            The Cost in XP levels to unlock this {@link Research}
      *
      */
     public Research(NamespacedKey key, int id, String name, int defaultCost) {
@@ -65,78 +69,88 @@ public class Research implements Keyed {
         return key;
     }
 
+    /**
+     * This method returns whether this {@link Research} is enabled.
+     * {@code false} can mean that this particular {@link Research} was disabled or that
+     * researches alltogether have been disabled.
+     *
+     * @return Whether this {@link Research} is enabled or not
+     */
     public boolean isEnabled() {
         return SlimefunPlugin.getSettings().researchesEnabled && enabled;
     }
 
     /**
-     * Gets the ID of the research.
+     * Gets the ID of this {@link Research}.
+     * This is the old way of identifying Researches, use a {@link NamespacedKey} in the future.
      *
-     * @return ID of the research
-     *
-     * @since 4.0
+     * @return The ID of this {@link Research}
      */
     public int getID() {
         return id;
     }
 
+    /**
+     * This method gives you a localized name for this {@link Research}.
+     * The name is automatically taken from the currently selected {@link Language} of
+     * the specified {@link Player}.
+     *
+     * @param p The {@link Player} to translate this name for.
+     * @return The localized Name of this {@link Research}.
+     */
     public String getName(Player p) {
         String localized = SlimefunPlugin.getLocal().getResearchName(p, key);
-        return localized != null ? localized: name;
+        return localized != null ? localized : name;
     }
 
     /**
-     * Gets the cost in XP levels to unlock the research.
+     * Gets the cost in XP levels to unlock this {@link Research}.
      *
-     * @return The cost in XP levels of the research
-     * @since 4.1.10
+     * @return The cost in XP levels for this {@link Research}
      */
     public int getCost() {
         return cost;
     }
 
     /**
-     * Sets the cost in XP levels to unlock the research.
+     * Sets the cost in XP levels to unlock this {@link Research}.
      *
-     * @param cost Cost in XP levels
-     *
-     * @since 4.1.10
+     * @param cost
+     *            The cost in XP levels
      */
     public void setCost(int cost) {
         this.cost = cost;
     }
 
     /**
-     * Bind the specified Slimefun items to the research.
+     * Bind the specified Slimefun items to this {@link Research}.
      *
-     * @param items {@link SlimefunItem} to bind to the research
-     *
-     * @since 4.0
+     * @param items
+     *            Instances of {@link SlimefunItem} to bind to this {@link Research}
      */
     public void addItems(SlimefunItem... items) {
         for (SlimefunItem item : items) {
-            if (item != null) item.bindToResearch(this);
+            if (item != null) {
+                item.bindToResearch(this);
+            }
         }
     }
 
     /**
-     * Gets the list of the Slimefun items bound to the research.
+     * Lists every {@link SlimefunItem} that is bound to this {@link Research}.
      *
-     * @return the Slimefun items bound to the research
-     *
-     * @since 4.0
+     * @return The Slimefun items bound to this {@link Research}.
      */
     public List<SlimefunItem> getAffectedItems() {
         return items;
     }
 
     /**
-     * Checks if the player can unlock this research.
+     * Checks if the {@link Player} can unlock this {@link Research}.
      *
-     * @param p Player to check
-     * @return true if he can unlock the research, otherwise false
-     *
-     * @since 4.1.10
+     * @param p
+     *            The {@link Player} to check
+     * @return Whether that {@link Player} can unlock this {@link Research}
      */
     public boolean canUnlock(Player p) {
         if (!isEnabled()) return true;
@@ -144,11 +158,12 @@ public class Research implements Keyed {
     }
 
     /**
-     * Unlocks the research for the specified player.
+     * Unlocks this {@link Research} for the specified {@link Player}.
      *
-     * @param p       Player to unlock the research
-     * @param instant Whether to unlock the research instantly
-     * @since 4.0
+     * @param p
+     *            The {@link Player} for which to unlock this {@link Research}
+     * @param instant
+     *            Whether to unlock the research instantly
      */
     public void unlock(Player p, boolean instant) {
         if (!instant) {
@@ -201,9 +216,7 @@ public class Research implements Keyed {
     }
 
     /**
-     * Registers the research.
-     *
-     * @since 4.0
+     * Registers this {@link Research}.
      */
     public void register() {
         SlimefunPlugin.getResearchCfg().setDefaultValue("enable-researching", true);
@@ -231,6 +244,7 @@ public class Research implements Keyed {
         SlimefunPlugin.getRegistry().getResearchIds().add(this);
     }
 
+    // Temporary migration method from ids to Namespaced Keys.
     private void migrate(int id, String path) {
         if (SlimefunPlugin.getResearchCfg().contains(id + ".enabled")) {
             SlimefunPlugin.getResearchCfg().setValue(path + ".enabled", SlimefunPlugin.getResearchCfg().getBoolean(id + ".enabled"));
@@ -244,28 +258,19 @@ public class Research implements Keyed {
     }
 
     /**
-     * Gets if the specified player is currently unlocking a research.
+     * Attempts to get a {@link Research} with the given ID.
      *
-     * @param p Player to check
-     * @return true if the player is unlocking a research, otherwise false
+     * We will use {@link NamespacedKey} for this in the future.
      *
-     * @since 4.0
-     */
-    public static boolean isResearching(Player p) {
-        return SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId());
-    }
-
-    /**
-     * Attempts to get the research with the given ID.
-     *
-     * @param id ID of the research to get
-     * @return Research if found, or null
-     *
-     * @since 4.0
+     * @param id
+     *            ID of the research to get
+     * @return {@link Research} if found, or null
      */
     public static Research getByID(int id) {
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (research.getID() == id) return research;
+            if (research.getID() == id) {
+                return research;
+            }
         }
         return null;
     }

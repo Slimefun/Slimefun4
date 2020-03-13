@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun;
 
+import io.github.starwishsama.utils.ResidenceChecker;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
@@ -9,10 +10,10 @@ import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
-import io.github.thebusybiscuit.slimefun4.core.hooks.SlimefunHooks;
 import io.github.thebusybiscuit.slimefun4.core.services.*;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
+import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.*;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
@@ -66,19 +67,20 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final BackupService backupService = new BackupService();
     private final MetricsService metricsService = new MetricsService(this);
     private final PermissionsService permissionsService = new PermissionsService(this);
+    private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
+    private LocalizationService local;
+
+    private NetworkManager networkManager;
+    private ProtectionManager protections;
 
     private TickerTask ticker;
-    private LocalizationService local;
-    private NetworkManager networkManager;
     private Config researches;
     private Config items;
     private Config whitelist;
     private Config config;
 
     private GPSNetwork gps;
-    private ProtectionManager protections;
     private ConfigCache settings;
-    private SlimefunHooks hooks;
     private SlimefunCommand command;
 
     // Supported Versions of Minecraft, to ensure people
@@ -135,12 +137,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Starting the Auto-Updater
             if (config.getBoolean("options.auto-update")) {
-                getLogger().log(Level.INFO, "Starting Auto-Updater...");
+                getLogger().log(Level.INFO, "正在启动自动更新器...");
                 updaterService.start();
+            } else {
+                updaterService.disable();
             }
 
             // Registering all GEO Resources
-            getLogger().log(Level.INFO, "加载 GEO 资源中...");
+            getLogger().log(Level.INFO, "加载地形资源中...");
             GEOResourcesSetup.setup();
 
             getLogger().log(Level.INFO, "加载物品中...");
@@ -167,9 +171,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Setting up GitHub Connectors...
             gitHubService.connect(false);
 
+            new ResidenceChecker(this);
+
             // All Slimefun Listeners
             new SlimefunBootsListener(this);
             new SlimefunItemListener(this);
+            new SlimefunItemConsumeListener(this);
             new BlockPhysicsListener(this);
             new MultiBlockListener(this);
             new GearListener(this);
@@ -177,9 +184,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new EntityKillListener(this);
             new BlockListener(this);
             new EnhancedFurnaceListener(this);
-            new TeleporterListener(this);
-            new AndroidKillingListener(this);
-            new NetworkListener(this);
             new ItemPickupListener(this);
             new DeathpointListener(this);
             new ExplosionsListener(this);
@@ -191,8 +195,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             grapplingHookListener = new GrapplingHookListener();
 
             // Toggleable Listeners for performance
-            if (config.getBoolean("items.talismans")) new TalismanListener(this);
-            if (config.getBoolean("items.soulbound")) new SoulboundListener(this);
+            if (config.getBoolean("items.talismans")) {
+                new TalismanListener(this);
+            }
+
+            if (config.getBoolean("items.soulbound")) {
+                new SoulboundListener(this);
+            }
 
             if (config.getBoolean("items.backpacks")) {
                 backpackListener = new BackpackListener(this);
@@ -221,21 +230,34 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     new BlockStorage(world);
                 }
 
-                if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) {
+                if (isEnabled("ANCIENT_ALTAR")) {
                     ancientAltarListener.load(this);
                 }
 
-                if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) {
+                if (isEnabled("GRAPPLING_HOOK")) {
                     grapplingHookListener.load(this);
                 }
 
-                if (SlimefunItem.getByID("BLADE_OF_VAMPIRES") != null) {
+                if (isEnabled("BLADE_OF_VAMPIRES")) {
                     new VampireBladeListener(this);
                 }
 
-                if (SlimefunItem.getByID("COOLER") != null) {
+                if (isEnabled("COOLER")) {
                     new CoolerListener(this);
                 }
+
+                if (isEnabled("ELEVATOR_PLATE", "GPS_ACTIVATION_DEVICE_SHARED", "GPS_ACTIVATION_DEVICE_PERSONAL")) {
+                    new TeleporterListener(this);
+                }
+
+                if (isEnabled("PROGRAMMABLE_ANDROID_BUTCHER", "PROGRAMMABLE_ANDROID_2_BUTCHER", "PROGRAMMABLE_ANDROID_3_BUTCHER")) {
+                    new ButcherAndroidListener(this);
+                }
+
+                if (isEnabled("ENERGY_REGULATOR", "CARGO_MANAGER")) {
+                    new NetworkListener(this);
+                }
+
             }, 0);
 
             // Setting up the command /sf and all subcommands
@@ -263,8 +285,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             gitHubService.start(this);
 
             // Hooray!
-            getLogger().log(Level.INFO, "Finished!");
-            hooks = new SlimefunHooks(this);
+            getLogger().log(Level.INFO, "完成!");
+            thirdPartySupportService.start();
 
             // Do not show /sf elevator command in our Log, it could get quite spammy
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
@@ -281,6 +303,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 return true;
             });
         }
+    }
+
+    private boolean isEnabled(String... itemIds) {
+        for (String id : itemIds) {
+            SlimefunItem item = SlimefunItem.getByID(id);
+
+            if (item != null && !item.isDisabled()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isVersionUnsupported() {
@@ -416,10 +449,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.gps;
     }
 
-    public static SlimefunHooks getHooks() {
-        return instance.hooks;
-    }
-
     public static ConfigCache getSettings() {
         return instance.settings;
     }
@@ -469,6 +498,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.blockDataService;
     }
 
+    public static ThirdPartyPluginService getThirdPartySupportService() {
+        return instance.thirdPartySupportService;
+    }
+
     /**
      * This method returns the {@link UpdaterService} of Slimefun.
      * It is used to handle automatic updates.
@@ -516,7 +549,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns a {@link Set} of every {@link Plugin} that lists Slimefun
      * as a required or optional dependency.
-     * <p>
+     *
      * We will just assume this to be a list of our addons.
      *
      * @return A {@link Set} of every {@link Plugin} that is dependent on Slimefun

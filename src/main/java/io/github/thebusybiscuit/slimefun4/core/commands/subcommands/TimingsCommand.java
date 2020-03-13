@@ -17,14 +17,13 @@ class TimingsCommand extends SubCommand {
         return "timings";
     }
 
-	@Override
-	public void onExecute(CommandSender sender, String[] args) {
-		if (sender.hasPermission("slimefun.command.timings")|| sender instanceof ConsoleCommandSender) {
-			SlimefunPlugin.getTicker().info(sender);
-		}
-		else {
-			SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
-		}
-	}
+    @Override
+    public void onExecute(CommandSender sender, String[] args) {
+        if (sender.hasPermission("slimefun.command.timings") || sender instanceof ConsoleCommandSender) {
+            SlimefunPlugin.getTicker().info(sender);
+        } else {
+            SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+        }
+    }
 
 }

@@ -12,17 +12,18 @@ import org.bukkit.inventory.ItemStack;
 
 public class PortableCrafter extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
-	public PortableCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public ItemUseHandler getItemHandler() {
-		return e -> {
-		    e.cancel();
-			Player p = e.getPlayer();
-			p.openWorkbench(p.getLocation(), true);
-			p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
-		};
-	}
+    public PortableCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
+
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            e.cancel();
+
+            Player p = e.getPlayer();
+            p.openWorkbench(p.getLocation(), true);
+            p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
+        };
+    }
 }

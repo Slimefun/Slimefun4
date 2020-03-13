@@ -14,15 +14,31 @@ import org.bukkit.inventory.ItemStack;
 
 public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker> implements EnergyNetComponent {
 
+    private static final int DEFAULT_NIGHT_ENERGY = 0;
+
     public SolarGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 
+    /**
+     * This method returns the amount of energy that this {@link SolarGenerator}
+     * produces during the day.
+     *
+     * @return The amount of energy generated at daylight
+     */
     public abstract double getDayEnergy();
 
+    /**
+     * This method returns the amount of energy that this {@link SolarGenerator}
+     * produces during the night.
+     * <p>
+     * This is 0 by default.
+     *
+     * @return The amount of energy generated at night time
+     */
     public double getNightEnergy() {
         // Override this as necessary for highly advanced Solar Generators
-        return 0;
+        return DEFAULT_NIGHT_ENERGY;
     }
 
     @Override
@@ -44,19 +60,19 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
                 if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) {
                     return 0D;
                 }
-				
-				if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) {
-					return getDayEnergy();
-				}
-				
-				return getNightEnergy();
-			}
 
-			@Override
-			public boolean explode(Location l) {
-				return false;
-			}
-		};
-	}
+                if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) {
+                    return getDayEnergy();
+                }
+
+                return getNightEnergy();
+            }
+
+            @Override
+            public boolean explode(Location l) {
+                return false;
+            }
+        };
+    }
 
 }

@@ -111,6 +111,7 @@ public class AncientAltarListener implements Listener {
 
             if (!altars.contains(b)) {
                 altars.add(b);
+
                 if (pedestals.size() == 8) {
                     pedestals.forEach(block -> altarsInUse.add(block.getLocation()));
 
@@ -118,7 +119,10 @@ public class AncientAltarListener implements Listener {
                         List<ItemStack> input = new ArrayList<>();
                         for (Block pedestal : pedestals) {
                             Item stack = findItem(pedestal);
-                            if (stack != null) input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
+
+                            if (stack != null) {
+                                input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                            }
                         }
 
                         ItemStack result = getRecipeOutput(catalyst, input);

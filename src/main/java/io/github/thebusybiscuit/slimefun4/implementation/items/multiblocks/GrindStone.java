@@ -1,9 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import me.mrCookieSlime.Slimefun.Lists.Categories;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -14,30 +17,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GrindStone extends MultiBlockMachine {
 
 	public GrindStone() {
 		super(
-				Categories.MACHINES_1,
+                Categories.MACHINES_1,
                 (SlimefunItemStack) SlimefunItems.GRIND_STONE,
-                new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
-				new ItemStack[] {
-						new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4), 
-						new ItemStack(Material.BONE), new ItemStack(Material.BONE_MEAL, 4), 
-						new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), 
-						new ItemStack(Material.ENDER_EYE), new CustomItem(SlimefunItems.ENDER_LUMP_1, 2), 
-						new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL), 
-						new ItemStack(Material.ANDESITE), new ItemStack(Material.GRAVEL),
-						new ItemStack(Material.DIORITE), new ItemStack(Material.GRAVEL),
-						new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL),
-						new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK, 
+                new ItemStack[]{null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
+                new ItemStack[]{
+                        new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4),
+                        new ItemStack(Material.BONE), new ItemStack(Material.BONE_MEAL, 4),
+                        new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT),
+                        new ItemStack(Material.ENDER_EYE), new CustomItem(SlimefunItems.ENDER_LUMP_1, 2),
+                        new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL),
+                        new ItemStack(Material.ANDESITE), new ItemStack(Material.GRAVEL),
+                        new ItemStack(Material.DIORITE), new ItemStack(Material.GRAVEL),
+                        new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL),
+                        new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK,
 						new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), 
 						new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4),
 						new ItemStack(Material.PRISMARINE_BRICKS), new ItemStack(Material.PRISMARINE, 4),

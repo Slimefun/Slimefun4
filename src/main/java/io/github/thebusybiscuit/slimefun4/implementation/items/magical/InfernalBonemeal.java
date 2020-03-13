@@ -11,22 +11,22 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.event.Event;
+import org.bukkit.event.Event.Result;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
 public class InfernalBonemeal extends SimpleSlimefunItem<ItemUseHandler> {
 
-	public InfernalBonemeal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, recipeType, recipe, recipeOutput);
-	}
+    public InfernalBonemeal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(category, item, recipeType, recipe, recipeOutput);
+    }
 
-	@Override
-	public ItemUseHandler getItemHandler() {
-		return e -> {
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
             Optional<Block> block = e.getClickedBlock();
-            e.setUseBlock(Event.Result.DENY);
+            e.setUseBlock(Result.DENY);
 
             if (block.isPresent()) {
                 Block b = block.get();
@@ -37,15 +37,15 @@ public class InfernalBonemeal extends SimpleSlimefunItem<ItemUseHandler> {
                     if (ageable.getAge() < ageable.getMaximumAge()) {
                         ageable.setAge(ageable.getMaximumAge());
                         b.setBlockData(ageable);
-						b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
-						
-						if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-							ItemUtils.consumeItem(e.getItem(), false);
-						}
-					}
-				}
-			}
-		};
-	}
+                        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
+
+                        if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                            ItemUtils.consumeItem(e.getItem(), false);
+                        }
+                    }
+                }
+            }
+        };
+    }
 
 }

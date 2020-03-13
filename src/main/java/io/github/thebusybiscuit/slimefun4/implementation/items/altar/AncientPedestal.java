@@ -11,14 +11,14 @@ import org.bukkit.inventory.ItemStack;
 
 public class AncientPedestal extends SlimefunItem {
 
-	public AncientPedestal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-		super(category, item, recipeType, recipe, recipeOutput);
+    public AncientPedestal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(category, item, recipeType, recipe, recipeOutput);
 
         SlimefunItem.registerBlockHandler(getID(), (p, b, tool, reason) -> {
             Item stack = AncientAltarListener.findItem(b);
 
-            if (SlimefunPlugin.getCfg().getBoolean("options.anti-altar-glitch")){
-                if (stack == null){
+            if (SlimefunPlugin.getCfg().getBoolean("options.anti-altar-glitch")) {
+                if (stack == null) {
                     return true;
                 } else {
                     SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use");
@@ -33,5 +33,5 @@ public class AncientPedestal extends SlimefunItem {
                 return true;
             }
         });
-	}
+    }
 }

@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.Alloy;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -34,11 +34,7 @@ public final class MiscSetup {
         SlimefunItem talisman = SlimefunItem.getByID("COMMON_TALISMAN");
 
         if (talisman != null && (boolean) Slimefun.getItemValue(talisman.getID(), "recipe-requires-nether-stars")) {
-            talisman.setRecipe(new ItemStack[]{
-                    SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2,
-                    null, new ItemStack(Material.NETHER_STAR), null,
-                    SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2
-            });
+            talisman.setRecipe(new ItemStack[]{SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2});
         }
 
         Slimefun.getLogger().log(Level.INFO, "正在加载 Wiki 页面...");
@@ -118,8 +114,9 @@ public final class MiscSetup {
                 }
                 else {
                     if (input[0] != null && recipe[0] != null) {
-                        grinderRecipes.add(new ItemStack[] {input[0], recipe[0]});
+                        grinderRecipes.add(new ItemStack[]{input[0], recipe[0]});
                     }
+
                     input = null;
                 }
             }
@@ -135,7 +132,7 @@ public final class MiscSetup {
                 }
                 else {
                     if (input[0] != null && recipe[0] != null) {
-                        grinderRecipes.add(new ItemStack[] {input[0], recipe[0]});
+                        grinderRecipes.add(new ItemStack[]{input[0], recipe[0]});
                     }
                     input = null;
                 }
@@ -149,7 +146,7 @@ public final class MiscSetup {
             stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
         }
 
-        stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] {recipe[0]}, new ItemStack[] {recipe[1]}));
+        stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[]{recipe[0]}, new ItemStack[]{recipe[1]}));
 
         SlimefunItem smeltery = SlimefunItem.getByID("SMELTERY");
         if (smeltery != null) {
@@ -181,7 +178,7 @@ public final class MiscSetup {
 
                         // We want to exclude Dust to Ingot Recipes
                         if (!(dust && inputs.size() == 1)) {
-                            registerMachineRecipe("ELECTRIC_SMELTERY", 12, inputs.toArray(new ItemStack[0]), new ItemStack[] {recipe[0]});
+                            registerMachineRecipe("ELECTRIC_SMELTERY", 12, inputs.toArray(new ItemStack[0]), new ItemStack[]{recipe[0]});
                         }
                     }
 
@@ -195,18 +192,18 @@ public final class MiscSetup {
         int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
         int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
 
-
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "成功载入了 " + total + " 个物品和" + SlimefunPlugin.getRegistry().getResearches().size() + " 个研究)");
-        sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " 物品来自 Slimefun, " + (total - vanilla) + " 物品来自 " + SlimefunPlugin.getInstalledAddons().size() + " 个扩展 )");
+        sender.sendMessage(ChatColor.GREEN + "成功加载了 " + total + " 个物品和 " + SlimefunPlugin.getRegistry().getResearches().size() + " 个研究项目");
+        sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " 个物品来自 Slimefun, " + (total - vanilla) + " 个物品来自 " + SlimefunPlugin.getInstalledAddons().size() + " 扩展 )");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "Slimefun 是一个由社区开发者维护的开源项目!");
+        sender.sendMessage(ChatColor.GREEN + "Slimefun 是一个由社区开发者们维护的项目!");
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + " -- 源代码:   https://github.com/StarWishsama/Slimefun4");
-        sender.sendMessage(ChatColor.GREEN + " -- Wiki:   https://github.com/TheBusyBiscuit/Slimefun4/wiki");
-        sender.sendMessage(ChatColor.GREEN + " -- Bug 反馈:   https://github.com/StarWishsama/Slimefun4/issues");
+        sender.sendMessage(ChatColor.GREEN + " -- Wiki:          https://github.com/TheBusyBiscuit/Slimefun4/wiki");
+        sender.sendMessage(ChatColor.GREEN + " -- 扩展:        https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons");
+        sender.sendMessage(ChatColor.GREEN + " -- 问题反馈:   https://github.com/StarWishsama/Slimefun4/issues");
         sender.sendMessage("");
 
         SlimefunPlugin.getItemCfg().save();

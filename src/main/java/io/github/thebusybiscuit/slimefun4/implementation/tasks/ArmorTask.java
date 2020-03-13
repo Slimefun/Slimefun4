@@ -78,22 +78,14 @@ public class ArmorTask implements Runnable {
     }
 
     private void checkForSolarHelmet(Player p) {
-        if (SlimefunManager.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true)
-                && Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true)
-                && (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850)
-                && p.getEyeLocation().getBlock().getLightFromSky() == 15)
-        {
+        if (SlimefunManager.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) && Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) && (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15) {
             ItemEnergy.chargeInventory(p, ((Double) Slimefun.getItemValue("SOLAR_HELMET", "charge-amount")).floatValue());
         }
     }
 
     private void checkForRadiation(Player p) {
         // Check for a Hazmat Suit
-        if (!SlimefunManager.isItemSimilar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) ||
-                !SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) ||
-                !SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) ||
-                !SlimefunManager.isItemSimilar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true))
-        {
+        if (!SlimefunManager.isItemSimilar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) || !SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) || !SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) || !SlimefunManager.isItemSimilar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
             for (ItemStack item : p.getInventory()) {
                 if (isRadioactive(p, item)) {
                     break;

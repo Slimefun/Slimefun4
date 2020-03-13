@@ -1,10 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 
 public class PlayerLanguageChangeEvent extends Event {
 

@@ -80,13 +80,12 @@ public class OreWasher extends MultiBlockMachine {
                         outputInv.addItem(adding);
                         p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
                         p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-                        if (InvUtils.fits(outputInv, SlimefunItems.STONE_CHUNK)) outputInv.addItem(SlimefunItems.STONE_CHUNK);
-                    }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                        if (InvUtils.fits(outputInv, SlimefunItems.STONE_CHUNK))
+                            outputInv.addItem(SlimefunItems.STONE_CHUNK);
+                    } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 
                     return;
-                }
-                else if (SlimefunManager.isItemSimilar(current, new ItemStack(Material.SAND, 4), false)) {
+                } else if (SlimefunManager.isItemSimilar(current, new ItemStack(Material.SAND, 4), false)) {
                     ItemStack adding = SlimefunItems.SALT;
                     Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 
@@ -97,12 +96,10 @@ public class OreWasher extends MultiBlockMachine {
                         outputInv.addItem(adding);
                         p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
                         p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-                    }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 
                     return;
-                }
-                else if (SlimefunManager.isItemSimilar(current, SlimefunItems.PULVERIZED_ORE, true)) {
+                } else if (SlimefunManager.isItemSimilar(current, SlimefunItems.PULVERIZED_ORE, true)) {
                     ItemStack adding = SlimefunItems.PURE_ORE_CLUSTER;
                     Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 
@@ -113,8 +110,7 @@ public class OreWasher extends MultiBlockMachine {
                         outputInv.addItem(adding);
                         p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
                         p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-                    }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 
                     return;
                 }

@@ -18,19 +18,17 @@ class CheatCommand extends SubCommand {
         return "cheat";
     }
 
-	@Override
-	public void onExecute(CommandSender sender, String[] args) {
-		if (sender instanceof Player) {
-			if (sender.hasPermission("slimefun.cheat.items")) {
-				SlimefunGuide.openCheatMenu((Player) sender);
-			}
-			else {
-				SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
-			}
-		}
-		else {
-			SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
-		}
-	}
+    @Override
+    public void onExecute(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            if (sender.hasPermission("slimefun.cheat.items")) {
+                SlimefunGuide.openCheatMenu((Player) sender);
+            } else {
+                SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+            }
+        } else {
+            SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
+        }
+    }
 
 }

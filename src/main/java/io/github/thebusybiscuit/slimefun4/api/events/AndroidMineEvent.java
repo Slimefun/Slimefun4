@@ -9,6 +9,8 @@ import org.bukkit.event.HandlerList;
 /**
  * This event is fired before a miner android mines a block.
  * If this event is cancelled, the block will not be mined.
+ *
+ * @author poma123
  */
 public class AndroidMineEvent extends Event implements Cancellable {
 
@@ -19,8 +21,10 @@ public class AndroidMineEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     /**
-     * @param block   - mined block
-     * @param android - the block of the android
+     * @param block
+     *            - mined block
+     * @param android
+     *            - the block of the android
      */
     public AndroidMineEvent(Block block, AndroidInstance android) {
         this.block = block;

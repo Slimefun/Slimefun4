@@ -55,7 +55,6 @@ public final class ChestMenuUtils {
             meta.setDisplayName(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "guide.search.name")));
 
             List<String> lore = Arrays.asList("", ChatColor.GRAY + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.search.tooltip"));
-
             lore.replaceAll(ChatColors::color);
             meta.setLore(lore);
         });

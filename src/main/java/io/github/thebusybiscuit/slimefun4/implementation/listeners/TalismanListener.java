@@ -43,7 +43,7 @@ public class TalismanListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamageGet(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             if (e.getCause() == DamageCause.LAVA) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_LAVA);
@@ -61,7 +61,7 @@ public class TalismanListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled=true)
+    @EventHandler(ignoreCancelled = true)
     public void onKill(EntityDeathEvent e) {
         if (e.getEntity().getKiller() != null && !(e.getEntity() instanceof Player) && !e.getEntity().getCanPickupItems() && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_HUNTER)) {
             List<ItemStack> extraDrops = new ArrayList<>(e.getDrops());
@@ -71,7 +71,7 @@ public class TalismanListener implements Listener {
                     extraDrops.remove(invItem);
                 }
 
-                //The chest is not included in getStorageContents()
+                // The chest is not included in getStorageContents()
                 extraDrops.remove(new ItemStack(Material.CHEST));
             }
 
@@ -152,11 +152,10 @@ public class TalismanListener implements Listener {
     }
 
     /**
-     *
      * @param e BlockBreakEvent
      * @since 4.2.0
      */
-    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         List<ItemStack> drops = new ArrayList<>(e.getBlock().getDrops(item));

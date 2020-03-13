@@ -12,17 +12,17 @@ import org.bukkit.inventory.ItemStack;
 
 public class EnderBackpack extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
-	public EnderBackpack(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public ItemUseHandler getItemHandler() {
-		return e -> {
-			Player p = e.getPlayer();
-			p.openInventory(p.getEnderChest());
-			p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
-			e.cancel();
-		};
-	}
+    public EnderBackpack(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
+
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            Player p = e.getPlayer();
+            p.openInventory(p.getEnderChest());
+            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
+            e.cancel();
+        };
+    }
 }

@@ -19,23 +19,22 @@ class TeleporterCommand extends SubCommand {
     public String getName() {
         return "teleporter";
     }
-	
-	@Override
-	public void onExecute(CommandSender sender, String[] args) {
-		if (args.length == 2) {
-			if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {
-				
-				@SuppressWarnings("deprecation")
-				OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
 
-				if (player.getName() != null) {
-					SlimefunPlugin.getGPSNetwork().getTeleleportationService().openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
-				}
-				else SlimefunPlugin.getLocal().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
-			}
-			else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission");
-		}
-		else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter <Player>"));
-	}
+    @Override
+    public void onExecute(CommandSender sender, String[] args) {
+        if (args.length == 2) {
+            if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {
+
+                @SuppressWarnings("deprecation")
+                OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+
+                if (player.getName() != null) {
+                    SlimefunPlugin.getGPSNetwork().getTeleleportationService().openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
+                } else
+                    SlimefunPlugin.getLocal().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
+            } else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission");
+        } else
+            SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter <Player>"));
+    }
 
 }

@@ -16,9 +16,9 @@ class HelpCommand extends SubCommand {
         return "help";
     }
 
-	@Override
-	public void onExecute(CommandSender sender, String[] args) {
-		cmd.sendHelp(sender);
-	}
+    @Override
+    public void onExecute(CommandSender sender, String[] args) {
+        cmd.sendHelp(sender);
+    }
 
 }

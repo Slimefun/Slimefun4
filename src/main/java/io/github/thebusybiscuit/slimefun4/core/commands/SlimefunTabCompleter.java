@@ -51,8 +51,11 @@ class SlimefunTabCompleter implements TabCompleter {
 
     /***
      * Returns a sublist from a given list containing items that start with the given string if string is not empty
-     * @param list The list to process
-     * @param string The typed string
+     *
+     * @param list
+     *            The list to process
+     * @param string
+     *            The typed string
      * @return Sublist if string is not empty
      */
     private List<String> createReturnList(List<String> list, String string) {

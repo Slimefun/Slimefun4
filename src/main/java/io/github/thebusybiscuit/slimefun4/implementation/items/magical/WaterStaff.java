@@ -10,19 +10,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class WaterStaff extends SimpleSlimefunItem<ItemUseHandler> {
-	
-	public WaterStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
-	@Override
-	public ItemUseHandler getItemHandler() {
-		return e -> {
-			Player p = e.getPlayer();
-			
-			p.setFireTicks(0);
-			SlimefunPlugin.getLocal().sendMessage(p, "messages.fire-extinguish", true);
-		};
-	}
+
+    public WaterStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
+
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            Player p = e.getPlayer();
+
+            p.setFireTicks(0);
+            SlimefunPlugin.getLocal().sendMessage(p, "messages.fire-extinguish", true);
+        };
+    }
 
 }

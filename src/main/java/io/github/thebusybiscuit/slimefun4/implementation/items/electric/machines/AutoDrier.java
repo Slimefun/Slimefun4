@@ -21,6 +21,13 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The {@link AutoDrier} is an implementation of {@link AContainer} that features recipes
+ * related to "drying out" items.
+ * It also allows you to convert Rotten Flesh into Leather.
+ *
+ * @author Linox
+ */
 public class AutoDrier extends AContainer implements RecipeDisplayItem {
 
     private final List<ItemStack> recipeList = new ArrayList<>();
@@ -96,18 +103,15 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
                     if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
                     progress.put(b, timeleft - 1);
-                }
-                else progress.put(b, timeleft - 1);
-            }
-            else {
+                } else progress.put(b, timeleft - 1);
+            } else {
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
                 menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
 
                 progress.remove(b);
                 processing.remove(b);
             }
-        }
-        else {
+        } else {
             MachineRecipe r = null;
             int inputSlot = -1;
 
@@ -117,7 +121,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
                     ItemStack output = getOutput(item);
 
                     if (output != null) {
-                        r = new MachineRecipe(6, new ItemStack[] {item}, new ItemStack[] {output.clone()});
+                        r = new MachineRecipe(6, new ItemStack[]{item}, new ItemStack[]{output.clone()});
                         inputSlot = slot;
                         break;
                     }
@@ -144,11 +148,9 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
 
         if (Tag.SAPLINGS.isTagged(item.getType())) {
             return new ItemStack(Material.STICK, 2);
-        }
-        else if (Tag.LEAVES.isTagged(item.getType())) {
+        } else if (Tag.LEAVES.isTagged(item.getType())) {
             return new ItemStack(Material.STICK, 1);
-        }
-        else if (item.getType() == Material.SPLASH_POTION || item.getType() == Material.LINGERING_POTION) {
+        } else if (item.getType() == Material.SPLASH_POTION || item.getType() == Material.LINGERING_POTION) {
             return new ItemStack(Material.GLASS_BOTTLE);
         }
 

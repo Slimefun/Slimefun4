@@ -78,9 +78,7 @@ public class BlockListener implements Listener {
                     blockHandler.onPlace(e.getPlayer(), e.getBlock(), sfItem);
                 }
                 else {
-                    sfItem.callItemHandler(BlockPlaceHandler.class, handler ->
-                            handler.onBlockPlace(e, item)
-                    );
+                    sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onBlockPlace(e, item));
                 }
             }
         }
@@ -109,7 +107,6 @@ public class BlockListener implements Listener {
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
 
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
-
         else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
             e.setCancelled(true);
 
@@ -204,9 +201,7 @@ public class BlockListener implements Listener {
                 allow = blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
             }
             else {
-                sfItem.callItemHandler(BlockBreakHandler.class, handler ->
-                        handler.onBlockBreak(e, item, fortune, drops)
-                );
+                sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onBlockBreak(e, item, fortune, drops));
             }
 
             if (allow) {
@@ -220,7 +215,9 @@ public class BlockListener implements Listener {
         }
         if (item.getType() != Material.AIR) {
             for (ItemHandler handler : SlimefunItem.getPublicItemHandlers(BlockBreakHandler.class)) {
-                if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) break;
+                if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) {
+                    break;
+                }
             }
         }
 

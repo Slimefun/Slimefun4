@@ -1,12 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * This static setup class is used to register all default implementations of
+ * {@link Research} on startup.
+ *
+ * @author TheBusyBiscuit
+ * @see Research
+ */
 public final class ResearchSetup {
 
     private ResearchSetup() {}
@@ -23,7 +31,7 @@ public final class ResearchSetup {
         register("ender_backpack", 9, "Ender Backpack", 4, SlimefunItems.ENDER_BACKPACK);
         register("ender_armor", 10, "Ender Armor", 4, SlimefunItems.ENDER_HELMET, SlimefunItems.ENDER_CHESTPLATE, SlimefunItems.ENDER_LEGGINGS, SlimefunItems.ENDER_BOOTS);
         register("magic_eye_of_ender", 11, "Magic Eye of Ender", 4, SlimefunItems.MAGIC_EYE_OF_ENDER);
-        register("magic_sugar",12, "Magic Sugar", 4, SlimefunItems.MAGIC_SUGAR);
+        register("magic_sugar", 12, "Magic Sugar", 4, SlimefunItems.MAGIC_SUGAR);
         register("monster_jerky", 13, "Monster Jerky", 5, SlimefunItems.MONSTER_JERKY);
         register("slime_armor", 14, "Slime Armor", 5, SlimefunItems.SLIME_HELMET, SlimefunItems.SLIME_CHESTPLATE, SlimefunItems.SLIME_LEGGINGS, SlimefunItems.SLIME_BOOTS);
         register("sword_of_beheading", 15, "Sword of Beheading", 6, SlimefunItems.SWORD_OF_BEHEADING);

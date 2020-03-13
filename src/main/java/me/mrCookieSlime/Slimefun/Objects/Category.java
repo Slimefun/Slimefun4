@@ -23,10 +23,8 @@ import java.util.*;
  * See {@link Categories} for the built-in categories.
  *
  * @author TheBusyBiscuit
- *
  * @see LockedCategory
  * @see SeasonalCategory
- *
  */
 public class Category implements Keyed {
 
@@ -156,10 +154,11 @@ public class Category implements Keyed {
     /**
      * This method checks whether this {@link Category} will be hidden for the specified
      * {@link Player}.
-     * <p>
+     *
      * Categories are hidden if all of their items have been disabled.
      *
-     * @param p The {@link Player} to check for
+     * @param p
+     *            The {@link Player} to check for
      * @return Whether this {@link Category} will be hidden to the given {@link Player}
      */
     public boolean isHidden(Player p) {

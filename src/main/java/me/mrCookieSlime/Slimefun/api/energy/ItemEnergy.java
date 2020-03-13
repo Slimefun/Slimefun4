@@ -12,7 +12,8 @@ import java.util.List;
 
 public final class ItemEnergy {
 
-    private ItemEnergy() {}
+    private ItemEnergy() {
+    }
 
     //	"&c&o&8\u21E8 &e\u26A1 &70 / 50 J"
 
@@ -58,11 +59,9 @@ public final class ItemEnergy {
         if (stored + energy > capacity) {
             rest = (stored + energy) - capacity;
             stored = capacity;
-        }
-        else if (stored + energy < 0) {
+        } else if (stored + energy < 0) {
             stored = 0F;
-        }
-        else {
+        } else {
             stored = stored + energy;
         }
 

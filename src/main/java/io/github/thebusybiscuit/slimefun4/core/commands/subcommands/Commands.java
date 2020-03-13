@@ -6,9 +6,9 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 import java.util.Collection;
 
-public final class CommandSetup {
+public final class Commands {
 
-    private CommandSetup() {
+    private Commands() {
     }
 
     public static void addCommands(SlimefunCommand cmd, Collection<SubCommand> commands) {
@@ -25,5 +25,7 @@ public final class CommandSetup {
         commands.add(new TeleporterCommand(plugin, cmd));
         commands.add(new OpenGuideCommand(plugin, cmd));
         commands.add(new SearchCommand(plugin, cmd));
+        commands.add(new DebugFishCommand(plugin, cmd));
+        commands.add(new ElevatorCommand(plugin, cmd));
     }
 }
