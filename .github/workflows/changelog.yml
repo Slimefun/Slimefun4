@@ -14,6 +14,6 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           TARGET_PATHS: 'CHANGELOG.md'
-          TOC_TITLE: '**List of Releases**'
+          TOC_TITLE: ''
           COMMIT_MESSAGE: '[CI skip] Updated Changelog'
           COMMIT_NAME: 'TheBusyBot'
