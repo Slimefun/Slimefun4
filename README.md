@@ -23,8 +23,7 @@ Here is a full summary of the differences between these two versions of Slimefun
 | | development builds | "stable" builds |
 | ------------------ | -------- | -------- |
 | **Supported Minecraft version(s)** | 1.14.X - 1.15.X | 1.14.X - 1.15.X |
-| **"stability"** | :x: | :heavy_check_mark: |
-| **extensive testing** | :x: | :heavy_check_mark: |
+| **extensive testing before release** | :x: | :heavy_check_mark: |
 | **latest content** | :heavy_check_mark: | :x: |
 | **Discord support** | :heavy_check_mark: | :x: |
 | **Bug Reports** | :heavy_check_mark: | :x: |
