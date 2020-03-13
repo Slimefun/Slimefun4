@@ -19,12 +19,6 @@ Slimefun 4 can be downloaded for free on our builds page.<br>
 We currently provide two versions of Slimefun, development builds and "stable" builds.<br>
 Here is a full summary of the differences between these two versions of Slimefun.
 
-<center>
-
-<a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
-  <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
-</a>
-
 | | development builds | "stable" builds |
 | ------------------ | -------- | -------- |
 | **frequent updates** | :heavy_check_mark: | :x: |
@@ -36,12 +30,16 @@ Here is a full summary of the differences between these two versions of Slimefun
 | **Fast patches** | :heavy_check_mark: | :x: |
 | **Download** | **[:package: download development build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | **[:package: download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
-</center>
-
 **We wholeheartedly recommend you to use development builds.**<br>
 But we can understand the use of "stable" builds if your server's livelihood heavily depends on Slimefun.<br>
 We do recommend you to keep on auto-updates to receive automatic patches and fixes for Slimefun.<br>
 If you worry about features from Slimefun breaking due to an update (rarely happens), then you may wanna use a "stable" build to be sure, but we will not provide any support for it on discord nor on our issue tracker.
+
+<p align="center">
+  <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
+    <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
+  </a>
+</p>
 
 **Important**: "stable" is in quotes because these builds have gone through a testing period before their release, they are safe to use. However due to this testing period, updates will happen very rarely, so any bugs that arise will not be fixed until the next major update. Development builds receive very frequent updates and patches, so these may (ironically) perform better than "stable" builds. We will also provide no support on discord nor the issue tracker for "stable" builds, as "stable" builds can be outdated by weeks or even months due to their infrequent update schedule.
 
