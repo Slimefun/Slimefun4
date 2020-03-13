@@ -15,6 +15,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker> implements EnergyNetComponent {
 
+    private static final int DEFAULT_NIGHT_ENERGY = 0;
+
     public SolarGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
@@ -37,7 +39,7 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
      */
     public double getNightEnergy() {
         // Override this as necessary for highly advanced Solar Generators
-        return 0;
+        return DEFAULT_NIGHT_ENERGY;
     }
 
     @Override

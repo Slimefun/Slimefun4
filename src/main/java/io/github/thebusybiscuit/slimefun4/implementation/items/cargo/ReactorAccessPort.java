@@ -49,7 +49,7 @@ public class ReactorAccessPort extends SlimefunItem {
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                BlockMenu reactor = getReactorMenu(b.getLocation());
+                BlockMenu reactor = getReactor(b.getLocation());
 
                 if (reactor != null) {
                     menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.GREEN_WOOL, "&7Reactor", "", "&6Detected", "", "&7> Click to view Reactor"));
@@ -156,16 +156,7 @@ public class ReactorAccessPort extends SlimefunItem {
         return new int[] { 40 };
     }
 
-    public AReactor getReactor(Location l) {
-        Location reactorL = new Location(l.getWorld(), l.getX(), l.getY() - 3, l.getZ());
-
-        SlimefunItem item = BlockStorage.check(reactorL.getBlock());
-        if (item instanceof AReactor) return (AReactor) item;
-
-        return null;
-    }
-
-    public BlockMenu getReactorMenu(Location l) {
+    private BlockMenu getReactor(Location l) {
         Location reactorL = new Location(l.getWorld(), l.getX(), l.getY() - 3, l.getZ());
 
         SlimefunItem item = BlockStorage.check(reactorL.getBlock());

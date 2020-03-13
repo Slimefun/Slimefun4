@@ -85,70 +85,83 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                     ItemStack input = e.getItem();
                     Block block = b.getRelative(BlockFace.UP);
 
-                    for (int i = 0; i < recipes.size(); i += 2) {
-                        ItemStack convert = recipes.get(i);
-
-                        if (SlimefunManager.isItemSimilar(input, convert, true)) {
-                            ItemStack removing = input.clone();
-                            removing.setAmount(convert.getAmount());
-                            p.getInventory().removeItem(removing);
-
-                            boolean water = Tag.LEAVES.isTagged(input.getType());
-
-                            if (block.getType() == (water ? Material.WATER : Material.LAVA)) {
-                                int level = ((Levelled) block.getBlockData()).getLevel();
-
-                                if (level > 7) {
-                                    level -= 8;
-                                }
-
-                                if (level == 0) {
-                                    block.getWorld().playSound(block.getLocation(), water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1F, 1F);
-                                }
-                                else {
-                                    int finalLevel = 7 - level;
-                                    Slimefun.runSync(() -> runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, finalLevel), 50L);
-                                }
-
-                                return;
-                            }
-                            else if (block.getType() == (water ? Material.LAVA : Material.WATER)) {
-                                int level = ((Levelled) block.getBlockData()).getLevel();
-                                block.setType(level == 0 || level == 8 ? Material.OBSIDIAN : Material.STONE);
-                                block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
-                                return;
-                            }
-
-                            Slimefun.runSync(() -> {
-                                if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
-                                    block.setType(water ? Material.WATER : Material.LAVA);
-                                }
-                                else {
-                                    if (water && block.getBlockData() instanceof Waterlogged) {
-                                        Waterlogged wl = (Waterlogged) block.getBlockData();
-                                        wl.setWaterlogged(true);
-                                        block.setBlockData(wl, false);
-                                        block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-                                        return;
-                                    }
-
-                                    if (BlockStorage.hasBlockInfo(block)) {
-                                        BlockStorage.clearBlockInfo(block);
-                                    }
-                                }
-
-                                runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1);
-
-                            }, 50L);
-
-                            return;
-                        }
+                    if (craft(p, input)) {
+                        boolean water = Tag.LEAVES.isTagged(input.getType());
+                        generateLiquid(block, water);
                     }
-
-                    SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
+                    else {
+                        SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
+                    }
                 }
             }
         };
+    }
+
+    private boolean craft(Player p, ItemStack input) {
+        for (int i = 0; i < recipes.size(); i += 2) {
+            ItemStack convert = recipes.get(i);
+
+            if (SlimefunManager.isItemSimilar(input, convert, true)) {
+                ItemStack removing = input.clone();
+                removing.setAmount(convert.getAmount());
+                p.getInventory().removeItem(removing);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void generateLiquid(Block block, boolean water) {
+        if (block.getType() == (water ? Material.WATER : Material.LAVA)) {
+            addLiquidLevel(block, water);
+        }
+        else if (block.getType() == (water ? Material.LAVA : Material.WATER)) {
+            int level = ((Levelled) block.getBlockData()).getLevel();
+            block.setType(level == 0 || level == 8 ? Material.OBSIDIAN : Material.STONE);
+            block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
+        }
+        else {
+            Slimefun.runSync(() -> placeLiquid(block, water), 50L);
+        }
+    }
+
+    private void addLiquidLevel(Block block, boolean water) {
+        int level = ((Levelled) block.getBlockData()).getLevel();
+
+        if (level > 7) {
+            level -= 8;
+        }
+
+        if (level == 0) {
+            block.getWorld().playSound(block.getLocation(), water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1F, 1F);
+        }
+        else {
+            int finalLevel = 7 - level;
+            Slimefun.runSync(() -> runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, finalLevel), 50L);
+        }
+    }
+
+    private void placeLiquid(Block block, boolean water) {
+        if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
+            block.setType(water ? Material.WATER : Material.LAVA);
+        }
+        else {
+            if (water && block.getBlockData() instanceof Waterlogged) {
+                Waterlogged wl = (Waterlogged) block.getBlockData();
+                wl.setWaterlogged(true);
+                block.setBlockData(wl, false);
+                block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+                return;
+            }
+
+            if (BlockStorage.hasBlockInfo(block)) {
+                BlockStorage.clearBlockInfo(block);
+            }
+        }
+
+        runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1);
     }
 
     private void runPostTask(Block block, Sound sound, int times) {

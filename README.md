@@ -2,24 +2,51 @@
 Slimefun is a plugin which aims to turn your Bukkit/Spigot Server into a modpack without ever installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks! Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.<br>
 We got everything from magical wands to nuclear reactors.<br>
 This project originally started back in 2013 and has grown ever since.<br>
-It currently adds over **500 new items and recipes** to Minecraft.
+It currently adds over **500 new items and recipes** to Minecraft.<br>
+[Read more...](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Slimefun-in-a-nutshell)
 
 But it also comes with a lot of Addons too!<br>
 Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons), you may find exactly what you were looking for.
 
+## Quick navigation
+* **[Download Slimefun4](#download-slimefun-4)**
+* **[Discord Support Server](#discord)**
+* **[Bug Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues)**
+* **[Wiki](https://github.com/TheBusyBiscuit/Slimefun4/wiki)**
+
 ## Download Slimefun 4
-Use the stable builds, if your Server is heavily reliant on Slimefun not breaking.
-But please also consider using development builds. If plenty of people use the development builds, then we can quickly work together on solutions for issues that arise. Stable builds receive far less frequent updates!<br>
-**We will NOT accept bug reports from "stable" versions, as they are basically just old development builds**
+Slimefun 4 can be downloaded for free on our builds page.<br>
+We currently provide two versions of Slimefun, development builds and "stable" builds.<br>
+Here is a full summary of the differences between these two versions of Slimefun.
 
-[> Download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)<br>
-[> Download development builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)
+<center>
 
-<p align="center">
-  <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
-    <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
-  </a>
-</p>
+<a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
+  <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
+</a>
+
+| | development builds | "stable" builds |
+| ------------------ | -------- | -------- |
+| **frequent updates** | :heavy_check_mark: | :x: |
+| **latest content** | :heavy_check_mark: | :x: |
+| **"stability"** | :x: | :heavy_check_mark: |
+| **extensive testing** | :x: | :heavy_check_mark: |
+| **Discord support** | :heavy_check_mark: | :x: |
+| **Bug Reports** | :heavy_check_mark: | :x: |
+| **Fast patches** | :heavy_check_mark: | :x: |
+| **Download** | **[> download development build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | **[> download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
+
+</center>
+
+_We wholeheartedly recommend you to use development builds._<br>
+But we can understand the use of "stable" builds if your server's livelihood heavily depends on Slimefun.<br>
+We do recommend you to keep on auto-updates to receive automatic patches and fixes for Slimefun.<br>
+If you worry about features from Slimefun breaking due to an update (rarely happens), then you may wanna use a "stable" build to be sure, but we will not provide any support for it on discord nor on our issue tracker.
+
+**Important**: "stable" is in quotes because these builds have gone through a testing period before their release, they are safe to use. However due to this testing period, updates will happen very rarely, so any bugs that arise will not be fixed until the next major update. Development builds receive very frequent updates and patches, so these may (ironically) perform better than "stable" builds. We will also provide no support on discord nor the issue tracker for "stable" builds, as "stable" builds can be outdated by weeks or even months due to their infrequent update schedule.
+
+* [download development build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)
+* [download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)
 
 ## Discord
 You can find Slimefun's community on Discord!<br>
@@ -48,9 +75,10 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 
 ## Contributing to this project
 You are allowed, even encouraged, to contribute to Slimefun 4 by making Pull Requests.
-This is an open-source community project, so your contributions keep this plugin alive!
-These Pull Requests can be fixes, changes or even additions, but please keep in mind that
-if you add too much content to Slimefun 4, you should rather make an Addon for it instead.
+This is an open-source community project, so **your contributions keep this plugin alive!**<br>
+These Pull Requests can be fixes, changes or even additions, but please keep in mind that if you add too much content to Slimefun 4, you should maybe consider making an Addon for it instead ([Developer Guide](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide)).
+
+Over 100 people have already contributed to this amazing project. You guys are awesome.
 
 <p align="center">
   <a href="https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors">
@@ -58,8 +86,8 @@ if you add too much content to Slimefun 4, you should rather make an Addon for i
   </a>
 </p>
 
-Slimefun 4 is licensed under 
-[GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
+Slimefun 4 is licensed under
+[GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE).
 
 ## Data Collection
 Slimefun4 uses various systems that collect or download data.<br>
