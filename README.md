@@ -34,11 +34,11 @@ Here is a full summary of the differences between these two versions of Slimefun
 | **Discord support** | :heavy_check_mark: | :x: |
 | **Bug Reports** | :heavy_check_mark: | :x: |
 | **Fast patches** | :heavy_check_mark: | :x: |
-| **Download** | **[> download development build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | **[> download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
+| **Download** | **[:package: download development build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | **[:package: download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
 </center>
 
-_We wholeheartedly recommend you to use development builds._<br>
+**We wholeheartedly recommend you to use development builds.**<br>
 But we can understand the use of "stable" builds if your server's livelihood heavily depends on Slimefun.<br>
 We do recommend you to keep on auto-updates to receive automatic patches and fixes for Slimefun.<br>
 If you worry about features from Slimefun breaking due to an update (rarely happens), then you may wanna use a "stable" build to be sure, but we will not provide any support for it on discord nor on our issue tracker.
