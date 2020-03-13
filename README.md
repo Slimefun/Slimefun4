@@ -21,12 +21,12 @@ Here is a full summary of the differences between these two versions of Slimefun
 
 | | development builds | "stable" builds |
 | ------------------ | -------- | -------- |
-| **frequent updates** | :heavy_check_mark: | :x: |
-| **latest content** | :heavy_check_mark: | :x: |
 | **"stability"** | :x: | :heavy_check_mark: |
 | **extensive testing** | :x: | :heavy_check_mark: |
+| **latest content** | :heavy_check_mark: | :x: |
 | **Discord support** | :heavy_check_mark: | :x: |
 | **Bug Reports** | :heavy_check_mark: | :x: |
+| **frequent updates** | :heavy_check_mark: | :x: |
 | **Fast patches** | :heavy_check_mark: | :x: |
 | **Download** | **[:package: download development build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | **[:package: download "stable" build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
