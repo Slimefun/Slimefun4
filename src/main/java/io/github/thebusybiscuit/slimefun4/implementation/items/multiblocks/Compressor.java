@@ -51,13 +51,16 @@ public class Compressor extends MultiBlockMachine {
             for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
                 if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
                     ItemStack output = RecipeType.getRecipeOutput(this, convert);
-                    output.setAmount(current.getAmount() / convert.getAmount());
+                    int outputAmount = current.getAmount() / convert.getAmount();
+                    int consumed = outputAmount * convert.getAmount();
+                    output.setAmount(outputAmount);
                     Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
                     if (outputInv != null) {
-                        craft(p, current, output, inv, outputInv);
+                        ItemStack currentCopy = current.clone();
+                        currentCopy.setAmount(consumed);
+                        craft(p, currentCopy, output, inv, outputInv);
                     } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
-
                     return;
                 }
             }

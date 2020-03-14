@@ -160,9 +160,7 @@ public class RecipeType implements Keyed {
         List<ItemStack> convertible = new ArrayList<>();
 
         for (int i = 0; i < recipes.size(); i++) {
-            if (i % 2 == 0) {
-                convertible.add(recipes.get(i)[0]);
-            }
+            if (i % 2 == 0) convertible.add(recipes.get(i)[0]);
         }
 
         return convertible;
