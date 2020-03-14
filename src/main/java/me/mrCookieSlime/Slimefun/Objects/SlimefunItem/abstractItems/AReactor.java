@@ -1,30 +1,21 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
@@ -37,7 +28,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -59,14 +49,12 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @see NetherStarReactor
  *
  */
-public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem, InventoryBlock, EnergyNetComponent {
+public abstract class AReactor extends AbstractEnergyGenerator {
 
     public static Map<Location, MachineFuel> processing = new HashMap<>();
     public static Map<Location, Integer> progress = new HashMap<>();
 
     private static final BlockFace[] cooling = { BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST };
-
-    private final Set<MachineFuel> recipes = new HashSet<>();
 
     private static final int[] border = { 0, 1, 2, 3, 5, 6, 7, 8, 12, 13, 14, 21, 23 };
     private static final int[] border_1 = { 9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47 };
@@ -209,38 +197,6 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
         }
     }
 
-    /**
-     * This method returns the title that is used for the {@link Inventory} of an
-     * {@link AGenerator} that has been opened by a Player.
-     * 
-     * Override this method to set the title.
-     * 
-     * @return The title of the {@link Inventory} of this {@link AGenerator}
-     */
-    public abstract String getInventoryTitle();
-
-    /**
-     * This method returns the {@link ItemStack} that this {@link AGenerator} will
-     * use as a progress bar.
-     * 
-     * Override this method to set the progress bar.
-     * 
-     * @return The {@link ItemStack} to use as the progress bar
-     */
-    public abstract ItemStack getProgressBar();
-
-    /**
-     * This method returns the amount of energy that is produced per tick.
-     * 
-     * @return The rate of energy generation
-     */
-    public abstract int getEnergyProduction();
-
-    /**
-     * This method is used to register the default fuel types.
-     */
-    protected abstract void registerDefaultFuelTypes();
-
     public abstract void extraTick(Location l);
 
     /**
@@ -273,11 +229,6 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
         return new int[] { 40 };
     }
 
-    @Override
-    public EnergyNetComponentType getEnergyComponentType() {
-        return EnergyNetComponentType.GENERATOR;
-    }
-
     public MachineFuel getProcessing(Location l) {
         return processing.get(l);
     }
@@ -286,13 +237,9 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
         return progress.containsKey(l);
     }
 
-    public void registerFuel(MachineFuel fuel) {
-        this.recipes.add(fuel);
-    }
-
     @Override
-    public void preRegister() {
-        addItemHandler(new GeneratorTicker() {
+    protected GeneratorTicker onTick() {
+        return new GeneratorTicker() {
 
             private final Set<Location> explode = new HashSet<>();
 
@@ -417,7 +364,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
                 }
                 return explosion;
             }
-        });
+        };
     }
 
     private float getPercentage(int time, int total) {
@@ -427,7 +374,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 
     private void restockFuel(BlockMenu menu, BlockMenu port) {
         for (int slot : getFuelSlots()) {
-            for (MachineFuel recipe : recipes) {
+            for (MachineFuel recipe : fuelTypes) {
                 if (SlimefunManager.isItemSimilar(port.getItemInSlot(slot), recipe.getInput(), true) && menu.fits(new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots())) {
                     port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getFuelSlots()));
                     return;
@@ -437,7 +384,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
     }
 
     private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
-        for (MachineFuel recipe : recipes) {
+        for (MachineFuel recipe : fuelTypes) {
             for (int slot : getInputSlots()) {
                 if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
                     found.put(slot, recipe.getInput().getAmount());
@@ -449,10 +396,6 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
         return null;
     }
 
-    public Set<MachineFuel> getFuelTypes() {
-        return this.recipes;
-    }
-
     protected BlockMenu getAccessPort(Location l) {
         Location portL = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
 
@@ -462,42 +405,6 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
         else {
             return null;
         }
-    }
-
-    @Override
-    public String getLabelLocalPath() {
-        return "guide.tooltips.recipes.generator";
-    }
-
-    @Override
-    public List<ItemStack> getDisplayRecipes() {
-        List<ItemStack> list = new ArrayList<>();
-
-        for (MachineFuel fuel : recipes) {
-            ItemStack item = fuel.getInput().clone();
-            ItemMeta im = item.getItemMeta();
-            List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &7Lasts " + getTimeLeft(fuel.getTicks() / 2)));
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + getEnergyProduction() * 2) + " J/s");
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * getEnergyProduction()) + " J in total"));
-            im.setLore(lore);
-            item.setItemMeta(im);
-            list.add(item);
-        }
-
-        return list;
-    }
-
-    private static String getTimeLeft(int seconds) {
-        String timeleft = "";
-        int minutes = (int) (seconds / 60L);
-
-        if (minutes > 0) {
-            timeleft += minutes + "m ";
-        }
-
-        seconds -= minutes * 60;
-        return "&7" + timeleft + seconds + "s";
     }
 
 }

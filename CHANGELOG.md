@@ -57,6 +57,7 @@
 #### Fixes
 * Fixed some languages showing numbers larger than 100%
 * Fixed #1570
+* Fixed #1686
 
 ## Release Candidate 9 (07 Mar 2020)
 

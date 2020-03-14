@@ -93,6 +93,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private RecipeSnapshot recipeSnapshot;
     private SlimefunRegistry registry;
 
+    private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
+
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
     private final CustomTextureService textureService = new CustomTextureService(this);
@@ -119,11 +121,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private ConfigCache settings;
     private SlimefunCommand command;
 
-    // Supported Versions of Minecraft, to ensure people
-    // do not use it on the wrong version.
-    // May not be the best design choice since we have to update that from time to time.
-    private final String[] supportedMinecraftVersions = { "v1_14_", "v1_15_" };
-
     // Listeners that need to be accessed elsewhere
     private AncientAltarListener ancientAltarListener;
     private BackpackListener backpackListener;
@@ -134,6 +131,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     public void onEnable() {
         if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
 
+            // We wanna ensure that the Server uses a compatible version of Minecraft
             if (isVersionUnsupported()) {
                 getServer().getPluginManager().disablePlugin(this);
                 return;
@@ -360,37 +358,21 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         String currentVersion = ReflectionUtils.getVersion();
 
         if (currentVersion.startsWith("v")) {
-            boolean compatibleVersion = false;
-            StringBuilder versions = new StringBuilder();
-
-            int i = 0;
-            for (String version : supportedMinecraftVersions) {
-                if (currentVersion.startsWith(version)) {
-                    compatibleVersion = true;
+            for (MinecraftVersion version : MinecraftVersion.values()) {
+                if (version.matches(currentVersion)) {
+                    minecraftVersion = version;
+                    return false;
                 }
-
-                String s = version.substring(1).replaceFirst("_", ".").replace("_", ".X");
-                if (i == 0) versions.append(s);
-                else if (i == supportedMinecraftVersions.length - 1) versions.append(" or ").append(s);
-                else versions.append(", ").append(s);
-
-                i++;
             }
 
             // Looks like you are using an unsupported Minecraft Version
-            if (!compatibleVersion) {
-                getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
-                getLogger().log(Level.SEVERE, "###");
-                getLogger().log(Level.SEVERE, "### You are using the wrong Version of Minecraft!");
-                getLogger().log(Level.SEVERE, "###");
-                getLogger().log(Level.SEVERE, "### You are using Minecraft " + ReflectionUtils.getVersion());
-                getLogger().log(Level.SEVERE, "### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
-                getLogger().log(Level.SEVERE, "### Minecraft {0}", versions);
-                getLogger().log(Level.SEVERE, "###");
-                getLogger().log(Level.SEVERE, "### Please use an older Version of Slimefun and disable auto-updating");
-                getLogger().log(Level.SEVERE, "### or consider updating your Server Software.");
-                return true;
-            }
+            getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
+            getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
+            getLogger().log(Level.SEVERE, "###");
+            getLogger().log(Level.SEVERE, "### You are using Minecraft " + ReflectionUtils.getVersion());
+            getLogger().log(Level.SEVERE, "### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
+            getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", MinecraftVersion.getSupportedVersions()));
+            return true;
         }
 
         return false;
@@ -603,6 +585,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunCommand getCommand() {
         return instance.command;
+    }
+
+    public static MinecraftVersion getMinecraftVersion() {
+        return instance.minecraftVersion;
     }
 
     @Override
