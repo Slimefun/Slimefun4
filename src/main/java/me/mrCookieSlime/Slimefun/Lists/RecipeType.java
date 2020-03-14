@@ -162,7 +162,6 @@ public class RecipeType implements Keyed {
         for (int i = 0; i < recipes.size(); i++) {
             if (i % 2 == 0) {
                 convertible.add(recipes.get(i)[0]);
-                System.out.println(recipes.get(i)[0].getItemMeta().getDisplayName() + recipes.get(i)[0].getAmount());
             }
         }
 

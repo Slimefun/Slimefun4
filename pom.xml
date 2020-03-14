@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.2</version>
+    <version>4.2-NIGHTLY</version>
     
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -162,7 +162,7 @@
             <groupId>com.bekvon.bukkit</groupId>
             <artifactId>residence</artifactId>
             <version>4.8.8.2</version>
-            <scope>system</scope>
+            <scope>provided</scope>
             <systemPath>${project.basedir}/lib/Residence4.8.8.2.jar</systemPath>
         </dependency>
     </dependencies>

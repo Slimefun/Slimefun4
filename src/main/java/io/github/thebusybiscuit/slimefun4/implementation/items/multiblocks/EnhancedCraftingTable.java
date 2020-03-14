@@ -35,9 +35,9 @@ public class EnhancedCraftingTable extends BackpackCrafter {
 
         List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
-        for (int i = 0; i < inputs.size(); i++) {
-            if (isCraftable(inv, inputs.get(i))) {
-                ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+        for (ItemStack[] input : inputs) {
+            if (isCraftable(inv, input)) {
+                ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
                 if (Slimefun.hasUnlocked(p, output, true)) {
                     craft(inv, dispenser, p, b, output);
                 }
