@@ -63,7 +63,7 @@ public class LocalizationService extends SlimefunLocalization {
             plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
         }
 
-        Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
+        Slimefun.getLogger().log(Level.INFO, "可用的语言: {0}", String.join(", ", languages.keySet()));
 
         setPrefix("&aSlimefun 4 &7> ");
         save();
@@ -129,7 +129,7 @@ public class LocalizationService extends SlimefunLocalization {
         defaultLanguage.setCategories(streamConfigFile("categories_" + language + ".yml", null));
         defaultLanguage.setRecipeTypes(streamConfigFile("recipes_" + language + ".yml", null));
 
-        Slimefun.getLogger().log(Level.INFO, "Loaded language \"{0}\"", language);
+        Slimefun.getLogger().log(Level.INFO, "已载入语言 \"{0}\"", language);
         getConfig().setValue(LANGUAGE_PATH, language);
 
         // Loading in the defaults from our resources folder
