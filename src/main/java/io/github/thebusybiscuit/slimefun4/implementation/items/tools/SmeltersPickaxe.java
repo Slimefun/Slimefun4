@@ -14,12 +14,13 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.DamageableItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
+public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements DamageableItem {
 
     public SmeltersPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -41,6 +42,7 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
                     if (!Slimefun.hasUnlocked(e.getPlayer(), SmeltersPickaxe.this, true)) return true;
 
                     Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
+
                     for (ItemStack drop : blockDrops) {
                         if (drop != null) {
                             ItemStack output = drop;
@@ -56,11 +58,18 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
                         }
                     }
 
+                    damageItem(e.getPlayer(), item);
+
                     return true;
                 }
                 else return false;
             }
         };
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return true;
     }
 
 }
