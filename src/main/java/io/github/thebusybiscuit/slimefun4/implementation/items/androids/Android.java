@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -196,9 +197,7 @@ abstract class Android extends SlimefunItem {
 
         menu.addItem(48, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
         menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
-            if (!action.isShiftClicked()) {
-                uploadScript(pl, b, page);
-            }
+            uploadScript(pl, b, page);
             return false;
         });
 
@@ -302,7 +301,6 @@ abstract class Android extends SlimefunItem {
             }
 
             if (script.getString("code").equals(code)) {
-                p.closeInventory();
                 SlimefunPlugin.getLocal().sendMessage(p, "android.scripts.already-uploaded", true);
                 return;
             }
@@ -384,7 +382,7 @@ abstract class Android extends SlimefunItem {
             }
         }
 
-        scripts.sort(Comparator.comparingInt(script -> -(getScriptRating(script, true) + 1 - getScriptRating(script, false))));
+        Collections.sort(scripts, Comparator.comparingInt(script -> -(getScriptRating(script, true) + 1 - getScriptRating(script, false))));
 
         return scripts;
     }
