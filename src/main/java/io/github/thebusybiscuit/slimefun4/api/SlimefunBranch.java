@@ -12,23 +12,23 @@ public enum SlimefunBranch {
     /**
      * This build stems from the official "development" branch, it is prefixed with {@code DEV - X}
      */
-    DEVELOPMENT("master", true),
+    DEVELOPMENT("development build", true),
 
     /**
      * This build stems from the official "stable" branch, it is prefixed with {@code RC - X}
      */
-    STABLE("stable", true),
+    STABLE("\"stable\" build", true),
 
     /**
      * This build stems from an unofficial branch, it contains the string {@code UNOFFICIAL}
      */
-    UNOFFICIAL("Unknown", false),
+    UNOFFICIAL("Unofficial build", false),
 
     /**
      * This build comes from any other branch. The version does not look like anything we recognize.
      * It is definitely not an official build.
      */
-    UNKNOWN("Unknown", false);
+    UNKNOWN("Unofficial build", false);
 
     private final String name;
     private final boolean official;
