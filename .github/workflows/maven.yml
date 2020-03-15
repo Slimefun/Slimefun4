@@ -17,7 +17,6 @@ jobs:
         java-version: 1.8 
     - run: mvn -B package --file pom.xml
     - run: mkdir staging && cp target/*.jar staging
-    - name: Cache Maven packages
     - uses: actions/cache@v1
       with:
         path: ~/.m2
