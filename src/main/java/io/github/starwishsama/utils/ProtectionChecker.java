@@ -24,13 +24,15 @@ public class ProtectionChecker implements Listener {
 
     @EventHandler
     public void onAndroidInteract(AndroidMineEvent e) {
-        Block android = e.getAndroid().getBlock();
-        Block block = e.getBlock();
-        final Player p = Bukkit.getPlayer(getOwnerByJson(BlockStorage.getBlockInfoAsJson(android)));
+        if (e != null) {
+            Block android = e.getAndroid().getBlock();
+            Block block = e.getBlock();
+            Player p = Bukkit.getPlayer(getOwnerByJson(BlockStorage.getBlockInfoAsJson(android)));
 
-        if (!check(p, block, true) && p != null) {
-            e.setCancelled(true);
-            SlimefunPlugin.getLocal().sendMessage(p, "android.no-permission");
+            if (!check(p, block, true) && p != null) {
+                e.setCancelled(true);
+                SlimefunPlugin.getLocal().sendMessage(p, "android.no-permission");
+            }
         }
     }
 
