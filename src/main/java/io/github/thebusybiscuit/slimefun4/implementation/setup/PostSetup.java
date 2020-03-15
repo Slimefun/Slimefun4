@@ -1,18 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.Alloy;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
@@ -27,19 +35,30 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public final class MiscSetup {
+public final class PostSetup {
 
-    private MiscSetup() {}
+    private PostSetup() {}
 
-    public static void setupMisc() {
-        SlimefunItem talisman = SlimefunItem.getByID("COMMON_TALISMAN");
-
-        if (talisman != null && (boolean) Slimefun.getItemValue(talisman.getID(), "recipe-requires-nether-stars")) {
-            talisman.setRecipe(new ItemStack[] { SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.NETHER_STAR), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2 });
-        }
-
+    public static void setupWiki() {
         Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
-        WikiSetup.addWikiPages(SlimefunPlugin.instance);
+
+        JsonParser parser = new JsonParser();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream("/wiki.json")))) {
+            JsonElement element = parser.parse(reader.lines().collect(Collectors.joining("")));
+            JsonObject json = element.getAsJsonObject();
+
+            for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
+                SlimefunItem item = SlimefunItem.getByID(entry.getKey());
+
+                if (item != null) {
+                    item.addOficialWikipage(entry.getValue().getAsString());
+                }
+            }
+        }
+        catch (IOException e) {
+            Slimefun.getLogger().log(Level.SEVERE, "Failed to load wiki.json file", e);
+        }
     }
 
     public static void loadItems() {
@@ -50,10 +69,6 @@ public final class MiscSetup {
 
             if (item == null) {
                 Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
-                iterator.remove();
-            }
-            else if (item.getItem() == null) {
-                Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('" + item.getID() + "')");
                 iterator.remove();
             }
         }

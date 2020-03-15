@@ -41,20 +41,20 @@ public class RecipeType implements Keyed {
     public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "enhanced_crafting_table"), (SlimefunItemStack) SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power...");
     public static final RecipeType JUICER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "juicer"), (SlimefunItemStack) SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
 
-    public static final RecipeType ANCIENT_ALTAR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ancient_altar"), (SlimefunItemStack) SlimefunItems.ANCIENT_ALTAR, (recipe, output) -> {
+    public static final RecipeType ANCIENT_ALTAR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ancient_altar"), SlimefunItems.ANCIENT_ALTAR, (recipe, output) -> {
         AltarRecipe altarRecipe = new AltarRecipe(Arrays.asList(recipe), output);
         SlimefunPlugin.getAncientAltarListener().getRecipes().add(altarRecipe);
     });
 
     public static final RecipeType MOB_DROP = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "mob_drop"), new CustomItem(Material.IRON_SWORD, "&bMob Drop"), RecipeType::registerMobDrop, "", "&rKill the specified Mob to obtain this Item");
 
-    public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "heated_pressure_chamber"), (SlimefunItemStack) SlimefunItems.HEATED_PRESSURE_CHAMBER);
-    public static final RecipeType FOOD_FABRICATOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "food_fabricator"), (SlimefunItemStack) SlimefunItems.FOOD_FABRICATOR);
-    public static final RecipeType FOOD_COMPOSTER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "food_composter"), (SlimefunItemStack) SlimefunItems.FOOD_COMPOSTER);
-    public static final RecipeType FREEZER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "freezer"), (SlimefunItemStack) SlimefunItems.FREEZER);
+    public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "heated_pressure_chamber"), SlimefunItems.HEATED_PRESSURE_CHAMBER);
+    public static final RecipeType FOOD_FABRICATOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "food_fabricator"), SlimefunItems.FOOD_FABRICATOR);
+    public static final RecipeType FOOD_COMPOSTER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "food_composter"), SlimefunItems.FOOD_COMPOSTER);
+    public static final RecipeType FREEZER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "freezer"), SlimefunItems.FREEZER);
 
-    public static final RecipeType GEO_MINER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "geo_miner"), (SlimefunItemStack) SlimefunItems.GEO_MINER);
-    public static final RecipeType NUCLEAR_REACTOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "nuclear_reactor"), (SlimefunItemStack) SlimefunItems.NUCLEAR_REACTOR);
+    public static final RecipeType GEO_MINER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "geo_miner"), SlimefunItems.GEO_MINER);
+    public static final RecipeType NUCLEAR_REACTOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "nuclear_reactor"), SlimefunItems.NUCLEAR_REACTOR);
 
     public static final RecipeType NULL = new RecipeType();
 

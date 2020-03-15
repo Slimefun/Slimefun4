@@ -62,7 +62,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeL
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
@@ -183,7 +183,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             GEOResourcesSetup.setup();
 
             getLogger().log(Level.INFO, "Loading Items...");
-            MiscSetup.setupItemSettings();
+            PostSetup.setupItemSettings();
 
             try {
                 SlimefunItemSetup.setup(this);
@@ -203,7 +203,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
 
-            MiscSetup.setupMisc();
+            PostSetup.setupWiki();
 
             // Setting up GitHub Connectors...
             gitHubService.connect(false);
@@ -259,7 +259,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 recipeSnapshot = new RecipeSnapshot(this);
                 protections = new ProtectionManager(getServer());
 
-                MiscSetup.loadItems();
+                PostSetup.loadItems();
 
                 for (World world : Bukkit.getWorlds()) {
                     new BlockStorage(world);

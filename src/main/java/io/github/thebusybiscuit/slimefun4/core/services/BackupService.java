@@ -46,14 +46,14 @@ public class BackupService implements Runnable {
                         createBackup(output);
                     }
 
-                    Slimefun.getLogger().log(Level.INFO, "Backed up Data to: " + file.getName());
+                    Slimefun.getLogger().log(Level.INFO, "Backed up Slimefun data to: {0}", file.getName());
                 }
                 else {
-                    Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: " + file.getName());
+                    Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: {0}", file.getName());
                 }
             }
             catch (IOException x) {
-                Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a World-Backup for Slimefun " + SlimefunPlugin.getVersion(), x);
+                Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a backup for Slimefun " + SlimefunPlugin.getVersion(), x);
             }
         }
     }
@@ -138,7 +138,7 @@ public class BackupService implements Runnable {
 
         for (int i = backups.size() - 20; i > 0; i--) {
             if (!backups.get(i).delete()) {
-                Slimefun.getLogger().log(Level.WARNING, "Could not delete Backup: " + backups.get(i).getName());
+                Slimefun.getLogger().log(Level.WARNING, "Could not delete backup {0}", backups.get(i).getName());
             }
         }
     }

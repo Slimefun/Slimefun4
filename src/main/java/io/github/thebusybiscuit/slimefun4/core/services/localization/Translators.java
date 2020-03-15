@@ -22,104 +22,105 @@ public class Translators {
         this.contributors = contributors;
 
         // Translators - German
-        addTranslator("TheBusyBiscuit", "de", false);
-        addTranslator("MeerBiene", "de", true);
-        addTranslator("daro2404", "de", true);
+        addTranslator("TheBusyBiscuit", EmbeddedLanguage.GERMAN, false);
+        addTranslator("MeerBiene", EmbeddedLanguage.GERMAN, true);
+        addTranslator("daro2404", EmbeddedLanguage.GERMAN, true);
 
         // Translators - French
-        addTranslator("JustDams", "D4ms_", "fr", true);
-        addTranslator("edkerforne", "fr", true);
-        addTranslator("tnthomastn", "fr", true);
-        addTranslator("Noumaa", "fr", true);
-        addTranslator("ishi-sama", "fr", true);
+        addTranslator("JustDams", "D4ms_", EmbeddedLanguage.FRENCH, true);
+        addTranslator("edkerforne", EmbeddedLanguage.FRENCH, true);
+        addTranslator("tnthomastn", EmbeddedLanguage.FRENCH, true);
+        addTranslator("Noumaa", EmbeddedLanguage.FRENCH, true);
+        addTranslator("ishi-sama", EmbeddedLanguage.FRENCH, true);
 
         // Translators - Italian
-        addTranslator("xXDOTTORXx", "it", true);
+        addTranslator("xXDOTTORXx", EmbeddedLanguage.ITALIAN, true);
 
         // Translators - Latvian
-        addTranslator("AgnisT", "NIKNAIZ", "lv", true);
+        addTranslator("AgnisT", "NIKNAIZ", EmbeddedLanguage.LATVIAN, true);
 
         // Translators - Hungarian
-        addTranslator("andris155", "hu", true);
+        addTranslator("andris155", EmbeddedLanguage.HUNGARIAN, true);
 
         // Translators - Vietnamese
-        addTranslator("HSGamer", "vi", false);
-        addTranslator("JustMangoT", "JFF_JustMango", "vi", true);
-        addTranslator("Julie-Sigtuna", "vi", true);
-        addTranslator("nahkd123", "vi", true);
-        addTranslator("JustAPieOP", "vi", true);
+        addTranslator("HSGamer", EmbeddedLanguage.VIETNAMESE, false);
+        addTranslator("JustMangoT", "JFF_JustMango", EmbeddedLanguage.VIETNAMESE, true);
+        addTranslator("Julie-Sigtuna", EmbeddedLanguage.VIETNAMESE, true);
+        addTranslator("nahkd123", EmbeddedLanguage.VIETNAMESE, true);
+        addTranslator("JustAPieOP", EmbeddedLanguage.VIETNAMESE, true);
+        addTranslator("that4life", EmbeddedLanguage.VIETNAMESE, true);
 
         // Translators - Slovak
-        addTranslator("KillerXCoder", "sk", true);
-        addTranslator("PixelHotDog", "sk", true);
+        addTranslator("KillerXCoder", EmbeddedLanguage.SLOVAK, true);
+        addTranslator("PixelHotDog", EmbeddedLanguage.SLOVAK, true);
 
         // Translators - Czech
-        addTranslator("Nekomitsuki", "cs", true);
-        addTranslator("GGGEDR", "cs", true);
-        addTranslator("jakmanda05", "cs", true);
-        addTranslator("Aile-Minicraftcz", "cs", true);
-        addTranslator("Tengoblinekcz", "cs", true);
-        addTranslator("sirhCCC", "cs", true);
-        addTranslator("Thezerix", "cs", true);
-        addTranslator("IsLineCZ", "cs", true);
-        addTranslator("MrFriggo", "cs", true);
+        addTranslator("Nekomitsuki", EmbeddedLanguage.CZECH, true);
+        addTranslator("GGGEDR", EmbeddedLanguage.CZECH, true);
+        addTranslator("jakmanda05", EmbeddedLanguage.CZECH, true);
+        addTranslator("Aile-Minicraftcz", EmbeddedLanguage.CZECH, true);
+        addTranslator("Tengoblinekcz", EmbeddedLanguage.CZECH, true);
+        addTranslator("sirhCCC", EmbeddedLanguage.CZECH, true);
+        addTranslator("Thezerix", EmbeddedLanguage.CZECH, true);
+        addTranslator("IsLineCZ", EmbeddedLanguage.CZECH, true);
+        addTranslator("MrFriggo", EmbeddedLanguage.CZECH, true);
 
         // Translators - Russian
-        addTranslator("SoSeDiK", "ru", false);
-        addTranslator("KostaTV", "ru", true);
-        addTranslator("TomWiskis", "MrWiskis", "ru", true);
+        addTranslator("SoSeDiK", EmbeddedLanguage.RUSSIAN, false);
+        addTranslator("KostaTV", EmbeddedLanguage.RUSSIAN, true);
+        addTranslator("TomWiskis", "MrWiskis", EmbeddedLanguage.RUSSIAN, true);
 
         // Translators - Spanish
-        addTranslator("Luu7", "_Luu", "es", true);
-        addTranslator("Vravinite", "es", true);
-        addTranslator("NotUmBr4", "es", true);
-        addTranslator("dbzjjoe", "es", true);
+        addTranslator("Luu7", "_Luu", EmbeddedLanguage.SPANISH, true);
+        addTranslator("Vravinite", EmbeddedLanguage.SPANISH, true);
+        addTranslator("NotUmBr4", EmbeddedLanguage.SPANISH, true);
+        addTranslator("dbzjjoe", EmbeddedLanguage.SPANISH, true);
 
         // Translators - Swedish
-        addTranslator("NihilistBrew", "ma1yang2", "sv", false);
-        addTranslator("Tra-sh", "TurretTrash", "sv", true);
+        addTranslator("NihilistBrew", "ma1yang2", EmbeddedLanguage.SWEDISH, false);
+        addTranslator("Tra-sh", "TurretTrash", EmbeddedLanguage.SWEDISH, true);
 
         // Translators - Dutch
-        addTranslator("Dr4gonD", "DragonD", "nl", true);
-        addTranslator("svr333", "nl", false);
-        addTranslator("PabloMarcendo", "nl", true);
+        addTranslator("Dr4gonD", "DragonD", EmbeddedLanguage.DUTCH, true);
+        addTranslator("svr333", EmbeddedLanguage.DUTCH, false);
+        addTranslator("PabloMarcendo", EmbeddedLanguage.DUTCH, true);
 
         // Translators - Polish
-        addTranslator("kbartek05", "kbartek_", "pl", true);
-        addTranslator("Xylitus", "pl", true);
-        addTranslator("Wirusiu", "pl", true);
-        addTranslator("koloksk", "pl", true);
+        addTranslator("kbartek05", "kbartek_", EmbeddedLanguage.POLISH, true);
+        addTranslator("Xylitus", EmbeddedLanguage.POLISH, true);
+        addTranslator("Wirusiu", EmbeddedLanguage.POLISH, true);
+        addTranslator("koloksk", EmbeddedLanguage.POLISH, true);
 
         // Translators - Chinese (China)
-        addTranslator("StarWishsama", "StarWish_Sama", "zh-CN", false);
+        addTranslator("StarWishsama", "StarWish_Sama", EmbeddedLanguage.CHINESE_CHINA, false);
 
         // Translators - Chinese (Taiwan)
-        addTranslator("BrineYT", "HeroBrineKing", "zh-TW", true);
-        addTranslator("mio9", "zh-TW", true);
+        addTranslator("BrineYT", "HeroBrineKing", EmbeddedLanguage.CHINESE_TAIWAN, true);
+        addTranslator("mio9", EmbeddedLanguage.CHINESE_TAIWAN, true);
 
         // Translators - Arabic
-        addTranslator("mohkamfer", "citBabY", "ar", false);
+        addTranslator("mohkamfer", "citBabY", EmbeddedLanguage.ARABIC, false);
 
         // Translators - Japanese
-        addTranslator("bito-blosh", "Bloshop", "ja", true);
+        addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, true);
 
         // Translators - Turkish
-        addTranslator("Yunuskrn", "tr", true);
-        addTranslator("LinoxGH", "ajan_12", "tr", false);
+        addTranslator("Yunuskrn", EmbeddedLanguage.TURKISH, true);
+        addTranslator("LinoxGH", "ajan_12", EmbeddedLanguage.TURKISH, false);
 
         // Translators - Portuguese (Brazil)
-        addTranslator("G4stavoM1ster", "pt-BR", true);
-        addTranslator("yurinogueira", "pt-BR", true);
-        addTranslator("Sakanas", "pt-BR", true);
+        addTranslator("G4stavoM1ster", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("yurinogueira", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("Sakanas", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
     }
 
-    private void addTranslator(String name, String language, boolean lock) {
-        addTranslator(name, name, language, lock);
+    private void addTranslator(String name, EmbeddedLanguage lang, boolean lock) {
+        addTranslator(name, name, lang, lock);
     }
 
-    private void addTranslator(String name, String alias, String language, boolean lock) {
+    private void addTranslator(String name, String alias, EmbeddedLanguage lang, boolean lock) {
         Contributor contributor = contributors.computeIfAbsent(name, user -> new Contributor(alias, "https://github.com/" + user));
-        contributor.setContribution("translator," + language, 0);
+        contributor.setContribution("translator," + lang.getId(), 0);
 
         if (lock) {
             contributor.lock();
