@@ -1,0 +1,94 @@
+---
+slimefun:
+  multiblock:
+    name: Đa khối
+    lore:
+    - 
+    - hiển thị. Đây không phải công thức chế tạo
+  enhanced_crafting_table:
+    name: Enhanced Crafting Table
+    lore:
+    - Chế tạo vật phẩm được hiển thị
+    - vào Enhanced Crafting Table.
+  armor_forge:
+    name: Armor Forge
+  grind_stone:
+    name: Grind Stone
+  smeltery:
+    name: Smeltery
+  ore_crusher:
+    name: Ore Crusher
+  gold_pan:
+    name: Gold Pan
+    lore:
+    - Dùng Gold Pan để
+  compressor:
+    name: Compressor
+    lore:
+    - 
+    - sử dụng Compressor
+  pressure_chamber:
+    name: Pressure Chamber
+    lore:
+    - 
+    - sử dụng Pressure Chamber
+  ore_washer:
+    name: Ore Washer
+    lore:
+    - 
+    - sử dụng Ore Washer
+  juicer:
+    name: Juicer
+    lore:
+    - 
+    - sử dụng Juicer
+  magic_workbench:
+    name: Magic Workbench
+    lore:
+    - 
+    - sử dụng Magic Workbench
+  ancient_altar:
+    name: Ancient Altar
+    lore:
+    - 
+    - sử dụng Ancient Altar.
+  heated_pressure_chamber:
+    name: Heated Pressure Chamber
+    lore:
+    - 
+    - sử dụng Heated Pressure Chamber
+  food_fabricator:
+    name: Food Fabricator
+    lore:
+    - 
+    - sử dụng Food Fabricator
+  food_composter:
+    name: Food Composter
+    lore:
+    - 
+    - sử dụng Food Composter
+  freezer:
+    name: Freezer
+    lore:
+    - 
+    - sử dụng Freezer
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - Vật phẩm này có thể kiểm được
+    - bàng cách sử dụng GEO Miner
+  nuclear_reactor:
+    name: Nuclear Reactor
+    lore:
+    - 
+    - của Nuclear Reactor
+minecraft:
+  shaped:
+    name: Công thức chế tạo hình
+    lore:
+    - Chế tạo vật phẩm
+    - trong bàn chế tạo thường.
+  shapeless:
+    lore:
+    - Chế tạo vật phẩm này
+    - trong bàn chế tạo thường
