@@ -101,7 +101,7 @@ abstract class Android extends SlimefunItem {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
         String[] commands = PatternUtils.DASH.split(script);
 
-        menu.addItem(0, new CustomItem(ScriptPart.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+        menu.addItem(0, new CustomItem(ScriptAction.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             BlockStorage.getInventory(b).open(pl);
             return false;
@@ -121,21 +121,21 @@ abstract class Android extends SlimefunItem {
                     });
                 }
 
-                menu.addItem(i + additional, new CustomItem(ScriptPart.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+                menu.addItem(i + additional, new CustomItem(ScriptAction.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
                 menu.addMenuClickHandler(i + additional, (pl, slot, item, action) -> {
                     BlockStorage.getInventory(b).open(pl);
                     return false;
                 });
             }
             else {
-                ItemStack stack = ScriptPart.valueOf(commands[i]).getItem();
-                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + ScriptPart.valueOf(commands[i]).name()), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
+                ItemStack stack = ScriptAction.valueOf(commands[i]).getItem();
+                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + ScriptAction.valueOf(commands[i]).name()), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     if (action.isRightClicked() && action.isShiftClicked()) {
                         if (commands.length == 54) return false;
 
                         int j = 0;
-                        StringBuilder builder = new StringBuilder(ScriptPart.START + "-");
+                        StringBuilder builder = new StringBuilder(ScriptAction.START + "-");
 
                         for (String command : commands) {
                             if (j > 0) {
@@ -146,21 +146,21 @@ abstract class Android extends SlimefunItem {
                             }
                             j++;
                         }
-                        builder.append(ScriptPart.REPEAT);
+                        builder.append(ScriptAction.REPEAT);
                         BlockStorage.addBlockInfo(b, "script", builder.toString());
 
                         openScript(pl, b, builder.toString());
                     }
                     else if (action.isRightClicked()) {
                         int j = 0;
-                        StringBuilder builder = new StringBuilder(ScriptPart.START + "-");
+                        StringBuilder builder = new StringBuilder(ScriptAction.START + "-");
 
                         for (String command : commands) {
                             if (j != index && j > 0 && j < commands.length - 1) builder.append(command).append('-');
                             j++;
                         }
 
-                        builder.append(ScriptPart.REPEAT);
+                        builder.append(ScriptAction.REPEAT);
                         BlockStorage.addBlockInfo(b, "script", builder.toString());
 
                         openScript(pl, b, builder.toString());
@@ -392,11 +392,11 @@ abstract class Android extends SlimefunItem {
         return scripts;
     }
 
-    protected List<ScriptPart> getAccessibleScriptParts() {
-        List<ScriptPart> list = new ArrayList<>();
+    protected List<ScriptAction> getAccessibleScriptParts() {
+        List<ScriptAction> list = new ArrayList<>();
 
-        for (ScriptPart part : ScriptPart.values()) {
-            if (part != ScriptPart.START && part != ScriptPart.REPEAT && getAndroidType().isType(part.getRequiredType())) {
+        for (ScriptAction part : ScriptAction.values()) {
+            if (part != ScriptAction.START && part != ScriptAction.REPEAT && getAndroidType().isType(part.getRequiredType())) {
                 list.add(part);
             }
         }
@@ -450,7 +450,7 @@ abstract class Android extends SlimefunItem {
         });
 
         int i = 10;
-        for (ScriptPart part : getAccessibleScriptParts()) {
+        for (ScriptAction part : getAccessibleScriptParts()) {
             menu.addItem(i, new CustomItem(part.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + part.name())), (pl, slot, item, action) -> {
                 addInstruction(pl, b, index, part, commands);
                 return false;
@@ -461,7 +461,7 @@ abstract class Android extends SlimefunItem {
         menu.open(p);
     }
 
-    private void addInstruction(Player p, Block b, int index, ScriptPart part, String[] commands) {
+    private void addInstruction(Player p, Block b, int index, ScriptAction part, String[] commands) {
         int j = 0;
         StringBuilder builder = new StringBuilder("START-");
 

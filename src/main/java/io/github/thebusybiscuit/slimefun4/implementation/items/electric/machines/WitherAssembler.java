@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wither;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -32,6 +33,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+/**
+ * The {@link WitherAssembler} is an electrical machine that can automatically spawn
+ * a {@link Wither} if the required ingredients have been provided.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
 
     private static final int ENERGY_CONSUMPTION = 4096;

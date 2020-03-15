@@ -23,6 +23,11 @@ class SearchCommand extends SubCommand {
     }
 
     @Override
+    public boolean isHidden() {
+        return false;
+    }
+
+    @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             if (sender.hasPermission("slimefun.command.search")) {

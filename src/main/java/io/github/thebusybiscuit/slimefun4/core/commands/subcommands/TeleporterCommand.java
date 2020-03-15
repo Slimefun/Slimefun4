@@ -22,6 +22,11 @@ class TeleporterCommand extends SubCommand {
     }
 
     @Override
+    public boolean isHidden() {
+        return false;
+    }
+
+    @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (args.length == 2) {
             if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {

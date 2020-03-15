@@ -262,7 +262,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
                 boolean refresh = true;
                 BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
-                ScriptPart part = ScriptPart.valueOf(script[index]);
+                ScriptAction part = ScriptAction.valueOf(script[index]);
 
                 if (getAndroidType().isType(part.getRequiredType())) {
                     BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));

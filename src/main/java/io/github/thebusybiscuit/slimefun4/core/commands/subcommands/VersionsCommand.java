@@ -26,6 +26,11 @@ class VersionsCommand extends SubCommand {
     }
 
     @Override
+    public boolean isHidden() {
+        return false;
+    }
+
+    @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (sender.hasPermission("slimefun.command.versions") || sender instanceof ConsoleCommandSender) {
             sender.sendMessage(ChatColors.color("&a" + Bukkit.getName() + " &2" + ReflectionUtils.getVersion()));

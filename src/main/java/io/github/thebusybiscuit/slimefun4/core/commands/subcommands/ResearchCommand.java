@@ -27,7 +27,12 @@ class ResearchCommand extends SubCommand {
     }
 
     @Override
-    protected String getDescriptionPath() {
+    public boolean isHidden() {
+        return false;
+    }
+
+    @Override
+    protected String getDescription() {
         return "commands.research.description";
     }
 

@@ -32,11 +32,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, EnergyNetComponent {
 
+    private static final int ENERGY_CONSUMPTION = 32;
+
     private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22 };
     private final int[] inputBorder = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
-
-    private static final int ENERGY_CONSUMPTION = 32;
 
     public FluidPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

@@ -19,6 +19,11 @@ class TimingsCommand extends SubCommand {
     }
 
     @Override
+    public boolean isHidden() {
+        return false;
+    }
+
+    @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (sender.hasPermission("slimefun.command.timings") || sender instanceof ConsoleCommandSender) {
             SlimefunPlugin.getTicker().info(sender);

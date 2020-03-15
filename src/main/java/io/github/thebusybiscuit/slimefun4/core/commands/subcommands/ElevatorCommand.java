@@ -37,6 +37,11 @@ class ElevatorCommand extends SubCommand {
     }
 
     @Override
+    public boolean isHidden() {
+        return true;
+    }
+
+    @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (sender instanceof Player && args.length == 4) {
             Player p = (Player) sender;

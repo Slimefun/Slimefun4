@@ -18,6 +18,11 @@ class HelpCommand extends SubCommand {
     }
 
     @Override
+    public boolean isHidden() {
+        return false;
+    }
+
+    @Override
     public void onExecute(CommandSender sender, String[] args) {
         cmd.sendHelp(sender);
     }

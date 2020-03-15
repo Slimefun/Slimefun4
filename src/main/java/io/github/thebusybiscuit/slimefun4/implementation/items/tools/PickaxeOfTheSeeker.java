@@ -28,21 +28,20 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
             Block closest = findClosestOre(p);
 
             e.setUseBlock(Result.DENY);
-            
+
             if (closest == null) {
                 SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores");
             }
             else {
                 double l = closest.getX() + 0.5 - p.getLocation().getX();
                 double w = closest.getZ() + 0.5 - p.getLocation().getZ();
-                float yaw;
-                float pitch;
+
                 double c = Math.sqrt(l * l + w * w);
-                double alpha1 = -Math.asin(l / c) / Math.PI * 180;
-                double alpha2 = Math.acos(w / c) / Math.PI * 180;
-                if (alpha2 > 90) yaw = (float) (180 - alpha1);
-                else yaw = (float) alpha1;
-                pitch = (float) ((-Math.atan((closest.getY() - 0.5 - p.getLocation().getY()) / Math.sqrt(l * l + w * w))) * 180F / Math.PI);
+                float alpha1 = (float) -(Math.asin(l / c) / Math.PI * 180);
+                float alpha2 = (float) (Math.acos(w / c) / Math.PI * 180);
+
+                float yaw = alpha2 > 90 ? (180 - alpha1) : alpha1;
+                float pitch = (float) ((-Math.atan((closest.getY() - 0.5 - p.getLocation().getY()) / Math.sqrt(l * l + w * w))) * 180 / Math.PI);
 
                 p.teleport(new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ(), yaw, pitch));
             }
@@ -57,7 +56,7 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
         for (int x = -4; x <= 4; x++) {
             for (int y = -4; y <= 4; y++) {
                 for (int z = -4; z <= 4; z++) {
-                    if (MaterialCollections.getAllOres().contains(p.getLocation().getBlock().getRelative(x, y, z).getType()) && (closest == null || p.getLocation().distanceSquared(closest.getLocation()) > p.getLocation().distanceSquared(p.getLocation().getBlock().getRelative(x, y, z).getLocation()))) {
+                    if (MaterialCollections.getAllOres().contains(p.getLocation().add(x, y, z).getBlock().getType()) && (closest == null || p.getLocation().distanceSquared(closest.getLocation()) > p.getLocation().distanceSquared(p.getLocation().add(x, y, z)))) {
                         closest = p.getLocation().getBlock().getRelative(x, y, z);
                     }
                 }

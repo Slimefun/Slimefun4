@@ -20,6 +20,11 @@ class DebugFishCommand extends SubCommand {
     }
 
     @Override
+    public boolean isHidden() {
+        return true;
+    }
+
+    @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (sender instanceof Player && sender.isOp()) {
             ((Player) sender).getInventory().addItem(SlimefunItems.DEBUG_FISH);

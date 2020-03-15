@@ -24,6 +24,11 @@ class StatsCommand extends SubCommand {
     }
 
     @Override
+    public boolean isHidden() {
+        return false;
+    }
+
+    @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (args.length > 1) {
             if (sender.hasPermission("slimefun.stats.others") || sender instanceof ConsoleCommandSender) {
