@@ -3,7 +3,7 @@ slimefun:
   multiblock:
     name: Đa khối
     lore:
-    - 
+    - Xây công trình đã hiển thị
     - hiển thị. Đây không phải công thức chế tạo
   enhanced_crafting_table:
     name: Bàn chế tạo nâng cao
@@ -12,14 +12,112 @@ slimefun:
     - vào Enhanced Crafting Table.
   nuclear_reactor:
     lore:
-    - 
+    - Vật phẩm này là sản phẩm phụ
     - của việc khởi động lò phản ứng hạt nhân
+    name: Lò phản ứng hạt nhân
+  armor_forge:
+    name: Lò rèn giáp
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng lò rèn giáp
+  grind_stone:
+    name: Máy xay đá
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng máy xay đá
+  smeltery:
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+  ore_crusher:
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+  mob_drop:
+    name: Vật phẩm bị rơi ra từ con vật bị giết
+    lore:
+    - Giết con vật đó để
+    - lấy vật phẩm này
+  gold_pan:
+    lore:
+    - Dùng chảo vàng để
+    - lấy vật phẩm này
+  compressor:
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng một máy nén
+  pressure_chamber:
+    name: Buồng áp suất nóng
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng buồng áp suất nóng
+  ore_washer:
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+  juicer:
+    lore:
+    - Chế tạo nước ép này như đã hiển thị
+    - sử dụng máy ép trái cây
+  ancient_altar:
+    name: Cột trụ cổ
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng cột trụ cổ.
+    - Kiểm tra cột trụ cổ để biết thêm thông tin
+  heated_pressure_chamber:
+    name: Buồng áp suất nóng
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng một buồng áp suất nóng
+  food_fabricator:
+    name: Máy chế tạo thực phẩm
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng máy nghiền thực phẩm
+  food_composter:
+    name: Máy tổng hợp thức ăn
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng một máy tổng hợp thức ăn
+  freezer:
+    lore:
+    - Chế tạo vật phẩm như đã hiển thị
+  geo_miner:
+    name: Máy đào GEO
+    lore:
+    - Vật phẩm này có thể nhặt
+    - sử dụng máy đào GEO
 minecraft:
   shaped:
     lore:
     - Chế tạo vật phẩm
     - trong bàn chế tạo thường.
+    name: Công thức chế tạo vô dạng
   shapeless:
     lore:
     - Chế tạo vật phẩm này
     - trong bàn chế tạo thường
+    - Công thức này vô dạng.
+  furnace:
+    name: Công thức nung lò nung
+    lore:
+    - 
+    - để chế tạo vật phẩm bạn muốn
+  blasting:
+    name: Công thức lò nung phản ứng
+    lore:
+    - Nung vật phẩm này trong một lò nung phản ứng
+    - để chế tạo vật phẩm mình muốn
+  smoking:
+    name: Công thức máy tạo hơi khói
+    lore:
+    - Nung vật phẩm này trong máy tạo hơi khói
+    - để chế tạo vật phẩm bạn mong muốn
+  campfire:
+    name: Công thức nung trên lửa trại
+    lore:
+    - Nung vật phẩm này trên một lửa trại
+    - để chế tạo vật phẩm bạn muốn
+  stonecutting:
+    name: Công thức máy cắt đá
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng máy cắt đá
