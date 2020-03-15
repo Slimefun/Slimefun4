@@ -1,4 +1,5 @@
 # Slimefun 4
+For English version, please [click here](https://github.com/TheBusyBiscuit/Slimefun4) <br>
 欢迎来到 Slimefun 4 的汉化版页面. Slimefun 是一个致力于提供模组般体验的插件. 它提供了你能想到的一切, 从背包到喷气背包!
 它添加了多达 490 种新物品给玩家提供新的生存体验!
 
@@ -23,7 +24,7 @@ MCBBS 链接: https://www.mcbbs.net/thread-827594-1-1.html
 ## Discord
 你现在可以在 Discord 上与 Slimefun 服务器中的人聊天!<br>
 单击下方按钮加入服务器.<br>
-注意: 服务器中**不接受**任何形式的问题反馈, 请使用 [问题追踪器](https://github.com/TheBusyBiscuit/Slimefun4/issues) 提交问题反馈!
+注意: 服务器中**不接受**任何形式的问题反馈, 请使用 [问题追踪器](https://github.com/StarWishsama/Slimefun4/issues) 提交问题反馈!
 
 <p align="center">
   <a href="https://discord.gg/fsD4Bkh">
