@@ -6,6 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
+
 /**
  * This class represents a {@link SubCommand}, it is a {@link Command} that starts with
  * {@code /sf ...} and is followed by the name of this {@link SubCommand}.
@@ -24,6 +26,10 @@ public abstract class SubCommand {
     }
 
     public abstract String getName();
+
+    public void recordUsage(Map<SubCommand, Integer> commandUsage) {
+        commandUsage.merge(this, 1, Integer::sum);
+    }
 
     public abstract void onExecute(CommandSender sender, String[] args);
 

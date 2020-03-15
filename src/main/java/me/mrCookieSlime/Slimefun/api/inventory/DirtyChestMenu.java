@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
-import io.github.starwishsama.utils.ResidenceChecker;
+import io.github.starwishsama.utils.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -41,7 +41,7 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public boolean canOpen(Block b, Player p) {
-        return this.preset.canOpen(b, p) && ResidenceChecker.check(p, b, false);
+        return this.preset.canOpen(b, p) && ProtectionChecker.check(p, b, false);
     }
 
     public void close() {

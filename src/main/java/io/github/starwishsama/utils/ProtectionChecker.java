@@ -19,7 +19,7 @@ import org.bukkit.event.Listener;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class ResidenceChecker implements Listener {
+public class ProtectionChecker implements Listener {
     private static boolean installed = false;
 
     @EventHandler
@@ -34,7 +34,7 @@ public class ResidenceChecker implements Listener {
         }
     }
 
-    public ResidenceChecker(SlimefunPlugin plugin) {
+    public ProtectionChecker(SlimefunPlugin plugin) {
         if (isInstalled(plugin)) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
             plugin.getLogger().log(Level.INFO, "检测到领地插件, 领地相关功能已开启");

@@ -47,32 +47,31 @@ public class Compressor extends MultiBlockMachine {
         Dispenser disp = (Dispenser) dispBlock.getState();
         Inventory inv = disp.getInventory();
 
-        for (ItemStack current : inv.getContents()) {
-            for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
-                if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
-                    ItemStack output = RecipeType.getRecipeOutput(this, convert);
-                    int outputAmount = current.getAmount() / convert.getAmount();
-                    int consumed = outputAmount * convert.getAmount();
-                    output.setAmount(outputAmount);
+        for (ItemStack item : inv.getContents()) {
+            for (ItemStack recipeInput : RecipeType.getRecipeInputs(this)) {
+                if (recipeInput != null && SlimefunManager.isItemSimilar(item, recipeInput, true)) {
+                    ItemStack output = RecipeType.getRecipeOutput(this, recipeInput);
                     Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
                     if (outputInv != null) {
-                        ItemStack currentCopy = current.clone();
-                        currentCopy.setAmount(consumed);
-                        craft(p, currentCopy, output, inv, outputInv);
-                    } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                        ItemStack removing = item.clone();
+                        removing.setAmount(recipeInput.getAmount());
+                        inv.removeItem(removing);
+
+                        craft(p, output, outputInv);
+                    } else {
+                        SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    }
+
                     return;
                 }
             }
         }
+
         SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
     }
 
-    private void craft(Player p, ItemStack input, ItemStack output, Inventory inv, Inventory outputInv) {
-        ItemStack removing = input.clone();
-        removing.setAmount(input.getAmount());
-        inv.removeItem(removing);
-
+    private void craft(Player p, ItemStack output, Inventory outputInv) {
         for (int i = 0; i < 4; i++) {
             int j = i;
 

@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import io.github.starwishsama.utils.ResidenceChecker;
+import io.github.starwishsama.utils.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
@@ -47,7 +47,7 @@ public class LumberAxe extends SimpleSlimefunItem<BlockBreakHandler> implements 
                     logs.remove(e.getBlock());
 
                     for (Block b : logs) {
-                        if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK) && ResidenceChecker.check(e.getPlayer(), b, false)) {
+                        if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK) && ProtectionChecker.check(e.getPlayer(), b, false)) {
                             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 
                             for (ItemStack drop : b.getDrops(getItem())) {

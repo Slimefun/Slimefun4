@@ -12,6 +12,8 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
+
 class ElevatorCommand extends SubCommand {
 
     private final ElevatorPlate elevatorPlate;
@@ -49,4 +51,9 @@ class ElevatorCommand extends SubCommand {
         }
     }
 
+    @Override
+    public void recordUsage(Map<SubCommand, Integer> commandUsage) {
+        // This command is only for internal purposes, we do not wanna record the
+        // usage of this one.
+    }
 }
