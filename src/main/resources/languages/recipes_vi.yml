@@ -90,6 +90,8 @@ slimefun:
   freezer:
     lore:
     - Chế tạo vật phẩm như đã hiển thị
+    - sử dụng Máy cấp đông
+    name: Máy cấp đông
   geo_miner:
     name: Máy đào GEO
     lore:
@@ -105,6 +107,7 @@ minecraft:
     lore:
     - Chế tạo vật phẩm
     - trong bàn chế tạo thường.
+    - Hình dạng rất quan trọng.
     name: Công thức chế tạo vô dạng
   shapeless:
     lore:
