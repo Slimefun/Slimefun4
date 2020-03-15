@@ -197,7 +197,7 @@ abstract class Android extends SlimefunItem {
 
         menu.addItem(48, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
         menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
-            uploadScript(pl, b, page);
+            if (!action.isShiftClicked()) uploadScript(pl, b, page);
             return false;
         });
 
