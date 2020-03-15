@@ -99,17 +99,22 @@ guide:
       lore: Nhấn vào đây để thêm bản dịch của riêng bạn
       name: "&aThiếu một cái gì đó?"
     updated: "&aNgôn ngữ của bạn đã được đặt thành công: &b%lang%"
+  locked: ĐÃ KHÓA
+  locked-category:
+  - Để mở khóa danh mục này, bạn
+  - cần phải mở khóa các vật phẩm trong
+  - danh mục sau
   pages:
     next: Trang tiếp theo
     previous: Trang trước
   search:
+    inventory: 'Đang tìm: %item%'
     lore:
     - "&bBạn muốn tìm kiếm cái gì?"
     - "&7Nhập cụm từ tìm kiếm của bạn vào khung chat"
     message: "&bBạn muốn tìm kiếm cái gì?"
     name: "&7Tìm kiếm..."
     tooltip: "&bBấm để tìm vật phẩm"
-    inventory: 'Đang tìm: %item%'
   title:
     addons: Các bổ sung cho Slimefun4
     bugs: Báo cáo lỗi
@@ -128,11 +133,6 @@ guide:
       miner: Tài nguyên bạn có thể kiếm được với máy đào này
     versions-notice: Đây là rất quan trọng khi báo cáo lỗi!
     wiki: Xem vật phẩm này trên trang wiki chính thức của Slimefun
-  locked: ĐÃ KHÓA
-  locked-category:
-  - Để mở khóa danh mục này, bạn
-  - cần phải mở khóa các vật phẩm trong
-  - danh mục sau
 inventory:
   no-access: "&4Bạn không được phép truy cập vào khối này"
 languages:
@@ -205,13 +205,13 @@ machines:
     các vật phẩm với mẫu nhất định vào trong Máy Phân Phát."
   TELEPORTER:
     cancelled: "&4Dịch chuyển bị hủy bỏ!"
+    gui:
+      time: Thời gian dự kiến
+      title: Địa điểm của bạn
+      tooltip: Bấm để dịch chuyển
     invulnerability: "&b&lBạn đã được cho 30 giây Bất Tử!"
     teleported: "&3Đã dịch chuyển!"
     teleporting: "&3Đang dịch chuyển..."
-    gui:
-      title: Địa điểm của bạn
-      tooltip: Bấm để dịch chuyển
-      time: Thời gian dự kiến
   unknown-material: "&eXin lỗi, tôi không thể nhận ra vật phẩm trong máy phân phát.
     Vui lòng đặt thứ gì đó trong đó mà tôi biết."
   wrong-item: "&eXin lỗi, tôi không thể nhận ra vật phẩm mà bạn nhấp chuột phải vào
