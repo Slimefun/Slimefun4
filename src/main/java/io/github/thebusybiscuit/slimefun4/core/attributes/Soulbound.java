@@ -13,6 +13,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see SoulboundItem
  *
  */
-public interface Soulbound {
+public interface Soulbound extends ItemAttribute {
 
 }

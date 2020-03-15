@@ -28,7 +28,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
  *
  */
 @FunctionalInterface
-public interface RecipeDisplayItem {
+public interface RecipeDisplayItem extends ItemAttribute {
 
     /**
      * This is the list of items to display alongside this {@link SlimefunItem}.

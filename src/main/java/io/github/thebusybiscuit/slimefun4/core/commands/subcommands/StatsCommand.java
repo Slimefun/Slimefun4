@@ -14,7 +14,7 @@ import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 class StatsCommand extends SubCommand {
 
-    public StatsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    StatsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 

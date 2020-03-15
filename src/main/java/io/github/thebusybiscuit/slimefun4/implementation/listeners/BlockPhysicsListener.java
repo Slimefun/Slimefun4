@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -88,8 +89,13 @@ public class BlockPhysicsListener implements Listener {
         if (e.getEntity() instanceof Wither) {
             String id = BlockStorage.checkID(e.getBlock());
 
-            if (id != null && SlimefunPlugin.getRegistry().getWitherProofBlocks().contains(id)) {
-                e.setCancelled(true);
+            if (id != null) {
+                WitherProof witherproof = SlimefunPlugin.getRegistry().getWitherProofBlocks().get(id);
+
+                if (witherproof != null) {
+                    e.setCancelled(true);
+                    witherproof.onAttack(e.getBlock(), (Wither) e.getEntity());
+                }
             }
         }
     }

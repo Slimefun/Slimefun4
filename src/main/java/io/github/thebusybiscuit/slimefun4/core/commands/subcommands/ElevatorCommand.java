@@ -19,7 +19,7 @@ class ElevatorCommand extends SubCommand {
 
     private final ElevatorPlate elevatorPlate;
 
-    public ElevatorCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    ElevatorCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
 
         elevatorPlate = ((ElevatorPlate) SlimefunItem.getByID("ELEVATOR_PLATE"));

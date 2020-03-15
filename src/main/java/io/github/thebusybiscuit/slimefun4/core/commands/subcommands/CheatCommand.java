@@ -10,7 +10,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class CheatCommand extends SubCommand {
 
-    public CheatCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    CheatCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 

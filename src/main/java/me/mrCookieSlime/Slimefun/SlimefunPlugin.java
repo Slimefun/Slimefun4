@@ -76,7 +76,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 
 /**
  * This is the main class of Slimefun.
@@ -90,9 +89,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunPlugin instance;
 
-    private RecipeSnapshot recipeSnapshot;
-    private SlimefunRegistry registry;
-
+    private final SlimefunRegistry registry = new SlimefunRegistry();
     private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
     // Services - Systems that fulfill certain tasks, treat them as a black box
@@ -108,18 +105,18 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
     private LocalizationService local;
 
+    private GPSNetwork gpsNetwork;
     private NetworkManager networkManager;
     private ProtectionManager protections;
 
     private TickerTask ticker;
+    private SlimefunCommand command;
+    private RecipeSnapshot recipeSnapshot;
+
     private Config researches;
     private Config items;
     private Config whitelist;
     private Config config;
-
-    private GPSNetwork gps;
-    private ConfigCache settings;
-    private SlimefunCommand command;
 
     // Listeners that need to be accessed elsewhere
     private AncientAltarListener ancientAltarListener;
@@ -147,8 +144,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Setup config.yml
             config = new Config(this);
-            registry = new SlimefunRegistry();
-            settings = new ConfigCache(config);
+            registry.load(config);
 
             // Loading all extra configs
             researches = new Config(this, "Researches.yml");
@@ -164,7 +160,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             networkManager = new NetworkManager(config.getInt("options.max-network-size"));
 
             // Setting up other stuff
-            gps = new GPSNetwork();
+            gpsNetwork = new GPSNetwork();
 
             // Setting up bStats
             metricsService.start();
@@ -201,8 +197,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 getLogger().log(Level.SEVERE, "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion(), x);
             }
 
-            settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-
+            registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
             PostSetup.setupWiki();
 
             // Setting up GitHub Connectors...
@@ -375,6 +370,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             return true;
         }
 
+        getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);;
         return false;
     }
 
@@ -471,11 +467,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     public static GPSNetwork getGPSNetwork() {
-        return instance.gps;
-    }
-
-    public static ConfigCache getSettings() {
-        return instance.settings;
+        return instance.gpsNetwork;
     }
 
     public static TickerTask getTicker() {

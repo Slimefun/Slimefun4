@@ -16,7 +16,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 class WorldEditHook {
 
-    public WorldEditHook() {
+    WorldEditHook() {
         WorldEdit.getInstance().getEventBus().register(this);
     }
 

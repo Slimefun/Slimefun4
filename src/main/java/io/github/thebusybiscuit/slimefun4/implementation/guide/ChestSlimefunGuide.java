@@ -220,12 +220,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                                         openCategory(profile, category, true, page);
                                     }
                                     else {
-                                        if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative)) {
+                                        if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled())) {
                                             pl.setLevel(pl.getLevel() - research.getCost());
                                         }
 
                                         if (pl.getGameMode() == GameMode.CREATIVE) {
-                                            research.unlock(pl, SlimefunPlugin.getSettings().researchesFreeInCreative);
+                                            research.unlock(pl, SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled());
                                             Slimefun.runSync(() -> openCategory(profile, category, survival, page), 5L);
                                         }
                                         else {

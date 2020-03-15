@@ -16,7 +16,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class VersionsCommand extends SubCommand {
 
-    public VersionsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    VersionsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 

@@ -63,7 +63,7 @@ public class SlimefunItem implements Placeable {
     private String wiki = null;
 
     private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
-    
+
     private boolean ticking = false;
     private BlockTicker blockTicker;
     private GeneratorTicker energyTicker;
@@ -277,7 +277,7 @@ public class SlimefunItem implements Placeable {
             }
 
             if (this instanceof WitherProof) {
-                SlimefunPlugin.getRegistry().getWitherProofBlocks().add(id);
+                SlimefunPlugin.getRegistry().getWitherProofBlocks().put(id, (WitherProof) this);
             }
 
             if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {

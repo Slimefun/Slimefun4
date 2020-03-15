@@ -10,7 +10,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
 class DebugFishCommand extends SubCommand {
 
-    public DebugFishCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    DebugFishCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 

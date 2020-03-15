@@ -7,7 +7,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class ServerLanguageChart extends SimplePie {
 
-    public ServerLanguageChart() {
+    ServerLanguageChart() {
         super("language", () -> {
             Language language = SlimefunPlugin.getLocal().getDefaultLanguage();
             boolean supported = SlimefunPlugin.getLocal().isLanguageLoaded(language.getID());

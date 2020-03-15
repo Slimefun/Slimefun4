@@ -11,7 +11,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class GuideCommand extends SubCommand {
 
-    public GuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    GuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 

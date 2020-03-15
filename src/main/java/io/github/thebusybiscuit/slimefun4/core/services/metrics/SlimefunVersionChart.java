@@ -6,7 +6,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class BranchChart extends SimplePie {
 
-    public BranchChart() {
+    BranchChart() {
         super("branch", SlimefunPlugin.getUpdater().getBranch()::getName);
     }
 

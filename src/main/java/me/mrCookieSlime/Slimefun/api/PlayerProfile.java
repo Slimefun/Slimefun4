@@ -13,7 +13,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -24,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 
@@ -50,12 +50,7 @@ public final class PlayerProfile {
     private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
     private final LinkedList<Object> guideHistory = new LinkedList<>();
 
-    private final HashedArmorpiece[] armor = { 
-        new HashedArmorpiece(), 
-        new HashedArmorpiece(), 
-        new HashedArmorpiece(), 
-        new HashedArmorpiece()
-    };
+    private final HashedArmorpiece[] armor = { new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece() };
 
     private PlayerProfile(OfflinePlayer p) {
         this.uuid = p.getUniqueId();
@@ -196,7 +191,7 @@ public final class PlayerProfile {
     }
 
     public String getTitle() {
-        List<String> titles = SlimefunPlugin.getSettings().researchesTitles;
+        List<String> titles = SlimefunPlugin.getRegistry().getResearchRanks();
 
         float fraction = (float) researches.size() / SlimefunPlugin.getRegistry().getResearches().size();
         int index = (int) (fraction * (titles.size() - 1));

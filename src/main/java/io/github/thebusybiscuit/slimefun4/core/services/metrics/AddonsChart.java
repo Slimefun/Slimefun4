@@ -10,7 +10,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class AddonsChart extends AdvancedPie {
 
-    public AddonsChart() {
+    AddonsChart() {
         super("installed_addons", () -> {
             Map<String, Integer> addons = new HashMap<>();
 

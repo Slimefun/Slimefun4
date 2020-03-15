@@ -8,7 +8,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class HelpCommand extends SubCommand {
 
-    public HelpCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    HelpCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 

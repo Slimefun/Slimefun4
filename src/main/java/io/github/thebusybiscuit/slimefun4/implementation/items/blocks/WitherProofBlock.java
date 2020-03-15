@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.Wither;
 import org.bukkit.inventory.ItemStack;
 
@@ -27,6 +28,11 @@ public class WitherProofBlock extends SlimefunItem implements WitherProof {
 
     public WitherProofBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
+    }
+
+    @Override
+    public void onAttack(Block block, Wither wither) {
+        // In this implementation we simply do nothing.
     }
 
 }

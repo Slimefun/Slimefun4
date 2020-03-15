@@ -9,7 +9,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class TimingsCommand extends SubCommand {
 
-    public TimingsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    TimingsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 

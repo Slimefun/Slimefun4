@@ -53,17 +53,8 @@ public class ButcherAndroidListener implements Listener {
     private void addExtraDrops(List<ItemStack> items, EntityType entityType) {
         Random random = ThreadLocalRandom.current();
 
-        switch (entityType) {
-        case BLAZE:
-            items.add(new ItemStack(Material.BLAZE_ROD, 1 + random.nextInt(2)));
-            break;
-        case WITHER_SKELETON:
-            if (random.nextInt(250) < 2) {
-                items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
-            }
-            break;
-        default:
-            break;
+        if (entityType == EntityType.WITHER_SKELETON && random.nextInt(250) < 2) {
+            items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
         }
     }
 }

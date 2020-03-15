@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  *
  */
-public interface Radioactive {
+public interface Radioactive extends ItemAttribute {
 
     /**
      * This method returns the level of {@link Radioactivity} for this {@link Radioactive} item.
