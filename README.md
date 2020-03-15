@@ -1,5 +1,5 @@
 # Slimefun 4
-For English version, please![click here](https://github.com/TheBusyBiscuit/Slimefun4)
+For English version, please [click here](https://github.com/TheBusyBiscuit/Slimefun4) <br>
 欢迎来到 Slimefun 4 的汉化版页面. Slimefun 是一个致力于提供模组般体验的插件. 它提供了你能想到的一切, 从背包到喷气背包!
 它添加了多达 490 种新物品给玩家提供新的生存体验!
 
