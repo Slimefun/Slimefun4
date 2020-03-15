@@ -10,6 +10,7 @@ slimefun:
     lore:
     - Chế tạo vật phẩm được hiển thị
     - vào Enhanced Crafting Table.
+    - Một bàn chế tạo bình thường sẽ không đủ!
   armor_forge:
     name: Armor Forge
     lore:
@@ -24,10 +25,12 @@ slimefun:
     name: Smeltery
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng lò nung
   ore_crusher:
     name: Ore Crusher
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng máy nghiền quặng
   gold_pan:
     name: Gold Pan
     lore:
@@ -56,7 +59,7 @@ slimefun:
   magic_workbench:
     name: Magic Workbench
     lore:
-    - 
+    - Chế tạo vật phẩm này như hình
     - sử dụng Magic Workbench
   ancient_altar:
     name: Ancient Altar
@@ -114,7 +117,7 @@ minecraft:
   furnace:
     name: Công thức nung lò nung
     lore:
-    - 
+    - Nung vật phẩm này trong lò
     - để chế tạo vật phẩm bạn muốn
   blasting:
     name: Công thức lò nung phản ứng
