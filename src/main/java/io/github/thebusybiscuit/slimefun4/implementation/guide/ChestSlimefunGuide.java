@@ -45,9 +45,9 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
-    private static final int[] RECIPE_SLOTS = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private static final int CATEGORY_SIZE = 36;
 
+    private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final boolean showVanillaRecipes;
 
     public ChestSlimefunGuide(boolean showVanillaRecipes) {
@@ -81,7 +81,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         int index = 9;
         int pages = (categories.size() + handlers.size() - 1) / CATEGORY_SIZE + 1;
 
-        fillInv(p, profile, menu, survival);
+        createHeader(p, profile, menu, survival);
 
         int target = (CATEGORY_SIZE * (page - 1)) - 1;
 
@@ -147,11 +147,11 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         else {
             List<String> lore = new ArrayList<>();
             lore.add("");
-            
+
             for (String line : SlimefunPlugin.getLocal().getMessages(p, "guide.locked-category")) {
                 lore.add(ChatColor.RESET + line);
             }
-            
+
             lore.add("");
 
             for (Category parent : ((LockedCategory) category).getParents()) {
@@ -174,7 +174,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-        fillInv(p, profile, menu, survival);
+        createHeader(p, profile, menu, survival);
 
         menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide"))));
         menu.addMenuClickHandler(1, (pl, s, is, action) -> {
@@ -288,7 +288,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.setEmptySlotsClickable(false);
-        fillInv(p, profile, menu, survival);
+        createHeader(p, profile, menu, survival);
         addBackButton(menu, 1, p, profile, survival);
 
         int index = 9;
@@ -379,7 +379,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                 recipeItems[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));
 
                 if (((MaterialChoice) choices[0]).getChoices().size() > 1) {
-                    task.add(RECIPE_SLOTS[4], (MaterialChoice) choices[0]);
+                    task.add(recipeSlots[4], (MaterialChoice) choices[0]);
                 }
             }
             else {
@@ -388,7 +388,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                         recipeItems[i] = new ItemStack(((MaterialChoice) choices[i]).getChoices().get(0));
 
                         if (((MaterialChoice) choices[i]).getChoices().size() > 1) {
-                            task.add(RECIPE_SLOTS[i], (MaterialChoice) choices[i]);
+                            task.add(recipeSlots[i], (MaterialChoice) choices[i]);
                         }
                     }
                 }
@@ -476,14 +476,14 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         };
 
         for (int i = 0; i < 9; i++) {
-            menu.addItem(RECIPE_SLOTS[i], getDisplayItem(p, isSlimefunRecipe, recipe[i]), clickHandler);
+            menu.addItem(recipeSlots[i], getDisplayItem(p, isSlimefunRecipe, recipe[i]), clickHandler);
         }
 
         menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
         menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
     }
 
-    private void fillInv(Player p, PlayerProfile profile, ChestMenu menu, boolean survival) {
+    private void createHeader(Player p, PlayerProfile profile, ChestMenu menu, boolean survival) {
         for (int i = 0; i < 9; i++) {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
@@ -501,7 +501,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             pl.closeInventory();
             SlimefunPlugin.getLocal().sendMessage(pl, "guide.search.message");
 
-            ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, msg -> SlimefunGuide.openSearch(profile, msg, survival, true));
+            ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, msg -> SlimefunGuide.openSearch(profile, msg, survival, survival));
 
             return false;
         });
@@ -514,8 +514,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     private void addBackButton(ChestMenu menu, int slot, Player p, PlayerProfile profile, boolean survival) {
         List<Object> playerHistory = profile.getGuideHistory();
 
-        if (playerHistory.size() > 1) {
-
+        if (survival && playerHistory.size() > 1) {
             menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&rLeft Click: &7Go back to previous Page", "&rShift + left Click: &7Go back to Main Menu")));
 
             menu.addMenuClickHandler(slot, (pl, s, is, action) -> {

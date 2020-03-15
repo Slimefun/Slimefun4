@@ -101,7 +101,9 @@ public final class SlimefunGuide {
     }
 
     private static void openMainMenuAsync(Player player, boolean survival, SlimefunGuideLayout layout, int selectedPage) {
-        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, survival, selectedPage)))) SlimefunPlugin.getLocal().sendMessage(player, "messages.opening-guide");
+        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, survival, selectedPage)))) {
+            SlimefunPlugin.getLocal().sendMessage(player, "messages.opening-guide");
+        }
     }
 
     public static void openMainMenu(PlayerProfile profile, SlimefunGuideLayout layout, boolean survival, int selectedPage) {

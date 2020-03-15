@@ -31,7 +31,11 @@ public class PermissionsService {
     public void load() {
         config = new Config(plugin, "permissions.yml");
 
-        config.getConfiguration().options().header("This file is used to assign permission nodes to items from Slimefun or any of its addons.\n" + "To assign an item a certain permission node you simply have to set the 'permission' attribute\n" + "to your desired permission node. You can also customize the text that is displayed when a Player does not have that permission.");
+        config.getConfiguration().options().header(
+            "This file is used to assign permission nodes to items from Slimefun or any of its addons.\n" + 
+            "To assign an item a certain permission node you simply have to set the 'permission' attribute\n" + 
+            "to your desired permission node. You can also customize the text that is displayed when a Player does not have that permission."
+        );
 
         config.getConfiguration().options().copyHeader(true);
     }

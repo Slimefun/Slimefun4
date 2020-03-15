@@ -38,12 +38,12 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
     @Override
     public BlockBreakHandler getItemHandler() {
         return new BlockBreakHandler() {
-            
+
             @Override
             public boolean isPrivate() {
                 return false;
             }
-            
+
             @Override
             public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
                 if (isItem(item)) {
