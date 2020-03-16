@@ -20,14 +20,13 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Juicer extends MultiBlockMachine {
 
 	public Juicer() {
 		super(
 				Categories.MACHINES_1, 
-				(SlimefunItemStack) SlimefunItems.JUICER, 
+				SlimefunItems.JUICER, 
 				new ItemStack[] {null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 				new ItemStack[0],
 				BlockFace.SELF

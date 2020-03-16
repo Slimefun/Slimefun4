@@ -19,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class AutomatedPanningMachine extends MultiBlockMachine {
 	
@@ -32,7 +31,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 	public AutomatedPanningMachine() {
 		super(
 				Categories.MACHINES_1, 
-				(SlimefunItemStack) SlimefunItems.AUTOMATED_PANNING_MACHINE, 
+				SlimefunItems.AUTOMATED_PANNING_MACHINE, 
 				new ItemStack[] {
 				    null, null, null, 
 				    null, new ItemStack(Material.OAK_TRAPDOOR), null, 

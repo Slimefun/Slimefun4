@@ -20,7 +20,6 @@ import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class OreWasher extends MultiBlockMachine {
     
@@ -29,7 +28,7 @@ public class OreWasher extends MultiBlockMachine {
 	public OreWasher() {
 		super(
 				Categories.MACHINES_1, 
-				(SlimefunItemStack) SlimefunItems.ORE_WASHER, 
+				SlimefunItems.ORE_WASHER, 
 				new ItemStack[] {null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null},
 				new ItemStack[] {
 						SlimefunItems.SIFTED_ORE, SlimefunItems.IRON_DUST, 

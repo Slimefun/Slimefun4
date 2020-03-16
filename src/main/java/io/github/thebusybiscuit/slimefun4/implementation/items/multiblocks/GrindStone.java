@@ -19,14 +19,13 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class GrindStone extends MultiBlockMachine {
 
 	public GrindStone() {
 		super(
 				Categories.MACHINES_1, 
-				(SlimefunItemStack) SlimefunItems.GRIND_STONE, 
+				SlimefunItems.GRIND_STONE, 
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 				new ItemStack[] {
 						new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4), 

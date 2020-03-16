@@ -20,14 +20,13 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Compressor extends MultiBlockMachine {
 
 	public Compressor() {
 		super(
 				Categories.MACHINES_1, 
-				(SlimefunItemStack) SlimefunItems.COMPRESSOR, 
+				SlimefunItems.COMPRESSOR, 
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON)},
 				new ItemStack[] {
 					new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE),

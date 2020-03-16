@@ -57,7 +57,9 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
     }
 
     public void addRecipe(ItemStack[] input, ItemStack output) {
-        if (output == null) throw new IllegalArgumentException("Recipes must have an Output!");
+        if (output == null) {
+            throw new IllegalArgumentException("Recipes must have an Output!");
+        }
 
         recipes.add(input);
         recipes.add(new ItemStack[] { output });
