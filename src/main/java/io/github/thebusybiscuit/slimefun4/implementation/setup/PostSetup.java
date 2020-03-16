@@ -22,15 +22,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.Alloy;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.GrindStone;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCrusher;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -71,34 +73,15 @@ public final class PostSetup {
                 Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
                 iterator.remove();
             }
+            else {
+                item.load();
+            }
         }
 
-        List<SlimefunItem> pre = new ArrayList<>();
-        List<SlimefunItem> init = new ArrayList<>();
-        List<SlimefunItem> post = new ArrayList<>();
-
-        for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-            if (item instanceof Alloy) pre.add(item);
-            else if (item instanceof SlimefunMachine) init.add(item);
-            else post.add(item);
-        }
-
-        for (SlimefunItem item : pre) {
-            item.load();
-        }
-
-        for (SlimefunItem item : init) {
-            item.load();
-        }
-
-        for (SlimefunItem item : post) {
-            item.load();
-        }
-
-        AutomatedCraftingChamber crafter = (AutomatedCraftingChamber) SlimefunItem.getByID("AUTOMATED_CRAFTING_CHAMBER");
+        AutomatedCraftingChamber crafter = (AutomatedCraftingChamber) SlimefunItems.AUTOMATED_CRAFTING_CHAMBER.getItem();
 
         if (crafter != null) {
-            SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE");
+            EnhancedCraftingTable machine = (EnhancedCraftingTable) SlimefunItems.ENHANCED_CRAFTING_TABLE.getItem();
 
             for (ItemStack[] inputs : RecipeType.getRecipeInputList(machine)) {
                 StringBuilder builder = new StringBuilder();
@@ -121,11 +104,11 @@ public final class PostSetup {
 
         List<ItemStack[]> grinderRecipes = new ArrayList<>();
 
-        SlimefunItem grinder = SlimefunItem.getByID("GRIND_STONE");
+        GrindStone grinder = (GrindStone) SlimefunItems.GRIND_STONE.getItem();
         if (grinder != null) {
             ItemStack[] input = null;
 
-            for (ItemStack[] recipe : ((SlimefunMachine) grinder).getRecipes()) {
+            for (ItemStack[] recipe : grinder.getRecipes()) {
                 if (input == null) {
                     input = recipe;
                 }
@@ -139,11 +122,11 @@ public final class PostSetup {
             }
         }
 
-        SlimefunItem crusher = SlimefunItem.getByID("ORE_CRUSHER");
+        OreCrusher crusher = (OreCrusher) SlimefunItems.ORE_CRUSHER.getItem();
         if (crusher != null) {
             ItemStack[] input = null;
 
-            for (ItemStack[] recipe : ((SlimefunMachine) crusher).getRecipes()) {
+            for (ItemStack[] recipe : crusher.getRecipes()) {
                 if (input == null) {
                     input = recipe;
                 }
@@ -165,11 +148,11 @@ public final class PostSetup {
 
         stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] { recipe[0] }, new ItemStack[] { recipe[1] }));
 
-        SlimefunItem smeltery = SlimefunItem.getByID("SMELTERY");
+        Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
         if (smeltery != null) {
             ItemStack[] input = null;
 
-            for (ItemStack[] recipe : ((SlimefunMachine) smeltery).getRecipes()) {
+            for (ItemStack[] recipe : smeltery.getRecipes()) {
                 if (input == null) {
                     input = recipe;
                 }

@@ -48,6 +48,7 @@ public class BlockListener implements Listener {
     public BlockListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
+        sensitiveMaterials.add(Material.CAKE);
         sensitiveMaterials.add(Material.STONE_PRESSURE_PLATE);
         sensitiveMaterials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
         sensitiveMaterials.add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);

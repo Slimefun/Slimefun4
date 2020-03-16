@@ -25,7 +25,6 @@ import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
-import io.github.thebusybiscuit.slimefun4.implementation.items.Alloy;
 import io.github.thebusybiscuit.slimefun4.implementation.items.EasterEgg;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -388,55 +387,55 @@ public final class SlimefunItemSetup {
 
 		SlimefunManager.registerArmorSet(new ItemStack(Material.CACTUS), new ItemStack[] {SlimefunItems.CACTUS_HELMET, SlimefunItems.CACTUS_CHESTPLATE, SlimefunItems.CACTUS_LEGGINGS, SlimefunItems.CACTUS_BOOTS}, "CACTUS", false, plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.REINFORCED_ALLOY_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.REINFORCED_ALLOY_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.SOLDER_INGOT, SlimefunItems.BILLON_INGOT, SlimefunItems.GOLD_24K, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.HARDENED_METAL_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.HARDENED_METAL_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.ALUMINUM_BRONZE_INGOT, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.DAMASCUS_STEEL_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.DAMASCUS_STEEL_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.STEEL_INGOT, SlimefunItems.IRON_DUST, SlimefunItems.CARBON, new ItemStack(Material.IRON_INGOT), null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.STEEL_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.STEEL_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.CARBON, new ItemStack(Material.IRON_INGOT), null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.BRONZE_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.BRONZE_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.COPPER_DUST, SlimefunItems.TIN_DUST, SlimefunItems.COPPER_INGOT, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.DURALUMIN_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.DURALUMIN_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ALUMINUM_INGOT, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.BILLON_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.BILLON_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.SILVER_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.SILVER_INGOT, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.BRASS_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.BRASS_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.COPPER_INGOT, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.ALUMINUM_BRASS_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.ALUMINUM_BRASS_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.ALUMINUM_DUST, SlimefunItems.BRASS_INGOT, SlimefunItems.ALUMINUM_INGOT, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.ALUMINUM_BRONZE_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.ALUMINUM_BRONZE_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.ALUMINUM_DUST, SlimefunItems.BRONZE_INGOT, SlimefunItems.ALUMINUM_INGOT, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.CORINTHIAN_BRONZE_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.CORINTHIAN_BRONZE_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.SILVER_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.BRONZE_INGOT, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.SOLDER_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.SOLDER_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.LEAD_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_INGOT, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.SYNTHETIC_SAPPHIRE,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.SYNTHETIC_SAPPHIRE, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.ALUMINUM_DUST, new ItemStack(Material.GLASS), new ItemStack(Material.GLASS_PANE), SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.LAPIS_LAZULI), null, null, null, null})
 		.setUseableInWorkbench(true)
 		.register(plugin);
@@ -446,15 +445,15 @@ public final class SlimefunItemSetup {
 		.setUseableInWorkbench(true)
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.RAW_CARBONADO,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.RAW_CARBONADO, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.CARBON_CHUNK, new ItemStack(Material.GLASS_PANE), null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.NICKEL_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.NICKEL_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT), SlimefunItems.COPPER_DUST, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.COBALT_INGOT,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.COBALT_INGOT, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.NICKEL_INGOT, null, null, null, null, null, null})
 		.register(plugin);
 
@@ -462,7 +461,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.RAW_CARBONADO, null, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.FERROSILICON,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.FERROSILICON, RecipeType.SMELTERY,
 		new ItemStack[] {new ItemStack(Material.IRON_INGOT), SlimefunItems.IRON_DUST, SlimefunItems.SILICON, null, null, null, null, null, null})
 		.register(plugin);
 
@@ -811,11 +810,11 @@ public final class SlimefunItemSetup {
 		"knight", 30, new PotionEffect(PotionEffectType.REGENERATION, 100, 3))
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.GILDED_IRON,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.GILDED_IRON, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.IRON_DUST, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.SYNTHETIC_EMERALD,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.SYNTHETIC_EMERALD, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.GLASS_PANE), null, null, null, null, null})
 		.setUseableInWorkbench(true)
 		.register(plugin);
@@ -901,7 +900,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.SMALL_URANIUM, SlimefunItems.SMALL_URANIUM, null, SlimefunItems.SMALL_URANIUM, SlimefunItems.SMALL_URANIUM, null, null, null, null})
 		.register(plugin);
 
-		new Alloy((SlimefunItemStack) SlimefunItems.REDSTONE_ALLOY,
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.REDSTONE_ALLOY, RecipeType.SMELTERY,
 		new ItemStack[] {new ItemStack(Material.REDSTONE), new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.FERROSILICON, SlimefunItems.HARDENED_METAL_INGOT, null, null, null, null, null})
 		.register(plugin);
 
@@ -1173,7 +1172,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.GOLD_24K, null, SlimefunItems.GOLD_24K, new ItemStack(Material.LEATHER), SlimefunItems.GILDED_BACKPACK, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_24K, null, SlimefunItems.GOLD_24K})
 		.register(plugin);
 
-		new Alloy(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.MAGNET,
+		new SlimefunItem(Categories.TECH_MISC, (SlimefunItemStack) SlimefunItems.MAGNET, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.NICKEL_INGOT, SlimefunItems.ALUMINUM_DUST, SlimefunItems.IRON_DUST, SlimefunItems.COBALT_INGOT, null, null, null, null, null})
 		.register(plugin);
 

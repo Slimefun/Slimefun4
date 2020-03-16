@@ -23,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -127,8 +128,8 @@ public class RecipeType implements Keyed {
         else {
             SlimefunItem slimefunItem = SlimefunItem.getByID(this.machine);
 
-            if (slimefunItem instanceof SlimefunMachine) {
-                ((SlimefunMachine) slimefunItem).addRecipe(recipe, result);
+            if (slimefunItem instanceof MultiBlockMachine) {
+                ((MultiBlockMachine) slimefunItem).addRecipe(recipe, result);
             }
         }
     }

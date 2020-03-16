@@ -44,8 +44,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserList
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityKillListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
@@ -60,6 +62,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListe
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
@@ -209,7 +212,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new SlimefunItemConsumeListener(this);
             new BlockPhysicsListener(this);
             new MultiBlockListener(this);
-            new GearListener(this);
+            new GadgetsListener(this);
             new DispenserListener(this);
             new EntityKillListener(this);
             new BlockListener(this);
@@ -219,6 +222,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new ExplosionsListener(this);
             new DebugFishListener(this);
             new VanillaMachinesListener(this);
+            new FireworksListener(this);
+            new WitherListener(this);
+            new IronGolemListener(this);
 
             bowListener = new SlimefunBowListener(this);
             ancientAltarListener = new AncientAltarListener();
@@ -454,7 +460,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.config;
     }
 
-    public static io.github.thebusybiscuit.cscorelib2.config.Config getResearchCfg() {
+    public static Config getResearchCfg() {
         return instance.researches;
     }
 
@@ -462,7 +468,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.items;
     }
 
-    public static io.github.thebusybiscuit.cscorelib2.config.Config getWhitelist() {
+    public static Config getWhitelist() {
         return instance.whitelist;
     }
 
@@ -472,10 +478,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static TickerTask getTicker() {
         return instance.ticker;
-    }
-
-    public static boolean isActive() {
-        return instance != null;
     }
 
     /**

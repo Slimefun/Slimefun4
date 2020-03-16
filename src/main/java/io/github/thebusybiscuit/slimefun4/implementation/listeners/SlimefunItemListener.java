@@ -5,18 +5,15 @@ import java.util.Optional;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -119,35 +116,6 @@ public class SlimefunItemListener implements Listener {
 
     private boolean canPlaceBlock(Player p, Block relative) {
         return p.isSneaking() && relative.getType() == Material.AIR;
-    }
-
-    @EventHandler
-    public void onIronGolemHeal(PlayerInteractEntityEvent e) {
-        if (e.getRightClicked() instanceof IronGolem) {
-            PlayerInventory inv = e.getPlayer().getInventory();
-            ItemStack item = null;
-
-            if (e.getHand() == EquipmentSlot.HAND) {
-                item = inv.getItemInMainHand();
-            }
-            else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                item = inv.getItemInOffHand();
-            }
-
-            if (item != null && item.getType() == Material.IRON_INGOT && SlimefunItem.getByItem(item) != null) {
-                e.setCancelled(true);
-                SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
-
-                // This is just there to update the Inventory...
-                // Somehow cancelling it isn't enough.
-                if (e.getHand() == EquipmentSlot.HAND) {
-                    inv.setItemInMainHand(item);
-                }
-                else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                    inv.setItemInOffHand(item);
-                }
-            }
-        }
     }
 
     @EventHandler

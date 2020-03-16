@@ -4,9 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
@@ -15,7 +13,6 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -81,22 +78,6 @@ public class BlockPhysicsListener implements Listener {
         Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
         if (BlockStorage.hasBlockInfo(l)) {
             e.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onWitherDestroy(EntityChangeBlockEvent e) {
-        if (e.getEntity() instanceof Wither) {
-            String id = BlockStorage.checkID(e.getBlock());
-
-            if (id != null) {
-                WitherProof witherproof = SlimefunPlugin.getRegistry().getWitherProofBlocks().get(id);
-
-                if (witherproof != null) {
-                    e.setCancelled(true);
-                    witherproof.onAttack(e.getBlock(), (Wither) e.getEntity());
-                }
-            }
         }
     }
 }

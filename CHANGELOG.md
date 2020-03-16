@@ -57,6 +57,7 @@
 * Teleporters are now significantly faster
 * Item permissions have been moved to a seperate permissions.yml file
 * Salt now only requires 2 blocks of Sand
+* Firework from researcheing no longer damages entities
 
 #### Fixes
 * Fixed some languages showing numbers larger than 100%

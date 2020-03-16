@@ -22,7 +22,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
     protected final List<ItemStack> shownRecipes;
     protected final MultiBlock multiblock;
 
-    public SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+    protected SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
         super(category, item, RecipeType.MULTIBLOCK, recipe);
         this.recipes = new ArrayList<>();
         this.shownRecipes = new ArrayList<>();
@@ -39,7 +39,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
         this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
     }
 
-    public SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
+    protected SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
         super(category, item, RecipeType.MULTIBLOCK, recipe, keys, values);
         this.recipes = new ArrayList<>();
         this.shownRecipes = new ArrayList<>();
@@ -73,10 +73,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
     @Override
     public void load() {
         super.load();
-        loadDefaultRecipes();
-    }
-
-    protected void loadDefaultRecipes() {
+        
         for (ItemStack recipeItem : shownRecipes) {
             SlimefunItem item = SlimefunItem.getByItem(recipeItem);
 
@@ -87,18 +84,21 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
     }
 
     private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
-        List<Material> mats = new ArrayList<>();
+        List<Material> materials = new ArrayList<>();
+        
         for (ItemStack item : items) {
-            if (item == null) mats.add(null);
-            else if (item.getType() == Material.FLINT_AND_STEEL) mats.add(Material.FIRE);
-            else mats.add(item.getType());
+            if (item == null) {
+                materials.add(null);
+            }
+            else if (item.getType() == Material.FLINT_AND_STEEL) {
+                materials.add(Material.FIRE);
+            }
+            else {
+                materials.add(item.getType());
+            }
         }
 
-        return mats.toArray(new Material[0]);
-    }
-
-    public Iterator<ItemStack[]> recipeIterator() {
-        return this.recipes.iterator();
+        return materials.toArray(new Material[0]);
     }
 
     public MultiBlock getMultiBlock() {

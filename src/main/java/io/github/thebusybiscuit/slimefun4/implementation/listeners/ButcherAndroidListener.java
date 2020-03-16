@@ -56,5 +56,9 @@ public class ButcherAndroidListener implements Listener {
         if (entityType == EntityType.WITHER_SKELETON && random.nextInt(250) < 2) {
             items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
         }
+
+        if (entityType == EntityType.BLAZE) {
+            items.add(new ItemStack(Material.BLAZE_ROD, 1 + random.nextInt(1)));
+        }
     }
 }

@@ -18,9 +18,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class GearListener implements Listener {
+public class GadgetsListener implements Listener {
 
-    public GearListener(SlimefunPlugin plugin) {
+    public GadgetsListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
