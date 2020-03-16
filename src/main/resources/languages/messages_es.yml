@@ -52,16 +52,16 @@ commands:
   give: Da a alguien algún objeto de Slimefun.
   guide: Obtén la guia de Slimefun.
   help: Muestra estos mensajes de ayuda.
+  open_guide: Abre la guía de Slimefun sin usar el libro.
   research:
     description: Desbloquea/Reinicia el conocimiento para un jugador.
     reset: "&cHas reiniciado el conocimiento de %player%."
     reset-target: "&cTu conocimiento fue reiniciado."
+  search: Busca en la guía el término dado.
   stats: Muestra algunos Stats de un Jugador.
   teleporter: Ve los  Waypoints de otros jugadores.
   timings: Información del lag de tu servidor.
   versions: Lista los Addons instalados.
-  search: Busca en la guía el término dado.
-  open_guide: Abre la guía de Slimefun sin usar el libro.
 gps:
   deathpoint: "&4Punto de Muerte &7%date%"
   geo:
@@ -73,9 +73,9 @@ gps:
   - "&4b) Tu red GPS no es lo suficientemente compleja."
   waypoint:
     added: "&aNuevo waypoint agregado exitosamente."
+    max: "&4Has alcanzado el máximo número de waypoints permitidos."
     new: "&ePor favor, escribe en el chat el nombre de tu nuevo waypoint. &7(¡Se permiten
       códigos de color!)"
-    max: "&4Has alcanzado el máximo número de waypoints permitidos."
 guide:
   back:
     guide: Volver a la guía de Slimefun
@@ -121,10 +121,10 @@ guide:
     bugs: Reportes de Bugs
     credits: Colaboradores de Slimefun4
     languages: Selecciona tu idioma.
+    main: Guía de Slimefun.
     settings: Configuración e Información.
     source: Código base
     wiki: Wiki de Slimefun4
-    main: Guía de Slimefun.
   tooltips:
     open-category: Clic para abrir
     recipes:
@@ -175,10 +175,14 @@ languages:
   zh-TW: Chino (Taiwan)
 machines:
   ANCIENT_ALTAR:
-    unknown-catalyst: "&4¡Catalyst desconocido! &cUsa la receta correcta!"
-    unknown-recipe: "&4¡Receta desconocida! &c¡Usa la receta correcta!"
     not-enough-pedestals: "&4El Altar no está rodeado por la cantidad correcta de
       pedestales &c(%pedestals% / 8)"
+    unknown-catalyst: "&4¡Catalyst desconocido! &cUsa la receta correcta!"
+    unknown-recipe: "&4¡Receta desconocida! &c¡Usa la receta correcta!"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4¡El Pedestal está obstruido! &c¡Quita lo que se encuentra encima!"
+  CARGO_NODES:
+    must-be-placed: "&4¡Tiene que ponerse sobre un cofre o máquina!"
   ELEVATOR:
     click-to-teleport: "&eClic &7para ir a este piso:"
     current-floor: "&eTe encuentras en este piso:"
@@ -213,10 +217,6 @@ machines:
     Por favor coloca algo que si conozca."
   wrong-item: "&eLo siento, no puedo reconocer el objeto con el que me has hecho clic.
     Revisa las recetas y mira que objetos puedes usar."
-  ANCIENT_PEDESTAL:
-    obstructed: "&4¡El Pedestal está obstruido! &c¡Quita lo que se encuentra encima!"
-  CARGO_NODES:
-    must-be-placed: "&4¡Tiene que ponerse sobre un cofre o máquina!"
 messages:
   cannot-place: "&c¡No puedes colocar ese bloque ahí!"
   diet-cookie: "&eEmpiezas a sentirte muy ligero ..."
@@ -238,9 +238,11 @@ messages:
   - "&7¡Nunca caves hacia abajo!"
   give-item: '&bLe has dado a %player%, &a%amount% &7"%item%&7"'
   given-item: '&bTe han dado &a%amount% &7"%item%&7"'
+  give-research: '&bLe has dado a %player% la investigación &7"%research%&7"'
   hungry: "&c¡Tienes demasiada hambre para hacer eso!"
   link-prompt: "&eHaga clic aquí:"
   mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
+  multimeter: "&bEnergía almacenada: &3%stored% &b/ &3%capacity%"
   no-iron-golem-heal: "&cEso no es un lingote de hierro. ¡No puedes usar esto para
     sanar a los Golems de Hierro!"
   no-permission: "&4No tienes el permiso requerido para hacer esto."
@@ -251,14 +253,16 @@ messages:
   not-researched: "&4No tienes conocimiento suficiente para entender esto."
   not-valid-amount: "&c¡&4%amount% &cno es un valor válido: tiene que ser mayor a
     0!"
+  not-valid-item: "&c¡&4%item% &cno es un objeto válido!"
   not-valid-research: "&c¡&4%research% &cno es un conocimiento válido!"
   only-players: "&4Este comando es solo para jugadores."
   opening-backpack: "&bAbriendo la mochila, esto podría tomar unos segundos..."
+  opening-guide: "&bAbriendo la guía, esto puede tomar unos segundos..."
   radiation: "&4¡Te has expuesto a radiación mortal! &c¡Desaste del objeto radiactivo
     o equipate un traje HazMat!"
   research:
-    start: "&7Los espíritus antiguos susurran palabras crípticas en tu oído..."
     progress: "&7Empiezas a pensar sobre &b%research% &e(%progress%)"
+    start: "&7Los espíritus antiguos susurran palabras crípticas en tu oído..."
   soulbound-rune:
     fail: "&cSolo puedes ligar un objeto a tu alma."
     success: "&a¡Has ligado este objeto a tu alma exitosamente! No lo perderás al
@@ -273,18 +277,14 @@ messages:
     magician: "&a&oTu talismán te ha dado un encantamiento adicional."
     miner: "&a&oTu talismán ha duplicado los minerales."
     traveller: "&a&oTu talismán te ha dado un impulso de velocidad."
+    warrior: "&a&oTu talismán te ha hecho más fuerte por un tiempo."
     water: "&a&oTu talismán ha evitado que mueras ahogado."
     whirlwind: "&a&oTu talismán ha reflejado un proyectil."
     wizard: "&a&oTu talismán te ha dado un mayor nivel de fortuna, pero pudo disminuír
       el nivel de otros encantamientos."
-    warrior: "&a&oTu talismán te ha hecho más fuerte por un tiempo."
   unknown-player: "&4Jugador desconocido: &c%player%"
   unlocked: '&bHas desbloqueado &7"%research%"'
   usage: "&4Uso: &c%usage%"
-  not-valid-item: "&c¡&4%item% &cno es un objeto válido!"
-  give-research: '&bLe has dado a %player% la investigación &7"%research%&7"'
-  opening-guide: "&bAbriendo la guía, esto puede tomar unos segundos..."
-  multimeter: "&bEnergía almacenada: &3%stored% &b/ &3%capacity%"
 miner:
   no-ores: "&ePerdón, ¡No encuentro ningún mineral cerca!"
 workbench:
