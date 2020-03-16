@@ -256,6 +256,7 @@ public final class ResearchSetup {
         register("magnesium_generator", 253, "Power from Magnesium", 20, SlimefunItems.MAGNESIUM_SALT, SlimefunItems.MAGNESIUM_GENERATOR);
         register("kelp_cookie", 254, "Tasty Kelp", 4, SlimefunItems.KELP_COOKIE);
         register("makeshift_smeltery", 255, "Improvised Smeltery", 6, SlimefunItems.MAKESHIFT_SMELTERY);
+        register("tree_growth_accelerator", 256, "Faster Trees", 18, SlimefunItems.TREE_GROWTH_ACCELERATOR);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {

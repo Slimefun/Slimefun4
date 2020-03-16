@@ -46,6 +46,9 @@
 #### Additions
 * Added some new charts to bStats
 * Added a new language: Turkish
+* Multiblocks that use Fences or Trap doors now accept all wood types
+* Added Makeshift Smeltery
+* Added Tree Growth Accelerator
 
 #### Changes
 * Removed some deprecated parts of the API
@@ -53,6 +56,7 @@
 * Changed Automatic Ignition Chamber to be a Dropper
 * Teleporters are now significantly faster
 * Item permissions have been moved to a seperate permissions.yml file
+* Salt now only requires 2 blocks of Sand
 
 #### Fixes
 * Fixed some languages showing numbers larger than 100%

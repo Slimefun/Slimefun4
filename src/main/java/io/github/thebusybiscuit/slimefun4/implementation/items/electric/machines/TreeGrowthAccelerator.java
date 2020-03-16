@@ -35,10 +35,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
  * @see AnimalGrowthAccelerator
  *
  */
-public abstract class TreeGrowthAccelerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
+public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
     private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
-
+    
+    private static final int ENERGY_CONSUMPTION = 24;
+    private static final int RADIUS = 9;
+    
     public TreeGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
@@ -65,12 +68,6 @@ public abstract class TreeGrowthAccelerator extends SlimefunItem implements Inve
             preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
         }
     }
-
-    public abstract int getEnergyConsumption();
-
-    public abstract int getRadius();
-
-    public abstract int getSpeed();
 
     @Override
     public int[] getInputSlots() {
@@ -124,8 +121,8 @@ public abstract class TreeGrowthAccelerator extends SlimefunItem implements Inve
     private int work(Block b, BlockMenu inv) {
         int work = 0;
 
-        for (int x = -getRadius(); x <= getRadius(); x++) {
-            for (int z = -getRadius(); z <= getRadius(); z++) {
+        for (int x = -RADIUS; x <= RADIUS; x++) {
+            for (int z = -RADIUS; z <= RADIUS; z++) {
                 Block block = b.getRelative(x, 0, z);
 
                 if (Tag.SAPLINGS.isTagged(block.getType())) {
@@ -134,8 +131,8 @@ public abstract class TreeGrowthAccelerator extends SlimefunItem implements Inve
                     if (sapling.getStage() < sapling.getMaximumStage()) {
                         for (int slot : getInputSlots()) {
                             if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-                                if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption()) return work;
-                                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                                if (work > 3 || ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return work;
+                                ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
 
                                 sapling.setStage(sapling.getStage() + 1);
                                 block.setBlockData(sapling);
