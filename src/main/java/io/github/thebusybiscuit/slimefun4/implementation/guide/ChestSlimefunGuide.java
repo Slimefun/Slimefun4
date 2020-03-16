@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +23,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
@@ -402,7 +404,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-        displayItem(menu, profile, p, item, result, recipeType, recipeItems, addToHistory);
+        displayItem(menu, profile, p, item, result, recipeType, recipeItems, task, addToHistory);
 
         if (recipes.length > 1) {
             for (int i = 27; i < 36; i++) {
@@ -451,16 +453,22 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             });
         }
 
-        displayItem(menu, profile, p, item, result, recipeType, recipe, addToHistory);
+        RecipeChoiceTask task = new RecipeChoiceTask();
+
+        displayItem(menu, profile, p, item, result, recipeType, recipe, task, addToHistory);
 
         if (item instanceof RecipeDisplayItem) {
             displayRecipes(p, profile, menu, (RecipeDisplayItem) item, 0);
         }
 
         menu.open(p);
+
+        if (!task.isEmpty()) {
+            task.start(menu.toInventory());
+        }
     }
 
-    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object obj, ItemStack output, RecipeType recipeType, ItemStack[] recipe, boolean addToHistory) {
+    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object obj, ItemStack output, RecipeType recipeType, ItemStack[] recipe, RecipeChoiceTask task, boolean addToHistory) {
         LinkedList<Object> history = profile.getGuideHistory();
         boolean isSlimefunRecipe = obj instanceof SlimefunItem;
 
@@ -476,7 +484,17 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         };
 
         for (int i = 0; i < 9; i++) {
-            menu.addItem(recipeSlots[i], getDisplayItem(p, isSlimefunRecipe, recipe[i]), clickHandler);
+            ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
+            menu.addItem(recipeSlots[i], recipeItem, clickHandler);
+
+            if (recipeItem != null && obj instanceof MultiBlockMachine) {
+                for (Tag<Material> tag : MultiBlock.SUPPORTED_TAGS) {
+                    if (tag.isTagged(recipeItem.getType())) {
+                        task.add(recipeSlots[i], tag);
+                        break;
+                    }
+                }
+            }
         }
 
         menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
