@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Lists;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -180,13 +181,17 @@ public class RecipeType implements Keyed {
 
     public static List<ItemStack[]> getRecipeInputList(SlimefunMachine machine) {
         if (machine == null) return new ArrayList<>();
+
         List<ItemStack[]> recipes = machine.getRecipes();
         List<ItemStack[]> convertible = new ArrayList<>();
 
         for (int i = 0; i < recipes.size(); i++) {
-            if (i % 2 == 0) convertible.add(recipes.get(i));
+            if (i % 2 == 0) {
+                convertible.add(recipes.get(i));
+            }
         }
 
+        convertible.sort(Comparator.comparing(recipe -> -recipe.length));
         return convertible;
     }
 
@@ -197,6 +202,6 @@ public class RecipeType implements Keyed {
 
     public static ItemStack getRecipeOutputList(SlimefunMachine machine, ItemStack[] input) {
         List<ItemStack[]> recipes = machine.getRecipes();
-        return recipes.get(((getRecipeInputList(machine).indexOf(input) * 2) + 1))[0];
+        return recipes.get((recipes.indexOf(input) + 1))[0];
     }
 }

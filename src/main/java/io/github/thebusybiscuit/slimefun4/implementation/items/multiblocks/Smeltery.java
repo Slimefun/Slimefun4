@@ -29,7 +29,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMach
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Smeltery extends MultiBlockMachine {
 
@@ -37,7 +36,7 @@ public class Smeltery extends MultiBlockMachine {
     private int fireBreakingChance;
 
     public Smeltery() {
-        super(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.SMELTERY, new ItemStack[] { 
+        super(Categories.MACHINES_1, SlimefunItems.SMELTERY, new ItemStack[] { 
               null, new ItemStack(Material.NETHER_BRICK_FENCE), null, 
               new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), 
               null, new ItemStack(Material.FLINT_AND_STEEL), null 
@@ -88,12 +87,15 @@ public class Smeltery extends MultiBlockMachine {
                     if (outputInv != null) {
                         craft(p, dispBlock, b, inv, inputs.get(i), output, outputInv);
                     }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    else {
+                        SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    }
                 }
 
                 return;
             }
         }
+        
         SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
     }
 

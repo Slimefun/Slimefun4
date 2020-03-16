@@ -65,6 +65,7 @@
 * Fixed #1686
 * Fixed #1648
 * Fixed #1397
+* Fixed #1706
 
 ## Release Candidate 9 (07 Mar 2020)
 
