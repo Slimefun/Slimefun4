@@ -1,6 +1,4 @@
 io.github.thebusybiscuit.slimefun4.api
-io.github.thebusybiscuit.slimefun4.api.blocks
-io.github.thebusybiscuit.slimefun4.api.chunks
 io.github.thebusybiscuit.slimefun4.api.events
 io.github.thebusybiscuit.slimefun4.api.exceptions
 io.github.thebusybiscuit.slimefun4.api.geo
