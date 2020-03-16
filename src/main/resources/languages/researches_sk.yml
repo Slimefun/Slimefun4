@@ -204,6 +204,7 @@ slimefun:
   special_runes: Fialové runy
   steel: Vek ocele
   steel_plate: Oceľové pokovovanie
+  steel_thruster: Oceľová tryska
   storm_staff: Palica  búrky
   sword_of_beheading: Meč popráv
   synthetic_diamond: Umelé diamanty
@@ -229,4 +230,5 @@ slimefun:
   wizard_talisman: Talizman čarodejníka
   woven_backpack: Tkaný batoh
   xp_collector: Zberač XP
-  steel_thruster: Oceľová tryska
+  makeshift_smeltery: Improvizované vypekanie
+  tree_growth_accelerator: Rýchlejší rast stromov
