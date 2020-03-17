@@ -191,7 +191,18 @@ public class RecipeType implements Keyed {
             }
         }
 
-        convertible.sort(Comparator.comparing(recipe -> -recipe.length));
+        convertible.sort(Comparator.comparing(recipe -> {
+            int emptySlots = 9;
+            
+            for (ItemStack ingredient : recipe) {
+                if (ingredient != null) {
+                    emptySlots--;
+                }
+            }
+            
+            return emptySlots;
+        }));
+        
         return convertible;
     }
 
