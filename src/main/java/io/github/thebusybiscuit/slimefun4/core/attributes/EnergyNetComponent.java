@@ -16,7 +16,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see EnergyNetComponentType
  * @see EnergyNet
  */
-public interface EnergyNetComponent {
+public interface EnergyNetComponent extends ItemAttribute {
 
     /**
      * This method returns the Type of {@link EnergyNetComponentType} this {@link SlimefunItem} represents.

@@ -9,17 +9,17 @@ import java.util.Map;
 
 class AddonsChart extends AdvancedPie {
 
-    public AddonsChart() {
-        super("installed_addons", () -> {
-            Map<String, Integer> addons = new HashMap<>();
+   AddonsChart() {
+       super("installed_addons", () -> {
+           Map<String, Integer> addons = new HashMap<>();
 
-            for (Plugin plugin : SlimefunPlugin.getInstalledAddons()) {
-                if (plugin.isEnabled()) {
-                    addons.put(plugin.getName(), 1);
-                }
-            }
+           for (Plugin plugin : SlimefunPlugin.getInstalledAddons()) {
+               if (plugin.isEnabled()) {
+                   addons.put(plugin.getName(), 1);
+               }
+           }
 
-            return addons;
+           return addons;
         });
     }
 

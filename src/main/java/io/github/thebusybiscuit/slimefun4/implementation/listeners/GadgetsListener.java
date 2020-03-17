@@ -17,9 +17,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-public class GearListener implements Listener {
+public class GadgetsListener implements Listener {
 
-    public GearListener(SlimefunPlugin plugin) {
+    public GadgetsListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

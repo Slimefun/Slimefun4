@@ -6,7 +6,7 @@ import org.bstats.bukkit.Metrics.SimplePie;
 
 class ServerLanguageChart extends SimplePie {
 
-    public ServerLanguageChart() {
+    ServerLanguageChart() {
         super("language", () -> {
             Language language = SlimefunPlugin.getLocal().getDefaultLanguage();
             boolean supported = SlimefunPlugin.getLocal().isLanguageLoaded(language.getID());

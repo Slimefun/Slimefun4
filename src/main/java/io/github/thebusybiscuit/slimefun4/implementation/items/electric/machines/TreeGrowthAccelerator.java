@@ -19,28 +19,28 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.type.Sapling;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
-import java.util.Set;
+/**
+ * The {@link TreeGrowthAccelerator} is an electrical machine that works similar to
+ * the {@link CropGrowthAccelerator} but boosts the growth of nearby trees.
+ *
+ * @author TheBusyBiscuit
+ * @see CropGrowthAccelerator
+ * @see AnimalGrowthAccelerator
+ */
+public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
-public abstract class CropGrowthAccelerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
+    private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
-    private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-    private final Set<Material> crops = new HashSet<>();
+    private static final int ENERGY_CONSUMPTION = 24;
+    private static final int RADIUS = 9;
 
-    public CropGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public TreeGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-
-        crops.add(Material.WHEAT);
-        crops.add(Material.POTATOES);
-        crops.add(Material.CARROTS);
-        crops.add(Material.NETHER_WART);
-        crops.add(Material.BEETROOTS);
-        crops.add(Material.COCOA);
-        crops.add(Material.SWEET_BERRY_BUSH);
 
         createPreset(this, this::constructMenu);
 
@@ -55,21 +55,16 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
                     }
                 }
             }
+
             return true;
         });
     }
 
-    private void constructMenu(BlockMenuPreset preset) {
+    protected void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
             preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
         }
     }
-
-    public abstract int getEnergyConsumption();
-
-    public abstract int getRadius();
-
-    public abstract int getSpeed();
 
     @Override
     public int[] getInputSlots() {
@@ -97,7 +92,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                CropGrowthAccelerator.this.tick(b);
+                TreeGrowthAccelerator.this.tick(b);
             }
 
             @Override
@@ -123,22 +118,21 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
     private int work(Block b, BlockMenu inv) {
         int work = 0;
 
-        for (int x = -getRadius(); x <= getRadius(); x++) {
-            for (int z = -getRadius(); z <= getRadius(); z++) {
+        for (int x = -RADIUS; x <= RADIUS; x++) {
+            for (int z = -RADIUS; z <= RADIUS; z++) {
                 Block block = b.getRelative(x, 0, z);
 
-                if (crops.contains(block.getType())) {
-                    Ageable ageable = (Ageable) block.getBlockData();
+                if (Tag.SAPLINGS.isTagged(block.getType())) {
+                    Sapling sapling = (Sapling) block.getBlockData();
 
-                    if (ageable.getAge() < ageable.getMaximumAge()) {
+                    if (sapling.getStage() < sapling.getMaximumStage()) {
                         for (int slot : getInputSlots()) {
                             if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-                                if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption())
-                                    return work;
-                                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                                if (work > 3 || ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return work;
+                                ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
 
-                                ageable.setAge(ageable.getAge() + 1);
-                                block.setBlockData(ageable);
+                                sapling.setStage(sapling.getStage() + 1);
+                                block.setBlockData(sapling);
 
                                 block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
                                 work++;

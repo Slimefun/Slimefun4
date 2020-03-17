@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +21,7 @@ public class DeathpointListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDeathEvent e) {
-        if (e.getEntity() instanceof Player) {
+        if (e.getEntity().getType() == EntityType.PLAYER) {
             Player p = (Player) e.getEntity();
 
             if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {

@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import org.bukkit.inventory.ItemStack;
 
-enum ScriptPart {
+enum ScriptAction {
 
     // Start and End Parts
     START(AndroidType.NONE, "4ae29422db4047efdb9bac2cdae5a0719eb772fccc88a66d912320b343c341"),
@@ -55,7 +55,7 @@ enum ScriptPart {
     private final ItemStack item;
     private final AndroidType type;
 
-    ScriptPart(AndroidType type, String texture) {
+    ScriptAction(AndroidType type, String texture) {
         this.type = type;
         this.item = SkullItem.fromHash(texture);
     }

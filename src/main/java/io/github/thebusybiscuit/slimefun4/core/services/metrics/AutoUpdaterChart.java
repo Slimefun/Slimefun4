@@ -5,7 +5,7 @@ import org.bstats.bukkit.Metrics.SimplePie;
 
 class AutoUpdaterChart extends SimplePie {
 
-    public AutoUpdaterChart() {
+    AutoUpdaterChart() {
         super("auto_updates", () -> {
             boolean enabled = SlimefunPlugin.getCfg().getBoolean("options.auto-update");
             return enabled ? "enabled" : "disabled";

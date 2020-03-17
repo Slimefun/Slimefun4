@@ -14,7 +14,7 @@ import org.bukkit.World;
 
 class WorldEditHook {
 
-    public WorldEditHook() {
+    WorldEditHook() {
         WorldEdit.getInstance().getEventBus().register(this);
     }
 

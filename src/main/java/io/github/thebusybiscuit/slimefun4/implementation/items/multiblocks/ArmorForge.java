@@ -9,7 +9,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMach
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,7 +24,7 @@ import java.util.List;
 public class ArmorForge extends MultiBlockMachine {
 
     public ArmorForge() {
-        super(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.ARMOR_FORGE, new ItemStack[]{
+        super(Categories.MACHINES_1, SlimefunItems.ARMOR_FORGE, new ItemStack[]{
                 null, null, null,
                 null, new ItemStack(Material.ANVIL), null,
                 null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null

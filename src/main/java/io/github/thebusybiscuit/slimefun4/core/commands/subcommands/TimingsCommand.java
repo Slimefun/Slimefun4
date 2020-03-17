@@ -8,13 +8,18 @@ import org.bukkit.command.ConsoleCommandSender;
 
 class TimingsCommand extends SubCommand {
 
-    public TimingsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    TimingsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "timings";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override

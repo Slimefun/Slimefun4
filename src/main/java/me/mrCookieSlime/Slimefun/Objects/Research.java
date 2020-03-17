@@ -22,8 +22,10 @@ import java.util.List;
  * {@link SlimefunItem} or more and require XP levels to unlock this/these item(s).
  *
  * @author TheBusyBiscuit
+ *
  * @see ResearchSetup
  * @see ResearchUnlockEvent
+ *
  */
 public class Research implements Keyed {
 
@@ -77,7 +79,7 @@ public class Research implements Keyed {
      * @return Whether this {@link Research} is enabled or not
      */
     public boolean isEnabled() {
-        return SlimefunPlugin.getSettings().researchesEnabled && enabled;
+        return SlimefunPlugin.getRegistry().isResearchingEnabled() && enabled;
     }
 
     /**
@@ -154,7 +156,7 @@ public class Research implements Keyed {
      */
     public boolean canUnlock(Player p) {
         if (!isEnabled()) return true;
-        return (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative) || p.getLevel() >= this.cost;
+        return (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled()) || p.getLevel() >= this.cost;
     }
 
     /**
@@ -179,7 +181,7 @@ public class Research implements Keyed {
                     profile.setResearched(this, true);
                     SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName(p)));
 
-                    if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, SlimefunGuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, SlimefunGuideSettings.FIREWORKS_KEY) == (byte) 1)) {
+                    if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && (!PersistentDataAPI.hasByte(p, SlimefunGuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, SlimefunGuideSettings.FIREWORKS_KEY) == (byte) 1)) {
                         FireworkUtils.launchRandom(p, 1);
                     }
                 };

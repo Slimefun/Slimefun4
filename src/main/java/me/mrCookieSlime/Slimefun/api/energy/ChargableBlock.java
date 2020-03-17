@@ -19,7 +19,10 @@ public final class ChargableBlock {
     }
 
     public static boolean isChargable(Location l) {
-        if (!BlockStorage.hasBlockInfo(l)) return false;
+        if (!BlockStorage.hasBlockInfo(l)) {
+            return false;
+        }
+
         return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(BlockStorage.checkID(l));
     }
 
@@ -127,8 +130,10 @@ public final class ChargableBlock {
             return 0;
         }
 
-        if (cfg.contains("energy-capacity")) {
-            return Integer.parseInt(cfg.getString("energy-capacity"));
+        String str = cfg.getString("energy-capacity");
+
+        if (str != null) {
+            return Integer.parseInt(str);
         } else {
             int capacity = SlimefunPlugin.getRegistry().getEnergyCapacities().get(cfg.getString("id"));
             BlockStorage.addBlockInfo(l, "energy-capacity", String.valueOf(capacity), false);

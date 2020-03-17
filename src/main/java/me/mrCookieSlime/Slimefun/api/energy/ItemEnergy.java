@@ -12,10 +12,12 @@ import java.util.List;
 
 public final class ItemEnergy {
 
+    // We should find a replacement for this class
+    // Perhaps we could also use PersistentData here too?
     private ItemEnergy() {
     }
 
-    //	"&c&o&8\u21E8 &e\u26A1 &70 / 50 J"
+    // "&c&o&8\u21E8 &e\u26A1 &70 / 50 J"
 
     public static float getStoredEnergy(ItemStack item) {
         if (item == null || item.getType() == Material.AIR || item.getAmount() < 1) return 0F;

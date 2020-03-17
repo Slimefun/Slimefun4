@@ -15,13 +15,18 @@ import java.util.Collection;
 
 class VersionsCommand extends SubCommand {
 
-    public VersionsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    VersionsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "versions";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override

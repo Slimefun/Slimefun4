@@ -17,13 +17,18 @@ class GiveCommand extends SubCommand {
     private static final String PLACEHOLDER_ITEM = "%item%";
     private static final String PLACEHOLDER_AMOUNT = "%amount%";
 
-    public GiveCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    GiveCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "give";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override
@@ -37,34 +42,35 @@ class GiveCommand extends SubCommand {
 
                     SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase());
                     if (sfItem != null) {
-                        int amount = 1;
-
-                        if (args.length == 4) {
-                            if (args[3].chars().allMatch(Character::isDigit)) {
-                                amount = Integer.parseInt(args[3]);
-                            }
-                            else {
-                                SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
-                                return;
-                            }
-                        }
-
-                        int finalAmount = amount;
+                        int amount = parseAmount(sender, args);
 
                         if (amount > 0) {
-                            SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
+                            SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
                             p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
-                            SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
+                            SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
                         } else
-                            SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, String.valueOf(finalAmount)));
+                            SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
                     } else
                         SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
                 } else
                     SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
             } else
-                SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
+                SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <玩家名> <Slimefun物品ID> [数量]"));
+        } else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+    }
+
+    private int parseAmount(CommandSender sender, String[] args) {
+        int amount = 1;
+
+        if (args.length == 4) {
+            if (args[3].chars().allMatch(Character::isDigit)) {
+                amount = Integer.parseInt(args[3]);
+            } else {
+                return 0;
+            }
         }
-        else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+
+        return amount;
     }
 
 }

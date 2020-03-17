@@ -10,7 +10,7 @@ import java.util.*;
 
 class SlimefunTabCompleter implements TabCompleter {
 
-    private static final int MAX_SUGGESTIONS = 40;
+    private static final int MAX_SUGGESTIONS = 50;
 
     private final SlimefunCommand command;
 

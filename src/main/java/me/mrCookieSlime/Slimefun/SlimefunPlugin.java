@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.*;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
@@ -30,7 +30,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -81,8 +80,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private Config whitelist;
     private Config config;
 
-    private GPSNetwork gps;
-    private ConfigCache settings;
+    private GPSNetwork gpsNetwork;
     private SlimefunCommand command;
 
     // Listeners that need to be accessed elsewhere
@@ -111,7 +109,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Setup config.yml
             config = new Config(this);
             registry = new SlimefunRegistry();
-            settings = new ConfigCache(config);
+            registry.load(config);
 
             // Loading all extra configs
             researches = new Config(this, "Researches.yml");
@@ -127,7 +125,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             networkManager = new NetworkManager(config.getInt("options.max-network-size"));
 
             // Setting up other stuff
-            gps = new GPSNetwork();
+            gpsNetwork = new GPSNetwork();
 
             // Setting up bStats
             metricsService.start();
@@ -145,7 +143,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             GEOResourcesSetup.setup();
 
             getLogger().log(Level.INFO, "加载物品中...");
-            MiscSetup.setupItemSettings();
+            PostSetup.setupItemSettings();
 
             try {
                 SlimefunItemSetup.setup(this);
@@ -161,9 +159,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 getLogger().log(Level.SEVERE, "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion(), x);
             }
 
-            settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
+            registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
 
-            MiscSetup.setupMisc();
+            PostSetup.setupWiki();
 
             // Setting up GitHub Connectors...
             gitHubService.connect(false);
@@ -176,7 +174,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new SlimefunItemConsumeListener(this);
             new BlockPhysicsListener(this);
             new MultiBlockListener(this);
-            new GearListener(this);
+            new GadgetsListener(this);
             new DispenserListener(this);
             new EntityKillListener(this);
             new BlockListener(this);
@@ -186,6 +184,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new ExplosionsListener(this);
             new DebugFishListener(this);
             new VanillaMachinesListener(this);
+            new FireworksListener(this);
+            new WitherListener(this);
+            new IronGolemListener(this);
 
             bowListener = new SlimefunBowListener(this);
             ancientAltarListener = new AncientAltarListener();
@@ -221,7 +222,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 recipeSnapshot = new RecipeSnapshot(this);
                 protections = new ProtectionManager(getServer());
 
-                MiscSetup.loadItems();
+                PostSetup.loadItems();
 
                 for (World world : Bukkit.getWorlds()) {
                     new BlockStorage(world);
@@ -337,6 +338,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             return true;
         }
 
+        getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);
         return false;
     }
 
@@ -418,7 +420,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.config;
     }
 
-    public static io.github.thebusybiscuit.cscorelib2.config.Config getResearchCfg() {
+    public static Config getResearchCfg() {
         return instance.researches;
     }
 
@@ -426,24 +428,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.items;
     }
 
-    public static io.github.thebusybiscuit.cscorelib2.config.Config getWhitelist() {
+    public static Config getWhitelist() {
         return instance.whitelist;
     }
 
     public static GPSNetwork getGPSNetwork() {
-        return instance.gps;
-    }
-
-    public static ConfigCache getSettings() {
-        return instance.settings;
+        return instance.gpsNetwork;
     }
 
     public static TickerTask getTicker() {
         return instance.ticker;
-    }
-
-    public static boolean isActive() {
-        return instance != null;
     }
 
     /**

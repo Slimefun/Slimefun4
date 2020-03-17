@@ -9,7 +9,7 @@ import java.util.Map;
 
 class CommandChart extends AdvancedPie {
 
-    public CommandChart() {
+    CommandChart() {
         super("commands_ran", () -> {
             Map<String, Integer> commands = new HashMap<>();
 

@@ -10,7 +10,6 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -36,7 +35,7 @@ public class Smeltery extends MultiBlockMachine {
     private int fireBreakingChance;
 
     public Smeltery() {
-        super(Categories.MACHINES_1, (SlimefunItemStack) SlimefunItems.SMELTERY, new ItemStack[]{
+        super(Categories.MACHINES_1, SlimefunItems.SMELTERY, new ItemStack[]{
                         null, new ItemStack(Material.NETHER_BRICK_FENCE), null,
                         new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS),
                         null, new ItemStack(Material.FLINT_AND_STEEL), null

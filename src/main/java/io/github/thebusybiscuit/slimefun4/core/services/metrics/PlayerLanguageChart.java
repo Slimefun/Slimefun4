@@ -11,7 +11,7 @@ import java.util.Map;
 
 class PlayerLanguageChart extends AdvancedPie {
 
-    public PlayerLanguageChart() {
+    PlayerLanguageChart() {
         super("player_languages", () -> {
             Map<String, Integer> languages = new HashMap<>();
 

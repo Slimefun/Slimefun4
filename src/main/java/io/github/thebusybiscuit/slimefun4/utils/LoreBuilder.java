@@ -20,7 +20,7 @@ public final class LoreBuilder {
     }
 
     public static String speed(float speed) {
-        return "&8\u21E8 &b\u26A1 &7速度: &b" + speed + "x";
+        return "&8\u21E8 &b\u26A1 &7速度: &b" + speed + 'x';
     }
 
     public static String powerBuffer(int power) {

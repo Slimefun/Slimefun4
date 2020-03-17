@@ -9,13 +9,18 @@ import org.bukkit.entity.Player;
 
 class CheatCommand extends SubCommand {
 
-    public CheatCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    CheatCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "cheat";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override

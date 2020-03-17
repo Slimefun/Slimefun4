@@ -11,6 +11,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  * @see SoulboundItem
  */
-public interface Soulbound {
+public interface Soulbound extends ItemAttribute {
 
 }

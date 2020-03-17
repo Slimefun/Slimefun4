@@ -7,13 +7,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
 class ReloadCommand extends SubCommand {
-    public ReloadCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    ReloadCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "reload";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override

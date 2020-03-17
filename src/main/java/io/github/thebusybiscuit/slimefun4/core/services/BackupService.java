@@ -22,6 +22,7 @@ import java.util.zip.ZipOutputStream;
  * This Service creates a Backup of your Slimefun world data on every server shutdown.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class BackupService implements Runnable {
 
@@ -45,12 +46,12 @@ public class BackupService implements Runnable {
                         createBackup(output);
                     }
 
-                    Slimefun.getLogger().log(Level.INFO, "Backed up Data to: " + file.getName());
+                    Slimefun.getLogger().log(Level.INFO, "已备份 Slimefun 数据到: {0}", file.getName());
                 } else {
-                    Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: " + file.getName());
+                    Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: {0}", file.getName());
                 }
             } catch (IOException x) {
-                Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a World-Backup for Slimefun " + SlimefunPlugin.getVersion(), x);
+                Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a backup for Slimefun " + SlimefunPlugin.getVersion(), x);
             }
         }
     }
@@ -134,7 +135,7 @@ public class BackupService implements Runnable {
 
         for (int i = backups.size() - 20; i > 0; i--) {
             if (!backups.get(i).delete()) {
-                Slimefun.getLogger().log(Level.WARNING, "Could not delete Backup: " + backups.get(i).getName());
+                Slimefun.getLogger().log(Level.WARNING, "无法删除备份 {0}", backups.get(i).getName());
             }
         }
     }

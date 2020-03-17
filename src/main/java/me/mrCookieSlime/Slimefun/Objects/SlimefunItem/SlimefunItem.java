@@ -111,7 +111,7 @@ public class SlimefunItem implements Placeable {
      * This method returns the {@link ItemState} this {@link SlimefunItem}
      * is currently in. This can be used to determine whether a {@link SlimefunItem}
      * is enabled or disabled.
-     * <p>
+     *
      * {@link VanillaItem} represents a special case here.
      *
      * @return The {@link ItemState} of this {@link SlimefunItem}
@@ -271,7 +271,7 @@ public class SlimefunItem implements Placeable {
             }
 
             if (this instanceof WitherProof) {
-                SlimefunPlugin.getRegistry().getWitherProofBlocks().add(id);
+                SlimefunPlugin.getRegistry().getWitherProofBlocks().put(id, (WitherProof) this);
             }
 
             if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {

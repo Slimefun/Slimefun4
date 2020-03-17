@@ -5,9 +5,9 @@ import org.bstats.bukkit.Metrics.SimplePie;
 
 class ResearchesEnabledChart extends SimplePie {
 
-    public ResearchesEnabledChart() {
+    ResearchesEnabledChart() {
         super("servers_with_researches_enabled", () -> {
-            boolean enabled = SlimefunPlugin.getSettings().researchesEnabled;
+            boolean enabled = SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled();
             return enabled ? "enabled" : "disabled";
         });
     }

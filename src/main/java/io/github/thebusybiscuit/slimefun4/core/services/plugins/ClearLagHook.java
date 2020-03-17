@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 class ClearLagHook implements Listener {
 
-    public ClearLagHook(SlimefunPlugin plugin) {
+    ClearLagHook(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

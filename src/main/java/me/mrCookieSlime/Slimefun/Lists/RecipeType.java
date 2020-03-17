@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -23,17 +24,17 @@ import java.util.logging.Level;
 public class RecipeType implements Keyed {
 
     public static final RecipeType MULTIBLOCK = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "multiblock"), new CustomItem(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
-    public static final RecipeType ARMOR_FORGE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "armor_forge"), (SlimefunItemStack) SlimefunItems.ARMOR_FORGE, "", "&a&oCraft it in an Armor Forge");
-    public static final RecipeType GRIND_STONE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "grind_stone"), (SlimefunItemStack) SlimefunItems.GRIND_STONE, "", "&a&oGrind it using the Grind Stone");
-    public static final RecipeType SMELTERY = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "smeltery"), (SlimefunItemStack) SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery");
-    public static final RecipeType ORE_CRUSHER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ore_crusher"), (SlimefunItemStack) SlimefunItems.ORE_CRUSHER, "", "&a&oCrush it using the Ore Crusher");
+    public static final RecipeType ARMOR_FORGE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "armor_forge"), SlimefunItems.ARMOR_FORGE, "", "&a&oCraft it in an Armor Forge");
+    public static final RecipeType GRIND_STONE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "grind_stone"), SlimefunItems.GRIND_STONE, "", "&a&oGrind it using the Grind Stone");
+    public static final RecipeType SMELTERY = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "smeltery"), SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery");
+    public static final RecipeType ORE_CRUSHER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ore_crusher"), SlimefunItems.ORE_CRUSHER, "", "&a&oCrush it using the Ore Crusher");
     public static final RecipeType GOLD_PAN = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "gold_pan"), (SlimefunItemStack) SlimefunItems.GOLD_PAN, "", "&a&oUse a Gold Pan on Gravel to obtain this Item");
-    public static final RecipeType COMPRESSOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "compressor"), (SlimefunItemStack) SlimefunItems.COMPRESSOR, "", "&a&oCompress it using the Compressor");
-    public static final RecipeType PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "pressure_chamber"), (SlimefunItemStack) SlimefunItems.PRESSURE_CHAMBER, "", "&a&oCompress it using the Pressure Chamber");
-    public static final RecipeType MAGIC_WORKBENCH = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "magic_workbench"), (SlimefunItemStack) SlimefunItems.MAGIC_WORKBENCH, "", "&a&oCraft it in a Magic Workbench");
-    public static final RecipeType ORE_WASHER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ore_washer"), (SlimefunItemStack) SlimefunItems.ORE_WASHER, "", "&a&oWash it in an Ore Washer");
-    public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "enhanced_crafting_table"), (SlimefunItemStack) SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power...");
-    public static final RecipeType JUICER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "juicer"), (SlimefunItemStack) SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
+    public static final RecipeType COMPRESSOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "compressor"), SlimefunItems.COMPRESSOR, "", "&a&oCompress it using the Compressor");
+    public static final RecipeType PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "pressure_chamber"), SlimefunItems.PRESSURE_CHAMBER, "", "&a&oCompress it using the Pressure Chamber");
+    public static final RecipeType MAGIC_WORKBENCH = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "magic_workbench"), SlimefunItems.MAGIC_WORKBENCH, "", "&a&oCraft it in a Magic Workbench");
+    public static final RecipeType ORE_WASHER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ore_washer"), SlimefunItems.ORE_WASHER, "", "&a&oWash it in an Ore Washer");
+    public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "enhanced_crafting_table"), SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power...");
+    public static final RecipeType JUICER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "juicer"), SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
 
     public static final RecipeType ANCIENT_ALTAR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ancient_altar"), SlimefunItems.ANCIENT_ALTAR, (recipe, output) -> {
         AltarRecipe altarRecipe = new AltarRecipe(Arrays.asList(recipe), output);
@@ -117,8 +118,8 @@ public class RecipeType implements Keyed {
         } else {
             SlimefunItem slimefunItem = SlimefunItem.getByID(this.machine);
 
-            if (slimefunItem instanceof SlimefunMachine) {
-                ((SlimefunMachine) slimefunItem).addRecipe(recipe, result);
+            if (slimefunItem instanceof MultiBlockMachine) {
+                ((MultiBlockMachine) slimefunItem).addRecipe(recipe, result);
             }
         }
     }
@@ -168,13 +169,17 @@ public class RecipeType implements Keyed {
 
     public static List<ItemStack[]> getRecipeInputList(SlimefunMachine machine) {
         if (machine == null) return new ArrayList<>();
+
         List<ItemStack[]> recipes = machine.getRecipes();
         List<ItemStack[]> convertible = new ArrayList<>();
 
         for (int i = 0; i < recipes.size(); i++) {
-            if (i % 2 == 0) convertible.add(recipes.get(i));
+            if (i % 2 == 0) {
+                convertible.add(recipes.get(i));
+            }
         }
 
+        convertible.sort(Comparator.comparing(recipe -> -recipe.length));
         return convertible;
     }
 
@@ -185,6 +190,6 @@ public class RecipeType implements Keyed {
 
     public static ItemStack getRecipeOutputList(SlimefunMachine machine, ItemStack[] input) {
         List<ItemStack[]> recipes = machine.getRecipes();
-        return recipes.get(((getRecipeInputList(machine).indexOf(input) * 2) + 1))[0];
+        return recipes.get((recipes.indexOf(input) + 1))[0];
     }
 }

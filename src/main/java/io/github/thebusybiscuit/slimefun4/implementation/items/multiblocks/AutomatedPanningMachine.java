@@ -9,7 +9,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMach
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -30,18 +29,18 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
 	public AutomatedPanningMachine() {
 		super(
-                Categories.MACHINES_1,
-                (SlimefunItemStack) SlimefunItems.AUTOMATED_PANNING_MACHINE,
-                new ItemStack[]{
-                        null, null, null,
-                        null, new ItemStack(Material.OAK_TRAPDOOR), null,
-                        null, new ItemStack(Material.CAULDRON), null
-                },
-                new ItemStack[]{
-                        new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT),
-                        new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE,
-                        new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL),
-                        new ItemStack(Material.GRAVEL), new ItemStack(Material.IRON_NUGGET),
+				Categories.MACHINES_1,
+				SlimefunItems.AUTOMATED_PANNING_MACHINE,
+				new ItemStack[]{
+						null, null, null,
+						null, new ItemStack(Material.OAK_TRAPDOOR), null,
+						null, new ItemStack(Material.CAULDRON), null
+				},
+				new ItemStack[]{
+						new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT),
+						new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE,
+						new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL),
+						new ItemStack(Material.GRAVEL), new ItemStack(Material.IRON_NUGGET),
                         new ItemStack(Material.SOUL_SAND), new ItemStack(Material.QUARTZ),
                         new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GOLD_NUGGET),
                         new ItemStack(Material.SOUL_SAND), new ItemStack(Material.NETHER_WART),

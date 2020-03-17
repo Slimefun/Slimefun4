@@ -68,7 +68,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
         sender.sendMessage("");
 
         for (SubCommand cmd : commands) {
-            if (!cmd.getName().equals("debug_fish") && !cmd.getName().equals("elevator")) {
+            if (!cmd.isHidden()) {
                 sender.sendMessage(ChatColors.color("&3/sf " + cmd.getName() + " &b") + cmd.getDescription(sender));
             }
         }

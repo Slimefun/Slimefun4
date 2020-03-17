@@ -5,7 +5,7 @@ import org.bstats.bukkit.Metrics.SimplePie;
 
 class ResourcePackChart extends SimplePie {
 
-    public ResourcePackChart() {
+    ResourcePackChart() {
         super("resourcepack", () -> {
             String version = SlimefunPlugin.getItemTextureService().getVersion();
 

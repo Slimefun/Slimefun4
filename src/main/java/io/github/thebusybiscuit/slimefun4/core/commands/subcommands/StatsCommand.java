@@ -13,13 +13,18 @@ import java.util.Optional;
 
 class StatsCommand extends SubCommand {
 
-    public StatsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    StatsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "stats";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override

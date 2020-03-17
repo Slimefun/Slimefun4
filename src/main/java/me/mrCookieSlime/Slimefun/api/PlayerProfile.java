@@ -23,8 +23,10 @@ import java.util.stream.IntStream;
  * It also holds the backpacks of a {@link Player}.
  *
  * @author TheBusyBiscuit
+ *
  * @see Research
  * @see PlayerBackpack
+ *
  */
 public final class PlayerProfile {
 
@@ -39,12 +41,7 @@ public final class PlayerProfile {
     private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
     private final LinkedList<Object> guideHistory = new LinkedList<>();
 
-    private final HashedArmorpiece[] armor = {
-            new HashedArmorpiece(),
-            new HashedArmorpiece(),
-            new HashedArmorpiece(),
-            new HashedArmorpiece()
-    };
+    private final HashedArmorpiece[] armor = {new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece()};
 
     private PlayerProfile(OfflinePlayer p) {
         this.uuid = p.getUniqueId();
@@ -185,7 +182,7 @@ public final class PlayerProfile {
     }
 
     public String getTitle() {
-        List<String> titles = SlimefunPlugin.getSettings().researchesTitles;
+        List<String> titles = SlimefunPlugin.getRegistry().getResearchRanks();
 
         float fraction = (float) researches.size() / SlimefunPlugin.getRegistry().getResearches().size();
         int index = (int) (fraction * (titles.size() - 1));

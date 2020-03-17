@@ -6,7 +6,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
@@ -34,7 +33,7 @@ public abstract class ElectricDustWasher extends AContainer {
     public void preRegister() {
         super.preRegister();
 
-        oreWasher = (OreWasher) SlimefunItem.getByID("ORE_WASHER");
+        oreWasher = (OreWasher) SlimefunItems.ORE_WASHER.getItem();
     }
 
     @Override

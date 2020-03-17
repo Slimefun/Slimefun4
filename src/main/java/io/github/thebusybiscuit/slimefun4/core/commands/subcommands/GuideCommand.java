@@ -10,13 +10,18 @@ import org.bukkit.entity.Player;
 
 class GuideCommand extends SubCommand {
 
-    public GuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    GuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "guide";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override

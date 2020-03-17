@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -18,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
+public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements DamageableItem {
 
     public SmeltersPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -54,6 +55,7 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
                             drops.add(output);
                         }
                     }
+                    damageItem(e.getPlayer(), item);
 
                     return true;
                 } else return false;
@@ -61,4 +63,8 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
         };
     }
 
+    @Override
+    public boolean isDamageable() {
+        return true;
+    }
 }

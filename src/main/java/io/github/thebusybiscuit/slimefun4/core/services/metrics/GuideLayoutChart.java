@@ -5,7 +5,7 @@ import org.bstats.bukkit.Metrics.SimplePie;
 
 class GuideLayoutChart extends SimplePie {
 
-    public GuideLayoutChart() {
+    GuideLayoutChart() {
         super("guide_layout", () -> {
             boolean book = SlimefunPlugin.getCfg().getBoolean("guide.default-view-book");
 

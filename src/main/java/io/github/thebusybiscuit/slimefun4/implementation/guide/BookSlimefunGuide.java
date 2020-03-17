@@ -199,7 +199,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                                             if (profile.hasUnlocked(research)) {
                                                 openCategory(profile, category, true, page);
                                             } else {
-                                                if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative)) {
+                                                if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled())) {
                                                     p.setLevel(p.getLevel() - research.getCost());
                                                 }
 

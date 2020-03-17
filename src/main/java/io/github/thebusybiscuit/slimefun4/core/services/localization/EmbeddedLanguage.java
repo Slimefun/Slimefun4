@@ -56,7 +56,7 @@ enum EmbeddedLanguage {
         this.textureHash = textureHash;
     }
 
-    public String getID() {
+    public String getId() {
         return id;
     }
 
