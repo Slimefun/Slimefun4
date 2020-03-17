@@ -1,5 +1,6 @@
 ---
 slimefun:
+  24k_gold_block: Cité d’Or
   advanced_android: Androïdes Avancés
   advanced_butcher_android: Androïdes Avancés - Boucher
   advanced_circuit_board: Circuit imprimé avancé
@@ -35,6 +36,7 @@ slimefun:
   better_food_fabricator: Fabrication d'aliments améliorés
   better_freezer: Mr. Freeze ++
   better_gps_transmitters: Émetteurs améliorés
+  better_heated_pressure_chamber: Chambre sous pression chauffée améliorée
   better_solar_generators: Panneaux solaires améliorés
   bio_reactor: Bioréacteur
   blade_of_vampires: Lame des vampires
@@ -65,6 +67,7 @@ slimefun:
   composter: Composte
   compressor_and_carbon: Création de carbone
   cooler: Boissons portables
+  copper_wire: Conductivité moderne
   crop_growth_accelerator: Accélération de la croissance des cultures
   crucible: Creuset
   crushed_ore: Purification des minerais
@@ -98,7 +101,9 @@ slimefun:
   fire_staff: Sceptre de feu
   fire_talisman: Talisman du Pompier
   first_aid: Premier secours
+  flask_of_knowledge: Stockage d'XP
   fluid_pump: Pompe à fluide
+  fortune_cookie: Biscuit Chinois
   freezer: Mr. Freeze
   fuel: Fioul
   geo_miner: GEO-mineur
@@ -117,6 +122,7 @@ slimefun:
   grind_stone: Meule
   hardened_glass: Résistance aux explosions
   hazmat_suit: Combinaison Hazmat
+  heated_pressure_chamber: Chambre sous pression chauffée
   hercules_pickaxe: Pioche de Hercule
   high_tier_capacitors: Condensateurs de niveau 2
   high_tier_carbon_press: Presse à carbone Ultime
@@ -145,6 +151,7 @@ slimefun:
   magic_workbench: Etablie magique
   magnesium_generator: Puissance du magnésium
   magnet: Métaux magnétiques
+  meat_jerky: Viande séché
   miner_talisman: Talisman du Mineur
   misc_power_items: Composants électriques importants
   monster_jerky: Viande de monstre séchée
@@ -170,6 +177,7 @@ slimefun:
   plastic_sheet: Plastique
   portable_crafter: Établi portable
   portable_dustbin: Poubelle portable
+  pressure_chamber: Chambre sous pression
   programmable_androids: Androïdes programmables
   radiant_backpack: Sac-à-dos rayonnant
   rainbow_blocks: Blocs arc-en-ciel
@@ -186,6 +194,7 @@ slimefun:
   slime_armor: Armure en slime
   slimefun_metals: 'Nouveaux métaux '
   slime_steel_armor: Armure en acier visqueux
+  smelters_pickaxe: Pioche enflammée
   smeltery: Fonderie
   solar_generators: Centrale solaire
   solar_panel_and_helmet: Énergie solaire
@@ -221,12 +230,5 @@ slimefun:
   wizard_talisman: Talisman du Sorcier
   woven_backpack: Sac-à-dos tissé
   xp_collector: Récolteur d'expérience
-  fortune_cookie: Biscuit Chinois
-  meat_jerky: Viande séché
-  pressure_chamber: Chambre sous pression
-  smelters_pickaxe: Pioche enflammée
-  24k_gold_block: Cité d’Or
-  flask_of_knowledge: Stockage d'XP
-  heated_pressure_chamber: Chambre sous pression chauffée
-  better_heated_pressure_chamber: Chambre sous pression chauffée améliorée
-  copper_wire: Conductivité moderne
+  makeshift_smeltery: Fonderie improvisée
+  tree_growth_accelerator: Arbres à croissance accélérée
