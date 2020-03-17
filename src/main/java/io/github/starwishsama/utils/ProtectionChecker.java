@@ -54,21 +54,21 @@ public class ProtectionChecker implements Listener {
     public static boolean check(Player p, Block block, boolean isAndroid) {
         if (installed) {
             ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
-            if (p.isOp()) {
-                return true;
-            }
-
-            if (res != null && !p.hasPermission("residence.bypass.build") && !p.hasPermission("residence.bypass.destroy")) {
-                ResidencePermissions perms = res.getPermissions();
-                if (res.getOwnerUUID() == p.getUniqueId()) {
+            if (p != null) {
+                if (p.isOp()) {
                     return true;
-                }
-
-                if (isAndroid) {
-                    return perms.playerHas(p, Flags.destroy, true) || perms.playerHas(p, Flags.place, true);
-                } else if (!perms.playerHas(p, Flags.use, true)) {
-                    SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
-                    return false;
+                } else if (res != null && !p.hasPermission("residence.bypass.build") && !p.hasPermission("residence.bypass.destroy")) {
+                    ResidencePermissions perms = res.getPermissions();
+                    if (res.getOwnerUUID() == p.getUniqueId()) {
+                        return true;
+                    }
+                    if (isAndroid) {
+                        return perms.playerHas(p, Flags.destroy, true) || perms.playerHas(p, Flags.place, true);
+                    }
+                    if (!perms.playerHas(p, Flags.use, true)) {
+                        SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
+                        return false;
+                    }
                 }
             }
         }
