@@ -39,7 +39,7 @@
         </repository>
     </repositories>
     
-    <build>k
+    <build>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <finalName>${project.name}-v${project.version}</finalName>
 
