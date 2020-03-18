@@ -128,7 +128,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             gpsNetwork = new GPSNetwork();
 
             // Setting up bStats
-            //metricsService.start();
+            metricsService.start();
 
             // Starting the Auto-Updater
             if (config.getBoolean("options.auto-update")) {
