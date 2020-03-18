@@ -75,6 +75,9 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
 
         recipeList.add(new ItemStack(Material.COOKED_COD));
         recipeList.add(SlimefunItems.FISH_JERKY);
+
+        recipeList.add(new ItemStack(Material.COOKED_SALMON));
+        recipeList.add(SlimefunItems.FISH_JERKY);
     }
 
     @Override

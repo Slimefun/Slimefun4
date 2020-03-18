@@ -50,6 +50,9 @@
 * Added Makeshift Smeltery
 * Added Tree Growth Accelerator
 * Added "Glass to Glass Panes" recipe to the Electric Press
+* Added "Snowballs to Snow blocks" recipe to the Electric Press
+* Added "Snow blocks to Ice" recipe to the Freezer
+* You can now use Cooked Salmon in an Auto Drier to craft Fish Jerky
 * The Lumber Axe can now strip logs too
 
 #### Changes

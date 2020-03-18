@@ -183,7 +183,9 @@ public final class PostSetup {
                         // We want to exclude Dust to Ingot Recipes
                         if (inputs.size() == 1 && isDust(inputs.get(0))) {
                             ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem()).addRecipe(new ItemStack[] { inputs.get(0) }, recipe[0]);
+
                             registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[] { inputs.get(0) }, new ItemStack[] { recipe[0] });
+                            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[] { recipe[0] }, new ItemStack[] { inputs.get(0) });
                         }
                         else {
                             registerMachineRecipe("ELECTRIC_SMELTERY", 12, inputs.toArray(new ItemStack[0]), new ItemStack[] { recipe[0] });

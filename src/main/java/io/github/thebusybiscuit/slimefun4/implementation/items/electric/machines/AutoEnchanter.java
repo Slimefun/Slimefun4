@@ -59,6 +59,7 @@ public class AutoEnchanter extends AContainer {
     @Override
     protected void tick(Block b) {
         BlockMenu menu = BlockStorage.getInventory(b.getLocation());
+
         if (isProcessing(b)) {
             int timeleft = progress.get(b);
 
@@ -85,7 +86,8 @@ public class AutoEnchanter extends AContainer {
 
             for (int slot : getInputSlots()) {
                 ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
-                // Check if enchantable
+
+                // Check if the item is enchantable
                 SlimefunItem sfTarget = SlimefunItem.getByItem(target);
                 if (sfTarget != null && !sfTarget.isEnchantable()) return;
 
