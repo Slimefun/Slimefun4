@@ -11,7 +11,6 @@ import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFurnace;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -51,7 +50,7 @@ public class EnhancedFurnaceListener implements Listener {
             Optional<ItemStack> result = Optional.ofNullable(furnace.getInventory().getResult());
 
             if (!result.isPresent()) {
-                result = SlimefunPlugin.getMinecraftRecipes().getRecipeOutput(MinecraftRecipe.FURNACE, furnace.getInventory().getSmelting());
+                result = SlimefunPlugin.getMinecraftRecipes().getFurnaceOutput(furnace.getInventory().getSmelting());
             }
 
             if (result.isPresent()) {

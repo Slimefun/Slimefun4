@@ -30,18 +30,7 @@ public class MakeshiftSmeltery extends MultiBlockMachine {
               null, new ItemStack(Material.OAK_FENCE), null, 
               new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.BRICKS), 
               null, new ItemStack(Material.FLINT_AND_STEEL), null 
-        }, 
-        new ItemStack[] { 
-              SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT), 
-              SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_4K, 
-              SlimefunItems.COPPER_DUST, SlimefunItems.COPPER_INGOT, 
-              SlimefunItems.TIN_DUST, SlimefunItems.TIN_INGOT, 
-              SlimefunItems.SILVER_DUST, SlimefunItems.SILVER_INGOT, 
-              SlimefunItems.MAGNESIUM_DUST, SlimefunItems.MAGNESIUM_INGOT, 
-              SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_INGOT, 
-              SlimefunItems.LEAD_DUST, SlimefunItems.LEAD_INGOT, 
-              SlimefunItems.ZINC_DUST, SlimefunItems.ZINC_INGOT 
-        }, BlockFace.DOWN);
+        }, new ItemStack[0], BlockFace.DOWN);
     }
 
     @Override

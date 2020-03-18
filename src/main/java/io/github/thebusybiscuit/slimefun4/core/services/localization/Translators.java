@@ -35,6 +35,7 @@ public class Translators {
 
         // Translators - Italian
         addTranslator("xXDOTTORXx", EmbeddedLanguage.ITALIAN, true);
+        addTranslator("Sfiguz7", EmbeddedLanguage.ITALIAN, false);
 
         // Translators - Latvian
         addTranslator("AgnisT", "NIKNAIZ", EmbeddedLanguage.LATVIAN, true);

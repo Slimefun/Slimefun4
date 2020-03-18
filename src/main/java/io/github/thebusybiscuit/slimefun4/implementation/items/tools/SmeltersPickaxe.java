@@ -9,7 +9,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
-import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -48,7 +47,7 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> imple
                             ItemStack output = drop;
                             output.setAmount(fortune);
 
-                            Optional<ItemStack> furnaceOutput = SlimefunPlugin.getMinecraftRecipes().getRecipeOutput(MinecraftRecipe.FURNACE, drop);
+                            Optional<ItemStack> furnaceOutput = SlimefunPlugin.getMinecraftRecipes().getFurnaceOutput(drop);
                             if (furnaceOutput.isPresent()) {
                                 e.getBlock().getWorld().playEffect(e.getBlock().getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
                                 output.setType(furnaceOutput.get().getType());

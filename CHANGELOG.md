@@ -49,6 +49,8 @@
 * Multiblocks that use Fences or Trap doors now accept all wood types
 * Added Makeshift Smeltery
 * Added Tree Growth Accelerator
+* Added "Glass to Glass Panes" recipe to the Electric Press
+* The Lumber Axe can now strip logs too
 
 #### Changes
 * Removed some deprecated parts of the API
@@ -68,6 +70,7 @@
 * Fixed #1706
 * Fixed #1710
 * Fixed #1711
+* Fixed Slimefun Guide showing shaped recipes incorrectly
 
 ## Release Candidate 9 (07 Mar 2020)
 

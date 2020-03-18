@@ -352,7 +352,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, null, null, new ItemStack(Material.STONE), new ItemStack(Material.BOWL), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE)})
 		.register(plugin);
 
-		new NetherGoldPan(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.NETHER_GOLD_PAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new NetherGoldPan(Categories.TOOLS, SlimefunItems.NETHER_GOLD_PAN, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.NETHER_BRICK), SlimefunItems.GOLD_PAN, new ItemStack(Material.NETHER_BRICK), new ItemStack(Material.NETHER_BRICK), new ItemStack(Material.NETHER_BRICK), new ItemStack(Material.NETHER_BRICK)})
 		.register(plugin);
 
