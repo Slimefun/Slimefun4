@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
+package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
 
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;

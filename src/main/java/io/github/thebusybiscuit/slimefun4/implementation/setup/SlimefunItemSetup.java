@@ -16,10 +16,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
@@ -78,11 +75,11 @@ public final class SlimefunItemSetup {
     }
 
     public static void setup(SlimefunPlugin plugin) {
-        new SlimefunItem(Categories.WEAPONS, SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SlimefunItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null})
                 .register(plugin);
 
-        new SlimefunItem(Categories.WEAPONS, SlimefunItems.GRANDPAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SlimefunItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.GRANDPAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{new ItemStack(Material.LEATHER), new ItemStack(Material.OAK_LOG), new ItemStack(Material.LEATHER), null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null})
                 .register(plugin);
 
@@ -217,7 +214,7 @@ public final class SlimefunItemSetup {
                 new PotionEffect[]{new PotionEffect(PotionEffectType.JUMP, 300, 5)})
                 .register(plugin);
 
-        new SwordOfBeheading(Categories.WEAPONS, SlimefunItems.SWORD_OF_BEHEADING, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SwordOfBeheading(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SWORD_OF_BEHEADING, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{null, new ItemStack(Material.EMERALD), null, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.EMERALD), SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.BLAZE_ROD), null},
                 new String[]{"chance.PLAYER", "chance.SKELETON", "chance.WITHER_SKELETON", "chance.ZOMBIE", "chance.CREEPER"}, new Integer[]{70, 40, 25, 40, 40})
                 .register(plugin);
@@ -235,7 +232,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.REDSTONE_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK)})
                 .register(plugin);
 
-        new GoldPan(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.GOLD_PAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new GoldPan(Categories.TOOLS, SlimefunItems.GOLD_PAN, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{null, null, null, new ItemStack(Material.STONE), new ItemStack(Material.BOWL), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE), new ItemStack(Material.STONE)})
                 .register(plugin);
 
@@ -485,7 +482,7 @@ public final class SlimefunItemSetup {
                 0.7)
                 .register(plugin);
 
-        new Parachute(Categories.TECH, (SlimefunItemStack) SlimefunItems.PARACHUTE, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new Parachute(Categories.TECH, SlimefunItems.PARACHUTE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CHAIN, null, SlimefunItems.CHAIN, null, null, null})
                 .register(plugin);
 
@@ -502,22 +499,22 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, null, null})
                 .register(plugin);
 
-        new GrapplingHook(Categories.TOOLS, (SlimefunItemStack) SlimefunItems.GRAPPLING_HOOK, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new GrapplingHook(Categories.TOOLS, SlimefunItems.GRAPPLING_HOOK, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{null, null, SlimefunItems.HOOK, null, SlimefunItems.CHAIN, null, SlimefunItems.CHAIN, null, null},
                 new String[]{"despawn-seconds"}, new Object[]{60})
                 .register(plugin);
 
         new MagicWorkbench().register(plugin);
 
-        new SlimefunItem(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.STAFF_ELEMENTAL, RecipeType.MAGIC_WORKBENCH,
+        new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_ELEMENTAL, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[]{null, SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.MAGIC_LUMP_3, null, new ItemStack(Material.STICK), SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.MAGIC_LUMP_3, null, null})
                 .register(plugin);
 
-        new WindStaff(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.STAFF_WIND, RecipeType.MAGIC_WORKBENCH,
+        new WindStaff(Categories.MAGIC, SlimefunItems.STAFF_WIND, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[]{null, new ItemStack(Material.FEATHER), SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.STAFF_ELEMENTAL, new ItemStack(Material.FEATHER), SlimefunItems.STAFF_ELEMENTAL, null, null})
                 .register(plugin);
 
-        new WaterStaff(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.STAFF_WATER, RecipeType.MAGIC_WORKBENCH,
+        new WaterStaff(Categories.MAGIC, SlimefunItems.STAFF_WATER, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[]{null, new ItemStack(Material.LILY_PAD), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.STAFF_ELEMENTAL, new ItemStack(Material.LILY_PAD), SlimefunItems.STAFF_ELEMENTAL, null, null})
                 .register(plugin);
 
@@ -616,7 +613,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), SlimefunItems.SILICON, SlimefunItems.SILICON, SlimefunItems.SILICON, SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON})
                 .register(plugin);
 
-        new SolarHelmet(Categories.TECH, (SlimefunItemStack) SlimefunItems.SOLAR_HELMET, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SolarHelmet(Categories.TECH, SlimefunItems.SOLAR_HELMET, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.SOLAR_PANEL, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.MEDIUM_CAPACITOR, null, SlimefunItems.MEDIUM_CAPACITOR},
                 new String[]{"charge-amount"}, new Double[]{0.1})
                 .register(plugin);
@@ -625,11 +622,11 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.RUNE_FIRE, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1})
                 .register(plugin);
 
-        new SlimefunItem(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.STAFF_FIRE, RecipeType.MAGIC_WORKBENCH,
+        new SlimefunItem(Categories.MAGIC, SlimefunItems.STAFF_FIRE, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[]{null, null, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, null})
                 .register(plugin);
 
-        new StormStaff(Categories.MAGIC, (SlimefunItemStack) SlimefunItems.STAFF_STORM, RecipeType.ANCIENT_ALTAR,
+        new StormStaff(Categories.MAGIC, SlimefunItems.STAFF_STORM, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[]{SlimefunItems.RUNE_LIGHTNING, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_LIGHTNING, SlimefunItems.STAFF_WATER, SlimefunItems.MAGIC_SUGAR, SlimefunItems.STAFF_WIND, SlimefunItems.RUNE_LIGHTNING, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_LIGHTNING})
                 .register(plugin);
 
@@ -637,62 +634,62 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
                 .register(plugin);
 
-        new SlimefunItem(Categories.LUMPS_AND_MAGIC, (SlimefunItemStack) SlimefunItems.TALISMAN, RecipeType.MAGIC_WORKBENCH,
+        new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.TALISMAN, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.EMERALD), null, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_8K, SlimefunItems.MAGIC_LUMP_2},
                 new String[]{"recipe-requires-nether-stars"}, new Boolean[]{false})
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_ANVIL,
+        new Talisman(SlimefunItems.TALISMAN_ANVIL,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.ANVIL), SlimefunItems.TALISMAN, new ItemStack(Material.ANVIL), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 true, false, "anvil")
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_MINER,
+        new Talisman(SlimefunItems.TALISMAN_MINER,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.TALISMAN, SlimefunItems.SIFTED_ORE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 false, false, "miner", 20)
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_HUNTER,
+        new Talisman(SlimefunItems.TALISMAN_HUNTER,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.TALISMAN, SlimefunItems.MONSTER_JERKY, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 false, false, "hunter", 20)
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_LAVA,
+        new Talisman(SlimefunItems.TALISMAN_LAVA,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.TALISMAN, new ItemStack(Material.LAVA_BUCKET), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 true, true, "lava", new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 3600, 4))
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_WATER,
+        new Talisman(SlimefunItems.TALISMAN_WATER,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.WATER_BUCKET), SlimefunItems.TALISMAN, new ItemStack(Material.FISHING_ROD), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 true, true, "water", new PotionEffect(PotionEffectType.WATER_BREATHING, 3600, 4))
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_ANGEL,
+        new Talisman(SlimefunItems.TALISMAN_ANGEL,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.FEATHER), SlimefunItems.TALISMAN, new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 false, true, "angel", 75)
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_FIRE,
+        new Talisman(SlimefunItems.TALISMAN_FIRE,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.TALISMAN, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 true, true, "fire", new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 3600, 4))
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_MAGICIAN,
+        new Talisman(SlimefunItems.TALISMAN_MAGICIAN,
                 new ItemStack[]{SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.TALISMAN, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3},
                 false, false, "magician", 80)
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_TRAVELLER,
+        new Talisman(SlimefunItems.TALISMAN_TRAVELLER,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.STAFF_WIND, SlimefunItems.TALISMAN_ANGEL, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 false, false, "traveller", 60, new PotionEffect(PotionEffectType.SPEED, 3600, 2))
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_WARRIOR,
+        new Talisman(SlimefunItems.TALISMAN_WARRIOR,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.TALISMAN, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 true, true, "warrior", new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 3600, 2))
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_KNIGHT,
+        new Talisman(SlimefunItems.TALISMAN_KNIGHT,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.GILDED_IRON, SlimefunItems.TALISMAN_WARRIOR, SlimefunItems.GILDED_IRON, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
                 "knight", 30, new PotionEffect(PotionEffectType.REGENERATION, 100, 3))
                 .register(plugin);
@@ -710,12 +707,12 @@ public final class SlimefunItemSetup {
                 new ItemStack(Material.CHAINMAIL_HELMET), new ItemStack(Material.CHAINMAIL_CHESTPLATE), new ItemStack(Material.CHAINMAIL_LEGGINGS), new ItemStack(Material.CHAINMAIL_BOOTS)
         }, "CHAIN", true, plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_WHIRLWIND,
+        new Talisman(SlimefunItems.TALISMAN_WHIRLWIND,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.STAFF_WIND, SlimefunItems.TALISMAN_TRAVELLER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3}
                 , false, true, "whirlwind", 60)
                 .register(plugin);
 
-        new Talisman((SlimefunItemStack) SlimefunItems.TALISMAN_WIZARD,
+        new Talisman(SlimefunItems.TALISMAN_WIZARD,
                 new ItemStack[]{SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.TALISMAN_MAGICIAN, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3},
                 false, false, "wizard", 60)
                 .register(plugin);
@@ -826,7 +823,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.VITAMINS, new ItemStack(Material.GLASS_BOTTLE), SlimefunItems.HEAVY_CREAM, null, null, null, null, null, null})
                 .register(plugin);
 
-        new SlimefunArmorPiece(Categories.TECH, (SlimefunItemStack) SlimefunItems.NIGHT_VISION_GOGGLES, RecipeType.ARMOR_FORGE,
+        new SlimefunArmorPiece(Categories.TECH, SlimefunItems.NIGHT_VISION_GOGGLES, RecipeType.ARMOR_FORGE,
                 new ItemStack[]{new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.LIME_STAINED_GLASS_PANE), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.LIME_STAINED_GLASS_PANE), new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)},
                 new PotionEffect[]{new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 20)})
                 .register(plugin);
@@ -859,7 +856,7 @@ public final class SlimefunItemSetup {
                 new PotionEffect[]{new PotionEffect(PotionEffectType.JUMP, 300, 5)})
                 .register(plugin);
 
-        new SlimefunItem(Categories.WEAPONS, SlimefunItems.BLADE_OF_VAMPIRES, RecipeType.MAGIC_WORKBENCH,
+        new SlimefunItem(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.BLADE_OF_VAMPIRES, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[]{null, new ItemStack(Material.WITHER_SKELETON_SKULL), null, null, new ItemStack(Material.WITHER_SKELETON_SKULL), null, null, new ItemStack(Material.BLAZE_ROD), null})
                 .register(plugin);
 
@@ -999,7 +996,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), new ItemStack(Material.CAULDRON), new ItemStack(Material.OAK_SLAB)})
                 .register(plugin);
 
-        new SlimefunItem(Categories.MAGIC_ARMOR, (SlimefunItemStack) SlimefunItems.FARMER_SHOES, RecipeType.ARMOR_FORGE,
+        new SlimefunItem(Categories.MAGIC_ARMOR, SlimefunItems.FARMER_SHOES, RecipeType.ARMOR_FORGE,
                 new ItemStack[]{null, null, null, new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK), new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK)})
                 .register(plugin);
 
@@ -1115,7 +1112,7 @@ public final class SlimefunItemSetup {
                 0.45)
                 .register(plugin);
 
-        new SeismicAxe(Categories.WEAPONS, SlimefunItems.SEISMIC_AXE, RecipeType.MAGIC_WORKBENCH,
+        new SeismicAxe(Categories.WEAPONS, (SlimefunItemStack) SlimefunItems.SEISMIC_AXE, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[]{SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.STAFF_ELEMENTAL, null, null, SlimefunItems.STAFF_ELEMENTAL, null})
                 .register(plugin);
 
@@ -1201,55 +1198,55 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.RUNE_ENDER, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.BROKEN_SPAWNER, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.RUNE_ENDER})
                 .register(plugin);
 
-        new EnhancedFurnace(1, 1, 1, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE,
+        new EnhancedFurnace(1, 1, 1, SlimefunItems.ENHANCED_FURNACE,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.FURNACE), SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(2, 1, 1, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_2,
+        new EnhancedFurnace(2, 1, 1, SlimefunItems.ENHANCED_FURNACE_2,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(2, 2, 1, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_3,
+        new EnhancedFurnace(2, 2, 1, SlimefunItems.ENHANCED_FURNACE_3,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE_2, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(3, 2, 1, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_4,
+        new EnhancedFurnace(3, 2, 1, SlimefunItems.ENHANCED_FURNACE_4,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE_3, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(3, 2, 2, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_5,
+        new EnhancedFurnace(3, 2, 2, SlimefunItems.ENHANCED_FURNACE_5,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE_4, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(3, 3, 2, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_6,
+        new EnhancedFurnace(3, 3, 2, SlimefunItems.ENHANCED_FURNACE_6,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE_5, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(4, 3, 2, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_7,
+        new EnhancedFurnace(4, 3, 2, SlimefunItems.ENHANCED_FURNACE_7,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE_6, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(4, 4, 2, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_8,
+        new EnhancedFurnace(4, 4, 2, SlimefunItems.ENHANCED_FURNACE_8,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE_7, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(5, 4, 2, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_9,
+        new EnhancedFurnace(5, 4, 2, SlimefunItems.ENHANCED_FURNACE_9,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE_8, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(5, 5, 2, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_10,
+        new EnhancedFurnace(5, 5, 2, SlimefunItems.ENHANCED_FURNACE_10,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE_9, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(5, 5, 3, (SlimefunItemStack) SlimefunItems.ENHANCED_FURNACE_11,
+        new EnhancedFurnace(5, 5, 3, SlimefunItems.ENHANCED_FURNACE_11,
                 new ItemStack[]{null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENHANCED_FURNACE_10, SlimefunItems.HEATING_COIL, null, SlimefunItems.ELECTRIC_MOTOR, null})
                 .register(plugin);
 
-        new EnhancedFurnace(10, 10, 3, (SlimefunItemStack) SlimefunItems.REINFORCED_FURNACE,
+        new EnhancedFurnace(10, 10, 3, SlimefunItems.REINFORCED_FURNACE,
                 new ItemStack[]{SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.ENHANCED_FURNACE_11, SlimefunItems.HEATING_COIL, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT})
                 .register(plugin);
 
-        new EnhancedFurnace(20, 10, 3, (SlimefunItemStack) SlimefunItems.CARBONADO_EDGED_FURNACE,
+        new EnhancedFurnace(20, 10, 3, SlimefunItems.CARBONADO_EDGED_FURNACE,
                 new ItemStack[]{SlimefunItems.CARBONADO, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.CARBONADO, SlimefunItems.HEATING_COIL, SlimefunItems.REINFORCED_FURNACE, SlimefunItems.HEATING_COIL, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO})
                 .register(plugin);
 

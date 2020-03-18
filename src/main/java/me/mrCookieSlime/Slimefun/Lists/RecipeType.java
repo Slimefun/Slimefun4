@@ -28,7 +28,7 @@ public class RecipeType implements Keyed {
     public static final RecipeType GRIND_STONE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "grind_stone"), SlimefunItems.GRIND_STONE, "", "&a&oGrind it using the Grind Stone");
     public static final RecipeType SMELTERY = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "smeltery"), SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery");
     public static final RecipeType ORE_CRUSHER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ore_crusher"), SlimefunItems.ORE_CRUSHER, "", "&a&oCrush it using the Ore Crusher");
-    public static final RecipeType GOLD_PAN = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "gold_pan"), (SlimefunItemStack) SlimefunItems.GOLD_PAN, "", "&a&oUse a Gold Pan on Gravel to obtain this Item");
+    public static final RecipeType GOLD_PAN = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "gold_pan"), SlimefunItems.GOLD_PAN, "", "&a&oUse a Gold Pan on Gravel to obtain this Item");
     public static final RecipeType COMPRESSOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "compressor"), SlimefunItems.COMPRESSOR, "", "&a&oCompress it using the Compressor");
     public static final RecipeType PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "pressure_chamber"), SlimefunItems.PRESSURE_CHAMBER, "", "&a&oCompress it using the Pressure Chamber");
     public static final RecipeType MAGIC_WORKBENCH = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "magic_workbench"), SlimefunItems.MAGIC_WORKBENCH, "", "&a&oCraft it in a Magic Workbench");
@@ -179,7 +179,18 @@ public class RecipeType implements Keyed {
             }
         }
 
-        convertible.sort(Comparator.comparing(recipe -> -recipe.length));
+        convertible.sort(Comparator.comparing(recipe -> {
+            int emptySlots = 9;
+
+            for (ItemStack ingredient : recipe) {
+                if (ingredient != null) {
+                    emptySlots--;
+                }
+            }
+
+            return emptySlots;
+        }));
+
         return convertible;
     }
 

@@ -35,7 +35,7 @@ public class UpdaterService {
             branch = SlimefunBranch.STABLE;
         } else {
             updater = null;
-            branch = SlimefunBranch.DEVELOPMENT;
+            branch = SlimefunBranch.UNKNOWN;
         }
     }
 
