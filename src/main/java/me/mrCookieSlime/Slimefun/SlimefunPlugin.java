@@ -63,7 +63,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final CustomTextureService textureService = new CustomTextureService(this);
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
     private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
-    private final UpdaterService updaterService = new UpdaterService(this, getFile());
+    private final UpdaterService updaterService = new UpdaterService();
     private final AutoSavingService autoSavingService = new AutoSavingService();
     private final BackupService backupService = new BackupService();
     private final MetricsService metricsService = new MetricsService(this);
@@ -130,13 +130,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Setting up bStats
             metricsService.start();
 
-            // Starting the Auto-Updater
-            if (config.getBoolean("options.auto-update")) {
-                getLogger().log(Level.INFO, "正在启动自动更新器...");
-                updaterService.start();
-            } else {
-                updaterService.disable();
-            }
+            // 汉化版不提供自动更新服务
 
             // Registering all GEO Resources
             getLogger().log(Level.INFO, "加载地形资源中...");
