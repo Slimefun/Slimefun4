@@ -89,11 +89,11 @@ guide:
   languages:
     select: Clicca per selezionare questa lingua
     select-default: Clicca per selezionare la lingua predefinita
+    selected-language: 'Attualmente selezionato:'
     translations:
       lore: Clicca per aggiungere la tua traduzione
       name: "&aC'è qualcosa che manca?"
     updated: "&aLa tua lingua è stata impostata correttamente su: &b%lang%"
-    selected-language: 'In questo momento stai selezionando:'
   pages:
     next: Pagina successiva
     previous: Pagina precedente
@@ -104,13 +104,13 @@ guide:
     message: "&bChe cosa vuoi cercare?"
     name: "&7Ricerca..."
   title:
+    addons: Addons per Slimefun4
+    bugs: Bug Reports
     credits: Collaboratori di Slimefun4
     languages: Seleziona la tua lingua preferita
     main: Guida della Slimefun
     settings: Impostazioni e informazioni
     wiki: Slimefun4 Wiki
-    addons: Addons per Slimefun4
-    bugs: Bug Reports
   tooltips:
     open-category: Clicca per aprire
     versions-notice: Questi sono molto importanti quando stai reportando dei bugs!
@@ -120,27 +120,27 @@ languages:
   cs: Ceco
   de: Tedesco
   default: Server predefinito
+  el: Greco
   en: Inglese
   es: Spagnolo
   fr: Francese
+  he: Ebreo
   hu: Ungherese
+  id: Indonesiano
   it: Italiano
   lv: Lettone
   nl: Olandese
   pl: Polacco
-  ru: Russo
-  sk: Slovacco
-  sv: Svedese
-  vi: Vietnamese
-  zh-TW: Cinese (Taiwan)
-  id: Indonesiano
-  zh-CN: Cinese (Cina)
-  el: Greco
-  he: Ebreo
   pt: Portoghese (Portogallo)
   pt-BR: |-
     Portoghese
     (Brasile)
+  ru: Russo
+  sk: Slovacco
+  sv: Svedese
+  vi: Vietnamese
+  zh-CN: Cinese (Cina)
+  zh-TW: Cinese (Taiwan)
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'altare non è circondato dalla quantità necessaria di
