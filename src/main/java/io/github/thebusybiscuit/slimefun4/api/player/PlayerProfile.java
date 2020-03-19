@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api;
+package io.github.thebusybiscuit.slimefun4.api.player;
 
 import java.io.File;
 import java.util.HashMap;
@@ -22,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;

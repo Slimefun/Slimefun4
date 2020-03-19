@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 /**
  * This class represents the instance of a {@link SlimefunBackpack} that is ready to

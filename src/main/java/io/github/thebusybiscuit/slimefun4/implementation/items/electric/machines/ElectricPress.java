@@ -55,7 +55,7 @@ public abstract class ElectricPress extends AContainer implements RecipeDisplayI
     }
 
     private void addRecipe(int seconds, ItemStack input, ItemStack output) {
-
+        registerRecipe(seconds, new ItemStack[] { input }, new ItemStack[] { output });
     }
 
     @Override

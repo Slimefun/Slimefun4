@@ -74,6 +74,7 @@
 * Fixed #1710
 * Fixed #1711
 * Fixed Slimefun Guide showing shaped recipes incorrectly
+* Fixed #1719
 
 ## Release Candidate 9 (07 Mar 2020)
 

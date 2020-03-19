@@ -3,8 +3,8 @@ package io.github.thebusybiscuit.slimefun4.api.items;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 public interface ItemRestriction {
 

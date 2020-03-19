@@ -100,6 +100,7 @@ public final class ChargableBlock {
                 updateCapacitor(l);
             }
         }
+
         return rest;
     }
 

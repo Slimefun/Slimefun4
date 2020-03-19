@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.api.item_transport;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
-public class ItemRequest {
+class ItemRequest {
 	
 	private final ItemStack item;
 	private final ItemTransportFlow flow;

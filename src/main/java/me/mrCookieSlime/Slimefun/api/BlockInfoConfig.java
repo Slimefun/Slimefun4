@@ -22,11 +22,13 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
  * as a normal {@link Config}.
  * 
  * @author creator3
+ * 
+ * @see BlockStorage
  *
  */
 public class BlockInfoConfig extends Config {
 
-    private Map<String, String> data;
+    private final Map<String, String> data;
 
     public BlockInfoConfig() {
         this(new HashMap<>());
