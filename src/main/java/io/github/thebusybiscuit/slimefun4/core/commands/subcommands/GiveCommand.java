@@ -43,7 +43,7 @@ class GiveCommand extends SubCommand {
 
                     SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase());
                     if (sfItem != null) {
-                        int amount = parseAmount(sender, args);
+                        int amount = parseAmount(args);
 
                         if (amount > 0) {
                             SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
@@ -61,7 +61,7 @@ class GiveCommand extends SubCommand {
         else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
     }
 
-    private int parseAmount(CommandSender sender, String[] args) {
+    private int parseAmount(String[] args) {
         int amount = 1;
 
         if (args.length == 4) {

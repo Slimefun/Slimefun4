@@ -25,7 +25,7 @@ public final class NumberUtils {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date.replace('T', ' ').replace("Z", ""));
         }
         catch (ParseException x) {
-            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a GitHub-Date for Slimefun " + SlimefunPlugin.getVersion(), x);
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while parsing a GitHub-Date for Slimefun " + SlimefunPlugin.getVersion());
             return null;
         }
     }

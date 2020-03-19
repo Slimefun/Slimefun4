@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -47,7 +47,7 @@ public final class PlayerProfile {
 
     private final Set<Research> researches = new HashSet<>();
     private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
-    private final LinkedList<Object> guideHistory = new LinkedList<>();
+    private final GuideHistory guideHistory = new GuideHistory(this);
 
     private final HashedArmorpiece[] armor = { new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece() };
 
@@ -222,7 +222,7 @@ public final class PlayerProfile {
         return Bukkit.getPlayer(getUUID());
     }
 
-    public LinkedList<Object> getGuideHistory() {
+    public GuideHistory getGuideHistory() {
         return guideHistory;
     }
 

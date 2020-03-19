@@ -177,7 +177,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         if (category.getItems().size() < 250) {
 
             if (survival) {
-                profile.getGuideHistory().add(category);
+                profile.getGuideHistory().add(category, page);
             }
 
             List<TellRawMessage> pages = new ArrayList<>();
@@ -293,7 +293,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
+    public void displayItem(PlayerProfile profile, ItemStack item, int index, boolean addToHistory) {
         SlimefunGuide.displayItem(profile, item, addToHistory);
     }
 

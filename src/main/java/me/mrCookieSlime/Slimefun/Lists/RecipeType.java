@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
@@ -25,7 +24,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class RecipeType implements Keyed {
@@ -153,18 +151,11 @@ public class RecipeType implements Keyed {
     }
 
     private static void registerMobDrop(ItemStack[] recipe, ItemStack output) {
-        String mob = null;
-
-        try {
-            mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
-            EntityType entity = EntityType.valueOf(mob);
-            Set<ItemStack> dropping = SlimefunPlugin.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());
-            dropping.add(output);
-            SlimefunPlugin.getRegistry().getMobDrops().put(entity, dropping);
-        }
-        catch (Exception x) {
-            Slimefun.getLogger().log(Level.WARNING, "An Exception occured when setting a Drop for the Mob Type: \"" + mob + "\"", x);
-        }
+        String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
+        EntityType entity = EntityType.valueOf(mob);
+        Set<ItemStack> dropping = SlimefunPlugin.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());
+        dropping.add(output);
+        SlimefunPlugin.getRegistry().getMobDrops().put(entity, dropping);
     }
 
     public static List<ItemStack> getRecipeInputs(SlimefunMachine machine) {

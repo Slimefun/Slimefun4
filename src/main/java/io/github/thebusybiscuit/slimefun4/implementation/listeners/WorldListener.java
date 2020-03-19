@@ -34,7 +34,7 @@ public class WorldListener implements Listener {
             storage.save(true);
         }
         else {
-            Slimefun.getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"" + e.getWorld().getName() + "\"");
+            Slimefun.getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", e.getWorld().getName());
         }
     }
 

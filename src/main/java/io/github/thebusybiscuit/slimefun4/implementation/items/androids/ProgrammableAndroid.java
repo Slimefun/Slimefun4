@@ -17,6 +17,7 @@ import org.bukkit.entity.Animals;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -59,7 +60,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
     public ProgrammableAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        this.texture = item.getBase64Texture().orElse(null);
+        this.texture = item.getSkullTexture().orElse(null);
         registerDefaultFuelTypes();
 
         new BlockMenuPreset(getID(), "Programmable Android") {
@@ -399,26 +400,30 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
                 ItemStack item = d.getInventory().getItem(slot);
 
                 if (item != null) {
-                    ItemStack currentFuel = menu.getItemInSlot(43);
-
-                    if (currentFuel == null) {
-                        menu.replaceExistingItem(43, item);
-                        d.getInventory().setItem(slot, null);
-                        break;
-                    }
-                    else if (SlimefunManager.isItemSimilar(item, currentFuel, true)) {
-                        int rest = item.getType().getMaxStackSize() - currentFuel.getAmount();
-
-                        if (rest > 0) {
-                            int amount = item.getAmount() > rest ? rest : item.getAmount();
-                            menu.replaceExistingItem(43, new CustomItem(item, currentFuel.getAmount() + amount));
-                            ItemUtils.consumeItem(item, amount, false);
-                        }
-                        break;
-                    }
+                    insertFuel(menu, d.getInventory(), slot, menu.getItemInSlot(43), item);
                 }
             }
         }
+    }
+
+    private boolean insertFuel(BlockMenu menu, Inventory dispenser, int slot, ItemStack currentFuel, ItemStack newFuel) {
+        if (currentFuel == null) {
+            menu.replaceExistingItem(43, item);
+            dispenser.setItem(slot, null);
+            return true;
+        }
+        else if (SlimefunManager.isItemSimilar(item, currentFuel, true)) {
+            int rest = item.getType().getMaxStackSize() - currentFuel.getAmount();
+
+            if (rest > 0) {
+                int amount = item.getAmount() > rest ? rest : item.getAmount();
+                menu.replaceExistingItem(43, new CustomItem(item, currentFuel.getAmount() + amount));
+                ItemUtils.consumeItem(item, amount, false);
+            }
+            return true;
+        }
+
+        return false;
     }
 
     protected void move(Block b, BlockFace face, Block block) {

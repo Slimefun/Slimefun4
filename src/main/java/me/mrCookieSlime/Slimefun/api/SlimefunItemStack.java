@@ -19,26 +19,24 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class SlimefunItemStack extends CustomItem {
 
     private String id;
     private ImmutableItemMeta immutableMeta;
 
-    private final String texture;
+    private String texture = null;
 
     public SlimefunItemStack(String id, Material type, String name, String... lore) {
         super(type, name, lore);
-        texture = null;
 
         setID(id);
     }
 
     public SlimefunItemStack(String id, Material type, Color color, String name, String... lore) {
         super(new ItemStack(type), color, name, lore);
-        texture = null;
 
         setID(id);
     }
@@ -69,28 +67,23 @@ public class SlimefunItemStack extends CustomItem {
             }
         });
 
-        texture = null;
-
         setID(id);
     }
 
     public SlimefunItemStack(String id, ItemStack item, String name, String... lore) {
         super(item, name, lore);
-        texture = null;
 
         setID(id);
     }
 
     public SlimefunItemStack(String id, ItemStack item) {
         super(item);
-        texture = null;
 
         setID(id);
     }
 
     public SlimefunItemStack(String id, ItemStack item, Consumer<ItemMeta> consumer) {
         super(item, consumer);
-        texture = null;
 
         setID(id);
     }
@@ -104,13 +97,12 @@ public class SlimefunItemStack extends CustomItem {
             consumer.accept(meta);
         });
 
-        texture = null;
         setID(id);
     }
 
     public SlimefunItemStack(String id, String texture, String name, String... lore) {
         super(getSkull(texture), name, lore);
-        this.texture = texture;
+        this.texture = getTexture(texture);
 
         setID(id);
     }
@@ -124,14 +116,14 @@ public class SlimefunItemStack extends CustomItem {
             consumer.accept(meta);
         });
 
-        this.texture = texture;
+        this.texture = getTexture(texture);
 
         setID(id);
     }
 
     public SlimefunItemStack(String id, String texture, Consumer<ItemMeta> consumer) {
         super(getSkull(texture), consumer);
-        this.texture = texture;
+        this.texture = getTexture(texture);
 
         setID(id);
     }
@@ -178,11 +170,15 @@ public class SlimefunItemStack extends CustomItem {
         return item;
     }
 
-    public Optional<String> getBase64Texture() {
+    public Optional<String> getSkullTexture() {
         return Optional.ofNullable(texture);
     }
 
     private static ItemStack getSkull(String texture) {
+        return SkullItem.fromBase64(getTexture(texture));
+    }
+
+    private static String getTexture(String texture) {
         String base64 = texture;
 
         // At this point we can be sure it's not a base64 encoded texture
@@ -190,7 +186,7 @@ public class SlimefunItemStack extends CustomItem {
             base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes());
         }
 
-        return SkullItem.fromBase64(base64);
+        return base64;
     }
 
 }

@@ -83,7 +83,8 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
         super.preRegister();
 
         // This prevents Players from toggling the Daylight sensor
-        addItemHandler((BlockUseHandler) PlayerRightClickEvent::cancel);
+        BlockUseHandler handler = PlayerRightClickEvent::cancel;
+        addItemHandler(handler);
     }
 
 }

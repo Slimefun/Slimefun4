@@ -86,7 +86,7 @@ public class ErrorReport {
                 Slimefun.getLogger().log(Level.WARNING, "");
             }
             catch (FileNotFoundException x) {
-                Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion(), x);
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
             }
         });
     }

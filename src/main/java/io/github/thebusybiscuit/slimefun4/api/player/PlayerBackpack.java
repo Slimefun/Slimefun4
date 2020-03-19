@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListe
  * be opened.
  * 
  * It holds an actual {@link Inventory} and represents the backpack on the
- * level of an individual{@link ItemStack} as opposed to the class {@link SlimefunBackpack}.
+ * level of an individual {@link ItemStack} as opposed to the class {@link SlimefunBackpack}.
  * 
  * @author TheBusyBiscuit
  *

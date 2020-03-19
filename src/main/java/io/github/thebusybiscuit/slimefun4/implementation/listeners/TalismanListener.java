@@ -164,12 +164,6 @@ public class TalismanListener implements Listener {
         }
     }
 
-    /**
-     *
-     * @param e
-     *            BlockBreakEvent
-     * @since 4.2.0
-     */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();

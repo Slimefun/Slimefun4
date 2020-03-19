@@ -24,6 +24,7 @@ public class ThirdPartyPluginService {
     private final SlimefunPlugin plugin;
 
     private boolean isExoticGardenInstalled = false;
+    private boolean isChestTerminalInstalled = false;
     private boolean isEmeraldEnchantsInstalled = false;
     private boolean isCoreProtectInstalled = false;
     private boolean isPlaceholderAPIInstalled = false;
@@ -49,9 +50,8 @@ public class ThirdPartyPluginService {
             }
 
             isExoticGardenInstalled = isPluginInstalled("ExoticGarden");
+            isChestTerminalInstalled = isPluginInstalled("ChestTerminal");
             isEmeraldEnchantsInstalled = isPluginInstalled("EmeraldEnchants");
-
-            SlimefunPlugin.getNetworkManager().setChestTerminalInstalled(isPluginInstalled("ChestTerminal"));
 
             // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
             if (isPluginInstalled("WorldEdit")) {
@@ -60,8 +60,10 @@ public class ThirdPartyPluginService {
                     new WorldEditHook();
                 }
                 catch (Exception x) {
-                    Slimefun.getLogger().log(Level.WARNING, "Failed to hook into WorldEdit!");
+                    String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
+
                     Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
+                    Slimefun.getLogger().log(Level.WARNING, "Failed to hook into WorldEdit v" + version, x);
                 }
             }
         });
@@ -79,6 +81,10 @@ public class ThirdPartyPluginService {
 
     public boolean isExoticGardenInstalled() {
         return isExoticGardenInstalled;
+    }
+
+    public boolean isChestTerminalInstalled() {
+        return isChestTerminalInstalled;
     }
 
     public boolean isEmeraldEnchantsInstalled() {

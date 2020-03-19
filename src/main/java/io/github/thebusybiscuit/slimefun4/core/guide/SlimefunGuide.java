@@ -87,13 +87,12 @@ public final class SlimefunGuide {
         if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
         if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
 
-        SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);
-        Object last = null;
-
-        Optional<PlayerProfile> profile = PlayerProfile.find(p);
-        if (profile.isPresent()) {
-            last = guide.getLastEntry(profile.get(), false);
-            guide.openEntry(profile.get(), last, true);
+        Optional<PlayerProfile> optional = PlayerProfile.find(p);
+        
+        if (optional.isPresent()) {
+            PlayerProfile profile = optional.get();
+            SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);
+            profile.getGuideHistory().openLastEntry(guide, true);
         }
         else {
             openMainMenuAsync(p, true, layout, 1);
@@ -120,7 +119,7 @@ public final class SlimefunGuide {
     }
 
     public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
-        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
+        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, 0, addToHistory);
     }
 
     public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {

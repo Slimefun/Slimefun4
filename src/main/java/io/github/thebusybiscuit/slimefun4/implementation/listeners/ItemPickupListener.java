@@ -23,7 +23,7 @@ public class ItemPickupListener implements Listener {
     }
 
     @EventHandler
-    public void onPickup(EntityPickupItemEvent e) {
+    public void onEntityPickup(EntityPickupItemEvent e) {
         if (e.getItem().hasMetadata(METADATA_JEY)) {
             e.setCancelled(true);
         }
@@ -34,7 +34,7 @@ public class ItemPickupListener implements Listener {
     }
 
     @EventHandler
-    public void onMinecartPickup(InventoryPickupItemEvent e) {
+    public void onHopperPickup(InventoryPickupItemEvent e) {
         if (e.getItem().hasMetadata(METADATA_JEY)) {
             e.setCancelled(true);
         }

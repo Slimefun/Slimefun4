@@ -21,7 +21,7 @@ class WorldEditHook {
     }
 
     @Subscribe
-    public void wrapForLogging(final EditSessionEvent event) {
+    public void wrapForLogging(EditSessionEvent event) {
         event.setExtent(new AbstractDelegateExtent(event.getExtent()) {
 
             @Override
@@ -37,6 +37,7 @@ class WorldEditHook {
                         }
                     }
                 }
+                
                 return getExtent().setBlock(pos, block);
             }
 

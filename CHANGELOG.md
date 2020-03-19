@@ -54,6 +54,7 @@
 * Added "Snow blocks to Ice" recipe to the Freezer
 * You can now use Cooked Salmon in an Auto Drier to craft Fish Jerky
 * The Lumber Axe can now strip logs too
+* The Slimefun Guide can now remember what page of a Category or Minecraft Item you were on
 
 #### Changes
 * Removed some deprecated parts of the API
@@ -75,6 +76,8 @@
 * Fixed #1711
 * Fixed Slimefun Guide showing shaped recipes incorrectly
 * Fixed #1719
+* Fixed death waypoints not having the correct texture
+* Fixed Androids having no texture when moving
 
 ## Release Candidate 9 (07 Mar 2020)
 

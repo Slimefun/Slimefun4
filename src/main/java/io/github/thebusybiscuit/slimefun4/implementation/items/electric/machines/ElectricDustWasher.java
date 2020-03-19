@@ -79,37 +79,54 @@ public abstract class ElectricDustWasher extends AContainer {
         }
         else {
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
-                    if (!legacyMode) {
-                        boolean emptySlot = false;
-
-                        for (int outputSlot : getOutputSlots()) {
-                            if (menu.getItemInSlot(outputSlot) == null) {
-                                emptySlot = true;
-                                break;
-                            }
-                        }
-                        if (!emptySlot) return;
-                    }
-
-                    ItemStack adding = oreWasher.getRandomDust();
-                    MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { adding });
-                    if (legacyMode && !menu.fits(r.getOutput()[0], getOutputSlots())) return;
-                    menu.consumeItem(slot);
-                    processing.put(b, r);
-                    progress.put(b, r.getTicks());
-                    break;
-                }
-                else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
-                    MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
-                    if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
-                    menu.consumeItem(slot);
-                    processing.put(b, r);
-                    progress.put(b, r.getTicks());
+                if (process(b, menu, slot)) {
                     break;
                 }
             }
         }
+    }
+
+    private boolean process(Block b, BlockMenu menu, int slot) {
+        if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
+            if (!legacyMode) {
+                boolean emptySlot = false;
+
+                for (int outputSlot : getOutputSlots()) {
+                    if (menu.getItemInSlot(outputSlot) == null) {
+                        emptySlot = true;
+                        break;
+                    }
+                }
+                
+                if (!emptySlot) {
+                    return true;
+                }
+            }
+
+            ItemStack adding = oreWasher.getRandomDust();
+            MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { adding });
+            
+            if (!legacyMode || menu.fits(r.getOutput()[0], getOutputSlots())) {
+                menu.consumeItem(slot);
+                processing.put(b, r);
+                progress.put(b, r.getTicks());
+            }
+            
+            return true;
+        }
+        else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
+            MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
+            
+            if (menu.fits(r.getOutput()[0], getOutputSlots())) {
+                menu.consumeItem(slot);
+                processing.put(b, r);
+                progress.put(b, r.getTicks());
+            }
+            
+            return true;
+        }
+        
+        return false;
     }
 
     @Override

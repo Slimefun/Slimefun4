@@ -188,7 +188,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 SlimefunItemSetup.setup(this);
             }
             catch (Throwable x) {
-                getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
+                getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
             }
 
             getLogger().log(Level.INFO, "Loading Researches...");
@@ -197,7 +197,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 ResearchSetup.setupResearches();
             }
             catch (Throwable x) {
-                getLogger().log(Level.SEVERE, "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion(), x);
+                getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
             }
 
             registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
@@ -313,8 +313,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 try {
                     ticker.run();
                 }
-                catch (Exception x) {
-                    getLogger().log(Level.SEVERE, "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + getVersion(), x);
+                catch (Throwable x) {
+                    getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + getVersion());
                     ticker.abortTick();
                 }
             }, 100L, config.getInt("URID.custom-ticker-delay"));
@@ -370,8 +370,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
             getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
             getLogger().log(Level.SEVERE, "###");
-            getLogger().log(Level.SEVERE, "### You are using Minecraft " + ReflectionUtils.getVersion());
-            getLogger().log(Level.SEVERE, "### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
+            getLogger().log(Level.SEVERE, "### You are using Minecraft {0}", ReflectionUtils.getVersion());
+            getLogger().log(Level.SEVERE, "### but Slimefun v{0} requires you to be using", getDescription().getVersion());
             getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", MinecraftVersion.getSupportedVersions()));
             return true;
         }
@@ -409,11 +409,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     storage.save(true);
                 }
                 else {
-                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
+                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", world.getName());
                 }
             }
             catch (Exception x) {
-                getLogger().log(Level.SEVERE, "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion(), x);
+                getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion());
             }
         }
 

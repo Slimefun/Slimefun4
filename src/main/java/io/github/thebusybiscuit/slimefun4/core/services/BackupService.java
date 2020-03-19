@@ -53,7 +53,7 @@ public class BackupService implements Runnable {
                 }
             }
             catch (IOException x) {
-                Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a backup for Slimefun " + SlimefunPlugin.getVersion(), x);
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while creating a backup for Slimefun " + SlimefunPlugin.getVersion());
             }
         }
     }

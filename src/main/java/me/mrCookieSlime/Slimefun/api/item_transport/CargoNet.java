@@ -195,14 +195,14 @@ public class CargoNet extends Network {
             Slimefun.runSync(() -> run(b, providers, destinations, output));
         }
     }
-    
+
     private void run(Block b, Set<Location> providers, Set<Location> destinations, Map<Integer, List<Location>> output) {
         if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
             display();
         }
 
         // Chest Terminal Code
-        if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) {
+        if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
             for (Location bus : imports) {
                 BlockMenu menu = BlockStorage.getInventory(bus);
 
@@ -408,7 +408,7 @@ public class CargoNet extends Network {
         }
 
         // Chest Terminal Code
-        if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) {
+        if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
             List<ItemStackAndInteger> items = new ArrayList<>();
 
             for (Location l : providers) {

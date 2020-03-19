@@ -117,33 +117,45 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 		}
 		else {
 			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
-					ItemStack output = randomizer.getRandom();
-					
-					MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
-					if (!menu.fits(output, getOutputSlots())) return;
-					
-					menu.consumeItem(slot);
-					processing.put(b, r);
-					progress.put(b, r.getTicks());
-					break;
-				}
-				else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-					ItemStack output = randomizerNether.getRandom();
-					
-					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
-					if (!menu.fits(output, getOutputSlots())) return;
-					
-					menu.consumeItem(slot);
-					processing.put(b, r);
-					progress.put(b, r.getTicks());
-					break;
+				if (process(b, menu, slot)) {
+				    break;
 				}
 			}
 		}
 	}
 	
-	@Override
+	private boolean process(Block b, BlockMenu menu, int slot) {
+	    if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
+            ItemStack output = randomizer.getRandom();
+            
+            MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
+            
+            if (menu.fits(output, getOutputSlots())) {
+                menu.consumeItem(slot);
+                processing.put(b, r);
+                progress.put(b, r.getTicks());
+            }
+            
+            return true;
+        }
+        else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+            ItemStack output = randomizerNether.getRandom();
+            
+            MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
+            
+            if (menu.fits(output, getOutputSlots())) {
+                menu.consumeItem(slot);
+                processing.put(b, r);
+                progress.put(b, r.getTicks());
+            }
+            
+            return true;
+        }
+	    
+	    return false;
+    }
+
+    @Override
 	public String getMachineIdentifier() {
 		return "ELECTRIC_GOLD_PAN";
 	}

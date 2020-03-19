@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,6 +25,7 @@ import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
@@ -172,7 +172,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         if (p == null) return;
 
         if (survival) {
-            profile.getGuideHistory().add(category);
+            profile.getGuideHistory().add(category, page);
         }
 
         ChestMenu menu = create(p);
@@ -336,7 +336,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
+    public void displayItem(PlayerProfile profile, ItemStack item, int index, boolean addToHistory) {
         Player p = profile.getPlayer();
         if (p == null) return;
 
@@ -359,7 +359,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        showMinecraftRecipe(recipes, 0, item, profile, p, addToHistory);
+        showMinecraftRecipe(recipes, index, item, profile, p, addToHistory);
     }
 
     private void showMinecraftRecipe(Recipe[] recipes, int index, ItemStack item, PlayerProfile profile, Player p, boolean addToHistory) {
@@ -404,6 +404,11 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
+
+        if (addToHistory) {
+            profile.getGuideHistory().add(item, index);
+        }
+
         displayItem(menu, profile, p, item, result, recipeType, recipeItems, task, addToHistory);
 
         if (recipes.length > 1) {
@@ -413,14 +418,14 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
             menu.addItem(28, ChestMenuUtils.getPreviousButton(p, index + 1, recipes.length), (pl, slot, action, stack) -> {
                 if (index > 0) {
-                    showMinecraftRecipe(recipes, index - 1, item, profile, p, false);
+                    showMinecraftRecipe(recipes, index - 1, item, profile, p, true);
                 }
                 return false;
             });
 
             menu.addItem(34, ChestMenuUtils.getNextButton(p, index + 1, recipes.length), (pl, slot, action, stack) -> {
                 if (index < recipes.length - 1) {
-                    showMinecraftRecipe(recipes, index + 1, item, profile, p, false);
+                    showMinecraftRecipe(recipes, index + 1, item, profile, p, true);
                 }
                 return false;
             });
@@ -455,6 +460,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         RecipeChoiceTask task = new RecipeChoiceTask();
 
+        if (addToHistory) {
+            profile.getGuideHistory().add(item);
+        }
+
         displayItem(menu, profile, p, item, result, recipeType, recipe, task, addToHistory);
 
         if (item instanceof RecipeDisplayItem) {
@@ -468,18 +477,13 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
     }
 
-    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object obj, ItemStack output, RecipeType recipeType, ItemStack[] recipe, RecipeChoiceTask task, boolean addToHistory) {
-        LinkedList<Object> history = profile.getGuideHistory();
-        boolean isSlimefunRecipe = obj instanceof SlimefunItem;
-
-        if (addToHistory) {
-            history.add(obj);
-        }
+    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeType recipeType, ItemStack[] recipe, RecipeChoiceTask task, boolean addToHistory) {
+        boolean isSlimefunRecipe = item instanceof SlimefunItem;
 
         addBackButton(menu, 0, p, profile, true);
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
-            displayItem(profile, itemstack, true);
+            displayItem(profile, itemstack, 0, true);
             return false;
         };
 
@@ -487,7 +491,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
             menu.addItem(recipeSlots[i], recipeItem, clickHandler);
 
-            if (recipeItem != null && obj instanceof MultiBlockMachine) {
+            if (recipeItem != null && item instanceof MultiBlockMachine) {
                 for (Tag<Material> tag : MultiBlock.SUPPORTED_TAGS) {
                     if (tag.isTagged(recipeItem.getType())) {
                         task.add(recipeSlots[i], tag);
@@ -530,9 +534,9 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     private void addBackButton(ChestMenu menu, int slot, Player p, PlayerProfile profile, boolean survival) {
-        List<Object> playerHistory = profile.getGuideHistory();
+        GuideHistory history = profile.getGuideHistory();
 
-        if (survival && playerHistory.size() > 1) {
+        if (survival && history.size() > 1) {
             menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&rLeft Click: &7Go back to previous Page", "&rShift + left Click: &7Go back to Main Menu")));
 
             menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
@@ -540,8 +544,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                     openMainMenu(profile, survival, 1);
                 }
                 else {
-                    Object last = getLastEntry(profile, true);
-                    openEntry(profile, last, survival);
+                    history.goBack(this, survival);
                 }
                 return false;
             });
@@ -626,7 +629,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
             if (page == 0) {
                 menu.addMenuClickHandler(slot, (pl, s, itemstack, action) -> {
-                    displayItem(profile, itemstack, true);
+                    displayItem(profile, itemstack, 0, true);
                     return false;
                 });
             }
