@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun;
 import io.github.starwishsama.utils.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
-import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
@@ -51,37 +50,36 @@ import java.util.stream.Collectors;
  */
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
-    private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
-
     public static SlimefunPlugin instance;
 
-    private RecipeSnapshot recipeSnapshot;
-    private SlimefunRegistry registry;
+    private final SlimefunRegistry registry = new SlimefunRegistry();
+    private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
-    private final CustomTextureService textureService = new CustomTextureService(this);
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
+    private final CustomTextureService textureService = new CustomTextureService(this);
     private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
     private final UpdaterService updaterService = new UpdaterService();
+    private final MetricsService metricsService = new MetricsService(this);
     private final AutoSavingService autoSavingService = new AutoSavingService();
     private final BackupService backupService = new BackupService();
-    private final MetricsService metricsService = new MetricsService(this);
     private final PermissionsService permissionsService = new PermissionsService(this);
     private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
+    private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
     private LocalizationService local;
 
+    private GPSNetwork gpsNetwork;
     private NetworkManager networkManager;
     private ProtectionManager protections;
 
     private TickerTask ticker;
+    private SlimefunCommand command;
+
     private Config researches;
     private Config items;
     private Config whitelist;
     private Config config;
-
-    private GPSNetwork gpsNetwork;
-    private SlimefunCommand command;
 
     // Listeners that need to be accessed elsewhere
     private AncientAltarListener ancientAltarListener;
@@ -108,7 +106,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Setup config.yml
             config = new Config(this);
-            registry = new SlimefunRegistry();
             registry.load(config);
 
             // Loading all extra configs
@@ -213,7 +210,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 textureService.register(registry.getAllSlimefunItems());
                 permissionsService.register(registry.getAllSlimefunItems());
 
-                recipeSnapshot = new RecipeSnapshot(this);
+                recipeService.load();
                 protections = new ProtectionManager(getServer());
 
                 PostSetup.loadItems();
@@ -339,7 +336,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onDisable() {
         // CS-CoreLib wasn't loaded, just disabling
-        if (instance == null) return;
+        if (instance == null) {
+            return;
+        }
 
         Bukkit.getScheduler().cancelTasks(this);
 
@@ -451,8 +450,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.local;
     }
 
-    public static RecipeSnapshot getMinecraftRecipes() {
-        return instance.recipeSnapshot;
+    public static MinecraftRecipeService getMinecraftRecipes() {
+        return instance.recipeService;
     }
 
     public static CustomItemDataService getItemDataService() {

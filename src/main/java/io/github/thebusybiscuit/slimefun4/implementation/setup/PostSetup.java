@@ -4,17 +4,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
-import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
-import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.GrindStone;
-import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCrusher;
-import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.*;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
@@ -58,6 +54,20 @@ public final class PostSetup {
             }
         } catch (IOException e) {
             Slimefun.getLogger().log(Level.SEVERE, "Failed to load wiki.json file", e);
+        }
+    }
+
+    public static void setupItemSettings() {
+        for (World world : Bukkit.getWorlds()) {
+            SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
+        }
+
+        Slimefun.setItemVariable("ORE_CRUSHER", "double-ores", true);
+
+        for (Enchantment enchantment : Enchantment.values()) {
+            for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
+                Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + enchantment.getKey().getKey() + ".level." + i, true);
+            }
         }
     }
 
@@ -153,25 +163,19 @@ public final class PostSetup {
                 } else {
                     if (input[0] != null && recipe[0] != null) {
                         List<ItemStack> inputs = new ArrayList<>();
-                        boolean dust = false;
 
                         for (ItemStack item : input) {
                             if (item != null) {
                                 inputs.add(item);
-                                if (SlimefunManager.isItemSimilar(item, SlimefunItems.ALUMINUM_DUST, true)) dust = true;
-                                if (SlimefunManager.isItemSimilar(item, SlimefunItems.COPPER_DUST, true)) dust = true;
-                                if (SlimefunManager.isItemSimilar(item, SlimefunItems.GOLD_DUST, true)) dust = true;
-                                if (SlimefunManager.isItemSimilar(item, SlimefunItems.IRON_DUST, true)) dust = true;
-                                if (SlimefunManager.isItemSimilar(item, SlimefunItems.LEAD_DUST, true)) dust = true;
-                                if (SlimefunManager.isItemSimilar(item, SlimefunItems.MAGNESIUM_DUST, true)) dust = true;
-                                if (SlimefunManager.isItemSimilar(item, SlimefunItems.SILVER_DUST, true)) dust = true;
-                                if (SlimefunManager.isItemSimilar(item, SlimefunItems.TIN_DUST, true)) dust = true;
-                                if (SlimefunManager.isItemSimilar(item, SlimefunItems.ZINC_DUST, true)) dust = true;
                             }
                         }
 
                         // We want to exclude Dust to Ingot Recipes
-                        if (!(dust && inputs.size() == 1)) {
+                        if (inputs.size() == 1 && isDust(inputs.get(0))) {
+                            ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem()).addRecipe(new ItemStack[]{inputs.get(0)}, recipe[0]);
+                            registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{inputs.get(0)}, new ItemStack[]{recipe[0]});
+                            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{recipe[0]}, new ItemStack[]{inputs.get(0)});
+                        } else {
                             registerMachineRecipe("ELECTRIC_SMELTERY", 12, inputs.toArray(new ItemStack[0]), new ItemStack[]{recipe[0]});
                         }
                     }
@@ -195,9 +199,9 @@ public final class PostSetup {
         sender.sendMessage(ChatColor.GREEN + "Slimefun 是一个由社区维护的开源项目!");
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + " -- 源码:   https://github.com/StarWishsama/Slimefun4");
-        sender.sendMessage(ChatColor.GREEN + " -- Wiki:          https://github.com/TheBusyBiscuit/Slimefun4/wiki");
-        sender.sendMessage(ChatColor.GREEN + " -- 扩展:        https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons");
         sender.sendMessage(ChatColor.GREEN + " -- Bug反馈:   https://github.com/TheBusyBiscuit/Slimefun4/issues");
+        sender.sendMessage("");
+
         sender.sendMessage("");
 
         SlimefunPlugin.getItemCfg().save();
@@ -205,24 +209,15 @@ public final class PostSetup {
         SlimefunPlugin.getWhitelist().save();
     }
 
+    private static boolean isDust(ItemStack item) {
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        return sfItem != null && sfItem.getID().endsWith("_DUST");
+    }
+
     private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
             if (item instanceof AContainer && ((AContainer) item).getMachineIdentifier().equals(machine)) {
                 ((AContainer) item).registerRecipe(seconds, input, output);
-            }
-        }
-    }
-
-    public static void setupItemSettings() {
-        for (World world : Bukkit.getWorlds()) {
-            SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
-        }
-
-        Slimefun.setItemVariable("ORE_CRUSHER", "double-ores", true);
-
-        for (Enchantment enchantment : Enchantment.values()) {
-            for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
-                Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + enchantment.getKey().getKey() + ".level." + i, true);
             }
         }
     }

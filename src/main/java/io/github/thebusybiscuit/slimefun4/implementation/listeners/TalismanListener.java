@@ -7,7 +7,6 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -46,24 +45,33 @@ public class TalismanListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamageGet(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
-            if (e.getCause() == DamageCause.LAVA) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_LAVA);
-            if (e.getCause() == DamageCause.DROWNING) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WATER);
-            if (e.getCause() == DamageCause.FALL) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_ANGEL);
-            if (e.getCause() == DamageCause.FIRE) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_FIRE);
-            if (e.getCause() == DamageCause.ENTITY_ATTACK) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WARRIOR);
-            if (e.getCause() == DamageCause.ENTITY_ATTACK) Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_KNIGHT);
-            if (e.getCause() == DamageCause.PROJECTILE && ((EntityDamageByEntityEvent) e).getDamager() instanceof Projectile && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WHIRLWIND)) {
-                Vector direction = ((Player) e.getEntity()).getEyeLocation().getDirection().multiply(2.0);
-                Projectile projectile = (Projectile) e.getEntity().getWorld().spawnEntity(((LivingEntity) e.getEntity()).getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), ((EntityDamageByEntityEvent) e).getDamager().getType());
-                projectile.setVelocity(direction);
-                ((EntityDamageByEntityEvent) e).getDamager().remove();
+            if (e.getCause() == DamageCause.LAVA) Talisman.checkFor(e, SlimefunItems.TALISMAN_LAVA);
+            if (e.getCause() == DamageCause.DROWNING) Talisman.checkFor(e, SlimefunItems.TALISMAN_WATER);
+            if (e.getCause() == DamageCause.FALL) Talisman.checkFor(e, SlimefunItems.TALISMAN_ANGEL);
+            if (e.getCause() == DamageCause.FIRE) Talisman.checkFor(e, SlimefunItems.TALISMAN_FIRE);
+
+            if (e.getCause() == DamageCause.ENTITY_ATTACK) {
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_KNIGHT);
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_WARRIOR);
+            }
+
+            if (e.getCause() == DamageCause.PROJECTILE && ((EntityDamageByEntityEvent) e).getDamager() instanceof Projectile) {
+                Projectile projectile = (Projectile) ((EntityDamageByEntityEvent) e).getDamager();
+
+                if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
+                    Vector direction = ((Player) e.getEntity()).getEyeLocation().getDirection().multiply(2.0);
+                    Projectile clone = (Projectile) e.getEntity().getWorld().spawnEntity(((LivingEntity) e.getEntity()).getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), projectile.getType());
+                    clone.setShooter(projectile.getShooter());
+                    clone.setVelocity(direction);
+                    projectile.remove();
+                }
             }
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onKill(EntityDeathEvent e) {
-        if (e.getEntity().getKiller() != null && !(e.getEntity() instanceof Player) && !e.getEntity().getCanPickupItems() && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_HUNTER)) {
+        if (e.getEntity().getKiller() != null && !(e.getEntity() instanceof Player) && !e.getEntity().getCanPickupItems() && Talisman.checkFor(e, SlimefunItems.TALISMAN_HUNTER)) {
             List<ItemStack> extraDrops = new ArrayList<>(e.getDrops());
 
             if (e.getEntity() instanceof ChestedHorse) {
@@ -83,7 +91,7 @@ public class TalismanListener implements Listener {
 
     @EventHandler
     public void onItemBreak(PlayerItemBreakEvent e) {
-        if (Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_ANVIL)) {
+        if (Talisman.checkFor(e, SlimefunItems.TALISMAN_ANVIL)) {
             PlayerInventory inv = e.getPlayer().getInventory();
             int slot = inv.getHeldItemSlot();
 
@@ -114,7 +122,7 @@ public class TalismanListener implements Listener {
     @EventHandler
     public void onSprint(PlayerToggleSprintEvent e) {
         if (e.isSprinting()) {
-            Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_TRAVELLER);
+            Talisman.checkFor(e, SlimefunItems.TALISMAN_TRAVELLER);
         }
     }
 
@@ -122,7 +130,7 @@ public class TalismanListener implements Listener {
     public void onEnchant(EnchantItemEvent e) {
         Random random = ThreadLocalRandom.current();
 
-        if (Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MAGICIAN)) {
+        if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             List<String> enchantments = new LinkedList<>();
 
             for (Enchantment en : Enchantment.values()) {
@@ -138,7 +146,7 @@ public class TalismanListener implements Listener {
             e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchantSplit[0])), Integer.parseInt(enchantSplit[1]));
         }
 
-        if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_WIZARD)) {
+        if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
             Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
 
             for (Enchantment en : enchantments) {
@@ -169,7 +177,7 @@ public class TalismanListener implements Listener {
                 fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
             }
 
-            if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, (SlimefunItemStack) SlimefunItems.TALISMAN_MINER)) {
+            if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
                 for (ItemStack drop : drops) {
                     if (!drop.getType().isBlock()) {
                         int amount = Math.max(1, (fortune * 2) - drop.getAmount());
