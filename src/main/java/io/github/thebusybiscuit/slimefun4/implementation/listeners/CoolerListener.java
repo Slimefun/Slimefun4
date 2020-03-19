@@ -23,8 +23,10 @@ import org.bukkit.potion.PotionEffect;
  * from any {@link Cooler} that can be found in the {@link Inventory} of the given {@link Player}.
  *
  * @author TheBusyBiscuit
+ *
  * @see Cooler
  * @see Juice
+ *
  */
 public class CoolerListener implements Listener {
 

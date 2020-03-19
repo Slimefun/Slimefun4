@@ -31,8 +31,10 @@ import java.util.UUID;
  * This {@link Listener} is responsible for all events centered around a {@link SlimefunBackpack}.
  *
  * @author TheBusyBiscuit
+ *
  * @see SlimefunBackpack
  * @see PlayerBackpack
+ *
  */
 public class BackpackListener implements Listener {
 
@@ -44,7 +46,7 @@ public class BackpackListener implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
-        if (backpacks.containsKey(e.getPlayer().getUniqueId())) {
+        if (backpacks.containsKey(e.getPlayer().getUniqueId()) && e.getInventory().getSize() >= 9) {
             ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
             PlayerProfile.getBackpack(backpacks.get(e.getPlayer().getUniqueId())).markDirty();
             backpacks.remove(e.getPlayer().getUniqueId());
