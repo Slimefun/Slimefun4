@@ -52,7 +52,7 @@ public class ProtectionChecker implements Listener {
 
     public static void checkInstallStatus(SlimefunPlugin plugin) {
         resInstalled = plugin.getServer().getPluginManager().getPlugin("Residence") != null;
-        plotInstalled = plugin.getServer().getPluginManager().getPlugin("Residence") != null;
+        plotInstalled = plugin.getServer().getPluginManager().getPlugin("PlotSquared") != null;
     }
 
     public static boolean check(Player p, Block block, boolean isAndroid) {
