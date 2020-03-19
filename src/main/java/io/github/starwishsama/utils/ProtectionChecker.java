@@ -4,6 +4,8 @@ import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.containers.Flags;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.ResidencePermissions;
+import com.github.intellectualsites.plotsquared.plot.object.Location;
+import com.github.intellectualsites.plotsquared.plot.object.Plot;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -20,7 +22,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class ProtectionChecker implements Listener {
-    private static boolean installed = false;
+    private static boolean resInstalled = false;
+    private static boolean plotInstalled = false;
 
     @EventHandler
     public void onAndroidInteract(AndroidMineEvent e) {
@@ -29,7 +32,7 @@ public class ProtectionChecker implements Listener {
             Block block = e.getBlock();
             Player p = Bukkit.getPlayer(getOwnerByJson(BlockStorage.getBlockInfoAsJson(android)));
 
-            if (!check(p, block, true) && p != null) {
+            if (!check(p, block, true)) {
                 e.setCancelled(true);
                 SlimefunPlugin.getLocal().sendMessage(p, "android.no-permission");
             }
@@ -37,27 +40,28 @@ public class ProtectionChecker implements Listener {
     }
 
     public ProtectionChecker(SlimefunPlugin plugin) {
-        if (isInstalled(plugin)) {
+        checkInstallStatus(plugin);
+
+        if (resInstalled || plotInstalled) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
-            plugin.getLogger().log(Level.INFO, "检测到领地插件, 领地相关功能已开启");
+            plugin.getLogger().log(Level.INFO, "检测到领地/地皮插件, 相关功能已开启");
         } else {
-            plugin.getLogger().log(Level.WARNING, "未检测到领地插件, 领地相关功能将自动关闭");
+            plugin.getLogger().log(Level.WARNING, "未检测到领地/地皮插件, 相关功能将自动关闭");
         }
     }
 
-    public static boolean isInstalled(SlimefunPlugin plugin) {
-        boolean result = plugin.getServer().getPluginManager().getPlugin("Residence") != null;
-        installed = result;
-        return result;
+    public static void checkInstallStatus(SlimefunPlugin plugin) {
+        resInstalled = plugin.getServer().getPluginManager().getPlugin("Residence") != null;
+        plotInstalled = plugin.getServer().getPluginManager().getPlugin("Residence") != null;
     }
 
     public static boolean check(Player p, Block block, boolean isAndroid) {
-        if (installed) {
-            ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
-            if (p != null) {
-                if (p.isOp()) {
-                    return true;
-                } else if (res != null && !p.hasPermission("residence.bypass.build") && !p.hasPermission("residence.bypass.destroy")) {
+        if (p != null && block != null) {
+            if (p.isOp()) {
+                return true;
+            } else if (resInstalled) {
+                ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
+                if (res != null && !p.hasPermission("residence.bypass.build") && !p.hasPermission("residence.bypass.destroy")) {
                     ResidencePermissions perms = res.getPermissions();
                     if (res.getOwnerUUID() == p.getUniqueId()) {
                         return true;
@@ -70,6 +74,13 @@ public class ProtectionChecker implements Listener {
                         return false;
                     }
                 }
+            } else if (plotInstalled) {
+                Plot plot = Plot.getPlot(new Location(block.getWorld().getName(), block.getX(), block.getY(), block.getZ()));
+                if (plot != null) {
+                    return plot.getOwners().contains(p.getUniqueId()) || plot.isAdded(p.getUniqueId());
+                }
+            } else {
+                return true;
             }
         }
         return true;

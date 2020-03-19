@@ -157,6 +157,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Setting up GitHub Connectors...
             gitHubService.connect(false);
 
+            // Residence & PlotSquared Listener
             new ProtectionChecker(this);
 
             // All Slimefun Listeners

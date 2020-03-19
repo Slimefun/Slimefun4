@@ -37,6 +37,10 @@
             <id>placeholderapi-repo</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <repository>
+            <id>plotsquared-repo</id>
+            <url>https://ci.athion.net/job/PlotSquared-Breaking/ws/mvn/</url>
+        </repository>
     </repositories>
     
     <build>
@@ -164,6 +168,12 @@
             <version>4.8.8.2</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Residence4.8.8.2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.intellectualsites.plotsquared</groupId>
+            <artifactId>PlotSquared-API</artifactId>
+            <version>4.488</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
