@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -83,7 +83,7 @@ public class ErrorReport {
                 Slimefun.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developers. This message does not have to be included.");
                 Slimefun.getLogger().log(Level.WARNING, "");
             } catch (FileNotFoundException x) {
-                Slimefun.getLogger().log(Level.SEVERE, "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion(), x);
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
             }
         });
     }

@@ -42,7 +42,7 @@ public class CargoOutputNode extends SlimefunItem {
                     int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
 
                     if (channel < 0) {
-                        if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) channel = 16;
+                        if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) channel = 16;
                         else channel = 15;
                     }
 
@@ -66,7 +66,7 @@ public class CargoOutputNode extends SlimefunItem {
                 menu.addMenuClickHandler(14, (p, slot, item, action) -> {
                     int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
 
-                    if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) {
+                    if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
                         if (channeln > 16) channeln = 0;
                     } else {
                         if (channeln > 15) channeln = 0;

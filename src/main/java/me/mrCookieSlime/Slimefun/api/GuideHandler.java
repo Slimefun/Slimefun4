@@ -25,10 +25,6 @@ public interface GuideHandler {
 
     default void run(Player p, boolean survival, boolean book) {
         this.getRunnable(book).run(p);
-
-        if (survival && this.trackHistory()) {
-            PlayerProfile.get(p, profile -> profile.getGuideHistory().add(this));
-		}
-	}
+    }
 
 }

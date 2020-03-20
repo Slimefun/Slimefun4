@@ -15,7 +15,8 @@ public class AncientPedestal extends SlimefunItem {
         super(category, item, recipeType, recipe, recipeOutput);
 
         SlimefunItem.registerBlockHandler(getID(), (p, b, tool, reason) -> {
-            Item stack = AncientAltarListener.findItem(b);
+            AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
+            Item stack = listener.findItem(b);
 
             if (SlimefunPlugin.getCfg().getBoolean("options.anti-altar-glitch")) {
                 if (stack == null) {
@@ -27,7 +28,7 @@ public class AncientPedestal extends SlimefunItem {
             } else {
                 if (stack != null) {
                     stack.removeMetadata("item_placed", SlimefunPlugin.instance);
-                    b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                    b.getWorld().dropItem(b.getLocation(), listener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
                     stack.remove();
                 }
                 return true;

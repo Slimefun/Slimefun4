@@ -20,12 +20,12 @@ public class DeathpointListener implements Listener {
     }
 
     @EventHandler
-    public void onDamage(EntityDeathEvent e) {
+    public void onDeath(EntityDeathEvent e) {
         if (e.getEntity().getType() == EntityType.PLAYER) {
             Player p = (Player) e.getEntity();
 
             if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {
-                SlimefunPlugin.getGPSNetwork().addWaypoint(p, SlimefunPlugin.getLocal().getMessage(p, "gps.deathpoint").replace("%date%", format.format(new Date())), p.getLocation().getBlock().getLocation());
+                SlimefunPlugin.getGPSNetwork().addWaypoint(p, "player:death " + SlimefunPlugin.getLocal().getMessage(p, "gps.deathpoint").replace("%date%", format.format(new Date())), p.getLocation().getBlock().getLocation());
             }
         }
     }

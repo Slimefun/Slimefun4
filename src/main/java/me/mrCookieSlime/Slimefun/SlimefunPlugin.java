@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.services.*;
@@ -26,7 +27,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import org.bukkit.Bukkit;
@@ -139,7 +139,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             try {
                 SlimefunItemSetup.setup(this);
             } catch (Throwable x) {
-                getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
+                getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
             }
 
             getLogger().log(Level.INFO, "加载研究项目中...");
@@ -147,7 +147,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             try {
                 ResearchSetup.setupResearches();
             } catch (Throwable x) {
-                getLogger().log(Level.SEVERE, "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion(), x);
+                getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
             }
 
             registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
@@ -266,8 +266,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
                 try {
                     ticker.run();
-                } catch (Exception x) {
-                    getLogger().log(Level.SEVERE, "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + getVersion(), x);
+                } catch (Throwable x) {
+                    getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + getVersion());
                     ticker.abortTick();
                 }
             }, 100L, config.getInt("URID.custom-ticker-delay"));
@@ -362,10 +362,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 if (storage != null) {
                     storage.save(true);
                 } else {
-                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
+                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", world.getName());
                 }
             } catch (Exception x) {
-                getLogger().log(Level.SEVERE, "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion(), x);
+                getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion());
             }
         }
 

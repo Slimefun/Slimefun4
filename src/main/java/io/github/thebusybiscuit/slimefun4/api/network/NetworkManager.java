@@ -18,7 +18,7 @@ import java.util.List;
 public final class NetworkManager {
 
     private final int maxNodes;
-    private boolean isChestTerminalInstalled = false;
+
     private final List<Network> networks = new LinkedList<>();
 
     public NetworkManager(int capacity) {
@@ -27,14 +27,6 @@ public final class NetworkManager {
 
     public int getMaxSize() {
         return maxNodes;
-    }
-
-    public boolean isChestTerminalInstalled() {
-        return isChestTerminalInstalled;
-    }
-
-    public void setChestTerminalInstalled(boolean installed) {
-        isChestTerminalInstalled = installed;
     }
 
     public List<Network> getNetworkList() {

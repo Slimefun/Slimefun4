@@ -139,7 +139,7 @@ public class LocalizationService extends SlimefunLocalization {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
             getConfig().getConfiguration().setDefaults(config);
         } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, "Failed to load language file: \"" + path + "\"", e);
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file: \"" + path + "\"");
         }
 
         save();
@@ -202,7 +202,7 @@ public class LocalizationService extends SlimefunLocalization {
 
             return config;
         } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, "Failed to load language file into memory: \"" + path + "\"", e);
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file into memory: \"" + path + "\"");
             return null;
         }
     }

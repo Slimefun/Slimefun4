@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 

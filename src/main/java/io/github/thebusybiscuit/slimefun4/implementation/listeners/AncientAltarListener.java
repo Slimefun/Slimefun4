@@ -191,15 +191,14 @@ public class AncientAltarListener implements Listener {
         }
     }
 
-    public static ItemStack fixItemStack(ItemStack itemStack, String customName) {
+    public ItemStack fixItemStack(ItemStack itemStack, String customName) {
         ItemStack stack = itemStack.clone();
 
         if (customName.equals(ItemUtils.getItemName(new ItemStack(itemStack.getType())))) {
             ItemMeta im = stack.getItemMeta();
             im.setDisplayName(null);
             stack.setItemMeta(im);
-        }
-        else {
+        } else {
             ItemMeta im = stack.getItemMeta();
             if (!customName.startsWith(String.valueOf(ChatColor.COLOR_CHAR))) customName = ChatColor.RESET + customName;
             im.setDisplayName(customName);
@@ -208,7 +207,7 @@ public class AncientAltarListener implements Listener {
         return stack;
     }
 
-    public static Item findItem(Block b) {
+    public Item findItem(Block b) {
         for (Entity n : b.getChunk().getEntities()) {
             if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) {
                 return (Item) n;

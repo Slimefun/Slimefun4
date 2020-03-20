@@ -165,7 +165,7 @@ public class TickerTask implements Runnable {
 
             buggedBlocks.put(l, errors);
         } else if (errors == 4) {
-            Slimefun.getLogger().log(Level.SEVERE, "X: " + l.getBlockX() + " Y: " + l.getBlockY() + " Z: " + l.getBlockZ() + '(' + item.getID() + ")");
+            Slimefun.getLogger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[]{l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getID()});
             Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
             Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
             Slimefun.getLogger().log(Level.SEVERE, " ");
@@ -193,10 +193,7 @@ public class TickerTask implements Runnable {
         sender.sendMessage("");
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticking Machines:"));
 
-        List<Map.Entry<String, Long>> timings = machineCount.keySet().stream()
-                .map(key -> new AbstractMap.SimpleEntry<>(key, machineTimings.getOrDefault(key, 0L)))
-                .sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue()))
-                .collect(Collectors.toList());
+        List<Map.Entry<String, Long>> timings = machineCount.keySet().stream().map(key -> new AbstractMap.SimpleEntry<>(key, machineTimings.getOrDefault(key, 0L))).sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue())).collect(Collectors.toList());
 
         if (sender instanceof Player) {
             ChatComponent component = new ChatComponent(ChatColors.color("   &7&oHover for more Info"));
@@ -207,15 +204,7 @@ public class TickerTask implements Runnable {
                 int count = machineCount.get(entry.getKey());
 
                 if (entry.getValue() > 500_000) {
-                    builder.append("\n&c")
-                            .append(entry.getKey())
-                            .append(" - ")
-                            .append(count)
-                            .append("x &7(")
-                            .append(toMillis(entry.getValue()))
-                            .append(", ")
-                            .append(toMillis(entry.getValue() / count))
-                            .append(" avg/machine)");
+                    builder.append("\n&c").append(entry.getKey()).append(" - ").append(count).append("x &7(").append(toMillis(entry.getValue())).append(", ").append(toMillis(entry.getValue() / count)).append(" avg/machine)");
                 } else hidden++;
             }
 
@@ -239,9 +228,7 @@ public class TickerTask implements Runnable {
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&6Ticking Chunks:"));
 
-        timings = chunkTimings.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toList());
+        timings = chunkTimings.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
 
         if (sender instanceof Player) {
             ChatComponent component = new ChatComponent(ChatColors.color("   &7&oHover for more Info"));
@@ -251,13 +238,7 @@ public class TickerTask implements Runnable {
             for (Map.Entry<String, Long> entry : timings) {
                 if (!chunksSkipped.contains(entry.getKey())) {
                     if (entry.getValue() > 0) {
-                        builder.append("\n&c")
-                                .append(formatChunk(entry.getKey()))
-                                .append(" - ")
-                                .append(chunkItemCount.getOrDefault(entry.getKey(), 0))
-                                .append("x &7(")
-                                .append(toMillis(entry.getValue()))
-                                .append(')');
+                        builder.append("\n&c").append(formatChunk(entry.getKey())).append(" - ").append(chunkItemCount.getOrDefault(entry.getKey(), 0)).append("x &7(").append(toMillis(entry.getValue())).append(')');
                     } else hidden++;
                 }
             }
@@ -316,17 +297,7 @@ public class TickerTask implements Runnable {
 
     @Override
     public String toString() {
-        return "TickerTask {\n"
-                + "     HALTED = " + halted + "\n"
-                + "     tickers = " + tickers + "\n"
-                + "     move = " + move + "\n"
-                + "     delete = " + delete + "\n"
-                + "     chunks = " + chunkItemCount + "\n"
-                + "     machines = " + machineCount + "\n"
-                + "     machinetime = " + machineTimings + "\n"
-                + "     chunktime = " + chunkTimings + "\n"
-                + "     skipped = " + chunksSkipped + "\n"
-                + "}";
+        return "TickerTask {\n" + "     HALTED = " + halted + "\n" + "     tickers = " + tickers + "\n" + "     move = " + move + "\n" + "     delete = " + delete + "\n" + "     chunks = " + chunkItemCount + "\n" + "     machines = " + machineCount + "\n" + "     machinetime = " + machineTimings + "\n" + "     chunktime = " + chunkTimings + "\n" + "     skipped = " + chunksSkipped + "\n" + "}";
     }
 
     public void queueMove(Location from, Location to) {

@@ -12,6 +12,7 @@ import java.util.*;
 
 public class AncientAltarTask implements Runnable {
 
+    private final AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
     private final List<Block> altars;
 
     private final Block altar;
@@ -38,7 +39,7 @@ public class AncientAltarTask implements Runnable {
         this.stage = 0;
 
         for (Block pedestal : this.pedestals) {
-            Item item = AncientAltarListener.findItem(pedestal);
+            Item item = listener.findItem(pedestal);
             this.itemLock.put(item, item.getLocation().clone());
         }
     }
@@ -86,13 +87,13 @@ public class AncientAltarTask implements Runnable {
     }
 
     private void checkPedestal(Block pedestal) {
-        Item item = AncientAltarListener.findItem(pedestal);
+        Item item = listener.findItem(pedestal);
 
         if (item == null || itemLock.remove(item) == null) {
             abort();
         } else {
             particleLocations.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
-            items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
+            items.add(listener.fixItemStack(item.getItemStack(), item.getCustomName()));
             pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
 
             dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
@@ -107,7 +108,6 @@ public class AncientAltarTask implements Runnable {
 
     private void abort() {
         running = false;
-        AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
         pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
         // This should re-enable altar blocks on craft failure.
@@ -123,7 +123,6 @@ public class AncientAltarTask implements Runnable {
             dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
             dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
 
-            AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
             pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
             // This should re-enable altar blocks on craft completion.

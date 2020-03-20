@@ -29,7 +29,7 @@ public class EnhancedFurnaceListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onBurn(FurnaceBurnEvent e) {
+    public void onFuelBurn(FurnaceBurnEvent e) {
         SlimefunItem furnace = BlockStorage.check(e.getBlock());
 
         if (furnace instanceof EnhancedFurnace && ((EnhancedFurnace) furnace).getFuelEfficiency() > 0) {
@@ -38,7 +38,7 @@ public class EnhancedFurnaceListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onSmelt(FurnaceSmeltEvent e) {
+    public void onItemSmelt(FurnaceSmeltEvent e) {
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
         if (sfItem instanceof EnhancedFurnace) {

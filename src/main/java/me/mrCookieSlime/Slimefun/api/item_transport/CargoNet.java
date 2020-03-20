@@ -192,7 +192,7 @@ public class CargoNet extends Network {
         }
 
         // Chest Terminal Code
-        if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) {
+        if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
             for (Location bus : imports) {
                 BlockMenu menu = BlockStorage.getInventory(bus);
 
@@ -395,7 +395,7 @@ public class CargoNet extends Network {
         }
 
         // Chest Terminal Code
-        if (SlimefunPlugin.getNetworkManager().isChestTerminalInstalled()) {
+        if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
             List<ItemStackAndInteger> items = new ArrayList<>();
 
             for (Location l : providers) {

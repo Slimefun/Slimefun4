@@ -22,7 +22,7 @@ public class ItemPickupListener implements Listener {
     }
 
     @EventHandler
-    public void onPickup(EntityPickupItemEvent e) {
+    public void onEntityPickup(EntityPickupItemEvent e) {
         if (e.getItem().hasMetadata(METADATA_JEY)) {
             e.setCancelled(true);
         } else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {
@@ -32,7 +32,7 @@ public class ItemPickupListener implements Listener {
     }
 
     @EventHandler
-    public void onMinecartPickup(InventoryPickupItemEvent e) {
+    public void onHopperPickup(InventoryPickupItemEvent e) {
         if (e.getItem().hasMetadata(METADATA_JEY)) {
             e.setCancelled(true);
         } else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {
