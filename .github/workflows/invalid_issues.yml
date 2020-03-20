@@ -1,0 +1,20 @@
+name: Issue Closing
+on: 
+  issues: 
+    types: [opened]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: github.event.label.name != 'Bug Report'
+    steps:
+       - uses: maxkomarychev/octions/octions/issues/update@master
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          state: closed
+      - uses: maxkomarychev/octions/octions/issues/create-comment@master
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          body: TEST
