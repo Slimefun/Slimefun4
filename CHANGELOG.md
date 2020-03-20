@@ -78,6 +78,8 @@
 * Fixed #1719
 * Fixed death waypoints not having the correct texture
 * Fixed Androids having no texture when moving
+* Fixed Androids not taking fuel from interfaces
+* Fixed #1721
 
 ## Release Candidate 9 (07 Mar 2020)
 
