@@ -78,10 +78,9 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
         recipeList.add(SlimefunItems.FISH_JERKY);
     }
 
-    // Try something new
     @Override
     public String getInventoryTitle() {
-        return ((SlimefunItemStack) item).getItem().getItemName();
+        return "烘干机";
     }
 
     @Override
