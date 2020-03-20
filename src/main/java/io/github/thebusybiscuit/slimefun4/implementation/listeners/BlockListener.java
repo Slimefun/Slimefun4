@@ -233,7 +233,7 @@ public class BlockListener implements Listener {
 
             if (e.isDropItems()) {
                 for (ItemStack drop : drops) {
-                    if (drop != null) {
+                    if (drop != null && drop.getType() != Material.AIR) {
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
                     }
                 }
