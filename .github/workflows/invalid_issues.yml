@@ -1,4 +1,4 @@
-name: Issue Closing
+name: Close invalid Issue
 on: 
   issues: 
     types: [opened]
@@ -17,4 +17,9 @@ jobs:
       with:
          token: ${{ secrets.ACCESS_TOKEN }}
          issue_number: ${{ github.event.issue.number }}
-         body: TEST
+         body: |-
+           Your issue seems to be missing our template.
+           [Click here to create a bug report](https://github.com/TheBusyBiscuit/Slimefun4/issues/new/choose)
+           
+           Please remember that this Bug Tracker is exclusively reserved for Bug reports, any other form
+           of discussion, like suggestions or questions should be posted on our discord server (You can find a link [on our main page](https://github.com/TheBusyBiscuit/Slimefun4#discord)).
