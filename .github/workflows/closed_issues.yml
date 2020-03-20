@@ -6,7 +6,7 @@ on:
 jobs:
   comment:
     runs-on: ubuntu-latest
-    if: github.event.label.name == 'Bug Report'
+    if: contains(github.event.issue.labels.*.name, 'Bug Report')
     steps:
       - uses: maxkomarychev/octions/octions/issues/create-comment@master
         with:
