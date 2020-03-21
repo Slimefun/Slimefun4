@@ -70,6 +70,7 @@ public class Translators {
         addTranslator("SoSeDiK", EmbeddedLanguage.RUSSIAN, false);
         addTranslator("KostaTV", EmbeddedLanguage.RUSSIAN, true);
         addTranslator("TomWiskis", "MrWiskis", EmbeddedLanguage.RUSSIAN, true);
+        addTranslator("cyb3rm4n", "GP_CyberMan", EmbeddedLanguage.RUSSIAN, true);
 
         // Translators - Spanish
         addTranslator("Luu7", "_Luu", EmbeddedLanguage.SPANISH, true);
