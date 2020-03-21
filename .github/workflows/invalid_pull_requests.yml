@@ -16,10 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.head.ref, 'gitlocalize-') == false
     steps:
-    - uses: maxkomarychev/octions/octions/issues/create-comment@master
+    - uses: maxkomarychev/octions/octions/pulls/create-review@master
       with:
         token: ${{ secrets.ACCESS_TOKEN }}
-        issue_number: ${{ github.event.pull_request.number }}
+        pull_number: ${{ github.event.pull_request.number }}
+        event: REQUEST_CHANGES
         body: |-
            :warning: Hey, it looks you edited a language file.
            
