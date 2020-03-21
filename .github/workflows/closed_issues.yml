@@ -8,6 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, 'Bug Report')
     steps:
+      - uses: maxkomarychev/octions/octions/repos/list-commits@master
+        id: commits
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          sha: master
+          path: '*'
+          author: '*'
+          since: '2019-01-01T12:00:00Z'
+          until: ${{ github.event.issue.closed_at }}
+          page: 1
+          per_page: 30
+      - run: echo $ {{ steps.commits.outputs }}
       - uses: maxkomarychev/octions/octions/issues/create-comment@master
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
