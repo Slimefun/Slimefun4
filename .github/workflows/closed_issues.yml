@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, 'Bug Report')
     steps:
-      - uses: TheBusyBiscuit/recently-closed-issues@1.0.7
+      - uses: TheBusyBiscuit/recently-closed-issues@1.1.0
         id: commits
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
