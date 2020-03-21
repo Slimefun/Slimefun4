@@ -1,12 +1,15 @@
 name: Changelog Populator
+
 on: 
   push:
     branches:
     - master
+    paths:
+    - 'CHANGELOG.md'
     
 jobs:
   populate:
-    name: TOC Generator
+    name: Changelog Generator
     runs-on: ubuntu-latest
     steps:
       - name: TOC Generator
