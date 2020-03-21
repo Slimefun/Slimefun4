@@ -1,4 +1,4 @@
-name: Close invalid Pull Requests
+name: Comment on invalid Pull Requests
 
 on: 
   pull_request:
@@ -14,15 +14,14 @@ on:
 jobs:
   pulls:
     runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.head.ref, 'gitlocalize-') == false
     steps:
-    - uses: maxkomarychev/octions/octions/pulls/submit-review@master
+    - uses: maxkomarychev/octions/octions/issues/create-comment@master
       with:
         token: ${{ secrets.ACCESS_TOKEN }}
-        pull_number: ${{ github.event.pull_request.number }}
-        review_id: 1
-        event: REQUEST_CHANGES
+        issue_number: ${{ github.event.pull_request.number }}
         body: |-
-           Hey, it looks you edited a language file.
+           :warning: Hey, it looks you edited a language file.
            
            We use [gitlocalize](https://gitlocalize.com/repo/3841) for handling localization, please don't submit any localization files
            via GitHub. That is sadly not possible.
