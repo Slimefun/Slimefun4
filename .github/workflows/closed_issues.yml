@@ -8,11 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, 'Bug Report')
     steps:
-      - uses: TheBusyBiscuit/recently-closed-issues@1.1.0
+      - name: Query recent commits
+        uses: TheBusyBiscuit/recently-closed-issues@1.1.0
         id: resolved
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           max_commits: 20
+      - name: Add label
+        if: contains(toJson(steps.commits.outputs.issues), github.event.issue.number)
+        uses: maxkomarychev/octions/octions/issues/add-labels@master
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          labels: 'Resolved'
       - uses: maxkomarychev/octions/octions/issues/create-comment@master
         if: contains(toJson(steps.commits.outputs.issues), github.event.issue.number) == false
         with:
