@@ -85,6 +85,23 @@
                     </execution>
                 </executions>
             </plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<reportOutputDirectory>${project.basedir}</reportOutputDirectory>
+					<destDir>docs</destDir>
+					<doctitle>Slimefun4 - Javadocs</doctitle>
+					<windowtitle>Slimefun4 - Javadocs</windowtitle>
+					<detectOfflineLinks>false</detectOfflineLinks>
+					<additionalJOption>-html5</additionalJOption>
+					<links>
+						<link>https://hub.spigotmc.org/javadocs/bukkit/</link>
+					</links>
+				</configuration>
+			</plugin>
         </plugins>
         
         <resources>
