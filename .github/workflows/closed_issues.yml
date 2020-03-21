@@ -8,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, 'Bug Report')
     steps:
-      - uses: TheBusyBiscuit/recently-closed-issues@1.0.5
+      - uses: TheBusyBiscuit/recently-closed-issues@1.0.6
         id: commits
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
-          max_commits: 30
+          max_commits: 100
       - name: Console output
         run: echo ${{ steps.commits.outputs.issues }}
       - uses: maxkomarychev/octions/octions/issues/create-comment@master
