@@ -15,14 +15,14 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
           max_commits: 20
       - name: Add label
-        if: contains(steps.commits.outputs.issues, github.event.issue.number)
+        if: contains(${{ steps.commits.outputs.issues }}, ${{ github.event.issue.number }})
         uses: maxkomarychev/octions/octions/issues/add-labels@master
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           issue_number: ${{ github.event.issue.number }}
           labels: 'Resolved'
       - uses: maxkomarychev/octions/octions/issues/create-comment@master
-        if: contains(toJson(steps.commits.outputs.issues), github.event.issue.number) == false
+        if: contains(${{ steps.commits.outputs.issues }}, ${{ github.event.issue.number }}) == false
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           issue_number: ${{ github.event.issue.number }}
