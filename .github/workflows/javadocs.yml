@@ -1,0 +1,23 @@
+name: Javadocs Generator
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'src/main/java/**.java'
+
+jobs:
+  javadocs:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+    - name: Set up JDK 1.9
+      uses: giltene/setup-java@master
+      with:
+        java-version: 9.0.4
+    - name: Generate Javadocs
+      run: mvn javadoc:javadoc
