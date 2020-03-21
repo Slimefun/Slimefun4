@@ -13,8 +13,8 @@ jobs:
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           max_commits: 30
-      - run: |
-          echo $ {{ steps.commits.outputs.issues }}
+      - name: Console output
+        run: echo ${{ steps.commits.outputs.issues }}
       - uses: maxkomarychev/octions/octions/issues/create-comment@master
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
