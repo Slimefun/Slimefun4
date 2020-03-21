@@ -81,7 +81,7 @@ public final class PlayerProfile {
     }
 
     /**
-     * This method returns whether the Player has logged off.
+     * This method returns whether the {@link Player} has logged off.
      * If this is true, then the Profile can be removed from RAM.
      * 
      * @return Whether the Profile is marked for deletion
@@ -113,12 +113,12 @@ public final class PlayerProfile {
 
     /**
      * This method sets the Player's "researched" status for this Research.
-     * Use the boolean to unlock or lock the Research
+     * Use the boolean to unlock or lock the {@link Research}
      * 
      * @param research
-     *            The Research that should be unlocked or locked
+     *            The {@link Research} that should be unlocked or locked
      * @param unlock
-     *            Whether the Research should be unlocked or locked
+     *            Whether the {@link Research} should be unlocked or locked
      */
     public void setResearched(Research research, boolean unlock) {
         dirty = true;
@@ -134,20 +134,20 @@ public final class PlayerProfile {
     }
 
     /**
-     * This method returns whether the Player has unlocked the given Research
+     * This method returns whether the {@link Player} has unlocked the given {@link Research}
      * 
      * @param research
-     *            The Research that is being queried
-     * @return Whether this Research has been unlocked
+     *            The {@link Research} that is being queried
+     * @return Whether this {@link Research} has been unlocked
      */
     public boolean hasUnlocked(Research research) {
         return !research.isEnabled() || researches.contains(research);
     }
 
     /**
-     * This Method will return all Researches that this Player has unlocked
+     * This Method will return all Researches that this {@link Player} has unlocked
      * 
-     * @return A Hashset<Research> of all Researches this Player has unlocked
+     * @return A {@code Hashset<Research>} of all Researches this {@link Player} has unlocked
      */
     public Set<Research> getResearches() {
         return researches;

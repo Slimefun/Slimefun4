@@ -20,6 +20,8 @@ public interface ItemRestriction {
      *            The SlimefunItem that the {@link ItemStack} represents
      * @param itemstack
      *            The ItemStack that is being tested.
+     * 
+     * @return Whether the action was allowed
      */
     boolean isAllowed(PlayerProfile profile, Player p, SlimefunItem item, ItemStack itemstack);
 

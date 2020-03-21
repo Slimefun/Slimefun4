@@ -541,6 +541,9 @@ public class SlimefunItem implements Placeable {
      *            The {@link Class} of the {@link ItemHandler} to call.
      * @param callable
      *            A {@link Consumer} that is called for any found {@link ItemHandler}.
+     * @param <T>
+     *            The type of {@link ItemHandler} to call.
+     * 
      * @return Whether or not an {@link ItemHandler} was found.
      */
     public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {

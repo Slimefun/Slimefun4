@@ -22,9 +22,6 @@ public class SeasonalCategory extends Category {
 
     /**
      * The constructor for a SeasonCategory.
-     * <p>
-     * See {@link Category#Category(ItemStack, int)} for more information about creating
-     * a category.
      * 
      * @param key
      *            The {@link NamespacedKey} that is used to identify this {@link Category}

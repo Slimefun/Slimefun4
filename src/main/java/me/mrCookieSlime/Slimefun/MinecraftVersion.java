@@ -16,7 +16,7 @@ public enum MinecraftVersion {
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.14
-     * (The "Village & Pillage" Update)
+     * (The "Village &amp; Pillage" Update)
      */
     MINECRAFT_1_14("1.14.x"),
 
