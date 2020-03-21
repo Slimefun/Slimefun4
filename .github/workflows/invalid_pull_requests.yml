@@ -22,7 +22,7 @@ jobs:
         pull_number: ${{ github.event.pull_request.number }}
         event: REQUEST_CHANGES
         body: |-
-           :warning: Hey, it looks you edited a language file.
+           Hey, it looks you edited a language file.
            
            We use [gitlocalize](https://gitlocalize.com/repo/3841) for handling localization, please don't submit any localization files
            via GitHub. That is sadly not possible.
