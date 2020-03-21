@@ -1,4 +1,5 @@
 name: Close invalid Issue
+
 on: 
   issues: 
     types: [opened]
@@ -8,17 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, 'Bug Report') == false
     steps:
-    - uses: maxkomarychev/octions/octions/issues/update@master
+    - name: Close Issue
+      uses: maxkomarychev/octions/octions/issues/update@master
       with:
          token: ${{ secrets.ACCESS_TOKEN }}
          issue_number: ${{ github.event.issue.number }}
          state: closed
-    - uses: maxkomarychev/octions/octions/issues/add-labels@master
+    - name: Add invalid label
+      uses: maxkomarychev/octions/octions/issues/add-labels@master
       with:
          token: ${{ secrets.ACCESS_TOKEN }}
          issue_number: ${{ github.event.issue.number }}
          labels: 'invalid'
-    - uses: maxkomarychev/octions/octions/issues/create-comment@master
+    - name: Create a comment
+      uses: maxkomarychev/octions/octions/issues/create-comment@master
       with:
          token: ${{ secrets.ACCESS_TOKEN }}
          issue_number: ${{ github.event.issue.number }}
