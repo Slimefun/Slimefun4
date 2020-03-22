@@ -131,14 +131,14 @@ public class EnergyNet extends Network {
 
     public void tick(Block b) {
         if (!regulator.equals(b.getLocation())) {
-            SimpleHologram.update(b, "&4Multiple Energy Regulators connected");
+            SimpleHologram.update(b, "&4检测到连接至了多个能源调节器");
             return;
         }
 
         super.tick();
 
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-            SimpleHologram.update(b, "&4No Energy Network found");
+            SimpleHologram.update(b, "&4找不到能源网络");
         } else {
             double supply = DoubleHandler.fixDouble(tickAllGenerators() + tickAllCapacitors());
             double demand = 0;
