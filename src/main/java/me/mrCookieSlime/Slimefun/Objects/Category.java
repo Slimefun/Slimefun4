@@ -22,10 +22,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * Statically handles categories.
- * Represents a category, which structure multiple {@link SlimefunItem} in the guide.
- * <p>
- * See {@link Categories} for the built-in categories.
+ * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
+ * See {@link Categories} for all built-in categories.
  * 
  * @author TheBusyBiscuit
  *

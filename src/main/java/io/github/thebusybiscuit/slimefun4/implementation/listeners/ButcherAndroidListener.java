@@ -17,9 +17,17 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This {@link Listener} handles the collecton of drops from an {@link Entity} that was
+ * killed by a {@link ButcherAndroid}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class ButcherAndroidListener implements Listener {
 
     public ButcherAndroidListener(SlimefunPlugin plugin) {

@@ -343,4 +343,8 @@ public final class SlimefunGuideSettings {
         return SlimefunGuide.getItem(layout);
     }
 
+    public static boolean hasFireworksEnabled(Player p) {
+        return !PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1;
+    }
+
 }

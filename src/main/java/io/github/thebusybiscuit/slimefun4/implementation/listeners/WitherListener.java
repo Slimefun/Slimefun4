@@ -10,6 +10,15 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
+/**
+ * This {@link Listener} is responsible for implementing the functionality of blocks that
+ * were marked as {@link WitherProof} to not be destroyed by a {@link Wither}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see WitherProof
+ *
+ */
 public class WitherListener implements Listener {
 
     public WitherListener(SlimefunPlugin plugin) {

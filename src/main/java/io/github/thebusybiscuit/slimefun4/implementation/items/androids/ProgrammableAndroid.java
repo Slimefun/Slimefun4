@@ -420,7 +420,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
                 menu.replaceExistingItem(43, new CustomItem(newFuel, currentFuel.getAmount() + amount));
                 ItemUtils.consumeItem(newFuel, amount, false);
             }
-            
+
             return true;
         }
 

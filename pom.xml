@@ -111,6 +111,28 @@
 					<links>
 						<link>https://hub.spigotmc.org/javadocs/bukkit/</link>
 					</links>
+					<groups>
+						<group>
+							<title>Slimefun4 - API</title>
+							<packages>io.github.thebusybiscuit.slimefun4.api*</packages>
+						</group>
+						<group>
+							<title>Slimefun4 - Core packages</title>
+							<packages>io.github.thebusybiscuit.slimefun4.core*</packages>
+						</group>
+						<group>
+							<title>Slimefun4 - Implementations</title>
+							<packages>io.github.thebusybiscuit.slimefun4.implementation*</packages>
+						</group>
+						<group>
+							<title>Slimefun4 - Item Implementations</title>
+							<packages>io.github.thebusybiscuit.slimefun4.implementation.items*</packages>
+						</group>
+						<group>
+							<title>Slimefun4 - Old packages</title>
+							<packages>me.mrCookieSlime.Slimefun*</packages>
+						</group>
+					</groups>
 				</configuration>
 			</plugin>
         </plugins>
@@ -144,7 +166,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.9.2</version>
+            <version>b1f4b0fd8b</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

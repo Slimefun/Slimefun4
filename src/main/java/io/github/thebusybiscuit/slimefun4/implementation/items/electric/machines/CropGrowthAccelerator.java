@@ -10,10 +10,12 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -41,7 +43,10 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
         crops.add(Material.NETHER_WART);
         crops.add(Material.BEETROOTS);
         crops.add(Material.COCOA);
-        crops.add(Material.SWEET_BERRY_BUSH);
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            crops.add(Material.SWEET_BERRY_BUSH);
+        }
 
         createPreset(this, this::constructMenu);
 

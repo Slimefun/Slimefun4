@@ -108,12 +108,10 @@ public class LockedCategory extends Category {
      * 
      * @param p
      *            The {@link Player} to check
+     * @param profile
+     *            The {@link PlayerProfile} that belongs to the given {@link Player}
      * @return Whether the {@link Player} has fully completed all parent categories, otherwise false
      */
-    public boolean hasUnlocked(Player p) {
-        return hasUnlocked(p, PlayerProfile.get(p));
-    }
-
     public boolean hasUnlocked(Player p, PlayerProfile profile) {
         for (Category category : parents) {
             for (SlimefunItem item : category.getItems()) {

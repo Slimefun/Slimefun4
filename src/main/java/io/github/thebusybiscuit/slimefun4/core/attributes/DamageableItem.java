@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -22,6 +23,13 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 @FunctionalInterface
 public interface DamageableItem extends ItemAttribute {
 
+    /**
+     * Implement this method to make the behaviour of this interface dependent
+     * on the state of your object.
+     * You could add a {@link Config} option to toggle the behaviour for example.
+     * 
+     * @return Whether this {@link SlimefunItem} is damageable
+     */
     boolean isDamageable();
 
     default void damageItem(Player p, ItemStack item) {

@@ -45,7 +45,6 @@ public class EasterEgg extends SimpleSlimefunItem<ItemUseHandler> {
             }
 
             FireworkUtils.launchRandom(p, 2);
-
             p.getWorld().dropItemNaturally(p.getLocation(), gifts[ThreadLocalRandom.current().nextInt(gifts.length)].clone());
         };
     }

@@ -31,9 +31,9 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 public class MultiBlock {
 
     public static final List<Tag<Material>> SUPPORTED_TAGS = Arrays.asList(
-        Tag.LOGS, 
-        Tag.WOODEN_FENCES, 
-        Tag.WOODEN_TRAPDOORS, 
+        Tag.LOGS,
+        Tag.WOODEN_TRAPDOORS,
+        Tag.WOODEN_FENCES,
         Tag.WOODEN_SLABS
     );
 

@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * This clas represents an {@link ErrorReport}.
+ * This class represents an {@link ErrorReport}.
  * Error reports are thrown when a {@link BlockTicker} is causing problems.
  * To ensure that the console doesn't get too spammy, we destroy the block and generate
  * an {@link ErrorReport} instead.

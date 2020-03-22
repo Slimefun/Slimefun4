@@ -13,8 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.TileState;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -71,11 +69,8 @@ public class BlockListener implements Listener {
                 e.setCancelled(true);
             }
             else {
-                BlockState state = e.getBlock().getState();
-                boolean supportsPersistentData = state instanceof TileState;
-
-                if (supportsPersistentData) {
-                    SlimefunPlugin.getBlockDataService().setBlockData((TileState) state, sfItem.getID());
+                if (SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
+                    SlimefunPlugin.getBlockDataService().setBlockData(e.getBlock(), sfItem.getID());
                 }
 
                 BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
@@ -157,15 +152,11 @@ public class BlockListener implements Listener {
         if (sensitiveMaterials.contains(block2.getType())) {
             SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
 
-            if (sfItem == null) {
-                BlockState state = block2.getState();
+            if (sfItem == null && SlimefunPlugin.getBlockDataService().isTileEntity(block2.getType())) {
+                Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData(block2);
 
-                if (state instanceof TileState) {
-                    Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
-
-                    if (blockData.isPresent()) {
-                        sfItem = SlimefunItem.getByID(blockData.get());
-                    }
+                if (blockData.isPresent()) {
+                    sfItem = SlimefunItem.getByID(blockData.get());
                 }
             }
 
@@ -189,15 +180,11 @@ public class BlockListener implements Listener {
 
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
-        if (sfItem == null) {
-            BlockState state = e.getBlock().getState();
+        if (sfItem == null && SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
+            Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData(e.getBlock());
 
-            if (state instanceof TileState) {
-                Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
-
-                if (blockData.isPresent()) {
-                    sfItem = SlimefunItem.getByID(blockData.get());
-                }
+            if (blockData.isPresent()) {
+                sfItem = SlimefunItem.getByID(blockData.get());
             }
         }
 

@@ -1,7 +1,10 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -15,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
@@ -372,12 +376,24 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.SEVERE, "###");
             getLogger().log(Level.SEVERE, "### You are using Minecraft {0}", ReflectionUtils.getVersion());
             getLogger().log(Level.SEVERE, "### but Slimefun v{0} requires you to be using", getDescription().getVersion());
-            getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", MinecraftVersion.getSupportedVersions()));
+            getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
             return true;
         }
 
         getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);;
         return false;
+    }
+
+    private Collection<String> getSupportedVersions() {
+        List<String> list = new ArrayList<>();
+
+        for (MinecraftVersion version : MinecraftVersion.values()) {
+            if (version != MinecraftVersion.UNKNOWN) {
+                list.add(version.getName());
+            }
+        }
+
+        return list;
     }
 
     @Override

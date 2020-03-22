@@ -32,6 +32,8 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -40,9 +42,15 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This {@link Listener} is responsible for providing the core mechanics of the {@link AncientAltar}
+ * and the {@link AncientPedestal}, it also handles the crafting of items using the Altar.
+ * 
+ * @author Redemption198
+ * @author TheBusyBiscuit
+ *
+ */
 public class AncientAltarListener implements Listener {
-
-    private static final String PEDESTAL_ID = "ANCIENT_PEDESTAL";
 
     private final Set<AltarRecipe> altarRecipes = new HashSet<>();
     private final Set<Location> altarsInUse = new HashSet<>();
@@ -56,6 +64,10 @@ public class AncientAltarListener implements Listener {
 
     public Set<Location> getAltarsInUse() {
         return altarsInUse;
+    }
+
+    public List<Block> getAltars() {
+        return altars;
     }
 
     public Set<AltarRecipe> getRecipes() {
@@ -77,7 +89,7 @@ public class AncientAltarListener implements Listener {
 
         String id = slimefunBlock.get().getID();
 
-        if (id.equals(PEDESTAL_ID)) {
+        if (id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemID())) {
             e.cancel();
 
             if (altarsInUse.contains(b.getLocation())) {
@@ -146,7 +158,7 @@ public class AncientAltarListener implements Listener {
                                     ItemUtils.consumeItem(e.getPlayer().getInventory().getItemInMainHand(), false);
                                 }
 
-                                Slimefun.runSync(new AncientAltarTask(altars, b, b.getLocation().add(0.5, 1.3, 0.5), result, pedestals, consumed), 10L);
+                                Slimefun.runSync(new AncientAltarTask(b, result, pedestals, consumed), 10L);
                             }
                             else {
                                 altars.remove(b);
@@ -195,7 +207,7 @@ public class AncientAltarListener implements Listener {
         if (pedestal.getType() == Material.DISPENSER) {
             String id = BlockStorage.checkID(pedestal);
 
-            if (id != null && id.equals(PEDESTAL_ID)) {
+            if (id != null && id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemID())) {
                 SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.cannot-place", true);
                 e.setCancelled(true);
             }
@@ -247,29 +259,30 @@ public class AncientAltarListener implements Listener {
 
     private List<Block> getPedestals(Block altar) {
         List<Block> list = new ArrayList<>();
+        String id = SlimefunItems.ANCIENT_PEDESTAL.getItemID();
 
-        if (BlockStorage.check(altar.getRelative(2, 0, -2), PEDESTAL_ID)) {
+        if (BlockStorage.check(altar.getRelative(2, 0, -2), id)) {
             list.add(altar.getRelative(2, 0, -2));
         }
-        if (BlockStorage.check(altar.getRelative(3, 0, 0), PEDESTAL_ID)) {
+        if (BlockStorage.check(altar.getRelative(3, 0, 0), id)) {
             list.add(altar.getRelative(3, 0, 0));
         }
-        if (BlockStorage.check(altar.getRelative(2, 0, 2), PEDESTAL_ID)) {
+        if (BlockStorage.check(altar.getRelative(2, 0, 2), id)) {
             list.add(altar.getRelative(2, 0, 2));
         }
-        if (BlockStorage.check(altar.getRelative(0, 0, 3), PEDESTAL_ID)) {
+        if (BlockStorage.check(altar.getRelative(0, 0, 3), id)) {
             list.add(altar.getRelative(0, 0, 3));
         }
-        if (BlockStorage.check(altar.getRelative(-2, 0, 2), PEDESTAL_ID)) {
+        if (BlockStorage.check(altar.getRelative(-2, 0, 2), id)) {
             list.add(altar.getRelative(-2, 0, 2));
         }
-        if (BlockStorage.check(altar.getRelative(-3, 0, 0), PEDESTAL_ID)) {
+        if (BlockStorage.check(altar.getRelative(-3, 0, 0), id)) {
             list.add(altar.getRelative(-3, 0, 0));
         }
-        if (BlockStorage.check(altar.getRelative(-2, 0, -2), PEDESTAL_ID)) {
+        if (BlockStorage.check(altar.getRelative(-2, 0, -2), id)) {
             list.add(altar.getRelative(-2, 0, -2));
         }
-        if (BlockStorage.check(altar.getRelative(0, 0, -3), PEDESTAL_ID)) {
+        if (BlockStorage.check(altar.getRelative(0, 0, -3), id)) {
             list.add(altar.getRelative(0, 0, -3));
         }
 

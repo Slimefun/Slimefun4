@@ -2,7 +2,9 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.util.Optional;
 
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.block.TileState;
 import org.bukkit.plugin.Plugin;
 
@@ -16,13 +18,27 @@ public class BlockDataService {
         namespacedKey = new NamespacedKey(plugin, key);
     }
 
-    public void setBlockData(TileState tileEntity, String value) {
+    public void setBlockData(Block b, String value) {
+        TileState tileEntity = (TileState) b.getState();
         PersistentDataAPI.setString(tileEntity, namespacedKey, value);
         tileEntity.update();
     }
 
-    public Optional<String> getBlockData(TileState tileEntity) {
-        return PersistentDataAPI.getOptionalString(tileEntity, namespacedKey);
+    public Optional<String> getBlockData(Block b) {
+        return PersistentDataAPI.getOptionalString((TileState) b.getState(), namespacedKey);
+    }
+
+    public boolean isTileEntity(Material type) {
+        switch (type) {
+        case PLAYER_HEAD:
+        case PLAYER_WALL_HEAD:
+        case CHEST:
+        case DISPENSER:
+        case DROPPER:
+            return true;
+        default:
+            return false;
+        }
     }
 
 }

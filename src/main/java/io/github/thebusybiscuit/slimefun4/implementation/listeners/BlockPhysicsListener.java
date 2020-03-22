@@ -3,10 +3,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Piston;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockPistonEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
@@ -16,6 +18,17 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
+/**
+ * This {@link Listener} is responsible for listening to any physics-based events, such
+ * as {@link EntityChangeBlockEvent} or a {@link BlockPistonEvent}.
+ * 
+ * This ensures that a {@link Piston} cannot be abused to break Slimefun blocks.
+ * 
+ * @author VoidAngel
+ * @author Poslovitch
+ * @author TheBusyBiscuit
+ *
+ */
 public class BlockPhysicsListener implements Listener {
 
     public BlockPhysicsListener(SlimefunPlugin plugin) {

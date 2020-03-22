@@ -12,6 +12,13 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
+/**
+ * This {@link Listener} listens to the {@link EntityDeathEvent} to automatically
+ * create a waypoint for a {@link Player} who carries an Emergency Transmitter.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class DeathpointListener implements Listener {
 
     private final SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");

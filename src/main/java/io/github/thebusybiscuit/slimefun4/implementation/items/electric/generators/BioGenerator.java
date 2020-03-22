@@ -4,6 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
@@ -40,13 +42,21 @@ public abstract class BioGenerator extends AGenerator {
         registerFuel(new MachineFuel(2, new ItemStack(Material.CACTUS)));
         registerFuel(new MachineFuel(2, new ItemStack(Material.LILY_PAD)));
         registerFuel(new MachineFuel(8, new ItemStack(Material.CHORUS_FRUIT)));
-        registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
         registerFuel(new MachineFuel(1, new ItemStack(Material.KELP)));
         registerFuel(new MachineFuel(2, new ItemStack(Material.DRIED_KELP)));
         registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));
         registerFuel(new MachineFuel(1, new ItemStack(Material.SEAGRASS)));
         registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
-        registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
+            registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));
+
+            // Small Flowers (formally just dandelions and poppies).
+            for (Material m : Tag.SMALL_FLOWERS.getValues()) {
+                registerFuel(new MachineFuel(1, new ItemStack(m)));
+            }
+        }
 
         // Leaves
         for (Material m : Tag.LEAVES.getValues()) {
@@ -55,11 +65,6 @@ public abstract class BioGenerator extends AGenerator {
 
         // Saplings
         for (Material m : Tag.SAPLINGS.getValues()) {
-            registerFuel(new MachineFuel(1, new ItemStack(m)));
-        }
-
-        // Small Flowers (formally just dandelions and poppies).
-        for (Material m : Tag.SMALL_FLOWERS.getValues()) {
             registerFuel(new MachineFuel(1, new ItemStack(m)));
         }
     }

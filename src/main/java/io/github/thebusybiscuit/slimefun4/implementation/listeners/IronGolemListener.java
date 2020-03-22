@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.IronGolem;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -12,6 +13,14 @@ import org.bukkit.inventory.PlayerInventory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+/**
+ * This {@link Listener} makes sure that an {@link IronGolem} cannot be healed with
+ * a {@link SlimefunItem}.
+ * This fixes Issue 1332.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class IronGolemListener implements Listener {
 
     public IronGolemListener(SlimefunPlugin plugin) {

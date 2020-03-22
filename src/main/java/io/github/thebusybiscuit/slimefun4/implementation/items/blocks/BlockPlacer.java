@@ -92,8 +92,8 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
             // applies to shulker boxes)
             // Inventory has to be changed after blockState.update() as updating it will create a different Inventory
             // for the object
-            if (facedBlock.getState() instanceof BlockInventoryHolder) {
-                ((BlockInventoryHolder) facedBlock.getState()).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());
+            if (blockState instanceof BlockInventoryHolder) {
+                ((BlockInventoryHolder) blockState).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());
             }
 
         }
