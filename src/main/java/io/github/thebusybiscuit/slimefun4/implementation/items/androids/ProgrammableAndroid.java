@@ -227,14 +227,13 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
             return;
         }
 
-        if (BlockStorage.getLocationInfo(b.getLocation(), "paused").equals("false")) {
+        if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), "paused"))) {
             BlockMenu menu = BlockStorage.getInventory(b);
             float fuel = Float.parseFloat(BlockStorage.getLocationInfo(b.getLocation(), "fuel"));
 
             if (fuel < 0.001) {
                 consumeFuel(b, menu);
-            }
-            else {
+            } else {
                 String[] script = PatternUtils.DASH.split(BlockStorage.getLocationInfo(b.getLocation(), "script"));
 
                 int index = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "index")) + 1;
@@ -401,16 +400,16 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
     private boolean insertFuel(BlockMenu menu, Inventory dispenser, int slot, ItemStack currentFuel, ItemStack newFuel) {
         if (currentFuel == null) {
-            menu.replaceExistingItem(43, item);
+            menu.replaceExistingItem(43, newFuel);
             dispenser.setItem(slot, null);
             return true;
-        } else if (SlimefunManager.isItemSimilar(item, currentFuel, true)) {
-            int rest = item.getType().getMaxStackSize() - currentFuel.getAmount();
+        } else if (SlimefunManager.isItemSimilar(newFuel, currentFuel, true)) {
+            int rest = newFuel.getType().getMaxStackSize() - currentFuel.getAmount();
 
             if (rest > 0) {
-                int amount = Math.min(item.getAmount(), rest);
-                menu.replaceExistingItem(43, new CustomItem(item, currentFuel.getAmount() + amount));
-                ItemUtils.consumeItem(item, amount, false);
+                int amount = Math.min(newFuel.getAmount(), rest);
+                menu.replaceExistingItem(43, new CustomItem(newFuel, currentFuel.getAmount() + amount));
+                ItemUtils.consumeItem(newFuel, amount, false);
             }
             return true;
         }

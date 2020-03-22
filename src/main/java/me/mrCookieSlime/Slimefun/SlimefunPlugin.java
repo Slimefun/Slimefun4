@@ -330,7 +330,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             return true;
         }
 
-        getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);
+        getLogger().log(Level.WARNING, "我们无法识别出你在用的服务端版本 :( ({0})", currentVersion);
         return false;
     }
 
